@@ -137,6 +137,7 @@ public class SalaryCalculator {
      * @return list of BudgetPerson
      */
     private QueryList<BudgetPerson> filterBudgetPersons() {
+        // TODO : this may have issues for tbn person.  Whose perid=null, and some of them has same jobcd
         QueryList<BudgetPerson> filteredPersons = new QueryList<BudgetPerson>();
         if(budgetDocument.getBudgetPersons().isEmpty()) return filteredPersons;
         QueryList<BudgetPerson> budgetPersons = new QueryList<BudgetPerson>(budgetDocument.getBudgetPersons());
@@ -167,6 +168,13 @@ public class SalaryCalculator {
         Equals eStartDate = new Equals("effectiveDate", this.startDate);
         Or ltOrEqStartDate = new Or(ltStartDate, eStartDate);
         QueryList<BudgetPerson> tmpFltdPersons = filteredPersons.filter(ltOrEqStartDate);
+        List <BudgetPerson> removeList = new ArrayList<BudgetPerson>();
+        for (BudgetPerson bgPerson : tmpFltdPersons) {
+            if (bgPerson.getEffectiveDate().compareTo(budgetPerson.getEffectiveDate()) == 0 && bgPerson.getPersonSequenceNumber().intValue() != budgetPerson.getPersonSequenceNumber().intValue()) {
+                removeList.add(bgPerson);
+            }
+        }
+        tmpFltdPersons.removeAll(removeList);
         boolean noCalcBase = false;
         if (tmpFltdPersons.isEmpty()) {
             noCalcBase = true;
