@@ -427,7 +427,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         String regExpr = "^(16|17|18|19|20)[0-9]{2}$";
         if(source.getGraduationYear()!=null && !(source.getGraduationYear().matches(regExpr)) && GlobalVariables.getErrorMap().getMessages("document.newProposalPersonDegree") == null)
         {            
-            GlobalVariables.getErrorMap().putError("document.proposalPersons[" + index + "].newProposalPersonDegree", ERROR_INVALID_YEAR,
+            GlobalVariables.getErrorMap().putError("newProposalPersonDegree[" + index + "].graduationYear", ERROR_INVALID_YEAR,
                     new String[] { source.getGraduationYear() });
             retval = false;
         }
@@ -440,14 +440,14 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
             retval = false;
         }
         if(StringUtils.isBlank(source.getDegreeCode())){
-            GlobalVariables.getErrorMap().putError("document.proposalPersons[" + index + "].newProposalPersonDegree", RiceKeyConstants.ERROR_REQUIRED,
+            GlobalVariables.getErrorMap().putError("newProposalPersonDegree[" + index + "].degreeCode", RiceKeyConstants.ERROR_REQUIRED,
                     new String[] {"Degree Type" });
             retval= false;
         }
 
         if(StringUtils.isBlank(source.getDegree())){
 
-            GlobalVariables.getErrorMap().putError("document.proposalPersons[" + index + "].newProposalPersonDegree", RiceKeyConstants.ERROR_REQUIRED,
+            GlobalVariables.getErrorMap().putError("newProposalPersonDegree[" + index + "].degree", RiceKeyConstants.ERROR_REQUIRED,
                     new String[] {"Degree Description" });
             retval= false;
         }
@@ -455,7 +455,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         
         if(StringUtils.isBlank(source.getGraduationYear())){
 
-            GlobalVariables.getErrorMap().putError("document.proposalPersons[" + index + "].newProposalPersonDegree", RiceKeyConstants.ERROR_REQUIRED,
+            GlobalVariables.getErrorMap().putError("newProposalPersonDegree[" + index + "].graduationYear", RiceKeyConstants.ERROR_REQUIRED,
                     new String[] {"Graduation year" });
             retval= false;
         }
