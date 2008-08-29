@@ -24,9 +24,15 @@
 		name="mapKey" 
 		value="${SponsorHierarchyForm.mapKey}" />
 
- 		<label>Sponsor Code Search</label>
-   		<label><kul:multipleValueLookup boClassName="org.kuali.kra.bo.Sponsor" 
-         	lookedUpCollectionName="newSponsors[0]" /></label><br>
+	<input type="hidden" id="methodToCall"
+		name="methodToCall" value="${SponsorHierarchyForm.methodToCall}"/>
+
+ 		<!--  <label>Sponsor Code Search</label> -->
+   		<label>
+   			<input type="image" tabindex="1000000" name="methodToCall.performLookup.(!!org.kuali.kra.bo.Sponsor!!).(:;newSponsors[0];:).((%true%)).anchor" id = "lookupBtn" 
+	   src="/kra-dev/kr/static/images/searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Multiple Value Search on " title="Multiple Value Search on " />
+   		
+         	</label><br>
          	
          	     <table>
          					<c:forEach var="sponsor" items="${SponsorHierarchyForm.newSponsors[0]}" varStatus="sponsorIdx">
@@ -45,7 +51,7 @@
  					  	</table>
          		<input type="hidden" id="selectedSponsors" name="selectedSponsors" value="${SponsorHierarchyForm.selectedSponsors}" />
          	
-         	<p><a href="javascript:returnSponsor();window.close();"><b>return data</b></a> <a href="javascript:window.close()">Close</a></p>
+         	<!-- <p><a href="javascript:returnSponsor();window.close();"><b>return data</b></a> <a href="javascript:window.close()">Close</a></p> -->
          	
           	<script type="text/javascript">
           	  
@@ -55,6 +61,15 @@
           	         	window.opener.returnSponsor(sponsors, mapKey);
           	     
           	     }
-          
+                 var lookupBtn=document.getElementById("lookupBtn");
+                 //alert("get message ")
+                 //alert(document.getElementById("methodToCall").value)
+                 if (document.getElementById("methodToCall").value != "refresh") {
+                 	//alert("lookupbtn "+lookupBtn);
+                 	lookupBtn.click();
+                 } else {
+                 	returnSponsor();
+                 	window.close();
+                 }
             </script>
 </kul:page>

@@ -25,11 +25,14 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.core.bo.Parameter;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.OjbCollectionAware;
 import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.dao.SponsorHierarchyDao;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.exceptions.RiceRuntimeException;
 import org.springmodules.orm.ojb.PersistenceBrokerCallback;
 
@@ -89,12 +92,30 @@ public class SponsorHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements O
                     Connection connection = broker.serviceConnectionManager().getConnection();
                     statement = connection.prepareStatement(selectsql);
                     resultSet = statement.executeQuery();
+                    // TODO : grouping by whatever specified in sys param- added it later.  try 500 for initial impl
+                    
+                    int groupingNumber = 300;
+                    try {
+                       Parameter sysParam = KraServiceLocator.getService(KualiConfigurationService.class).getParameter(
+                            Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, "A", Constants.NUMBER_PER_SPONSOR_HIERARCHY_GROUP);
+                       groupingNumber=Integer.parseInt(sysParam.getParameterValue());
+                    } catch (Exception e) {
+                        LOG.debug("System param for numberPerSponsorHierarchyGroup is not defined");
+                    }
+
+                    
+                    int i = groupingNumber;
                         while (resultSet.next()) {
                             if (StringUtils.isBlank(retStr)) {
                                 retStr = resultSet.getString(1)+":"+resultSet.getString(2);
                                
                             } else {
-                                retStr = retStr+Constants.SPONSOR_HIERARCHY_SEPARATOR_C1C+resultSet.getString(1)+":"+resultSet.getString(2);
+                                if (--i > 0) {
+                                    retStr = retStr+Constants.SPONSOR_HIERARCHY_SEPARATOR_C1C+resultSet.getString(1)+":"+resultSet.getString(2);
+                                } else {
+                                    retStr = retStr+"#1#"+resultSet.getString(1)+":"+resultSet.getString(2);
+                                    i = groupingNumber;
+                                }
                             }
                         }
                                            
