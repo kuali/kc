@@ -605,9 +605,8 @@
                 </bean>
                 
                 <!--  Task Authorizer for modifying persons and their roles on a proposal -->
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer" parent="parentAuthorizer">
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ModifyProposalPermissionsAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="modifyProposalRoles" />
-                    <property name="permission" value="MAINTAIN_PROPOSAL_ACCESS" />
                 </bean>
                 
                 <!-- Narratives -->
