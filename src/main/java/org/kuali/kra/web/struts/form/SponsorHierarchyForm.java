@@ -21,11 +21,16 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.bo.Parameter;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 
 public class SponsorHierarchyForm extends KualiForm {
 
@@ -47,6 +52,8 @@ public class SponsorHierarchyForm extends KualiForm {
     private String mapKey;
     private String message;
     private String sqlScripts;
+    private int numberPerGroup;
+    private static final Log LOG = LogFactory.getLog(SponsorHierarchyForm.class);
 
     /**
      * Used to indicate which result set we're using when refreshing/returning from a multi-value lookup
@@ -259,6 +266,26 @@ public class SponsorHierarchyForm extends KualiForm {
 
     public void setSqlScripts(String sqlScripts) {
         this.sqlScripts = sqlScripts;
+    }
+
+
+    public int getNumberPerGroup() {
+        int groupingNumber = 300;
+        try {
+           Parameter sysParam = KraServiceLocator.getService(KualiConfigurationService.class).getParameter(
+                Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, "A", Constants.NUMBER_PER_SPONSOR_HIERARCHY_GROUP);
+           groupingNumber=Integer.parseInt(sysParam.getParameterValue());
+        } catch (Exception e) {
+            LOG.debug("System param for numberPerSponsorHierarchyGroup is not defined");
+        }
+ 
+        return groupingNumber;
+
+    }
+
+
+    public void setNumberPerGroup(int numberPerGroup) {
+        this.numberPerGroup = numberPerGroup;
     }
 
 
