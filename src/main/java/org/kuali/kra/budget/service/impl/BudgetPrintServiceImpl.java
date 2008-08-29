@@ -1243,47 +1243,60 @@ public class BudgetPrintServiceImpl implements BudgetPrintService {
     }
     
     
-    public void printBudgetForms(BudgetDocument budgetDocument, String[] selectedBudgetPrintFormId, HttpServletResponse response) {
+    public boolean printBudgetForms(BudgetDocument budgetDocument, String[] selectedBudgetPrintFormId, HttpServletResponse response) {
         List<InputStream> pdfs = new ArrayList<InputStream>();
         String fileName = "merge";
         String contentType = null;
         List<String> pageSize = new ArrayList();
+        boolean reportGenerated = true;
         int k = 0;
 
         try {
             for (int i = 0; i < selectedBudgetPrintFormId.length; i++) {
                 AttachmentDataSource dataStream = readBudgetPrintStream(budgetDocument, selectedBudgetPrintFormId[i]);
-                pdfs.add(new ByteArrayInputStream(dataStream.getContent()));
-                //printPDF(dataStream.getContent(),PrintServiceLookup.lookupDefaultPrintService());
-                String reptFileName = dataStream.getFileName();
-                fileName = fileName + "_" + reptFileName.substring(0, reptFileName.indexOf(".pdf"));
-                contentType = dataStream.getContentType();
-                pageSize.add(k++, REPT_PAGESIZE_MAP.get(selectedBudgetPrintFormId[i]));
+                // EX : if no personnel set up, then salary report will be null
+                if (dataStream != null) {
+                    pdfs.add(new ByteArrayInputStream(dataStream.getContent()));
+                    //printPDF(dataStream.getContent(),PrintServiceLookup.lookupDefaultPrintService());
+                    String reptFileName = dataStream.getFileName();
+                    fileName = fileName + "_" + reptFileName.substring(0, reptFileName.indexOf(".pdf"));
+                    contentType = dataStream.getContentType();
+                    pageSize.add(k++, REPT_PAGESIZE_MAP.get(selectedBudgetPrintFormId[i]));
+                }
             }
 
-            OutputStream output = new ByteArrayOutputStream();
-            concatPDFs(pdfs, output, pageSize, true);
-
-            try {
-                WebUtils.saveMimeOutputStreamAsFile(response, contentType, (ByteArrayOutputStream) output, fileName + ".pdf");
-
-            }
-            finally {
+            if (!pdfs.isEmpty()) {
+                OutputStream output = new ByteArrayOutputStream();
+                concatPDFs(pdfs, output, pageSize, true);
+    
                 try {
-                    if (output != null) {
-                        output.close();
-                        output = null;
+                    WebUtils.saveMimeOutputStreamAsFile(response, contentType, (ByteArrayOutputStream) output, fileName + ".pdf");
+    
+                }
+                finally {
+                    try {
+                        if (output != null) {
+                            output.close();
+                            output = null;
+                        }
                     }
+                    catch (IOException ioEx) {
+                        reportGenerated = false;
+                        LOG.warn(ioEx.getMessage(), ioEx);
+                    }
+    
                 }
-                catch (IOException ioEx) {
-                    LOG.warn(ioEx.getMessage(), ioEx);
-                }
-
+            } else {
+                reportGenerated = false;
             }
         }
         catch (Exception ex) {
+            reportGenerated = false;
             LOG.warn(ex);
         }
+        
+        return reportGenerated;
+        
     }
     
     private void concatPDFs(List<InputStream> streamOfPDFFiles, OutputStream outputStream, List <String> pageSize, boolean paginate) {
@@ -1306,6 +1319,10 @@ public class BudgetPrintServiceImpl implements BudgetPrintService {
             // Create a writer for the outputstream
             PdfWriter writer = PdfWriter.getInstance(document, outputStream);
 
+            if (pageSize.get(0).equals("1")) {
+                // need to set it before document.open(); otherwise, the first page is always the default size
+                document.setPageSize(PageSize.A4.rotate());                
+            }
             document.open();
             BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
             PdfContentByte cb = writer.getDirectContent(); // Holds the PDF
