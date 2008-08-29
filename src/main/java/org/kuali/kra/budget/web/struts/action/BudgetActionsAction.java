@@ -230,8 +230,11 @@ public class BudgetActionsAction extends BudgetAction {
         BudgetPrintService budgetPrintService = KraServiceLocator.getService(BudgetPrintService.class);
         ActionForward forward = null;
         if (budgetForm.getSelectedBudgetPrintFormId() != null) {
-            budgetPrintService.printBudgetForms(budgetDocument, budgetForm.getSelectedBudgetPrintFormId(), response);
+            boolean reportOK = budgetPrintService.printBudgetForms(budgetDocument, budgetForm.getSelectedBudgetPrintFormId(), response);
             budgetForm.setSelectedBudgetPrintFormId(null);
+            if (!reportOK) {
+                forward = mapping.findForward(MAPPING_BASIC);                
+            }
         } else {
             forward = mapping.findForward(MAPPING_BASIC);
         }
