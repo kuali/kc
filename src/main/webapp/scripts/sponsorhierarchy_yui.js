@@ -25,6 +25,7 @@
 	           		//}
 	           		//alert(tempNode);
 	           		oTextNodeMap[nodeKey++] = tempNode;
+	           		
 				}			           
 	           //render tree with these toplevel nodes; all descendants of these nodes
 	           //will be generated as needed by the dynamic loader.
@@ -155,6 +156,27 @@
             oCurrentTextNode.html=nodeHtml;
             oCurrentTextNode.setHtml;
             oTextNodeMap[mapKey] = oCurrentTextNode;
+            // subgroups
+            
+            var subNode2 = oCurrentTextNode.nextSibling;
+            var curNode = oCurrentTextNode;
+            while (subNode2 != null && isSubgroup(subNode2)) {
+                  // alert(subNode2.data);
+                    		// find subnode node to change label too
+                   	var nextNode = subNode2.nextSibling;
+                   	nodeHtml=subNode2.data;
+                   	nodeHtml = nodeHtml.replace(">"+nodeDesc+" - ",">"+sLabel+" - ");
+            		subNode2.data=nodeHtml;
+            		subNode2.html=nodeHtml;
+            		subNode2.setHtml;
+            		oTextNodeMap[getNodeseq(subNode2)] = subNode2;
+                   //alert(getNodeseq(subNode2) +" | "+subNode2.data);
+
+                   curNode = subNode2;
+                   subNode2 = nextNode;
+            }
+            
+            
             tree.draw();
             changeGroupName(oCurrentTextNode, nodeDesc)
             } else {
@@ -165,11 +187,6 @@
       }
                 
     
-
-                /*
-                    Deletes the TextNode that was the target of the "contextmenu"
-                    event that triggered the display of the ContextMenu instance.
-                */
 
       function isUniqueGroupName(node,sLabel) {
       
@@ -213,7 +230,14 @@
 	                }
 	            }
 	            if (!oCurrentTextNode.isLeaf && oCurrentTextNode.nextSibling != null) {
-	               updateMove(oCurrentTextNode.nextSibling);
+	               var nextNode = oCurrentTextNode.nextSibling;
+	               while (isSubgroup(nextNode)) {
+	                   // also delete subgroups
+	                   var tnode = nextNode;
+	                   nextNode = nextNode.nextSibling;
+	                   tree.removeNode(tnode);
+	               }
+	               updateMove(nextNode);
 	            }
 	            updateEmptyNodes(oCurrentTextNode,"true");
 	            tree.removeNode(oCurrentTextNode);
@@ -226,11 +250,30 @@
       // IE7 does not accept 'swapNode' name ??
        function moveUp(mapKey1) {
             var node1 = oTextNodeMap[mapKey1];
+            var node2 = node1.previousSibling;
             if (node1.previousSibling != null) {   
-                 var node2 = node1.previousSibling;
+                while (node2 != null && isSubgroup(node2)) {
+                    // find the real node
+                     node2 = node2.previousSibling;
+                }
+
+           }
+                     
+           if (node2 != null) {  
+                
 				changeSortId(mapKey1,"true");
 				setTimeout("changeSortId("+getNodeseq(node2)+",'false')", 1000)
-                node1.insertBefore(node2);						
+				var subNode1  = node1.nextSibling;
+                node1.insertBefore(node2);
+                var curNode = node1;
+                while (subNode1 != null && isSubgroup(subNode1)) {
+                    // find subnode node to move up too
+                    var nextNode = subNode1.nextSibling;
+                    subNode1.insertAfter(curNode);
+                    curNode = subNode1;
+                     subNode1 = nextNode;
+                }
+                						
                 tree.draw();
              } else {
                		alert("This is the first in the group, and it can't be moved up");
@@ -244,16 +287,35 @@
                         var node1 = oTextNodeMap[mapKey1];
                         //alert("prev "+node1.previousSibling);
                         //alert("next "+node1.nextSibling);
+                    var node2 = node1.nextSibling;
                     if (node1.nextSibling != null) {   
                       
-                        var node2 = node1.nextSibling;
+                        while (node2 != null && isSubgroup(node2)) {
+                    // find the real node
+                     		node2 = node2.nextSibling;
+                		}
+                     }
+                     
+                     if (node2 != null) {  
 						changeSortId(mapKey1,"false");
 						setTimeout("changeSortId("+getNodeseq(node2)+",'true')", 100)
 						
 						
 						//changeSortId(node2,"true");
                          //alert("load compl "+node1.dynamicLoadComplete)
+                        var subNode2 = node2.nextSibling;
                         node2.insertBefore(node1);
+                        
+                        var curNode = node2;
+                		while (subNode2 != null && isSubgroup(subNode2)) {
+                    		// find subnode node to move up too
+                    		var nextNode = subNode2.nextSibling;
+                    		subNode2.insertAfter(curNode);
+                    		curNode = subNode2;
+                     		subNode2 = nextNode;
+                		}
+                        
+                        
                         tree.draw();
                  	} else {
                  		alert("This is the last in the group, so it can't be moved down");
@@ -275,12 +337,15 @@
    }
    
    function updateMove(node) {
-   		changeSortId(getNodeseq(node),"true");
+        if (!isSubgroup(node)) {
+   			changeSortId(getNodeseq(node),"true");
+   		}
 		//maintainActionList(getNodeseq(node), "moveUp", -1)
 		if (node.nextSibling != null) {
 			updateMove(node.nextSibling);
 		}
    
+        
    }
 
    function updateEmptyNodes(node, isDeleteNode) {
@@ -327,7 +392,13 @@
 	function addSponsor(mapKey) {
 		oCurrentTextNode=oTextNodeMap[mapKey];
 		if (!oCurrentTextNode.dynamicLoadComplete) {
-	       	loadNextLevelSponsorHierarchy(oCurrentTextNode);
+		    if (!isSubgroup(oCurrentTextNode)) {
+		      // alert("not a subgrp")
+	       	   loadNextLevelSponsorHierarchy(oCurrentTextNode);
+	       	} else {
+	       	  //alert("subgrp")
+	       	   loadNextLevelSH(oCurrentTextNode);	       	
+	       	}
 		}
 		setTimeout("checkToAddSponsor("+mapKey+")", 500);
 		
@@ -383,7 +454,9 @@
 				var dwrReply = {
 					callback:function(data) {
 						if ( data != null ) {
-							var sponsorHierarchy_array=data.split(";1;");
+						    var group_array = data.split("#1#");
+							//var sponsorHierarchy_array=data.split(";1;");
+							var sponsorHierarchy_array=group_array[0].split(";1;");
 							//alert(data)
 							leafNode = "false";
 							var startIdx = 0;
@@ -392,23 +465,67 @@
 								startIdx=1;
 							}
 							if (data != "") {
-           					for (var i=startIdx ; i < sponsorHierarchy_array.length;  i++) {
-           					    //alert(i)
-								var tempNode = new YAHOO.widget.HTMLNode( "<table style=\"width:"+String(1080-(node.depth+1)*widthGap)+"px\"><tr><td style=\"width:"+String(760-(node.depth+1)*widthGap)+"px\">" + sponsorHierarchy_array[i] + "</td><td style=\"width:320px\">"+ setupMaintenanceButtons(sponsorHierarchy_array[i], node)+"</td></tr></table>", node, false, true);
-								// "1" will show leaf node without "+" icon
-								//alert("set up" + tempNode.data)
-               					tempNode.contentStyle="icon-page";
-           						//actionList[nodeKey] = ":existLabel:"+sponsorHierarchy_array[i];           						
-               					if (leafNode == "false") {
-           							tempNode.setDynamicLoad(loadNextLevelSponsorHierarchy, 1);
-           						} else {
-           							//actionList[nodeKey] = actionList[nodeKey]+":leaf:";
-           							tempNode.isLeaf="true";
-           						}
-           						oTextNodeMap[nodeKey++] = tempNode;
-           						
-           						//alert(tempNode.getNodeHtml())
-							}
+							    showWait();
+	           					for (var i=startIdx ; i < sponsorHierarchy_array.length;  i++) {
+	           					    //alert(i)
+									var tempNode = new YAHOO.widget.HTMLNode( "<table style=\"width:"+String(1080-(node.depth+1)*widthGap)+"px\"><tr><td style=\"width:"+String(760-(node.depth+1)*widthGap)+"px\">" + sponsorHierarchy_array[i] + "</td><td style=\"width:320px\">"+ setupMaintenanceButtons(sponsorHierarchy_array[i], node)+"</td></tr></table>", node, false, true);
+									// "1" will show leaf node without "+" icon
+									//alert("set up" + tempNode.data)
+	               					tempNode.contentStyle="icon-page";
+	           						//actionList[nodeKey] = ":existLabel:"+sponsorHierarchy_array[i];           						
+	               					if (leafNode == "false") {
+	           							tempNode.setDynamicLoad(loadNextLevelSponsorHierarchy, 1);
+	           						} else {
+	           							//actionList[nodeKey] = actionList[nodeKey]+":leaf:";
+	           							tempNode.isLeaf="true";
+	           						}
+	           						oTextNodeMap[nodeKey++] = tempNode;
+	           						
+	           						//alert(tempNode.getNodeHtml())
+								}
+							
+								for (var i=1 ; i < group_array.length;  i++) {
+	           					    // add subgroups to break the big group
+	           					    //alert(i)
+									var tempNode = new YAHOO.widget.HTMLNode( "<table style=\"width:"+String(1080-(node.depth+1)*widthGap)+"px\"><tr><td style=\"width:"+String(760-(node.depth+1)*widthGap)+"px\">" + getNodeDescription(node) + " - "+ i + 
+													          "</td><td style=\"width:320px\"><INPUT TYPE=\"button\" SRC=\"button.gif\" VALUE=\"Add Sponsor\" ALT=\"Add Sponsor\" NAME=\"addsponsor\" onClick=\"addSponsor("+nodeKey+");return false;\" > </td></tr></table>" 
+                                                              , node.parent, false, true);
+									// "1" will show leaf node without "+" icon
+									//alert("set up" + tempNode.data)
+	               					tempNode.contentStyle="icon-page";
+	           						//actionList[nodeKey] = ":existLabel:"+sponsorHierarchy_array[i];           						
+	               					//if (leafNode == "false") {
+	           							tempNode.setDynamicLoad(loadNextLevelSH, 1);
+	           						//} else {
+	           							//actionList[nodeKey] = actionList[nodeKey]+":leaf:";
+	           							//tempNode.isLeaf="true";
+	           						//}
+	           						if (i == 1) {
+	           							tempNode.insertAfter(node);
+	           						} else {
+	           							tempNode.insertAfter(oTextNodeMap[nodeKey - 1]);	           						
+	           						}
+	           						if (startIdx == 1) {
+	           						    //alert("node key"+nodeKey)
+	           							subgroup[nodeKey] = "((leafNodes));1;"+group_array[i];
+	           						} else {
+	           							subgroup[nodeKey] = group_array[i];
+	           						}
+	           						
+	           						var idx = nodeKey;
+	           						idx=idx+'';
+	           						subgroupNodes=subgroupNodes+idx +";";
+	           						
+	           						oTextNodeMap[nodeKey++] = tempNode;
+	           						
+	           						//alert(tempNode.getNodeHtml())
+								}
+							 
+							     if (group_array.length > 1) {
+							            tree.draw();
+							     }
+							
+							
 							}
 						} else {
 							//alert ("data is null");
@@ -423,7 +540,56 @@
 				SponsorService.getSubSponsorHierarchiesForTreeView(hierarchyName, node.depth, getAscendants(node,"false") ,dwrReply);
 	}
 
+    
+    function loadNextLevelSH(node) {
+	// load the subgroups that is already retrieved from DB
+		var sponsorHierarchy_array=subgroup[getNodeseq(node)].split(";1;");
+		leafNode = "false";
+		var startIdx = 0;
+		//alert (sponsorHierarchy_array.length);
+		if (sponsorHierarchy_array[0] == "((leafNodes))") {
+			leafNode = "true";
+			startIdx=1;
+		}
+		showWait();
+        for (var i=startIdx ; i < sponsorHierarchy_array.length;  i++) {
+       					    //alert(i)
+				var tempNode = new YAHOO.widget.HTMLNode( "<table style=\"width:"+String(1080-(node.depth+1)*widthGap)+"px\"><tr><td style=\"width:"+String(760-(node.depth+1)*widthGap)+"px\">" + sponsorHierarchy_array[i] + "</td><td style=\"width:320px\">"+ setupMaintenanceButtons(sponsorHierarchy_array[i], node)+"</td></tr></table>", node, false, true);
+				// "1" will show leaf node without "+" icon
+				//alert("set up" + tempNode.data)
+         					tempNode.contentStyle="icon-page";
+				//actionList[nodeKey] = ":existLabel:"+sponsorHierarchy_array[i];           						
+	 					if (leafNode == "false") {
+					tempNode.setDynamicLoad(loadNextLevelSponsorHierarchy, 1);
+				} else {
+					//actionList[nodeKey] = actionList[nodeKey]+":leaf:";
+					tempNode.isLeaf="true";
+				}
+				oTextNodeMap[nodeKey++] = tempNode;
+				
+				//alert(tempNode.getNodeHtml())
+		}
+		node.loadComplete();
+		hideWait();
+	
 
+    }
+    
+    function isSubgroup(node) {
+    //alert(node)
+       var idx = getNodeseq(node);
+       idx = idx + ''; //convert to string
+       //alert("subgroups "+subgroupNodes+" node " +node)
+       if (subgroupNodes.indexOf(";"+idx+";") < 0) {
+          //alert("return false "+node);
+          return false;
+       } else {
+          //alert("return true"+node);
+          return true;
+       }   
+    
+    }
+    
     	function changeGroupName(node, oldLabel) {
     		var sql = updatesql + "level"+node.depth+"='"+getNodeDescription(node)+"' "+getWhereClause(node.parent);
 			sql = sql+" and level"+node.depth+"='"+oldLabel+"'";
