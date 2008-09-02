@@ -180,10 +180,10 @@ public class SalaryCalculator {
             noCalcBase = true;
         }
         //filteredPersons.removeAll(tmpFltdPersons);
-        filteredPersons.clear();
         LOG.info("budget persons list size after filtering persons list after removing " + ltOrEqStartDate + " is "
                 + filteredPersons.size());
         if(!tmpFltdPersons.isEmpty()){
+            filteredPersons.clear();
             tmpFltdPersons.sort("effectiveDate", false);
     //        baseSalary = tmpFltdPersons.get(0).getCalculationBase();
             filteredPersons.add(tmpFltdPersons.get(0));
