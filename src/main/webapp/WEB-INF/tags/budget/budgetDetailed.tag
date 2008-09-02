@@ -149,7 +149,7 @@
 						<c:if test="${!readOnly}" >
 						<div align=center>
 							<html:image property="methodToCall.addBudgetLineItem.budgetCategoryTypeCode${budgetCategoryTypeCodesKey}.catTypeIndex${catCodes}.anchor${tabKey}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
 						</div>
 						</c:if>	
 	                </td>			

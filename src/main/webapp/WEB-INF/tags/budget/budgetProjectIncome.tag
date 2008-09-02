@@ -36,7 +36,7 @@
 		        		</div></td>
 		                <td class="infoline">
 		            		<div align=center>
-		            			<html:image property="methodToCall.addProjectIncome" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
+		            			<html:image property="methodToCall.addProjectIncome" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
 							</div>
 						</td>
 		          	</tr>
@@ -87,7 +87,7 @@
 	    	
 	    	<div align="center" style="padding-top: 2em;">&nbsp;
 		    	<kra:section permission="modifyBudgets">
-					<html:image property="methodToCall.refreshTotals" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' />
+					<html:image property="methodToCall.refreshTotals" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' styleClass="tinybutton"/>
 				</kra:section>
 			</div>
 		</div>					

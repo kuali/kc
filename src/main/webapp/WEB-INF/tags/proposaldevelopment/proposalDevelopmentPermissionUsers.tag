@@ -74,7 +74,7 @@
 					<td>
 						<div align="center">
 							<html:image property="methodToCall.addProposalUser.anchor${tabKey}"
-								        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
+								        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
 						</div>
 		               </td>
 	            </tr>
@@ -100,11 +100,11 @@
 						 	<div align="center">
 							<nobr>
 								<html:image property="methodToCall.editRoles.line${status.index}.anchor${tabKey}"
-											src='${ConfigProperties.kra.externalizable.images.url}tinybutton-editrole.gif' 
+											src='${ConfigProperties.kra.externalizable.images.url}tinybutton-editrole.gif' styleClass="tinybutton"
 											onclick="javascript: editRolesPop('${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}');return false"/>
 								&nbsp;
 								<html:image property="methodToCall.deleteProposalUser.line${status.index}.anchor${tabKey}"
-										    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
+										    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 							</nobr>
 							</div>
 						</td>
