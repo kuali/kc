@@ -36,7 +36,7 @@
   				</c:forEach>
   			</html:select>
           	<br/><br/>
-          	<span><html:image property="methodToCall.updateView" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-updateview.gif' /></span>
+          	<span><html:image property="methodToCall.updateView" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-updateview.gif' styleClass="tinybutton"/></span>
         </div>
 	</kul:uncollapsable>
 	<br/>

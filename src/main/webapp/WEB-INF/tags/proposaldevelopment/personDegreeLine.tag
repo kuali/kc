@@ -18,7 +18,7 @@
 <c:set var="personDegreeAttributes" value="${DataDictionary.ProposalPersonDegree.attributes}" />
 <c:set var="degree" value="newProposalPersonDegree[${personIndex}]" />
 <c:set var="readOnly" value="false" />
-<c:set var="actionImage" value="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" />
+<c:set var="actionImage" value="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"/>
 <c:set var="actionMethod" value="insertDegree.${proposalPerson}.line${status.index}" />
 <c:set var="actionTitle" value="Add a Degree" />
 <c:set var="degreeIndexHeader" value="Add:" />
@@ -31,7 +31,7 @@
   <c:set var="readOnly" value="true" />
   <c:set var="actionTitle" value="Remove a Degree" />
   <c:set var="actionMethod" value="deleteDegree.${proposalPerson}.line${index}" />
-  <c:set var="actionImage" value="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" />
+  <c:set var="actionImage" value="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif"/>
   <c:set var="degreeCodeProperty" value="${degree}.degreeType.description" />
   <c:set var="degreeCodeAttribute" value="${DataDictionary.DegreeType.attributes.description}" />
 <c:set var="tdClass" value="" />
