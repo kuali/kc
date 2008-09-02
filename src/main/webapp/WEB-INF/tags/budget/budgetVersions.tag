@@ -163,7 +163,7 @@
          		</tbody>
           	</c:forEach>
         </table>
-	</div>
+	</div> 
 </kul:tabTop>
 <kul:panelFooter />
 <c:choose>                    	

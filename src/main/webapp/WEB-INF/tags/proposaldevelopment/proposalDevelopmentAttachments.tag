@@ -95,7 +95,7 @@
 					<td colspan=4>
 						<div align="center">
 							<html:image property="methodToCall.addProposalAttachment"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
 						</div>
 	                </td>
 	            </tr>
@@ -148,7 +148,7 @@
 				                <div id="fileDiv${status.index}" valign="middle" style="display:none;">
 				                	<html:file property="document.narrative[${status.index}].narrativeFile" />
 									<html:image property="methodToCall.replaceProposalAttachment.line${status.index}.anchor${currentTabIndex}"
-										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
+										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
 								</div>
 				            <%-- </c:if> --%>
 							</td>
@@ -202,10 +202,10 @@
 								<div align="center">
 								    <c:if test="${deleteAttachment}">
 										<html:image styleId="deleteProposalAttachment.line${status.index}" property="methodToCall.deleteProposalAttachment.line${status.index}.anchor${currentTabIndex}"
-										            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
+										            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 									</c:if>
 									<html:image styleId="getProposalAttachmentRights.line${status.index}" property="methodToCall.getProposalAttachmentRights.line${status.index}.anchor${currentTabIndex}"
-										        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-vieweditrights.gif' 
+										        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-vieweditrights.gif' styleClass="tinybutton"
 										        onclick="javascript: proposalAttachmentRightsPop('${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}');return false"/>
 								</div>
 			                </td>

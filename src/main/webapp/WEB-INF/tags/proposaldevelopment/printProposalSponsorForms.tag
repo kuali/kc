@@ -33,7 +33,7 @@
 				        </td>
 				    	<td class="infoline">
 							<div align="center">
-								<html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-printsel.gif"  styleClass="globalbuttons" property="methodToCall.printSponsorForms" alt="Print Selected Forms"/>
+								<html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-printsel.gif" styleClass="tinybutton" property="methodToCall.printSponsorForms" alt="Print Selected Forms"/>
 							</div>	    	
 				    	</td>			
 						<td class="infoline">

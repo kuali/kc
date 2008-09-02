@@ -136,7 +136,7 @@
 				<kra:section permission="modifyBudgets">
 					<div align=center>
 						<html:image property="methodToCall.addBudgetPersonnelDetails.anchor${tabKey}"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
+						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
 					</div>
 					</kra:section>
                 </td>
@@ -188,9 +188,9 @@
 						<kra:section permission="modifyBudgets">
 						<div align=center>
 	                	 <html:image property="methodToCall.calculateSalary.line${status.index}.anchor${currentTabIndex}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-calculate.gif' />
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-calculate.gif' styleClass="tinybutton"/>
 						<html:image property="methodToCall.deleteBudgetPersonnelDetails.line${status.index}.anchor${currentTabIndex}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 						</div>
 						</kra:section>
 	                </td>

@@ -27,7 +27,7 @@
 	            </tr>
 			</table>
 			<div align=center style="padding-top: 2em;">
-				<html:image property="methodToCall.consolidateExpenseJustifications" src='${ConfigProperties.kra.externalizable.images.url}buttonsmall_consolidate_expense_justifications.gif' />
+				<html:image property="methodToCall.consolidateExpenseJustifications" src='${ConfigProperties.kra.externalizable.images.url}buttonsmall_consolidate_expense_justifications.gif' styleClass="tinybutton"/>
 			</div>
 		</div>					
 	</div>
@@ -57,7 +57,7 @@
                 </tr>
             </table>
             <div align=center style="padding-top: 2em;">
-                <html:image property="methodToCall.consolidateExpenseJustifications" src='${ConfigProperties.kra.externalizable.images.url}buttonsmall_consolidate_expense_justifications.gif' />
+                <html:image property="methodToCall.consolidateExpenseJustifications" src='${ConfigProperties.kra.externalizable.images.url}buttonsmall_consolidate_expense_justifications.gif' styleClass="tinybutton"/>
             </div>
         </div>                  
     </div>

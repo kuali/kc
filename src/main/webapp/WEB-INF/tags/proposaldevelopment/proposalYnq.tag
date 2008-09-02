@@ -90,7 +90,7 @@
 					<c:choose>
 					<c:when test="${dateRequired == 'No'}">
                     	<kul:htmlControlAttribute property="${iproposalYnq}.reviewDate" attributeEntry="${reviewDateAttribute}" disabled="true"/>
-      					<img class="nobord" src='${ConfigProperties.kra.externalizable.images.url}cal1.gif' />
+      					<img class="nobord" src='${ConfigProperties.kra.externalizable.images.url}cal1.gif' styleClass="tinybutton"/>
 					</c:when>
 					<c:when test="${dateRequired == 'Yes'}">
 						<c:set var="styleClass" value=""/>
@@ -125,7 +125,7 @@
             			 -->
 							<bean:define id= "questionId" name="KualiForm" property="${iproposalYnq}.questionId" />
 							<kul:inquiry boClassName="org.kuali.kra.bo.Ynq" keyValues="questionId=${questionId}" render="true">
-								<image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' alt="inquiry"/>
+								<image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' alt="inquiry" styleClass="tinybutton"/>
 							</kul:inquiry>
                       </span></div>
                         <span class="fineprint"></span> </td>

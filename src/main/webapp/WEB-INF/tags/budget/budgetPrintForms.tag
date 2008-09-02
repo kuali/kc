@@ -41,7 +41,7 @@
 					<td colspan="2" class="infoline">
 						<div align="center">
 						<html:image property="methodToCall.printBudgetForm"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-printsel.gif' />
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-printsel.gif' styleClass="tinybutton"/>
 						</div>
 					</td>
 					<td>

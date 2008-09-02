@@ -94,16 +94,16 @@
 			<c:when test="${index == -1}">
 				<div align=center>
 					<html:image property="methodToCall.addLocation.anchor${currentTabIndex}"
-					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
+					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
 				</div>
 			</c:when>
 			<c:otherwise>
 				<div align=center>
 				
 					<html:image property="methodToCall.clearAddress.line${index}.anchor${currentTabIndex}"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-clraddress.gif' />
+						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-clraddress.gif' styleClass="tinybutton"/>
 					<html:image property="methodToCall.deleteLocation.line${index}.anchor${currentTabIndex}"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
+						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 				</div>
 			</c:otherwise>
 		</c:choose>

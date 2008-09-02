@@ -83,7 +83,7 @@
 				<td class="infoline">
 					<div width="10%" align="center">
 						<html:image property="methodToCall.addBudgetPeriod.anchor${tabKey}"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
+						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
 					</div>
                 </td>
             </tr>
@@ -144,10 +144,10 @@
 		          		<c:choose>
 		    				<c:when test="${numberPeriods > 1}">
 								<html:image property="methodToCall.deleteBudgetPeriod.line${status.index}.anchor${currentTabIndex}"
-									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 		    				</c:when>
 		    				<c:otherwise >
-								<img class="nobord" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete2.gif' />
+								<img class="nobord" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete2.gif' styleClass="tinybutton"/>
 		    				</c:otherwise>
 						</c:choose>
 						</kra:section>
@@ -204,7 +204,7 @@
 					<div align=center>&nbsp;
 						<kra:section permission="modifyBudgets">
 							<html:image property="methodToCall.recalculateBudgetPeriod.anchor${tabKey}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' />
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' styleClass="tinybutton"/>
 						</kra:section>
 					</div>
                 </td>
