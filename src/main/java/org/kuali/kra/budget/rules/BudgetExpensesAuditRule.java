@@ -70,18 +70,32 @@ public class BudgetExpensesAuditRule extends ResearchDocumentRuleBase implements
                         AuditCluster auditCluster = (AuditCluster) GlobalVariables.getAuditErrorMap().get(key);
                         if (auditCluster == null) {
                             List<AuditError> auditErrors = new ArrayList<AuditError>();
-                            auditCluster = new AuditCluster(Constants.PERSONNEL_BUDGET_PANEL_NAME , auditErrors, Constants.AUDIT_WARNINGS);
+                            auditCluster = new AuditCluster(Constants.PERSONNEL_BUDGET_PANEL_NAME + " (Period " +budgetPeriod.getBudgetPeriod()+")", auditErrors, Constants.AUDIT_WARNINGS);
                             GlobalVariables.getAuditErrorMap().put(key, auditCluster);
                         }
                         List<AuditError> auditErrors = auditCluster.getAuditErrorList();
-                        auditErrors.add(new AuditError("document.budgetPeriod[" + (budgetPeriod.getBudgetPeriod() - 1) + "].budgetLineItem["+j+"].budgetPersonnelDetailsList["+k+"].salaryRequested", KeyConstants.WARNING_EFFDT_AFTER_PERIOD_START_DATE, Constants.BUDGET_EXPENSES_PAGE + "." + Constants.BUDGET_EXPENSES_OVERVIEW_PANEL_ANCHOR + "&viewBudgetPeriod=" + budgetPeriod.getBudgetPeriod() + "&personnelDetailLine="+k, new String[]{budgetPersonnelDetails.getBudgetPerson().getPersonName()}));
+                        auditErrors.add(new AuditError("document.budgetPeriod[" + (budgetPeriod.getBudgetPeriod() - 1) + "].budgetLineItem["+j+"].budgetPersonnelDetailsList["+k+"].salaryRequested", KeyConstants.WARNING_EFFDT_AFTER_PERIOD_START_DATE, Constants.BUDGET_EXPENSES_PAGE + "." + Constants.BUDGET_EXPENSES_OVERVIEW_PANEL_ANCHOR + "&viewBudgetPeriod=" + budgetPeriod.getBudgetPeriod() + "&selectedBudgetLineItemIndex=" + j + "&personnelDetailLine="+k, new String[]{budgetPersonnelDetails.getBudgetPerson().getPersonName()}));
                         retval=false;
 
                     }
+                    if (budgetPersonnelDetails.getBudgetPerson().getCalculationBase().equals(BudgetDecimal.ZERO)) {
+                        String key = "budgetPersonnelBudgetAuditWarnings"+budgetPeriod.getBudgetPeriod();
+                        AuditCluster auditCluster = (AuditCluster) GlobalVariables.getAuditErrorMap().get(key);
+                        if (auditCluster == null) {
+                            List<AuditError> auditErrors = new ArrayList<AuditError>();
+                            auditCluster = new AuditCluster(Constants.PERSONNEL_BUDGET_PANEL_NAME+ " (Period " +budgetPeriod.getBudgetPeriod() +")", auditErrors, Constants.AUDIT_WARNINGS);
+                            GlobalVariables.getAuditErrorMap().put(key, auditCluster);
+                        }
+                        List<AuditError> auditErrors = auditCluster.getAuditErrorList();
+                        auditErrors.add(new AuditError("document.budgetPeriod[" + (budgetPeriod.getBudgetPeriod() - 1) + "].budgetLineItem["+j+"].budgetPersonnelDetailsList["+k+"].salaryRequested", KeyConstants.WARNING_BASE_SALARY_ZERO, Constants.BUDGET_EXPENSES_PAGE + "." + Constants.BUDGET_EXPENSES_OVERVIEW_PANEL_ANCHOR + "&viewBudgetPeriod=" + budgetPeriod.getBudgetPeriod() + "&selectedBudgetLineItemIndex=" + j + "&personnelDetailLine="+k, new String[]{budgetPersonnelDetails.getBudgetPerson().getPersonName()}));
+                        retval=false;
+
+                    }
+
                     k++;
-                }                
+                }
+                j++;
             }
-            j++;
         }
         
         return retval;

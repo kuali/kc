@@ -58,10 +58,10 @@
     	</tr>
     </table>
     </kul:tabTop>
-	<kul:tab tabTitle="Personnel Budget" defaultOpen="true" tabErrorKey="document.budgetPeriod*,budget.personnelBudget*,newBudgetPersonnelDetails.*"  auditCluster="budgetPeriodProjectDateAuditErrors"  tabAuditKey="document.budgetPeriod*" useRiceAuditMode="true">
+	<kul:tab tabTitle="Personnel Budget" defaultOpen="true" tabErrorKey="document.budgetPeriod*,budget.personnelBudget*,newBudgetPersonnelDetails.*"  auditCluster="budgetPersonnelBudgetAuditWarnings${KualiForm.viewBudgetPeriod}"  tabAuditKey="document.budgetPeriod*" useRiceAuditMode="true">
 		<div class="tab-container" align="center">		
 		<c:forEach var="budgetPersonns" items="${KualiForm.document.budgetPersons}" varStatus="status">			
-			<c:if test="${budgetPersonns.calculationBase <= 0 or empty budgetPersonns.effectiveDate or empty budgetPersonns.jobCode or budgetPersonns.jobCode=='' or empty budgetPersonns.appointmentTypeCode or budgetPersonns.appointmentTypeCode==''}">
+			<c:if test="${budgetPersonns.calculationBase < 0 or empty budgetPersonns.effectiveDate or empty budgetPersonns.jobCode or budgetPersonns.jobCode=='' or empty budgetPersonns.appointmentTypeCode or budgetPersonns.appointmentTypeCode==''}">
 			<div class="error">
 				<strong>&nbsp;&nbsp;&nbsp;Errors found in this Section:</strong><br/>
 				&nbsp;&nbsp;&nbsp;There are incomplete entries for budget personnel and please navigate to the "Project Personnel" screen to fix.<br/><br/>
@@ -71,7 +71,7 @@
     	<div style="text-align:left;width: 98%" >
 		   	<c:forEach var="budgetPersonnelDetails" items="${KualiForm.document.budgetPeriods[selectedBudgetPeriod].budgetLineItems[selectedBudgetLineItemIndex].budgetPersonnelDetailsList}" varStatus="status">
 				<c:set var="msg" value="${budgetPersonnelDetails.effdtAfterStartdtMsg}" /> 
-     			<c:if test="${!empty  msg}" >
+     			<c:if test="${!KualiForm.auditActivated && !empty  msg}" >
      			    <strong><c:out value="${msg}" /> </strong><br/>
      			</c:if>
 			</c:forEach>
@@ -107,7 +107,14 @@
 				</td>--%>
 				<td valign="middle" class="infoline">
                 	<div align="center">
+                	<c:choose>
+				    <c:when test="${!readOnly}">
                 	<kul:htmlControlAttribute property="newBudgetPersonnelDetails.periodTypeCode" attributeEntry="${budgetPersonnelDetailsAttributes.periodTypeCode}"/>
+                	</c:when>
+                	<c:otherwise>
+                	  &nbsp
+                	</c:otherwise>
+                	</c:choose>
                 	</div>
 				</td>
                 <td valign="middle" class="infoline">
