@@ -578,7 +578,7 @@ public class SalaryCalculator {
         BudgetPerson newBudgetPerson = budgetPerson;
         // in case same person job get promotion
         for (BudgetPerson budgetPerson1 : budgetDocument.getBudgetPersons()) {
-            if (budgetPerson1.getPersonSequenceNumber().intValue() != newBudgetPerson.getPersonSequenceNumber().intValue() && budgetPerson1.getJobCode().equals(newBudgetPerson.getJobCode()) && budgetPerson1.getEffectiveDate().after(newBudgetPerson.getEffectiveDate()) && budgetPerson1.getEffectiveDate().compareTo(boundary.getStartDate()) <= 0) {
+            if (budgetPerson1.getPersonSequenceNumber().intValue() != newBudgetPerson.getPersonSequenceNumber().intValue() && budgetPerson1.getJobCode() != null && budgetPerson1.getJobCode().equals(newBudgetPerson.getJobCode()) && budgetPerson1.getEffectiveDate().after(newBudgetPerson.getEffectiveDate()) && budgetPerson1.getEffectiveDate().compareTo(boundary.getStartDate()) <= 0) {
                 newBudgetPerson =  budgetPerson1;
             }
         }
