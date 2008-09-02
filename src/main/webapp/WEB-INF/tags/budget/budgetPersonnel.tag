@@ -37,8 +37,15 @@
 			</tr>
             <c:forEach var="person" items="${KualiForm.document.budgetPersons}" varStatus="status">
             <tr>
+				<c:set var="personSelectStyle" value="" scope="request"/>
+            	<c:forEach items="${ErrorPropertyList}" var="key">
+            	    <c:set var="idxKey" value="document.budgetPerson[${status.index}].dupkey" />
+				    <c:if test="${key eq idxKey}">
+					  <c:set var="personSelectStyle" value="background-color:#FFD5D5" scope="request"/>
+				    </c:if>
+			     </c:forEach>
               	<th scope="row"><div align="center">${status.index + 1}</div></th>
-              	<td>${person.personName} <c:if test="${!empty person.role}"><span class="fineprint">(${person.role})</span></c:if></td>
+              	<td style="${personSelectStyle}">${person.personName} <c:if test="${!empty person.role}"><span class="fineprint">(${person.role})</span></c:if></td>
               	<td>
               		<kul:htmlControlAttribute property="document.budgetPerson[${status.index}].jobCode" attributeEntry="${budgetPersonAttributes.jobCode}" />
               		<kul:lookup boClassName="org.kuali.kra.budget.bo.JobCode" fieldConversions="jobCode:document.budgetPerson[${status.index}].jobCode" anchor="${tabKey}" />
