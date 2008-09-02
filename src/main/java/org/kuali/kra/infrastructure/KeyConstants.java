@@ -229,5 +229,6 @@ public class KeyConstants {
     public static final String ERROR_LINE_ITEM_START_DATE = "error.line.item.start.date";
     public static final String QUESTION_DEFAULT_BUDGET_PERIODs = "document.question.defaultBudgetPeriods.text";
     public static final String AUDIT_WARNING_RATE_OUT_OF_SYNC = "warning.rate.outofsync";
+    public static final String ERROR_DUPLICATE_PERSON = "error.duplicate.person";
 
 }

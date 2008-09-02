@@ -15,8 +15,10 @@
  */
 package org.kuali.kra.budget.rules;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -25,6 +27,7 @@ import org.kuali.RiceKeyConstants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
@@ -91,6 +94,7 @@ public class BudgetPersonnelRule {
         
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         int i = 0;
+        List <BudgetPerson> budgetPersons = (List <BudgetPerson>)ObjectUtils.deepCopy((Serializable)budgetDocument.getBudgetPersons());
         for (BudgetPerson budgetPerson : budgetDocument.getBudgetPersons()) {
             if (budgetPerson.getCalculationBase() == null) {
                 errorMap.putError("document.budgetPerson["+i+"].calculationBase", RiceKeyConstants.ERROR_REQUIRED, new String[] { "Base Salary"});
@@ -98,6 +102,20 @@ public class BudgetPersonnelRule {
             } else if (budgetPerson.getCalculationBase().isNegative()) {
                 errorMap.putError("document.budgetPerson["+i+"].calculationBase", KeyConstants.ERROR_NEGATIVE_AMOUNT, new String[] { "Base Salary"});
                 valid = false;
+            }
+            for (BudgetPerson dupBudgetPerson : budgetPersons) {
+                if (dupBudgetPerson.getPersonId() != null && dupBudgetPerson.getPersonId().equals(budgetPerson.getPersonId()) && dupBudgetPerson.getPersonSequenceNumber().intValue() < budgetPerson.getPersonSequenceNumber().intValue()
+                        && dupBudgetPerson.getJobCode().equals(budgetPerson.getJobCode()) && dupBudgetPerson.getEffectiveDate().compareTo(budgetPerson.getEffectiveDate()) == 0) 
+                {
+                    errorMap.putError("document.budgetPerson["+i+"].dupkey", KeyConstants.ERROR_DUPLICATE_PERSON, new String[] { ""});
+                    valid = false;
+                }
+                if (dupBudgetPerson.getRolodexId() != null && dupBudgetPerson.getRolodexId().equals(budgetPerson.getRolodexId()) && dupBudgetPerson.getPersonSequenceNumber().intValue() < budgetPerson.getPersonSequenceNumber().intValue()
+                        && dupBudgetPerson.getJobCode().equals(budgetPerson.getJobCode()) && dupBudgetPerson.getEffectiveDate().compareTo(budgetPerson.getEffectiveDate()) == 0) 
+                {
+                    errorMap.putError("document.budgetPerson["+i+"].dupkey", KeyConstants.ERROR_DUPLICATE_PERSON, new String[] { ""});
+                    valid = false;
+                }
             }
             i++;
         }
