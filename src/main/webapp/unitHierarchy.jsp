@@ -76,7 +76,14 @@ body {
 
 <div class="headerarea-small" id="headerarea-small">	
 	<h1 align="center"> Unit Hierarchy </h1>
+	<div class="lookupcreatenew" title="Create a new record">
+	<a href="kr/maintenance.do?businessObjectClassName=org.kuali.kra.bo.Unit&methodToCall=start">
+	<img src="kr/images/tinybutton-createnew.gif" alt="create new" width="70" height="15"/></a>   
+	<a href="index.jsp">Main</a></div>
 </div>
+
+
+
 <!--  initial data here -->
 <input type="hidden" id = "units" name="units"   value="${UnitHierarchyForm.units}"/>
 <input type="hidden" id = "selectedUnitNumber" name="selectedUnitNumber"  />
