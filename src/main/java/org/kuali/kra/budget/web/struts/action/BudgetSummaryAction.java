@@ -78,6 +78,8 @@ public class BudgetSummaryAction extends BudgetAction {
         if (StringUtils.isNotBlank(budgetForm.getSyncBudgetRate()) && budgetForm.getSyncBudgetRate().equals("Y")) {
             ((BudgetForm) form).getBudgetDocument().getBudgetRatesService().syncAllBudgetRates(((BudgetForm) form).getBudgetDocument());
             budgetForm.setSyncBudgetRate("");
+            // jira-1848 : force to calc budget after sync
+            budgetForm.getBudgetDocument().getBudgetSummaryService().calculateBudget(budgetForm.getBudgetDocument());
         }
         return forward;
     }
