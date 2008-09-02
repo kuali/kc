@@ -59,7 +59,7 @@
               	<td>
               		<div align=center>&nbsp;
               			<kra:section permission="modifyBudgets">
-	              			<html:image property="methodToCall.deleteBudgetPerson.line${status.index}.x" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
+	              			<html:image property="methodToCall.deleteBudgetPerson.line${status.index}.x" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 	              		</kra:section>
               		</div>
               	</td>

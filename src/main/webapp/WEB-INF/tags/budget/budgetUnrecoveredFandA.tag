@@ -57,7 +57,7 @@
 				        		</td>
 				                <td class="infoline">
 				            		<div align=center>
-				            			<html:image property="methodToCall.addUnrecoveredFandA" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
+				            			<html:image property="methodToCall.addUnrecoveredFandA" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
 									</div>
 								</td>
 				          	</tr>

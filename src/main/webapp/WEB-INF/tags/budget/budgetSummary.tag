@@ -42,17 +42,43 @@
            			<kul:htmlControlAttribute property="document.totalCostLimit" attributeEntry="${budgetAttributes.totalCostLimit}" styleClass="amount"/>
            		</td>
         	</tr>
-        	<tr>
+        		<%--
+			        	<tr>
+							<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.budgetStatus}" /></div></th>
+			                <td>
+			                	<html:hidden name="KualiForm" property="document.budgetStatus" disabled="true" />
+			                	<kra:kraControlAttribute property="document.budgetStatus" readOnly="${readOnly}" attributeEntry="${proposalDevelopmentAttributes.budgetStatus}"  styleClass="fixed-size-200-select"/>/>
+			                </td>
+			           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.residualFunds}" /></div></th>
+			           		<td>
+			           			<kul:htmlControlAttribute property="document.residualFunds" attributeEntry="${budgetAttributes.residualFunds}" styleClass="amount"/>
+			           		</td>
+			        	</tr>
+			     		<tr>
+			     		    <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.finalVersionFlag}" noColon="true" /></div></th>
+			           		<td>
+			           			<kul:htmlControlAttribute property="document.finalVersionFlag" attributeEntry="${budgetAttributes.finalVersionFlag}" onclick="javascript: confirmFinalizeVersion(document, ${KualiForm.document.proposal.numberOfVersions})" />
+			           			<html:hidden name="KualiForm" property="document.finalVersionFlag" disabled="true" />
+			           		</td>
+			           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.urRateClassCode}" /></div></th>
+			                <td>
+			                	<kra:kraControlAttribute property="document.urRateClassCode" readOnly="${readOnly}" attributeEntry="${budgetAttributes.urRateClassCode}"  styleClass="fixed-size-200-select"/>
+			                	<input type="hidden" name="urRateClassCodePrevValue" value="${KualiForm.document.urRateClassCode}">
+			                </td>
+			     		</tr>
+			     		
+			     	--%>
+			<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.budgetStatus}" /></div></th>
-                <td>
-                	<kra:kraControlAttribute property="document.budgetStatus" readOnly="${readOnly}" attributeEntry="${proposalDevelopmentAttributes.budgetStatus}"  styleClass="fixed-size-200-select"/>
+			    <td>
+			         <kra:kraControlAttribute property="document.budgetStatus" readOnly="${readOnly}" attributeEntry="${proposalDevelopmentAttributes.budgetStatus}"  styleClass="fixed-size-200-select" onchange="javascript: toggleFinalCheckboxes(document)" />
                 </td>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.residualFunds}" /></div></th>
            		<td>
-           			<kul:htmlControlAttribute property="document.residualFunds" attributeEntry="${budgetAttributes.residualFunds}" styleClass="amount"/>
+       				<kul:htmlControlAttribute property="document.residualFunds" attributeEntry="${budgetAttributes.residualFunds}" styleClass="amount"/>
            		</td>
-        	</tr>
-     		<tr>
+	        	</tr>
+	     		<tr>
      		    <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.finalVersionFlag}" noColon="true" /></div></th>
            		<td>
            			<kul:htmlControlAttribute property="document.finalVersionFlag" attributeEntry="${budgetAttributes.finalVersionFlag}" onclick="javascript: confirmFinalizeVersion(document, ${KualiForm.document.proposal.numberOfVersions})" />
@@ -62,7 +88,7 @@
                 	<kra:kraControlAttribute property="document.urRateClassCode" readOnly="${readOnly}" attributeEntry="${budgetAttributes.urRateClassCode}"  styleClass="fixed-size-200-select"/>
                 	<input type="hidden" name="urRateClassCodePrevValue" value="${KualiForm.document.urRateClassCode}">
                 </td>
-     		</tr>
+     		</tr>     	
         	<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.comments}" /></div></th>
                 <td>
@@ -86,3 +112,5 @@
         </table>
     </div>
 </kul:tabTop>
+<%-- initialize status of final checkbox and budget status. --%>
+<img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" onLoad="toggleFinalCheckboxes(document); setupBudgetStatuses(document);" />

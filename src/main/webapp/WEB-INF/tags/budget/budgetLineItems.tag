@@ -106,13 +106,13 @@
 			             <td style="border-width: 0px;" width="35%" align=right>
 			                <kra:section permission="modifyBudgets">
 			                    <html:image property="methodToCall.deleteBudgetLineItem.line${budgetLineItemNumber}.anchor${currentTabIndex}"
-			                                src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
+			                                src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 			                </kra:section>
 			            </td>
 			            <td style="border-width: 0px;" width="65%">
 			                <c:if test="${budgetCategoryTypeCode=='P' }">
 			                    <html:image property="methodToCall.personnelBudget.line${budgetLineItemNumber}.anchor${currentTabIndex}"
-			                                src='${ConfigProperties.kra.externalizable.images.url}tinybutton-personnelbudget.gif' />
+			                                src='${ConfigProperties.kra.externalizable.images.url}tinybutton-personnelbudget.gif' styleClass="tinybutton"/>
 			                </c:if>
 			            </td>
 			    	</tr>

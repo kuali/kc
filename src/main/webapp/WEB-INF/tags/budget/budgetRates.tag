@@ -101,8 +101,8 @@
         <tr>
         	<td colspan="7" class="infoline">
            		<div align=center>
-           			<html:image property="methodToCall.syncRates.line${gps.index}.anchor${currentTabIndex}" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-syncrates.gif' alt="Sync Rates" />
-           			<html:image property="methodToCall.resetRates.line${gps.index}.anchor${currentTabIndex}" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-resetrates.gif' alt="Reset Rates" />
+           			<html:image property="methodToCall.syncRates.line${gps.index}.anchor${currentTabIndex}" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-syncrates.gif' alt="Sync Rates" styleClass="tinybutton"/>
+           			<html:image property="methodToCall.resetRates.line${gps.index}.anchor${currentTabIndex}" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-resetrates.gif' alt="Reset Rates" styleClass="tinybutton"/>
            		</div>
            	</td>
         </tr>

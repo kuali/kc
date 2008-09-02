@@ -110,7 +110,7 @@
 				<td align="center" colspan="2">
 				<div align="center">
 					<html:image property="methodToCall.addProposalChangedData.anchor${tabKey}"
-									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-edit1.gif' />
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-edit1.gif' styleClass="tinybutton"/>
 				</div>
 		                </td>
 			</tr>
