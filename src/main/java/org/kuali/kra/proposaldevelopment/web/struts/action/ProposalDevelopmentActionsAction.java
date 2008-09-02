@@ -463,15 +463,20 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         proposalDevelopmentForm.setAuditActivated(true);
-        success=KraServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(proposalDevelopmentForm.getDocument()));
-        HashMap map=GlobalVariables.getAuditErrorMap();
+        //success=KraServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(proposalDevelopmentForm.getDocument()));
+        //HashMap map=GlobalVariables.getAuditErrorMap();
         Object question = request.getParameter(RiceConstants.QUESTION_INST_ATTRIBUTE_NAME);
         Object buttonClicked = request.getParameter(RiceConstants.QUESTION_CLICKED_BUTTON);
         String methodToCall = ((KualiForm) form).getMethodToCall();
-        if((map.size()==1) &&  map.containsKey("sponsorProgramInformationAuditWarnings"))
+        
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        int status = isValidSubmission(proposalDevelopmentForm.getProposalDevelopmentDocument());
+
+       //if((map.size()==1) &&  map.containsKey("sponsorProgramInformationAuditWarnings"))
+        if (status == OK || status == WARNING) 
         {
 
-            if(question == null){
+            if(status == WARNING && question == null){
                 return this.performQuestionWithoutInput(mapping, form, request, response, DOCUMENT_ROUTE_QUESTION, "Validation Warning Exists.Are you sure want to submit to workflow routing.", RiceConstants.CONFIRMATION_QUESTION, methodToCall, "");
                 
             } 
@@ -485,10 +490,11 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             }    
 
         }
-        if(success){
+        if(status == OK || status == WARNING){
             ActionForward actionForward = super.route(mapping, form, request, response);
             return actionForward;
         }else   {
+        GlobalVariables.getErrorMap().clear(); // clear error from isValidSubmission()    
         GlobalVariables.getErrorMap().putError("datavalidation",KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
         return mapping.findForward((RiceConstants.MAPPING_BASIC));
          }
