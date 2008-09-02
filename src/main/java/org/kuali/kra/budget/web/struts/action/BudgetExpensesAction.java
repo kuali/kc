@@ -75,7 +75,7 @@ public class BudgetExpensesAction extends BudgetAction {
             budgetDocument.setBudgetCategoryTypeCodes(budgetCategoryTypes);
         }
         if (budgetForm.getPersonnelDetailLine() != null) {
-            forward = personnelBudgetAudit(mapping, form, request, response, budgetForm.getPersonnelDetailLine());
+            forward = personnelBudgetAudit(mapping, form, request, response, budgetForm.getSelectedBudgetLineItemIndex());
             budgetForm.setPersonnelDetailLine(null);
         }         
         return forward;

@@ -67,7 +67,7 @@ public class BudgetPersonValuesFinder extends KeyValuesBase {
         List<KeyLabelPair> keyLabelPairs = new ArrayList<KeyLabelPair>();
         keyLabelPairs.add(new KeyLabelPair(null, "Select"));
         for(BudgetPerson budgetPerson: budgetPersons) {
-            if (StringUtils.isNotBlank(budgetPerson.getJobCode()) && StringUtils.isNotBlank(budgetPerson.getAppointmentTypeCode()) && budgetPerson.getCalculationBase().isGreaterThan(BudgetDecimal.ZERO) && budgetPerson.getEffectiveDate() != null) {
+            if (StringUtils.isNotBlank(budgetPerson.getJobCode()) && StringUtils.isNotBlank(budgetPerson.getAppointmentTypeCode()) && budgetPerson.getCalculationBase().isGreaterEqual(BudgetDecimal.ZERO) && budgetPerson.getEffectiveDate() != null) {
                 keyLabelPairs.add(new KeyLabelPair(budgetPerson.getPersonSequenceNumber(), 
                                         (budgetPerson.getPersonName())+" - "+budgetPerson.getJobCode()));
             }
