@@ -61,7 +61,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 public abstract class KraWebTestBase extends KraTestBase {
     private static final Logger LOG = Logger.getLogger(KraWebTestBase.class);
 
-    protected static String HELP_PAGE_TITLE = "Kuali :: Kuali Help";
+    protected static String HELP_PAGE_TITLE = "Kuali Research Administration Online Help";
 
     protected WebClient webClient = null;
     protected DocumentService documentService = null;
