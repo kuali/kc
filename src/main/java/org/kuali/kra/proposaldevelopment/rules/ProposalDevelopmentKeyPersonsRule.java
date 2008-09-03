@@ -35,6 +35,7 @@ import static org.kuali.kra.logging.FormattedLogger.info;
 import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import org.apache.commons.lang.ObjectUtils;
+import org.kuali.RiceKeyConstants;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Iterator;
@@ -127,7 +128,32 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         }        
         personIndex=0;
         for (ProposalPerson person : document.getProposalPersons()) {
-
+            
+            String regx="^([0-9]{3}\\-|\\([0-9]{3}\\) ?)[0-9]{3}\\-[0-9]{4}$";
+            if(person.getPagerNumber()!=null && !(person.getPagerNumber().matches(regx)))
+            {
+                GlobalVariables.getErrorMap().putError("document.proposalPersons[" + personIndex + "].pagerNumber",  RiceKeyConstants.ERROR_INVALID_FORMAT,
+                        new String[] { "Pager Number",person.getPagerNumber()});         
+            
+            }
+            if(person.getOfficePhone()!=null && !(person.getOfficePhone().matches(regx)))
+            {
+                GlobalVariables.getErrorMap().putError("document.proposalPersons[" + personIndex + "].officePhone",  RiceKeyConstants.ERROR_INVALID_FORMAT,
+                        new String[] { "Office Phone",person.getOfficePhone()});         
+            
+            }
+            if(person.getFaxNumber()!=null && !(person.getFaxNumber().matches(regx)))
+            {
+                GlobalVariables.getErrorMap().putError("document.proposalPersons[" + personIndex + "].faxNumber",  RiceKeyConstants.ERROR_INVALID_FORMAT,
+                        new String[] { "Fax Number",person.getFaxNumber()});         
+            
+            }
+            if(person.getMobilePhoneNumber()!=null && !(person.getMobilePhoneNumber().matches(regx)))
+            {
+                GlobalVariables.getErrorMap().putError("document.proposalPersons[" + personIndex + "].mobilePhoneNumber",  RiceKeyConstants.ERROR_INVALID_FORMAT,
+                        new String[] {"Mobile Number", person.getMobilePhoneNumber()});         
+            
+            }
             if(isCoInvestigator(person) && (person.getUnits() != null) && (person.getUnits().size()==0)){
                 reportError("document.proposalPersons[" + personIndex + "].newProposalPersonUnit*",
                             ERROR_ONE_UNIT, person.getFullName());            
@@ -147,6 +173,8 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
                             new String[] {"Percentage Effort" });
                 }
             }
+            
+            
             personIndex++;
         }
         for (Iterator iter = investigators.iterator(); iter.hasNext();) {
@@ -213,8 +241,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
            }
             sort(document.getProposalPersons(), new ProposalPersonComparator());
         }
-      
-    return retval;
+     return retval;
     }
 
     /**
