@@ -45,7 +45,7 @@
           	<tr>
 				<td>
               
-	<kul:innerTab tabTitle="Person Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="document.proposalPersons[${personIndex}].projectRole*,document.proposalPersons[${personIndex}].percentageEffort*">
+	<kul:innerTab tabTitle="Person Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="document.proposalPersons[${personIndex}].projectRole*,document.proposalPersons[${personIndex}].percentageEffort*,document.proposalPersons[${personIndex}].pagerNumber*,document.proposalPersons[${personIndex}].officePhone*,document.proposalPersons[${personIndex}].faxNumber*,document.proposalPersons[${personIndex}].mobilePhoneNumber*">
 			<div class="innerTab-container" align="left">
               <table class=tab cellpadding=0 cellspacing="0" summary=""> 
                 <tbody id="G1">
@@ -327,7 +327,7 @@
  <c:when test="${certificationRequired == 'Y'  || !KualiForm.editingMode['modifyProposal']}">
    	<tr>
 	<td colspan=4>
-  <kul:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="false">
+  <kul:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="false" >
      <table class=tab cellpadding=0 cellspacing="0" summary="" >
      <kra-pd:personYnqSection proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
     </table>
@@ -339,7 +339,7 @@
      <c:choose>
       <c:when test="${KualiForm.document.proposalPersons[personIndex].optInCertificationStatus == 'Y'}"> 
    	  <tr><td colspan=4>
-      <kul:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="false">
+      <kul:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="false" >
       <div class="innerTab-container" align="left">
        <table class=tab cellpadding=0 cellspacing="0" summary=""> 
       <tr>
@@ -364,7 +364,7 @@
   </c:when>
    <c:otherwise>
    <tr><td colspan=4>
-   <kul:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="false">
+   <kul:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="false" >
     <div class="innerTab-container" align="left">
      <table class=tab cellpadding=0 cellspacing="0" summary=""> 
       <tr>
