@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.budget.lookup.keyvalue;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.core.web.ui.KeyLabelPair;
@@ -66,10 +68,22 @@ public class BudgetPersonValuesFinder extends KeyValuesBase {
     private List<KeyLabelPair> buildKeyLabelPairs(List<BudgetPerson> budgetPersons) {
         List<KeyLabelPair> keyLabelPairs = new ArrayList<KeyLabelPair>();
         keyLabelPairs.add(new KeyLabelPair(null, "Select"));
+        List <BudgetPerson> dupBudgetPersons = (List <BudgetPerson>)ObjectUtils.deepCopy((Serializable)budgetPersons);
         for(BudgetPerson budgetPerson: budgetPersons) {
             if (StringUtils.isNotBlank(budgetPerson.getJobCode()) && StringUtils.isNotBlank(budgetPerson.getAppointmentTypeCode()) && budgetPerson.getCalculationBase().isGreaterEqual(BudgetDecimal.ZERO) && budgetPerson.getEffectiveDate() != null) {
-                keyLabelPairs.add(new KeyLabelPair(budgetPerson.getPersonSequenceNumber(), 
+                boolean duplicatePerson = false;
+                for (BudgetPerson dupBudgetPerson : dupBudgetPersons) {
+                    if (((dupBudgetPerson.getPersonId() != null && dupBudgetPerson.getPersonId().equals(budgetPerson.getPersonId())) || (dupBudgetPerson.getRolodexId() != null && dupBudgetPerson.getRolodexId().equals(budgetPerson.getRolodexId())) )
+                            && dupBudgetPerson.getEffectiveDate().before(budgetPerson.getEffectiveDate())
+                            && dupBudgetPerson.getJobCode().equals(budgetPerson.getJobCode())) {
+                        duplicatePerson = true;
+                    }
+                    
+                }
+                if (!duplicatePerson) {
+                    keyLabelPairs.add(new KeyLabelPair(budgetPerson.getPersonSequenceNumber(), 
                                         (budgetPerson.getPersonName())+" - "+budgetPerson.getJobCode()));
+                }
             }
         }
         return keyLabelPairs;
