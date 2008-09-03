@@ -359,13 +359,22 @@ public class SalaryCalculator {
             //salaryDetails.setActualBaseSalary(budgetPerson.getCalculationBase());
             salaryDetails.setActualBaseSalary(getPrevSalaryBase(budgetPerson, boundary));
             populateAppointmentType(budgetPerson);
-            if(budgetProposalRate!=null && budgetPerson.getEffectiveDate().before(budgetProposalRate.getStartDate())){
+            BudgetPerson newBudgetPerson = getBudgetPersonApplied(budgetPerson, boundary);
+            if(budgetProposalRate!=null && ((newBudgetPerson == null && budgetPerson.getEffectiveDate().before(budgetProposalRate.getStartDate())) || (newBudgetPerson != null && newBudgetPerson.getEffectiveDate().before(budgetProposalRate.getStartDate()) )) ){
                 salaryDetails.calculateActualBaseSalary(budgetProposalRate.getApplicableRate());
             }
 
-            salaryDetails.setWorkingMonths(budgetPerson.getAppointmentType()==null?
+            if (newBudgetPerson != null) {
+                newBudgetPerson.refreshReferenceObject("appointmentType");
+                salaryDetails.setWorkingMonths(newBudgetPerson.getAppointmentType()==null?
+                        DEFAULT_WORKING_MONTHS:
+                            newBudgetPerson.getAppointmentType().getDuration());
+        
+            } else {
+                salaryDetails.setWorkingMonths(budgetPerson.getAppointmentType()==null?
                         DEFAULT_WORKING_MONTHS:
                         budgetPerson.getAppointmentType().getDuration());
+            }
             salaryDetails.setAltBudgetPerson(getSameJobPerson(boundary, budgetPerson));
         }
         breakUpIntervals.add(salaryDetails);
@@ -386,8 +395,10 @@ public class SalaryCalculator {
 
     private BudgetPerson getSameJobPerson(Boundary boundary, BudgetPerson curBudgetPerson) {
         // may need a list because potential several promotions in a short period of time
+        // same job/person within the boundary.
         for (BudgetPerson budgetPerson : budgetDocument.getBudgetPersons()) {
-            if (budgetPerson.getPersonSequenceNumber().intValue() != curBudgetPerson.getPersonSequenceNumber().intValue() && budgetPerson.getJobCode().equals(curBudgetPerson.getJobCode()) && budgetPerson.getEffectiveDate().after(curBudgetPerson.getEffectiveDate()) && budgetPerson.getEffectiveDate().compareTo(boundary.getStartDate()) >= 0 && budgetPerson.getEffectiveDate().compareTo(boundary.getEndDate()) <= 0) {
+            if (((curBudgetPerson.getPersonId() != null && curBudgetPerson.getPersonId().equals(budgetPerson.getPersonId())) || (curBudgetPerson.getRolodexId() != null && curBudgetPerson.getRolodexId().equals(budgetPerson.getRolodexId())) || (curBudgetPerson.getTbnId() != null && curBudgetPerson.getTbnId().equals(budgetPerson.getTbnId())) )
+                 && !budgetPerson.getPersonSequenceNumber().equals(curBudgetPerson.getPersonSequenceNumber()) && budgetPerson.getJobCode().equals(curBudgetPerson.getJobCode()) && budgetPerson.getEffectiveDate().after(curBudgetPerson.getEffectiveDate()) && budgetPerson.getEffectiveDate().compareTo(boundary.getStartDate()) >= 0 && budgetPerson.getEffectiveDate().compareTo(boundary.getEndDate()) <= 0) {
                 return budgetPerson;
             }
         }
@@ -432,6 +443,8 @@ public class SalaryCalculator {
                             totalSalary+=(perMonthSalary/noOfDaysInMonth*noOfActualDays);
                             startDateCalendar.set(DAY_OF_MONTH, effdtCalendar.get(DAY_OF_MONTH));
                         }
+                        altBudgetPerson.refreshReferenceObject("appointmentType");
+                        paidMonths = (altBudgetPerson.getAppointmentType().getDuration() == null) ? 12 : (altBudgetPerson.getAppointmentType().getDuration().intValue());
                         perMonthSalary = this.getActualBaseSalary().doubleValue()/paidMonths;     
                         salaryReset = true;
                     }
@@ -577,8 +590,11 @@ public class SalaryCalculator {
         Date p1StartDate = budgetDocument.getBudgetPeriods().get(0).getStartDate();
         BudgetPerson newBudgetPerson = budgetPerson;
         // in case same person job get promotion
+        // 01/01/2008 - 12/31/2008, promoted at 02/01/2008
+        // for boundary 07/01/2008-12/31/2008, it has to use 03/01 record
         for (BudgetPerson budgetPerson1 : budgetDocument.getBudgetPersons()) {
-            if (budgetPerson1.getPersonSequenceNumber().intValue() != newBudgetPerson.getPersonSequenceNumber().intValue() && budgetPerson1.getJobCode() != null && budgetPerson1.getJobCode().equals(newBudgetPerson.getJobCode()) && budgetPerson1.getEffectiveDate().after(newBudgetPerson.getEffectiveDate()) && budgetPerson1.getEffectiveDate().compareTo(boundary.getStartDate()) <= 0) {
+            if (((budgetPerson1.getPersonId() != null && budgetPerson1.getPersonId().equals(budgetPerson.getPersonId())) || (budgetPerson1.getRolodexId() != null && budgetPerson1.getRolodexId().equals(budgetPerson.getRolodexId())) || (budgetPerson1.getTbnId() != null && budgetPerson1.getTbnId().equals(budgetPerson.getTbnId())) )
+                  &&  !budgetPerson1.getPersonSequenceNumber().equals(newBudgetPerson.getPersonSequenceNumber()) && budgetPerson1.getJobCode() != null && budgetPerson1.getJobCode().equals(newBudgetPerson.getJobCode()) && budgetPerson1.getEffectiveDate().after(newBudgetPerson.getEffectiveDate()) && budgetPerson1.getEffectiveDate().compareTo(boundary.getStartDate()) <= 0) {
                 newBudgetPerson =  budgetPerson1;
             }
         }
@@ -607,6 +623,20 @@ public class SalaryCalculator {
         
     }
         
+    private BudgetPerson getBudgetPersonApplied(BudgetPerson budgetPerson, Boundary boundary) {
+        BudgetPerson newBudgetPerson = budgetPerson;
+        // in case same person job get promotion
+        // 01/01/2008 - 12/31/2008, promoted at 02/01/2008
+        // for boundary 07/01/2008-12/31/2008, it has to use 03/01 record
+        for (BudgetPerson budgetPerson1 : budgetDocument.getBudgetPersons()) {
+            if (((budgetPerson1.getPersonId() != null && budgetPerson1.getPersonId().equals(budgetPerson.getPersonId())) || (budgetPerson1.getRolodexId() != null && budgetPerson1.getRolodexId().equals(budgetPerson.getRolodexId())) || (budgetPerson1.getTbnId() != null && budgetPerson1.getTbnId().equals(budgetPerson.getTbnId())) )
+                  &&  !budgetPerson1.getPersonSequenceNumber().equals(newBudgetPerson.getPersonSequenceNumber()) && budgetPerson1.getJobCode() != null && budgetPerson1.getJobCode().equals(newBudgetPerson.getJobCode()) && budgetPerson1.getEffectiveDate().after(newBudgetPerson.getEffectiveDate()) && budgetPerson1.getEffectiveDate().compareTo(boundary.getStartDate()) <= 0) {
+                return budgetPerson1;
+            }
+        }
+
+        return null;
+    }
     
     private QueryList<BudgetProposalRate> filterInflationRates(Date sDate, Date eDate) {
         CostElement costElement = personnelLineItem.getCostElementBO();
