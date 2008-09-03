@@ -75,10 +75,10 @@
 			<attribute name="description">
 			<label>Description </label>
 			<shortLabel>Description </shortLabel>
-			<maxLength>200</maxLength>
+			<maxLength>30</maxLength>
 			<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
 			<control>
-				<text size="200" />
+				<text size="30" />
 			</control>
 			<summary>Description </summary>
 			<description>Description </description>
