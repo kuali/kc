@@ -473,7 +473,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         int status = isValidSubmission(proposalDevelopmentForm.getProposalDevelopmentDocument());
 
        //if((map.size()==1) &&  map.containsKey("sponsorProgramInformationAuditWarnings"))
-        if (status == OK || status == WARNING) 
+        if (status == WARNING) 
         {
 
             if(status == WARNING && question == null){
@@ -490,7 +490,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             }    
 
         }
-        if(status == OK || status == WARNING){
+        if(status == OK){
             ActionForward actionForward = super.route(mapping, form, request, response);
             return actionForward;
         }else   {
