@@ -389,7 +389,6 @@
                 <label>Office Phone</label>
                 <shortLabel>Office Ph</shortLabel>
                 <maxLength>20</maxLength>
-                <validationPattern><phoneNumber /></validationPattern>
                 <control>
                     <text size="40" />
                 </control>
@@ -410,7 +409,6 @@
                 <label>Secondary Office Phone</label>
                 <shortLabel>2nd Office Ph</shortLabel>
                 <maxLength>20</maxLength>
-                <validationPattern><phoneNumber /></validationPattern>
                 <control>
                     <text size="40" />
                 </control>
@@ -656,7 +654,7 @@
                 <label>Pager</label>
                 <shortLabel>Pg Nbr</shortLabel>
                 <maxLength>20</maxLength>
-                <control>
+                 <control>
                     <text size="40" />
                 </control>
                 <summary>Page Number</summary>
