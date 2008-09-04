@@ -52,6 +52,7 @@ public class SponsorHierarchyForm extends KualiForm {
     private String mapKey;
     private String message;
     private String sqlScripts;
+    private String timestamp;
     private int numberPerGroup;
     private static final Log LOG = LogFactory.getLog(SponsorHierarchyForm.class);
 
@@ -286,6 +287,16 @@ public class SponsorHierarchyForm extends KualiForm {
 
     public void setNumberPerGroup(int numberPerGroup) {
         this.numberPerGroup = numberPerGroup;
+    }
+
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 
 

@@ -33,6 +33,7 @@
 			<include method="getSponsorCodes" />
 			<include method="addSponsorHierarchyDwr" />
 			<include method="checkSubGroup" />
+			<include method="uploadScripts" />
 		</create>
 		<create creator="spring" javascript="UnitService">
 			<param name="beanName" value="unitService" />

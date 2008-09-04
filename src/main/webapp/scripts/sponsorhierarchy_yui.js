@@ -110,12 +110,14 @@
                				oChildNode.setDynamicLoad(loadNextLevelSponsorHierarchy, 1); // need this. otherwise when 'add sponsor' the sponsor will not be displayed immediately.
                				oCurrentTextNode.refresh();
                         	oCurrentTextNode.expand();
-           					actionList[nodeKey] = ":newLabel:"+sLabel;
+           					//actionList[nodeKey] = ":newLabel:"+sLabel;
            					        						
 	            			updateEmptyNodes(oChildNode,"false");
 
                         	oTextNodeMap[nodeKey++] = oChildNode;
                         	tree.draw();
+                        	oChildNode.loadComplete();
+                        	
                         } else {
                				alert("A group with name '"+sLabel+"' already exists for level "+ (oCurrentTextNode.depth+2));
             			}
@@ -165,7 +167,7 @@
                     		// find subnode node to change label too
                    	var nextNode = subNode2.nextSibling;
                    	nodeHtml=subNode2.data;
-                   	nodeHtml = nodeHtml.replace(">"+nodeDesc+" - ",">"+sLabel+" - ");
+                   	nodeHtml = nodeHtml.replace(">"+nodeDesc+" (",">"+sLabel+" (");
             		subNode2.data=nodeHtml;
             		subNode2.html=nodeHtml;
             		subNode2.setHtml;
@@ -443,11 +445,40 @@
 						window.status = errorMessage;
 					}
 				};
-				SponsorService.updateSponsorCodes(sponsorCodeList,dwrReply);
-		
-		
+				SponsorService.updateSponsorCodes(sponsorCodeList,dwrReply);				
     
     }
+
+
+    function uploadScripts() {
+    		
+			var dwrReply = {
+					callback:function(data) {
+						if ( data != null ) {
+						//alert(sponsorCodeList.length +"-"+data)
+						} else {
+							//alert ("data is null");
+						}
+						 node.loadComplete();
+						
+					},
+					errorHandler:function( errorMessage ) {
+						window.status = errorMessage;
+					}
+				};
+				SponsorService.uploadScripts(timestampKey, sqlScripts,dwrReply);				
+    
+    }
+
+    function updateScripts(sql) {
+    
+        if (sqlScripts.length > 20000) {
+            uploadScripts();
+            sqlScripts="";
+        }   
+    	sqlScripts = sqlScripts+sql+";1;";
+    	 	
+    }		
 
     function loadNextLevelSponsorHierarchy(node) {
 		   // The ajax code to load node dynamically.  so far it is working fine without the yui connection manager
@@ -487,7 +518,7 @@
 								for (var i=1 ; i < group_array.length;  i++) {
 	           					    // add subgroups to break the big group
 	           					    //alert(i)
-									var tempNode = new YAHOO.widget.HTMLNode( "<table style=\"width:"+String(1080-(node.depth+1)*widthGap)+"px\"><tr><td style=\"width:"+String(760-(node.depth+1)*widthGap)+"px\">" + getNodeDescription(node) + " - "+ i + 
+									var tempNode = new YAHOO.widget.HTMLNode( "<table style=\"width:"+String(1080-(node.depth+1)*widthGap)+"px\"><tr><td style=\"width:"+String(760-(node.depth+1)*widthGap)+"px\">" + getNodeDescription(node) + " ("+ (i*numberPerGroup+1) +  " - " + ((i+1)*numberPerGroup)+ ")" +
 													          "</td><td style=\"width:320px\"><INPUT TYPE=\"button\" SRC=\"button.gif\" VALUE=\"Add Sponsor\" ALT=\"Add Sponsor\" NAME=\"addsponsor\" onClick=\"addSponsor("+nodeKey+");return false;\" > </td></tr></table>" 
                                                               , node.parent, false, true);
 									// "1" will show leaf node without "+" icon
@@ -593,7 +624,8 @@
     	function changeGroupName(node, oldLabel) {
     		var sql = updatesql + "level"+node.depth+"='"+getNodeDescription(node)+"' "+getWhereClause(node.parent);
 			sql = sql+" and level"+node.depth+"='"+oldLabel+"'";
-    		sqlScripts = sqlScripts+sql+";1;";
+    		//sqlScripts = sqlScripts+sql+";1;";
+    		updateScripts(sql);
 		}
 
     	function changeSortId(nodeseq, moveFlag) {
@@ -605,7 +637,9 @@
 		       sortid = "level"+node.depth+"_sortid + 1";
 		    }
     		var sql = updatesql + "level"+node.depth+"_sortid="+sortid+" "+getWhereClause(node);
-    		sqlScripts = sqlScripts+sql+";1;";
+    		//sqlScripts = sqlScripts+sql+";1;";
+    		updateScripts(sql);
+    		
 		}
 
     	function deleteSponsorHierarchy(node, deleteSponsorFlag) {
@@ -615,7 +649,8 @@
 				} else {
 					sql = deletesql+getWhereClause(node);
 				}
-				sqlScripts = sqlScripts+sql+";1;";
+				//sqlScripts = sqlScripts+sql+";1;";
+    			updateScripts(sql);
 				
 						   // The ajax code to load node dynamically.  so far it is working fine without the yui connection manager
 				//alert("deletesponsorhierarchy");
@@ -649,6 +684,9 @@
      
         var whereClause=" where hierarchy_name = '"+hierarchyName+"'";
         var tempNode = node;
+        while (isSubgroup(tempNode)) {
+           tempNode = tempNode.previousSibling;
+        }
          while (tempNode.depth > 0) {
            whereClause = whereClause +" and level"+tempNode.depth+"='"+getNodeDescription(tempNode)+"'";
               tempNode=tempNode.parent;
@@ -662,6 +700,10 @@
         // need to rework on real update_user
         var values="'"+hierarchyName+"','((sponsorcodeholder))', sysdate, 'quickstart'"
         var tempNode = node;
+             while (isSubgroup(tempNode)) {
+                tempNode = tempNode.previousSibling;
+             }
+        
          while (tempNode.depth > 0) {
            columns = columns+",level"+tempNode.depth+",level"+tempNode.depth+"_sortid";
            values = values + ",'"+getNodeDescription(tempNode)+"',"+getSortId(tempNode);
@@ -716,13 +758,15 @@
 				var oChildNode = new YAHOO.widget.HTMLNode( "<table style=\"width:"+String(1080-(oCurrentTextNode.depth+1)*widthGap)+"px\"><tr><td style=\"width:"+String(760-(oCurrentTextNode.depth+1)*widthGap)+"px\">" + sponsor_array[i] + "</td><td style=\"width:320px\">"+ setupMaintenanceButtons(sponsor_array[i], oCurrentTextNode)+"</td></tr></table>", oCurrentTextNode, false, true);
 	         			oChildNode.contentStyle="icon-page";
 	
-	            oCurrentTextNode.refresh();
-	            oCurrentTextNode.expand();
+	            //oCurrentTextNode.refresh();
+	            //oCurrentTextNode.expand();
 				oChildNode.isLeaf="true";
 				//actionList[nodeKey] = ":newLabel:"+sponsor_array[i];           									
 	            oTextNodeMap[nodeKey++] = oChildNode;
 	            var sql = sqltemplate.replace("((sponsorcodeholder))",sponsorid);
-	            sqlScripts = sqlScripts+sql+";1;";
+	            //sqlScripts = sqlScripts+sql+";1;";
+    			updateScripts(sql);
+	            
 	            if (j == -1) {
 	                newSponsors=sLabel;
 	            	updateEmptyNodes(oChildNode, "false");

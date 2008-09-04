@@ -97,5 +97,6 @@ public interface SponsorService {
      */
     public void updateSponsorCodes(String sponsorCodes);
 
-    
+    public void uploadScripts(String key, String scripts);
+
  }

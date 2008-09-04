@@ -102,6 +102,7 @@ public class SponsorHierarchyAction extends KualiAction {
         sponsorHierarchyForm.setSelectedSponsorHierarchy(Constants.EMPTY_STRING);
         GlobalVariables.getUserSession().removeObject(SELECTED_HIERARCHY_NAME);
         GlobalVariables.getUserSession().removeObject(HIERARCHY_NAME);
+        GlobalVariables.getUserSession().removeObject(sponsorHierarchyForm.getTimestamp());
         return mapping.findForward(Constants.MAPPING_BASIC);            
     }
 
@@ -109,9 +110,24 @@ public class SponsorHierarchyAction extends KualiAction {
         //boolean rulePassed = new SponsorHierarchyRule().newHierarchyNameRequired((SponsorHierarchyForm)form);
         //if (rulePassed) {
         SponsorHierarchyForm sponsorHierarchyForm = (SponsorHierarchyForm)form;
-        KraServiceLocator.getService(SponsorService.class).saveSponsorHierachy(sponsorHierarchyForm.getHierarchyName(), sponsorHierarchyForm.getSqlScripts());
+        String sciptsInSession = (String)GlobalVariables.getUserSession().retrieveObject(sponsorHierarchyForm.getTimestamp());
+        if (sciptsInSession != null) {
+            String[] scripts = sciptsInSession.split("#1#");
+            for (int i = 0; i < scripts.length; i++) {
+                KraServiceLocator.getService(SponsorService.class).saveSponsorHierachy(sponsorHierarchyForm.getHierarchyName(), scripts[i]);
+                
+            }
+            sciptsInSession = sciptsInSession.concat(sponsorHierarchyForm.getSqlScripts());
+        } 
+        if (StringUtils.isNotBlank(sponsorHierarchyForm.getSqlScripts())) {
+            KraServiceLocator.getService(SponsorService.class).saveSponsorHierachy(sponsorHierarchyForm.getHierarchyName(), sponsorHierarchyForm.getSqlScripts());
+        }
         sponsorHierarchyForm.setActionSelected(MAINT);
+        sponsorHierarchyForm.setSponsorCodeList(KraServiceLocator.getService(SponsorService.class).loadToSponsorHierachyMt(sponsorHierarchyForm.getSelectedSponsorHierarchy()));
         GlobalVariables.getUserSession().removeObject(SELECTED_HIERARCHY_NAME);
+        GlobalVariables.getUserSession().removeObject(sponsorHierarchyForm.getTimestamp());
+        GlobalVariables.getUserSession().removeObject("sponsorCodes");
+        sponsorHierarchyForm.setTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp().toString());
         return mapping.findForward(MAINT);            
     }
 
@@ -122,6 +138,7 @@ public class SponsorHierarchyAction extends KualiAction {
             SponsorHierarchyForm sponsorHierarchyForm = (SponsorHierarchyForm)form;
             sponsorHierarchyForm.setHierarchyName(sponsorHierarchyForm.getNewHierarchyName());
             sponsorHierarchyForm.setSponsorCodeList(Constants.EMPTY_STRING);
+            sponsorHierarchyForm.setTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp().toString());
             ((SponsorHierarchyForm)form).setActionSelected(NEW);
             GlobalVariables.getUserSession().addObject(SELECTED_HIERARCHY_NAME, (Object)sponsorHierarchyForm.getSelectedSponsorHierarchy());
             GlobalVariables.getUserSession().addObject(HIERARCHY_NAME, (Object)sponsorHierarchyForm.getHierarchyName());
@@ -138,6 +155,7 @@ public class SponsorHierarchyAction extends KualiAction {
         sponsorHierarchyForm.setSponsorCodeList(KraServiceLocator.getService(SponsorService.class).loadToSponsorHierachyMt(sponsorHierarchyForm.getSelectedSponsorHierarchy()));
         GlobalVariables.getUserSession().removeObject(SELECTED_HIERARCHY_NAME);
         GlobalVariables.getUserSession().addObject(HIERARCHY_NAME, (Object)sponsorHierarchyForm.getHierarchyName());
+        sponsorHierarchyForm.setTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp().toString());
         return mapping.findForward(MAINT);
         
     }
@@ -207,6 +225,7 @@ public class SponsorHierarchyAction extends KualiAction {
                         }
                     }
                 }
+            sponsorHierarchyForm.setLookupResultsSequenceNumber(null);
         }
         
         if (StringUtils.isNotBlank(sponsorHierarchyForm.getActionSelected()) && (sponsorHierarchyForm.getActionSelected().equals("maint") || sponsorHierarchyForm.getActionSelected().equals("new"))) {
