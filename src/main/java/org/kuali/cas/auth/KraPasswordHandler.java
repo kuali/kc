@@ -48,7 +48,9 @@ public class KraPasswordHandler extends WatchfulPasswordHandler {
                     // check the username and password against the db
                     // return true if they are there and have a valid password
                     if ( LOG.isDebugEnabled() ) {
-                        LOG.debug( "Attempting login for user id: " + username + " and password hash: " + KNSServiceLocator.getEncryptionService().hash( password.trim() ) );
+                           LOG.debug( "Attempting login for user id: " + 
+                                      username + " and password hash: " + 
+                                      (String) ((password==null) ? "null" : KNSServiceLocator.getEncryptionService().hash( password.trim())) );
                     }
                    
                     // obtain the universal user record
