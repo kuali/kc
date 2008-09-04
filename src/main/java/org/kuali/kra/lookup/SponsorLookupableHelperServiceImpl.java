@@ -24,6 +24,7 @@ import java.util.Map;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.core.web.struts.form.MultipleValueLookupForm;
@@ -49,6 +50,7 @@ public class SponsorLookupableHelperServiceImpl  extends KualiLookupableHelperSe
             // not multiple value lookup
             return searchResults;
         }
+        searchResults = (List)KraServiceLocator.getService(BusinessObjectService.class).findAll(Sponsor.class);
         Object hierarchyName = GlobalVariables.getUserSession().retrieveObject(HIERARCHY_NAME);
         Object selectedHierarchyName = GlobalVariables.getUserSession().retrieveObject(SELECTED_HIERARCHY_NAME);
         String sponsors= null;
@@ -74,20 +76,25 @@ public class SponsorLookupableHelperServiceImpl  extends KualiLookupableHelperSe
         }
         String[] sponsorArray = sponsors.split(";");
         List sponsorList = Arrays.asList(sponsorArray);
-        
+        int i = 0;
         for (Iterator iterator = searchResults.iterator(); iterator.hasNext();) {
             Sponsor sponsor = (Sponsor)iterator.next();
             if (isNewHierarchy) {
                 if (sponsorList.contains(sponsor.getSponsorCode()) && !existSponsorList.contains(sponsor.getSponsorCode())) {
+                    i++;
                     searchResultsReturn.add(sponsor);
                 }
             } else {
                 if (!sponsorList.contains(sponsor.getSponsorCode())) {
+                    i++;
                     searchResultsReturn.add(sponsor);
                 }
             }
+            if (i >= 200) {
+                break;
+            }
         }       
-        return new CollectionIncomplete(searchResultsReturn, ((CollectionIncomplete)searchResults).getActualSizeIfTruncated());
+        return new CollectionIncomplete(searchResultsReturn, new Long(searchResults.size()));
     }
 }
 

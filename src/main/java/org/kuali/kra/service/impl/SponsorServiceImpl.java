@@ -193,7 +193,23 @@ public class SponsorServiceImpl implements SponsorService {
     
     public void updateSponsorCodes(String sponsorCodes) {
 
+        if (GlobalVariables.getUserSession().retrieveObject("sponsorCodes") != null) {
+            GlobalVariables.getUserSession().removeObject("sponsorCodes");
+        }
         GlobalVariables.getUserSession().addObject("sponsorCodes", (Object)sponsorCodes);
+    }
+
+    public void uploadScripts(String key, String scripts) {
+        // may need to save to db instead save in session.  the scripts may be huge??
+
+        String sciptsInSession = (String)GlobalVariables.getUserSession().retrieveObject(key);
+        if (sciptsInSession != null) {
+            sciptsInSession = sciptsInSession.concat("#1#"+scripts);
+        } else {
+            sciptsInSession = scripts;
+        }
+        
+        GlobalVariables.getUserSession().addObject(key, (Object)sciptsInSession);
     }
    
 }
