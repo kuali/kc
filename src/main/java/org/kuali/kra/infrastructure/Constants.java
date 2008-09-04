@@ -80,7 +80,7 @@ public interface Constants {
     public static final String PROJECT_TITLE_KEY = "document.title";
     public static final String SPONSOR_PROPOSAL_NUMBER_LABEL = "Sponsor Proposal ID";
 
-    public static final String AUDIT_ERRORS = "Errors";
+    public static final String AUDIT_ERRORS = "Validation Errors";
     public static final String AUDIT_WARNINGS = "Warnings";
     public static final String GRANTSGOV_ERRORS= "Grants.Gov Errors";
     
