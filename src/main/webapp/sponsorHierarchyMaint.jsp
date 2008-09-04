@@ -130,6 +130,8 @@ tbody tr:hover {
 	<input type="hidden" id="sponsorCode" name="sponsorCode" />
 	<input type="hidden" id="sqlScripts" name="sqlScripts" />
 	<input type="hidden" id="sponsorCodeList" name="sponsorCodeList" value="${SponsorHierarchyForm.sponsorCodeList}" />
+	<input type="hidden" id="timestamp" name="timestamp" value="${SponsorHierarchyForm.timestamp}" />
+	<input type="hidden" id="numberPerGroup" name="numberPerGroup" value="${SponsorHierarchyForm.numberPerGroup}" />
 
 <div id="wait" style="visibility: hidden; font-size: 14pt; color: red;">Please wait ... </div>
 
@@ -174,7 +176,8 @@ tbody tr:hover {
    		var hierarchyName = document.getElementById("hierarchyName").value;
    		var subgroup = {};
    		var subgroupNodes = ";";
-   		
+        var timestampKey = document.getElementById("timestamp").value;
+   		var numberPerGroup = document.getElementById("numberPerGroup").value;
    	
    	var sponsorHierarchyReturn = sponsorHierarchy();
 

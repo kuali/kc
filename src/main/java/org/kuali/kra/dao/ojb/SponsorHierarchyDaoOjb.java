@@ -19,6 +19,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Iterator;
 
 import org.apache.commons.lang.StringUtils;
@@ -258,10 +259,13 @@ public class SponsorHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements O
                 
                 try {
                     // use batch ?
-                    for (int i = 0 ; i < sqls.length; i++) {
-                        ps = pb.serviceConnectionManager().getConnection().prepareStatement(sqls[i]);
-                        ps.executeUpdate();
+                    Statement stmt= pb.serviceConnectionManager().getConnection().createStatement();
+                   for (int i = 0 ; i < sqls.length; i++) {
+                        stmt.addBatch(sqls[i]); 
+                        //ps = pb.serviceConnectionManager().getConnection().prepareStatement(sqls[i]);
+                        //ps.executeUpdate();
                     }
+                   int[] updCnt = stmt.executeBatch();
                     //pb.commitTransaction();
                 } catch (Exception e) {
                     LOG.error("exception error " +e.getStackTrace());
