@@ -54,6 +54,7 @@ public class BudgetExpensesAction extends BudgetAction {
     private static final Log LOG = LogFactory.getLog(BudgetExpensesAction.class);
     
     public ActionForward updateBudgetPeriodView(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {                
+        calculateCurrentBudgetPeriod((BudgetForm) form);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -270,17 +271,7 @@ public class BudgetExpensesAction extends BudgetAction {
      * @throws Exception
      */
     public ActionForward calculateCurrentPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        int selectedPeriod = budgetForm.getViewBudgetPeriod().intValue();
-        BudgetPeriod budgetPeriod = budgetDocument.getBudgetPeriod(selectedPeriod-1);
-        for(BudgetLineItem budgetLineItem:budgetPeriod.getBudgetLineItems()){
-            updatePersonnelBudgetRate(budgetLineItem);
-        }
-        if (new BudgetExpenseRule().processCheckLineItemDates(budgetDocument)) {
-            BudgetCalculationService budgetCalculationService  = KraServiceLocator.getService(BudgetCalculationService.class);
-            budgetCalculationService.calculateBudgetPeriod(budgetDocument, budgetPeriod);
-        }
+        calculateCurrentBudgetPeriod((BudgetForm) form);
         //budgetForm.setLineAddedOrDeletedSinceLastSaveOrCalculate(false);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -424,4 +415,17 @@ public class BudgetExpensesAction extends BudgetAction {
         return mapping.findForward(Constants.MAPPING_PERSONNEL_BUDGET);
     }
 
+    private void calculateCurrentBudgetPeriod(BudgetForm budgetForm) {
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        int selectedPeriod = budgetForm.getViewBudgetPeriod().intValue();
+        BudgetPeriod budgetPeriod = budgetDocument.getBudgetPeriod(selectedPeriod-1);
+        for(BudgetLineItem budgetLineItem:budgetPeriod.getBudgetLineItems()){
+            updatePersonnelBudgetRate(budgetLineItem);
+        }
+        if (new BudgetExpenseRule().processCheckLineItemDates(budgetDocument)) {
+            BudgetCalculationService budgetCalculationService  = KraServiceLocator.getService(BudgetCalculationService.class);
+            budgetCalculationService.calculateBudgetPeriod(budgetDocument, budgetPeriod);
+        }
+
+    }
 }
