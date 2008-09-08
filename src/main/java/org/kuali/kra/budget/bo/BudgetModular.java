@@ -170,11 +170,28 @@ public class BudgetModular extends KraPersistableBusinessObjectBase {
     }
     
     public void addNewBudgetModularIdc(BudgetModularIdc budgetModularIdc) {
+        int hack = 0;
         budgetModularIdc.setProposalNumber(this.getProposalNumber());
         budgetModularIdc.setBudgetVersionNumber(this.getBudgetVersionNumber());
         budgetModularIdc.setBudgetPeriod(this.getBudgetPeriod());
-        this.getBudgetModularIdcs().add(budgetModularIdc);
-    }
+        
+        /*if List <budgetModularIdc> contains the budgetModularIdc being passed with same rate and description, then add its idcBase to that budgetModularIdc.
+         * otherwise add it to the list.
+         */
+        for (BudgetModularIdc testBudgetModularIdc: this.getBudgetModularIdcs()){
+                 if(testBudgetModularIdc.getIdcRate().equals(budgetModularIdc.getIdcRate()) &&
+                        testBudgetModularIdc.getDescription().equals(budgetModularIdc.getDescription())){
+                    testBudgetModularIdc.setIdcBase(testBudgetModularIdc.getIdcBase().add(budgetModularIdc.getIdcBase()));
+                    testBudgetModularIdc.setFundsRequested(testBudgetModularIdc.getFundsRequested().add(budgetModularIdc.getFundsRequested()));
+                    hack = 1;
+                    return;
+                }
+            }
+         this.getBudgetModularIdcs().add(budgetModularIdc);
+    
+         
+        }
+    
 
     @Override 
     protected LinkedHashMap toStringMapper() {
