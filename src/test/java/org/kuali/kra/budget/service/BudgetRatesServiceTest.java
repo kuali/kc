@@ -84,6 +84,7 @@ public class BudgetRatesServiceTest {
     private static final String RESEARCH_ACTIVITY_CODE = "1";
     private static final String INSTRUCTION_ACTIVITY_CODE = "2";
     private static final String PUBLIC_SERVICE_ACTIVITY_CODE = "3";
+    private static final String OTHER_ACTIVITY_CODE = "5";
 
     private static final String RESEARCH_ACTIVITY_DESCRIPTION = "Research";
     private static final String INSTRUCTION_ACTIVITY_DESCRIPTION = "Instruction";
@@ -127,7 +128,17 @@ public class BudgetRatesServiceTest {
         String activityTypeCode = budgetDocument.getProposal().getActivityTypeCode();
         Assert.assertEquals(countInstituteRatesForActivityTypeCode(activityTypeCode), budgetDocument.getBudgetProposalRates().size());
         checkSyncedRates();        
-    }    
+    }  
+    
+    @Test
+    public void testSyncAllBudgetRates_ChangeProposalActivityType2Other() throws Exception {
+        budgetDocument.getProposal().setActivityTypeCode(OTHER_ACTIVITY_CODE);
+        changeInstituteRates();
+        budgetRatesService.syncAllBudgetRates(budgetDocument);
+        String activityTypeCode = budgetDocument.getProposal().getActivityTypeCode();
+        Assert.assertEquals(countInstituteRatesForActivityTypeCode(activityTypeCode), budgetDocument.getBudgetProposalRates().size());
+        checkSyncedRates();        
+    } 
 
     @Test
     public void testViewLocation() throws Exception {
