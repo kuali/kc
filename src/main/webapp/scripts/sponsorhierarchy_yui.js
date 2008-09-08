@@ -18,8 +18,10 @@
 	           		emptyNodes="((#0#))";
 	           	}
 	           	for (var i=0 ; i < sponsorHierarchy_array.length;  i++) {
-					var tempNode = new YAHOO.widget.HTMLNode( table_1 + sponsorHierarchy_array[i] + "</td><td style=\"width:320px\">"+ setupMaintenanceButtons(sponsorHierarchy_array[i], root)+"</td></tr></table>", root, false, true);
+					var tempNode = new SHNode( table_1 + sponsorHierarchy_array[i] + "</td><td style=\"width:320px\">"+ setupMaintenanceButtons(sponsorHierarchy_array[i], root)+"</td></tr></table>", root, false, true, false, sponsorHierarchy_array[i]);
 	           		tempNode.contentStyle="icon-page";
+	           		//tempNode.isVirtualNode=false;
+	           		//tempNode.description=sponsorHierarchy_array[i];
 	           		//if (actionSelected == "maint") {
 	           			tempNode.setDynamicLoad(loadNextLevelSponsorHierarchy);
 	           		//}
@@ -53,7 +55,7 @@
            	rootNode =rootNode.parent;
         }
         
-    	return getNodeDescription(rootNode);
+    	return rootNode.description;
     }
     
     function getNodeDescription(node) {
@@ -68,7 +70,6 @@
     	//inquiryPop('org.kuali.kra.bo.Sponsor','sponsorCode:sponsorCode');
     }
     
-          var newLabel;
     function addNode(mapKey) {
 
 		oCurrentTextNode=oTextNodeMap[mapKey];
@@ -84,14 +85,10 @@
 
     function checkToAdd(mapKey) {
     
-    	// this is timing issue, has to wait until dwr is complete, so this is may still has issue.
-					oCurrentTextNode=oTextNodeMap[mapKey];
-					var childrenNode= {};
-					childrenNode=oCurrentTextNode.children;
+			oCurrentTextNode=oTextNodeMap[mapKey];
+			var childrenNode= {};
+			childrenNode=oCurrentTextNode.children;
 
-					//alert (childrenNode[0].isLeaf+" ln "+leafNode);
-					// check leafNode==false is not good
-					//if (childrenNode.length == 0 || leafNode=="false" || !childrenNode[0].isLeaf) {
 			if (oCurrentTextNode.dynamicLoadComplete) {		
 					hideWait();
 			
@@ -104,13 +101,12 @@
 					  sLabel = sLabel.substring(0,50);
 					}
                     if (sLabel && sLabel.length > 0) {
-             			if (childrenNode.length == 00 || (sLabel != getNodeDescription(childrenNode[0]) && isUniqueGroupName(childrenNode[0],sLabel) == "true")) {                       
-							var oChildNode = new YAHOO.widget.HTMLNode( "<table style=\"width:"+String(1080-(oCurrentTextNode.depth+1)*widthGap)+"px\"><tr><td style=\"width:"+String(760-(oCurrentTextNode.depth+1)*widthGap)+"px\">" + sLabel + "</td><td style=\"width:320px\">"+ setupMaintenanceButtons(sLabel, oCurrentTextNode)+"</td></tr></table>", oCurrentTextNode, false, true);
+             			if (childrenNode.length == 00 || (sLabel != childrenNode[0].description && isUniqueGroupName(childrenNode[0],sLabel) == "true")) {                       
+							var oChildNode = new SHNode( "<table style=\"width:"+String(1080-(oCurrentTextNode.depth+1)*widthGap)+"px\"><tr><td style=\"width:"+String(760-(oCurrentTextNode.depth+1)*widthGap)+"px\">" + sLabel + "</td><td style=\"width:320px\">"+ setupMaintenanceButtons(sLabel, oCurrentTextNode)+"</td></tr></table>", oCurrentTextNode, false, true, false, sLabel);
                				oChildNode.contentStyle="icon-page";
                				oChildNode.setDynamicLoad(loadNextLevelSponsorHierarchy, 1); // need this. otherwise when 'add sponsor' the sponsor will not be displayed immediately.
                				oCurrentTextNode.refresh();
                         	oCurrentTextNode.expand();
-           					//actionList[nodeKey] = ":newLabel:"+sLabel;
            					        						
 	            			updateEmptyNodes(oChildNode,"false");
 
@@ -125,7 +121,7 @@
                     }
                     
                     } else {
-                    	alert ("The group '"+getNodeDescription(oCurrentTextNode)+"' has sponsors assigned to it. Cannot create subgroups for this group.");
+                    	alert ("The group '"+oCurrentTextNode.description+"' has sponsors assigned to it. Cannot create subgroups for this group.");
                     }
                     leafNode="false";
                } else {
@@ -141,7 +137,7 @@
 		    showWait();
                     	loadNextLevelSponsorHierarchy(oCurrentTextNode);
 		}
-		var nodeDesc = getNodeDescription(oCurrentTextNode);
+		var nodeDesc = oCurrentTextNode.description;
         var sLabel = window.prompt("Enter a new name for this group: ", nodeDesc);
 		sLabel = sLabel.trim();
 		if (sLabel.length > 50) {
@@ -150,19 +146,18 @@
 
         var nodeHtml=oCurrentTextNode.data;
         if (sLabel && sLabel.length > 0 && sLabel!=nodeDesc) {
-            //var retstr = isUniqueGroupName(oCurrentTextNode,sLabel);
-            //alert (" unique "+retstr);
             if (isUniqueGroupName(oCurrentTextNode,sLabel) == "true" ) {
             nodeHtml = nodeHtml.replace(">"+nodeDesc+"<",">"+sLabel+"<");
             oCurrentTextNode.data=nodeHtml;
             oCurrentTextNode.html=nodeHtml;
             oCurrentTextNode.setHtml;
+            oCurrentTextNode.description=sLabel;
             oTextNodeMap[mapKey] = oCurrentTextNode;
             // subgroups
             
             var subNode2 = oCurrentTextNode.nextSibling;
             var curNode = oCurrentTextNode;
-            while (subNode2 != null && isSubgroup(subNode2)) {
+            while (subNode2 != null && subNode2.isVirtualNode) {
                   // alert(subNode2.data);
                     		// find subnode node to change label too
                    	var nextNode = subNode2.nextSibling;
@@ -171,6 +166,8 @@
             		subNode2.data=nodeHtml;
             		subNode2.html=nodeHtml;
             		subNode2.setHtml;
+            		subNode2.description=subNode2.description.replace(nodeDesc,sLabel);
+            		
             		oTextNodeMap[getNodeseq(subNode2)] = subNode2;
                    //alert(getNodeseq(subNode2) +" | "+subNode2.data);
 
@@ -196,7 +193,7 @@
           while (tempNode.previousSibling != null) {
           	tempNode = tempNode.previousSibling;
           	//alert(sLabel +" =? " +getNodeDescription(tempNode))
-          	if (sLabel == getNodeDescription(tempNode)) {
+          	if (sLabel == tempNode.description) {
           	    return "false";
           	}
           }
@@ -204,7 +201,7 @@
           tempNode = node;
           while (tempNode.nextSibling != null) {
           	tempNode = tempNode.nextSibling;
-          	if (sLabel == getNodeDescription(tempNode)) {
+          	if (sLabel == tempNode.description) {
           	    return "false";
           	}
           }
@@ -217,9 +214,9 @@
 			oCurrentTextNode=oTextNodeMap[mapKey];
 			var msg;
 			if (oCurrentTextNode.isLeaf) {
-			  	msg = "Do you want to remove the sponsor '"+getNodeDescription(oCurrentTextNode)+"' from the hierarchy";
+			  	msg = "Do you want to remove the sponsor '"+oCurrentTextNode.description+"' from the hierarchy";
 			} else {
-			  	msg = "Do you want to remove the group '"+getNodeDescription(oCurrentTextNode)+"' and all its children from the hierarchy";
+			  	msg = "Do you want to remove the group '"+oCurrentTextNode.description+"' and all its children from the hierarchy";
 			}
         	var toDelete= confirm(msg);
         	if (toDelete== true) {
@@ -233,7 +230,7 @@
 	            }
 	            if (!oCurrentTextNode.isLeaf && oCurrentTextNode.nextSibling != null) {
 	               var nextNode = oCurrentTextNode.nextSibling;
-	               while (isSubgroup(nextNode)) {
+	               while (nextNode.isVirtualNode) {
 	                   // also delete subgroups
 	                   var tnode = nextNode;
 	                   nextNode = nextNode.nextSibling;
@@ -249,13 +246,11 @@
 
        }
 
-      // IE7 does not accept 'swapNode' name ??
        function moveUp(mapKey1) {
             var node1 = oTextNodeMap[mapKey1];
             var node2 = node1.previousSibling;
             if (node1.previousSibling != null) {   
-                while (node2 != null && isSubgroup(node2)) {
-                    // find the real node
+                while (node2 != null && node2.isVirtualNode) {
                      node2 = node2.previousSibling;
                 }
 
@@ -268,7 +263,7 @@
 				var subNode1  = node1.nextSibling;
                 node1.insertBefore(node2);
                 var curNode = node1;
-                while (subNode1 != null && isSubgroup(subNode1)) {
+                while (subNode1 != null && subNode1.isVirtualNode) {
                     // find subnode node to move up too
                     var nextNode = subNode1.nextSibling;
                     subNode1.insertAfter(curNode);
@@ -292,7 +287,7 @@
                     var node2 = node1.nextSibling;
                     if (node1.nextSibling != null) {   
                       
-                        while (node2 != null && isSubgroup(node2)) {
+                        while (node2 != null && node2.isVirtualNode) {
                     // find the real node
                      		node2 = node2.nextSibling;
                 		}
@@ -301,15 +296,11 @@
                      if (node2 != null) {  
 						changeSortId(mapKey1,"false");
 						setTimeout("changeSortId("+getNodeseq(node2)+",'true')", 100)
-						
-						
-						//changeSortId(node2,"true");
-                         //alert("load compl "+node1.dynamicLoadComplete)
                         var subNode2 = node2.nextSibling;
                         node2.insertBefore(node1);
                         
                         var curNode = node2;
-                		while (subNode2 != null && isSubgroup(subNode2)) {
+                		while (subNode2 != null && subNode2.isVirtualNode) {
                     		// find subnode node to move up too
                     		var nextNode = subNode2.nextSibling;
                     		subNode2.insertAfter(curNode);
@@ -326,23 +317,11 @@
 
      }
 
-
-   
-   function getMoveSeq(action, seq) {
-       if (action == "moveUp") {
-          seq = Number(seq) -1;
-       } else {
-          seq=Number(seq)+1;
-       }
-       return seq;   
-   
-   }
    
    function updateMove(node) {
-        if (!isSubgroup(node)) {
+        if (!node.isVirtualNode) {
    			changeSortId(getNodeseq(node),"true");
    		}
-		//maintainActionList(getNodeseq(node), "moveUp", -1)
 		if (node.nextSibling != null) {
 			updateMove(node.nextSibling);
 		}
@@ -351,7 +330,6 @@
    }
 
    function updateEmptyNodes(node, isDeleteNode) {
-        //alert("empty in "+emptyNodes)
         var nodeSeq="((#"+getNodeseq(node)+"#))";
         var parentNodeSeq="((#"+getNodeseq(node.parent)+"#))"
 		if (isDeleteNode == "true") {
@@ -365,12 +343,10 @@
 			    }
 				emptyNodes=emptyNodes.replace(parentNodeSeq, "");
 		}
-        //alert("empty out "+emptyNodes)
    
    }
 
    function okToSave() {
-        //alert(emptyNodes+" "+emptyNodes.indexOf("((#"))
      	if (emptyNodes.indexOf("((#") >= 0) {
      	   alert ("Can't save hierarchy with empty group");
      	   return "false";
@@ -382,7 +358,7 @@
    }
    
    function removeFromSponsorList(node) {
-      var nodeDesc = getNodeDescription(node);
+      var nodeDesc = node.description;
       sponsorCodeList=sponsorCodeList.replace(nodeDesc.substring(0,nodeDesc.indexOf(":"))+";","");
    }
    
@@ -394,7 +370,7 @@
 	function addSponsor(mapKey) {
 		oCurrentTextNode=oTextNodeMap[mapKey];
 		if (!oCurrentTextNode.dynamicLoadComplete) {
-		    if (!isSubgroup(oCurrentTextNode)) {
+		    if (!oCurrentTextNode.isVirtualNode) {
 		      // alert("not a subgrp")
 	       	   loadNextLevelSponsorHierarchy(oCurrentTextNode);
 	       	} else {
@@ -409,7 +385,6 @@
 
     function checkToAddSponsor(mapKey) {
     
-    	// this is timing issue, has to wait until dwr is complete, so this is may still has issue.
 		oCurrentTextNode=oTextNodeMap[mapKey];
 		var childrenNode= {};
 		childrenNode=oCurrentTextNode.children;
@@ -499,7 +474,7 @@
 							    showWait();
 	           					for (var i=startIdx ; i < sponsorHierarchy_array.length;  i++) {
 	           					    //alert(i)
-									var tempNode = new YAHOO.widget.HTMLNode( "<table style=\"width:"+String(1080-(node.depth+1)*widthGap)+"px\"><tr><td style=\"width:"+String(760-(node.depth+1)*widthGap)+"px\">" + sponsorHierarchy_array[i] + "</td><td style=\"width:320px\">"+ setupMaintenanceButtons(sponsorHierarchy_array[i], node)+"</td></tr></table>", node, false, true);
+									var tempNode = new SHNode( "<table style=\"width:"+String(1080-(node.depth+1)*widthGap)+"px\"><tr><td style=\"width:"+String(760-(node.depth+1)*widthGap)+"px\">" + sponsorHierarchy_array[i] + "</td><td style=\"width:320px\">"+ setupMaintenanceButtons(sponsorHierarchy_array[i], node)+"</td></tr></table>", node, false, true, false, sponsorHierarchy_array[i]);
 									// "1" will show leaf node without "+" icon
 									//alert("set up" + tempNode.data)
 	               					tempNode.contentStyle="icon-page";
@@ -518,9 +493,9 @@
 								for (var i=1 ; i < group_array.length;  i++) {
 	           					    // add subgroups to break the big group
 	           					    //alert(i)
-									var tempNode = new YAHOO.widget.HTMLNode( "<table style=\"width:"+String(1080-(node.depth+1)*widthGap)+"px\"><tr><td style=\"width:"+String(760-(node.depth+1)*widthGap)+"px\">" + getNodeDescription(node) + " ("+ (i*numberPerGroup+1) +  " - " + ((i+1)*numberPerGroup)+ ")" +
+									var tempNode = new SHNode( "<table style=\"width:"+String(1080-(node.depth+1)*widthGap)+"px\"><tr><td style=\"width:"+String(760-(node.depth+1)*widthGap)+"px\">" + node.description + " ("+ (i*numberPerGroup+1) +  " - " + ((i+1)*numberPerGroup)+ ")" +
 													          "</td><td style=\"width:320px\"><INPUT TYPE=\"button\" SRC=\"button.gif\" VALUE=\"Add Sponsor\" ALT=\"Add Sponsor\" NAME=\"addsponsor\" onClick=\"addSponsor("+nodeKey+");return false;\" > </td></tr></table>" 
-                                                              , node.parent, false, true);
+                                                              , node.parent, false, true, true, node.description + " ("+ (i*numberPerGroup+1) +  " - " + ((i+1)*numberPerGroup)+ ")");
 									// "1" will show leaf node without "+" icon
 									//alert("set up" + tempNode.data)
 	               					tempNode.contentStyle="icon-page";
@@ -585,7 +560,7 @@
 		showWait();
         for (var i=startIdx ; i < sponsorHierarchy_array.length;  i++) {
        					    //alert(i)
-				var tempNode = new YAHOO.widget.HTMLNode( "<table style=\"width:"+String(1080-(node.depth+1)*widthGap)+"px\"><tr><td style=\"width:"+String(760-(node.depth+1)*widthGap)+"px\">" + sponsorHierarchy_array[i] + "</td><td style=\"width:320px\">"+ setupMaintenanceButtons(sponsorHierarchy_array[i], node)+"</td></tr></table>", node, false, true);
+				var tempNode = new SHNode( "<table style=\"width:"+String(1080-(node.depth+1)*widthGap)+"px\"><tr><td style=\"width:"+String(760-(node.depth+1)*widthGap)+"px\">" + sponsorHierarchy_array[i] + "</td><td style=\"width:320px\">"+ setupMaintenanceButtons(sponsorHierarchy_array[i], node)+"</td></tr></table>", node, false, true, false, sponsorHierarchy_array[i]);
 				// "1" will show leaf node without "+" icon
 				//alert("set up" + tempNode.data)
          					tempNode.contentStyle="icon-page";
@@ -622,7 +597,7 @@
     }
     
     	function changeGroupName(node, oldLabel) {
-    		var sql = updatesql + "level"+node.depth+"='"+getNodeDescription(node)+"' "+getWhereClause(node.parent);
+    		var sql = updatesql + "level"+node.depth+"='"+ node.description+"' "+getWhereClause(node.parent);
 			sql = sql+" and level"+node.depth+"='"+oldLabel+"'";
     		//sqlScripts = sqlScripts+sql+";1;";
     		updateScripts(sql);
@@ -645,7 +620,7 @@
     	function deleteSponsorHierarchy(node, deleteSponsorFlag) {
 				var sql ;
 				if (deleteSponsorFlag == "true") {
-				   	sql = deletesql+getWhereClause(node.parent)+ " and sponsor_code = '" + getNodeDescription(node).substring(0,getNodeDescription(node).indexOf(":"))+"'";
+				   	sql = deletesql+getWhereClause(node.parent)+ " and sponsor_code = '" + node.description.substring(0,node.description.indexOf(":"))+"'";
 				} else {
 					sql = deletesql+getWhereClause(node);
 				}
@@ -684,11 +659,11 @@
      
         var whereClause=" where hierarchy_name = '"+hierarchyName+"'";
         var tempNode = node;
-        while (isSubgroup(tempNode)) {
+        while (tempNode.isVirtualNode) {
            tempNode = tempNode.previousSibling;
         }
          while (tempNode.depth > 0) {
-           whereClause = whereClause +" and level"+tempNode.depth+"='"+getNodeDescription(tempNode)+"'";
+           whereClause = whereClause +" and level"+tempNode.depth+"='"+ tempNode.description+"'";
               tempNode=tempNode.parent;
          }
          return whereClause;
@@ -700,13 +675,13 @@
         // need to rework on real update_user
         var values="'"+hierarchyName+"','((sponsorcodeholder))', sysdate, 'quickstart'"
         var tempNode = node;
-             while (isSubgroup(tempNode)) {
+             while (tempNode.isVirtualNode) {
                 tempNode = tempNode.previousSibling;
              }
         
          while (tempNode.depth > 0) {
            columns = columns+",level"+tempNode.depth+",level"+tempNode.depth+"_sortid";
-           values = values + ",'"+getNodeDescription(tempNode)+"',"+getSortId(tempNode);
+           values = values + ",'"+ tempNode.description+"',"+getSortId(tempNode);
            tempNode=tempNode.parent;
          }
          return "insert into sponsor_hierarchy ("+columns+") values("+values+")";
@@ -721,9 +696,9 @@
                 	sortid = "((#"+getSortId(tempNode)+"#))";
                 }
                 if (ascendants == "") {
-                	ascendants = getNodeDescription(tempNode)+sortid;
+                	ascendants = tempNode.description+sortid;
                 } else {
-                	ascendants = getNodeDescription(tempNode)+sortid+";1;"+ascendants;                
+                	ascendants = tempNode.description+sortid+";1;"+ascendants;                
                 }
                 tempNode=tempNode.parent;
             }
@@ -755,13 +730,12 @@
 				var sLabel = sponsor_array[i];
 				sponsorid = sLabel.substring(0,sLabel.indexOf(":"));
 				if (sponsorCodeList.indexOf(sponsorid) < 0) {
-				var oChildNode = new YAHOO.widget.HTMLNode( "<table style=\"width:"+String(1080-(oCurrentTextNode.depth+1)*widthGap)+"px\"><tr><td style=\"width:"+String(760-(oCurrentTextNode.depth+1)*widthGap)+"px\">" + sponsor_array[i] + "</td><td style=\"width:320px\">"+ setupMaintenanceButtons(sponsor_array[i], oCurrentTextNode)+"</td></tr></table>", oCurrentTextNode, false, true);
+				var oChildNode = new SHNode( "<table style=\"width:"+String(1080-(oCurrentTextNode.depth+1)*widthGap)+"px\"><tr><td style=\"width:"+String(760-(oCurrentTextNode.depth+1)*widthGap)+"px\">" + sponsor_array[i] + "</td><td style=\"width:320px\">"+ setupMaintenanceButtons(sponsor_array[i], oCurrentTextNode)+"</td></tr></table>", oCurrentTextNode, false, true, false, sponsor_array[i]);
 	         			oChildNode.contentStyle="icon-page";
 	
 	            //oCurrentTextNode.refresh();
 	            //oCurrentTextNode.expand();
 				oChildNode.isLeaf="true";
-				//actionList[nodeKey] = ":newLabel:"+sponsor_array[i];           									
 	            oTextNodeMap[nodeKey++] = oChildNode;
 	            var sql = sqltemplate.replace("((sponsorcodeholder))",sponsorid);
 	            //sqlScripts = sqlScripts+sql+";1;";

@@ -47,6 +47,7 @@ body {
 	src="scripts/kuali_application.js"></script>
 <script type="text/javascript" src="scripts/kra_yui.js"></script>
 <script type="text/javascript" src="scripts/sponsorhierarchy_yui.js"></script>
+<script type="text/javascript" src="scripts/SHNode.js"></script>
 <script type="text/javascript" src="kr/scripts/core.js"></script>
 
 <!--begin custom header content for this example-->
