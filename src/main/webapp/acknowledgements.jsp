@@ -68,7 +68,7 @@ Copyright 2006-2008 The Kuali Foundation  All rights reserved.  Kuali is license
 
 <p>This product includes software licensed under the Mozilla Public License (<span class="nobr"><a href="http://www.mozilla.org/MPL/" title="MPL" rel="nofollow">http://www.mozilla.org/MPL/</a></span>).</p>
 
-<p>This product includes the Kuali Rice module licensed under the Kuali Foundation ECL (<span class="nobr"><a href="https://test.kuali.org/confluence/display/KULDOC/Rice+Acknowledgments" title="Rice Acknowledgments" rel="nofollow">https://test.kuali.org/confluence/display/KULDOC/Rice+Acknowledgments</a></span>).</p>
+<p>This product includes the Kuali Rice module version 0.9.3-KRA licensed under the Kuali Foundation ECL (<span class="nobr"><a href="https://test.kuali.org/confluence/display/KULDOC/Rice+Acknowledgments" title="Rice Acknowledgments" rel="nofollow">https://test.kuali.org/confluence/display/KULDOC/Rice+Acknowledgments</a></span>).</p>
 
 <p>This product includes portions of COEUS 4 under a software grant from Massachusetts Institute of Technology.</p>
 
