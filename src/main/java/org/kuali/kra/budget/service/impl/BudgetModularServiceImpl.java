@@ -85,6 +85,9 @@ public class BudgetModularServiceImpl implements BudgetModularService {
     }
     
     public void synchModularBudget(BudgetDocument budgetDocument) {
+        
+        //each budget period has BudgetModular object associated with it.
+        
         for (BudgetPeriod budgetPeriod: budgetDocument.getBudgetPeriods()) {
             
             if (ObjectUtils.isNull(budgetPeriod.getBudgetModular())) {
@@ -93,7 +96,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
                 tmpBudgetModular.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
                 budgetPeriod.setBudgetModular(tmpBudgetModular);
             }
-            
+            //initialize budgetModular 
             BudgetModular budgetModular = budgetPeriod.getBudgetModular();
             budgetModular.setBudgetModularIdcs(new ArrayList<BudgetModularIdc>());
             BudgetDecimal directCostLessConsortiumFna = new BudgetDecimal(0);
@@ -103,15 +106,19 @@ public class BudgetModularServiceImpl implements BudgetModularService {
                 new LineItemCalculator(budgetDocument, budgetLineItem).calculate();
                 List consortiumFnaCostElements = kualiConfigurationService.getParameterValues(
                         Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PARAMETER_FNA_COST_ELEMENTS);
+                
+                //is cost direct or indirect? Add cost to correct variable.
                 if (consortiumFnaCostElements.contains(budgetLineItem.getCostElement())) {
                     consortiumFna = consortiumFna.add(budgetLineItem.getDirectCost());
                 } else {
                     directCostLessConsortiumFna = directCostLessConsortiumFna.add(budgetLineItem.getDirectCost());
                 }
+                //for every indirect cost do this.
                 for (BudgetRateAndBase budgetRateAndBase: budgetLineItem.getBudgetRateAndBaseList()) {
                     budgetRateAndBase.refreshReferenceObject(RATE_CLASS_PROPERTY_NAME);
                     String fnaRateClassType = kualiConfigurationService.getParameterValue(
                             Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PARAMETER_FNA_RATE_CLASS_TYPE);
+                  
                     if (budgetRateAndBase.getRateClass().getRateClassType().equals(fnaRateClassType)) {
                         BudgetModularIdc budgetModularIdc = new BudgetModularIdc();
                         budgetModularIdc.setRateNumber(budgetDocument.getHackedDocumentNextValue(RATE_NUMBER_PROPERTY_NAME));
@@ -123,6 +130,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
                     }
                 }
             }
+            //for direct costs increase to the next $25000 dollar increment.
             BudgetDecimal modularTdc = new BudgetDecimal(0);
             while (directCostLessConsortiumFna.isGreaterThan(modularTdc)) {
                 modularTdc = modularTdc.add(new BudgetDecimal(25000));
