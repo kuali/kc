@@ -102,6 +102,9 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
             budgetDocument.getBudgetProposalLaRates().clear();
             budgetDocument.getRateClasses().clear();
             
+            // since different rate schedules can change UnrecoveredFandA, clear here
+            budgetDocument.getBudgetUnrecoveredFandAs().clear();
+            
             getBudgetRates(budgetDocument, allInstituteRates);
             getBudgetLaRates(budgetDocument, allInstituteLaRates);
             
