@@ -50,7 +50,7 @@ public class SponsorLookupableHelperServiceImpl  extends KualiLookupableHelperSe
             // not multiple value lookup
             return searchResults;
         }
-        searchResults = (List)KraServiceLocator.getService(BusinessObjectService.class).findAll(Sponsor.class);
+        //searchResults = (List)KraServiceLocator.getService(BusinessObjectService.class).findAll(Sponsor.class);
         Object hierarchyName = GlobalVariables.getUserSession().retrieveObject(HIERARCHY_NAME);
         Object selectedHierarchyName = GlobalVariables.getUserSession().retrieveObject(SELECTED_HIERARCHY_NAME);
         String sponsors= null;
@@ -76,25 +76,26 @@ public class SponsorLookupableHelperServiceImpl  extends KualiLookupableHelperSe
         }
         String[] sponsorArray = sponsors.split(";");
         List sponsorList = Arrays.asList(sponsorArray);
-        int i = 0;
+        //int i = 0;
         for (Iterator iterator = searchResults.iterator(); iterator.hasNext();) {
             Sponsor sponsor = (Sponsor)iterator.next();
             if (isNewHierarchy) {
                 if (sponsorList.contains(sponsor.getSponsorCode()) && !existSponsorList.contains(sponsor.getSponsorCode())) {
-                    i++;
+                   // i++;
                     searchResultsReturn.add(sponsor);
                 }
             } else {
                 if (!sponsorList.contains(sponsor.getSponsorCode())) {
-                    i++;
+                   // i++;
                     searchResultsReturn.add(sponsor);
                 }
             }
-            if (i >= 200) {
-                break;
-            }
+//            if (i >= 200) {
+//                break;
+//            }
         }       
-        return new CollectionIncomplete(searchResultsReturn, new Long(searchResults.size()));
+        //return new CollectionIncomplete(searchResultsReturn, new Long(searchResults.size()));
+        return new CollectionIncomplete(searchResultsReturn, ((CollectionIncomplete)searchResults).getActualSizeIfTruncated());
     }
 }
 

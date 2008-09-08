@@ -34,21 +34,6 @@
    		
          	</label><br>
          	
-         	     <table>
-         					<c:forEach var="sponsor" items="${SponsorHierarchyForm.newSponsors[0]}" varStatus="sponsorIdx">
-         						<tr>
-         							<td>
-         							     ${sponsor.sponsorCode}
-         							</td>
-         							<td>
-         							     ${sponsor.sponsorName}
-         							</td>
-         							<td>
-       			                		<html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="globalbuttons" property="methodToCall.deleteSponsor.line${sponsorIdx.index}.anchor${status.index}" title="Delete Sponsor" alt="Delete Sponsor" />   		        			    
-         							</td>
- 								</tr>
- 							</c:forEach>
- 					  	</table>
          		<input type="hidden" id="selectedSponsors" name="selectedSponsors" value="${SponsorHierarchyForm.selectedSponsors}" />
          	
          	<!-- <p><a href="javascript:returnSponsor();window.close();"><b>return data</b></a> <a href="javascript:window.close()">Close</a></p> -->
@@ -62,10 +47,7 @@
           	     
           	     }
                  var lookupBtn=document.getElementById("lookupBtn");
-                 //alert("get message ")
-                 //alert(document.getElementById("methodToCall").value)
                  if (document.getElementById("methodToCall").value != "refresh") {
-                 	//alert("lookupbtn "+lookupBtn);
                  	lookupBtn.click();
                  } else {
                  	returnSponsor();
