@@ -179,7 +179,7 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
                 valid = false;
                 errorMap.putError("applicableRate", KeyConstants.ERROR_APPLICABLE_RATE_NOT_NUMERIC);
             }else {
-                switch(verifyApplicableRate(budgetProposalRate.getApplicableRate().toString())) {
+                switch(verifyApplicableRate(budgetProposalRate.getApplicableRate())) {
                     case APPLICABLE_RATE_LENGTH_EXCEEDED :
                         valid = false;
                         errorMap.putError("applicableRate", KeyConstants.ERROR_APPLICABLE_RATE_LIMIT, Constants.APPLICABLE_RATE_LIMIT);
@@ -211,7 +211,7 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
                 valid = false;
                 errorMap.putError("applicableRate", KeyConstants.ERROR_APPLICABLE_RATE_NOT_NUMERIC);
             }else {
-                switch(verifyApplicableRate(budgetProposalLaRate.getApplicableRate().toString())) {
+                switch(verifyApplicableRate(budgetProposalLaRate.getApplicableRate())) {
                     case APPLICABLE_RATE_LENGTH_EXCEEDED :
                         valid = false;
                         errorMap.putError("applicableRate", KeyConstants.ERROR_APPLICABLE_RATE_LIMIT, Constants.APPLICABLE_RATE_LIMIT);
@@ -236,17 +236,23 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
      * @param applicableRate
      * @return
      */
-    private int verifyApplicableRate(String applicableRate) {
-        int decimalIndex = applicableRate.indexOf(Constants.APPLICABLE_RATE_DECIMAL_CHAR);
+    private int verifyApplicableRate(BudgetDecimal applicableRate) {
+        // problematic, such as -100.00 will get 'less than or equal to 999.99 error, also problem with negative less than 1. so rewrote it
+//        int decimalIndex = applicableRate.indexOf(Constants.APPLICABLE_RATE_DECIMAL_CHAR);
         int rateValue = 0;
-        String precision = applicableRate.substring(0, decimalIndex);
-        String scale = applicableRate.substring(decimalIndex+1, applicableRate.length());
-        
-        if(precision.length() > Constants.APPLICABLE_RATE_PRECISION || scale.length() > Constants.APPLICABLE_RATE_SCALE) {
-            rateValue = 1;
-        }else if(Integer.parseInt(precision) < 0) {
+//        String precision = applicableRate.substring(0, decimalIndex);
+//        String scale = applicableRate.substring(decimalIndex+1, applicableRate.length());
+//        
+//        if(precision.length() > Constants.APPLICABLE_RATE_PRECISION || scale.length() > Constants.APPLICABLE_RATE_SCALE) {
+//            rateValue = 1;
+//        }else if(Integer.parseInt(precision) < 0) {
+//            rateValue = -1;
+//        }
+        if (applicableRate.isNegative()) {
             rateValue = -1;
-        }
+        } else if (applicableRate.isGreaterThan(new BudgetDecimal(Constants.APPLICABLE_RATE_LIMIT))) {
+            rateValue = 1;            
+        }            
         return rateValue;
     }
     /**
