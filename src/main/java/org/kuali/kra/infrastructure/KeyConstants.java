@@ -94,7 +94,11 @@ public class KeyConstants {
     public static final String ERROR_REQUIRED_FOR_EXPLANATION = "error.required.for.explanation";
     public static final String ERROR_REQUIRED_FOR_REVIEW_DATE = "error.required.for.reviewDate";
     public static final String ERROR_REQUIRED_ANSWER = "error.required.answer";
-    
+    public static final String DATE_FORMAT = "MM/dd/yyyy";
+    public static final String INVALID_DATE_FORMAT = "error.invalidDate";
+    public static final String INVALID_DATE_REQUIRED_FOR = "error.invalid.date.required.for";
+    public static final String INVALID_EXPLANATION_REQUIRED_FOR = "error.invalid.explanation.required.for";
+        
     // Budget Versions errors
     public static final String ERROR_BUDGET_NAME_MISSING = "error.budgetVersion.documentDescription.required";
     public static final String ERROR_NO_FINAL_BUDGET = "error.final.budget.required";

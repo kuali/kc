@@ -23,6 +23,7 @@
         <businessObjectClass>org.kuali.kra.bo.Ynq</businessObjectClass>
         <!--   <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass> -->
         <maintainableClass>org.kuali.kra.maintenance.YnqMaintainableImpl</maintainableClass>
+        <businessRulesClass>org.kuali.kra.rules.YnqMaintenanceDocumentRule</businessRulesClass>
 
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
