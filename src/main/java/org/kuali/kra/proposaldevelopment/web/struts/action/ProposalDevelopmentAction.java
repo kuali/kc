@@ -439,7 +439,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
      * The creator the proposal is assigned to the AGGREGATOR role.
      * @param doc the Proposal Development Document
      */
-    private void initializeProposalUsers(ProposalDevelopmentDocument doc) {
+    protected void initializeProposalUsers(ProposalDevelopmentDocument doc) {
         
         // Assign the creator of the proposal to the AGGREGATOR role.
         
