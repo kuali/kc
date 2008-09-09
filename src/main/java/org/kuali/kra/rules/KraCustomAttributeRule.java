@@ -26,6 +26,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDataType;
 import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.rule.CustomAttributeRule;
@@ -103,17 +104,29 @@ public class KraCustomAttributeRule extends ResearchDocumentRuleBase implements 
 
             // if there is no data type matched, then set error ?
             Pattern validationExpression = validationPattern.getRegexPattern();
+            
+            String validFormat = getValidFormat(customAttributeDataType.getDescription());
 
             if (validationExpression != null && !validationExpression.pattern().equals(".*")) {
 
                 if (!validationExpression.matcher(attributeValue).matches()) {
                     GlobalVariables.getErrorMap().putError(errorKey, RiceKeyConstants.ERROR_INVALID_FORMAT,
-                            new String[] { customAttribute.getLabel(), attributeValue });
+                            new String[] { customAttribute.getLabel(), attributeValue, validFormat });
                     return false;
                 }
             }
         }
         return true;
+    }
+    
+    private String getValidFormat(String dataType) {
+        String validFormat = Constants.DATA_TYPE_STRING;
+        if(dataType.equalsIgnoreCase("Number")) {
+            validFormat = Constants.DATA_TYPE_NUMBER;
+        }else if(dataType.equalsIgnoreCase("Date")) {
+            validFormat = Constants.DATA_TYPE_DATE;
+        }
+        return validFormat;
     }
 
 
