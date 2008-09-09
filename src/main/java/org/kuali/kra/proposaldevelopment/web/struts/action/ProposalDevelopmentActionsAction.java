@@ -374,6 +374,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             this.loadDocument(proposalDevelopmentForm);
             
             ProposalDevelopmentDocument copiedDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+            initializeProposalUsers(copiedDocument);//add in any default permissions
             copiedDocument.setS2sAppSubmission(new ArrayList<S2sAppSubmission>());            
             DocumentService docService = KraServiceLocator.getService(DocumentService.class);
             docService.saveDocument(copiedDocument);
