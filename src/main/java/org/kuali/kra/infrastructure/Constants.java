@@ -125,6 +125,7 @@ public interface Constants {
     public static final String QUESTION_STATUS_ACTIVE = "A";
     public static final String DOCUMENT_SAVED = "S";
     public static final String DOCUMENT_INITIATED = "?";
+    public static final String ANSWER_NA = "X";
 
     public static final String DEFAULT_DATE_FORMAT_PATTERN = "MM/dd/yyyy";
     public static final String PARAMETER_MODULE_BUDGET = "KRA-B";
@@ -204,6 +205,11 @@ public interface Constants {
     public static final String MAPPING_EXPENSES_BUDGET = "expenses";
     public static final String BUDGET_PERSON_LINE_NUMBER = "budget.budgetPersonnelDetails.personNumber";
     public static final String BUDGET_PERSON_LINE_SEQUENCE_NUMBER = "budget.budgetPersonnelDetails.sequenceNumber";
+    
+    public static final String DATA_TYPE_STRING = "String - Any Character";
+    public static final String DATA_TYPE_NUMBER = "Number - [0-9]";
+    public static final String DATA_TYPE_DATE = "Date - [xx/xx/xxxx]";
+    
    
     // Change Password
     public static final String CHANGE_PASSWORD_PROPERTY_KEY = "changePassword";

@@ -17,6 +17,9 @@ package org.kuali.kra.proposaldevelopment.rules;
 
 import static org.kuali.kra.logging.FormattedLogger.info;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -28,7 +31,6 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.ValidSpecialReviewApproval;
-import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -42,6 +44,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUser;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
+import org.kuali.kra.proposaldevelopment.bo.YnqGroupName;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AbstractsRule;
 import org.kuali.kra.proposaldevelopment.rule.AddInstituteAttachmentRule;
@@ -75,7 +78,6 @@ import org.kuali.kra.rule.CustomAttributeRule;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.kra.rules.KraCustomAttributeRule;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.KNSServiceLocator;
 
 /**
  * Main Business Rule class for <code>{@link ProposalDevelopmentDocument}</code>. Responsible for delegating rules to independent rule classes.
@@ -265,33 +267,42 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
             errorMap.clearErrorPath();
             errorMap.addToErrorPath("document");
         }
-        
+        HashMap ynqGroupSerial = getQuestionSerialNumberBasedOnGroup(proposalDevelopmentDocument);
         for (ProposalYnq proposalYnq : proposalDevelopmentDocument.getProposalYnqs()) {
             
             String groupName = proposalYnq.getYnq().getGroupName();
+            Integer serialNumber = (Integer)ynqGroupSerial.get(proposalYnq.getQuestionId());
             String errorPath = "proposalYnq[" + groupName + "][" + i + "]";
             errorMap.addToErrorPath(errorPath);
+            String[] errorParameter = {serialNumber+"", groupName};
+            String ynqAnswer = proposalYnq.getAnswer();
             /* look for answers - required for routing */
             if(docRouting && StringUtils.isBlank(proposalYnq.getAnswer())) {
                 valid = false;
-                errorMap.putError("answer", KeyConstants.ERROR_REQUIRED_ANSWER);
+                errorMap.putError("answer", KeyConstants.ERROR_REQUIRED_ANSWER, errorParameter);
             }
             /* look for date requried */
-            if (StringUtils.isNotBlank(proposalYnq.getAnswer()) && 
-                    proposalYnq.getAnswer().equalsIgnoreCase(proposalYnq.getYnq().getDateRequiredFor()) && 
-                    proposalYnq.getReviewDate() == null
-                   ) {
-                    valid = false;
-                    errorMap.putError("reviewDate", KeyConstants.ERROR_REQUIRED_FOR_REVIEW_DATE);
+            String dateRequiredFor = proposalYnq.getYnq().getDateRequiredFor();
+            if(dateRequiredFor != null) {
+                if (StringUtils.isNotBlank(proposalYnq.getAnswer()) && 
+                        dateRequiredFor.contains(ynqAnswer) && 
+                        proposalYnq.getReviewDate() == null
+                       ) {
+                        valid = false;
+                        errorMap.putError("reviewDate", KeyConstants.ERROR_REQUIRED_FOR_REVIEW_DATE);
+                }
             }
 
             /* look for explanation requried */
-            if (StringUtils.isNotBlank(proposalYnq.getAnswer()) && 
-                proposalYnq.getAnswer().equalsIgnoreCase(proposalYnq.getYnq().getExplanationRequiredFor()) && 
-                StringUtils.isBlank(proposalYnq.getExplanation())
-               ) {
-                valid = false;
-                errorMap.putError("explanation", KeyConstants.ERROR_REQUIRED_FOR_EXPLANATION);
+            String explanationRequiredFor = proposalYnq.getYnq().getExplanationRequiredFor();
+            if(explanationRequiredFor != null) {
+                if (StringUtils.isNotBlank(proposalYnq.getAnswer()) && 
+                    explanationRequiredFor.contains(ynqAnswer) && 
+                    StringUtils.isBlank(proposalYnq.getExplanation())
+                   ) {
+                    valid = false;
+                    errorMap.putError("explanation", KeyConstants.ERROR_REQUIRED_FOR_EXPLANATION);
+                }
             }
             errorMap.removeFromErrorPath(errorPath);
             i++;
@@ -300,7 +311,19 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
 
     }
 
-    
+    private HashMap getQuestionSerialNumberBasedOnGroup(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        HashMap ynqGroupSerial = new HashMap();
+        for (YnqGroupName ynqGroupName : proposalDevelopmentDocument.getYnqGroupNames()) {
+            Integer serialNumber = 1;
+            for (ProposalYnq proposalYnq : proposalDevelopmentDocument.getProposalYnqs()) {
+                if(ynqGroupName.getGroupName().equalsIgnoreCase(proposalYnq.getYnq().getGroupName())) {
+                    ynqGroupSerial.put(proposalYnq.getQuestionId(), serialNumber);
+                    serialNumber ++;
+                }
+            }
+        }
+        return ynqGroupSerial;
+    }
     
     /**
      * This method validates Required Fields related fields on

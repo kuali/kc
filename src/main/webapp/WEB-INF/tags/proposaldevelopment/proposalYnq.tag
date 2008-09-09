@@ -38,7 +38,19 @@
     </c:if> 
 <bean:define id="trunGroupName" name="KualiForm" property="document.ynqGroupNames[${gps.index}].truncGroupName"/>
 <bean:define id="fullGroupName" name="KualiForm" property="document.ynqGroupNames[${gps.index}].groupName"/>
-<kul:tab tabTitle="${trunGroupName}" spanForLongTabTitle="true" defaultOpen="false" tabErrorKey="document.proposalYnq[${groupName}]*" auditCluster="ynqAuditErrors*" tabAuditKey="document.proposalYnq[${groupName}]*" transparentBackground="${transparent}">
+  <c:set var="dateValidationError" value="" />
+			<c:forEach items="${KualiForm.document.proposalYnqs}" var="ynqs" varStatus="status">
+    			  <c:set var="iproposalYnq" value="document.proposalYnq[${status.index}]" /> 
+				  <bean:define id="igroupName" name="KualiForm" property="${iproposalYnq}.ynq.groupName"/>
+    			  <c:if test="${igroupName == groupName}">
+						<kul:checkErrors keyMatch="document.proposalYnq[${status.index}].reviewDate"/>
+	                	<c:if test="${hasErrors}">
+	                    	<c:set var="dateValidationError" value="${dateValidationError},document.proposalYnq[${status.index}].reviewDate" />
+	                	</c:if>
+				  </c:if>
+			</c:forEach>
+
+<kul:tab tabTitle="${trunGroupName}" spanForLongTabTitle="true" defaultOpen="false" tabErrorKey="document.proposalYnq[${groupName}]*, ${dateValidationError}" auditCluster="ynqAuditErrors*" tabAuditKey="document.proposalYnq[${groupName}]*" transparentBackground="${transparent}">
 <c:set var="tabErrorKey" value="document.proposalYnq[${gps.index}]"/>
     <c:set var="proposalYnq" value="document.proposalYnqs[${gps.index}]" /> 
     <c:set var="transparent" value="false" />
