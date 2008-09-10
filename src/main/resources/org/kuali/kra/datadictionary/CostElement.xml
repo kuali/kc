@@ -49,6 +49,7 @@
 				<lookupField attributeName="description" required="false"/>
 				<lookupField attributeName="onOffCampusFlag" required="false"/>
 				<lookupField attributeName="budgetCategoryCode" required="false"/>
+				<lookupField attributeName="budgetCategoryTypeCode" required="false"/>				
             </lookupFields>
 
             <resultFields>
