@@ -114,13 +114,20 @@ public class SponsorHierarchyAction extends KualiAction {
         if (sciptsInSession != null) {
             String[] scripts = sciptsInSession.split("#1#");
             for (int i = 0; i < scripts.length; i++) {
-                KraServiceLocator.getService(SponsorService.class).saveSponsorHierachy(sponsorHierarchyForm.getHierarchyName(), scripts[i]);
-                
+                if (StringUtils.isNotBlank(scripts[i])) {
+                    KraServiceLocator.getService(SponsorService.class).saveSponsorHierachy(sponsorHierarchyForm.getHierarchyName(), scripts[i]);
+                }                
             }
-            sciptsInSession = sciptsInSession.concat(sponsorHierarchyForm.getSqlScripts());
+            //sciptsInSession = sciptsInSession.concat(sponsorHierarchyForm.getSqlScripts());
         } 
         if (StringUtils.isNotBlank(sponsorHierarchyForm.getSqlScripts())) {
-            KraServiceLocator.getService(SponsorService.class).saveSponsorHierachy(sponsorHierarchyForm.getHierarchyName(), sponsorHierarchyForm.getSqlScripts());
+            String[] scripts = sponsorHierarchyForm.getSqlScripts().split("#1#");
+            for (int i = 0; i < scripts.length; i++) {
+                if (StringUtils.isNotBlank(scripts[i])) {
+                    KraServiceLocator.getService(SponsorService.class).saveSponsorHierachy(sponsorHierarchyForm.getHierarchyName(), scripts[i]);
+                }                
+            }
+            //KraServiceLocator.getService(SponsorService.class).saveSponsorHierachy(sponsorHierarchyForm.getHierarchyName(), sponsorHierarchyForm.getSqlScripts());
         }
         sponsorHierarchyForm.setActionSelected(MAINT);
         sponsorHierarchyForm.setSponsorCodeList(KraServiceLocator.getService(SponsorService.class).loadToSponsorHierachyMt(sponsorHierarchyForm.getSelectedSponsorHierarchy()));
