@@ -36,7 +36,7 @@
 
 <c:set var="viewOnly" value="${not KualiForm.editingMode['modifyProposal']}" />
 <kra:section permission="modifyProposal">
-    <kul:uncollapsable tabTitle="Add Key Personnel" tabErrorKey="newProposalPerson.*">
+    <kul:uncollapsable tabTitle="Add Key Personnel" tabErrorKey="newProposalPerson.*" auditCluster="keyPersonnelAuditErrors" tabAuditKey="newProposalPerson*">
           <div align="center">
             <table  cellpadding="0" cellspacing="0" class="grid" summary="">
               <tr>
@@ -66,9 +66,23 @@
                 </td>
               </tr>
             </table>
+           
             <br>
             <html:image property="methodToCall.clearProposalPerson" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" title="Clear Fields" alt="Clear Fields" styleClass="tinybutton"/>
             <html:image property="methodToCall.insertProposalPerson" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-addpers.gif" title="Add Proposal Person" alt="Add Proposal Person" styleClass="tinybutton"/>
+            <c:choose>
+            <c:when test="${KualiForm.document.nih}">
+            <br>
+             <strong>PI/Contact is a required Proposal Role prior to submission. Only one PI/Contact is allowed. 
+            For single PI submissions, please designate the lead investigator as PI/Contact & other senior personnel as Key Persons. 
+            For multiple PI submissions, please designate one PI/Contact, additional lead investigators as PI/Multiple, & other senior personnel as Key Persons. </strong>
+            <br>
+            </c:when>
+            <c:otherwise>
+            <br>
+            <strong>Principal Investigator is a required field prior to submission. Only one PI is allowed.</strong>
+            </c:otherwise>
+            </c:choose>
           </div>
     </kul:uncollapsable>
 </kra:section>
