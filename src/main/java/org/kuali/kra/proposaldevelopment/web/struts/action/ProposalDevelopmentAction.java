@@ -23,6 +23,8 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -67,6 +69,7 @@ import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalRoleTemplateService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.service.PrintService;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.web.struts.action.ProposalActionBase;
@@ -160,6 +163,11 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
             KualiConfigurationService configService = getService(KualiConfigurationService.class);
             ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put("deliveryInfoDisplayIndicator", configService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, "deliveryInfoDisplayIndicator"));
             ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put("proposalNarrativeTypeGroup", configService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, "proposalNarrativeTypeGroup"));
+            
+            if(document.getS2sOpportunity()!=null && document.getS2sOpportunity().getS2sOppForms()!=null){
+                Collections.sort(document.getS2sOpportunity().getS2sOppForms(),new S2sOppFormsComparator2());
+                Collections.sort(document.getS2sOpportunity().getS2sOppForms(),new S2sOppFormsComparator1());
+            }
          return actionForward;
     }
 
@@ -504,3 +512,15 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
 
 
 }
+
+class S2sOppFormsComparator1 implements Comparator<S2sOppForms> {
+    public int compare(S2sOppForms s2sOppForms1, S2sOppForms s2sOppForms2) {
+        return  s2sOppForms2.getAvailable().compareTo(s2sOppForms1.getAvailable());
+    }
+  }
+
+class S2sOppFormsComparator2 implements Comparator<S2sOppForms> {
+    public int compare(S2sOppForms s2sOppForms1, S2sOppForms s2sOppForms2) {
+        return  s2sOppForms2.getMandatory().compareTo(s2sOppForms1.getMandatory());
+    }
+  }
