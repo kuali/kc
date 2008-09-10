@@ -24,6 +24,7 @@ import java.util.Map;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiForm;
@@ -44,11 +45,14 @@ public class SponsorLookupableHelperServiceImpl  extends KualiLookupableHelperSe
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         List searchResults;
         List searchResultsReturn = new ArrayList();
-        searchResults = super.getSearchResults(fieldValues);
+        //searchResults = super.getSearchResults(fieldValues);
         KualiForm kualiForm = GlobalVariables.getKualiForm();
         if (kualiForm == null || !(kualiForm instanceof MultipleValueLookupForm)) {
             // not multiple value lookup
-            return searchResults;
+            return super.getSearchResults(fieldValues);
+        } else {
+            searchResults = super.getSearchResultsHelper(fieldValues, true);
+            
         }
         //searchResults = (List)KraServiceLocator.getService(BusinessObjectService.class).findAll(Sponsor.class);
         Object hierarchyName = GlobalVariables.getUserSession().retrieveObject(HIERARCHY_NAME);
@@ -76,26 +80,27 @@ public class SponsorLookupableHelperServiceImpl  extends KualiLookupableHelperSe
         }
         String[] sponsorArray = sponsors.split(";");
         List sponsorList = Arrays.asList(sponsorArray);
-        //int i = 0;
+        int i = 0;
+        Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(Sponsor.class);
         for (Iterator iterator = searchResults.iterator(); iterator.hasNext();) {
             Sponsor sponsor = (Sponsor)iterator.next();
             if (isNewHierarchy) {
                 if (sponsorList.contains(sponsor.getSponsorCode()) && !existSponsorList.contains(sponsor.getSponsorCode())) {
-                   // i++;
+                    i++;
                     searchResultsReturn.add(sponsor);
                 }
             } else {
                 if (!sponsorList.contains(sponsor.getSponsorCode())) {
-                   // i++;
+                    i++;
                     searchResultsReturn.add(sponsor);
                 }
             }
-//            if (i >= 200) {
-//                break;
-//            }
+            if (i >= searchResultsLimit) {
+                break;
+            }
         }       
-        //return new CollectionIncomplete(searchResultsReturn, new Long(searchResults.size()));
-        return new CollectionIncomplete(searchResultsReturn, ((CollectionIncomplete)searchResults).getActualSizeIfTruncated());
+        return new CollectionIncomplete(searchResultsReturn, new Long(searchResults.size()));
+        //return new CollectionIncomplete(searchResultsReturn, ((CollectionIncomplete)searchResults).getActualSizeIfTruncated());
     }
 }
 

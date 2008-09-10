@@ -255,24 +255,44 @@ public class SponsorHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements O
         
         this.getPersistenceBrokerTemplate().execute(new PersistenceBrokerCallback() {
             public Object doInPersistenceBroker(PersistenceBroker pb) {
-                PreparedStatement ps = null;
-                
+                Statement stmt=null;
                 try {
                     // use batch ?
-                    Statement stmt= pb.serviceConnectionManager().getConnection().createStatement();
+                    stmt= pb.serviceConnectionManager().getConnection().createStatement();
+                    //LOG.info("SQLS = "+sqls);
                    for (int i = 0 ; i < sqls.length; i++) {
-                        stmt.addBatch(sqls[i]); 
+                       if (StringUtils.isNotBlank(sqls[i])) {
+                           //LOG.info("Save run scripts "+i+sqls[i]);
+                           int idx = sqls[i].indexOf("((sponsorcodeholder))");
+                           if (idx > 0) {
+                               int idx1 = sqls[i].indexOf(")((",idx);
+                               String insertTemplate = sqls[i].substring(0, idx1+1);
+                               String sponsorCodes = sqls[i].substring(idx1+3, sqls[i].length()-2);
+                               String[] codes = sponsorCodes.split(";");
+                               for (int j = 0; j < codes.length; j++) {
+                                   stmt.addBatch(insertTemplate.replace("((sponsorcodeholder))", codes[j]));
+                                   LOG.info("Save run scripts "+i+insertTemplate+codes[j]);
+                               }
+
+                           } else {
+                               LOG.info("Save run scripts "+i+sqls[i]);
+                               stmt.addBatch(sqls[i]);                                
+                           }
+                       }
                         //ps = pb.serviceConnectionManager().getConnection().prepareStatement(sqls[i]);
                         //ps.executeUpdate();
                     }
                    int[] updCnt = stmt.executeBatch();
+                   for (int i = 0; i < updCnt.length ; i++) {
+                       // do we need to do check
+                   }
                     //pb.commitTransaction();
                 } catch (Exception e) {
                     LOG.error("exception error " +e.getStackTrace());
                 } finally {
-                    if (ps != null) {
+                    if (stmt != null) {
                         try {
-                            ps.close();
+                            stmt.close();
                         } catch (Exception e) {
                             LOG.error("error closing preparedstatement", e);
                         }
