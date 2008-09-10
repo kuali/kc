@@ -147,7 +147,11 @@
         var nodeHtml=oCurrentTextNode.data;
         if (sLabel && sLabel.length > 0 && sLabel!=nodeDesc) {
             if (isUniqueGroupName(oCurrentTextNode,sLabel) == "true" ) {
-            nodeHtml = nodeHtml.replace(">"+nodeDesc+"<",">"+sLabel+"<");
+            nodeHtml = nodeHtml.replace(">"+nodeDesc+"<",">"+sLabel+"<");            
+            var subNode2 = oCurrentTextNode.nextSibling;
+            if (subNode2 != null && subNode2.isVirtualNode) {
+            	nodeHtml = nodeHtml.replace(">"+nodeDesc+" (",">"+sLabel+" (");            
+            }
             oCurrentTextNode.data=nodeHtml;
             oCurrentTextNode.html=nodeHtml;
             oCurrentTextNode.setHtml;
@@ -239,7 +243,17 @@
 	               updateMove(nextNode);
 	            }
 	            updateEmptyNodes(oCurrentTextNode,"true");
+	            var parentNode = oCurrentTextNode.parent;
 	            tree.removeNode(oCurrentTextNode);
+	            if (parentNode != null && (parentNode.isVirtualNode || (parentNode.nextSibling != null && parentNode.nextSibling.isVirtualNode)) && parentNode.children.length == 0) {
+	               updateDescription(parentNode);
+	               if (!parentNode.isVirtualNode) {
+	               	  parentNode.nextSibling.description = parentNode.description;
+	                  parentNode.nextSibling.isVirtualNode = false;
+	               }   	                  
+	               emptyNodes=emptyNodes.replace("((#"+getNodeseq(parentNode)+"#))", "");
+	               tree.removeNode(parentNode);	
+	            }
 				//actionList[mapKey]=actionList[mapKey]+":delete:"
 	            tree.draw();
             }
@@ -331,7 +345,8 @@
 
    function updateEmptyNodes(node, isDeleteNode) {
         var nodeSeq="((#"+getNodeseq(node)+"#))";
-        var parentNodeSeq="((#"+getNodeseq(node.parent)+"#))"
+        var parentNodeSeq="((#"+getNodeseq(node.parent)+"#))";
+        //alert(emptyNodes)
 		if (isDeleteNode == "true") {
 			emptyNodes=emptyNodes.replace(nodeSeq, "");
 			if (node.parent.children.length == 1) {
@@ -341,13 +356,16 @@
 			    if (!node.isLeaf) {
 					emptyNodes=emptyNodes+nodeSeq;
 			    }
+			    //alert("replace "+"((#"+parentNodeSeq+"#))")
 				emptyNodes=emptyNodes.replace(parentNodeSeq, "");
 		}
+        //alert(emptyNodes)
    
    }
 
    function okToSave() {
      	if (emptyNodes.indexOf("((#") >= 0) {
+     	   alert(emptyNodes);
      	   alert ("Can't save hierarchy with empty group");
      	   return "false";
      	} else {
@@ -473,39 +491,32 @@
 							if (data != "") {
 							    showWait();
 	           					for (var i=startIdx ; i < sponsorHierarchy_array.length;  i++) {
-	           					    //alert(i)
-									var tempNode = new SHNode( "<table style=\"width:"+String(1080-(node.depth+1)*widthGap)+"px\"><tr><td style=\"width:"+String(760-(node.depth+1)*widthGap)+"px\">" + sponsorHierarchy_array[i] + "</td><td style=\"width:320px\">"+ setupMaintenanceButtons(sponsorHierarchy_array[i], node)+"</td></tr></table>", node, false, true, false, sponsorHierarchy_array[i]);
-									// "1" will show leaf node without "+" icon
-									//alert("set up" + tempNode.data)
+									var tempNode = new SHNode( "<table style=\"width:"+String(1080-(node.depth+1)*widthGap)+"px\"><tr><td style=\"width:"+String(760-(node.depth+1)*widthGap)+"px\">" + sponsorHierarchy_array[i] + "</td><td style=\"width:320px\">"+ setupMaintenanceButtons(sponsorHierarchy_array[i]+ " (1 - " + numberPerGroup+ ")", node)+"</td></tr></table>", node, false, true, false, sponsorHierarchy_array[i]);
 	               					tempNode.contentStyle="icon-page";
-	           						//actionList[nodeKey] = ":existLabel:"+sponsorHierarchy_array[i];           						
 	               					if (leafNode == "false") {
 	           							tempNode.setDynamicLoad(loadNextLevelSponsorHierarchy, 1);
 	           						} else {
-	           							//actionList[nodeKey] = actionList[nodeKey]+":leaf:";
 	           							tempNode.isLeaf="true";
 	           						}
 	           						oTextNodeMap[nodeKey++] = tempNode;
 	           						
-	           						//alert(tempNode.getNodeHtml())
 								}
+							    if (group_array.length > 1) {
+							        var nodeHtml=node.data;							    
+						            nodeHtml = nodeHtml.replace(">"+node.description+"<",">"+node.description+" (1 - "+numberPerGroup+" )<");
+						            node.data=nodeHtml;
+						            node.html=nodeHtml;
+						            node.setHtml;
+							    }
 							
 								for (var i=1 ; i < group_array.length;  i++) {
-	           					    // add subgroups to break the big group
-	           					    //alert(i)
 									var tempNode = new SHNode( "<table style=\"width:"+String(1080-(node.depth+1)*widthGap)+"px\"><tr><td style=\"width:"+String(760-(node.depth+1)*widthGap)+"px\">" + node.description + " ("+ (i*numberPerGroup+1) +  " - " + ((i+1)*numberPerGroup)+ ")" +
 													          "</td><td style=\"width:320px\"><INPUT TYPE=\"button\" SRC=\"button.gif\" VALUE=\"Add Sponsor\" ALT=\"Add Sponsor\" NAME=\"addsponsor\" onClick=\"addSponsor("+nodeKey+");return false;\" > </td></tr></table>" 
                                                               , node.parent, false, true, true, node.description + " ("+ (i*numberPerGroup+1) +  " - " + ((i+1)*numberPerGroup)+ ")");
 									// "1" will show leaf node without "+" icon
 									//alert("set up" + tempNode.data)
 	               					tempNode.contentStyle="icon-page";
-	           						//actionList[nodeKey] = ":existLabel:"+sponsorHierarchy_array[i];           						
-	               					//if (leafNode == "false") {
 	           							tempNode.setDynamicLoad(loadNextLevelSH, 1);
-	           						//} else {
-	           							//actionList[nodeKey] = actionList[nodeKey]+":leaf:";
-	           							//tempNode.isLeaf="true";
-	           						//}
 	           						if (i == 1) {
 	           							tempNode.insertAfter(node);
 	           						} else {
@@ -600,7 +611,7 @@
     		var sql = updatesql + "level"+node.depth+"='"+ node.description+"' "+getWhereClause(node.parent);
 			sql = sql+" and level"+node.depth+"='"+oldLabel+"'";
     		//sqlScripts = sqlScripts+sql+";1;";
-    		updateScripts(sql);
+    		updateScripts("#1#"+sql+"#1#");
 		}
 
     	function changeSortId(nodeseq, moveFlag) {
@@ -612,8 +623,10 @@
 		       sortid = "level"+node.depth+"_sortid + 1";
 		    }
     		var sql = updatesql + "level"+node.depth+"_sortid="+sortid+" "+getWhereClause(node);
-    		//sqlScripts = sqlScripts+sql+";1;";
-    		updateScripts(sql);
+    		// try to force it to run as a separate batch in case the scripts running order in batch is not guaranteed
+    		// need further test
+    		//sqlScripts = sqlScripts+sql+"#1#";
+    		updateScripts("#1#"+sql+"#1#");
     		
 		}
 
@@ -709,7 +722,9 @@
        function getSortId(tempNode) {
             var sortid = Number(1);
             while (tempNode.previousSibling!=null) {
-               sortid++;
+               if (!tempNode.previousSibling.isVirtualNode) {
+               	sortid++;
+               }
                tempNode=tempNode.previousSibling;
             } 
             //alert("sortid "+sortid);
@@ -726,6 +741,7 @@
 			var sponsorid;
 			var duplist="";
 			var j = -1;
+			var insertSponsorCodes = "";
 			for (var i=0 ; i < sponsor_array.length;  i++) {
 				var sLabel = sponsor_array[i];
 				sponsorid = sLabel.substring(0,sLabel.indexOf(":"));
@@ -737,9 +753,20 @@
 	            //oCurrentTextNode.expand();
 				oChildNode.isLeaf="true";
 	            oTextNodeMap[nodeKey++] = oChildNode;
-	            var sql = sqltemplate.replace("((sponsorcodeholder))",sponsorid);
+	            if (sponsor_array.length > 5) {
+	                // more than 5, then use code
+	                if (insertSponsorCodes == "") {
+	                	insertSponsorCodes=sponsorid;
+	                } else {
+	                	insertSponsorCodes=insertSponsorCodes+";"+sponsorid;
+	                }
+	            
+	            } else {
+	                // more than 5, then use code
+	            	var sql = sqltemplate.replace("((sponsorcodeholder))",sponsorid);
 	            //sqlScripts = sqlScripts+sql+";1;";
-    			updateScripts(sql);
+    				updateScripts(sql);
+    			}
 	            
 	            if (j == -1) {
 	                newSponsors=sLabel;
@@ -761,8 +788,51 @@
 	         if (duplist.length > 0) {
 	         	alert ("Duplicate sponsor(s) "+duplist+" are not added");
 	         }
+	         if (sponsor_array.length > 5) {
+	            	var sql = sqltemplate+"(("+insertSponsorCodes+"))";
+	            //sqlScripts = sqlScripts+sql+";1;";
+	         	if (sponsor_array.length > 100) {
+    				updateScripts("#1#"+sql+"#1#");
+    			} else {
+    				updateScripts(sql);
+    			}
+	         
+	         }
+	         
 	         tree.draw();			
 		}
+	
+	function updateDescription(node) {	  
+	
+		    var nodeHtml=node.data;		
+		    var savedHtml = nodeHtml;
+		    var desc = node.description;
+		    var saveDesc = desc;
+		    var nodeSeq=getNodeseq(node);					    
+            var tempNode=node.nextSibling;
+            while (tempNode != null && tempNode.isVirtualNode) {
+                savedHtml = tempNode.data;
+               // alert(nodeHtml+"(addNode"+nodeSeq+")"+"(addNode"+getNodeseq(tempNode)+")");
+                nodeHtml = nodeHtml.replace("addNode("+nodeSeq+")","addNode("+getNodeseq(tempNode)+")");
+                nodeHtml = nodeHtml.replace("editNodeLabel("+nodeSeq+")","editNodeLabel("+getNodeseq(tempNode)+")");
+                nodeHtml = nodeHtml.replace("addSponsor("+nodeSeq+")","addSponsor("+getNodeseq(tempNode)+")");
+                nodeHtml = nodeHtml.replace("moveUp("+nodeSeq+")","moveUp("+getNodeseq(tempNode)+")");
+                nodeHtml = nodeHtml.replace("moveDown("+nodeSeq+")","moveDown("+getNodeseq(tempNode)+")");
+                nodeHtml = nodeHtml.replace("deleteNode("+nodeSeq+")","deleteNode("+getNodeseq(tempNode)+")");
+	            tempNode.data=nodeHtml;
+	            saveDesc = tempNode.description;
+	            tempNode.description = desc;
+	           //      alert(nodeHtml);
+	            tempNode.html=nodeHtml;
+	            tempNode.setHtml;
+	            nodeHtml = savedHtml;
+	            desc = saveDesc;
+	            nodeSeq = getNodeseq(tempNode);
+	            tempNode = tempNode.nextSibling;
+            }
+	
+	
+	}
 	
 
 	function showWait() {
