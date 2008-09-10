@@ -29,9 +29,12 @@ import static org.kuali.kra.infrastructure.Constants.PROPOSAL_PERSON_KEY;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_LOWBOUND;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_UNITS_UPBOUND;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_YNQ_INCOMPLETE;
+import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_KEY;
+
 import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE;
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
+
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.ArrayList;
@@ -74,9 +77,8 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
         if (!hasPrincipalInvestigator(pd)) {
             retval = false;
 
-            getAuditErrors().add(new AuditError(PROPOSAL_PERSON_KEY, ERROR_INVESTIGATOR_LOWBOUND, KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR));
+            getAuditErrors().add(new AuditError(PRINCIPAL_INVESTIGATOR_KEY , ERROR_INVESTIGATOR_LOWBOUND, KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR));
         }
-
         // Include normal save document business rules
         retval &= new ProposalDevelopmentKeyPersonsRule().processCustomSaveDocumentBusinessRules(pd);
         
