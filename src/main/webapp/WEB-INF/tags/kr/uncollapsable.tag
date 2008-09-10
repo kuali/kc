@@ -79,11 +79,20 @@
           <div class="tab-container-error"><div class="left-errmsg-tab"><kul:errors keyMatch="${tabErrorKey}"/></div></div>
         </c:if>
         
-        <%-- comment for reference by KRA devs during KNS extraction
+        <%-- comment for reference by KRA devs during KNS extraction 
         <c:if test="${! (empty tabAuditKey)}">
         	<div class="tab-container-error"><div class="left-errmsg-tab"><kra:auditErrors cluster="${auditCluster}" keyMatch="${tabAuditKey}" isLink="false" includesTitle="true"/></div></div>
       	</c:if>
       	--%>
+      	
+      	
+      	<c:if test="${! (empty tabAuditKey)}">
+        	<div class="tab-container-error"><div class="left-errmsg-tab">
+				<c:forEach items="${fn:split(auditCluster,',')}" var="cluster">
+        	   		<kul:auditErrors cluster="${cluster}" keyMatch="${tabAuditKey}" isLink="false" includesTitle="true"/>
+				</c:forEach>
+        	</div></div>
+      	</c:if>
       
         <!-- Before the jsp:doBody of the kul:tab tag -->            
         <jsp:doBody/>            
