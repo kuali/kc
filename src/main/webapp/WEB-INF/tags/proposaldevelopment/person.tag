@@ -327,7 +327,7 @@
  <c:when test="${certificationRequired == 'Y'  || !KualiForm.editingMode['modifyProposal']}">
    	<tr>
 	<td colspan=4>
-  <kul:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="false" >
+  <kul:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="false"  auditCluster="keyPersonnelAuditErrors" tabAuditKey="document.proposalPerson*">
      <table class=tab cellpadding=0 cellspacing="0" summary="" >
      <kra-pd:personYnqSection proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
     </table>
@@ -339,7 +339,7 @@
      <c:choose>
       <c:when test="${KualiForm.document.proposalPersons[personIndex].optInCertificationStatus == 'Y'}"> 
    	  <tr><td colspan=4>
-      <kul:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="false" >
+      <kul:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="false" auditCluster="keyPersonnelAuditErrors" tabAuditKey="document.proposalPerson*" >
       <div class="innerTab-container" align="left">
        <table class=tab cellpadding=0 cellspacing="0" summary=""> 
       <tr>
