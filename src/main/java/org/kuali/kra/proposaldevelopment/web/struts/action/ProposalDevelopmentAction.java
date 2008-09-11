@@ -65,8 +65,10 @@ import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
+import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalRoleTemplateService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.s2s.bo.S2sOppForms;
@@ -341,7 +343,12 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
          */
         List<Narrative> narratives = (List<Narrative>) ObjectUtils.deepCopy((Serializable) doc.getNarratives());
         proposalDevelopmentForm.setNarratives(narratives);
-        
+        KraServiceLocator.getService(ProposalPersonBiographyService.class).setPersonnelBioTimeStampUser(doc.getPropPersonBios());
+        List<Narrative> narrativeList = new ArrayList<Narrative> ();
+        narrativeList.addAll(doc.getNarratives());
+        narrativeList.addAll(doc.getInstituteAttachments());
+        KraServiceLocator.getService(NarrativeService.class).setNarrativeTimeStampUser(narrativeList);
+
         return mapping.findForward("abstractsAttachments");
     }
 

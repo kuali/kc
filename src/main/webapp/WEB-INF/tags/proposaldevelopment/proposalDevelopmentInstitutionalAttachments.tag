@@ -94,10 +94,10 @@
 						${status.index + 1}:
 					</th>
 	                 <td class=>                
-                	<kul:htmlControlAttribute property="document.instituteAttachments[${status.index}].updateTimestamp" attributeEntry="${narrativeAttributes.updateTimestamp}" readOnly="true" />	            
+                	<kul:htmlControlAttribute property="document.instituteAttachments[${status.index}].timestampDisplay" attributeEntry="${narrativeAttributes.updateTimestamp}" readOnly="true" />	            
 				</td>
                 <td >
-                	<kul:htmlControlAttribute property="document.instituteAttachments[${status.index}].updateUser" attributeEntry="${narrativeAttributes.updateUser}" readOnly="true" />
+                	<kul:htmlControlAttribute property="document.instituteAttachments[${status.index}].uploadUserDisplay" attributeEntry="${narrativeAttributes.updateUser}" readOnly="true" />
                 </td>
                 <td class=>      
                     ${instituteAttachment.narrativeType.description} 
