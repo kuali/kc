@@ -35,22 +35,22 @@
         <div align="center">
             <table cellpadding="0" cellspacing="0" summary="">
                 <tr>
-                    <td>
+                    <td style="padding:0px">
 	                    <kra-pd:proposalDevelopmentGrantsGovOpportunity />
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td style="padding:0px">
 	        			<kra-pd:proposalDevelopmentGrantsGovSubmissionDetails />
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td style="padding:0px">
 	        			<kra-pd:proposalDevelopmentGrantsGovForms />   
                     </td>
                 </tr>
                 <tr>    
-                    <td>
+                    <td style="padding:0px">
 	        			<kra-pd:proposalDevelopmentSubmissionHistory />   
                     </td>
                 </tr>
