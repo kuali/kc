@@ -35,7 +35,7 @@
         	<lookupableID>budgetExpenseLookupable</lookupableID>
             <title>Object Code Lookup</title>
 			<menubar>
-				<![CDATA[<a href="/kra-dev/">Main</a>]]>
+				<![CDATA[<a href="index.jsp">Main</a>]]>
 			</menubar>
             <instructions>Look up a Object Code</instructions>
             <defaultSort sortAscending="true">

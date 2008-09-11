@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import static org.kuali.kra.logging.FormattedLogger.info;
+import static org.kuali.kra.logging.BufferedLogger.info;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

@@ -21,8 +21,8 @@ import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_N
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-import static org.kuali.kra.logging.FormattedLogger.debug;
-import static org.kuali.kra.logging.FormattedLogger.warn;
+import static org.kuali.kra.logging.BufferedLogger.debug;
+import static org.kuali.kra.logging.BufferedLogger.warn;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -93,7 +93,7 @@ import edu.iu.uis.eden.EdenConstants;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class ProposalDevelopmentForm extends ProposalFormBase {
-    private static final String MISSING_PARAM_MSG = "Couldn't find parameter '%s'";
+    private static final String MISSING_PARAM_MSG = "Couldn't find parameter ";
     private static final String DELETE_SPECIAL_REVIEW_ACTION = "deleteSpecialReview";
     
     private boolean creditSplitEnabled;

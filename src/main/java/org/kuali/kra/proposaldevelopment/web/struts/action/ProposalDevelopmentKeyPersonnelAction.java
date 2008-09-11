@@ -30,9 +30,8 @@ import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMEN
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-import static org.kuali.kra.logging.FormattedLogger.debug;
-import static org.kuali.kra.logging.FormattedLogger.info;
-import static org.kuali.kra.logging.FormattedLogger.warn;
+import static org.kuali.kra.logging.FormattedLogger.*;
+import static org.kuali.kra.logging.BufferedLogger.info;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -75,7 +74,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     private static final String MISSING_PARAM_MSG = "Couldn't find parameter '%s'";
     private static final String ROLE_CHANGED_MSG  = "roleChanged for person %s = %s";
     private static final String ADDED_PERSON_MSG  = "Added Proposal Person with proposalNumber = %s and proposalPersonNumber = %s";
-    private static final String INV_SIZE_MSG      = "Number of investigators are %s";
+    private static final String INV_SIZE_MSG      = "Number of investigators are ";
     private static final String EMPTY_STRING = "";
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#execute(ActionMapping, ActionForm, HttpServletRequest,
