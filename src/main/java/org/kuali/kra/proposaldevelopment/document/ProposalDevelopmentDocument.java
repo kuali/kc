@@ -50,6 +50,7 @@ import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.document.BudgetVersionCollection;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -82,7 +83,7 @@ import org.kuali.kra.service.YnqService;
 import org.kuali.kra.workflow.KraDocumentXMLMaterializer;
 import org.kuali.rice.KNSServiceLocator;
 
-public class ProposalDevelopmentDocument extends ResearchDocumentBase implements Copyable, SessionDocument {
+public class ProposalDevelopmentDocument extends ResearchDocumentBase implements BudgetVersionCollection, Copyable, SessionDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalDevelopmentDocument.class);
     
     private String proposalNumber;

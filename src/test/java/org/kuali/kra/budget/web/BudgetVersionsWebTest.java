@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.budget.web;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kra.infrastructure.Constants;
@@ -49,6 +50,14 @@ public class BudgetVersionsWebTest extends ProposalDevelopmentWebTestBase {
     private static final String BUDGET_VERSIONS_TABLE = "budget-versions-table";
     
     private static final String ADD_BUDGET_VERSION_BUTTON = "methodToCall.addBudgetVersion";
+
+    private int budgetVersionCount;
+
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+        budgetVersionCount = 0;
+    }
     
     /***********************************************************************
      * Unit Tests for Budget Versions
@@ -230,9 +239,10 @@ public class BudgetVersionsWebTest extends ProposalDevelopmentWebTestBase {
      * @throws Exception
      */
     protected HtmlPage addBudgetVersion(HtmlPage budgetVersionsPage) throws Exception {
-        setFieldValue(budgetVersionsPage, NEW_BUDGET_VERSION_NAME, "Test Budget Version - 1");
+        setFieldValue(budgetVersionsPage, NEW_BUDGET_VERSION_NAME, "Test Budget Version - " + budgetVersionCount);
         HtmlElement addBtn = getElementByName(budgetVersionsPage, ADD_BUDGET_VERSION_BUTTON, true);
         budgetVersionsPage = clickOn(addBtn);
+        budgetVersionCount++;
         return budgetVersionsPage;
     }
     
