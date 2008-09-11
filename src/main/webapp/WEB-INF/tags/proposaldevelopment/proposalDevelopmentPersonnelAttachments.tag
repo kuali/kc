@@ -100,10 +100,10 @@
 						${status.index+1}:
 					</th>
 	                <td>
-                	    <kul:htmlControlAttribute property="document.propPersonBio[${status.index}].updateTimestamp" readOnly="true" attributeEntry="${propPersonBioAttributes.updateTimestamp}" />
+                	   <kul:htmlControlAttribute property="document.propPersonBio[${status.index}].timestampDisplay" readOnly="true" attributeEntry="${propPersonBioAttributes.updateTimestamp}" /> 
 					</td>
 	                <td>
-                	    ${propPersonBio.authorPersonName}
+                	    ${propPersonBio.uploadUserDisplay}
 	                </td>
 	                <td>
         			    <input type="hidden" name="document.propPersonBio[${status.index}].proposalPersonNumber" value="${propPersonBio.proposalPersonNumber}" /> 

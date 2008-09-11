@@ -399,7 +399,12 @@
 		<property name="personService">
 			<ref bean="personService" />
 		</property>
-	</bean>
+      <property name="attachmentDao">
+        <ref bean="attachmentDao" />
+      </property>
+ 	</bean>
+    <bean id="attachmentDao" parent="platformAwareDao" class="org.kuali.kra.proposaldevelopment.dao.ojb.AttachmentDaoOjb">
+	</bean>	
 
 	<bean id="keyPersonnelService" class="org.kuali.kra.proposaldevelopment.service.impl.KeyPersonnelServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
@@ -413,6 +418,9 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
+      <property name="attachmentDao">
+        <ref bean="attachmentDao" />
+      </property>
 	</bean>
 		<bean id="documentValidationService" class="org.kuali.kra.service.impl.DocumentValidationServiceImpl">
 	</bean>

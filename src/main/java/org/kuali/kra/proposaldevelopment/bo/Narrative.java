@@ -19,6 +19,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -66,6 +67,8 @@ public class Narrative extends KraPersistableBusinessObjectBase {
     private List<NarrativeAttachment> narrativeAttachmentList;
     transient private FormFile narrativeFile;
     private String institutionalAttachmentTypeCode;
+    private Timestamp timestampDisplay;
+    private String uploadUserDisplay;
 
     public Narrative() {
         narrativeAttachmentList = new ArrayList<NarrativeAttachment>(1);
@@ -421,5 +424,21 @@ public class Narrative extends KraPersistableBusinessObjectBase {
                    StringUtils.equals(this.fileName, other.fileName);
         }
         return false;
+    }
+
+    public Timestamp getTimestampDisplay() {
+        return timestampDisplay;
+    }
+
+    public void setTimestampDisplay(Timestamp timestampDisplay) {
+        this.timestampDisplay = timestampDisplay;
+    }
+
+    public String getUploadUserDisplay() {
+        return uploadUserDisplay;
+    }
+
+    public void setUploadUserDisplay(String uploadUserDisplay) {
+        this.uploadUserDisplay = uploadUserDisplay;
     }
 }
