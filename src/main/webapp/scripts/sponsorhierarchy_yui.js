@@ -365,7 +365,7 @@
 
    function okToSave() {
      	if (emptyNodes.indexOf("((#") >= 0) {
-     	   alert(emptyNodes);
+     	  // alert(emptyNodes);
      	   alert ("Can't save hierarchy with empty group");
      	   return "false";
      	} else {
