@@ -46,7 +46,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 
-import static org.kuali.kra.logging.FormattedLogger.*;
+import static org.kuali.kra.logging.BufferedLogger.*;
 
 /**
  * Validates Credit Splits on a <code>{@link ProposalPerson}</code> and/or <code>{@link ProposalPersonUnit}</code> by
@@ -60,11 +60,12 @@ public class CreditSplitValidator implements Traceable<CreditSplitValidator> {
     private static final KualiDecimal CREDIT_UPBOUND = new KualiDecimal(100.00);
     private static final KualiDecimal CREDIT_LOWBOUND = KualiDecimal.ZERO;
     
-    private static final String VALIDATING_MESSAGE = "Validating %s.";
-    private static final String VALIDATING_CT_MESSAGE = "Validating credit type %s.";
-    private static final String UNIT_VALIDATION_MESSAGE = "Unit validation passed %s";
-    private static final String INV_VALIDATION_MESSAGE = "Investigator validation passed %s";
-    private static final String AUDIT_ADDITION_MESSAGE = "Adding %s audit error.";
+    private static final String VALIDATING_MESSAGE = "Validating ";
+    private static final String VALIDATING_CT_MESSAGE = "Validating credit type ";
+    private static final String UNIT_VALIDATION_MESSAGE = "Unit validation passed ";
+    private static final String INV_VALIDATION_MESSAGE = "Investigator validation passed ";
+    private static final String AUDIT_ADDITION_MESSAGE_1 = "Adding " ;
+    private static final String AUDIT_ADDITION_MESSAGE_2 = " audit error.";
         
     /**
      * Validates the credit splits of an entire document by traversing it. If the Investigator is instead a Principal Investigator,
@@ -261,7 +262,7 @@ public class CreditSplitValidator implements Traceable<CreditSplitValidator> {
         
         if (!getAuditErrors().contains(error)) {
             getAuditErrors().add(error);
-            info(AUDIT_ADDITION_MESSAGE, messageKey);
+            info(AUDIT_ADDITION_MESSAGE_1, messageKey, AUDIT_ADDITION_MESSAGE_2);
         }
     }
     

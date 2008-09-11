@@ -388,22 +388,14 @@
 
 <!-- delivery info -->
 <!--  TODO : rename to mailTypeCode mailTypeCode ? -->
-            <attribute name="mailBy">
-                <label>Mail By</label>
-                <shortLabel>Mail By</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <required>false</required>
-
+			<attributeReference name="mailBy" sourceClassName="org.kuali.kra.proposaldevelopment.bo.MailBy" sourceAttributeName="mailByCode" >
                 <control>                    
                     <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" businessObjectClass="org.kuali.kra.proposaldevelopment.bo.MailBy" keyAttribute="mailByCode" labelAttribute="description" includeKeyInLabel="false"/>
                 </control>
 
                 <summary>Mail By</summary>
                 <description>This field determines whether the Sponsored Programs Office or the department will be mailing the proposal to the agency/sponsor.</description>
-			</attribute>
+			</attributeReference>
 
             <attribute name="mailType">
                 <label>Type</label>

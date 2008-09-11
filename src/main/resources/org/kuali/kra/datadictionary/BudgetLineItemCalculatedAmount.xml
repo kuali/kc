@@ -40,7 +40,7 @@
         <lookup>
             <title>Budget Details Cal Amts Lookup</title>
 			<menubar>
-				<![CDATA[<a href="/kra-dev/">Main</a>]]>
+				<![CDATA[<a href="index.jsp">Main</a>]]>
 			</menubar>
             <instructions>Look up a Budget Details Cal Amts</instructions>
 
