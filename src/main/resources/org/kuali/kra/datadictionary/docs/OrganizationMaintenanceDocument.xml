@@ -70,19 +70,19 @@
 					<maintainableField name="dodacNumber" required="false"/>
 					<maintainableField name="dunsNumber" required="false"/>
 					<maintainableField name="dunsPlusFourNumber" required="false"/>
-					<maintainableField name="fedralEmployerId" required="false"/>
+					<maintainableField name="federalEmployerId" required="false"/>
 					<maintainableField name="humanSubAssurance" required="false"/>
 					<maintainableField name="incorporatedDate" required="false"/>
 					<maintainableField name="incorporatedIn" required="false"/>
 					<maintainableField name="indirectCostRateAgreement" required="false"/>
-					<maintainableField name="irsTaxExcemption" required="false"/>
-					<maintainableField name="massEmployeeClaim" required="false"/>
-					<maintainableField name="massTaxExcemptNum" required="false"/>
+					<maintainableField name="irsTaxExemption" required="false"/>
+					<maintainableField name="stateEmployeeClaim" required="false"/>
+					<maintainableField name="stateTaxExemptNum" required="false"/>
 					<maintainableField name="nsfInstitutionalCode" required="false"/>
 					<maintainableField name="numberOfEmployees" required="false"/>
 					<maintainableField name="onrResidentRep" required="false"/>
 					<maintainableField name="organizationName" required="true"/>
-					<maintainableField name="phsAcount" required="false"/>
+					<maintainableField name="phsAccount" required="false"/>
 					<maintainableField name="scienceMisconductComplDate" required="false"/>
 					<maintainableField name="telexNumber" required="false"/>
 					<maintainableField name="vendorCode" required="false"/>

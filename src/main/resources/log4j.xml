@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
+
+	<appender name="AsyncOut" class="org.apache.log4j.AsyncAppender">
+	        <appender-ref ref="StdOut"/>
+	        <appender-ref ref="LogFile" />
+	</appender>
+
+	<appender name="StdOut" class="org.apache.log4j.ConsoleAppender">
+           <param name="Threshold"   value="INFO" />
+           <layout class="org.apache.log4j.PatternLayout">
+             <param name="ConversionPattern"
+		            value="%d [%t] D:%X{docID} U:%X{user} [%X{clientIp}]  %-5p %c :: %m%n"/>
+           </layout>
+	</appender>
+
+	<appender name="LogFile" class="org.apache.log4j.DailyRollingFileAppender">
+            <param name="File"   value="kra_application.log" />
+            <layout class="org.apache.log4j.PatternLayout">
+		      <param name="ConversionPattern" value="%d [%t] D:%X{docID} U:%X{user} [%X{clientIp}]:: %m%n"/>
+            </layout>
+	</appender>
+	
+	<category name="edu.iu.uis.eden">
+	  <priority value="INFO" />
+	</category>
+    
+	<category name="org.kuali.rice">
+	  <priority value="INFO" />
+	</category>
+
+	<category name="org.kuali.core.util">
+	  <priority value="INFO" />
+	</category>
+
+	<category name="org.kuali.core.lookup">
+	  <priority value="INFO" />
+	</category>
+        
+	<category name="org.displaytag">
+	  <priority value="WARN" />
+	</category>
+
+	<category name="org.springframework">
+	  <priority value="WARN" />
+	</category>
+        
+	<category name="org.apache">
+	  <priority value="WARN" />
+	</category>
+        
+	<category name="httpclient">
+	  <priority value="WARN" />
+	</category>
+        
+	<category name="org.objectweb">
+	  <priority value="info" />
+	</category>
+        
+	<category name="org.enhydra">
+	  <priority value="WARN" />
+	</category>
+        
+	<category name="com.opensymphony">
+	  <priority value="WARN" />
+	</category>
+        
+	<category name="org.kuali.kra.proposaldevelopment">
+	  <priority value="DEBUG" />
+	</category>
+
+	<category name="org.kuali.kra">
+	  <priority value="DEBUG" />
+	</category>
+
+	<category name="org.kuali.kra.web.filter.PerformanceLoggingFilter">
+	  <priority value="DEBUG" />
+	</category>
+
+	<category name="org.kuali.kra.web.listener.SessionLoggingListener">
+	  <priority value="DEBUG" />
+	</category>
+
+	<category name="org.kuali.kra.web.filter.RequestLoggingFilter">
+	  <priority value="DEBUG" />
+	</category>
+
+	<category name="org.kuali.kra.util.spring.MethodLoggingInterceptor">
+	  <priority value="INFO" />
+	</category>
+	
+	<root>
+	   <priority value ="INFO" />
+   	   <appender-ref ref="AsyncOut" />
+	</root>
+	
+</log4j:configuration>
+        

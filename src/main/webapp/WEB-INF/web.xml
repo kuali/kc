@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee   http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" 
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4"
+     xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 	<display-name>Rice Sample Application</display-name>
 
 	<!-- ******************* CAS Context Parameters ********************* -->
@@ -71,16 +72,10 @@
         <param-name>edu.yale.its.tp.cas.logoutPage</param-name>
         <param-value>/cas/logout.jsp</param-value>
     </context-param>
-    
-    <!-- Directory where performance logs will be written -->
-    <context-param>
-        <param-name>org.kuali.kra.perftest.REPORT_DIRECTORY</param-name>
-        <param-value>/opt/logs/dev/kra/perf_reports</param-value>
-    </context-param>
 
-	<!-- ******************* END CAS Context Parameters ********************* -->
+    <!-- ******************* END CAS Context Parameters ********************* -->
 
-	<!--
+    <!--
     <description>Invokes any filters defined by the user in the institutional plugin</description>
  -->
   <filter>
@@ -94,77 +89,104 @@
     <servlet-name>action</servlet-name>
   </filter-mapping>
 
-	<filter>
-		<filter-name>SessionExpiredFilter</filter-name>
-		<filter-class>org.kuali.kra.web.filter.SessionExpiredFilter</filter-class>
-	</filter>
-	<filter-mapping> 
-		<filter-name>SessionExpiredFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping> 
+  <filter>
+    <filter-name>SessionExpiredFilter</filter-name>
+    <filter-class>org.kuali.kra.web.filter.SessionExpiredFilter</filter-class>
+  </filter>
+  <filter-mapping> 
+    <filter-name>SessionExpiredFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping> 
 
-	<filter>
-        <filter-name>SessionFilter</filter-name>
-        <filter-class>org.kuali.core.web.filter.SessionFilter</filter-class>
-    </filter>
+  <filter>
+    <filter-name>SessionFilter</filter-name>
+    <filter-class>org.kuali.core.web.filter.SessionFilter</filter-class>
+  </filter>
 
-    <filter-mapping>
-        <filter-name>SessionFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
+  <filter-mapping>
+    <filter-name>SessionFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
 
-	<filter>
-		<filter-name>UserLoginFilter</filter-name>
-		<filter-class>edu.iu.uis.eden.web.UserLoginFilter</filter-class>
-	</filter>
+  <filter>
+    <filter-name>UserLoginFilter</filter-name>
+    <filter-class>edu.iu.uis.eden.web.UserLoginFilter</filter-class>
+  </filter>
 
-	<filter-mapping>
-		<filter-name>UserLoginFilter</filter-name>
-		<servlet-name>action</servlet-name>
-	</filter-mapping>
+  <filter-mapping>
+    <filter-name>UserLoginFilter</filter-name>
+    <servlet-name>action</servlet-name>
+  </filter-mapping>
 
-    <filter>
-        <filter-name>ResponseOverrideFilter</filter-name>
-        <filter-class>org.displaytag.filter.ResponseOverrideFilter</filter-class>
-    </filter>
+  <filter>
+    <filter-name>ResponseOverrideFilter</filter-name>
+    <filter-class>org.displaytag.filter.ResponseOverrideFilter</filter-class>
+  </filter>
 
-  	<filter-mapping>
-        <filter-name>ResponseOverrideFilter</filter-name>
-    	<url-pattern>*.do</url-pattern>
-  	</filter-mapping>
-  	<filter-mapping>
-    	<filter-name>ResponseOverrideFilter</filter-name>
-    	<url-pattern>*.jsp</url-pattern>
-  	</filter-mapping>
- 
-	<filter>
-        <filter-name>PerformanceMeasurementFilter</filter-name>
-        <filter-class>org.kuali.kra.web.filter.PerformanceMeasurementFilter</filter-class>
-    </filter>
-     
-    <filter-mapping>
-        <filter-name>PerformanceMeasurementFilter</filter-name>
-    	<url-pattern>*.do</url-pattern>
-  	</filter-mapping>
+  <filter-mapping>
+    <filter-name>ResponseOverrideFilter</filter-name>
+    <url-pattern>*.do</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>ResponseOverrideFilter</filter-name>
+    <url-pattern>*.jsp</url-pattern>
+  </filter-mapping>
 
-    <listener>
-		<listener-class>org.kuali.kra.infrastructure.KraServiceLocatorListener</listener-class>
-	</listener>
+   <!-- ******************* Start Logging Filters ********************* -->
+  <filter>
+    <filter-name>JspLoggingFilter</filter-name>
+    <filter-class>org.kuali.kra.web.filter.RequestLoggingFilter</filter-class>
+  </filter>
 
-    <listener>
-        <listener-class>org.kuali.core.web.listener.JstlConstantsInitListener</listener-class>
-    </listener>
+  <filter-mapping>
+    <filter-name>JspLoggingFilter</filter-name>
+    <url-pattern>*.jsp</url-pattern>
+  </filter-mapping>
 
-    <!-- ******************* CAS Listeners ********************* -->
+  <filter>
+    <filter-name>StrutsActionLoggingFilter</filter-name>
+    <filter-class>org.kuali.kra.web.filter.RequestLoggingFilter</filter-class>
+  </filter>
 
-    <!-- Sets up ticket caches -->
-    <listener>
-      <listener-class>edu.yale.its.tp.cas.servlet.CacheInit</listener-class>
-    </listener>
+  <filter-mapping>
+    <filter-name>StrutsActionLoggingFilter</filter-name>
+    <servlet-name>action</servlet-name>
+  </filter-mapping>
 
-	<!-- ******************* END CAS Listeners ********************* -->
+  <filter>
+    <filter-name>PerformanceLoggingFilter</filter-name>
+    <filter-class>org.kuali.kra.web.filter.PerformanceLoggingFilter</filter-class>
+  </filter>
 
-	<!-- ******************* CAS Servlets ********************* -->
+  <filter-mapping>
+    <filter-name>PerformanceLoggingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <!-- ******************* End Logging Filters ********************* -->
+
+  <listener>
+    <listener-class>org.kuali.kra.infrastructure.KraServiceLocatorListener</listener-class>
+  </listener>
+
+  <listener>
+    <listener-class>org.kuali.core.web.listener.JstlConstantsInitListener</listener-class>
+  </listener>
+
+  <listener>
+    <listener-class>org.kuali.kra.web.listener.SessionLoggingListener</listener-class>
+  </listener>
+
+  <!-- ******************* CAS Listeners ********************* -->
+
+  <!-- Sets up ticket caches -->
+  <listener>
+    <listener-class>edu.yale.its.tp.cas.servlet.CacheInit</listener-class>
+  </listener>
+
+  <!-- ******************* END CAS Listeners ********************* -->
+
+  <!-- ******************* CAS Servlets ********************* -->
 
     <!-- Login -->
     <servlet>
@@ -335,7 +357,7 @@
     </session-config>
 
 	<listener>
-		<listener-class>org.kuali.kra.web.listener.KraHttpSessionListener</listener-class>
+		<listener-class>org.kuali.core.web.listener.KualiHttpSessionListener</listener-class>
 	</listener>
 	
 	<!-- ******************* END CAS Servlet Mappings ********************* -->

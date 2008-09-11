@@ -13,19 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.logging;
+package org.kuali.kra.budget.document;
+
+import java.util.List;
+
+import org.kuali.kra.budget.bo.BudgetVersionOverview;
+
 
 /**
- * Interface to define a class as permitting Log Traces
- * 
+ * Interface for a class that contains a {@link List} of {@link BudgetVersionOverview}
+ * instances
+ *
  */
-public interface Traceable<T> {
-        
-    /**
-     * Rely on the class to know how to build its own proxy for trace logging
-     * 
-     * @param archetype instance applied to the proxy. 
-     * @return a proxy for <code>T</code> with <code>archetype</code> set
-     */
-    T getProxy(T archetype);
+public interface BudgetVersionCollection {
+   
+    public List<BudgetVersionOverview> getBudgetVersionOverviews();
+
+    public void setBudgetVersionOverviews(List<BudgetVersionOverview> budgetVersionOverviews);
 }
