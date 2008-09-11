@@ -42,7 +42,7 @@ public class SponsorHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements O
     .getLog(SponsorHierarchyDaoOjb.class);
     private static final String ERROR_MSG = "Error get sponsor codes.";
     private static final String SPONSOR_CODE_NAME_SQL = "select sponsor_code, (select sponsor_name from sponsor where sponsor_code = sponsor_hierarchy.sponsor_code) from sponsor_hierarchy ";
-
+    private static final String SPONSOR_CODE_HOLDER = "((sponsorcodeholder))";
 
     public Iterator getTopSponsorHierarchy() {
         
@@ -114,7 +114,7 @@ public class SponsorHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements O
                                 if (--i > 0) {
                                     retStr = retStr+Constants.SPONSOR_HIERARCHY_SEPARATOR_C1C+resultSet.getString(1)+":"+resultSet.getString(2);
                                 } else {
-                                    retStr = retStr+"#1#"+resultSet.getString(1)+":"+resultSet.getString(2);
+                                    retStr = retStr+Constants.SPONSOR_HIERARCHY_SEPARATOR_P1P+resultSet.getString(1)+":"+resultSet.getString(2);
                                     i = groupingNumber;
                                 }
                             }
@@ -257,20 +257,17 @@ public class SponsorHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements O
             public Object doInPersistenceBroker(PersistenceBroker pb) {
                 Statement stmt=null;
                 try {
-                    // use batch ?
                     stmt= pb.serviceConnectionManager().getConnection().createStatement();
-                    //LOG.info("SQLS = "+sqls);
                    for (int i = 0 ; i < sqls.length; i++) {
                        if (StringUtils.isNotBlank(sqls[i])) {
-                           //LOG.info("Save run scripts "+i+sqls[i]);
-                           int idx = sqls[i].indexOf("((sponsorcodeholder))");
+                           int idx = sqls[i].indexOf(SPONSOR_CODE_HOLDER);
                            if (idx > 0) {
                                int idx1 = sqls[i].indexOf(")((",idx);
                                String insertTemplate = sqls[i].substring(0, idx1+1);
                                String sponsorCodes = sqls[i].substring(idx1+3, sqls[i].length()-2);
                                String[] codes = sponsorCodes.split(";");
                                for (int j = 0; j < codes.length; j++) {
-                                   stmt.addBatch(insertTemplate.replace("((sponsorcodeholder))", codes[j]));
+                                   stmt.addBatch(insertTemplate.replace(SPONSOR_CODE_HOLDER, codes[j]));
                                    LOG.info("Save run scripts "+i+insertTemplate+codes[j]);
                                }
 
@@ -279,14 +276,11 @@ public class SponsorHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements O
                                stmt.addBatch(sqls[i]);                                
                            }
                        }
-                        //ps = pb.serviceConnectionManager().getConnection().prepareStatement(sqls[i]);
-                        //ps.executeUpdate();
                     }
                    int[] updCnt = stmt.executeBatch();
-                   for (int i = 0; i < updCnt.length ; i++) {
-                       // do we need to do check
-                   }
-                    //pb.commitTransaction();
+//                   for (int i = 0; i < updCnt.length ; i++) {
+//                       // do we need to do check
+//                   }
                 } catch (Exception e) {
                     LOG.error("exception error " +e.getStackTrace());
                 } finally {
@@ -294,7 +288,7 @@ public class SponsorHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements O
                         try {
                             stmt.close();
                         } catch (Exception e) {
-                            LOG.error("error closing preparedstatement", e);
+                            LOG.error("error closing statement", e);
                         }
                     }
                 }
