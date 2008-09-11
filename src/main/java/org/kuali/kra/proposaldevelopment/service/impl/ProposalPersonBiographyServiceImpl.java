@@ -15,23 +15,33 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.bo.user.AuthenticationUserId;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.UniversalUserService;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.bo.PropPerDocType;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
+import org.kuali.kra.proposaldevelopment.dao.AttachmentDao;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 
 public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiographyService {
     private BusinessObjectService businessObjectService;
+    private AttachmentDao attachmentDao;
 
     /**
      * 
@@ -147,6 +157,38 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService#setPersonnelBioTimeStampUser(java.util.List)
+     */
+    public void setPersonnelBioTimeStampUser(List<ProposalPersonBiography> proposalPersonBios) {
+
+        for (ProposalPersonBiography proposalPersonBiography : proposalPersonBios) {
+            Iterator personBioAtt = attachmentDao.getPersonnelTimeStampAndUploadUser(proposalPersonBiography.getProposalPersonNumber(), proposalPersonBiography.getProposalNumber(), proposalPersonBiography.getBiographyNumber());
+            if (personBioAtt.hasNext()) {
+                Object[] item = (Object[])personBioAtt.next();
+                proposalPersonBiography.setTimestampDisplay((Timestamp)item[0]);
+                String personName = "Person not found";
+                try {
+                    personName = KraServiceLocator.getService(UniversalUserService.class).getUniversalUser(new AuthenticationUserId((String)item[1])).getPersonName();
+                }
+                catch (UserNotFoundException unfe) {
+                }
+                proposalPersonBiography.setUploadUserDisplay(personName);
+            }
+
+            }
+        }   
+    
+
+    public AttachmentDao getAttachmentDao() {
+        return attachmentDao;
+    }
+
+    public void setAttachmentDao(AttachmentDao attachmentDao) {
+        this.attachmentDao = attachmentDao;
     }
 
 }

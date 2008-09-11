@@ -1,5 +1,7 @@
 package org.kuali.kra.proposaldevelopment.bo;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -25,6 +27,8 @@ public class ProposalPersonBiography extends KraPersistableBusinessObjectBase {
     transient private FormFile personnelAttachmentFile;
     private List<ProposalPersonBiographyAttachment> personnelAttachmentList;
     private PropPerDocType propPerDocType;
+    private Timestamp timestampDisplay;
+    private String uploadUserDisplay;
 
 	public ProposalPersonBiography(){
 		super();
@@ -130,6 +134,22 @@ public class ProposalPersonBiography extends KraPersistableBusinessObjectBase {
 
     public void setBiographyNumber(Integer biographyNumber) {
         this.biographyNumber = biographyNumber;
+    }
+
+    public Timestamp getTimestampDisplay() {
+        return timestampDisplay;
+    }
+
+    public void setTimestampDisplay(Timestamp timestampDisplay) {
+        this.timestampDisplay = timestampDisplay;
+    }
+
+    public String getUploadUserDisplay() {
+        return uploadUserDisplay;
+    }
+
+    public void setUploadUserDisplay(String uploadUserDisplay) {
+        this.uploadUserDisplay = uploadUserDisplay;
     }
 
 }

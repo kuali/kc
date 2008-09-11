@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.service;
 
+import java.util.List;
+
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -43,5 +45,13 @@ public interface ProposalPersonBiographyService {
      * @param lineToDelete
      */
     public void deleteProposalPersonBiography(ProposalDevelopmentDocument proposaldevelopmentDocument, int lineToDelete);
+    
+    /**
+     * 
+     * This method is to set up timestamp and upload user for personnel attachments.
+     * @param proposalPersonBios
+     */
+
+    public void setPersonnelBioTimeStampUser(List<ProposalPersonBiography> proposalPersonBios);
 
 }

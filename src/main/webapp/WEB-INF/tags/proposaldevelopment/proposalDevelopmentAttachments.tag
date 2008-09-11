@@ -166,7 +166,7 @@
 			          	<tr>
 			          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.updateUser}" /></div></th>
 			                <td align="left" valign="middle">
-			                	<kul:htmlControlAttribute property="document.narrative[${status.index}].updateUser" readOnly="true" attributeEntry="${narrativeAttributes.updateUser}" />
+			                	<kul:htmlControlAttribute property="document.narrative[${status.index}].uploadUserDisplay" readOnly="true" attributeEntry="${narrativeAttributes.updateUser}" />
 							</td>
 			          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.emailAddress}" /></div></th>
 			                <td align="left" valign="middle">
@@ -176,7 +176,7 @@
 			          	<tr>
 			          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.updateTimestamp}" /></div></th>
 			                <td align="left" valign="middle">
-			                	<kul:htmlControlAttribute property="document.narrative[${status.index}].updateTimestamp" readOnly="true" attributeEntry="${narrativeAttributes.updateTimestamp}" />
+			                	<kul:htmlControlAttribute property="document.narrative[${status.index}].timestampDisplay" readOnly="true" attributeEntry="${narrativeAttributes.updateTimestamp}" />
 							</td>
 			          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.phoneNumber}" /></div></th>
 			                <td align="left" valign="middle">
