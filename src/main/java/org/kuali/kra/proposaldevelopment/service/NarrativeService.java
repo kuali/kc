@@ -61,4 +61,13 @@ public interface NarrativeService {
      * @param roleName the initial proposal role of the user
      */
     public void addPerson(String username, ProposalDevelopmentDocument proposalDevelopmentDocument, String roleName);
+    
+
+    /**
+     * 
+     * This method set up timestamp and upload user for narrative & internal attachments.
+     * @param narratives
+     */
+    public void setNarrativeTimeStampUser(List<Narrative> narratives);
+
 }

@@ -15,14 +15,20 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.user.AuthenticationUserId;
+import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Person;
@@ -33,7 +39,8 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
+import org.kuali.kra.proposaldevelopment.dao.AttachmentDao;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.NarrativeAuthZService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
@@ -52,7 +59,8 @@ public class NarrativeServiceImpl implements NarrativeService {
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
     private PersonService personService;
-    
+    private AttachmentDao attachmentDao;
+
     /**
      * 
      * Method to add a new narrative to narratives list
@@ -419,4 +427,30 @@ public class NarrativeServiceImpl implements NarrativeService {
         this.personService = personService;
     }
 
+    public AttachmentDao getAttachmentDao() {
+        return attachmentDao;
+    }
+
+    public void setAttachmentDao(AttachmentDao attachmentDao) {
+        this.attachmentDao = attachmentDao;
+    }
+
+    /**
+     * 
+     * @see org.kuali.kra.proposaldevelopment.service.NarrativeService#setNarrativeTimeStampUser(java.util.List)
+     */
+    public void setNarrativeTimeStampUser(List<Narrative> narratives) {
+
+        for (Narrative narrative : narratives) {
+            Iterator personBioAtt = attachmentDao.getNarrativeTimeStampAndUploadUser(narrative.getModuleNumber(), narrative.getProposalNumber());
+            if (personBioAtt.hasNext()) {
+                Object[] item = (Object[])personBioAtt.next();
+                narrative.setTimestampDisplay((Timestamp)item[0]);
+                narrative.setUploadUserDisplay((String)item[1]);
+            }
+
+            }
+        }   
+
+    
 }
