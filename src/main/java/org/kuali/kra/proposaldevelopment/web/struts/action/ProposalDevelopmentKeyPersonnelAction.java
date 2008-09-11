@@ -84,9 +84,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
        
-        ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         ActionForward retval = super.execute(mapping, form, request, response);
-        pdform.setTabStates(new HashMap<String, String>());
         prepare(form, request);
         return retval;
     }
@@ -453,7 +451,6 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
-        pdform.setTabStates(new HashMap<String, String>());
         boolean rulePassed = true;
 
         updateCurrentOrdinalPositions(((ProposalDevelopmentForm) form).getProposalDevelopmentDocument().getProposalPersons());
@@ -488,7 +485,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             getKeyPersonnelService().addUnitToPerson(person,getKeyPersonnelService().createProposalPersonUnit(person.getHomeUnit(), person));
         }
         person.setOptInUnitStatus("Y");
-        pdform.setOptInUnitDetails("Y");     
+        pdform.setOptInUnitDetails("Y");  
         getKeyPersonnelService().populateProposalPerson(person, document);
         return mapping.findForward(MAPPING_BASIC);
     }
