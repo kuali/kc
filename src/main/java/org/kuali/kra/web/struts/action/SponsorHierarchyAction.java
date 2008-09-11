@@ -58,7 +58,6 @@ public class SponsorHierarchyAction extends KualiAction {
         if (StringUtils.isNotBlank(request.getParameter("mapKey"))) {
             sponsorHierarchyForm.getNewSponsors().get(0).clear();
         }
-        //TODO: refactor this.  2 things very similar, should not call twice
         sponsorHierarchyForm.setTopSponsorHierarchies(KraServiceLocator.getService(SponsorService.class).getTopSponsorHierarchy());   
         sponsorHierarchyForm.setHierarchyNameList((KraServiceLocator.getService(SponsorService.class).getTopSponsorHierarchyList()));   
         return forward;
@@ -112,7 +111,7 @@ public class SponsorHierarchyAction extends KualiAction {
         SponsorHierarchyForm sponsorHierarchyForm = (SponsorHierarchyForm)form;
         String sciptsInSession = (String)GlobalVariables.getUserSession().retrieveObject(sponsorHierarchyForm.getTimestamp());
         if (sciptsInSession != null) {
-            String[] scripts = sciptsInSession.split("#1#");
+            String[] scripts = sciptsInSession.split(Constants.SPONSOR_HIERARCHY_SEPARATOR_P1P);
             for (int i = 0; i < scripts.length; i++) {
                 if (StringUtils.isNotBlank(scripts[i])) {
                     KraServiceLocator.getService(SponsorService.class).saveSponsorHierachy(sponsorHierarchyForm.getHierarchyName(), scripts[i]);
@@ -121,7 +120,7 @@ public class SponsorHierarchyAction extends KualiAction {
             //sciptsInSession = sciptsInSession.concat(sponsorHierarchyForm.getSqlScripts());
         } 
         if (StringUtils.isNotBlank(sponsorHierarchyForm.getSqlScripts())) {
-            String[] scripts = sponsorHierarchyForm.getSqlScripts().split("#1#");
+            String[] scripts = sponsorHierarchyForm.getSqlScripts().split(Constants.SPONSOR_HIERARCHY_SEPARATOR_P1P);
             for (int i = 0; i < scripts.length; i++) {
                 if (StringUtils.isNotBlank(scripts[i])) {
                     KraServiceLocator.getService(SponsorService.class).saveSponsorHierachy(sponsorHierarchyForm.getHierarchyName(), scripts[i]);
@@ -176,28 +175,12 @@ public class SponsorHierarchyAction extends KualiAction {
        
     }
     
-    public ActionForward deleteSponsor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
-        SponsorHierarchyForm sponsorHierarchyForm = (SponsorHierarchyForm)form;
-        String parameterName = (String) request.getAttribute(RiceConstants.METHOD_TO_CALL_ATTRIBUTE);
-        if (StringUtils.isNotBlank(parameterName)) {
-            String lineNumber = StringUtils.substringBetween(parameterName, ".line", ".");
-            //StringTokenizer token = new StringTokenizer(lineNumber, "-");
-            //int groupIdx = Integer.parseInt(token.nextToken());
-            int sponsorIdx = Integer.parseInt(lineNumber);
-            sponsorHierarchyForm.getNewSponsors().get(0).remove(sponsorIdx);
-        }
-        return mapping.findForward(LOOKUP);
-       
-    }
-
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         super.refresh(mapping, form, request, response);
         SponsorHierarchyForm sponsorHierarchyForm = (SponsorHierarchyForm) form;
         String sponsors = Constants.EMPTY_STRING; // return to treeview - still a test
-        // Process return from person/rolodex multi-value lookup
         if (sponsorHierarchyForm.getLookupResultsBOClassName() != null && sponsorHierarchyForm.getLookupResultsSequenceNumber() != null) {
             String lookupResultsSequenceNumber = sponsorHierarchyForm.getLookupResultsSequenceNumber();
             Class<?> lookupResultsBOClass = Class.forName(sponsorHierarchyForm.getLookupResultsBOClassName());
@@ -211,14 +194,7 @@ public class SponsorHierarchyAction extends KualiAction {
                 idx = Integer.parseInt(idxString);
             }
             List sponsorCodes = new ArrayList();
-            // rewrite this, should not use newSponsor array.  should use sure
-            
-            //if (StringUtils.isBlank(sponsorHierarchyForm.getSelectedSponsorHierarchy())) {
-                sponsorHierarchyForm.getNewSponsors().set(0, new ArrayList());
-            //}
-            //for (Object obj : sponsorHierarchyForm.getNewSponsors().get(idx)) {
-            //    sponsorCodes.add(((Sponsor)obj).getSponsorCode());
-            //}
+            sponsorHierarchyForm.getNewSponsors().set(0, new ArrayList());
             sponsorHierarchyForm.setSelectedSponsors(Constants.EMPTY_STRING);
             for (Iterator iter = rawValues.iterator(); iter.hasNext();) {
                     Sponsor sponsor = (Sponsor) iter.next();
