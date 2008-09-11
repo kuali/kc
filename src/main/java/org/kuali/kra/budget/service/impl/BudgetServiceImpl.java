@@ -29,6 +29,7 @@ import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.budget.bo.BudgetLineItemBase;
 import org.kuali.kra.budget.bo.BudgetModular;
@@ -63,6 +64,7 @@ public class BudgetServiceImpl implements BudgetService {
     private BusinessObjectService businessObjectService;
     private KualiConfigurationService kualiConfigurationService;
     private BudgetPersonService budgetPersonService;
+    private KualiRuleService rulesService;
     
     /**
      * @see org.kuali.kra.budget.service.BudgetService#getNewBudgetVersion(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, java.lang.String)

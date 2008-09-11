@@ -22,19 +22,19 @@ public class Organization extends KraPersistableBusinessObjectBase {
 	private String dodacNumber;
 	private String dunsNumber;
 	private String dunsPlusFourNumber;
-	private String fedralEmployerId;
+	private String federalEmployerId;
 	private String humanSubAssurance;
 	private Date incorporatedDate;
 	private String incorporatedIn;
 	private String indirectCostRateAgreement;
-	private String irsTaxExcemption;
-	private String massEmployeeClaim;
-	private String massTaxExcemptNum;
+	private String irsTaxExemption;
+	private String stateEmployeeClaim;
+	private String stateTaxExemptNum;
 	private String nsfInstitutionalCode;
 	private Integer numberOfEmployees;
 	private Integer onrResidentRep;
 	private String organizationName;
-	private String phsAcount;
+	private String phsAccount;
 	private Date scienceMisconductComplDate;
 	private String telexNumber;
 	private String vendorCode;
@@ -165,12 +165,12 @@ public class Organization extends KraPersistableBusinessObjectBase {
 		this.dunsPlusFourNumber = dunsPlusFourNumber;
 	}
 
-	public String getFedralEmployerId() {
-		return fedralEmployerId;
+	public String getFederalEmployerId() {
+		return federalEmployerId;
 	}
 
-	public void setFedralEmployerId(String fedralEmployerId) {
-		this.fedralEmployerId = fedralEmployerId;
+	public void setFederalEmployerId(String federalEmployerId) {
+		this.federalEmployerId = federalEmployerId;
 	}
 
 	public String getHumanSubAssurance() {
@@ -205,28 +205,28 @@ public class Organization extends KraPersistableBusinessObjectBase {
 		this.indirectCostRateAgreement = indirectCostRateAgreement;
 	}
 
-	public String getIrsTaxExcemption() {
-		return irsTaxExcemption;
+	public String getIrsTaxExemption() {
+		return irsTaxExemption;
 	}
 
-	public void setIrsTaxExcemption(String irsTaxExcemption) {
-		this.irsTaxExcemption = irsTaxExcemption;
+	public void setIrsTaxExemption(String irsTaxExemption) {
+		this.irsTaxExemption = irsTaxExemption;
 	}
 
-	public String getMassEmployeeClaim() {
-		return massEmployeeClaim;
+	public String getStateEmployeeClaim() {
+		return stateEmployeeClaim;
 	}
 
-	public void setMassEmployeeClaim(String massEmployeeClaim) {
-		this.massEmployeeClaim = massEmployeeClaim;
+	public void setStateEmployeeClaim(String stateEmployeeClaim) {
+		this.stateEmployeeClaim = stateEmployeeClaim;
 	}
 
-	public String getMassTaxExcemptNum() {
-		return massTaxExcemptNum;
+	public String getStateTaxExemptNum() {
+		return stateTaxExemptNum;
 	}
 
-	public void setMassTaxExcemptNum(String massTaxExcemptNum) {
-		this.massTaxExcemptNum = massTaxExcemptNum;
+	public void setStateTaxExemptNum(String stateTaxExemptNum) {
+		this.stateTaxExemptNum = stateTaxExemptNum;
 	}
 
 	public String getNsfInstitutionalCode() {
@@ -261,12 +261,12 @@ public class Organization extends KraPersistableBusinessObjectBase {
 		this.organizationName = organizationName;
 	}
 
-	public String getPhsAcount() {
-		return phsAcount;
+	public String getPhsAccount() {
+		return phsAccount;
 	}
 
-	public void setPhsAcount(String phsAcount) {
-		this.phsAcount = phsAcount;
+	public void setPhsAccount(String phsAccount) {
+		this.phsAccount = phsAccount;
 	}
 
 	public Date getScienceMisconductComplDate() {
@@ -311,19 +311,19 @@ public class Organization extends KraPersistableBusinessObjectBase {
 		hashMap.put("dodacNumber", getDodacNumber());
 		hashMap.put("dunsNumber", getDunsNumber());
 		hashMap.put("dunsPlusFourNumber", getDunsPlusFourNumber());
-		hashMap.put("fedralEmployerId", getFedralEmployerId());
+		hashMap.put("federalEmployerId", getFederalEmployerId());
 		hashMap.put("humanSubAssurance", getHumanSubAssurance());
 		hashMap.put("incorporatedDate", getIncorporatedDate());
 		hashMap.put("incorporatedIn", getIncorporatedIn());
 		hashMap.put("indirectCostRateAgreement", getIndirectCostRateAgreement());
-		hashMap.put("irsTaxExcemption", getIrsTaxExcemption());
-		hashMap.put("massEmployeeClaim", getMassEmployeeClaim());
-		hashMap.put("massTaxExcemptNum", getMassTaxExcemptNum());
+		hashMap.put("irsTaxExemption", getIrsTaxExemption());
+		hashMap.put("stateEmployeeClaim", getStateEmployeeClaim());
+		hashMap.put("stateTaxExemptNum", getStateTaxExemptNum());
 		hashMap.put("nsfInstitutionalCode", getNsfInstitutionalCode());
 		hashMap.put("numberOfEmployees", getNumberOfEmployees());
 		hashMap.put("onrResidentRep", getOnrResidentRep());
 		hashMap.put("organizationName", getOrganizationName());
-		hashMap.put("phsAcount", getPhsAcount());
+		hashMap.put("phsAccount", getPhsAccount());
 		hashMap.put("scienceMisconductComplDate", getScienceMisconductComplDate());
 		hashMap.put("telexNumber", getTelexNumber());
 		hashMap.put("vendorCode", getVendorCode());

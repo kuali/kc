@@ -38,19 +38,19 @@
 				<field attributeName="dodacNumber"/>
 				<field attributeName="dunsNumber"/>
 				<field attributeName="dunsPlusFourNumber"/>
-				<field attributeName="fedralEmployerId"/>
+				<field attributeName="federalEmployerId"/>
 				<field attributeName="humanSubAssurance"/>
 				<field attributeName="incorporatedDate"/>
 				<field attributeName="incorporatedIn"/>
 				<field attributeName="indirectCostRateAgreement"/>
-				<field attributeName="irsTaxExcemption"/>
-				<field attributeName="massEmployeeClaim"/>
-				<field attributeName="massTaxExcemptNum"/>
+				<field attributeName="irsTaxExemption"/>
+				<field attributeName="stateEmployeeClaim"/>
+				<field attributeName="stateTaxExemptNum"/>
 				<field attributeName="nsfInstitutionalCode"/>
 				<field attributeName="numberOfEmployees"/>
 				<field attributeName="onrResidentRep"/>
 				<field attributeName="organizationName"/>
-				<field attributeName="phsAcount"/>
+				<field attributeName="phsAccount"/>
 				<field attributeName="scienceMisconductComplDate"/>
 				<field attributeName="telexNumber"/>
 				<field attributeName="vendorCode"/>
@@ -121,7 +121,7 @@
             	<lookupField attributeName="organizationId" required="false"/>
 				<lookupField attributeName="organizationName" required="false"/>
 				<lookupField attributeName="address" required="false"/>
-				<lookupField attributeName="fedralEmployerId" required="false"/>
+				<lookupField attributeName="federalEmployerId" required="false"/>
 				<lookupField attributeName="congressionalDistrict" required="false"/>
 				<lookupField attributeName="dunsNumber" required="false"/>
 				<lookupField attributeName="dunsPlusFourNumber" required="false"/>
@@ -135,7 +135,7 @@
             	<field attributeName="organizationId" forceInquiry="true"/>
 				<field attributeName="organizationName" forceInquiry="false"/>
 				<field attributeName="address" forceInquiry="false"/>
-				<field attributeName="fedralEmployerId" forceInquiry="false"/>
+				<field attributeName="federalEmployerId" forceInquiry="false"/>
 				<field attributeName="congressionalDistrict" forceInquiry="false"/>
 				<field attributeName="dunsNumber" forceInquiry="false"/>
 				<field attributeName="dunsPlusFourNumber" forceInquiry="false"/>
@@ -319,16 +319,16 @@
 			<description>Duns Plus Four Number </description>
 			</attribute>
 
-			<attribute name="fedralEmployerId">
-			<label>Fedral Employer Id </label>
-			<shortLabel>Fedral Employer Id </shortLabel>
+			<attribute name="federalEmployerId">
+			<label>Federal Employer Id </label>
+			<shortLabel>Federal Employer Id </shortLabel>
 			<maxLength>15</maxLength>
 			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<text size="15" />
 			</control>
-			<summary>Fedral Employer Id </summary>
-			<description>Fedral Employer Id </description>
+			<summary>Federal Employer Id </summary>
+			<description>Federal Employer Id </description>
 			</attribute>
 
 			<attribute name="humanSubAssurance">
@@ -379,40 +379,40 @@
 			<description>Indirect Cost Rate Agreement </description>
 			</attribute>
 
-			<attribute name="irsTaxExcemption">
-			<label>Irs Tax Excemption </label>
-			<shortLabel>Irs Tax Excemption </shortLabel>
+			<attribute name="irsTaxExemption">
+			<label>Irs Tax Exemption </label>
+			<shortLabel>Irs Tax Exemption </shortLabel>
 			<maxLength>30</maxLength>
 			<validationPattern><charset validChars="0123456789-" /></validationPattern>
 			<control>
 				<text size="30" />
 			</control>
-			<summary>Irs Tax Excemption </summary>
-			<description>Irs Tax Excemption </description>
+			<summary>Irs Tax Exemption </summary>
+			<description>Irs Tax Exemption </description>
 			</attribute>
 
-			<attribute name="massEmployeeClaim">
-			<label>Mass Employee Claim </label>
-			<shortLabel>Mass Employee Claim </shortLabel>
+			<attribute name="stateEmployeeClaim">
+			<label>State Employee Claim </label>
+			<shortLabel>State Employee Claim </shortLabel>
 			<maxLength>30</maxLength>
 			<validationPattern><anyCharacter /></validationPattern>
 			<control>
 				<text size="30" />
 			</control>
-			<summary>Mass Employee Claim </summary>
-			<description>Mass Employee Claim </description>
+			<summary>State Employee Claim </summary>
+			<description>State Employee Claim </description>
 			</attribute>
 
-			<attribute name="massTaxExcemptNum">
-			<label>Mass Tax Excempt Num </label>
-			<shortLabel>Mass Tax Excempt Num </shortLabel>
+			<attribute name="stateTaxExemptNum">
+			<label>State Tax Exempt Num </label>
+			<shortLabel>State Tax Exempt Num </shortLabel>
 			<maxLength>30</maxLength>
 			<validationPattern><anyCharacter /></validationPattern>
 			<control>
 				<text size="30" />
 			</control>
-			<summary>Mass Tax Excempt Num </summary>
-			<description>Mass Tax Excempt Num </description>
+			<summary>State Tax Exempt Num </summary>
+			<description>State Tax Exempt Num </description>
 			</attribute>
 
 			<attribute name="nsfInstitutionalCode">
@@ -463,16 +463,16 @@
 			<description>Organization Name </description>
 			</attribute>
 
-			<attribute name="phsAcount">
-			<label>Phs Acount </label>
-			<shortLabel>Phs Acount </shortLabel>
+			<attribute name="phsAccount">
+			<label>Phs Account </label>
+			<shortLabel>Phs Account </shortLabel>
 			<maxLength>30</maxLength>
 			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<text size="30" />
 			</control>
-			<summary>Phs Acount </summary>
-			<description>Phs Acount </description>
+			<summary>Phs Account </summary>
+			<description>Phs Account </description>
 			</attribute>
 
 			<attribute name="scienceMisconductComplDate">

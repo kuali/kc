@@ -19,12 +19,17 @@ import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.PessimisticLockService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.budget.service.BudgetService;
 import org.kuali.kra.proposaldevelopment.bo.ProposalExemptNumber;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.rules.BudgetVersionRule;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 public interface ProposalDevelopmentService {
     
@@ -95,4 +100,54 @@ public interface ProposalDevelopmentService {
     public String populateProposalEditableFieldMetaDataForAjaxCall(String proposalNumber, String editableFieldDBColumn);
     
     public Object getProposalFieldValueFromDBColumnName(String proposalNumber, String dbColumnName) ;
+
+    /**
+     * Add a new Budget Version by name to a {@link ProposalDevelopmentDocument}
+     * 
+     * @param document instance to add {@link BudgetVersionOverview} to
+     * @param versionName of the {@link BudgetVersionOverview}
+     */
+    public void addBudgetVersion(ProposalDevelopmentDocument document, String versionName) throws WorkflowException;
+
+    /**
+     * Retrieve injected <code>{@link BudgetService}</code> singleton
+     * 
+     * @return BudgetService
+     */
+    public BudgetService getBudgetService();
+
+    /**
+     * Inject <code>{@link BudgetService}</code> singleton
+     * 
+     * @return budgetService to assign
+     */
+    public void setBudgetService(BudgetService budgetService);
+    
+    /**
+     * Retrieve injected <code>{@link PessimisticLockService}</code> singleton
+     * 
+     * @return PessimisticLockService
+     */
+    public PessimisticLockService getPessimisticLockService();
+    
+    /**
+     * Inject <code>{@link PessimisticLockService}</code> singleton
+     * 
+     * @param pessimisticLockService to assign
+     */
+    public void setPessimisticLockService(PessimisticLockService pessimisticLockService) ;
+    
+    /**
+     * Retrieve injected <code>{@link BudgetVersionRule}</code> singleton
+     * 
+     * @return BudgetVersionRule
+     */
+    public BudgetVersionRule getBudgetVersionRule();
+    
+    /**
+     * Inject <code>{@BudgetVersionRule}</code> singleton
+     * 
+     * @return BudgetVersionRule
+     */
+    public void setBudgetVersionRule(BudgetVersionRule budgetVersionRule);
 }

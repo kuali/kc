@@ -235,4 +235,6 @@ public class KeyConstants {
     public static final String AUDIT_WARNING_RATE_OUT_OF_SYNC = "warning.rate.outofsync";
     public static final String ERROR_DUPLICATE_PERSON = "error.duplicate.person";
 
+    // Budget Version
+    public static final String BUDGET_VERSION_EXISTS = "error.budgetVersion.exists";
 }

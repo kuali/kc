@@ -94,18 +94,18 @@
       <county>Middlesex</county>
       <dunsNumber>001425594</dunsNumber>
       <dunsPlusFourNumber>4328</dunsPlusFourNumber>
-      <fedralEmployerId>042103594</fedralEmployerId>
+      <federalEmployerId>042103594</federalEmployerId>
       <humanSubAssurance>FWA00004881</humanSubAssurance>
       <incorporatedDate>1861-04-10</incorporatedDate>
       <incorporatedIn>Massachusetts</incorporatedIn>
       <indirectCostRateAgreement>03/08/2002</indirectCostRateAgreement>
-      <irsTaxExcemption>09-123-9876</irsTaxExcemption>
-      <massEmployeeClaim>72-002250</massEmployeeClaim>
-      <massTaxExcemptNum>E042-103-594</massTaxExcemptNum>
+      <irsTaxExemption>09-123-9876</irsTaxExemption>
+      <stateEmployeeClaim>72-002250</stateEmployeeClaim>
+      <stateTaxExemptNum>E042-103-594</stateTaxExemptNum>
       <nsfInstitutionalCode>002 178 2000</nsfInstitutionalCode>
       <numberOfEmployees>7500</numberOfEmployees>
       <organizationName>University</organizationName>
-      <phsAcount>1042103594A1</phsAcount>
+      <phsAccount>1042103594A1</phsAccount>
       <scienceMisconductComplDate>1998-03-02</scienceMisconductComplDate>
       <telexNumber>92-1473</telexNumber>
       <vendorCode>042-103-594-000-1</vendorCode>
