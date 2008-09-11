@@ -123,6 +123,10 @@
 	<bean id="documentService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
 		<property name="serviceName" value="documentService" />
 	</bean>
+
+	<bean id="pessimisticLockService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="pessimisticLockService" />
+	</bean>
 	
 	<bean id="routeHeaderService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
 		<property name="serviceName" value="enDocumentRouteHeaderService" />
@@ -302,6 +306,9 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="unitAuthorizationService" ref="unitAuthorizationService" />
 		<property name="kraPersistenceStructureService" ref="kraPersistenceStructureService" /> 
+		<property name="pessimisticLockService" ref="pessimisticLockService" /> 
+		<property name="budgetService" ref="budgetService" /> 
+		<property name="budgetVersionRule" ref="budgetVersionRule" /> 
 	</bean>
 
 	<bean id="sponsorService" class="org.kuali.kra.service.impl.SponsorServiceImpl">
@@ -528,7 +535,9 @@
 			<ref bean="budgetPersonService"/>
 		</property>
 	</bean>
-	
+
+	<bean id="budgetVersionRule" class="org.kuali.kra.proposaldevelopment.rules.BudgetVersionRule" singleton="false" />
+
 	<bean id="proposalStatusService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalStatusServiceImpl">
 		<property name="businessObjectService" >
   			<ref bean="businessObjectService"/>

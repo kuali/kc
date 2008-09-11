@@ -49,7 +49,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.rule.event.AddProposalBudgetVersionEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.AddBudgetVersionEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.question.CopyPeriodsQuestion;
@@ -57,6 +57,8 @@ import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.exception.WorkflowException;
+
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 /**
  * Struts Action class for the Propsoal Development Budget Versions page
@@ -94,24 +96,10 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
     public ActionForward addBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
-        
-        if (getService(KualiRuleService.class).applyRules(new AddProposalBudgetVersionEvent(pdDoc, pdForm.getNewBudgetVersionName()))) {
-            BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
-            BudgetDocument newBudgetDoc = budgetService.getNewBudgetVersion(pdDoc, pdForm.getNewBudgetVersionName());
-                    
-            PessimisticLock budgetLockForProposalDoc = null;
-            for(PessimisticLock pdLock : pdDoc.getPessimisticLocks()) {
-                if(pdLock.getLockDescriptor().contains(KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET)) {
-                    budgetLockForProposalDoc = pdLock;
-                    break;
-                }
-            }
-            PessimisticLock budgetLockForBudgetDoc = KNSServiceLocator.getPessimisticLockService().generateNewLock(newBudgetDoc.getDocumentNumber(), budgetLockForProposalDoc.getLockDescriptor(), budgetLockForProposalDoc.getOwnedByUser());
-            newBudgetDoc.addPessimisticLock(budgetLockForBudgetDoc);
-            
-            pdForm.getProposalDevelopmentDocument().addNewBudgetVersion(newBudgetDoc, pdForm.getNewBudgetVersionName(), false);
-            pdForm.setNewBudgetVersionName("");
-        }
+
+        getProposalDevelopmentService().addBudgetVersion(pdDoc, pdForm.getNewBudgetVersionName());
+
+        pdForm.setNewBudgetVersionName("");
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -318,5 +306,14 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
 
     private BudgetRatesService getBudgetRatesService() {
         return getService(BudgetRatesService.class);
+    }
+
+    /**
+     * Locate from Spring the <code>{@link ProposalDevelopmentService}</code> singleton
+     * 
+     * @return ProposalDevelopmentService
+     */
+    private ProposalDevelopmentService getProposalDevelopmentService() {
+        return getService(ProposalDevelopmentService.class);
     }
 }

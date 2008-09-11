@@ -16,6 +16,7 @@
 package org.kuali.kra.proposaldevelopment.service.impl;
 
 import static java.util.Collections.sort;
+import static org.kuali.kra.logging.BufferedLogger.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,11 +29,13 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.document.authorization.PessimisticLock;
 import org.kuali.core.rule.event.DocumentAuditEvent;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
+import org.kuali.core.service.PessimisticLockService;
 import org.kuali.core.util.AuditCluster;
 import org.kuali.core.util.AuditError;
 import org.kuali.core.util.GlobalVariables;
@@ -41,12 +44,14 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.ExemptionType;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.service.BudgetService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -59,17 +64,25 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.bo.ProposalOverview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.rule.event.AddBudgetVersionEvent;
+import org.kuali.kra.proposaldevelopment.rules.BudgetVersionRule;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.KraPersistenceStructureService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.KNSServiceLocator;
 
+import edu.iu.uis.eden.exception.WorkflowException;
+
+
 // TODO : extends PersistenceServiceStructureImplBase is a hack to temporarily resolve get class descriptor.
 public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentService {
     private BusinessObjectService businessObjectService;
     private UnitAuthorizationService unitAuthService;
     private KraPersistenceStructureService kraPersistenceStructureService;
+    private BudgetService budgetService;
+    private PessimisticLockService pessimisticLockService;
+    private BudgetVersionRule budgetVersionRule;
     
     /**
      * This method...
@@ -419,6 +432,57 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         return returnValue; 
     }
 
+    /**
+     * Service method for adding a {@link BudgetVersionOverview} to a {@link ProposalDevelopmentDocument}. If a 
+     * {@link BudgetVersionOverview} instance with the  <code>versionName</code> already exists 
+     * in the {@link ProposalDevelopmentDocument}, then a hard error will occur. Try it and you'll see what I mean.
+     * 
+     * @param document instance to add {@link BudgetVersionOverview} to
+     * @param versionName of the {@link BudgetVersionOverview}
+     */
+    public void addBudgetVersion(ProposalDevelopmentDocument document, String versionName) throws WorkflowException {
+        if (!isNewBudgetVersionNameValid(document, versionName)) {
+            debug("Buffered Version not Valid");
+            return;
+        }
+
+        BudgetDocument newBudgetDoc = getBudgetService().getNewBudgetVersion(document, versionName);
+        
+        PessimisticLock budgetLockForProposalDoc = null;
+
+        for(PessimisticLock pdLock : document.getPessimisticLocks()) {
+            if(pdLock.getLockDescriptor().contains(KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET)) {
+                budgetLockForProposalDoc = pdLock;
+                break;
+            }
+        }
+
+        try {
+            PessimisticLock budgetLockForBudgetDoc = getPessimisticLockService().generateNewLock(newBudgetDoc.getDocumentNumber(), budgetLockForProposalDoc.getLockDescriptor(), budgetLockForProposalDoc.getOwnedByUser());
+            newBudgetDoc.addPessimisticLock(budgetLockForBudgetDoc);
+        } catch (Exception e) {
+            
+        }
+
+        document.addNewBudgetVersion(newBudgetDoc, versionName, false);
+    }
+
+    /**
+     * Runs business rules on the given name of a {@link BudgetVersionOverview} instance and {@link ProposalDevelopmentDocument} instance to 
+     * determine if it is ok to add a {@link BudgetVersionOverview} instance to a {@link BudgetDocument} instance. If the business rules fail, 
+     * this should be false and there will be errors in the error map.<br/>
+     *
+     * <p>Takes care of all the setup and calling of the {@link KualiRuleService}. Uses the {@link AddBudgetVersionEvent}.</p>
+     *
+     * @param document {@link ProposalDevelopmentDocument} to validate against
+     * @param name of the pseudo-{@link BudgetVersionOverview} instance to validate
+     * @returns true if the rules passed, false otherwise
+     */
+    private boolean isNewBudgetVersionNameValid(ProposalDevelopmentDocument document,  String name) {
+        debug("Invoking budgetrule " + getBudgetVersionRule());
+        return new AddBudgetVersionEvent(document, name).invokeRuleMethod(getBudgetVersionRule());
+    }
+
     public KraPersistenceStructureService getKraPersistenceStructureService() {
         return kraPersistenceStructureService;
     }
@@ -427,4 +491,57 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         this.kraPersistenceStructureService = kraPersistenceStructureService;
     }
 
+    /**
+     * Retrieve injected <code>{@link BudgetService}</code> singleton
+     * 
+     * @return BudgetService
+     */
+    public BudgetService getBudgetService() {
+        return budgetService;
+    }
+
+    /**
+     * Inject <code>{@link BudgetService}</code> singleton
+     * 
+     * @return budgetService to assign
+     */
+    public void setBudgetService(BudgetService budgetService) {
+        this.budgetService = budgetService;
+    }
+
+    /**
+     * Retrieve injected <code>{@link PessimisticLockService}</code> singleton
+     * 
+     * @return PessimisticLockService
+     */
+    public PessimisticLockService getPessimisticLockService() {
+        return pessimisticLockService;
+    }
+
+    /**
+     * Inject <code>{@link PessimisticLockService}</code> singleton
+     * 
+     * @param pessimisticLockService to assign
+     */
+    public void setPessimisticLockService(PessimisticLockService pessimisticLockService) {
+        this.pessimisticLockService = pessimisticLockService;
+    }
+
+    /**
+     * Retrieve injected <code>{@link BudgetVersionRule}</code> singleton
+     * 
+     * @return BudgetVersionRule
+     */
+    public BudgetVersionRule getBudgetVersionRule() {
+        return budgetVersionRule;
+    }
+
+    /**
+     * Inject <code>{@BudgetVersionRule}</code> singleton
+     * 
+     * @return BudgetVersionRule
+     */
+    public void setBudgetVersionRule(BudgetVersionRule budgetVersionRule) {
+        this.budgetVersionRule = budgetVersionRule;
+    }
 }

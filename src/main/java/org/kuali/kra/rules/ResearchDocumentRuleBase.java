@@ -107,12 +107,12 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
                 errorMap.putError("budgetVersionOverview[" + index + "].budgetStatus", KeyConstants.ERROR_NO_FINAL_BUDGET);
                 valid = false;
             }
+
             index++;
         }
         
         return valid;
     }
-
     
     /**
      * Does the current user have the given permission for the proposal?

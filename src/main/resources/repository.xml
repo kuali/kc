@@ -995,19 +995,19 @@
 		<field-descriptor name="dodacNumber" column="DODAC_NUMBER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="dunsNumber" column="DUNS_NUMBER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="dunsPlusFourNumber" column="DUNS_PLUS_FOUR_NUMBER" jdbc-type="VARCHAR"/>
-		<field-descriptor name="fedralEmployerId" column="FEDRAL_EMPLOYER_ID" jdbc-type="VARCHAR"/>
+		<field-descriptor name="federalEmployerId" column="FEDRAL_EMPLOYER_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="humanSubAssurance" column="HUMAN_SUB_ASSURANCE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="incorporatedDate" column="INCORPORATED_DATE" jdbc-type="DATE"/>
 		<field-descriptor name="incorporatedIn" column="INCORPORATED_IN" jdbc-type="VARCHAR"/>
 		<field-descriptor name="indirectCostRateAgreement" column="INDIRECT_COST_RATE_AGREEMENT" jdbc-type="VARCHAR"/>
-		<field-descriptor name="irsTaxExcemption" column="IRS_TAX_EXCEMPTION" jdbc-type="VARCHAR"/>
-		<field-descriptor name="massEmployeeClaim" column="MASS_EMPLOYEE_CLAIM" jdbc-type="VARCHAR"/>
-		<field-descriptor name="massTaxExcemptNum" column="MASS_TAX_EXCEMPT_NUM" jdbc-type="VARCHAR"/>
+		<field-descriptor name="irsTaxExemption" column="IRS_TAX_EXCEMPTION" jdbc-type="VARCHAR"/>
+		<field-descriptor name="stateEmployeeClaim" column="MASS_EMPLOYEE_CLAIM" jdbc-type="VARCHAR"/>
+		<field-descriptor name="stateTaxExemptNum" column="MASS_TAX_EXCEMPT_NUM" jdbc-type="VARCHAR"/>
 		<field-descriptor name="nsfInstitutionalCode" column="NSF_INSTITUTIONAL_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="numberOfEmployees" column="NUMBER_OF_EMPLOYEES" jdbc-type="INTEGER"/>
 		<field-descriptor name="onrResidentRep" column="ONR_RESIDENT_REP" jdbc-type="INTEGER"/>
 		<field-descriptor name="organizationName" column="ORGANIZATION_NAME" jdbc-type="VARCHAR"/>
-		<field-descriptor name="phsAcount" column="PHS_ACOUNT" jdbc-type="VARCHAR"/>
+		<field-descriptor name="phsAccount" column="PHS_ACOUNT" jdbc-type="VARCHAR"/>
 		<field-descriptor name="scienceMisconductComplDate" column="SCIENCE_MISCONDUCT_COMPL_DATE" jdbc-type="DATE"/>
 		<field-descriptor name="telexNumber" column="TELEX_NUMBER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
