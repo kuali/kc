@@ -15,7 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.rule.event;
 
-import static org.kuali.kra.logging.FormattedLogger.info;
+import static org.kuali.kra.logging.BufferedLogger.debug;
+import static org.kuali.kra.logging.BufferedLogger.info;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
@@ -23,14 +24,9 @@ import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.CalculateCreditSplitRule;
-import org.kuali.kra.proposaldevelopment.rule.SaveKeyPersonRule;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 
 public class CalculateCreditSplitEvent  extends KraDocumentEventBase  {
-
-    
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(SaveKeyPersonEvent.class);
- 
      
     /**
      * Constructs an CalculateCreditSplitEvent with the given errorPathPrefix, document.
@@ -59,7 +55,7 @@ public class CalculateCreditSplitEvent  extends KraDocumentEventBase  {
             logMessage.delete(logMessage.length() - 2, logMessage.length());
         }
 
-        LOG.debug(logMessage);
+        debug(logMessage);
         
     }
 
@@ -84,7 +80,7 @@ public class CalculateCreditSplitEvent  extends KraDocumentEventBase  {
      * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
-        info("Calling processCalculateCreditSplitBusinessRules on %s", rule.getClass().getSimpleName());
+        info("Calling processCalculateCreditSplitBusinessRules on ", rule.getClass().getSimpleName());
         return ((CalculateCreditSplitRule) rule).processCalculateCreditSplitBusinessRules((ProposalDevelopmentDocument) getDocument());
     }
 

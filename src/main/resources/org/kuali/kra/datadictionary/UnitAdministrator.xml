@@ -24,9 +24,9 @@
             <title>Unit Administrator</title>
 
             <inquirySections><inquirySection title="Unit Administrator"><inquiryFields>
-            	<field attributeName="personId" forceInquiry="true"/>
-				<field attributeName="unitAdministratorTypeCode" forceInquiry="true"/>
-				<field attributeName="unitNumber" forceInquiry="true"/>
+            	<field attributeName="person.fullName" forceInquiry="true"/>
+				<field attributeName="unitAdministratorType.description" forceInquiry="true"/>
+				<field attributeName="unit.unitName" forceInquiry="true"/>
 
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
@@ -55,9 +55,9 @@
             </lookupFields>
 
             <resultFields>
-            	<field attributeName="personId" forceInquiry="true"/>
-				<field attributeName="unitAdministratorTypeCode" forceInquiry="true"/>
-				<field attributeName="unitNumber" forceInquiry="true"/>
+            	<field attributeName="person.fullName" forceInquiry="true"/>
+				<field attributeName="unitAdministratorType.description" forceInquiry="true"/>
+				<field attributeName="unit.unitName" forceInquiry="true"/>
 
             </resultFields>
         </lookup>
@@ -106,6 +106,10 @@
 			<summary>Unit Number </summary>
 			<description>Unit Number </description>
 			</attribute>
+			<attributeReference name="person.fullName" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="fullName" />
+			<attributeReference name="unitAdministratorType.description" sourceClassName="org.kuali.kra.bo.UnitAdministratorType" sourceAttributeName="description" />
+			<attributeReference name="unit.unitName" sourceClassName="org.kuali.kra.bo.Unit" sourceAttributeName="unitName" />
+
 			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
 		</attributes>
