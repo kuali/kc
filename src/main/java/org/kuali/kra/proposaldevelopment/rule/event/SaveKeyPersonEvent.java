@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.rule.event;
 
-import static org.kuali.kra.logging.FormattedLogger.*;
+import static org.kuali.kra.logging.BufferedLogger.*;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
@@ -33,7 +33,6 @@ import org.kuali.kra.rule.event.KraDocumentEventBase;
  * @version $Revision: 1.4 $
  */
 public class SaveKeyPersonEvent extends KraDocumentEventBase {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(SaveKeyPersonEvent.class);
 
     /**
      * Constructs an SaveKeyPersonEvent with the given errorPathPrefix, document, and proposalPerson.
@@ -63,7 +62,7 @@ public class SaveKeyPersonEvent extends KraDocumentEventBase {
             logMessage.delete(logMessage.length() - 2, logMessage.length());
         }
 
-        LOG.debug(logMessage);
+        debug(logMessage);
     }
 
     /**
@@ -88,7 +87,7 @@ public class SaveKeyPersonEvent extends KraDocumentEventBase {
      * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
-        info("Calling processSaveKeyPersonBusinessRules on %s", rule.getClass().getSimpleName());
+        info("Calling processSaveKeyPersonBusinessRules on ", rule.getClass().getSimpleName());
         return ((SaveKeyPersonRule) rule).processSaveKeyPersonBusinessRules((ProposalDevelopmentDocument) getDocument());
     }
 }
