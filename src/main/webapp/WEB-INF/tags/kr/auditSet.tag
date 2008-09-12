@@ -18,7 +18,7 @@
 
 
 <c:set var="found" value="${false}"/>
-    <tr><td colspan="3" class="subhead">${category}</td></tr>
+    <tr><td colspan="4" class="subhead">${category}</td></tr>
 
 <c:forEach items="${AuditErrors}" var="cluster">
 	<c:if test="${cluster.value.category == category && cluster.value.size != 0}">
@@ -30,7 +30,7 @@
 </c:forEach>
 <c:if test="${!found}">
 	<tr>
-		<td colspan="3" height="70" align=left valign=middle class="datacell">
+		<td colspan="4" height="70" align=left valign=middle class="datacell">
 			<div align="center">No ${category} present.</div>
 		</td>
 	</tr>
