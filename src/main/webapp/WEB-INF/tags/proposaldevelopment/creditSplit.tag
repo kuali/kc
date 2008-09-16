@@ -32,7 +32,7 @@
                 <th width="${columnWidth}"></th>
 				<c:forEach items="${KualiForm.document.investigatorCreditTypes}" var="invType" >
                 	<th width="${columnWidth}">${invType.description}</th>
-				</c:forEach>
+				 </c:forEach>
               </tr>
 			<c:forEach items="${KualiForm.document.investigators}" var="investigator" varStatus="invStatus">
   			<c:set var="investigatorProperty" value="document.investigator[${invStatus.index}]" />
@@ -41,27 +41,38 @@
                   <kul:htmlControlAttribute property="${investigatorProperty}.fullName" 
                                       attributeEntry="${proposalPersonAttributes.fullName}" readOnly="true" />
                   </strong></td>
-  <c:forEach items="${investigator.creditSplits}" varStatus="splitStatus" >
-    <c:set var="personCreditSplit" value="${investigatorProperty}.creditSplit[${splitStatus.index}]" />
-                <td class="tab-subhead1"><div align="right"><strong>
-                  <kul:htmlControlAttribute property="${personCreditSplit}.credit" 
-                                      attributeEntry="${personCreditSplitAttributes.credit}" styleClass="align-right" />
-                </strong></div></td>
-  </c:forEach> 
+  
+  
+  <c:forEach items="${KualiForm.document.investigatorCreditTypes}" var="invType">
+      <c:forEach items="${investigator.creditSplits}" var="personcreditsplit" varStatus="splitStatus" >
+          <c:set var="personCreditSplit" value="${investigatorProperty}.creditSplit[${splitStatus.index}]" />
+               <c:if test="${personcreditsplit.invCreditTypeCode == invType.invCreditTypeCode}">
+                   <td class="tab-subhead1"><div align="right"><strong>
+                          <kul:htmlControlAttribute property="${personCreditSplit}.credit" 
+                           attributeEntry="${personCreditSplitAttributes.credit}" styleClass="align-right" /> </c:if></strong></div></td>
+                                         
+        </c:forEach>
+  </c:forEach>           
+ 
+ 
              </tr>
+             
   <c:forEach items="${investigator.units}" var="personUnit" varStatus="unitStatus">
              <tr>
     <c:set var="unitProperty" value="${investigatorProperty}.unit[${unitStatus.index}]" />
                 <td nowrap>${personUnit.unitNumber} - ${personUnit.unit.unitName}</td>
 
-    <c:forEach items="${personUnit.creditSplits}" varStatus="splitStatus" >
+     <c:forEach items="${KualiForm.document.investigatorCreditTypes}" var="invType">
+    <c:forEach items="${personUnit.creditSplits}" var="unitcreditsplit" varStatus="splitStatus" >
       <c:set var="unitCreditSplit" value="${unitProperty}.creditSplit[${splitStatus.index}]" />
-    
+                    <c:if test="${unitcreditsplit.invCreditTypeCode == invType.invCreditTypeCode}">
                 <td><div align="right"><kul:htmlControlAttribute property="${unitCreditSplit}.credit" 
-                                      attributeEntry="${unitCreditSplitAttributes.credit}"  styleClass="align-right" /></div></td>
+                                      attributeEntry="${unitCreditSplitAttributes.credit}"  styleClass="align-right" /></c:if></div></td>
     </c:forEach>
+      </c:forEach>
               </tr>
-  </c:forEach>
+ 
+   </c:forEach>
   <c:if test="${fn:length(investigator.units) > 0}">
               <tr>
                 <td nowrap class="infoline"><strong>Unit Total:
@@ -74,7 +85,7 @@
   </c:if>
 </c:forEach>
               <tr>
-                <td colspan="5" nowrap class="tab-subhead1" >Totals</td>
+                <td colspan="${columnWidth}" nowrap class="tab-subhead1" >Totals</td>
               </tr>
               <tr>
                 <td nowrap class="infoline"><strong>Investigator Total:
