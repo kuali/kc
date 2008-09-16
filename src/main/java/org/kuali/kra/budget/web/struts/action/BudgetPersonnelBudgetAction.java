@@ -81,12 +81,12 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
         boolean errorFound = false;
         if(newBudgetPersonnelDetails.getPercentEffort().isLessThan(new BudgetDecimal(0)) 
                 || newBudgetPersonnelDetails.getPercentEffort().isGreaterThan(new BudgetDecimal(100))){
-            GlobalVariables.getErrorMap().putError("newBudgetPersonnelDetails.percentEffort",KeyConstants.ERROR_PERCENT_EFFORT_INVALID);
+            GlobalVariables.getErrorMap().putError("newBudgetPersonnelDetails.percentEffort",KeyConstants.ERROR_PERCENTAGE, Constants.PERCENT_EFFORT_FIELD);
             errorFound=true;
         }
         if(newBudgetPersonnelDetails.getPercentCharged().isLessThan(new BudgetDecimal(0)) 
                 || newBudgetPersonnelDetails.getPercentCharged().isGreaterThan(new BudgetDecimal(100))){
-            GlobalVariables.getErrorMap().putError("newBudgetPersonnelDetails.percentCharged",KeyConstants.ERROR_PERCENT_CHARGED_INVALID);
+            GlobalVariables.getErrorMap().putError("newBudgetPersonnelDetails.percentCharged",KeyConstants.ERROR_PERCENTAGE, Constants.PERCENT_CHARGED_FIELD);
             errorFound=true;
         }
         if(newBudgetPersonnelDetails.getPercentCharged().isGreaterThan(newBudgetPersonnelDetails.getPercentEffort())){
@@ -229,12 +229,12 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
         for(BudgetPersonnelDetails budgetPersonnelDetails: selectedBudgetLineItem.getBudgetPersonnelDetailsList()){
             if(budgetPersonnelDetails.getPercentEffort().isLessThan(new BudgetDecimal(0)) 
                     || budgetPersonnelDetails.getPercentEffort().isGreaterThan(new BudgetDecimal(100))){
-                GlobalVariables.getErrorMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItems[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + k + "].percentEffort",KeyConstants.ERROR_PERCENT_EFFORT_INVALID);
+                GlobalVariables.getErrorMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItems[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + k + "].percentEffort",KeyConstants.ERROR_PERCENTAGE, Constants.PERCENT_EFFORT_FIELD);
                 errorFound=true;
             }
             if(budgetPersonnelDetails.getPercentCharged().isLessThan(new BudgetDecimal(0)) 
                     || budgetPersonnelDetails.getPercentCharged().isGreaterThan(new BudgetDecimal(100))){
-                GlobalVariables.getErrorMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItems[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + k + "].percentCharged",KeyConstants.ERROR_PERCENT_CHARGED_INVALID);
+                GlobalVariables.getErrorMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItems[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + k + "].percentCharged",KeyConstants.ERROR_PERCENTAGE, Constants.PERCENT_CHARGED_FIELD);
                 errorFound=true;
             }
             if(budgetPersonnelDetails.getPercentCharged().isGreaterThan(budgetPersonnelDetails.getPercentEffort())){
@@ -276,12 +276,12 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
         GlobalVariables.getErrorMap().addToErrorPath("document");
         if(budgetPersonnelDetails.getPercentEffort().isLessThan(new BudgetDecimal(0)) 
                 || budgetPersonnelDetails.getPercentEffort().isGreaterThan(new BudgetDecimal(100))){
-            GlobalVariables.getErrorMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex   +"].budgetLineItems[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + getLineToDelete(request) + "].percentEffort",KeyConstants.ERROR_PERCENT_EFFORT_INVALID);
+            GlobalVariables.getErrorMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex   +"].budgetLineItems[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + getLineToDelete(request) + "].percentEffort",KeyConstants.ERROR_PERCENTAGE, Constants.PERCENT_EFFORT_FIELD);
             errorFound=true;
         }
         if(budgetPersonnelDetails.getPercentCharged().isLessThan(new BudgetDecimal(0)) 
                 || budgetPersonnelDetails.getPercentCharged().isGreaterThan(new BudgetDecimal(100))){
-            GlobalVariables.getErrorMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItems[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + getLineToDelete(request) + "].percentCharged",KeyConstants.ERROR_PERCENT_CHARGED_INVALID);
+            GlobalVariables.getErrorMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItems[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + getLineToDelete(request) + "].percentCharged",KeyConstants.ERROR_PERCENTAGE, Constants.PERCENT_CHARGED_FIELD);
             errorFound=true;
         }
         if(budgetPersonnelDetails.getPercentCharged().isGreaterThan(budgetPersonnelDetails.getPercentEffort())){
@@ -308,7 +308,7 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
         boolean errorFound = false;
         GlobalVariables.getErrorMap().addToErrorPath("document");
         for(BudgetPersonnelDetails budgetPersonnelDetails: selectedBudgetLineItem.getBudgetPersonnelDetailsList()){
-           errorFound=errorFound || personnelDatesCheck(selectedBudgetLineItem, budgetPersonnelDetails, selectedBudgetPeriodIndex, selectedBudgetLineItemIndex, k);
+            errorFound=errorFound || personnelDatesCheck(selectedBudgetLineItem, budgetPersonnelDetails, selectedBudgetPeriodIndex, selectedBudgetLineItemIndex, k);
             k++;
         }
         GlobalVariables.getErrorMap().removeFromErrorPath("document");
