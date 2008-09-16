@@ -109,13 +109,14 @@
         </action>
 
       <!--  Budget -->
-            <action path="/budget*" name="BudgetForm" input="/WEB-INF/jsp/budget/Budget{1}.jsp" type="org.kuali.kra.budget.web.struts.action.Budget{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+      <action path="/budget*" name="BudgetForm" input="/WEB-INF/jsp/budget/Budget{1}.jsp" type="org.kuali.kra.budget.web.struts.action.Budget{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/budget/Budget{1}.jsp" />
           <forward name="versions" path="/WEB-INF/jsp/budget/BudgetVersions.jsp" />
           <forward name="summary" path="/WEB-INF/jsp/budget/BudgetSummary.jsp" />
           <forward name="personnel" path="/WEB-INF/jsp/budget/BudgetPersonnel.jsp" />
           <forward name="expenses" path="/WEB-INF/jsp/budget/BudgetExpenses.jsp" />
           <forward name="personnelBudget" path="/WEB-INF/jsp/budget/BudgetPersonnelBudget.jsp" />
+          <forward name="rates_save" path="/WEB-INF/jsp/budget/BudgetSummary.jsp" />
           <forward name="rates" path="/WEB-INF/jsp/budget/BudgetRates.jsp" />
           <forward name="distributionAndIncome" path="/WEB-INF/jsp/budget/BudgetDistributionAndIncome.jsp" />
           <forward name="modularBudget" path="/WEB-INF/jsp/budget/BudgetModularBudget.jsp" />
