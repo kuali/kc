@@ -86,6 +86,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
         if (document.getInvestigators().isEmpty() && !document.getProposalPersons().isEmpty()) {
             info("Need to repopulate investigator list");
             populateInvestigators(document);
+            populateActiveCredittypesPerson(document);
         }
         
         /* check for new certification questions */
@@ -93,6 +94,54 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
             getYnqService().getPersonYNQ(person, document);
         }
         
+    }
+   /**
+     * It populates the Active credit type in the proposalpersoncreditsplit and unitcreditsplit
+     *
+     * @param document
+     * @return true or false
+     */
+    public void populateActiveCredittypesPerson(ProposalDevelopmentDocument document){
+        Collection<InvestigatorCreditType> invcrdttype=getInvestigatorCreditTypes();
+        for (ProposalPerson person : document.getInvestigators()) {
+            for(InvestigatorCreditType invcredtype:invcrdttype){
+                boolean creditTypeFound = false;
+                for(ProposalPersonCreditSplit proposalpersoncrdt:person.getCreditSplits()){
+                    if((invcredtype.getInvCreditTypeCode().equals(proposalpersoncrdt.getInvCreditTypeCode()))){
+                        creditTypeFound = true;
+                        break;
+                    }
+                }
+                if (!creditTypeFound ) {
+                    ProposalPersonCreditSplit creditSplit = new ProposalPersonCreditSplit();
+                    creditSplit.setProposalNumber(person.getProposalNumber());
+                    creditSplit.setProposalPersonNumber(person.getProposalPersonNumber());
+                    creditSplit.setInvCreditTypeCode(invcredtype.getInvCreditTypeCode());
+                    creditSplit.setCredit(new KualiDecimal(0));
+                    person.getCreditSplits().add(creditSplit);
+                }
+            }
+            for(ProposalPersonUnit unitsplit:person.getUnits()){
+                for(InvestigatorCreditType invcrdtype:invcrdttype){
+                    boolean creditTypeFound = false;
+                    for(ProposalUnitCreditSplit unitcreditsplit:unitsplit.getCreditSplits()){
+                        if((invcrdtype.getInvCreditTypeCode().equals(unitcreditsplit.getInvCreditTypeCode()))){
+                            creditTypeFound = true;
+                            break;
+                        }
+                    }
+                    if (!creditTypeFound ) {
+                        ProposalUnitCreditSplit creditSplit = new ProposalUnitCreditSplit();
+                        creditSplit.setProposalNumber(person.getProposalNumber());
+                        creditSplit.setProposalPersonNumber(person.getProposalPersonNumber());
+                        creditSplit.setInvCreditTypeCode(invcrdtype.getInvCreditTypeCode());
+                        creditSplit.setCredit(new KualiDecimal(0));
+                        unitsplit.getCreditSplits().add(creditSplit);
+                    }
+                }
+            }
+
+        }
     }
 
     /**
@@ -173,8 +222,10 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
      * @return Collection<InvestigatorCreditType>
      */
     public Collection<InvestigatorCreditType> getInvestigatorCreditTypes() {
-        return getBusinessObjectService().findAll(InvestigatorCreditType.class);
-
+        Map<String,String> valueMap = new HashMap<String, String>();
+        BusinessObjectService bos = KraServiceLocator.getService(BusinessObjectService.class);
+        valueMap.put("active", "true");
+        return bos.findMatching(InvestigatorCreditType.class, valueMap);
     }
 
     /**
@@ -642,47 +693,47 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
                         SPONSOR_LEVEL_HIERARCHY )))){
                     document.setNih(true);
                     nih=true;
-                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel2()) && (sponhierarchy.getLevel1().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel2()) && (sponhierarchy.getLevel2().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
                         PARAMETER_COMPONENT_DOCUMENT, 
                         SPONSOR_LEVEL_HIERARCHY )))){
                         document.setNih(true);
                         nih=true;
-                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel3()) && (sponhierarchy.getLevel1().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel3()) && (sponhierarchy.getLevel3().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
                         PARAMETER_COMPONENT_DOCUMENT, 
                         SPONSOR_LEVEL_HIERARCHY )))){
                          document.setNih(true);
                          nih=true;
-                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel4()) && (sponhierarchy.getLevel1().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel4()) && (sponhierarchy.getLevel4().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
                         PARAMETER_COMPONENT_DOCUMENT, 
                         SPONSOR_LEVEL_HIERARCHY )))){
                        document.setNih(true);
                        nih=true;
-                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel5()) && (sponhierarchy.getLevel1().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel5()) && (sponhierarchy.getLevel5().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
                         PARAMETER_COMPONENT_DOCUMENT, 
                         SPONSOR_LEVEL_HIERARCHY )))){
                        document.setNih(true);
                        nih=true;
-                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel6()) && (sponhierarchy.getLevel1().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel6()) && (sponhierarchy.getLevel6().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
                         PARAMETER_COMPONENT_DOCUMENT, 
                         SPONSOR_LEVEL_HIERARCHY )))){
                        document.setNih(true);
                        nih=true;
-                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel7()) && (sponhierarchy.getLevel1().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel7()) && (sponhierarchy.getLevel7().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
                         PARAMETER_COMPONENT_DOCUMENT, 
                         SPONSOR_LEVEL_HIERARCHY )))){
                       document.setNih(true);
                       nih=true;
-                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel8()) && (sponhierarchy.getLevel1().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel8()) && (sponhierarchy.getLevel8().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
                         PARAMETER_COMPONENT_DOCUMENT, 
                         SPONSOR_LEVEL_HIERARCHY )))){
                       document.setNih(true);
                       nih=true;
-                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel9()) && (sponhierarchy.getLevel1().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel9()) && (sponhierarchy.getLevel9().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
                         PARAMETER_COMPONENT_DOCUMENT, 
                         SPONSOR_LEVEL_HIERARCHY )))){
                       document.setNih(true);
                       nih=true;
-                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel9()) && (sponhierarchy.getLevel1().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel9()) && (sponhierarchy.getLevel10().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
                         PARAMETER_COMPONENT_DOCUMENT, 
                         SPONSOR_LEVEL_HIERARCHY )))){
                       document.setNih(true);
