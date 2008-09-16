@@ -51,7 +51,9 @@ public class BudgetRatesAction extends BudgetAction {
 //                }
             //}
         } 
-        return super.save(mapping, form, request, response);
+
+        super.save(mapping, form, request, response);
+        return mapping.findForward("rates_save");
     }
     
     
