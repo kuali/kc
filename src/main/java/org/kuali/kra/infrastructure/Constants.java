@@ -177,6 +177,8 @@ public interface Constants {
     public static final String BUDGET_LINEITEM_NUMBER = "budget.budgetLineItem.lineItemNumber";
     public static final String BUDGET_EXPENSE_LOOKUP_MESSAGE1 = "budget.expense.lookup.message1";
     public static final String BUDGET_EXPENSE_LOOKUP_MESSAGE2 = "budget.expense.lookup.message2";
+    public static final String PERCENT_EFFORT_FIELD = "Percent Effort";
+    public static final String PERCENT_CHARGED_FIELD = "Percent Charged";
     
     //Grants.gov
     public static final String S2S_SUBMISSIONTYPE_CODE_KEY="document.s2sOpportunity.s2sSubmissionTypeCode";

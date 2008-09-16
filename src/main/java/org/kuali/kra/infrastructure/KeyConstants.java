@@ -171,8 +171,6 @@ public class KeyConstants {
     public static final String ERROR_LINEITEM_ENDDATE_AFTER_PERIOD_ENDDATE = "error.lineItemEndDate.after.periodEndDate";
     public static final String ERROR_PERSONNELBUDGETLINEITEM_STARTDATE_BEFORE_LINEITEM_STARTDATE = "error.personnelBudgetLinelineItemStartDate.before.lineItemStartDate";
     public static final String ERROR_PERSONNELBUDGETLINEITEM_ENDDATE_AFTER_LINEITEM_ENDDATE = "error.personnelBudgetLineItemEndDate.after.lineItemEndDate";
-    public static final String ERROR_PERCENT_EFFORT_INVALID = "error.percentEffortInvalid";
-    public static final String ERROR_PERCENT_CHARGED_INVALID = "error.percentChargedInvalid";
     public static final String ERROR_PERCENT_EFFORT_LESS_THAN_PERCENT_CHARGED = "error.percentEffort.lessThan.percentCharged";
     public static final String ERROR_COST_ELEMENT_NOT_SELECTED = "error.costElement.notSelected";
     public static final String ERROR_GLOBAL_MESSAGE = "error.global.application";
