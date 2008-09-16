@@ -354,11 +354,11 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
                     }                    
                     if(budgetPersonnelDetails.getPercentEffort().isLessThan(new BudgetDecimal(0)) 
                             || budgetPersonnelDetails.getPercentEffort().isGreaterThan(new BudgetDecimal(100))){
-                        errorMap.putError("budgetPeriod[" + i +"].budgetLineItems[" + j + "].budgetPersonnelDetailsList[" + k + "].percentEffort",KeyConstants.ERROR_PERCENT_EFFORT_INVALID);
+                        errorMap.putError("budgetPeriod[" + i +"].budgetLineItems[" + j + "].budgetPersonnelDetailsList[" + k + "].percentEffort",KeyConstants.ERROR_PERCENTAGE, Constants.PERCENT_EFFORT_FIELD);
                     }
                     if(budgetPersonnelDetails.getPercentCharged().isLessThan(new BudgetDecimal(0)) 
                             || budgetPersonnelDetails.getPercentCharged().isGreaterThan(new BudgetDecimal(100))){
-                        errorMap.putError("budgetPeriod[" + i +"].budgetLineItems[" + j + "].budgetPersonnelDetailsList[" + k + "].percentCharged",KeyConstants.ERROR_PERCENT_CHARGED_INVALID);
+                        errorMap.putError("budgetPeriod[" + i +"].budgetLineItems[" + j + "].budgetPersonnelDetailsList[" + k + "].percentCharged",KeyConstants.ERROR_PERCENTAGE, Constants.PERCENT_CHARGED_FIELD);
                     }
                     if(budgetPersonnelDetails.getPercentCharged().isGreaterThan(budgetPersonnelDetails.getPercentEffort())){
                         errorMap.putError("budgetPeriod[" + i +"].budgetLineItems[" + j + "].budgetPersonnelDetailsList[" + k + "].percentCharged",KeyConstants.ERROR_PERCENT_EFFORT_LESS_THAN_PERCENT_CHARGED);
