@@ -56,7 +56,7 @@ public class WebLookupTest extends KraWebTestBase {
         HtmlPage lookupPage=clickOn(adminpage,"Sponsor Lookup");
         HtmlPage lookupResultsPage = clickOn(lookupPage, "methodToCall.search");
         assertTrue(lookupResultsPage.asText().contains("items found. Please refine your search criteria to narrow down your search."));
-        assertTrue(lookupResultsPage.asText().contains("200 items found, displaying 1 to 100.") || lookupResultsPage.asText().contains("200 items retrieved, displaying 1 to 100."));
+        assertTrue(lookupResultsPage.asText().contains("50 items found, displaying all items.") || lookupResultsPage.asText().contains("50 items retrieved, displaying all items."));
     }
        
  }
