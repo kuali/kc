@@ -68,11 +68,11 @@ public class LookupServiceTest extends KraTestBase {
         LookupService lookupService = KNSServiceLocator.getLookupService();
         Map formProps = new HashMap();
         Collection sponsor = lookupService.findCollectionBySearchHelper(Sponsor.class, formProps, false);
-        assertEquals(200, sponsor.size());
+        assertEquals(50, sponsor.size());
 
         sponsor = null;
         sponsor = lookupService.findCollectionBySearch(Sponsor.class, formProps);
-        assertEquals(200, sponsor.size());
+        assertEquals(50, sponsor.size());
     }
 
     /**
