@@ -124,5 +124,13 @@ public interface BudgetCalculationService {
      * @throws BudgetException
      */
     public void rePopulateCalculatedAmount(BudgetDocument budgetDocument, BudgetPersonnelDetails newBudgetPersonnelDetails);
-    
+
+    /**
+     * Synchronize rates between {@link BudgetLineItemCalculatedAmount} instances and {@link BudgetPersonnelCalculatedAmount} instances
+     * in a {@link BudgetDocument}.
+     * 
+     *
+     * @param budgetLineItem {@link BudgetLineItem} instance to examine amounts for synchronization
+     */
+    public void updatePersonnelBudgetRate(BudgetLineItem budgetLineItem);    
 }
