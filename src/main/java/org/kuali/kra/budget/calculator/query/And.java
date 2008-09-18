@@ -51,6 +51,14 @@ public class And extends LogicalOperator {
         return "( " + lhsOperator.toString() + " && " + rhsOperator + " )";
     }
     
+    public And and(Operator relatesTo) {
+        return new And(this, relatesTo);
+    }
+
+    public Or or(Operator relatesTo) {
+        return new Or(this, relatesTo);
+    }
+    
 } // end And
 
 
