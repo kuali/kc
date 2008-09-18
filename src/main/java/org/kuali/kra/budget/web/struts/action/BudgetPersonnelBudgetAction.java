@@ -37,6 +37,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetLineItem;
+import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
@@ -51,6 +52,8 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 
 public class BudgetPersonnelBudgetAction extends BudgetAction {
     private static final Log LOG = LogFactory.getLog(BudgetPersonnelBudgetAction.class);
+
+
     /**
      * This method is used to navigate it to personnel budget page
      * @param mapping
@@ -125,6 +128,7 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
         }        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }    
+
     @Override
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
@@ -302,17 +306,17 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
         int selectedBudgetPeriodIndex = budgetForm.getViewBudgetPeriod()-1;
         int selectedBudgetLineItemIndex = budgetForm.getSelectedBudgetLineItemIndex();
         BudgetLineItem selectedBudgetLineItem = budgetForm.getBudgetDocument().getBudgetPeriod(selectedBudgetPeriodIndex).getBudgetLineItem(selectedBudgetLineItemIndex);
-        BudgetCalculationService budgetCalculationService = KraServiceLocator.getService(BudgetCalculationService.class);
-        budgetCalculationService.calculateBudgetLineItem(budgetForm.getBudgetDocument(), selectedBudgetLineItem);
         int k=0;
         boolean errorFound = false;
         GlobalVariables.getErrorMap().addToErrorPath("document");
         for(BudgetPersonnelDetails budgetPersonnelDetails: selectedBudgetLineItem.getBudgetPersonnelDetailsList()){
-            errorFound=errorFound || personnelDatesCheck(selectedBudgetLineItem, budgetPersonnelDetails, selectedBudgetPeriodIndex, selectedBudgetLineItemIndex, k);
+            errorFound |= personnelDatesCheck(selectedBudgetLineItem, budgetPersonnelDetails, selectedBudgetPeriodIndex, selectedBudgetLineItemIndex, k);
             k++;
         }
         GlobalVariables.getErrorMap().removeFromErrorPath("document");
         if (errorFound) {
+            BudgetCalculationService budgetCalculationService = KraServiceLocator.getService(BudgetCalculationService.class);
+            budgetCalculationService.calculateBudgetLineItem(budgetForm.getBudgetDocument(), selectedBudgetLineItem);
             return mapping.findForward(Constants.MAPPING_BASIC);
         } else {
             ActionForward actionForward = super.save(mapping, form, request, response);
