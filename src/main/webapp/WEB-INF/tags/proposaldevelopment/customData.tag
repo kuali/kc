@@ -69,26 +69,27 @@
                 	</c:when>
                 	<c:otherwise>
                 		<input id="${customAttributeId}" type="text" name="${customAttributeId}" value='${customAttributeValue}' style="${customAttributeErrorStyle}"/>
-                	</c:otherwise>
-                </c:choose> 
+
+						<c:if test="${not empty customAttributeDocument.customAttribute.lookupClass}">
+							<kul:lookup boClassName="${customAttributeDocument.customAttribute.lookupClass}" fieldConversions="${customAttributeDocument.customAttribute.lookupReturn}:${customAttributeId}," fieldLabel="${customAttributeDocument.customAttribute.label}"  anchor="${tabKey}"/>
+						</c:if>
 					
-					<c:if test="${not empty customAttributeDocument.customAttribute.lookupClass}">
-						<kul:lookup boClassName="${customAttributeDocument.customAttribute.lookupClass}" fieldConversions="${customAttributeDocument.customAttribute.lookupReturn}:${customAttributeId}," fieldLabel="${customAttributeDocument.customAttribute.label}"  anchor="${tabKey}"/>
-					</c:if>
-					<c:if test="${customAttributeDocument.customAttribute.customAttributeDataType.description == 'Date'}">
-		                <img src="${ConfigProperties.kr.externalizable.images.url}cal.gif" id="${customAttributeId}_datepicker" style="cursor: pointer;"
-		                     title="Date selector" alt="Date selector"
-		                     onmouseover="this.style.backgroundColor='red';" onmouseout="this.style.backgroundColor='transparent';" />
-		                <script type="text/javascript">
-		                  Calendar.setup(
-		                          {
-		                            inputField : "${customAttributeId}", // ID of the input field
-		                            ifFormat : "%m/%d/%Y", // the date format
-		                            button : "${customAttributeId}_datepicker" // ID of the button
-		                          }
-		                  );
-		               </script>
-					</c:if>
+						<c:if test="${customAttributeDocument.customAttribute.customAttributeDataType.description == 'Date'}">
+				            <img src="${ConfigProperties.kr.externalizable.images.url}cal.gif" id="${customAttributeId}_datepicker" style="cursor: pointer;"
+				             title="Date selector" alt="Date selector"
+				             onmouseover="this.style.backgroundColor='red';" onmouseout="this.style.backgroundColor='transparent';" />
+					        <script type="text/javascript">
+					            Calendar.setup(
+					                   {
+					                      inputField : "${customAttributeId}", // ID of the input field
+					                      ifFormat : "%m/%d/%Y", // the date format
+					                      button : "${customAttributeId}_datepicker" // ID of the button
+					                    }
+					             );
+					        </script>
+						</c:if>
+						</c:otherwise>
+					</c:choose>
 				</td>
 			</tr>
 		</c:forEach>
