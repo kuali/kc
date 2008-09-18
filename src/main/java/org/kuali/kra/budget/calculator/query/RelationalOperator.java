@@ -138,6 +138,14 @@ public abstract class RelationalOperator implements Operator {
         return compareValue;
     }
     
+
+    public And and(Operator relatesTo) {
+        return new And(this, relatesTo);
+    }
+
+    public Or or(Operator relatesTo) {
+        return new Or (this, relatesTo);
+    }
     
 }// end RelationalOperator
 

@@ -29,6 +29,8 @@ import org.kuali.kra.budget.bo.BudgetRateAndBase;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 
+import static org.kuali.kra.logging.BufferedLogger.*;
+
 /**
  * This class is for calculating personnel line items.
  */
@@ -53,33 +55,52 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
         salaryCalculator.setInflationRates(getInflationRates());
         salaryCalculator.calculate(boundary);
     }
+
+    private boolean isDocumentOhRateSameAsFormOhRate() {
+        if (budgetDocument.getOhRateClassCode() != null || ((BudgetForm)GlobalVariables.getKualiForm()) != null) {
+            return false;
+        }
+
+        return StringUtils.equalsIgnoreCase(budgetDocument.getOhRateClassCode(),((BudgetForm)GlobalVariables.getKualiForm()).getOhRateClassCodePrevValue());
+    }
+    
     @Override
     public void populateCalculatedAmountLineItems() {
-        if (budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts().size() <= 0) {
+        List<BudgetPersonnelCalculatedAmount> budgetPersonnelCalcAmts = new ArrayList<BudgetPersonnelCalculatedAmount>();
+
+       if (budgetPersonnelCalcAmts.size() <= 0) {
             budgetPersonnelLineItem.refreshReferenceObject("budgetPersonnelCalculatedAmounts");
-        }
-        if (budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts().size() <= 0) {
-            setCalculatedAmounts(budgetDocument,budgetPersonnelLineItem);
-            List<BudgetPersonnelCalculatedAmount> budgetPerosnnelCalcAmts = budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts();
-            for (BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount : budgetPerosnnelCalcAmts) {
-                budgetPersonnelCalculatedAmount.setPersonNumber(budgetPersonnelLineItem.getPersonNumber());
-            }
-        }
-        
-        if(budgetDocument.getOhRateClassCode()!=null && ((BudgetForm)GlobalVariables.getKualiForm())!=null && !StringUtils.equalsIgnoreCase(budgetDocument.getOhRateClassCode(),((BudgetForm)GlobalVariables.getKualiForm()).getOhRateClassCodePrevValue())){
-            Long versionNumber = budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts().get(0).getVersionNumber();
-            budgetPersonnelLineItem.setBudgetPersonnelCalculatedAmounts(new ArrayList<BudgetPersonnelCalculatedAmount>());
-            
-            setCalculatedAmounts(budgetDocument,budgetPersonnelLineItem);
-            List<BudgetPersonnelCalculatedAmount> budgetPerosnnelCalcAmts = budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts();
-            for (BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount : budgetPerosnnelCalcAmts) {
-                budgetPersonnelCalculatedAmount.setPersonNumber(budgetPersonnelLineItem.getPersonNumber());
-            }
-            for(BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount : budgetPerosnnelCalcAmts){
-                budgetPersonnelCalculatedAmount.setVersionNumber(versionNumber);
-            }
-        }        
+       }
+
+       Long versionNumber = -1L;
+       
+       if (isDocumentOhRateSameAsFormOhRate()){
+           budgetPersonnelLineItem.setBudgetPersonnelCalculatedAmounts(budgetPersonnelCalcAmts);
+           
+           if (budgetPersonnelCalcAmts.size() > 0) {
+               budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts().get(0).getVersionNumber();
+           }
+       }
+       else {
+           budgetPersonnelCalcAmts = budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts();
+       }
+
+       if (budgetPersonnelCalcAmts.size() <= 0) {
+           setCalculatedAmounts(budgetDocument,budgetPersonnelLineItem);
+       }
+
+       for (BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount : budgetPersonnelCalcAmts) {
+           budgetPersonnelCalculatedAmount.refreshReferenceObject("rateClass");
+           budgetPersonnelCalculatedAmount.refreshReferenceObject("rateType");
+           debug(budgetPersonnelCalculatedAmount);
+           debug(budgetPersonnelCalculatedAmount.getRateClass());
+           
+           if (versionNumber > -1) {
+               budgetPersonnelCalculatedAmount.setVersionNumber(versionNumber);
+           }
+       }        
     }
+
     @Override
     protected void updateBudgetLineItemCalculatedAmounts() {
         Boundary liBoundary = new Boundary(budgetPersonnelLineItem.getStartDate(),budgetPersonnelLineItem.getEndDate());
