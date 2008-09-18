@@ -51,6 +51,14 @@ public class Or extends LogicalOperator {
 
  // end getResult        
 
+    public And and(Operator relatesTo) {
+        return new And(this, relatesTo);
+    }
+
+    public Or or(Operator relatesTo) {
+        return new Or(this, relatesTo);
+    }
+    
  } // end Or
 
 

@@ -34,6 +34,8 @@ import org.kuali.kra.budget.service.BudgetCalculationService;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 
+import static org.kuali.kra.logging.BufferedLogger.*;
+
 /**
  * 
  * This class for calculating non personnel line item
@@ -50,6 +52,16 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
         dateTimeService = getDateTimeService();
         budgetCalculationService = KraServiceLocator.getService(BudgetCalculationService.class); 
     }
+
+    private boolean isDocumentOhRateSameAsFormOhRate() {
+        if (bd.getOhRateClassCode() != null || ((BudgetForm)GlobalVariables.getKualiForm()) != null) {
+            return false;
+        }
+
+        return StringUtils.equalsIgnoreCase(bd.getOhRateClassCode(),
+                                            ((BudgetForm) GlobalVariables.getKualiForm()).getOhRateClassCodePrevValue());
+    }
+
     public void populateCalculatedAmountLineItems() {
         if (bli.getBudgetLineItemCalculatedAmounts().size() <= 0) {
             bli.refreshReferenceObject("budgetLineItemCalculatedAmounts");
@@ -58,7 +70,7 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
             setCalculatedAmounts(bd,bli);
         }
 
-        if(bd.getOhRateClassCode()!=null && ((BudgetForm)GlobalVariables.getKualiForm())!=null && !StringUtils.equalsIgnoreCase(bd.getOhRateClassCode(),((BudgetForm)GlobalVariables.getKualiForm()).getOhRateClassCodePrevValue())){
+        if(isDocumentOhRateSameAsFormOhRate()){
             Long versionNumber = null;
             if (CollectionUtils.isNotEmpty(bli.getBudgetLineItemCalculatedAmounts())) {
                 versionNumber = bli.getBudgetLineItemCalculatedAmounts().get(0).getVersionNumber();

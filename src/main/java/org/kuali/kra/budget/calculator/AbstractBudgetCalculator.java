@@ -59,8 +59,8 @@ public abstract class AbstractBudgetCalculator {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AbstractBudgetCalculator.class);
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
-    private BudgetDocument budgetDocument;
-    private BudgetLineItemBase budgetLineItem;
+    protected BudgetDocument budgetDocument;
+    protected BudgetLineItemBase budgetLineItem;
     private QueryList<BudgetProposalLaRate> lineItemPropLaRates;
     private QueryList<BudgetProposalRate> lineItemPropRates;
     private List<BreakUpInterval> breakupIntervals;
@@ -277,12 +277,11 @@ public abstract class AbstractBudgetCalculator {
             BudgetDecimal newTotalCostSharing = BudgetDecimal.ZERO;
             if (budgetLineItem instanceof BudgetLineItem && CollectionUtils.isNotEmpty(((BudgetLineItem)budgetLineItem).getBudgetPersonnelDetailsList())) {
                 for (BudgetPersonnelDetails budgetPersonnelDetail : ((BudgetLineItem)budgetLineItem).getBudgetPersonnelDetailsList()) {
-                    List personnelCalAmts = budgetPersonnelDetail.getBudgetCalculatedAmounts();
+                    List<BudgetPersonnelCalculatedAmount> personnelCalAmts = budgetPersonnelDetail.getBudgetCalculatedAmounts();
                     newTotalUrAmount = newTotalUrAmount.add(budgetPersonnelDetail.getUnderrecoveryAmount());
                     resetTotalUnderRecovery = true;
                     if (CollectionUtils.isNotEmpty(personnelCalAmts)) {
-                        for (Object obj : personnelCalAmts) {
-                            BudgetPersonnelCalculatedAmount personnelCalAmt = (BudgetPersonnelCalculatedAmount) obj;
+                        for (BudgetPersonnelCalculatedAmount personnelCalAmt : personnelCalAmts) {
                             if (personnelCalAmt.getRateClass() == null) {
                                 personnelCalAmt.refreshReferenceObject("rateClass");
                             }
@@ -678,67 +677,115 @@ public abstract class AbstractBudgetCalculator {
 
     protected abstract void populateCalculatedAmountLineItems();
 
-    public final void setCalculatedAmounts(BudgetDocument budgetDocument, BudgetLineItemBase budgetLineItem) {
-        QueryEngine queryEngine = new QueryEngine();
-        BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmt = null;
+    private CostElement getCostElementForLineItem(BudgetLineItemBase lineItem) {
         Map<String, String> costElementQMap = new HashMap<String, String>();
-        costElementQMap.put("costElement", budgetLineItem.getCostElement());
-        CostElement costElementBO = (CostElement) businessObjectService.findByPrimaryKey(CostElement.class, costElementQMap);
-        budgetLineItem.setCostElementBO(costElementBO);
-        Map<String, String> validCeQMap = new HashMap<String, String>();
-        validCeQMap.put("costElement", budgetLineItem.getCostElement());
-        costElementBO.refreshReferenceObject("validCeRateTypes");
-        List<ValidCeRateType> validCeRateTypes = costElementBO.getValidCeRateTypes();
-        QueryList<ValidCeRateType> qValidCeRateTypes = validCeRateTypes == null ? new QueryList() : new QueryList(validCeRateTypes);
+        costElementQMap.put("costElement", lineItem.getCostElement());
+
+        return (CostElement) businessObjectService.findByPrimaryKey(CostElement.class, costElementQMap);        
+    }
+
+    private <T> QueryList<T> createQueryList(List<T> immutableList) {
+        if (immutableList == null) {
+            return new QueryList();
+        }
+
+        return new QueryList(immutableList);
+    }
+
+    private void setInflationRateOnLineItem(BudgetLineItemBase lineItem) {
+        QueryList<ValidCeRateType> qValidCeRateTypes = createQueryList(budgetLineItem.getCostElementBO().getValidCeRateTypes());
+
         // Check whether it contains Inflation Rate
-        Equals eqInflation = new Equals("rateClassType", RateClassType.INFLATION.getRateClassType());
-        QueryList<ValidCeRateType> inflationValidCeRates = qValidCeRateTypes.filter(eqInflation);
+        QueryList<ValidCeRateType> inflationValidCeRates = 
+            qValidCeRateTypes.filter(new Equals("rateClassType", RateClassType.INFLATION.getRateClassType()));
         if (!inflationValidCeRates.isEmpty()) {
-            if (budgetLineItem.getApplyInRateFlag()) {
+            if (lineItem.getApplyInRateFlag()) {
                 setInfltionValidCalcCeRates(inflationValidCeRates);
             }
-            //budgetLineItem.setApplyInRateFlag(true);
         }
         else {
-            budgetLineItem.setApplyInRateFlag(false);
+            lineItem.setApplyInRateFlag(false);
         }
-        NotEquals nEqInflation = new NotEquals("rateClassType", RateClassType.INFLATION.getRateClassType());
-        Equals eqOH = new Equals("rateClassType", RateClassType.OVERHEAD.getRateClassType());
-        NotEquals nEqOH = new NotEquals("rateClassType", RateClassType.OVERHEAD.getRateClassType());
-        Equals eqOHRC = new Equals("rateClassCode", "" + budgetDocument.getOhRateClassCode());
-        And eqOHAndEqOHRC = new And(eqOH, eqOHRC);
-        Or eqOHAndEqOHRCOrNEqOH = new Or(eqOHAndEqOHRC, nEqOH);
-        And nEqInflationAndeqOHAndEqOHRCOrNEqOH = new And(nEqInflation, eqOHAndEqOHRCOrNEqOH);
-        qValidCeRateTypes = qValidCeRateTypes.filter(nEqInflationAndeqOHAndEqOHRCOrNEqOH);
+        
+    }
+
+    private Equals equalsOverHeadRateClassType() {
+        return new Equals("rateClassType", RateClassType.OVERHEAD.getRateClassType());
+    }
+
+    private NotEquals notEqualsInflationRateClassType() {
+        return new NotEquals("rateClassType", RateClassType.INFLATION.getRateClassType());
+    }
+
+    private Equals equalsOverHeadRateClassCode() {
+        return new Equals("rateClassCode", "" + budgetDocument.getOhRateClassCode());
+    }
+
+    private NotEquals notEqualsOverHeadRateClassType() {
+        return new NotEquals("rateClassType", RateClassType.OVERHEAD.getRateClassType());    
+    }
+
+    private And notEqualsLabAllocationRateClassType() {
+        return new NotEquals("rateClassType", RateClassType.LAB_ALLOCATION.getRateClassType())
+            .and(new NotEquals("rateClassType", RateClassType.LA_WITH_EB_VA.getRateClassType()));
+    }
+
+    
+    private void setValidCeRateTypeCalculatedAmounts(BudgetLineItemBase lineItem) {
+        QueryList<ValidCeRateType> qValidCeRateTypes = createQueryList(budgetLineItem.getCostElementBO().getValidCeRateTypes());
+        qValidCeRateTypes = qValidCeRateTypes.filter(equalsOverHeadRateClassType()
+                                                     .and(equalsOverHeadRateClassCode())
+                                                     .or(notEqualsOverHeadRateClassType())
+                                                     .and(notEqualsInflationRateClassType()));
+
         List<BudgetProposalLaRate> budgetProposalLaRates = budgetDocument.getBudgetProposalLaRates();
         if (budgetProposalLaRates == null || budgetProposalLaRates.size() == 0) {
-            NotEquals neqLA = new NotEquals("rateClassType", RateClassType.LAB_ALLOCATION.getRateClassType());
-            NotEquals neqLASal = new NotEquals("rateClassType", RateClassType.LA_WITH_EB_VA.getRateClassType());
-            And laAndLaSal = new And(neqLA, neqLASal);
-            qValidCeRateTypes = qValidCeRateTypes.filter(laAndLaSal);
+            qValidCeRateTypes = qValidCeRateTypes.filter(notEqualsLabAllocationRateClassType());
         }
-        if (qValidCeRateTypes != null && qValidCeRateTypes.size() > 0) {
-            for (ValidCeRateType validCeRateType : qValidCeRateTypes) {
-                addBudgetLineItemCalculatedAmount( validCeRateType.getRateClassCode(), validCeRateType
-                        .getRateTypeCode(), validCeRateType.getRateClass().getRateClassType());
-            }
+
+        addBudgetLineItemCalculatedAmountsForRateTypes(qValidCeRateTypes);
+    }
+
+    private void addBudgetLineItemCalculatedAmountsForRateTypes(List<ValidCeRateType> rateTypes) {
+        if (CollectionUtils.isEmpty(rateTypes)) {
+            return;
         }
-        Equals eqLabAllocSal = new Equals("rateClassType", RateClassType.LA_WITH_EB_VA.getRateClassType());
-        QueryList<ValidCeRateType> qLabAllocSalRates = qValidCeRateTypes.filter(eqLabAllocSal);
-        if (qLabAllocSalRates != null && qLabAllocSalRates.size() > 0) {
-            // Has Lab allocation and Salaries Entry (i.e Rate Class Type = Y)
-            Equals eqE = new Equals("rateClassType", RateClassType.EMPLOYEE_BENEFITS.getRateClassType());
-            Equals eqV = new Equals("rateClassType", RateClassType.VACATION.getRateClassType());
-            queryEngine.addDataCollection(ValidCalcType.class, getValidCalcTypes());
-            List<ValidCalcType> validCalCTypes = queryEngine.executeQuery(ValidCalcType.class, eqE);
-            if (!validCalCTypes.isEmpty()) {
+
+        for (ValidCeRateType validCeRateType : rateTypes) {
+            addBudgetLineItemCalculatedAmount( validCeRateType.getRateClassCode(), validCeRateType
+                                               .getRateTypeCode(), validCeRateType.getRateClass().getRateClassType());
+        }
+    }
+
+    private Equals equalsEmployeeBenefitsRateClassType() {
+        return new Equals("rateClassType", RateClassType.EMPLOYEE_BENEFITS.getRateClassType());
+    }
+
+    private Equals equalsVacationRateClassType() {
+        return new Equals("rateClassType", RateClassType.VACATION.getRateClassType());
+    }
+
+    private Equals equalsLabAllocationSalariesRateClassType() {
+        return new Equals("rateClassType", RateClassType.LA_WITH_EB_VA.getRateClassType());
+    }
+
+    private void setLabAllocationSalariesCalculatedAmounts(BudgetLineItemBase lineItem) {
+        QueryEngine queryEngine = new QueryEngine();        
+        queryEngine.addDataCollection(ValidCalcType.class, getValidCalcTypes());
+
+        QueryList<ValidCeRateType> qValidCeRateTypes = createQueryList(budgetLineItem.getCostElementBO().getValidCeRateTypes());
+        QueryList<ValidCeRateType> qLabAllocSalRates = qValidCeRateTypes.filter(equalsLabAllocationSalariesRateClassType());
+
+        if (CollectionUtils.isNotEmpty(qLabAllocSalRates)) {
+            List<ValidCalcType> validCalCTypes = queryEngine.executeQuery(ValidCalcType.class, equalsEmployeeBenefitsRateClassType());
+            if (CollectionUtils.isNotEmpty(validCalCTypes)) {
                 ValidCalcType validCalcType = validCalCTypes.get(0);
                 if (validCalcType.getDependentRateClassType().equals(RateClassType.LA_WITH_EB_VA.getRateClassType())) {
                     addBudgetLineItemCalculatedAmount(validCalcType.getRateClassCode(), validCalcType
                             .getRateTypeCode(), validCalcType.getRateClassType());
                 }
             }
-            validCalCTypes = queryEngine.executeQuery(ValidCalcType.class, eqV);
+            validCalCTypes = queryEngine.executeQuery(ValidCalcType.class, equalsVacationRateClassType());
             if (!validCalCTypes.isEmpty()) {
                 ValidCalcType validCalcType = (ValidCalcType) validCalCTypes.get(0);
                 if (validCalcType.getDependentRateClassType().equals(RateClassType.LA_WITH_EB_VA.getRateClassType())) {
@@ -748,40 +795,30 @@ public abstract class AbstractBudgetCalculator {
             }
         }
     }
+    
+    public final void setCalculatedAmounts(BudgetDocument budgetDocument, BudgetLineItemBase budgetLineItem) {
+        QueryEngine queryEngine = new QueryEngine();
+        BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmt = null;
+
+        budgetLineItem.setCostElementBO(getCostElementForLineItem(budgetLineItem));
+
+        Map<String, String> validCeQMap = new HashMap<String, String>();
+        validCeQMap.put("costElement", budgetLineItem.getCostElement());
+        budgetLineItem.getCostElementBO().refreshReferenceObject("validCeRateTypes");
+
+        QueryList<ValidCeRateType> qValidCeRateTypes = createQueryList(budgetLineItem.getCostElementBO().getValidCeRateTypes());
+        setInflationRateOnLineItem(budgetLineItem);
+
+        setValidCeRateTypeCalculatedAmounts(budgetLineItem);
+
+        setLabAllocationSalariesCalculatedAmounts(budgetLineItem);
+    }
 
     protected void setInfltionValidCalcCeRates(QueryList<ValidCeRateType> infltionValidCalcCeRates) {
         this.infltionValidCalcCeRates = infltionValidCalcCeRates;
     }
 
     protected abstract void addBudgetLineItemCalculatedAmount(String rateClassCode, String rateTypeCode, String rateClassType);
-//    protected void addBudgetLineItemCalculatedAmount(Class calculatedAmountClazz, String rateClassCode, String rateTypeCode,
-//            String rateClassType) {
-//        BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmt;
-//        try {
-//            budgetLineItemCalculatedAmt = (BudgetLineItemCalculatedAmount) calculatedAmountClazz.newInstance();
-//            budgetLineItemCalculatedAmt.setProposalNumber(budgetLineItem.getProposalNumber());
-//            budgetLineItemCalculatedAmt.setVersionNumber(budgetLineItem.getVersionNumber());
-//            budgetLineItemCalculatedAmt.setBudgetPeriod(budgetLineItem.getBudgetPeriod());
-//            budgetLineItemCalculatedAmt.setLineItemNumber(budgetLineItem.getLineItemNumber());
-//            budgetLineItemCalculatedAmt.setRateClassType(rateClassType);
-//            budgetLineItemCalculatedAmt.setRateClassCode(rateClassCode);
-//            budgetLineItemCalculatedAmt.setRateTypeCode(rateTypeCode);
-//            // budgetLineItemCalculatedAmt.setRateClassDescription(validCeRateType.getRateClass().getDescription());
-//            // budgetLineItemCalculatedAmt.setRateTypeDescription(validCERateTypesBean.getRateTypeDescription());
-//            budgetLineItemCalculatedAmt.setApplyRateFlag(true);
-//            budgetLineItemCalculatedAmt.refreshReferenceObject("rateType");
-//            budgetLineItemCalculatedAmt.refreshReferenceObject("rateClass");
-//            budgetLineItem.getBudgetLineItemCalculatedAmounts().add(budgetLineItemCalculatedAmt);
-//        }
-//        catch (InstantiationException e) {
-//            LOG.error("Not able to set the calculated amount for " + RateClassType.LA_WITH_EB_VA.getRateClassType() + " of " + budgetLineItem,
-//                    e);
-//        }
-//        catch (IllegalAccessException e) {
-//            LOG.error("Not able to set the calculated amount for " + RateClassType.LA_WITH_EB_VA.getRateClassType() + " of " + budgetLineItem,
-//                    e);
-//        }
-//    }
 
     /**
      * Gets the businessObjectService attribute.

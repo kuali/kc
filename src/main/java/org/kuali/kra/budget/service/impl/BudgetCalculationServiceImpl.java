@@ -361,15 +361,16 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         new PersonnelLineItemCalculator(budgetDocument,newBudgetPersonnelDetails).setCalculatedAmounts(budgetDocument, newBudgetPersonnelDetails);
     }
 
-    private void updatePersonnelBudgetRate(BudgetLineItem budgetLineItem){
-        int j = 0;
+    public void updatePersonnelBudgetRate(BudgetLineItem budgetLineItem){
         for(BudgetPersonnelDetails budgetPersonnelDetails: budgetLineItem.getBudgetPersonnelDetailsList()){
-            j=0;
-            for(BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount:budgetPersonnelDetails.getBudgetPersonnelCalculatedAmounts()){
-                budgetPersonnelCalculatedAmount.setApplyRateFlag(budgetLineItem.getBudgetLineItemCalculatedAmounts().get(j).getApplyRateFlag());                        
-                j++;
+            List<BudgetPersonnelCalculatedAmount> personnelCalculatedAmounts = budgetPersonnelDetails.getBudgetPersonnelCalculatedAmounts();
+            List<BudgetLineItemCalculatedAmount> lineItemCalculatedAmounts = budgetLineItem.getBudgetLineItemCalculatedAmounts();
+
+            int minSize = Math.min(lineItemCalculatedAmounts.size(), personnelCalculatedAmounts.size());
+
+            for (int j = 0; j < minSize; j++) {
+                personnelCalculatedAmounts.get(j).setApplyRateFlag(budgetLineItem.getBudgetLineItemCalculatedAmounts().get(j).getApplyRateFlag());                        
             }
         }
     }
-
 }
