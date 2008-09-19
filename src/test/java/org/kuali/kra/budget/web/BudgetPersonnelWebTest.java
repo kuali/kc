@@ -62,6 +62,7 @@ public class BudgetPersonnelWebTest extends BudgetWebTestBase {
     private static final String ADD_PERSONNEL_BUDGET_IMAGE_NAME = "methodToCall.addBudgetPersonnelDetails.anchorPersonnelBudget";
     private static final String PERSONNEL_BUDGET_IMAGE_NAME = "methodToCall.personnelBudget.line0.anchor2";
     private static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
+    private static final String ERRORS_DELETE_WITH_PERSONNEL_BUDGET = "Can not delete Geoff McGregor with associated details in the budget personnel line items";
     private TransactionalLifecycle transactionalLifecycle;
 
     private HtmlPage currentBudgetPage;
@@ -110,6 +111,7 @@ public class BudgetPersonnelWebTest extends BudgetWebTestBase {
         assignPersonnelExpenses();
         navigateToBudgetPersonnel();
         deleteFirstBudgetPerson();
+        assertContains(currentBudgetPage, ERRORS_DELETE_WITH_PERSONNEL_BUDGET);
         navigateToExpenses();
         assertFalse(currentBudgetPage.asText().contains("java.sql.SQLException: ORA-02292"));
         assertDoesNotContain(currentBudgetPage, ERRORS_FOUND_ON_PAGE);
@@ -137,7 +139,7 @@ public class BudgetPersonnelWebTest extends BudgetWebTestBase {
      */
     private void deleteFirstBudgetPerson() throws Exception {
         currentBudgetPage = clickOn(currentBudgetPage, DELETE_PERSON_IMAGE_NAME);        
-        currentBudgetPage = clickOn(currentBudgetPage, YES_BTN_ID);
+        //currentBudgetPage = clickOn(currentBudgetPage, YES_BTN_ID);
     }
 
     /**
