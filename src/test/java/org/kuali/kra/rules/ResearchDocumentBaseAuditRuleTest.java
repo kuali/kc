@@ -105,7 +105,7 @@ public class ResearchDocumentBaseAuditRuleTest extends KraTestBase {
 
             assertEquals(1, auditCluster.getSize());
             assertEquals("Custom Data: " + customAttribute.getGroupName(), auditCluster.getLabel());
-            assertEquals("Errors", auditCluster.getCategory());
+            assertEquals("Validation Errors", auditCluster.getCategory());
             AuditError auditError = (AuditError) auditCluster.getAuditErrorList().get(0);
             assertEquals("customAttributeValues(id"+customAttribute.getId()+")", auditError.getErrorKey());
             assertEquals("customData." + StringUtils.deleteWhitespace(customAttribute.getGroupName()), auditError.getLink());
