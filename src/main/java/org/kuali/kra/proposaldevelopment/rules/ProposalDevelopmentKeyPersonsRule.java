@@ -429,10 +429,6 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
     private boolean isDeletingUnitFromPrincipalInvestigator(ProposalPersonUnit unit, ProposalPerson person) {
         boolean retval = false;
         
-        for (Iterator<ProposalPersonUnit> unit_it = person.getUnits().iterator(); unit_it.hasNext() && !retval;) {
-            retval = unit_it.next().getUnitNumber().equals(unit.getUnitNumber());
-        }
-        
         info(PERSON_HAS_UNIT_MSG, person.getProposalPersonNumber(), unit.getUnitNumber());
         
         return retval && unit.isDelete() && unit.isLeadUnit() && getKeyPersonnelService().isPrincipalInvestigator(person);
