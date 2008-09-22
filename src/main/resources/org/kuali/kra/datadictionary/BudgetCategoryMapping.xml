@@ -34,7 +34,7 @@
         <lookup>
             <title>Budget Category Mapping Lookup</title>
 			<menubar>
-				<![CDATA[<a href="index.jsp>Main</a>]]>
+				<![CDATA[<a href="index.jsp">Main</a>]]>
 			</menubar>
             <instructions>Look up a Budget Category Mapping</instructions>
 
@@ -68,15 +68,15 @@
         <attributes>
 
 	        <attribute name="budgetCategoryCode">
-			<label>Coeus Category Code </label>
-			<shortLabel>Coeus Category Code </shortLabel>
+			<label>Budget Category Code </label>
+			<shortLabel>Budget Category Code </shortLabel>
 			<maxLength>3</maxLength>
 			<validationPattern><numeric /></validationPattern>
 			<control>
 				<text size="3" />
 			</control>
-			<summary>Coeus Category Code </summary>
-			<description>Coeus Category Code </description>
+			<summary>Budget Category Code </summary>
+			<description>Budget Category Code </description>
 			</attribute>
 
 			<attribute name="mappingName">
