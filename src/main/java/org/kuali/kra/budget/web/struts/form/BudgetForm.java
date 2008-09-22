@@ -50,6 +50,9 @@ import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
+
 public class BudgetForm extends ProposalFormBase {
     private static final String RETURN_TO_PROPOSAL_ALT_TEXT = "return to proposal";
 
@@ -427,6 +430,12 @@ public class BudgetForm extends ProposalFormBase {
         
     public void populate(HttpServletRequest request) {
         super.populate(request);
+        
+        if ("resetRates".equals(getMethodToCall()) || "resetAllRates".equals(getMethodToCall())) {
+            GlobalVariables.getErrorMap().clear();
+            getUnconvertedValues().clear();
+        }
+        
         if (getActionFormUtilMap() != null && getActionFormUtilMap() instanceof ActionFormUtilMap) {
             ((ActionFormUtilMap) getActionFormUtilMap()).setCacheValueFinderResults(false);
         }
