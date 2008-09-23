@@ -120,7 +120,7 @@ public class BudgetCategoryMappingMaintenanceDocumentTest extends MaintenanceDoc
     public void testCreateNewBudgetCategoryMapping() throws Exception {
         HtmlPage budgetCategoryMappingMaintenancePage = getMaintenanceDocumentPage("Budget Category Mapping","org.kuali.kra.budget.bo.BudgetCategoryMapping","Kuali :: Budget Category Mapping Maintenance Document");
         String documentNumber = getFieldValue(budgetCategoryMappingMaintenancePage, "document.documentHeader.documentNumber");
-        assertContains(budgetCategoryMappingMaintenancePage,"Edit Budget Category Mapping New * Coeus Category Code: * Mapping Name: * Target Category Code:");
+        assertContains(budgetCategoryMappingMaintenancePage,"Edit Budget Category Mapping New * Budget Category Code: * Mapping Name: * Target Category Code:");
 
         setFieldValue(budgetCategoryMappingMaintenancePage, "document.documentHeader.financialDocumentDescription", "Budget Category Mapping - new test");
 
@@ -131,7 +131,7 @@ public class BudgetCategoryMappingMaintenanceDocumentTest extends MaintenanceDoc
         HtmlPage routedBudgetCategoryMappingMaintenanceDocumentPage = clickOn(budgetCategoryMappingMaintenancePage, "methodToCall.route", "Kuali :: Budget Category Mapping Maintenance Document");
         
         assertContains(routedBudgetCategoryMappingMaintenanceDocumentPage, "Document was successfully submitted.");
-        assertContains(routedBudgetCategoryMappingMaintenanceDocumentPage,"New Coeus Category Code: 10 Mapping Name: TEST Target Category Code: 99");
+        assertContains(routedBudgetCategoryMappingMaintenanceDocumentPage,"New Budget Category Code: 10 Mapping Name: TEST Target Category Code: 99");
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(documentNumber);
         assertNotNull(document.getDocumentNumber());
         assertNotNull(document.getDocumentHeader());
