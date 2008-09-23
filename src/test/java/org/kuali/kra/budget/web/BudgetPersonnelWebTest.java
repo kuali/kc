@@ -83,7 +83,7 @@ public class BudgetPersonnelWebTest extends BudgetWebTestBase {
      * Adds a person to a Budget Version document, then tries to delete it.
      *
      */
-    // @Test
+    @Test
     public void addAndDeletePersonnel() throws Exception {
         assignBudgetPersonnel();
         navigateToBudgetPersonnel();
@@ -92,31 +92,21 @@ public class BudgetPersonnelWebTest extends BudgetWebTestBase {
         info(currentBudgetPage.asText());
     }
 
-    /**
-     * <p>This is a recreate for KRACOEUS-1332. </p>
-     * <ol>
-     *   <li>Create a Budget Version</li>
-     *   <li>Add a {@link BudgetPerson} to Project Personnel</li>
-     *   <li>Setup Personnel Expense</li>
-     *   <li>Delete {@link BudgetPerson}</li>
-     *   <li>Navigate to Expenses Tab</li>
-     * </ol>
+    /**    
      *
      * @see org.kuali.kra.budget.bo.BudgetPerson
      * @see org.kuali.kra.budget.bo.BudgetLineItem;
      */
+    /*
+     * This test is modified and renamed to account for changes done in KRACOEUS-1528.
+     */
     @Test
-    public void deleteWithPersonnelExpense() throws Exception {        
+    public void deleteWithPersonnelExpenseShouldFail() throws Exception {        
         assignBudgetPersonnel();
         assignPersonnelExpenses();
-        navigateToBudgetPersonnel();
-        deleteFirstBudgetPerson();
+        navigateToBudgetPersonnel();        
+        currentBudgetPage = clickOn(currentBudgetPage, DELETE_PERSON_IMAGE_NAME);
         assertContains(currentBudgetPage, ERRORS_DELETE_WITH_PERSONNEL_BUDGET);
-        navigateToExpenses();
-        assertFalse(currentBudgetPage.asText().contains("java.sql.SQLException: ORA-02292"));
-        assertDoesNotContain(currentBudgetPage, ERRORS_FOUND_ON_PAGE);
-        info(currentBudgetPage.asText());
-        
     }
 
     /**
@@ -139,7 +129,7 @@ public class BudgetPersonnelWebTest extends BudgetWebTestBase {
      */
     private void deleteFirstBudgetPerson() throws Exception {
         currentBudgetPage = clickOn(currentBudgetPage, DELETE_PERSON_IMAGE_NAME);        
-        //currentBudgetPage = clickOn(currentBudgetPage, YES_BTN_ID);
+        currentBudgetPage = clickOn(currentBudgetPage, YES_BTN_ID);
     }
 
     /**
