@@ -116,6 +116,12 @@ public class KeyConstants {
     public static final String QUESTION_SYNC_BUDGET_MODULAR = "document.question.syncBudgetModular.text";
     public static final String ERROR_NO_DETAILED_BUDGET = "error.modular.noDetail";
     
+    // Budget Rates Constants
+    public static final String QUESTION_SYNC_RATES = "document.question.syncRates.text";
+    public static final String QUESTION_SYNC_ALL_RATES = "document.question.syncAllRates.text";
+    public static final String QUESTION_RESET_RATES = "document.question.resetRates.text";
+    public static final String QUESTION_RESET_ALL_RATES = "document.question.resetAllRates.text";
+    
     // KRA Proposal Permission 
     public static final String QUESTION_DELETE_PROPOSAL_USER_CONFIRMATION = "document.question.deleteProposalUser.text";
     public static final String ERROR_NO_PERMISSION = "error.no.permission";
