@@ -388,18 +388,8 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         int selectedPersonIndex = getSelectedPersonIndex(request, document);
         ProposalPerson selectedPerson =  document.getProposalPerson(selectedPersonIndex);
         ProposalPersonUnit unit = selectedPerson.getUnit(getSelectedLine(request));
-        unit.setDelete(true);
         selectedPerson.setUnitDelete(true);
-        
-        // check any business rules
-       boolean rulePassed = getKualiRuleService().applyRules(new ChangeKeyPersonEvent(document, selectedPerson, unit,selectedPersonIndex));
-
-        if (rulePassed) {
-          ProposalPersonUnit testr=selectedPerson.getUnit(getSelectedLine(request));
-          selectedPerson.getUnits().remove(testr);
-        
-        }
-        
+                
         unit.setDelete(false);
 
         return mapping.findForward(MAPPING_BASIC);
