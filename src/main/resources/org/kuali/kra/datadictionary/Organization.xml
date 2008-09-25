@@ -380,15 +380,15 @@
 			</attribute>
 
 			<attribute name="irsTaxExemption">
-			<label>Irs Tax Exemption </label>
-			<shortLabel>Irs Tax Exemption </shortLabel>
+			<label>IRS Tax Exemption </label>
+			<shortLabel>IRS Tax Exemption </shortLabel>
 			<maxLength>30</maxLength>
 			<validationPattern><charset validChars="0123456789-" /></validationPattern>
 			<control>
 				<text size="30" />
 			</control>
-			<summary>Irs Tax Exemption </summary>
-			<description>Irs Tax Exemption </description>
+			<summary>IRS Tax Exemption </summary>
+			<description>IRS Tax Exemption </description>
 			</attribute>
 
 			<attribute name="stateEmployeeClaim">
@@ -416,15 +416,15 @@
 			</attribute>
 
 			<attribute name="nsfInstitutionalCode">
-			<label>Nsf Institutional Code </label>
-			<shortLabel>Nsf Institutional Code </shortLabel>
+			<label>NSF Institutional Code </label>
+			<shortLabel>NSF Institutional Code </shortLabel>
 			<maxLength>30</maxLength>
 			<validationPattern><alphaNumeric allowWhitespace="true"/></validationPattern>
 			<control>
 				<text size="30" />
 			</control>
-			<summary>Nsf Institutional Code </summary>
-			<description>Nsf Institutional Code </description>
+			<summary>NSF Institutional Code </summary>
+			<description>NSF Institutional Code </description>
 			</attribute>
 
 			<attribute name="numberOfEmployees">
@@ -440,15 +440,15 @@
 			</attribute>
 
 			<attribute name="onrResidentRep">
-			<label>Onr Resident Rep </label>
-			<shortLabel>Onr Resident Rep </shortLabel>
+			<label>ONR Resident Rep </label>
+			<shortLabel>ONR Resident Rep </shortLabel>
 			<maxLength>6</maxLength>
 			<validationPattern><numeric /></validationPattern>
 			<control>
 				<text size="6" />
 			</control>
-			<summary>Onr Resident Rep </summary>
-			<description>Onr Resident Rep </description>
+			<summary>ONR Resident Rep </summary>
+			<description>ONR Resident Rep </description>
 			</attribute>
 
 			<attribute name="organizationName">
@@ -464,15 +464,15 @@
 			</attribute>
 
 			<attribute name="phsAccount">
-			<label>Phs Account </label>
-			<shortLabel>Phs Account </shortLabel>
+			<label>PHS Account </label>
+			<shortLabel>PHS Account </shortLabel>
 			<maxLength>30</maxLength>
 			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<text size="30" />
 			</control>
-			<summary>Phs Account </summary>
-			<description>Phs Account </description>
+			<summary>PHS Account </summary>
+			<description>PHS Account </description>
 			</attribute>
 
 			<attribute name="scienceMisconductComplDate">
