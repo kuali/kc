@@ -54,11 +54,11 @@
 		<kul:tableWrapper>
 		<%-- Show the information about the business object. --%>
 		<c:set var="firstTab" value="${true}" /><%-- make the background transparent in kul:tab for the first pass --%>
+		<br>
 		<c:forEach items="${FieldSections}" var="section">
 	
 		  <%-- call helper tag to look ahead through fields for old to new changes, and highlight tab if so --%>
           <kul:checkTabHighlight rows="${section.rows}" addHighlighting="false" />
-		  <br>
 		  
 		  <kul:tab tabTitle="${section.sectionTitle}" defaultOpen="true" tabErrorKey="${section.errorKey}" highlightTab="${tabHighlight}" transparentBackground="${firstTab}" extraButtonSource="${section.extraButtonSource}"> 
 		    <div class="tab-container" align="center">
