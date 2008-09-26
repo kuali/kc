@@ -68,6 +68,7 @@ public class KcPessimisticLockServiceImplTest {
      * @param timestamp the creation timestamp of the lock
      * @return the new Pessimistic Lock
      */
+    @SuppressWarnings("deprecation")
     private PessimisticLock createPessimisticLock(long timestamp) {
         PessimisticLock lock = new PessimisticLock();
         lock.setGeneratedTimestamp(new Timestamp(timestamp));
@@ -83,14 +84,14 @@ public class KcPessimisticLockServiceImplTest {
         KcPessimisticLockServiceImpl pessimisticLockService = new KcPessimisticLockServiceImpl();
         
         /*
-         * The configuration service will be invoked once to get the Lock Timeout Period
+         * The configuration service will be invoked once to get the Lock Expiration Age
          * which for this test will be one day (1440 minutes).
          */
         final KualiConfigurationService configurationService = context.mock(KualiConfigurationService.class);
         context.checking(new Expectations() {{
             one(configurationService).getParameterValue(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
                                                         Constants.PARAMETER_COMPONENT_DOCUMENT, 
-                                                        KeyConstants.PESSIMISTIC_LOCKING_TIMEOUT); 
+                                                        KeyConstants.PESSIMISTIC_LOCKING_EXPIRATION_AGE); 
             will(returnValue("1440"));
         }});
         pessimisticLockService.setConfigurationService(configurationService);
