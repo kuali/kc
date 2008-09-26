@@ -136,27 +136,6 @@ public class BudgetPersonnelExpenseWebTest extends BudgetExpenseWebTest {
         assertNotNull(personnelCalculatedAmounts);
         assertEquals(lineItemCalculatedAmounts.size(), personnelCalculatedAmounts.size());
         assertFalse(lineItemCalculatedAmounts.get(0).getApplyRateFlag());
-//        Need to change these assertions - Rates in Test Schema are different
-//        BudgetPersonnelCalculatedAmount firstPersonnelCalculatedAmount = personnelCalculatedAmounts.get(0);
-//        assertNotNull(firstPersonnelCalculatedAmount);
-//        assertEquals("1", firstPersonnelCalculatedAmount.getRateClassCode());
-//        assertEquals("1", firstPersonnelCalculatedAmount.getRateTypeCode());
-//        assertEquals(new BudgetDecimal("0.00"), firstPersonnelCalculatedAmount.getCalculatedCost());
-//        assertEquals(new BudgetDecimal("0.00"), firstPersonnelCalculatedAmount.getCalculatedCostSharing());
-//        
-//        BudgetPersonnelCalculatedAmount secondPersonnelCalculatedAmount = personnelCalculatedAmounts.get(1);
-//        assertNotNull(secondPersonnelCalculatedAmount);
-//        assertEquals("8", secondPersonnelCalculatedAmount.getRateClassCode());
-//        assertEquals("1", secondPersonnelCalculatedAmount.getRateTypeCode());
-//        assertEquals(new BudgetDecimal("8910.00"), secondPersonnelCalculatedAmount.getCalculatedCost());
-//        assertEquals(new BudgetDecimal("2970.00"), secondPersonnelCalculatedAmount.getCalculatedCostSharing());
-// 
-//        BudgetPersonnelCalculatedAmount thirdPersonnelCalculatedAmount = personnelCalculatedAmounts.get(2);
-//        assertNotNull(thirdPersonnelCalculatedAmount);
-//        assertEquals("5", thirdPersonnelCalculatedAmount.getRateClassCode());
-//        assertEquals("1", thirdPersonnelCalculatedAmount.getRateTypeCode());
-//        assertEquals(new BudgetDecimal("21420.00"), thirdPersonnelCalculatedAmount.getCalculatedCost());
-//        assertEquals(new BudgetDecimal("7140.00"), thirdPersonnelCalculatedAmount.getCalculatedCostSharing());
     }
 
     private Map<String, BudgetPersonnelCalculatedAmount> getExpectedLineItemCalculatedAmounts(BudgetLineItem firstPeriodFirstLineItem) {
