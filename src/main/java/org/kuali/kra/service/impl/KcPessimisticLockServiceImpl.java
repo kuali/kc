@@ -37,9 +37,9 @@ public class KcPessimisticLockServiceImpl implements KcPessimisticLockService {
     private static final long MINUTES_TO_MILLISECONDS = 60L * 1000L;
     
     /**
-     * Default timeout period in minutes.
+     * Default expiration age in minutes.
      */
-    private static final int DEFAULT_TIMEOUT = 24 * 60; // one day in minutes
+    private static final int DEFAULT_EXPIRATION_AGE = 24 * 60; // one day in minutes
     
     private KualiConfigurationService configurationService;
     private BusinessObjectService businessObjectService;
@@ -71,17 +71,17 @@ public class KcPessimisticLockServiceImpl implements KcPessimisticLockService {
     
     /**
      * Retrieve all of the locks from the database.  Delete those that
-     * have been around for longer than the timeout period.
+     * have been around for longer than the expiration age.
      * @see org.kuali.kra.service.KcPessimisticLockService#clearExpiredLocks()
      */
     @Transactional
     public void clearExpiredLocks() {
         long now = getCurrentTime();
-        long timeoutMillis = getTimeoutMillis();
+        long expirationAgeMillis = getExpirationAgeMillis();
         Collection<PessimisticLock> locks = getAllLocks();
         for (PessimisticLock lock : locks) {
             long lockTime = lock.getGeneratedTimestamp().getTime();
-            if (now - lockTime >= timeoutMillis) {
+            if (now - lockTime >= expirationAgeMillis) {
                 businessObjectService.delete(lock);
             }
         }
@@ -91,6 +91,7 @@ public class KcPessimisticLockServiceImpl implements KcPessimisticLockService {
      * Get all of the Pessimistic Locks from the database.
      * @return all of the pessimistic locks
      */
+    @SuppressWarnings("unchecked")
     private Collection<PessimisticLock> getAllLocks() {
         return businessObjectService.findAll(PessimisticLock.class);
     }
@@ -107,20 +108,20 @@ public class KcPessimisticLockServiceImpl implements KcPessimisticLockService {
      * Get the timeout period in milliseconds.
      * @return the timeout period in milliseconds
      */
-    private long getTimeoutMillis() {
-        return getLockTimeout() * MINUTES_TO_MILLISECONDS;
+    private long getExpirationAgeMillis() {
+        return getLockExpirationAge() * MINUTES_TO_MILLISECONDS;
     }
     
     /**
-     * Get the Lock Timeout parameter value from the system parameters.
-     * @return the Lock Tiemout value in minutes
+     * Get the Lock Expiration Age parameter value from the system parameters.
+     * @return the Lock Expiration Age value in minutes
      */
-    private int getLockTimeout() {
+    private int getLockExpirationAge() {
         try {
-            String timeoutStr = getParameterValue(KeyConstants.PESSIMISTIC_LOCKING_TIMEOUT);
+            String timeoutStr = getParameterValue(KeyConstants.PESSIMISTIC_LOCKING_EXPIRATION_AGE);
             return Integer.parseInt(timeoutStr);
         } catch (Exception ex) {
-            return DEFAULT_TIMEOUT;
+            return DEFAULT_EXPIRATION_AGE;
         }
     }
 
