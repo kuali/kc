@@ -138,7 +138,7 @@ public class KeyConstants {
     
     // Pessimistic Locking Cron Job
     public static final String PESSIMISTIC_LOCKING_CRON_EXPRESSION = "pessimisticLocking.cronExpression";
-    public static final String PESSIMISTIC_LOCKING_TIMEOUT = "pessimisticLocking.timeout";
+    public static final String PESSIMISTIC_LOCKING_EXPIRATION_AGE = "pessimisticLocking.expirationAge";
     
     // Grants.gov
     public static final String ERROR_IF_PROPOSALTYPE_IS_REVISION = "error.s2sopportunity.revisiontype";
