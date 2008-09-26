@@ -23,15 +23,11 @@
 	</appender>
 	
 	<category name="edu.iu.uis.eden">
-	  <priority value="WARN" />
+	  <priority value="INFO" />
 	</category>
     
 	<category name="org.kuali.rice">
 	  <priority value="INFO" />
-	</category>
-
-	<category name="org.kuali.rice.test">
-	  <priority value="FATAL" />
 	</category>
 
 	<category name="org.kuali.core.util">
