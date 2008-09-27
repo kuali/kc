@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
+import static org.kuali.kra.logging.BufferedLogger.*;
+
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -50,6 +52,7 @@ import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
+import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
@@ -265,7 +268,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @throws Exception if the copy fails for any reason.
      */
     private void copyProposalProperties(ProposalDevelopmentDocument src, ProposalDevelopmentDocument dest)  throws Exception {
-        //List<DocProperty> properties = getCopyableProperties(new CopyFilter(...));
+        // List<DocProperty> properties = getCopyableProperties(new CopyFilter(...));
         List<DocProperty> properties = getCopyableProperties();
         copyProperties(src, dest, properties);
     }
@@ -430,9 +433,36 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
 
         fixProposalNumbers(newDoc, newDoc.getProposalNumber(), list);
         fixKeyPersonnel(newDoc, srcDoc.getOwnedByUnitNumber(), criteria.getLeadUnitNumber());
+        fixOrganizationAndLocations(newDoc);
         list.clear();
         fixVersionNumbers(newDoc, list);
         fixBudgetVersions(newDoc);
+    }
+
+    /**
+     * If the Lead Unit has changed in the previous {@link Document}, then this method corrects related
+     * properties {@link Organization} and {@link ProposalLocation} instances
+     *
+     * @param doc {@link ProposalDevelopmentDocument} to fix
+     */
+    private void fixOrganizationAndLocations(ProposalDevelopmentDocument doc) {
+        doc.setOrganizationId(doc.getOwnedByUnit().getOrganizationId());
+        doc.refreshReferenceObject("organization");
+        doc.setPerformingOrganizationId(doc.getOwnedByUnit().getOrganizationId());
+        doc.refreshReferenceObject("performingOrganization");
+        
+        // Remove the first Location because it's probably the old one.
+        if (doc.getProposalLocations().size() > 0) {
+            doc.getProposalLocations().remove(doc.getProposalLocations().get(0));
+        }
+  
+        // re-initialize Proposal Locations with Organization details
+        ProposalLocation newProposalLocation = new ProposalLocation();
+        newProposalLocation.setLocation(doc.getOrganization().getOrganizationName());
+        newProposalLocation.setRolodexId(doc.getOrganization().getContactAddressId());
+        newProposalLocation.refreshReferenceObject("rolodex");
+        newProposalLocation.setLocationSequenceNumber(doc.getDocumentNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER));
+        doc.getProposalLocations().add(0, newProposalLocation);
     }
     
     /**
