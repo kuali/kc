@@ -17,7 +17,6 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="budgetPersonAttributes" value="${DataDictionary.BudgetPerson.attributes}" />
-
 <div id="workarea">
 <kul:tab tabTitle="Budget Personnel" defaultOpen="true" transparentBackground="true" tabErrorKey="document.budgetPerson*" auditCluster="budgetPersonnelAuditWarnings" tabAuditKey="document.budgetPerson*" useRiceAuditMode="true" alwaysOpen="true">
 	<div class="tab-container" align="center">
@@ -47,8 +46,19 @@
               	<th scope="row"><div align="center">${status.index + 1}</div></th>
               	<td style="${personSelectStyle}">${person.personName} <c:if test="${!empty person.role}"><span class="fineprint">(${person.role})</span></c:if></td>
               	<td>
-              		<kul:htmlControlAttribute property="document.budgetPerson[${status.index}].jobCode" attributeEntry="${budgetPersonAttributes.jobCode}" />
-              		<kul:lookup boClassName="org.kuali.kra.budget.bo.JobCode" fieldConversions="jobCode:document.budgetPerson[${status.index}].jobCode" anchor="${tabKey}" />
+              	 	<c:set var="jobCodeFieldName" value="document.budgetPersons[${status.index}].jobCode"/> 
+              	 	<c:set var="jobTitleFieldName" value="document.budgetPersons[${status.index}].jobTitle"/> 
+              		<kul:htmlControlAttribute property="document.budgetPersons[${status.index}].jobCode" attributeEntry="${budgetPersonAttributes.jobCode}" onblur="loadJobCodeTitle('${jobCodeFieldName}', '${jobTitleFieldName}');" />
+              		<kul:lookup boClassName="org.kuali.kra.budget.bo.JobCode" fieldConversions="jobCode:document.budgetPersons[${status.index}].jobCode,jobTitle:document.budgetPersons[${status.index}].jobTitle" anchor="${tabKey}" />
+              		
+              		<div id="document.budgetPersons[${status.index}].jobTitle.div" align="left">
+                        <c:if test="${!empty KualiForm.document.budgetPersons[status.index].jobCode}">               	    
+							<c:out value="${KualiForm.document.budgetPersons[status.index].jobTitle}" /> 
+							<c:if test="${empty KualiForm.document.budgetPersons[status.index].jobTitle}">
+	                    		<span style='color: red;'>not found</span>
+							</c:if>                   
+                        </c:if>
+					</div>
               	</td>
               	<td>
               		<kra:kraControlAttribute property="document.budgetPerson[${status.index}].appointmentTypeCode" readOnly="${readOnly}" attributeEntry="${budgetPersonAttributes.appointmentType}"/>
