@@ -24,6 +24,9 @@
 		<convert converter="bean" match="org.kuali.kra.bo.Sponsor">
 			<param name="include" value="sponsorCode,sponsorName" />
 		</convert>
+		<convert converter="bean" match="org.kuali.kra.budget.bo.JobCode">
+			<param name="include" value="jobCode" />
+		</convert>		
 		<create creator="spring" javascript="SponsorService">
 			<param name="beanName" value="sponsorService" />
 			<include method="getSponsorName" />
@@ -55,6 +58,10 @@
 		<create creator="spring" javascript="ProposalDevelopmentService">
 			<param name="beanName" value="proposalDevelopmentService" />
 			<include method="populateProposalEditableFieldMetaDataForAjaxCall" />
+		</create>
+		<create creator="spring" javascript="JobCodeService">
+			<param name="beanName" value="jobCodeService" />
+			<include method="findJobCodeTitle" />
 		</create>
 	</allow>
 </dwr>

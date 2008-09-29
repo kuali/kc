@@ -22,14 +22,21 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.service.JobCodeService;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.springframework.util.StringUtils;
 
 /**
  * BudgetPerson business object
  */
 public class BudgetPerson extends KraPersistableBusinessObjectBase {
-	private Date effectiveDate;
+	
+    private static final long serialVersionUID = 1L;
+    
+    private Date effectiveDate;
 	private String jobCode;
+	private String jobTitle;
 	private Boolean nonEmployeeFlag;
 	private String personId;
     private Integer rolodexId;
@@ -103,7 +110,10 @@ public class BudgetPerson extends KraPersistableBusinessObjectBase {
 	}
 
 	public void setJobCode(String jobCode) {
-		this.jobCode = jobCode;
+	    if (this.jobCode == null || !this.jobCode.equals(jobCode)){
+	       this.jobCode = jobCode;
+	       refreshJobTitle();
+	    }
 	}
 
 	public Boolean getNonEmployeeFlag() {
@@ -319,6 +329,30 @@ public class BudgetPerson extends KraPersistableBusinessObjectBase {
     public String getPersonRolodexTbnId() {
         String rolodexPersonId = getRolodexId()==null?getPersonId():getRolodexId().toString();
         return rolodexPersonId==null?getTbnId():rolodexPersonId;
+    }
+
+
+    public String getJobTitle() {
+        // Note, since we aren't persisting the jobTitle in the BudgetPersons table, we need to grab the title 
+        // for each BudgetPerson.jobCode via svc call below.
+        getJobTitleFromJobCode();
+        return jobTitle;
+    }
+    
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
+    }
+    
+    private void refreshJobTitle() {
+        jobTitle=null;
+        getJobTitleFromJobCode();
+    }
+    
+    private void getJobTitleFromJobCode() {
+        if (StringUtils.hasText(getJobCode()) && !StringUtils.hasText(this.jobTitle) ) { 
+            JobCodeService jcService = KraServiceLocator.getService(JobCodeService.class);
+            this.jobTitle = jcService.findJobCodeTitle(getJobCode());
+        }
     }
     
 }
