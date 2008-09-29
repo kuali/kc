@@ -76,7 +76,7 @@
 			<label>Job Title </label>
 			<shortLabel>Job Title </shortLabel>
 			<maxLength>50</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
+			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 			<control>
 				<text size="50" />
 			</control>

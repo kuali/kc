@@ -22,6 +22,8 @@
 	<c:set var="extraButtonAlt" value="Synch to Proposal" />
 </c:if>
 
+
+
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="budgetPersonnel"
@@ -67,4 +69,11 @@
 		extraButtonAlt="${extraButtonAlt}"
 		/>
 		
+<script type="text/javascript">
+	var kualiForm = document.forms['KualiForm'];
+	var kualiElements = kualiForm.elements;
+</script>
+		
+<script language="javascript" src="scripts/kuali_application.js"></script>		
+<script language="javascript" src="dwr/interface/JobCodeService.js"></script>
 </kul:documentPage>

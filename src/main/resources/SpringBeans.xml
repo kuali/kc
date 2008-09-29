@@ -543,6 +543,12 @@
 			<ref bean="budgetPersonService"/>
 		</property>
 	</bean>
+	
+	<bean id="jobCodeService" class="org.kuali.kra.budget.service.impl.JobCodeServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+ 	</bean>
 
 	<bean id="budgetVersionRule" class="org.kuali.kra.proposaldevelopment.rules.BudgetVersionRule" singleton="false" />
 

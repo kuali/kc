@@ -153,6 +153,7 @@ public interface Constants {
     public static final String BUDGET_PERSON_DEFAULT_EFFECTIVE_DATE = "budgetPersonDefaultEffectiveDate";
     public static final String PERSON_SEQUENCE_NUMBER = "personSequenceNumber";
     public static final String BUDGET_PERSONNEL_PAGE = "personnel";
+    public static final String JOB_CODE = "jobCode";
     
     // KIM Authorization Namespace for KRA
     public static final String KRA_NAMESPACE = "KRA";

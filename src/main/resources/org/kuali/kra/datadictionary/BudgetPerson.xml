@@ -184,7 +184,8 @@
 			</attributeReference>
 
 			<attributeReference name="personName" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="fullName" />
-
+			<attributeReference name="jobTitle" sourceClassName="org.kuali.kra.budget.bo.JobCode" sourceAttributeName="jobTitle" />
+			
 		</attributes>
 
         <objectHelp parameterNamespace="KRA-B" parameterDetailType="D" parameterName="budgetPersonHelpUrl"/> 
