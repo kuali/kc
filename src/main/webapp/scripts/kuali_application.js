@@ -856,6 +856,17 @@ function enableBudgetStatus(document, index) {
 	}
 }
 
+function getIndex(what) {
+    for (var i = 0; i < document.KualiForm.elements.length; i++) {
+        if (what == document.KualiForm.elements[i]) {
+            return i;
+          }
+       }
+       return -1;
+       alert("leaveIndex");
+}
+
+
 function setupBudgetStatuses(document) {
 	for (var i = 0; i < document.KualiForm.elements.length; i++) {
 	  var e = document.KualiForm.elements[i];
@@ -872,6 +883,49 @@ function setupBudgetStatuses(document) {
 	  }
 	}
 }
+
+
+
+function setupBudgetStatusSummary(document) {
+	  var finalVersionFlag = document.getElementById('document.finalVersionFlag');
+	  var temp = document.getElementById('hack');
+	  var hackIndex = getIndex(temp);
+	  var finalVersionFlagIndex = getIndex(finalVersionFlag);
+	  var statusHidden = document.KualiForm.elements[hackIndex + 1];
+	  var status = document.KualiForm.elements[hackIndex + 2];
+	  var finalVersionFlagHidden = document.KualiForm.elements[finalVersionFlagIndex + 1];
+	  if(finalVersionFlag.checked) {
+	  	statusHidden.disabled=true;
+	  	status.disabled=false;
+	  } else {
+	  	statusHidden.disabled=false;
+	  	status.disabled=true;
+	  }
+	 }
+
+function toggleFinalCheckboxSummary(document) {
+	var completed = false;
+	var finalVersionFlag = document.getElementById('document.finalVersionFlag');
+	var finalVersionFlagIndex = getIndex(finalVersionFlag);
+	var finalVersionFlagHidden = document.KualiForm.elements[finalVersionFlagIndex + 2];
+	var temp = document.getElementById('hack');
+	var hackIndex = getIndex(temp);
+	var statusHidden = document.KualiForm.elements[hackIndex + 1];
+	var status = document.KualiForm.elements[hackIndex + 2];
+	if(status.value == '1'){
+		completed = true;
+		}
+	if(completed) {
+		finalVersionFlag.disabled = true;
+		finalVersionFlagHidden.disabled = false;
+		finalVersionFlagHidden.value = true;
+	}else {
+		finalVersionFlag.disabled = false;
+		finalVersionFlagHidden.disabled = true;
+		finalVersionFlagHidden.value = false;
+	}
+}
+					
 
 function toggleFinalCheckboxes(document) {
 	var completed = false;
