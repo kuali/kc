@@ -2005,7 +2005,9 @@
 		<reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="rolodexId"/> 
 		</reference-descriptor>
-
+		<reference-descriptor name="jobCodeObj" class-ref="org.kuali.kra.budget.bo.JobCode" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="jobCode"/> 
+		</reference-descriptor>
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.budget.bo.TbnPerson" table="TBN">

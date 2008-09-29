@@ -1,4 +1,5 @@
 
+
 function selectAllGGForms(document) {
     var j = 0;
 	for (var i = 0; i < document.KualiForm.elements.length; i++) {
@@ -258,6 +259,35 @@ function loadUnitName(unitNumberFieldName) {
 	}
 }
 
+/*
+ * Load the JobCode Title field based on the Job Code passed in.
+ */
+function loadJobCodeTitle(jobCodeFieldName, jobCodeTitleFieldName ) {
+	var jobCode = DWRUtil.getValue( jobCodeFieldName );
+
+	if (jobCode=='') {
+		clearRecipients( jobCodeTitleFieldName, "" );
+	} else {
+		var dwrReply = {
+			callback:function(data) {
+				if ( data != null ) {
+					if ( jobCodeTitleFieldName != null && jobCodeTitleFieldName != "" ) {
+						setRecipientValue( jobCodeTitleFieldName, data );
+					}
+				} else {
+					if ( jobCodeTitleFieldName != null && jobCodeTitleFieldName != "" ) {
+						setRecipientValue(  jobCodeTitleFieldName, wrapError( "not found" ), true );
+					}
+				}
+			},
+			errorHandler:function( errorMessage ) {
+				window.status = errorMessage;
+				setRecipientValue( jobCodeTitleFieldName, wrapError( "not found" ), true );
+			}
+		};
+		JobCodeService.findJobCodeTitle(jobCode,dwrReply);
+	}
+}
 
 function loadSponsorCode_1( sponsorCodeFieldName) {
     // alternative, delete later
