@@ -71,7 +71,9 @@
 			<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.budgetStatus}" /></div></th>
 			    <td>
-			         <kra:kraControlAttribute property="document.budgetStatus" readOnly="${readOnly}" attributeEntry="${proposalDevelopmentAttributes.budgetStatus}"  styleClass="fixed-size-200-select" onchange="javascript: toggleFinalCheckboxes(document)" />
+			    	 <input type=hidden name="KualiForm" property="hack" id="hack" disabled="true" />
+			         <html:hidden name="KualiForm" property="document.budgetStatus"  disabled="true" />
+			         <kul:htmlControlAttribute property="document.budgetStatus" readOnly="${readOnly}" readOnlyAlternateDisplay="Complete" attributeEntry="${proposalDevelopmentAttributes.budgetStatus}"  styleClass="fixed-size-200-select" onchange="javascript: toggleFinalCheckboxSummary(document)" disabled="${viewOnly}"/>
                 </td>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.residualFunds}" /></div></th>
            		<td>
@@ -81,7 +83,8 @@
 	     		<tr>
      		    <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.finalVersionFlag}" noColon="true" /></div></th>
            		<td>
-           			<kul:htmlControlAttribute property="document.finalVersionFlag" attributeEntry="${budgetAttributes.finalVersionFlag}" onclick="javascript: confirmFinalizeVersion(document, ${KualiForm.document.proposal.numberOfVersions})" />
+           			<kul:htmlControlAttribute property="document.finalVersionFlag" attributeEntry="${budgetAttributes.finalVersionFlag}" onclick="javascript: setupBudgetStatusSummary(document);" disabled="${viewOnly}" />
+           			<html:hidden name="KualiForm" property="document.finalVersionFlag" disabled="true" />
            		</td>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.urRateClassCode}" /></div></th>
                 <td>
@@ -113,4 +116,4 @@
     </div>
 </kul:tabTop>
 <%-- initialize status of final checkbox and budget status. --%>
-<img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" onLoad="toggleFinalCheckboxes(document); setupBudgetStatuses(document);" />
+<img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" onLoad="setupBudgetStatusSummary(document);" />
