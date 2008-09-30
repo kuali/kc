@@ -273,6 +273,7 @@ public interface Constants {
     public static final String CUSTOM_ERROR = "error.custom";
     public static final String SUBAWARD_FILE_REQUIERED = "newSubAward.subAwardFile.required";
     public static final String SUBAWARD_FILE = "newSubAward.subAwardFile";
+    public static final String SUBAWARD_FILE_NOT_POPULATED = "newSubAward.subAwardFile.notExtracted";
     public static final String SUBAWARD_ORG_NAME = "newSubAward.organizationName";
     public static final String SUBAWARD_ORG_NAME_REQUIERED = "newSubAward.organizationName.required";
 
