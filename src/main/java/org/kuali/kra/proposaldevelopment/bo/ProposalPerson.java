@@ -553,14 +553,14 @@ public class ProposalPerson extends Person implements CreditSplitable {
         this.delete = delete;
     }
     
-    public void setUnitDelete(boolean delete){
+    public void setUnitDelete(boolean delete) {
         this.unitdelete=delete;
     }
     
-    public boolean isUnitDelete()
-    {
+    public boolean isUnitDelete() {
         return unitdelete;
     }
+
     /**
      * Gets index i from the creditSplits list.
      * 
