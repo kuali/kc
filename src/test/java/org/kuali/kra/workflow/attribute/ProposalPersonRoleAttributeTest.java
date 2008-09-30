@@ -88,7 +88,7 @@ public class ProposalPersonRoleAttributeTest extends KraTestBase{
         ResolvedQualifiedRole resolvedrole2=roleattribute.resolveQualifiedRole(routecontext, KEY_PERSON_ROLE.getName(), KEY_PERSON_ROLE.getBaseName());
          for (Iterator<Id> ids = resolvedrole2.getRecipients().iterator(); ids.hasNext();) {
             AuthenticationUserId authid = (AuthenticationUserId) ids.next();
-            assertEquals(authid.getId(),"bhutchinson");
+            assertEquals(authid.getId(),"bhutchinso");
         }
          
 
@@ -123,7 +123,7 @@ public class ProposalPersonRoleAttributeTest extends KraTestBase{
         person3.setProposalPersonNumber(5);
         person3.setProposalPersonRoleId("KP");
         person3.setPersonId("000000005");
-        person3.setUserName("bhutchinson");
+        person3.setUserName("bhutchinso");
         person3.setOptInCertificationStatus("Y");
         person3.setOptInUnitStatus("Y");
         person3.setProjectRole("test");
