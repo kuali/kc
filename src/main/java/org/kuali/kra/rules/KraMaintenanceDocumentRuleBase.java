@@ -17,10 +17,10 @@ package org.kuali.kra.rules;
 
 import java.util.Map;
 
-import org.kuali.RiceConstants;
 import org.kuali.RiceKeyConstants;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 
 public class KraMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
     /**
@@ -36,7 +36,7 @@ public class KraMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase 
         boolean success = true;
         success = getBoService().countMatching(clazz, fieldValues) != 0;
         if (!success) {
-            GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(RiceConstants.MAINTENANCE_NEW_MAINTAINABLE + errorField, RiceKeyConstants.ERROR_EXISTENCE, errorParam);
+            GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(KNSConstants.MAINTENANCE_NEW_MAINTAINABLE + errorField, RiceKeyConstants.ERROR_EXISTENCE, errorParam);
         }
         return success;
     }

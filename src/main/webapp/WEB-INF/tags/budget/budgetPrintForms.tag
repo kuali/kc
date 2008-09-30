@@ -8,11 +8,9 @@
 	    </c:if>
 	</c:forEach>
 	<div class="tab-container" align="center">
-		<div class="h2-container">
-			<span class="subhead-left">
-				<h2>Print Forms</h2>
-			</span>
-		</div>
+		<h3>
+			<span class="subhead-left">Print Forms</span>
+		</h3>
 		<table cellspacing="0" cellpadding="0" summary="">
 			<tbody>
 		    	<c:forEach var="form" items="${KualiForm.document.budgetPrintForms}" varStatus="status">

@@ -338,14 +338,14 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
  
         // The must have the same document description.
         
-        String desc1 = srcDoc.getDocumentHeader().getFinancialDocumentDescription();
-        String desc2 = srcDoc.getDocumentHeader().getFinancialDocumentDescription();
+        String desc1 = srcDoc.getDocumentHeader().getDocumentDescription();
+        String desc2 = destDoc.getDocumentHeader().getDocumentDescription();
         assertEquals("Descriptions are different", desc1, desc2);
         
         // They must have the same organization document number.
 
         String org1 = srcDoc.getDocumentHeader().getOrganizationDocumentNumber();
-        String org2 = srcDoc.getDocumentHeader().getOrganizationDocumentNumber();
+        String org2 = destDoc.getDocumentHeader().getOrganizationDocumentNumber();
         assertEquals("Organization document numbers are different", org1, org2);
         
         // Check the lead unit number.

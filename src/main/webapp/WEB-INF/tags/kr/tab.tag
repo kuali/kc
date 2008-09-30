@@ -1,11 +1,11 @@
 <%--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2005-2007 The Kuali Foundation.
  
- Licensed under the Educational Community License, Version 2.0 (the "License");
+ Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
  
- http://www.osedu.org/licenses/ECL-2.0
+ http://www.opensource.org/licenses/ecl1.php
  
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
-<%@ attribute name="tabTitle" required="true" %>
+<%@ attribute name="tabTitle" required="false" %>
 <%@ attribute name="spanForLongTabTitle" required="false" %>
 <%@ attribute name="tabDescription" required="false" %>
 <%@ attribute name="defaultOpen" required="true" %>
@@ -41,10 +41,10 @@
 
 <c:choose>
     <c:when test="${(useCurrentTabIndexAsKey)}">
-        <c:set var="tabKey" value="${currentTabIndex}" scope="request"/>
+        <c:set var="tabKey" value="${currentTabIndex}"/>
     </c:when>
     <c:otherwise>
-        <c:set var="tabKey" value="${kfunc:generateTabKey(tabTitle)}" scope="request"/>
+        <c:set var="tabKey" value="${kfunc:generateTabKey(tabTitle)}"/>
     </c:otherwise>
 </c:choose>
 
@@ -104,11 +104,11 @@
 			  	<td class="tabtable1-left">
 			  </c:otherwise>
 			  </c:choose>
-			   
+ 
               <img src="${leftTabImage}" alt="" width="12" height="29" align="absmiddle" />
               <c:if test="${not empty leftSideHtmlProperty and not empty leftSideHtmlAttribute}"><kul:htmlControlAttribute property="${leftSideHtmlProperty}" attributeEntry="${leftSideHtmlAttribute}" disabled="${leftSideHtmlDisabled}" /></c:if>
-              <a name="${tabKey}" ></a> ${tabTitle}
-              <c:if test="${highlightTab}">  
+              <a name="${tabKey}" ></a> <h2><c:out value="${tabTitle}" /></h2>
+              <c:if test="${highlightTab}">
                 &nbsp;<img src="${ConfigProperties.kr.externalizable.images.url}asterisk_orange.png" alt="changed"/>
               </c:if>
             </td>
@@ -125,13 +125,13 @@
       		</c:if>
 
             <td class="${midTabClass}">
-            <c:if test="${alwaysOpen != 'true'}">
-               <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
-                 <html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" title="close ${tabTitle}" alt="close ${tabTitle}" styleClass="tinybutton"  styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " />
-               </c:if>
-               <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
-                 <html:image  property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" title="open ${tabTitle}" alt="open ${tabTitle}" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " />
-               </c:if>
+               <c:if test="${alwaysOpen != 'true'}">
+	               <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
+	                 <html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" title="close ${tabTitle}" alt="close ${tabTitle}" styleClass="tinybutton"  styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " />
+	               </c:if>
+	               <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
+	                 <html:image  property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" title="open ${tabTitle}" alt="open ${tabTitle}" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " />
+	               </c:if>
                </c:if>
             </td>
             <td class="${rightTabClass}"><img src="${rightTabImage}" alt="" width="12" height="29" align="middle" /></td>
@@ -164,10 +164,10 @@
       	</c:if>
       	
       
-        <!-- Before the jsp:doBody of the kul:tab tag -->   
+        <!-- Before the jsp:doBody of the kul:tab tag -->            
         <jsp:doBody/>            
         <!-- After the jsp:doBody of the kul:tab tag -->
  
       
-    
-</div>   
+  
+</div>         

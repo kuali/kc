@@ -7,20 +7,20 @@
 
 <kul:tab tabTitle="Required Fields for Saving Document" defaultOpen="true" tabErrorKey="document.currentAwardNumber*,document.continuedFrom,document.sponsorCode*,document.proposalTypeCode*,document.requestedStartDateInitial*,document.ownedByUnit*,document.requestedEndDateInitial*,document.activityTypeCode*,document.title" auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.title" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
-    	<div class="h2-container">
-    		<span class="subhead-left"><h2>Required Fields for Saving Document</h2></span>
+    	<h3>
+    		<span class="subhead-left">Required Fields for Saving Document</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.ProposalType" altText="help"/></span>
-        </div>
+        </h3>
         
         <table cellpadding=0 cellspacing=0 summary="">
         	<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.proposalNumber}" /></div></th>
-                <td>${KualiForm.document.proposalNumber}</td>
+                <td>${KualiForm.document.proposalNumber}&nbsp;</td>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.sponsorCode}" /></div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.sponsorCode" attributeEntry="${proposalDevelopmentAttributes.sponsorCode}" onblur="loadSponsorName('document.sponsorCode', 'sponsorName');" />
                 	<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:document.sponsorCode,sponsorName:document.sponsor.sponsorName" anchor="${tabKey}" />
-                  <kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="document.sponsorCode:sponsorCode" anchor="${tabKey}" />
+                    <kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="document.sponsorCode:sponsorCode" anchor="${tabKey}" />
                     <div id="sponsorName.div" >
                         <c:if test="${!empty KualiForm.document.sponsorCode}">
             				<c:choose>
@@ -78,10 +78,10 @@
         </table>
 
          <br>
-            <div class="h2-container">
-              <span class="subhead-left"><h2>Institutional Fields Conditionally Required</h2></span>
+            <h3>
+              <span class="subhead-left">Institutional Fields Conditionally Required</span>
               <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.ProposalType" altText="help"/></span>
-            </div>
+            </h3>
             
             <table summary="" cellpadding="0" cellspacing="0">
               <tbody><tr>

@@ -76,10 +76,10 @@
 	 	
 	<kul:tab tabTitle="${budgetCategoryTypeCodesLabel}" tabItemCount="${budgetLineItemSize}" defaultOpen="false" tabErrorKey="*costElement*,newBudgetLineItems[${catCodes}].*,${tabErrorKeyString},${tabErrorKeyString2}">
 		<div class="tab-container" align="center">
-    	<div class="h2-container">
-    		<span class="subhead-left"><h2>${budgetCategoryTypeCodesLabel}</h2></span>
+    	<h3>
+    		<span class="subhead-left">${budgetCategoryTypeCodesLabel}</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.bo.BudgetLineItem" altText="help"/></span>
-        </div>
+        </h3>
         <jsp:useBean id="paramMap" class="java.util.HashMap"/>
 		<c:set target="${paramMap}" property="budgetCategoryTypeCode" value="${budgetCategoryTypeCodesKey}" />
         <table border="0" cellpadding=0 cellspacing=0 summary="">

@@ -42,7 +42,6 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUser;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.service.UnitService;
-import org.kuali.rice.RiceConstants;
 
 public class UnitHierarchyForm  extends KualiForm {
 

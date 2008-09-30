@@ -26,10 +26,10 @@
          tabErrorKey="document.proposalAbstract*,newProposalAbstract*">
          
 	<div class="tab-container" align="center">
-    	<div class="h2-container">
-    		<span class="subhead-left"><h2>Abstracts</h2></span>
+    	<h3>
+    		<span class="subhead-left">Abstracts</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.ProposalAbstract" altText="help"/></span>
-        </div>
+        </h3>
     
         <table id="abstracts-table" cellpadding="0" cellspacing="0" summary="">
         <tbody>

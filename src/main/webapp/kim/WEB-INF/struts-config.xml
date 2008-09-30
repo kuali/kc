@@ -30,6 +30,6 @@
 		-->
     </action-mappings>
 
-    <controller processorClass="org.kuali.kra.web.struts.action.KraRequestProcessor" />
+    <controller processorClass="org.kuali.core.web.struts.action.KualiRequestProcessor" />
     <message-resources parameter="KR-ApplicationResources" />
 </struts-config>

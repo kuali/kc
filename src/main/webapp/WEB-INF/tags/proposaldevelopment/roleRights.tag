@@ -18,9 +18,9 @@
 <%@ attribute name="permissions" required="true" type="java.util.List" %>
 
 <div class="tab-container" align="center" style="margin:0px; padding:0px; border-width:0px">
-	<div class="h2-container">
-    	<span class="subhead-left"><h2>${roleName}</h2></span>
- 	</div>
+	<h3>
+    	<span class="subhead-left">${roleName}</span>
+ 	</h3>
  
  	<table cellpadding="0" cellspacing="0" summary="">
     	<c:forEach var="permission" items="${permissions}" varStatus="status">

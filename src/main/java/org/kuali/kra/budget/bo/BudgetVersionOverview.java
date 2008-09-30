@@ -219,7 +219,7 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
         super.afterLookup(persistenceBroker);
         DocumentHeader docHeader = getDocHeader();
         if (docHeader != null) {
-            this.documentDescription = docHeader.getFinancialDocumentDescription();
+            this.documentDescription = docHeader.getDocumentDescription();
         }
     }
     

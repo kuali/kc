@@ -28,10 +28,10 @@
 			<c:set var="sectionLabel" value="Add ${sectionLabel}" />
         </kra:section>
         
-        <div class="h2-container">
-    		<span class="subhead-left"><h2><c:out value="${sectionLabel}" /></h2></span>
+        <h3>
+    		<span class="subhead-left"><c:out value="${sectionLabel}" /></span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.Narrative" altText="help"/></span>
-	    </div>
+	    </h3>
         <table cellpadding=0 cellspacing=0 summary="">
         	<c:if test="${fn:length(KualiForm.document.propPersonBios) > 0  || KualiForm.editingMode['addNarratives']}" >
           	<tr>

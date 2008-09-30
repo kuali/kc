@@ -21,9 +21,7 @@
         <kul:tab tabTitle="Ad Hoc Recipients" defaultOpen="false" tabErrorKey="${Constants.AD_HOC_ROUTE_ERRORS}">
         
         <div class="tab-container" align=center>     
-		<div class="h2-container">
-		<h2>Ad Hoc Recipients</h2>
-		</div>
+		    <h3>Ad Hoc Recipients</h3>
             <table cellpadding="0" cellspacing="0" class="datatable" summary="view/edit ad hoc recipients">
 			  <%-- first do the persons --%>
               <kul:displayIfErrors keyMatch="${Constants.AD_HOC_ROUTE_PERSON_ERRORS}">

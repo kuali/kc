@@ -23,12 +23,14 @@ import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_D
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.kra.logging.BufferedLogger.debug;
 import static org.kuali.kra.logging.BufferedLogger.warn;
+import static org.kuali.rice.kns.util.KNSConstants.EMPTY_STRING;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -42,6 +44,8 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.core.bo.Parameter;
 import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.datadictionary.DocumentEntry;
+import org.kuali.core.datadictionary.HeaderNavigation;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
@@ -166,7 +170,11 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         customAttributeValues = new HashMap<String, String[]>();
         setCopyCriteria(new ProposalCopyCriteria(getProposalDevelopmentDocument()));
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
-        this.setHeaderNavigationTabs((dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName())).getHeaderTabNavigation());
+        DocumentEntry docEntry = dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName());
+        List<HeaderNavigation> navList = docEntry.getHeaderNavigationList();
+        HeaderNavigation[] list = new HeaderNavigation[navList.size()];
+        navList.toArray(list);
+        this.setHeaderNavigationTabs(list);
         proposalDevelopmentParameters = new HashMap<String, Parameter>();
         newProposalPersonRoleRendered = false;
         setNewProposalChangedData(new ProposalChangedData());
@@ -223,15 +231,38 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         
         ProposalDevelopmentDocument pd = getProposalDevelopmentDocument();
         ProposalState proposalState = (pd == null) ? null : pd.getProposalState();
-        HeaderField docStatus = new HeaderField("DataDictionary.DocumentHeader.attributes.financialDocumentStatusCode", proposalState == null? "" : proposalState.getDescription());
+        HeaderField docStatus = new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.workflowDocumentStatus", proposalState == null? "" : proposalState.getDescription());
         
         getDocInfo().set(1, docStatus);
+        
+        if (pd.getSponsor() == null) {
+            getDocInfo().add(new HeaderField("DataDictionary.Sponsor.attributes.sponsorName", ""));
+        } else {
+            getDocInfo().add(new HeaderField("DataDictionary.Sponsor.attributes.sponsorName", pd.getSponsor().getSponsorName()));
+        }
+        
+        if (getKeyPersonnelService().hasPrincipalInvestigator(pd)) {
+            boolean found = false;
+            
+            for(Iterator<ProposalPerson> person_it = pd.getInvestigators().iterator();
+                person_it.hasNext() && !found; ){
+                ProposalPerson investigator = person_it.next();
+                
+                if (getKeyPersonnelService().isPrincipalInvestigator(investigator)) {
+                    found = true; // Will break out of the loop as soon as the PI is found
+                    getDocInfo().add(new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.principalInvestigator", investigator.getFullName()));
+                }
+            }
+        }
+        else {
+            getDocInfo().add(new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.principalInvestigator", EMPTY_STRING));
+        }
+        
     }
 
     private void populateCurrentProposalColumnValues() {
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
-        Set<String> attributeNames = dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName()).getAttributes().keySet();
-
+        Set<String> attributeNames = dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName()).getAttributeNames();
     }
 
     public ProposalLocation getNewPropLocation() {

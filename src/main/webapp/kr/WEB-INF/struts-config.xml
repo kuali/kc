@@ -13,13 +13,18 @@
 	    <form-bean name="KualiHelpForm" type="org.kuali.core.web.struts.form.KualiHelpForm" />
         <form-bean name="MultipleValueLookupForm" type="org.kuali.core.web.struts.form.MultipleValueLookupForm" />
         <form-bean name="KualiForm" type="org.kuali.core.web.struts.form.KualiForm" />
+        <form-bean name="KualiExceptionIncidentForm" type="org.kuali.core.web.struts.form.KualiExceptionIncidentForm" />
     </form-beans>
 
     <global-exceptions>
+        <!-- Moved to /kualiExceptionIncidentReport.do -->
+        <!--
         <exception type="org.kuali.core.exceptions.AuthorizationException" key="meaningless" path="/authorizationException.do" />
         <exception type="org.kuali.core.exceptions.DocumentInitiationAuthorizationException" key="meaningless" path="/initiationAuthorizationException.do" />
+        -->
         <exception type="org.kuali.core.exceptions.UnknownDocumentIdException" key="error.document.noLongerExistsInKuali" path="/WEB-INF/jsp/Exception.jsp" />
         <exception type="org.kuali.core.exceptions.FileUploadLimitExceededException" key="error.document.attachmentMaximumFileSizeExceeded" path="/WEB-INF/jsp/Exception.jsp" />
+        <exception type="java.lang.Throwable" handler="org.kuali.core.web.struts.pojo.StrutsExceptionIncidentHandler" key="na"/>
     </global-exceptions>  
     
     <global-forwards >
@@ -30,9 +35,17 @@
         <forward name="route_report" path="/WEB-INF/jsp/RoutingReportForward.jsp"/>
         <forward name="error" path="/WEB-INF/jsp/KualiError.jsp" />
         <forward name="inquiryError" path="/WEB-INF/jsp/KualiInquiryError.jsp" />
+        <forward name="exceptionIncidentHandler" path="/kualiExceptionIncidentReport.do" />
+        <forward name="updateTextArea" path="/WEB-INF/jsp/TextArea.jsp" />
     </global-forwards>
 
     <action-mappings>
+        <action path="/portal" name="KualiForm" type="org.kuali.core.web.struts.action.KualiSimpleAction">
+            <forward name="basic" path="/index.jsp" />
+        </action>
+        <action path="/index" name="KualiForm" type="org.kuali.core.web.struts.action.KualiSimpleAction">
+            <forward name="basic" path="/index.jsp" />
+        </action>
         <action path="/Exception" name="KualiForm" type="org.kuali.core.web.struts.action.KualiExceptionAction">
             <forward name="basic" path="/WEB-INF/jsp/Exception.jsp" />
         </action>
@@ -64,9 +77,20 @@
 	    <action path="/directInquiry" name="InquiryForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.core.web.struts.action.KualiInquiryAction">
 	        <forward name="basic" path="/WEB-INF/jsp/KualiDirectInquiry.jsp" />
 	    </action>
+        <action path="/kualiExceptionIncidentReport"
+                name="KualiExceptionIncidentForm"
+                attribute="KualiForm"
+                type="org.kuali.core.web.struts.action.KualiExceptionHandlerAction">
+            <forward name="basic" path="/WEB-INF/jsp/KualiExceptionIncident.jsp" />
+            <forward name="AuthorizationException" path="/authorizationException.do" />
+            <forward name="DocumentInitiationAuthorizationException" path="/initiationAuthorizationException.do" />
+        </action>        
+        <action path="/updateTextArea" name="KualiForm" type="org.kuali.core.web.struts.action.KualiDocumentActionBase">
+            <forward name="basic" path="/WEB-INF/jsp/TextArea.jsp" />
+        </action>
     </action-mappings>
 
-    <controller processorClass="org.kuali.kra.web.struts.action.KraRequestProcessor" />
+    <controller processorClass="org.kuali.core.web.struts.action.KualiRequestProcessor" />
     <plug-in className="org.kuali.core.web.struts.pojo.PojoPlugin" />
 </struts-config>
 

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.budget.web.struts.action;
 
-import static org.kuali.RiceConstants.QUESTION_INST_ATTRIBUTE_NAME;
+import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RiceConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.dao.LookupDao;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
@@ -32,6 +31,7 @@ import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.ui.ResultRow;
 import org.kuali.kra.budget.bo.CostElement;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.lookupable.Column;
@@ -49,9 +49,9 @@ public class BudgetExpenseLookupableHelperServiceImpl extends KualiLookupableHel
      */
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         //LookupUtils.removeHiddenCriteriaFields( getBusinessObjectClass(), fieldValues );
-        setBackLocation(fieldValues.get(RiceConstants.BACK_LOCATION));
-        setDocFormKey(fieldValues.get(RiceConstants.DOC_FORM_KEY));
-        setReferencesToRefresh(fieldValues.get(RiceConstants.REFERENCES_TO_REFRESH));
+        setBackLocation(fieldValues.get(KNSConstants.BACK_LOCATION));
+        setDocFormKey(fieldValues.get(KNSConstants.DOC_FORM_KEY));
+        setReferencesToRefresh(fieldValues.get(KNSConstants.REFERENCES_TO_REFRESH));
         String budgetCategoryTypeCode = fieldValues.get("budgetCategoryTypeCode");
         fieldValues.remove("budgetCategoryTypeCode");
         List searchResults;

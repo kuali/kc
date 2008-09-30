@@ -57,9 +57,9 @@
 <kul:tab tabTitle="${rateClass}" defaultOpen="false" auditCluster="budgetRateAuditWarnings"  tabAuditKey="document.budgetProposalRate[${rateClass}]*" tabErrorKey="document.budgetProposalRate[${rateClass}]*" transparentBackground="${transparent}"  useRiceAuditMode="true">
     <c:set var="transparent" value="false" />
 	<div class="tab-container" align="center">
-    	<div class="h2-container">
-    		<h2><span class="subhead-left">${rateClass}</span></h2>
-        </div>
+    	<h3>
+    		<span class="subhead-left">${rateClass}</span>
+        </h3>
         <table id="${rateClass}" cellpadding=0 cellspacing="0"  class="result-table" summary="">
             <kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.RateType.attributes.description" />
 	    	<kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.BudgetProposalRate.attributes.onOffCampusFlag" />

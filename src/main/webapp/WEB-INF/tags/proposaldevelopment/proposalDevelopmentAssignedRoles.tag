@@ -21,14 +21,14 @@
             tabErrorKey="document.proposalPermissionRole">
          
 	<div class="tab-container" align="center">
-    	<div class="h2-container">
-    		<span class="subhead-left"><h2>Assigned Roles</h2></span>
+    	<h3>
+    		<span class="subhead-left">Assigned Roles</span>
     		<span class="subhead-right">
     		    <html:image property="methodToCall.getPermissionsRoleRights.anchor${tabKey}"
     			            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-viewrights.gif' styleClass="tinybutton"
 					        onclick="javascript: proposalRoleRightsPop(${KualiForm.formKey}, ${KualiForm.document.sessionDocument});return false"/>		
 			</span>
-        </div>
+        </h3>
         
         <table cellpadding="0" cellspacing="0" summary="">
             <c:forEach var="assignedRole" items="${KualiForm.proposalAssignedRoles}" varStatus="status">

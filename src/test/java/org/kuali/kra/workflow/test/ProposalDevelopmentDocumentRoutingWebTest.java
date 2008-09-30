@@ -132,7 +132,7 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
         
         GlobalVariables.setErrorMap(new ErrorMap());
         stopLifecycles(this.perTestLifeCycles);
-        afterRun();
+        logAfterRun();
     }
 
 

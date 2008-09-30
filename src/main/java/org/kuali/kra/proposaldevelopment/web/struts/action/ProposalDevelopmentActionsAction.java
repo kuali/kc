@@ -20,7 +20,6 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -37,8 +36,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.RiceConstants;
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.rule.event.DocumentAuditEvent;
 import org.kuali.core.service.BusinessObjectService;
@@ -66,7 +63,6 @@ import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalOverview;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
@@ -80,6 +76,7 @@ import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.service.KraPersistenceStructureService;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.util.KNSConstants;
 
 import edu.iu.uis.eden.EdenConstants;
 import edu.iu.uis.eden.KEWServiceLocator;
@@ -148,15 +145,15 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
 
     private ActionForward promptUserForInput(KualiWorkflowDocument workflowDoc, ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Object question = request.getParameter(RiceConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        Object buttonClicked = request.getParameter(RiceConstants.QUESTION_CLICKED_BUTTON);
+        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
         String methodToCall = ((KualiForm) form).getMethodToCall();
         
         if (question == null) {
             // ask question if not already asked
               return this.performQuestionWithoutInput(mapping, form, request, response, DOCUMENT_APPROVE_QUESTION, KNSServiceLocator
                       .getKualiConfigurationService().getPropertyString(KeyConstants.QUESTION_APPROVE_FUTURE_REQUESTS),
-                       RiceConstants.CONFIRMATION_QUESTION, methodToCall, "");             
+                       KNSConstants.CONFIRMATION_QUESTION, methodToCall, "");             
         }
         else if(DOCUMENT_APPROVE_QUESTION.equals(question) && ConfirmationQuestion.NO.equals(buttonClicked)) {
             workflowDoc.setDoNotReceiveFutureRequests();
@@ -398,7 +395,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         proposalDevelopmentForm.setAuditActivated(true);     
-        return mapping.findForward(RiceConstants.MAPPING_BASIC);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
@@ -410,7 +407,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         proposalDevelopmentForm.setAuditActivated(false);
 
-        return mapping.findForward((RiceConstants.MAPPING_BASIC));
+        return mapping.findForward((Constants.MAPPING_BASIC));
     }
 
     
@@ -425,20 +422,20 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
            RouteNodeInstance nodeInstance = (RouteNodeInstance) iterator.next();
            NodeName= nodeInstance.getRouteNode().getRouteNodeName();
         }
-        Object question = request.getParameter(RiceConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        Object buttonClicked = request.getParameter(RiceConstants.QUESTION_CLICKED_BUTTON);
-        String reason = request.getParameter(RiceConstants.QUESTION_REASON_ATTRIBUTE_NAME);
+        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+        String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
         String methodToCall = ((KualiForm) form).getMethodToCall();
         String rejectNoteText = "";
         if(question == null){
-            return this.performQuestionWithInput(mapping, form, request, response, DOCUMENT_REJECT_QUESTION,"Are you sure you want to reject this document?" , RiceConstants.CONFIRMATION_QUESTION, methodToCall, "");
+            return this.performQuestionWithInput(mapping, form, request, response, DOCUMENT_REJECT_QUESTION,"Are you sure you want to reject this document?" , KNSConstants.CONFIRMATION_QUESTION, methodToCall, "");
          } 
         else if((DOCUMENT_REJECT_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked))  {
-            return mapping.findForward(RiceConstants.MAPPING_BASIC);
+            return mapping.findForward(Constants.MAPPING_BASIC);
         }
         else
         {
-            String introNoteMessage = "Proposal Rejected" + RiceConstants.BLANK_SPACE;
+            String introNoteMessage = "Proposal Rejected" + KNSConstants.BLANK_SPACE;
             rejectNoteText = introNoteMessage + reason;
             workflowdocument.returnToPreviousNode(rejectNoteText, NodeName);
             return super.returnToSender(mapping, kualiDocumentFormBase);
@@ -466,8 +463,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         proposalDevelopmentForm.setAuditActivated(true);
         //success=KraServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(proposalDevelopmentForm.getDocument()));
         //HashMap map=GlobalVariables.getAuditErrorMap();
-        Object question = request.getParameter(RiceConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        Object buttonClicked = request.getParameter(RiceConstants.QUESTION_CLICKED_BUTTON);
+        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
         String methodToCall = ((KualiForm) form).getMethodToCall();
         
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
@@ -478,7 +475,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         {
 
             if(status == WARNING && question == null){
-                return this.performQuestionWithoutInput(mapping, form, request, response, DOCUMENT_ROUTE_QUESTION, "Validation Warning Exists.Are you sure want to submit to workflow routing.", RiceConstants.CONFIRMATION_QUESTION, methodToCall, "");
+                return this.performQuestionWithoutInput(mapping, form, request, response, DOCUMENT_ROUTE_QUESTION, "Validation Warning Exists.Are you sure want to submit to workflow routing.", KNSConstants.CONFIRMATION_QUESTION, methodToCall, "");
                 
             } 
             else if(DOCUMENT_ROUTE_QUESTION.equals(question) && ConfirmationQuestion.YES.equals(buttonClicked)) {
@@ -487,7 +484,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             }
 
             else{
-                return mapping.findForward((RiceConstants.MAPPING_BASIC));
+                return mapping.findForward((Constants.MAPPING_BASIC));
             }    
 
         }
@@ -497,7 +494,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         }else   {
         GlobalVariables.getErrorMap().clear(); // clear error from isValidSubmission()    
         GlobalVariables.getErrorMap().putError("datavalidation",KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
-        return mapping.findForward((RiceConstants.MAPPING_BASIC));
+        return mapping.findForward((Constants.MAPPING_BASIC));
          }
         
 }

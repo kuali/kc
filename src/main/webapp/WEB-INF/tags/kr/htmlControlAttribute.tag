@@ -1,11 +1,11 @@
 <%--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2005-2007 The Kuali Foundation.
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
+ Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
 
- http://www.osedu.org/licenses/ECL-2.0
+ http://www.opensource.org/licenses/ecl1.php
 
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
@@ -138,11 +138,20 @@
     </c:when>
 
     <%-- textarea --%>
-    <c:when test="${attributeEntry.control.textarea == true}">
-            <html:textarea property="${property}" style="${textStyle}" tabindex="${tabindex}"
-                           rows="${attributeEntry.control.rows}" cols="${attributeEntry.control.cols}"
-                           styleId="${property}" disabled="${disableField}" styleClass="${styleClass}"/>
-    </c:when>
+    <c:when test="${attributeEntry.control.textarea == true}"> 
+            <html:textarea property="${property}" style="${textStyle}" tabindex="${tabindex}" 
+                           rows="${attributeEntry.control.rows}" cols="${attributeEntry.control.cols}" 
+                           styleId="${property}" disabled="${disableField}" styleClass="${styleClass}" 
+                           onkeyup="textLimit(${attributeEntry.maxLength});" /> 
+            <script type="text/javascript"> 
+              function textLimit(maxlen) { 
+              var field=window.document.forms[0].elements['${property}']; 
+                if (field.value.length > maxlen) { 
+                  field.value = field.value.substr(0, maxlen); 
+                } 
+              }; 
+            </script> 
+    </c:when> 
 
     <%-- select --%>
     <c:when test="${attributeEntry.control.select == true}">
@@ -188,7 +197,6 @@
             <html:checkbox property="${property}" style="${textStyle}" tabindex="${tabindex}" disabled="${disableField}" onblur="${onblur}"
             	onchange="${onchange}" onclick="${onclick}" styleId="${property}"
             	styleClass="${styleClass}"/>
-            <input type="hidden" name="checkboxToReset" value="${property}"/>
     </c:when>
 
     <%-- hidden --%>

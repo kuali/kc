@@ -17,9 +17,9 @@ package org.kuali.kra.web.struts.action;
 
 import static org.apache.commons.lang.StringUtils.isNotBlank;
 import static org.apache.commons.lang.StringUtils.replace;
-import static org.kuali.RiceConstants.CONFIRMATION_QUESTION;
-import static org.kuali.RiceConstants.EMPTY_STRING;
-import static org.kuali.RiceConstants.QUESTION_CLICKED_BUTTON;
+import static org.kuali.rice.kns.util.KNSConstants.CONFIRMATION_QUESTION;
+import static org.kuali.rice.kns.util.KNSConstants.EMPTY_STRING;
+import static org.kuali.rice.kns.util.KNSConstants.QUESTION_CLICKED_BUTTON;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.Arrays;
@@ -36,7 +36,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.RiceConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.PessimisticLock;
@@ -59,6 +58,7 @@ import org.kuali.kra.web.struts.authorization.WebAuthorizationService;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.notification.util.NotificationConstants;
 import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.util.KNSConstants;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
 
@@ -72,7 +72,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        ActionForward returnForward = mapping.findForward(RiceConstants.MAPPING_BASIC);
+        ActionForward returnForward = mapping.findForward(Constants.MAPPING_BASIC);
         returnForward = super.execute(mapping, form, request, response);
         
         return returnForward;
@@ -111,28 +111,27 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     }
 
 
-
-    public ActionForward updateTextArea(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward kraUpdateTextArea(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) {
 
         // parse out the important strings from our methodToCall parameter
-        String fullParameter = (String) request.getAttribute(RiceConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String fullParameter = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
 
         // parse textfieldname:htmlformaction
-        String parameterFields = StringUtils.substringBetween(fullParameter, RiceConstants.METHOD_TO_CALL_PARM2_LEFT_DEL,
-                RiceConstants.METHOD_TO_CALL_PARM2_RIGHT_DEL);
+        String parameterFields = StringUtils.substringBetween(fullParameter, KNSConstants.METHOD_TO_CALL_PARM2_LEFT_DEL,
+                KNSConstants.METHOD_TO_CALL_PARM2_RIGHT_DEL);
         if (LOG.isDebugEnabled()) {
             LOG.debug("fullParameter: " + fullParameter);
             LOG.debug("parameterFields: " + parameterFields);
         }
         String[] keyValue = null;
         if (StringUtils.isNotBlank(parameterFields)) {
-            String[] textAreaParams = parameterFields.split(RiceConstants.FIELD_CONVERSIONS_SEPERATOR);
+            String[] textAreaParams = parameterFields.split(KNSConstants.FIELD_CONVERSIONS_SEPERATOR);
             if (LOG.isDebugEnabled()) {
                 LOG.debug("lookupParams: " + textAreaParams);
             }
             for (int i = 0; i < textAreaParams.length; i++) {
-                keyValue = textAreaParams[i].split(RiceConstants.FIELD_CONVERSION_PAIR_SEPERATOR);
+                keyValue = textAreaParams[i].split(KNSConstants.FIELD_CONVERSION_PAIR_SEPERATOR);
 
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("keyValue[0]: " + keyValue[0]);
@@ -147,11 +146,11 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
             request.setAttribute(org.kuali.kra.infrastructure.Constants.TEXT_AREA_FIELD_ANCHOR, ((KualiForm) form).getAnchor());
         }
 
-        return mapping.findForward("updateTextArea");
+        return mapping.findForward("kraUpdateTextArea");
 
     }
 
-    public ActionForward postTextAreaToParent(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward kraPostTextAreaToParent(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) {
         return mapping.findForward("basic");
     }
@@ -317,8 +316,8 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
             descriptor = StringUtils.capitalize(descriptor.substring(descriptor.indexOf("-") + 1).toLowerCase());
         }
         return "This " + descriptor + " is locked for editing by " + lock.getOwnedByPersonUniversalIdentifier() + " as of "
-                + org.kuali.rice.RiceConstants.getDefaultTimeFormat().format(lock.getGeneratedTimestamp()) + " on "
-                + org.kuali.rice.RiceConstants.getDefaultDateFormat().format(lock.getGeneratedTimestamp());
+                + org.kuali.rice.util.RiceConstants.getDefaultTimeFormat().format(lock.getGeneratedTimestamp()) + " on "
+                + org.kuali.rice.util.RiceConstants.getDefaultDateFormat().format(lock.getGeneratedTimestamp());
     }
 
     @Override
