@@ -341,48 +341,48 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             HttpServletResponse response) throws Exception {
 
         ActionForward nextWebPage = null;
-
+        
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
         ProposalCopyCriteria criteria = proposalDevelopmentForm.getCopyCriteria();
         
         // check any business rules
         boolean rulePassed = getKualiRuleService().applyRules(new CopyProposalEvent(doc, criteria));
-
+        
         if (!rulePassed) {
             nextWebPage = mapping.findForward(Constants.MAPPING_BASIC);
         }
         else {
-        // Use the Copy Service to copy the proposal.
-
-        ProposalCopyService proposalCopyService = (ProposalCopyService) KraServiceLocator.getService("proposalCopyService");
-        if (proposalCopyService == null) {
-
-            // Something bad happened. The errors are in the Global Error Map
-            // which will be displayed to the user.
-
-            nextWebPage = mapping.findForward(Constants.MAPPING_BASIC);
-        }
-        else {
-            String newDocId = proposalCopyService.copyProposal(doc, criteria);
-            KraServiceLocator.getService(PessimisticLockService.class).releaseAllLocksForUser(doc.getPessimisticLocks(), GlobalVariables.getUserSession().getUniversalUser());
+            // Use the Copy Service to copy the proposal.
             
-            // Switch over to the new proposal development document and
-            // go to the Proposal web page.
-
-            proposalDevelopmentForm.setDocId(newDocId);
-            this.loadDocument(proposalDevelopmentForm);
-            
-            ProposalDevelopmentDocument copiedDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
-            initializeProposalUsers(copiedDocument);//add in any default permissions
-            copiedDocument.setS2sAppSubmission(new ArrayList<S2sAppSubmission>());            
-            DocumentService docService = KraServiceLocator.getService(DocumentService.class);
-            docService.saveDocument(copiedDocument);
-            
-            nextWebPage = mapping.findForward(MAPPING_PROPOSAL);
-            
-            // Helper method to clear document form data.
-            proposalDevelopmentForm.clearDocumentRelatedState();
+            ProposalCopyService proposalCopyService = (ProposalCopyService) KraServiceLocator.getService("proposalCopyService");
+            if (proposalCopyService == null) {
+                
+                // Something bad happened. The errors are in the Global Error Map
+                // which will be displayed to the user.
+                
+                nextWebPage = mapping.findForward(Constants.MAPPING_BASIC);
+            }
+            else {
+                String newDocId = proposalCopyService.copyProposal(doc, criteria);
+                KraServiceLocator.getService(PessimisticLockService.class).releaseAllLocksForUser(doc.getPessimisticLocks(), GlobalVariables.getUserSession().getUniversalUser());
+                
+                // Switch over to the new proposal development document and
+                // go to the Proposal web page.
+                
+                proposalDevelopmentForm.setDocId(newDocId);
+                this.loadDocument(proposalDevelopmentForm);
+                
+                ProposalDevelopmentDocument copiedDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+                initializeProposalUsers(copiedDocument);//add in any default permissions
+                copiedDocument.setS2sAppSubmission(new ArrayList<S2sAppSubmission>());            
+                DocumentService docService = KraServiceLocator.getService(DocumentService.class);
+                docService.saveDocument(copiedDocument);
+                
+                nextWebPage = mapping.findForward(MAPPING_PROPOSAL);
+                
+                // Helper method to clear document form data.
+                proposalDevelopmentForm.clearDocumentRelatedState();
             
             }
         }
