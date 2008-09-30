@@ -388,9 +388,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         int selectedPersonIndex = getSelectedPersonIndex(request, document);
         ProposalPerson selectedPerson =  document.getProposalPerson(selectedPersonIndex);
         ProposalPersonUnit unit = selectedPerson.getUnit(getSelectedLine(request));
-        selectedPerson.setUnitDelete(true);
-                
-        unit.setDelete(false);
+        selectedPerson.getUnits().remove(unit);
 
         return mapping.findForward(MAPPING_BASIC);
     }
