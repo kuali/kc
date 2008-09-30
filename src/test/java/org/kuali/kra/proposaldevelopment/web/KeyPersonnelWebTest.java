@@ -23,7 +23,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-import static org.kuali.kra.logging.FormattedLogger.*;
+import static org.kuali.kra.logging.BufferedLogger.*;
 
 /**
  *  Web Test class for testing the Key Personnel Tab of the <code>{@link ProposalDevelopmentDocument}</code>
@@ -169,7 +169,50 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
         keyPersonnelPage = clickOn(getElementByName(keyPersonnelPage, "methodToCall.deleteDegree.document.proposalPersons[0].line0", true));
         saveAndSearchDoc(keyPersonnelPage);        
     }
+
     /**
+     * Test the basic case of removing a unit from a proposal person
+     */
+    @Test
+    public void removeUnit() throws Exception {
+        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.Person", "personId", "000000001");
+        assertEquals("Terry Durkin", getFieldValue(keyPersonnelPage, "newProposalPerson.fullName"));
+        setFieldValue(keyPersonnelPage,"newProposalPerson.proposalPersonRoleId", "PI");
+
+        keyPersonnelPage = clickOn(getElementByName(keyPersonnelPage, "methodToCall.insertProposalPerson", true));
+
+        setFieldValue(keyPersonnelPage, "newProposalPersonUnit[0].unitNumber", "IU-UNIV");
+        keyPersonnelPage = clickOn(getElementByName(keyPersonnelPage, "methodToCall.insertUnit.document.proposalPersons[0].line", true));
+
+        keyPersonnelPage = clickOn(getElementByName(keyPersonnelPage, "methodToCall.deleteUnit.document.proposalPersons[0].line0", true));
+        keyPersonnelPage = saveDoc(keyPersonnelPage);        
+        assertFalse(keyPersonnelPage.asText().contains(ERRORS_FOUND_ON_PAGE));
+    } 
+
+    /**
+     * Edge case test of removing a unit from a proposal person where the unit number has been cleared
+     */
+    @Test
+    public void removeUnitBlankUnitNumber() throws Exception {
+        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.Person", "personId", "000000001");
+        assertEquals("Terry Durkin", getFieldValue(keyPersonnelPage, "newProposalPerson.fullName"));
+        setFieldValue(keyPersonnelPage,"newProposalPerson.proposalPersonRoleId", "PI");
+
+        keyPersonnelPage = clickOn(getElementByName(keyPersonnelPage, "methodToCall.insertProposalPerson", true));
+
+        setFieldValue(keyPersonnelPage, "newProposalPersonUnit[0].unitNumber", "IU-UNIV");
+        keyPersonnelPage = clickOn(getElementByName(keyPersonnelPage, "methodToCall.insertUnit.document.proposalPersons[0].line", true));
+
+        debug(keyPersonnelPage.asXml());
+
+        setFieldValue(keyPersonnelPage,"document.proposalPersons[0].unit[1].unitNumber", "");
+
+        keyPersonnelPage = clickOn(getElementByName(keyPersonnelPage, "methodToCall.deleteUnit.document.proposalPersons[0].line1", true));
+        keyPersonnelPage = saveDoc(keyPersonnelPage);        
+        assertFalse(keyPersonnelPage.asText().contains(ERRORS_FOUND_ON_PAGE));
+    } 
+
+   /**
      * Test adding a principal investigator
      */
     @Test
