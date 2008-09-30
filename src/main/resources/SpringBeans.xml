@@ -39,7 +39,7 @@
 	<bean id="dataSource" class="com.atomikos.jdbc.nonxa.NonXADataSourceBean">
 		<property name="uniqueResourceName" value="kraDataSource"/>
 		<property name="driverClassName" value="${datasource.driver.name}" />
-		<property name="poolSize" value="${datasource.poolSize}" />
+		<property name="poolSize" value="${datasource.pool.size}" />
 		<property name="connectionTimeout" value="${datasource.connectionTimeout}" />
 		<property name="validatingQuery" value="${datasource.pool.validationQuery}"/>
 		<property name="testOnBorrow" value="true"/>
@@ -47,6 +47,18 @@
 		<property name="user" value="${datasource.username}" />
 		<property name="password" value="${datasource.password}" />
 	</bean>
+	
+	<bean id="nonTransactionalDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${datasource.driver.name}"/>
+        <property name="url" value="${datasource.url}"/>
+        <property name="username" value="${datasource.username}" />
+        <property name="password" value="${datasource.password}" />
+        <property name="maxActive" value="${datasource.pool.size}"/>
+        <property name="validationQuery" value="${datasource.pool.validationQuery}"/>
+        <property name="accessToUnderlyingConnectionAllowed" value="true"/>
+        <property name="initialSize" value="2"/>
+        <property name="minIdle" value="2"/>
+    </bean>
 
   <bean id="dbPlatformFactory" class="org.kuali.core.dbplatform.ConfigurableKualiDBPlatformFactory">
     <property name="ojbPlatform" value="${datasource.ojb.platform}" />
@@ -87,6 +99,7 @@
 
 	<bean id="rice" class="org.kuali.rice.config.RiceConfigurer">
 		<property name="dataSource" ref="dataSource" />
+		<property name="nonTransactionalDataSource" ref="nonTransactionalDataSource" />
 		<property name="transactionManager" ref="AtomikosTxMgr" />
 		<property name="userTransaction" ref="AtomikosUsrTx" />
 		<property name="rootConfig" ref="config" />
@@ -97,6 +110,8 @@
 				<bean class="edu.iu.uis.eden.messaging.config.KSBConfigurer">
 					<property name="serviceServletUrl" value="${serviceServletUrl}" />
 				</bean>
+				<bean class="org.kuali.rice.kcb.config.KCBConfigurer"/>
+				<bean class="org.kuali.notification.config.KENConfigurer"/>
 				<bean class="org.kuali.workflow.config.KEWConfigurer">
 					<property name="clientProtocol" value="local" />
 				</bean>

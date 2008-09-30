@@ -15,17 +15,11 @@
  */
 package org.kuali.kra.lookup;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.RiceConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.kra.budget.bo.CostElement;
 import org.kuali.kra.infrastructure.Constants;
 
 public class OnOffCampusLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {

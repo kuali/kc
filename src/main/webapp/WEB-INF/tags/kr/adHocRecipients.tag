@@ -1,11 +1,11 @@
 <%--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2005-2007 The Kuali Foundation.
  
- Licensed under the Educational Community License, Version 2.0 (the "License");
+ Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
  
- http://www.osedu.org/licenses/ECL-2.0
+ http://www.opensource.org/licenses/ecl1.php
  
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,9 +20,7 @@
         <kul:tab tabTitle="Ad Hoc Recipients" defaultOpen="false" tabErrorKey="${Constants.AD_HOC_ROUTE_ERRORS}">
         
         <div class="tab-container" align=center>     
-		<div class="h2-container">
-		<h2>Ad Hoc Recipients</h2>
-		</div>
+		<h3>Ad Hoc Recipients</h3>
             <table cellpadding="0" cellspacing="0" class="datatable" summary="view/edit ad hoc recipients">
 			  <%-- first do the persons --%>
               <kul:displayIfErrors keyMatch="${Constants.AD_HOC_ROUTE_PERSON_ERRORS}">

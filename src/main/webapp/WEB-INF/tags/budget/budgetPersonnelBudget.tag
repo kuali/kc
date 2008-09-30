@@ -27,10 +27,10 @@
 <div style="padding-top: 3em;">
     <kul:tabTop tabTitle="Line Item Overview (Period ${selectedBudgetPeriod + 1})" defaultOpen="true" tabErrorKey="budget.personnelBudget*">
 	<div class="tab-container" align="center">
-   	<div class="h2-container">
-   		<span class="subhead-left"><h2>Line Item Overview </h2></span>
+   	<h3>
+   		<span class="subhead-left">Line Item Overview</span>
 	   	<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.bo.BudgetLineItem" altText="help"/></span>
-    </div>
+    </h3>
     <table cellpadding=0 cellspacing=0 summary="">
     	<tr>
     		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${costElementAttributes.costElement}" noColon="false" /></div></th>
@@ -76,10 +76,10 @@
      			</c:if>
 			</c:forEach>
         </div></br>
-    	<div class="h2-container">
-    		<span class="subhead-left"><h2>Personnel Budget</h2></span>
+    	<h3>
+    		<span class="subhead-left">Personnel Budget</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.bo.BudgetPersonnelDetails" altText="help"/></span>
-        </div>
+        </h3>
         <table cellpadding=0 cellspacing=0 summary="">
           	<tr>
           		<th width="5%"><div align="center">&nbsp</div></th> 
@@ -225,10 +225,10 @@
 					        	</tr>
 					        </table>
 					        </div>
-					        <div class="h2-container">
-   								<span class="subhead-left"><h2>Rate Classes</h2></span>
+					        <h3>
+   								<span class="subhead-left">Rate Classes</span>
    								<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.bo.RateClass" altText="help"/></span>
-       						</div>
+       						</h3>
        						<div>
        						<table cellpadding=0 cellspacing=0 summary="">
        							<tr>

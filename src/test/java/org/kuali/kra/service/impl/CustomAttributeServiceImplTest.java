@@ -24,7 +24,6 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.RicePropertyConstants;
 import org.kuali.core.UserSession;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
@@ -39,6 +38,7 @@ import org.kuali.kra.infrastructure.TestUtilities;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -172,7 +172,7 @@ public class CustomAttributeServiceImplTest extends KraTestBase {
 
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
         primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeId);
-        primaryKeys.put(RicePropertyConstants.DOCUMENT_NUMBER, documentNumber);
+        primaryKeys.put(KNSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
         CustomAttributeDocValue customAttributeDocValue = (CustomAttributeDocValue) businessObjectService.findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
         assertNotNull("customAttributeDocValue should be found and not null", customAttributeDocValue);
         assertEquals(name + "Value", customAttributeDocValue.getValue());
@@ -253,7 +253,7 @@ public class CustomAttributeServiceImplTest extends KraTestBase {
      * @param ownedByUnit String owned-by unit to set
      */
     private void setBaseDocumentFields(ProposalDevelopmentDocument document, String description, String sponsorCode, String title, Date requestedStartDateInitial, Date requestedEndDateInitial, String activityTypeCode, String proposalTypeCode, String ownedByUnit) {
-        document.getDocumentHeader().setFinancialDocumentDescription(description);
+        document.getDocumentHeader().setDocumentDescription(description);
         document.setSponsorCode(sponsorCode);
         document.setTitle(title);
         document.setRequestedStartDateInitial(requestedStartDateInitial);

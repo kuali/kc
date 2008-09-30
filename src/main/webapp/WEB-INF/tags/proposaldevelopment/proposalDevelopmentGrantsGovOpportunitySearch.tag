@@ -7,10 +7,10 @@
 
 <kul:tabTop tabTitle="Grants.gov" defaultOpen="true" tabErrorKey="proposalDevelopmentAttributes.cfdaNumber,proposalDevelopmentAttributes.programAnnouncementNumber ">
     <div class="tab-container" align="center">
-        <div class="h2-container">
-            <span class="subhead-left"><h2>Opportunity Search</h2></span>
+        <h3>
+            <span class="subhead-left">Opportunity Search</span>
             <span class="subhead-right"><a href="http://www.grants.gov" target="_blank">www.grants.gov</a><kul:help businessObjectClassName="org.kuali.kra.s2s.bo.S2sOpportunity" altText="help"/></span>
-        </div>
+        </h3>
         
         <input type="hidden" name="document.cfdaNumber" value="${KualiForm.document.cfdaNumber}">    
         <input type="hidden" name="document.programAnnouncementNumber" value="${KualiForm.document.programAnnouncementNumber}">            

@@ -22,9 +22,9 @@
             tabErrorKey="newNarrativeUserRight*">
     <input type="hidden" name="line" value="${line}" />
 	<div class="tab-container" align="center">
-		<div class="h2-container">
-    		<span class="subhead-left"><h2>Proposal Attachment Rights for ${line+1}. ${selectedProposalAttachment.narrativeType.description }</h2></span>
-        </div>	
+		<h3>
+    		<span class="subhead-left">Proposal Attachment Rights for ${line+1}. ${selectedProposalAttachment.narrativeType.description }</span>
+        </h3>	
         <table id="narrative-rights-table" cellpadding=0 cellspacing=0 summary="">
 	       <c:forEach var="narrUserRight" items="${selectedProposalAttachment.narrativeUserRights}" varStatus="status">
           	<tr>

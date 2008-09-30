@@ -1,11 +1,11 @@
 <%--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2005-2007 The Kuali Foundation.
  
- Licensed under the Educational Community License, Version 2.0 (the "License");
+ Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
  
- http://www.osedu.org/licenses/ECL-2.0
+ http://www.opensource.org/licenses/ecl1.php
  
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,6 +20,7 @@
 <%@ attribute name="noteType" required="false" type="java.lang.Enum" %>
 <%@ attribute name="displayTopicFieldInNotes" required="false" %>
 <%@ attribute name="allowsNoteDelete" required="false" %>
+<%@ attribute name="allowsNoteAttachments" required="false" %>
 <%@ attribute name="attachmentTypesValuesFinderClass" required="false" %>
 <%@ attribute name="transparentBackground" required="false" %>
 <%@ attribute name="defaultOpen" required="false" %>
@@ -28,20 +29,18 @@
 
 <c:set var="noteColSpan" value="6" />
 
-<c:choose>
-	<c:when test="${fn:endsWith(KualiForm.document.class.name, 'ProposalDevelopmentDocument')}">
-		<c:set var="allowsAttachments" value="${KualiForm.document.allowsNoteAttachments}" />
-		<c:set var="readOnly" value="${not KualiForm.editingMode['modifyProposal']}" scope="request" />
-	</c:when>
-	<c:otherwise>
-		<c:set var="allowsAttachments" value="true" />
-	</c:otherwise>
-</c:choose>
-
 <c:if test="${empty noteType}">
 	<%-- default to document header notes this default should probably be set somewhere else --%>
 	<c:set var="noteType" value="${Constants.NoteTypeEnum.DOCUMENT_HEADER_NOTE_TYPE}"/>
 	<c:set var="notesBo" value="${KualiForm.document.documentHeader.boNotes}" />
+</c:if>
+
+<c:set var="documentTypeName" value="${KualiForm.document.class.name}" />
+<c:set var="documentEntry" value="${DataDictionary[documentTypeName]}" />
+<c:set var="allowsNoteAttachments" value="${documentEntry.allowsNoteAttachments}" />
+<c:set var="tabTitle" value="Notes and Attachments" />
+<c:if test="${allowsNoteAttachments eq false}">
+	<c:set var="tabTitle" value="Notes" />
 </c:if>
 
 <c:set var="propPrefix" value="${noteType.fullPath}." />
@@ -50,30 +49,22 @@
 	<c:set var="noteColSpan" value="${noteColSpan + 1}" />
 </c:if>
 
+<c:if test="${empty displayTopicFieldInNotes}">
+  <c:set var="displayTopicFieldInNotes" value="${documentEntry.displayTopicFieldInNotes}" />
+</c:if>
+
 <c:if test="${displayTopicFieldInNotes eq true}">
 	<c:set var="noteColSpan" value="${noteColSpan + 1}" />
 </c:if>
 
-<c:choose>
-	<c:when test="${allowsAttachments}">
-		<c:set var="tabHeading" value="Notes and Attachments" />
-	</c:when>
-	<c:otherwise>
-		<c:set var="tabHeading" value="Notes" />
-	</c:otherwise>
-</c:choose>
-
-<kul:tab tabTitle="${tabHeading}" defaultOpen="${!empty notesBo or (not empty defaultOpen and defaultOpen)}" tabErrorKey="${Constants.DOCUMENT_NOTES_ERRORS}" tabItemCount="${fn:length(notesBo)}" transparentBackground="${transparentBackground}" >
+<kul:tab tabTitle="${tabTitle}" defaultOpen="${!empty notesBo or (not empty defaultOpen and defaultOpen)}" tabErrorKey="${Constants.DOCUMENT_NOTES_ERRORS}" tabItemCount="${fn:length(notesBo)}" transparentBackground="${transparentBackground}" >
     <c:set var="notesAttributes" value="${DataDictionary.Note.attributes}" />
     <div class="tab-container" align=center id="G4">
     <p align=left><jsp:doBody/>
-	<div class="h2-container">
-	<h2>Notes and Attachments</h2>
-	</div>
+	<h3>${tabTitle}</h3>
         <table cellpadding="0" cellspacing="0" class="datatable" summary="view/add notes">
             <tbody>
 
-				<c:if test="${fn:length(notesBo) > 0 || (empty readOnly or readOnly != true) }" >
                 <tr>
                     <kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" align="left"/>
                     <kul:htmlAttributeHeaderCell attributeEntry="${notesAttributes.notePostedTimestamp}" hideRequiredAsterisk="true" scope="col" align="left"/>
@@ -87,10 +78,10 @@
 
 
                     <kul:htmlAttributeHeaderCell attributeEntry="${notesAttributes.noteText}" scope="col" align="left"/>
-                    <c:if test="${allowsAttachments}">
-                    	<kul:htmlAttributeHeaderCell attributeEntry="${notesAttributes.attachment}" scope="col" align="left"/>
+                    <c:if test="${allowsNoteAttachments eq true}">
+                      <kul:htmlAttributeHeaderCell attributeEntry="${notesAttributes.attachment}" scope="col" align="left"/>
                     </c:if>
-                    <c:if test="${not empty attachmentTypesValuesFinderClass}">
+                    <c:if test="${(not empty attachmentTypesValuesFinderClass) and (allowsNoteAttachments eq true)}">
                       <kul:htmlAttributeHeaderCell literalLabel="Attachment Type" scope="col" align="left"/>
                     </c:if>
                     <c:if test="${allowsNoteFYI}" >
@@ -98,9 +89,7 @@
                     </c:if>
                     <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
                 </tr>
-				</c:if>
 
-				<c:if test="${empty readOnly or readOnly != true}" >
                 <tr>
                 	<html:hidden property="newNote.noteTypeCode" value="${noteType.code}"/>
                     <kul:htmlAttributeHeaderCell literalLabel="add:" scope="row"/>
@@ -110,36 +99,28 @@
 					  <td class="infoline"><kul:htmlControlAttribute attributeEntry="${notesAttributes.noteTopicText}" property="newNote.noteTopicText" /></td>
 					</c:if>
                     <td class="infoline"><kul:htmlControlAttribute attributeEntry="${notesAttributes.noteText}" property="newNote.noteText" /></td>
-                    
-                    <c:if test="${allowsAttachments}">
-	                    <td class="infoline">
-	                        <div align="center"><br />
-	                        <html:file property="attachmentFile" size="30" value="" /><br /><br />
-	                        <html:image property="methodToCall.cancelBOAttachment" src="${ConfigProperties.kr.externalizable.images.url}tinygrey-cancel.gif" title="Cancel Attachment" alt="Cancel Attachment" styleClass="tinybutton"/>
-	                        </div>
-	                    </td>
-	                    <c:if test="${not empty attachmentTypesValuesFinderClass}">
-						              <c:set var="finderClass" value="${fn:replace(DataDictionary.KualiBudgetDocument.attachmentTypesValuesFinderClass,'.','|')}"/>
-						              <td class="infoline">
-						                  <html:select property="newNote.attachment.attachmentTypeCode">
-						                      <html:optionsCollection property="actionFormUtilMap.getOptionsMap${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${finderClass}" label="label" value="key"/>
-						                  </html:select>
-						              </td>
-	                    </c:if>
-	                </c:if>
-	                
+                    <c:if test="${allowsNoteAttachments eq true}">
+                      <td class="infoline">
+                        <div align="center"><br />
+                        <html:file property="attachmentFile" size="30" value="" /><br /><br />
+                        <html:image property="methodToCall.cancelBOAttachment" src="${ConfigProperties.kr.externalizable.images.url}tinygrey-cancel.gif" title="Cancel Attachment" alt="Cancel Attachment" styleClass="tinybutton"/>
+                        </div>
+                      </td>
+					</c:if>
+                    <c:if test="${(not empty attachmentTypesValuesFinderClass) and (allowsNoteAttachments eq true)}">
+					              <c:set var="finderClass" value="${fn:replace(DataDictionary.KualiBudgetDocument.attachmentTypesValuesFinderClass,'.','|')}"/>
+					              <td class="infoline">
+					                  <html:select property="newNote.attachment.attachmentTypeCode">
+					                      <html:optionsCollection property="actionFormUtilMap.getOptionsMap${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${finderClass}" label="label" value="key"/>
+					                  </html:select>
+					              </td>
+                    </c:if>
                     <c:if test="${allowsNoteFYI}" >
                       <td>&nbsp;</td>
                     </c:if>
-                    <td class="infoline">
-                    	<div align="center">
-                    		<html:image property="methodToCall.insertBONote" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Add a Note" title="Add a Note" styleClass="tinybutton"/>
-                		</div>
-            		</td>
+                    <td class="infoline"><div align="center"><html:image property="methodToCall.insertBONote" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Add a Note" title="Add a Note" styleClass="tinybutton"/></div></td>
                 </tr>
-                </c:if>
 
-	<c:if test="${fn:length(notesBo) > 0}" >
 	<c:forEach var="note" items="${notesBo}" varStatus="status">
     	<tr>
         	<html:hidden property="${propPrefix}boNote[${status.index}].versionNumber" />
@@ -164,9 +145,11 @@
 						     but instead in some other arbitrary way (sorted alphabetically?) and therefore you may end up with a reference to a null authorUniversal object --%>
                         <html:hidden property="${propPrefix}boNote[${status.index}].authorUniversalIdentifier" />
                         <html:hidden property="${propPrefix}boNote[${status.index}].authorUniversal.personUniversalIdentifier" />
-                        <c:if test="${allowsAttachments}">	
+
+<%-- won't work until I add attachment logic to action --%>
+
                             <c:choose>
-                                <c:when test="${(!empty note.attachment) && (note.attachment.complete)}">
+                                <c:when test="${(!empty note.attachment) and (note.attachment.complete)}">
                                   <td class="datacell center">
                                     <html:hidden property="${propPrefix}boNote[${status.index}].attachment.noteIdentifier"/>
 
@@ -176,40 +159,41 @@
                                     <html:hidden property="${propPrefix}boNote[${status.index}].attachment.objectId"/>
                                     <html:hidden property="${propPrefix}boNote[${status.index}].attachment.attachmentTypeCode"/>
 
-                                    <html:image property="methodToCall.downloadBOAttachment.attachment[${status.index}]" src="${ConfigProperties.kr.externalizable.images.url}clip.gif" alt="download attachment" style="padding:5px" onclick="excludeSubmitRestriction=true"/>
-                                    <html:hidden write="true" property="${propPrefix}boNote[${status.index}].attachment.attachmentFileName" />
-                                    &nbsp;
-                                    &nbsp;
-                                    <span style="white-space: nowrap">
+                                    <c:if test="${allowsNoteAttachments eq true}">
+                                      <html:image property="methodToCall.downloadBOAttachment.attachment[${status.index}]" src="${ConfigProperties.kr.externalizable.images.url}clip.gif" alt="download attachment" style="padding:5px" onclick="excludeSubmitRestriction=true"/>
+                                      <html:hidden write="true" property="${propPrefix}boNote[${status.index}].attachment.attachmentFileName" />
+                                      &nbsp;
+                                      &nbsp;
+                                      <span style="white-space: nowrap">
                                         <kul:fileSize byteSize="${note.attachment.attachmentFileSize}">
                                             (<c:out value="${fileSize} ${fileSizeUnits}" />, <html:hidden write="true" property="${propPrefix}boNote[${status.index}].attachment.attachmentMimeTypeCode" />)
                                         </kul:fileSize>
-                                    </span>
-                                    </td>
-
-                                    <c:if test="${not empty attachmentTypesValuesFinderClass}">
-                                        <td class="datacell center">
-                                            &nbsp;
-                                            <c:set var="attachmentTypeFinderMap" value="${KualiForm.validOptionsMap[finderClass]}"  />
-                                            <c:forEach items="${attachmentTypeFinderMap}" var="type">
-                                                <c:if test="${type.key eq note.attachment.attachmentTypeCode}">${type.label}</c:if>
-                                            </c:forEach>
-                                        </td>
+                                      </span>
                                     </c:if>
+                                  </td>
+
+                                  <c:if test="${(not empty attachmentTypesValuesFinderClass) and (allowsNoteAttachments eq true)}">
+                                     <td class="datacell center">
+                                     &nbsp;
+                                       <c:set var="attachmentTypeFinderMap" value="${KualiForm.validOptionsMap[finderClass]}"  />
+                                       <c:forEach items="${attachmentTypeFinderMap}" var="type">
+                                         <c:if test="${type.key eq note.attachment.attachmentTypeCode}">${type.label}</c:if>
+                                       </c:forEach>
+                                     </td>
+                                  </c:if>
                                 </c:when>
                                 <c:otherwise>
                                     <td class="datacell center">&nbsp;</td>
-                                    <c:if test="${not empty attachmentTypesValuesFinderClass}">
+                                    <c:if test="${(not empty attachmentTypesValuesFinderClass) and (allowsNoteAttachments eq true)}">
                                         <td class="datacell center">&nbsp;</td>
                                     </c:if>
                                 </c:otherwise>
                             </c:choose>
-						</c:if>
-							
-                      	<c:if test="${allowsNoteFYI}" >
-                        	<td class="infoline">
-                          		<c:if test="${KualiForm.documentActionFlags.canAdHocRoute}">
-	                    	    	<kul:user userIdFieldName="${propPrefix}boNote[${status.index}].adHocRouteRecipient.id" 
+
+                            <c:if test="${allowsNoteFYI}" >
+                              <td class="infoline">
+                                <c:if test="${KualiForm.documentActionFlags.canAdHocRoute}">
+	                    	     <kul:user userIdFieldName="${propPrefix}boNote[${status.index}].adHocRouteRecipient.id" 
 	                    			  userId="${note.adHocRouteRecipient.id}" 
 	                    			  universalIdFieldName=""
 	                    			  universalId=""
@@ -219,12 +203,12 @@
 	                    			  renderOtherFields="true"
 	                    			  fieldConversions="personUserIdentifier:${propPrefix}boNote[${status.index}].adHocRouteRecipient.id,personName:${propPrefix}boNote[${status.index}].adHocRouteRecipient.name" 
 	                    			  lookupParameters="${propPrefix}boNote[${status.index}].adHocRouteRecipient.id:personUserIdentifier" />
-	                    	   	</c:if>
-                    	    	<c:if test="${!KualiForm.documentActionFlags.canAdHocRoute}">
-                    	      		&nbsp;
-                    	    	</c:if>
-                   			</td>
-						</c:if>
+	                    	    </c:if>
+	                    	    <c:if test="${!KualiForm.documentActionFlags.canAdHocRoute}">
+	                    	      &nbsp;
+	                    	    </c:if>
+                             </td>
+                           </c:if>
                            
                         <td class="datacell center"><div align="center">
                           <c:if test="${allowsNoteDelete}">
@@ -238,7 +222,6 @@
                         </div></td>
                     </tr>
 	</c:forEach>
-	</c:if>
 	            </tbody>
         </table>
     </div>

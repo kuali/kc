@@ -21,7 +21,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.EncryptionService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.service.WebAuthenticationService;
@@ -29,6 +28,7 @@ import org.kuali.kra.bo.Person;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.PersonService;
 import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.core.service.EncryptionService;
 
 import edu.yale.its.tp.cas.auth.provider.WatchfulPasswordHandler;
 

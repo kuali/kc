@@ -21,10 +21,10 @@
 
 <kul:tab tabTitle="Delivery Info" defaultOpen="false" tabErrorKey="document.mailBy*,document.mailType*,document.mailAccountNumber*,document.mailingAddressId*,document.mailDescription*,document.numberOfCopies*">
 	<div class="tab-container" align="center">
-    	<div class="h2-container">
-    		<span class="subhead-left"><h2>Delivery Info</h2></span>
+    	<h3>
+    		<span class="subhead-left">Delivery Info</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.MailBy" altText="help"/></span>
-        </div>
+        </h3>
         <table cellpadding=0 cellspacing=0 summary="">
              <tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.mailBy}" /></div></th>

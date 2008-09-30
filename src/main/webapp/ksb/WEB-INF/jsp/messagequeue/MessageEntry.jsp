@@ -152,9 +152,9 @@
 				  		    			<c:when test="${inEditMode}">
 													<html-el:select property="messageQueueFromForm.queueStatus">
 														<html-el:option value=""></html-el:option>
-														<html-el:option value="${rice_constant.ROUTE_QUEUE_QUEUED}"><c:out value="${rice_constant.ROUTE_QUEUE_QUEUED_LABEL}" /></html-el:option>
-														<html-el:option value="${rice_constant.ROUTE_QUEUE_ROUTING}"><c:out value="${rice_constant.ROUTE_QUEUE_ROUTING_LABEL}" /></html-el:option>
-														<html-el:option value="${rice_constant.ROUTE_QUEUE_EXCEPTION}"><c:out value="${rice_constant.ROUTE_QUEUE_EXCEPTION_LABEL}" /></html-el:option>
+														<html-el:option value="${ksb_constant.ROUTE_QUEUE_QUEUED}"><c:out value="${ksb_constant.ROUTE_QUEUE_QUEUED_LABEL}" /></html-el:option>
+														<html-el:option value="${ksb_constant.ROUTE_QUEUE_ROUTING}"><c:out value="${ksb_constant.ROUTE_QUEUE_ROUTING_LABEL}" /></html-el:option>
+														<html-el:option value="${ksb_constant.ROUTE_QUEUE_EXCEPTION}"><c:out value="${ksb_constant.ROUTE_QUEUE_EXCEPTION_LABEL}" /></html-el:option>
 													</html-el:select>
 													&nbsp;
 													<bean-el:message key="routequeue.help.queueStatus"/></td>

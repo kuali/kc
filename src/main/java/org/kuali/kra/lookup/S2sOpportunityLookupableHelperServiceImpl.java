@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RiceConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.lookup.LookupUtils;
@@ -34,6 +33,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.service.S2SService;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.springframework.transaction.annotation.Transactional;
 /**
  * 
@@ -51,9 +51,9 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
      */
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         LookupUtils.removeHiddenCriteriaFields( getBusinessObjectClass(), fieldValues );
-        setBackLocation(fieldValues.get(RiceConstants.BACK_LOCATION));
-        setDocFormKey(fieldValues.get(RiceConstants.DOC_FORM_KEY));
-        setReferencesToRefresh(fieldValues.get(RiceConstants.REFERENCES_TO_REFRESH));
+        setBackLocation(fieldValues.get(KNSConstants.BACK_LOCATION));
+        setDocFormKey(fieldValues.get(KNSConstants.DOC_FORM_KEY));
+        setReferencesToRefresh(fieldValues.get(KNSConstants.REFERENCES_TO_REFRESH));
         GlobalVariables.getMessageList().add(Constants.GRANTS_GOV_LINK);
         List<S2sOpportunity> s2sOpportunity=new ArrayList<S2sOpportunity>();        
         if(fieldValues!=null && (fieldValues.get(Constants.CFDA_NUMBER)!=null && !StringUtils.equals(fieldValues.get(Constants.CFDA_NUMBER).trim(),""))||(fieldValues.get(Constants.OPPORTUNITY_ID)!=null && !StringUtils.equals(fieldValues.get(Constants.OPPORTUNITY_ID).trim(),""))){

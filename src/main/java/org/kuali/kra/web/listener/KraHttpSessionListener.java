@@ -22,7 +22,6 @@ import java.util.Map;
 import javax.servlet.http.HttpSessionEvent;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RiceConstants;
 import org.kuali.core.UserSession;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
@@ -34,6 +33,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.listener.KualiHttpSessionListener;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.util.KNSConstants;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -60,11 +60,11 @@ public class KraHttpSessionListener extends KualiHttpSessionListener {
      * @see javax.servlet.http.HttpSessionListener#sessionDestroyed(javax.servlet.http.HttpSessionEvent)
      */
     public void sessionDestroyed(HttpSessionEvent se) {
-        String documentNumber = (String) se.getSession().getAttribute(RiceConstants.DOCUMENT_HTTP_SESSION_KEY);
+        String documentNumber = (String) se.getSession().getAttribute(KNSConstants.DOCUMENT_HTTP_SESSION_KEY);
         if (StringUtils.isNotBlank(documentNumber)) {
             try {
                 // document service needs the usersession to operate but we need the document from document service to verify it exists
-                GlobalVariables.setUserSession((UserSession)se.getSession().getAttribute(RiceConstants.USER_SESSION_KEY));
+                GlobalVariables.setUserSession((UserSession)se.getSession().getAttribute(KNSConstants.USER_SESSION_KEY));
                 Document document = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(documentNumber);
                 
                 UniversalUser loggedInUser = GlobalVariables.getUserSession().getUniversalUser();

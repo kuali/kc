@@ -1,11 +1,11 @@
 <%--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2005-2007 The Kuali Foundation.
  
- Licensed under the Educational Community License, Version 2.0 (the "License");
+ Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
  
- http://www.osedu.org/licenses/ECL-2.0
+ http://www.opensource.org/licenses/ecl1.php
  
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
@@ -42,11 +42,8 @@
         <html:hidden property="documentActionFlags.canSupervise" />
         <html:hidden property="documentActionFlags.canCopy" />
         <html:hidden property="documentActionFlags.canPerformRouteReport" />
-        <html:hidden property="documentActionFlags.hasAmountTotal" />
 
-        <c:if test="${transactionalDocument}">
-            <html:hidden property="documentActionFlags.canErrorCorrect" />
-        </c:if>
+        
 
         <%--c:if test="${KualiForm.documentActionFlags.canAnnotate and not suppressRoutingControls and not KualiForm.suppressAllButtons}">
             <div class="annotate">
@@ -124,11 +121,7 @@
 	                <c:if test="${KualiForm.documentActionFlags.canCopy}">
                     <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_copy.gif" styleClass="globalbuttons" property="methodToCall.copy" title="Copy current document" alt="Copy current document"/>
 	                </c:if>
-	            <c:if test="${transactionalDocument}">
-	                <c:if test="${KualiForm.documentActionFlags.canErrorCorrect}">
-	                    <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_errcorr.gif" styleClass="globalbuttons" property="methodToCall.correct" title="Create error correction document from current document" alt="Create error correction document from current document"/>
-	                </c:if>
-	            </c:if>
+	                
 	        </div>
         </c:if>
         

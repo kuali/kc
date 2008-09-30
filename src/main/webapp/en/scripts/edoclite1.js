@@ -45,7 +45,9 @@ var field_regexes = new Object();
 var field_errorMessages = new Object();
 var field_validationRequired= new Object();
 var buttonTitle; // the global variable
+var buttonOnClickFunction; // global variable
 var field_customValidators = new Object();
+var field_onchange = new Object();
 
 var field_names = new Array;
 
@@ -148,17 +150,32 @@ function registerHandlers() {
     // register event handler
     for (var i in field_names) {
         var fieldName = field_names[i];
+        if (typeof fieldName == 'function') {
+ 	 		continue;
+ 	 	} 
         //alert("registering handler for: " + fieldName);
         var element = document.getElementById('edoclite')[fieldName];
         if (element.length > 1) {
             // for radio buttons (all share the same name)
             for (var j = 0; j < element.length; j++) {
-	            element[j].onchange = validate;
-                element[j].onblur = validate;
+	            // avoid onblur with customValidator 'alert' function because some browsers misbehave (alert repeats perpetually).        
+		        if (field_customValidators[fieldName] || field_onchange[fieldName]) {
+		            //alert("about to reg cust val " + field_customValidators[fieldName]);
+		            element.onchange = executeOnChange;
+		        } else {
+		            element.onchange = executeOnChange;
+		            element.onblur = executeOnChange;
+		        }
             }
         }
-        element.onchange = validate;
-        element.onblur = validate;
+        // avoid onblur with customValidator 'alert' function because some browsers misbehave (alert repeats perpetually).
+        if (field_customValidators[fieldName] || field_onchange[fieldName]) {
+            //alert("about to reg cust val " + field_customValidators[fieldName]);
+            element.onchange = executeOnChange;
+        } else {
+            element.onchange = executeOnChange;
+            element.onblur = executeOnChange;
+        }
         if (element.captureEvents) element.captureEvents(Event.CHANGE);
     }
 }
@@ -169,7 +186,7 @@ function registerHandlers() {
  */
 function register(name, title, regex, message, validationRequired) {
     //alert("registering " + name + " " + regex + " " + message + " " + validationRequired);
-    field_names.push(name);
+    addFieldName(name);
 
     // set the title for this field
     field_titles[name] = title;
@@ -188,11 +205,29 @@ function register(name, title, regex, message, validationRequired) {
 }
 
 function register_custom(name, title, messages, validationRequired, validationFunction) {
-    field_names.push(name)
+    addFieldName(name);
     field_titles[name] = title;
     field_errorMessages[name] = messages;
     field_validationRequired[name] = validationRequired == "true";
     field_customValidators[name] = validationFunction;
+}
+
+function register_onchange(name, onchangeFunction) {
+	addFieldName(name);
+	field_onchange[name] = onchangeFunction;
+}
+
+function addFieldName(fieldName) {
+	var alreadyInList = false;
+	for (var name in field_names) {
+		if (name == fieldName) {
+			alreadyInList = true;
+			break;
+		}
+	}
+	if (!alreadyInList) {
+		field_names.push(fieldName);
+	}
 }
 
 function isValidationRequired(fieldName) {
@@ -247,18 +282,24 @@ function isValid(fieldInputs, regex, required, validator) {
     //return false;
 }
 
-//function validate(event, regex, message) {
-function validate(event) {
-    //alert("validate event: " + event);
-    if (!event) var event = window.event;
+function executeOnChange(event) {
     // event gives access to the event in all browsers
+    if (!event) var event = window.event;
 	var target = getTarget(event);
 	var targetArray = new Array();
 	targetArray[0] = target;
-	var fieldName = getFieldName(targetArray);
-    validateField(getFieldInputs(fieldName), fieldName);
+    var fieldName = getFieldName(targetArray);
+	var onchange = field_onchange[fieldName];
+	if (onchange) {
+		onchange(event);
+	}
+	validate(fieldName);
 }
 
+//function validate(event, regex, message) {
+function validate(fieldName) {
+    validateField(getFieldInputs(fieldName), fieldName);
+}
 
 function getFieldValue(fieldInputs) {
     // if you check a checkbox and then uncheck it it throws the error below like the length is not updated when you uncheck it.
@@ -403,24 +444,32 @@ function getFieldInputs(fieldName) {
 }
 
 function validateOnSubmit(form) {
-	//Do they really want to submit the form?
-	//if (buttonTitle == 'Route') {
-	//	if (confirm_route() == false) {
-	//		return false;
-	//	}
-	//}
-    //alert("validating on submit");
-    var errs = validateForm();
-    //alert("Errs: " + errs);
+	// do form validation.
+    var  errs = validateForm();
 	if (errs > 1) {
-	  	alert('There are fields which require correction before sending');
+		alert('There are fields which require correction before sending');
 	} else if (errs == 1) {
-	  	alert('There is a field which requires correction before sending');
+		alert('There is a field which requires correction before sending');
 	}
+	if (errs > 0){
+	  return false; // submit will not take place.
+	}
+	// is there an unsaved note? - TODO (not coded yet).
 
-	// is there an unsaved note?
+	// Ok no validation errors exist. Next check to see if a custom function should be called.
+	// check global var. if exists, call the function. This value can be populated from an onClick function associated with a custom defined button. This allows a submit type button to execute a specific function setting the value of errs which controls whether form is submitted or not.
+	if (buttonOnClickFunction) {
+	  var copyOfFunction = buttonOnClickFunction;
+	  buttonOnClickFunction = ""; // reinitialize function variable
+	  //alert('about to execute a function = ' + copyOfFunction);
+	  return copyOfFunction();
+	} else {
+	  return true;
+	}  
+}
 
-    return (errs == 0);
+function buttonClickFunctionName(incomingButtonFunctionName) {
+	buttonOnClickFunction = incomingButtonFunctionName;
 }
 
 function buttonClick(incomingButtonTitle) {

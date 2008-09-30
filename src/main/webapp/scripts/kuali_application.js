@@ -99,7 +99,7 @@ function selectAllKeywords(document) {
 	}
 }
 
-function textAreaPop(textAreaName,htmlFormAction,textAreaLabel,docFormKey, sessionDocument){
+function kraTextAreaPop(textAreaName,htmlFormAction,textAreaLabel,docFormKey, sessionDocument){
   var documentWebScope
   if (sessionDocument == "true") {
       documentWebScope="session"
@@ -111,30 +111,29 @@ function textAreaPop(textAreaName,htmlFormAction,textAreaLabel,docFormKey, sessi
   extractUrl=url.substr(0,idx2)
   //text=text.replace(/\n/g,'<br>');
   //window.open(extractUrl+"/updateTextArea.do?" + text+"&textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope, "_blank", "width=640, height=600, scrollbars=yes");
-  window.open(extractUrl+"/updateTextArea.do?&textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope, "_blank", "width=640, height=600, scrollbars=yes");
+  window.open(extractUrl+"/kraUpdateTextArea.do?&textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope, "_blank", "width=640, height=600, scrollbars=yes");
 }
 
-var textAreaFieldName
-function setTextArea() {
+var kraTextAreaFieldName
+function kraSetTextArea() {
   passData=document.location.search.substring(1);
   var idx=passData.indexOf("&textAreaFieldName=")
   var idx2=passData.indexOf("&htmlFormAction=")
-  textAreaFieldName=passData.substring(idx+19,idx2)
-  text = window.opener.document.getElementById(textAreaFieldName).value;
+  kraTextAreaFieldName=passData.substring(idx+19,idx2)
+  text = window.opener.document.getElementById(kraTextAreaFieldName).value;
   //text=passData.substr(0,idx)
   //text=unescape(text).replace(/<br>/g,"\n")
-  document.getElementById(textAreaFieldName).value = text;
+  document.getElementById(kraTextAreaFieldName).value = text;
   
 //  alert (escape(text))
 //  alert (unescape(text))
 
 }
 
-function postValueToParentWindow() {
-  opener.document.getElementById(textAreaFieldName).value = document.getElementById(textAreaFieldName).value;
+function kraPostValueToParentWindow() {
+  opener.document.getElementById(kraTextAreaFieldName).value = document.getElementById(kraTextAreaFieldName).value;
   self.close();
 }
-
 
 // dwr functions
 // this is a sample function for sponsor code
@@ -631,7 +630,7 @@ function loadPersonName(usernameFieldName, fullnameElementId) {
 		var username = DWRUtil.getValue( usernameFieldName );
 		var fullNameElement = document.getElementById(fullnameElementId);
 		if (username == '') {
-			fullNameElement.innerHTML = "";
+			fullNameElement.innerHTML = "&nbsp;";
 		} else {
 			var dwrReply = {
 				callback:function(data) {

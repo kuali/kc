@@ -181,7 +181,7 @@
 				<dependency>
 					<groupId>org.kuali.rice</groupId>
 					<artifactId>rice-kns</artifactId>
-					<version>0.9.3-kra-SNAPSHOT</version>
+					<version>0.9.3</version>
 					<exclusions>
 						<exclusion>
 							<groupId>junit</groupId>
@@ -391,7 +391,7 @@
 				<dependency>
 					<groupId>org.kuali.rice</groupId>
 					<artifactId>rice-kns</artifactId>
-					<version>0.9.3-kra-SNAPSHOT</version>
+					<version>0.9.3</version>
 					<exclusions>
 						<exclusion>
 							<groupId>itext</groupId>
@@ -516,6 +516,11 @@
   					<version>2.5.0</version>
   					<scope>test</scope>
 				</dependency>
+				<dependency>
+                    <groupId>atomikos</groupId>
+                    <artifactId>transactions</artifactId>
+                    <version>3.2.1</version>
+                </dependency>
 			</dependencies>
 		</profile>
 		

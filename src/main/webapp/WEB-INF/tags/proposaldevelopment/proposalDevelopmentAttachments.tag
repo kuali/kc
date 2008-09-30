@@ -34,10 +34,10 @@
 <kul:tabTop tabTitle="Proposal Attachments (${fn:length(KualiForm.document.narratives)})" defaultOpen="false" tabErrorKey="newNarrative*,document.narrative*">
 	<div class="tab-container" align="center">
 	    <kra:section permission="addNarratives">
-	    	<div class="h2-container">
-	    		<span class="subhead-left"><h2>Add Proposal Attachments</h2></span>
+	    	<h3>
+	    		<span class="subhead-left">Add Proposal Attachments</span>
 	    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.Narrative" altText="help"/></span>
-	        </div>
+	        </h3>
         </kra:section>
         <table cellpadding=0 cellspacing=0 summary="">
             <kra:section permission="addNarratives">

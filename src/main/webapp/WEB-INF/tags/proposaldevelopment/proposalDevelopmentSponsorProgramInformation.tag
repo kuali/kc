@@ -6,10 +6,10 @@
 
 <kul:tab tabTitle="Sponsor & Program Information" defaultOpen="false" tabErrorKey="document.deadlineDate,document.noticeOfOpportunityCode,document.deadlineType,document.cfdaNumber,document.programAnnouncementNumber,document.primeSponsorCode,document.sponsorProposalNumber,document.nsfCode,document.subcontracts,document.agencyDivisionCode,document.agencyProgramCode,document.programAnnouncementTitle" auditCluster="sponsorProgramInformationAuditErrors,sponsorProgramInformationAuditWarnings" tabAuditKey="document.deadlineDate,document.programAnnouncementNumber,document.cfdaNumber,document.programAnnouncementTitle,document.sponsorProposalNumber" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
-    	<div class="h2-container">
-    		<span class="subhead-left"><h2>Sponsor & Program Information</h2></span>
+    	<h3>
+    		<span class="subhead-left">Sponsor & Program Information</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.Sponsor" altText="help"/></span>
-        </div>
+        </h3>
 
         <table cellpadding=0 cellspacing=0 summary="">
         	<tr>

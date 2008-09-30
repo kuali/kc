@@ -24,10 +24,10 @@
          
 	<div class="tab-container" align="center">
 	 <kra:section permission="alterProposalData">  
-    	<div class="h2-container">
-    		<span class="subhead-left"><h2>Proposal Data Override</h2></span>
+    	<h3>
+    		<span class="subhead-left">Proposal Data Override</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.ProposalChangedData" altText="help"/></span>
-        </div>
+        </h3>
         
         
 		 <table cellpadding="0" cellspacing="0" summary="">
@@ -120,10 +120,10 @@
        
         <c:if test="${fn:length(KualiForm.document.proposalChangeHistory) > 0}">
 	        <br>
-	        <div class="h2-container">
-	    		<span class="subhead-left"><h2>Proposal Change History</h2></span>
+	        <h3>
+	    		<span class="subhead-left">Proposal Change History</span>
 	    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.ProposalChangedData" altText="help"/></span>
-	        </div>
+	        </h3>
 	        
 		    <table cellpadding=0 cellspacing=0 summary="">
 		     	<tr>

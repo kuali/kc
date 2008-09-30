@@ -20,9 +20,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RiceConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.Core;
+import org.kuali.rice.kns.util.KNSConstants;
 
 import edu.iu.uis.eden.EdenConstants;
 import edu.iu.uis.eden.docsearch.DocSearchCriteriaVO;
@@ -54,10 +54,10 @@ public class ProposalDocumentSearchResultProcessor extends StandardDocumentSearc
         urlBuffer.append("/");
         urlBuffer.append(DOC_COPY_HANDLER_ACTION);
         urlBuffer.append("?");
-        urlBuffer.append(RiceConstants.PARAMETER_DOC_ID);
+        urlBuffer.append(KNSConstants.PARAMETER_DOC_ID);
         urlBuffer.append("=");
         urlBuffer.append(documentNumber);
-        urlBuffer.append(RiceConstants.DOCHANDLER_URL_CHUNK);
+        urlBuffer.append(KNSConstants.DOCHANDLER_URL_CHUNK);
         
         return urlBuffer.toString();
     }

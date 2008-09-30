@@ -28,6 +28,7 @@ import java.util.Set;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.bo.Ynq;
 import org.kuali.kra.bo.YnqExplanationType;
 import org.kuali.kra.infrastructure.Constants;
@@ -248,9 +249,10 @@ public class YnqServiceImpl implements YnqService {
     
     private boolean isDocumentSubmitted(ProposalDevelopmentDocument document) {
         boolean submitted = false;
-        String documentStatusCode = document.getDocumentHeader().getFinancialDocumentStatusCode();
-        if(!documentStatusCode.equalsIgnoreCase(Constants.DOCUMENT_INITIATED)) {
-            if(!documentStatusCode.equalsIgnoreCase(Constants.DOCUMENT_SAVED) ||
+        KualiWorkflowDocument wfd = document.getDocumentHeader().getWorkflowDocument();
+        document.getDocumentHeader().getWorkflowDocument().stateIsInitiated();
+        if(!wfd.stateIsInitiated()) {
+            if(!wfd.stateIsSaved() ||
                     (document.getS2sAppSubmission() != null || !document.getS2sAppSubmission().isEmpty())) {
                 submitted = true;
             }

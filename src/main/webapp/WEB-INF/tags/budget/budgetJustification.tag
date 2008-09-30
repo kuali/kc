@@ -6,9 +6,9 @@
 <c:if test="${top == 'true'}">
     <kul:tabTop tabTitle="Budget Justification" defaultOpen="false" tabErrorKey="budgetJustificationWrapper.*">
 	<div class="tab-container" align="center">
-		<div class="h2-container">
-	    	<span class="subhead-left"><h2>Budget Justification</h2></span>
-	   	</div>
+		<h3>
+	    	<span class="subhead-left">Budget Justification</span>
+	   	</h3>
 		<div align="center">
 			<table id="budget-justification-table" cellpadding="0" cellspacing="0" summary="Budget Justification">
 				<tr>
@@ -17,8 +17,8 @@
 					<th><div align="center">Justification Text</div></th>
 				</tr>
 				<tr>
-	            	<td width="10%"><div align="center">${KualiForm.budgetJustification.lastUpdateTime}</div></td>
-	            	<td width="10%"><div align="center">${KualiForm.budgetJustification.lastUpdateUser}</div></td>
+	            	<td width="10%"><div align="center">${KualiForm.budgetJustification.lastUpdateTime}</div>&nbsp;</td>
+	            	<td width="10%"><div align="center">${KualiForm.budgetJustification.lastUpdateUser}</div>&nbsp;</td>
 	            	<td width="80%">
 	            		<div align="center">
 	            			<html:textarea rows="8" cols="60" property="budgetJustification.justificationText" readonly="${readOnly}" />
@@ -36,9 +36,9 @@
 <c:if test="${top == 'false'}">
    <kul:tab tabTitle="Budget Justification" defaultOpen="false" tabErrorKey="budgetJustificationWrapper.*">
     <div class="tab-container" align="center">
-        <div class="h2-container">
-            <span class="subhead-left"><h2>Budget Justification</h2></span>
-        </div>
+        <h3>
+            <span class="subhead-left">Budget Justification</span>
+        </h3>
         <div align="center">
             <table id="budget-justification-table" cellpadding="0" cellspacing="0" summary="Budget Justification">
                 <tr>
@@ -47,8 +47,8 @@
                     <th><div align="center">Justification Text</div></th>
                 </tr>
                 <tr>
-                    <td width="10%"><div align="center">${KualiForm.budgetJustification.lastUpdateTime}</div></td>
-                    <td width="10%"><div align="center">${KualiForm.budgetJustification.lastUpdateUser}</div></td>
+                    <td width="10%"><div align="center">${KualiForm.budgetJustification.lastUpdateTime}</div>&nbsp;</td>
+                    <td width="10%"><div align="center">${KualiForm.budgetJustification.lastUpdateUser}</div>&nbsp;</td>
                     <td width="80%">
                         <div align="center">
                             <html:textarea rows="8" cols="60" property="budgetJustification.justificationText" readonly="${readOnly}" />

@@ -180,7 +180,7 @@ public class ProposalDevelopmentDocumentTest extends KraTestBase {
      * @param ownedByUnit String owned-by unit to set
      */
     private void setBaseDocumentFields(ProposalDevelopmentDocument document, String description, String sponsorCode, String title, Date requestedStartDateInitial, Date requestedEndDateInitial, String activityTypeCode, String proposalTypeCode, String ownedByUnit) {
-        document.getDocumentHeader().setFinancialDocumentDescription(description);
+        document.getDocumentHeader().setDocumentDescription(description);
         document.setSponsorCode(sponsorCode);
         document.setTitle(title);
         document.setRequestedStartDateInitial(requestedStartDateInitial);
@@ -203,7 +203,7 @@ public class ProposalDevelopmentDocumentTest extends KraTestBase {
      */
     private void checkDocumentFields(ProposalDevelopmentDocument doc, String documentNumber, String description, String sponsorCode, String title, String activityTypeCode, String proposalTypeCode, String ownedByUnit) {
         assertEquals(documentNumber, doc.getDocumentNumber());
-        assertEquals(description, doc.getDocumentHeader().getFinancialDocumentDescription());
+        assertEquals(description, doc.getDocumentHeader().getDocumentDescription());
         assertEquals(sponsorCode, doc.getSponsorCode());
         assertEquals(title, doc.getTitle());
         // check dates

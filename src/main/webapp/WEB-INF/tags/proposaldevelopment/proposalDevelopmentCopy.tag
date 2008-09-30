@@ -33,10 +33,10 @@
  <kul:tab tabTitle="Copy to New Document" defaultOpen="${openFlag}" tabErrorKey="copyCriteria*,copyCriteria.*">
          
 	<div class="tab-container" align="center">
-    	<div class="h2-container">
-    		<span class="subhead-left"><h2>Copy to New Document</h2></span>
+    	<h3>
+    		<span class="subhead-left">Copy to New Document</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria" altText="help"/></span>
-        </div>
+        </h3>
         
         <table cellpadding="0" cellspacing="0" summary="">
         

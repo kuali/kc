@@ -123,6 +123,32 @@
  	</c:if>
 	  <td class="datacell"><c:out value="${DocumentTypeForm.documentType.blanketApproveWorkgroup.groupNameId.nameId}" />&nbsp;</td>
 	</tr>
+	
+	<tr>
+	  <td class="thnormal" width="25%" align="right"><bean-el:message key="doctype.DocumentTypeDisplay.field.label.blanketApprovePolicy"/>:</td>
+	<c:if test="${DocumentTypeForm.existingDocumentType != null}">
+	  <td class="datacell"><c:out value="${DocumentTypeForm.existingDocumentType.blanketApprovePolicy}" />&nbsp;</td>
+ 	</c:if>
+	  <td class="datacell"><c:out value="${DocumentTypeForm.documentType.blanketApprovePolicy}" />&nbsp;</td>
+	</tr>
+	
+	<tr>
+	  <td class="thnormal" width="25%" align="right"><bean-el:message key="doctype.DocumentTypeDisplay.field.label.reportingWorkgroupName"/>:</td>
+	<c:if test="${DocumentTypeForm.existingDocumentType != null}">
+	  <td class="datacell">
+	  	<c:if test="${DocumentTypeForm.existingDocumentType.reportingWorkgroup != null}">
+	  	  <c:out value="${DocumentTypeForm.existingDocumentType.reportingWorkgroup.groupNameId.nameId}" />
+	  	</c:if>
+	  	&nbsp;
+	  </td>	
+ 	</c:if>
+	  <td class="datacell">
+	    <c:if test="${DocumentTypeForm.documentType.reportingWorkgroup != null}">
+	      <c:out value="${DocumentTypeForm.documentType.reportingWorkgroup.groupNameId.nameId}" />
+	    </c:if>
+	    &nbsp;
+	  </td>
+	</tr>
 
 	<tr>
 	  <td class="thnormal" width="25%" align="right"><bean-el:message key="doctype.DocumentTypeDisplay.field.label.postprocessorName"/>:</td>

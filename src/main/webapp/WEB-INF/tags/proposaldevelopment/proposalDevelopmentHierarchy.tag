@@ -20,9 +20,9 @@
             tabErrorKey="document.fillme*">
          
 	<div class="tab-container" align="center">
-    	<div class="h2-container">
-    		<span class="subhead-left"><h2>Hierarchy</h2></span>
-        </div>
+    	<h3>
+    		<span class="subhead-left">Hierarchy</span>
+        </h3>
         
                To Be Developed
 	
