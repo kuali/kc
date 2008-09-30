@@ -22,9 +22,9 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.RiceConstants;
 import org.kuali.core.web.struts.action.KualiRequestProcessor;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * This class handles setup of user session and restoring of action form.
@@ -42,7 +42,7 @@ public class KraRequestProcessor extends KualiRequestProcessor {
         
         if (sessionExpired != null && sessionExpired.booleanValue() == true) {
             request.getSession().removeAttribute(KeyConstants.SESSION_EXPIRED_IND);
-            actionForward = mapping.findForward(RiceConstants.MAPPING_PORTAL); 
+            actionForward = mapping.findForward(KNSConstants.MAPPING_PORTAL); 
         } else {
             actionForward = super.processActionPerform(request, response, action, form, mapping);
         }

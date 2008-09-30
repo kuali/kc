@@ -1,7 +1,7 @@
 <%@ include file="Include.jsp" %>
 <html>
 <head>
-<title>Kuali Enterprise Notification - Search</title>
+<title>Kuali Enterprise Notification - Notification List</title>
 <meta name="Author" content="John Fereira">
 <meta name="Author" content="Aaron Godert">
 <link href="css/notification.css" rel="stylesheet" type="text/css" />

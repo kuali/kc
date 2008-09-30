@@ -37,9 +37,7 @@ public class LookupableBoValuesFinder extends KeyValuesBase {
         keyValues.add(new KeyLabelPair("", "select"));
 
         DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
-        // this only has entries that have been loaded - force load?
-        dataDictionaryService.forceCompleteDataDictionaryLoad();
-
+       
     	Map<String, BusinessObjectEntry> businessObjectEntries = dataDictionaryService.getDataDictionary().getBusinessObjectEntries();
     	for (String businessObject: businessObjectEntries.keySet()) {
     	    if ((businessObjectEntries.get(businessObject).hasLookupDefinition()) && (businessObject.startsWith("org.kuali.kra"))) {

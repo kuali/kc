@@ -21,10 +21,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.RiceConstants;
 import org.kuali.core.rule.event.DocumentAuditEvent;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.web.struts.action.AuditModeAction;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
@@ -43,7 +43,7 @@ public class ProposalDevelopmentAuditModeAction extends ProposalDevelopmentActio
 
         KraServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(proposalDevelopmentForm.getDocument()));
 
-        return mapping.findForward(RiceConstants.MAPPING_BASIC);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
@@ -54,7 +54,7 @@ public class ProposalDevelopmentAuditModeAction extends ProposalDevelopmentActio
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         proposalDevelopmentForm.setAuditActivated(false);
 
-        return mapping.findForward((RiceConstants.MAPPING_BASIC));
+        return mapping.findForward((Constants.MAPPING_BASIC));
     }
 
 }

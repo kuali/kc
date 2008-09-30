@@ -17,10 +17,10 @@
  
 <kul:tabTop tabTitle="Budget Overview" defaultOpen="true" tabErrorKey="budgetSummary*,document.residualFunds,document.totalCostLimit"  >
 	<div class="tab-container" align="center">
-    	<div class="h2-container">
-    		<span class="subhead-left"><h2>Budget Overview</h2></span>
+    	<h3>
+    		<span class="subhead-left">Budget Overview</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.ProposalBudgetStatus" altText="help"/></span>
-        </div>
+        </h3>
         <table cellpadding=0 cellspacing=0 summary="">
         	<tr>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.startDate}" /></div></th>

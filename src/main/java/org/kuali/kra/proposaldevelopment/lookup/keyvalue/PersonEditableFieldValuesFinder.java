@@ -40,7 +40,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
  * @version $Revision: 1.5 $
  */
 public class PersonEditableFieldValuesFinder extends KeyValuesBase {
-    Map<String, AttributeDefinition> attributes; 
+    List<AttributeDefinition> attributes; 
     
     /**
      * Constructs a PersonEditableFieldValueFinder
@@ -58,7 +58,7 @@ public class PersonEditableFieldValuesFinder extends KeyValuesBase {
         List<KeyLabelPair> retval = new ArrayList<KeyLabelPair>();
         retval.add(new KeyLabelPair("", "select"));
 
-        for (AttributeDefinition attribute : getAttributeMap().values()) {
+        for (AttributeDefinition attribute : getAttributes()) {
             if (!getExcludedAttributes().contains(attribute.getName())) {
                 retval.add(new KeyLabelPair(attribute.getName(), attribute.getLabel()));
             }
@@ -83,7 +83,7 @@ public class PersonEditableFieldValuesFinder extends KeyValuesBase {
      * Read-only access to a map of attributes for <code>{@link ProposalPerson}</code>
      * @return Map<String, AttributeDefinition>
      */
-    private Map<String, AttributeDefinition> getAttributeMap() {
+    private List<AttributeDefinition> getAttributes() {
         return attributes;
     }
     

@@ -20,10 +20,10 @@
 <c:set var="action" value="budgetSummary" />
 <kul:tab tabTitle="Budget Periods &amp; Totals" defaultOpen="true" tabErrorKey="newBudgetPeriod*,document.budgetPeriod*" auditCluster="budgetPeriodProjectDateAuditErrors"  tabAuditKey="document.budgetPeriod*" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
-    	<div class="h2-container">
-    		<span class="subhead-left"><h2>Budget Periods</h2></span>
+    	<h3>
+    		<span class="subhead-left">Budget Periods</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.bo.BudgetPeriod" altText="help"/></span>
-        </div>
+        </h3>
         
         <table cellpadding="0" cellspacing="0" summary="">
           	<tr>

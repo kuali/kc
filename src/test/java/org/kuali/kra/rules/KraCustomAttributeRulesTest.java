@@ -18,7 +18,6 @@ package org.kuali.kra.rules;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.RiceConstants;
 import org.kuali.RiceKeyConstants;
 import org.kuali.core.UserSession;
 import org.kuali.core.bo.user.UniversalUser;

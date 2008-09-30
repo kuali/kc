@@ -8,10 +8,10 @@
 
 <kul:tab tabTitle="Keywords" defaultOpen="false" tabErrorKey="">
 	<div class="tab-container" align="center">
-    	<div class="h2-container">
-    		<span class="subhead-left"><h2>Keywords</h2></span>
+    	<h3>
+    		<span class="subhead-left">Keywords</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.ScienceKeyword" altText="help"/></span>
-        </div>
+        </h3>
        
         <table cellpadding=0 cellspacing="0"  summary="">
              <tr>

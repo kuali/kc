@@ -214,7 +214,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         
         setLeadUnit(newDoc, criteria.getLeadUnitNumber());
         
-        newDoc.getDocumentHeader().setFinancialDocumentTemplateNumber(srcDoc.getDocumentNumber());
+        newDoc.getDocumentHeader().setDocumentTemplateNumber(srcDoc.getDocumentNumber());
         docService.saveDocument(newDoc);
         
         return newDoc;
@@ -227,7 +227,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param destDoc
      */
     private void copyRequiredProperties(ProposalDevelopmentDocument srcDoc, ProposalDevelopmentDocument destDoc) {
-        destDoc.getDocumentHeader().setFinancialDocumentDescription(srcDoc.getDocumentHeader().getFinancialDocumentDescription());
+        destDoc.getDocumentHeader().setDocumentDescription(srcDoc.getDocumentHeader().getDocumentDescription());
         destDoc.setProposalTypeCode(srcDoc.getProposalTypeCode());
         destDoc.setActivityTypeCode(srcDoc.getActivityTypeCode());
         destDoc.setTitle(srcDoc.getTitle());
@@ -312,7 +312,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         DocumentHeader srcHdr = src.getDocumentHeader();
         DocumentHeader destHdr = dest.getDocumentHeader();
         
-        destHdr.setFinancialDocumentDescription(srcHdr.getFinancialDocumentDescription());
+        destHdr.setDocumentDescription(srcHdr.getDocumentDescription());
         destHdr.setExplanation(srcHdr.getExplanation());
         destHdr.setOrganizationDocumentNumber(srcHdr.getOrganizationDocumentNumber());
     }

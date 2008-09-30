@@ -21,9 +21,9 @@
 <kul:tabTop defaultOpen="true" tabTitle="Rights" tabErrorKey="newNarrativeUserRight*">
 	<div class="tab-container" align="center">
 	    <input type="hidden" name="line" value="${line}" />
-		<div class="h2-container">
-    		<span class="subhead-left"><h2>Internal Attachment Rights for ${line+1}. ${selectedInstituteAttachment.narrativeType.description }</h2></span>
-        </div>	
+		<h3>
+    		<span class="subhead-left">Internal Attachment Rights for ${line+1}. ${selectedInstituteAttachment.narrativeType.description }</span>
+        </h3>	
         <table id="narrative-rights-table" cellpadding=0 cellspacing=0 summary="">
 	       <c:forEach var="narrUserRight" items="${selectedInstituteAttachment.narrativeUserRights}" varStatus="status">
           	<tr>

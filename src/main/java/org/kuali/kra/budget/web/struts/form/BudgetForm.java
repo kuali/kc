@@ -22,6 +22,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.kuali.core.datadictionary.DocumentEntry;
+import org.kuali.core.datadictionary.HeaderNavigation;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
@@ -150,7 +152,11 @@ public class BudgetForm extends ProposalFormBase {
      */
     public void initialize() {
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
-        this.setHeaderNavigationTabs((dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.budget.document.BudgetDocument.class.getName())).getHeaderTabNavigation());
+        DocumentEntry docEntry = dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.budget.document.BudgetDocument.class.getName());
+        List<HeaderNavigation> navList = docEntry.getHeaderNavigationList();
+        HeaderNavigation[] list = new HeaderNavigation[navList.size()];
+        navList.toArray(list);
+        this.setHeaderNavigationTabs(list);
         setNewBudgetPeriod(new BudgetPeriod());
         
         configureExtraTopButtons();
@@ -606,6 +612,24 @@ public class BudgetForm extends ProposalFormBase {
         getDocInfo().add(docStatus); 
         getDocInfo().add(docInitiator);
         getDocInfo().add(docCreateDate);
+        
+        String budgetName = Constants.EMPTY_STRING;
+        String budgetVersionNumber = Constants.EMPTY_STRING;
+        if (budgetDocument != null && proposalDocument != null) {
+            List<BudgetVersionOverview> budgetVersions = proposalDocument.getBudgetVersionOverviews();
+            for (BudgetVersionOverview budgetVersion: budgetVersions) {
+                if (budgetVersion.getBudgetVersionNumber().intValue() == budgetDocument.getBudgetVersionNumber().intValue()) {
+                    budgetName = budgetVersion.getDocumentDescription();
+                    break;
+                }
+            }
+            
+            if (budgetDocument.getBudgetVersionNumber() != null) {
+                budgetVersionNumber = Integer.toString(budgetDocument.getBudgetVersionNumber());
+            }
+        }
+        getDocInfo().add(new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.budgetName", budgetName));
+        getDocInfo().add(new HeaderField("DataDictionary.BudgetDocument.attributes.budgetVersionNumber", budgetVersionNumber));
     }
 
     public String getUrRateClassCodePrevValue() {

@@ -27,7 +27,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.RiceConstants;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.lookup.LookupResultsService;
 import org.kuali.core.service.DateTimeService;
@@ -40,6 +39,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.SponsorHierarchyRule;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.web.struts.form.SponsorHierarchyForm;
+import org.kuali.rice.kns.util.KNSConstants;
 
 public class SponsorHierarchyAction extends KualiAction {
 
@@ -58,6 +58,7 @@ public class SponsorHierarchyAction extends KualiAction {
         if (StringUtils.isNotBlank(request.getParameter("mapKey"))) {
             sponsorHierarchyForm.getNewSponsors().get(0).clear();
         }
+        //TODO: refactor this.  2 things very similar, should not call twice
         sponsorHierarchyForm.setTopSponsorHierarchies(KraServiceLocator.getService(SponsorService.class).getTopSponsorHierarchy());   
         sponsorHierarchyForm.setHierarchyNameList((KraServiceLocator.getService(SponsorService.class).getTopSponsorHierarchyList()));   
         return forward;

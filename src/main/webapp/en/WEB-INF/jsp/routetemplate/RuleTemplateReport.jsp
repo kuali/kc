@@ -96,7 +96,7 @@
 					          <th class="thnormal">Required</th>
 					        </tr>
 
-					        <logic-el:iterate id="attribute" name="RuleTemplateForm" property="ruleTemplate.ruleTemplateAttributes" indexId="ctr">
+					        <logic-el:iterate id="attribute" name="RuleTemplateForm" property="ruleTemplate.activeRuleTemplateAttributes" indexId="ctr">
 					            <tr>
 					              <td nowrap class="datacell">
 					                <div align="center"><c:out value="${attribute.ruleAttribute.name}" /></div>

@@ -1,11 +1,11 @@
 <%--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2006-2007 The Kuali Foundation.
  
- Licensed under the Educational Community License, Version 2.0 (the "License");
+ Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
  
- http://www.osedu.org/licenses/ECL-2.0
+ http://www.opensource.org/licenses/ecl1.php
  
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,7 +33,8 @@
 <%@ attribute name="forceRequired" required="false" description="indicate the field is required despite the DataDictionary" %>
 <%@ attribute name="hideRequiredAsterisk" required="false" description="if set to true, this will hide the required asterisk symbol under all situations" %>
 <%@ attribute name="anchor" required="false" description="adds a named anchor inside the header cell" %>
- 
+<%@ attribute name="nowrap" required="false" description="add the 'nowrap' clause to the TH" %>
+
 <c:set var="scopeAttribute" value='scope="${scope}"'/>  <%-- this works for HTML output (but not for JSP execution) --%>
 <c:set var="alignAttribute" value='align="${align}"'/>
 <c:set var="widthAttribute" value='width="${width}"'/>
@@ -44,6 +45,7 @@
     ${empty scope ? '' : scopeAttribute}
     ${empty align ? (!horizontal ? '' : 'align="right"') : alignAttribute}
     ${empty width ? '' : widthAttribute}
+    ${empty nowrap ? '' : 'nowrap'}
     >&nbsp;
     <c:if test="${not empty anchor}">
     	<a name="${anchor}"></a>

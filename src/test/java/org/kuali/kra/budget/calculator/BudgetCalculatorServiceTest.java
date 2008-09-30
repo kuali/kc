@@ -248,7 +248,7 @@ public class BudgetCalculatorServiceTest extends KraTestBase {
     }
 
     private void setBaseDocumentFields(BudgetDocument bd,String proposalNumber) {
-        bd.getDocumentHeader().setFinancialDocumentDescription("Test budget calculation");
+        bd.getDocumentHeader().setDocumentDescription("Test budget calculation");
 //        bd.setDocumentNumber(bd.getDocumentNumber());
         bd.setProposalNumber(proposalNumber);
         bd.setBudgetVersionNumber(1);
@@ -265,7 +265,7 @@ public class BudgetCalculatorServiceTest extends KraTestBase {
     
     
     private void setBaseDocumentFields(ProposalDevelopmentDocument document, String description, String sponsorCode, String title, Date requestedStartDateInitial, Date requestedEndDateInitial, String activityTypeCode, String proposalTypeCode, String ownedByUnit) {
-        document.getDocumentHeader().setFinancialDocumentDescription(description);
+        document.getDocumentHeader().setDocumentDescription(description);
         document.setSponsorCode(sponsorCode);
         document.setTitle(title);
         document.setRequestedStartDateInitial(requestedStartDateInitial);

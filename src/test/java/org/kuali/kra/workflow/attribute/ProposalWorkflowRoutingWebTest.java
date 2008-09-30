@@ -105,7 +105,7 @@ public class ProposalWorkflowRoutingWebTest extends ProposalDevelopmentWebTestBa
         customKEWLifecycle.start();
         GlobalVariables.setErrorMap(new ErrorMap());
         stopLifecycles(this.perTestLifeCycles);
-        afterRun();
+        logAfterRun();
     }
 
     @Test

@@ -34,13 +34,10 @@
           <!-- TAB -->
             <div id="workarea">
             <div class="tab-container" align="center" id="G100">
-              <div class="h2-container">
-
-                <h2>
-                	<span class="subhead-left"><bean:write name="KualiForm" property="${proposalPerson}.fullName"/></span>
-                	<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.Person" altText="help"/></span>
-                </h2>
-              </div>
+              <h3>
+                  <span class="subhead-left"><bean:write name="KualiForm" property="${proposalPerson}.fullName"/></span>
+                  <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.Person" altText="help"/></span>
+              </h3>
 	<table cellpadding=0 cellspacing=0 summary="">
           	<tr>
 				<td>

@@ -1,11 +1,11 @@
 <%--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2006-2007 The Kuali Foundation.
  
- Licensed under the Educational Community License, Version 2.0 (the "License");
+ Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
  
- http://www.osedu.org/licenses/ECL-2.0
+ http://www.opensource.org/licenses/ecl1.php
  
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
@@ -46,11 +46,7 @@
 							<tr>
 								<td>&nbsp;</td>
 								<td width="94%">${errorText}</td>
-								<td width="5%"><div align="center">
-									<c:if test="${not empty splitStr[0]}" >
-										<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-fix.gif" property="methodToCall.${splitStr[0]}.anchor${splitStr[1]}.x"/>
-									</c:if>
-								</div></td>
+								<td width="5%"><div align="center"><html:image src="${ConfigProperties.externalizable.images.url}tinybutton-fix.gif" property="methodToCall.${splitStr[0]}.anchor${splitStr[1]}.x"/></div></td>
 							</tr>
 						</c:when>
 						<c:otherwise><li>${errorText}</li></c:otherwise>

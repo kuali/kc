@@ -22,10 +22,10 @@
 
 <kul:tab tabTitle="Organization/Location" defaultOpen="false" tabErrorKey="document.organizationId*,document.performingOrganizationId*,document.proposalLocation*,newPropLocation*">
 	<div class="tab-container" align="center">
-    	<div class="h2-container">
-    		<span class="subhead-left"><h2>Organization</h2></span>
+    	<h3>
+    		<span class="subhead-left">Organization</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.Organization" altText="help"/></span>
-        </div>
+        </h3>
         
         <table cellpadding=0 cellspacing=0 summary="">
              <tr>
@@ -67,10 +67,10 @@
                 </td>
             </tr>
         </table>
-        <div class="h2-container">
-    		<span class="subhead-left"><h2>Performance Site Locations</h2></span>
+        <h3>
+    		<span class="subhead-left">Performance Site Locations</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.ProposalLocation" altText="help"/></span>
-        </div>
+        </h3>
         <table cellpadding=0 cellspacing="0"  summary="">
              <tr>
               	<th><div align="left">&nbsp</div></th>  

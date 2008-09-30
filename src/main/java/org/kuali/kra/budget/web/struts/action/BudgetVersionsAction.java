@@ -16,8 +16,8 @@
 package org.kuali.kra.budget.web.struts.action;
 
 import static org.apache.commons.lang.StringUtils.isNotBlank;
-import static org.kuali.RiceConstants.QUESTION_CLICKED_BUTTON;
-import static org.kuali.RiceConstants.QUESTION_INST_ATTRIBUTE_NAME;
+import static org.kuali.rice.kns.util.KNSConstants.QUESTION_CLICKED_BUTTON;
+import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 
 import javax.servlet.http.HttpServletRequest;

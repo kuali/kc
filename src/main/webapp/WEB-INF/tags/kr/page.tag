@@ -1,11 +1,11 @@
 <%--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2005-2007 The Kuali Foundation.
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
+ Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
 
- http://www.osedu.org/licenses/ECL-2.0
+ http://www.opensource.org/licenses/ecl1.php
 
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
@@ -83,6 +83,9 @@
 			  var excludeSubmitRestriction = false;
 			  function hasFormAlreadyBeenSubmitted()
 			  {
+			  
+				if ( document.getElementById( "formComplete" ) ) { 
+		  		
 				  if (formHasAlreadyBeenSubmitted && !excludeSubmitRestriction) {
 					 alert("Page already being processed by the server.");
 					 return false;
@@ -91,6 +94,11 @@
 					 return true;
 				  }
 				  excludeSubmitRestriction = false;
+				} else {
+	       		  alert("Page has not finished loading.");
+	       		  return false;
+				}
+				 				
 			  }
 			  </script>
 		</c:when>
@@ -136,7 +144,7 @@
 	</c:when>
 	<c:otherwise>
 		<a name="topOfForm"></a>
-		<div class="headerarea-kra" id="headerarea">
+		<div class="headerarea" id="headerarea">
 			<h1>${docTitle}&nbsp;<c:if test="${showDocumentInfo}"><kul:help documentTypeName="${KualiForm.docTypeName}" altText="document help"/></c:if></h1>
 			<c:if test="${!empty defaultMethodToCall}">
 				<kul:enterKey methodToCall="${defaultMethodToCall}" />
@@ -144,36 +152,25 @@
 	</c:otherwise>
 </c:choose>
 
-    <c:set var="headerClass" value="header"/>
-    <c:if test="${not empty KualiForm.additionalDocInfo1 or not empty KualiForm.additionalDocInfo2}">
-		 <c:set var="headerClass" value="header-3row"/>
-    </c:if>
-
 <!-- DOCUMENT INFO HEADER BOX -->
 <c:set var="docHeaderAttributes" value="${DataDictionary.DocumentHeader.attributes}" />
 <c:set var="dummyAttributes" value="${DataDictionary.AttributeReferenceDummy.attributes}" />
 <c:if test="${showDocumentInfo}">
-    <c:choose>
-        <c:when test="${!empty KualiForm.document.documentHeader.financialDocumentInErrorNumber}">
-            <c:set var="secondDocAttribute" value="${docHeaderAttributes.financialDocumentInErrorNumber}" />
-            <c:set var="secondDocId" value="${KualiForm.document.documentHeader.financialDocumentInErrorNumber}" />
-            <c:set var="addColumn" value="true" />
-        </c:when>
-        <c:when test="${!empty KualiForm.document.documentHeader.financialDocumentTemplateNumber}">
-            <c:set var="secondDocAttribute" value="${docHeaderAttributes.financialDocumentTemplateNumber}" />
-            <c:set var="secondDocId" value="${KualiForm.document.documentHeader.financialDocumentTemplateNumber}" />
-            <c:set var="addColumn" value="true" />
-        </c:when>
-    </c:choose>
-    <c:if test="${!empty KualiForm.document.documentHeader.correctedByDocumentId}">
-        <c:set var="thirdDocAttribute" value="${docHeaderAttributes.correctedByDocumentId}" />
-        <c:set var="thirdDocId" value="${KualiForm.document.documentHeader.correctedByDocumentId}" />
+<%--
+    <c:if test="${!empty KualiForm.document.documentHeader.additionalDocId1.label}">
+        <c:set var="secondDocAttributeName" value="${KualiForm.document.documentHeader.additionalDocId1.key}" />
+        <c:set var="secondDocId" value="${KualiForm.document.documentHeader.additionalDocId1.label}" />
+        <c:set var="addColumn" value="true" />
+    </c:if>
+    <c:if test="${!empty KualiForm.document.documentHeader.additionalDocId2.label}">
+        <c:set var="thirdDocAttributeName" value="${KualiForm.document.documentHeader.additionalDocId2.key}" />
+        <c:set var="thirdDocId" value="${KualiForm.document.documentHeader.additionalDocId2.label}" />
         <c:set var="addColumn" value="true" />
     </c:if>
     <c:set var="headerClass" value="headerinfo"/>
     <c:if test="${not empty KualiForm.additionalDocInfo1 or not empty KualiForm.additionalDocInfo2}">
 		<c:choose>
-			<c:when test="${lookup}" >  
+			<c:when test="${lookup}" >
 				<c:set var="headerClass" value="headerinfo-3row"/>
 			</c:when>
 			<c:otherwise>
@@ -181,6 +178,7 @@
 			</c:otherwise>
 		</c:choose>
     </c:if>
+--%>
 
 	<c:set var="KualiForm" value="${KualiForm}" /> 
 	<jsp:useBean id="KualiForm" type="org.kuali.core.web.struts.form.KualiForm" /> 
@@ -190,48 +188,62 @@
   	<c:set var="headerFields" value="${KualiForm.docInfo}" />
   	<c:set var="fieldCounter" value="0" />
   	
-	<div class="headerbox">
-
+  <div class="headerbox">
 	<c:choose>
 		<c:when test="${lookup}" >
 			<table summary="document header: general information" cellpadding="0" cellspacing="0">
 		</c:when>
 		<c:otherwise>
-			<table class="${headerClass}" summary="document header: general information" cellpadding="0" cellspacing="0">
+			<table class="headerinfo" summary="document header: general information" cellpadding="0" cellspacing="0">
 		</c:otherwise>
 	</c:choose>
 		
 	<c:forEach var="i" begin="1" end="${numberOfHeaderRows}" varStatus="status">
 	 <tr>
 			<c:forEach var="j" begin="1" end="<%=KualiForm.getNumColumns()%>" varStatus="innerStatus">
-		 		<c:set var="headerField" value="${headerFields[fieldCounter]}" />
+				<c:choose>
+					<c:when test="${headerFieldCount > fieldCounter}">
+			 		<c:set var="headerField" value="${headerFields[fieldCounter]}" />
+			 			<c:choose>
+			 				<c:when test="${(empty headerField) or (empty headerField.ddAttributeEntryName)}">
+								<kul:htmlAttributeHeaderCell />
+								<td>&nbsp;</td>
+			 				</c:when>
+			 				<c:otherwise>
+					        	<kul:htmlAttributeHeaderCell attributeEntryName="${headerField.ddAttributeEntryName}" horizontal="true" scope="row" />
+					        	<td>
+					        	<c:if test="${empty headerField.nonLookupValue and empty headerField.displayValue}">
+					        		&nbsp;
+					        	</c:if>
+								<c:choose>
+									<c:when test="${lookupAware and (not lookup)}" >
+										${headerField.nonLookupValue}
+									</c:when> 
+									<c:otherwise>
+										${headerField.displayValue}
+									</c:otherwise>
+								</c:choose>
+						 		</td>
+			 				</c:otherwise>
+			 			</c:choose>
+					</c:when>
+					<c:otherwise>
+						<kul:htmlAttributeHeaderCell />
+						<td>&nbsp;</td>
+					</c:otherwise>
+				</c:choose>
 		 		<c:if test="${headerFieldCount > fieldCounter}">
-		        	<kul:htmlAttributeHeaderCell attributeEntryName="${headerField.ddAttributeEntryName}" horizontal="true" scope="row" />
-		        	<td>
-		        	<c:if test="${empty headerField.nonLookupValue and empty headerField.displayValue}">
-		        		&nbsp;
-		        	</c:if>
-						
-					<c:choose>
-						<c:when test="${lookupAware and (not lookup)}" >
-							${headerField.nonLookupValue}
-						</c:when> 
-						<c:otherwise>
-							${headerField.displayValue}
-						</c:otherwise>
-					</c:choose>
-			 		</td>
 			 	</c:if>
 				<c:set var="fieldCounter" value="${fieldCounter+1}" /> 
 		 </c:forEach>
-		 
+<%--
 		 <c:if test="${addColumn}">
 		 	<c:if test="${i==1}">
-			 	<c:set var="attributeEntry" value="${secondDocAttribute}" />
+			 	<c:set var="attributeEntry" value="${secondDocAttributeName}" />
 			 	<c:set var="docId" value="${secondDocId}" />
 		 	</c:if>
 		 	<c:if test="${i==2}">
-			 	<c:set var="attributeEntry" value="${thirdDocAttribute}" />
+			 	<c:set var="attributeEntry" value="${thirdDocAttributeName}" />
 			 	<c:set var="docId" value="${thirdDocId}" />
 		 	</c:if>
 		 	<c:if test="${i<=2}">
@@ -252,11 +264,11 @@
                  <td><br/></td>
        		 </c:if>
         </c:if>
-    </tr>
+--%>
+      </tr>
     </c:forEach>
- </table>
-</div>
-
+   </table>
+  </div>
 </c:if>
 
 <c:choose>
@@ -268,8 +280,7 @@
 		</div>
 		<c:if test="${not empty KualiForm.headerNavigationTabs}">
 		  <div class="horz-links-bkgrnd" id="horz-links">
-		  
-		   <div id="tabs">
+			<div id="tabs">
              <dl class="tabul">
 		  
 			<c:choose>
@@ -293,8 +304,8 @@
 			  </c:otherwise>
 			</c:choose>	 
 		     </dl>
-		 </div>
-		 </div>
+		  </div>
+		  </div>
 		</c:if>
 		<div class="msg-excol">
 		  <div class="left-errmsg">
@@ -310,16 +321,16 @@
 		  </div>
 		  <div class="right">
 		    <div class="excol">
-		  	    <c:if test="${!empty extraTopButtons}">
-		            <c:forEach items="${extraTopButtons}" var="extraButton">
-		        	    <html:image src="${extraButton.extraButtonSource}" styleClass="tinybutton" property="${extraButton.extraButtonProperty}" alt="${extraButton.extraButtonAltText}"/> &nbsp;&nbsp;
-		            </c:forEach>
-	            </c:if>
-			    <c:if test="${showTabButtons != '' && showTabButtons == true}">			 
-				    <html:image property="methodToCall.showAllTabs" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-expandall.gif" title="show all panel content" alt="show all panel content" styleClass="tinybutton" onclick="javascript: return expandAllTab(document, tabStatesSize); " />
-				    <html:image property="methodToCall.hideAllTabs" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-collapseall.gif" title="hide all panel content" alt="hide all panel content" styleClass="tinybutton" onclick="javascript: return collapseAllTab(document, tabStatesSize); " />			  
-		        </c:if>
-		  	</div>
+		  	   <c:if test="${!empty extraTopButtons}">
+		         <c:forEach items="${extraTopButtons}" var="extraButton">
+		           <html:image src="${extraButton.extraButtonSource}" styleClass="tinybutton" property="${extraButton.extraButtonProperty}" alt="${extraButton.extraButtonAltText}" onclick="${extraButton.extraButtonOnclick}"/> &nbsp;&nbsp;
+		         </c:forEach>
+	           </c:if>
+			   <c:if test="${showTabButtons != '' && showTabButtons == true}">			 
+				  <html:image property="methodToCall.showAllTabs" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-expandall.gif" title="show all panel content" alt="show all panel content" styleClass="tinybutton" onclick="javascript: return expandAllTab(document, tabStatesSize); " />
+				  <html:image property="methodToCall.hideAllTabs" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-collapseall.gif" title="hide all panel content" alt="hide all panel content" styleClass="tinybutton" onclick="javascript: return collapseAllTab(document, tabStatesSize); " />			  
+		       </c:if>
+		  	 </div>		 
 		  </div>
 		</div>
 		<table width="100%" cellpadding="0" cellspacing="0">
@@ -365,5 +376,6 @@
 </c:if>
 
 </html:form>
+<div id="formComplete"></div> 
 </body>
 </html:html>

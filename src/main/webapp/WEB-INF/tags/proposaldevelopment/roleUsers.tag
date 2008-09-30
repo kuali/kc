@@ -25,5 +25,6 @@
        		<c:if test="${status.index != 0}">;&nbsp;</c:if>
 	        ${name}
 		</c:forEach>
+		&nbsp;
     </td>
 </tr>

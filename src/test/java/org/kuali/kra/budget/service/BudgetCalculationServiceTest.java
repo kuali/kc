@@ -228,7 +228,7 @@ public class BudgetCalculationServiceTest extends KraTestBase {
     // probably should create a utility or helper class to share these private methods.
     
     private void setBaseDocumentFields(BudgetDocument bd, String proposalNumber) {
-        bd.getDocumentHeader().setFinancialDocumentDescription("Test budget calculation");
+        bd.getDocumentHeader().setDocumentDescription("Test budget calculation");
         bd.setProposalNumber(proposalNumber);
         bd.setBudgetVersionNumber(1);
         bd.setStartDate(java.sql.Date.valueOf("2007-01-01"));
@@ -245,7 +245,7 @@ public class BudgetCalculationServiceTest extends KraTestBase {
     private void setBaseDocumentFields(ProposalDevelopmentDocument document, String description, String sponsorCode, String title,
             Date requestedStartDateInitial, Date requestedEndDateInitial, String activityTypeCode, String proposalTypeCode,
             String ownedByUnit) {
-        document.getDocumentHeader().setFinancialDocumentDescription(description);
+        document.getDocumentHeader().setDocumentDescription(description);
         document.setSponsorCode(sponsorCode);
         document.setTitle(title);
         document.setRequestedStartDateInitial(requestedStartDateInitial);

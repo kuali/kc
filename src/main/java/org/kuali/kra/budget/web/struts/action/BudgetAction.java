@@ -113,25 +113,9 @@ public class BudgetAction extends ProposalActionBase {
             KraServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(((BudgetForm)form).getBudgetDocument()));
         }
         
-        //Set the Additional Document header info
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         if(budgetDocument != null) {
-            for (BudgetVersionOverview budgetVersion: budgetDocument.getProposal().getBudgetVersionOverviews()) {
-                if (budgetVersion.getBudgetVersionNumber().intValue() == budgetDocument.getBudgetVersionNumber().intValue()) {
-                    budgetForm.setAdditionalDocInfo1(new KeyLabelPair("DataDictionary.KraAttributeReferenceDummy.attributes.budgetName", budgetVersion.getDocumentDescription()));
-                    break;
-                }
-            }
-            if(budgetForm.getAdditionalDocInfo1() == null) {
-                budgetForm.setAdditionalDocInfo1(new KeyLabelPair("DataDictionary.KraAttributeReferenceDummy.attributes.budgetName", Constants.EMPTY_STRING));
-            }
-            
-            if (budgetDocument.getBudgetVersionNumber() != null) {
-                budgetForm.setAdditionalDocInfo2(new KeyLabelPair("DataDictionary.BudgetDocument.attributes.budgetVersionNumber", Integer.toString(budgetDocument.getBudgetVersionNumber())));
-            } else {
-                budgetForm.setAdditionalDocInfo2(new KeyLabelPair("DataDictionary.KraAttributeReferenceDummy.attributes.budgetName", Constants.EMPTY_STRING));
-            } 
             budgetDocument.setRateClassTypesReloaded(false);
         }
         

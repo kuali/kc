@@ -136,7 +136,7 @@ public class ProposalPersonRoleAttributeTest extends KraTestBase{
         
         
         document.setProposalPersons(ProposalPersons);
-        document.getDocumentHeader().setFinancialDocumentDescription("ProposalDevelopmentDocumentTest test doc");
+        document.getDocumentHeader().setDocumentDescription("ProposalDevelopmentDocumentTest test doc");
         document.setSponsorCode("005770");
         document.setTitle( "project title");
         document.setRequestedStartDateInitial(requestedStartDateInitial);
