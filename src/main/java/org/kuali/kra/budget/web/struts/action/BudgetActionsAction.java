@@ -173,6 +173,10 @@ public class BudgetActionsAction extends BudgetAction {
         newBudgetsubAwardFiles.setSubAwardXfdFileData(subAwardData);
         newBudgetSubAward.getBudgetSubAwardFiles().add(newBudgetsubAwardFiles);
         KraServiceLocator.getService(BudgetSubAwardService.class).populateBudgetSubAwardFiles(newBudgetSubAward);
+        if(newBudgetSubAward.getBudgetSubAwardFiles().isEmpty() || newBudgetSubAward.getBudgetSubAwardFiles().get(0).getSubAwardXmlFileData()==null){
+            GlobalVariables.getErrorMap().putError(Constants.SUBAWARD_FILE, Constants.SUBAWARD_FILE_NOT_POPULATED);
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
         newBudgetsubAwardFiles.setSubAwardXfdFileName(subAwardFileName);
         newBudgetSubAward.setSubAwardXfdFileName(subAwardFileName);
 //        new BudgetSubAwardReader().populateSubAward(budgetSubAwardBean)
