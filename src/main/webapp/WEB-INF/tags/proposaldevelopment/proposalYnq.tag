@@ -32,9 +32,9 @@
 <c:set var="answerYesNoNa" value="${KualiForm.answerYesNoNA}" /> 
 <div id="workarea">
 <c:forEach items="${KualiForm.document.ynqGroupNames}" var="groups" varStatus="gps">
-<bean:define id="groupName" name="KualiForm" property="document.ynqGroupNames[${gps.index}].groupName"/>
+    <bean:define id="groupName" name="KualiForm" property="document.ynqGroupNames[${gps.index}].groupName"/>
     <c:if test="${gps.first}">
-      <c:set var="transparent" value="true" />
+        <c:set var="transparent" value="true" />
     </c:if> 
 <bean:define id="trunGroupName" name="KualiForm" property="document.ynqGroupNames[${gps.index}].truncGroupName"/>
 <bean:define id="fullGroupName" name="KualiForm" property="document.ynqGroupNames[${gps.index}].groupName"/>
@@ -55,10 +55,10 @@
     <c:set var="proposalYnq" value="document.proposalYnqs[${gps.index}]" /> 
     <c:set var="transparent" value="false" />
 	<div class="tab-container" align="center">
-    	<div class="h2-container">
-    		<h2><span class="subhead-left">${trunGroupName}</span></h2>
+    	<h3>
+    		<span class="subhead-left">${trunGroupName}</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.Ynq" altText="help"/></span>
-        </div>
+        </h3>
     	<div align="left" style="padding:12px;"> 
     		<strong>Full Group Name:</strong> 
     		${fullGroupName}

@@ -124,8 +124,6 @@ public interface Constants {
     public static final String YNQ_EXPLANATION_REQUIRED = "Explanation required: if answer = ";
     public static final String YNQ_REVIEW_DATE_REQUIRED = "Date required: if answer = ";
     public static final String QUESTION_STATUS_ACTIVE = "A";
-    public static final String DOCUMENT_SAVED = "S";
-    public static final String DOCUMENT_INITIATED = "?";
     public static final String ANSWER_NA = "X";
 
     public static final String DEFAULT_DATE_FORMAT_PATTERN = "MM/dd/yyyy";

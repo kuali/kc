@@ -1,11 +1,11 @@
 <%--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2007 The Kuali Foundation.
  
- Licensed under the Educational Community License, Version 2.0 (the "License");
+ Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
  
- http://www.osedu.org/licenses/ECL-2.0
+ http://www.opensource.org/licenses/ecl1.php
  
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
@@ -202,7 +202,7 @@
 				<c:when test="${isFieldSecure}">
 	    
 					<kul:fieldDefaultLabel isLookup="${isLookup}" isRequired="${field.fieldRequired}" 
-						isReadOnly="${isFieldReadOnly}" cellWidth="${dataCellWidth}%" fieldType="${field.fieldType}" 
+						isReadOnly="${isFieldReadOnly}" cellWidth="${dataCellWidth}%" fieldName="${field.propertyName}" fieldType="${field.fieldType}" 
 						fieldLabel="${field.fieldLabel}" />
 						
 					<td class="grid" width="${dataCellWidth}%">
@@ -255,7 +255,7 @@
 					<c:if test="${isInquiry && field.fieldType eq field.HIDDEN}">
 						<%-- display inquiry data even though the field has been specified as hidden --%>
 						<kul:fieldDefaultLabel isLookup="${isLookup}" isRequired="${field.fieldRequired}" 
-							isReadOnly="${isFieldReadOnly}" cellWidth="${cellWidth}" fieldType="${field.fieldType}" 
+							isReadOnly="${isFieldReadOnly}" cellWidth="${cellWidth}" fieldName="${field.propertyName}" fieldType="${field.fieldType}" 
 							fieldLabel="${field.fieldLabel}" />
 									
 						<td class="grid" width="${cellWidth}">
@@ -300,7 +300,7 @@
 				<c:when test="${field.fieldType eq field.CURRENCY}">
 						
 					<kul:fieldDefaultLabel isLookup="${isLookup}" isRequired="${field.fieldRequired}" 
-						isReadOnly="${isFieldReadOnly}" cellWidth="${dataCellWidth}%" fieldType="${field.fieldType}" 
+						isReadOnly="${isFieldReadOnly}" cellWidth="${dataCellWidth}%" fieldName="${field.propertyName}" fieldType="${field.fieldType}" 
 						fieldLabel="${field.fieldLabel}" />
 								
 					<td class="grid" width="${dataCellWidth}%">
@@ -313,7 +313,7 @@
 
 							<c:otherwise>
 
-								<input type="text" name='${field.propertyName}'
+								<input type="text" id='${field.propertyName}' name='${field.propertyName}'
 									value='<c:out value="${fieldValue}"/>'
 									size='${field.size}'
 									maxlength='${field.formattedMaxLength}'
@@ -333,7 +333,7 @@
 				<c:when test="${field.fieldType eq field.TEXT}">
 						
 					<kul:fieldDefaultLabel isLookup="${isLookup}" isRequired="${field.fieldRequired}" 
-						isReadOnly="${isFieldReadOnly}" cellWidth="${dataCellWidth}%" fieldType="${field.fieldType}" 
+						isReadOnly="${isFieldReadOnly}" cellWidth="${dataCellWidth}%" fieldName="${field.propertyName}" fieldType="${field.fieldType}" 
 						fieldLabel="${field.fieldLabel}" />
 								
 					<td class="grid" width="${dataCellWidth}%">
@@ -391,7 +391,7 @@
 				<c:when test="${field.fieldType eq field.TEXT_AREA}">
 
 					<kul:fieldDefaultLabel isLookup="${isLookup}" isRequired="${field.fieldRequired}" 
-						isReadOnly="${isFieldReadOnly}" cellWidth="${dataCellWidth}%" fieldType="${field.fieldType}" 
+						isReadOnly="${isFieldReadOnly}" cellWidth="${dataCellWidth}%" fieldName="${field.propertyName}" fieldType="${field.fieldType}" 
 						fieldLabel="${field.fieldLabel}" />
 								
 					<td class="grid" width="${dataCellWidth}%">
@@ -404,7 +404,7 @@
 
 							<c:otherwise>
 
-								<textarea name='${field.propertyName}'
+								<textarea id='${field.propertyName}' name='${field.propertyName}'
 									rows='${field.rows}'
 									cols='${field.cols}'
 									style="${textStyle}" ${onblurcall}
@@ -425,7 +425,7 @@
 					
 					<kul:fieldDefaultLabel isLookup="${isLookup}" isRequired="${field.fieldRequired}" 
 						isReadOnly="${isFieldReadOnly}" cellWidth="${dataCellWidth}%" 
-						fieldType="${field.fieldType}" fieldLabel="${field.fieldLabel}" />
+						fieldName="${field.propertyName}" fieldType="${field.fieldType}" fieldLabel="${field.fieldLabel}" />
 						
 					<td class="grid" width="${dataCellWidth}%">
 							
@@ -439,7 +439,7 @@
 									
 							<c:otherwise>
 									
-								<input type="checkbox" name="${field.propertyName}" 
+								<input type="checkbox" id='${field.propertyName}' name="${field.propertyName}" 
 									${field.propertyValue eq 'Yes' || field.propertyValue eq 'YES' ? 'checked="checked"' : ''}
 									${onblurcall} />
 								<input type="hidden" name="${field.propertyName}${Constants.CHECKBOX_PRESENT_ON_FORM_ANNOTATION}" value="present"/>
@@ -458,7 +458,7 @@
 
 					<kul:fieldDefaultLabel isLookup="${isLookup}" isRequired="${field.fieldRequired}" 
 						isReadOnly="${isFieldReadOnly}" cellWidth="${dataCellWidth}%" 
-						fieldType="${field.fieldType}" fieldLabel="${field.fieldLabel}" />
+						fieldName="${field.propertyName}" fieldType="${field.fieldType}" fieldLabel="${field.fieldLabel}" />
 						
 					<td class="grid" width="${dataCellWidth}%">
 						
@@ -469,7 +469,7 @@
 							</c:when>
 										
 							<c:otherwise>
-								<select name='${field.propertyName}' style="${textStyle}" ${onblurcall}>
+								<select id='${field.propertyName}' name='${field.propertyName}' style="${textStyle}" ${onblurcall}>
 									<c:if test="${!field.hasBlankValidValue}">
 										<option value=""></option>
 									</c:if>
@@ -488,12 +488,12 @@
 				<c:when test="${field.fieldType eq field.DROPDOWN_REFRESH}">
 
 					<kul:fieldDefaultLabel isLookup="${isLookup}" isRequired="${field.fieldRequired}" 
-						isReadOnly="${isFieldReadOnly}" cellWidth="${dataCellWidth}%" fieldType="${field.fieldType}" 
+						isReadOnly="${isFieldReadOnly}" cellWidth="${dataCellWidth}%" fieldName="${field.propertyName}" fieldType="${field.fieldType}" 
 						fieldLabel="${field.fieldLabel}" />
 				
 					<td class="grid" width="${dataCellWidth}%">
 
-						<select name='${field.propertyName}'
+						<select id='${field.propertyName}' name='${field.propertyName}'
 							onchange="document.forms[0].submit();" style="${textStyle}">
 
                             <kul:fieldSelectValues field="${field}"/>
@@ -510,7 +510,7 @@
 				<c:when test="${field.fieldType eq field.DROPDOWN_SCRIPT}">
                     
 					<kul:fieldDefaultLabel isLookup="${isLookup}" isRequired="${field.fieldRequired}" 
-						isReadOnly="${isFieldReadOnly}" cellWidth="${dataCellWidth}%" fieldType="${field.fieldType}" 
+						isReadOnly="${isFieldReadOnly}" cellWidth="${dataCellWidth}%" fieldName="${field.propertyName}" fieldType="${field.fieldType}" 
 						fieldLabel="${field.fieldLabel}" />
 						
 					<td class="grid" width="${dataCellWidth}%">
@@ -519,7 +519,7 @@
                                 <kul:fieldShowReadOnly field="${field}" addHighlighting="${addHighlighting}" />
                             </c:when>
                             <c:otherwise>
-                                <select name='${field.propertyName}'
+                                <select id='${field.propertyName}' name='${field.propertyName}'
                                         onchange="${field.script}" style="${textStyle}">
                                     <kul:fieldSelectValues field="${field}"/>
                                 </select>
@@ -535,7 +535,7 @@
 				<c:when test="${field.fieldType eq field.RADIO}">
                     
 					<kul:fieldDefaultLabel isLookup="${isLookup}" isRequired="${field.fieldRequired}" 
-						isReadOnly="${isFieldReadOnly}" cellWidth="${dataCellWidth}%" fieldType="${field.fieldType}" 
+						isReadOnly="${isFieldReadOnly}" cellWidth="${dataCellWidth}%" fieldName="${field.propertyName}" fieldType="${field.fieldType}" 
 						fieldLabel="${field.fieldLabel}" />
 							
 					<td class="grid" width="${dataCellWidth}%">
@@ -565,7 +565,7 @@
 				<c:when test="${field.fieldType eq field.KUALIUSER}">
                     
 					<kul:fieldDefaultLabel isLookup="${isLookup}" isRequired="${field.fieldRequired}" 
-						isReadOnly="${isFieldReadOnly}" cellWidth="${dataCellWidth}%" fieldType="${field.fieldType}" 
+						isReadOnly="${isFieldReadOnly}" cellWidth="${dataCellWidth}%" fieldName="${field.propertyName}" fieldType="${field.fieldType}" 
 						fieldLabel="${field.fieldLabel}" />
 							
 					<td class="grid" width="${dataCellWidth}%">
@@ -617,7 +617,7 @@
 				<c:when test="${field.fieldType eq field.WORKFLOW_WORKGROUP}">
 				
 				  <kul:fieldDefaultLabel isLookup="${isLookup}" isRequired="${field.fieldRequired}" 
-						isReadOnly="${isFieldReadOnly}" cellWidth="${dataCellWidth}%" fieldType="${field.fieldType}" 
+						isReadOnly="${isFieldReadOnly}" cellWidth="${dataCellWidth}%" fieldName="${field.propertyName}" fieldType="${field.fieldType}" 
 						fieldLabel="${field.fieldLabel}" />	
 				
 									
@@ -648,7 +648,7 @@
 				
 				<c:when test="${field.fieldType eq field.FILE}">
 					<kul:fieldDefaultLabel isLookup="${isLookup}" isRequired="${field.fieldRequired}" isReadOnly="${isFieldReadOnly}" 
-						cellWidth="${dataCellWidth}%" fieldType="${field.fieldType}" fieldLabel="${field.fieldLabel}" />
+						cellWidth="${dataCellWidth}%" fieldType="${field.fieldType}" fieldLabel="${field.fieldLabel}" fieldName="${field.propertyName}"/>
 								
 					<td class="grid" width="${dataCellWidth}%">
 						<c:choose>
@@ -659,7 +659,7 @@
 								<c:if test="${not empty fieldValue}" >
 									<kul:fieldShowReadOnly field="${field}" addHighlighting="${addHighlighting}" />
 								</c:if>
-							</c:when>
+							</c:when> 
 									
 							<c:otherwise>
 									<c:choose>
@@ -676,7 +676,7 @@
 											<html:image property="methodToCall.downloadAttachment" src="${ConfigProperties.kr.externalizable.images.url}clip.gif" alt="download attachment" style="padding:5px" onclick="excludeSubmitRestriction=true"/>
 											<c:out value="${fieldValue}"/>
 	                                    	&nbsp;&nbsp;
-	                                    	<input type="hidden" name='methodToCall' />
+	                                    		                                    	<input type="hidden" name='methodToCall' />
     										<script type="text/javascript">
 												function replaceAttachment() {
 													excludeSubmitRestriction=true;
@@ -689,10 +689,10 @@
 	                                    </div>
                                     	<div id="replaceFileDiv" valign="middle" style="display:none;">
 				                			<input type="file" name='${field.propertyName}'
-												id='${field.propertyName}'  
+												id='${field.propertyName}' 
 												size='${field.size}'
 												class="${field.styleClass}"/>  
-										</div> 
+										</div>
 										</c:otherwise>
 									</c:choose>
 									
@@ -703,15 +703,14 @@
 					
 						</c:choose>
 						</div>
-					
 					</td>
 				    
 				</c:when>
-					
+									
 				<c:when test="${field.fieldType eq field.LOOKUP_HIDDEN || field.fieldType eq field.LOOKUP_READONLY}">
 			    
 					<kul:fieldDefaultLabel isLookup="${isLookup}" isRequired="${field.fieldRequired}" 
-						isReadOnly="${isFieldReadOnly}" cellWidth="${dataCellWidth}%" fieldType="${field.fieldType}" 
+						isReadOnly="${isFieldReadOnly}" cellWidth="${dataCellWidth}%" fieldName="${field.propertyName}" fieldType="${field.fieldType}" 
 						fieldLabel="${field.fieldLabel}" />
 								
 					<td class="grid" width="${dataCellWidth}%">
@@ -751,7 +750,7 @@
                     </c:if>
 					<th class="grid" colspan="4" align="${cellAlign}" >
 						<input type="image" 
-							name='${field.propertyName}.${Constants.METHOD_TO_CALL_PARM13_LEFT_DEL}${currentTabIndex}${Constants.METHOD_TO_CALL_PARM13_RIGHT_DEL}.anchor${anchorTabIndex}'
+							id='${field.propertyName}' name='${field.propertyName}.${Constants.METHOD_TO_CALL_PARM13_LEFT_DEL}${currentTabIndex}${Constants.METHOD_TO_CALL_PARM13_RIGHT_DEL}.anchor${anchorTabIndex}'
 							src='<c:out value="${fieldValue}"/>'/>
 						<kul:fieldShowIcons isReadOnly="${isFieldReadOnly}" field="${field}" addHighlighting="false"/>
 					</th>

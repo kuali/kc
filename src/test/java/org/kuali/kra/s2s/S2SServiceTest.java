@@ -208,7 +208,7 @@ public class S2SServiceTest extends KraTestBase implements S2SConstants{
         pd.setUpdateUser("quickst");
         pd.setUpdateTimestamp(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
         DocumentHeader docHeader = pd.getDocumentHeader();
-        docHeader.setFinancialDocumentDescription("Test s2s service description");
+        docHeader.setDocumentDescription("Test s2s service description");
         String docNumber = docHeader.getDocumentNumber();
         assertNotNull(docNumber);
         getService(BusinessObjectService.class).save(pd);

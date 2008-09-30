@@ -26,12 +26,13 @@ import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.config.spring.ConfigFactoryBean;
 import org.kuali.rice.lifecycle.Lifecycle;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestFile;
+import org.kuali.rice.test.lifecycles.TransactionalLifecycle;
 import org.kuali.rice.testharness.KNSTestCase;
-import org.kuali.rice.testharness.TransactionalLifecycle;
 
 @PerSuiteUnitTestData(
         @UnitTestData(
@@ -126,6 +127,10 @@ public abstract class KraTestBase extends KNSTestCase {
         GlobalVariables.setErrorMap(new ErrorMap());
         transactionalLifecycle = new TransactionalLifecycle();
         transactionalLifecycle.start();
+    }
+    
+    private void setTestConfigFilename(String configFileName) {
+        ConfigFactoryBean.CONFIG_OVERRIDE_LOCATION = configFileName;
     }
 
     @After

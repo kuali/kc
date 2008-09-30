@@ -35,7 +35,7 @@ import org.kuali.rice.test.data.PerTestUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestFile;
 import org.kuali.rice.test.data.UnitTestSql;
-import org.kuali.rice.testharness.TransactionalLifecycle;
+import org.kuali.rice.test.lifecycles.TransactionalLifecycle;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;

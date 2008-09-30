@@ -49,14 +49,14 @@
 	<param name="datasource.url">jdbc:oracle:thin:@esdbk02.uits.indiana.edu:1521:KUALI</param>
 	<param name="datasource.username">KRAUNT</param>
 	<param name="datasource.ojb.platform">Oracle9i</param>
-	<param name="datasource.platform">edu.iu.uis.eden.database.platform.OraclePlatform</param>
+	<param name="datasource.platform">org.kuali.rice.database.platform.OraclePlatform</param>
 	<param name="datasource.driver.name">oracle.jdbc.driver.OracleDriver</param>
 	<param name="datasource.pool.validationQuery">select 1 from dual</param>
 	<param name="datasource.pool.maxWait">30000</param>
 	<param name="datasource.pool.minSize">0</param>
 	<param name="datasource.pool.maxSize">50</param>
 	<param name="datasource.password">ask your team</param>
-	<param name="datasource.poolSize">5</param>
+	<param name="datasource.pool.size">5</param>
 	<param name="datasource.connectionTimeout">30000</param>
 
 	<param name="keystore.alias">onestartsharedservices-devandtst</param>

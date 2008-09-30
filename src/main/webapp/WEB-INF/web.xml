@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns="http://java.sun.com/xml/ns/j2ee" 
-              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4"
-     xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
-	<display-name>Rice Sample Application</display-name>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee   http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<display-name>KCRA Application</display-name>
 
 	<!-- ******************* CAS Context Parameters ********************* -->
 
@@ -75,7 +74,16 @@
 
     <!-- ******************* END CAS Context Parameters ********************* -->
 
-    <!--
+	<filter>
+        <filter-name>HideWebInfFilter</filter-name>
+        <filter-class>org.kuali.core.web.filter.HideWebInfFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>HideWebInfFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+	<!--
     <description>Invokes any filters defined by the user in the institutional plugin</description>
  -->
   <filter>
@@ -117,6 +125,22 @@
     <filter-name>UserLoginFilter</filter-name>
     <servlet-name>action</servlet-name>
   </filter-mapping>
+	
+	<filter-mapping>
+        <filter-name>UserLoginFilter</filter-name>
+        <servlet-name>notification</servlet-name>
+    </filter-mapping>
+    
+    <!-- for KCB Spring Web MVC pages -->
+    <filter-mapping>
+        <filter-name>BootstrapFilter</filter-name>
+        <servlet-name>kcb</servlet-name>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>UserLoginFilter</filter-name>
+        <servlet-name>kcb</servlet-name>
+    </filter-mapping>
+    
 
   <filter>
     <filter-name>ResponseOverrideFilter</filter-name>
@@ -242,6 +266,10 @@
 			<param-value>/kr/WEB-INF/struts-config.xml</param-value>
 		</init-param>
 		<init-param>
+          <param-name>config/ksb</param-name>
+          <param-value>/ksb/WEB-INF/struts-config.xml</param-value>
+        </init-param>
+		<init-param>
 			<param-name>debug</param-name>
 			<param-value>3</param-value>
 		</init-param>
@@ -251,6 +279,25 @@
 		</init-param>
 		<load-on-startup>0</load-on-startup>
 	</servlet>
+	
+	<!-- Notification system servlets -->
+    <!-- Notification System Spring MVC UI -->
+    <servlet>
+        <servlet-name>notification</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+          <param-name>contextConfigLocation</param-name>
+          <param-value>ken/WEB-INF/notification-servlet.xml</param-value>
+        </init-param>
+        <init-param>
+          <description>this init parameter is Ken's module prefix within the containing webapp, it is propagated as a
+                       property in the XmlApplicationContext
+          </description>
+          <param-name>prefix</param-name>
+          <param-value>/ken</param-value>
+        </init-param>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
 
 	<servlet>
   		<servlet-name>dwr-invoker</servlet-name>
@@ -264,6 +311,24 @@
      		<param-value>true</param-value>
   		</init-param>
 	</servlet>
+	
+	<!-- KCB servlets -->
+    <servlet>
+        <servlet-name>kcb</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+          <param-name>contextConfigLocation</param-name>
+          <param-value>kcb/WEB-INF/kcb-servlet.xml</param-value>
+        </init-param>
+        <init-param>
+          <description>this init parameter is KCB's module prefix within the containing webapp, it is propagated as a
+                       property in the XmlApplicationContext
+          </description>
+          <param-name>prefix</param-name>
+          <param-value>/kcb</param-value>
+        </init-param>
+        <load-on-startup>2</load-on-startup>
+	</servlet>
 
 	<servlet>
 		<servlet-name>remoting</servlet-name>
@@ -274,6 +339,11 @@
 	<servlet>
 		<servlet-name>export</servlet-name>
 		<servlet-class>edu.iu.uis.eden.export.web.ExportServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>exportsecurity</servlet-name>
+		<servlet-class>edu.iu.uis.eden.security.admin.ExportServlet</servlet-class>
 	</servlet>
 
 	<servlet>
@@ -303,6 +373,16 @@
 		<servlet-name>action</servlet-name>
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
+	
+	<servlet-mapping>
+        <servlet-name>notification</servlet-name>
+        <url-pattern>*.form</url-pattern>
+    </servlet-mapping>
+
+	<servlet-mapping>
+        <servlet-name>kcb</servlet-name>
+        <url-pattern>*.kcb</url-pattern>
+    </servlet-mapping>
 
 	<servlet-mapping>
   		<servlet-name>dwr-invoker</servlet-name>

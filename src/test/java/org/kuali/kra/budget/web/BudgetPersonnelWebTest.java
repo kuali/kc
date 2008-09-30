@@ -27,14 +27,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.kuali.rice.testharness.TransactionalLifecycle;
-
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.rice.test.data.PerTestUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestFile;
+import org.kuali.rice.test.lifecycles.TransactionalLifecycle;
 
 import org.w3c.dom.NodeList;
 

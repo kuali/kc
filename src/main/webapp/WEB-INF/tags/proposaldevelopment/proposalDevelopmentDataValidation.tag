@@ -20,9 +20,9 @@
 <kul:tabTop tabTitle="Data Validation" defaultOpen="${KualiForm.auditActivated}"  
             tabErrorKey="document.audit*,document.datavalidation*,document.noKey">
 	<div class="tab-container"  align="center">
-		<div class="h2-container"> 
-			<span class="subhead-left"> <h2>Data Validation</h2> </span>
-		</div>
+		<h3> 
+			<span class="subhead-left">Data Validation</span>
+		</h3>
 		<table cellpadding=0 cellspacing="0"  summary="">
 			<tr>
 				<td>

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
-import static org.kuali.RiceConstants.EMPTY_STRING;
+import static org.kuali.rice.kns.util.KNSConstants.EMPTY_STRING;
 import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE;
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
@@ -41,8 +41,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.RiceConstants;
-import org.kuali.RicePropertyConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.DocumentAuditEvent;
@@ -76,6 +74,8 @@ import org.kuali.kra.s2s.service.PrintService;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.web.struts.action.ProposalActionBase;
 import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -95,12 +95,12 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         String command = proposalDevelopmentForm.getCommand();
         
         if (IDocHandler.ACTIONLIST_INLINE_COMMAND.equals(command)) {
-             String docIdRequestParameter = request.getParameter(RiceConstants.PARAMETER_DOC_ID);
+             String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
              Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
              proposalDevelopmentForm.setDocument(retrievedDocument);
-             request.setAttribute(RiceConstants.PARAMETER_DOC_ID, docIdRequestParameter);
+             request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);
              forward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
-             forward = new ActionForward(forward.getPath()+ "?" + RiceConstants.PARAMETER_DOC_ID + "=" + docIdRequestParameter);  
+             forward = new ActionForward(forward.getPath()+ "?" + KNSConstants.PARAMETER_DOC_ID + "=" + docIdRequestParameter);  
         } else {
              forward = super.docHandler(mapping, form, request, response);
         }
@@ -132,25 +132,6 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
                 }
             }
 
-            assignSponsor(proposalDevelopmentForm);
-            
-            if (getKeyPersonnelService().hasPrincipalInvestigator(proposalDevelopmentForm.getProposalDevelopmentDocument())) {
-                boolean found = false;
-                
-                for(Iterator<ProposalPerson> person_it = proposalDevelopmentForm.getProposalDevelopmentDocument().getInvestigators().iterator();
-                    person_it.hasNext() && !found; ){
-                    ProposalPerson investigator = person_it.next();
-                    
-                    if (getKeyPersonnelService().isPrincipalInvestigator(investigator)) {
-                        found = true; // Will break out of the loop as soon as the PI is found
-                        proposalDevelopmentForm.setAdditionalDocInfo2(new KeyLabelPair("DataDictionary.KraAttributeReferenceDummy.attributes.principalInvestigator", investigator.getFullName()));
-                    }
-                }
-            }
-            else {
-                proposalDevelopmentForm.setAdditionalDocInfo2(new KeyLabelPair("DataDictionary.KraAttributeReferenceDummy.attributes.principalInvestigator", EMPTY_STRING));
-            }
-            
             //if(isPrincipalInvestigator){
             //}
             
@@ -171,23 +152,6 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
                 Collections.sort(document.getS2sOpportunity().getS2sOppForms(),new S2sOppFormsComparator1());
             }
          return actionForward;
-    }
-
-    /**
-     * Assigns the {@link Sponsor} name of the {@link ProposalDevelopmentDocument} instance contained in the given
-     * {@link ProposalDevelopmentForm}. If the {@link Sponsor} has not been set on the {@link ProposalDevelopmentDocument} (the {@link Sponsor} reference is <code>null</code>,)
-     * then the value on the form is simply an empty {@link String}
-     *
-     * @param form the {@link ProposalDevelopmentForm} instance to assign the {@link Sponsor} name to
-     */
-    private void assignSponsor(ProposalDevelopmentForm form) {
-        KeyLabelPair sponsorName = new KeyLabelPair("DataDictionary.Sponsor.attributes.sponsorName", "");
-
-        if (form.getProposalDevelopmentDocument().getSponsor() != null) {
-            sponsorName.setLabel(form.getProposalDevelopmentDocument().getSponsor().getSponsorName());
-        }
-        
-        form.setAdditionalDocInfo1(sponsorName);
     }
 
    /**
@@ -363,7 +327,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         for(Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:customAttributeDocuments.entrySet()) {
             CustomAttributeDocument customAttributeDocument = customAttributeDocumentEntry.getValue();
             Map<String, Object> primaryKeys = new HashMap<String, Object>();
-            primaryKeys.put(RicePropertyConstants.DOCUMENT_NUMBER, documentNumber);
+            primaryKeys.put(KNSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
             primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeDocument.getCustomAttributeId());
 
             CustomAttributeDocValue customAttributeDocValue = (CustomAttributeDocValue) KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);

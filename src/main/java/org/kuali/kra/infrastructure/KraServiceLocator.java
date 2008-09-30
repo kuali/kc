@@ -82,7 +82,7 @@ public class KraServiceLocator {
             service = (T) getAppContext().getBean(name);
         } catch (NoSuchBeanDefinitionException e) {
             // If we don't find this service locally, look for it in the KNS context
-            service = KNSServiceLocator.getBean(serviceClass, name);
+            service = KNSServiceLocator.getNervousSystemContextBean(serviceClass, name);
         }
         
         return service;

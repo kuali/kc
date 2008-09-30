@@ -7,6 +7,7 @@
     <form-beans >
         <!--  Rice Bean Definitions : This is a bean declared in Rice, but is needed throughout this config -->
         <form-bean name="KualiForm" type="org.kuali.core.web.struts.form.KualiForm" />
+		<form-bean name="KualiExceptionIncidentForm" type="org.kuali.core.web.struts.form.KualiExceptionIncidentForm" />
 		<form-bean name="ProposalDevelopmentForm" type="org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm" />
 		<form-bean name="BudgetForm" type="org.kuali.kra.budget.web.struts.form.BudgetForm" />
 		<form-bean name="DocHandlerForm" type="edu.iu.uis.eden.routing.web.DocHandlerForm" />
@@ -18,25 +19,32 @@
     <global-exceptions>
        	<!-- Begin required KNS exceptions -->
        	<exception type="java.lang.Exception" key="error.global.application" path="/exception.do" />
+        <!-- Begin required KNS exceptions -->
+        <!-- Moved to /kualiExceptionIncidentReport.do -->
+        <!--
         <exception type="org.kuali.core.exceptions.AuthorizationException" key="meaningless" path="/authorizationException.do" />
         <exception type="org.kuali.core.exceptions.DocumentInitiationAuthorizationException" key="meaningless" path="/initiationAuthorizationException.do" />
+        -->
         <exception type="org.kuali.core.exceptions.UnknownDocumentIdException" key="error.document.noLongerExistsInKuali" path="/kr/WEB-INF/jsp/Exception.jsp" />
         <exception type="org.kuali.core.exceptions.FileUploadLimitExceededException" key="error.document.attachmentMaximumFileSizeExceeded" path="/kr/WEB-INF/jsp/Exception.jsp" />
+       	<exception type="java.lang.Throwable" handler="org.kuali.core.web.struts.pojo.StrutsExceptionIncidentHandler" key="na"/>
        	<!-- End required KNS exceptions -->
     </global-exceptions>
 
     <global-forwards >
+        <forward name="copyProposal" path="/WEB-INF/jsp/proposaldevelopment/copyProposal.jsp" redirect="true" />
        	<!-- Begin required KNS forwards -->
-       	<forward name="copyProposal" path="/WEB-INF/jsp/proposaldevelopment/copyProposal.jsp" redirect="true" />
-        <forward name="save" path="/portal.jsp" redirect="true" />
+       	<forward name="save" path="/portal.jsp" redirect="true" />
         <forward name="cancel" path="/portal.jsp" redirect="true" />
         <forward name="close" path="/portal.jsp" redirect="true" />
         <forward name="portal" path="/portal.jsp" redirect="true" />
         <forward name="route_report" path="/kr/WEB-INF/jsp/RoutingReportForward.jsp"/>
         <forward name="error" path="/kr/WEB-INF/jsp/KualiError.jsp" />
-        <forward name="updateTextArea" path="/TextArea.jsp" />
-        <forward name="closePage" path="/EmptyClosePage.html" />
+        <forward name="exceptionIncidentHandler" path="/kualiExceptionIncidentReport.do" />
+        <forward name="updateTextArea" path="/kr/WEB-INF/jsp/TextArea.jsp" />
+        <forward name="kraUpdateTextArea" path="/TextArea.jsp" />
        	<!-- End required KNS forwards -->
+       	<forward name="closePage" path="/EmptyClosePage.html" />
     </global-forwards>
 
     <action-mappings>
@@ -46,6 +54,17 @@
         </action>
         <action path="/initiationAuthorizationException" name="KualiForm" type="org.kuali.core.web.struts.action.KualiDocumentInitiationAuthorizationExceptionAction">
             <forward name="basic" path="/kr/WEB-INF/jsp/authorizationException.jsp" />
+        </action>
+        <action path="/kualiExceptionIncidentReport"
+                name="KualiExceptionIncidentForm"
+                attribute="KualiForm"
+                type="org.kuali.core.web.struts.action.KualiExceptionHandlerAction">
+            <forward name="basic" path="/kr/WEB-INF/jsp/KualiExceptionIncident.jsp" />
+            <forward name="AuthorizationException" path="/authorizationException.do" />
+            <forward name="DocumentInitiationAuthorizationException" path="/initiationAuthorizationException.do" />
+        </action>        
+        <action path="/updateTextArea" name="KualiForm" type="org.kuali.core.web.struts.action.KualiDocumentActionBase">
+            <forward name="basic" path="/kr/WEB-INF/jsp/TextArea.jsp" />
         </action>
        	<!-- End required KNS mappings -->
 
@@ -82,8 +101,8 @@
       	  <forward name="permissionsEditRoles" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentPermissionsEditRoles.jsp" />
       	  <forward name="permissionsCloseEditRoles" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentPermissionsCloseEditRoles.jsp" />
       </action>
-
-        <action path="/updateTextArea" name="KualiForm" type="org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase">
+      
+		<action path="/kraUpdateTextArea" name="KualiForm" type="org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase">
             <forward name="basic" path="/TextArea.jsp" />
         </action>
         

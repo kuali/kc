@@ -1,11 +1,11 @@
 <%--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2005-2007 The Kuali Foundation.
  
- Licensed under the Educational Community License, Version 2.0 (the "License");
+ Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
  
- http://www.osedu.org/licenses/ECL-2.0
+ http://www.opensource.org/licenses/ecl1.php
  
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,16 +28,14 @@
 <%@ attribute name="referencesToRefresh" required="false" %>
 <%@ attribute name="autoSearch" required="false" %>
 
-<c:if test="${empty readOnly or readOnly != true}" > 
-	<c:choose>
-	  <c:when test="${!empty tabindexOverride}">
-	    <c:set var="tabindex" value="${tabindexOverride}"/>
-	  </c:when>
-	  <c:otherwise>
-	    <c:set var="tabindex" value="${KualiForm.nextArbitrarilyHighIndex}"/>
-	  </c:otherwise>
-	</c:choose>
-	
-	<input type="image" tabindex="${tabindex}" name="methodToCall.performLookup.(!!${boClassName}!!).(((${fieldConversions}))).((#${lookupParameters}#)).((<${hideReturnLink}>)).(([${extraButtonSource}])).((*${extraButtonParams}*)).((^${suppressActions}^)).((&${readOnlyFields}&)).((/${referencesToRefresh}/)).((~${autoSearch}~)).anchor${anchor}"
-	   src="${ConfigProperties.kr.externalizable.images.url}searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Search ${fieldLabel}" title="Search ${fieldLabel}" />
-</c:if>   
+<c:choose>
+  <c:when test="${!empty tabindexOverride}">
+    <c:set var="tabindex" value="${tabindexOverride}"/>
+  </c:when>
+  <c:otherwise>
+    <c:set var="tabindex" value="${KualiForm.nextArbitrarilyHighIndex}"/>
+  </c:otherwise>
+</c:choose>
+
+<input type="image" tabindex="${tabindex}" name="methodToCall.performLookup.(!!${boClassName}!!).(((${fieldConversions}))).((#${lookupParameters}#)).((<${hideReturnLink}>)).(([${extraButtonSource}])).((*${extraButtonParams}*)).((^${suppressActions}^)).((&${readOnlyFields}&)).((/${referencesToRefresh}/)).((~${autoSearch}~)).anchor${anchor}"
+   src="${ConfigProperties.kr.externalizable.images.url}searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Search ${fieldLabel}" title="Search ${fieldLabel}" />

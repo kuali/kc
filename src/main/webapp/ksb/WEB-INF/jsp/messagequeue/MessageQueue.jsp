@@ -72,7 +72,7 @@
   					Message ID:&nbsp;
   				</td>
   				<td class="datacell">
-						<html-el:text property="routeQueueId${rice_constant.ROUTE_QUEUE_FILTER_SUFFIX}" size="20"/>
+						<html-el:text property="routeQueueId${ksb_constant.ROUTE_QUEUE_FILTER_SUFFIX}" size="20"/>
 						&nbsp;
    				</td>
    			</tr>
@@ -81,7 +81,7 @@
    					Service Name:&nbsp;
   				</td>
   				<td class="datacell">
-   					<html-el:text property="serviceName${rice_constant.ROUTE_QUEUE_FILTER_SUFFIX}" />
+   					<html-el:text property="serviceName${ksb_constant.ROUTE_QUEUE_FILTER_SUFFIX}" />
    				</td>
    			</tr>
    			<tr>
@@ -89,7 +89,7 @@
    					Message Entity:&nbsp;
   				</td>
   				<td class="datacell">
-   					<html-el:text property="messageEntity${rice_constant.ROUTE_QUEUE_FILTER_SUFFIX}" />
+   					<html-el:text property="messageEntity${ksb_constant.ROUTE_QUEUE_FILTER_SUFFIX}" />
    				</td>
    			</tr>
    			<tr>
@@ -97,7 +97,7 @@
   					IP Number:&nbsp;
   				</td>
   				<td class="datacell">
-   					<html-el:text property="ipNumber${rice_constant.ROUTE_QUEUE_FILTER_SUFFIX}" size="20" maxlength="15" />
+   					<html-el:text property="ipNumber${ksb_constant.ROUTE_QUEUE_FILTER_SUFFIX}" size="20" maxlength="15" />
    					&nbsp;
    				</td>
    			</tr>
@@ -106,11 +106,11 @@
   					Queue Status:&nbsp;
   				</td>
   				<td class="datacell">
-						<html-el:select property="queueStatus${rice_constant.ROUTE_QUEUE_FILTER_SUFFIX}">
+						<html-el:select property="queueStatus${ksb_constant.ROUTE_QUEUE_FILTER_SUFFIX}">
 							<html-el:option value=""></html-el:option>
-							<html-el:option value="${rice_constant.ROUTE_QUEUE_QUEUED}"><c:out value="${rice_constant.ROUTE_QUEUE_QUEUED_LABEL}" /></html-el:option>
-							<html-el:option value="${rice_constant.ROUTE_QUEUE_ROUTING}"><c:out value="${rice_constant.ROUTE_QUEUE_ROUTING_LABEL}" /></html-el:option>
-							<html-el:option value="${rice_constant.ROUTE_QUEUE_EXCEPTION}"><c:out value="${rice_constant.ROUTE_QUEUE_EXCEPTION_LABEL}" /></html-el:option>
+							<html-el:option value="${ksb_constant.ROUTE_QUEUE_QUEUED}"><c:out value="${ksb_constant.ROUTE_QUEUE_QUEUED_LABEL}" /></html-el:option>
+							<html-el:option value="${ksb_constant.ROUTE_QUEUE_ROUTING}"><c:out value="${ksb_constant.ROUTE_QUEUE_ROUTING_LABEL}" /></html-el:option>
+							<html-el:option value="${ksb_constant.ROUTE_QUEUE_EXCEPTION}"><c:out value="${ksb_constant.ROUTE_QUEUE_EXCEPTION_LABEL}" /></html-el:option>
 						</html-el:select>
 						&nbsp;
    				</td>
@@ -120,7 +120,7 @@
   					App Specific Value 1:&nbsp;
   				</td>
   				<td class="datacell">
-						<html-el:text property="value1${rice_constant.ROUTE_QUEUE_FILTER_SUFFIX}" size="40"/>
+						<html-el:text property="value1${ksb_constant.ROUTE_QUEUE_FILTER_SUFFIX}" size="40"/>
 						&nbsp;
    				</td>
    			</tr>
@@ -129,7 +129,7 @@
   					App Specific Value 2:&nbsp;
   				</td>
   				<td class="datacell">
-						<html-el:text property="value2${rice_constant.ROUTE_QUEUE_FILTER_SUFFIX}" size="40"/>
+						<html-el:text property="value2${ksb_constant.ROUTE_QUEUE_FILTER_SUFFIX}" size="40"/>
 						&nbsp;
    				</td>
    			</tr>
@@ -199,14 +199,14 @@
 		    </display-el:column>
 		    <display-el:column style="text-align:center;vertical-align:middle;" class="datacell" sortable="true" title="<div style='text-align:center;vertical-align:top;'>Queue<br />Status</div>" >
 		    	<c:choose>
-			    	<c:when test="${result.queueStatus == rice_constant.ROUTE_QUEUE_QUEUED}">
-			    		<c:out value="${rice_constant.ROUTE_QUEUE_QUEUED_LABEL}" />&nbsp;
+			    	<c:when test="${result.queueStatus == ksb_constant.ROUTE_QUEUE_QUEUED}">
+			    		<c:out value="${ksb_constant.ROUTE_QUEUE_QUEUED_LABEL}" />&nbsp;
 			    	</c:when>
-			    	<c:when test="${result.queueStatus == rice_constant.ROUTE_QUEUE_ROUTING}">
-			    		<c:out value="${rice_constant.ROUTE_QUEUE_ROUTING_LABEL}" />&nbsp;
+			    	<c:when test="${result.queueStatus == ksb_constant.ROUTE_QUEUE_ROUTING}">
+			    		<c:out value="${ksb_constant.ROUTE_QUEUE_ROUTING_LABEL}" />&nbsp;
 			    	</c:when>
-			    	<c:when test="${result.queueStatus == rice_constant.ROUTE_QUEUE_EXCEPTION}">
-			    		<c:out value="${rice_constant.ROUTE_QUEUE_EXCEPTION_LABEL}" />&nbsp;
+			    	<c:when test="${result.queueStatus == ksb_constant.ROUTE_QUEUE_EXCEPTION}">
+			    		<c:out value="${ksb_constant.ROUTE_QUEUE_EXCEPTION_LABEL}" />&nbsp;
 			    	</c:when>
 			    	<c:otherwise>
 				    	<c:out value="${result.queueStatus}"/>&nbsp;

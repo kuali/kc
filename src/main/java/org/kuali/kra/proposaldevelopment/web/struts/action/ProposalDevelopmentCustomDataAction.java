@@ -28,7 +28,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.RiceConstants;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -89,7 +88,7 @@ public class ProposalDevelopmentCustomDataAction extends ProposalDevelopmentActi
 //            }
 //        }
 
-        return mapping.findForward(RiceConstants.MAPPING_BASIC);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     @Override

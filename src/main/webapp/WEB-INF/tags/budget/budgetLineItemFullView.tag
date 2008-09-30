@@ -56,10 +56,10 @@
 				        </tr>															
 			        </table>
 			        </div>
-			        <div class="h2-container">
- 						<span class="subhead-left"><h2>Rate Classes</h2></span>
+			        <h3>
+ 						<span class="subhead-left">Rate Classes</span>
  						<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.bo.BudgetLineItem" altText="help"/></span>
-     				</div>
+     				</h3>
      				<div>
      					<table cellpadding=0 cellspacing=0 summary="">
       						<tr>

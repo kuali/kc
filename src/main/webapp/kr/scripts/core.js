@@ -1,11 +1,11 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2007 The Kuali Foundation.
  * 
- * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
- * http://www.osedu.org/licenses/ECL-2.0
+ * http://www.opensource.org/licenses/ecl1.php
  * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -77,13 +77,10 @@ function hasFormAlreadyBeenSubmitted() {
        return true;
     }
     excludeSubmitRestriction = false;
-    } 
-    /* gmcgrego - commenting out 'cause it keeps happening when it's not supposed to
-    else {
+    } else {
 	       alert("Page has not finished loading.");
 	       return false;
-	}
-	*/
+	} 
 }
 
 function submitForm() {
@@ -179,6 +176,40 @@ function resizeTheRouteLogFrame() {
   baseUrl=url.substr(0,idx2)
   window.open(baseUrl+"/kr/directInquiry.do?"+queryString, "_blank", "width=640, height=600, scrollbars=yes");
 }
+ 
+function textAreaPop(textAreaName,
+                     htmlFormAction,
+                     textAreaLabel,
+                     docFormKey,
+                     sessionDocument) {
+  var documentWebScope
+  if (sessionDocument == "true") {
+      documentWebScope="session"
+  }
+  url=window.location.href
+  pathname=window.location.pathname
+  idx1=url.indexOf(pathname);
+  idx2=url.indexOf("/",idx1+1);
+  baseUrl=url.substr(0,idx2)
+  window.open(baseUrl+"/updateTextArea.do?&textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope);
+}
+
+var textAreaFieldName;
+function setTextArea() {
+  passData=document.location.search.substring(1);
+  var idx=passData.indexOf("&textAreaFieldName=");
+  var idx2=passData.indexOf("&htmlFormAction=");
+  textAreaFieldName=passData.substring(idx+19,idx2);
+  var ta = window.opener.document.getElementsByName(textAreaFieldName)[0];
+  text = ta.value;
+  document.getElementsByName(textAreaFieldName)[0].value = text;
+  
+}
+
+function postValueToParentWindow() {
+  opener.document.getElementsByName(textAreaFieldName)[0].value = document.getElementsByName(textAreaFieldName)[0].value;
+  self.close();
+}
 
 function showHide(showId,hideId){
   var style_sheet = getStyleObject(showId);
@@ -202,25 +233,24 @@ function changeObjectVisibility(objectId, newVisibility) {
     //
     if (styleObject) {
 		styleObject.display = newVisibility;
-		return true;
+	return true;
     } else {
-		return false;
-    }
+	return false;
+    } 
 }
 
 function getStyleObject(objectId) {
-	// checkW3C DOM, then MSIE 4, then NN 4.
-	//
-	if(document.getElementById && document.getElementById(objectId)) {
-		return document.getElementById(objectId).style;
-	}
-	else if (document.all && document.all(objectId)) {  
-		return document.all(objectId).style;
-	} 
-	else if (document.layers && document.layers[objectId]) { 
-		return document.layers[objectId];
-	} else {
-		return false;
-	} 
-} 
-
+  // checkW3C DOM, then MSIE 4, then NN 4.
+  //
+  if(document.getElementById && document.getElementById(objectId)) {
+	return document.getElementById(objectId).style;
+   }
+   else if (document.all && document.all(objectId)) {  
+	return document.all(objectId).style;
+   } 
+   else if (document.layers && document.layers[objectId]) { 
+	return document.layers[objectId];
+   } else {
+	return false;
+   }
+}

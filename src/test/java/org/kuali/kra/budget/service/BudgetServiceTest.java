@@ -20,7 +20,6 @@ import java.sql.Date;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.RiceConstants;
 import org.kuali.core.UserSession;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.KraTestBase;
@@ -29,7 +28,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
-import org.kuali.core.UserSession;
 import org.kuali.core.document.authorization.PessimisticLock;
 import org.kuali.rice.KNSServiceLocator;
 
@@ -74,11 +72,12 @@ public class BudgetServiceTest extends KraTestBase {
         BudgetDocument budgetDocument = budgetService.getNewBudgetVersion(pdDocument, testDocumentDescription);
         
         // Verify that status is final
-        assertEquals(RiceConstants.DocumentStatusCodes.APPROVED, budgetDocument.getDocumentHeader().getFinancialDocumentStatusCode());
+        assertTrue(budgetDocument.getDocumentHeader().getWorkflowDocument().stateIsApproved());
+        //assertEquals(KNSConstants.DocumentStatusCodes.APPROVED, budgetDocument.getDocumentHeader().getDocumentStatusCode());
         
         // Verify that fields were set properly
         assertEquals(budgetDocument.getProposalNumber(), testProposalNumber);
-        assertEquals(budgetDocument.getDocumentHeader().getFinancialDocumentDescription(), testDocumentDescription);
+        assertEquals(budgetDocument.getDocumentHeader().getDocumentDescription(), testDocumentDescription);
     }
     
     /**
@@ -97,12 +96,13 @@ public class BudgetServiceTest extends KraTestBase {
         
         BudgetDocument copyBudgetDocument = budgetService.copyBudgetVersion(budgetDocument);
         
-//      Verify that status is final
-        assertEquals(RiceConstants.DocumentStatusCodes.APPROVED, budgetDocument.getDocumentHeader().getDocumentStatus());
+//      //Verify that status is final
+        assertTrue(budgetDocument.getDocumentHeader().getWorkflowDocument().stateIsApproved());
+        //assertEquals(KNSConstants.DocumentStatusCodes.APPROVED, budgetDocument.getDocumentHeader().getDocumentStatus());
         
         // Verify that fields were set properly
         assertEquals(copyBudgetDocument.getProposalNumber(), testProposalNumber);
-        assertEquals(copyBudgetDocument.getDocumentHeader().getFinancialDocumentDescription(), testDocumentDescription);
+        assertEquals(copyBudgetDocument.getDocumentHeader().getDocumentDescription(), testDocumentDescription);
     }
     
     /**
@@ -116,7 +116,7 @@ public class BudgetServiceTest extends KraTestBase {
         ProposalDevelopmentDocument pdDocument = 
             (ProposalDevelopmentDocument) getDocumentService().getNewDocument(ProposalDevelopmentDocument.class);
         
-        pdDocument.getDocumentHeader().setFinancialDocumentDescription("Testing budget versions");
+        pdDocument.getDocumentHeader().setDocumentDescription("Testing budget versions");
         pdDocument.setActivityTypeCode("2");
         pdDocument.setOwnedByUnitNumber("IN-CARD");
         pdDocument.setProposalTypeCode("1");

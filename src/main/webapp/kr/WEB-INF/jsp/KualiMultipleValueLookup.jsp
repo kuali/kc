@@ -1,11 +1,11 @@
 <%--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2007 The Kuali Foundation.
  
- Licensed under the Educational Community License, Version 2.0 (the "License");
+ Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
  
- http://www.osedu.org/licenses/ECL-2.0
+ http://www.opensource.org/licenses/ecl1.php
  
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
@@ -50,6 +50,7 @@
 	<html-el:hidden name="KualiForm" property="viewedPageNumber" />
 	<html-el:hidden name="KualiForm" property="resultsActualSize" />
 	<html-el:hidden name="KualiForm" property="resultsLimitedSize" />
+	<html-el:hidden name="KualiForm" property="hasReturnableRow" />
 	
 	<kul:errors errorTitle="Errors found in Search Criteria:" />
 	<kul:messages/>
@@ -90,8 +91,9 @@
 							src='<c:out value="${KualiForm.extraButtonSource}" />'
 							class="tinybutton" border="0" /></a>
 					</c:if>
-						<input type="image" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_retnovalue.gif" class="tinybutton" name="methodToCall.prepareToReturnNone.x" alt="Return no results" title="Return no results"/>
+					<c:if test="${ KualiForm.hasReturnableRow }" >
 						<input type="image" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_retselected.gif" class="tinybutton" name="methodToCall.prepareToReturnSelectedResults.x" alt="Return selected results" title="Return selected results"/>
+					</c:if>
 					</td>
 				</tr>
 			</table>

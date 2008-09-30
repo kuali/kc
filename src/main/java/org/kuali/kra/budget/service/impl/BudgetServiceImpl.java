@@ -77,7 +77,7 @@ public class BudgetServiceImpl implements BudgetService {
         budgetDocument = (BudgetDocument) documentService.getNewDocument(BudgetDocument.class);
         budgetDocument.setProposalNumber(pdDoc.getProposalNumber());
         budgetDocument.setBudgetVersionNumber(budgetVersionNumber);
-        budgetDocument.getDocumentHeader().setFinancialDocumentDescription(documentDescription);
+        budgetDocument.getDocumentHeader().setDocumentDescription(documentDescription);
         budgetDocument.setStartDate(pdDoc.getRequestedStartDateInitial());
         budgetDocument.setEndDate(pdDoc.getRequestedEndDateInitial());
         budgetDocument.setOhRateTypeCode(kualiConfigurationService.getParameterValue(
@@ -159,8 +159,8 @@ public class BudgetServiceImpl implements BudgetService {
         Map<String, Object> keyMap = new HashMap<String, Object>();
         keyMap.put("documentNumber", budgetVersion.getDocumentNumber());
         DocumentHeader docHeader = (DocumentHeader) boService.findByPrimaryKey(DocumentHeader.class, keyMap);
-        if (!docHeader.getFinancialDocumentDescription().equals(budgetVersion.getDocumentDescription())) {
-            docHeader.setFinancialDocumentDescription(budgetVersion.getDocumentDescription());
+        if (!docHeader.getDocumentDescription().equals(budgetVersion.getDocumentDescription())) {
+            docHeader.setDocumentDescription(budgetVersion.getDocumentDescription());
             boService.save(docHeader);
         }
     }

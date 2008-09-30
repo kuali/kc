@@ -124,29 +124,6 @@
     <td>&nbsp;</td>
       <td>
 
-  <%-- Setup column lables based on ApplicationsResources --%>
-  <bean:define id="documentIdLabel">
- 	<bean-el:message key="docSearch.DocumentSearch.results.label.routeHeaderId"/>
-  </bean:define>
-  <bean:define id="typeLabel">
- 	<bean-el:message key="docSearch.DocumentSearch.results.label.docTypeLabel"/>
-  </bean:define>
-  <bean:define id="titleLabel">
- 	<bean-el:message key="docSearch.DocumentSearch.results.label.documentTitle"/>
-  </bean:define>
-  <bean:define id="routeStatusLabel">
- 	<bean-el:message key="docSearch.DocumentSearch.results.label.docRouteStatusCodeDesc"/>
-  </bean:define>
-  <bean:define id="initiatorLabel">
- 	<bean-el:message key="docSearch.DocumentSearch.results.label.initiator"/>
-  </bean:define>
-  <bean:define id="dateCreatedLabel">
- 	<bean-el:message key="docSearch.DocumentSearch.results.label.dateCreated"/>
-  </bean:define>
-  <bean:define id="routeLogLabel">
- 	<bean-el:message key="docSearch.DocumentSearch.results.label.routeLog"/>
-  </bean:define>
-
   <%--
   <display-el:table class="bord-r-t" style="width:100%" cellspacing="0" cellpadding="0" name="${reqSearchResults}" pagesize="100" defaultsort="1" sort="external" id="result" requestURI="Lookup.do?methodToCall=viewResults&listKey=${listKey}"
        decorator="edu.iu.uis.eden.lookupable.LookupDecorator" > --%>

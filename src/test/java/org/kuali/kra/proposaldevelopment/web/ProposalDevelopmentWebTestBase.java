@@ -278,7 +278,7 @@ public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
     protected void verifySavedRequiredFields(ProposalDevelopmentDocument doc, String activityType, String ownedByUnitNumber, String description, String sponsorCode, String title, String requestedStartDateInitial, String requestedEndDateInitial, String proposalTypeCode) throws WorkflowException {
         assertEquals(activityType, doc.getActivityTypeCode());
         assertEquals(ownedByUnitNumber, doc.getOwnedByUnitNumber());
-        assertEquals(description, doc.getDocumentHeader().getFinancialDocumentDescription());
+        assertEquals(description, doc.getDocumentHeader().getDocumentDescription());
         assertEquals(sponsorCode, doc.getSponsorCode());
         assertEquals(title, doc.getTitle());
         assertEquals(requestedStartDateInitial, doc.getRequestedStartDateInitial().toString());

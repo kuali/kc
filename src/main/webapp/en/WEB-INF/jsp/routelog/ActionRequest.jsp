@@ -121,7 +121,10 @@
 																		<c:param name="methodToCall" value="report" />
 																	</c:url>">
 																	<c:out value="${roleRequest.workgroup.groupNameId.nameId}" />
-																</a>&nbsp;(<c:out value="${actionRequest.qualifiedRoleNameLabel}" />)
+																</a>
+																<c:if test="${!empty actionRequest.qualifiedRoleNameLabel}">
+																  &nbsp;(<c:out value="${actionRequest.qualifiedRoleNameLabel}" />)
+																</c:if>
 																<c:if test="${!arStatus.last}"><br></c:if>
 										              	 </c:when>
     										             <c:otherwise>
@@ -135,7 +138,10 @@
 																		<c:param name="methodToCall" value="report" />
 																		<c:param name="showEdit" value="no" />
 																	</c:url>"><c:out value="${roleDisplayName}" />
-																</a>&nbsp;(<c:out value="${actionRequest.qualifiedRoleNameLabel}" />)
+																</a>
+																<c:if test="${!empty actionRequest.qualifiedRoleNameLabel}">
+																  &nbsp;(<c:out value="${actionRequest.qualifiedRoleNameLabel}" />)
+																</c:if>
 																<c:if test="${!arStatus.last}"><br></c:if>
 								                      	 </c:otherwise>
 								                      </c:choose>

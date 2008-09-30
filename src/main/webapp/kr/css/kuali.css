@@ -1,11 +1,11 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2006 The Kuali Foundation.
  * 
- * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
- * http://www.osedu.org/licenses/ECL-2.0
+ * http://www.opensource.org/licenses/ecl1.php
  * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -224,53 +224,12 @@ table.grid
 	border-right-width: 1px;
 }
 
-#workarea th.neutral
-{
-	background-color: #FFFFFF;
-	border-top-style: none;
-	border-right-style: none;
-	border-bottom-style: none;
-	border-left-style: none;
-	background-image: none;
-
-}
-#workarea td.neutral
-{
-	border-top-style: none;
-	border-right-style: none;
-	border-bottom-style: none;
-	border-left-style: none;
-
-}
-#workarea table.neutral
-{
-	border-top-style: none;
-	border-right-style: none;
-	border-bottom-style: none;
-	border-left-style: none;
-
-}
-
-
 #workarea th
 {
 	background-color: #999999;
 	background-image: url("../images/th-back.gif");
 	padding-right: 5px;
 	padding-left: 10px;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	border-left-width: 1px;
-	border-left-style: solid;
-	border-bottom-color: #999999;
-	border-left-color: #999999;
-}
-
-#workarea th.indent
-{
-	background-color: #999999;
-	background-image: url("../images/th-back.gif");
-	padding-left: 20px;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
 	border-left-width: 1px;
@@ -322,48 +281,21 @@ table.grid
 	border-left: 1px solid #999999;
 }
 
-#workarea td.tab-subhead1
-{
-	font-weight: bold;
-	background-color: #939393;
-	height: 18px;
-	text-align: left;
-	border-left: 1px solid #999999;
-	color: #FFFFFF;
-	padding-left: 10px;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	border-bottom-color: #B2B2B2;
-}
-
 #workarea td.tab-subhead-import
 {
-	font-weight: bold;
-	background-color: #C3C3C3;
-	padding: 2px;
-	height: 18px;
-	text-align: right;
-	border-top: 1px solid #999999;
-	border-right: 1px solid #999999;
-	border-bottom: 1px solid #999999;
+	background-color:#C3C3C3;
+	font-weight:bold;
+	height:18px;
+	padding:2px;
+	text-align:right;
 }
 
 #workarea table
 {
+	width: 100%;
 	border-right-width: 1px;
 	border-right-style: solid;
 	border-right-color: #999999;
-	width: 98%;
-}
-
-#workarea caption
-{
-	font-weight: bold;
-	color: #FFFFFF;
-	background-color: #666666;
-	text-align: left;
-	padding: 3px;
-	
 }
 
 #workarea table.tab
@@ -374,14 +306,11 @@ table.grid
 
 #workarea td.subhead
 {
-	font-weight: bold;
-	background-color: #6b6b6b;
-	padding: 2px 6px;
-	height: 18px;
-	color: #FFFFFF;
-	border-top: 1px solid #999999;
-	border-bottom: 1px solid #999999;
-	border-left: 1px solid #999999;
+	background-color:#6B6B6B;
+	color:#FFFFFF;
+	font-weight:bold;
+	height:18px;
+	padding:2px 6px; 
 }
 
 #globalactions div { text-align: center; }
@@ -444,17 +373,17 @@ a.fineprint:hover
 
 #workarea td.tabtable1-left-colspan 
 { 
-	background-image: url("../images/tab-back.gif"); 
-	background-position: right; 
-	font-weight: bold; 
-	color: #666666; 
-	height: 29px; 
-	white-space: nowrap; 
-	text-align: left; 
-	border: none; 
-	margin: 0px; 
-	padding: 0px; 
-	width: 50%; 
+background-image: url("../images/tab-back.gif"); 
+background-position: right; 
+font-weight: bold; 
+color: #666666; 
+height: 29px; 
+white-space: nowrap; 
+text-align: left; 
+border: none; 
+margin: 0px; 
+padding: 0px; 
+width: 50%; 
 } 
 
 #workarea td.infoline
@@ -485,20 +414,19 @@ a.fineprint:hover
 }
 
 #workarea td.tabtable1-mid1
-{ 
-	background-image: url("../images/tab-back.gif"); 
-	background-position: right; 
-	text-align: left; 
-	height: 29px; 
-	white-space: nowrap; 
-	vertical-align: middle; 
-	margin: 0px; 
-	padding: 0px; 
-	border: none; 
-	width: 20%; 
-	color: #666666; 
+{
+	background-image: url("../images/tab-back.gif");
+	background-position: right;
+	text-align: left;
+	height: 29px;
+	white-space: nowrap;
+	vertical-align: middle;
+	margin: 0px;
+	padding: 0px;
+	border: none;
+	width: 20%;
+	color: #666666;
 }
-  
 
 #workarea td.tabtable1-right
 {
@@ -597,30 +525,26 @@ img.helpicon
 	color: #626262;
 }
 
-
-
-#workarea div.h2-container
-{
-	background-color: #6b6b6b;
-	height: 18px;
-	text-align: left;
-	margin: 0px;
-	width: 98%;
-	border-top: 1px solid #666666;
-	border-bottom: 1px solid #666666;
-}
-
 #workarea h2
 {
-	font-weight: bold;
-	color: #FFFFFF;
+	display:inline; 
+	color: #666666; 
+	padding-left:0px;
 	font-size: 100%;
-	text-align: left;
-	padding-top: 1px;
-	padding-right: 0px;
-	padding-bottom: 0px;
-	padding-left: 5px;
-	margin: 0px;
+}
+
+#workarea div.tab-container h3
+{
+	background-color:#6B6B6B;
+	border-bottom:1px solid #666666;
+	border-top:1px solid #666666;
+	color:#FFFFFF;
+	font-size:100%;
+	font-weight:bold;
+	height:18px;
+	margin:0px;
+	padding:2px 0px 0px 6px;
+	text-align:left;
 }
 
 #workarea div.pretable
@@ -633,56 +557,13 @@ img.helpicon
 
 #workarea div.tab-container
 {
-	background-color: #e4e4e4;
-	border-left-width: 1px;
-	border-left-style: solid;
-	border-left-color: #666666;
-	background-image: url("../images/tab-sideright1.gif");
-	background-repeat: repeat-y;
-	background-position: right;
-	width: 100%;
-	padding-top: 10px;
-	padding-bottom: 10px;
-}
-
-#workarea div.tab-message-container
-{
-	background-color: #e4e4e4;
-	border-left-width: 1px;
-	border-left-style: solid;
-	border-left-color: #666666;
-	background-image: url("../images/tab-sideright1.gif");
-	background-repeat: repeat-y;
-	background-position: right;
-	width: 98%;
-	padding-top: 10px;
-	padding-bottom: 10px;
-}
-
-#workarea div.tab-info-container
-{
-	background-color: #e4e4e4;
-	border-left-width: 1px;
-	border-left-style: solid;
-	border-left-color: #666666;
-	background-image: url("../images/tab-sideright1.gif");
-	background-repeat: repeat-y;
-	background-position: right;
-	width: 100%;
-	padding-top: 10px;
-	padding-bottom: 10px;
-}
-
-#workarea div.h2-tab-container
-{
-	border-top: 1px solid #666666;
-	background-color: #999999;
-	height: 12px;
-	text-align: left;
-	margin: 0px;
-	width: 98%;
-	border-top: 1px solid #666666;
-	border-bottom: 1px solid #666666;
+	background-color:#E4E4E4;
+	background-image:url(../images/tab-sideright1.gif);
+	background-position:right center;
+	background-repeat:repeat-y;
+	border-left:1px solid #666666;
+	margin:0px -1px 0px 0px;
+	padding:10px;
 }
 
 #workarea div.tab-container-error
@@ -772,6 +653,45 @@ div.msg-excol
 
 div.excol { padding-right: 22px; }
 
+.horz-links-bkgrnd
+{
+	width: 100%;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #999999;
+	margin-bottom: 30px;
+	height: 19px;
+	white-space: nowrap;
+	background-color: #E6E6E6;
+}
+
+#horz-links input
+{
+	height: 19px;
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-right-color: #999999;
+	border-top-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	background-image: url(../images/th-back1.gif);
+	background-position: bottom;
+	vertical-align: text-top;
+}
+
+#horz-links input:hover
+{
+	color: #FFFFFF;
+	background-image: url(../images/navhover.gif);
+	background-position: top;
+}
+
+#horz-links input.selected
+{
+	color: #FFFFFF;
+	background-image: url(../images/navhover.gif);
+	background-position: top;
+}
 
 .headerarea
 {

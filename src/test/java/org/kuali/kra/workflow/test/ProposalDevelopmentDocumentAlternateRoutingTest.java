@@ -82,7 +82,7 @@ public class ProposalDevelopmentDocumentAlternateRoutingTest extends KraTestBase
         FileUtils.deleteDirectory(xmlBackupDir);
         GlobalVariables.setErrorMap(new ErrorMap());
         stopLifecycles(this.perTestLifeCycles);
-        afterRun();
+        logAfterRun();
     }
     
     @Test
@@ -93,7 +93,7 @@ public class ProposalDevelopmentDocumentAlternateRoutingTest extends KraTestBase
         Date requestedStartDateInitial = new Date(System.currentTimeMillis());
         Date requestedEndDateInitial = new Date(System.currentTimeMillis());
 
-        document.getDocumentHeader().setFinancialDocumentDescription("TestAltRoutingPath-1");
+        document.getDocumentHeader().setDocumentDescription("TestAltRoutingPath-1");
         document.setSponsorCode("005770");
         document.setTitle("AltRoutingPath");
         document.setRequestedStartDateInitial(requestedStartDateInitial);

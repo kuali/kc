@@ -20,10 +20,10 @@
 <div id="workarea">
 <kul:tab tabTitle="Budget Personnel" defaultOpen="true" transparentBackground="true" tabErrorKey="document.budgetPerson*" auditCluster="budgetPersonnelAuditWarnings" tabAuditKey="document.budgetPerson*" useRiceAuditMode="true" alwaysOpen="true">
 	<div class="tab-container" align="center">
-    	<div class="h2-container">
-    		<span class="subhead-left"><h2>Budget Personnel</h2></span>
+    	<h3>
+    		<span class="subhead-left">Budget Personnel</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.bo.BudgetPerson" altText="help"/></span>
-        </div>
+        </h3>
         <table id="budget-personnel-table" cellpadding=0 cellspacing="0" summary="">
         	<tr>
 	        	<th>&nbsp;</th>

@@ -22,10 +22,10 @@
          tabErrorKey="document.proposalPermissionUser*,newProposalUser*">
          
 	<div class="tab-container" align="center">
-    	<div class="h2-container">
-    		<span class="subhead-left"><h2>Users</h2></span>
+    	<h3>
+    		<span class="subhead-left">Users</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.ProposalUser" altText="help"/></span>
-        </div>
+        </h3>
         
         <table id="user-roles" cellpadding="0" cellspacing="0" summary="">
         <tbody>
@@ -62,9 +62,9 @@
 	                	            anchor="${tabKey}" />                        
 					</td>
 					
-					<td id="fullname" align="left" valign="middle" />
-					<td />
-					<td />
+					<td id="fullname" align="left" valign="middle">&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
 					
 	                <td align="left" valign="middle">
 	                	<kul:htmlControlAttribute property="newProposalUser.roleName" 
@@ -76,7 +76,7 @@
 							<html:image property="methodToCall.addProposalUser.anchor${tabKey}"
 								        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
 						</div>
-		               </td>
+		            </td>
 	            </tr>
             </kra:section>
             

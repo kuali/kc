@@ -38,10 +38,10 @@
     	&nbsp;&nbsp;&nbsp;The Period Cost Limit has been exceeded.<br/><br/>
     	</div>    	
     </c:if>
-   	<div class="h2-container">
-   		<span class="subhead-left"><h2>Budget Overview (Period ${budgetPeriod})</h2></span>
+   	<h3>
+   		<span class="subhead-left">Budget Overview (Period ${budgetPeriod})</span>
 	   	<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.bo.BudgetPeriod" altText="help"/></span>
-    </div>
+    </h3>
     <table cellpadding=0 cellspacing=0 summary="">
 	    	<tr>
 	    		<th width="25%"><div align="right"><a title="[Help] Start Date" target="helpWindow" tabindex="32767" href="${ConfigProperties.kr.url}/help.do?methodToCall=getAttributeHelpText&businessObjectClassName=org.kuali.kra.budget.bo.BudgetPeriod&attributeName=startDate">Period ${budgetPeriod} Start Date</a></div></th>

@@ -22,22 +22,22 @@
 
 <kul:tab tabTitle="Combined Credit Split" defaultOpen="true" tabDescription=" " tabErrorKey="document.creditSplit" auditCluster="keyPersonnelAuditErrors" tabAuditKey="document.creditSplit" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
-    	<div class="h2-container">
-    		<span class="subhead-left"><h2>Combined Credit Split</h2></span>
+    	<h3>
+    		<span class="subhead-left">Combined Credit Split</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType" altText="help"/></span>
-        </div>
+        </h3>
 
         <table cellpadding="0" cellspacing="0" summary="">
               <tr>
-                <th width="${columnWidth}"></th>
+                <th width="${columnWidth}">&nbsp;</th>
 				<c:forEach items="${KualiForm.document.investigatorCreditTypes}" var="invType" >
                 	<th width="${columnWidth}">${invType.description}</th>
-				 </c:forEach>
+				</c:forEach>
               </tr>
 			<c:forEach items="${KualiForm.document.investigators}" var="investigator" varStatus="invStatus">
   			<c:set var="investigatorProperty" value="document.investigator[${invStatus.index}]" />
               <tr>
-                <td nowrap class="tab-subhead1"><strong>
+                <td nowrap class="tab-subhead"><strong>
                   <kul:htmlControlAttribute property="${investigatorProperty}.fullName" 
                                       attributeEntry="${proposalPersonAttributes.fullName}" readOnly="true" />
                   </strong></td>
@@ -47,7 +47,7 @@
       <c:forEach items="${investigator.creditSplits}" var="personcreditsplit" varStatus="splitStatus" >
           <c:set var="personCreditSplit" value="${investigatorProperty}.creditSplit[${splitStatus.index}]" />
                <c:if test="${personcreditsplit.invCreditTypeCode == invType.invCreditTypeCode}">
-                   <td class="tab-subhead1"><div align="right"><strong>
+                   <td class="tab-subhead"><div align="right"><strong>
                           <kul:htmlControlAttribute property="${personCreditSplit}.credit" 
                            attributeEntry="${personCreditSplitAttributes.credit}" styleClass="align-right" /> </c:if></strong></div></td>
                                          
@@ -85,7 +85,7 @@
   </c:if>
 </c:forEach>
               <tr>
-                <td colspan="${columnWidth}" nowrap class="tab-subhead1" >Totals</td>
+                <td colspan="${columnWidth}" nowrap class="tab-subhead" >Totals</td>
               </tr>
               <tr>
                 <td nowrap class="infoline"><strong>Investigator Total:

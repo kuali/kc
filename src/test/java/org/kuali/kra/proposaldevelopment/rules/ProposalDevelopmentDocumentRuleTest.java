@@ -183,7 +183,7 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
      * @param ownedByUnit String owned by unit
      */
     private void setRequiredDocumentFields(ProposalDevelopmentDocument document, String description, String sponsorCode, String title, Date requestedStartDateInitial, Date requestedEndDateInitial, String activityTypeCode, String proposalTypeCode, String ownedByUnit) {
-        document.getDocumentHeader().setFinancialDocumentDescription(description);
+        document.getDocumentHeader().setDocumentDescription(description);
         document.setSponsorCode(sponsorCode);
         document.setTitle(title);
         document.setRequestedStartDateInitial(requestedStartDateInitial);

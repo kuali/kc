@@ -19,9 +19,9 @@
 
 <kul:tabTop defaultOpen="true" tabTitle="Roles" tabErrorKey="proposalUserEditRole*">
 	<div class="tab-container" align="center">
-		<div class="h2-container">
-    		<span class="subhead-left"><h2>Roles</h2></span>
-        </div>	
+		<h3>
+    		<span class="subhead-left">Roles</span>
+        </h3>	
         <table id="edit-roles-table" cellpadding="0" cellspacing="0" summary="">
              
             <c:forEach var="roleState" items="${KualiForm.proposalUserEditRoles.roleStates}" varStatus="status">

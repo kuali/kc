@@ -19,9 +19,9 @@
             tabErrorKey="document.fillme*">
          
 	<div class="tab-container" align="center">
-    	<div class="h2-container">
-    		<span class="subhead-left"><h2>Print Forms</h2></span>
-        </div>
+    	<h3>
+    		<span class="subhead-left">Print Forms</span>
+        </h3>
 	<kra-pd:proposalDevelopmentActionsPrintForms />
 	<kra-pd:printProposalSponsorForms /> 
 	

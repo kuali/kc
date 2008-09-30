@@ -24,10 +24,10 @@ import org.kuali.core.util.spring.NamedOrderedListBean;
 import org.kuali.core.web.servlet.KualiDWRServlet;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.util.ClassLoaderUtils;
 import org.springframework.core.io.DefaultResourceLoader;
 
 import uk.ltd.getahead.dwr.Configuration;
-import edu.iu.uis.eden.util.ClassLoaderUtils;
 
 public class KraDWRServlet extends KualiDWRServlet {
 

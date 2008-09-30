@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RicePropertyConstants;
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
@@ -31,6 +30,7 @@ import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.CustomAttributeService;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
 
 import edu.iu.uis.eden.clientapp.WorkflowDocument;
 import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
@@ -51,7 +51,7 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
         Map<String, CustomAttributeDocument> customAttributeDocuments = new HashMap<String, CustomAttributeDocument>();
 
         Map<String, String> queryMap = new HashMap<String, String>();
-        queryMap.put(RicePropertyConstants.DOCUMENT_TYPE_CODE, documentTypeCode);
+        queryMap.put(KNSPropertyConstants.DOCUMENT_TYPE_CODE, documentTypeCode);
         // still display the inactive in old doc
         //queryMap.put(RicePropertyConstants.ACTIVE, "Y");
 
@@ -59,7 +59,7 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
 
         for(CustomAttributeDocument customAttributeDocument:customAttributeDocumentList) {
             Map<String, Object> primaryKeys = new HashMap<String, Object>();
-            primaryKeys.put(RicePropertyConstants.DOCUMENT_NUMBER, documentNumber);
+            primaryKeys.put(KNSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
             primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeDocument.getCustomAttributeId());
 
             CustomAttributeDocValue customAttributeDocValue = (CustomAttributeDocValue) getBusinessObjectService().findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
@@ -93,7 +93,7 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
 
                 Map<String, Object> primaryKeys = new HashMap<String, Object>();
                 primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeId);
-                primaryKeys.put(RicePropertyConstants.DOCUMENT_NUMBER, documentNumber);
+                primaryKeys.put(KNSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
                 CustomAttributeDocValue customAttributeDocValue = (CustomAttributeDocValue) businessObjectService.findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
 
                 if (customAttributeDocValue == null) {

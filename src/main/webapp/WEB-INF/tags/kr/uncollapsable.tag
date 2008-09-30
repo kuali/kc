@@ -79,12 +79,11 @@
           <div class="tab-container-error"><div class="left-errmsg-tab"><kul:errors keyMatch="${tabErrorKey}"/></div></div>
         </c:if>
         
-        <%-- comment for reference by KRA devs during KNS extraction 
+        <%-- comment for reference by KRA devs during KNS extraction
         <c:if test="${! (empty tabAuditKey)}">
         	<div class="tab-container-error"><div class="left-errmsg-tab"><kra:auditErrors cluster="${auditCluster}" keyMatch="${tabAuditKey}" isLink="false" includesTitle="true"/></div></div>
       	</c:if>
       	--%>
-      	
       	
       	<c:if test="${! (empty tabAuditKey)}">
         	<div class="tab-container-error"><div class="left-errmsg-tab">

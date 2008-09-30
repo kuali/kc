@@ -19,27 +19,27 @@
 <html>
 
 <%
-	String textAreaFieldLabel = null;
+	String kraTextAreaFieldLabel = null;
 	if (request.getParameter(Constants.TEXT_AREA_FIELD_LABEL) == null
 			|| request.getParameter(Constants.TEXT_AREA_FIELD_LABEL).trim().equals("")) {
-		textAreaFieldLabel = (String) request.getAttribute(Constants.TEXT_AREA_FIELD_LABEL);
+		kraTextAreaFieldLabel = (String) request.getAttribute(Constants.TEXT_AREA_FIELD_LABEL);
 	} else {
-		textAreaFieldLabel = request.getParameter(Constants.TEXT_AREA_FIELD_LABEL);
+		kraTextAreaFieldLabel = request.getParameter(Constants.TEXT_AREA_FIELD_LABEL);
 	}
 
 %>
 
 <link href="kr/css/kuali.css" rel="stylesheet" type="text/css" />
 <script language="javascript" src="scripts/kuali_application.js"></script>
-<body onload="setTextArea()">
+<body onload="kraSetTextArea()">
 <div class="headerarea" id="headerarea-small">
-<h1><%=textAreaFieldLabel%></h1>
+<h1><%=kraTextAreaFieldLabel%></h1>
 </div>
 
 <c:set var="kraAttributeReferenceDummyAttributes"
 	value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
-<c:if test="${empty textAreaFieldName}">
-	<c:set var="textAreaFieldName"
+<c:if test="${empty kraTextAreaFieldName}">
+	<c:set var="kraTextAreaFieldName"
 		value="<%=request.getParameter("textAreaFieldName")%>" />
 </c:if>
 <c:if test="${empty htmlFormAction}">
@@ -52,7 +52,7 @@
 	onsubmit="return hasFormAlreadyBeenSubmitted();">
 	<table align="center">
 		<tr>
-			<td><kul:htmlControlAttribute property="${textAreaFieldName}"
+			<td><kul:htmlControlAttribute property="${kraTextAreaFieldName}"
 				attributeEntry="${kraAttributeReferenceDummyAttributes.bigDescription}" />
 
 			</td>
@@ -61,8 +61,8 @@
 		<tr>
 			<td>
 			<div id="globalbuttons" class="globalbuttons"><input
-				type="image" name="methodToCall.postTextAreaToParent.anchor${textAreaFieldAnchor}"
-				onclick='javascript:postValueToParentWindow();return false'
+				type="image" name="methodToCall.kraPostTextAreaToParent.anchor${textAreaFieldAnchor}"
+				onclick='javascript:kraPostValueToParentWindow();return false'
 				src="${ConfigProperties.kra.externalizable.images.url}buttonsmall_return.gif"
 				class="globalbuttons" title="return" alt="return"></div>
 			</td>

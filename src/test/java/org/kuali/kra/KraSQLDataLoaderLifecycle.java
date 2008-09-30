@@ -20,10 +20,9 @@ import java.io.File;
 import org.kuali.rice.core.Core;
 import org.kuali.rice.lifecycle.Lifecycle;
 import org.kuali.rice.test.SQLDataLoader;
+import org.kuali.rice.util.ClassLoaderUtils;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
-
-import edu.iu.uis.eden.util.ClassLoaderUtils;
 
 public class KraSQLDataLoaderLifecycle implements Lifecycle {
     private boolean started;

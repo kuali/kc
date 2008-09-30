@@ -26,7 +26,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.EncryptionService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.kra.bo.Person;
@@ -35,6 +34,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.PersonService;
 import org.kuali.kra.web.struts.form.ChangePasswordForm;
+import org.kuali.rice.core.service.EncryptionService;
 
 /**
  * The Change Password Action handles the changing of a user's password.  As is standard
