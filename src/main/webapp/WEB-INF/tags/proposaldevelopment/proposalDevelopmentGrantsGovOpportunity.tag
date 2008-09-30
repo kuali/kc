@@ -9,7 +9,7 @@
     <div class="innerTab-container" align="left">
         <table cellpadding=0 cellspacing=0 summary="">
         <tr>
-            <td>
+            <td style="padding:0px">
                 <table class="tab" cellpadding=0 cellspacing="0" summary=""> 
                 <tbody id="G1">    
                    <tr>
