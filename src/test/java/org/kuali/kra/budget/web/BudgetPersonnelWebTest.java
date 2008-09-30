@@ -117,7 +117,7 @@ public class BudgetPersonnelWebTest extends BudgetWebTestBase {
     private void assignBudgetPersonnel() throws Exception {
         navigateToBudgetPersonnel();
         currentBudgetPage = multiLookup(currentBudgetPage, "org.kuali.kra.bo.Person", "personId", "000000003");
-        setFieldValue(currentBudgetPage,"document.budgetPerson[0].jobCode", "AA004");
+        setFieldValue(currentBudgetPage,"document.budgetPersons[0].jobCode", "AA004");
         setFieldValue(currentBudgetPage,"document.budgetPerson[0].appointmentTypeCode", "1");
         setFieldValue(currentBudgetPage,"document.budgetPerson[0].calculationBase", "100");
     }
