@@ -42,6 +42,11 @@ public class ProposalDevelopmentProposalSpecialReviewRule  extends ResearchDocum
         boolean rulePassed = true;
         String errorPath = NEW_PROPOSAL_SPECIAL_REVIEW;
         String[] dateParams = {"Approval Date","Application Date"};
+        
+        if (StringUtils.isBlank(proposalSpecialReview.getProtocolNumber())) {
+            rulePassed = false;
+            reportError(errorPath+".protocolNumber", KeyConstants.ERROR_REQUIRED_FOR_VALID_SPECIALREVIEW, "Protocol Number");
+        }
 
         if(StringUtils.isBlank(proposalSpecialReview.getApprovalTypeCode())){
             rulePassed = false;
