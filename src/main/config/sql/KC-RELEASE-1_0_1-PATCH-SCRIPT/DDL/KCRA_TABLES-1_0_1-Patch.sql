@@ -97,3 +97,10 @@ open cur_generic for li_select_clause;
 END;
 /
  
+-- Restrict the Person table to a username of 10 characters.
+
+ALTER TABLE 
+   Person 
+MODIFY 
+   ( 
+   user_name varchar2(10) not null);
