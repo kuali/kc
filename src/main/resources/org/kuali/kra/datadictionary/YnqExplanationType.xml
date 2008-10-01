@@ -1,91 +1,91 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="YnqExplanationType" parent="YnqExplanationType-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="YnqExplanationType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.YnqExplanationType" />
+    <property name="lookupDefinition" >
+      <ref bean="YnqExplanationType-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="explanationType" />
+    <property name="attributes" >
+      <list>
+        <ref bean="YnqExplanationType-explanationType" />
+        <ref bean="YnqExplanationType-description" />
+        <ref bean="YnqExplanationType-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.bo.YnqExplanationType">
+<!-- Attribute Definitions -->
 
-			<!--  
-        <inquiry>
-            <title>Ynq Explanation Type</title>
 
-            <inquirySections><inquirySection title="Ynq Explanation Type"><inquiryFields>
-            	<field attributeName="explanationType"/>
-				<field attributeName="description"/>
+  <bean id="YnqExplanationType-explanationType" parent="YnqExplanationType-explanationType-parentBean" />
 
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
-            -->
+  <bean id="YnqExplanationType-explanationType-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="explanationType" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Explanation Type" />
+    <property name="shortLabel" value="Explanation Type" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="Explanation Type" />
+    <property name="description" value="Explanation Type" />
+  </bean>
+  <bean id="YnqExplanationType-description" parent="YnqExplanationType-description-parentBean" />
 
-        <lookup>
-            <title>Ynq Explanation Type Lookup</title>
-			<menubar>
-				<![CDATA[<a href="index.jsp">Main</a>]]>
-			</menubar>
-            <instructions>Look up a Ynq Explanation Type</instructions>
+  <bean id="YnqExplanationType-description-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="description" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="200" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="Description" />
+    <property name="description" value="Description" />
+  </bean>
+  <bean id="YnqExplanationType-versionNumber" parent="YnqExplanationType-versionNumber-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                	<sortAttribute attributeName="explanationType"/>
+  <bean id="YnqExplanationType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                </sortAttributes>
-            </defaultSort>
+<!-- Business Object Lookup Definition -->
 
-            <lookupFields>
-            	<lookupField attributeName="explanationType" required="false"/>
-				<lookupField attributeName="description" required="false"/>
 
-            </lookupFields>
+  <bean id="YnqExplanationType-lookupDefinition" parent="YnqExplanationType-lookupDefinition-parentBean" />
 
-            <resultFields>
-            	<field attributeName="explanationType" forceInquiry="true"/>
-				<field attributeName="description" forceInquiry="false"/>
-
-            </resultFields>
-        </lookup>
-
-        <titleAttribute>explanationType</titleAttribute>
-        <attributes>
-
-	        <attribute name="explanationType">
-			<label>Explanation Type </label>
-			<shortLabel>Explanation Type </shortLabel>
-			<maxLength>1</maxLength>
-			<control>
-				<hidden />
-			</control>
-			<summary>Explanation Type </summary>
-			<description>Explanation Type </description>
-			</attribute>
-
-			<attribute name="description">
-			<label>Description</label>
-			<shortLabel>Description </shortLabel>
-			<maxLength>200</maxLength>
-			<control>
-				<hidden />
-			</control>
-			<summary>Description </summary>
-			<description>Description </description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-		</attributes>
-    </businessObject>
-
-</dictionaryEntry>
+  <bean id="YnqExplanationType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Ynq Explanation Type Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Ynq Explanation Type" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="explanationType" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="explanationType"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+  </bean>
+</beans>

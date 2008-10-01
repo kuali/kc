@@ -1,112 +1,165 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="ProposalAbstract" parent="ProposalAbstract-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="ProposalAbstract-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalAbstract" />
+    <property name="inquiryDefinition" >
+      <ref bean="ProposalAbstract-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ProposalAbstract-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="abstractTypeCode" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KRA-PD"
+            p:parameterName="proposalDevelopmentAbstractHelpUrl"
+            p:parameterDetailType="D" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="ProposalAbstract-proposalNumber" />
+        <ref bean="ProposalAbstract-abstractTypeCode" />
+        <ref bean="ProposalAbstract-abstractDetails" />
+        <ref bean="ProposalAbstract-updateUser" />
+        <ref bean="ProposalAbstract-updateTimestamp" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalAbstract">
+<!-- Attribute Definitions -->
 
-        <inquiry>
-            <title>Proposal Abstract</title>
 
-            <inquirySections><inquirySection title="Proposal Abstract"><inquiryFields>
-            	<field attributeName="proposalNumber" forceInquiry="true"/>
-            	<field attributeName="abstractTypeCode" forceInquiry="true"/>
-            	<field attributeName="abstractDetails"/>
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="ProposalAbstract-proposalNumber" parent="ProposalAbstract-proposalNumber-parentBean" />
 
-        <lookup>
-            <title>Proposal Abstract Lookup</title>
-			<menubar>
-				<![CDATA[<a href="index.jsp">Main</a>]]>
-			</menubar>
-            <instructions>Look up a Proposal Abstract</instructions>
+  <bean id="ProposalAbstract-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="proposalNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Proposal Number" />
+    <property name="shortLabel" value="Proposal Number" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="Proposal Number" />
+    <property name="description" value="Proposal Number" />
+  </bean>
+  <bean id="ProposalAbstract-abstractTypeCode" parent="ProposalAbstract-abstractTypeCode-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-					<sortAttribute attributeName="proposalNumber"/>
-					<sortAttribute attributeName="abstractTypeCode"/>
-                </sortAttributes>
-            </defaultSort>
+  <bean id="ProposalAbstract-abstractTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="abstractTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Abstract Type" />
+    <property name="shortLabel" value="Abstract Type" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.AbstractTypeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Abstract Type" />
+    <property name="description" value="Abstract Type" />
+  </bean>
+  <bean id="ProposalAbstract-abstractDetails" parent="ProposalAbstract-abstractDetails-parentBean" />
 
-            <lookupFields>
-            	<lookupField attributeName="proposalNumber" required="false"/>
-            	<lookupField attributeName="abstractTypeCode" required="false"/>
-            </lookupFields>
+  <bean id="ProposalAbstract-abstractDetails-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="abstractDetails" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Abstract Details" />
+    <property name="shortLabel" value="Abstract Details" />
+    <property name="maxLength" value="50000" />
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="3"
+            p:cols="30" />
+    </property>
+    <property name="summary" value="Abstract Details" />
+    <property name="description" value="Abstract Details" />
+  </bean>
+  <bean id="ProposalAbstract-updateUser" parent="ProposalAbstract-updateUser-parentBean" />
 
-            <resultFields>
-            	<field attributeName="proposalNumber" forceInquiry="true"/>
-            	<field attributeName="abstractTypeCode" forceInquiry="true"/>
-				<field attributeName="abstractDetails" forceInquiry="false"/>
-            </resultFields>
-        </lookup>
+  <bean id="ProposalAbstract-updateUser-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateUser">
+    <property name="description" value="The user who created or last modified the Abstract." />
+  </bean>
+  <bean id="ProposalAbstract-updateTimestamp" parent="ProposalAbstract-updateTimestamp-parentBean" />
 
-        <titleAttribute>abstractTypeCode</titleAttribute>
-        <attributes>
+  <bean id="ProposalAbstract-updateTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateTimestamp">
+    <property name="description" value="The timestamp when the Abstract was created or last modified." />
+  </bean>
 
-			<attribute name="proposalNumber">
-				<label>Proposal Number </label>
-				<shortLabel>Proposal Number </shortLabel>
-				<maxLength>12</maxLength>
-				<validationPattern><numeric /></validationPattern>
-				<control>
-					<hidden />
-				</control>
-				<summary>Proposal Number </summary>
-				<description>Proposal Number </description>
-			</attribute>
-			
-	        <attribute name="abstractTypeCode">
-				<label>Abstract Type</label>
-				<shortLabel>Abstract Type</shortLabel>
-				<maxLength>3</maxLength>
-				<validationPattern><numeric /></validationPattern>
-				<required>true</required>
-				<control>
-					<select valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.AbstractTypeValuesFinder" />
-				</control>
-				<summary>Abstract Type</summary>
-				<description>Abstract Type</description>
-			</attribute>
+<!-- Business Object Inquiry Definition -->
 
-			<attribute name="abstractDetails">
-				<label>Abstract Details</label>
-				<shortLabel>Abstract Details</shortLabel>
-				<!-- not sure what's the length for CLOB.  following example in bugdgetmodular in kfs -->
-				<maxLength>50000</maxLength>
-				<control>
-					<textarea cols="30" rows="3"/>
-				</control>
-				<summary>Abstract Details</summary>
-				<description>Abstract Details</description>
-			</attribute>
-			
-			<attributeReference name="updateUser" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="updateUser" >
-				<description>The user who created or last modified the Abstract.</description>
-			</attributeReference>
-			
-			<attributeReference name="updateTimestamp" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="updateTimestamp" >
-				<description>The timestamp when the Abstract was created or last modified.</description>
-			</attributeReference>
-			
-		</attributes>
 
-        <objectHelp parameterNamespace="KRA-PD" parameterDetailType="D" parameterName="proposalDevelopmentAbstractHelpUrl"/> 
-    </businessObject>
+  <bean id="ProposalAbstract-inquiryDefinition" parent="ProposalAbstract-inquiryDefinition-parentBean" />
 
-</dictionaryEntry>
+  <bean id="ProposalAbstract-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Proposal Abstract" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Proposal Abstract" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="abstractTypeCode"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="abstractDetails" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="ProposalAbstract-lookupDefinition" parent="ProposalAbstract-lookupDefinition-parentBean" />
+
+  <bean id="ProposalAbstract-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Proposal Abstract Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Proposal Abstract" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="abstractTypeCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="abstractTypeCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="abstractDetails" />
+      </list>
+    </property>
+  </bean>
+</beans>

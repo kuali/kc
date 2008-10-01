@@ -1,118 +1,175 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="UnitAdministrator" parent="UnitAdministrator-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="UnitAdministrator-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.UnitAdministrator" />
+    <property name="inquiryDefinition" >
+      <ref bean="UnitAdministrator-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="UnitAdministrator-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="UnitAdministrator-personId" />
+        <ref bean="UnitAdministrator-unitAdministratorTypeCode" />
+        <ref bean="UnitAdministrator-unitNumber" />
+        <ref bean="UnitAdministrator-person.fullName" />
+        <ref bean="UnitAdministrator-unitAdministratorType.description" />
+        <ref bean="UnitAdministrator-unit.unitName" />
+        <ref bean="UnitAdministrator-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.bo.UnitAdministrator">
+<!-- Attribute Definitions -->
 
-        <inquiry>
-            <title>Unit Administrator</title>
 
-            <inquirySections><inquirySection title="Unit Administrator"><inquiryFields>
-            	<field attributeName="person.fullName" forceInquiry="true"/>
-				<field attributeName="unitAdministratorType.description" forceInquiry="true"/>
-				<field attributeName="unit.unitName" forceInquiry="true"/>
+  <bean id="UnitAdministrator-personId" parent="UnitAdministrator-personId-parentBean" />
 
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="UnitAdministrator-personId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="personId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Person Id" />
+    <property name="shortLabel" value="Person Id" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Person Id" />
+    <property name="description" value="Person Id" />
+  </bean>
+  <bean id="UnitAdministrator-unitAdministratorTypeCode" parent="UnitAdministrator-unitAdministratorTypeCode-parentBean" />
 
-        <lookup>
-            <title>Unit Administrator Lookup</title>
-			<menubar>
-				<![CDATA[<a href="index.jsp">Main</a>]]>
-			</menubar>
-            <instructions>Look up a Unit Administrators</instructions>
+  <bean id="UnitAdministrator-unitAdministratorTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="unitAdministratorTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Unit Administrator Type Code" />
+    <property name="shortLabel" value="Unit Administrator Type Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="Unit Administrator Type Code" />
+    <property name="description" value="Unit Administrator Type Code" />
+  </bean>
+  <bean id="UnitAdministrator-unitNumber" parent="UnitAdministrator-unitNumber-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                	<sortAttribute attributeName="personId"/>
-					<sortAttribute attributeName="unitAdministratorTypeCode"/>
-					<sortAttribute attributeName="unitNumber"/>
+  <bean id="UnitAdministrator-unitNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="unitNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Unit Number" />
+    <property name="shortLabel" value="Unit Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Unit Number" />
+    <property name="description" value="Unit Number" />
+  </bean>
+  <bean id="UnitAdministrator-person.fullName" parent="UnitAdministrator-person.fullName-parentBean" />
 
-                </sortAttributes>
-            </defaultSort>
+  <bean id="UnitAdministrator-person.fullName-parentBean" abstract="true" parent="Person-fullName">
+    <property name="name" value="person.fullName" />
+  </bean>
+  <bean id="UnitAdministrator-unitAdministratorType.description" parent="UnitAdministrator-unitAdministratorType.description-parentBean" />
 
-            <lookupFields>
-            	<lookupField attributeName="personId" required="false"/>
-				<lookupField attributeName="unitAdministratorTypeCode" required="false"/>
-				<lookupField attributeName="unitNumber" required="false"/>
+  <bean id="UnitAdministrator-unitAdministratorType.description-parentBean" abstract="true" parent="UnitAdministratorType-description">
+    <property name="name" value="unitAdministratorType.description" />
+  </bean>
+  <bean id="UnitAdministrator-unit.unitName" parent="UnitAdministrator-unit.unitName-parentBean" />
 
-            </lookupFields>
+  <bean id="UnitAdministrator-unit.unitName-parentBean" abstract="true" parent="Unit-unitName">
+    <property name="name" value="unit.unitName" />
+  </bean>
+  <bean id="UnitAdministrator-versionNumber" parent="UnitAdministrator-versionNumber-parentBean" />
 
-            <resultFields>
-            	<field attributeName="person.fullName" forceInquiry="true"/>
-				<field attributeName="unitAdministratorType.description" forceInquiry="true"/>
-				<field attributeName="unit.unitName" forceInquiry="true"/>
+  <bean id="UnitAdministrator-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            </resultFields>
-        </lookup>
+<!-- Business Object Inquiry Definition -->
 
-		<!-- 
-		can only have 0/1 title attribute, 
-		removed titleAttribute per JIRA KRACOEUS-1747
-	        <titleAttribute>personId</titleAttribute>
-			<titleAttribute>roleId</titleAttribute>
-			<titleAttribute>unitNumber</titleAttribute>
-		-->
-        <attributes>
 
-	        <attribute name="personId">
-			<label>Person Id </label>
-			<shortLabel>Person Id </shortLabel>
-			<maxLength>10</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<control>
-				<text size="10" />
-			</control>
-			<summary>Person Id </summary>
-			<description>Person Id </description>
-			</attribute>
+  <bean id="UnitAdministrator-inquiryDefinition" parent="UnitAdministrator-inquiryDefinition-parentBean" />
 
-			<attribute name="unitAdministratorTypeCode">
-			<label>Unit Administrator Type Code </label>
-			<shortLabel>Unit Administrator Type Code</shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="5" />
-			</control>
-			<summary>Unit Administrator Type Code </summary>
-			<description>Unit Administrator Type Code </description>
-			</attribute>
+  <bean id="UnitAdministrator-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Unit Administrator" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Unit Administrator" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="person.fullName"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="unitAdministratorType.description"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="unit.unitName"
+                    p:forceInquiry="true" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-			<attribute name="unitNumber">
-			<label>Unit Number </label>
-			<shortLabel>Unit Number </shortLabel>
-			<maxLength>8</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-			<control>
-				<text size="8" />
-			</control>
-			<summary>Unit Number </summary>
-			<description>Unit Number </description>
-			</attribute>
-			<attributeReference name="person.fullName" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="fullName" />
-			<attributeReference name="unitAdministratorType.description" sourceClassName="org.kuali.kra.bo.UnitAdministratorType" sourceAttributeName="description" />
-			<attributeReference name="unit.unitName" sourceClassName="org.kuali.kra.bo.Unit" sourceAttributeName="unitName" />
+<!-- Business Object Lookup Definition -->
 
-			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
-		</attributes>
-    </businessObject>
+  <bean id="UnitAdministrator-lookupDefinition" parent="UnitAdministrator-lookupDefinition-parentBean" />
 
-</dictionaryEntry>
+  <bean id="UnitAdministrator-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Unit Administrator Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Unit Administrators" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="personId" />
+        <bean parent="FieldDefinition"
+              p:attributeName="unitAdministratorTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="unitNumber" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="person.fullName"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="unitAdministratorType.description"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="unit.unitName"
+              p:forceInquiry="true" />
+      </list>
+    </property>
+  </bean>
+</beans>

@@ -1,178 +1,273 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="S2sSubmissionHistory" parent="S2sSubmissionHistory-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="S2sSubmissionHistory-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.s2s.bo.S2sSubmissionHistory" />
+    <property name="inquiryDefinition" >
+      <ref bean="S2sSubmissionHistory-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="S2sSubmissionHistory-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="S2sSubmissionHistory-id" />
+        <ref bean="S2sSubmissionHistory-proposalNumber" />
+        <ref bean="S2sSubmissionHistory-proposalNumberOrig" />
+        <ref bean="S2sSubmissionHistory-originalProposalId" />
+        <ref bean="S2sSubmissionHistory-submittedBy" />
+        <ref bean="S2sSubmissionHistory-s2sSubmissionTypeCode" />
+        <ref bean="S2sSubmissionHistory-s2sRevisionTypeCode" />
+        <ref bean="S2sSubmissionHistory-submissionTime" />
+        <ref bean="S2sSubmissionHistory-federalIdentifier" />
+        <ref bean="S2sSubmissionHistory-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.s2s.bo.S2sSubmissionHistory">
+<!-- Attribute Definitions -->
 
-        <inquiry>
-            <title>S2s Submission History</title>
 
-            <inquirySections><inquirySection title="S2s Submission History"><inquiryFields>
-            	<field attributeName="id" />
-            	<field attributeName="proposalNumber" forceInquiry="true"/>
-            	<field attributeName="originalProposalId" />
-            	<field attributeName="submittedBy" />
-            	<field attributeName="s2sSubmissionTypeCode" />
-            	<field attributeName="s2sRevisionTypeCode" />
-            	<field attributeName="submissionTime" />
-            	<field attributeName="federalIdentifier" />            	
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="S2sSubmissionHistory-id" parent="S2sSubmissionHistory-id-parentBean" />
 
-        <lookup>  		
-            <title>Submission History Lookup</title>
-			<menubar>
-				<![CDATA[<a href="index.jsp">Main</a>]]>
-			</menubar>
-            <instructions>Look up a Submission History</instructions>
+  <bean id="S2sSubmissionHistory-id-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="id" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="ID" />
+    <property name="shortLabel" value="ID" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="ID" />
+    <property name="description" value="ID" />
+  </bean>
+  <bean id="S2sSubmissionHistory-proposalNumber" parent="S2sSubmissionHistory-proposalNumber-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                	<sortAttribute attributeName="id"/>
+  <bean id="S2sSubmissionHistory-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="proposalNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Proposal Number" />
+    <property name="shortLabel" value="Proposal Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="Proposal Number" />
+    <property name="description" value="Proposal Number" />
+  </bean>
+  <bean id="S2sSubmissionHistory-proposalNumberOrig" parent="S2sSubmissionHistory-proposalNumberOrig-parentBean" />
 
-                </sortAttributes>
-            </defaultSort>
+  <bean id="S2sSubmissionHistory-proposalNumberOrig-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="proposalNumberOrig" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Proposal Number" />
+    <property name="shortLabel" value="Proposal Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Proposal Number" />
+    <property name="description" value="Proposal Number" />
+  </bean>
+  <bean id="S2sSubmissionHistory-originalProposalId" parent="S2sSubmissionHistory-originalProposalId-parentBean" />
 
-            <lookupFields>            	
-				<lookupField attributeName="proposalNumber"  required="false"/>
-            	<lookupField attributeName="originalProposalId"  required="false"/>
-            </lookupFields>
+  <bean id="S2sSubmissionHistory-originalProposalId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="originalProposalId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Original Proposal Id" />
+    <property name="shortLabel" value="Original Proposal Id" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Original Proposal Id" />
+    <property name="description" value="Original Proposal Id" />
+  </bean>
+  <bean id="S2sSubmissionHistory-submittedBy" parent="S2sSubmissionHistory-submittedBy-parentBean" />
 
-            <resultFields>
-				<field attributeName="id" forceInquiry="false"/>
-				<field attributeName="proposalNumber" forceInquiry="false"/>
-				<field attributeName="originalProposalId" forceInquiry="false"/>
-				<field attributeName="submittedBy" forceInquiry="false"/>
-				<field attributeName="s2sSubmissionTypeCode" forceInquiry="false"/>
-				<field attributeName="s2sRevisionTypeCode" forceInquiry="false"/>
-				<field attributeName="submissionTime" forceInquiry="false"/>
-				<field attributeName="federalIdentifier" forceInquiry="false"/>
-            </resultFields>
-        </lookup>
-                
-        <attributes>
-        	
-        	<attribute name="id">
-				<label>ID </label>
-				<shortLabel>ID </shortLabel>
-				<maxLength>3</maxLength>
-				<validationPattern><anyCharacter /></validationPattern>
-				<control>
-					<hidden />
-				</control>
-				<summary>ID </summary>
-				<description>ID </description>
-			</attribute>
+  <bean id="S2sSubmissionHistory-submittedBy-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="submittedBy" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Submitted By" />
+    <property name="shortLabel" value="Submitted By" />
+    <property name="maxLength" value="60" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="60" />
+    </property>
+    <property name="summary" value="Submitted By" />
+    <property name="description" value="Submitted By" />
+  </bean>
+  <bean id="S2sSubmissionHistory-s2sSubmissionTypeCode" parent="S2sSubmissionHistory-s2sSubmissionTypeCode-parentBean" />
 
-	        <attribute name="proposalNumber">
-				<label>Proposal Number </label>
-				<shortLabel>Proposal Number </shortLabel>
-				<maxLength>8</maxLength>
-				<validationPattern><anyCharacter /></validationPattern>
-				<control>
-					<hidden />
-				</control>
-				<summary>Proposal Number </summary>
-				<description>Proposal Number </description>
-			</attribute>
-			
-			<attribute name="proposalNumberOrig">
-				<label>Proposal Number </label>
-				<shortLabel>Proposal Number </shortLabel>
-				<maxLength>8</maxLength>
-				<validationPattern><anyCharacter /></validationPattern>
-				<control>
-					<text size="8"/>
-				</control>
-				<summary>Proposal Number </summary>
-				<description>Proposal Number </description>
-			</attribute>
-			
-			<attribute name="originalProposalId">
-				<label>Original Proposal Id </label>
-				<shortLabel>Original Proposal Id </shortLabel>
-				<maxLength>8</maxLength>
-				<validationPattern><anyCharacter /></validationPattern>
-				<control>
-					<text size="8"/>
-				</control>
-				<summary>Original Proposal Id </summary>
-				<description>Original Proposal Id </description>
-			</attribute>
-			
-      		<attribute name="submittedBy">
-				<label>Submitted By</label>
-				<shortLabel>Submitted By</shortLabel>
-				<maxLength>60</maxLength>
-				<validationPattern><anyCharacter /></validationPattern>
-				<required>false</required>
-				<control>
-					<text size="60"/>
-				</control>
-				<summary>Submitted By</summary>
-				<description>Submitted By</description>
-			</attribute>				
-            
-            <attribute name="s2sSubmissionTypeCode">
-				<label>Submission Type </label>
-				<shortLabel>Submission Type </shortLabel>
-				<maxLength>50</maxLength>
-				<validationPattern><numeric /></validationPattern>
-				<control>
-					<text size="20" />
-				</control>
-				<summary>S2s Submission Type Code </summary>
-				<description>S2s Submission Type Code </description>
-			</attribute>
-			
-			<attribute name="s2sRevisionTypeCode">
-				<label>Revision Type</label>
-				<shortLabel>Revision Type</shortLabel>
-				<maxLength>300</maxLength>
-				<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-				<control>
-					<text size="300" />
-				</control>
-				<summary>Revision Type </summary>
-				<description>Revision Type </description>
-			</attribute>
-			
-			<attributeReference name="submissionTime" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp" >
-				<label>Posted Timestamp</label>			
-			</attributeReference>
-			
-			<attribute name="federalIdentifier">
-				<label>Federal Identifier</label>
-				<shortLabel>Federal Identifier</shortLabel>
-				<maxLength>50</maxLength>
-				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-				<required>false</required>
-				<control>
-					<text size="50"/>
-				</control>
-				<summary>Federal Identifier</summary>
-				<description>Federal Identifier</description>
-			</attribute>
-						
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+  <bean id="S2sSubmissionHistory-s2sSubmissionTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="s2sSubmissionTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Submission Type" />
+    <property name="shortLabel" value="Submission Type" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+    <property name="summary" value="S2s Submission Type Code" />
+    <property name="description" value="S2s Submission Type Code" />
+  </bean>
+  <bean id="S2sSubmissionHistory-s2sRevisionTypeCode" parent="S2sSubmissionHistory-s2sRevisionTypeCode-parentBean" />
 
-		</attributes>
-    </businessObject>
+  <bean id="S2sSubmissionHistory-s2sRevisionTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="s2sRevisionTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Revision Type" />
+    <property name="shortLabel" value="Revision Type" />
+    <property name="maxLength" value="300" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="300" />
+    </property>
+    <property name="summary" value="Revision Type" />
+    <property name="description" value="Revision Type" />
+  </bean>
+  <bean id="S2sSubmissionHistory-submissionTime" parent="S2sSubmissionHistory-submissionTime-parentBean" />
 
-</dictionaryEntry>
+  <bean id="S2sSubmissionHistory-submissionTime-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+    <property name="name" value="submissionTime" />
+    <property name="label" value="Posted Timestamp" />
+  </bean>
+  <bean id="S2sSubmissionHistory-federalIdentifier" parent="S2sSubmissionHistory-federalIdentifier-parentBean" />
+
+  <bean id="S2sSubmissionHistory-federalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="federalIdentifier" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Federal Identifier" />
+    <property name="shortLabel" value="Federal Identifier" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+    <property name="summary" value="Federal Identifier" />
+    <property name="description" value="Federal Identifier" />
+  </bean>
+  <bean id="S2sSubmissionHistory-versionNumber" parent="S2sSubmissionHistory-versionNumber-parentBean" />
+
+  <bean id="S2sSubmissionHistory-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="S2sSubmissionHistory-inquiryDefinition" parent="S2sSubmissionHistory-inquiryDefinition-parentBean" />
+
+  <bean id="S2sSubmissionHistory-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="S2s Submission History" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="S2s Submission History" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="id" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="originalProposalId" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="submittedBy" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="s2sSubmissionTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="s2sRevisionTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="submissionTime" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="federalIdentifier" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="S2sSubmissionHistory-lookupDefinition" parent="S2sSubmissionHistory-lookupDefinition-parentBean" />
+
+  <bean id="S2sSubmissionHistory-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Submission History Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Submission History" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="originalProposalId" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="id" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="originalProposalId" />
+        <bean parent="FieldDefinition"
+              p:attributeName="submittedBy" />
+        <bean parent="FieldDefinition"
+              p:attributeName="s2sSubmissionTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="s2sRevisionTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="submissionTime" />
+        <bean parent="FieldDefinition"
+              p:attributeName="federalIdentifier" />
+      </list>
+    </property>
+  </bean>
+</beans>

@@ -1,121 +1,179 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="NarrativeUserRights" parent="NarrativeUserRights-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="NarrativeUserRights-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights" />
+    <property name="inquiryDefinition" >
+      <ref bean="NarrativeUserRights-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="NarrativeUserRights-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="userId" />
+    <property name="attributes" >
+      <list>
+        <ref bean="NarrativeUserRights-moduleNumber" />
+        <ref bean="NarrativeUserRights-proposalNumber" />
+        <ref bean="NarrativeUserRights-userId" />
+        <ref bean="NarrativeUserRights-accessType" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights">
+<!-- Attribute Definitions -->
 
-        <inquiry>
-            <title>Narrative User Rights</title>
 
-            <inquirySections><inquirySection title="Narrative User Rights"><inquiryFields>
-            	<field attributeName="moduleNumber" forceInquiry="true"/>
-				<field attributeName="proposalNumber" forceInquiry="true"/>
-				<field attributeName="userId" forceInquiry="true"/>
-				<field attributeName="accessType"/>
+  <bean id="NarrativeUserRights-moduleNumber" parent="NarrativeUserRights-moduleNumber-parentBean" />
 
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="NarrativeUserRights-moduleNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="moduleNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Module Number" />
+    <property name="shortLabel" value="Module Number" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Module Number" />
+    <property name="description" value="Module Number" />
+  </bean>
+  <bean id="NarrativeUserRights-proposalNumber" parent="NarrativeUserRights-proposalNumber-parentBean" />
 
-        <lookup>
-            <title>Narrative User Rights Lookup</title>
-			<menubar>
-				<![CDATA[<a href="index.jsp">Main</a>]]>
-			</menubar>
-            <instructions>Look up a Narrative User Rights</instructions>
+  <bean id="NarrativeUserRights-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="proposalNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Proposal Number" />
+    <property name="shortLabel" value="Proposal Number" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="Proposal Number" />
+    <property name="description" value="Proposal Number" />
+  </bean>
+  <bean id="NarrativeUserRights-userId" parent="NarrativeUserRights-userId-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                	<sortAttribute attributeName="moduleNumber"/>
-					<sortAttribute attributeName="proposalNumber"/>
-					<sortAttribute attributeName="userId"/>
+  <bean id="NarrativeUserRights-userId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="userId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="User Id" />
+    <property name="shortLabel" value="User Id" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="User Id" />
+    <property name="description" value="User Id" />
+  </bean>
+  <bean id="NarrativeUserRights-accessType" parent="NarrativeUserRights-accessType-parentBean" />
 
-                </sortAttributes>
-            </defaultSort>
+  <bean id="NarrativeUserRights-accessType-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accessType" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Access Type" />
+    <property name="shortLabel" value="Access Type" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="RadioControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.NarrativeUserRightsValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Access Type" />
+    <property name="description" value="Access Type" />
+  </bean>
 
-            <lookupFields>
-            	<lookupField attributeName="moduleNumber" required="false"/>
-				<lookupField attributeName="proposalNumber" required="false"/>
-				<lookupField attributeName="userId" required="false"/>
-				<lookupField attributeName="accessType" required="false"/>
+<!-- Business Object Inquiry Definition -->
 
-            </lookupFields>
 
-            <resultFields>
-            	<field attributeName="moduleNumber" forceInquiry="true"/>
-				<field attributeName="proposalNumber" forceInquiry="true"/>
-				<field attributeName="userId" forceInquiry="true"/>
-				<field attributeName="accessType" forceInquiry="false"/>
+  <bean id="NarrativeUserRights-inquiryDefinition" parent="NarrativeUserRights-inquiryDefinition-parentBean" />
 
-            </resultFields>
-        </lookup>
-		<titleAttribute>userId</titleAttribute>
-        <attributes>
+  <bean id="NarrativeUserRights-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Narrative User Rights" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Narrative User Rights" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="moduleNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="userId"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="accessType" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-	        <attribute name="moduleNumber">
-			<label>Module Number </label>
-			<shortLabel>Module Number </shortLabel>
-			<maxLength>4</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="4" />
-			</control>
-			<summary>Module Number </summary>
-			<description>Module Number </description>
-			</attribute>
+<!-- Business Object Lookup Definition -->
 
-			<attribute name="proposalNumber">
-			<label>Proposal Number </label>
-			<shortLabel>Proposal Number </shortLabel>
-			<maxLength>12</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<control>
-				<text size="12" />
-			</control>
-			<summary>Proposal Number </summary>
-			<description>Proposal Number </description>
-			</attribute>
 
-			<attribute name="userId">
-			<label>User Id </label>
-			<shortLabel>User Id </shortLabel>
-			<maxLength>10</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-			<control>
-				<text size="10" />
-			</control>
-			<summary>User Id </summary>
-			<description>User Id </description>
-			</attribute>
+  <bean id="NarrativeUserRights-lookupDefinition" parent="NarrativeUserRights-lookupDefinition-parentBean" />
 
-			<attribute name="accessType">
-			<label>Access Type </label>
-			<shortLabel>Access Type </shortLabel>
-			<maxLength>1</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<control>
-				<radio valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.NarrativeUserRightsValuesFinder"/>
-			</control>
-			<summary>Access Type </summary>
-			<description>Access Type </description>
-			</attribute>
-
-		</attributes>
-    </businessObject>
-
-</dictionaryEntry>
+  <bean id="NarrativeUserRights-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Narrative User Rights Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Narrative User Rights" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="moduleNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="userId" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accessType" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="moduleNumber"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="userId"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="accessType" />
+      </list>
+    </property>
+  </bean>
+</beans>

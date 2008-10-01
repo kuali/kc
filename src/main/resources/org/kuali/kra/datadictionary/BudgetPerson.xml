@@ -1,194 +1,295 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="BudgetPerson" parent="BudgetPerson-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="BudgetPerson-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.budget.bo.BudgetPerson" />
+    <property name="inquiryDefinition" >
+      <ref bean="BudgetPerson-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="BudgetPerson-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="personId" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KRA-B"
+            p:parameterName="budgetPersonHelpUrl"
+            p:parameterDetailType="D" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="BudgetPerson-effectiveDate" />
+        <ref bean="BudgetPerson-jobCode" />
+        <ref bean="BudgetPerson-nonEmployeeFlag" />
+        <ref bean="BudgetPerson-personId" />
+        <ref bean="BudgetPerson-proposalNumber" />
+        <ref bean="BudgetPerson-versionNumber" />
+        <ref bean="BudgetPerson-appointmentType" />
+        <ref bean="BudgetPerson-calculationBase" />
+        <ref bean="BudgetPerson-personName" />
+        <ref bean="BudgetPerson-jobTitle" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.budget.bo.BudgetPerson">
-
-        <inquiry>
-            <title>Budget Persons</title>
-
-            <inquirySections><inquirySection title="Budget Persons"><inquiryFields>
-            	<field attributeName="effectiveDate" forceInquiry="true"/>
-				<field attributeName="jobCode" forceInquiry="true"/>
-				<field attributeName="nonEmployeeFlag" forceInquiry="true"/>
-				<field attributeName="personId" forceInquiry="true"/>
-				<field attributeName="proposalNumber" forceInquiry="true"/>
-				<field attributeName="versionNumber" forceInquiry="true"/>
-				<field attributeName="appointmentType"/>
-				<field attributeName="calculationBase"/>
-				<field attributeName="personName"/>
-
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
-
-        <lookup>
-            <title>Budget Persons Lookup</title>
-			<menubar>
-				<![CDATA[<a href="index.jsp">Main</a>]]>
-			</menubar>
-            <instructions>Look up a Budget Persons</instructions>
-
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                	<sortAttribute attributeName="effectiveDate"/>
-					<sortAttribute attributeName="jobCode"/>
-					<sortAttribute attributeName="nonEmployeeFlag"/>
-					<sortAttribute attributeName="personId"/>
-					<sortAttribute attributeName="proposalNumber"/>
-					<sortAttribute attributeName="versionNumber"/>
-
-                </sortAttributes>
-            </defaultSort>
-
-            <lookupFields>
-            	<lookupField attributeName="effectiveDate" required="false"/>
-				<lookupField attributeName="jobCode" required="false"/>
-				<lookupField attributeName="nonEmployeeFlag" required="false"/>
-				<lookupField attributeName="personId" required="false"/>
-				<lookupField attributeName="proposalNumber" required="false"/>
-				<lookupField attributeName="versionNumber" required="false"/>
-				<lookupField attributeName="appointmentType" required="false"/>
-				<lookupField attributeName="calculationBase" required="false"/>
-				<lookupField attributeName="personName" required="false"/>
-
-            </lookupFields>
-
-            <resultFields>
-            	<field attributeName="effectiveDate" forceInquiry="true"/>
-				<field attributeName="jobCode" forceInquiry="true"/>
-				<field attributeName="nonEmployeeFlag" forceInquiry="true"/>
-				<field attributeName="personId" forceInquiry="true"/>
-				<field attributeName="proposalNumber" forceInquiry="true"/>
-				<field attributeName="versionNumber" forceInquiry="true"/>
-				<field attributeName="appointmentType" forceInquiry="false"/>
-				<field attributeName="calculationBase" forceInquiry="false"/>
-				<field attributeName="personName" forceInquiry="false"/>
-
-            </resultFields>
-        </lookup>
-
-<!--         <titleAttribute>effectiveDate</titleAttribute>
-		<titleAttribute>jobCode</titleAttribute>
-		<titleAttribute>nonEmployeeFlag</titleAttribute>
-		<titleAttribute>versionNumber</titleAttribute>
-		<titleAttribute>proposalNumber</titleAttribute> -->
-		<titleAttribute>personId</titleAttribute>
-        <attributes>
-
-            <attributeReference name="effectiveDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
-                <label>Effective Date</label>
-                <shortLabel>Effective Date</shortLabel>
-
- 				<required>true</required>
-
-                <summary>Effective Date</summary>
-                <description>Effective Date.</description>
-      		</attributeReference>
+<!-- Attribute Definitions -->
 
 
-			<attribute name="jobCode">
-			<label>Job Code </label>
-			<shortLabel>Job Code </shortLabel>
-			<maxLength>6</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<control>
-				<text size="6" />
-			</control>
-			<summary>Job Code </summary>
-			<description>Job Code </description>
-			</attribute>
+  <bean id="BudgetPerson-effectiveDate" parent="BudgetPerson-effectiveDate-parentBean" />
 
-			<attribute name="nonEmployeeFlag">
-			<label>Non Employee Flag </label>
-			<shortLabel>Non Employee Flag </shortLabel>
-			<maxLength>1</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<control>
-				<text size="1" />
-			</control>
-			<summary>Non Employee Flag </summary>
-			<description>Non Employee Flag </description>
-			</attribute>
+  <bean id="BudgetPerson-effectiveDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="effectiveDate" />
+    <property name="label" value="Effective Date" />
+    <property name="shortLabel" value="Effective Date" />
+    <property name="required" value="true" />
+    <property name="summary" value="Effective Date" />
+    <property name="description" value="Effective Date." />
+  </bean>
+  <bean id="BudgetPerson-jobCode" parent="BudgetPerson-jobCode-parentBean" />
 
-			<attribute name="personId">
-			<label>Person Id </label>
-			<shortLabel>Person Id </shortLabel>
-			<maxLength>10</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="10" />
-			</control>
-			<summary>Person Id </summary>
-			<description>Person Id </description>
-			</attribute>
+  <bean id="BudgetPerson-jobCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="jobCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Job Code" />
+    <property name="shortLabel" value="Job Code" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="Job Code" />
+    <property name="description" value="Job Code" />
+  </bean>
+  <bean id="BudgetPerson-nonEmployeeFlag" parent="BudgetPerson-nonEmployeeFlag-parentBean" />
 
-			<attribute name="proposalNumber">
-			<label>Proposal Number </label>
-			<shortLabel>Proposal Number </shortLabel>
-			<maxLength>12</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<control>
-				<text size="8" />
-			</control>
-			<summary>Proposal Number </summary>
-			<description>Proposal Number </description>
-			</attribute>
+  <bean id="BudgetPerson-nonEmployeeFlag-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="nonEmployeeFlag" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Non Employee Flag" />
+    <property name="shortLabel" value="Non Employee Flag" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="1" />
+    </property>
+    <property name="summary" value="Non Employee Flag" />
+    <property name="description" value="Non Employee Flag" />
+  </bean>
+  <bean id="BudgetPerson-personId" parent="BudgetPerson-personId-parentBean" />
 
-			<attribute name="versionNumber">
-			<label>Version Number </label>
-			<shortLabel>Version Number </shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="3" />
-			</control>
-			<summary>Version Number </summary>
-			<description>Version Number </description>
-			</attribute>
+  <bean id="BudgetPerson-personId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="personId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Person Id" />
+    <property name="shortLabel" value="Person Id" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Person Id" />
+    <property name="description" value="Person Id" />
+  </bean>
+  <bean id="BudgetPerson-proposalNumber" parent="BudgetPerson-proposalNumber-parentBean" />
 
-			<attribute name="appointmentType">
-			<label>Appointment Type </label>
-			<shortLabel>Appointment Type </shortLabel>
-			<maxLength>2</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<required>true</required>
-			<control>
-                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder" businessObjectClass="org.kuali.kra.budget.bo.AppointmentType" keyAttribute="appointmentTypeCode" labelAttribute="description" includeKeyInLabel="false"/>
-            </control>
-			<summary>Appointment Type </summary>
-			<description>Appointment Type </description>
-			</attribute>
+  <bean id="BudgetPerson-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="proposalNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Proposal Number" />
+    <property name="shortLabel" value="Proposal Number" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Proposal Number" />
+    <property name="description" value="Proposal Number" />
+  </bean>
+  <bean id="BudgetPerson-versionNumber" parent="BudgetPerson-versionNumber-parentBean" />
 
-			<attributeReference name="calculationBase" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="genericAmount">
-			<label>Base Salary</label>
-			<shortLabel>Base Salary</shortLabel>
-			<required>true</required>
-			<summary>Base Salary </summary>
-			<description>Calculation Base </description>			
-			</attributeReference>
+  <bean id="BudgetPerson-versionNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="versionNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Version Number" />
+    <property name="shortLabel" value="Version Number" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Version Number" />
+    <property name="description" value="Version Number" />
+  </bean>
+  <bean id="BudgetPerson-appointmentType" parent="BudgetPerson-appointmentType-parentBean" />
 
-			<attributeReference name="personName" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="fullName" />
-			<attributeReference name="jobTitle" sourceClassName="org.kuali.kra.budget.bo.JobCode" sourceAttributeName="jobTitle" />
-			
-		</attributes>
+  <bean id="BudgetPerson-appointmentType-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="appointmentType" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Appointment Type" />
+    <property name="shortLabel" value="Appointment Type" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kra.budget.bo.AppointmentType"
+            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="false"
+            p:keyAttribute="appointmentTypeCode"
+            p:labelAttribute="description" />
+    </property>
+    <property name="summary" value="Appointment Type" />
+    <property name="description" value="Appointment Type" />
+  </bean>
+  <bean id="BudgetPerson-calculationBase" parent="BudgetPerson-calculationBase-parentBean" />
 
-        <objectHelp parameterNamespace="KRA-B" parameterDetailType="D" parameterName="budgetPersonHelpUrl"/> 
-    </businessObject>
+  <bean id="BudgetPerson-calculationBase-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
+    <property name="name" value="calculationBase" />
+    <property name="label" value="Base Salary" />
+    <property name="shortLabel" value="Base Salary" />
+    <property name="required" value="true" />
+    <property name="summary" value="Base Salary" />
+    <property name="description" value="Calculation Base" />
+  </bean>
+  <bean id="BudgetPerson-personName" parent="BudgetPerson-personName-parentBean" />
 
-</dictionaryEntry>
+  <bean id="BudgetPerson-personName-parentBean" abstract="true" parent="Person-fullName">
+    <property name="name" value="personName" />
+  </bean>
+  <bean id="BudgetPerson-jobTitle" parent="BudgetPerson-jobTitle-parentBean" />
+
+  <bean id="BudgetPerson-jobTitle-parentBean" abstract="true" parent="JobCode-jobTitle">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="BudgetPerson-inquiryDefinition" parent="BudgetPerson-inquiryDefinition-parentBean" />
+
+  <bean id="BudgetPerson-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Budget Persons" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Budget Persons" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="effectiveDate"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="jobCode"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="nonEmployeeFlag"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="personId"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="versionNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="appointmentType" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="calculationBase" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="personName" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="BudgetPerson-lookupDefinition" parent="BudgetPerson-lookupDefinition-parentBean" />
+
+  <bean id="BudgetPerson-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Budget Persons Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Budget Persons" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="effectiveDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="jobCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="nonEmployeeFlag" />
+        <bean parent="FieldDefinition"
+              p:attributeName="personId" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="versionNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="appointmentType" />
+        <bean parent="FieldDefinition"
+              p:attributeName="calculationBase" />
+        <bean parent="FieldDefinition"
+              p:attributeName="personName" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="effectiveDate"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="jobCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="nonEmployeeFlag"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="personId"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="versionNumber"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="appointmentType" />
+        <bean parent="FieldDefinition"
+              p:attributeName="calculationBase" />
+        <bean parent="FieldDefinition"
+              p:attributeName="personName" />
+      </list>
+    </property>
+  </bean>
+</beans>

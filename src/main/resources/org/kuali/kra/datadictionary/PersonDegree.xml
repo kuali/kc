@@ -1,173 +1,268 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="PersonDegree" parent="PersonDegree-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="PersonDegree-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.PersonDegree" />
+    <property name="inquiryDefinition" >
+      <ref bean="PersonDegree-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="PersonDegree-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="degreeCode" />
+    <property name="attributes" >
+      <list>
+        <ref bean="PersonDegree-personId" />
+        <ref bean="PersonDegree-graduationYear" />
+        <ref bean="PersonDegree-degreeCode" />
+        <ref bean="PersonDegree-degree" />
+        <ref bean="PersonDegree-fieldOfStudy" />
+        <ref bean="PersonDegree-specialization" />
+        <ref bean="PersonDegree-school" />
+        <ref bean="PersonDegree-schoolIdCode" />
+        <ref bean="PersonDegree-schoolId" />
+        <ref bean="PersonDegree-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.bo.PersonDegree">
+<!-- Attribute Definitions -->
 
-        <inquiry>
-            <title>Person Degree</title>
 
-            <inquirySections><inquirySection title="Person Degree"><inquiryFields>
-                <field attributeName="personId" forceInquiry="true"/>
-                <field attributeName="graduationYear" forceInquiry="true" />
-                <field attributeName="degreeCode" forceInquiry="true" />
-                <field attributeName="degree" forceInquiry="true" />
-                <field attributeName="fieldOfStudy" />
-                <field attributeName="specialization" />
-                <field attributeName="school" />
-                <field attributeName="schoolIdCode" />
-                <field attributeName="schoolId" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="PersonDegree-personId" parent="PersonDegree-personId-parentBean" />
 
-        <lookup>
-            <title>Person Degree</title>
-            <menubar>
-                <![CDATA[<a href="index.jsp">Main</a>]]>
-            </menubar>
-            <instructions>Look up a Person Degree</instructions>
+  <bean id="PersonDegree-personId-parentBean" abstract="true" parent="Person-personId">
+  </bean>
+  <bean id="PersonDegree-graduationYear" parent="PersonDegree-graduationYear-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="personId" />
-                    <sortAttribute attributeName="graduationYear" />
-                    <sortAttribute attributeName="degreeCode" />
-                    <sortAttribute attributeName="degree" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="PersonDegree-graduationYear-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="graduationYear" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Graduation Year" />
+    <property name="shortLabel" value="Graduation Year" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="Graduation Year" />
+    <property name="description" value="Graduation Year" />
+  </bean>
+  <bean id="PersonDegree-degreeCode" parent="PersonDegree-degreeCode-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="personId" />
-                <lookupField attributeName="graduationYear" />
-                <lookupField attributeName="degreeCode" />
-                <lookupField attributeName="degree" />
-            </lookupFields>
+  <bean id="PersonDegree-degreeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="degreeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Degree Type" />
+    <property name="shortLabel" value="Degree Type" />
+    <property name="maxLength" value="6" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kra.bo.DegreeType"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="false"
+            p:keyAttribute="degreeCode"
+            p:labelAttribute="description" />
+    </property>
+    <property name="summary" value="Degree Code" />
+    <property name="description" value="Degree Code" />
+  </bean>
+  <bean id="PersonDegree-degree" parent="PersonDegree-degree-parentBean" />
 
-            <resultFields>
-                <field attributeName="personId" forceInquiry="true"/>
-                <field attributeName="graduationYear" forceInquiry="true" />
-                <field attributeName="degreeCode" forceInquiry="true" />
-                <field attributeName="degree" forceInquiry="true" />
-                <field attributeName="fieldOfStudy" forceInquiry="false" />
-                <field attributeName="specialization" forceInquiry="false" />
-                <field attributeName="school" forceInquiry="false" />
-                <field attributeName="schoolIdCode" forceInquiry="false" />
-                <field attributeName="schoolId" forceInquiry="false" />
-           </resultFields>
-        </lookup>
+  <bean id="PersonDegree-degree-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="degree" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Degree Description" />
+    <property name="shortLabel" value="Degree Description" />
+    <property name="maxLength" value="80" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="25" />
+    </property>
+    <property name="summary" value="Degree" />
+    <property name="description" value="Degree" />
+  </bean>
+  <bean id="PersonDegree-fieldOfStudy" parent="PersonDegree-fieldOfStudy-parentBean" />
 
-        <titleAttribute>degreeCode</titleAttribute>
-        <attributes>
+  <bean id="PersonDegree-fieldOfStudy-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fieldOfStudy" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Field of Study" />
+    <property name="shortLabel" value="Field of Study" />
+    <property name="maxLength" value="80" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="25" />
+    </property>
+    <property name="summary" value="Field of Study" />
+    <property name="description" value="Field of Study" />
+  </bean>
+  <bean id="PersonDegree-specialization" parent="PersonDegree-specialization-parentBean" />
 
-            <attributeReference name="personId" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="personId" />
+  <bean id="PersonDegree-specialization-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="specialization" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Specialization" />
+    <property name="shortLabel" value="Specialization" />
+    <property name="maxLength" value="80" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="25" />
+    </property>
+    <property name="summary" value="Specialization" />
+    <property name="description" value="Specialization" />
+  </bean>
+  <bean id="PersonDegree-school" parent="PersonDegree-school-parentBean" />
 
-            <attribute name="graduationYear" >
-                <label>Graduation Year</label>
-                <shortLabel>Graduation Year</shortLabel>
-                <maxLength>4</maxLength>
-                <validationPattern><numeric /></validationPattern>
-                <control>
-                    <text size="5" />
-                </control>
-                <summary>Graduation Year</summary>
-                <description>Graduation Year</description>
-            </attribute>
+  <bean id="PersonDegree-school-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="school" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="School" />
+    <property name="shortLabel" value="School" />
+    <property name="maxLength" value="50" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="25" />
+    </property>
+    <property name="summary" value="School" />
+    <property name="description" value="School" />
+  </bean>
+  <bean id="PersonDegree-schoolIdCode" parent="PersonDegree-schoolIdCode-parentBean" />
 
-            <attribute name="degreeCode" >
-                <label>Degree Type</label>
-                <shortLabel>Degree Type</shortLabel>
-                <maxLength>6</maxLength>
-                <control>                    
-                    <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" businessObjectClass="org.kuali.kra.bo.DegreeType" keyAttribute="degreeCode" labelAttribute="description" includeKeyInLabel="false"/>
-                </control>
-                <summary>Degree Code</summary>
-                <description>Degree Code</description>
-            </attribute>
+  <bean id="PersonDegree-schoolIdCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="schoolIdCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="School Id Code" />
+    <property name="shortLabel" value="School Id Cd" />
+    <property name="maxLength" value="3" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="School Id Code" />
+    <property name="description" value="School Id Code" />
+  </bean>
+  <bean id="PersonDegree-schoolId" parent="PersonDegree-schoolId-parentBean" />
 
-            <attribute name="degree" >
-                <label>Degree Description</label>
-                <shortLabel>Degree Description</shortLabel>
-                <maxLength>80</maxLength>
-                <control>
-                    <text size="25" />
-                </control>
-                <summary>Degree</summary>
-                <description>Degree</description>
-            </attribute>
+  <bean id="PersonDegree-schoolId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="schoolId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="School Id" />
+    <property name="shortLabel" value="SchoolId" />
+    <property name="maxLength" value="20" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="25" />
+    </property>
+    <property name="summary" value="School Id" />
+    <property name="description" value="School Id" />
+  </bean>
+  <bean id="PersonDegree-versionNumber" parent="PersonDegree-versionNumber-parentBean" />
 
-            <attribute name="fieldOfStudy" >
-                <label>Field of Study</label>
-                <shortLabel>Field of Study</shortLabel>
-                <maxLength>80</maxLength>
-                <control>
-                    <text size="25" />
-                </control>
-                <summary>Field of Study</summary>
-                <description>Field of Study</description>
-            </attribute>
+  <bean id="PersonDegree-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <attribute name="specialization" >
-                <label>Specialization</label>
-                <shortLabel>Specialization</shortLabel>
-                <maxLength>80</maxLength>
-                <control>
-                    <text size="25" />
-                </control>
-                <summary>Specialization</summary>
-                <description>Specialization</description>
-            </attribute>
+<!-- Business Object Inquiry Definition -->
 
-            <attribute name="school" >
-                <label>School</label>
-                <shortLabel>School</shortLabel>
-                <maxLength>50</maxLength>
-                <control>
-                    <text size="25" />
-                </control>
-                <summary>School</summary>
-                <description>School</description>
-            </attribute>
 
-            <attribute name="schoolIdCode" >
-                <label>School Id Code</label>
-                <shortLabel>School Id Cd</shortLabel>
-                <maxLength>3</maxLength>
-                <control>
-                    <text size="3" />
-                </control>
-                <summary>School Id Code</summary>
-                <description>School Id Code</description>
-            </attribute>
+  <bean id="PersonDegree-inquiryDefinition" parent="PersonDegree-inquiryDefinition-parentBean" />
 
-            <attribute name="schoolId" >
-                <label>School Id</label>
-                <shortLabel>SchoolId </shortLabel>
-                <maxLength>20</maxLength>
-                <control>
-                    <text size="25" />
-                </control>
-                <summary>School Id</summary>
-                <description>School Id</description>
-            </attribute>
+  <bean id="PersonDegree-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Person Degree" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Person Degree" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="personId"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="graduationYear"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="degreeCode"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="degree"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="fieldOfStudy" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="specialization" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="school" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="schoolIdCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="schoolId" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-        </attributes>
-    </businessObject>
+<!-- Business Object Lookup Definition -->
 
-</dictionaryEntry>
+
+  <bean id="PersonDegree-lookupDefinition" parent="PersonDegree-lookupDefinition-parentBean" />
+
+  <bean id="PersonDegree-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Person Degree" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Person Degree" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="personId" />
+        <bean parent="FieldDefinition"
+              p:attributeName="graduationYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="degreeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="degree" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="personId"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="graduationYear"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="degreeCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="degree"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="fieldOfStudy" />
+        <bean parent="FieldDefinition"
+              p:attributeName="specialization" />
+        <bean parent="FieldDefinition"
+              p:attributeName="school" />
+        <bean parent="FieldDefinition"
+              p:attributeName="schoolIdCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="schoolId" />
+      </list>
+    </property>
+  </bean>
+</beans>

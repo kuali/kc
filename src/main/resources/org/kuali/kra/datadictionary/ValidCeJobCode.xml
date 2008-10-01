@@ -1,92 +1,125 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="ValidCeJobCode" parent="ValidCeJobCode-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="ValidCeJobCode-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.budget.bo.ValidCeJobCode" />
+    <property name="inquiryDefinition" >
+      <ref bean="ValidCeJobCode-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ValidCeJobCode-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="costElement" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ValidCeJobCode-costElement" />
+        <ref bean="ValidCeJobCode-jobCode" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.budget.bo.ValidCeJobCode">
+<!-- Attribute Definitions -->
 
-        <inquiry>
-            <title>Valid Ce Job Codes</title>
 
-            <inquirySections><inquirySection title="Valid Ce Job Codes"><inquiryFields>
-            	<field attributeName="costElement" forceInquiry="true"/>
-				<field attributeName="jobCode" forceInquiry="true"/>
+  <bean id="ValidCeJobCode-costElement" parent="ValidCeJobCode-costElement-parentBean" />
 
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="ValidCeJobCode-costElement-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="costElement" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Cost Element" />
+    <property name="shortLabel" value="Cost Element" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Cost Element" />
+    <property name="description" value="Cost Element" />
+  </bean>
+  <bean id="ValidCeJobCode-jobCode" parent="ValidCeJobCode-jobCode-parentBean" />
 
-        <lookup>
-            <title>Valid Ce Job Codes Lookup</title>
-			<menubar>
-				<![CDATA[<a href="index.jsp">Main</a>]]>
-			</menubar>
-            <instructions>Look up a Valid Ce Job Codes</instructions>
+  <bean id="ValidCeJobCode-jobCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="jobCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Job Code" />
+    <property name="shortLabel" value="Job Code" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="Job Code" />
+    <property name="description" value="Job Code" />
+  </bean>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                	<sortAttribute attributeName="costElement"/>
-					<sortAttribute attributeName="jobCode"/>
+<!-- Business Object Inquiry Definition -->
 
-                </sortAttributes>
-            </defaultSort>
 
-            <lookupFields>
-            	<lookupField attributeName="costElement" required="false"/>
-				<lookupField attributeName="jobCode" required="false"/>
+  <bean id="ValidCeJobCode-inquiryDefinition" parent="ValidCeJobCode-inquiryDefinition-parentBean" />
 
-            </lookupFields>
+  <bean id="ValidCeJobCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Valid Ce Job Codes" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Valid Ce Job Codes" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="costElement"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="jobCode"
+                    p:forceInquiry="true" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <resultFields>
-            	<field attributeName="costElement" forceInquiry="true"/>
-				<field attributeName="jobCode" forceInquiry="true"/>
+<!-- Business Object Lookup Definition -->
 
-            </resultFields>
-        </lookup>
 
-        <titleAttribute>costElement</titleAttribute>
-		<!-- <titleAttribute>jobCode</titleAttribute> -->
-        <attributes>
+  <bean id="ValidCeJobCode-lookupDefinition" parent="ValidCeJobCode-lookupDefinition-parentBean" />
 
-	        <attribute name="costElement">
-			<label>Cost Element </label>
-			<shortLabel>Cost Element </shortLabel>
-			<maxLength>8</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<control>
-				<text size="8" />
-			</control>
-			<summary>Cost Element </summary>
-			<description>Cost Element </description>
-			</attribute>
-
-			<attribute name="jobCode">
-			<label>Job Code </label>
-			<shortLabel>Job Code </shortLabel>
-			<maxLength>6</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<control>
-				<text size="6" />
-			</control>
-			<summary>Job Code </summary>
-			<description>Job Code </description>
-			</attribute>
-
-		</attributes>
-    </businessObject>
-
-</dictionaryEntry>
+  <bean id="ValidCeJobCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Valid Ce Job Codes Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Valid Ce Job Codes" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="costElement" />
+        <bean parent="FieldDefinition"
+              p:attributeName="jobCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="costElement"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="jobCode"
+              p:forceInquiry="true" />
+      </list>
+    </property>
+  </bean>
+</beans>

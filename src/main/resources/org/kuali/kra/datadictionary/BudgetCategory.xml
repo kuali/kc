@@ -1,109 +1,169 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="BudgetCategory" parent="BudgetCategory-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="BudgetCategory-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.budget.bo.BudgetCategory" />
+    <property name="inquiryDefinition" >
+      <ref bean="BudgetCategory-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="BudgetCategory-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="budgetCategoryCode" />
+    <property name="attributes" >
+      <list>
+        <ref bean="BudgetCategory-budgetCategoryCode" />
+        <ref bean="BudgetCategory-budgetCategoryTypeCode" />
+        <ref bean="BudgetCategory-budgetCategoryType.description" />
+        <ref bean="BudgetCategory-description" />
+        <ref bean="BudgetCategory-versionNumber" />
+      </list>
+    </property>
+    <property name="relationships" >
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="budgetCategoryType" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="budgetCategoryTypeCode"
+                    p:targetName="budgetCategoryTypeCode" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="budgetCategoryType.description"
+                    p:targetName="description" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.budget.bo.BudgetCategory">
+<!-- Attribute Definitions -->
 
-        <inquiry>
-            <title>Budget Category</title>
 
-            <inquirySections><inquirySection title="Budget Category"><inquiryFields>
-            	<field attributeName="budgetCategoryCode" forceInquiry="true"/>
-				<field attributeName="budgetCategoryType.description"/>
-				<field attributeName="description"/>
+  <bean id="BudgetCategory-budgetCategoryCode" parent="BudgetCategory-budgetCategoryCode-parentBean" />
 
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="BudgetCategory-budgetCategoryCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetCategoryCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Budget Category Code" />
+    <property name="shortLabel" value="Budget Category Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Budget Category Code" />
+    <property name="description" value="Budget Category Code" />
+  </bean>
+  <bean id="BudgetCategory-budgetCategoryTypeCode" parent="BudgetCategory-budgetCategoryTypeCode-parentBean" />
 
-        <lookup>
-            <title>Budget Category Lookup</title>
-			<menubar>
-				<![CDATA[<a href="index.jsp">Main</a>]]>
-			</menubar>
-            <instructions>Look up a Budget Category</instructions>
+  <bean id="BudgetCategory-budgetCategoryTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetCategoryTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Category Type" />
+    <property name="shortLabel" value="Category Type" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Category Type" />
+    <property name="description" value="Category Type" />
+  </bean>
+  <bean id="BudgetCategory-budgetCategoryType.description" parent="BudgetCategory-budgetCategoryType.description-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                	<sortAttribute attributeName="budgetCategoryCode"/>
+  <bean id="BudgetCategory-budgetCategoryType.description-parentBean" abstract="true" parent="BudgetCategoryType-description">
+    <property name="name" value="budgetCategoryType.description" />
+    <property name="label" value="Budget Category Type" />
+    <property name="shortLabel" value="Budget Category" />
+  </bean>
+  <bean id="BudgetCategory-description" parent="BudgetCategory-description-parentBean" />
 
-                </sortAttributes>
-            </defaultSort>
+  <bean id="BudgetCategory-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+  </bean>
+  <bean id="BudgetCategory-versionNumber" parent="BudgetCategory-versionNumber-parentBean" />
 
-            <lookupFields>
-            	<lookupField attributeName="budgetCategoryCode" required="false"/>
-				<lookupField attributeName="budgetCategoryTypeCode" required="false"/>
-				<lookupField attributeName="description" required="false"/>
+  <bean id="BudgetCategory-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            </lookupFields>
+<!-- Business Object Inquiry Definition -->
 
-            <resultFields>
-            	<field attributeName="budgetCategoryCode" forceInquiry="true"/>
-				<field attributeName="budgetCategoryType.description" forceInquiry="false"/>
-				<field attributeName="description" forceInquiry="false"/>
 
-            </resultFields>
-        </lookup>
+  <bean id="BudgetCategory-inquiryDefinition" parent="BudgetCategory-inquiryDefinition-parentBean" />
 
-        <titleAttribute>budgetCategoryCode</titleAttribute>
-        
-        <attributes>
+  <bean id="BudgetCategory-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Budget Category" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Budget Category" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="budgetCategoryCode"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="budgetCategoryType.description" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-	        <attribute name="budgetCategoryCode">
-			<label>Budget Category Code </label>
-			<shortLabel>Budget Category Code </shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="3"/> 
-			</control>
-			<summary>Budget Category Code </summary>
-			<description>Budget Category Code </description>
-			</attribute>
+<!-- Business Object Lookup Definition -->
 
-			<attribute name="budgetCategoryTypeCode">
-			<label>Category Type </label>
-			<shortLabel>Category Type </shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<control>
-				<text size="4" />
-			</control>
-			<summary>Category Type </summary>
-			<description>Category Type </description>
-			</attribute>
 
-			<attributeReference name="budgetCategoryType.description" sourceClassName="org.kuali.kra.budget.bo.BudgetCategoryType" sourceAttributeName="description" >
-			    <label>Budget Category Type</label>
-			    <shortLabel>Budget Category</shortLabel>
-            </attributeReference>
+  <bean id="BudgetCategory-lookupDefinition" parent="BudgetCategory-lookupDefinition-parentBean" />
 
-            <attributeReference name="description" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="description" />
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-		</attributes>
-
-        <relationships>
-            <relationship objectAttributeName="budgetCategoryType">
-                <primitiveAttribute sourceName="budgetCategoryTypeCode" targetName="budgetCategoryTypeCode" />
-                <supportAttribute sourceName="budgetCategoryType.description" targetName="description" identifier="true" />
-            </relationship>
-        </relationships>
-    </businessObject>
-
-</dictionaryEntry>
+  <bean id="BudgetCategory-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Budget Category Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Budget Category" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetCategoryCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetCategoryTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetCategoryCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetCategoryType.description" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+  </bean>
+</beans>
