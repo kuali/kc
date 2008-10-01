@@ -1,132 +1,168 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="OrganizationAudit" parent="OrganizationAudit-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="OrganizationAudit-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.OrganizationAudit" />
+    <property name="inquiryDefinition" >
+      <ref bean="OrganizationAudit-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="OrganizationAudit-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="organizationId" />
+    <property name="attributes" >
+      <list>
+        <ref bean="OrganizationAudit-fiscalYear" />
+        <ref bean="OrganizationAudit-organizationId" />
+        <ref bean="OrganizationAudit-auditAccepted" />
+        <ref bean="OrganizationAudit-auditComment" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.bo.OrganizationAudit">
-
-        <inquiry>
-            <title>Organization Audit</title>
-
-            <inquirySections><inquirySection title="Organization Audit"><inquiryFields>
-            	<field attributeName="fiscalYear" forceInquiry="true"/>
-				<field attributeName="organizationId" forceInquiry="true"/>
-				<field attributeName="auditAccepted"/>
-				<field attributeName="auditComment"/>
-
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
-
-        <lookup>
-            <title>Organization Audit Lookup</title>
-			<menubar>
-				<![CDATA[<a href="index.jsp">Main</a>]]>
-			</menubar>
-            <instructions>Look up a Organization Audit</instructions>
-
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                	<sortAttribute attributeName="fiscalYear"/>
-					<sortAttribute attributeName="organizationId"/>
-
-                </sortAttributes>
-            </defaultSort>
-
-            <lookupFields>
-            	<lookupField attributeName="fiscalYear" required="false"/>
-				<lookupField attributeName="organizationId" required="false"/>
-				<lookupField attributeName="auditAccepted" required="false"/>
-				<lookupField attributeName="auditComment" required="false"/>
-
-            </lookupFields>
-
-            <resultFields>
-            	<field attributeName="fiscalYear" forceInquiry="true"/>
-				<field attributeName="organizationId" forceInquiry="true"/>
-				<field attributeName="auditAccepted" forceInquiry="false"/>
-				<field attributeName="auditComment" forceInquiry="false"/>
-
-            </resultFields>
-        </lookup>
-
-        <!-- <titleAttribute>fiscalYear</titleAttribute> -->
-		<titleAttribute>organizationId</titleAttribute>
-        <attributes>
-
-	        <attribute name="fiscalYear">
-			<label>Fiscal Year </label>
-			<shortLabel>Fiscal Year </shortLabel>
-			<maxLength>4</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="4" />
-			</control>
-			<summary>Fiscal Year </summary>
-			<description>Fiscal Year </description>
-			</attribute>
-
-			<attribute name="organizationId">
-			<label>Organization Id </label>
-			<shortLabel>Organization Id </shortLabel>
-			<maxLength>8</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="8" />
-			</control>
-			<summary>Organization Id </summary>
-			<description>Organization Id </description>
-			</attribute>
-
-<!-- 
-			<attribute name="auditAccepted">
-			<label>Audit Accepted </label>
-			<shortLabel>Audit Accepted </shortLabel>
-			<maxLength>1</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<control>
-				<text size="1" />
-			</control>
-			<summary>Audit Accepted </summary>
-			<description>Audit Accepted </description>
-			</attribute>
--->
-            <attributeReference name="auditAccepted" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>Audit Accepted </label>
-                <shortLabel>Audit Accepted </shortLabel>
-                <summary>Audit Accepted </summary>
-                <description>Audit Accepted </description>
-			</attributeReference>
+<!-- Attribute Definitions -->
 
 
+  <bean id="OrganizationAudit-fiscalYear" parent="OrganizationAudit-fiscalYear-parentBean" />
 
-			<attribute name="auditComment">
-			<label>Audit Comment </label>
-			<shortLabel>Audit Comment </shortLabel>
-			<maxLength>300</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-                <control>
-                    <textarea rows="5" cols="40" />
-                </control>
-			<summary>Audit Comment </summary>
-			<description>Audit Comment </description>
-			</attribute>
+  <bean id="OrganizationAudit-fiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fiscalYear" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Fiscal Year" />
+    <property name="shortLabel" value="Fiscal Year" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Fiscal Year" />
+    <property name="description" value="Fiscal Year" />
+  </bean>
+  <bean id="OrganizationAudit-organizationId" parent="OrganizationAudit-organizationId-parentBean" />
 
-		</attributes>
-    </businessObject>
+  <bean id="OrganizationAudit-organizationId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Organization Id" />
+    <property name="shortLabel" value="Organization Id" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Organization Id" />
+    <property name="description" value="Organization Id" />
+  </bean>
+  <bean id="OrganizationAudit-auditAccepted" parent="OrganizationAudit-auditAccepted-parentBean" />
 
-</dictionaryEntry>
+  <bean id="OrganizationAudit-auditAccepted-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="auditAccepted" />
+    <property name="label" value="Audit Accepted" />
+    <property name="shortLabel" value="Audit Accepted" />
+    <property name="summary" value="Audit Accepted" />
+    <property name="description" value="Audit Accepted" />
+  </bean>
+  <bean id="OrganizationAudit-auditComment" parent="OrganizationAudit-auditComment-parentBean" />
+
+  <bean id="OrganizationAudit-auditComment-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="auditComment" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Audit Comment" />
+    <property name="shortLabel" value="Audit Comment" />
+    <property name="maxLength" value="300" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="5"
+            p:cols="40" />
+    </property>
+    <property name="summary" value="Audit Comment" />
+    <property name="description" value="Audit Comment" />
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="OrganizationAudit-inquiryDefinition" parent="OrganizationAudit-inquiryDefinition-parentBean" />
+
+  <bean id="OrganizationAudit-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Organization Audit" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Organization Audit" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="fiscalYear"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationId"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="auditAccepted" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="auditComment" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="OrganizationAudit-lookupDefinition" parent="OrganizationAudit-lookupDefinition-parentBean" />
+
+  <bean id="OrganizationAudit-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Organization Audit Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Organization Audit" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="fiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationId" />
+        <bean parent="FieldDefinition"
+              p:attributeName="auditAccepted" />
+        <bean parent="FieldDefinition"
+              p:attributeName="auditComment" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="fiscalYear"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationId"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="auditAccepted" />
+        <bean parent="FieldDefinition"
+              p:attributeName="auditComment" />
+      </list>
+    </property>
+  </bean>
+</beans>

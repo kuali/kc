@@ -1,65 +1,70 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="ProposalBudgetStatus" parent="ProposalBudgetStatus-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="ProposalBudgetStatus-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalBudgetStatus" />
+    <property name="titleAttribute" value="budgetStatusCode" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KRA-B"
+            p:parameterName="proposalBudgetStatusHelpUrl"
+            p:parameterDetailType="D" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="ProposalBudgetStatus-proposalNumber" />
+        <ref bean="ProposalBudgetStatus-budgetStatusCode" />
+        <ref bean="ProposalBudgetStatus-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalBudgetStatus">
+<!-- Attribute Definitions -->
 
-        <titleAttribute>budgetStatusCode</titleAttribute>
 
-        <attributes>
+  <bean id="ProposalBudgetStatus-proposalNumber" parent="ProposalBudgetStatus-proposalNumber-parentBean" />
 
-            <attribute name="proposalNumber">
-                <label>Proposal ID</label>
-                <shortLabel>Proposal ID</shortLabel>
+  <bean id="ProposalBudgetStatus-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="proposalNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Proposal ID" />
+    <property name="shortLabel" value="Proposal ID" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="Proposal Number" />
+    <property name="description" value="The unique proposal number identifying a proposal. This is a system generated, sequential number." />
+  </bean>
+  <bean id="ProposalBudgetStatus-budgetStatusCode" parent="ProposalBudgetStatus-budgetStatusCode-parentBean" />
 
-                <maxLength>12</maxLength>
-                <validationPattern><numeric /></validationPattern>
+  <bean id="ProposalBudgetStatus-budgetStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetStatusCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Budget Status Code" />
+    <property name="shortLabel" value="Status" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="Budget Status Code" />
+    <property name="description" value="Budget Status Code" />
+  </bean>
+  <bean id="ProposalBudgetStatus-versionNumber" parent="ProposalBudgetStatus-versionNumber-parentBean" />
 
-                <required>true</required>
-
-                <control>
-					<hidden />
-                </control>
-
-                <summary>Proposal Number</summary>
-                <description>The unique proposal number identifying a proposal. This is a system generated, sequential number.</description>
-			</attribute>
-			
-			<attribute name="budgetStatusCode">
-                <label>Budget Status Code</label>
-                <shortLabel>Status</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><alphaNumeric /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>Budget Status Code</summary>
-                <description>Budget Status Code</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-		</attributes>
-
-        <objectHelp parameterNamespace="KRA-B" parameterDetailType="D"  parameterName="proposalBudgetStatusHelpUrl"/> 
-    </businessObject>
-
-</dictionaryEntry>
+  <bean id="ProposalBudgetStatus-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+</beans>

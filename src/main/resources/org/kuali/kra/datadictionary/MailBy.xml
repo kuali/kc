@@ -1,84 +1,120 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="MailBy" parent="MailBy-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="MailBy-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.MailBy" />
+    <property name="inquiryDefinition" >
+      <ref bean="MailBy-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="MailBy-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="mailByCode" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KRA-PD"
+            p:parameterName="proposalDevelopmentMailByHelpUrl"
+            p:parameterDetailType="D" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="MailBy-mailByCode" />
+        <ref bean="MailBy-description" />
+        <ref bean="MailBy-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.MailBy">
+<!-- Attribute Definitions -->
 
-        <inquiry>
-            <title>Mail By</title>
 
-            <inquirySections><inquirySection title="Mail By"><inquiryFields>
-                <field attributeName="mailByCode" forceInquiry="true" />
-                <field attributeName="description" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="MailBy-mailByCode" parent="MailBy-mailByCode-parentBean" />
 
-        <lookup>
-            <title>Mail By Lookup</title>
-			<menubar>
-				<![CDATA[<a href="index.jsp">Main</a>]]>
-			</menubar>
-            <instructions>Look up a Mail By</instructions>
+  <bean id="MailBy-mailByCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="mailByCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Mail By" />
+    <property name="shortLabel" value="Mail By" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Mail By" />
+    <property name="description" value="Mail By" />
+  </bean>
+  <bean id="MailBy-description" parent="MailBy-description-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="mailByCode" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="MailBy-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+  </bean>
+  <bean id="MailBy-versionNumber" parent="MailBy-versionNumber-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="mailByCode" required="false" />
-                <lookupField attributeName="description" required="false" />
-            </lookupFields>
+  <bean id="MailBy-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <resultFields>
-                <field attributeName="mailByCode" forceInquiry="true" />
-                <field attributeName="description" forceInquiry="false"/>
-            </resultFields>
-        </lookup>
+<!-- Business Object Inquiry Definition -->
 
-        <titleAttribute>mailByCode</titleAttribute>
 
-        <attributes>
+  <bean id="MailBy-inquiryDefinition" parent="MailBy-inquiryDefinition-parentBean" />
 
-            <attribute name="mailByCode">
-                <label>Mail By</label>
-                <shortLabel>Mail By</shortLabel>
+  <bean id="MailBy-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Mail By" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Mail By" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="mailByCode"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <maxLength>3</maxLength>
-                <validationPattern><alphaNumeric /></validationPattern>
+<!-- Business Object Lookup Definition -->
 
-                <control>
-                    <text size="4" />
-                </control>
 
-                <summary>Mail By</summary>
-                <description>Mail By</description>
-			</attribute>
+  <bean id="MailBy-lookupDefinition" parent="MailBy-lookupDefinition-parentBean" />
 
-            <attributeReference name="description" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="description" />
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-		</attributes>
-
-        <objectHelp parameterNamespace="KRA-PD" parameterDetailType="D" parameterName="proposalDevelopmentMailByHelpUrl"/> 
-    </businessObject>
-
-</dictionaryEntry>
+  <bean id="MailBy-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Mail By Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Mail By" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="mailByCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="mailByCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+  </bean>
+</beans>

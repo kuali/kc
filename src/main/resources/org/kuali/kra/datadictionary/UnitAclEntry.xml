@@ -1,176 +1,258 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="UnitAclEntry" parent="UnitAclEntry-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="UnitAclEntry-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.UnitAclEntry" />
+    <property name="inquiryDefinition" >
+      <ref bean="UnitAclEntry-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="UnitAclEntry-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="id" />
+    <property name="attributes" >
+      <list>
+        <ref bean="UnitAclEntry-id" />
+        <ref bean="UnitAclEntry-personId" />
+        <ref bean="UnitAclEntry-personName" />
+        <ref bean="UnitAclEntry-roleId" />
+        <ref bean="UnitAclEntry-roleName" />
+        <ref bean="UnitAclEntry-roleTypeName" />
+        <ref bean="UnitAclEntry-unitNumber" />
+        <ref bean="UnitAclEntry-unitName" />
+        <ref bean="UnitAclEntry-subunits" />
+        <ref bean="UnitAclEntry-active" />
+        <ref bean="UnitAclEntry-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.bo.UnitAclEntry">
+<!-- Attribute Definitions -->
 
-        <inquiry>
-            <title>Person-Role</title>
 
-            <inquirySections><inquirySection title="Person-Role"><inquiryFields>
-                <field attributeName="personId"/>
-                <field attributeName="roleId"/>
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="UnitAclEntry-id" parent="UnitAclEntry-id-parentBean" />
 
-        <lookup>
-            <title>Person-Role Lookup</title>
-            <menubar>
-                <![CDATA[<a href="index.jsp">Main</a>]]>
-            </menubar>
-            <instructions>Look up a Person-Role</instructions>
+  <bean id="UnitAclEntry-id-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="id" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Id" />
+    <property name="shortLabel" value="Id" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="Id" />
+    <property name="description" value="Id" />
+  </bean>
+  <bean id="UnitAclEntry-personId" parent="UnitAclEntry-personId-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="personId"/>
-                    <sortAttribute attributeName="roleId"/>
-                </sortAttributes>
-            </defaultSort>
+  <bean id="UnitAclEntry-personId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="personId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Person Id" />
+    <property name="shortLabel" value="Person Id" />
+    <property name="maxLength" value="10" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Person Id" />
+    <property name="description" value="Person Id" />
+  </bean>
+  <bean id="UnitAclEntry-personName" parent="UnitAclEntry-personName-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="personId" required="false"/>
-                <lookupField attributeName="roleId" required="false"/>
-                <lookupField attributeName="unitNumber" required="false"/>
-                <lookupField attributeName="subunits" required="false"/>
-                <lookupField attributeName="active" required="false"/>
-            </lookupFields>
+  <bean id="UnitAclEntry-personName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="personName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Person Full Name" />
+    <property name="shortLabel" value="Person Full Name" />
+    <property name="maxLength" value="500" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Person Full Name" />
+    <property name="description" value="Person Full Name" />
+  </bean>
+  <bean id="UnitAclEntry-roleId" parent="UnitAclEntry-roleId-parentBean" />
 
-            <resultFields>
-                <field attributeName="personId" forceInquiry="false"/>
-                <field attributeName="personName" forceInquiry="false"/>
-                <field attributeName="roleId" forceInquiry="false"/>
-                <field attributeName="roleName" forceInquiry="false"/>
-                <field attributeName="roleTypeName" forceInquiry="false"/>
-                <field attributeName="unitNumber" forceInquiry="false"/>
-                <field attributeName="unitName" forceInquiry="false"/>
-                <field attributeName="subunits" forceInquiry="false"/>
-                <field attributeName="active" forceInquiry="false"/>
-            </resultFields>
-        </lookup>
+  <bean id="UnitAclEntry-roleId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="roleId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Role Id" />
+    <property name="shortLabel" value="Role Id" />
+    <property name="maxLength" value="10" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Role Id" />
+    <property name="description" value="Role Id" />
+  </bean>
+  <bean id="UnitAclEntry-roleName" parent="UnitAclEntry-roleName-parentBean" />
 
-        <titleAttribute>id</titleAttribute>
-        <attributes>
-            <attribute name="id">
-                <label>Id </label>
-                <shortLabel>Id </shortLabel>
-                <maxLength>8</maxLength>
-                <validationPattern><numeric /></validationPattern>
-                <control>
-                    <hidden />
-                </control>
-                <summary>Id </summary>
-                <description>Id </description>
-            </attribute>
+  <bean id="UnitAclEntry-roleName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="roleName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Role Name" />
+    <property name="shortLabel" value="Role Name" />
+    <property name="maxLength" value="500" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Role Name" />
+    <property name="description" value="Role Name" />
+  </bean>
+  <bean id="UnitAclEntry-roleTypeName" parent="UnitAclEntry-roleTypeName-parentBean" />
 
-            <attribute name="personId" >
-                <label>Person Id</label>
-                <shortLabel>Person Id</shortLabel>
-                <maxLength>10</maxLength>
-                <control>
-                    <text size="10" />
-                </control>
-                <summary>Person Id</summary>
-                <description>Person Id</description>
-            </attribute>
-            
-             <attribute name="personName" >
-                <label>Person Full Name</label>
-                <shortLabel>Person Full Name</shortLabel>
-                <maxLength>500</maxLength>
-                <control>
-                    <text size="10" />
-                </control>
-                <summary>Person Full Name</summary>
-                <description>Person Full Name</description>
-            </attribute>
+  <bean id="UnitAclEntry-roleTypeName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="roleTypeName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Role Type" />
+    <property name="shortLabel" value="Role Type" />
+    <property name="maxLength" value="500" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Role Type" />
+    <property name="description" value="Role Type" />
+  </bean>
+  <bean id="UnitAclEntry-unitNumber" parent="UnitAclEntry-unitNumber-parentBean" />
 
-            <attribute name="roleId" >
-                <label>Role Id</label>
-                <shortLabel>Role Id</shortLabel>
-                <maxLength>10</maxLength>
-                <control>
-                    <text size="10" />
-                </control>
-                <summary>Role Id</summary>
-                <description>Role Id</description>
-            </attribute>
-            
-            <attribute name="roleName" >
-                <label>Role Name</label>
-                <shortLabel>Role Name</shortLabel>
-                <maxLength>500</maxLength>
-                <control>
-                    <text size="10" />
-                </control>
-                <summary>Role Name</summary>
-                <description>Role Name</description>
-            </attribute>
-            
-            <attribute name="roleTypeName" >
-                <label>Role Type</label>
-                <shortLabel>Role Type</shortLabel>
-                <maxLength>500</maxLength>
-                <control>
-                    <text size="10" />
-                </control>
-                <summary>Role Type</summary>
-                <description>Role Type</description>
-            </attribute>
-            
-            <attribute name="unitNumber" >
-                <label>Unit Number</label>
-                <shortLabel>Unit Number</shortLabel>
-                <maxLength>10</maxLength>
-                <control>
-                    <text size="10" />
-                </control>
-                <summary>Unit Number</summary>
-                <description>Unit Number</description>
-            </attribute>
-            
-            <attribute name="unitName" >
-                <label>Unit Name</label>
-                <shortLabel>Unit Name</shortLabel>
-                <maxLength>500</maxLength>
-                <control>
-                    <text size="10" />
-                </control>
-                <summary>Unit Name</summary>
-                <description>Unit Name</description>
-            </attribute>
-            
-            <attributeReference name="subunits" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>Descend</label>
-                <shortLabel>Descend </shortLabel>
-                <summary>Descend</summary>
-                <description>Descend</description>
-            </attributeReference>
-           
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>Active</label>
-                <shortLabel>Active </shortLabel>
-                <summary>Active</summary>
-                <description>Active</description>
-            </attributeReference>
+  <bean id="UnitAclEntry-unitNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="unitNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Unit Number" />
+    <property name="shortLabel" value="Unit Number" />
+    <property name="maxLength" value="10" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Unit Number" />
+    <property name="description" value="Unit Number" />
+  </bean>
+  <bean id="UnitAclEntry-unitName" parent="UnitAclEntry-unitName-parentBean" />
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-        </attributes>
-    </businessObject>
+  <bean id="UnitAclEntry-unitName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="unitName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Unit Name" />
+    <property name="shortLabel" value="Unit Name" />
+    <property name="maxLength" value="500" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Unit Name" />
+    <property name="description" value="Unit Name" />
+  </bean>
+  <bean id="UnitAclEntry-subunits" parent="UnitAclEntry-subunits-parentBean" />
 
-</dictionaryEntry>
+  <bean id="UnitAclEntry-subunits-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="subunits" />
+    <property name="label" value="Descend" />
+    <property name="shortLabel" value="Descend" />
+    <property name="summary" value="Descend" />
+    <property name="description" value="Descend" />
+  </bean>
+  <bean id="UnitAclEntry-active" parent="UnitAclEntry-active-parentBean" />
+
+  <bean id="UnitAclEntry-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="active" />
+    <property name="label" value="Active" />
+    <property name="shortLabel" value="Active" />
+    <property name="summary" value="Active" />
+    <property name="description" value="Active" />
+  </bean>
+  <bean id="UnitAclEntry-versionNumber" parent="UnitAclEntry-versionNumber-parentBean" />
+
+  <bean id="UnitAclEntry-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="UnitAclEntry-inquiryDefinition" parent="UnitAclEntry-inquiryDefinition-parentBean" />
+
+  <bean id="UnitAclEntry-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Person-Role" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Person-Role" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="personId" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="roleId" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="UnitAclEntry-lookupDefinition" parent="UnitAclEntry-lookupDefinition-parentBean" />
+
+  <bean id="UnitAclEntry-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Person-Role Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Person-Role" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="personId" />
+        <bean parent="FieldDefinition"
+              p:attributeName="roleId" />
+        <bean parent="FieldDefinition"
+              p:attributeName="unitNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subunits" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="personId" />
+        <bean parent="FieldDefinition"
+              p:attributeName="personName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="roleId" />
+        <bean parent="FieldDefinition"
+              p:attributeName="roleName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="roleTypeName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="unitNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="unitName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subunits" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

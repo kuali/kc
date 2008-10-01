@@ -1,82 +1,114 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="PostSubmissionStatus" parent="PostSubmissionStatus-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="PostSubmissionStatus-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.PostSubmissionStatus" />
+    <property name="inquiryDefinition" >
+      <ref bean="PostSubmissionStatus-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="PostSubmissionStatus-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="postSubmissionStatusCode" />
+    <property name="attributes" >
+      <list>
+        <ref bean="PostSubmissionStatus-postSubmissionStatusCode" />
+        <ref bean="PostSubmissionStatus-description" />
+        <ref bean="PostSubmissionStatus-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.PostSubmissionStatus">
+<!-- Attribute Definitions -->
 
-        <inquiry>
-            <title>Post Submission Status Code</title>
 
-            <inquirySections><inquirySection title="Post Submission Status Code"><inquiryFields>
-                <field attributeName="postSubmissionStatusCode" forceInquiry="true" />
-                <field attributeName="description" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="PostSubmissionStatus-postSubmissionStatusCode" parent="PostSubmissionStatus-postSubmissionStatusCode-parentBean" />
 
-        <lookup>
-            <title>Post Submission Status Code Lookup</title>
-			<menubar>
-				<![CDATA[<a href="index.jsp">Main</a>]]>
-			</menubar>
-            <instructions>Look up a Post Submission Status Code</instructions>
+  <bean id="PostSubmissionStatus-postSubmissionStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="postSubmissionStatusCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Post Submission Status Type" />
+    <property name="shortLabel" value="Post Submission Status Type" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Post Submission Status Code" />
+    <property name="description" value="Post Submission Status Code" />
+  </bean>
+  <bean id="PostSubmissionStatus-description" parent="PostSubmissionStatus-description-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="postSubmissionStatusCode" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="PostSubmissionStatus-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+  </bean>
+  <bean id="PostSubmissionStatus-versionNumber" parent="PostSubmissionStatus-versionNumber-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="postSubmissionStatusCode" required="false" />
-                <lookupField attributeName="description" required="false" />
-            </lookupFields>
+  <bean id="PostSubmissionStatus-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <resultFields>
-                <field attributeName="postSubmissionStatusCode" forceInquiry="true" />
-                <field attributeName="description" forceInquiry="false"/>
-            </resultFields>
-        </lookup>
+<!-- Business Object Inquiry Definition -->
 
-        <titleAttribute>postSubmissionStatusCode</titleAttribute>
 
-        <attributes>
+  <bean id="PostSubmissionStatus-inquiryDefinition" parent="PostSubmissionStatus-inquiryDefinition-parentBean" />
 
-            <attribute name="postSubmissionStatusCode">
-                <label>Post Submission Status Type</label>
-                <shortLabel>Post Submission Status Type</shortLabel>
+  <bean id="PostSubmissionStatus-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Post Submission Status Code" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Post Submission Status Code" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="postSubmissionStatusCode"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <maxLength>3</maxLength>
-                <validationPattern><alphaNumeric /></validationPattern>
+<!-- Business Object Lookup Definition -->
 
-                <control>
-                    <text size="4" />
-                </control>
 
-                <summary>Post Submission Status Code</summary>
-                <description>Post Submission Status Code</description>
-			</attribute>
+  <bean id="PostSubmissionStatus-lookupDefinition" parent="PostSubmissionStatus-lookupDefinition-parentBean" />
 
-            <attributeReference name="description" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="description" />
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-		</attributes>
-    </businessObject>
-
-</dictionaryEntry>
+  <bean id="PostSubmissionStatus-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Post Submission Status Code Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Post Submission Status Code" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="postSubmissionStatusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="postSubmissionStatusCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+  </bean>
+</beans>

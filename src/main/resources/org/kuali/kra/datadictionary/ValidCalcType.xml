@@ -1,148 +1,229 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="ValidCalcType" parent="ValidCalcType-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="ValidCalcType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.budget.bo.ValidCalcType" />
+    <property name="inquiryDefinition" >
+      <ref bean="ValidCalcType-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ValidCalcType-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="calcTypeId" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ValidCalcType-calcTypeId" />
+        <ref bean="ValidCalcType-dependentSeqNumber" />
+        <ref bean="ValidCalcType-rateClassType" />
+        <ref bean="ValidCalcType-dependentRateClassType" />
+        <ref bean="ValidCalcType-rateClassCode" />
+        <ref bean="ValidCalcType-rateTypeCode" />
+        <ref bean="ValidCalcType-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.budget.bo.ValidCalcType">
+<!-- Attribute Definitions -->
 
-        <inquiry>
-            <title>Valid Calc Types</title>
-            <inquirySections><inquirySection title="Valid Calc Types"><inquiryFields>
-            	<field attributeName="calcTypeId" forceInquiry="true"/>
-				<field attributeName="dependentSeqNumber" forceInquiry="true"/>
-				<field attributeName="rateClassType" forceInquiry="true"/>
-				<field attributeName="dependentRateClassType"/>
-				<field attributeName="rateClassCode"/>
-				<field attributeName="rateTypeCode"/>
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
 
-        <lookup>
-            <title>Valid Calc Types Lookup</title>
-			<menubar>
-				<![CDATA[<a href="index.jsp">Main</a>]]>
-			</menubar>
-            <instructions>Look up a Valid Calc Types</instructions>
+  <bean id="ValidCalcType-calcTypeId" parent="ValidCalcType-calcTypeId-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                	<sortAttribute attributeName="calcTypeId"/>
-					<sortAttribute attributeName="dependentSeqNumber"/>
-					<sortAttribute attributeName="rateClassType"/>
-                </sortAttributes>
-            </defaultSort>
+  <bean id="ValidCalcType-calcTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="calcTypeId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Calc Type Id" />
+    <property name="shortLabel" value="Calc Type Id" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Calc Type Id" />
+    <property name="description" value="Calc Type Id" />
+  </bean>
+  <bean id="ValidCalcType-dependentSeqNumber" parent="ValidCalcType-dependentSeqNumber-parentBean" />
 
-            <lookupFields>
-            	<lookupField attributeName="calcTypeId" required="false"/>
-				<lookupField attributeName="rateClassType" required="false"/>
-				<lookupField attributeName="dependentRateClassType" required="false"/>
-				<lookupField attributeName="rateClassCode" required="false"/>
-				<lookupField attributeName="rateTypeCode" required="false"/>
-            </lookupFields>
+  <bean id="ValidCalcType-dependentSeqNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="dependentSeqNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Dependent Seq Number" />
+    <property name="shortLabel" value="Dependent Seq Number" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Dependent Seq Number" />
+    <property name="description" value="Dependent Seq Number" />
+  </bean>
+  <bean id="ValidCalcType-rateClassType" parent="ValidCalcType-rateClassType-parentBean" />
 
-            <resultFields>
-            	<field attributeName="calcTypeId" forceInquiry="true"/>
-				<field attributeName="rateClassType" forceInquiry="true"/>
-				<field attributeName="dependentRateClassType" forceInquiry="false"/>
-				<field attributeName="rateClassCode" forceInquiry="false"/>
-				<field attributeName="rateTypeCode" forceInquiry="false"/>
-				<field attributeName="dependentSeqNumber" forceInquiry="false"/>
-            </resultFields>
-        </lookup>
+  <bean id="ValidCalcType-rateClassType-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="rateClassType" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Rate Class Type" />
+    <property name="shortLabel" value="Rate Class Type" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="1" />
+    </property>
+    <property name="summary" value="Rate Class Type" />
+    <property name="description" value="Rate Class Type" />
+  </bean>
+  <bean id="ValidCalcType-dependentRateClassType" parent="ValidCalcType-dependentRateClassType-parentBean" />
 
-        <titleAttribute>calcTypeId</titleAttribute>
-        <attributes>
+  <bean id="ValidCalcType-dependentRateClassType-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="dependentRateClassType" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Dependent Rate Class Type" />
+    <property name="shortLabel" value="Dependent Rate Class Type" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="1" />
+    </property>
+    <property name="summary" value="Dependent Rate Class Type" />
+    <property name="description" value="Dependent Rate Class Type" />
+  </bean>
+  <bean id="ValidCalcType-rateClassCode" parent="ValidCalcType-rateClassCode-parentBean" />
 
-	        <attribute name="calcTypeId">
-			<label>Calc Type Id </label>
-			<shortLabel>Calc Type Id </shortLabel>
-			<maxLength>8</maxLength>
-			<validationPattern><alphaNumeric/></validationPattern>
-			<control>
-				<text size="8" />
-			</control>
-			<summary>Calc Type Id </summary>
-			<description>Calc Type Id </description>
-			</attribute>
+  <bean id="ValidCalcType-rateClassCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="rateClassCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Rate Class Code" />
+    <property name="shortLabel" value="Rate Class Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Rate Class Code" />
+    <property name="description" value="Rate Class Code" />
+  </bean>
+  <bean id="ValidCalcType-rateTypeCode" parent="ValidCalcType-rateTypeCode-parentBean" />
 
-			<attribute name="dependentSeqNumber">
-			<label>Dependent Seq Number </label>
-			<shortLabel>Dependent Seq Number </shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="3" />
-			</control>
-			<summary>Dependent Seq Number </summary>
-			<description>Dependent Seq Number </description>
-			</attribute>
+  <bean id="ValidCalcType-rateTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="rateTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Rate Type Code" />
+    <property name="shortLabel" value="Rate Type Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Rate Type Code" />
+    <property name="description" value="Rate Type Code" />
+  </bean>
+  <bean id="ValidCalcType-versionNumber" parent="ValidCalcType-versionNumber-parentBean" />
 
-			<attribute name="rateClassType">
-			<label>Rate Class Type </label>
-			<shortLabel>Rate Class Type </shortLabel>
-			<maxLength>1</maxLength>
-			<validationPattern><alphaNumeric/></validationPattern>
-			<control>
-				<text size="1" />
-			</control>
-			<summary>Rate Class Type </summary>
-			<description>Rate Class Type </description>
-			</attribute>
+  <bean id="ValidCalcType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-			<attribute name="dependentRateClassType">
-			<label>Dependent Rate Class Type </label>
-			<shortLabel>Dependent Rate Class Type </shortLabel>
-			<maxLength>1</maxLength>
-			<validationPattern><alphaNumeric/></validationPattern>
-			<control>
-				<text size="1" />
-			</control>
-			<summary>Dependent Rate Class Type </summary>
-			<description>Dependent Rate Class Type </description>
-			</attribute>
+<!-- Business Object Inquiry Definition -->
 
-			<attribute name="rateClassCode">
-			<label>Rate Class Code </label>
-			<shortLabel>Rate Class Code </shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><alphaNumeric/></validationPattern>
-			<control>
-				<text size="3" />
-			</control>
-			<summary>Rate Class Code </summary>
-			<description>Rate Class Code </description>
-			</attribute>
 
-			<attribute name="rateTypeCode">
-			<label>Rate Type Code </label>
-			<shortLabel>Rate Type Code </shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="3" />
-			</control>
-			<summary>Rate Type Code </summary>
-			<description>Rate Type Code </description>
-			</attribute>
-			
-			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+  <bean id="ValidCalcType-inquiryDefinition" parent="ValidCalcType-inquiryDefinition-parentBean" />
 
-		</attributes>
-    </businessObject>
+  <bean id="ValidCalcType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Valid Calc Types" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Valid Calc Types" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="calcTypeId"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="dependentSeqNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="rateClassType"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="dependentRateClassType" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="rateClassCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="rateTypeCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-</dictionaryEntry>
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="ValidCalcType-lookupDefinition" parent="ValidCalcType-lookupDefinition-parentBean" />
+
+  <bean id="ValidCalcType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Valid Calc Types Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Valid Calc Types" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="calcTypeId" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateClassType" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dependentRateClassType" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateClassCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateTypeCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="calcTypeId"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateClassType"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dependentRateClassType" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateClassCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dependentSeqNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

@@ -1,206 +1,315 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="ProposalPersonDegree" parent="ProposalPersonDegree-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="ProposalPersonDegree-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree" />
+    <property name="inquiryDefinition" >
+      <ref bean="ProposalPersonDegree-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ProposalPersonDegree-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="degreeCode" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ProposalPersonDegree-proposalNumber" />
+        <ref bean="ProposalPersonDegree-proposalPersonNumber" />
+        <ref bean="ProposalPersonDegree-graduationYear" />
+        <ref bean="ProposalPersonDegree-degreeCode" />
+        <ref bean="ProposalPersonDegree-degree" />
+        <ref bean="ProposalPersonDegree-fieldOfStudy" />
+        <ref bean="ProposalPersonDegree-specialization" />
+        <ref bean="ProposalPersonDegree-school" />
+        <ref bean="ProposalPersonDegree-schoolIdCode" />
+        <ref bean="ProposalPersonDegree-schoolId" />
+        <ref bean="ProposalPersonDegree-degreeSequenceNumber" />
+        <ref bean="ProposalPersonDegree-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree">
+<!-- Attribute Definitions -->
 
-        <inquiry>
-            <title>Proposal Person Degree</title>
 
-            <inquirySections><inquirySection title="Proposal Person Unit"><inquiryFields>
-                <field attributeName="proposalPersonNumber" forceInquiry="true"/>
-                <field attributeName="proposalNumber" forceInquiry="true" />
-                <field attributeName="graduationYear" forceInquiry="true" />
-                <field attributeName="degreeCode" forceInquiry="true" />
-                <field attributeName="degree" forceInquiry="true" />
-                <field attributeName="fieldOfStudy" />
-                <field attributeName="specialization" />
-                <field attributeName="school" />
-                <field attributeName="schoolIdCode" />
-                <field attributeName="schoolId" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="ProposalPersonDegree-proposalNumber" parent="ProposalPersonDegree-proposalNumber-parentBean" />
 
-        <lookup>
-            <title>Proposal Person Degree</title>
-			<menubar>
-				<![CDATA[<a href="index.jsp">Main</a>]]>
-			</menubar>
-            <instructions>Look up a Proposal Person Degree</instructions>
+  <bean id="ProposalPersonDegree-proposalNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
+    <property name="name" value="proposalNumber" />
+    <property name="label" value="Proposal Number" />
+    <property name="shortLabel" value="Prop Nbr" />
+    <property name="summary" value="Proposal Number" />
+    <property name="description" value="Proposal Number" />
+  </bean>
+  <bean id="ProposalPersonDegree-proposalPersonNumber" parent="ProposalPersonDegree-proposalPersonNumber-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                	<sortAttribute attributeName="proposalNumber"/>
-                    <sortAttribute attributeName="proposalPersonNumber"/>
-                    <sortAttribute attributeName="graduationYear" />
-                    <sortAttribute attributeName="degreeCode" />
-                    <sortAttribute attributeName="degree" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="ProposalPersonDegree-proposalPersonNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
+    <property name="name" value="proposalPersonNumber" />
+    <property name="label" value="Proposal Person Number" />
+    <property name="shortLabel" value="Prop Per Nbr" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="Proposal Person Number" />
+    <property name="description" value="Proposal Person Number" />
+  </bean>
+  <bean id="ProposalPersonDegree-graduationYear" parent="ProposalPersonDegree-graduationYear-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="proposalNumber" />
-                <lookupField attributeName="proposalPersonNumber" />
-                <lookupField attributeName="graduationYear" />
-                <lookupField attributeName="degreeCode" />
-                <lookupField attributeName="degree" />
-            </lookupFields>
+  <bean id="ProposalPersonDegree-graduationYear-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="graduationYear" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Graduation Year" />
+    <property name="shortLabel" value="Graduation Year" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="YearValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="Graduation Year" />
+    <property name="description" value="Graduation Year" />
+  </bean>
+  <bean id="ProposalPersonDegree-degreeCode" parent="ProposalPersonDegree-degreeCode-parentBean" />
 
-            <resultFields>
-                <field attributeName="proposalPersonNumber" forceInquiry="true"/>
-                <field attributeName="proposalNumber" forceInquiry="true" />
-                <field attributeName="graduationYear" forceInquiry="true" />
-                <field attributeName="degreeCode" forceInquiry="true" />
-                <field attributeName="degree" forceInquiry="true" />
-                <field attributeName="fieldOfStudy" forceInquiry="false" />
-                <field attributeName="specialization" forceInquiry="false" />
-                <field attributeName="school" forceInquiry="false" />
-                <field attributeName="schoolIdCode" forceInquiry="false" />
-                <field attributeName="schoolId" forceInquiry="false" />
-           </resultFields>
-        </lookup>
+  <bean id="ProposalPersonDegree-degreeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="degreeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Degree Type" />
+    <property name="shortLabel" value="Degree Type" />
+    <property name="maxLength" value="6" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kra.bo.DegreeType"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="false"
+            p:keyAttribute="degreeCode"
+            p:labelAttribute="description" />
+    </property>
+    <property name="summary" value="Degree Code" />
+    <property name="description" value="Degree Code" />
+  </bean>
+  <bean id="ProposalPersonDegree-degree" parent="ProposalPersonDegree-degree-parentBean" />
 
-        <titleAttribute>degreeCode</titleAttribute>
-        <attributes>
+  <bean id="ProposalPersonDegree-degree-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="degree" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Degree Description" />
+    <property name="shortLabel" value="Degree Description" />
+    <property name="maxLength" value="80" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="25" />
+    </property>
+    <property name="summary" value="Degree" />
+    <property name="description" value="Degree" />
+  </bean>
+  <bean id="ProposalPersonDegree-fieldOfStudy" parent="ProposalPersonDegree-fieldOfStudy-parentBean" />
 
-            <attributeReference name="proposalNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
-                <label>Proposal Number</label>
-                <shortLabel>Prop Nbr</shortLabel>
- 	            <summary>Proposal Number</summary>
-                <description>Proposal Number</description>
-            </attributeReference>
+  <bean id="ProposalPersonDegree-fieldOfStudy-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fieldOfStudy" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Field of Study" />
+    <property name="shortLabel" value="Field of Study" />
+    <property name="maxLength" value="80" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="25" />
+    </property>
+    <property name="summary" value="Field of Study" />
+    <property name="description" value="Field of Study" />
+  </bean>
+  <bean id="ProposalPersonDegree-specialization" parent="ProposalPersonDegree-specialization-parentBean" />
 
-            <attributeReference name="proposalPersonNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
-                <label>Proposal Person Number</label>
- 	            <shortLabel>Prop Per Nbr </shortLabel>
- 	            <control>
- 	                <hidden />
- 	            </control>
- 	            <summary>Proposal Person Number</summary>
-                <description>Proposal Person Number </description>
-            </attributeReference>
+  <bean id="ProposalPersonDegree-specialization-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="specialization" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Specialization" />
+    <property name="shortLabel" value="Specialization" />
+    <property name="maxLength" value="80" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="25" />
+    </property>
+    <property name="summary" value="Specialization" />
+    <property name="description" value="Specialization" />
+  </bean>
+  <bean id="ProposalPersonDegree-school" parent="ProposalPersonDegree-school-parentBean" />
 
-            <attribute name="graduationYear" >
-                <label>Graduation Year</label>
-                <shortLabel>Graduation Year</shortLabel>
-                <maxLength>4</maxLength>
-				<validationPattern><year /></validationPattern>
-				<required>true</required>
-                <control>
-                    <text size="5" />
-                </control>
-                <summary>Graduation Year</summary>
-            	<description>Graduation Year</description>
-            </attribute>
+  <bean id="ProposalPersonDegree-school-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="school" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="School" />
+    <property name="shortLabel" value="School" />
+    <property name="maxLength" value="50" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="25" />
+    </property>
+    <property name="summary" value="School" />
+    <property name="description" value="School" />
+  </bean>
+  <bean id="ProposalPersonDegree-schoolIdCode" parent="ProposalPersonDegree-schoolIdCode-parentBean" />
 
-            <attribute name="degreeCode" >
-                <label>Degree Type</label>
-                <shortLabel>Degree Type</shortLabel>
-                <maxLength>6</maxLength>
-                <required>true</required>
-                <control>                    
-                    <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" businessObjectClass="org.kuali.kra.bo.DegreeType" keyAttribute="degreeCode" labelAttribute="description" includeKeyInLabel="false"/>
-                </control>
-                <summary>Degree Code</summary>
-            	<description>Degree Code</description>
-            </attribute>
+  <bean id="ProposalPersonDegree-schoolIdCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="schoolIdCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="School Id Code" />
+    <property name="shortLabel" value="School Id Cd" />
+    <property name="maxLength" value="3" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="School Id Code" />
+    <property name="description" value="School Id Code" />
+  </bean>
+  <bean id="ProposalPersonDegree-schoolId" parent="ProposalPersonDegree-schoolId-parentBean" />
 
-            <attribute name="degree" >
-                <label>Degree Description</label>
-                <shortLabel>Degree Description</shortLabel>
-                <maxLength>80</maxLength>
-                <required>true</required>
-                <control>
-                    <text size="25" />
-                </control>
-                <summary>Degree</summary>
-            	<description>Degree</description>
-            </attribute>
+  <bean id="ProposalPersonDegree-schoolId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="schoolId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="School Id" />
+    <property name="shortLabel" value="SchoolId" />
+    <property name="maxLength" value="20" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="25" />
+    </property>
+    <property name="summary" value="School Id" />
+    <property name="description" value="School Id" />
+  </bean>
+  <bean id="ProposalPersonDegree-degreeSequenceNumber" parent="ProposalPersonDegree-degreeSequenceNumber-parentBean" />
 
-            <attribute name="fieldOfStudy" >
-                <label>Field of Study</label>
-                <shortLabel>Field of Study</shortLabel>
-                <maxLength>80</maxLength>
-                <control>
-                    <text size="25" />
-                </control>
-                <summary>Field of Study</summary>
-            	<description>Field of Study</description>
-            </attribute>
+  <bean id="ProposalPersonDegree-degreeSequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="degreeSequenceNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Degree Sequence Number" />
+    <property name="shortLabel" value="Degree Sequence" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="Degree Sequence Number" />
+    <property name="description" value="Degree Sequence Number" />
+  </bean>
+  <bean id="ProposalPersonDegree-versionNumber" parent="ProposalPersonDegree-versionNumber-parentBean" />
 
-            <attribute name="specialization" >
-                <label>Specialization</label>
-                <shortLabel>Specialization</shortLabel>
-                <maxLength>80</maxLength>
-                <control>
-                    <text size="25" />
-                </control>
-                <summary>Specialization</summary>
-            	<description>Specialization</description>
-            </attribute>
+  <bean id="ProposalPersonDegree-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <attribute name="school" >
-                <label>School</label>
-                <shortLabel>School</shortLabel>
-                <maxLength>50</maxLength>
-                <control>
-                    <text size="25" />
-                </control>
-                <summary>School</summary>
-            	<description>School</description>
-            </attribute>
+<!-- Business Object Inquiry Definition -->
 
-            <attribute name="schoolIdCode" >
-                <label>School Id Code</label>
-                <shortLabel>School Id Cd</shortLabel>
-                <maxLength>3</maxLength>
-                <control>
-                    <text size="3" />
-                </control>
-                <summary>School Id Code</summary>
-            	<description>School Id Code</description>
-            </attribute>
 
-            <attribute name="schoolId" >
-                <label>School Id</label>
-                <shortLabel>SchoolId </shortLabel>
-                <maxLength>20</maxLength>
-                <control>
-                    <text size="25" />
-                </control>
-                <summary>School Id</summary>
-            	<description>School Id</description>
-            </attribute>
-			<attribute name="degreeSequenceNumber">
-			<label>Degree Sequence Number </label>
-			<shortLabel>Degree Sequence </shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<hidden />
-			</control>
-			<summary>Degree Sequence Number</summary>
-			<description>Degree Sequence Number</description>
-			</attribute>
+  <bean id="ProposalPersonDegree-inquiryDefinition" parent="ProposalPersonDegree-inquiryDefinition-parentBean" />
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-		</attributes>
-    </businessObject>
+  <bean id="ProposalPersonDegree-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Proposal Person Degree" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Proposal Person Unit" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalPersonNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="graduationYear"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="degreeCode"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="degree"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="fieldOfStudy" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="specialization" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="school" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="schoolIdCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="schoolId" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-</dictionaryEntry>
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="ProposalPersonDegree-lookupDefinition" parent="ProposalPersonDegree-lookupDefinition-parentBean" />
+
+  <bean id="ProposalPersonDegree-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Proposal Person Degree" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Proposal Person Degree" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalPersonNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="graduationYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="degreeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="degree" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalPersonNumber"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="graduationYear"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="degreeCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="degree"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="fieldOfStudy" />
+        <bean parent="FieldDefinition"
+              p:attributeName="specialization" />
+        <bean parent="FieldDefinition"
+              p:attributeName="school" />
+        <bean parent="FieldDefinition"
+              p:attributeName="schoolIdCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="schoolId" />
+      </list>
+    </property>
+  </bean>
+</beans>

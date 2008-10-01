@@ -1,82 +1,114 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="MailType" parent="MailType-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="MailType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.MailType" />
+    <property name="inquiryDefinition" >
+      <ref bean="MailType-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="MailType-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="mailType" />
+    <property name="attributes" >
+      <list>
+        <ref bean="MailType-mailType" />
+        <ref bean="MailType-description" />
+        <ref bean="MailType-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.MailType">
+<!-- Attribute Definitions -->
 
-        <inquiry>
-            <title>Mail Type</title>
 
-            <inquirySections><inquirySection title="Mail Type"><inquiryFields>
-                <field attributeName="mailType" forceInquiry="true" />
-                <field attributeName="description" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="MailType-mailType" parent="MailType-mailType-parentBean" />
 
-        <lookup>
-            <title>Mail Type Lookup</title>
-			<menubar>
-				<![CDATA[<a href="index.jsp">Main</a>]]>
-			</menubar>
-            <instructions>Look up a Mail Type</instructions>
+  <bean id="MailType-mailType-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="mailType" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Mail Type" />
+    <property name="shortLabel" value="Mail Type" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Mail Type" />
+    <property name="description" value="Mail Type" />
+  </bean>
+  <bean id="MailType-description" parent="MailType-description-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="mailType" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="MailType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+  </bean>
+  <bean id="MailType-versionNumber" parent="MailType-versionNumber-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="mailType" required="false" />
-                <lookupField attributeName="description" required="false" />
-            </lookupFields>
+  <bean id="MailType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <resultFields>
-                <field attributeName="mailType" forceInquiry="true" />
-                <field attributeName="description" forceInquiry="false"/>
-            </resultFields>
-        </lookup>
+<!-- Business Object Inquiry Definition -->
 
-        <titleAttribute>mailType</titleAttribute>
 
-        <attributes>
+  <bean id="MailType-inquiryDefinition" parent="MailType-inquiryDefinition-parentBean" />
 
-            <attribute name="mailType">
-                <label>Mail Type</label>
-                <shortLabel>Mail Type</shortLabel>
+  <bean id="MailType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Mail Type" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Mail Type" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="mailType"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <maxLength>3</maxLength>
-                <validationPattern><numeric /></validationPattern>
+<!-- Business Object Lookup Definition -->
 
-                <control>
-                    <text size="4" />
-                </control>
 
-                <summary>Mail Type</summary>
-                <description>Mail Type</description>
-			</attribute>
+  <bean id="MailType-lookupDefinition" parent="MailType-lookupDefinition-parentBean" />
 
-            <attributeReference name="description" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="description" />
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-		</attributes>
-    </businessObject>
-
-</dictionaryEntry>
+  <bean id="MailType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Mail Type Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Mail Type" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="mailType" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="mailType"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+  </bean>
+</beans>

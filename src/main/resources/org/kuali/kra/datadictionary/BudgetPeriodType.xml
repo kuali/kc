@@ -1,90 +1,124 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="BudgetPeriodType" parent="BudgetPeriodType-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="BudgetPeriodType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.budget.bo.BudgetPeriodType" />
+    <property name="inquiryDefinition" >
+      <ref bean="BudgetPeriodType-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="BudgetPeriodType-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="budgetPeriodTypeCode" />
+    <property name="attributes" >
+      <list>
+        <ref bean="BudgetPeriodType-budgetPeriodTypeCode" />
+        <ref bean="BudgetPeriodType-description" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.budget.bo.BudgetPeriodType">
+<!-- Attribute Definitions -->
 
-        <inquiry>
-            <title>Budget Period Type</title>
 
-            <inquirySections><inquirySection title="Budget Period Type"><inquiryFields>
-            	<field attributeName="budgetPeriodTypeCode" forceInquiry="true"/>
-				<field attributeName="description"/>
+  <bean id="BudgetPeriodType-budgetPeriodTypeCode" parent="BudgetPeriodType-budgetPeriodTypeCode-parentBean" />
 
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="BudgetPeriodType-budgetPeriodTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetPeriodTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Budget Period Type Code" />
+    <property name="shortLabel" value="Budget Period Type Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Budget Period Type Code" />
+    <property name="description" value="Budget Period Type Code" />
+  </bean>
+  <bean id="BudgetPeriodType-description" parent="BudgetPeriodType-description-parentBean" />
 
-        <lookup>
-            <title>Budget Period Type Lookup</title>
-			<menubar>
-				<![CDATA[<a href="index.jsp">Main</a>]]>
-			</menubar>
-            <instructions>Look up a Budget Period Type</instructions>
+  <bean id="BudgetPeriodType-description-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="description" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="200" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="200" />
+    </property>
+    <property name="summary" value="Description" />
+    <property name="description" value="Description" />
+  </bean>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                	<sortAttribute attributeName="budgetPeriodTypeCode"/>
+<!-- Business Object Inquiry Definition -->
 
-                </sortAttributes>
-            </defaultSort>
 
-            <lookupFields>
-            	<lookupField attributeName="budgetPeriodTypeCode" required="false"/>
-				<lookupField attributeName="description" required="false"/>
+  <bean id="BudgetPeriodType-inquiryDefinition" parent="BudgetPeriodType-inquiryDefinition-parentBean" />
 
-            </lookupFields>
+  <bean id="BudgetPeriodType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Budget Period Type" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Budget Period Type" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="budgetPeriodTypeCode"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <resultFields>
-            	<field attributeName="budgetPeriodTypeCode" forceInquiry="true"/>
-				<field attributeName="description" forceInquiry="false"/>
+<!-- Business Object Lookup Definition -->
 
-            </resultFields>
-        </lookup>
 
-        <titleAttribute>budgetPeriodTypeCode</titleAttribute>
-        <attributes>
+  <bean id="BudgetPeriodType-lookupDefinition" parent="BudgetPeriodType-lookupDefinition-parentBean" />
 
-	        <attribute name="budgetPeriodTypeCode">
-			<label>Budget Period Type Code </label>
-			<shortLabel>Budget Period Type Code </shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="3" />
-			</control>
-			<summary>Budget Period Type Code </summary>
-			<description>Budget Period Type Code </description>
-			</attribute>
-
-			<attribute name="description">
-			<label>Description </label>
-			<shortLabel>Description </shortLabel>
-			<maxLength>200</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-			<control>
-				<text size="200" />
-			</control>
-			<summary>Description </summary>
-			<description>Description </description>
-			</attribute>
-
-		</attributes>
-    </businessObject>
-
-</dictionaryEntry>
+  <bean id="BudgetPeriodType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Budget Period Type Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Budget Period Type" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetPeriodTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetPeriodTypeCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+  </bean>
+</beans>

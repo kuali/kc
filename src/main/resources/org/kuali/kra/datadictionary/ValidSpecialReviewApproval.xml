@@ -1,110 +1,164 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="ValidSpecialReviewApproval" parent="ValidSpecialReviewApproval-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="ValidSpecialReviewApproval-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.ValidSpecialReviewApproval" />
+    <property name="inquiryDefinition" >
+      <ref bean="ValidSpecialReviewApproval-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ValidSpecialReviewApproval-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="specialReviewCode" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ValidSpecialReviewApproval-specialReviewCode" />
+        <ref bean="ValidSpecialReviewApproval-approvalTypeCode" />
+        <ref bean="ValidSpecialReviewApproval-applicationDateFlag" />
+        <ref bean="ValidSpecialReviewApproval-approvalDateFlag" />
+        <ref bean="ValidSpecialReviewApproval-protocolNumberFlag" />
+        <ref bean="ValidSpecialReviewApproval-exemptNumberFlag" />
+        <ref bean="ValidSpecialReviewApproval-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.bo.ValidSpecialReviewApproval">
+<!-- Attribute Definitions -->
 
-        <inquiry>
-            <title>Valid Special Review Approval</title>
 
-            <inquirySections><inquirySection title="Valid Special Review Approval"><inquiryFields>
-                <field attributeName="specialReviewCode" forceInquiry="true" />
-                <field attributeName="approvalTypeCode" />
-                <field attributeName="applicationDateFlag" />
-                <field attributeName="approvalDateFlag" />
-                <field attributeName="protocolNumberFlag" />
-                <field attributeName="exemptNumberFlag" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="ValidSpecialReviewApproval-specialReviewCode" parent="ValidSpecialReviewApproval-specialReviewCode-parentBean" />
 
-        <lookup>
-            <title>Valid Special Review Approval Lookup</title>
-            <menubar>
-                <![CDATA[<a href="index.jsp">Main</a>]]>
-            </menubar>
-            <instructions>Look up a Valid Special Review Approval</instructions>
+  <bean id="ValidSpecialReviewApproval-specialReviewCode-parentBean" abstract="true" parent="SpecialReview-specialReviewCode">
+  </bean>
+  <bean id="ValidSpecialReviewApproval-approvalTypeCode" parent="ValidSpecialReviewApproval-approvalTypeCode-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="approvalTypeCode" />
-                    <sortAttribute attributeName="specialReviewCode" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="ValidSpecialReviewApproval-approvalTypeCode-parentBean" abstract="true" parent="SpecialReviewApprovalType-approvalTypeCode">
+  </bean>
+  <bean id="ValidSpecialReviewApproval-applicationDateFlag" parent="ValidSpecialReviewApproval-applicationDateFlag-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="specialReviewCode" required="false" />
-                <lookupField attributeName="approvalTypeCode" required="false" />
-                <lookupField attributeName="applicationDateFlag" required="false" />
-                <lookupField attributeName="approvalDateFlag" required="false" />
-                <lookupField attributeName="protocolNumberFlag" required="false" />
-                <lookupField attributeName="exemptNumberFlag" required="false" />
-            </lookupFields>
+  <bean id="ValidSpecialReviewApproval-applicationDateFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="applicationDateFlag" />
+    <property name="label" value="Application Date Flag" />
+    <property name="shortLabel" value="App Dt Flag" />
+    <property name="summary" value="Application Date Flag" />
+    <property name="description" value="Validate Application Date" />
+  </bean>
+  <bean id="ValidSpecialReviewApproval-approvalDateFlag" parent="ValidSpecialReviewApproval-approvalDateFlag-parentBean" />
 
-            <resultFields>
-                <field attributeName="specialReviewCode" forceInquiry="true" />
-                <field attributeName="approvalTypeCode" forceInquiry="false"/>
-                <field attributeName="applicationDateFlag" forceInquiry="false"/>
-                <field attributeName="approvalDateFlag" forceInquiry="false"/>
-                <field attributeName="protocolNumberFlag" forceInquiry="false"/>
-                <field attributeName="exemptNumberFlag" forceInquiry="false"/>
-            </resultFields>
-        </lookup>
+  <bean id="ValidSpecialReviewApproval-approvalDateFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="approvalDateFlag" />
+    <property name="label" value="Approval Date Flag" />
+    <property name="shortLabel" value="Approval Dt Flag" />
+    <property name="summary" value="Approval Date Flag" />
+    <property name="description" value="Validate Approval Date" />
+  </bean>
+  <bean id="ValidSpecialReviewApproval-protocolNumberFlag" parent="ValidSpecialReviewApproval-protocolNumberFlag-parentBean" />
 
-        <titleAttribute>specialReviewCode</titleAttribute>
+  <bean id="ValidSpecialReviewApproval-protocolNumberFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="protocolNumberFlag" />
+    <property name="label" value="Protocol Number Flag" />
+    <property name="shortLabel" value="Protocol Nbr Flag" />
+    <property name="summary" value="Protocol Number Flag" />
+    <property name="description" value="Validate Protocol Number" />
+  </bean>
+  <bean id="ValidSpecialReviewApproval-exemptNumberFlag" parent="ValidSpecialReviewApproval-exemptNumberFlag-parentBean" />
 
-        <attributes>
+  <bean id="ValidSpecialReviewApproval-exemptNumberFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="exemptNumberFlag" />
+    <property name="label" value="Exempt Number Flag" />
+    <property name="shortLabel" value="Exempt Nbr Flag" />
+    <property name="summary" value="Exempt Number Flag" />
+    <property name="description" value="Validate Exempt Number is required or not" />
+  </bean>
+  <bean id="ValidSpecialReviewApproval-versionNumber" parent="ValidSpecialReviewApproval-versionNumber-parentBean" />
 
-            <attributeReference name="specialReviewCode" sourceClassName="org.kuali.kra.bo.SpecialReview" sourceAttributeName="specialReviewCode" />
-            
-            <attributeReference name="approvalTypeCode" sourceClassName="org.kuali.kra.bo.SpecialReviewApprovalType" sourceAttributeName="approvalTypeCode" />
-            
-            <attributeReference name="applicationDateFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean" >
-                <label>Application Date Flag</label>
-                <shortLabel>App Dt Flag</shortLabel>
-                <summary>Application Date Flag</summary>
-                <description>Validate Application Date</description>
-            </attributeReference>
-            
-            <attributeReference name="approvalDateFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean" >
-                <label>Approval Date Flag</label>
-                <shortLabel>Approval Dt Flag</shortLabel>
-                <summary>Approval Date Flag</summary>
-                <description>Validate Approval Date</description>
-            </attributeReference>
-            
-            <attributeReference name="protocolNumberFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean" >
-                <label>Protocol Number Flag</label>
-                <shortLabel>Protocol Nbr Flag</shortLabel>
-                <summary>Protocol Number Flag</summary>
-                <description>Validate Protocol Number</description>
-            </attributeReference>
-            
-            <attributeReference name="exemptNumberFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean" >
-                <label>Exempt Number Flag</label>
-                <shortLabel>Exempt Nbr Flag</shortLabel>
-                <summary>Exempt Number Flag</summary>
-                <description>Validate Exempt Number is required or not</description>
-            </attributeReference>
+  <bean id="ValidSpecialReviewApproval-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+<!-- Business Object Inquiry Definition -->
 
-        </attributes>
-    </businessObject>
 
-</dictionaryEntry>
+  <bean id="ValidSpecialReviewApproval-inquiryDefinition" parent="ValidSpecialReviewApproval-inquiryDefinition-parentBean" />
+
+  <bean id="ValidSpecialReviewApproval-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Valid Special Review Approval" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Valid Special Review Approval" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="specialReviewCode"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="approvalTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="applicationDateFlag" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="approvalDateFlag" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="protocolNumberFlag" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="exemptNumberFlag" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="ValidSpecialReviewApproval-lookupDefinition" parent="ValidSpecialReviewApproval-lookupDefinition-parentBean" />
+
+  <bean id="ValidSpecialReviewApproval-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Valid Special Review Approval Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Valid Special Review Approval" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="specialReviewCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="approvalTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="applicationDateFlag" />
+        <bean parent="FieldDefinition"
+              p:attributeName="approvalDateFlag" />
+        <bean parent="FieldDefinition"
+              p:attributeName="protocolNumberFlag" />
+        <bean parent="FieldDefinition"
+              p:attributeName="exemptNumberFlag" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="specialReviewCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="approvalTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="applicationDateFlag" />
+        <bean parent="FieldDefinition"
+              p:attributeName="approvalDateFlag" />
+        <bean parent="FieldDefinition"
+              p:attributeName="protocolNumberFlag" />
+        <bean parent="FieldDefinition"
+              p:attributeName="exemptNumberFlag" />
+      </list>
+    </property>
+  </bean>
+</beans>

@@ -1,90 +1,124 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="JobCode" parent="JobCode-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="JobCode-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.budget.bo.JobCode" />
+    <property name="inquiryDefinition" >
+      <ref bean="JobCode-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="JobCode-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="jobCode" />
+    <property name="attributes" >
+      <list>
+        <ref bean="JobCode-jobCode" />
+        <ref bean="JobCode-jobTitle" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.budget.bo.JobCode">
+<!-- Attribute Definitions -->
 
-        <inquiry>
-            <title>Job Code</title>
 
-            <inquirySections><inquirySection title="Job Code"><inquiryFields>
-            	<field attributeName="jobCode" forceInquiry="true"/>
-				<field attributeName="jobTitle"/>
+  <bean id="JobCode-jobCode" parent="JobCode-jobCode-parentBean" />
 
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="JobCode-jobCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="jobCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Job Code" />
+    <property name="shortLabel" value="Job Code" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="Job Code" />
+    <property name="description" value="Job Code" />
+  </bean>
+  <bean id="JobCode-jobTitle" parent="JobCode-jobTitle-parentBean" />
 
-        <lookup>
-            <title>Job Code Lookup</title>
-			<menubar>
-				<![CDATA[<a href="index.jsp">Main</a>]]>
-			</menubar>
-            <instructions>Look up a Job Code</instructions>
+  <bean id="JobCode-jobTitle-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="jobTitle" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Job Title" />
+    <property name="shortLabel" value="Job Title" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+    <property name="summary" value="Job Title" />
+    <property name="description" value="Job Title" />
+  </bean>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                	<sortAttribute attributeName="jobCode"/>
+<!-- Business Object Inquiry Definition -->
 
-                </sortAttributes>
-            </defaultSort>
 
-            <lookupFields>
-            	<lookupField attributeName="jobCode" required="false"/>
-				<lookupField attributeName="jobTitle" required="false"/>
+  <bean id="JobCode-inquiryDefinition" parent="JobCode-inquiryDefinition-parentBean" />
 
-            </lookupFields>
+  <bean id="JobCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Job Code" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Job Code" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="jobCode"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="jobTitle" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <resultFields>
-            	<field attributeName="jobCode" forceInquiry="true"/>
-				<field attributeName="jobTitle" forceInquiry="false"/>
+<!-- Business Object Lookup Definition -->
 
-            </resultFields>
-        </lookup>
 
-        <titleAttribute>jobCode</titleAttribute>
-        <attributes>
+  <bean id="JobCode-lookupDefinition" parent="JobCode-lookupDefinition-parentBean" />
 
-	        <attribute name="jobCode">
-			<label>Job Code </label>
-			<shortLabel>Job Code </shortLabel>
-			<maxLength>6</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<control>
-				<text size="6" />
-			</control>
-			<summary>Job Code </summary>
-			<description>Job Code </description>
-			</attribute>
-
-			<attribute name="jobTitle">
-			<label>Job Title </label>
-			<shortLabel>Job Title </shortLabel>
-			<maxLength>50</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-			<control>
-				<text size="50" />
-			</control>
-			<summary>Job Title </summary>
-			<description>Job Title </description>
-			</attribute>
-
-		</attributes>
-    </businessObject>
-
-</dictionaryEntry>
+  <bean id="JobCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Job Code Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Job Code" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="jobCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="jobTitle" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="jobCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="jobTitle" />
+      </list>
+    </property>
+  </bean>
+</beans>

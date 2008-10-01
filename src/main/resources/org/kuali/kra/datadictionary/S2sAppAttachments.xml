@@ -1,116 +1,169 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="S2sAppAttachments" parent="S2sAppAttachments-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="S2sAppAttachments-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.s2s.bo.S2sAppAttachments" />
+    <property name="inquiryDefinition" >
+      <ref bean="S2sAppAttachments-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="S2sAppAttachments-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="S2sAppAttachments-proposalNumber" />
+        <ref bean="S2sAppAttachments-contentId" />
+        <ref bean="S2sAppAttachments-contentType" />
+        <ref bean="S2sAppAttachments-hashCode" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.s2s.bo.S2sAppAttachments">
-    
-    <inquiry>
-            <title>S2s App Attachments</title>
+<!-- Attribute Definitions -->
 
-            <inquirySections><inquirySection title="S2s App Attachments"><inquiryFields>
-            	<field attributeName="proposalNumber" forceInquiry="true"/>            	
-            	<field attributeName="contentId" />
-            	<field attributeName="contentType" />
-            	<field attributeName="hashCode" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
 
-        <lookup>
-            <title>S2s App Submission</title>
-			<menubar>
-				<![CDATA[<a href="index.jsp">Main</a>]]>
-			</menubar>
-            <instructions>Look up an S2s App Attachment</instructions>
+  <bean id="S2sAppAttachments-proposalNumber" parent="S2sAppAttachments-proposalNumber-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                	<sortAttribute attributeName="contentId"/>
+  <bean id="S2sAppAttachments-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="proposalNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Proposal Number" />
+    <property name="shortLabel" value="Proposal Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="Proposal Number" />
+    <property name="description" value="Proposal Number" />
+  </bean>
+  <bean id="S2sAppAttachments-contentId" parent="S2sAppAttachments-contentId-parentBean" />
 
-                </sortAttributes>
-            </defaultSort>
+  <bean id="S2sAppAttachments-contentId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="contentId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Attachments" />
+    <property name="shortLabel" value="Attachments" />
+    <property name="maxLength" value="300" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="300" />
+    </property>
+    <property name="summary" value="Attachments" />
+    <property name="description" value="Attachments" />
+  </bean>
+  <bean id="S2sAppAttachments-contentType" parent="S2sAppAttachments-contentType-parentBean" />
 
-            <lookupFields>            	
-				<lookupField attributeName="proposalNumber"  required="false"/>
-            	<lookupField attributeName="contentId"  required="false"/>
-            	<lookupField attributeName="contentType"  required="false"/>
-            	<lookupField attributeName="hashCode"  required="false"/>            	
-            </lookupFields>
+  <bean id="S2sAppAttachments-contentType-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="contentType" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Content Type" />
+    <property name="shortLabel" value="Content Type" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="30" />
+    </property>
+    <property name="summary" value="Content Type" />
+    <property name="description" value="Content Type" />
+  </bean>
+  <bean id="S2sAppAttachments-hashCode" parent="S2sAppAttachments-hashCode-parentBean" />
 
-            <resultFields>
-            	<field attributeName="proposalNumber" forceInquiry="false"/>
-				<field attributeName="contentId" forceInquiry="false"/>
-				<field attributeName="contentType" forceInquiry="false"/>
-				<field attributeName="hashCode" forceInquiry="false"/>
-            </resultFields>
-        </lookup>
-		
-		<attributes>        
-			<attribute name="proposalNumber">
-				<label>Proposal Number </label>
-				<shortLabel>Proposal Number </shortLabel>
-				<maxLength>8</maxLength>
-				<validationPattern><numeric /></validationPattern>
-				<control>
-					<hidden />
-				</control>
-				<summary>Proposal Number </summary>
-				<description>Proposal Number </description>
-			</attribute>
-			
-			<attribute name="contentId">
-				<label>Attachments </label>
-				<shortLabel>Attachments </shortLabel>
-				<maxLength>300</maxLength>
-				<validationPattern><numeric /></validationPattern>
-				<control>
-					<text size="300"/>
-				</control>
-				<summary>Attachments </summary>
-				<description>Attachments </description>
-			</attribute>
-			
-			<attribute name="contentType">
-				<label>Content Type </label>
-				<shortLabel>Content Type </shortLabel>
-				<maxLength>30</maxLength>
-				<validationPattern><numeric /></validationPattern>
-				<control>
-					<text size="30"/>
-				</control>
-				<summary>Content Type</summary>
-				<description>Content Type</description>
-			</attribute>
-			
-			<attribute name="hashCode">
-				<label>Hash Code </label>
-				<shortLabel>Hash Code</shortLabel>
-				<maxLength>300</maxLength>
-				<validationPattern><numeric /></validationPattern>
-				<control>
-					<hidden />
-				</control>
-				<summary>Hash Code</summary>
-				<description>Hash Code</description>
-			</attribute>
-		
-		</attributes>
-    </businessObject>
+  <bean id="S2sAppAttachments-hashCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="hashCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Hash Code" />
+    <property name="shortLabel" value="Hash Code" />
+    <property name="maxLength" value="300" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="Hash Code" />
+    <property name="description" value="Hash Code" />
+  </bean>
 
-</dictionaryEntry>
-        
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="S2sAppAttachments-inquiryDefinition" parent="S2sAppAttachments-inquiryDefinition-parentBean" />
+
+  <bean id="S2sAppAttachments-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="S2s App Attachments" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="S2s App Attachments" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="contentId" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="contentType" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="hashCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="S2sAppAttachments-lookupDefinition" parent="S2sAppAttachments-lookupDefinition-parentBean" />
+
+  <bean id="S2sAppAttachments-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="S2s App Submission" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up an S2s App Attachment" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="contentId" />
+        <bean parent="FieldDefinition"
+              p:attributeName="contentType" />
+        <bean parent="FieldDefinition"
+              p:attributeName="hashCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="contentId" />
+        <bean parent="FieldDefinition"
+              p:attributeName="contentType" />
+        <bean parent="FieldDefinition"
+              p:attributeName="hashCode" />
+      </list>
+    </property>
+  </bean>
+</beans>
