@@ -83,6 +83,13 @@
 	<param name="production.environment.code">prd</param>
 	<param name="rice.user">true</param>
     <param name="actionlist.outbox">true</param>
+    
+    <!-- Configuration for Exception Incident handling and reporting -->
+    <param name="KualiExceptionHandlerAction.EXCEPTION_INCIDENT_REPORT_SERVICE">knsExceptionIncidentService</param>
+    <param name="MailMessage.from">admin@kuali.org</param>
+    <param name="KualiExceptionIncidentServiceImpl.additionalExceptionNameList"></param>
+    <param name="KualiExceptionIncidentServiceImpl.REPORT_MAIL_LIST"></param>
+    <!-- End of Exception Incident handling and reporting -->
 
 	<!-- Ken stuffs... -->
     <!-- stock notification system configuration properties -->
