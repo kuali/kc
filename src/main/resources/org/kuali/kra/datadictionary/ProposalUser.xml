@@ -1,53 +1,63 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="ProposalUser" parent="ProposalUser-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="ProposalUser-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalUser" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KRA-PD"
+            p:parameterName="proposalDevelopmentPermissionsHelp"
+            p:parameterDetailType="D" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="ProposalUser-username" />
+        <ref bean="ProposalUser-roleName" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalUser">
+<!-- Attribute Definitions -->
 
-        <attributes>
 
-			<attribute name="username">
-				<label>User Name </label>
-				<shortLabel>User Name </shortLabel>
-				<maxLength>60</maxLength>
-				<validationPattern><anyCharacter/></validationPattern>
-				<required>true</required>
-				<control>
-					<text size="10" />
-				</control>
-				<summary>User Name</summary>
-				<description>User Name</description>
-			</attribute>
+  <bean id="ProposalUser-username" parent="ProposalUser-username-parentBean" />
 
-			<attribute name="roleName">
-				<label>Role </label>
-				<shortLabel>Role </shortLabel>
-				<maxLength>5</maxLength>
-				<control>
-					<select valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalRoleValuesFinder" />
-				</control>
-				<summary>Role Name </summary>
-				<description>Role Name </description>
-			</attribute>
-		</attributes>
-		
-		<objectHelp parameterNamespace="KRA-PD"  parameterDetailType="D" parameterName="proposalDevelopmentPermissionsHelp"/> 
-    </businessObject>
+  <bean id="ProposalUser-username-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="username" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="User Name" />
+    <property name="shortLabel" value="User Name" />
+    <property name="maxLength" value="60" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="User Name" />
+    <property name="description" value="User Name" />
+  </bean>
+  <bean id="ProposalUser-roleName" parent="ProposalUser-roleName-parentBean" />
 
-</dictionaryEntry>
+  <bean id="ProposalUser-roleName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="roleName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Role" />
+    <property name="shortLabel" value="Role" />
+    <property name="maxLength" value="5" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalRoleValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Role Name" />
+    <property name="description" value="Role Name" />
+  </bean>
+</beans>

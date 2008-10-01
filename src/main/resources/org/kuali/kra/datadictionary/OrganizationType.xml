@@ -1,106 +1,160 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="OrganizationType" parent="OrganizationType-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="OrganizationType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.OrganizationType" />
+    <property name="inquiryDefinition" >
+      <ref bean="OrganizationType-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="OrganizationType-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="organizationId" />
+    <property name="attributes" >
+      <list>
+        <ref bean="OrganizationType-organizationId" />
+        <ref bean="OrganizationType-organizationTypeCode" />
+        <ref bean="OrganizationType-organizationTypeList.description" />
+        <ref bean="OrganizationType-versionNumber" />
+      </list>
+    </property>
+    <property name="relationships" >
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="organizationTypeList" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="organizationTypeCode"
+                    p:targetName="organizationTypeCode" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="organizationTypeList.description"
+                    p:targetName="description" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.bo.OrganizationType">
+<!-- Attribute Definitions -->
 
-        <inquiry>
-            <title>Organization Type</title>
 
-            <inquirySections><inquirySection title="Organization Type"><inquiryFields>
-            	<field attributeName="organizationId" forceInquiry="true"/>
-				<field attributeName="organizationTypeList.description" forceInquiry="true"/>
+  <bean id="OrganizationType-organizationId" parent="OrganizationType-organizationId-parentBean" />
 
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="OrganizationType-organizationId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Organization Id" />
+    <property name="shortLabel" value="Organization Id" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Organization Id" />
+    <property name="description" value="Organization Id" />
+  </bean>
+  <bean id="OrganizationType-organizationTypeCode" parent="OrganizationType-organizationTypeCode-parentBean" />
 
-        <lookup>
-            <title>Organization Type Lookup</title>
-			<menubar>
-				<![CDATA[<a href="index.jsp">Main</a>]]>
-			</menubar>
-            <instructions>Look up a Organization Type</instructions>
+  <bean id="OrganizationType-organizationTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Organization Type Code" />
+    <property name="shortLabel" value="Organization Type Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Organization Type Code" />
+    <property name="description" value="Organization Type Code" />
+  </bean>
+  <bean id="OrganizationType-organizationTypeList.description" parent="OrganizationType-organizationTypeList.description-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                	<sortAttribute attributeName="organizationId"/>
-					<sortAttribute attributeName="organizationTypeCode"/>
+  <bean id="OrganizationType-organizationTypeList.description-parentBean" abstract="true" parent="OrganizationTypeList-description">
+    <property name="name" value="organizationTypeList.description" />
+    <property name="label" value="Organization Type" />
+    <property name="shortLabel" value="Organization Type" />
+  </bean>
+  <bean id="OrganizationType-versionNumber" parent="OrganizationType-versionNumber-parentBean" />
 
-                </sortAttributes>
-            </defaultSort>
+  <bean id="OrganizationType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <lookupFields>
-            	<lookupField attributeName="organizationId" required="false"/>
-				<lookupField attributeName="organizationTypeCode" required="false"/>
+<!-- Business Object Inquiry Definition -->
 
-            </lookupFields>
 
-            <resultFields>
-            	<field attributeName="organizationId" forceInquiry="true"/>
-				<field attributeName="organizationTypeList.description" forceInquiry="true"/>
+  <bean id="OrganizationType-inquiryDefinition" parent="OrganizationType-inquiryDefinition-parentBean" />
 
-            </resultFields>
-        </lookup>
+  <bean id="OrganizationType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Organization Type" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Organization Type" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationId"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationTypeList.description"
+                    p:forceInquiry="true" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-        <titleAttribute>organizationId</titleAttribute>
-		<!-- <titleAttribute>organizationTypeCode</titleAttribute> -->
-        <attributes>
+<!-- Business Object Lookup Definition -->
 
-	        <attribute name="organizationId">
-			<label>Organization Id </label>
-			<shortLabel>Organization Id </shortLabel>
-			<maxLength>8</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="8" />
-			</control>
-			<summary>Organization Id </summary>
-			<description>Organization Id </description>
-			</attribute>
 
-			<attribute name="organizationTypeCode">
-			<label>Organization Type Code </label>
-			<shortLabel>Organization Type Code </shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="3" />
-			</control>
-			<summary>Organization Type Code </summary>
-			<description>Organization Type Code </description>
-			</attribute>
+  <bean id="OrganizationType-lookupDefinition" parent="OrganizationType-lookupDefinition-parentBean" />
 
-            <attributeReference name="organizationTypeList.description" sourceClassName="org.kuali.kra.bo.OrganizationTypeList" sourceAttributeName="description" >
-			    <label>Organization Type</label>
-			    <shortLabel>Organization Type</shortLabel>
-            </attributeReference>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-		</attributes>
-
-        <relationships>
-            <relationship objectAttributeName="organizationTypeList">
-                <primitiveAttribute sourceName="organizationTypeCode" targetName="organizationTypeCode" />
-                <supportAttribute sourceName="organizationTypeList.description" targetName="description" identifier="true" />
-            </relationship>
-        </relationships>
-    </businessObject>
-
-</dictionaryEntry>
+  <bean id="OrganizationType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Organization Type Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Organization Type" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationId" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationTypeCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationId"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationTypeList.description"
+              p:forceInquiry="true" />
+      </list>
+    </property>
+  </bean>
+</beans>

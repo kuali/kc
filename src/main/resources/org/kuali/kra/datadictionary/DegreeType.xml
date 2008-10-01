@@ -1,99 +1,139 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="DegreeType" parent="DegreeType-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="DegreeType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.DegreeType" />
+    <property name="inquiryDefinition" >
+      <ref bean="DegreeType-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="DegreeType-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="degreeCode" />
+    <property name="attributes" >
+      <list>
+        <ref bean="DegreeType-degreeCode" />
+        <ref bean="DegreeType-degreeLevel" />
+        <ref bean="DegreeType-description" />
+        <ref bean="DegreeType-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.bo.DegreeType">
+<!-- Attribute Definitions -->
 
-        <inquiry>
-            <title>Degree Type</title>
 
-            <inquirySections><inquirySection title="Degree Type"><inquiryFields>
-                <field attributeName="degreeCode" forceInquiry="true" />
-                <field attributeName="degreeLevel" />
-                <field attributeName="description" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="DegreeType-degreeCode" parent="DegreeType-degreeCode-parentBean" />
 
-        <lookup>
-            <title>Degree Type Lookup</title>
-			<menubar>
-				<![CDATA[<a href="index.jsp">Main</a>]]>
-			</menubar>
-            <instructions>Look up a Degree Type</instructions>
+  <bean id="DegreeType-degreeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="degreeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Degree Code" />
+    <property name="shortLabel" value="Degree Code" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="Degree Code" />
+    <property name="description" value="Degree Code" />
+  </bean>
+  <bean id="DegreeType-degreeLevel" parent="DegreeType-degreeLevel-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="degreeCode" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="DegreeType-degreeLevel-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="degreeLevel" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Degree Level" />
+    <property name="shortLabel" value="Level" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Degree Level" />
+    <property name="description" value="Degree Level description..." />
+  </bean>
+  <bean id="DegreeType-description" parent="DegreeType-description-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="degreeCode" required="false" />
-                <lookupField attributeName="degreeLevel" required="false" />
-                <lookupField attributeName="description" required="false" />
-            </lookupFields>
+  <bean id="DegreeType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+  </bean>
+  <bean id="DegreeType-versionNumber" parent="DegreeType-versionNumber-parentBean" />
 
-            <resultFields>
-                <field attributeName="degreeCode" forceInquiry="true" />
-                <field attributeName="degreeLevel" forceInquiry="false" />
-                <field attributeName="description" forceInquiry="false"/>
-            </resultFields>
-        </lookup>
+  <bean id="DegreeType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-        <titleAttribute>degreeCode</titleAttribute>
+<!-- Business Object Inquiry Definition -->
 
-        <attributes>
 
-            <attribute name="degreeCode">
-                <label>Degree Code</label>
-                <shortLabel>Degree Code</shortLabel>
+  <bean id="DegreeType-inquiryDefinition" parent="DegreeType-inquiryDefinition-parentBean" />
 
-                <maxLength>7</maxLength>
-                <validationPattern><alphaNumeric /></validationPattern>
+  <bean id="DegreeType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Degree Type" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Degree Type" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="degreeCode"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="degreeLevel" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <control>
-                    <text size="6" />
-                </control>
+<!-- Business Object Lookup Definition -->
 
-                <summary>Degree Code</summary>
-                <description>Degree Code</description>
-			</attribute>
 
-            <attribute name="degreeLevel" forceUppercase="true">
-                <label>Degree Level </label>
-                <shortLabel>Level</shortLabel>
+  <bean id="DegreeType-lookupDefinition" parent="DegreeType-lookupDefinition-parentBean" />
 
-                <maxLength>3</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>Degree Level</summary>
-                <description>Degree Level description...</description>
-			</attribute>
-
-            <attributeReference name="description" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="description" />
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-		</attributes>
-    </businessObject>
-
-</dictionaryEntry>
+  <bean id="DegreeType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Degree Type Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Degree Type" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="degreeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="degreeLevel" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="degreeCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="degreeLevel" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+  </bean>
+</beans>

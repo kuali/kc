@@ -1,208 +1,336 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="InstituteRate" parent="InstituteRate-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="InstituteRate-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.InstituteRate" />
+    <property name="inquiryDefinition" >
+      <ref bean="InstituteRate-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="InstituteRate-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="unitNumber" />
+    <property name="attributes" >
+      <list>
+        <ref bean="InstituteRate-activityTypeCode" />
+        <ref bean="InstituteRate-fiscalYear" />
+        <ref bean="InstituteRate-onOffCampusFlag" />
+        <ref bean="InstituteRate-active" />
+        <ref bean="InstituteRate-rateClassCode" />
+        <ref bean="InstituteRate-rateTypeCode" />
+        <ref bean="InstituteRate-startDate" />
+        <ref bean="InstituteRate-unitNumber" />
+        <ref bean="InstituteRate-instituteRate" />
+        <ref bean="InstituteRate-versionNumber" />
+        <ref bean="InstituteRate-activityType.description" />
+        <ref bean="InstituteRate-rateClass.description" />
+        <ref bean="InstituteRate-rateType.description" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
-nresolved address
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.bo.InstituteRate">
-
-        <inquiry>
-            <title>Institute Rates</title>
-
-            <inquirySections><inquirySection title="Institute Rates"><inquiryFields>
-            	<field attributeName="activityTypeCode" forceInquiry="true"/>
-				<field attributeName="fiscalYear" forceInquiry="true"/>
-				<field attributeName="onOffCampusFlag" forceInquiry="true"/>
-				<field attributeName="rateClassCode" forceInquiry="true"/>
-				<field attributeName="rateTypeCode" forceInquiry="true"/>
-				<field attributeName="startDate" forceInquiry="true"/>
-				<field attributeName="unitNumber" forceInquiry="true"/>
-				<field attributeName="instituteRate"/>
-				<field attributeName="active"/>
-
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
-
-        <lookup>
-            <lookupableID>onOffCampusLookupable</lookupableID>
-        
-            <title>Institute Rates Lookup</title>
-			<menubar>
-				<![CDATA[<a href="index.jsp">Main</a>]]>
-			</menubar>
-            <instructions>Look up a Institute Rates</instructions>
-
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                	<sortAttribute attributeName="activityTypeCode"/>
-					<sortAttribute attributeName="fiscalYear"/>
-					<sortAttribute attributeName="onOffCampusFlag"/>
-					<sortAttribute attributeName="rateClassCode"/>
-					<sortAttribute attributeName="rateTypeCode"/>
-					<sortAttribute attributeName="startDate"/>
-					<sortAttribute attributeName="unitNumber"/>
-
-                </sortAttributes>
-            </defaultSort>
-
-            <lookupFields>
-            	<lookupField attributeName="activityTypeCode" required="false"/>
-				<lookupField attributeName="fiscalYear" required="false"/>
-				<lookupField attributeName="onOffCampusFlag" required="false"/>
-				<lookupField attributeName="rateClassCode" required="false"/>
-				<lookupField attributeName="rateTypeCode" required="false"/>
-				<lookupField attributeName="startDate" required="false"/>
-				<lookupField attributeName="unitNumber" required="false"/>
-				<lookupField attributeName="instituteRate" required="false"/>
-				<lookupField attributeName="active" required="false"/>
-
-            </lookupFields>
-
-            <resultFields>
-            	<field attributeName="activityTypeCode" forceInquiry="true"/>
-            	<field attributeName="activityType.description" forceInquiry="true"/>
-				<field attributeName="fiscalYear" forceInquiry="true"/>
-				<field attributeName="onOffCampusFlag" forceInquiry="true"/>
-				<field attributeName="rateClassCode" forceInquiry="true"/>
-            	<field attributeName="rateClass.description" forceInquiry="true"/>
-				<field attributeName="rateTypeCode" forceInquiry="true"/>
-            	<field attributeName="rateType.description" forceInquiry="true"/>
-				<field attributeName="startDate" forceInquiry="true"/>
-				<field attributeName="unitNumber" forceInquiry="true"/>
-				<field attributeName="instituteRate" forceInquiry="false"/>
-				<field attributeName="active" forceInquiry="false"/>
-
-            </resultFields>
-        </lookup>
-
-		<titleAttribute>unitNumber</titleAttribute>
-        <attributes>
-
-	        <attribute name="activityTypeCode">
-			<label>Activity Type Code </label>
-			<shortLabel>Activity Type Code </shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="3" />
-			</control>
-			<summary>Activity Type Code </summary>
-			<description>Activity Type Code </description>
-			</attribute>
-
-			<attribute name="fiscalYear">
-			<label>Fiscal Year </label>
-			<shortLabel>Fiscal Year </shortLabel>
-			<maxLength>4</maxLength>
-			<validationPattern><alphaNumeric/></validationPattern>
-			<control>
-				<text size="4" />
-			</control>
-			<summary>Fiscal Year </summary>
-			<description>Fiscal Year </description>
-			</attribute>
-
-			<attribute name="onOffCampusFlag">
-			<label>On/Off Campus Flag </label>
-			<shortLabel>On/Off Campus Flag </shortLabel>
-			<maxLength>1</maxLength>
-			<validationPattern><anyCharacter/></validationPattern>
-			<control>
-			       <checkbox/>
-					<!-- <radio valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.OnOffCampusFlagValuesFinder" /> -->
-			</control>
-			<summary>On Off Campus Flag </summary>
-			<description>On Off Campus Flag </description>
-			</attribute>
+<!-- Attribute Definitions -->
 
 
-           <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>Active</label>
-                <shortLabel>Active </shortLabel>
-                <summary>Active</summary>
-                <description>Active</description>
-           </attributeReference>
+  <bean id="InstituteRate-activityTypeCode" parent="InstituteRate-activityTypeCode-parentBean" />
 
-			<attribute name="rateClassCode">
-			<label>Rate Class Code </label>
-			<shortLabel>Rate Class Code </shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="3" />
-			</control>
-			<summary>Rate Class Code </summary>
-			<description>Rate Class Code </description>
-			</attribute>
+  <bean id="InstituteRate-activityTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="activityTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Activity Type Code" />
+    <property name="shortLabel" value="Activity Type Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Activity Type Code" />
+    <property name="description" value="Activity Type Code" />
+  </bean>
+  <bean id="InstituteRate-fiscalYear" parent="InstituteRate-fiscalYear-parentBean" />
 
-			<attribute name="rateTypeCode">
-			<label>Rate Type Code </label>
-			<shortLabel>Rate Type Code </shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="3" />
-			</control>
-			<summary>Rate Type Code </summary>
-			<description>Rate Type Code </description>
-			</attribute>
+  <bean id="InstituteRate-fiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fiscalYear" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Fiscal Year" />
+    <property name="shortLabel" value="Fiscal Year" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Fiscal Year" />
+    <property name="description" value="Fiscal Year" />
+  </bean>
+  <bean id="InstituteRate-onOffCampusFlag" parent="InstituteRate-onOffCampusFlag-parentBean" />
 
-			<attribute name="startDate">
-			<label>Start Date </label>
-			<shortLabel>Start Date </shortLabel>
-			<maxLength>10</maxLength>
-			<validationPattern><date /></validationPattern>
-			<control>
-				<text size="10" datePicker="true" />
-			</control>
-			<summary>Start Date </summary>
-			<description>Start Date </description>
-			</attribute>
+  <bean id="InstituteRate-onOffCampusFlag-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="onOffCampusFlag" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="On/Off Campus Flag" />
+    <property name="shortLabel" value="On/Off Campus Flag" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="On Off Campus Flag" />
+    <property name="description" value="On Off Campus Flag" />
+  </bean>
+  <bean id="InstituteRate-active" parent="InstituteRate-active-parentBean" />
 
-			<attribute name="unitNumber">
-			<label>Unit Number </label>
-			<shortLabel>Unit Number </shortLabel>
-			<maxLength>8</maxLength>
-            <validationPattern><anyCharacter /></validationPattern>
-			<control>
-				<text size="8" />
-			</control>
-			<summary>Unit Number </summary>
-			<description>Unit Number </description>
-			</attribute>
+  <bean id="InstituteRate-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="active" />
+    <property name="label" value="Active" />
+    <property name="shortLabel" value="Active" />
+    <property name="summary" value="Active" />
+    <property name="description" value="Active" />
+  </bean>
+  <bean id="InstituteRate-rateClassCode" parent="InstituteRate-rateClassCode-parentBean" />
 
-			<attribute name="instituteRate">
-			<label>Rate </label>
-			<shortLabel>Rate </shortLabel>
-			<maxLength>5</maxLength>
-			<validationPattern><fixedPoint allowNegative="false" precision="5" scale="2"/></validationPattern>
-			<control>
-				<text size="5" />
-			</control>
-			<summary>Rate </summary>
-			<description>Rate </description>
-			</attribute>
-			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+  <bean id="InstituteRate-rateClassCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="rateClassCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Rate Class Code" />
+    <property name="shortLabel" value="Rate Class Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Rate Class Code" />
+    <property name="description" value="Rate Class Code" />
+  </bean>
+  <bean id="InstituteRate-rateTypeCode" parent="InstituteRate-rateTypeCode-parentBean" />
 
-            <attributeReference name="activityType.description" sourceClassName="org.kuali.kra.proposaldevelopment.bo.ActivityType" sourceAttributeName="description" />
-            <attributeReference name="rateClass.description" sourceClassName="org.kuali.kra.budget.bo.RateClass" sourceAttributeName="description" />
-            <attributeReference name="rateType.description" sourceClassName="org.kuali.kra.budget.bo.RateType" sourceAttributeName="description" />
-		</attributes>
-    </businessObject>
+  <bean id="InstituteRate-rateTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="rateTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Rate Type Code" />
+    <property name="shortLabel" value="Rate Type Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Rate Type Code" />
+    <property name="description" value="Rate Type Code" />
+  </bean>
+  <bean id="InstituteRate-startDate" parent="InstituteRate-startDate-parentBean" />
 
-</dictionaryEntry>
+  <bean id="InstituteRate-startDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="startDate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Start Date" />
+    <property name="shortLabel" value="Start Date" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10"
+            p:datePicker="true" />
+    </property>
+    <property name="summary" value="Start Date" />
+    <property name="description" value="Start Date" />
+  </bean>
+  <bean id="InstituteRate-unitNumber" parent="InstituteRate-unitNumber-parentBean" />
+
+  <bean id="InstituteRate-unitNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="unitNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Unit Number" />
+    <property name="shortLabel" value="Unit Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Unit Number" />
+    <property name="description" value="Unit Number" />
+  </bean>
+  <bean id="InstituteRate-instituteRate" parent="InstituteRate-instituteRate-parentBean" />
+
+  <bean id="InstituteRate-instituteRate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="instituteRate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Rate" />
+    <property name="shortLabel" value="Rate" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="FixedPointValidationPattern"
+            p:precision="5"
+            p:scale="2" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="Rate" />
+    <property name="description" value="Rate" />
+  </bean>
+  <bean id="InstituteRate-versionNumber" parent="InstituteRate-versionNumber-parentBean" />
+
+  <bean id="InstituteRate-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+  <bean id="InstituteRate-activityType.description" parent="InstituteRate-activityType.description-parentBean" />
+
+  <bean id="InstituteRate-activityType.description-parentBean" abstract="true" parent="ActivityType-description">
+    <property name="name" value="activityType.description" />
+  </bean>
+  <bean id="InstituteRate-rateClass.description" parent="InstituteRate-rateClass.description-parentBean" />
+
+  <bean id="InstituteRate-rateClass.description-parentBean" abstract="true" parent="RateClass-description">
+    <property name="name" value="rateClass.description" />
+  </bean>
+  <bean id="InstituteRate-rateType.description" parent="InstituteRate-rateType.description-parentBean" />
+
+  <bean id="InstituteRate-rateType.description-parentBean" abstract="true" parent="RateType-description">
+    <property name="name" value="rateType.description" />
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="InstituteRate-inquiryDefinition" parent="InstituteRate-inquiryDefinition-parentBean" />
+
+  <bean id="InstituteRate-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Institute Rates" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Institute Rates" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="activityTypeCode"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="fiscalYear"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="onOffCampusFlag"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="rateClassCode"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="rateTypeCode"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="startDate"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="unitNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="instituteRate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="InstituteRate-lookupDefinition" parent="InstituteRate-lookupDefinition-parentBean" />
+
+  <bean id="InstituteRate-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Institute Rates Lookup" />
+    <property name="lookupableID" value="onOffCampusLookupable" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Institute Rates" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="activityTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="fiscalYear" />
+        <bean parent="FieldDefinition"
+              p:attributeName="onOffCampusFlag" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateClassCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="startDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="unitNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="instituteRate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="activityTypeCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="activityType.description"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="fiscalYear"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="onOffCampusFlag"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateClassCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateClass.description"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateTypeCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateType.description"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="startDate"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="unitNumber"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="instituteRate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

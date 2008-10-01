@@ -1,154 +1,226 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="KimRole" parent="KimRole-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="KimRole-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.kim.bo.KimRole" />
+    <property name="inquiryDefinition" >
+      <ref bean="KimRole-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="KimRole-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="id" />
+    <property name="attributes" >
+      <list>
+        <ref bean="KimRole-id" />
+        <ref bean="KimRole-name" />
+        <ref bean="KimRole-roleTypeCode" />
+        <ref bean="KimRole-description" />
+        <ref bean="KimRole-versionNumber" />
+        <ref bean="KimRole-roleTypeName" />
+        <ref bean="KimRole-descend" />
+      </list>
+    </property>
+    <property name="collections" >
+      <list>
+        <bean parent="CollectionDefinition"
+              p:name="rolePermissions"
+              p:label="Role Permissions"
+              p:shortLabel="Role Perm."
+              p:summary="Role Permissions"
+              p:description="Permissions assigned to a given Role"
+              p:elementLabel="Role Permission" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.kim.bo.KimRole">
+<!-- Attribute Definitions -->
 
-        <inquiry>
-            <title>Role</title>
 
-            <inquirySections>
-            	<inquirySection title="KimRole">
-            		<inquiryFields>
-                		<field attributeName="id" forceInquiry="true"/>
-                		<field attributeName="name"/>
-                		<field attributeName="roleTypeName" />
-                		<field attributeName="description"/>
-                		<field attributeName="descend"/>
-            		</inquiryFields>
-            	</inquirySection>
-            	
-            	<inquirySection title="Permissions">
-            		<inquiryFields>
-	            		<inquiryCollection name="rolePermissions" businessObjectClass="org.kuali.kra.kim.bo.KimRolePermission">
-	            			<field attributeName="permissionId" />
-    	        		    <field attributeName="permission.name" />
-        	    			<field attributeName="active" />
-            			</inquiryCollection>
-            		</inquiryFields>
-            	</inquirySection>
-            </inquirySections>
-        </inquiry>
+  <bean id="KimRole-id" parent="KimRole-id-parentBean" />
 
-        <lookup>
-            <title>Role Lookup</title>
-            <menubar>
-                <![CDATA[<a href="index.jsp">Main</a>]]>
-            </menubar>
-            <instructions>Look up a Role</instructions>
+  <bean id="KimRole-id-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="id" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Role Id" />
+    <property name="shortLabel" value="Role Id" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="Role Id" />
+    <property name="description" value="Role Id" />
+  </bean>
+  <bean id="KimRole-name" parent="KimRole-name-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="name"/>
-                    <sortAttribute attributeName="roleTypeName"/>
-                </sortAttributes>
-            </defaultSort>
+  <bean id="KimRole-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Role Name" />
+    <property name="shortLabel" value="Role Name" />
+    <property name="maxLength" value="500" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Role Name" />
+    <property name="description" value="Role Name" />
+  </bean>
+  <bean id="KimRole-roleTypeCode" parent="KimRole-roleTypeCode-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="name" required="false"/>
-                <lookupField attributeName="roleTypeCode" required="false"/>
-                <lookupField attributeName="description" required="false"/>
-                <lookupField attributeName="descend" required="false"/>
-            </lookupFields>
+  <bean id="KimRole-roleTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="roleTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Role Type" />
+    <property name="shortLabel" value="Role Type" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.kim.lookup.keyvalue.KimRoleTypeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Role Type" />
+    <property name="description" value="Role Type" />
+  </bean>
+  <bean id="KimRole-description" parent="KimRole-description-parentBean" />
 
-            <resultFields>
-                <field attributeName="name" forceInquiry="true" />
-                <field attributeName="roleTypeName" forceInquiry="true" />
-                <field attributeName="description" forceInquiry="true" />
-                <field attributeName="descend" forceInquiry="false" />
-            </resultFields>
-        </lookup>
+  <bean id="KimRole-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-bigDescription">
+    <property name="name" value="description" />
+    <property name="maxLength" value="4000" />
+  </bean>
+  <bean id="KimRole-versionNumber" parent="KimRole-versionNumber-parentBean" />
 
-        <titleAttribute>id</titleAttribute>
-        <attributes>
-            <attribute name="id">
-                <label>Role Id </label>
-                <shortLabel>Role Id </shortLabel>
-                <maxLength>8</maxLength>
-                <validationPattern><numeric /></validationPattern>
-                <control>
-                    <hidden />
-                </control>
-                <summary>Role Id </summary>
-                <description>Role Id </description>
-            </attribute>
+  <bean id="KimRole-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+  <bean id="KimRole-roleTypeName" parent="KimRole-roleTypeName-parentBean" />
 
-            <attribute name="name" >
-                <label>Role Name</label>
-                <shortLabel>Role Name</shortLabel>
-                <maxLength>500</maxLength>
-                <control>
-                    <text size="40" />
-                </control>
-                <summary>Role Name</summary>
-                <description>Role Name</description>
-            </attribute>
-            
-             <attribute name="roleTypeCode">
-                <label>Role Type</label>
-                <shortLabel>Role Type</shortLabel>
-                <maxLength>1</maxLength>
-                <required>true</required>
-                <control>
-                    <select valuesFinderClass="org.kuali.kra.kim.lookup.keyvalue.KimRoleTypeValuesFinder" />
-                </control>
-                <summary>Role Type</summary>
-                <description>Role Type</description>
-            </attribute>
+  <bean id="KimRole-roleTypeName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="roleTypeName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Role Type" />
+    <property name="shortLabel" value="Role Type" />
+    <property name="maxLength" value="500" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Role Type" />
+    <property name="description" value="Role Type" />
+  </bean>
+  <bean id="KimRole-descend" parent="KimRole-descend-parentBean" />
 
-            <attributeReference name="description" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="bigDescription">
-                <maxLength>4000</maxLength>
-            </attributeReference>
+  <bean id="KimRole-descend-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="descend" />
+    <property name="label" value="Descend" />
+    <property name="shortLabel" value="Descend" />
+    <property name="summary" value="Descend" />
+    <property name="description" value="Descend" />
+  </bean>
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-       
-            <attribute name="roleTypeName" >
-                <label>Role Type</label>
-                <shortLabel>Role Type </shortLabel>
-                <maxLength>500</maxLength>
-                <required>false</required>
-                <control>
-                    <text size="40" />
-                </control>
-                <summary>Role Type</summary>
-                <description>Role Type</description>
-            </attribute>
-            
-            <attributeReference name="descend" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>Descend</label>
-                <shortLabel>Descend </shortLabel>
-                <summary>Descend</summary>
-                <description>Descend</description>
-            </attributeReference>
-        </attributes>
+<!-- Business Object Inquiry Definition -->
 
-		<collections>
-        	<collection name="rolePermissions">
-        		<label>Role Permissions</label>
-        		<shortLabel>Role Perm.</shortLabel>
-        		<elementLabel>Role Permission</elementLabel>
-        		<summary>Role Permissions</summary>
-        		<description>
-                  Permissions assigned to a given Role
-        		</description>
-        	</collection>
-        </collections>
-    </businessObject>
 
-</dictionaryEntry>
+  <bean id="KimRole-inquiryDefinition" parent="KimRole-inquiryDefinition-parentBean" />
+
+  <bean id="KimRole-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Role" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="KimRole" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="id"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="name" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="roleTypeName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="descend" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Permissions" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="InquiryCollectionDefinition">
+                <property name="attributeName" value="rolePermissions" />
+                <property name="businessObjectClass" value="org.kuali.kra.kim.bo.KimRolePermission" />
+                <property name="numberOfColumns" value="1" />
+                <property name="inquiryFields" >
+                  <list>
+                    <bean parent="FieldDefinition"
+                          p:attributeName="permissionId" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="permission.name" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="active" />
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="KimRole-lookupDefinition" parent="KimRole-lookupDefinition-parentBean" />
+
+  <bean id="KimRole-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Role Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Role" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="name" />
+        <bean parent="FieldDefinition"
+              p:attributeName="roleTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+        <bean parent="FieldDefinition"
+              p:attributeName="descend" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="name"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="roleTypeName"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="descend" />
+      </list>
+    </property>
+  </bean>
+</beans>

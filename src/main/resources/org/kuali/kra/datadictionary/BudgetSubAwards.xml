@@ -1,227 +1,367 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="BudgetSubAwards" parent="BudgetSubAwards-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="BudgetSubAwards-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.budget.bo.BudgetSubAwards" />
+    <property name="inquiryDefinition" >
+      <ref bean="BudgetSubAwards-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="BudgetSubAwards-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="subAwardNumber" />
+    <property name="attributes" >
+      <list>
+        <ref bean="BudgetSubAwards-subAwardNumber" />
+        <ref bean="BudgetSubAwards-comments" />
+        <ref bean="BudgetSubAwards-proposalNumber" />
+        <ref bean="BudgetSubAwards-budgetVersionNumber" />
+        <ref bean="BudgetSubAwards-organizationName" />
+        <ref bean="BudgetSubAwards-subAwardStatusCode" />
+        <ref bean="BudgetSubAwards-subAwardXfdFileName" />
+        <ref bean="BudgetSubAwards-translationComments" />
+        <ref bean="BudgetSubAwards-xfdUpdateTimestamp" />
+        <ref bean="BudgetSubAwards-xfdUpdateUser" />
+        <ref bean="BudgetSubAwards-xmlUpdateTimestamp" />
+        <ref bean="BudgetSubAwards-xmlUpdateUser" />
+        <ref bean="BudgetSubAwards-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.budget.bo.BudgetSubAwards">
+<!-- Attribute Definitions -->
 
-        <inquiry>
-            <title>Budget Sub Awards</title>
 
-            <inquirySections><inquirySection title="Budget Details"><inquiryFields>
-            	<field attributeName="proposalNumber" forceInquiry="true"/>
-            	<field attributeName="subAwardNumber" forceInquiry="true"/>
-				<field attributeName="budgetVersionNumber" forceInquiry="true"/>				
-				<field attributeName="versionNumber" forceInquiry="true"/>
-				<field attributeName="comments"/>
-				<field attributeName="organizationName"/>
-				<field attributeName="subAwardStatusCode"/>
-				<field attributeName="translationComments"/>
-				<field attributeName="xfdUpdateTimestamp"/>
-				<field attributeName="xfdUpdateUser"/>
-				<field attributeName="xmlUpdateTimestamp"/>
-				<field attributeName="xmlUpdateUser"/>
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="BudgetSubAwards-subAwardNumber" parent="BudgetSubAwards-subAwardNumber-parentBean" />
 
-        <lookup>
-            <title>Budget Sub Awards</title>
-			<menubar>
-				<![CDATA[<a href="index.jsp">Main</a>]]>
-			</menubar>
-            <instructions>Look up a Budget Sub Award</instructions>
+  <bean id="BudgetSubAwards-subAwardNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subAwardNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="subAwardNumber" />
+    <property name="shortLabel" value="subAwardNumber" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="subAwardNumber" />
+    <property name="description" value="subAwardNumber" />
+  </bean>
+  <bean id="BudgetSubAwards-comments" parent="BudgetSubAwards-comments-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>                	
-					<sortAttribute attributeName="subAwardNumber"/>
-					<sortAttribute attributeName="proposalNumber"/>
-                </sortAttributes>
-            </defaultSort>
+  <bean id="BudgetSubAwards-comments-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="comments" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Comments" />
+    <property name="shortLabel" value="Comments" />
+    <property name="maxLength" value="2000" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="3"
+            p:cols="30" />
+    </property>
+    <property name="summary" value="Comments" />
+    <property name="description" value="Comments" />
+  </bean>
+  <bean id="BudgetSubAwards-proposalNumber" parent="BudgetSubAwards-proposalNumber-parentBean" />
 
-            <lookupFields>
-            	<lookupField attributeName="subAwardNumber" required="false"/>
-				<lookupField attributeName="budgetVersionNumber" required="false"/>
-				<lookupField attributeName="proposalNumber" required="false"/>
-				<lookupField attributeName="versionNumber" required="false"/>
-				<lookupField attributeName="comments" required="false"/>
-				<lookupField attributeName="organizationName" required="false"/>
-				<lookupField attributeName="subAwardStatusCode" required="false"/>
-				<lookupField attributeName="translationComments" required="false"/>
-				<lookupField attributeName="xfdUpdateTimestamp" required="false"/>
-				<lookupField attributeName="xfdUpdateUser" required="false"/>
-				<lookupField attributeName="xmlUpdateTimestamp" required="false"/>
-				<lookupField attributeName="xmlUpdateUser" required="false"/>
-            </lookupFields>
+  <bean id="BudgetSubAwards-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="proposalNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Proposal Number" />
+    <property name="shortLabel" value="Proposal Number" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="Proposal Number" />
+    <property name="description" value="Proposal Number" />
+  </bean>
+  <bean id="BudgetSubAwards-budgetVersionNumber" parent="BudgetSubAwards-budgetVersionNumber-parentBean" />
 
-            <resultFields>
-            	<field attributeName="subAwardNumber" forceInquiry="true"/>
-				<field attributeName="budgetVersionNumber" forceInquiry="true"/>
-				<field attributeName="proposalNumber" forceInquiry="true"/>
-				<field attributeName="versionNumber" forceInquiry="true"/>
-				<field attributeName="comments" forceInquiry="false"/>
-				<field attributeName="organizationName" forceInquiry="false"/>
-				<field attributeName="subAwardStatusCode" forceInquiry="false"/>
-				<field attributeName="translationComments" forceInquiry="false"/>
-				<field attributeName="xfdUpdateTimestamp" forceInquiry="false"/>
-				<field attributeName="xfdUpdateUser" forceInquiry="false"/>
-				<field attributeName="xmlUpdateTimestamp" forceInquiry="false"/>
-				<field attributeName="xmlUpdateUser" forceInquiry="false"/>
-            </resultFields>
-        </lookup>
+  <bean id="BudgetSubAwards-budgetVersionNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetVersionNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Budget Version Number" />
+    <property name="shortLabel" value="Budget Version Number" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Budget Version Number" />
+    <property name="description" value="Budget Version Number" />
+  </bean>
+  <bean id="BudgetSubAwards-organizationName" parent="BudgetSubAwards-organizationName-parentBean" />
 
-        <titleAttribute>subAwardNumber</titleAttribute>
-		
-        <attributes>
+  <bean id="BudgetSubAwards-organizationName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Organization Name" />
+    <property name="shortLabel" value="Organization Name" />
+    <property name="maxLength" value="60" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="60" />
+    </property>
+    <property name="summary" value="Organization Name" />
+    <property name="description" value="Organization Name" />
+  </bean>
+  <bean id="BudgetSubAwards-subAwardStatusCode" parent="BudgetSubAwards-subAwardStatusCode-parentBean" />
 
-	        <attribute name="subAwardNumber">
-			<label>subAwardNumber</label>
-			<shortLabel>subAwardNumber </shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<hidden />
-			</control>
-			<summary>subAwardNumber </summary>
-			<description>subAwardNumber </description>
-			</attribute>
+  <bean id="BudgetSubAwards-subAwardStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subAwardStatusCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Sub Award Status Code" />
+    <property name="shortLabel" value="Sub Award Status Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Sub Award Status Code" />
+    <property name="description" value="Sub Award Status Code" />
+  </bean>
+  <bean id="BudgetSubAwards-subAwardXfdFileName" parent="BudgetSubAwards-subAwardXfdFileName-parentBean" />
 
-			<attribute name="comments">
-			<label>Comments </label>
-			<shortLabel>Comments </shortLabel>
-			<maxLength>2000</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-			<control>
-				<textarea rows="3" cols="30" />
-			</control>
-			<summary>Comments </summary>
-			<description>Comments </description>
-			</attribute>
+  <bean id="BudgetSubAwards-subAwardXfdFileName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subAwardXfdFileName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Sub Award Pdf File Name" />
+    <property name="shortLabel" value="Sub Award Pdf File Name" />
+    <property name="maxLength" value="256" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="256" />
+    </property>
+    <property name="summary" value="Sub Award Pdf File Name" />
+    <property name="description" value="Sub Award Pdf File Name" />
+  </bean>
+  <bean id="BudgetSubAwards-translationComments" parent="BudgetSubAwards-translationComments-parentBean" />
 
-			<attribute name="proposalNumber">
-			<label>Proposal Number </label>
-			<shortLabel>Proposal Number </shortLabel>
-			<maxLength>12</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<control>
-				<text size="12" />
-			</control>
-			<summary>Proposal Number </summary>
-			<description>Proposal Number </description>
-			</attribute>
-			
-			<attribute name="budgetVersionNumber">
-			<label>Budget Version Number </label>
-			<shortLabel>Budget Version Number </shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="3" />
-			</control>
-			<summary>Budget Version Number </summary>
-			<description>Budget Version Number </description>
-			</attribute>
+  <bean id="BudgetSubAwards-translationComments-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="translationComments" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Translation Comments" />
+    <property name="shortLabel" value="Translation Comments" />
+    <property name="maxLength" value="2000" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="3"
+            p:cols="30" />
+    </property>
+    <property name="summary" value="Translation Comments" />
+    <property name="description" value="Translation Comments" />
+  </bean>
+  <bean id="BudgetSubAwards-xfdUpdateTimestamp" parent="BudgetSubAwards-xfdUpdateTimestamp-parentBean" />
 
-			<attribute name="organizationName">
-			<label>Organization Name </label>
-			<shortLabel>Organization Name </shortLabel>
-			<maxLength>60</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-			<control>
-				<text size="60" />
-			</control>
-			<summary>Organization Name </summary>
-			<description>Organization Name </description>
-			</attribute>
+  <bean id="BudgetSubAwards-xfdUpdateTimestamp-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+    <property name="name" value="xfdUpdateTimestamp" />
+    <property name="label" value="Pdf Last Updated" />
+  </bean>
+  <bean id="BudgetSubAwards-xfdUpdateUser" parent="BudgetSubAwards-xfdUpdateUser-parentBean" />
 
-			<attribute name="subAwardStatusCode">
-			<label>Sub Award Status Code </label>
-			<shortLabel>Sub Award Status Code </shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="3" />
-			</control>
-			<summary>Sub Award Status Code </summary>
-			<description>Sub Award Status Code </description>
-			</attribute>
+  <bean id="BudgetSubAwards-xfdUpdateUser-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="xfdUpdateUser" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="xfdUpdateUser" />
+    <property name="shortLabel" value="xfdUpdateUser" />
+    <property name="maxLength" value="60" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="60" />
+    </property>
+    <property name="summary" value="xfdUpdateUser" />
+    <property name="description" value="xfdUpdateUser" />
+  </bean>
+  <bean id="BudgetSubAwards-xmlUpdateTimestamp" parent="BudgetSubAwards-xmlUpdateTimestamp-parentBean" />
 
-			<attribute name="subAwardXfdFileName">
-			<label>Sub Award Pdf File Name </label>
-			<shortLabel>Sub Award Pdf File Name </shortLabel>
-			<maxLength>256</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-			<control>
-				<text size="256" />
-			</control>
-			<summary>Sub Award Pdf File Name </summary>
-			<description>Sub Award Pdf File Name </description>
-			</attribute>
+  <bean id="BudgetSubAwards-xmlUpdateTimestamp-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp">
+    <property name="name" value="xmlUpdateTimestamp" />
+    <property name="label" value="Xml Last Updated" />
+  </bean>
+  <bean id="BudgetSubAwards-xmlUpdateUser" parent="BudgetSubAwards-xmlUpdateUser-parentBean" />
 
-			<attribute name="translationComments">
-			<label>Translation Comments </label>
-			<shortLabel>Translation Comments </shortLabel>
-			<maxLength>2000</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-			<control>
-				<textarea rows="3" cols="30" />
-			</control>
-			<summary>Translation Comments </summary>
-			<description>Translation Comments </description>
-			</attribute>
+  <bean id="BudgetSubAwards-xmlUpdateUser-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="xmlUpdateUser" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="xmlUpdateUser" />
+    <property name="shortLabel" value="xmlUpdateUser" />
+    <property name="maxLength" value="60" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="60" />
+    </property>
+    <property name="summary" value="xmlUpdateUser" />
+    <property name="description" value="xmlUpdateUser" />
+  </bean>
+  <bean id="BudgetSubAwards-versionNumber" parent="BudgetSubAwards-versionNumber-parentBean" />
 
-            <attributeReference name="xfdUpdateTimestamp" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp" >
-                <label>Pdf Last Updated</label>                
-      		</attributeReference>
-      		
-      		<attribute name="xfdUpdateUser">
-				<label>xfdUpdateUser</label>
-				<shortLabel>xfdUpdateUser</shortLabel>
-				<maxLength>60</maxLength>
-				<validationPattern><anyCharacter /></validationPattern>
-				<required>false</required>
-				<control>
-					<text size="60"/>
-				</control>
-				<summary>xfdUpdateUser</summary>
-				<description>xfdUpdateUser</description>
-			</attribute>
-      		
-      		<attributeReference name="xmlUpdateTimestamp" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp" >
-                <label>Xml Last Updated</label>
-      		</attributeReference>
-      		
-      		<attribute name="xmlUpdateUser">
-				<label>xmlUpdateUser</label>
-				<shortLabel>xmlUpdateUser</shortLabel>
-				<maxLength>60</maxLength>
-				<validationPattern><anyCharacter /></validationPattern>
-				<required>false</required>
-				<control>
-					<text size="60"/>
-				</control>
-				<summary>xmlUpdateUser</summary>
-				<description>xmlUpdateUser</description>
-			</attribute>
-			
-			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+  <bean id="BudgetSubAwards-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-		</attributes>
-        <!-- <objectHelp parameterNamespace="KRA-B" parameterDetailType="D"  parameterName="budgetLineItemHelpUrl"/> --> 
-    </businessObject>
+<!-- Business Object Inquiry Definition -->
 
-</dictionaryEntry>
+
+  <bean id="BudgetSubAwards-inquiryDefinition" parent="BudgetSubAwards-inquiryDefinition-parentBean" />
+
+  <bean id="BudgetSubAwards-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Budget Sub Awards" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Budget Details" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subAwardNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="budgetVersionNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="versionNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="comments" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="organizationName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subAwardStatusCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="translationComments" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="xfdUpdateTimestamp" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="xfdUpdateUser" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="xmlUpdateTimestamp" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="xmlUpdateUser" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="BudgetSubAwards-lookupDefinition" parent="BudgetSubAwards-lookupDefinition-parentBean" />
+
+  <bean id="BudgetSubAwards-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Budget Sub Awards" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Budget Sub Award" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="subAwardNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetVersionNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="versionNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="comments" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAwardStatusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="translationComments" />
+        <bean parent="FieldDefinition"
+              p:attributeName="xfdUpdateTimestamp" />
+        <bean parent="FieldDefinition"
+              p:attributeName="xfdUpdateUser" />
+        <bean parent="FieldDefinition"
+              p:attributeName="xmlUpdateTimestamp" />
+        <bean parent="FieldDefinition"
+              p:attributeName="xmlUpdateUser" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="subAwardNumber"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetVersionNumber"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="versionNumber"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="comments" />
+        <bean parent="FieldDefinition"
+              p:attributeName="organizationName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="subAwardStatusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="translationComments" />
+        <bean parent="FieldDefinition"
+              p:attributeName="xfdUpdateTimestamp" />
+        <bean parent="FieldDefinition"
+              p:attributeName="xfdUpdateUser" />
+        <bean parent="FieldDefinition"
+              p:attributeName="xmlUpdateTimestamp" />
+        <bean parent="FieldDefinition"
+              p:attributeName="xmlUpdateUser" />
+      </list>
+    </property>
+  </bean>
+</beans>

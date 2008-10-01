@@ -1,194 +1,284 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="ProposalSpecialReview" parent="ProposalSpecialReview-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="ProposalSpecialReview-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview" />
+    <property name="inquiryDefinition" >
+      <ref bean="ProposalSpecialReview-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ProposalSpecialReview-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="specialReviewNumber" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ProposalSpecialReview-proposalNumber" />
+        <ref bean="ProposalSpecialReview-specialReviewNumber" />
+        <ref bean="ProposalSpecialReview-applicationDate" />
+        <ref bean="ProposalSpecialReview-approvalDate" />
+        <ref bean="ProposalSpecialReview-expirationDate" />
+        <ref bean="ProposalSpecialReview-approvalTypeCode" />
+        <ref bean="ProposalSpecialReview-comments" />
+        <ref bean="ProposalSpecialReview-protocolNumber" />
+        <ref bean="ProposalSpecialReview-specialReviewCode" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-
-    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview" >
-
-        <inquiry>
-            <title>Prop Special Review</title>
-
-            <inquirySections><inquirySection title="Prop Special Review"><inquiryFields>
-            	<field attributeName="proposalNumber" forceInquiry="true"/>
-				<field attributeName="specialReviewNumber" forceInquiry="true"/>
-				<field attributeName="applicationDate"/>
-				<field attributeName="approvalDate"/>
-				<field attributeName="expirationDate"/>
-				<field attributeName="approvalTypeCode"/>
-				<field attributeName="comments"/>
-				<field attributeName="protocolNumber"/>
-				<field attributeName="specialReviewCode"/>
-
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
-
-        <lookup>
-            <title>Prop Special Review Lookup</title>
-			<menubar>
-				<![CDATA[<a href="index.jsp">Main</a>]]>
-			</menubar>
-            <instructions>Look up a Prop Special Review</instructions>
-
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                	<sortAttribute attributeName="proposalNumber"/>
-					<sortAttribute attributeName="specialReviewNumber"/>
-
-                </sortAttributes>
-            </defaultSort>
-
-            <lookupFields>
-            	<lookupField attributeName="proposalNumber" required="false"/>
-				<lookupField attributeName="specialReviewNumber" required="false"/>
-				<lookupField attributeName="applicationDate" required="false"/>
-				<lookupField attributeName="approvalDate" required="false"/>
-				<lookupField attributeName="expirationDate" required="false"/>
-				<lookupField attributeName="approvalTypeCode" required="false"/>
-				<lookupField attributeName="comments" required="false"/>
-				<lookupField attributeName="protocolNumber" required="false"/>
-				<lookupField attributeName="specialReviewCode" required="false"/>
-
-            </lookupFields>
-
-            <resultFields>
-            	<field attributeName="proposalNumber" forceInquiry="true"/>
-				<field attributeName="specialReviewNumber" forceInquiry="true"/>
-				<field attributeName="applicationDate" forceInquiry="false"/>
-				<field attributeName="approvalDate" forceInquiry="false"/>
-				<field attributeName="expirationDate" forceInquiry="false"/>
-				<field attributeName="approvalTypeCode" forceInquiry="false"/>
-				<field attributeName="comments" forceInquiry="false"/>
-				<field attributeName="protocolNumber" forceInquiry="false"/>
-				<field attributeName="specialReviewCode" forceInquiry="false"/>
-
-            </resultFields>
-        </lookup>
-
-		<titleAttribute>specialReviewNumber</titleAttribute>
-        <attributes>
-
-	        <attribute name="proposalNumber">
-			<label>Proposal Number </label>
-			<shortLabel>Proposal Number </shortLabel>
-			<maxLength>12</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<hidden />
-			</control>
-			<summary>Proposal Number </summary>
-			<description>Proposal Number </description>
-			</attribute>
-
-			<attribute name="specialReviewNumber">
-			<label>Special Review Number </label>
-			<shortLabel>Special Review Number </shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<hidden />
-			</control>
-			<summary>Special Review Number </summary>
-			<description>Special Review Number </description>
-			</attribute>
-
-            <attributeReference name="applicationDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
-                <label>Application Date</label>
-                <shortLabel>Application Date</shortLabel>
-
- 				<required>false</required>
-
-                <summary>The date the PI submitted a protocol/request for permission to the relevant institutional committee/person</summary>
-                <description>The application date is the date the PI submitted a protocol/request for permission to the relevant institutional committee/person for special Review.</description>
-      		</attributeReference>
-
-            <attributeReference name="approvalDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
-                <label>Approval Date</label>
-                <shortLabel>Approval Date</shortLabel>
-
- 				<required>false</required>
-
-                <summary>The date the protocol/request for permission was approved by the relevant institutional committee/person</summary>
-                <description>The approval date is the date the protocol/request for permission was approved by the relevant institutional committee/person.</description>
-      		</attributeReference>
-            <attributeReference name="expirationDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
-                <label>Expiration Date</label>
-                <shortLabel>Expiration Date</shortLabel>
-
- 				<required>false</required>
-
-                <summary>The date the protocol/request for permission was expired</summary>
-                <description>The expiration date is the date the protocol/request for permission was expired.</description>
-      		</attributeReference>
+<!-- Attribute Definitions -->
 
 
-			<attribute name="approvalTypeCode">
-			<label>Approval Status </label>
-			<shortLabel>Approval Type Code </shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<required>true</required>
-			<control>
-                    <select valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.SpecialReviewApprovalTypeValuesFinder" />
-			</control>
-			<summary>Approval Type Code </summary>
-			<description>The approval status indicates if the special review relevant to the document (proposal/award/irb) is pending approval, or already approved. </description>
-			</attribute>
+  <bean id="ProposalSpecialReview-proposalNumber" parent="ProposalSpecialReview-proposalNumber-parentBean" />
 
-			<attribute name="comments">
-			<label>Comments </label>
-			<shortLabel>Comments </shortLabel>
-			<!-- what should be the length for clob  -->
-			<maxLength>5000</maxLength>
-			<validationPattern><anyCharacter  allowWhitespace="true" /></validationPattern>
-			<control>
-				<textarea cols="20" rows="3"  />
-			</control>
-			<summary>Comments </summary>
-			<description>This field allows the user to enter comments relevant to special review.</description>
-			</attribute>
+  <bean id="ProposalSpecialReview-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="proposalNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Proposal Number" />
+    <property name="shortLabel" value="Proposal Number" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="Proposal Number" />
+    <property name="description" value="Proposal Number" />
+  </bean>
+  <bean id="ProposalSpecialReview-specialReviewNumber" parent="ProposalSpecialReview-specialReviewNumber-parentBean" />
 
-			<attribute name="protocolNumber">
-			<label>Protocol ID </label>
-			<shortLabel>Protocol ID </shortLabel>
-			<maxLength>20</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-			<control>
-				<text size="20" />
-			</control>
-			<summary>Protocol Number </summary>
-			<description> The protocol # is the number assigned to the protocol submitted by the PI to the institution's relevant committee (e.g. IACUC, IRB, etc.). </description>
-			</attribute>
+  <bean id="ProposalSpecialReview-specialReviewNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="specialReviewNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Special Review Number" />
+    <property name="shortLabel" value="Special Review Number" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="Special Review Number" />
+    <property name="description" value="Special Review Number" />
+  </bean>
+  <bean id="ProposalSpecialReview-applicationDate" parent="ProposalSpecialReview-applicationDate-parentBean" />
 
-			<attribute name="specialReviewCode">
-			<label>Type </label>
-			<shortLabel>Special Review Code </shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<required>true</required>
-			<control>                    
-                <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" businessObjectClass="org.kuali.kra.bo.SpecialReview" keyAttribute="specialReviewCode" labelAttribute="description" includeKeyInLabel="false"/>
-			</control>
-			<summary>Special Review Code </summary>
-			<description>The type indicates which special review, if any, is relevant to the document (proposal/award/irb).</description>
-			</attribute>
+  <bean id="ProposalSpecialReview-applicationDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="applicationDate" />
+    <property name="label" value="Application Date" />
+    <property name="shortLabel" value="Application Date" />
+    <property name="required" value="false" />
+    <property name="summary" value="The date the PI submitted a protocol/request for permission to the relevant institutional committee/person" />
+    <property name="description" value="The application date is the date the PI submitted a protocol/request for permission to the relevant institutional committee/person for special Review." />
+  </bean>
+  <bean id="ProposalSpecialReview-approvalDate" parent="ProposalSpecialReview-approvalDate-parentBean" />
 
-		</attributes>
-    </businessObject>
+  <bean id="ProposalSpecialReview-approvalDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="approvalDate" />
+    <property name="label" value="Approval Date" />
+    <property name="shortLabel" value="Approval Date" />
+    <property name="required" value="false" />
+    <property name="summary" value="The date the protocol/request for permission was approved by the relevant institutional committee/person" />
+    <property name="description" value="The approval date is the date the protocol/request for permission was approved by the relevant institutional committee/person." />
+  </bean>
+  <bean id="ProposalSpecialReview-expirationDate" parent="ProposalSpecialReview-expirationDate-parentBean" />
 
-</dictionaryEntry>
+  <bean id="ProposalSpecialReview-expirationDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="expirationDate" />
+    <property name="label" value="Expiration Date" />
+    <property name="shortLabel" value="Expiration Date" />
+    <property name="required" value="false" />
+    <property name="summary" value="The date the protocol/request for permission was expired" />
+    <property name="description" value="The expiration date is the date the protocol/request for permission was expired." />
+  </bean>
+  <bean id="ProposalSpecialReview-approvalTypeCode" parent="ProposalSpecialReview-approvalTypeCode-parentBean" />
+
+  <bean id="ProposalSpecialReview-approvalTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="approvalTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Approval Status" />
+    <property name="shortLabel" value="Approval Type Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.SpecialReviewApprovalTypeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Approval Type Code" />
+    <property name="description" value="The approval status indicates if the special review relevant to the document (proposal/award/irb) is pending approval, or already approved." />
+  </bean>
+  <bean id="ProposalSpecialReview-comments" parent="ProposalSpecialReview-comments-parentBean" />
+
+  <bean id="ProposalSpecialReview-comments-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="comments" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Comments" />
+    <property name="shortLabel" value="Comments" />
+    <property name="maxLength" value="5000" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="3"
+            p:cols="20" />
+    </property>
+    <property name="summary" value="Comments" />
+    <property name="description" value="This field allows the user to enter comments relevant to special review." />
+  </bean>
+  <bean id="ProposalSpecialReview-protocolNumber" parent="ProposalSpecialReview-protocolNumber-parentBean" />
+
+  <bean id="ProposalSpecialReview-protocolNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="protocolNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Protocol ID" />
+    <property name="shortLabel" value="Protocol ID" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+    <property name="summary" value="Protocol Number" />
+    <property name="description" value="The protocol # is the number assigned to the protocol submitted by the PI to the institution&apos;s relevant committee (e.g. IACUC, IRB, etc.)." />
+  </bean>
+  <bean id="ProposalSpecialReview-specialReviewCode" parent="ProposalSpecialReview-specialReviewCode-parentBean" />
+
+  <bean id="ProposalSpecialReview-specialReviewCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="specialReviewCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Type" />
+    <property name="shortLabel" value="Special Review Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kra.bo.SpecialReview"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="false"
+            p:keyAttribute="specialReviewCode"
+            p:labelAttribute="description" />
+    </property>
+    <property name="summary" value="Special Review Code" />
+    <property name="description" value="The type indicates which special review, if any, is relevant to the document (proposal/award/irb)." />
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="ProposalSpecialReview-inquiryDefinition" parent="ProposalSpecialReview-inquiryDefinition-parentBean" />
+
+  <bean id="ProposalSpecialReview-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Prop Special Review" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Prop Special Review" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="specialReviewNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="applicationDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="approvalDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="expirationDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="approvalTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="comments" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="protocolNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="specialReviewCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="ProposalSpecialReview-lookupDefinition" parent="ProposalSpecialReview-lookupDefinition-parentBean" />
+
+  <bean id="ProposalSpecialReview-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Prop Special Review Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Prop Special Review" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="specialReviewNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="applicationDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="approvalDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="expirationDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="approvalTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="comments" />
+        <bean parent="FieldDefinition"
+              p:attributeName="protocolNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="specialReviewCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="specialReviewNumber"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="applicationDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="approvalDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="expirationDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="approvalTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="comments" />
+        <bean parent="FieldDefinition"
+              p:attributeName="protocolNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="specialReviewCode" />
+      </list>
+    </property>
+  </bean>
+</beans>

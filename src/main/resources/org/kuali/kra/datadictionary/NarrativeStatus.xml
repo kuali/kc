@@ -1,91 +1,128 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="NarrativeStatus" parent="NarrativeStatus-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="NarrativeStatus-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.NarrativeStatus" />
+    <property name="inquiryDefinition" >
+      <ref bean="NarrativeStatus-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="NarrativeStatus-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="narrativeStatusCode" />
+    <property name="attributes" >
+      <list>
+        <ref bean="NarrativeStatus-narrativeStatusCode" />
+        <ref bean="NarrativeStatus-description" />
+        <ref bean="NarrativeStatus-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.NarrativeStatus">
+<!-- Attribute Definitions -->
 
-        <inquiry>
-            <title>Narrative Status</title>
 
-            <inquirySections><inquirySection title="Narrative Status"><inquiryFields>
-            	<field attributeName="narrativeStatusCode" forceInquiry="true"/>
-				<field attributeName="description"/>
+  <bean id="NarrativeStatus-narrativeStatusCode" parent="NarrativeStatus-narrativeStatusCode-parentBean" />
 
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="NarrativeStatus-narrativeStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="narrativeStatusCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Narrative Status Code" />
+    <property name="shortLabel" value="Narrative Status Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Narrative Status Code" />
+    <property name="description" value="Narrative Status Code" />
+  </bean>
+  <bean id="NarrativeStatus-description" parent="NarrativeStatus-description-parentBean" />
 
-        <lookup>
-            <title>Narrative Status Lookup</title>
-			<menubar>
-				<![CDATA[<a href="index.jsp">Main</a>]]>
-			</menubar>
-            <instructions>Look up a Narrative Status</instructions>
+  <bean id="NarrativeStatus-description-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="description" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+    <property name="summary" value="Description" />
+    <property name="description" value="Description" />
+  </bean>
+  <bean id="NarrativeStatus-versionNumber" parent="NarrativeStatus-versionNumber-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                	<sortAttribute attributeName="narrativeStatusCode"/>
+  <bean id="NarrativeStatus-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-                </sortAttributes>
-            </defaultSort>
+<!-- Business Object Inquiry Definition -->
 
-            <lookupFields>
-            	<lookupField attributeName="narrativeStatusCode" required="false"/>
-				<lookupField attributeName="description" required="false"/>
 
-            </lookupFields>
+  <bean id="NarrativeStatus-inquiryDefinition" parent="NarrativeStatus-inquiryDefinition-parentBean" />
 
-            <resultFields>
-            	<field attributeName="narrativeStatusCode" forceInquiry="true"/>
-				<field attributeName="description" forceInquiry="false"/>
+  <bean id="NarrativeStatus-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Narrative Status" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Narrative Status" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="narrativeStatusCode"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            </resultFields>
-        </lookup>
+<!-- Business Object Lookup Definition -->
 
-        <titleAttribute>narrativeStatusCode</titleAttribute>
-        <attributes>
 
-	        <attribute name="narrativeStatusCode">
-			<label>Narrative Status Code </label>
-			<shortLabel>Narrative Status Code </shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><anyCharacter /></validationPattern>
-			<control>
-				<text size="3" />
-			</control>
-			<summary>Narrative Status Code </summary>
-			<description>Narrative Status Code </description>
-			</attribute>
+  <bean id="NarrativeStatus-lookupDefinition" parent="NarrativeStatus-lookupDefinition-parentBean" />
 
-			<attribute name="description">
-			<label>Description </label>
-			<shortLabel>Description </shortLabel>
-			<maxLength>20</maxLength>
-			<validationPattern><anyCharacter /></validationPattern>
-			<control>
-				<text size="20" />
-			</control>
-			<summary>Description </summary>
-			<description>Description </description>
-			</attribute>
-<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-		</attributes>
-    </businessObject>
-
-</dictionaryEntry>
+  <bean id="NarrativeStatus-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Narrative Status Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Narrative Status" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="narrativeStatusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="narrativeStatusCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+  </bean>
+</beans>

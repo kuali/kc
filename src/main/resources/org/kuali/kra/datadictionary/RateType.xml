@@ -1,94 +1,141 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="RateType" parent="RateType-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="RateType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.budget.bo.RateType" />
+    <property name="inquiryDefinition" >
+      <ref bean="RateType-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="RateType-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="rateTypeCode" />
+    <property name="attributes" >
+      <list>
+        <ref bean="RateType-rateClassCode" />
+        <ref bean="RateType-rateTypeCode" />
+        <ref bean="RateType-description" />
+        <ref bean="RateType-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.budget.bo.RateType">
+<!-- Attribute Definitions -->
 
-        <inquiry>
-            <title>Rate Type</title>
 
-            <inquirySections><inquirySection title="Rate Type"><inquiryFields>
-            	<field attributeName="rateClassCode" forceInquiry="true"/>
-				<field attributeName="rateTypeCode" forceInquiry="true"/>
-				<field attributeName="description"/>
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="RateType-rateClassCode" parent="RateType-rateClassCode-parentBean" />
 
-        <lookup>
-            <title>Rate Type Lookup</title>
-			<menubar>
-				<![CDATA[<a href="index.jsp">Main</a>]]>
-			</menubar>
-            <instructions>Look up a Rate Type</instructions>
+  <bean id="RateType-rateClassCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="rateClassCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Rate Class Code" />
+    <property name="shortLabel" value="Rate Class Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Rate Class Code" />
+    <property name="description" value="Rate Class Code" />
+  </bean>
+  <bean id="RateType-rateTypeCode" parent="RateType-rateTypeCode-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                	<sortAttribute attributeName="rateClassCode"/>
-					<sortAttribute attributeName="rateTypeCode"/>
-                </sortAttributes>
-            </defaultSort>
+  <bean id="RateType-rateTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="rateTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Rate Type Code" />
+    <property name="shortLabel" value="Rate Type Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Rate Type Code" />
+    <property name="description" value="Rate Type Code" />
+  </bean>
+  <bean id="RateType-description" parent="RateType-description-parentBean" />
 
-            <lookupFields>
-            	<lookupField attributeName="rateClassCode" required="false"/>
-				<lookupField attributeName="rateTypeCode" required="false"/>
-				<lookupField attributeName="description" required="false"/>
-            </lookupFields>
+  <bean id="RateType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+  </bean>
+  <bean id="RateType-versionNumber" parent="RateType-versionNumber-parentBean" />
 
-            <resultFields>
-            	<field attributeName="rateClassCode" forceInquiry="true"/>
-				<field attributeName="rateTypeCode" forceInquiry="true"/>
-				<field attributeName="description" forceInquiry="false"/>
-            </resultFields>
-        </lookup>
+  <bean id="RateType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-		<titleAttribute>rateTypeCode</titleAttribute>
-        <attributes>
+<!-- Business Object Inquiry Definition -->
 
-	        <attribute name="rateClassCode">
-			<label>Rate Class Code </label>
-			<shortLabel>Rate Class Code </shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="3" />
-			</control>
-			<summary>Rate Class Code </summary>
-			<description>Rate Class Code </description>
-			</attribute>
 
-			<attribute name="rateTypeCode">
-			<label>Rate Type Code </label>
-			<shortLabel>Rate Type Code </shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="3" />
-			</control>
-			<summary>Rate Type Code </summary>
-			<description>Rate Type Code </description>
-			</attribute>
+  <bean id="RateType-inquiryDefinition" parent="RateType-inquiryDefinition-parentBean" />
 
-			<attributeReference name="description" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="description" />
+  <bean id="RateType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Rate Type" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Rate Type" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="rateClassCode"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="rateTypeCode"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+<!-- Business Object Lookup Definition -->
 
-		</attributes>
-    </businessObject>
 
-</dictionaryEntry>
+  <bean id="RateType-lookupDefinition" parent="RateType-lookupDefinition-parentBean" />
+
+  <bean id="RateType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Rate Type Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Rate Type" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="rateClassCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="rateClassCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateTypeCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+  </bean>
+</beans>

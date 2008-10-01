@@ -1,50 +1,51 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="ProposalRoleState" parent="ProposalRoleState-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="ProposalRoleState-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalRoleState" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ProposalRoleState-name" />
+        <ref bean="ProposalRoleState-state" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalRoleState">
+<!-- Attribute Definitions -->
 
-        <attributes>
 
-			<attribute name="name">
-				<label>Role Name </label>
-				<shortLabel>Role Name </shortLabel>
-				<maxLength>500</maxLength>
-				<control>
-					<text size="30" />
-				</control>
-				<summary>Role Name</summary>
-				<description>Role Name</description>
-			</attribute>
+  <bean id="ProposalRoleState-name" parent="ProposalRoleState-name-parentBean" />
 
-			<attribute name="state">
-				<label>State </label>
-				<shortLabel>State </shortLabel>
-				<maxLength>1</maxLength>
-				<control>
-					<checkbox />
-				</control>
-				<summary>State</summary>
-				<description>State</description>
-			</attribute>
+  <bean id="ProposalRoleState-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Role Name" />
+    <property name="shortLabel" value="Role Name" />
+    <property name="maxLength" value="500" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="30" />
+    </property>
+    <property name="summary" value="Role Name" />
+    <property name="description" value="Role Name" />
+  </bean>
+  <bean id="ProposalRoleState-state" parent="ProposalRoleState-state-parentBean" />
 
-		</attributes>
-    </businessObject>
-
-</dictionaryEntry>
+  <bean id="ProposalRoleState-state-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="state" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="State" />
+    <property name="shortLabel" value="State" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="State" />
+    <property name="description" value="State" />
+  </bean>
+</beans>

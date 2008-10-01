@@ -1,719 +1,1126 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
-
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
- http://www.osedu.org/licenses/ECL-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.bo.Person">
-
-        <inquiry>
-            <title>Person</title>
-
-            <inquirySections><inquirySection title="Person"><inquiryFields>
-                <field attributeName="personId" forceInquiry="true"/>
-                <field attributeName="socialSecurityNumber" />
-                <field attributeName="lastName" />
-                <field attributeName="firstName" />
-                <field attributeName="middleName" />
-                <field attributeName="fullName" />
-                <field attributeName="priorName" />
-                <field attributeName="userName" />
-                <field attributeName="emailAddress" />
-                <field attributeName="dateOfBirth" />
-                <field attributeName="age" />
-                <field attributeName="ageByFiscalYear" />
-                <field attributeName="gender" />
-                <field attributeName="race" />
-                <field attributeName="educationLevel" />
-                <field attributeName="degree" />
-                <field attributeName="major" />
-                <field attributeName="handicappedFlag" />
-                <field attributeName="handicapType" />
-                <field attributeName="veteranFlag" />
-                <field attributeName="veteranType" />
-                <field attributeName="visaCode" />
-                <field attributeName="visaType" />
-                <field attributeName="visaRenewalDate" />
-                <field attributeName="hasVisa" />
-                <field attributeName="officeLocation" />
-                <field attributeName="officePhone" />
-                <field attributeName="secondaryOfficeLocation" />
-                <field attributeName="secondaryOfficePhone" />
-                <field attributeName="school" />
-                <field attributeName="yearGraduated" />
-                <field attributeName="directoryDepartment" />
-                <field attributeName="saluation" />
-                <field attributeName="countryOfCitizenship" />
-                <field attributeName="primaryTitle" />
-                <field attributeName="directoryTitle" />
-                <field attributeName="homeUnitRef.unitName" />
-                <field attributeName="facultyFlag" />
-                <field attributeName="graduateStudentStaffFlag" />
-                <field attributeName="researchStaffFlag" />
-                <field attributeName="serviceStaffFlag" />
-                <field attributeName="supportStaffFlag" />
-                <field attributeName="otherAcademicGroupFlag" />
-                <field attributeName="medicalStaffFlag" />
-                <field attributeName="vacationAccrualFlag" />
-                <field attributeName="onSabbaticalFlag" />
-                <field attributeName="idProvided" />
-                <field attributeName="idVerified" />
-                <field attributeName="addressLine1" />
-                <field attributeName="addressLine2" />
-                <field attributeName="addressLine3" />
-                <field attributeName="city" />
-                <field attributeName="county" />
-                <field attributeName="state" />
-                <field attributeName="postalCode" />
-                <field attributeName="countryCode" />
-                <field attributeName="faxNumber" />
-                <field attributeName="pagerNumber" />
-                <field attributeName="mobilePhoneNumber" />
-                <field attributeName="eraCommonsUserName" />
-                <field attributeName="active" />
-
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
-
-        <lookup>
-            <title>Person Lookup</title>
-			<menubar>
-				<![CDATA[<a href="index.jsp">Main</a>]]>
-			</menubar>
-            <instructions>Look up a Person</instructions>
-
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                	<sortAttribute attributeName="personId"/>
-
-                </sortAttributes>
-            </defaultSort>
-
-            <lookupFields>
-                <lookupField attributeName="personId" forceLookup="true" />
-                <lookupField attributeName="lastName" />
-                <lookupField attributeName="firstName" />
-                <lookupField attributeName="userName" />
-                <lookupField attributeName="emailAddress" />
-                <lookupField attributeName="homeUnit" />
-                <lookupField attributeName="directoryTitle" />
-                <lookupField attributeName="facultyFlag" />
-                <lookupField attributeName="researchStaffFlag" />
-                <lookupField attributeName="graduateStudentStaffFlag" />
-                <lookupField attributeName="officeLocation" />
-                <lookupField attributeName="officePhone" />
-                <lookupField attributeName="school" />
-                <lookupField attributeName="mobilePhoneNumber" />
-                <lookupField attributeName="active">
-                    <defaultValue>Y</defaultValue>
-                </lookupField>
-            </lookupFields>
-
-            <resultFields>
-                <field attributeName="personId" forceInquiry="true"/>
-                <field attributeName="fullName" forceInquiry="false" />
-                <field attributeName="userName" forceInquiry="false" />
-                <field attributeName="emailAddress" forceInquiry="false" />
-                <field attributeName="directoryDepartment" forceInquiry="false" />
-                <field attributeName="directoryTitle" forceInquiry="false" />
-                <field attributeName="officeLocation" forceInquiry="false" />
-                <field attributeName="officePhone" forceInquiry="false" />
-                <field attributeName="school" forceInquiry="false" />
-                <field attributeName="active" forceInquiry="false" />
-           </resultFields>
-        </lookup>
-
-        <titleAttribute>personId</titleAttribute>
-        <attributes>
-            <attributeReference name="personId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
-                <label>Person Id </label>
-                <shortLabel>Person Id </shortLabel>
-                <maxLength>10</maxLength>   
-                <summary>Person Id </summary>
-            	<description>Person Id </description>
-            </attributeReference>
-
-            <attribute name="socialSecurityNumber" >
-                <label>Social Security Number </label>
-                <shortLabel>SSN </shortLabel>
-                <maxLength>9</maxLength>
-                <control>
-                    <text size="40" />
-                </control>
-                <summary>Social Security Number</summary>
-            	<description>Social Security Number</description>
-            </attribute>
-            <attribute name="lastName" >
-                <label>Last Name</label>
-                <shortLabel>Last Name</shortLabel>
-                <maxLength>30</maxLength>
-                <control>
-                    <text size="40" />
-                </control>
-                <summary>Last Name</summary>
-            	<description>Last Name</description>
-            </attribute>
-            <attribute name="firstName" >
-                <label>First Name</label>
-                <shortLabel>First Name</shortLabel>
-                <maxLength>30</maxLength>
-                <control>
-                    <text size="40" />
-                </control>
-                <summary>First Name</summary>
-            	<description>First Name</description>
-            </attribute>
-            <attribute name="middleName" >
-                <label>Middle Name</label>
-                <shortLabel>Middle Name</shortLabel>
-                <maxLength>30</maxLength>
-                <control>
-                    <text size="40" />
-                </control>
-                <summary>Middle Name</summary>
-            	<description>Middle Name</description>
-            </attribute>
-            <attribute name="fullName" >
-                <label>Full Name</label>
-                <shortLabel>Full Name</shortLabel>
-                <maxLength>90</maxLength>
-                <control>
-                    <text size="40" />
-                </control>
-                <summary>Full Name</summary>
-            	<description>Full Name</description>
-            </attribute>
-            <attribute name="priorName" >
-                <label>Prior Name </label>
-                <shortLabel>Prior Name</shortLabel>
-                <maxLength>30</maxLength>
-                <control>
-                    <text size="40" />
-                </control>
-                <summary>Prior Name</summary>
-            	<description>Prior Name</description>
-            </attribute>
-            <attribute name="userName" >
-                <label>User Name</label>
-                <shortLabel>User Name</shortLabel>
-                <maxLength>10</maxLength>
-                <control>
-                    <text size="10" />
-                </control>
-                <summary>User Name</summary>
-            	<description>User Name</description>
-            </attribute>
-
-            <attributeReference name="emailAddress" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="emailAddress" />
-
-            <attributeReference name="dateOfBirth" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
-                <label>Date of Birth</label>
-                <shortLabel>DOB</shortLabel>
-                <summary>Date of Birth</summary>
-            	<description>Date of Birth</description>
-            </attributeReference>
-
-            <attribute name="age" >
-                <label>Age</label>
-                <shortLabel>Age</shortLabel>
-                <maxLength>3</maxLength>
-                <control>
-                    <text size="3" />
-                </control>
-                <summary>Age</summary>
-            	<description>Age</description>
-            </attribute>
-            <attribute name="ageByFiscalYear" >
-                <label>Age by Fiscal Year</label>
-                <shortLabel>Age by FY</shortLabel>
-                <maxLength>3</maxLength>
-                <control>
-                    <text size="3" />
-                </control>
-                <summary>Age by Fiscal Year</summary>
-            	<description>Age by Fiscal Year</description>
-            </attribute>
-
-            <attribute name="gender" >
-                <label>Gender</label>
-                <shortLabel>Gender</shortLabel>
-                <maxLength>30</maxLength>
-                <control>
-                    <text size="8" />
-                </control>
-                <summary>Gender</summary>
-            	<description>Gender</description>
-            </attribute>
-
-            <attribute name="race" >
-                <label>Race</label>
-                <shortLabel>Race</shortLabel>
-                <maxLength>30</maxLength>
-                <control>
-                    <text size="25" />
-                </control>
-                <summary>Race</summary>
-            	<description>Race</description>
-            </attribute>
-
-            <attribute name="educationLevel" >
-                <label>Education Level</label>
-                <shortLabel>Edu Lev</shortLabel>
-                <maxLength>30</maxLength>
-                <control>
-                    <text size="25" />
-                </control>
-                <summary>Education Level</summary>
-            	<description>Education Level</description>
-            </attribute>
-
-            <attribute name="degree" >
-                <label>Degree</label>
-                <shortLabel>Degree</shortLabel>
-                <maxLength>11</maxLength>
-                <control>
-                    <text size="11" />
-                </control>
-                <summary>Degree</summary>
-            	<description>Degree</description>
-            </attribute>
-
-            <attribute name="major" >
-                <label>Major</label>
-                <shortLabel>Major</shortLabel>
-                <maxLength>30</maxLength>
-                <control>
-                    <text size="25" />
-                </control>
-                <summary>Major</summary>
-            	<description>Major</description>
-            </attribute>
-
-            <attributeReference name="handicappedFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>Is Handicapped</label>
-                <shortLabel>Handicapped</shortLabel>
-                <summary>Is Handicapped</summary>
-            	<description>Is Handicapped</description>
-            </attributeReference>
-
-            <attribute name="handicapType" >
-                <label>Handicap Type</label>
-                <shortLabel>Handicap Typ</shortLabel>
-                <maxLength>30</maxLength>
-                <control>
-                    <text size="25" />
-                </control>
-                <summary>Handicap Type</summary>
-            	<description>Handicap Type</description>
-            </attribute>
-
-            <attributeReference name="veteranFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>Veteran</label>
-                <shortLabel>Veteran</shortLabel>
-                <summary>Veteran </summary>
-            	<description>Veteran</description>
-            </attributeReference>
-
-            <attribute name="veteranType" >
-                <label>Veteran Type</label>
-                <shortLabel>Veteran Type</shortLabel>
-                <maxLength>30</maxLength>
-                <control>
-                    <text size="25" />
-                </control>
-                <summary>Veteran Type</summary>
-            	<description>Veteran Type</description>
-            </attribute>
-
-            <attribute name="visaCode" >
-                <label>Visa Code</label>
-                <shortLabel>Visa Code</shortLabel>
-                <maxLength>20</maxLength>
-                <control>
-                    <text size="20" />
-                </control>
-                <summary>Visa Code</summary>
-            	<description>Visa Code</description>
-            </attribute>
-
-            <attribute name="visaType" >
-                <label>Visa Type</label>
-                <shortLabel>Visa Type</shortLabel>
-                <maxLength>30</maxLength>
-                <control>
-                    <text size="25" />
-                </control>
-                <summary>Visa Type</summary>
-            	<description>Visa Type</description>
-            </attribute>
-
-            <attributeReference name="visaRenewalDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Visa Renewal Date</label>
-                <shortLabel>Visa Renew Dt</shortLabel>
-                <summary>Visa Renewal Date</summary>
-            	<description>Visa Renewal Date</description>
-            </attributeReference>
-
-            <attributeReference name="hasVisa" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>Has Visa</label>
-                <shortLabel>HasVisa</shortLabel>
-                <summary>Has Visa</summary>
-            	<description>Has Visa</description>
-            </attributeReference>
-
-            <attribute name="officeLocation" >
-                <label>Office Location</label>
-                <shortLabel>Office Loc</shortLabel>
-                <maxLength>30</maxLength>
-                <control>
-                    <text size="40" />
-                </control>
-                <summary>Office Location</summary>
-            	<description>Office Location</description>
-            </attribute>
-            <attribute name="officePhone" >
-                <label>Office Phone</label>
-                <shortLabel>Office Ph</shortLabel>
-                <maxLength>20</maxLength>
-                <control>
-                    <text size="40" />
-                </control>
-                <summary>Office Phone</summary>
-            	<description>Office Phone</description>
-            </attribute>
-            <attribute name="secondaryOfficeLocation" >
-                <label>Secondary Office Location</label>
-                <shortLabel>2nd Office Loc</shortLabel>
-                <maxLength>30</maxLength>
-                <control>
-                    <text size="40" />
-                </control>
-                <summary>Secondary Office Location</summary>
-            	<description>Secondary Office Location</description>
-            </attribute>
-            <attribute name="secondaryOfficePhone" >
-                <label>Secondary Office Phone</label>
-                <shortLabel>2nd Office Ph</shortLabel>
-                <maxLength>20</maxLength>
-                <control>
-                    <text size="40" />
-                </control>
-                <summary>Secondary Office Phone</summary>
-            	<description>Secondary Office Phone</description>
-            </attribute>
-            <attribute name="school" >
-                <label>School</label>
-                <shortLabel>School</shortLabel>
-                <maxLength>50</maxLength>
-                <control>
-                    <text size="50" />
-                </control>
-                <summary>School</summary>
-            	<description>School</description>
-            </attribute>
-            <attribute name="yearGraduated" >
-                <label>Year Graduated</label>
-                <shortLabel>YearGrad</shortLabel>
-                <maxLength>30</maxLength>
-                <control>
-                    <text size="25" />
-                </control>
-                <summary>Year Graduated</summary>
-            	<description>Year Graduated</description>
-            </attribute>
-            <attribute name="directoryDepartment" >
-                <label>Directory Department</label>
-                <shortLabel>DirectoryDepart</shortLabel>
-                <maxLength>30</maxLength>
-                <control>
-                    <text size="40" />
-                </control>
-                <summary>Directory Department</summary>
-            	<description>Directory Department</description>
-            </attribute>
-
-            <attribute name="saluation" >
-                <label>Salutation</label>
-                <shortLabel>Salutation</shortLabel>
-                <maxLength>30</maxLength>
-                <control>
-                    <text size="25" />
-                </control>
-                <summary>Salutation</summary>
-            	<description>Salutation</description>
-            </attribute>
-
-            <attributeReference name="countryOfCitizenship" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="countryCode">
-                <label>Country of Citizenship</label>
-                <shortLabel>Country of Cit</shortLabel>
-                <summary>Country of Citizenship</summary>
-            	<description>Country of Citizenship</description>
-            </attributeReference>
-
-            <attribute name="primaryTitle" >
-                <label>Primary Title </label>
-                <shortLabel>Primary Title</shortLabel>
-                <maxLength>30</maxLength>
-                <control>
-                    <text size="40" />
-                </control>
-                <summary>Primary Title</summary>
-            	<description>PrimaryTitle</description>
-            </attribute>
-
-            <attribute name="directoryTitle" >
-                <label>Directory Title</label>
-                <shortLabel>Direct Title</shortLabel>
-                <maxLength>50</maxLength>
-                <control>
-                    <text size="40"/>
-                </control>
-                <summary>Directory Title</summary>
-            	<description>Directory Title</description>
-            </attribute>
-
-            <attribute name="homeUnit" >
-                <label>Home Unit</label>
-                <shortLabel>Home Unit</shortLabel>
-                <maxLength>8</maxLength>
-                <control>
-                    <text size="40" />
-                </control>
-                <summary>Home Unit</summary>
-            	<description>Home Unit</description>
-            </attribute>
-
-            <attributeReference name="homeUnitRef.unitName" sourceClassName="org.kuali.kra.bo.Unit" sourceAttributeName="unitName" >
-                <label>Home Unit</label>
-                <shortLabel>Home Unit</shortLabel>
-            </attributeReference>
-
-            <attributeReference name="facultyFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>Faculty</label>
-                <shortLabel>Faculty</shortLabel>
-                <summary>Faculty</summary>
-            	<description>Faculty</description>
-            </attributeReference>
-
-            <attributeReference name="graduateStudentStaffFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>Is Graduate Student Staff</label>
-                <shortLabel>Grad Stud Staff</shortLabel>
-                <summary>Create User </summary>
-            	<description>Create User </description>
-            </attributeReference>
-
-            <attributeReference name="researchStaffFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>Is Research Staff</label>
-                <shortLabel>Research Staff</shortLabel>
-                <summary>Is Research Staff</summary>
-            	<description>Is Research Staff</description>
-            </attributeReference>
-
-            <attributeReference name="serviceStaffFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>Is Service Staff</label>
-                <shortLabel>Serv Staff</shortLabel>
-                <summary>Is Service Staff</summary>
-            	<description>Is Service Staff</description>
-            </attributeReference>
-
-            <attributeReference name="supportStaffFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>Is Support Staff</label>
-                <shortLabel>Supp Staff</shortLabel>
-                <summary>Is Support Staff</summary>
-            	<description>Is Support Staff</description>
-            </attributeReference>
-
-            <attributeReference name="otherAcademicGroupFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>Is Other Academic Group</label>
-                <shortLabel>Is Oth Acad Grp</shortLabel>
-                <summary>Is Other Academic Group</summary>
-            	<description>Is Other Academic Group</description>
-            </attributeReference>
-
-            <attributeReference name="medicalStaffFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>Is Medical Staff</label>
-                <shortLabel>Med Staff</shortLabel>
-                <summary>Is Medical Staff</summary>
-            	<description>Is Medical Staff</description>
-            </attributeReference>
-
-            <attributeReference name="vacationAccrualFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>Is Vacation Accrual</label>
-                <shortLabel>Vac Accru</shortLabel>
-                <summary>Is Vacation Accrual</summary>
-            	<description>Is Vacation Accrual</description>
-            </attributeReference>
-
-           <attributeReference name="onSabbaticalFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>Is on Sabbatical</label>
-                <shortLabel>Sabbatical</shortLabel>
-                <summary>Is on Sabbatical</summary>
-            	<description>Is on Sabbatical</description>
-            </attributeReference>
-
-            <attribute name="idProvided" >
-                <label>Id Provided</label>
-                <shortLabel>Id Provided</shortLabel>
-                <maxLength>30</maxLength>
-                <control>
-                    <text size="25" />
-                </control>
-                <summary>Id Provided</summary>
-            	<description>Id Provided</description>
-            </attribute>
-
-            <attribute name="idVerified" >
-                <label>Id Verified</label>
-                <shortLabel>Id Verified</shortLabel>
-                <maxLength>30</maxLength>
-                <control>
-                    <text size="25" />
-                </control>
-                <summary>Id Verified</summary>
-            	<description>Id Verified</description>
-            </attribute>
-
-            <attribute name="addressLine1" >
-                <label>Address Line 1</label>
-                <shortLabel>Addr Line 1</shortLabel>
-                <maxLength>80</maxLength>
-                <control>
-                    <text size="40" />
-                </control>
-                <summary>Address Line 1</summary>
-            	<description>Address Line 1</description>
-            </attribute>
-
-            <attribute name="addressLine2" >
-                <label>Address Line 2</label>
-                <shortLabel>Addr Line 2</shortLabel>
-                <maxLength>80</maxLength>
-                <control>
-                    <text size="40" />
-                </control>
-                <summary>Address Line 2</summary>
-            	<description>Address Line 2</description>
-            </attribute>
-
-            <attribute name="addressLine3" >
-                <label>Address Line 3</label>
-                <shortLabel>Addr Line 3</shortLabel>
-                <maxLength>80</maxLength>
-                <control>
-                    <text size="40" />
-                </control>
-                <summary>Address Line 3</summary>
-            	<description>Address Line 3</description>
-            </attribute>
-
-            <attributeReference name="city" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="city" />
-
-            <attributeReference name="county" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="county" />
-
-            <attributeReference name="state" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="state" />
-
-            <attributeReference name="countryCode" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="countryCode" />
-
-            <attribute name="postalCode" >
-                <label>Postal Code</label>
-                <shortLabel>Postal Code</shortLabel>
-                <maxLength>15</maxLength>
-                <control>
-                    <text size="40" />
-                </control>
-                <summary>Postal Code</summary>
-            	<description>Postal Code</description>
-            </attribute>
-
-            <attribute name="faxNumber" >
-                <label>Fax</label>
-                <shortLabel>Fax Nbr</shortLabel>
-                <maxLength>20</maxLength>
-                <control>
-                    <text size="40" />
-                </control>
-                <summary>Fax Number</summary>
-            	<description>Fax Number</description>
-            </attribute>
-
-            <attribute name="pagerNumber" >
-                <label>Pager</label>
-                <shortLabel>Pg Nbr</shortLabel>
-                <maxLength>20</maxLength>
-                 <control>
-                    <text size="40" />
-                </control>
-                <summary>Page Number</summary>
-            	<description>Page Number</description>
-            </attribute>
-
-            <attribute name="mobilePhoneNumber" >
-                <label>Mobile</label>
-                <shortLabel>Mobile Ph Nbr</shortLabel>
-                <maxLength>20</maxLength>
-                <control>
-                    <text size="40" />
-                </control>
-                <summary>Mobile Phone Number</summary>
-            	<description>Moble Phone Number</description>
-            </attribute>
-
-            <attribute name="eraCommonsUserName" >
-                <label>eRA Commons User Name</label>
-                <shortLabel>Era Commons Usr Nm</shortLabel>
-                <maxLength>20</maxLength>
-                <control>
-                    <text size="40" />
-                </control>
-                <summary>Era Commons User Name</summary>
-            	<description>Era Commons User Name</description>
-           </attribute>
-           
-            <attribute name="kimPersonId">
-                <label>KIM Person Id </label>
-                <shortLabel>KIM Person Id </shortLabel>
-                <maxLength>8</maxLength>
-                <validationPattern><numeric /></validationPattern>
-                <control>
-                    <hidden />
-                </control>
-                <summary>KIM Person Id </summary>
-                <description>KIM Person Id </description>
-            </attribute>
-            
-           <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>Active</label>
-                <shortLabel>Active </shortLabel>
-                <summary>Active</summary>
-                <description>Active</description>
-           </attributeReference>
-
-           <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-		</attributes>
-
-        <relationships>
-            <relationship objectAttributeName="homeUnitRef">
-                <primitiveAttribute sourceName="homeUnit" targetName="unitNumber" />
-                <supportAttribute sourceName="homeUnitRef.unitName" targetName="unitName" identifier="true" />
-            </relationship>
-        </relationships>
-
-        <objectHelp parameterNamespace="KRA-PD" parameterDetailType="D" parameterName="proposalDevelopmentPersonHelpUrl"/> 
-    </businessObject>
-
-</dictionaryEntry>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="Person" parent="Person-parentBean" />
+
+  <bean id="Person-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.Person" />
+    <property name="inquiryDefinition" >
+      <ref bean="Person-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="Person-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="personId" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KRA-PD"
+            p:parameterName="proposalDevelopmentPersonHelpUrl"
+            p:parameterDetailType="D" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="Person-personId" />
+        <ref bean="Person-socialSecurityNumber" />
+        <ref bean="Person-lastName" />
+        <ref bean="Person-firstName" />
+        <ref bean="Person-middleName" />
+        <ref bean="Person-fullName" />
+        <ref bean="Person-priorName" />
+        <ref bean="Person-userName" />
+        <ref bean="Person-emailAddress" />
+        <ref bean="Person-dateOfBirth" />
+        <ref bean="Person-age" />
+        <ref bean="Person-ageByFiscalYear" />
+        <ref bean="Person-gender" />
+        <ref bean="Person-race" />
+        <ref bean="Person-educationLevel" />
+        <ref bean="Person-degree" />
+        <ref bean="Person-major" />
+        <ref bean="Person-handicappedFlag" />
+        <ref bean="Person-handicapType" />
+        <ref bean="Person-veteranFlag" />
+        <ref bean="Person-veteranType" />
+        <ref bean="Person-visaCode" />
+        <ref bean="Person-visaType" />
+        <ref bean="Person-visaRenewalDate" />
+        <ref bean="Person-hasVisa" />
+        <ref bean="Person-officeLocation" />
+        <ref bean="Person-officePhone" />
+        <ref bean="Person-secondaryOfficeLocation" />
+        <ref bean="Person-secondaryOfficePhone" />
+        <ref bean="Person-school" />
+        <ref bean="Person-yearGraduated" />
+        <ref bean="Person-directoryDepartment" />
+        <ref bean="Person-saluation" />
+        <ref bean="Person-countryOfCitizenship" />
+        <ref bean="Person-primaryTitle" />
+        <ref bean="Person-directoryTitle" />
+        <ref bean="Person-homeUnit" />
+        <ref bean="Person-homeUnitRef.unitName" />
+        <ref bean="Person-facultyFlag" />
+        <ref bean="Person-graduateStudentStaffFlag" />
+        <ref bean="Person-researchStaffFlag" />
+        <ref bean="Person-serviceStaffFlag" />
+        <ref bean="Person-supportStaffFlag" />
+        <ref bean="Person-otherAcademicGroupFlag" />
+        <ref bean="Person-medicalStaffFlag" />
+        <ref bean="Person-vacationAccrualFlag" />
+        <ref bean="Person-onSabbaticalFlag" />
+        <ref bean="Person-idProvided" />
+        <ref bean="Person-idVerified" />
+        <ref bean="Person-addressLine1" />
+        <ref bean="Person-addressLine2" />
+        <ref bean="Person-addressLine3" />
+        <ref bean="Person-city" />
+        <ref bean="Person-county" />
+        <ref bean="Person-state" />
+        <ref bean="Person-countryCode" />
+        <ref bean="Person-postalCode" />
+        <ref bean="Person-faxNumber" />
+        <ref bean="Person-pagerNumber" />
+        <ref bean="Person-mobilePhoneNumber" />
+        <ref bean="Person-eraCommonsUserName" />
+        <ref bean="Person-kimPersonId" />
+        <ref bean="Person-active" />
+        <ref bean="Person-versionNumber" />
+      </list>
+    </property>
+    <property name="relationships" >
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="homeUnitRef" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="homeUnit"
+                    p:targetName="unitNumber" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="homeUnitRef.unitName"
+                    p:targetName="unitName" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="Person-personId" parent="Person-personId-parentBean" />
+
+  <bean id="Person-personId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
+    <property name="name" value="personId" />
+    <property name="label" value="Person Id" />
+    <property name="shortLabel" value="Person Id" />
+    <property name="maxLength" value="10" />
+    <property name="summary" value="Person Id" />
+    <property name="description" value="Person Id" />
+  </bean>
+  <bean id="Person-socialSecurityNumber" parent="Person-socialSecurityNumber-parentBean" />
+
+  <bean id="Person-socialSecurityNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="socialSecurityNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Social Security Number" />
+    <property name="shortLabel" value="SSN" />
+    <property name="maxLength" value="9" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Social Security Number" />
+    <property name="description" value="Social Security Number" />
+  </bean>
+  <bean id="Person-lastName" parent="Person-lastName-parentBean" />
+
+  <bean id="Person-lastName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="lastName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Last Name" />
+    <property name="shortLabel" value="Last Name" />
+    <property name="maxLength" value="30" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Last Name" />
+    <property name="description" value="Last Name" />
+  </bean>
+  <bean id="Person-firstName" parent="Person-firstName-parentBean" />
+
+  <bean id="Person-firstName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="firstName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="First Name" />
+    <property name="shortLabel" value="First Name" />
+    <property name="maxLength" value="30" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="First Name" />
+    <property name="description" value="First Name" />
+  </bean>
+  <bean id="Person-middleName" parent="Person-middleName-parentBean" />
+
+  <bean id="Person-middleName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="middleName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Middle Name" />
+    <property name="shortLabel" value="Middle Name" />
+    <property name="maxLength" value="30" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Middle Name" />
+    <property name="description" value="Middle Name" />
+  </bean>
+  <bean id="Person-fullName" parent="Person-fullName-parentBean" />
+
+  <bean id="Person-fullName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fullName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Full Name" />
+    <property name="shortLabel" value="Full Name" />
+    <property name="maxLength" value="90" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Full Name" />
+    <property name="description" value="Full Name" />
+  </bean>
+  <bean id="Person-priorName" parent="Person-priorName-parentBean" />
+
+  <bean id="Person-priorName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="priorName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Prior Name" />
+    <property name="shortLabel" value="Prior Name" />
+    <property name="maxLength" value="30" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Prior Name" />
+    <property name="description" value="Prior Name" />
+  </bean>
+  <bean id="Person-userName" parent="Person-userName-parentBean" />
+
+  <bean id="Person-userName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="userName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="User Name" />
+    <property name="shortLabel" value="User Name" />
+    <property name="maxLength" value="10" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="User Name" />
+    <property name="description" value="User Name" />
+  </bean>
+  <bean id="Person-emailAddress" parent="Person-emailAddress-parentBean" />
+
+  <bean id="Person-emailAddress-parentBean" abstract="true" parent="KraAttributeReferenceDummy-emailAddress">
+  </bean>
+  <bean id="Person-dateOfBirth" parent="Person-dateOfBirth-parentBean" />
+
+  <bean id="Person-dateOfBirth-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="dateOfBirth" />
+    <property name="label" value="Date of Birth" />
+    <property name="shortLabel" value="DOB" />
+    <property name="summary" value="Date of Birth" />
+    <property name="description" value="Date of Birth" />
+  </bean>
+  <bean id="Person-age" parent="Person-age-parentBean" />
+
+  <bean id="Person-age-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="age" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Age" />
+    <property name="shortLabel" value="Age" />
+    <property name="maxLength" value="3" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Age" />
+    <property name="description" value="Age" />
+  </bean>
+  <bean id="Person-ageByFiscalYear" parent="Person-ageByFiscalYear-parentBean" />
+
+  <bean id="Person-ageByFiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="ageByFiscalYear" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Age by Fiscal Year" />
+    <property name="shortLabel" value="Age by FY" />
+    <property name="maxLength" value="3" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Age by Fiscal Year" />
+    <property name="description" value="Age by Fiscal Year" />
+  </bean>
+  <bean id="Person-gender" parent="Person-gender-parentBean" />
+
+  <bean id="Person-gender-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="gender" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Gender" />
+    <property name="shortLabel" value="Gender" />
+    <property name="maxLength" value="30" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Gender" />
+    <property name="description" value="Gender" />
+  </bean>
+  <bean id="Person-race" parent="Person-race-parentBean" />
+
+  <bean id="Person-race-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="race" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Race" />
+    <property name="shortLabel" value="Race" />
+    <property name="maxLength" value="30" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="25" />
+    </property>
+    <property name="summary" value="Race" />
+    <property name="description" value="Race" />
+  </bean>
+  <bean id="Person-educationLevel" parent="Person-educationLevel-parentBean" />
+
+  <bean id="Person-educationLevel-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="educationLevel" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Education Level" />
+    <property name="shortLabel" value="Edu Lev" />
+    <property name="maxLength" value="30" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="25" />
+    </property>
+    <property name="summary" value="Education Level" />
+    <property name="description" value="Education Level" />
+  </bean>
+  <bean id="Person-degree" parent="Person-degree-parentBean" />
+
+  <bean id="Person-degree-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="degree" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Degree" />
+    <property name="shortLabel" value="Degree" />
+    <property name="maxLength" value="11" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+    <property name="summary" value="Degree" />
+    <property name="description" value="Degree" />
+  </bean>
+  <bean id="Person-major" parent="Person-major-parentBean" />
+
+  <bean id="Person-major-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="major" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Major" />
+    <property name="shortLabel" value="Major" />
+    <property name="maxLength" value="30" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="25" />
+    </property>
+    <property name="summary" value="Major" />
+    <property name="description" value="Major" />
+  </bean>
+  <bean id="Person-handicappedFlag" parent="Person-handicappedFlag-parentBean" />
+
+  <bean id="Person-handicappedFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="handicappedFlag" />
+    <property name="label" value="Is Handicapped" />
+    <property name="shortLabel" value="Handicapped" />
+    <property name="summary" value="Is Handicapped" />
+    <property name="description" value="Is Handicapped" />
+  </bean>
+  <bean id="Person-handicapType" parent="Person-handicapType-parentBean" />
+
+  <bean id="Person-handicapType-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="handicapType" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Handicap Type" />
+    <property name="shortLabel" value="Handicap Typ" />
+    <property name="maxLength" value="30" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="25" />
+    </property>
+    <property name="summary" value="Handicap Type" />
+    <property name="description" value="Handicap Type" />
+  </bean>
+  <bean id="Person-veteranFlag" parent="Person-veteranFlag-parentBean" />
+
+  <bean id="Person-veteranFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="veteranFlag" />
+    <property name="label" value="Veteran" />
+    <property name="shortLabel" value="Veteran" />
+    <property name="summary" value="Veteran" />
+    <property name="description" value="Veteran" />
+  </bean>
+  <bean id="Person-veteranType" parent="Person-veteranType-parentBean" />
+
+  <bean id="Person-veteranType-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="veteranType" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Veteran Type" />
+    <property name="shortLabel" value="Veteran Type" />
+    <property name="maxLength" value="30" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="25" />
+    </property>
+    <property name="summary" value="Veteran Type" />
+    <property name="description" value="Veteran Type" />
+  </bean>
+  <bean id="Person-visaCode" parent="Person-visaCode-parentBean" />
+
+  <bean id="Person-visaCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="visaCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Visa Code" />
+    <property name="shortLabel" value="Visa Code" />
+    <property name="maxLength" value="20" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+    <property name="summary" value="Visa Code" />
+    <property name="description" value="Visa Code" />
+  </bean>
+  <bean id="Person-visaType" parent="Person-visaType-parentBean" />
+
+  <bean id="Person-visaType-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="visaType" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Visa Type" />
+    <property name="shortLabel" value="Visa Type" />
+    <property name="maxLength" value="30" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="25" />
+    </property>
+    <property name="summary" value="Visa Type" />
+    <property name="description" value="Visa Type" />
+  </bean>
+  <bean id="Person-visaRenewalDate" parent="Person-visaRenewalDate-parentBean" />
+
+  <bean id="Person-visaRenewalDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="visaRenewalDate" />
+    <property name="label" value="Visa Renewal Date" />
+    <property name="shortLabel" value="Visa Renew Dt" />
+    <property name="summary" value="Visa Renewal Date" />
+    <property name="description" value="Visa Renewal Date" />
+  </bean>
+  <bean id="Person-hasVisa" parent="Person-hasVisa-parentBean" />
+
+  <bean id="Person-hasVisa-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="hasVisa" />
+    <property name="label" value="Has Visa" />
+    <property name="shortLabel" value="HasVisa" />
+    <property name="summary" value="Has Visa" />
+    <property name="description" value="Has Visa" />
+  </bean>
+  <bean id="Person-officeLocation" parent="Person-officeLocation-parentBean" />
+
+  <bean id="Person-officeLocation-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="officeLocation" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Office Location" />
+    <property name="shortLabel" value="Office Loc" />
+    <property name="maxLength" value="30" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Office Location" />
+    <property name="description" value="Office Location" />
+  </bean>
+  <bean id="Person-officePhone" parent="Person-officePhone-parentBean" />
+
+  <bean id="Person-officePhone-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="officePhone" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Office Phone" />
+    <property name="shortLabel" value="Office Ph" />
+    <property name="maxLength" value="20" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Office Phone" />
+    <property name="description" value="Office Phone" />
+  </bean>
+  <bean id="Person-secondaryOfficeLocation" parent="Person-secondaryOfficeLocation-parentBean" />
+
+  <bean id="Person-secondaryOfficeLocation-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="secondaryOfficeLocation" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Secondary Office Location" />
+    <property name="shortLabel" value="2nd Office Loc" />
+    <property name="maxLength" value="30" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Secondary Office Location" />
+    <property name="description" value="Secondary Office Location" />
+  </bean>
+  <bean id="Person-secondaryOfficePhone" parent="Person-secondaryOfficePhone-parentBean" />
+
+  <bean id="Person-secondaryOfficePhone-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="secondaryOfficePhone" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Secondary Office Phone" />
+    <property name="shortLabel" value="2nd Office Ph" />
+    <property name="maxLength" value="20" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Secondary Office Phone" />
+    <property name="description" value="Secondary Office Phone" />
+  </bean>
+  <bean id="Person-school" parent="Person-school-parentBean" />
+
+  <bean id="Person-school-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="school" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="School" />
+    <property name="shortLabel" value="School" />
+    <property name="maxLength" value="50" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+    <property name="summary" value="School" />
+    <property name="description" value="School" />
+  </bean>
+  <bean id="Person-yearGraduated" parent="Person-yearGraduated-parentBean" />
+
+  <bean id="Person-yearGraduated-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="yearGraduated" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Year Graduated" />
+    <property name="shortLabel" value="YearGrad" />
+    <property name="maxLength" value="30" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="25" />
+    </property>
+    <property name="summary" value="Year Graduated" />
+    <property name="description" value="Year Graduated" />
+  </bean>
+  <bean id="Person-directoryDepartment" parent="Person-directoryDepartment-parentBean" />
+
+  <bean id="Person-directoryDepartment-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="directoryDepartment" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Directory Department" />
+    <property name="shortLabel" value="DirectoryDepart" />
+    <property name="maxLength" value="30" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Directory Department" />
+    <property name="description" value="Directory Department" />
+  </bean>
+  <bean id="Person-saluation" parent="Person-saluation-parentBean" />
+
+  <bean id="Person-saluation-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="saluation" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Salutation" />
+    <property name="shortLabel" value="Salutation" />
+    <property name="maxLength" value="30" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="25" />
+    </property>
+    <property name="summary" value="Salutation" />
+    <property name="description" value="Salutation" />
+  </bean>
+  <bean id="Person-countryOfCitizenship" parent="Person-countryOfCitizenship-parentBean" />
+
+  <bean id="Person-countryOfCitizenship-parentBean" abstract="true" parent="KraAttributeReferenceDummy-countryCode">
+    <property name="name" value="countryOfCitizenship" />
+    <property name="label" value="Country of Citizenship" />
+    <property name="shortLabel" value="Country of Cit" />
+    <property name="summary" value="Country of Citizenship" />
+    <property name="description" value="Country of Citizenship" />
+  </bean>
+  <bean id="Person-primaryTitle" parent="Person-primaryTitle-parentBean" />
+
+  <bean id="Person-primaryTitle-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="primaryTitle" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Primary Title" />
+    <property name="shortLabel" value="Primary Title" />
+    <property name="maxLength" value="30" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Primary Title" />
+    <property name="description" value="PrimaryTitle" />
+  </bean>
+  <bean id="Person-directoryTitle" parent="Person-directoryTitle-parentBean" />
+
+  <bean id="Person-directoryTitle-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="directoryTitle" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Directory Title" />
+    <property name="shortLabel" value="Direct Title" />
+    <property name="maxLength" value="50" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Directory Title" />
+    <property name="description" value="Directory Title" />
+  </bean>
+  <bean id="Person-homeUnit" parent="Person-homeUnit-parentBean" />
+
+  <bean id="Person-homeUnit-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="homeUnit" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Home Unit" />
+    <property name="shortLabel" value="Home Unit" />
+    <property name="maxLength" value="8" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Home Unit" />
+    <property name="description" value="Home Unit" />
+  </bean>
+  <bean id="Person-homeUnitRef.unitName" parent="Person-homeUnitRef.unitName-parentBean" />
+
+  <bean id="Person-homeUnitRef.unitName-parentBean" abstract="true" parent="Unit-unitName">
+    <property name="name" value="homeUnitRef.unitName" />
+    <property name="label" value="Home Unit" />
+    <property name="shortLabel" value="Home Unit" />
+  </bean>
+  <bean id="Person-facultyFlag" parent="Person-facultyFlag-parentBean" />
+
+  <bean id="Person-facultyFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="facultyFlag" />
+    <property name="label" value="Faculty" />
+    <property name="shortLabel" value="Faculty" />
+    <property name="summary" value="Faculty" />
+    <property name="description" value="Faculty" />
+  </bean>
+  <bean id="Person-graduateStudentStaffFlag" parent="Person-graduateStudentStaffFlag-parentBean" />
+
+  <bean id="Person-graduateStudentStaffFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="graduateStudentStaffFlag" />
+    <property name="label" value="Is Graduate Student Staff" />
+    <property name="shortLabel" value="Grad Stud Staff" />
+    <property name="summary" value="Create User" />
+    <property name="description" value="Create User" />
+  </bean>
+  <bean id="Person-researchStaffFlag" parent="Person-researchStaffFlag-parentBean" />
+
+  <bean id="Person-researchStaffFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="researchStaffFlag" />
+    <property name="label" value="Is Research Staff" />
+    <property name="shortLabel" value="Research Staff" />
+    <property name="summary" value="Is Research Staff" />
+    <property name="description" value="Is Research Staff" />
+  </bean>
+  <bean id="Person-serviceStaffFlag" parent="Person-serviceStaffFlag-parentBean" />
+
+  <bean id="Person-serviceStaffFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="serviceStaffFlag" />
+    <property name="label" value="Is Service Staff" />
+    <property name="shortLabel" value="Serv Staff" />
+    <property name="summary" value="Is Service Staff" />
+    <property name="description" value="Is Service Staff" />
+  </bean>
+  <bean id="Person-supportStaffFlag" parent="Person-supportStaffFlag-parentBean" />
+
+  <bean id="Person-supportStaffFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="supportStaffFlag" />
+    <property name="label" value="Is Support Staff" />
+    <property name="shortLabel" value="Supp Staff" />
+    <property name="summary" value="Is Support Staff" />
+    <property name="description" value="Is Support Staff" />
+  </bean>
+  <bean id="Person-otherAcademicGroupFlag" parent="Person-otherAcademicGroupFlag-parentBean" />
+
+  <bean id="Person-otherAcademicGroupFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="otherAcademicGroupFlag" />
+    <property name="label" value="Is Other Academic Group" />
+    <property name="shortLabel" value="Is Oth Acad Grp" />
+    <property name="summary" value="Is Other Academic Group" />
+    <property name="description" value="Is Other Academic Group" />
+  </bean>
+  <bean id="Person-medicalStaffFlag" parent="Person-medicalStaffFlag-parentBean" />
+
+  <bean id="Person-medicalStaffFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="medicalStaffFlag" />
+    <property name="label" value="Is Medical Staff" />
+    <property name="shortLabel" value="Med Staff" />
+    <property name="summary" value="Is Medical Staff" />
+    <property name="description" value="Is Medical Staff" />
+  </bean>
+  <bean id="Person-vacationAccrualFlag" parent="Person-vacationAccrualFlag-parentBean" />
+
+  <bean id="Person-vacationAccrualFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="vacationAccrualFlag" />
+    <property name="label" value="Is Vacation Accrual" />
+    <property name="shortLabel" value="Vac Accru" />
+    <property name="summary" value="Is Vacation Accrual" />
+    <property name="description" value="Is Vacation Accrual" />
+  </bean>
+  <bean id="Person-onSabbaticalFlag" parent="Person-onSabbaticalFlag-parentBean" />
+
+  <bean id="Person-onSabbaticalFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="onSabbaticalFlag" />
+    <property name="label" value="Is on Sabbatical" />
+    <property name="shortLabel" value="Sabbatical" />
+    <property name="summary" value="Is on Sabbatical" />
+    <property name="description" value="Is on Sabbatical" />
+  </bean>
+  <bean id="Person-idProvided" parent="Person-idProvided-parentBean" />
+
+  <bean id="Person-idProvided-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="idProvided" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Id Provided" />
+    <property name="shortLabel" value="Id Provided" />
+    <property name="maxLength" value="30" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="25" />
+    </property>
+    <property name="summary" value="Id Provided" />
+    <property name="description" value="Id Provided" />
+  </bean>
+  <bean id="Person-idVerified" parent="Person-idVerified-parentBean" />
+
+  <bean id="Person-idVerified-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="idVerified" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Id Verified" />
+    <property name="shortLabel" value="Id Verified" />
+    <property name="maxLength" value="30" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="25" />
+    </property>
+    <property name="summary" value="Id Verified" />
+    <property name="description" value="Id Verified" />
+  </bean>
+  <bean id="Person-addressLine1" parent="Person-addressLine1-parentBean" />
+
+  <bean id="Person-addressLine1-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="addressLine1" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Address Line 1" />
+    <property name="shortLabel" value="Addr Line 1" />
+    <property name="maxLength" value="80" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Address Line 1" />
+    <property name="description" value="Address Line 1" />
+  </bean>
+  <bean id="Person-addressLine2" parent="Person-addressLine2-parentBean" />
+
+  <bean id="Person-addressLine2-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="addressLine2" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Address Line 2" />
+    <property name="shortLabel" value="Addr Line 2" />
+    <property name="maxLength" value="80" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Address Line 2" />
+    <property name="description" value="Address Line 2" />
+  </bean>
+  <bean id="Person-addressLine3" parent="Person-addressLine3-parentBean" />
+
+  <bean id="Person-addressLine3-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="addressLine3" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Address Line 3" />
+    <property name="shortLabel" value="Addr Line 3" />
+    <property name="maxLength" value="80" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Address Line 3" />
+    <property name="description" value="Address Line 3" />
+  </bean>
+  <bean id="Person-city" parent="Person-city-parentBean" />
+
+  <bean id="Person-city-parentBean" abstract="true" parent="KraAttributeReferenceDummy-city">
+  </bean>
+  <bean id="Person-county" parent="Person-county-parentBean" />
+
+  <bean id="Person-county-parentBean" abstract="true" parent="KraAttributeReferenceDummy-county">
+  </bean>
+  <bean id="Person-state" parent="Person-state-parentBean" />
+
+  <bean id="Person-state-parentBean" abstract="true" parent="KraAttributeReferenceDummy-state">
+  </bean>
+  <bean id="Person-countryCode" parent="Person-countryCode-parentBean" />
+
+  <bean id="Person-countryCode-parentBean" abstract="true" parent="KraAttributeReferenceDummy-countryCode">
+  </bean>
+  <bean id="Person-postalCode" parent="Person-postalCode-parentBean" />
+
+  <bean id="Person-postalCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="postalCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Postal Code" />
+    <property name="shortLabel" value="Postal Code" />
+    <property name="maxLength" value="15" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Postal Code" />
+    <property name="description" value="Postal Code" />
+  </bean>
+  <bean id="Person-faxNumber" parent="Person-faxNumber-parentBean" />
+
+  <bean id="Person-faxNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="faxNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Fax" />
+    <property name="shortLabel" value="Fax Nbr" />
+    <property name="maxLength" value="20" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Fax Number" />
+    <property name="description" value="Fax Number" />
+  </bean>
+  <bean id="Person-pagerNumber" parent="Person-pagerNumber-parentBean" />
+
+  <bean id="Person-pagerNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="pagerNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Pager" />
+    <property name="shortLabel" value="Pg Nbr" />
+    <property name="maxLength" value="20" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Page Number" />
+    <property name="description" value="Page Number" />
+  </bean>
+  <bean id="Person-mobilePhoneNumber" parent="Person-mobilePhoneNumber-parentBean" />
+
+  <bean id="Person-mobilePhoneNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="mobilePhoneNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Mobile" />
+    <property name="shortLabel" value="Mobile Ph Nbr" />
+    <property name="maxLength" value="20" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Mobile Phone Number" />
+    <property name="description" value="Moble Phone Number" />
+  </bean>
+  <bean id="Person-eraCommonsUserName" parent="Person-eraCommonsUserName-parentBean" />
+
+  <bean id="Person-eraCommonsUserName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="eraCommonsUserName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="eRA Commons User Name" />
+    <property name="shortLabel" value="Era Commons Usr Nm" />
+    <property name="maxLength" value="20" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Era Commons User Name" />
+    <property name="description" value="Era Commons User Name" />
+  </bean>
+  <bean id="Person-kimPersonId" parent="Person-kimPersonId-parentBean" />
+
+  <bean id="Person-kimPersonId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="kimPersonId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="KIM Person Id" />
+    <property name="shortLabel" value="KIM Person Id" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="KIM Person Id" />
+    <property name="description" value="KIM Person Id" />
+  </bean>
+  <bean id="Person-active" parent="Person-active-parentBean" />
+
+  <bean id="Person-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="active" />
+    <property name="label" value="Active" />
+    <property name="shortLabel" value="Active" />
+    <property name="summary" value="Active" />
+    <property name="description" value="Active" />
+  </bean>
+  <bean id="Person-versionNumber" parent="Person-versionNumber-parentBean" />
+
+  <bean id="Person-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="Person-inquiryDefinition" parent="Person-inquiryDefinition-parentBean" />
+
+  <bean id="Person-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Person" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Person" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="personId"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="socialSecurityNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="lastName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="firstName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="middleName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="fullName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="priorName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="userName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="emailAddress" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="dateOfBirth" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="age" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="ageByFiscalYear" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="gender" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="race" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="educationLevel" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="degree" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="major" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="handicappedFlag" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="handicapType" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="veteranFlag" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="veteranType" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="visaCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="visaType" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="visaRenewalDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="hasVisa" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="officeLocation" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="officePhone" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="secondaryOfficeLocation" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="secondaryOfficePhone" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="school" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="yearGraduated" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="directoryDepartment" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="saluation" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="countryOfCitizenship" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="primaryTitle" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="directoryTitle" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="homeUnitRef.unitName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="facultyFlag" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="graduateStudentStaffFlag" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="researchStaffFlag" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="serviceStaffFlag" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="supportStaffFlag" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="otherAcademicGroupFlag" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="medicalStaffFlag" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vacationAccrualFlag" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="onSabbaticalFlag" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="idProvided" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="idVerified" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="addressLine1" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="addressLine2" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="addressLine3" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="city" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="county" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="state" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="postalCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="countryCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="faxNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="pagerNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="mobilePhoneNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="eraCommonsUserName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="Person-lookupDefinition" parent="Person-lookupDefinition-parentBean" />
+
+  <bean id="Person-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Person Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Person" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="personId"
+              p:forceLookup="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="lastName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="firstName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="userName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="emailAddress" />
+        <bean parent="FieldDefinition"
+              p:attributeName="homeUnit" />
+        <bean parent="FieldDefinition"
+              p:attributeName="directoryTitle" />
+        <bean parent="FieldDefinition"
+              p:attributeName="facultyFlag" />
+        <bean parent="FieldDefinition"
+              p:attributeName="researchStaffFlag" />
+        <bean parent="FieldDefinition"
+              p:attributeName="graduateStudentStaffFlag" />
+        <bean parent="FieldDefinition"
+              p:attributeName="officeLocation" />
+        <bean parent="FieldDefinition"
+              p:attributeName="officePhone" />
+        <bean parent="FieldDefinition"
+              p:attributeName="school" />
+        <bean parent="FieldDefinition"
+              p:attributeName="mobilePhoneNumber" />
+        <bean parent="FieldDefinition"
+              p:defaultValue="Y"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="personId"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="fullName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="userName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="emailAddress" />
+        <bean parent="FieldDefinition"
+              p:attributeName="directoryDepartment" />
+        <bean parent="FieldDefinition"
+              p:attributeName="directoryTitle" />
+        <bean parent="FieldDefinition"
+              p:attributeName="officeLocation" />
+        <bean parent="FieldDefinition"
+              p:attributeName="officePhone" />
+        <bean parent="FieldDefinition"
+              p:attributeName="school" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

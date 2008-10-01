@@ -1,83 +1,104 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="ProposalCopyCriteria" parent="ProposalCopyCriteria-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="ProposalCopyCriteria-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KRA-PD"
+            p:parameterName="proposalDevelopmentCopyCriteriaHelpUrl"
+            p:parameterDetailType="D" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="ProposalCopyCriteria-includeAttachments" />
+        <ref bean="ProposalCopyCriteria-includeBudget" />
+        <ref bean="ProposalCopyCriteria-budgetVersions" />
+        <ref bean="ProposalCopyCriteria-leadUnitNumber" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria">
+<!-- Attribute Definitions -->
 
-        <attributes>
 
-			<attribute name="includeAttachments">
-				<label>Attachments?</label>
-				<shortLabel>Attachments?</shortLabel>
-				<maxLength>1</maxLength>
-				<validationPattern><anyCharacter /></validationPattern>
-				<control>
-					<checkbox />
-				</control>
-				<summary>Include Attachments?</summary>
-				<description>Include Attachments in the Proposal Copy?</description>
-			</attribute>
-			
-			<attribute name="includeBudget">
-				<label>Budget?</label>
-				<shortLabel>Budget?</shortLabel>
-				<maxLength>1</maxLength>
-				<validationPattern><anyCharacter /></validationPattern>
-				<control>
-					<checkbox />
-				</control>
-				<summary>Include Budget?</summary>
-				<description>Include Budget(s) in the Proposal Copy?</description>
-			</attribute>
-			
-	        <attribute name="budgetVersions">
-				<label>Budget Versions</label>
-				<shortLabel>Budget Versions</shortLabel>
-				<maxLength>1</maxLength>
-				<validationPattern><numeric /></validationPattern>
-				<required>false</required>
-				<control>
-					<select valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.CopyBudgetVersionsValuesFinder" />
-				</control>
-				<summary>Budget Versions</summary>
-				<description>Budget Versions</description>
-			</attribute>
-			
-            <attribute name="leadUnitNumber">
-                <label>Lead Unit</label>
-                <shortLabel>Lead Unit</shortLabel>
+  <bean id="ProposalCopyCriteria-includeAttachments" parent="ProposalCopyCriteria-includeAttachments-parentBean" />
 
-                <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+  <bean id="ProposalCopyCriteria-includeAttachments-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="includeAttachments" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Attachments?" />
+    <property name="shortLabel" value="Attachments?" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="Include Attachments?" />
+    <property name="description" value="Include Attachments in the Proposal Copy?" />
+  </bean>
+  <bean id="ProposalCopyCriteria-includeBudget" parent="ProposalCopyCriteria-includeBudget-parentBean" />
 
-                <required>true</required>
+  <bean id="ProposalCopyCriteria-includeBudget-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="includeBudget" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Budget?" />
+    <property name="shortLabel" value="Budget?" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="Include Budget?" />
+    <property name="description" value="Include Budget(s) in the Proposal Copy?" />
+  </bean>
+  <bean id="ProposalCopyCriteria-budgetVersions" parent="ProposalCopyCriteria-budgetVersions-parentBean" />
 
-                <control>
-                    <select valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.LeadUnitValuesFinder" />
-                </control>
+  <bean id="ProposalCopyCriteria-budgetVersions-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetVersions" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Budget Versions" />
+    <property name="shortLabel" value="Budget Versions" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.CopyBudgetVersionsValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Budget Versions" />
+    <property name="description" value="Budget Versions" />
+  </bean>
+  <bean id="ProposalCopyCriteria-leadUnitNumber" parent="ProposalCopyCriteria-leadUnitNumber-parentBean" />
 
-                <summary>Lead Unit (Owned by Unit)</summary>
-                <description>The copied proposal's fixed home unit that will be used for routing and business rule purposes. AKA Owned by Unit.</description>
-            </attribute>
-		</attributes>
-
-        <objectHelp parameterNamespace="KRA-PD" parameterDetailType="D" parameterName="proposalDevelopmentCopyCriteriaHelpUrl"/> 
-    </businessObject>
-
-</dictionaryEntry>
+  <bean id="ProposalCopyCriteria-leadUnitNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="leadUnitNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Lead Unit" />
+    <property name="shortLabel" value="Lead Unit" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.LeadUnitValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Lead Unit (Owned by Unit)" />
+    <property name="description" value="The copied proposal&apos;s fixed home unit that will be used for routing and business rule purposes. AKA Owned by Unit." />
+  </bean>
+</beans>
