@@ -1,67 +1,77 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="PropChangedDataMaintenanceDocument" parent="PropChangedDataMaintenanceDocument-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="PropChangedDataMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalChangedData" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="PropChangedDataMaintenanceDocument-EditPropChangedData" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>changeNumber</value>
+        <value>columnName</value>
+        <value>proposalNumber</value>
+      </list>
+    </property>
+    <property name="label" value="PropChangedData Maintenance Document" />
+    <property name="shortLabel" value="propChangedDataMaintDoc" />
+    <property name="summary" value="PropChangedData Maintenance Document" />
+    <property name="description" value="Document used to create or update PropChangedData Reference objects" />
+    <property name="documentTypeName" value="PropChangedDataMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="PRCH" />
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>WorkflowAdmin</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<!-- Maintenance Section Definitions -->
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.kra.proposaldevelopment.bo.ProposalChangedData</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>WorkflowAdmin</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="PropChangedDataMaintenanceDocument-EditPropChangedData" parent="PropChangedDataMaintenanceDocument-EditPropChangedData-parentBean" />
 
-        <documentTypeName>PropChangedDataMaintenanceDocument</documentTypeName>
-        <documentTypeCode>PRCH</documentTypeCode>
-
-        <label>PropChangedData Maintenance Document</label>
-        <shortLabel>propChangedDataMaintDoc</shortLabel>
-
-        <summary>PropChangedData Maintenance Document</summary>
-        <description>Document used to create or update PropChangedData Reference objects</description>
-
-        <lockingKeys>
-        	<field attributeName="changeNumber"/>
-			<field attributeName="columnName"/>
-			<field attributeName="proposalNumber"/>
-
-        </lockingKeys>
-
-        <maintainableSections>
-            <maintainableSection title="Edit PropChangedData">
-                <maintainableItems>
-                	<maintainableField name="changeNumber" required="true"/>
-					<maintainableField name="columnName" required="true"/>
-					<maintainableField name="proposalNumber" required="true"/>
-					<maintainableField name="changedValue" required="false"/>
-					<maintainableField name="comments" required="false"/>
-					<maintainableField name="displayValue" required="false"/>
-					<maintainableField name="oldDisplayValue" required="false"/>
-
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="PropChangedDataMaintenanceDocument-EditPropChangedData-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit PropChangedData" />
+    <property name="title" value="Edit PropChangedData" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="changeNumber"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="columnName"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="proposalNumber"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="changedValue" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="comments" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="displayValue" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="oldDisplayValue" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>
