@@ -1,64 +1,76 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="ValidCeRateTypeMaintenanceDocument" parent="ValidCeRateTypeMaintenanceDocument-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="ValidCeRateTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.budget.bo.ValidCeRateType" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="ValidCeRateTypeMaintenanceDocument-EditValidCostElementRateTypes" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>costElement</value>
+        <value>rateClassCode</value>
+        <value>rateTypeCode</value>
+      </list>
+    </property>
+    <property name="label" value="Valid Cost Element Rate Types Maintenance Document" />
+    <property name="shortLabel" value="validCeRateTypesMaintDoc" />
+    <property name="summary" value="ValidCeRateTypes Maintenance Document" />
+    <property name="description" value="Document used to create or update ValidCeRateTypes Reference objects" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KRA-M"
+            p:parameterName="validCeRateTypeMaintenanceHelp"
+            p:parameterDetailType="D" />
+    </property>
+    <property name="documentTypeName" value="ValidCeRateTypeMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.kra.budget.rules.ValidCeRateTypeMaintenanceDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="VACE" />
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>WorkflowAdmin</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<!-- Maintenance Section Definitions -->
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.kra.budget.bo.ValidCeRateType</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-        <businessRulesClass>org.kuali.kra.budget.rules.ValidCeRateTypeMaintenanceDocumentRule</businessRulesClass>
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>WorkflowAdmin</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="ValidCeRateTypeMaintenanceDocument-EditValidCostElementRateTypes" parent="ValidCeRateTypeMaintenanceDocument-EditValidCostElementRateTypes-parentBean" />
 
-        <documentTypeName>ValidCeRateTypeMaintenanceDocument</documentTypeName>
-        <documentTypeCode>VACE</documentTypeCode>
-
-        <label>Valid Cost Element Rate Types Maintenance Document</label>
-        <shortLabel>validCeRateTypesMaintDoc</shortLabel>
-
-        <summary>ValidCeRateTypes Maintenance Document</summary>
-        <description>Document used to create or update ValidCeRateTypes Reference objects</description>
-        <help parameterNamespace="KRA-M" parameterDetailType="D" parameterName="validCeRateTypeMaintenanceHelp" />
-
-        <lockingKeys>
-        	<field attributeName="costElement"/>
-			<field attributeName="rateClassCode"/>
-			<field attributeName="rateTypeCode"/>
-
-        </lockingKeys>
-
-        <maintainableSections>
-            <maintainableSection title="Edit Valid Cost Element Rate Types">
-                <maintainableItems>
-                	<maintainableField name="costElement" required="true"/>
-					<maintainableField name="rateClassCode" required="true"/>
-					<maintainableField name="rateTypeCode" required="true"/>
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="ValidCeRateTypeMaintenanceDocument-EditValidCostElementRateTypes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Valid Cost Element Rate Types" />
+    <property name="title" value="Edit Valid Cost Element Rate Types" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="costElement"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="rateClassCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="rateTypeCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

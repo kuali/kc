@@ -1,59 +1,70 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="ScienceKeywordMaintenanceDocument" parent="ScienceKeywordMaintenanceDocument-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="ScienceKeywordMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ScienceKeyword" />
+    <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="ScienceKeywordMaintenanceDocument-EditScienceKeywords" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>scienceKeywordCode</value>
+      </list>
+    </property>
+    <property name="label" value="Keyword Maintenance Document" />
+    <property name="shortLabel" value="ScienceKeywordMaintDoc" />
+    <property name="summary" value="Keyword Maintenance Document" />
+    <property name="description" value="Document used to create or update Science Keyword Reference objects" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KRA-M"
+            p:parameterName="scienceKeywordMaintenanceHelp"
+            p:parameterDetailType="D" />
+    </property>
+    <property name="documentTypeName" value="ScienceKeywordMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="SCKC" />
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>WorkflowAdmin</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<!-- Maintenance Section Definitions -->
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.kra.proposaldevelopment.bo.ScienceKeyword</businessObjectClass>
-        <maintainableClass>org.kuali.kra.maintenance.KraMaintainableImpl</maintainableClass>
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>WorkflowAdmin</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="ScienceKeywordMaintenanceDocument-EditScienceKeywords" parent="ScienceKeywordMaintenanceDocument-EditScienceKeywords-parentBean" />
 
-        <documentTypeName>ScienceKeywordMaintenanceDocument</documentTypeName>
-        <documentTypeCode>SCKC</documentTypeCode>
-
-        <label>Keyword Maintenance Document</label>
-        <shortLabel>ScienceKeywordMaintDoc</shortLabel>
-
-        <summary>Keyword Maintenance Document</summary>
-        <description>Document used to create or update Science Keyword Reference objects</description>
-        <help parameterNamespace="KRA-M" parameterDetailType="D" parameterName="scienceKeywordMaintenanceHelp" />
-
-        <lockingKeys>
-            <field attributeName="scienceKeywordCode" />
-        </lockingKeys>
-
-        <maintainableSections>
-            <maintainableSection title="Edit Science Keywords">
-                <maintainableItems>
-                    <maintainableField name="scienceKeywordCode" required="true" />
-                    <maintainableField name="description" required="true" />
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="ScienceKeywordMaintenanceDocument-EditScienceKeywords-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Science Keywords" />
+    <property name="title" value="Edit Science Keywords" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="scienceKeywordCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="description"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

@@ -1,70 +1,95 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="SponsorMaintenanceDocument" parent="SponsorMaintenanceDocument-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="SponsorMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.Sponsor" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="SponsorMaintenanceDocument-EditSponsor" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>sponsorCode</value>
+      </list>
+    </property>
+    <property name="label" value="Sponsor Maintenance Document" />
+    <property name="shortLabel" value="sponsorMaintDoc" />
+    <property name="summary" value="Sponsor Maintenance Document" />
+    <property name="description" value="Document used to create or update Sponsor Reference objects" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KRA-M"
+            p:parameterName="sponsorMaintenanceHelp"
+            p:parameterDetailType="D" />
+    </property>
+    <property name="documentTypeName" value="SponsorMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="SPON" />
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>WorkflowAdmin</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<!-- Maintenance Section Definitions -->
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.kra.bo.Sponsor</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>WorkflowAdmin</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="SponsorMaintenanceDocument-EditSponsor" parent="SponsorMaintenanceDocument-EditSponsor-parentBean" />
 
-        <documentTypeName>SponsorMaintenanceDocument</documentTypeName>
-        <documentTypeCode>SPON</documentTypeCode>
-
-        <label>Sponsor Maintenance Document</label>
-        <shortLabel>sponsorMaintDoc</shortLabel>
-
-        <summary>Sponsor Maintenance Document</summary>
-        <description>Document used to create or update Sponsor Reference objects</description>
-        <help parameterNamespace="KRA-M" parameterDetailType="D" parameterName="sponsorMaintenanceHelp" />
-
-        <lockingKeys>
-        	<field attributeName="sponsorCode"/>
-        </lockingKeys>
-
-        <maintainableSections>
-            <maintainableSection title="Edit Sponsor">
-                <maintainableItems>
-                	<maintainableField name="sponsorCode" required="true"/>
-					<maintainableField name="acronym" required="false"/>
-					<maintainableField name="auditReportSentForFy" required="false"/>
-					<maintainableField name="cageNumber" required="false"/>
-					<maintainableField name="countryCode" required="false"/>
-					<maintainableField name="dodacNumber" required="false"/>
-					<maintainableField name="dunAndBradstreetNumber" required="false"/>
-					<maintainableField name="dunsPlusFourNumber" required="false"/>
-					<maintainableField name="ownedByUnit" required="true"/>
-					<maintainableField name="postalCode" required="false"/>
-					<maintainableField name="rolodexId" required="true"/>
-					<maintainableField name="sponsorName" required="true"/>
-					<maintainableField name="sponsorTypeCode" required="true"/>
-					<maintainableField name="state" required="false"/>                    
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="SponsorMaintenanceDocument-EditSponsor-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Sponsor" />
+    <property name="title" value="Edit Sponsor" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="sponsorCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="acronym" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="auditReportSentForFy" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="cageNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="countryCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="dodacNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="dunAndBradstreetNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="dunsPlusFourNumber" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="ownedByUnit"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="postalCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="rolodexId"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="sponsorName"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="sponsorTypeCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="state" />
+      </list>
+    </property>
+  </bean>
+</beans>

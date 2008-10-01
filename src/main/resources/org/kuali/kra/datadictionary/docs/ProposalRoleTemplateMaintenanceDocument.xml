@@ -1,65 +1,74 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="ProposalRoleTemplateMaintenanceDocument" parent="ProposalRoleTemplateMaintenanceDocument-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="ProposalRoleTemplateMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalRoleTemplate" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="ProposalRoleTemplateMaintenanceDocument-EditProposalRoleTemplate" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>id</value>
+      </list>
+    </property>
+    <property name="label" value="Proposal Role Template Maintenance Document" />
+    <property name="shortLabel" value="proposalRoleTemplateMaintDoc" />
+    <property name="summary" value="ProposalRoleTemplate Maintenance Document" />
+    <property name="description" value="Document used to create or update Proposal Role Template Reference objects" />
+    <property name="documentTypeName" value="ProposalRoleTemplateMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="PRTD" />
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>WorkflowAdmin</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<!-- Maintenance Section Definitions -->
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.kra.proposaldevelopment.bo.ProposalRoleTemplate</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>WorkflowAdmin</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="ProposalRoleTemplateMaintenanceDocument-EditProposalRoleTemplate" parent="ProposalRoleTemplateMaintenanceDocument-EditProposalRoleTemplate-parentBean" />
 
-        <documentTypeName>ProposalRoleTemplateMaintenanceDocument</documentTypeName>
-        <documentTypeCode>PRTD</documentTypeCode>
-
-        <label>Proposal Role Template Maintenance Document</label>
-        <shortLabel>proposalRoleTemplateMaintDoc</shortLabel>
-
-        <summary>ProposalRoleTemplate Maintenance Document</summary>
-        <description>Document used to create or update Proposal Role Template Reference objects</description>
-
-        <lockingKeys>
-            <field attributeName="id"/>
-        </lockingKeys>
-
-        <maintainableSections>
-            <maintainableSection title="Edit Proposal Role Template">
-                <maintainableItems>
-                    <maintainableField name="id" required="false"/>
-                    <maintainableField name="personId" required="true"/>
-                    <maintainableField name="roleName" required="true">
-                        <defaultValue>unassigned</defaultValue>
-                    </maintainableField>
-                    <maintainableField name="unitNumber" required="true"/>
-                    <maintainableField name="active" required="true">
-                        <defaultValue>true</defaultValue>
-                    </maintainableField>
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="ProposalRoleTemplateMaintenanceDocument-EditProposalRoleTemplate-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Proposal Role Template" />
+    <property name="title" value="Edit Proposal Role Template" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="id" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="personId"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="roleName"
+              p:defaultValue="unassigned"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="unitNumber"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="active"
+              p:defaultValue="true"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

@@ -1,65 +1,82 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="ProposalColumnsToAlterMaintenanceDocument" parent="ProposalColumnsToAlterMaintenanceDocument-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="ProposalColumnsToAlterMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter" />
+    <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="ProposalColumnsToAlterMaintenanceDocument-EditProposalColumnsToAlter" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>columnName</value>
+      </list>
+    </property>
+    <property name="label" value="ProposalColumnsToAlter Maintenance Document" />
+    <property name="shortLabel" value="proposalColumnsToAlterMaintDoc" />
+    <property name="summary" value="ProposalColumnsToAlter Maintenance Document" />
+    <property name="description" value="Document used to create or update ProposalColumnsToAlter Reference objects" />
+    <property name="documentTypeName" value="ProposalColumnsToAlterMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.kra.rules.ProposalColumnsToAlterMaintenanceDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="PCTA" />
+    <property name="webScriptFiles" >
+      <list>
+        <value>../dwr/interface/CustomAttributeService.js</value>
+      </list>
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>WorkflowAdmin</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<!-- Maintenance Section Definitions -->
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter</businessObjectClass>
-        <maintainableClass>org.kuali.kra.maintenance.KraMaintainableImpl</maintainableClass>
-		<businessRulesClass>org.kuali.kra.rules.ProposalColumnsToAlterMaintenanceDocumentRule</businessRulesClass>
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>WorkflowAdmin</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="ProposalColumnsToAlterMaintenanceDocument-EditProposalColumnsToAlter" parent="ProposalColumnsToAlterMaintenanceDocument-EditProposalColumnsToAlter-parentBean" />
 
-        <documentTypeName>ProposalColumnsToAlterMaintenanceDocument</documentTypeName>
-        <documentTypeCode>PCTA</documentTypeCode>
- 		<webScriptFile>../dwr/interface/CustomAttributeService.js</webScriptFile>
- 
-        <label>ProposalColumnsToAlter Maintenance Document</label>
-        <shortLabel>proposalColumnsToAlterMaintDoc</shortLabel>
-
-        <summary>ProposalColumnsToAlter Maintenance Document</summary>
-        <description>Document used to create or update ProposalColumnsToAlter Reference objects</description>
-
-        <lockingKeys>
-        	<field attributeName="columnName"/>
-        </lockingKeys>
-
-        <maintainableSections>
-            <maintainableSection title="Edit ProposalColumnsToAlter">
-                <maintainableItems>
-                	<maintainableField name="columnName" required="true"/>
-					<maintainableField name="columnLabel" required="true"/>
-					<maintainableField name="dataLength" required="false"/>
-					<maintainableField name="dataType" required="true"/>
-					<maintainableField name="hasLookup" required="true"/>
-					<maintainableField name="lookupClass" required="false"/>
-					<maintainableField name="lookupReturn" required="false"/>
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="ProposalColumnsToAlterMaintenanceDocument-EditProposalColumnsToAlter-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit ProposalColumnsToAlter" />
+    <property name="title" value="Edit ProposalColumnsToAlter" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="columnName"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="columnLabel"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="dataLength" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="dataType"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="hasLookup"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="lookupClass" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="lookupReturn" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

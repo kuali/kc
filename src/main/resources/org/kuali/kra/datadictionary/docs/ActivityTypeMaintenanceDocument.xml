@@ -1,59 +1,70 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="ActivityTypeMaintenanceDocument" parent="ActivityTypeMaintenanceDocument-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="ActivityTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ActivityType" />
+    <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="ActivityTypeMaintenanceDocument-EditActivityTypes" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>activityTypeCode</value>
+      </list>
+    </property>
+    <property name="label" value="Activity Type Maintenance Document" />
+    <property name="shortLabel" value="activityTypeMaintDoc" />
+    <property name="summary" value="Activity Type Maintenance Document" />
+    <property name="description" value="Document used to create or update Activity Type Reference objects" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KRA-M"
+            p:parameterName="activityTypeMaintenanceHelp"
+            p:parameterDetailType="D" />
+    </property>
+    <property name="documentTypeName" value="ActivityTypeMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="ACTT" />
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>WorkflowAdmin</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<!-- Maintenance Section Definitions -->
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.kra.proposaldevelopment.bo.ActivityType</businessObjectClass>
-        <maintainableClass>org.kuali.kra.maintenance.KraMaintainableImpl</maintainableClass>
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>WorkflowAdmin</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="ActivityTypeMaintenanceDocument-EditActivityTypes" parent="ActivityTypeMaintenanceDocument-EditActivityTypes-parentBean" />
 
-        <documentTypeName>ActivityTypeMaintenanceDocument</documentTypeName>
-        <documentTypeCode>ACTT</documentTypeCode>
-
-        <label>Activity Type Maintenance Document</label>
-        <shortLabel>activityTypeMaintDoc</shortLabel>
-
-        <summary>Activity Type Maintenance Document</summary>
-        <description>Document used to create or update Activity Type Reference objects</description>
-        <help parameterNamespace="KRA-M" parameterDetailType="D" parameterName="activityTypeMaintenanceHelp" />
-
-        <lockingKeys>
-            <field attributeName="activityTypeCode" />
-        </lockingKeys>
-
-        <maintainableSections>
-            <maintainableSection title="Edit Activity Types">
-                <maintainableItems>
-                    <maintainableField name="activityTypeCode" required="true" />
-                    <maintainableField name="description" required="true" />
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="ActivityTypeMaintenanceDocument-EditActivityTypes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Activity Types" />
+    <property name="title" value="Edit Activity Types" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="activityTypeCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="description"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>
