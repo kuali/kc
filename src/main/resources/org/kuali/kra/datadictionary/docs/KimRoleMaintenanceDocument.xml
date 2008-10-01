@@ -1,84 +1,108 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-	Copyright 2006-2008 The Kuali Foundation
-	
-	Licensed under the Educational Community License, Version 2.0 (the "License");
-	you may not use this file except in compliance with the License.
-	You may obtain a copy of the License at
-	
-	http://www.osedu.org/licenses/ECL-2.0
-	
-	Unless required by applicable law or agreed to in writing, software
-	distributed under the License is distributed on an "AS IS" BASIS,
-	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	See the License for the specific language governing permissions and
-	limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<dictionaryEntry>
-	<maintenanceDocument>
-		<businessObjectClass>
-			org.kuali.kra.kim.bo.KimRole
-		</businessObjectClass>
-		<maintainableClass>
-			org.kuali.core.maintenance.KualiMaintainableImpl
-		</maintainableClass>
-		<businessRulesClass>org.kuali.kra.kim.rules.KimRoleRule</businessRulesClass>
-        
-		<documentAuthorizerClass>
-			org.kuali.kra.kim.maintenance.KimRoleMaintenanceDocumentAuthorizer
-		</documentAuthorizerClass>
-		<authorizations>
-			<authorization action="initiate">
-				<workgroups>
-					<workgroup>WorkflowAdmin</workgroup>
-				</workgroups>
-			</authorization>
-		</authorizations>
+  <bean id="KimRoleMaintenanceDocument" parent="KimRoleMaintenanceDocument-parentBean" />
 
-		<documentTypeName>KimRoleMaintenanceDocument</documentTypeName>
-		<documentTypeCode>KIMR</documentTypeCode>
+  <bean id="KimRoleMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.kim.bo.KimRole" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="KimRoleMaintenanceDocument-EditRole" />
+        <ref bean="KimRoleMaintenanceDocument-EditRole-Permission" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>id</value>
+      </list>
+    </property>
+    <property name="label" value="Role Maintenance Document" />
+    <property name="shortLabel" value="roleMaintDoc" />
+    <property name="summary" value="Role Maintenance Document" />
+    <property name="description" value="Document used to create or update Role Reference objects" />
+    <property name="documentTypeName" value="KimRoleMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.kra.kim.rules.KimRoleRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kra.kim.maintenance.KimRoleMaintenanceDocumentAuthorizer" />
+    <property name="documentTypeCode" value="KIMR" />
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>WorkflowAdmin</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-		<label>Role Maintenance Document</label>
-		<shortLabel>roleMaintDoc</shortLabel>
+<!-- Maintenance Section Definitions -->
 
-		<summary>Role Maintenance Document</summary>
-		<description>
-			Document used to create or update Role Reference objects
-		</description>
 
-		<lockingKeys>
-			<field attributeName="id" />
-		</lockingKeys>
+  <bean id="KimRoleMaintenanceDocument-EditRole" parent="KimRoleMaintenanceDocument-EditRole-parentBean" />
 
-		<maintainableSections>
-			<maintainableSection title="Edit Role">
-				<maintainableItems>
-					<maintainableField name="id" required="false" />
-					<maintainableField name="name" required="true" />
-					<maintainableField name="roleTypeCode" required="true" />
-					<maintainableField name="description" required="false" />
-					<maintainableField name="descend" required="true" />
-					<maintainableField name="versionNumber" />
-				</maintainableItems>
-			</maintainableSection>
-			<maintainableSection title="Edit Role-Permission">
-                <maintainableItems>
-                	<maintainableCollection name="rolePermissions" businessObjectClass="org.kuali.kra.kim.bo.KimRolePermission" sourceClassName="org.kuali.kra.kim.bo.KimPermission" sourceAttributeName="rolePermissions">
-    	                <maintainableField name="permissionId" template="id" required="true"/>
-        	            <maintainableField name="active" required="true">
-            	            <defaultValue>true</defaultValue>
-                	    </maintainableField>
-                    	<maintainableField name="versionNumber" />
-                    	<summaryFields>
-                    		<summaryField name="permission.name" />
-                    	</summaryFields>
-                    </maintainableCollection>
-                </maintainableItems>
-            </maintainableSection>
-		</maintainableSections>
-	</maintenanceDocument>
-</dictionaryEntry>
+  <bean id="KimRoleMaintenanceDocument-EditRole-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Role" />
+    <property name="title" value="Edit Role" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="id" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="name"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="roleTypeCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="description" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="descend"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+  <bean id="KimRoleMaintenanceDocument-EditRole-Permission" parent="KimRoleMaintenanceDocument-EditRole-Permission-parentBean" />
+
+  <bean id="KimRoleMaintenanceDocument-EditRole-Permission-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Role-Permission" />
+    <property name="title" value="Edit Role-Permission" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="rolePermissions" />
+          <property name="sourceClassName" value="org.kuali.kra.kim.bo.KimPermission" />
+          <property name="businessObjectClass" value="org.kuali.kra.kim.bo.KimRolePermission" />
+          <property name="summaryFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="permission.name" />
+            </list>
+          </property>
+          <property name="maintainableFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="permissionId"
+                    p:required="true"
+                    p:template="id" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="active"
+                    p:defaultValue="true"
+                    p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="versionNumber" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

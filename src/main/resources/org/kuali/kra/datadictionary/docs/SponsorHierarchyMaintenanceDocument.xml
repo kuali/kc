@@ -1,81 +1,105 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="SponsorHierarchyMaintenanceDocument" parent="SponsorHierarchyMaintenanceDocument-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="SponsorHierarchyMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.SponsorHierarchy" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="SponsorHierarchyMaintenanceDocument-EditSponsorHierarchy" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>hierarchyName</value>
+        <value>sponsorCode</value>
+      </list>
+    </property>
+    <property name="label" value="SponsorHierarchy Maintenance Document" />
+    <property name="shortLabel" value="sponsorHierarchyMaintDoc" />
+    <property name="summary" value="SponsorHierarchy Maintenance Document" />
+    <property name="description" value="Document used to create or update SponsorHierarchy Reference objects" />
+    <property name="documentTypeName" value="SponsorHierarchyMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="SPHI" />
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>WorkflowAdmin</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<!-- Maintenance Section Definitions -->
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.kra.bo.SponsorHierarchy</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>WorkflowAdmin</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="SponsorHierarchyMaintenanceDocument-EditSponsorHierarchy" parent="SponsorHierarchyMaintenanceDocument-EditSponsorHierarchy-parentBean" />
 
-        <documentTypeName>SponsorHierarchyMaintenanceDocument</documentTypeName>
-        <documentTypeCode>SPHI</documentTypeCode>
-
-        <label>SponsorHierarchy Maintenance Document</label>
-        <shortLabel>sponsorHierarchyMaintDoc</shortLabel>
-
-        <summary>SponsorHierarchy Maintenance Document</summary>
-        <description>Document used to create or update SponsorHierarchy Reference objects</description>
-
-        <lockingKeys>
-        	<field attributeName="hierarchyName"/>
-			<field attributeName="sponsorCode"/>
-
-        </lockingKeys>
-
-        <maintainableSections>
-            <maintainableSection title="Edit SponsorHierarchy">
-                <maintainableItems>
-                	<maintainableField name="hierarchyName" required="true"/>
-					<maintainableField name="sponsorCode" required="true"/>
-					<maintainableField name="level1" required="false"/>
-					<maintainableField name="level10" required="false"/>
-					<maintainableField name="level10Sortid" required="false"/>
-					<maintainableField name="level1Sortid" required="false"/>
-					<maintainableField name="level2" required="false"/>
-					<maintainableField name="level2Sortid" required="false"/>
-					<maintainableField name="level3" required="false"/>
-					<maintainableField name="level3Sortid" required="false"/>
-					<maintainableField name="level4" required="false"/>
-					<maintainableField name="level4Sortid" required="false"/>
-					<maintainableField name="level5" required="false"/>
-					<maintainableField name="level5Sortid" required="false"/>
-					<maintainableField name="level6" required="false"/>
-					<maintainableField name="level6Sortid" required="false"/>
-					<maintainableField name="level7" required="false"/>
-					<maintainableField name="level7Sortid" required="false"/>
-					<maintainableField name="level8" required="false"/>
-					<maintainableField name="level8Sortid" required="false"/>
-					<maintainableField name="level9" required="false"/>
-					<maintainableField name="level9Sortid" required="false"/>
-
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="SponsorHierarchyMaintenanceDocument-EditSponsorHierarchy-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit SponsorHierarchy" />
+    <property name="title" value="Edit SponsorHierarchy" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="hierarchyName"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="sponsorCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="level1" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="level10" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="level10Sortid" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="level1Sortid" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="level2" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="level2Sortid" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="level3" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="level3Sortid" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="level4" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="level4Sortid" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="level5" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="level5Sortid" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="level6" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="level6Sortid" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="level7" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="level7Sortid" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="level8" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="level8Sortid" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="level9" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="level9Sortid" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>
