@@ -85,6 +85,8 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
     public void populateBudgetSubAwardFiles(BudgetSubAwards budgetSubAwards) {
         BudgetSubAwardFiles budgetSubAwardFiles = budgetSubAwards.getBudgetSubAwardFiles().get(0);
         BudgetSubAwardBean budgetSubAwardBean = new BudgetSubAwardBean();
+        boolean subawardBudgetExtracted  = false;
+
         try {
             ConvertUtils.register(new SqlTimestampConverter(null), java.sql.Timestamp.class);
             BeanUtils.copyProperties(budgetSubAwardBean, budgetSubAwards);
@@ -93,13 +95,19 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
             byte[] pdfFileContents = budgetSubAwardBean.getSubAwardXFD();
             PdfReader  reader = new PdfReader(pdfFileContents);
             byte[] xmlContents=getXMLFromPDF(reader);
-            Map fileMap = extractAttachments(reader);
-            updateXML(xmlContents, fileMap, budgetSubAwardBean);
+            subawardBudgetExtracted = (xmlContents!=null && xmlContents.length>0);
+            if(subawardBudgetExtracted){
+                Map fileMap = extractAttachments(reader);
+                updateXML(xmlContents, fileMap, budgetSubAwardBean);
+            }
         }catch (Exception e) {
             LOG.error("Not able to extract xml from pdf",e);
+            subawardBudgetExtracted = false;
         }
         budgetSubAwardFiles.setSubAwardXfdFileData(budgetSubAwardBean.getSubAwardXFD());
-        budgetSubAwardFiles.setSubAwardXmlFileData(new String(budgetSubAwardBean.getSubAwardXML()));
+        if(subawardBudgetExtracted && budgetSubAwardBean.getSubAwardXML()!=null){
+            budgetSubAwardFiles.setSubAwardXmlFileData(new String(budgetSubAwardBean.getSubAwardXML()));
+        }
         budgetSubAwardFiles.setSubAwardXfdFileName(budgetSubAwardBean.getXfdFileName());
         budgetSubAwardFiles.setProposalNumber(budgetSubAwards.getProposalNumber());
         budgetSubAwardFiles.setBudgetVersionNumber(budgetSubAwards.getBudgetVersionNumber());
@@ -117,7 +125,7 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
     private List<BudgetSubAwardAttachment> getSubAwardAttachments(BudgetSubAwardBean budgetSubAwardBean) {
         List<BudgetSubAwardAttachmentBean> budgetSubAwardBeanAttachments = (List<BudgetSubAwardAttachmentBean>) budgetSubAwardBean.getAttachments();
         List<BudgetSubAwardAttachment> budgetSubAwardAttachments =  new ArrayList<BudgetSubAwardAttachment>();
-        
+        if(budgetSubAwardBeanAttachments!=null)
         for(BudgetSubAwardAttachmentBean budgetSubAwardAttachmentBean: budgetSubAwardBeanAttachments) {
             BudgetSubAwardAttachment budgetSubAwardAttachment = new BudgetSubAwardAttachment();
             try {
@@ -127,10 +135,10 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
                 budgetSubAwardAttachment.setSubAwardNumber(budgetSubAwardBean.getSubAwardNumber());
             }
             catch (IllegalAccessException e) {
-                e.printStackTrace();
+                LOG.warn(e);
             }
             catch (InvocationTargetException e) {
-                e.printStackTrace();
+                LOG.warn(e);
             }
             budgetSubAwardAttachment.setBudgetVersionNumber(budgetSubAwardAttachmentBean.getVersionNumber());
             budgetSubAwardAttachments.add(budgetSubAwardAttachment);            
@@ -144,6 +152,8 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
     private byte[] getXMLFromPDF(PdfReader reader)throws Exception {
         XfaForm xfaForm = reader.getAcroFields().getXfa();
         Node domDocument = xfaForm.getDomDocument();
+        if(domDocument==null)
+            throw new Exception("Not a valid pdf form");
         Element documentElement = ((Document) domDocument).getDocumentElement();
 
         Element datasetsElement = (Element) documentElement.getElementsByTagNameNS(XFA_NS, "datasets").item(0);
