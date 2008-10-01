@@ -13,8 +13,8 @@
           	<tr>
           		<th width="5%"><div align="center">&nbsp</div></th> 
           		<th width="20%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetSubAwardsAttributes.organizationName}" noColon="true" /></div></th>
-          		<th width="30%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetSubAwardsAttributes.comments}" noColon="true" /></div></th>
-          		<th width="30%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetSubAwardsAttributes.subAwardXfdFileName}" noColon="true" /></div></th>          		
+          		<th width="23%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetSubAwardsAttributes.comments}" noColon="true" /></div></th>
+          		<th width="23%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetSubAwardsAttributes.subAwardXfdFileName}" noColon="true" /></div></th>          		
               	<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
           	</tr>
 			<c:if test="${!readOnly}" >
@@ -72,7 +72,7 @@
 	                	<%--<html:file property="document.budgetSubAwards[${status.index}].subAwardXfdFile" />--%>						
 	                	</div>
 					</td>
-					<td class="infoline">
+					<td valign="middle" class="infoline">
 						<div align=center>
 							<html:image property="methodToCall.viewXFD.line${status.index}.anchor${currentTabIndex}"
 							src='${ConfigProperties.kra.externalizable.images.url}Viewpdf.gif' styleClass="tinybutton"/>
