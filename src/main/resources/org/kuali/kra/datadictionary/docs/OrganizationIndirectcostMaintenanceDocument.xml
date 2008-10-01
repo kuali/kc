@@ -1,67 +1,77 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="OrganizationIndirectcostMaintenanceDocument" parent="OrganizationIndirectcostMaintenanceDocument-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="OrganizationIndirectcostMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.OrganizationIndirectcost" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="OrganizationIndirectcostMaintenanceDocument-EditOrganizationIndirectcost" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>idcNumber</value>
+        <value>organizationId</value>
+      </list>
+    </property>
+    <property name="label" value="OrganizationIndirectcost Maintenance Document" />
+    <property name="shortLabel" value="organizationIndirectcostMaintDoc" />
+    <property name="summary" value="OrganizationIndirectcost Maintenance Document" />
+    <property name="description" value="Document used to create or update OrganizationIndirectcost Reference objects" />
+    <property name="documentTypeName" value="OrganizationIndirectcostMaintenanceDocument" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="ORIN" />
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>WorkflowAdmin</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<!-- Maintenance Section Definitions -->
 
-<dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.kra.bo.OrganizationIndirectcost</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>WorkflowAdmin</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+  <bean id="OrganizationIndirectcostMaintenanceDocument-EditOrganizationIndirectcost" parent="OrganizationIndirectcostMaintenanceDocument-EditOrganizationIndirectcost-parentBean" />
 
-        <documentTypeName>OrganizationIndirectcostMaintenanceDocument</documentTypeName>
-        <documentTypeCode>ORIN</documentTypeCode>
-
-        <label>OrganizationIndirectcost Maintenance Document</label>
-        <shortLabel>organizationIndirectcostMaintDoc</shortLabel>
-
-        <summary>OrganizationIndirectcost Maintenance Document</summary>
-        <description>Document used to create or update OrganizationIndirectcost Reference objects</description>
-
-        <lockingKeys>
-        	<field attributeName="idcNumber"/>
-			<field attributeName="organizationId"/>
-
-        </lockingKeys>
-
-        <maintainableSections>
-            <maintainableSection title="Edit OrganizationIndirectcost">
-                <maintainableItems>
-                	<maintainableField name="idcNumber" required="true"/>
-					<maintainableField name="organizationId" required="true"/>
-					<maintainableField name="applicableIndirectcostRate" required="false"/>
-					<maintainableField name="endDate" required="false"/>
-					<maintainableField name="idcComment" required="false"/>
-					<maintainableField name="idcRateTypeCode" required="false"/>
-					<maintainableField name="requestedDate" required="false"/>
-					<maintainableField name="startDate" required="false"/>
-
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-    </maintenanceDocument>
-</dictionaryEntry>
+  <bean id="OrganizationIndirectcostMaintenanceDocument-EditOrganizationIndirectcost-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit OrganizationIndirectcost" />
+    <property name="title" value="Edit OrganizationIndirectcost" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="idcNumber"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="organizationId"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="applicableIndirectcostRate" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="endDate" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="idcComment" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="idcRateTypeCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="requestedDate" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="startDate" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>
