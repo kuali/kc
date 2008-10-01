@@ -1,158 +1,229 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="BudgetPersonnelRateAndBase" parent="BudgetPersonnelRateAndBase-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="BudgetPersonnelRateAndBase-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.budget.bo.BudgetPersonnelRateAndBase" />
+    <property name="lookupDefinition" >
+      <ref bean="BudgetPersonnelRateAndBase-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="personId" />
+    <property name="attributes" >
+      <list>
+        <ref bean="BudgetPersonnelRateAndBase-proposalNumber" />
+        <ref bean="BudgetPersonnelRateAndBase-budgetVersionNumber" />
+        <ref bean="BudgetPersonnelRateAndBase-budgetPeriod" />
+        <ref bean="BudgetPersonnelRateAndBase-personId" />
+        <ref bean="BudgetPersonnelRateAndBase-lineItemNumber" />
+        <ref bean="BudgetPersonnelRateAndBase-versionNumber" />
+        <ref bean="BudgetPersonnelRateAndBase-rateClassCode" />
+        <ref bean="BudgetPersonnelRateAndBase-rateTypeCode" />
+        <ref bean="BudgetPersonnelRateAndBase-rateNumber" />
+        <ref bean="BudgetPersonnelRateAndBase-appliedRate" />
+        <ref bean="BudgetPersonnelRateAndBase-salaryRequested" />
+        <ref bean="BudgetPersonnelRateAndBase-baseCostSharing" />
+        <ref bean="BudgetPersonnelRateAndBase-calculatedCost" />
+        <ref bean="BudgetPersonnelRateAndBase-calculatedCostSharing" />
+        <ref bean="BudgetPersonnelRateAndBase-endDate" />
+        <ref bean="BudgetPersonnelRateAndBase-startDate" />
+        <ref bean="BudgetPersonnelRateAndBase-onOffCampusFlag" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.budget.bo.BudgetPersonnelRateAndBase">
-
-        <lookup>
-            <title>Budget Personnel Rate and Base</title>
-            <menubar>
-                <![CDATA[<a href="index.jsp">Main</a>]]>
-            </menubar>
-            <instructions>Look up a Budget Personnel Rate and Base</instructions>
-
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="proposalNumber"/>
-                    <sortAttribute attributeName="budgetVersionNumber"/>
-                    <sortAttribute attributeName="budgetPeriod"/>
-                </sortAttributes>
-            </defaultSort>
-
-             <lookupFields>
-                <lookupField attributeName="proposalNumber" required="false" />
-                <lookupField attributeName="budgetVersionNumber" required="false" />
-                <lookupField attributeName="budgetPeriod" required="false" />
-                <lookupField attributeName="personId" required="false" />
-                <lookupField attributeName="lineItemNumber" required="false" />
-                <lookupField attributeName="rateClassCode" required="false" />
-                <lookupField attributeName="rateNumber" required="false" />
-                <lookupField attributeName="rateTypeCode" required="false" />
-                <lookupField attributeName="appliedRate" required="false" />
-                <lookupField attributeName="salaryRequested" required="false" />
-                <lookupField attributeName="baseCostSharing" required="false" />
-                <lookupField attributeName="calculatedCost" required="false" />
-                <lookupField attributeName="calculatedCostSharing" required="false" />
-                <lookupField attributeName="endDate" required="false" />
-                <lookupField attributeName="startDate" required="false" />
-                <lookupField attributeName="onOffCampusFlag" required="false" />
-
-            </lookupFields>
-
-            <resultFields>
-                <field attributeName="proposalNumber" forceInquiry="false" />
-                <field attributeName="budgetVersionNumber" forceInquiry="false" />
-                <field attributeName="budgetPeriod" forceInquiry="false" />
-                <field attributeName="personId" forceInquiry="false" />
-                <field attributeName="lineItemNumber" forceInquiry="false" />
-                <field attributeName="rateClassCode" forceInquiry="false" />
-                <field attributeName="rateNumber" forceInquiry="false" />
-                <field attributeName="rateTypeCode" forceInquiry="false" />
-                <field attributeName="appliedRate" forceInquiry="false" />
-                <field attributeName="salaryRequested" forceInquiry="false" />
-                <field attributeName="baseCostSharing" forceInquiry="false" />
-                <field attributeName="calculatedCost" forceInquiry="false" />
-                <field attributeName="calculatedCostSharing" forceInquiry="false" />
-                <field attributeName="endDate" forceInquiry="false" />
-                <field attributeName="startDate" forceInquiry="false" />
-                <field attributeName="onOffCampusFlag" forceInquiry="false" />
-
-            </resultFields>
-        </lookup>
-
-        <titleAttribute>personId</titleAttribute>
-
-        <attributes>
-
-            <attributeReference name="proposalNumber" sourceClassName="org.kuali.kra.budget.bo.BudgetLineItem" sourceAttributeName="proposalNumber" />
-
-            <attributeReference name="budgetVersionNumber" sourceClassName="org.kuali.kra.budget.bo.BudgetModular" sourceAttributeName="budgetVersionNumber" />
-
-            <attributeReference name="budgetPeriod" sourceClassName="org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount" sourceAttributeName="budgetPeriod" />
-
-            <attributeReference name="personId" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="personId" />
-
-            <attributeReference name="lineItemNumber" sourceClassName="org.kuali.kra.budget.bo.BudgetLineItem" sourceAttributeName="lineItemNumber" />
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.kra.budget.bo.BudgetLineItem" sourceAttributeName="versionNumber" />
-
-            <attributeReference name="rateClassCode" sourceClassName="org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount" sourceAttributeName="rateClassCode" >
-                <control>
-                    <text size="3" />
-                </control>        
-            </attributeReference>
-
-            <attributeReference name="rateTypeCode" sourceClassName="org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount" sourceAttributeName="rateTypeCode" >
-                <control>
-                    <text size="3" />
-                </control>        
-            </attributeReference>
-
-            <attributeReference name="rateNumber" sourceClassName="org.kuali.kra.budget.bo.BudgetModularIdc" sourceAttributeName="rateNumber" />
-
-            <attributeReference name="appliedRate" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="genericRate">
-                <label>Applied Rate </label>
-                <shortLabel>Applied Rate </shortLabel>
-                <summary>Applied Rate </summary>
-                <description>Applied Rate </description>
-            </attributeReference>
-
-            <attributeReference name="salaryRequested" sourceClassName="org.kuali.kra.budget.bo.BudgetPerson" sourceAttributeName="calculationBase">
-                <label>Salary Requested</label>
-                <shortLabel>Salary Requested</shortLabel>
-
-                <summary>Salary Requested</summary>
-                <description>Salary Requested</description>
-            </attributeReference>
-
-            <attributeReference name="baseCostSharing" sourceClassName="org.kuali.kra.budget.bo.BudgetLineItem" sourceAttributeName="costSharingAmount">
-                <label>Base Cost Sharing</label>
-                <shortLabel>Base Cost Sharing</shortLabel>
-
-                <summary>Base Cost Sharing</summary>
-                <description>Base Cost Sharing</description>
-            </attributeReference>
-
-            <attributeReference name="calculatedCost" sourceClassName="org.kuali.kra.budget.bo.BudgetLineItem" sourceAttributeName="lineItemCost" >
-                <label>Calculated Cost</label>
-                <shortLabel>Calculated Cost</shortLabel>
-
-                <summary>Calculated Cost</summary>
-                <description>Calculated Cost</description>
-            </attributeReference>
+<!-- Attribute Definitions -->
 
 
-            <attributeReference name="calculatedCostSharing" sourceClassName="org.kuali.kra.budget.bo.BudgetLineItem" sourceAttributeName="costSharingAmount" >
-                <label>Calculated Cost Sharing</label>
-                <shortLabel>Calculated Cost Sharing</shortLabel>
+  <bean id="BudgetPersonnelRateAndBase-proposalNumber" parent="BudgetPersonnelRateAndBase-proposalNumber-parentBean" />
 
-                <summary>Calculated Cost Sharing</summary>
-                <description>Calculated Cost Sharing</description>
-            </attributeReference>
+  <bean id="BudgetPersonnelRateAndBase-proposalNumber-parentBean" abstract="true" parent="BudgetLineItem-proposalNumber">
+  </bean>
+  <bean id="BudgetPersonnelRateAndBase-budgetVersionNumber" parent="BudgetPersonnelRateAndBase-budgetVersionNumber-parentBean" />
 
-            <attributeReference name="endDate" sourceClassName="org.kuali.kra.budget.bo.BudgetLineItem" sourceAttributeName="endDate" />
+  <bean id="BudgetPersonnelRateAndBase-budgetVersionNumber-parentBean" abstract="true" parent="BudgetModular-budgetVersionNumber">
+  </bean>
+  <bean id="BudgetPersonnelRateAndBase-budgetPeriod" parent="BudgetPersonnelRateAndBase-budgetPeriod-parentBean" />
 
-            <attributeReference name="startDate" sourceClassName="org.kuali.kra.budget.bo.BudgetLineItem" sourceAttributeName="startDate" />
+  <bean id="BudgetPersonnelRateAndBase-budgetPeriod-parentBean" abstract="true" parent="BudgetLineItemCalculatedAmount-budgetPeriod">
+  </bean>
+  <bean id="BudgetPersonnelRateAndBase-personId" parent="BudgetPersonnelRateAndBase-personId-parentBean" />
 
-            <attributeReference name="onOffCampusFlag" sourceClassName="org.kuali.kra.budget.bo.BudgetLineItem" sourceAttributeName="onOffCampusFlag" />
+  <bean id="BudgetPersonnelRateAndBase-personId-parentBean" abstract="true" parent="Person-personId">
+  </bean>
+  <bean id="BudgetPersonnelRateAndBase-lineItemNumber" parent="BudgetPersonnelRateAndBase-lineItemNumber-parentBean" />
 
-        </attributes>
-    </businessObject>
+  <bean id="BudgetPersonnelRateAndBase-lineItemNumber-parentBean" abstract="true" parent="BudgetLineItem-lineItemNumber">
+  </bean>
+  <bean id="BudgetPersonnelRateAndBase-versionNumber" parent="BudgetPersonnelRateAndBase-versionNumber-parentBean" />
 
-</dictionaryEntry>
+  <bean id="BudgetPersonnelRateAndBase-versionNumber-parentBean" abstract="true" parent="BudgetLineItem-versionNumber">
+  </bean>
+  <bean id="BudgetPersonnelRateAndBase-rateClassCode" parent="BudgetPersonnelRateAndBase-rateClassCode-parentBean" />
+
+  <bean id="BudgetPersonnelRateAndBase-rateClassCode-parentBean" abstract="true" parent="BudgetLineItemCalculatedAmount-rateClassCode">
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+  </bean>
+  <bean id="BudgetPersonnelRateAndBase-rateTypeCode" parent="BudgetPersonnelRateAndBase-rateTypeCode-parentBean" />
+
+  <bean id="BudgetPersonnelRateAndBase-rateTypeCode-parentBean" abstract="true" parent="BudgetLineItemCalculatedAmount-rateTypeCode">
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+  </bean>
+  <bean id="BudgetPersonnelRateAndBase-rateNumber" parent="BudgetPersonnelRateAndBase-rateNumber-parentBean" />
+
+  <bean id="BudgetPersonnelRateAndBase-rateNumber-parentBean" abstract="true" parent="BudgetModularIdc-rateNumber">
+  </bean>
+  <bean id="BudgetPersonnelRateAndBase-appliedRate" parent="BudgetPersonnelRateAndBase-appliedRate-parentBean" />
+
+  <bean id="BudgetPersonnelRateAndBase-appliedRate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericRate">
+    <property name="name" value="appliedRate" />
+    <property name="label" value="Applied Rate" />
+    <property name="shortLabel" value="Applied Rate" />
+    <property name="summary" value="Applied Rate" />
+    <property name="description" value="Applied Rate" />
+  </bean>
+  <bean id="BudgetPersonnelRateAndBase-salaryRequested" parent="BudgetPersonnelRateAndBase-salaryRequested-parentBean" />
+
+  <bean id="BudgetPersonnelRateAndBase-salaryRequested-parentBean" abstract="true" parent="BudgetPerson-calculationBase">
+    <property name="name" value="salaryRequested" />
+    <property name="label" value="Salary Requested" />
+    <property name="shortLabel" value="Salary Requested" />
+    <property name="summary" value="Salary Requested" />
+    <property name="description" value="Salary Requested" />
+  </bean>
+  <bean id="BudgetPersonnelRateAndBase-baseCostSharing" parent="BudgetPersonnelRateAndBase-baseCostSharing-parentBean" />
+
+  <bean id="BudgetPersonnelRateAndBase-baseCostSharing-parentBean" abstract="true" parent="BudgetLineItem-costSharingAmount">
+    <property name="name" value="baseCostSharing" />
+    <property name="label" value="Base Cost Sharing" />
+    <property name="shortLabel" value="Base Cost Sharing" />
+    <property name="summary" value="Base Cost Sharing" />
+    <property name="description" value="Base Cost Sharing" />
+  </bean>
+  <bean id="BudgetPersonnelRateAndBase-calculatedCost" parent="BudgetPersonnelRateAndBase-calculatedCost-parentBean" />
+
+  <bean id="BudgetPersonnelRateAndBase-calculatedCost-parentBean" abstract="true" parent="BudgetLineItem-lineItemCost">
+    <property name="name" value="calculatedCost" />
+    <property name="label" value="Calculated Cost" />
+    <property name="shortLabel" value="Calculated Cost" />
+    <property name="summary" value="Calculated Cost" />
+    <property name="description" value="Calculated Cost" />
+  </bean>
+  <bean id="BudgetPersonnelRateAndBase-calculatedCostSharing" parent="BudgetPersonnelRateAndBase-calculatedCostSharing-parentBean" />
+
+  <bean id="BudgetPersonnelRateAndBase-calculatedCostSharing-parentBean" abstract="true" parent="BudgetLineItem-costSharingAmount">
+    <property name="name" value="calculatedCostSharing" />
+    <property name="label" value="Calculated Cost Sharing" />
+    <property name="shortLabel" value="Calculated Cost Sharing" />
+    <property name="summary" value="Calculated Cost Sharing" />
+    <property name="description" value="Calculated Cost Sharing" />
+  </bean>
+  <bean id="BudgetPersonnelRateAndBase-endDate" parent="BudgetPersonnelRateAndBase-endDate-parentBean" />
+
+  <bean id="BudgetPersonnelRateAndBase-endDate-parentBean" abstract="true" parent="BudgetLineItem-endDate">
+  </bean>
+  <bean id="BudgetPersonnelRateAndBase-startDate" parent="BudgetPersonnelRateAndBase-startDate-parentBean" />
+
+  <bean id="BudgetPersonnelRateAndBase-startDate-parentBean" abstract="true" parent="BudgetLineItem-startDate">
+  </bean>
+  <bean id="BudgetPersonnelRateAndBase-onOffCampusFlag" parent="BudgetPersonnelRateAndBase-onOffCampusFlag-parentBean" />
+
+  <bean id="BudgetPersonnelRateAndBase-onOffCampusFlag-parentBean" abstract="true" parent="BudgetLineItem-onOffCampusFlag">
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="BudgetPersonnelRateAndBase-lookupDefinition" parent="BudgetPersonnelRateAndBase-lookupDefinition-parentBean" />
+
+  <bean id="BudgetPersonnelRateAndBase-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Budget Personnel Rate and Base" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Budget Personnel Rate and Base" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetVersionNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetPeriod" />
+        <bean parent="FieldDefinition"
+              p:attributeName="personId" />
+        <bean parent="FieldDefinition"
+              p:attributeName="lineItemNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateClassCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="appliedRate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="salaryRequested" />
+        <bean parent="FieldDefinition"
+              p:attributeName="baseCostSharing" />
+        <bean parent="FieldDefinition"
+              p:attributeName="calculatedCost" />
+        <bean parent="FieldDefinition"
+              p:attributeName="calculatedCostSharing" />
+        <bean parent="FieldDefinition"
+              p:attributeName="endDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="startDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="onOffCampusFlag" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetVersionNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetPeriod" />
+        <bean parent="FieldDefinition"
+              p:attributeName="personId" />
+        <bean parent="FieldDefinition"
+              p:attributeName="lineItemNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateClassCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="appliedRate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="salaryRequested" />
+        <bean parent="FieldDefinition"
+              p:attributeName="baseCostSharing" />
+        <bean parent="FieldDefinition"
+              p:attributeName="calculatedCost" />
+        <bean parent="FieldDefinition"
+              p:attributeName="calculatedCostSharing" />
+        <bean parent="FieldDefinition"
+              p:attributeName="endDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="startDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="onOffCampusFlag" />
+      </list>
+    </property>
+  </bean>
+</beans>

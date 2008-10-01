@@ -1,140 +1,192 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="BudgetUnrecoveredFandA" parent="BudgetUnrecoveredFandA-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="BudgetUnrecoveredFandA-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.budget.bo.BudgetUnrecoveredFandA" />
+    <property name="titleAttribute" value="documentComponentId" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KRA-B"
+            p:parameterName="budgetUnrecoveredFandAHelpUrl"
+            p:parameterDetailType="D" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="BudgetUnrecoveredFandA-proposalNumber" />
+        <ref bean="BudgetUnrecoveredFandA-budgetVersionNumber" />
+        <ref bean="BudgetUnrecoveredFandA-documentComponentId" />
+        <ref bean="BudgetUnrecoveredFandA-amount" />
+        <ref bean="BudgetUnrecoveredFandA-applicableRate" />
+        <ref bean="BudgetUnrecoveredFandA-onCampusFlag" />
+        <ref bean="BudgetUnrecoveredFandA-fiscalYear" />
+        <ref bean="BudgetUnrecoveredFandA-sourceAccount" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC "-//Kuali Project//DTD Data Dictionary 1.0//EN" "dataDictionary-1_0.dtd">
+<!-- Attribute Definitions -->
 
-<dictionaryEntry>
 
-    <businessObject businessObjectClass="org.kuali.kra.budget.bo.BudgetUnrecoveredFandA">
-    
-		<titleAttribute>documentComponentId</titleAttribute>
-        <attributes>
-        	<!-- PK Attributes -->
-			<attribute name="proposalNumber">
-				<label>Proposal Number </label>
-				<shortLabel>Proposal Number </shortLabel>
-				<maxLength>12</maxLength>
-				<validationPattern><alphaNumeric /></validationPattern>
-				<control>
-					<text size="8" />
-				</control>
-				<summary>Proposal Number </summary>
-				<description>Proposal Number </description>
-			</attribute>
-			
-			<attribute name="budgetVersionNumber">
-				<label>Budget Version Number </label>
-				<shortLabel>Budget Version Number </shortLabel>
-				<maxLength>3</maxLength>
-				<validationPattern><numeric /></validationPattern>
-				<control>
-					<text size="3" />
-				</control>
-				<summary>Budget Version Number </summary>
-				<description>Budget Version Number </description>
-			</attribute>
-			
-			<attribute name="documentComponentId">
-				<label>Document Component Id </label>
-				<shortLabel>Document Component Id </shortLabel>
-				<maxLength>5</maxLength>
-				<validationPattern><numeric /></validationPattern>
-				<control>
-					<text size="5" />
-				</control>
-				<summary>Document Component Id </summary>
-				<description>Document Component Id </description>
-			</attribute>
-			
-			<!-- Domain Attributes -->
-			<attribute name="amount">
-				<label>Amount </label>
-				<shortLabel>Amount </shortLabel>
-				<maxLength>12</maxLength>
-				<validationPattern>
-                    <fixedPoint allowNegative="false" precision="12" scale="2" />
-                </validationPattern>
-                <required>false</required>
-                <control>
-                    <currency size="16" formattedMaxLength="22" />
-                </control>
-				<summary>Amount </summary>
-				<description>Amount </description>
-			</attribute>
+  <bean id="BudgetUnrecoveredFandA-proposalNumber" parent="BudgetUnrecoveredFandA-proposalNumber-parentBean" />
 
-			<attribute name="applicableRate">
-				<label>Applicable Rate </label>
-				<shortLabel>Applicable Rate </shortLabel>
-				<maxLength>7</maxLength>
-				<validationPattern>
-					<fixedPoint allowNegative="false" precision="6" scale="3" />
-				</validationPattern>
-				<required>false</required>
-				<control>
-					<text size="7" />
-				</control>
-				<summary>Applicable Rate </summary>
-				<description>Applicable Rate </description>
-			</attribute>
+  <bean id="BudgetUnrecoveredFandA-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="proposalNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Proposal Number" />
+    <property name="shortLabel" value="Proposal Number" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Proposal Number" />
+    <property name="description" value="Proposal Number" />
+  </bean>
+  <bean id="BudgetUnrecoveredFandA-budgetVersionNumber" parent="BudgetUnrecoveredFandA-budgetVersionNumber-parentBean" />
 
-			<attribute name="onCampusFlag">
-				<label>On Campus Flag </label>
-				<shortLabel>On Campus Flag </shortLabel>
-				<maxLength>1</maxLength>
-				<validationPattern><alpha exactLength="1"/></validationPattern>
-				<required>false</required>
-				<control>
-					<text size="10" />
-				</control>
-				<summary>On Campus Flag </summary>
-				<description>On Campus Flag </description>
-			</attribute>
+  <bean id="BudgetUnrecoveredFandA-budgetVersionNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetVersionNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Budget Version Number" />
+    <property name="shortLabel" value="Budget Version Number" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Budget Version Number" />
+    <property name="description" value="Budget Version Number" />
+  </bean>
+  <bean id="BudgetUnrecoveredFandA-documentComponentId" parent="BudgetUnrecoveredFandA-documentComponentId-parentBean" />
 
-			<attribute name="fiscalYear">
-				<label>Fiscal Year </label>
-				<shortLabel>Fiscal Year </shortLabel>
-				<maxLength>4</maxLength>
-				<validationPattern>
-                    <numeric exactLength="4"  />
-                </validationPattern>
-                <required>false</required>
-                <control>
-					<text size="5" />
-				</control>
-				<summary>Fiscal Year </summary>
-				<description>Fiscal Year </description>
-			</attribute>
+  <bean id="BudgetUnrecoveredFandA-documentComponentId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentComponentId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Document Component Id" />
+    <property name="shortLabel" value="Document Component Id" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="Document Component Id" />
+    <property name="description" value="Document Component Id" />
+  </bean>
+  <bean id="BudgetUnrecoveredFandA-amount" parent="BudgetUnrecoveredFandA-amount-parentBean" />
 
-			<attribute name="sourceAccount">
-				<label>Source Account </label>
-				<shortLabel>Source Account  </shortLabel>
-				<maxLength>256</maxLength>
-				<validationPattern>
-					<anyCharacter allowWhitespace="true"  />
-				</validationPattern>
-				<required>false</required>
-				<control>
-					<text size="20" />
-				</control>
-				<summary>Source Account  </summary>
-				<description>Source Account  </description>
-			</attribute>
-		</attributes>
+  <bean id="BudgetUnrecoveredFandA-amount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="amount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="FixedPointValidationPattern"
+            p:precision="12"
+            p:scale="2" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="CurrencyControlDefinition"
+            p:formattedMaxLength="22"
+            p:size="16" />
+    </property>
+    <property name="summary" value="Amount" />
+    <property name="description" value="Amount" />
+  </bean>
+  <bean id="BudgetUnrecoveredFandA-applicableRate" parent="BudgetUnrecoveredFandA-applicableRate-parentBean" />
 
-        <objectHelp parameterNamespace="KRA-B" parameterDetailType="D" parameterName="budgetUnrecoveredFandAHelpUrl"/> 
-    </businessObject>
+  <bean id="BudgetUnrecoveredFandA-applicableRate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="applicableRate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Applicable Rate" />
+    <property name="shortLabel" value="Applicable Rate" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="FixedPointValidationPattern"
+            p:precision="6"
+            p:scale="3" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+    <property name="summary" value="Applicable Rate" />
+    <property name="description" value="Applicable Rate" />
+  </bean>
+  <bean id="BudgetUnrecoveredFandA-onCampusFlag" parent="BudgetUnrecoveredFandA-onCampusFlag-parentBean" />
 
-</dictionaryEntry>
+  <bean id="BudgetUnrecoveredFandA-onCampusFlag-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="onCampusFlag" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="On Campus Flag" />
+    <property name="shortLabel" value="On Campus Flag" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AlphaValidationPattern"
+            p:exactLength="1" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="On Campus Flag" />
+    <property name="description" value="On Campus Flag" />
+  </bean>
+  <bean id="BudgetUnrecoveredFandA-fiscalYear" parent="BudgetUnrecoveredFandA-fiscalYear-parentBean" />
+
+  <bean id="BudgetUnrecoveredFandA-fiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fiscalYear" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Fiscal Year" />
+    <property name="shortLabel" value="Fiscal Year" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern"
+            p:exactLength="4" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="Fiscal Year" />
+    <property name="description" value="Fiscal Year" />
+  </bean>
+  <bean id="BudgetUnrecoveredFandA-sourceAccount" parent="BudgetUnrecoveredFandA-sourceAccount-parentBean" />
+
+  <bean id="BudgetUnrecoveredFandA-sourceAccount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="sourceAccount" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Source Account" />
+    <property name="shortLabel" value="Source Account" />
+    <property name="maxLength" value="256" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+    <property name="summary" value="Source Account" />
+    <property name="description" value="Source Account" />
+  </bean>
+</beans>

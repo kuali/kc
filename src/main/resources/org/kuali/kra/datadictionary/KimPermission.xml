@@ -1,90 +1,129 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="KimPermission" parent="KimPermission-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="KimPermission-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.kim.bo.KimPermission" />
+    <property name="inquiryDefinition" >
+      <ref bean="KimPermission-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="KimPermission-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="id" />
+    <property name="attributes" >
+      <list>
+        <ref bean="KimPermission-id" />
+        <ref bean="KimPermission-name" />
+        <ref bean="KimPermission-description" />
+        <ref bean="KimPermission-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.kim.bo.KimPermission">
+<!-- Attribute Definitions -->
 
-        <inquiry>
-            <title>KIM Permission</title>
 
-            <inquirySections><inquirySection title="KimPermission"><inquiryFields>
-                <field attributeName="name"/>
-                <field attributeName="description"/>
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="KimPermission-id" parent="KimPermission-id-parentBean" />
 
-        <lookup>
-            <title>KIM Permission Lookup</title>
-            <menubar>
-                <![CDATA[<a href="index.jsp">Main</a>]]>
-            </menubar>
-            <instructions>Look up a KIM Permission</instructions>
+  <bean id="KimPermission-id-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="id" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Permission Id" />
+    <property name="shortLabel" value="Permission Id" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="Permission Id" />
+    <property name="description" value="Permission Id" />
+  </bean>
+  <bean id="KimPermission-name" parent="KimPermission-name-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="name"/>
-                    <sortAttribute attributeName="description"/>
-                </sortAttributes>
-            </defaultSort>
+  <bean id="KimPermission-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Permission Name" />
+    <property name="shortLabel" value="Permission Name" />
+    <property name="maxLength" value="500" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Permission Name" />
+    <property name="description" value="Permission Name" />
+  </bean>
+  <bean id="KimPermission-description" parent="KimPermission-description-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="name" required="false"/>
-                <lookupField attributeName="description" required="false"/>
-            </lookupFields>
+  <bean id="KimPermission-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-bigDescription">
+    <property name="name" value="description" />
+    <property name="maxLength" value="4000" />
+  </bean>
+  <bean id="KimPermission-versionNumber" parent="KimPermission-versionNumber-parentBean" />
 
-            <resultFields>
-                <field attributeName="name" forceInquiry="false"/>
-                <field attributeName="description" forceInquiry="false"/>
-            </resultFields>
-        </lookup>
+  <bean id="KimPermission-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-        <titleAttribute>id</titleAttribute>
-        <attributes>
-            <attribute name="id">
-                <label>Permission Id </label>
-                <shortLabel>Permission Id </shortLabel>
-                <maxLength>8</maxLength>
-                <validationPattern><numeric /></validationPattern>
-                <control>
-                    <hidden />
-                </control>
-                <summary>Permission Id </summary>
-                <description>Permission Id </description>
-            </attribute>
+<!-- Business Object Inquiry Definition -->
 
-            <attribute name="name" >
-                <label>Permission Name</label>
-                <shortLabel>Permission Name</shortLabel>
-                <maxLength>500</maxLength>
-                <control>
-                    <text size="40" />
-                </control>
-                <summary>Permission Name</summary>
-                <description>Permission Name</description>
-            </attribute>
 
-            <attributeReference name="description" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="bigDescription">
-                <maxLength>4000</maxLength>
-            </attributeReference>
+  <bean id="KimPermission-inquiryDefinition" parent="KimPermission-inquiryDefinition-parentBean" />
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-        </attributes>
-    </businessObject>
+  <bean id="KimPermission-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="KIM Permission" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="KimPermission" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="name" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-</dictionaryEntry>
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="KimPermission-lookupDefinition" parent="KimPermission-lookupDefinition-parentBean" />
+
+  <bean id="KimPermission-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="KIM Permission Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a KIM Permission" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="name" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="name" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+  </bean>
+</beans>

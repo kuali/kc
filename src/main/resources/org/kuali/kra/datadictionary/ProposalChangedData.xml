@@ -1,185 +1,283 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="ProposalChangedData" parent="ProposalChangedData-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="ProposalChangedData-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalChangedData" />
+    <property name="inquiryDefinition" >
+      <ref bean="ProposalChangedData-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ProposalChangedData-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="proposalNumber" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ProposalChangedData-changeNumber" />
+        <ref bean="ProposalChangedData-columnName" />
+        <ref bean="ProposalChangedData-proposalNumber" />
+        <ref bean="ProposalChangedData-changedValue" />
+        <ref bean="ProposalChangedData-comments" />
+        <ref bean="ProposalChangedData-displayValue" />
+        <ref bean="ProposalChangedData-oldDisplayValue" />
+        <ref bean="ProposalChangedData-updateUser" />
+        <ref bean="ProposalChangedData-updateTimestamp" />
+        <ref bean="ProposalChangedData-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalChangedData">
-
-        <inquiry>
-            <title>Prop Changed Data</title>
-
-            <inquirySections><inquirySection title="Prop Changed Data"><inquiryFields>
-            	<field attributeName="changeNumber" forceInquiry="true"/>
-				<field attributeName="columnName" forceInquiry="true"/>
-				<field attributeName="proposalNumber" forceInquiry="true"/>
-				<field attributeName="changedValue"/>
-				<field attributeName="comments"/>
-				<field attributeName="displayValue"/>
-				<field attributeName="oldDisplayValue"/>
-
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
-
-        <lookup>
-            <title>Prop Changed Data Lookup</title>
-			<menubar>
-				<![CDATA[<a href="index.jsp">Main</a>]]>
-			</menubar>
-            <instructions>Look up a Prop Changed Data</instructions>
-
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                	<sortAttribute attributeName="changeNumber"/>
-					<sortAttribute attributeName="columnName"/>
-					<sortAttribute attributeName="proposalNumber"/>
-
-                </sortAttributes>
-            </defaultSort>
-
-            <lookupFields>
-            	<lookupField attributeName="changeNumber" required="false"/>
-				<lookupField attributeName="columnName" required="false"/>
-				<lookupField attributeName="proposalNumber" required="false"/>
-				<lookupField attributeName="changedValue" required="false"/>
-				<lookupField attributeName="comments" required="false"/>
-				<lookupField attributeName="displayValue" required="false"/>
-				<lookupField attributeName="oldDisplayValue" required="false"/>
-
-            </lookupFields>
-
-            <resultFields>
-            	<field attributeName="changeNumber" forceInquiry="true"/>
-				<field attributeName="columnName" forceInquiry="true"/>
-				<field attributeName="proposalNumber" forceInquiry="true"/>
-				<field attributeName="changedValue" forceInquiry="false"/>
-				<field attributeName="comments" forceInquiry="false"/>
-				<field attributeName="displayValue" forceInquiry="false"/>
-				<field attributeName="oldDisplayValue" forceInquiry="false"/>
-
-            </resultFields>
-        </lookup>
-
-        <!-- <titleAttribute>changeNumber</titleAttribute>
-		<titleAttribute>columnName</titleAttribute> -->
-		<titleAttribute>proposalNumber</titleAttribute>
-        <attributes>
-
-	        <attribute name="changeNumber">
-			<label>Change Number </label>
-			<shortLabel>Change Number </shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="3" />
-			</control>
-			<summary>Change Number </summary>
-			<description>Change Number </description>
-			</attribute>
-
-			<attribute name="columnName">
-			<label>Field To Edit</label>
-			<shortLabel>Field</shortLabel>
-			<maxLength>30</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-			<control>
-                    <select valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalEditableColumnsValuesFinder" script="updateOtherFields(this, updateOtherFields_Callback)" />
-			</control>
-			<summary>Field</summary>
-			<description>Field</description>
-			</attribute>
-
-			<attribute name="proposalNumber">
-			<label>Proposal Number </label>
-			<shortLabel>Proposal Number </shortLabel>
-			<maxLength>12</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<hidden />
-			</control>
-			<summary>Proposal Number </summary>
-			<description>Proposal Number </description>
-			</attribute>
+<!-- Attribute Definitions -->
 
 
-			<attribute name="changedValue">
-			<label>Changed Value </label>
-			<shortLabel>Changed Value </shortLabel>
-			<maxLength>200</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-			<control>
-				<text size="10" />
-			</control>
-			<summary>Changed Value </summary>
-			<description>Changed Value </description>
-			</attribute>
+  <bean id="ProposalChangedData-changeNumber" parent="ProposalChangedData-changeNumber-parentBean" />
 
-			<attribute name="comments">
-			<label>Comments </label>
-			<shortLabel>Comments </shortLabel>
-			<maxLength>300</maxLength>
-			<validationPattern><anyCharacter  allowWhitespace="true" /></validationPattern>				
-			<control>
-                   <textarea rows="3" cols="40" />
-            </control>
-			<summary>Comments </summary>
-			<description>Comments </description>
-			</attribute>
+  <bean id="ProposalChangedData-changeNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="changeNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Change Number" />
+    <property name="shortLabel" value="Change Number" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Change Number" />
+    <property name="description" value="Change Number" />
+  </bean>
+  <bean id="ProposalChangedData-columnName" parent="ProposalChangedData-columnName-parentBean" />
 
-			<attribute name="displayValue">
-			<label>Display Value </label>
-			<shortLabel>Display Value </shortLabel>
-			<maxLength>200</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-			<control>
-				<text size="30" />
-			</control>
-			<summary>Display Value </summary>
-			<description>Display Value </description>
-			</attribute>
+  <bean id="ProposalChangedData-columnName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="columnName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Field To Edit" />
+    <property name="shortLabel" value="Field" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalEditableColumnsValuesFinder"
+            p:includeKeyInLabel="false"
+            p:script="updateOtherFields(this, updateOtherFields_Callback)" />
+    </property>
+    <property name="summary" value="Field" />
+    <property name="description" value="Field" />
+  </bean>
+  <bean id="ProposalChangedData-proposalNumber" parent="ProposalChangedData-proposalNumber-parentBean" />
 
-			<attribute name="oldDisplayValue">
-			<label>Old Display Value </label>
-			<shortLabel>Old Display Value </shortLabel>
-			<maxLength>200</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-			<control>
-				<text size="30" />
-			</control>
-			<summary>Old Display Value </summary>
-			<description>Old Display Value </description>
-			</attribute>
+  <bean id="ProposalChangedData-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="proposalNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Proposal Number" />
+    <property name="shortLabel" value="Proposal Number" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="Proposal Number" />
+    <property name="description" value="Proposal Number" />
+  </bean>
+  <bean id="ProposalChangedData-changedValue" parent="ProposalChangedData-changedValue-parentBean" />
 
-            <attributeReference name="updateUser" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="updateUser" >
-				<label>Changed By</label>
-				<shortLabel>Changed By</shortLabel>
-				<summary>User who changes the field</summary>
-				<description>User who changes the field</description>
-			</attributeReference>
-			
-			<attributeReference name="updateTimestamp" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
-				<label>Changed Date</label>
-				<shortLabel>Changed Date</shortLabel>
-				<summary>Date when field gets updated</summary>
-				<description>Date when field gets updated</description>
-			</attributeReference>
+  <bean id="ProposalChangedData-changedValue-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="changedValue" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Changed Value" />
+    <property name="shortLabel" value="Changed Value" />
+    <property name="maxLength" value="200" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Changed Value" />
+    <property name="description" value="Changed Value" />
+  </bean>
+  <bean id="ProposalChangedData-comments" parent="ProposalChangedData-comments-parentBean" />
 
-			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-		</attributes>
-    </businessObject>
+  <bean id="ProposalChangedData-comments-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="comments" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Comments" />
+    <property name="shortLabel" value="Comments" />
+    <property name="maxLength" value="300" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="3"
+            p:cols="40" />
+    </property>
+    <property name="summary" value="Comments" />
+    <property name="description" value="Comments" />
+  </bean>
+  <bean id="ProposalChangedData-displayValue" parent="ProposalChangedData-displayValue-parentBean" />
 
-</dictionaryEntry>
+  <bean id="ProposalChangedData-displayValue-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="displayValue" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Display Value" />
+    <property name="shortLabel" value="Display Value" />
+    <property name="maxLength" value="200" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="30" />
+    </property>
+    <property name="summary" value="Display Value" />
+    <property name="description" value="Display Value" />
+  </bean>
+  <bean id="ProposalChangedData-oldDisplayValue" parent="ProposalChangedData-oldDisplayValue-parentBean" />
+
+  <bean id="ProposalChangedData-oldDisplayValue-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="oldDisplayValue" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Old Display Value" />
+    <property name="shortLabel" value="Old Display Value" />
+    <property name="maxLength" value="200" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="30" />
+    </property>
+    <property name="summary" value="Old Display Value" />
+    <property name="description" value="Old Display Value" />
+  </bean>
+  <bean id="ProposalChangedData-updateUser" parent="ProposalChangedData-updateUser-parentBean" />
+
+  <bean id="ProposalChangedData-updateUser-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateUser">
+    <property name="label" value="Changed By" />
+    <property name="shortLabel" value="Changed By" />
+    <property name="summary" value="User who changes the field" />
+    <property name="description" value="User who changes the field" />
+  </bean>
+  <bean id="ProposalChangedData-updateTimestamp" parent="ProposalChangedData-updateTimestamp-parentBean" />
+
+  <bean id="ProposalChangedData-updateTimestamp-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="updateTimestamp" />
+    <property name="label" value="Changed Date" />
+    <property name="shortLabel" value="Changed Date" />
+    <property name="summary" value="Date when field gets updated" />
+    <property name="description" value="Date when field gets updated" />
+  </bean>
+  <bean id="ProposalChangedData-versionNumber" parent="ProposalChangedData-versionNumber-parentBean" />
+
+  <bean id="ProposalChangedData-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="ProposalChangedData-inquiryDefinition" parent="ProposalChangedData-inquiryDefinition-parentBean" />
+
+  <bean id="ProposalChangedData-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Prop Changed Data" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Prop Changed Data" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="changeNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="columnName"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="changedValue" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="comments" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="displayValue" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="oldDisplayValue" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="ProposalChangedData-lookupDefinition" parent="ProposalChangedData-lookupDefinition-parentBean" />
+
+  <bean id="ProposalChangedData-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Prop Changed Data Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Prop Changed Data" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="changeNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="columnName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="changedValue" />
+        <bean parent="FieldDefinition"
+              p:attributeName="comments" />
+        <bean parent="FieldDefinition"
+              p:attributeName="displayValue" />
+        <bean parent="FieldDefinition"
+              p:attributeName="oldDisplayValue" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="changeNumber"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="columnName"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="changedValue" />
+        <bean parent="FieldDefinition"
+              p:attributeName="comments" />
+        <bean parent="FieldDefinition"
+              p:attributeName="displayValue" />
+        <bean parent="FieldDefinition"
+              p:attributeName="oldDisplayValue" />
+      </list>
+    </property>
+  </bean>
+</beans>

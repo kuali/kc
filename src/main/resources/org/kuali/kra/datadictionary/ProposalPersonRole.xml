@@ -1,76 +1,113 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="ProposalPersonRole" parent="ProposalPersonRole-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="ProposalPersonRole-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole" />
+    <property name="inquiryDefinition" >
+      <ref bean="ProposalPersonRole-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ProposalPersonRole-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="proposalPersonRoleId" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ProposalPersonRole-proposalPersonRoleId" />
+        <ref bean="ProposalPersonRole-description" />
+        <ref bean="ProposalPersonRole-versionNumber" />
+        <ref bean="ProposalPersonRole-certificationRequired" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole">
+<!-- Attribute Definitions -->
 
-        <inquiry>
-            <title>Proposal Person Role</title>
 
-            <inquirySections><inquirySection title="Proposal Person Role"><inquiryFields>
-                <field attributeName="proposalPersonRoleId" forceInquiry="true"/>
-                <field attributeName="description" />
-                <field attributeName="certificationRequired" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="ProposalPersonRole-proposalPersonRoleId" parent="ProposalPersonRole-proposalPersonRoleId-parentBean" />
 
-        <lookup>
-            <title>Proposal Person Role</title>
-			<menubar>
-				<![CDATA[<a href="index.jsp">Main</a>]]>
-			</menubar>
-            <instructions>Look up a Proposal Person Role</instructions>
+  <bean id="ProposalPersonRole-proposalPersonRoleId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
+    <property name="name" value="proposalPersonRoleId" />
+    <property name="label" value="Proposal Person Role Id" />
+    <property name="shortLabel" value="Prop Per Role Id" />
+    <property name="summary" value="Proposal Person Role Id" />
+    <property name="description" value="Proposal Person Role Id" />
+  </bean>
+  <bean id="ProposalPersonRole-description" parent="ProposalPersonRole-description-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                	<sortAttribute attributeName="proposalPersonRoleId"/>
-                </sortAttributes>
-            </defaultSort>
+  <bean id="ProposalPersonRole-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+  </bean>
+  <bean id="ProposalPersonRole-versionNumber" parent="ProposalPersonRole-versionNumber-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="proposalPersonRoleId" />
-            </lookupFields>
+  <bean id="ProposalPersonRole-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+  <bean id="ProposalPersonRole-certificationRequired" parent="ProposalPersonRole-certificationRequired-parentBean" />
 
-            <resultFields>
-                <field attributeName="proposalPersonRoleId" forceInquiry="true"/>
-                <field attributeName="description" forceInquiry="false" />
-                <field attributeName="certificationRequired" forceInquiry="false" />
-           </resultFields>
-        </lookup>
+  <bean id="ProposalPersonRole-certificationRequired-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="certificationRequired" />
+  </bean>
 
-        <titleAttribute>proposalPersonRoleId</titleAttribute>
-        <attributes>
+<!-- Business Object Inquiry Definition -->
 
-            <attributeReference name="proposalPersonRoleId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
-                <label>Proposal Person Role Id</label>
- 	            <shortLabel>Prop Per Role Id</shortLabel>
-                <summary>Proposal Person Role Id</summary>
-                <description>Proposal Person Role Id</description>
-            </attributeReference>
 
-            <attributeReference name="description" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="description" />
+  <bean id="ProposalPersonRole-inquiryDefinition" parent="ProposalPersonRole-inquiryDefinition-parentBean" />
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+  <bean id="ProposalPersonRole-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Proposal Person Role" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Proposal Person Role" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalPersonRoleId"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="certificationRequired" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attributeReference name="certificationRequired" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean"/>
+<!-- Business Object Lookup Definition -->
 
-		</attributes>
-    </businessObject>
 
-</dictionaryEntry>
+  <bean id="ProposalPersonRole-lookupDefinition" parent="ProposalPersonRole-lookupDefinition-parentBean" />
+
+  <bean id="ProposalPersonRole-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Proposal Person Role" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Proposal Person Role" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalPersonRoleId" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalPersonRoleId"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+        <bean parent="FieldDefinition"
+              p:attributeName="certificationRequired" />
+      </list>
+    </property>
+  </bean>
+</beans>

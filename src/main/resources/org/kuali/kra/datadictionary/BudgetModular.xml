@@ -1,116 +1,158 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="BudgetModular" parent="BudgetModular-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="BudgetModular-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.budget.bo.BudgetModular" />
+    <property name="titleAttribute" value="budgetModular" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KRA-B"
+            p:parameterName="budgetModularHelpUrl"
+            p:parameterDetailType="D" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="BudgetModular-proposalNumber" />
+        <ref bean="BudgetModular-budgetVersionNumber" />
+        <ref bean="BudgetModular-budgetPeriod" />
+        <ref bean="BudgetModular-directCostLessConsortiumFna" />
+        <ref bean="BudgetModular-consortiumFna" />
+        <ref bean="BudgetModular-totalDirectCost" />
+        <ref bean="BudgetModular-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
+<!-- Attribute Definitions -->
 
-    <businessObject businessObjectClass="org.kuali.kra.budget.bo.BudgetModular">
-    
-		<titleAttribute>budgetModular</titleAttribute>
-    
-    	<attributes>
-        
-			<attribute name="proposalNumber">
-				<label>Proposal Number </label>
-				<shortLabel>Proposal Number </shortLabel>
-				<maxLength>12</maxLength>
-				<validationPattern><alphaNumeric /></validationPattern>
-				<control>
-					<text size="8" />
-				</control>
-				<summary>Proposal Number </summary>
-				<description>Proposal Number </description>
-			</attribute>
-			
-			<attribute name="budgetVersionNumber">
-				<label>Budget Version Number </label>
-				<shortLabel>Budget Version Number </shortLabel>
-				<maxLength>3</maxLength>
-				<validationPattern><numeric /></validationPattern>
-				<control>
-					<text size="3" />
-				</control>
-				<summary>Budget Version Number </summary>
-				<description>Budget Version Number </description>
-			</attribute>
-			
-			<attribute name="budgetPeriod">
-				<label>Budget Period </label>
-				<shortLabel>Budget Period </shortLabel>
-				<maxLength>3</maxLength>
-				<validationPattern><numeric /></validationPattern>
-				<control>
-					<text size="3" />
-				</control>
-				<summary>Budget Period </summary>
-				<description>Budget Period </description>
-			</attribute>
-			
-			<attribute name="directCostLessConsortiumFna">
-				<label>Direct Cost Less Consortium FNA </label>
-				<shortLabel>Dir Cost Less FNA </shortLabel>
-				<maxLength>12</maxLength>
-				<validationPattern>
-                    <fixedPoint allowNegative="false" precision="12" scale="2" />
-                </validationPattern>
-                <required>false</required>
-                <control>
-                    <currency size="16" formattedMaxLength="22" />
-                </control>
-				<summary>Direct Cost Less Consortium FNA</summary>
-				<description>Direct Cost Less Consortium FNA</description>
-			</attribute>
-			
-			<attribute name="consortiumFna">
-				<label>Consortium FNA</label>
-				<shortLabel>Consortium FNA</shortLabel>
-				<maxLength>12</maxLength>
-				<validationPattern>
-                    <fixedPoint allowNegative="false" precision="12" scale="2" />
-                </validationPattern>
-                <required>false</required>
-                <control>
-                    <currency size="16" formattedMaxLength="22" />
-                </control>
-				<summary>Consortium FNA</summary>
-				<description>Consortium FNA</description>
-			</attribute>
-			
-			<attribute name="totalDirectCost">
-				<label>Total Direct Cost</label>
-				<shortLabel>TDC</shortLabel>
-				<maxLength>12</maxLength>
-				<validationPattern>
-                    <fixedPoint allowNegative="false" precision="12" scale="2" />
-                </validationPattern>
-                <required>false</required>
-                <control>
-                    <currency size="16" formattedMaxLength="22" />
-                </control>
-				<summary>Total Direct Cost</summary>
-				<description>Total Direct Cost</description>
-			</attribute>
-			
-			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-			
-		</attributes>
 
-        <objectHelp parameterNamespace="KRA-B" parameterDetailType="D" parameterName="budgetModularHelpUrl"/> 
-    </businessObject>
+  <bean id="BudgetModular-proposalNumber" parent="BudgetModular-proposalNumber-parentBean" />
 
-</dictionaryEntry>
+  <bean id="BudgetModular-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="proposalNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Proposal Number" />
+    <property name="shortLabel" value="Proposal Number" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Proposal Number" />
+    <property name="description" value="Proposal Number" />
+  </bean>
+  <bean id="BudgetModular-budgetVersionNumber" parent="BudgetModular-budgetVersionNumber-parentBean" />
+
+  <bean id="BudgetModular-budgetVersionNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetVersionNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Budget Version Number" />
+    <property name="shortLabel" value="Budget Version Number" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Budget Version Number" />
+    <property name="description" value="Budget Version Number" />
+  </bean>
+  <bean id="BudgetModular-budgetPeriod" parent="BudgetModular-budgetPeriod-parentBean" />
+
+  <bean id="BudgetModular-budgetPeriod-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetPeriod" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Budget Period" />
+    <property name="shortLabel" value="Budget Period" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Budget Period" />
+    <property name="description" value="Budget Period" />
+  </bean>
+  <bean id="BudgetModular-directCostLessConsortiumFna" parent="BudgetModular-directCostLessConsortiumFna-parentBean" />
+
+  <bean id="BudgetModular-directCostLessConsortiumFna-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="directCostLessConsortiumFna" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Direct Cost Less Consortium FNA" />
+    <property name="shortLabel" value="Dir Cost Less FNA" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="FixedPointValidationPattern"
+            p:precision="12"
+            p:scale="2" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="CurrencyControlDefinition"
+            p:formattedMaxLength="22"
+            p:size="16" />
+    </property>
+    <property name="summary" value="Direct Cost Less Consortium FNA" />
+    <property name="description" value="Direct Cost Less Consortium FNA" />
+  </bean>
+  <bean id="BudgetModular-consortiumFna" parent="BudgetModular-consortiumFna-parentBean" />
+
+  <bean id="BudgetModular-consortiumFna-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="consortiumFna" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Consortium FNA" />
+    <property name="shortLabel" value="Consortium FNA" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="FixedPointValidationPattern"
+            p:precision="12"
+            p:scale="2" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="CurrencyControlDefinition"
+            p:formattedMaxLength="22"
+            p:size="16" />
+    </property>
+    <property name="summary" value="Consortium FNA" />
+    <property name="description" value="Consortium FNA" />
+  </bean>
+  <bean id="BudgetModular-totalDirectCost" parent="BudgetModular-totalDirectCost-parentBean" />
+
+  <bean id="BudgetModular-totalDirectCost-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="totalDirectCost" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Total Direct Cost" />
+    <property name="shortLabel" value="TDC" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="FixedPointValidationPattern"
+            p:precision="12"
+            p:scale="2" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="CurrencyControlDefinition"
+            p:formattedMaxLength="22"
+            p:size="16" />
+    </property>
+    <property name="summary" value="Total Direct Cost" />
+    <property name="description" value="Total Direct Cost" />
+  </bean>
+  <bean id="BudgetModular-versionNumber" parent="BudgetModular-versionNumber-parentBean" />
+
+  <bean id="BudgetModular-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+</beans>

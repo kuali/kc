@@ -1,108 +1,153 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="RateClassType" parent="RateClassType-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="RateClassType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.budget.bo.RateClassType" />
+    <property name="inquiryDefinition" >
+      <ref bean="RateClassType-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="RateClassType-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="rateClassType" />
+    <property name="attributes" >
+      <list>
+        <ref bean="RateClassType-rateClassType" />
+        <ref bean="RateClassType-prefixActivityType" />
+        <ref bean="RateClassType-sortId" />
+        <ref bean="RateClassType-description" />
+        <ref bean="RateClassType-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.budget.bo.RateClassType">
+<!-- Attribute Definitions -->
 
-        <inquiry>
-            <title>Rate Class Type</title>
 
-            <inquirySections><inquirySection title="Rate Class Type"><inquiryFields>
-            	<field attributeName="rateClassType" forceInquiry="true"/>
-				<field attributeName="description"/>
-				<field attributeName="sortId"/>
-				<field attributeName="prefixActivityType"/>
+  <bean id="RateClassType-rateClassType" parent="RateClassType-rateClassType-parentBean" />
 
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="RateClassType-rateClassType-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="rateClassType" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Rate Class Type" />
+    <property name="shortLabel" value="Rate Class Type" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="1" />
+    </property>
+    <property name="summary" value="Rate Class Type" />
+    <property name="description" value="Rate Class Type" />
+  </bean>
+  <bean id="RateClassType-prefixActivityType" parent="RateClassType-prefixActivityType-parentBean" />
 
-        <lookup>
-            <title>Rate Class Type Lookup</title>
-			<menubar>
-				<![CDATA[<a href="index.jsp">Main</a>]]>
-			</menubar>
-            <instructions>Look up a Rate Class Type</instructions>
+  <bean id="RateClassType-prefixActivityType-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="prefixActivityType" />
+    <property name="label" value="Prefix Activity Type?" />
+    <property name="shortLabel" value="Prefix Activity Type?" />
+    <property name="summary" value="Prefix Activity Type" />
+    <property name="description" value="Prefix Activity Type in rates page" />
+  </bean>
+  <bean id="RateClassType-sortId" parent="RateClassType-sortId-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                	<sortAttribute attributeName="rateClassType"/>
+  <bean id="RateClassType-sortId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="sortId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Sort Id" />
+    <property name="shortLabel" value="Sort Id" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Sort Id" />
+    <property name="description" value="This sort id is used for sorting budget category." />
+  </bean>
+  <bean id="RateClassType-description" parent="RateClassType-description-parentBean" />
 
-                </sortAttributes>
-            </defaultSort>
+  <bean id="RateClassType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+  </bean>
+  <bean id="RateClassType-versionNumber" parent="RateClassType-versionNumber-parentBean" />
 
-            <lookupFields>
-            	<lookupField attributeName="rateClassType" required="false"/>
-				<lookupField attributeName="description" required="false"/>
-				<lookupField attributeName="prefixActivityType" />
+  <bean id="RateClassType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            </lookupFields>
+<!-- Business Object Inquiry Definition -->
 
-            <resultFields>
-            	<field attributeName="rateClassType" forceInquiry="true"/>
-				<field attributeName="description" forceInquiry="false"/>
-				<field attributeName="sortId" forceInquiry="false"/>
-				<field attributeName="prefixActivityType" forceInquiry="false"/>
 
-            </resultFields>
-        </lookup>
+  <bean id="RateClassType-inquiryDefinition" parent="RateClassType-inquiryDefinition-parentBean" />
 
-        <titleAttribute>rateClassType</titleAttribute>
-        <attributes>
+  <bean id="RateClassType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Rate Class Type" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Rate Class Type" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="rateClassType"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="sortId" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="prefixActivityType" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-	        <attribute name="rateClassType">
-			<label>Rate Class Type </label>
-			<shortLabel>Rate Class Type </shortLabel>
-			<maxLength>1</maxLength>
-			<validationPattern><alphaNumeric/></validationPattern>
-			<control>
-				<text size="1" />
-			</control>
-			<summary>Rate Class Type </summary>
-			<description>Rate Class Type </description>
-			</attribute>
+<!-- Business Object Lookup Definition -->
 
-            <attributeReference name="prefixActivityType" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>Prefix Activity Type?</label>
-                <shortLabel>Prefix Activity Type?</shortLabel>
-                <summary>Prefix Activity Type</summary>
-                <description>Prefix Activity Type in rates page</description>
-			</attributeReference>
-            <attribute name="sortId">
-                <label>Sort Id</label>
-                <shortLabel>Sort Id</shortLabel>
 
-                <maxLength>2</maxLength>
-                <validationPattern><numeric /></validationPattern>
+  <bean id="RateClassType-lookupDefinition" parent="RateClassType-lookupDefinition-parentBean" />
 
-                <control>
-                    <text size="3" />
-                </control>
-
-                <summary>Sort Id</summary>
-                <description>This sort id is used for sorting budget category.</description>
-			</attribute>
-
-            <attributeReference name="description" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="description" />
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-		</attributes>
-    </businessObject>
-
-</dictionaryEntry>
+  <bean id="RateClassType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Rate Class Type Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Rate Class Type" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="rateClassType" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+        <bean parent="FieldDefinition"
+              p:attributeName="prefixActivityType" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="rateClassType"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+        <bean parent="FieldDefinition"
+              p:attributeName="sortId" />
+        <bean parent="FieldDefinition"
+              p:attributeName="prefixActivityType" />
+      </list>
+    </property>
+  </bean>
+</beans>

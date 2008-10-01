@@ -1,314 +1,492 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="BudgetLineItem" parent="BudgetLineItem-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="BudgetLineItem-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.budget.bo.BudgetLineItem" />
+    <property name="inquiryDefinition" >
+      <ref bean="BudgetLineItem-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="BudgetLineItem-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="budgetPeriod" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KRA-B"
+            p:parameterName="budgetLineItemHelpUrl"
+            p:parameterDetailType="D" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="BudgetLineItem-budgetPeriod" />
+        <ref bean="BudgetLineItem-lineItemNumber" />
+        <ref bean="BudgetLineItem-proposalNumber" />
+        <ref bean="BudgetLineItem-versionNumber" />
+        <ref bean="BudgetLineItem-applyInRateFlag" />
+        <ref bean="BudgetLineItem-basedOnLineItem" />
+        <ref bean="BudgetLineItem-budgetCategoryCode" />
+        <ref bean="BudgetLineItem-budgetJustification" />
+        <ref bean="BudgetLineItem-costElement" />
+        <ref bean="BudgetLineItem-costSharingAmount" />
+        <ref bean="BudgetLineItem-endDate" />
+        <ref bean="BudgetLineItem-lineItemCost" />
+        <ref bean="BudgetLineItem-lineItemDescription" />
+        <ref bean="BudgetLineItem-lineItemSequence" />
+        <ref bean="BudgetLineItem-onOffCampusFlag" />
+        <ref bean="BudgetLineItem-quantity" />
+        <ref bean="BudgetLineItem-startDate" />
+        <ref bean="BudgetLineItem-underrecoveryAmount" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.budget.bo.BudgetLineItem">
+<!-- Attribute Definitions -->
 
-        <inquiry>
-            <title>Budget Details</title>
 
-            <inquirySections><inquirySection title="Budget Details"><inquiryFields>
-            	<field attributeName="budgetPeriod" forceInquiry="true"/>
-				<field attributeName="lineItemNumber" forceInquiry="true"/>
-				<field attributeName="proposalNumber" forceInquiry="true"/>
-				<field attributeName="versionNumber" forceInquiry="true"/>
-				<field attributeName="applyInRateFlag"/>
-				<field attributeName="basedOnLineItem"/>
-				<field attributeName="budgetCategoryCode"/>
-				<field attributeName="budgetJustification"/>
-				<field attributeName="costElement"/>
-				<field attributeName="costSharingAmount"/>
-				<field attributeName="endDate"/>
-				<field attributeName="lineItemCost"/>
-				<field attributeName="lineItemDescription"/>
-				<field attributeName="lineItemSequence"/>
-				<field attributeName="onOffCampusFlag"/>
-				<field attributeName="quantity"/>
-				<field attributeName="startDate"/>
-				<field attributeName="underrecoveryAmount"/>
+  <bean id="BudgetLineItem-budgetPeriod" parent="BudgetLineItem-budgetPeriod-parentBean" />
 
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="BudgetLineItem-budgetPeriod-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetPeriod" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Budget Period" />
+    <property name="shortLabel" value="Budget Period" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="Budget Period" />
+    <property name="description" value="Budget Period" />
+  </bean>
+  <bean id="BudgetLineItem-lineItemNumber" parent="BudgetLineItem-lineItemNumber-parentBean" />
 
-        <lookup>
-            <title>Budget Details Lookup</title>
-			<menubar>
-				<![CDATA[<a href="index.jsp">Main</a>]]>
-			</menubar>
-            <instructions>Look up a Budget Details</instructions>
+  <bean id="BudgetLineItem-lineItemNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="lineItemNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Line Item Number" />
+    <property name="shortLabel" value="Line Item Number" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Line Item Number" />
+    <property name="description" value="Line Item Number" />
+  </bean>
+  <bean id="BudgetLineItem-proposalNumber" parent="BudgetLineItem-proposalNumber-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                	<sortAttribute attributeName="budgetPeriod"/>
-					<sortAttribute attributeName="lineItemNumber"/>
-					<sortAttribute attributeName="proposalNumber"/>
-					<sortAttribute attributeName="versionNumber"/>
+  <bean id="BudgetLineItem-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="proposalNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Proposal Number" />
+    <property name="shortLabel" value="Proposal Number" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="Proposal Number" />
+    <property name="description" value="Proposal Number" />
+  </bean>
+  <bean id="BudgetLineItem-versionNumber" parent="BudgetLineItem-versionNumber-parentBean" />
 
-                </sortAttributes>
-            </defaultSort>
+  <bean id="BudgetLineItem-versionNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="versionNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Version Number" />
+    <property name="shortLabel" value="Version Number" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Version Number" />
+    <property name="description" value="Version Number" />
+  </bean>
+  <bean id="BudgetLineItem-applyInRateFlag" parent="BudgetLineItem-applyInRateFlag-parentBean" />
 
-            <lookupFields>
-            	<lookupField attributeName="budgetPeriod" required="false"/>
-				<lookupField attributeName="lineItemNumber" required="false"/>
-				<lookupField attributeName="proposalNumber" required="false"/>
-				<lookupField attributeName="versionNumber" required="false"/>
-				<lookupField attributeName="applyInRateFlag" required="false"/>
-				<lookupField attributeName="basedOnLineItem" required="false"/>
-				<lookupField attributeName="budgetCategoryCode" required="false"/>
-				<lookupField attributeName="budgetJustification" required="false"/>
-				<lookupField attributeName="costElement" required="false"/>
-				<lookupField attributeName="costSharingAmount" required="false"/>
-				<lookupField attributeName="endDate" required="false"/>
-				<lookupField attributeName="lineItemCost" required="false"/>
-				<lookupField attributeName="lineItemDescription" required="false"/>
-				<lookupField attributeName="lineItemSequence" required="false"/>
-				<lookupField attributeName="onOffCampusFlag" required="false"/>
-				<lookupField attributeName="quantity" required="false"/>
-				<lookupField attributeName="startDate" required="false"/>
-				<lookupField attributeName="underrecoveryAmount" required="false"/>
+  <bean id="BudgetLineItem-applyInRateFlag-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="applyInRateFlag" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Apply Inflation" />
+    <property name="shortLabel" value="Apply Inflation" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="Apply Inflation" />
+    <property name="description" value="Apply Inflation" />
+  </bean>
+  <bean id="BudgetLineItem-basedOnLineItem" parent="BudgetLineItem-basedOnLineItem-parentBean" />
 
-            </lookupFields>
+  <bean id="BudgetLineItem-basedOnLineItem-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="basedOnLineItem" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Based On Line Item" />
+    <property name="shortLabel" value="Based On Line Item" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Based On Line Item" />
+    <property name="description" value="Based On Line Item" />
+  </bean>
+  <bean id="BudgetLineItem-budgetCategoryCode" parent="BudgetLineItem-budgetCategoryCode-parentBean" />
 
-            <resultFields>
-            	<field attributeName="budgetPeriod" forceInquiry="true"/>
-				<field attributeName="lineItemNumber" forceInquiry="true"/>
-				<field attributeName="proposalNumber" forceInquiry="true"/>
-				<field attributeName="versionNumber" forceInquiry="true"/>
-				<field attributeName="applyInRateFlag" forceInquiry="false"/>
-				<field attributeName="basedOnLineItem" forceInquiry="false"/>
-				<field attributeName="budgetCategoryCode" forceInquiry="false"/>
-				<field attributeName="budgetJustification" forceInquiry="false"/>
-				<field attributeName="costElement" forceInquiry="false"/>
-				<field attributeName="costSharingAmount" forceInquiry="false"/>
-				<field attributeName="endDate" forceInquiry="false"/>
-				<field attributeName="lineItemCost" forceInquiry="false"/>
-				<field attributeName="lineItemDescription" forceInquiry="false"/>
-				<field attributeName="lineItemSequence" forceInquiry="false"/>
-				<field attributeName="onOffCampusFlag" forceInquiry="false"/>
-				<field attributeName="quantity" forceInquiry="false"/>
-				<field attributeName="startDate" forceInquiry="false"/>
-				<field attributeName="underrecoveryAmount" forceInquiry="false"/>
+  <bean id="BudgetLineItem-budgetCategoryCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetCategoryCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Budget Category Code" />
+    <property name="shortLabel" value="Budget Category Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Budget Category Code" />
+    <property name="description" value="Budget Category Code" />
+  </bean>
+  <bean id="BudgetLineItem-budgetJustification" parent="BudgetLineItem-budgetJustification-parentBean" />
 
-            </resultFields>
-        </lookup>
+  <bean id="BudgetLineItem-budgetJustification-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetJustification" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Budget Justification" />
+    <property name="shortLabel" value="Budget Justification" />
+    <property name="maxLength" value="200" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="3"
+            p:cols="30" />
+    </property>
+    <property name="summary" value="Budget Justification" />
+    <property name="description" value="Budget Justification" />
+  </bean>
+  <bean id="BudgetLineItem-costElement" parent="BudgetLineItem-costElement-parentBean" />
 
-        <titleAttribute>budgetPeriod</titleAttribute>
-		<!-- <titleAttribute>lineItemNumber</titleAttribute>
-		<titleAttribute>proposalNumber</titleAttribute>
-		<titleAttribute>versionNumber</titleAttribute> -->
-        <attributes>
+  <bean id="BudgetLineItem-costElement-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="costElement" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Object Code Name" />
+    <property name="shortLabel" value="Object Code Name" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.CostElementValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Object Code Name" />
+    <property name="description" value="Object Code Name" />
+  </bean>
+  <bean id="BudgetLineItem-costSharingAmount" parent="BudgetLineItem-costSharingAmount-parentBean" />
 
-	        <attribute name="budgetPeriod">
-			<label>Budget Period </label>
-			<shortLabel>Budget Period </shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<hidden />
-			</control>
-			<summary>Budget Period </summary>
-			<description>Budget Period </description>
-			</attribute>
+  <bean id="BudgetLineItem-costSharingAmount-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
+    <property name="name" value="costSharingAmount" />
+    <property name="label" value="Cost Sharing" />
+    <property name="shortLabel" value="Cost Sharing" />
+    <property name="summary" value="Cost Sharing" />
+    <property name="description" value="Cost Sharing" />
+  </bean>
+  <bean id="BudgetLineItem-endDate" parent="BudgetLineItem-endDate-parentBean" />
 
-			<attribute name="lineItemNumber">
-			<label>Line Item Number </label>
-			<shortLabel>Line Item Number </shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="3" />
-			</control>
-			<summary>Line Item Number </summary>
-			<description>Line Item Number </description>
-			</attribute>
+  <bean id="BudgetLineItem-endDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="endDate" />
+    <property name="label" value="End Date" />
+    <property name="shortLabel" value="End Date" />
+    <property name="required" value="true" />
+    <property name="summary" value="End Date" />
+    <property name="description" value="End Date." />
+  </bean>
+  <bean id="BudgetLineItem-lineItemCost" parent="BudgetLineItem-lineItemCost-parentBean" />
 
-			<attribute name="proposalNumber">
-			<label>Proposal Number </label>
-			<shortLabel>Proposal Number </shortLabel>
-			<maxLength>12</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<control>
-				<text size="12" />
-			</control>
-			<summary>Proposal Number </summary>
-			<description>Proposal Number </description>
-			</attribute>
+  <bean id="BudgetLineItem-lineItemCost-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
+    <property name="name" value="lineItemCost" />
+    <property name="label" value="Total Base Cost" />
+    <property name="shortLabel" value="Total Base Cost" />
+    <property name="summary" value="Total Base Cost" />
+    <property name="description" value="Total Base Cost" />
+  </bean>
+  <bean id="BudgetLineItem-lineItemDescription" parent="BudgetLineItem-lineItemDescription-parentBean" />
 
-			<attribute name="versionNumber">
-			<label>Version Number </label>
-			<shortLabel>Version Number </shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="3" />
-			</control>
-			<summary>Version Number </summary>
-			<description>Version Number </description>
-			</attribute>
+  <bean id="BudgetLineItem-lineItemDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="lineItemDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="200" />
+    <property name="control" >
+      <bean parent="TextareaControlDefinition"
+            p:rows="3"
+            p:cols="30" />
+    </property>
+    <property name="summary" value="Description" />
+    <property name="description" value="Description" />
+  </bean>
+  <bean id="BudgetLineItem-lineItemSequence" parent="BudgetLineItem-lineItemSequence-parentBean" />
 
-			<attribute name="applyInRateFlag">
-			<label>Apply Inflation </label>
-			<shortLabel>Apply Inflation </shortLabel>
-			<maxLength>1</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<control>
-				<checkbox />
-			</control>
-			<summary>Apply Inflation </summary>
-			<description>Apply Inflation </description>
-			</attribute>
+  <bean id="BudgetLineItem-lineItemSequence-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="lineItemSequence" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Line Item Sequence" />
+    <property name="shortLabel" value="Line Item Sequence" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Line Item Sequence" />
+    <property name="description" value="Line Item Sequence" />
+  </bean>
+  <bean id="BudgetLineItem-onOffCampusFlag" parent="BudgetLineItem-onOffCampusFlag-parentBean" />
 
-			<attribute name="basedOnLineItem">
-			<label>Based On Line Item </label>
-			<shortLabel>Based On Line Item </shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="3" />
-			</control>
-			<summary>Based On Line Item </summary>
-			<description>Based On Line Item </description>
-			</attribute>
+  <bean id="BudgetLineItem-onOffCampusFlag-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="onOffCampusFlag" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="On Campus" />
+    <property name="shortLabel" value="On Campus" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="On Campus" />
+    <property name="description" value="On Campus" />
+  </bean>
+  <bean id="BudgetLineItem-quantity" parent="BudgetLineItem-quantity-parentBean" />
 
-			<attribute name="budgetCategoryCode">
-			<label>Budget Category Code </label>
-			<shortLabel>Budget Category Code </shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<select valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryValuesFinder" />
-			</control>
-			<summary>Budget Category Code </summary>
-			<description>Budget Category Code </description>
-			</attribute>
+  <bean id="BudgetLineItem-quantity-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="quantity" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Qty" />
+    <property name="shortLabel" value="Qty" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Qty" />
+    <property name="description" value="Qty" />
+  </bean>
+  <bean id="BudgetLineItem-startDate" parent="BudgetLineItem-startDate-parentBean" />
 
-			<attribute name="budgetJustification">
-			<label>Budget Justification </label>
-			<shortLabel>Budget Justification </shortLabel>
-			<maxLength>200</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-			<control>
-				<textarea rows="3" cols="30" />
-			</control>
-			<summary>Budget Justification </summary>
-			<description>Budget Justification </description>
-			</attribute>
+  <bean id="BudgetLineItem-startDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="startDate" />
+    <property name="label" value="Start Date" />
+    <property name="shortLabel" value="Start Date" />
+    <property name="required" value="true" />
+    <property name="summary" value="Start Date" />
+    <property name="description" value="Start Date." />
+  </bean>
+  <bean id="BudgetLineItem-underrecoveryAmount" parent="BudgetLineItem-underrecoveryAmount-parentBean" />
 
-			<attribute name="costElement">
-			<label>Object Code Name </label>
-			<shortLabel>Object Code Name </shortLabel>
-			<maxLength>8</maxLength>						
-			<validationPattern><alphaNumeric /></validationPattern>
-			<required>true</required>
-			<control>
-				<select valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.CostElementValuesFinder" />
-			</control>
-			<summary>Object Code Name </summary>
-			<description>Object Code Name </description>
-			</attribute>
+  <bean id="BudgetLineItem-underrecoveryAmount-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
+    <property name="name" value="underrecoveryAmount" />
+    <property name="label" value="Unrecovered F&amp;A" />
+    <property name="shortLabel" value="Unrecovered F&amp;A" />
+    <property name="summary" value="Unrecovered F&amp;A" />
+    <property name="description" value="Unrecovered F&amp;A" />
+  </bean>
 
-            <attributeReference name="costSharingAmount" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="genericAmount">
-			<label>Cost Sharing </label>
-			<shortLabel>Cost Sharing </shortLabel>
-			<summary>Cost Sharing </summary>
-			<description>Cost Sharing </description>
-			</attributeReference>
+<!-- Business Object Inquiry Definition -->
 
-            <attributeReference name="endDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
-                <label>End Date</label>
-                <shortLabel>End Date</shortLabel>
-				<required>true</required>
-                <summary>End Date</summary>
-                <description>End Date.</description>
-      		</attributeReference>
 
-            <attributeReference name="lineItemCost" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="genericAmount">
-			<label>Total Base Cost </label>
-			<shortLabel>Total Base Cost </shortLabel>
-			<summary>Total Base Cost </summary>
-			<description>Total Base Cost </description>
-			</attributeReference>
+  <bean id="BudgetLineItem-inquiryDefinition" parent="BudgetLineItem-inquiryDefinition-parentBean" />
 
-			<attribute name="lineItemDescription">
-			<label>Description </label>
-			<shortLabel>Description </shortLabel>
-			<maxLength>200</maxLength>
-			<control>
-					<textarea rows="3" cols="30" />
-			</control>
-			<summary>Description </summary>
-			<description>Description </description>
-			</attribute>
+  <bean id="BudgetLineItem-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Budget Details" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Budget Details" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="budgetPeriod"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="lineItemNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="versionNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="applyInRateFlag" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="basedOnLineItem" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="budgetCategoryCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="budgetJustification" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="costElement" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="costSharingAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="endDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="lineItemCost" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="lineItemDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="lineItemSequence" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="onOffCampusFlag" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="quantity" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="startDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="underrecoveryAmount" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-			<attribute name="lineItemSequence">
-			<label>Line Item Sequence </label>
-			<shortLabel>Line Item Sequence </shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="3" />
-			</control>
-			<summary>Line Item Sequence </summary>
-			<description>Line Item Sequence </description>
-			</attribute>
+<!-- Business Object Lookup Definition -->
 
-			<attribute name="onOffCampusFlag">
-			<label>On Campus </label>
-			<shortLabel>On Campus </shortLabel>
-			<maxLength>1</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<control>
-				<checkbox />
-			</control>
-			<summary>On Campus </summary>
-			<description>On Campus </description>
-			</attribute>
 
-			<attribute name="quantity">
-			<label>Qty </label>
-			<shortLabel>Qty </shortLabel>
-			<maxLength>4</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="4" />
-			</control>
-			<summary>Qty </summary>
-			<description>Qty </description>
-			</attribute>
+  <bean id="BudgetLineItem-lookupDefinition" parent="BudgetLineItem-lookupDefinition-parentBean" />
 
-            <attributeReference name="startDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
-                <label>Start Date</label>
-                <shortLabel>Start Date</shortLabel>
-				<required>true</required>
-                <summary>Start Date</summary>
-                <description>Start Date.</description>
-      		</attributeReference>
-
-            <attributeReference name="underrecoveryAmount" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="genericAmount">
-			<label>Unrecovered F&amp;A </label>
-			<shortLabel>Unrecovered F&amp;A </shortLabel>
-			<summary>Unrecovered F&amp;A </summary>
-			<description>Unrecovered F&amp;A </description>
-			</attributeReference>
-
-		</attributes>
-        <objectHelp parameterNamespace="KRA-B" parameterDetailType="D"  parameterName="budgetLineItemHelpUrl"/> 
-    </businessObject>
-
-</dictionaryEntry>
+  <bean id="BudgetLineItem-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Budget Details Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Budget Details" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetPeriod" />
+        <bean parent="FieldDefinition"
+              p:attributeName="lineItemNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="versionNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="applyInRateFlag" />
+        <bean parent="FieldDefinition"
+              p:attributeName="basedOnLineItem" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetCategoryCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetJustification" />
+        <bean parent="FieldDefinition"
+              p:attributeName="costElement" />
+        <bean parent="FieldDefinition"
+              p:attributeName="costSharingAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="endDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="lineItemCost" />
+        <bean parent="FieldDefinition"
+              p:attributeName="lineItemDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="lineItemSequence" />
+        <bean parent="FieldDefinition"
+              p:attributeName="onOffCampusFlag" />
+        <bean parent="FieldDefinition"
+              p:attributeName="quantity" />
+        <bean parent="FieldDefinition"
+              p:attributeName="startDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="underrecoveryAmount" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetPeriod"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="lineItemNumber"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="versionNumber"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="applyInRateFlag" />
+        <bean parent="FieldDefinition"
+              p:attributeName="basedOnLineItem" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetCategoryCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetJustification" />
+        <bean parent="FieldDefinition"
+              p:attributeName="costElement" />
+        <bean parent="FieldDefinition"
+              p:attributeName="costSharingAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="endDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="lineItemCost" />
+        <bean parent="FieldDefinition"
+              p:attributeName="lineItemDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="lineItemSequence" />
+        <bean parent="FieldDefinition"
+              p:attributeName="onOffCampusFlag" />
+        <bean parent="FieldDefinition"
+              p:attributeName="quantity" />
+        <bean parent="FieldDefinition"
+              p:attributeName="startDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="underrecoveryAmount" />
+      </list>
+    </property>
+  </bean>
+</beans>

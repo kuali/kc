@@ -1,101 +1,144 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="ProposalPersonUnit" parent="ProposalPersonUnit-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="ProposalPersonUnit-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit" />
+    <property name="inquiryDefinition" >
+      <ref bean="ProposalPersonUnit-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ProposalPersonUnit-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="unitNumber" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ProposalPersonUnit-proposalNumber" />
+        <ref bean="ProposalPersonUnit-proposalPersonNumber" />
+        <ref bean="ProposalPersonUnit-unitNumber" />
+        <ref bean="ProposalPersonUnit-leadUnit" />
+        <ref bean="ProposalPersonUnit-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit">
+<!-- Attribute Definitions -->
 
-        <inquiry>
-            <title>Proposal Person Unit</title>
 
-            <inquirySections><inquirySection title="Proposal Person Unit"><inquiryFields>
-                <field attributeName="proposalPersonNumber" forceInquiry="true"/>
-                <field attributeName="proposalNumber" forceInquiry="true" />
-                <field attributeName="unitNumber" forceInquiry="true" />
-                <field attributeName="leadUnit" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="ProposalPersonUnit-proposalNumber" parent="ProposalPersonUnit-proposalNumber-parentBean" />
 
-        <lookup>
-            <title>Proposal Person Unit</title>
-			<menubar>
-				<![CDATA[<a href="index.jsp">Main</a>]]>
-			</menubar>
-            <instructions>Look up a Proposal Person Unit</instructions>
+  <bean id="ProposalPersonUnit-proposalNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
+    <property name="name" value="proposalNumber" />
+    <property name="label" value="Proposal Number" />
+    <property name="shortLabel" value="Prop Nbr" />
+    <property name="summary" value="Proposal Number" />
+    <property name="description" value="Proposal Number" />
+  </bean>
+  <bean id="ProposalPersonUnit-proposalPersonNumber" parent="ProposalPersonUnit-proposalPersonNumber-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                	<sortAttribute attributeName="proposalNumber"/>
-                    <sortAttribute attributeName="proposalPersonNumber"/>
-                    <sortAttribute attributeName="unitNumber" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="ProposalPersonUnit-proposalPersonNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
+    <property name="name" value="proposalPersonNumber" />
+    <property name="label" value="Proposal Person Number" />
+    <property name="shortLabel" value="Prop Per Nbr" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="Proposal Person Number" />
+    <property name="description" value="Proposal Person Number" />
+  </bean>
+  <bean id="ProposalPersonUnit-unitNumber" parent="ProposalPersonUnit-unitNumber-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="proposalNumber" />
-                <lookupField attributeName="proposalPersonNumber" />
-                <lookupField attributeName="unitNumber" />
-                <lookupField attributeName="leadUnit" />
-            </lookupFields>
+  <bean id="ProposalPersonUnit-unitNumber-parentBean" abstract="true" parent="Unit-unitNumber">
+  </bean>
+  <bean id="ProposalPersonUnit-leadUnit" parent="ProposalPersonUnit-leadUnit-parentBean" />
 
-            <resultFields>
-                <field attributeName="proposalPersonNumber" forceInquiry="true"/>
-                <field attributeName="proposalNumber" forceInquiry="true" />
-                <field attributeName="unitNumber" forceInquiry="true" />
-                <field attributeName="leadUnit" forceInquiry="false" />
-           </resultFields>
-        </lookup>
+  <bean id="ProposalPersonUnit-leadUnit-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="leadUnit" />
+    <property name="label" value="Is Lead Unit" />
+    <property name="shortLabel" value="Lead Unit" />
+    <property name="summary" value="Is Lead Unit" />
+    <property name="description" value="Is Lead Unit" />
+  </bean>
+  <bean id="ProposalPersonUnit-versionNumber" parent="ProposalPersonUnit-versionNumber-parentBean" />
 
-        <titleAttribute>unitNumber</titleAttribute>
-        <attributes>
+  <bean id="ProposalPersonUnit-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <attributeReference name="proposalNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
-                <label>Proposal Number</label>
-                <shortLabel>Prop Nbr</shortLabel>
- 	            <summary>Proposal Number</summary>
-                <description>Proposal Number</description>
-            </attributeReference>
+<!-- Business Object Inquiry Definition -->
 
-            <attributeReference name="proposalPersonNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
-                <label>Proposal Person Number</label>
- 	            <shortLabel>Prop Per Nbr </shortLabel>
- 	            <control>
- 	                <hidden />
- 	            </control>
- 	            <summary>Proposal Person Number</summary>
-                <description>Proposal Person Number </description>
-            </attributeReference>
 
-            <attributeReference name="unitNumber" sourceClassName="org.kuali.kra.bo.Unit" sourceAttributeName="unitNumber">
-                <label>Unit Number</label>
- 	            <summary>Unit Number</summary>
-                <description>Unit Number</description>
-            </attributeReference>
+  <bean id="ProposalPersonUnit-inquiryDefinition" parent="ProposalPersonUnit-inquiryDefinition-parentBean" />
 
-            <attributeReference name="leadUnit" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>Is Lead Unit</label>
- 	            <shortLabel>Lead Unit</shortLabel>
- 	            <summary>Is Lead Unit</summary>
-                <description>Is Lead Unit</description>
-            </attributeReference>
+  <bean id="ProposalPersonUnit-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Proposal Person Unit" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Proposal Person Unit" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalPersonNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="unitNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="leadUnit" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-		</attributes>
-    </businessObject>
+<!-- Business Object Lookup Definition -->
 
-</dictionaryEntry>
+
+  <bean id="ProposalPersonUnit-lookupDefinition" parent="ProposalPersonUnit-lookupDefinition-parentBean" />
+
+  <bean id="ProposalPersonUnit-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Proposal Person Unit" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Proposal Person Unit" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalPersonNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="unitNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="leadUnit" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalPersonNumber"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="unitNumber"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="leadUnit" />
+      </list>
+    </property>
+  </bean>
+</beans>

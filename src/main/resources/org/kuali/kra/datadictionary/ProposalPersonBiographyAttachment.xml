@@ -1,142 +1,203 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="ProposalPersonBiographyAttachment" parent="ProposalPersonBiographyAttachment-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="ProposalPersonBiographyAttachment-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment" />
+    <property name="inquiryDefinition" >
+      <ref bean="ProposalPersonBiographyAttachment-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ProposalPersonBiographyAttachment-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="proposalPersonNumber" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ProposalPersonBiographyAttachment-proposalPersonNumber" />
+        <ref bean="ProposalPersonBiographyAttachment-biographyNumber" />
+        <ref bean="ProposalPersonBiographyAttachment-proposalNumber" />
+        <ref bean="ProposalPersonBiographyAttachment-biographyData" />
+        <ref bean="ProposalPersonBiographyAttachment-fileName" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment">
+<!-- Attribute Definitions -->
 
-        <inquiry>
-            <title>Prop Person Bio Pdf</title>
 
-            <inquirySections><inquirySection title="Prop Person Bio Pdf"><inquiryFields>
-            	<field attributeName="proposalPersonNumber" forceInquiry="true"/>
-				<field attributeName="proposalNumber" forceInquiry="true"/>
-				<field attributeName="biographyNumber" forceInquiry="true"/>
-				<field attributeName="biographyData"/>
-				<field attributeName="fileName"/>
+  <bean id="ProposalPersonBiographyAttachment-proposalPersonNumber" parent="ProposalPersonBiographyAttachment-proposalPersonNumber-parentBean" />
 
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="ProposalPersonBiographyAttachment-proposalPersonNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="proposalPersonNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Proposal Person Number" />
+    <property name="shortLabel" value="Proposal Person Number" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="Proposal Person Number" />
+    <property name="description" value="Proposal Person Number" />
+  </bean>
+  <bean id="ProposalPersonBiographyAttachment-biographyNumber" parent="ProposalPersonBiographyAttachment-biographyNumber-parentBean" />
 
-        <lookup>
-            <title>Prop Person Bio Pdf Lookup</title>
-			<menubar>
-				<![CDATA[<a href="index.jsp">Main</a>]]>
-			</menubar>
-            <instructions>Look up a Prop Person Bio Pdf</instructions>
+  <bean id="ProposalPersonBiographyAttachment-biographyNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="biographyNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Biography Number" />
+    <property name="shortLabel" value="Biography Number" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Biography Number" />
+    <property name="description" value="Biography Number" />
+  </bean>
+  <bean id="ProposalPersonBiographyAttachment-proposalNumber" parent="ProposalPersonBiographyAttachment-proposalNumber-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                	<sortAttribute attributeName="proposalPersonNumber"/>
-					<sortAttribute attributeName="biographyNumber"/>
-					<sortAttribute attributeName="proposalNumber"/>
+  <bean id="ProposalPersonBiographyAttachment-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="proposalNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Proposal Number" />
+    <property name="shortLabel" value="Proposal Number" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="Proposal Number" />
+    <property name="description" value="The unique proposal number identifying a proposal. This is a system generated, sequential number." />
+  </bean>
+  <bean id="ProposalPersonBiographyAttachment-biographyData" parent="ProposalPersonBiographyAttachment-biographyData-parentBean" />
 
-                </sortAttributes>
-            </defaultSort>
+  <bean id="ProposalPersonBiographyAttachment-biographyData-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="biographyData" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Bio Attachment File" />
+    <property name="shortLabel" value="Bio Attachment File" />
+    <property name="maxLength" value="0" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="0" />
+    </property>
+    <property name="summary" value="Bio Attachment File" />
+    <property name="description" value="Bio Attachment File" />
+  </bean>
+  <bean id="ProposalPersonBiographyAttachment-fileName" parent="ProposalPersonBiographyAttachment-fileName-parentBean" />
 
-            <lookupFields>
-            	<lookupField attributeName="proposalPersonNumber" required="false"/>
-				<lookupField attributeName="biographyNumber" required="false"/>
-				<lookupField attributeName="proposalNumber" required="false"/>
-				<lookupField attributeName="biographyData" required="false"/>
-				<lookupField attributeName="fileName" required="false"/>
+  <bean id="ProposalPersonBiographyAttachment-fileName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fileName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="File Name" />
+    <property name="shortLabel" value="File Name" />
+    <property name="maxLength" value="150" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="150" />
+    </property>
+    <property name="summary" value="File Name" />
+    <property name="description" value="File Name" />
+  </bean>
 
-            </lookupFields>
+<!-- Business Object Inquiry Definition -->
 
-            <resultFields>
-            	<field attributeName="proposalPersonNumber" forceInquiry="true"/>
-            	<field attributeName="biographyNumber" forceInquiry="true"/>
-				<field attributeName="proposalNumber" forceInquiry="true"/>
-				<field attributeName="biographyData" forceInquiry="false"/>
-				<field attributeName="fileName" forceInquiry="false"/>
 
-            </resultFields>
-        </lookup>
+  <bean id="ProposalPersonBiographyAttachment-inquiryDefinition" parent="ProposalPersonBiographyAttachment-inquiryDefinition-parentBean" />
 
-        <titleAttribute>proposalPersonNumber</titleAttribute>
-        <!-- only allow 0 or 1 titleattribute 
-		<titleAttribute>personId</titleAttribute>
-		<titleAttribute>proposalNumber</titleAttribute>
-		-->
-        <attributes>
+  <bean id="ProposalPersonBiographyAttachment-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Prop Person Bio Pdf" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Prop Person Bio Pdf" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalPersonNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="biographyNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="biographyData" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="fileName" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-	        <attribute name="proposalPersonNumber">
-			<label>Proposal Person Number </label>
-			<shortLabel>Proposal Person Number </shortLabel>
-			<maxLength>12</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="12" />
-			</control>
-			<summary>Proposal Person Number </summary>
-			<description>Proposal Person Number </description>
-			</attribute>
-	        <attribute name="biographyNumber">
-			<label>Biography Number </label>
-			<shortLabel>Biography Number </shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<control>
-				<text size="3" />
-			</control>
-			<summary>Biography Number </summary>
-			<description>Biography Number </description>
-			</attribute>
+<!-- Business Object Lookup Definition -->
 
-			<attribute name="proposalNumber">
-			<label>Proposal Number </label>
-			<shortLabel>Proposal Number </shortLabel>
-				<maxLength>12</maxLength>
-				<validationPattern>
-					<numeric />
-				</validationPattern>
-				<control>
-					<text size="12" />
-				</control>
-			<summary>Proposal Number </summary>
-			<description>The unique proposal number identifying a proposal. This is a system generated, sequential number. </description>
-			</attribute>
 
-			<attribute name="biographyData">
-			<label>Bio Attachment File</label>
-			<shortLabel>Bio Attachment File</shortLabel>
-			<maxLength>0</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<control>
-				<text size="0" />
-			</control>
-			<summary>Bio Attachment File</summary>
-			<description>Bio Attachment File</description>
-			</attribute>
+  <bean id="ProposalPersonBiographyAttachment-lookupDefinition" parent="ProposalPersonBiographyAttachment-lookupDefinition-parentBean" />
 
-			<attribute name="fileName">
-			<label>File Name </label>
-			<shortLabel>File Name </shortLabel>
-			<maxLength>150</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-			<control>
-				<text size="150" />
-			</control>
-			<summary>File Name </summary>
-			<description>File Name </description>
-			</attribute>
-
-		</attributes>
-    </businessObject>
-
-</dictionaryEntry>
+  <bean id="ProposalPersonBiographyAttachment-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Prop Person Bio Pdf Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Prop Person Bio Pdf" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalPersonNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="biographyNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="biographyData" />
+        <bean parent="FieldDefinition"
+              p:attributeName="fileName" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalPersonNumber"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="biographyNumber"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="biographyData" />
+        <bean parent="FieldDefinition"
+              p:attributeName="fileName" />
+      </list>
+    </property>
+  </bean>
+</beans>

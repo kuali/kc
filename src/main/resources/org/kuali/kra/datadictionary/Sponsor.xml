@@ -1,275 +1,488 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="Sponsor" parent="Sponsor-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="Sponsor-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.Sponsor" />
+    <property name="inquiryDefinition" >
+      <ref bean="Sponsor-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="Sponsor-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="sponsorCode" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KRA-PD"
+            p:parameterName="proposalDevelopmentSponsorHelpUrl"
+            p:parameterDetailType="D" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="Sponsor-sponsorCode" />
+        <ref bean="Sponsor-acronym" />
+        <ref bean="Sponsor-auditReportSentForFy" />
+        <ref bean="Sponsor-cageNumber" />
+        <ref bean="Sponsor-dodacNumber" />
+        <ref bean="Sponsor-dunAndBradstreetNumber" />
+        <ref bean="Sponsor-dunsPlusFourNumber" />
+        <ref bean="Sponsor-ownedByUnit" />
+        <ref bean="Sponsor-unit.unitName" />
+        <ref bean="Sponsor-postalCode" />
+        <ref bean="Sponsor-rolodexId" />
+        <ref bean="Sponsor-sponsorName" />
+        <ref bean="Sponsor-sponsorTypeCode" />
+        <ref bean="Sponsor-sponsorType.description" />
+        <ref bean="Sponsor-state" />
+        <ref bean="Sponsor-countryCode" />
+        <ref bean="Sponsor-versionNumber" />
+      </list>
+    </property>
+    <property name="relationships" >
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="unit" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="ownedByUnit"
+                    p:targetName="unitNumber" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="unit.unitName"
+                    p:targetName="unitName" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="sponsorType" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="sponsorTypeCode"
+                    p:targetName="sponsorTypeCode" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="sponsorType.description"
+                    p:targetName="description" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="rolodex" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="rolodexId"
+                    p:targetName="rolodexId" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="rolodex.rolodexId"
+                    p:targetName="rolodexId" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.bo.Sponsor">
+<!-- Attribute Definitions -->
 
-        <inquiry>
-            <title>Sponsor</title>
 
-            <inquirySections><inquirySection title="Sponsor"><inquiryFields>
-                <field attributeName="sponsorCode" forceInquiry="true"/>
-                <field attributeName="acronym"/>
-                <field attributeName="auditReportSentForFy"/>
-                <field attributeName="cageNumber"/>
-                <field attributeName="countryCode"/>
-                <field attributeName="dodacNumber"/>
-                <field attributeName="dunAndBradstreetNumber"/>
-                <field attributeName="dunsPlusFourNumber"/>
-                <field attributeName="unit.unitName"/>
-                <field attributeName="postalCode"/>
-                <field attributeName="rolodexId"/>
-                <field attributeName="sponsorName"/>
-                <field attributeName="sponsorType.description"/>
-                <field attributeName="state"/>                
+  <bean id="Sponsor-sponsorCode" parent="Sponsor-sponsorCode-parentBean" />
 
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="Sponsor-sponsorCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="sponsorCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Sponsor Code" />
+    <property name="shortLabel" value="Sponsor Code" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="Sponsor Code" />
+    <property name="description" value="Sponsor Code" />
+  </bean>
+  <bean id="Sponsor-acronym" parent="Sponsor-acronym-parentBean" />
 
-        <lookup>
-  		<lookupableID>sponsorLookupable</lookupableID> 
-            <title>Sponsor Lookup</title>
-            <menubar>
-                <![CDATA[<a href="index.jsp">Main</a>]]>
-            </menubar>
-            <instructions>Look up a Sponsor</instructions>
+  <bean id="Sponsor-acronym-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="acronym" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Acronym" />
+    <property name="shortLabel" value="Acronym" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Acronym" />
+    <property name="description" value="Acronym" />
+  </bean>
+  <bean id="Sponsor-auditReportSentForFy" parent="Sponsor-auditReportSentForFy-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="sponsorCode"/>
+  <bean id="Sponsor-auditReportSentForFy-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="auditReportSentForFy" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Audit Report Sent For Fy" />
+    <property name="shortLabel" value="Audit Report Sent For Fy" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Audit Report Sent For Fy" />
+    <property name="description" value="Audit Report Sent For Fy" />
+  </bean>
+  <bean id="Sponsor-cageNumber" parent="Sponsor-cageNumber-parentBean" />
 
-                </sortAttributes>
-            </defaultSort>
+  <bean id="Sponsor-cageNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="cageNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Cage Number" />
+    <property name="shortLabel" value="Cage Number" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+    <property name="summary" value="Cage Number" />
+    <property name="description" value="Cage Number" />
+  </bean>
+  <bean id="Sponsor-dodacNumber" parent="Sponsor-dodacNumber-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="sponsorCode" required="false"/>
-                <lookupField attributeName="sponsorName" required="false"/>
-                <lookupField attributeName="acronym" required="false"/>
-                <lookupField attributeName="sponsorTypeCode" required="false" forceLookup="true"/>
-                <lookupField attributeName="dunAndBradstreetNumber" required="false"/>
-                <lookupField attributeName="dunsPlusFourNumber" required="false"/>
-                <lookupField attributeName="dodacNumber" required="false"/>
-                <lookupField attributeName="cageNumber" required="false"/>
-                <lookupField attributeName="postalCode" required="false"/>
-                <lookupField attributeName="state" required="false"/>
-                <lookupField attributeName="countryCode" required="false" forceLookup="true" />
-                <lookupField attributeName="auditReportSentForFy" required="false"/>
-                <lookupField attributeName="ownedByUnit" required="false"/>
-                <lookupField attributeName="rolodexId" required="false"/>                
-            </lookupFields>
+  <bean id="Sponsor-dodacNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="dodacNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Dodac Number" />
+    <property name="shortLabel" value="Dodac Number" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+    <property name="summary" value="Dodac Number" />
+    <property name="description" value="Dodac Number" />
+  </bean>
+  <bean id="Sponsor-dunAndBradstreetNumber" parent="Sponsor-dunAndBradstreetNumber-parentBean" />
 
-            <resultFields>
-                <field attributeName="sponsorCode" forceInquiry="true"/>
-                <field attributeName="sponsorName" forceInquiry="false"/>
-                <field attributeName="acronym" forceInquiry="false"/>
-                <field attributeName="sponsorType.description" forceInquiry="false"/>
-                <field attributeName="dunAndBradstreetNumber" forceInquiry="false"/>
-                <field attributeName="dodacNumber" forceInquiry="false"/>
-                <field attributeName="cageNumber" forceInquiry="false"/>
-                <field attributeName="state" forceInquiry="false"/>
-                <field attributeName="countryCode" forceInquiry="false"/>
-            </resultFields>
-            <resultSetLimit>50</resultSetLimit>
-        </lookup>
+  <bean id="Sponsor-dunAndBradstreetNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="dunAndBradstreetNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Dun And Bradstreet Number" />
+    <property name="shortLabel" value="Dun And Bradstreet Number" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+    <property name="summary" value="Dun And Bradstreet Number" />
+    <property name="description" value="Dun And Bradstreet Number" />
+  </bean>
+  <bean id="Sponsor-dunsPlusFourNumber" parent="Sponsor-dunsPlusFourNumber-parentBean" />
 
-        <titleAttribute>sponsorCode</titleAttribute>
-        <attributes>
+  <bean id="Sponsor-dunsPlusFourNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="dunsPlusFourNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Duns Plus Four Number" />
+    <property name="shortLabel" value="Duns Plus Four Number" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+    <property name="summary" value="Duns Plus Four Number" />
+    <property name="description" value="Duns Plus Four Number" />
+  </bean>
+  <bean id="Sponsor-ownedByUnit" parent="Sponsor-ownedByUnit-parentBean" />
 
-            <attribute name="sponsorCode">
-            <label>Sponsor Code </label>
-            <shortLabel>Sponsor Code </shortLabel>
-            <maxLength>6</maxLength>
-            <validationPattern><anyCharacter allowWhitespace="false" /></validationPattern>
-            <control>
-                <text size="6" />
-            </control>
-            <summary>Sponsor Code </summary>
-            <description>Sponsor Code </description>
-            </attribute>
+  <bean id="Sponsor-ownedByUnit-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="ownedByUnit" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Owned By Unit" />
+    <property name="shortLabel" value="Owned By Unit" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Owned By Unit" />
+    <property name="description" value="Owned By Unit" />
+  </bean>
+  <bean id="Sponsor-unit.unitName" parent="Sponsor-unit.unitName-parentBean" />
 
-            <attribute name="acronym">
-            <label>Acronym </label>
-            <shortLabel>Acronym </shortLabel>
-            <maxLength>10</maxLength>
-            <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-            <control>
-                <text size="10" />
-            </control>
-            <summary>Acronym </summary>
-            <description>Acronym </description>
-            </attribute>
+  <bean id="Sponsor-unit.unitName-parentBean" abstract="true" parent="Unit-unitName">
+    <property name="name" value="unit.unitName" />
+    <property name="label" value="Owned By Unit" />
+    <property name="shortLabel" value="Owned By Unit" />
+  </bean>
+  <bean id="Sponsor-postalCode" parent="Sponsor-postalCode-parentBean" />
 
-            <attribute name="auditReportSentForFy">
-            <label>Audit Report Sent For Fy </label>
-            <shortLabel>Audit Report Sent For Fy </shortLabel>
-            <maxLength>4</maxLength>
-            <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-            <control>
-                <text size="4" />
-            </control>
-            <summary>Audit Report Sent For Fy </summary>
-            <description>Audit Report Sent For Fy </description>
-            </attribute>
+  <bean id="Sponsor-postalCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="postalCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Postal Code" />
+    <property name="shortLabel" value="Postal Code" />
+    <property name="maxLength" value="15" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="15" />
+    </property>
+    <property name="summary" value="Postal Code" />
+    <property name="description" value="Postal Code" />
+  </bean>
+  <bean id="Sponsor-rolodexId" parent="Sponsor-rolodexId-parentBean" />
 
-            <attribute name="cageNumber">
-            <label>Cage Number </label>
-            <shortLabel>Cage Number </shortLabel>
-            <maxLength>20</maxLength>
-            <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-            <control>
-                <text size="20" />
-            </control>
-            <summary>Cage Number </summary>
-            <description>Cage Number </description>
-            </attribute>
+  <bean id="Sponsor-rolodexId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="rolodexId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Rolodex Id" />
+    <property name="shortLabel" value="Rolodex Id" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="Rolodex Id" />
+    <property name="description" value="Rolodex Id" />
+  </bean>
+  <bean id="Sponsor-sponsorName" parent="Sponsor-sponsorName-parentBean" />
 
-            <attribute name="dodacNumber">
-            <label>Dodac Number </label>
-            <shortLabel>Dodac Number </shortLabel>
-            <maxLength>20</maxLength>
-            <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-            <control>
-                <text size="20" />
-            </control>
-            <summary>Dodac Number </summary>
-            <description>Dodac Number </description>
-            </attribute>
+  <bean id="Sponsor-sponsorName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="sponsorName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Sponsor Name" />
+    <property name="shortLabel" value="Sponsor Name" />
+    <property name="maxLength" value="60" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="60" />
+    </property>
+    <property name="summary" value="Sponsor Name" />
+    <property name="description" value="The name of the sponsoring agency." />
+  </bean>
+  <bean id="Sponsor-sponsorTypeCode" parent="Sponsor-sponsorTypeCode-parentBean" />
 
-            <attribute name="dunAndBradstreetNumber">
-            <label>Dun And Bradstreet Number </label>
-            <shortLabel>Dun And Bradstreet Number </shortLabel>
-            <maxLength>20</maxLength>
-            <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-            <control>
-                <text size="20" />
-            </control>
-            <summary>Dun And Bradstreet Number </summary>
-            <description>Dun And Bradstreet Number </description>
-            </attribute>
+  <bean id="Sponsor-sponsorTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="sponsorTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Sponsor Type Code" />
+    <property name="shortLabel" value="Sponsor Type Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kra.bo.SponsorType"
+            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="false"
+            p:keyAttribute="sponsorTypeCode"
+            p:labelAttribute="description" />
+    </property>
+    <property name="summary" value="Sponsor Type Code" />
+    <property name="description" value="Sponsor Type Code" />
+  </bean>
+  <bean id="Sponsor-sponsorType.description" parent="Sponsor-sponsorType.description-parentBean" />
 
-            <attribute name="dunsPlusFourNumber">
-            <label>Duns Plus Four Number </label>
-            <shortLabel>Duns Plus Four Number </shortLabel>
-            <maxLength>20</maxLength>
-            <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-            <control>
-                <text size="20" />
-            </control>
-            <summary>Duns Plus Four Number </summary>
-            <description>Duns Plus Four Number </description>
-            </attribute>
+  <bean id="Sponsor-sponsorType.description-parentBean" abstract="true" parent="SponsorType-description">
+    <property name="name" value="sponsorType.description" />
+    <property name="label" value="Sponsor Type" />
+    <property name="shortLabel" value="Sponsor Type" />
+  </bean>
+  <bean id="Sponsor-state" parent="Sponsor-state-parentBean" />
 
-            <attribute name="ownedByUnit">
-            <label>Owned By Unit </label>
-            <shortLabel>Owned By Unit </shortLabel>
-            <maxLength>8</maxLength>
-            <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-            <control>
-                <text size="8" />
-            </control>
-            <summary>Owned By Unit </summary>
-            <description>Owned By Unit </description>
-            </attribute>
+  <bean id="Sponsor-state-parentBean" abstract="true" parent="KraAttributeReferenceDummy-state">
+  </bean>
+  <bean id="Sponsor-countryCode" parent="Sponsor-countryCode-parentBean" />
 
-            <attributeReference name="unit.unitName" sourceClassName="org.kuali.kra.bo.Unit" sourceAttributeName="unitName" >
-                <label>Owned By Unit </label>
-                <shortLabel>Owned By Unit </shortLabel>
-            </attributeReference>
+  <bean id="Sponsor-countryCode-parentBean" abstract="true" parent="KraAttributeReferenceDummy-countryCode">
+  </bean>
+  <bean id="Sponsor-versionNumber" parent="Sponsor-versionNumber-parentBean" />
 
-            <attribute name="postalCode">
-            <label>Postal Code </label>
-            <shortLabel>Postal Code </shortLabel>
-            <maxLength>15</maxLength>
-            <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-            <control>
-                <text size="15" />
-            </control>
-            <summary>Postal Code </summary>
-            <description>Postal Code </description>
-            </attribute>
+  <bean id="Sponsor-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <attribute name="rolodexId">
-            <label>Rolodex Id </label>
-            <shortLabel>Rolodex Id </shortLabel>
-            <maxLength>6</maxLength>
-            <validationPattern><numeric /></validationPattern>
-            <control>
-                <text size="6" />
-            </control>
-            <summary>Rolodex Id </summary>
-            <description>Rolodex Id </description>
-            </attribute>
+<!-- Business Object Inquiry Definition -->
 
-            <attribute name="sponsorName">
-            <label>Sponsor Name </label>
-            <shortLabel>Sponsor Name </shortLabel>
-            <maxLength>60</maxLength>
-            <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-            <control>
-                <text size="60" />
-            </control>
-            <summary>Sponsor Name </summary>
-            <description>The name of the sponsoring agency.</description>
-            </attribute>
 
-            <attribute name="sponsorTypeCode">
-            <label>Sponsor Type Code </label>
-            <shortLabel>Sponsor Type Code </shortLabel>
-            <maxLength>3</maxLength>
-            <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-            <control>                
-                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder" businessObjectClass="org.kuali.kra.bo.SponsorType" keyAttribute="sponsorTypeCode" labelAttribute="description" includeKeyInLabel="false"/>
-            </control>
-            <summary>Sponsor Type Code </summary>
-            <description>Sponsor Type Code </description>
-            </attribute>
+  <bean id="Sponsor-inquiryDefinition" parent="Sponsor-inquiryDefinition-parentBean" />
 
-            <attributeReference name="sponsorType.description" sourceClassName="org.kuali.kra.bo.SponsorType" sourceAttributeName="description" >
-                <label>Sponsor Type</label>
-                <shortLabel>Sponsor Type</shortLabel>
-            </attributeReference>
+  <bean id="Sponsor-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Sponsor" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Sponsor" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="sponsorCode"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="acronym" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="auditReportSentForFy" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="cageNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="countryCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="dodacNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="dunAndBradstreetNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="dunsPlusFourNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="unit.unitName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="postalCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="rolodexId" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="sponsorName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="sponsorType.description" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="state" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-            <attributeReference name="state" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="state" />
+<!-- Business Object Lookup Definition -->
 
-            <attributeReference name="countryCode" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="countryCode" />
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-        </attributes>
+  <bean id="Sponsor-lookupDefinition" parent="Sponsor-lookupDefinition-parentBean" />
 
-        <relationships>
-            <relationship objectAttributeName="unit">
-                <primitiveAttribute sourceName="ownedByUnit" targetName="unitNumber" />
-                <supportAttribute sourceName="unit.unitName" targetName="unitName" identifier="true" />
-            </relationship>
-
-            <relationship objectAttributeName="sponsorType">
-                <primitiveAttribute sourceName="sponsorTypeCode" targetName="sponsorTypeCode" />
-                <supportAttribute sourceName="sponsorType.description" targetName="description" identifier="true" />
-            </relationship>
-            
-            <relationship objectAttributeName="rolodex">
-                <primitiveAttribute sourceName="rolodexId" targetName="rolodexId" />
-                <supportAttribute sourceName="rolodex.rolodexId" targetName="rolodexId" identifier="true" />
-            </relationship>
-        </relationships>
-
-        <objectHelp parameterNamespace="KRA-PD" parameterDetailType="D" parameterName="proposalDevelopmentSponsorHelpUrl"/> 
-    </businessObject>
-
-</dictionaryEntry>
+  <bean id="Sponsor-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Sponsor Lookup" />
+    <property name="lookupableID" value="sponsorLookupable" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Sponsor" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="sponsorCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="sponsorName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="acronym" />
+        <bean parent="FieldDefinition"
+              p:attributeName="sponsorTypeCode"
+              p:forceLookup="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dunAndBradstreetNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dunsPlusFourNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dodacNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="cageNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="postalCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="state" />
+        <bean parent="FieldDefinition"
+              p:attributeName="countryCode"
+              p:forceLookup="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="auditReportSentForFy" />
+        <bean parent="FieldDefinition"
+              p:attributeName="ownedByUnit" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rolodexId" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="sponsorCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="sponsorName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="acronym" />
+        <bean parent="FieldDefinition"
+              p:attributeName="sponsorType.description" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dunAndBradstreetNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="dodacNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="cageNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="state" />
+        <bean parent="FieldDefinition"
+              p:attributeName="countryCode" />
+      </list>
+    </property>
+    <property name="resultSetLimit" value="50" />
+  </bean>
+</beans>

@@ -1,135 +1,214 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="CostElement" parent="CostElement-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="CostElement-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.budget.bo.CostElement" />
+    <property name="inquiryDefinition" >
+      <ref bean="CostElement-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="CostElement-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="costElement" />
+    <property name="attributes" >
+      <list>
+        <ref bean="CostElement-costElement" />
+        <ref bean="CostElement-budgetCategoryCode" />
+        <ref bean="CostElement-budgetCategory.description" />
+        <ref bean="CostElement-description" />
+        <ref bean="CostElement-onOffCampusFlag" />
+        <ref bean="CostElement-budgetCategoryTypeCode" />
+        <ref bean="CostElement-versionNumber" />
+      </list>
+    </property>
+    <property name="relationships" >
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="budgetCategory" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="budgetCategoryCode"
+                    p:targetName="budgetCategoryCode" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="budgetCategory.description"
+                    p:targetName="description" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.budget.bo.CostElement">
+<!-- Attribute Definitions -->
 
-        <inquiry>
-            <title>Object Code</title>
 
-            <inquirySections><inquirySection title="Object Code"><inquiryFields>
-            	<field attributeName="costElement" forceInquiry="true"/>
-				<field attributeName="budgetCategory.description"/>
-				<field attributeName="description"/>
-				<field attributeName="onOffCampusFlag"/>
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="CostElement-costElement" parent="CostElement-costElement-parentBean" />
 
-        <lookup>
-        	<lookupableID>budgetExpenseLookupable</lookupableID>
-            <title>Object Code Lookup</title>
-			<menubar>
-				<![CDATA[<a href="index.jsp">Main</a>]]>
-			</menubar>
-            <instructions>Look up a Object Code</instructions>
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                	<sortAttribute attributeName="costElement"/>
-                </sortAttributes>
-            </defaultSort>
+  <bean id="CostElement-costElement-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="costElement" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Object Code Name" />
+    <property name="shortLabel" value="Object Code Name" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Object Code Name" />
+    <property name="description" value="Object Code Name" />
+  </bean>
+  <bean id="CostElement-budgetCategoryCode" parent="CostElement-budgetCategoryCode-parentBean" />
 
-            <lookupFields>
-            	<lookupField attributeName="costElement" required="false"/>
-				<lookupField attributeName="description" required="false"/>
-				<lookupField attributeName="onOffCampusFlag" required="false"/>
-				<lookupField attributeName="budgetCategoryCode" required="false"/>
-				<lookupField attributeName="budgetCategoryTypeCode" required="false"/>				
-            </lookupFields>
+  <bean id="CostElement-budgetCategoryCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetCategoryCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Budget Category Code" />
+    <property name="shortLabel" value="Budget Category Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Budget Category Code" />
+    <property name="description" value="Budget Category Code" />
+  </bean>
+  <bean id="CostElement-budgetCategory.description" parent="CostElement-budgetCategory.description-parentBean" />
 
-            <resultFields>
-            	<field attributeName="costElement" forceInquiry="true"/>
-				<field attributeName="budgetCategory.description" forceInquiry="false"/>
-				<field attributeName="description" forceInquiry="false"/>
-				<field attributeName="onOffCampusFlag" forceInquiry="false"/>
-            </resultFields>
-        </lookup>
+  <bean id="CostElement-budgetCategory.description-parentBean" abstract="true" parent="BudgetCategory-description">
+    <property name="name" value="budgetCategory.description" />
+    <property name="label" value="Budget Category" />
+    <property name="shortLabel" value="Budget Category" />
+  </bean>
+  <bean id="CostElement-description" parent="CostElement-description-parentBean" />
 
-        <titleAttribute>costElement</titleAttribute>
-        <attributes>
+  <bean id="CostElement-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+  </bean>
+  <bean id="CostElement-onOffCampusFlag" parent="CostElement-onOffCampusFlag-parentBean" />
 
-	        <attribute name="costElement">
-			<label>Object Code Name </label>
-			<shortLabel>Object Code Name </shortLabel>
-			<maxLength>8</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<control>
-				<text size="8" />
-			</control>
-			<summary>Object Code Name </summary>
-			<description>Object Code Name </description>
-			</attribute>
+  <bean id="CostElement-onOffCampusFlag-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="onOffCampusFlag" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="On/Off Campus Flag" />
+    <property name="shortLabel" value="On/off Campus" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="On Campus" />
+    <property name="description" value="On Campus" />
+  </bean>
+  <bean id="CostElement-budgetCategoryTypeCode" parent="CostElement-budgetCategoryTypeCode-parentBean" />
 
-			<attribute name="budgetCategoryCode">
-			<label>Budget Category Code </label>
-			<shortLabel>Budget Category Code </shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="4"/>
-			</control>
-			<summary>Budget Category Code </summary>
-			<description>Budget Category Code </description>
-			</attribute>
+  <bean id="CostElement-budgetCategoryTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetCategoryTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Budget Category Type" />
+    <property name="shortLabel" value="Budget Category Type" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="Budget Category Type" />
+    <property name="description" value="Budget Category Type" />
+  </bean>
+  <bean id="CostElement-versionNumber" parent="CostElement-versionNumber-parentBean" />
 
-			<attributeReference name="budgetCategory.description" sourceClassName="org.kuali.kra.budget.bo.BudgetCategory" sourceAttributeName="description" >
-			    <label>Budget Category</label>
-			    <shortLabel>Budget Category</shortLabel>
-            </attributeReference>
+  <bean id="CostElement-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-			<attributeReference name="description" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="description" />
+<!-- Business Object Inquiry Definition -->
 
-			<attribute name="onOffCampusFlag">
-			<label>On/Off Campus Flag</label>
-			<shortLabel>On/off Campus </shortLabel>
-			<maxLength>1</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<control>
-				<checkbox/>
-				<!-- 	<radio valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.OnOffCampusFlagValuesFinder" /> -->
-			</control>
-			<summary>On Campus </summary>
-			<description>On Campus </description>
-			</attribute>
-			
-			<attribute name="budgetCategoryTypeCode">
-			<label>Budget Category Type  </label>
-			<shortLabel>Budget Category Type </shortLabel>
-			<maxLength>1</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<control>
-				<!--   <select valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryTypeValuesFinder"/>-->
-				<hidden/>
-			</control>
-			<summary>Budget Category Type </summary>
-			<description>Budget Category Type </description>
-			</attribute>
-			
-			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
-		</attributes>
+  <bean id="CostElement-inquiryDefinition" parent="CostElement-inquiryDefinition-parentBean" />
 
-        <relationships>
-            <relationship objectAttributeName="budgetCategory">
-                <primitiveAttribute sourceName="budgetCategoryCode" targetName="budgetCategoryCode" />
-                <supportAttribute sourceName="budgetCategory.description" targetName="description" identifier="true" />
-            </relationship>
-        </relationships>
-    </businessObject>
+  <bean id="CostElement-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Object Code" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Object Code" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="costElement"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="budgetCategory.description" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="onOffCampusFlag" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-</dictionaryEntry>
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="CostElement-lookupDefinition" parent="CostElement-lookupDefinition-parentBean" />
+
+  <bean id="CostElement-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Object Code Lookup" />
+    <property name="lookupableID" value="budgetExpenseLookupable" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Object Code" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="costElement" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+        <bean parent="FieldDefinition"
+              p:attributeName="onOffCampusFlag" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetCategoryCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetCategoryTypeCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="costElement"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="budgetCategory.description" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+        <bean parent="FieldDefinition"
+              p:attributeName="onOffCampusFlag" />
+      </list>
+    </property>
+  </bean>
+</beans>

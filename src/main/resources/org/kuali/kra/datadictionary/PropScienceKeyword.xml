@@ -1,109 +1,146 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="PropScienceKeyword" parent="PropScienceKeyword-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="PropScienceKeyword-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword" />
+    <property name="inquiryDefinition" >
+      <ref bean="PropScienceKeyword-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="PropScienceKeyword-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="proposalNumber" />
+    <property name="attributes" >
+      <list>
+        <ref bean="PropScienceKeyword-proposalNumber" />
+        <ref bean="PropScienceKeyword-scienceKeywordCode" />
+        <ref bean="PropScienceKeyword-selectKeyword" />
+        <ref bean="PropScienceKeyword-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword">
+<!-- Attribute Definitions -->
 
-        <inquiry>
-            <title>Proposal Science Keyword </title>
 
-            <inquirySections><inquirySection title="Proposal Science Keyword "><inquiryFields>
-                <field attributeName="proposalNumber" forceInquiry="true" />
-                <field attributeName="scienceKeywordCode" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="PropScienceKeyword-proposalNumber" parent="PropScienceKeyword-proposalNumber-parentBean" />
 
-        <lookup>
-            <title>Proposal Science Keyword Lookup</title>
-			<menubar>
-				<![CDATA[<a href="index.jsp">Main</a>]]>
-			</menubar>
-            <instructions>Look up Proposal Science Keyword</instructions>
+  <bean id="PropScienceKeyword-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="proposalNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Proposal Number" />
+    <property name="shortLabel" value="Proposal Number" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="Proposal Number" />
+    <property name="description" value="Proposal Number" />
+  </bean>
+  <bean id="PropScienceKeyword-scienceKeywordCode" parent="PropScienceKeyword-scienceKeywordCode-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="proposalNumber" />
-                </sortAttributes>
-            </defaultSort>
+  <bean id="PropScienceKeyword-scienceKeywordCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="scienceKeywordCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Science Keyword Code" />
+    <property name="shortLabel" value="Science Keyword Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Science Keyword Code" />
+    <property name="description" value="Science Keyword Code" />
+  </bean>
+  <bean id="PropScienceKeyword-selectKeyword" parent="PropScienceKeyword-selectKeyword-parentBean" />
 
-            <lookupFields>
-                <lookupField attributeName="proposalNumber" required="false" />
-                <lookupField attributeName="scienceKeywordCode" required="false" />
-            </lookupFields>
+  <bean id="PropScienceKeyword-selectKeyword-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="selectKeyword" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Select Keyword" />
+    <property name="shortLabel" value="Select Keyword" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="Select Keyword" />
+    <property name="description" value="Select Keyword" />
+  </bean>
+  <bean id="PropScienceKeyword-versionNumber" parent="PropScienceKeyword-versionNumber-parentBean" />
 
-            <resultFields>
-                <field attributeName="proposalNumber" forceInquiry="true" />
-                <field attributeName="scienceKeywordCode" forceInquiry="false"/>
-            </resultFields>
-        </lookup>
+  <bean id="PropScienceKeyword-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-        <titleAttribute>proposalNumber</titleAttribute>
+<!-- Business Object Inquiry Definition -->
 
-        <attributes>
 
-            <attribute name="proposalNumber">
-                <label>Proposal Number</label>
-                <shortLabel>Proposal Number</shortLabel>
+  <bean id="PropScienceKeyword-inquiryDefinition" parent="PropScienceKeyword-inquiryDefinition-parentBean" />
 
-                <maxLength>12</maxLength>
-                <validationPattern><numeric /></validationPattern>
+  <bean id="PropScienceKeyword-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Proposal Science Keyword" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Proposal Science Keyword " />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="proposalNumber"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="scienceKeywordCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-                <control>
-                    <text size="12" />
-                </control>
+<!-- Business Object Lookup Definition -->
 
-                <summary>Proposal Number</summary>
-                <description>Proposal Number</description>
-			</attribute>
 
-            <attribute name="scienceKeywordCode" forceUppercase="false">
-                <label>Science Keyword Code</label>
-                <shortLabel>Science Keyword Code</shortLabel>
+  <bean id="PropScienceKeyword-lookupDefinition" parent="PropScienceKeyword-lookupDefinition-parentBean" />
 
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="3" />
-                </control>
-
-                <summary>Science Keyword Code</summary>
-                <description>Science Keyword Code</description>
-			</attribute>
-
-            <attribute name="selectKeyword" forceUppercase="false">
-                <label>Select Keyword</label>
-                <shortLabel>Select Keyword</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>Select Keyword</summary>
-                <description>Select Keyword</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-		</attributes>
-    </businessObject>
-
-</dictionaryEntry>
+  <bean id="PropScienceKeyword-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Proposal Science Keyword Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up Proposal Science Keyword" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="scienceKeywordCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="proposalNumber"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="scienceKeywordCode" />
+      </list>
+    </property>
+  </bean>
+</beans>

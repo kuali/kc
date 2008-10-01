@@ -1,108 +1,158 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2008 The Kuali Foundation
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+  <bean id="ValidCeRateType" parent="ValidCeRateType-parentBean" />
 
- http://www.osedu.org/licenses/ECL-2.0
+  <bean id="ValidCeRateType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.budget.bo.ValidCeRateType" />
+    <property name="inquiryDefinition" >
+      <ref bean="ValidCeRateType-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ValidCeRateType-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="costElement" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ValidCeRateType-costElement" />
+        <ref bean="ValidCeRateType-rateClassCode" />
+        <ref bean="ValidCeRateType-rateTypeCode" />
+        <ref bean="ValidCeRateType-versionNumber" />
+      </list>
+    </property>
+  </bean>
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
-<dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.budget.bo.ValidCeRateType">
+<!-- Attribute Definitions -->
 
-        <inquiry>
-            <title>Valid Ce Rate Types</title>
 
-            <inquirySections><inquirySection title="Valid Ce Rate Types"><inquiryFields>
-            	<field attributeName="costElement" forceInquiry="true"/>
-				<field attributeName="rateClassCode" forceInquiry="true"/>
-				<field attributeName="rateTypeCode" forceInquiry="true"/>
+  <bean id="ValidCeRateType-costElement" parent="ValidCeRateType-costElement-parentBean" />
 
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+  <bean id="ValidCeRateType-costElement-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="costElement" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Cost Element" />
+    <property name="shortLabel" value="Cost Element" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Cost Element" />
+    <property name="description" value="Cost Element" />
+  </bean>
+  <bean id="ValidCeRateType-rateClassCode" parent="ValidCeRateType-rateClassCode-parentBean" />
 
-        <lookup>
-            <title>Valid Ce Rate Types Lookup</title>
-			<menubar>
-				<![CDATA[<a href="index.jsp">Main</a>]]>
-			</menubar>
-            <instructions>Look up a Valid Ce Rate Types</instructions>
+  <bean id="ValidCeRateType-rateClassCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="rateClassCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Rate Class Code" />
+    <property name="shortLabel" value="Rate Class Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Rate Class Code" />
+    <property name="description" value="Rate Class Code" />
+  </bean>
+  <bean id="ValidCeRateType-rateTypeCode" parent="ValidCeRateType-rateTypeCode-parentBean" />
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                	<sortAttribute attributeName="costElement"/>
-					<sortAttribute attributeName="rateClassCode"/>
-					<sortAttribute attributeName="rateTypeCode"/>
+  <bean id="ValidCeRateType-rateTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="rateTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Rate Type Code" />
+    <property name="shortLabel" value="Rate Type Code" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Rate Type Code" />
+    <property name="description" value="Rate Type Code" />
+  </bean>
+  <bean id="ValidCeRateType-versionNumber" parent="ValidCeRateType-versionNumber-parentBean" />
 
-                </sortAttributes>
-            </defaultSort>
+  <bean id="ValidCeRateType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
 
-            <lookupFields>
-            	<lookupField attributeName="costElement" required="false"/>
-				<lookupField attributeName="rateClassCode" required="false"/>
-				<lookupField attributeName="rateTypeCode" required="false"/>
+<!-- Business Object Inquiry Definition -->
 
-            </lookupFields>
 
-            <resultFields>
-            	<field attributeName="costElement" forceInquiry="true"/>
-				<field attributeName="rateClassCode" forceInquiry="true"/>
-				<field attributeName="rateTypeCode" forceInquiry="true"/>
+  <bean id="ValidCeRateType-inquiryDefinition" parent="ValidCeRateType-inquiryDefinition-parentBean" />
 
-            </resultFields>
-        </lookup>
-        <titleAttribute>costElement</titleAttribute>
-        <attributes>
+  <bean id="ValidCeRateType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Valid Ce Rate Types" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Valid Ce Rate Types" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="costElement"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="rateClassCode"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="rateTypeCode"
+                    p:forceInquiry="true" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
-	        <attribute name="costElement">
-			<label>Cost Element </label>
-			<shortLabel>Cost Element </shortLabel>
-			<maxLength>8</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="true" /> </validationPattern>
-			<control>
-				<text size="8" />
-			</control>
-			<summary>Cost Element </summary>
-			<description>Cost Element </description>
-			</attribute>
+<!-- Business Object Lookup Definition -->
 
-			<attribute name="rateClassCode">
-			<label>Rate Class Code </label>
-			<shortLabel>Rate Class Code </shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="3" />
-			</control>
-			<summary>Rate Class Code </summary>
-			<description>Rate Class Code </description>
-			</attribute>
 
-			<attribute name="rateTypeCode">
-			<label>Rate Type Code </label>
-			<shortLabel>Rate Type Code </shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="3" />
-			</control>
-			<summary>Rate Type Code </summary>
-			<description>Rate Type Code </description>
-			</attribute>
-			
-			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+  <bean id="ValidCeRateType-lookupDefinition" parent="ValidCeRateType-lookupDefinition-parentBean" />
 
-		</attributes>
-    </businessObject>
-
-</dictionaryEntry>
+  <bean id="ValidCeRateType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Valid Ce Rate Types Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Valid Ce Rate Types" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="costElement" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateClassCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateTypeCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="costElement"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateClassCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="rateTypeCode"
+              p:forceInquiry="true" />
+      </list>
+    </property>
+  </bean>
+</beans>
