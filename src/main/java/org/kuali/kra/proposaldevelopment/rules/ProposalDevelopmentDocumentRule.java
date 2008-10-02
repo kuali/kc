@@ -77,6 +77,8 @@ import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.kra.rules.KraCustomAttributeRule;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
+import static org.kuali.kra.logging.BufferedLogger.*;
+
 /**
  * Main Business Rule class for <code>{@link ProposalDevelopmentDocument}</code>. Responsible for delegating rules to independent rule classes.
  *
@@ -276,28 +278,29 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
             String ynqAnswer = proposalYnq.getAnswer();
             /* look for answers - required for routing */
             if(docRouting && StringUtils.isBlank(proposalYnq.getAnswer())) {
+                info("no answer");
                 valid = false;
                 errorMap.putError("answer", KeyConstants.ERROR_REQUIRED_ANSWER, errorParameter);
             }
             /* look for date requried */
             String dateRequiredFor = proposalYnq.getYnq().getDateRequiredFor();
             if(dateRequiredFor != null) {
-                if (StringUtils.isNotBlank(proposalYnq.getAnswer()) && 
+                if (StringUtils.isNotBlank(ynqAnswer) && 
                         dateRequiredFor.contains(ynqAnswer) && 
-                        proposalYnq.getReviewDate() == null
-                       ) {
-                        valid = false;
-                        errorMap.putError("reviewDate", KeyConstants.ERROR_REQUIRED_FOR_REVIEW_DATE);
+                        proposalYnq.getReviewDate() == null) {
+                    info("No review date");
+                    valid = false;
+                    errorMap.putError("reviewDate", KeyConstants.ERROR_REQUIRED_FOR_REVIEW_DATE);
                 }
             }
 
             /* look for explanation requried */
             String explanationRequiredFor = proposalYnq.getYnq().getExplanationRequiredFor();
             if(explanationRequiredFor != null) {
-                if (StringUtils.isNotBlank(proposalYnq.getAnswer()) && 
+                if (StringUtils.isNotBlank(ynqAnswer) && 
                     explanationRequiredFor.contains(ynqAnswer) && 
-                    StringUtils.isBlank(proposalYnq.getExplanation())
-                   ) {
+                    StringUtils.isBlank(proposalYnq.getExplanation())) {
+                    info("No explanation date");
                     valid = false;
                     errorMap.putError("explanation", KeyConstants.ERROR_REQUIRED_FOR_EXPLANATION);
                 }

@@ -93,6 +93,15 @@ public class ProposalDevelopmentYNQRuleTest extends ProposalDevelopmentRuleTestB
     public void testRoutingProposalYnq() throws Exception {
 
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
+        document.getYnqGroupNames();
+
+        for (ProposalYnq ynq : document.getProposalYnqs()) {
+            ynq.setAnswer("Y");
+            ynq.setExplanation("Because I said so");
+            ynq.setReviewDate(new Date(System.currentTimeMillis()));
+            
+        }
+
         assertTrue(rule.processProposalYNQBusinessRule(document, true));
     }
 
@@ -107,5 +116,4 @@ public class ProposalDevelopmentYNQRuleTest extends ProposalDevelopmentRuleTestB
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         assertTrue(rule.processProposalPersonYNQBusinessRule(document));
     }
-
 }
