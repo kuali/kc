@@ -121,16 +121,13 @@ public abstract class KraTestBase extends KNSTestCase {
 //        setSqlFilename("classpath:DefaultTestData.sql");
 //        setSqlDelimiter(";");
         setXmlFilename("classpath:DefaultTestData.xml");
-        setTestConfigFilename("classpath:META-INF/kra-test-config.xml");
+        setSqlFilename("classpath:DefaultTestData.sql");
         super.setUp();
         documentService = KNSServiceLocator.getDocumentService();
         GlobalVariables.setErrorMap(new ErrorMap());
         transactionalLifecycle = new TransactionalLifecycle();
+        transactionalLifecycle.setTransactionManager(KNSServiceLocator.getTransactionManager());
         transactionalLifecycle.start();
-    }
-    
-    private void setTestConfigFilename(String configFileName) {
-        ConfigFactoryBean.CONFIG_OVERRIDE_LOCATION = configFileName;
     }
 
     @After
@@ -145,7 +142,11 @@ public abstract class KraTestBase extends KNSTestCase {
     protected String getModuleName() {
         return "";
     }
-
+    
+    @Override
+    protected String getModuleTestConfigLocation() {
+        return "classpath:META-INF/kra-test-config.xml";
+    }
 
     @Override
     public List<Lifecycle> getSuiteLifecycles() {
