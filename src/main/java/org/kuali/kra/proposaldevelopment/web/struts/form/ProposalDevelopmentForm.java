@@ -129,6 +129,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     private Map<String, String[]> customAttributeValues;
     private List<Narrative> narratives;
     private boolean reject;
+    private boolean saveAfterCopy;
     private List<KeyLabelPair> exemptNumberList;
     private String[] newExemptNumbers;
     private List<String[]> documentExemptNumbers;
@@ -1242,4 +1243,11 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         return getSponsorFormTemplates().get(index);
     }
 
+    public boolean isSaveAfterCopy() {
+        return saveAfterCopy;
+    }
+
+    public void setSaveAfterCopy(boolean val) {
+        saveAfterCopy = val;
+    }
 }

@@ -24,6 +24,8 @@ import static org.springframework.util.StringUtils.hasText;
 import static org.kuali.core.util.GlobalVariables.getErrorMap;
 import static org.kuali.kra.infrastructure.KeyConstants.BUDGET_VERSION_EXISTS;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_BUDGET_NAME_MISSING;
+import static org.kuali.kra.logging.BufferedLogger.*;
+
 
 /**
  * A composited rule of the {@link BudgetDocumentRule}. It is expected that the {@link BudgetDocumentRule} will call this rule directly on save,
@@ -77,6 +79,7 @@ public class BudgetVersionRule  implements AddBudgetVersionRule {
      */
     private boolean containsVersionOverview(BudgetVersionCollection document, String versionName) {
         for (BudgetVersionOverview version : document.getBudgetVersionOverviews()) {
+            info("Comparing ", version.getDocumentDescription(), " to ", versionName);
             if (version.getDocumentDescription().equals(versionName)) {
                 return true;
             }

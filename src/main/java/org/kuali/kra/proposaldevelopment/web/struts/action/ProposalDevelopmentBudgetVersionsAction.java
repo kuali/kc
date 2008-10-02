@@ -21,13 +21,13 @@ import static org.kuali.RiceConstants.QUESTION_INST_ATTRIBUTE_NAME;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -59,12 +59,12 @@ import org.kuali.rice.KNSServiceLocator;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import static org.kuali.kra.logging.BufferedLogger.*;
 
 /**
  * Struts Action class for the Propsoal Development Budget Versions page
  */
 public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopmentAction {
-    private static final Log LOG = LogFactory.getLog(ProposalDevelopmentBudgetVersionsAction.class);
     private static final String CONFIRM_SYNCH_BUDGET_RATE = "confirmSynchBudgetRate";
     private static final String NO_SYNCH_BUDGET_RATE = "noSynchBudgetRate";
 
@@ -120,11 +120,11 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         }
         ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
         BudgetVersionOverview budgetToOpen = pdDoc.getBudgetVersionOverview(getSelectedLine(request));
-        if (KraServiceLocator.getService(BudgetService.class).checkActivityTypeChange(pdDoc,budgetToOpen.getBudgetVersionNumber().toString())) {
+        if (getService(BudgetService.class).checkActivityTypeChange(pdDoc,budgetToOpen.getBudgetVersionNumber().toString())) {
             return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
                     KeyConstants.QUESTION_SYNCH_BUDGET_RATE), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
         } else {
-            DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+            DocumentService documentService = getService(DocumentService.class);
             BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
             Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
             if (!budgetDocument.getActivityTypeCode().equals(budgetDocument.getProposal().getActivityTypeCode())) {
@@ -151,7 +151,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
         BudgetVersionOverview budgetToOpen = pdDoc.getBudgetVersionOverview(getSelectedLine(request));
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        DocumentService documentService = getService(DocumentService.class);
         BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
         Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
         String forward = buildForwardUrl(routeHeaderId);
@@ -190,6 +190,8 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
                 return mapping.findForward(Constants.MAPPING_BASIC);
             }
         }
+        
+        pdForm.setSaveAfterCopy(true);
         return performQuestionWithoutInput(mapping, form, request, response, COPY_BUDGET_PERIOD_QUESTION, QUESTION_TEXT + versionToCopy.getBudgetVersionNumber() + ".", QUESTION_TYPE, pdForm.getMethodToCall(), "");
     }
     
@@ -198,10 +200,22 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         // check audit rules.  If there is error, then budget can't have complete status
         boolean valid = true;
+        
+        if (pdForm.isSaveAfterCopy()) {
+            List<BudgetVersionOverview> overviews = pdForm.getProposalDevelopmentDocument().getBudgetVersionOverviews();
+            BudgetVersionOverview copiedOverview = overviews.get(overviews.size() - 1);
+            String copiedName = copiedOverview.getDocumentDescription();
+            copiedOverview.setDocumentDescription("copied placeholder");
+            debug("validating ", copiedName);
+            valid = getProposalDevelopmentService().isBudgetVersionNameValid(pdForm.getProposalDevelopmentDocument(), copiedName);
+            copiedOverview.setDocumentDescription(copiedName);
+            pdForm.setSaveAfterCopy(!valid);
+        }
+
         try {
-            valid &= KraServiceLocator.getService(ProposalDevelopmentService.class).validateBudgetAuditRuleBeforeSaveBudgetVersion(pdForm.getProposalDevelopmentDocument());
+            valid &= getProposalDevelopmentService().validateBudgetAuditRuleBeforeSaveBudgetVersion(pdForm.getProposalDevelopmentDocument());
         } catch (Exception ex) {
-            LOG.info("Audit rule check failed " + ex.getStackTrace());
+            info("Audit rule check failed ",  ex.getStackTrace());
         }
         if (!valid) {
             // set up error message to go to validate panel
@@ -242,7 +256,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
     
     @Override 
     protected void updateProposalDocument(ProposalDevelopmentForm pdForm) {
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService boService = getService(BusinessObjectService.class);
         ProposalDevelopmentDocument pdDocument = pdForm.getProposalDevelopmentDocument();
         DocumentHeader currentDocumentHeader = pdDocument.getDocumentHeader();
         KualiWorkflowDocument workflowDoc = currentDocumentHeader.getWorkflowDocument();
@@ -316,4 +330,5 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
     private ProposalDevelopmentService getProposalDevelopmentService() {
         return getService(ProposalDevelopmentService.class);
     }
+
 }

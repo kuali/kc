@@ -89,6 +89,7 @@ public class BudgetForm extends ProposalFormBase {
     private Integer modularSelectedPeriod;
             
     private boolean documentNextValueRefresh;
+    private boolean saveAfterCopy;
     
     private String personnelBudgetViewMode;
     private BudgetLineItem selectedBudgetLineItem;
@@ -667,5 +668,13 @@ public class BudgetForm extends ProposalFormBase {
      */
     public void setSubAwardFile(FormFile subAwardFile) {
         this.subAwardFile = subAwardFile;
+    }
+
+    public boolean isSaveAfterCopy() {
+        return saveAfterCopy;
+    }
+
+    public void setSaveAfterCopy(boolean val) {
+        saveAfterCopy = val;
     }
 }

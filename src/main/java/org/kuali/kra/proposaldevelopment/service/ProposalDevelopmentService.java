@@ -110,6 +110,15 @@ public interface ProposalDevelopmentService {
     public void addBudgetVersion(ProposalDevelopmentDocument document, String versionName) throws WorkflowException;
 
     /**
+     * Determine if the names of a {@link BudgetVersionOverview} instances in the given {@link  ProposalDevelopmentDocument} instance is valid
+     *
+     * @param document {@link ProposalDevelopmentDocument} instance to get {@link BudgetVersionOverview} instances from
+     * @param versionName to check
+     * @return true for valid false otherwie
+     */
+    public boolean isBudgetVersionNameValid(ProposalDevelopmentDocument document, String versionName);
+
+    /**
      * Retrieve injected <code>{@link BudgetService}</code> singleton
      * 
      * @return BudgetService
