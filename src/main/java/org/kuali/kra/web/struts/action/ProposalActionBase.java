@@ -125,7 +125,8 @@ public class ProposalActionBase extends KraTransactionalDocumentActionBase {
         }
         BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
         BudgetDocument newBudgetDoc = budgetService.copyBudgetVersion(budgetDocToCopy);
-        proposalDevelopmentDocument.addNewBudgetVersion(newBudgetDoc, budgetToCopy.getDocumentDescription(), true);
+        proposalDevelopmentDocument.addNewBudgetVersion(newBudgetDoc, budgetToCopy.getDocumentDescription() + " " 
+                                                        + budgetToCopy.getBudgetVersionNumber() + " copy", true);
     }
 
 }

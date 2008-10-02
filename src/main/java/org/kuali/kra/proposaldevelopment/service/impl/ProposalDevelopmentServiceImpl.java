@@ -74,6 +74,8 @@ import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
+import static org.kuali.kra.logging.BufferedLogger.*;
+
 
 // TODO : extends PersistenceServiceStructureImplBase is a hack to temporarily resolve get class descriptor.
 public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentService {
@@ -441,7 +443,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
      * @param versionName of the {@link BudgetVersionOverview}
      */
     public void addBudgetVersion(ProposalDevelopmentDocument document, String versionName) throws WorkflowException {
-        if (!isNewBudgetVersionNameValid(document, versionName)) {
+        if (!isBudgetVersionNameValid(document, versionName)) {
             debug("Buffered Version not Valid");
             return;
         }
@@ -478,7 +480,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
      * @param name of the pseudo-{@link BudgetVersionOverview} instance to validate
      * @returns true if the rules passed, false otherwise
      */
-    private boolean isNewBudgetVersionNameValid(ProposalDevelopmentDocument document,  String name) {
+    public boolean isBudgetVersionNameValid(ProposalDevelopmentDocument document,  String name) {
         debug("Invoking budgetrule " + getBudgetVersionRule());
         return new AddBudgetVersionEvent(document, name).invokeRuleMethod(getBudgetVersionRule());
     }

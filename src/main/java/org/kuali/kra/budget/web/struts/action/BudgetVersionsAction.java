@@ -20,11 +20,11 @@ import static org.kuali.RiceConstants.QUESTION_CLICKED_BUTTON;
 import static org.kuali.RiceConstants.QUESTION_INST_ATTRIBUTE_NAME;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -48,11 +48,12 @@ import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
+import static org.kuali.kra.logging.BufferedLogger.*;
+
 /**
  * Struts Action class for requests from the Budget Versions page.
  */
 public class BudgetVersionsAction extends BudgetAction {
-    private static final Log LOG = LogFactory.getLog(BudgetVersionsAction.class);
     private static final String CONFIRM_SYNCH_BUDGET_RATE = "confirmSynchBudgetRate";
     private static final String NO_SYNCH_BUDGET_RATE = "noSynchBudgetRate";
 
@@ -79,23 +80,10 @@ public class BudgetVersionsAction extends BudgetAction {
      */
     public ActionForward addBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDoc = budgetForm.getBudgetDocument();
-        ProposalDevelopmentDocument pdDoc = budgetDoc.getProposal();
-        BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
-        BudgetDocument newBudgetDoc = budgetService.getNewBudgetVersion(pdDoc, budgetForm.getNewBudgetVersionName());
-        
-        PessimisticLock budgetLockForProposalDoc = null;
-        for(PessimisticLock pdLock : pdDoc.getPessimisticLocks()) {
-            if(pdLock.getLockDescriptor().contains(KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET)) {
-                budgetLockForProposalDoc = pdLock;
-                break;
-            }
-        }
-        PessimisticLock budgetLockForBudgetDoc = KNSServiceLocator.getPessimisticLockService().generateNewLock(newBudgetDoc.getDocumentNumber(), budgetLockForProposalDoc.getLockDescriptor(), budgetLockForProposalDoc.getOwnedByUser());
-        newBudgetDoc.addPessimisticLock(budgetLockForBudgetDoc);
-
-        pdDoc.addNewBudgetVersion(newBudgetDoc, budgetForm.getNewBudgetVersionName(), false);
+        ProposalDevelopmentDocument pdDoc = budgetForm.getBudgetDocument().getProposal();
+        getProposalDevelopmentService().addBudgetVersion(pdDoc, budgetForm.getNewBudgetVersionName());
         budgetForm.setNewBudgetVersionName("");
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -184,6 +172,7 @@ public class BudgetVersionsAction extends BudgetAction {
               return mapping.findForward(Constants.MAPPING_BASIC);
           }
       }
+      budgetForm.setSaveAfterCopy(true);
       return performQuestionWithoutInput(mapping, form, request, response, COPY_BUDGET_PERIOD_QUESTION, QUESTION_TEXT + versionToCopy.getBudgetVersionNumber() + ".", QUESTION_TYPE, budgetForm.getMethodToCall(), "");
 
     }
@@ -195,23 +184,37 @@ public class BudgetVersionsAction extends BudgetAction {
         // TODO jira 780 - it indicated only from PD screen, not sure we need it here
         // if we don't implement it here, then it's not consistent.
         boolean valid = true;
+
         try {
-            valid &= KraServiceLocator.getService(ProposalDevelopmentService.class).validateBudgetAuditRuleBeforeSaveBudgetVersion(budgetForm.getBudgetDocument().getProposal());
+            valid &=getProposalDevelopmentService() .validateBudgetAuditRuleBeforeSaveBudgetVersion(budgetForm.getBudgetDocument().getProposal());
         } catch (Exception ex) {
-            LOG.info("Audit rule check failed " + ex.getStackTrace());
+            info("Audit rule check failed ", ex.getStackTrace());
         }
         if (!valid) {
             // set up error message to go to validate panel
             GlobalVariables.getErrorMap().putError("document.proposal.budgetVersionOverview["+Integer.toString(budgetForm.getFinalBudgetVersion()-1)+"].budgetStatus", KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
-            return mapping.findForward(Constants.MAPPING_BASIC);
-        } else {
-            updateThisBudget(budgetForm.getBudgetDocument());
-            setProposalStatus(budgetForm.getBudgetDocument().getProposal());
-            return super.save(mapping, form, request, response);
+        } 
+        
+        if (budgetForm.isSaveAfterCopy()) {
+            List<BudgetVersionOverview> overviews = budgetForm.getBudgetDocument().getProposal().getBudgetVersionOverviews();
+            BudgetVersionOverview copiedOverview = overviews.get(overviews.size() - 1);
+            String copiedName = copiedOverview.getDocumentDescription();
+            copiedOverview.setDocumentDescription("copied placeholder");
+            debug("validating ", copiedName);
+            valid = getProposalDevelopmentService().isBudgetVersionNameValid(budgetForm.getBudgetDocument().getProposal(), copiedName);
+            copiedOverview.setDocumentDescription(copiedName);
+            budgetForm.setSaveAfterCopy(!valid);
         }
 
+        if (!valid) {
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+
+        updateThisBudget(budgetForm.getBudgetDocument());
+        setProposalStatus(budgetForm.getBudgetDocument().getProposal());
+        return super.save(mapping, form, request, response);
     }
-    
+
     @Override
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.reload(mapping, form, request, response);
@@ -268,6 +271,15 @@ public class BudgetVersionsAction extends BudgetAction {
             HttpServletRequest request, HttpServletResponse response, String message) throws Exception {
         return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_SYNCH_BUDGET_RATE,
                 message, "");
+    }
+
+    /**
+     * Locate the {@link ProposalDevelopmentService} implementation
+     *
+     * @return ProposalDevelopmentService singleton instance
+     */
+    private ProposalDevelopmentService getProposalDevelopmentService() {
+        return KraServiceLocator.getService(ProposalDevelopmentService.class);
     }
 
 }
