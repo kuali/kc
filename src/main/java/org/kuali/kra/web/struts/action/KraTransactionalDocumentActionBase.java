@@ -62,9 +62,10 @@ import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
 
+import static org.kuali.kra.logging.BufferedLogger.*;
+
 // TODO : should move this class to org.kuali.kra.web.struts.action
 public class KraTransactionalDocumentActionBase extends KualiTransactionalDocumentActionBase {
-    private static final Log LOG = LogFactory.getLog(KraTransactionalDocumentActionBase.class);
     
     private static final String DEFAULT_TAB = "budgetVersions";
     private static final String ALTERNATE_OPEN_TAB = "budgetSummary";
@@ -121,23 +122,17 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         // parse textfieldname:htmlformaction
         String parameterFields = StringUtils.substringBetween(fullParameter, RiceConstants.METHOD_TO_CALL_PARM2_LEFT_DEL,
                 RiceConstants.METHOD_TO_CALL_PARM2_RIGHT_DEL);
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("fullParameter: " + fullParameter);
-            LOG.debug("parameterFields: " + parameterFields);
-        }
+        debug("fullParameter: ", fullParameter);
+        debug("parameterFields: ", parameterFields);
         String[] keyValue = null;
         if (StringUtils.isNotBlank(parameterFields)) {
             String[] textAreaParams = parameterFields.split(RiceConstants.FIELD_CONVERSIONS_SEPERATOR);
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("lookupParams: " + textAreaParams);
-            }
+            debug("lookupParams: ", textAreaParams);
             for (int i = 0; i < textAreaParams.length; i++) {
                 keyValue = textAreaParams[i].split(RiceConstants.FIELD_CONVERSION_PAIR_SEPERATOR);
-
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("keyValue[0]: " + keyValue[0]);
-                    LOG.debug("keyValue[1]: " + keyValue[1]);
-                }
+                
+                debug("keyValue[0]: ", keyValue[0]);
+                debug("keyValue[1]: ", keyValue[1]);
             }
         }
         request.setAttribute(org.kuali.kra.infrastructure.Constants.TEXT_AREA_FIELD_NAME, keyValue[0]);
@@ -173,9 +168,9 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     public ActionForward confirm(StrutsConfirmation question, String yesMethodName, String noMethodName) throws Exception {
         // Figure out what the caller is. We want the direct caller of confirm()
         question.setCaller(((KualiForm) question.getForm()).getMethodToCall());
-        LOG.info("Caller is " + question.getCaller());
-        LOG.info("Setting caller from stacktrace " + Arrays.asList(new Throwable().getStackTrace()));
-        LOG.info("Current action is " + getClass());
+        debug("Caller is ", question.getCaller());
+        debug("Setting caller from stacktrace ", Arrays.asList(new Throwable().getStackTrace()));
+        debug("Current action is ", getClass());
 
         if (question.hasQuestionInstAttributeName()) {
             Object buttonClicked = question.getRequest().getParameter(QUESTION_CLICKED_BUTTON);
@@ -286,8 +281,8 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         ((KraTransactionalDocumentFormBase) form).setActionName(getClass().getSimpleName());
         boolean isAuthorized = webAuthorizationService.isAuthorized(username, this.getClass(), methodName, form, request);
         if (!isAuthorized) {
-            LOG.error("User not authorized to perform " + methodName + " for document: "
-                    + ((KualiDocumentFormBase) form).getDocument().getClass().getName());
+            error("User not authorized to perform ", methodName, " for document: ",
+                     ((KualiDocumentFormBase) form).getDocument().getClass().getName());
         }
         return isAuthorized;
     }

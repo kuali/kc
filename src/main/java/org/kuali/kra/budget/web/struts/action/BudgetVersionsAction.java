@@ -36,6 +36,7 @@ import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetService;
+import org.kuali.kra.budget.service.BudgetRatesService;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -48,6 +49,7 @@ import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.kra.logging.BufferedLogger.*;
 
 /**
@@ -56,6 +58,22 @@ import static org.kuali.kra.logging.BufferedLogger.*;
 public class BudgetVersionsAction extends BudgetAction {
     private static final String CONFIRM_SYNCH_BUDGET_RATE = "confirmSynchBudgetRate";
     private static final String NO_SYNCH_BUDGET_RATE = "noSynchBudgetRate";
+
+    /**
+     * Main execute method that is run. Populates A map of rate types in the {@link HttpServletRequest} instance to be used
+     * in the JSP. The map is called <code>rateClassMap</code> this is set everytime execute is called in this class. This should only
+     * happen for the BudgetVersions tab. This ensures that even if {@link RateClass} persisted data may change, it will update the map
+     * correctly.
+     * 
+     * @param mapping {@link ActionMapping}
+     * @param form {@link ActionForm} instance
+     * @param request {@link HttpServletRequest} instance
+     * @param response {@link HttpServletResponse} instance 
+     */
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        request.setAttribute("rateClassMap", getBudgetRatesService().getBudgetRateClassMap("O"));
+        return super.execute(mapping, form, request, response);
+    }
 
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -282,4 +300,7 @@ public class BudgetVersionsAction extends BudgetAction {
         return KraServiceLocator.getService(ProposalDevelopmentService.class);
     }
 
+    private BudgetRatesService getBudgetRatesService() {
+        return getService(BudgetRatesService.class);
+    }
 }
