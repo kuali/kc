@@ -81,11 +81,7 @@
                 <description>Proposal Person Number </description>
             </attributeReference>
 
-            <attributeReference name="unitNumber" sourceClassName="org.kuali.kra.bo.Unit" sourceAttributeName="unitNumber">
-                <label>Unit Number</label>
- 	            <summary>Unit Number</summary>
-                <description>Unit Number</description>
-            </attributeReference>
+            <attributeReference name="unitNumber" sourceClassName="org.kuali.kra.bo.Unit" sourceAttributeName="unitNumber" />
 
             <attributeReference name="leadUnit" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Is Lead Unit</label>
