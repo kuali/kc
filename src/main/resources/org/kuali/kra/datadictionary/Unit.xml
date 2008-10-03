@@ -71,6 +71,7 @@
 			<shortLabel>Unit Number </shortLabel>
 			<maxLength>8</maxLength>
 			<validationPattern><anyCharacter /></validationPattern>
+            <required>true</required>
 			<control>
 				<text size="8" />
 			</control>
