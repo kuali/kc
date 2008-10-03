@@ -29,6 +29,7 @@ import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetRateAndBase;
 import org.kuali.kra.budget.calculator.LineItemCalculator;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.service.BudgetCalculationService;
 import org.kuali.kra.budget.service.BudgetModularService;
 import org.kuali.kra.infrastructure.Constants;
 
@@ -36,6 +37,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
     
     private static final String RATE_CLASS_PROPERTY_NAME = "rateClass";
     private static final String RATE_NUMBER_PROPERTY_NAME = "rateNumber";
+    private BudgetCalculationService budgetCalculationService;
     
     private KualiConfigurationService kualiConfigurationService;
     
@@ -103,7 +105,8 @@ public class BudgetModularServiceImpl implements BudgetModularService {
             BudgetDecimal consortiumFna = new BudgetDecimal(0);
             
             for (BudgetLineItem budgetLineItem: budgetPeriod.getBudgetLineItems()) {
-                new LineItemCalculator(budgetDocument, budgetLineItem).calculate();
+                //new LineItemCalculator(budgetDocument, budgetLineItem).calculate()
+                budgetCalculationService.calculateBudgetLineItem(budgetDocument, budgetLineItem);
                 List consortiumFnaCostElements = kualiConfigurationService.getParameterValues(
                         Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PARAMETER_FNA_COST_ELEMENTS);
                 
@@ -124,8 +127,10 @@ public class BudgetModularServiceImpl implements BudgetModularService {
                         budgetModularIdc.setRateNumber(budgetDocument.getHackedDocumentNextValue(RATE_NUMBER_PROPERTY_NAME));
                         budgetModularIdc.setDescription(budgetRateAndBase.getRateClassCode());
                         budgetModularIdc.setIdcRate(budgetRateAndBase.getAppliedRate());
-                        budgetModularIdc.setIdcBase(budgetRateAndBase.getBaseCost());
-                        budgetModularIdc.setFundsRequested(budgetRateAndBase.getCalculatedCost());
+                        budgetModularIdc.setFundsRequested(budgetRateAndBase.getCalculatedCost());  
+                        //bug fix that calculates IDC Base with the rate and funds requested instead of using getter budgetRateAndBase.getCalculatedCost();
+                        BudgetDecimal divisor = new BudgetDecimal(100);
+                        budgetModularIdc.setIdcBase(budgetRateAndBase.getCalculatedCost().divide(budgetRateAndBase.getAppliedRate().divide(divisor)));
                         budgetModular.addNewBudgetModularIdc(budgetModularIdc);
                     }
                 }
@@ -150,5 +155,14 @@ public class BudgetModularServiceImpl implements BudgetModularService {
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
+
+    public BudgetCalculationService getBudgetCalculationService() {
+        return budgetCalculationService;
+    }
+
+    public void setBudgetCalculationService(BudgetCalculationService budgetCalculationService) {
+        this.budgetCalculationService = budgetCalculationService;
+    }
+    
     
 }
