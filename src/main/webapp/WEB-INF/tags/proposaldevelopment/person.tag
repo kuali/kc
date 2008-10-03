@@ -45,7 +45,7 @@
           	<tr>
 				<td>
               
-	<kul:innerTab tabTitle="Person Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="document.proposalPersons[${personIndex}].projectRole*,document.proposalPersons[${personIndex}].percentageEffort*,document.proposalPersons[${personIndex}].pagerNumber*,document.proposalPersons[${personIndex}].officePhone*,document.proposalPersons[${personIndex}].faxNumber*,document.proposalPersons[${personIndex}].mobilePhoneNumber*">
+	<kul:innerTab tabTitle="Person Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="document.proposalPersons[${personIndex}].projectRole*,document.proposalPersons[${personIndex}].percentageEffort*,document.proposalPersons[${personIndex}].pagerNumber*">
 			<div class="innerTab-container" align="left">
               <table class=tab cellpadding=0 cellspacing="0" summary=""> 
                 <tbody id="G1">
@@ -259,11 +259,12 @@
 </td></tr>
 <bean:define id="unitDetailsRequired" name="KualiForm" property="${proposalPerson}.role.unitDetailsRequired" />
 
+<c:set var="unitsErrorKey" value="document.proposalPersons[${personIndex}].unit*,newProposalPersonUnit[${personIndex}]*" />
 <c:choose>
  <c:when test="${unitDetailsRequired == 'Y'  || !KualiForm.editingMode['modifyProposal']}">
    	<tr>
 		<td colspan=4>
-  <kul:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="document.proposalPersons[${personIndex}].newProposalPersonUnit*, newProposalPersonUnit[${status.index}]*">
+  <kul:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="${unitsErrorKey}">
               <table class=tab cellpadding=0 cellspacing="0" summary="" >
               <kra-pd:personUnitSection proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
   </table>
@@ -276,13 +277,13 @@
      <c:choose>
       <c:when test="${KualiForm.document.proposalPersons[personIndex].optInUnitStatus == 'Y'}"> 
    	  <tr><td colspan=4>
-      <kul:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="document.proposalPersons[${personIndex}].newProposalPersonUnit*,newProposalPersonUnit[${status.index}]*">
+      <kul:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="${unitsErrorKey}">
         <div class="innerTab-container" align="left">
          <table class=tab cellpadding=0 cellspacing="0" summary=""> 
          <tr>
             <td colspan=3><div class="floaters">
                <p> You have the option to remove unit details for a key person.</p>
-               <p><html:image property="methodToCall.removeUnitDetails.${proposalPerson}.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-remunitdet.gif" title="Add Unit Details" alt="Add Unit Details" styleClass="tinybutton"/></p>
+               <p><html:image property="methodToCall.removeUnitDetails.${proposalPerson}.line${personIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-remunitdet.gif" title="Add Unit Details" alt="Add Unit Details" styleClass="tinybutton"/></p>
              </div>
            </td>
         </tr>
@@ -370,7 +371,7 @@
       <tr>
        <td colspan=3><div class="floaters">
          <p> You have the option to add Certification Questions for a key person</p>
-          <p><html:image property="methodToCall.addCertificationQuestion.${proposalPerson}.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-inclcertquest.gif" title="Add Certification Question" alt="Add Certification Question" styleClass="tinybutton"/></p>
+          <p><html:image property="methodToCall.addCertificationQuestion.${proposalPerson}.line${personIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-inclcertquest.gif" title="Add Certification Question" alt="Add Certification Question" styleClass="tinybutton"/></p>
           </div>
        </td>
    </tr>
