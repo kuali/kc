@@ -45,6 +45,7 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     private Date startDate;
     private boolean finalVersionFlag;
     private String ohRateTypeCode;
+    private String ohRateClassCode;
     private BudgetDecimal residualFunds;
     private BudgetDecimal totalCost;
     private BudgetDecimal totalDirectCost;
@@ -53,10 +54,11 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     private BudgetDecimal underrecoveryAmount;
     private String comments;
     private boolean descriptionUpdatable;
+    private RateClass rateClass;
     
     private String name;
     private String budgetStatus;
-    
+
     public Integer getBudgetVersionNumber() {
         return budgetVersionNumber;
     }
@@ -87,6 +89,22 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
 
     public void setOhRateTypeCode(String ohRateTypeCode) {
         this.ohRateTypeCode = ohRateTypeCode;
+    }
+
+    public String getOhRateClassCode() {
+        return ohRateTypeCode;
+    }
+
+    public void setOhRateClassCode(String ohRateClassCode) {
+        this.ohRateClassCode = ohRateClassCode;
+    }
+
+    public RateClass getRateClass() {
+        return this.rateClass;
+    }
+
+    public void setRateClass(RateClass rateClass) {
+        this.rateClass = rateClass;
     }
 
     public String getProposalNumber() {

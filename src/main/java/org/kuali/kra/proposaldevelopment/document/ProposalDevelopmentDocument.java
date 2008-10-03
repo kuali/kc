@@ -1377,6 +1377,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         budgetVersion.setStartDate(budgetDocument.getStartDate());
         budgetVersion.setEndDate(budgetDocument.getEndDate());
         budgetVersion.setOhRateTypeCode(budgetDocument.getOhRateTypeCode());
+        budgetVersion.setOhRateClassCode(budgetDocument.getOhRateClassCode());
         budgetVersion.setVersionNumber(budgetDocument.getVersionNumber());
         budgetVersion.setDescriptionUpdatable(isDescriptionUpdatable);
         

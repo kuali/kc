@@ -56,6 +56,8 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 
+import static org.kuali.kra.logging.BufferedLogger.*;
+
 public class BudgetSummaryAction extends BudgetAction {
     private static final Log LOG = LogFactory.getLog(BudgetSummaryAction.class);
     private static final String CONFIRM_RECALCULATE_BUDGET_KEY = "calculateAllPeriods";
@@ -87,25 +89,23 @@ public class BudgetSummaryAction extends BudgetAction {
 
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
+        throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-
+        
         boolean rulePassed = getKualiRuleService().applyRules(
-                new SaveBudgetPeriodEvent(Constants.EMPTY_STRING, budgetForm.getBudgetDocument()));
+            new SaveBudgetPeriodEvent(Constants.EMPTY_STRING, budgetForm.getBudgetDocument()));
         if (!StringUtils.equalsIgnoreCase(budgetDocument.getOhRateClassCode(), budgetForm.getOhRateClassCodePrevValue())
-                || !StringUtils.equalsIgnoreCase(budgetDocument.getUrRateClassCode(), budgetForm.getUrRateClassCodePrevValue())) {
+            || !StringUtils.equalsIgnoreCase(budgetDocument.getUrRateClassCode(), budgetForm.getUrRateClassCodePrevValue())) {
             if (isBudgetPeriodDateChanged(budgetForm.getBudgetDocument()) && isLineItemErrorOnly()) {
                 GlobalVariables.setErrorMap(new ErrorMap());
                 return confirm(buildSaveBudgetSummaryConfirmationQuestion(mapping, form, request, response,
-                        KeyConstants.QUESTION_SAVE_BUDGET_SUMMARY_FOR_RATE_AND_DATE_CHANGE), CONFIRM_SAVE_SUMMARY, DO_NOTHING);
-            }
-            else {
+                                                                          KeyConstants.QUESTION_SAVE_BUDGET_SUMMARY_FOR_RATE_AND_DATE_CHANGE), CONFIRM_SAVE_SUMMARY, DO_NOTHING);
+            } else {
                 return confirm(buildRecalculateBudgetConfirmationQuestion(mapping, form, request, response),
-                        CONFIRM_SAVE_BUDGET_KEY, DO_NOTHING);
+                               CONFIRM_SAVE_BUDGET_KEY, DO_NOTHING);
             }
-        }
-        else {
+        } else {
             updateThisBudgetVersion(budgetForm.getBudgetDocument());
             if (budgetForm.isUpdateFinalVersion()) {
                 reconcileFinalBudgetFlags(budgetForm);
@@ -115,18 +115,19 @@ public class BudgetSummaryAction extends BudgetAction {
             if (isBudgetPeriodDateChanged(budgetForm.getBudgetDocument()) && isLineItemErrorOnly()) {
                 GlobalVariables.setErrorMap(new ErrorMap());
                 return confirm(buildSaveBudgetSummaryConfirmationQuestion(mapping, form, request, response,
-                        KeyConstants.QUESTION_SAVE_BUDGET_SUMMARY), CONFIRM_SAVE_SUMMARY, "");
+                                                                          KeyConstants.QUESTION_SAVE_BUDGET_SUMMARY), CONFIRM_SAVE_SUMMARY, "");
             }
             if (rulePassed) {
                 // update campus flag if budget level flag is changed
                 if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag())
-                        || !budgetDocument.getOnOffCampusFlag().equals(budgetForm.getPrevOnOffCampusFlag())) {
+                    || !budgetDocument.getOnOffCampusFlag().equals(budgetForm.getPrevOnOffCampusFlag())) {
                     KraServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budgetDocument,
-                            budgetDocument.getOnOffCampusFlag());
+                                                                                                   budgetDocument.getOnOffCampusFlag());
                 }
                 if (budgetDocument.getFinalVersionFlag()) {
                     budgetDocument.getProposal().setBudgetStatus(budgetDocument.getBudgetStatus());
                 }
+
                 updateBudgetPeriodDbVersion(budgetDocument);
                 return super.save(mapping, form, request, response);
             }
@@ -136,23 +137,23 @@ public class BudgetSummaryAction extends BudgetAction {
     }
 
     public ActionForward saveAfterQuestion(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+                                           HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-
+        
         updateThisBudgetVersion(budgetForm.getBudgetDocument());
         if (budgetForm.isUpdateFinalVersion()) {
             reconcileFinalBudgetFlags(budgetForm);
             setBudgetStatuses(budgetForm.getBudgetDocument().getProposal());
         }
         boolean rulePassed = getKualiRuleService().applyRules(
-                new SaveBudgetPeriodEvent(Constants.EMPTY_STRING, budgetForm.getBudgetDocument()));
+            new SaveBudgetPeriodEvent(Constants.EMPTY_STRING, budgetForm.getBudgetDocument()));
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         if (rulePassed) {
             // update campus flag if budget level flag is changed
             if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag())
-                    || !budgetDocument.getOnOffCampusFlag().equals(budgetForm.getPrevOnOffCampusFlag())) {
+                || !budgetDocument.getOnOffCampusFlag().equals(budgetForm.getPrevOnOffCampusFlag())) {
                 KraServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budgetDocument,
-                        budgetDocument.getOnOffCampusFlag());
+                                                                                               budgetDocument.getOnOffCampusFlag());
             }
             if (budgetDocument.getFinalVersionFlag()) {
                 budgetDocument.getProposal().setBudgetStatus(budgetDocument.getBudgetStatus());
