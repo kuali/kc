@@ -138,8 +138,8 @@
                 			<tr>
 	                    		<th width="1%" nowrap><div align="right">Residual Funds:</div></th>
 	                    		<td align="left" width="12%">${budgetVersion.residualFunds}&nbsp;</td>
-	                    		<th width="40%" nowrap><div align="right">OH Rate Type:</div></th>
-	                    		<td align="left" width="99%">${rateClassMap[budgetVersion.ohRateTypeCode].description}&nbsp;</td>
+	                    		<th width="40%" nowrap><div align="right">F&A Rate Type:</div></th>
+	                    		<td align="left" width="99%">${budgetVersion.rateClass.description}&nbsp;</td>
                   			</tr>
 	                  		<tr>
 	                    		<th nowrap><div align="right">Cost Sharing:</div></th>
