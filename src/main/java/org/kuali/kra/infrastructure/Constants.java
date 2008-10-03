@@ -173,6 +173,7 @@ public interface Constants {
     public static final String ON_CAMUS_FLAG = "N";
     public static final String OFF_CAMUS_FLAG = "F";
     public static final String DEFALUT_CAMUS_FLAG = "D";
+    public static final String RATE_CLASS_TYPE_FOR_INFLATION = "I";
     
     //Budget Expenses
     public static final String BUDGET_LINEITEM_NUMBER = "budget.budgetLineItem.lineItemNumber";
