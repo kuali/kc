@@ -34,28 +34,8 @@
   	
   	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Project Personnel" /></div>
   	
-	<kra:section permission="modifyBudgets">
-	  	<kul:uncollapsable tabTitle="Add Project Personnel">
-	  		<div align="center">
-	            <table cellpadding="0" cellspacing="0" class="grid" summary="">
-	              	<tr>
-	                	<th class="grid"><div align="right">Person:</div></th>
-	                	<td nowrap class="grid">
-	                		<label>Employee Search</label>
-	                  		<label><kul:multipleValueLookup boClassName="org.kuali.kra.bo.Person" 
-	                        	lookedUpCollectionName="newBudgetPersons" /></label><br>
-	                        <label>Non-employee Search</label>
-	                  		<label><kul:multipleValueLookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" 
-	                        	lookedUpCollectionName="newBudgetRolodexes" /></label><br>
-	                        <label>To be named</label>
-	                       	<label><kul:multipleValueLookup boClassName="org.kuali.kra.budget.bo.TbnPerson" 
-	                        	lookedUpCollectionName="newTbnPersons" /></label>
-	                	</td>
-	              	</tr>
-	            </table>
-	        </div>
-		</kul:uncollapsable> 
-	</kra:section>
+	<kra-b:budgetAddPersonnel/>
+
 	<br/>
 	
 	<kra-b:budgetPersonnel/>
@@ -73,7 +53,6 @@
 	var kualiForm = document.forms['KualiForm'];
 	var kualiElements = kualiForm.elements;
 </script>
-		
-<script language="javascript" src="scripts/kuali_application.js"></script>		
+				
 <script language="javascript" src="dwr/interface/JobCodeService.js"></script>
 </kul:documentPage>
