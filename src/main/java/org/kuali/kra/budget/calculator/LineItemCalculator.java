@@ -162,8 +162,12 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
             prevVersionNumber = budgetRateAndBaseList.get(0).getVersionNumber();
             budgetRateAndBaseList.clear();
         }
+        
         Integer rateNumber = 0;
         for (BreakUpInterval breakUpInterval : breakupIntervals) {
+            
+            
+            
             List<RateAndCost> vecAmountBean = breakUpInterval.getRateAndCosts();
             for (RateAndCost rateAndCost : vecAmountBean) {
                 BudgetRateAndBase budgetRateBase = new BudgetRateAndBase();
@@ -172,8 +176,10 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
                 BudgetDecimal calculatedCost = rateAndCost.getCalculatedCost();
                 BudgetDecimal calculatedCostSharing = rateAndCost.getCalculatedCostSharing();
                 
-                budgetRateBase.setBaseCost(breakUpInterval.getApplicableAmt());
-                budgetRateBase.setBaseCostSharing(breakUpInterval.getApplicableAmtCostSharing());
+//                budgetRateBase.setBaseCost(breakUpInterval.getApplicableAmt());
+                budgetRateBase.setBaseCostSharing(rateAndCost.getBaseCostSharingAmount());
+                budgetRateBase.setBaseCost(rateAndCost.getBaseAmount());
+//              budgetRateBase.setBaseCostSharing(breakUpInterval.getApplicableAmtCostSharing());
                 
                 budgetRateBase.setBudgetPeriodId(bli.getBudgetPeriodId());
                 budgetRateBase.setBudgetPeriod(bli.getBudgetPeriod());
@@ -192,7 +198,6 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
                 java.util.Date startDate = breakUpInterval.getBoundary().getStartDate();
                 budgetRateBase.setStartDate(new java.sql.Date(startDate.getTime()));
                 budgetRateBase.setBudgetVersionNumber(bli.getBudgetVersionNumber());
-//                if(prevVersionNumber!=null) budgetRateBase.setVersionNumber(prevVersionNumber);
                 budgetRateAndBaseList.add(budgetRateBase);
             }   
         }
