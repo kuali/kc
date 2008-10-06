@@ -1034,6 +1034,9 @@
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
+		<property name="budgetCalculationService">
+			<ref bean="budgetCalculationService" />
+		</property>
 	</bean>
 	
 	<bean id="customLookupable" class="org.kuali.kra.lookup.CustomLookupableImpl" singleton="false">
