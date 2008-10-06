@@ -19,8 +19,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kra.budget.bo.BudgetPerson;
-import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.bo.JobCode;
 import org.kuali.kra.budget.service.JobCodeService;
 import org.kuali.kra.infrastructure.Constants;
@@ -29,7 +27,15 @@ public class JobCodeServiceImpl implements JobCodeService {
     
     private BusinessObjectService businessObjectService;    
 
-    public JobCode findJobCodeRef(String jobCode) {
+    /**
+     * 
+     * This method provides the appropriate JobCode object
+     * for a particular jobCode string.
+     * 
+     * @param JobCode
+     * @return
+     */
+    private JobCode findJobCodeRef(String jobCode) {
         Map<String, String> queryMap = new HashMap<String, String>();
         queryMap.put(Constants.JOB_CODE, jobCode);
         return (JobCode)businessObjectService.findByPrimaryKey(JobCode.class, queryMap);

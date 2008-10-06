@@ -18,18 +18,12 @@ package org.kuali.kra.budget.service;
 import org.kuali.kra.budget.bo.JobCode;
 
 public interface JobCodeService {
-
-    /**
-     * 
-     * This method...
-     * @param JobCode
-     * @return
-     */
-    public JobCode findJobCodeRef(String JobCode);
     
     /**
      * 
-     * This method...
+     * This method provides the appropriate JobCode Title
+     * for a particular jobCode string.
+     * 
      * @param JobCode
      * @return
      */
