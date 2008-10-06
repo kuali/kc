@@ -43,7 +43,6 @@ public class BudgetRatesWebTest extends BudgetRatesWebTestBase {
 
     /**
      * Test SYNC rates - change the rate and sync the value to get back the old value
-     * To test the sync of applicable rate for 2 panels - one after other
      * @throws Exception
      */
     @Test
@@ -51,9 +50,6 @@ public class BudgetRatesWebTest extends BudgetRatesWebTestBase {
         HtmlPage budgetRatesPage = getBudgetRatesPage();
         /* Research tab */
         syncRate(budgetRatesPage, RESEARCH_TABLE, SYNC_RATES_FnA_TAB);
-
-        /* Other tab */
-        syncRate(budgetRatesPage, OTHER_TABLE, SYNC_RATES_OTHER_TAB);
     }
     
     private void syncRate(HtmlPage budgetRatesPage, String tableName, String syncButton)  throws Exception {
