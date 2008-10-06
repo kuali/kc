@@ -32,6 +32,8 @@ public class RateAndCost{
     private BudgetDecimal calculatedCostSharing; 
     private BudgetDecimal underRecovery; 
     private BudgetDecimal baseAmount;
+    private BudgetDecimal baseCostSharingAmount;
+    
 
     /** Getter for property rateClassCode.
      * @return Value of property rateClassCode.
@@ -172,6 +174,22 @@ public class RateAndCost{
      */
     public void setBaseAmount(BudgetDecimal baseAmount) {
         this.baseAmount = baseAmount;
+    }
+
+    /**
+     * Gets the baseCostSharingAmount attribute. 
+     * @return Returns the baseCostSharingAmount.
+     */
+    public BudgetDecimal getBaseCostSharingAmount() {
+        return baseCostSharingAmount;
+    }
+
+    /**
+     * Sets the baseCostSharingAmount attribute value.
+     * @param baseCostSharingAmount The baseCostSharingAmount to set.
+     */
+    public void setBaseCostSharingAmount(BudgetDecimal baseCostSharingAmount) {
+        this.baseCostSharingAmount = baseCostSharingAmount;
     }
     
  }
