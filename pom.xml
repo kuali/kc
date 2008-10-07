@@ -335,6 +335,11 @@
   					<version>2.5.0</version>
   					<scope>test</scope>
 				</dependency>
+				<dependency>
+                    <groupId>atomikos</groupId>
+                    <artifactId>transactions</artifactId>
+                    <version>3.2.1</version>
+                </dependency>
 			</dependencies>
 		</profile>
 		<profile>
