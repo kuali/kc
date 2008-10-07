@@ -36,7 +36,8 @@ public class BudgetPerson extends KraPersistableBusinessObjectBase {
     
     private Date effectiveDate;
 	private String jobCode;
-	private String jobTitle;
+	private JobCode jobCodeRef;
+	
 	private Boolean nonEmployeeFlag;
 	private String personId;
     private Integer rolodexId;
@@ -336,23 +337,36 @@ public class BudgetPerson extends KraPersistableBusinessObjectBase {
         // Note, since we aren't persisting the jobTitle in the BudgetPersons table, we need to grab the title 
         // for each BudgetPerson.jobCode via svc call below.
         getJobTitleFromJobCode();
-        return jobTitle;
+        String ret = null;
+        if (jobCodeRef != null) {
+            ret = jobCodeRef.getJobTitle();
+        } 
+        return ret;
     }
     
     public void setJobTitle(String jobTitle) {
-        this.jobTitle = jobTitle;
+        refreshJobTitle();
     }
     
     private void refreshJobTitle() {
-        jobTitle=null;
+        jobCodeRef = null;
         getJobTitleFromJobCode();
     }
     
     private void getJobTitleFromJobCode() {
-        if (StringUtils.hasText(getJobCode()) && !StringUtils.hasText(this.jobTitle) ) { 
-            JobCodeService jcService = KraServiceLocator.getService(JobCodeService.class);
-            this.jobTitle = jcService.findJobCodeTitle(getJobCode());
-        }
+        if (StringUtils.hasText(getJobCode()) && 
+                (this.jobCodeRef == null || !StringUtils.hasText(this.jobCodeRef.getJobTitle())) ) { 
+                JobCodeService jcService = KraServiceLocator.getService(JobCodeService.class);
+                this.jobCodeRef = jcService.findJobCodeRef(getJobCode());
+            }
+    }
+
+    public JobCode getJobCodeRef() {
+        return jobCodeRef;
+    }
+
+    public void setJobCodeRef(JobCode jobCodeRef) {
+        this.jobCodeRef = jobCodeRef;
     }
     
 }

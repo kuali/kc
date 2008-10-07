@@ -29,5 +29,14 @@ public interface JobCodeService {
      */
     public String findJobCodeTitle(String JobCode);
     
+    /**
+     * 
+     * This method provides the appropriate JobCode object
+     * for a particular jobCode string.
+     * 
+     * @param JobCode
+     * @return
+     */
+    public JobCode findJobCodeRef(String jobCode);
     
 }

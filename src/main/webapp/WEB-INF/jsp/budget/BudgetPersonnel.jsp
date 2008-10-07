@@ -54,5 +54,6 @@
 	var kualiElements = kualiForm.elements;
 </script>
 				
+<script language="javascript" src="scripts/kuali_application.js"></script>	
 <script language="javascript" src="dwr/interface/JobCodeService.js"></script>
 </kul:documentPage>
