@@ -16,6 +16,7 @@
 package org.kuali.kra.budget.rules;
 
 import static org.kuali.core.util.GlobalVariables.getAuditErrorMap;
+import org.kuali.core.util.GlobalVariables;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -53,15 +54,36 @@ public class BudgetPeriodAuditRule extends ResearchDocumentRuleBase implements D
             }
             if (budgetPeriod.getEndDate().after(projectEndDate)) {
                 retval = false;
-                getAuditErrors().add(new AuditError("document.budgetPeriods[" + i + "].endDate", KeyConstants.AUDIT_ERROR_BUDGETPERIOD_END_AFTER_PROJECT_END_DATE, Constants.BUDGET_PERIOD_PAGE + "." + Constants.BUDGET_PERIOD_PANEL_ANCHOR, new String[] {Integer.toString(i+1)}));
-                
+                getAuditErrors().add(new AuditError("document.budgetPeriods[" + i + "].endDate", KeyConstants.AUDIT_ERROR_BUDGETPERIOD_END_AFTER_PROJECT_END_DATE, Constants.BUDGET_PERIOD_PAGE + "." + Constants.BUDGET_PERIOD_PANEL_ANCHOR, new String[] {Integer.toString(i+1)}));              
             }
+            List<AuditError> auditErrors = new ArrayList<AuditError>();
+            if (i == 0 && budgetPeriod.getStartDate().after(projectStartDate)) {
+                getAuditWarnings().add(new AuditError("document.budgetPeriods[" + i + "].startDate", KeyConstants.AUDIT_WARNING_BUDGETPERIOD_START_AFTER_PROJECT_START_DATE, Constants.BUDGET_PERIOD_PAGE + "." + Constants.BUDGET_PERIOD_PANEL_ANCHOR, new String[] {Integer.toString(i+1)}));
+            }
+            if (i == budgetDocument.getBudgetPeriods().size() - 1 && budgetPeriod.getEndDate().before(projectEndDate)) {
+                getAuditWarnings().add(new AuditError("document.budgetPeriods[" + i + "].endDate", KeyConstants.AUDIT_WARNING_BUDGETPERIOD_END_BEFORE_PROJECT_END_DATE, Constants.BUDGET_PERIOD_PAGE + "." + Constants.BUDGET_PERIOD_PANEL_ANCHOR, new String[] {Integer.toString(i+1)}));
+            }
+            
             i++;
         }
-        
-        
+              
         return retval;
-
+    }
+    
+    /**
+     * This method is a convenience method for obtaining audit errors.
+     * @return List of AuditError instances
+     */    
+    private List<AuditError> getAuditErrors() {
+        return getAuditProblems(Constants.AUDIT_ERRORS);
+    }
+    
+    /**
+     * This method is a convenience method for obtaining audit warnings.
+     * @return List of AuditError instances
+     */
+    private List<AuditError> getAuditWarnings() {
+        return getAuditProblems(Constants.AUDIT_WARNINGS);
     }
     
     /**
@@ -70,11 +92,11 @@ public class BudgetPeriodAuditRule extends ResearchDocumentRuleBase implements D
      *  TODO : should this method move up to parent class
      * @return List of AuditError instances
      */
-    private List<AuditError> getAuditErrors() {
+    private List<AuditError> getAuditProblems(String problemType) {
         List<AuditError> auditErrors = auditErrors = new ArrayList<AuditError>();
         
         if (!getAuditErrorMap().containsKey(BUDGET_PERIOD_DATE_AUDIT_ERROR_KEY)) {
-            getAuditErrorMap().put(BUDGET_PERIOD_DATE_AUDIT_ERROR_KEY, new AuditCluster(Constants.BUDGET_PERIOD_PANEL_NAME, auditErrors, Constants.AUDIT_ERRORS));
+            getAuditErrorMap().put(BUDGET_PERIOD_DATE_AUDIT_ERROR_KEY, new AuditCluster(Constants.BUDGET_PERIOD_PANEL_NAME, auditErrors, problemType));
         }
         else {
             auditErrors = ((AuditCluster) getAuditErrorMap().get(BUDGET_PERIOD_DATE_AUDIT_ERROR_KEY)).getAuditErrorList();

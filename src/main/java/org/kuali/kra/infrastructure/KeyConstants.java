@@ -187,6 +187,8 @@ public class KeyConstants {
     public static final String ERROR_EXPIRATION_DATE_PAST = "error.expiration.date.past";
     public static final String AUDIT_ERROR_BUDGETPERIOD_START_BEFORE_PROJECT_START_DATE = "error.periodStartDate.before.projectStartDate";
     public static final String AUDIT_ERROR_BUDGETPERIOD_END_AFTER_PROJECT_END_DATE = "error.periodEndDate.after.projectEndDate";
+    public static final String AUDIT_WARNING_BUDGETPERIOD_START_AFTER_PROJECT_START_DATE = "warning.budgetStartDate.after.projectStartDate";
+    public static final String AUDIT_WARNING_BUDGETPERIOD_END_BEFORE_PROJECT_END_DATE = "warning.budgetEndDate.before.projectEndDate";
     
     // Change Password
     public static final String ERROR_EMPTY_PASSWORD = "error.password.empty";
