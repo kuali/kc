@@ -53,7 +53,7 @@
               		
               		<div id="document.budgetPersons[${status.index}].jobTitle.div" align="left">
                         <c:if test="${!empty KualiForm.document.budgetPersons[status.index].jobCode}">               	    
-							<c:out value="${KualiForm.document.budgetPersons[status.index].jobTitle}" /> 
+							${KualiForm.document.budgetPersons[status.index].jobTitle}
 							<c:if test="${empty KualiForm.document.budgetPersons[status.index].jobTitle}">
 	                    		<span style='color: red;'>not found</span>
 							</c:if>                   

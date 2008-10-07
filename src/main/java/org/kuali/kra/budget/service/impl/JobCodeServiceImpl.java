@@ -35,10 +35,11 @@ public class JobCodeServiceImpl implements JobCodeService {
      * @param JobCode
      * @return
      */
-    private JobCode findJobCodeRef(String jobCode) {
+    public JobCode findJobCodeRef(String jobCode) {
         Map<String, String> queryMap = new HashMap<String, String>();
         queryMap.put(Constants.JOB_CODE, jobCode);
-        return (JobCode)businessObjectService.findByPrimaryKey(JobCode.class, queryMap);
+        JobCode ret = (JobCode)businessObjectService.findByPrimaryKey(JobCode.class, queryMap);
+        return ret;
     }
 
     public String findJobCodeTitle(String jobCode) {
