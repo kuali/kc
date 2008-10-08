@@ -1,5 +1,5 @@
 <config>
-	<param name="environment">${environment}</param>
+	<param name="environment">dev</param> <!-- Hardcoding this for now; need to fix to pass in environment as prop -->
 	<param name="module.name">kra</param>
 	<param name="config.location">classpath:META-INF/common-config-test-locations.xml</param>
 	<param name="config.location">${alt.build.location}</param>
