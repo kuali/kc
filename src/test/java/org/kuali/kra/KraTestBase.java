@@ -123,6 +123,7 @@ public abstract class KraTestBase extends KNSTestCase {
         setXmlFilename("classpath:DefaultTestData.xml");
         setSqlFilename("classpath:DefaultTestData.sql");
         super.setUp();
+        ConfigFactoryBean.CONFIG_OVERRIDE_LOCATION = "classpath:META-INF/kra-test-config.xml";
         documentService = KNSServiceLocator.getDocumentService();
         GlobalVariables.setErrorMap(new ErrorMap());
         transactionalLifecycle = new TransactionalLifecycle();
