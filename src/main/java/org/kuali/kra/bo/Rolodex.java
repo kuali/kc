@@ -2,34 +2,86 @@ package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Type;
+
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="COUNTRY_CODE", discriminatorType=DiscriminatorType.STRING)
+@DiscriminatorValue("USA")
+@Entity
+@Table(name="ROLODEX")
 public class Rolodex extends KraPersistableBusinessObjectBase {
+	@Id
+	@Column(name="ROLODEX_ID")
 	private Integer rolodexId;
+	@Column(name="ADDRESS_LINE_1")
 	private String addressLine1;
+	@Column(name="ADDRESS_LINE_2")
 	private String addressLine2;
+	@Column(name="ADDRESS_LINE_3")
 	private String addressLine3;
+	@Column(name="CITY")
 	private String city;
+	@Column(name="COMMENTS")
 	private String comments;
+	@Column(name="COUNTRY_CODE", updatable=false, insertable=false )
 	private String countryCode;
+	@Column(name="COUNTY")
 	private String county;
+	@Column(name="DELETE_FLAG")
 	private Boolean deleteFlag;
+	@Column(name="EMAIL_ADDRESS")
 	private String emailAddress;
+	@Column(name="FAX_NUMBER")
 	private String faxNumber;
+	@Column(name="FIRST_NAME")
 	private String firstName;
+	@Column(name="LAST_NAME")
 	private String lastName;
+	@Column(name="MIDDLE_NAME")
 	private String middleName;
+	@Column(name="ORGANIZATION")
 	private String organization;
+	@Column(name="OWNED_BY_UNIT")
 	private String ownedByUnit;
+	@Column(name="PHONE_NUMBER")
 	private String phoneNumber;
+	@Column(name="POSTAL_CODE")
 	private String postalCode;
+	@Column(name="PREFIX")
 	private String prefix;
-	private Boolean sponsorAddressFlag;
+	@Type(type="yes_no")
+	@Column(name="SPONSOR_ADDRESS_FLAG")
+	private boolean sponsorAddressFlag;
+	@Column(name="SPONSOR_CODE")
 	private String sponsorCode;
+	@Column(name="STATE")
 	private String state;
+	@Column(name="SUFFIX")
 	private String suffix;
+	@Column(name="TITLE")
 	private String title;
-    private Unit unit;
-    private Sponsor sponsor;
-    private String createUser;
+    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
+	@JoinColumn(name="OWNED_BY_UNIT", insertable=false, updatable=false)
+	private Unit unit;
+    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
+	@JoinColumn(name="SPONSOR_CODE", insertable=false, updatable=false)
+	private Sponsor sponsor;
+    @Column(name="CREATE_USER")
+	private String createUser;
     
     public String getCreateUser() {
         return createUser;
@@ -197,11 +249,11 @@ public class Rolodex extends KraPersistableBusinessObjectBase {
 		this.prefix = prefix;
 	}
 
-	public Boolean getSponsorAddressFlag() {
+	public boolean getSponsorAddressFlag() {
 		return sponsorAddressFlag;
 	}
 
-	public void setSponsorAddressFlag(Boolean sponsorAddressFlag) {
+	public void setSponsorAddressFlag(boolean sponsorAddressFlag) {
 		this.sponsorAddressFlag = sponsorAddressFlag;
 	}
 
@@ -303,3 +355,4 @@ public class Rolodex extends KraPersistableBusinessObjectBase {
 		return hashMap;
 	}
 }
+

@@ -15,24 +15,65 @@
  */
 package org.kuali.kra.budget.bo;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Version;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+import javax.persistence.IdClass;
+
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 
+@IdClass(org.kuali.kra.budget.bo.id.BudgetModularIdcId.class)
+@Entity
+@Table(name="BUDGET_MODULAR_IDC")
 public class BudgetModularIdc extends KraPersistableBusinessObjectBase {
-    private Long budgetPeriodId;
     
-    private String proposalNumber;
-    private Integer budgetVersionNumber;
-    private Integer budgetPeriod;
+    @Id
+	@Column(name="BUDGET_PERIOD_NUMBER")
+	private Long budgetPeriodId;
+    
+    @Id
+    @Column(name="RATE_NUMBER")
     private Integer rateNumber;
-    private String description;
-    private BudgetDecimal idcRate;
-    private BudgetDecimal idcBase;
-    private BudgetDecimal fundsRequested;
     
-    private RateClass rateClass;
+    @Column(name="PROPOSAL_NUMBER")
+	private String proposalNumber;
+    
+    @Column(name="VERSION_NUMBER")
+	private Integer budgetVersionNumber;
+    
+    @Column(name="BUDGET_PERIOD")
+	private Integer budgetPeriod;
+    
+    @Column(name="DESCRIPTION")
+	private String description;
+    
+    @Column(name="IDC_RATE")
+	private BudgetDecimal idcRate;
+    
+    @Column(name="IDC_BASE")
+	private BudgetDecimal idcBase;
+    
+    @Column(name="FUNDS_REQUESTED")
+	private BudgetDecimal fundsRequested;
+    
+    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
+	@JoinColumn(name="DESCRIPTION", insertable=false, updatable=false)
+	private RateClass rateClass;
+    
+    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
+    @JoinColumn(name = "BUDGET_PERIOD_NUMBER", insertable = false, updatable = false)
+    private BudgetModular budgetModular;
     
     public Integer getBudgetPeriod() {
         return budgetPeriod;
@@ -114,6 +155,14 @@ public class BudgetModularIdc extends KraPersistableBusinessObjectBase {
         this.setFundsRequested(fundsRequested);
     }
 
+    public BudgetModular getBudgetModular() {
+        return budgetModular;
+    }
+
+    public void setBudgetModular(BudgetModular budgetModular) {
+        this.budgetModular = budgetModular;
+    }
+
     @Override 
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
@@ -133,3 +182,4 @@ public class BudgetModularIdc extends KraPersistableBusinessObjectBase {
     }
 
 }
+

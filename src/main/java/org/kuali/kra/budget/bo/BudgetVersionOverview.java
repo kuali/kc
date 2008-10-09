@@ -15,6 +15,20 @@
  */
 package org.kuali.kra.budget.bo;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
+import javax.persistence.Version;
+import javax.persistence.FetchType;
+import javax.persistence.Basic;
+import javax.persistence.Lob;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+import javax.persistence.IdClass;
+
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -27,6 +41,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 /**
  * Class representation of a Budget Overview Business Object.  This BO maps to
@@ -34,27 +49,74 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
  * 
  * @author kra-developers-l@indiana.edu
  */
+@IdClass(org.kuali.kra.budget.bo.id.BudgetVersionOverviewId.class)
+@Entity
+@Table(name="BUDGET")
 public class BudgetVersionOverview extends KraPersistableBusinessObjectBase implements Comparable<BudgetVersionOverview> {
     
-    private String proposalNumber;
-    private Integer budgetVersionNumber;
-    private String documentNumber;
+    @Id
+	@Column(name="PROPOSAL_NUMBER")
+	private String proposalNumber;
+    
+    @Id
+	@Column(name="VERSION_NUMBER")
+	private Integer budgetVersionNumber;
+    
+    @Column(name="DOCUMENT_NUMBER")
+	private String documentNumber;
+    
+    @Transient
     private String documentDescription;
-    private BudgetDecimal costSharingAmount;
-    private Date endDate;
-    private Date startDate;
-    private boolean finalVersionFlag;
-    private String ohRateTypeCode;
-    private BudgetDecimal residualFunds;
-    private BudgetDecimal totalCost;
-    private BudgetDecimal totalDirectCost;
-    private BudgetDecimal totalIndirectCost;
-    private BudgetDecimal totalCostLimit;
-    private BudgetDecimal underrecoveryAmount;
-    private String comments;
+    
+    @Column(name="COST_SHARING_AMOUNT")
+	private BudgetDecimal costSharingAmount;
+    
+    @Column(name="END_DATE")
+	private Date endDate;
+    
+    @Column(name="START_DATE")
+	private Date startDate;
+    
+    @Column(name="FINAL_VERSION_FLAG")
+	private boolean finalVersionFlag;
+    
+    @Column(name="OH_RATE_TYPE_CODE")
+	private String ohRateTypeCode;
+    
+    @Column(name="RESIDUAL_FUNDS")
+	private BudgetDecimal residualFunds;
+    
+    @Column(name="TOTAL_COST")
+	private BudgetDecimal totalCost;
+    
+    @Column(name="TOTAL_DIRECT_COST")
+	private BudgetDecimal totalDirectCost;
+    
+    @Column(name="TOTAL_INDIRECT_COST")
+	private BudgetDecimal totalIndirectCost;
+    
+    @Column(name="TOTAL_COST_LIMIT")
+	private BudgetDecimal totalCostLimit;
+    
+    @Column(name="UNDERRECOVERY_AMOUNT")
+	private BudgetDecimal underrecoveryAmount;
+    
+    @Lob
+	@Basic(fetch=FetchType.LAZY)
+	@Column(name="COMMENTS")
+	private String comments;
+    
+    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
+    @JoinColumn(name="PROPOSAL_NUMBER", insertable = false, updatable = false)
+    private ProposalDevelopmentDocument proposalDevelopmentDocument;
+    
+    @Transient
     private boolean descriptionUpdatable;
     
+    @Transient
     private String name;
+    
+    @Transient
     private String budgetStatus;
     
     public Integer getBudgetVersionNumber() {
@@ -209,6 +271,14 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
         this.descriptionUpdatable = descriptionUpdatable;
     }
 
+    public ProposalDevelopmentDocument getProposalDevelopmentDocument() {
+        return proposalDevelopmentDocument;
+    }
+
+    public void setProposalDevelopmentDocument(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        this.proposalDevelopmentDocument = proposalDevelopmentDocument;
+    }
+
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#afterLookup()
      */
@@ -253,3 +323,4 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     }
     
 }
+

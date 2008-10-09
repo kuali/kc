@@ -15,11 +15,28 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.JoinColumns;
+import javax.persistence.JoinColumn;
+import javax.persistence.FetchType;
+import javax.persistence.OneToOne;
+import javax.persistence.Transient;
+import javax.persistence.Version;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+import javax.persistence.IdClass;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Person;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.core.util.KualiDecimal;
 
 import org.apache.commons.lang.StringUtils;
@@ -34,38 +51,230 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
  * @author $Author: gmcgrego $
  * @version $Revision: 1.42 $
  */
-public class ProposalPerson extends Person implements CreditSplitable {
+@IdClass(org.kuali.kra.proposaldevelopment.bo.id.ProposalPersonId.class)
+@Entity
+@Table(name="EPS_PROP_PERSON")
+public class ProposalPerson extends KraPersistableBusinessObjectBase implements CreditSplitable {
+//public class ProposalPerson extends Person implements CreditSplitable {
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -4110005875629288373L;
 
-    private boolean conflictOfInterestFlag;
-    private boolean otherSignificantContributorFlag;
-    private KualiDecimal percentageEffort;
-    private Boolean fedrDebrFlag;
-    private Boolean fedrDelqFlag;
-    private Integer rolodexId;
-    private String  personId;
-    private String proposalNumber;
-    private Integer proposalPersonNumber;
-    private String  proposalPersonRoleId;
-    private ProposalInvestigatorCertification certification;
-    private ProposalPersonRole role;
+    @Column(name="CONFLICT_OF_INTEREST_FLAG")
+	private boolean conflictOfInterestFlag;
+    
+    @Column(name="IS_OSC")
+	private boolean otherSignificantContributorFlag;
+    
+    @Column(name="PERCENTAGE_EFFORT")
+	private KualiDecimal percentageEffort;
+    
+    @Column(name="FEDR_DEBR_FLAG")
+	private Boolean fedrDebrFlag;
+    
+    @Column(name="FEDR_DELQ_FLAG")
+	private Boolean fedrDelqFlag;
+    
+    @Column(name="ROLODEX_ID")
+	private Integer rolodexId;
+    
+    @Column(name="PERSON_ID")
+	private String  personId;
+    
+    @Id
+	@Column(name="PROPOSAL_NUMBER")
+	private String proposalNumber;
+    
+    @Id
+	@Column(name="PROP_PERSON_NUMBER")
+	private Integer proposalPersonNumber;
+    
+    @Column(name="PROP_PERSON_ROLE_ID")
+	private String  proposalPersonRoleId;
+    
+    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
+	@JoinColumns({@JoinColumn(name="PROPOSAL_NUMBER", insertable=false, updatable=false), @JoinColumn(name="PROP_PERSON_NUMBER", insertable=false, updatable=false)})
+	private ProposalInvestigatorCertification certification;
+    
+    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
+	@JoinColumn(name="PROP_PERSON_ROLE_ID", insertable=false, updatable=false)
+	private ProposalPersonRole role;
+    
+    @Transient
     private boolean delete;
-    private Person person;
+    
+    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
+	@JoinColumn(name="PERSON_ID", insertable=false, updatable=false)
+	private Person person;
+    
+    @Transient
     private boolean isInvestigator;
+    
+    @Transient
     private boolean roleChanged;
-    private List<ProposalPersonYnq> proposalPersonYnqs;
-    private List<ProposalPersonUnit> units;
-    private List<ProposalPersonDegree> proposalPersonDegrees;
-    private List<ProposalPersonCreditSplit> creditSplits;
+    
+    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
+           targetEntity=org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq.class, mappedBy="proposalPerson")
+	private List<ProposalPersonYnq> proposalPersonYnqs;
+    
+    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE}, 
+           targetEntity=org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit.class, mappedBy="proposalPerson")
+	private List<ProposalPersonUnit> units;
+    
+    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
+           targetEntity=org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree.class, mappedBy="proposalPerson")
+	private List<ProposalPersonDegree> proposalPersonDegrees;
+    
+    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
+           targetEntity=org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit.class, mappedBy="proposalPerson")
+	private List<ProposalPersonCreditSplit> creditSplits;
+    
+    @Transient
     private String simpleName;
-    private String optInUnitStatus;
-    private String optInCertificationStatus;
+    
+    @Column(name="OPT_IN_UNIT_STATUS")
+	private String optInUnitStatus;
+    
+    @Column(name="OPT_IN_CERTIFICATION_STATUS")
+	private String optInCertificationStatus;
+    
+    @Transient
     private boolean unitdelete;
-    private String projectRole;
-    private Integer ordinalPosition;
+    
+    @Column(name="PROJECT_ROLE")
+	private String projectRole;
+    
+    @Column(name="ORDINAL_POSITION")
+	private Integer ordinalPosition;
+    
+    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
+    @JoinColumn(name="PROPOSAL_NUMBER", insertable = false, updatable = false)
+    private ProposalDevelopmentDocument proposalDevelopmentDocument;
+    
+    
+    
+    @Column(name="LAST_NAME")
+    private String lastName;
+    @Column(name="FIRST_NAME")
+    private String firstName;
+    @Column(name="MIDDLE_NAME")
+    private String middleName;
+    @Column(name="FULL_NAME")
+    private String fullName;
+    @Column(name="PRIOR_NAME")
+    private String priorName;
+    @Column(name="USER_NAME")
+    private String userName;
+    @Column(name="EMAIL_ADDRESS")
+    private String emailAddress;
+    @Column(name="DATE_OF_BIRTH")
+    private String dateOfBirth;
+    @Column(name="AGE")
+    private Integer age;
+    @Column(name="AGE_BY_FISCAL_YEAR")
+    private Integer ageByFiscalYear;
+    @Column(name="GENDER")
+    private String gender;
+    @Column(name="RACE")
+    private String race;
+    @Column(name="EDUCATION_LEVEL")
+    private String educationLevel;
+    @Column(name="DEGREE")
+    private String degree;
+    @Column(name="MAJOR")
+    private String major;
+    @Column(name="IS_HANDICAPPED")
+    private Boolean handicappedFlag;
+    @Column(name="HANDICAP_TYPE")
+    private String handicapType;
+    @Column(name="IS_VETERAN")
+    private Boolean veteranFlag;
+    @Column(name="VETERAN_TYPE")
+    private String veteranType;
+    @Column(name="VISA_TYPE")
+    private String visaType;
+    @Column(name="VISA_RENEWAL_DATE")
+    private String visaRenewalDate;
+    @Column(name="HAS_VISA")
+    private Boolean hasVisa;
+    @Column(name="OFFICE_LOCATION")
+    private String officeLocation;
+    @Column(name="OFFICE_PHONE")
+    private String officePhone;
+    @Column(name="SECONDRY_OFFICE_LOCATION")
+    private String secondaryOfficeLocation;
+    @Column(name="SECONDRY_OFFICE_PHONE")
+    private String secondaryOfficePhone;
+    @Column(name="SCHOOL")
+    private String school;
+    @Column(name="YEAR_GRADUATED")
+    private String yearGraduated;
+    @Column(name="DIRECTORY_DEPARTMENT")
+    private String directoryDepartment;
+    @Column(name="SALUTATION")
+    private String saluation;
+    @Column(name="COUNTRY_OF_CITIZENSHIP")
+    private String countryOfCitizenship;
+    @Column(name="PRIMARY_TITLE")
+    private String primaryTitle;
+    @Column(name="DIRECTORY_TITLE")
+    private String directoryTitle;
+    @Column(name="HOME_UNIT")
+    private String homeUnit;
+    @Column(name="IS_FACULTY")
+    private Boolean facultyFlag;
+    @Column(name="IS_GRADUATE_STUDENT_STAFF")
+    private Boolean graduateStudentStaffFlag;
+    @Column(name="IS_RESEARCH_STAFF")
+    private Boolean researchStaffFlag;
+    @Column(name="IS_SERVICE_STAFF")
+    private Boolean serviceStaffFlag;
+    @Column(name="IS_SUPPORT_STAFF")
+    private Boolean supportStaffFlag;
+    @Column(name="IS_OTHER_ACCADEMIC_GROUP")
+    private Boolean otherAcademicGroupFlag;
+    @Column(name="IS_MEDICAL_STAFF")
+    private Boolean medicalStaffFlag;
+    @Column(name="VACATION_ACCURAL")
+    private Boolean vacationAccrualFlag;
+    @Column(name="IS_ON_SABBATICAL")
+    private Boolean onSabbaticalFlag;
+    @Column(name="ID_PROVIDED")
+    private String idProvided;
+    @Column(name="ID_VERIFIED")
+    private String idVerified;
+    @Column(name="ADDRESS_LINE_1")
+    private String addressLine1;
+    @Column(name="ADDRESS_LINE_2")
+    private String addressLine2;
+    @Column(name="ADDRESS_LINE_3")
+    private String addressLine3;
+    @Column(name="CITY")
+    private String city;
+    @Column(name="COUNTY")
+    private String county;
+    @Column(name="STATE")
+    private String state;
+    @Column(name="POSTAL_CODE")
+    private String postalCode;
+    @Column(name="COUNTRY_CODE")
+    private String countryCode;
+    @Column(name="FAX_NUMBER")
+    private String faxNumber;
+    @Column(name="PAGER_NUMBER")
+    private String pagerNumber;
+    @Column(name="MOBILE_PHONE_NUMBER")
+    private String mobilePhoneNumber;
+    @Column(name="ERA_COMMONS_USER_NAME")
+    private String eraCommonsUserName;
+    @Column(name="VISA_CODE")
+    private String visaCode;
+    @Column(name="SSN")
+    private String socialSecurityNumber;
+
+    
+    
     
     private transient boolean moveDownAllowed;
     private transient boolean moveUpAllowed;    
@@ -107,7 +316,7 @@ public class ProposalPerson extends Person implements CreditSplitable {
      * @see org.kuali.kra.bo.Person#setFullName(java.lang.String)
      */
     public void setFullName(String fullName) {
-        super.setFullName(fullName);
+        this.fullName = fullName;
         
         setSimpleName(new String(getFullName()));
         
@@ -119,10 +328,10 @@ public class ProposalPerson extends Person implements CreditSplitable {
     /**
      * @see org.kuali.kra.bo.Person#getFullName()
      */
-    @Override
+    //@Override
     @CreditSplitNameInfo
     public String getFullName() {
-        return super.getFullName();
+        return fullName;
     }
     
     /**
@@ -454,7 +663,7 @@ public class ProposalPerson extends Person implements CreditSplitable {
 	@SuppressWarnings("unchecked")
     @Override 
 	protected LinkedHashMap toStringMapper() {
-   	    LinkedHashMap hashmap = super.toStringMapper();
+   	    LinkedHashMap hashmap = new LinkedHashMap();
 
         hashmap.put("conflictOfInterest", getConflictOfInterestFlag());
         hashmap.put("percentageEffort", getPercentageEffort());
@@ -724,5 +933,488 @@ public class ProposalPerson extends Person implements CreditSplitable {
         this.ordinalPosition = ordinalPosition;
     }
 
+    public ProposalDevelopmentDocument getProposalDevelopmentDocument() {
+        return proposalDevelopmentDocument;
+    }
 
+    public void setProposalDevelopmentDocument(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        this.proposalDevelopmentDocument = proposalDevelopmentDocument;
+    }
+
+    public boolean isUnitdelete() {
+        return unitdelete;
+    }
+
+    public void setUnitdelete(boolean unitdelete) {
+        this.unitdelete = unitdelete;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
+    public String getPriorName() {
+        return priorName;
+    }
+
+    public void setPriorName(String priorName) {
+        this.priorName = priorName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public Integer getAgeByFiscalYear() {
+        return ageByFiscalYear;
+    }
+
+    public void setAgeByFiscalYear(Integer ageByFiscalYear) {
+        this.ageByFiscalYear = ageByFiscalYear;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getRace() {
+        return race;
+    }
+
+    public void setRace(String race) {
+        this.race = race;
+    }
+
+    public String getEducationLevel() {
+        return educationLevel;
+    }
+
+    public void setEducationLevel(String educationLevel) {
+        this.educationLevel = educationLevel;
+    }
+
+    public String getDegree() {
+        return degree;
+    }
+
+    public void setDegree(String degree) {
+        this.degree = degree;
+    }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major;
+    }
+
+    public Boolean getHandicappedFlag() {
+        return handicappedFlag;
+    }
+
+    public void setHandicappedFlag(Boolean handicappedFlag) {
+        this.handicappedFlag = handicappedFlag;
+    }
+
+    public String getHandicapType() {
+        return handicapType;
+    }
+
+    public void setHandicapType(String handicapType) {
+        this.handicapType = handicapType;
+    }
+
+    public Boolean getVeteranFlag() {
+        return veteranFlag;
+    }
+
+    public void setVeteranFlag(Boolean veteranFlag) {
+        this.veteranFlag = veteranFlag;
+    }
+
+    public String getVeteranType() {
+        return veteranType;
+    }
+
+    public void setVeteranType(String veteranType) {
+        this.veteranType = veteranType;
+    }
+
+    public void setInvestigator(boolean isInvestigator) {
+        this.isInvestigator = isInvestigator;
+    }
+
+    public String getVisaType() {
+        return visaType;
+    }
+
+    public void setVisaType(String visaType) {
+        this.visaType = visaType;
+    }
+
+    public String getVisaRenewalDate() {
+        return visaRenewalDate;
+    }
+
+    public void setVisaRenewalDate(String visaRenewalDate) {
+        this.visaRenewalDate = visaRenewalDate;
+    }
+
+    public Boolean getHasVisa() {
+        return hasVisa;
+    }
+
+    public void setHasVisa(Boolean hasVisa) {
+        this.hasVisa = hasVisa;
+    }
+
+    public String getOfficeLocation() {
+        return officeLocation;
+    }
+
+    public void setOfficeLocation(String officeLocation) {
+        this.officeLocation = officeLocation;
+    }
+
+    public String getOfficePhone() {
+        return officePhone;
+    }
+
+    public void setOfficePhone(String officePhone) {
+        this.officePhone = officePhone;
+    }
+
+    public String getSecondaryOfficeLocation() {
+        return secondaryOfficeLocation;
+    }
+
+    public void setSecondaryOfficeLocation(String secondaryOfficeLocation) {
+        this.secondaryOfficeLocation = secondaryOfficeLocation;
+    }
+
+    public String getSecondaryOfficePhone() {
+        return secondaryOfficePhone;
+    }
+
+    public void setSecondaryOfficePhone(String secondaryOfficePhone) {
+        this.secondaryOfficePhone = secondaryOfficePhone;
+    }
+
+    public String getSchool() {
+        return school;
+    }
+
+    public void setSchool(String school) {
+        this.school = school;
+    }
+
+    public String getYearGraduated() {
+        return yearGraduated;
+    }
+
+    public void setYearGraduated(String yearGraduated) {
+        this.yearGraduated = yearGraduated;
+    }
+
+    public String getDirectoryDepartment() {
+        return directoryDepartment;
+    }
+
+    public void setDirectoryDepartment(String directoryDepartment) {
+        this.directoryDepartment = directoryDepartment;
+    }
+
+    public String getSaluation() {
+        return saluation;
+    }
+
+    public void setSaluation(String saluation) {
+        this.saluation = saluation;
+    }
+
+    public String getCountryOfCitizenship() {
+        return countryOfCitizenship;
+    }
+
+    public void setCountryOfCitizenship(String countryOfCitizenship) {
+        this.countryOfCitizenship = countryOfCitizenship;
+    }
+
+    public String getPrimaryTitle() {
+        return primaryTitle;
+    }
+
+    public void setPrimaryTitle(String primaryTitle) {
+        this.primaryTitle = primaryTitle;
+    }
+
+    public String getDirectoryTitle() {
+        return directoryTitle;
+    }
+
+    public void setDirectoryTitle(String directoryTitle) {
+        this.directoryTitle = directoryTitle;
+    }
+
+    public String getHomeUnit() {
+        return homeUnit;
+    }
+
+    public void setHomeUnit(String homeUnit) {
+        this.homeUnit = homeUnit;
+    }
+
+    public Boolean getFacultyFlag() {
+        return facultyFlag;
+    }
+
+    public void setFacultyFlag(Boolean facultyFlag) {
+        this.facultyFlag = facultyFlag;
+    }
+
+    public Boolean getGraduateStudentStaffFlag() {
+        return graduateStudentStaffFlag;
+    }
+
+    public void setGraduateStudentStaffFlag(Boolean graduateStudentStaffFlag) {
+        this.graduateStudentStaffFlag = graduateStudentStaffFlag;
+    }
+
+    public Boolean getResearchStaffFlag() {
+        return researchStaffFlag;
+    }
+
+    public void setResearchStaffFlag(Boolean researchStaffFlag) {
+        this.researchStaffFlag = researchStaffFlag;
+    }
+
+    public Boolean getServiceStaffFlag() {
+        return serviceStaffFlag;
+    }
+
+    public void setServiceStaffFlag(Boolean serviceStaffFlag) {
+        this.serviceStaffFlag = serviceStaffFlag;
+    }
+
+    public Boolean getSupportStaffFlag() {
+        return supportStaffFlag;
+    }
+
+    public void setSupportStaffFlag(Boolean supportStaffFlag) {
+        this.supportStaffFlag = supportStaffFlag;
+    }
+
+    public Boolean getOtherAcademicGroupFlag() {
+        return otherAcademicGroupFlag;
+    }
+
+    public void setOtherAcademicGroupFlag(Boolean otherAcademicGroupFlag) {
+        this.otherAcademicGroupFlag = otherAcademicGroupFlag;
+    }
+
+    public Boolean getMedicalStaffFlag() {
+        return medicalStaffFlag;
+    }
+
+    public void setMedicalStaffFlag(Boolean medicalStaffFlag) {
+        this.medicalStaffFlag = medicalStaffFlag;
+    }
+
+    public Boolean getVacationAccrualFlag() {
+        return vacationAccrualFlag;
+    }
+
+    public void setVacationAccrualFlag(Boolean vacationAccrualFlag) {
+        this.vacationAccrualFlag = vacationAccrualFlag;
+    }
+
+    public Boolean getOnSabbaticalFlag() {
+        return onSabbaticalFlag;
+    }
+
+    public void setOnSabbaticalFlag(Boolean onSabbaticalFlag) {
+        this.onSabbaticalFlag = onSabbaticalFlag;
+    }
+
+    public String getIdProvided() {
+        return idProvided;
+    }
+
+    public void setIdProvided(String idProvided) {
+        this.idProvided = idProvided;
+    }
+
+    public String getIdVerified() {
+        return idVerified;
+    }
+
+    public void setIdVerified(String idVerified) {
+        this.idVerified = idVerified;
+    }
+
+    public String getAddressLine1() {
+        return addressLine1;
+    }
+
+    public void setAddressLine1(String addressLine1) {
+        this.addressLine1 = addressLine1;
+    }
+
+    public String getAddressLine2() {
+        return addressLine2;
+    }
+
+    public void setAddressLine2(String addressLine2) {
+        this.addressLine2 = addressLine2;
+    }
+
+    public String getAddressLine3() {
+        return addressLine3;
+    }
+
+    public void setAddressLine3(String addressLine3) {
+        this.addressLine3 = addressLine3;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCounty() {
+        return county;
+    }
+
+    public void setCounty(String county) {
+        this.county = county;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
+
+    public String getFaxNumber() {
+        return faxNumber;
+    }
+
+    public void setFaxNumber(String faxNumber) {
+        this.faxNumber = faxNumber;
+    }
+
+    public String getPagerNumber() {
+        return pagerNumber;
+    }
+
+    public void setPagerNumber(String pagerNumber) {
+        this.pagerNumber = pagerNumber;
+    }
+
+    public String getMobilePhoneNumber() {
+        return mobilePhoneNumber;
+    }
+
+    public void setMobilePhoneNumber(String mobilePhoneNumber) {
+        this.mobilePhoneNumber = mobilePhoneNumber;
+    }
+
+    public String getEraCommonsUserName() {
+        return eraCommonsUserName;
+    }
+
+    public void setEraCommonsUserName(String eraCommonsUserName) {
+        this.eraCommonsUserName = eraCommonsUserName;
+    }
+
+    public String getVisaCode() {
+        return visaCode;
+    }
+
+    public void setVisaCode(String visaCode) {
+        this.visaCode = visaCode;
+    }
+
+    public String getSocialSecurityNumber() {
+        return socialSecurityNumber;
+    }
+
+    public void setSocialSecurityNumber(String socialSecurityNumber) {
+        this.socialSecurityNumber = socialSecurityNumber;
+    }
 }
+

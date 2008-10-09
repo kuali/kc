@@ -15,6 +15,19 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.FetchType;
+import javax.persistence.Basic;
+import javax.persistence.Lob;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+import javax.persistence.IdClass;
+import javax.persistence.Transient;
+
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
@@ -22,19 +35,53 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Ynq;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.YnqConstants;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
+@IdClass(org.kuali.kra.proposaldevelopment.bo.id.ProposalYnqId.class)
+@Entity
+@Table(name="EPS_PROP_YNQ")
 public class ProposalYnq extends KraPersistableBusinessObjectBase {
 
+	@Id
+	@Column(name="PROPOSAL_NUMBER")
 	private String proposalNumber;
+	
+	@Id
+	@Column(name="QUESTION_ID")
 	private String questionId;
+	
+	@Column(name="ANSWER")
 	private String answer;
+	
+	@Lob
+	@Basic(fetch=FetchType.LAZY)
+	@Column(name="EXPLANATION")
 	private String explanation;
+	
+	@Column(name="REVIEW_DATE")
 	private Date reviewDate;
-    private Ynq ynq;
+	
+    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
+	@JoinColumn(name="QUESTION_ID", insertable=false, updatable=false)
+	private Ynq ynq;
+    
+    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
+    @JoinColumn(name="PROPOSAL_NUMBER", insertable = false, updatable = false)
+    private ProposalDevelopmentDocument proposalDevelopmentDocument;
+    
+    @Transient
     private String dummyAnswer;
+    
+    @Transient
     private boolean explanationRequried = true;
+    
+    @Transient
     private boolean reviewDateRequired = true;
+    
+    @Transient
     private String explanationRequiredDescription;
+    
+    @Transient
     private String reviewDateRequiredDescription;
     
 
@@ -141,4 +188,13 @@ public class ProposalYnq extends KraPersistableBusinessObjectBase {
     public void setReviewDateRequiredDescription(String reviewDateRequiredDescription) {
         this.reviewDateRequiredDescription = reviewDateRequiredDescription;
     }
+
+    public ProposalDevelopmentDocument getProposalDevelopmentDocument() {
+        return proposalDevelopmentDocument;
+    }
+
+    public void setProposalDevelopmentDocument(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        this.proposalDevelopmentDocument = proposalDevelopmentDocument;
+    }
 }
+

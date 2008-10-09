@@ -14,11 +14,11 @@ def sourceDirectories = [
 
 def mysql = false
 def persistenceXml = false
-def persistenceUnitName = "rice"
-def schemaName = "KCRADEV"
+def persistenceUnitName = "kcra"
+def schemaName = "KRADEV"
 def pkClassesOnly = false
 def clean = false
-def dry = true
+def dry = false
 def verbose = true
 
 /* End User Configurable Fields */

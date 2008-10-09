@@ -118,11 +118,11 @@ public abstract class KraTestBase extends KNSTestCase {
     public void setUp() throws Exception {
         setContextName("/kra-dev");
         setRelativeWebappRoot("/src/main/webapp");
-//        setSqlFilename("classpath:DefaultTestData.sql");
 //        setSqlDelimiter(";");
         setXmlFilename("classpath:DefaultTestData.xml");
         setSqlFilename("classpath:DefaultTestData.sql");
         super.setUp();
+        
         documentService = KNSServiceLocator.getDocumentService();
         GlobalVariables.setErrorMap(new ErrorMap());
         transactionalLifecycle = new TransactionalLifecycle();
@@ -132,10 +132,18 @@ public abstract class KraTestBase extends KNSTestCase {
 
     @After
     public void tearDown() throws Exception {
-        transactionalLifecycle.stop();
-        GlobalVariables.setErrorMap(new ErrorMap());
-        super.tearDown();
-        documentService = null;
+        try {         
+            transactionalLifecycle.stop();
+        } finally {
+            // we don't want to thrown any exceptions from finally clause
+            try {
+                GlobalVariables.setErrorMap(new ErrorMap());
+                super.tearDown();
+                documentService = null;
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+		}
     }
 
     @Override

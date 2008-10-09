@@ -17,7 +17,9 @@ package org.kuali.kra.proposaldevelopment.service;
 
 import java.util.List;
 
+import org.kuali.kra.proposaldevelopment.bo.InstituteNarrative;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.kra.proposaldevelopment.bo.ProposalNarrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
@@ -25,14 +27,14 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
  * This class...
  */
 public interface NarrativeService {
-    public void addNarrative(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative);
+    public void addNarrative(ProposalDevelopmentDocument proposaldevelopmentDocument,ProposalNarrative narrative);
     public void deleteProposalAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument,int lineToDelete);
     public void populatePersonNameForNarrativeUserRights(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative);
     public void replaceAttachment(Narrative narrative);
     public void populateNarrativeRightsForLoggedinUser(ProposalDevelopmentDocument proposaldevelopmentDocument);
     public void deleteInstitutionalAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument,int lineToDelete);
   
-    public void addInstituteAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative);
+    public void addInstituteAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument, InstituteNarrative narrative);
     
     /**
      * Delete a person from all of the narratives.  When a user is removed from the Permissions

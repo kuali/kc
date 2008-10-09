@@ -17,13 +17,35 @@ package org.kuali.kra.budget.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.budget.document.BudgetDocument;
+
+@MappedSuperclass
 public abstract class BudgetDistributionAndIncomeComponent extends KraPersistableBusinessObjectBase {
 
+    @Id
+    @Column(name="PROPOSAL_NUMBER")
     private String proposalNumber;
+    @Id
+    @Column(name="BUDGET_VERSION_NUMBER")
     private Integer budgetVersionNumber;
+    @Id
+    @Column(name="COST_SHARE_ID")
     private Integer documentComponentId;
+    
+    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
+    @JoinColumns({@JoinColumn(name="PROPOSAL_NUMBER", insertable = false, updatable = false), 
+                  @JoinColumn(name="BUDGET_VERSION_NUMBER", insertable = false, updatable = false)})
+    private BudgetDocument budgetDocument;
 
     public abstract String getDocumentComponentIdKey();
     
@@ -60,5 +82,12 @@ public abstract class BudgetDistributionAndIncomeComponent extends KraPersistabl
     public void setDocumentComponentId(Integer costShareId) {
         this.documentComponentId = costShareId;
     }
-    
+
+    public BudgetDocument getBudgetDocument() {
+        return budgetDocument;
+    }
+
+    public void setBudgetDocument(BudgetDocument budgetDocument) {
+        this.budgetDocument = budgetDocument;
+    }
 }
