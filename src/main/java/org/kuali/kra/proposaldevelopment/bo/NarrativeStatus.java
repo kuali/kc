@@ -1,12 +1,24 @@
 package org.kuali.kra.proposaldevelopment.bo;
 
+import javax.persistence.Version;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+@Entity
+@Table(name="NARRATIVE_STATUS")
 public class NarrativeStatus extends KraPersistableBusinessObjectBase {
+	@Id
+	@Column(name="NARRATIVE_STATUS_CODE")
 	private String narrativeStatusCode;
+	@Column(name="DESCRIPTION")
 	private String description;
 
 	public String getNarrativeStatusCode() {
@@ -48,3 +60,4 @@ public class NarrativeStatus extends KraPersistableBusinessObjectBase {
 	    return false;
 	}
 }
+

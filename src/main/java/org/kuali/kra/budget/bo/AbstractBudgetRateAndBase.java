@@ -18,28 +18,77 @@ package org.kuali.kra.budget.bo;
 import java.util.LinkedHashMap;
 import java.sql.Date;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
+
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 
+@MappedSuperclass
 public abstract class AbstractBudgetRateAndBase extends KraPersistableBusinessObjectBase {
+    
+    @Id
+    @Column(name="BUDGET_PERIOD_NUMBER")
     private Long budgetPeriodId;
 
-
-    private Integer budgetPeriod;
+    @Id
+    @Column(name="LINE_ITEM_NUMBER")
 	private Integer lineItemNumber;
-	private String proposalNumber;
+    
+	@Id
+	@Column(name="RATE_CLASS_CODE")
 	private String rateClassCode;
+	
+	@Id
+	@Column(name="RATE_NUMBER")
 	private Integer rateNumber;
+	
+	@Id
+	@Column(name="RATE_TYPE_CODE")
 	private String rateTypeCode;
+	
+	@Column(name="PROPOSAL_NUMBER")
+	private String proposalNumber;
+	
+	@Column(name="VERSION_NUMBER")
 	private Integer budgetVersionNumber;
+	
+	@Column(name="BUDGET_PERIOD")
+	private Integer budgetPeriod;
+	
+	@Column(name="APPLIED_RATE")
 	private BudgetDecimal appliedRate;
+	
+	@Column(name="BASE_COST_SHARING")
 	private BudgetDecimal baseCostSharing;
+	
+	@Column(name="CALCULATED_COST")
 	private BudgetDecimal calculatedCost;
+	
+	@Column(name="CALCULATED_COST_SHARING")
 	private BudgetDecimal calculatedCostSharing;
+	
+	@Column(name="END_DATE")
 	private Date endDate;
+	
+	@Column(name="ON_OFF_CAMPUS_FLAG")
 	private Boolean onOffCampusFlag;
+	
+	@Column(name="START_DATE")
 	private Date startDate;
+	
     private RateClass rateClass;
+    
+    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
+    @JoinColumns({@JoinColumn(name = "BUDGET_PERIOD_NUMBER", insertable = false, updatable = false), 
+                  @JoinColumn(name="LINE_ITEM_NUMBER", insertable = false, updatable = false)})
+    private BudgetLineItem budgetLineItem;
 
 	public Integer getBudgetPeriod() {
 		return budgetPeriod;
@@ -159,6 +208,14 @@ public abstract class AbstractBudgetRateAndBase extends KraPersistableBusinessOb
 
     public void setRateClass(RateClass rateClass) {
         this.rateClass = rateClass;
+    }
+
+    public BudgetLineItem getBudgetLineItem() {
+        return budgetLineItem;
+    }
+
+    public void setBudgetLineItem(BudgetLineItem budgetLineItem) {
+        this.budgetLineItem = budgetLineItem;
     }
 
     @Override 

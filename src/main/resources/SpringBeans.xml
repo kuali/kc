@@ -1,5 +1,29 @@
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans>
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Copyright 2006-2007 The Kuali Foundation.
+
+	Licensed under the Educational Community License, Version 1.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+
+	http://www.opensource.org/licenses/ecl1.php
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="properties" ref="configProperties" />
@@ -18,6 +42,7 @@
 		<property name="targetMethod" value="getProperties" />
 	</bean>
 
+<!--
 	<bean id="AtomikosTxMgr" class="com.atomikos.icatch.jta.UserTransactionManager" init-method="init" destroy-method="close">
 		<property name="forceShutdown" value="true"/>
 		<property name="transactionTimeout" value="${transaction.timeout}" />
@@ -47,6 +72,33 @@
 		<property name="user" value="${datasource.username}" />
 		<property name="password" value="${datasource.password}" />
 	</bean>
+	-->
+	
+	      <!--  JOTM JTA configuration -->
+      <bean id="jotm" class="org.springframework.transaction.jta.JotmFactoryBean" />
+      
+      <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" lazy-init="true">
+            <property name="userTransaction">
+                  <ref local="jotm" />
+            </property>
+            <property name="transactionManager">
+                  <ref local="jotm" />
+            </property>
+      </bean>
+      
+      <bean id="dataSource" class="org.kuali.rice.database.XAPoolDataSource">
+            <property name="transactionManager" ref="jotm" />
+            <property name="driverClassName" value="${datasource.driver.name}" />
+            <property name="url" value="${datasource.url}" />
+            <property name="maxSize" value="${datasource.pool.maxSize}" />
+            <property name="minSize" value="${datasource.pool.minSize}" />
+            <property name="maxWait" value="${datasource.pool.maxWait}" />
+            <property name="validationQuery" value="${datasource.pool.validationQuery}" />
+            <property name="username" value="${datasource.username}" />
+            <property name="password" value="${datasource.password}" />
+      </bean>
+      <!-- End JOTM config -->
+	
 	
 	<bean id="nonTransactionalDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="${datasource.driver.name}"/>
@@ -100,8 +152,8 @@
 	<bean id="rice" class="org.kuali.rice.config.RiceConfigurer">
 		<property name="dataSource" ref="dataSource" />
 		<property name="nonTransactionalDataSource" ref="nonTransactionalDataSource" />
-		<property name="transactionManager" ref="AtomikosTxMgr" />
-		<property name="userTransaction" ref="AtomikosUsrTx" />
+		<property name="transactionManager" ref="jotm" />
+		<property name="userTransaction" ref="jotm" />
 		<property name="rootConfig" ref="config" />
 		<property name="rootResourceLoader" ref="kraRootResourceLoader" />
 		<property name="messageEntity" value="KRA" />
@@ -260,7 +312,7 @@
         <property name="serviceName" value="lookupDao" />
     </bean>
 
-	<bean id="lookupableHelperService" class="org.kuali.core.lookup.KualiLookupableHelperServiceImpl" singleton="false">
+	<bean id="lookupableHelperService" class="org.kuali.core.lookup.KualiLookupableHelperServiceImpl" scope="prototype">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -334,8 +386,8 @@
         <ref bean="sponsorHierarchyDao" />
       </property>
  	</bean>
-    <bean id="sponsorHierarchyDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.SponsorHierarchyDaoOjb">
-	</bean>	
+ 	
+    <bean id="sponsorHierarchyDao" class="org.kuali.kra.dao.ojb.SponsorHierarchyJpaDao" />
 
 	<bean id="narrativeAuthZService" class="org.kuali.kra.proposaldevelopment.service.impl.NarrativeAuthZServiceImpl">
 		<property name="businessObjectService">
@@ -1008,14 +1060,14 @@
 
     <!-- ************* WEB AUTHORIZATION END **************** -->
 	
-	<bean id="s2sOpportunityLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="s2sOpportunityLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" scope="prototype">
   		<property name="lookupableHelperService">
     		<ref bean="s2sOpportunityLookupableHelperService" />
   		</property>  		
 	</bean>	
 
 	<bean id="s2sOpportunityLookupableHelperService" class="org.kuali.kra.lookup.S2sOpportunityLookupableHelperServiceImpl" 
- 		singleton="false" parent="lookupableHelperService"> 
+ 		scope="prototype" parent="lookupableHelperService"> 
  		<property name="s2SService" >
   			<ref bean="s2SService"/>
   		</property>
@@ -1031,17 +1083,17 @@
         <property name="lookupDao" ref="lookupDao" />
     </bean>
     
-    <bean id="kimDao" parent="platformAwareDao" class="org.kuali.kra.kim.service.impl.KimDaoImpl" />
+    <bean id="kimDao" class="org.kuali.kra.kim.service.impl.KimDaoJpaImpl" />
         
-    <bean id="personDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.PersonDaoOjb" />
+    <bean id="personDao" class="org.kuali.kra.dao.jpa.PersonDaoJpa" />
     	
     <bean id="nonOrganizationalRolodexHelperService" class="org.kuali.kra.lookup.NonOrganizationalRolodexLookupableHelperServiceImpl" 
-        singleton="false" parent="lookupableHelperService">
+       scope="prototype"  parent="lookupableHelperService">
         <property name="rolodexDao" ref="rolodexDao" /> 
         <property name="lookupService" ref="lookupService" />
     </bean> 
 
-    <bean id="nonOrganizationalRolodexLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+    <bean id="nonOrganizationalRolodexLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService" ref="nonOrganizationalRolodexHelperService" />
     </bean>    
 	
@@ -1051,30 +1103,30 @@
 		</property>
 	</bean>
 	
-	<bean id="customLookupable" class="org.kuali.kra.lookup.CustomLookupableImpl" singleton="false">
+	<bean id="customLookupable" class="org.kuali.kra.lookup.CustomLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="lookupableHelperService" />
 		</property>
 	</bean>
 	
-	<bean id="budgetExpenseLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="budgetExpenseLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" scope="prototype">
   		<property name="lookupableHelperService">
     		<ref bean="budgetExpenseLookupableHelperService" />
   		</property>  		
 	</bean>	
 
 	<bean id="budgetExpenseLookupableHelperService" class="org.kuali.kra.lookup.BudgetExpenseLookupableHelperServiceImpl" 
- 		singleton="false" parent="lookupableHelperService">
+ 		scope="prototype" parent="lookupableHelperService">
   	</bean>
   	
-	<bean id="sponsorLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="sponsorLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" scope="prototype">
   		<property name="lookupableHelperService">
     		<ref bean="sponsorLookupableHelperService" />
   		</property>  		
 	</bean>	
 
 	<bean id="sponsorLookupableHelperService" class="org.kuali.kra.lookup.SponsorLookupableHelperServiceImpl" 
- 		singleton="false" parent="lookupableHelperService">
+ 		scope="prototype" parent="lookupableHelperService">
   	</bean>
 	
 	<bean id="objectCodeToBudgetCategoryCodeService" class="org.kuali.kra.service.impl.ObjectCodeToBudgetCategoryCodeServiceImpl">
@@ -1083,17 +1135,17 @@
 		</property>
 	</bean>
 	
-	<bean id="onOffCampusLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="onOffCampusLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" scope="prototype">
   		<property name="lookupableHelperService">
     		<ref bean="onOffCampusLookupableHelperServiceImpl" />
   		</property>  		
 	</bean>	
 	
 	<bean id="onOffCampusLookupableHelperServiceImpl" class="org.kuali.kra.lookup.OnOffCampusLookupableHelperServiceImpl" 
- 		singleton="false" parent="lookupableHelperService">
+ 		scope="prototype" parent="lookupableHelperService">
   	</bean>
   	
-  	<bean id="copyPeriodsQuestion" class="org.kuali.kra.question.CopyPeriodsQuestion" singleton="false" />
+  	<bean id="copyPeriodsQuestion" class="org.kuali.kra.question.CopyPeriodsQuestion" scope="prototype"/>
 
 	<bean id="coeusBean2KraBoConverterService" class="org.kuali.kra.budget.service.impl.CoeusBean2KraBoConverterServiceImpl">
 	</bean>
@@ -1148,4 +1200,37 @@
 			</list>
 		</property>
 	</bean>
+	
+	  <!-- START JPA CONFIGURATION -->
+	  
+   <!-- Used for @PersistenceContext auto-injection -->
+   <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
+
+   <bean id="entityManagerFactory" class="org.kuali.rice.jpa.spring.RiceEntityManagerProxyFactoryBean">
+     <constructor-arg value="kcra"/>
+     <constructor-arg ref="dataSource"/>
+   </bean>
+
+   <!-- Used for @Transactional so you don't have to wire services up in here -->
+   <tx:annotation-driven transaction-manager="transactionManager"/>
+
+   <bean id="NoResultExceptionInterceptor" class="org.kuali.rice.jpa.spring.NoResultExceptionInterceptor" />
+
+   <!-- Add your specialized DAOs here... if you don't have any, you can remove this block -->
+   <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+     <property name="interceptorNames">
+       <list>
+         <idref local="NoResultExceptionInterceptor" />
+       </list>
+     </property>
+     <property name="beanNames">
+       <list>
+         <idref local="personDao" />
+         <idref local="kimDao" />
+         <idref local="sponsorHierarchyDao" />
+       </list>
+     </property>
+   </bean>
+	  <!-- END JPA CONFIGURATION -->
+	
 </beans>

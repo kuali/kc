@@ -15,6 +15,13 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import javax.persistence.Version;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -24,9 +31,14 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * @author $Author: gmcgrego $
  * @version $Revision: 1.4 $
  */
+@Entity
+@Table(name="PROPOSAL_RESPONSE")
 public class ProposalResponse extends KraPersistableBusinessObjectBase {
 	
+	@Id
+	@Column(name="PROPOSAL_RESPONSE_CODE")
 	private String proposalResponseCode;
+	@Column(name="DESCRIPTION")
 	private String description;
 	
 	public String getDescription() {
@@ -52,3 +64,4 @@ public class ProposalResponse extends KraPersistableBusinessObjectBase {
 		return propMap;
 	}
 }
+

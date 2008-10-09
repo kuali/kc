@@ -91,6 +91,13 @@
     <param name="KualiExceptionIncidentServiceImpl.REPORT_MAIL_LIST"></param>
     <!-- End of Exception Incident handling and reporting -->
 
+    <!-- Configuration for Exception Incident handling and reporting -->
+    <param name="KualiExceptionHandlerAction.EXCEPTION_INCIDENT_REPORT_SERVICE">knsExceptionIncidentService</param>
+    <param name="MailMessage.from">admin@kuali.org</param>
+    <param name="KualiExceptionIncidentServiceImpl.additionalExceptionNameList"></param>
+    <param name="KualiExceptionIncidentServiceImpl.REPORT_MAIL_LIST"></param>
+    <!-- End of Exception Incident handling and reporting -->
+
 	<!-- Ken stuffs... -->
     <!-- stock notification system configuration properties -->
 
@@ -123,4 +130,86 @@
     <param name="filter.cas.edu.yale.its.tp.cas.client.filter.validateUrl">${app.host}/${app.context.name}/cas/serviceValidate</param>
 	<param name="filtermapping.cas.0">/*</param>
 	<param name="documentSearch.resultProcessor.class.name">org.kuali.kra.proposaldevelopment.document.search.ProposalDocumentSearchResultProcessor</param>
+
+    <!-- config for jpa -->
+   <param name="rice.jpa.enabled">true</param>
+
+   <!-- JPA Properties (MYSQL) -->
+   <param name="rice.kns.jpa.PersistenceUnitName">kns-unit</param>
+   <param name="rice.kns.jpa.PersistenceXmlLocation">META-INF/kns-persistence.xml</param>
+   <param name="rice.kns.jpa.DatabasePlatform">org.hibernate.dialect.Oracle10gDialect</param>
+   <param name="rice.kns.jpa.ShowSql">true</param>
+   <param name="rice.kns.jpa.GenerateDdl">false</param>
+   <param name="rice.kns.jpa.UseSerialization">false</param>
+   <param name="rice.kns.jpa.SerializationFilename">/tmp/kns.cache</param>
+   <param name="rice.kns.jpa.JpaProperties.hibernate.show_sql">true</param>
+   <param name="rice.kns.jpa.JpaProperties.hibernate.format_sql">false</param>
+   <param name="rice.kns.jpa.JpaProperties.hibernate.use_sql_comments">false</param>
+   <param name="rice.kns.jpa.JpaProperties.hibernate.default_schema">KRADEV</param>
+
+   <param name="rice.ksb.jpa.PersistenceUnitName">ksb-unit</param>
+   <param name="rice.ksb.jpa.PersistenceXmlLocation">META-INF/ksb-persistence.xml</param>
+   <param name="rice.ksb.jpa.DatabasePlatform">org.hibernate.dialect.Oracle10gDialect</param>
+   <param name="rice.ksb.jpa.ShowSql">true</param>
+   <param name="rice.ksb.jpa.GenerateDdl">false</param>
+   <param name="rice.ksb.jpa.UseSerialization">false</param>
+   <param name="rice.ksb.jpa.SerializationFilename">/tmp/ksb.cache</param>
+   <param name="rice.ksb.jpa.JpaProperties.hibernate.show_sql">true</param>
+   <param name="rice.ksb.jpa.JpaProperties.hibernate.format_sql">false</param>
+   <param name="rice.ksb.jpa.JpaProperties.hibernate.use_sql_comments">false</param>
+   <param name="rice.ksb.jpa.JpaProperties.hibernate.default_schema">RICE0910</param>
+
+   <param name="rice.kcb.jpa.PersistenceUnitName">kcb-unit</param>
+   <param name="rice.kcb.jpa.PersistenceXmlLocation">META-INF/kcb-persistence.xml</param>
+   <param name="rice.kcb.jpa.DatabasePlatform">org.hibernate.dialect.Oracle10gDialect</param>
+   <param name="rice.kcb.jpa.ShowSql">true</param>
+   <param name="rice.kcb.jpa.GenerateDdl">false</param>
+   <param name="rice.kcb.jpa.UseSerialization">false</param>
+   <param name="rice.kcb.jpa.SerializationFilename">/tmp/kcb.cache</param>
+   <param name="rice.kcb.jpa.JpaProperties.hibernate.show_sql">true</param>
+   <param name="rice.kcb.jpa.JpaProperties.hibernate.format_sql">false</param>
+   <param name="rice.kcb.jpa.JpaProperties.hibernate.use_sql_comments">false</param>
+   <param name="rice.kcb.jpa.JpaProperties.hibernate.default_schema">KRADEV</param>
+
+   <param name="rice.ken.jpa.PersistenceUnitName">ken-unit</param>
+   <param name="rice.ken.jpa.PersistenceXmlLocation">META-INF/ken-persistence.xml</param>
+   <param name="rice.ken.jpa.DatabasePlatform">org.hibernate.dialect.Oracle10gDialect</param>
+   <param name="rice.ken.jpa.ShowSql">true</param>
+   <param name="rice.ken.jpa.GenerateDdl">false</param>
+   <param name="rice.ken.jpa.UseSerialization">false</param>
+   <param name="rice.ken.jpa.SerializationFilename">/tmp/ken.cache</param>
+   <param name="rice.ken.jpa.JpaProperties.hibernate.show_sql">true</param>
+   <param name="rice.ken.jpa.JpaProperties.hibernate.format_sql">false</param>
+   <param name="rice.ken.jpa.JpaProperties.hibernate.use_sql_comments">false</param>
+   <param name="rice.ken.jpa.JpaProperties.hibernate.default_schema">KRADEV</param>
+
+
+   <param name="rice.kew.jpa.PersistenceUnitName">kew-unit</param>
+   <param name="rice.kew.jpa.PersistenceXmlLocation">META-INF/kew-persistence.xml</param>
+   <param name="rice.kew.jpa.DatabasePlatform">org.hibernate.dialect.Oracle10gDialect</param>
+   <param name="rice.kew.jpa.ShowSql">true</param>
+   <param name="rice.kew.jpa.GenerateDdl">false</param>
+   <param name="rice.kew.jpa.UseSerialization">false</param>
+   <param name="rice.kew.jpa.SerializationFilename">/tmp/kew.cache</param>
+   <param name="rice.kew.jpa.JpaProperties.hibernate.show_sql">true</param>
+   <param name="rice.kew.jpa.JpaProperties.hibernate.format_sql">false</param>
+   <param name="rice.kew.jpa.JpaProperties.hibernate.use_sql_comments">false</param>
+   <param name="rice.kew.jpa.JpaProperties.hibernate.default_schema">KRADEV</param>
+
+   <param name="kcra.jpa.PersistenceUnitName">kcra-unit</param>
+   <param name="kcra.jpa.PersistenceXmlLocation">META-INF/persistence.xml</param>
+   <param name="kcra.jpa.DatabasePlatform">org.hibernate.dialect.Oracle10gDialect</param>
+   <param name="kcra.jpa.ShowSql">true</param>
+   <param name="kcra.jpa.GenerateDdl">false</param>
+   <param name="kcra.jpa.UseSerialization">false</param>
+   <param name="kcra.jpa.SerializationFilename">/tmp/kcra.cache</param>
+   <param name="kcra.jpa.JpaProperties.hibernate.show_sql">true</param>
+   <param name="kcra.jpa.JpaProperties.hibernate.format_sql">false</param>
+   <param name="kcra.jpa.JpaProperties.hibernate.use_sql_comments">false</param>
+   <!-- replace KRADEV with ${datasource.username} ? -->
+   <param name="kcra.jpa.JpaProperties.hibernate.default_schema">KRADEV</param>
+
+    <!-- end jpa -->
+
+
 </config>

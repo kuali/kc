@@ -372,7 +372,7 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
             
             // If the attachments are copied, they had better be the same.
 
-            if (!equals(srcDoc.getNarratives(), destDoc.getNarratives())) {
+            if (!equals(srcDoc.getProposalNarratives(), destDoc.getProposalNarratives())) {
                 fail("Proposal Attachments are different");
             }
             
@@ -386,7 +386,7 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
         } else {
             // If the attachments are not copied, there must not be any.
             
-            if (destDoc.getNarratives().size() != 0) {
+            if (destDoc.getProposalNarratives().size() != 0) {
                 fail("Proposal Attachments is not empty");
             } else if (destDoc.getInstituteAttachments().size() != 0) {
                 fail("Internal Attachments is not empty");

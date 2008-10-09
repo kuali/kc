@@ -15,6 +15,14 @@
  */
 package org.kuali.kra.budget.bo;
 
+import javax.persistence.Version;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+import javax.persistence.IdClass;
+
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.budget.BudgetDecimal;
@@ -22,15 +30,22 @@ import org.kuali.kra.budget.BudgetDecimal;
 /**
  * 
  */
+@IdClass(org.kuali.kra.budget.bo.id.BudgetCostShareId.class)
+@Entity
+@Table(name="EPS_PROP_COST_SHARING")
 public class BudgetCostShare extends BudgetDistributionAndIncomeComponent {
     private static final long serialVersionUID = 6199797319981907016L;
 
     public static final String DOCUMENT_COMPONENT_ID_KEY = "BUDGET_COST_SHARE_KEY";
     
-    private Integer fiscalYear;
-    private BudgetDecimal shareAmount;
-    private BudgetDecimal sharePercentage;
-    private String sourceAccount;
+    @Column(name="FISCAL_YEAR")
+	private Integer fiscalYear;
+    @Column(name="AMOUNT")
+	private BudgetDecimal shareAmount;
+    @Column(name="COST_SHARING_PERCENTAGE")
+	private BudgetDecimal sharePercentage;
+    @Column(name="SOURCE_ACCOUNT")
+	private String sourceAccount;
 
     /**
      * 

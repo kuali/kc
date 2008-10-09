@@ -17,30 +17,69 @@ package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@IdClass(org.kuali.kra.bo.id.SponsorHierarchyId.class)
+@Entity
+@Table(name="SPONSOR_HIERARCHY")
 public class SponsorHierarchy extends KraPersistableBusinessObjectBase {
 
+	@Id
+	@Column(name="HIERARCHY_NAME")
 	private String hierarchyName;
+	@Id
+	@Column(name="SPONSOR_CODE")
 	private String sponsorCode;
+	@Column(name="LEVEL1")
 	private String level1;
+	@Column(name="LEVEL10")
 	private String level10;
+	@Column(name="LEVEL10_SORTID")
 	private Integer level10Sortid;
+	@Column(name="LEVEL1_SORTID")
 	private Integer level1Sortid;
+	@Column(name="LEVEL2")
 	private String level2;
+	@Column(name="LEVEL2_SORTID")
 	private Integer level2Sortid;
+	@Column(name="LEVEL3")
 	private String level3;
+	@Column(name="LEVEL3_SORTID")
 	private Integer level3Sortid;
+	@Column(name="LEVEL4")
 	private String level4;
+	@Column(name="LEVEL4_SORTID")
 	private Integer level4Sortid;
+	@Column(name="LEVEL5")
 	private String level5;
+	@Column(name="LEVEL5_SORTID")
 	private Integer level5Sortid;
+	@Column(name="LEVEL6")
 	private String level6;
+	@Column(name="LEVEL6_SORTID")
 	private Integer level6Sortid;
+	@Column(name="LEVEL7")
 	private String level7;
+	@Column(name="LEVEL7_SORTID")
 	private Integer level7Sortid;
+	@Column(name="LEVEL8")
 	private String level8;
+	@Column(name="LEVEL8_SORTID")
 	private Integer level8Sortid;
+	@Column(name="LEVEL9")
 	private String level9;
+	@Column(name="LEVEL9_SORTID")
 	private Integer level9Sortid;
+	@ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
+	@JoinColumn(name="SPONSOR_CODE", insertable=false, updatable=false)
 	private Sponsor sponsor;
 
 	public SponsorHierarchy(){
@@ -260,3 +299,4 @@ public class SponsorHierarchy extends KraPersistableBusinessObjectBase {
         this.sponsor = sponsor;
     }
 }
+

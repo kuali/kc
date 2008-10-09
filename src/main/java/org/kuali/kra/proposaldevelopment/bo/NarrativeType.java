@@ -15,6 +15,13 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import javax.persistence.Version;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+
 import java.util.LinkedHashMap;
 
 
@@ -27,13 +34,21 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * 
  * @version $Revision: 1.4 $
  */
+@Entity
+@Table(name="NARRATIVE_TYPE")
 public class NarrativeType extends KraPersistableBusinessObjectBase {
     
-    private String narrativeTypeCode;
-    private String description;
-    private String systemGenerated;
-    private String allowMultiple;
-    private String narrativeTypeGroup;
+    @Id
+	@Column(name="NARRATIVE_TYPE_CODE")
+	private String narrativeTypeCode;
+    @Column(name="DESCRIPTION")
+	private String description;
+    @Column(name="SYSTEM_GENERATED")
+	private String systemGenerated;
+    @Column(name="ALLOW_MULTIPLE")
+	private String allowMultiple;
+    @Column(name="NARRATIVE_TYPE_GROUP")
+	private String narrativeTypeGroup;
     
     public String getAllowMultiple() {
         return allowMultiple;
@@ -99,3 +114,4 @@ public class NarrativeType extends KraPersistableBusinessObjectBase {
         return false;
     }
 }
+

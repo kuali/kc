@@ -15,6 +15,21 @@
  */
 package org.kuali.kra.budget.bo;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Version;
+import javax.persistence.FetchType;
+import javax.persistence.Basic;
+import javax.persistence.Lob;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+import javax.persistence.IdClass;
+
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -29,27 +44,61 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.budget.document.BudgetDocument;
 
 import edu.mit.coeus.budget.bean.BudgetSubAwardAttachmentBean;
 import edu.mit.coeus.budget.bean.BudgetSubAwardBean;
 
+@IdClass(org.kuali.kra.budget.bo.id.BudgetSubAwardsId.class)
+@Entity
+@Table(name="BUDGET_SUB_AWARDS")
 public class BudgetSubAwards extends KraPersistableBusinessObjectBase {
+	@Id
+	@Column(name="PROPOSAL_NUMBER")
 	private String proposalNumber;
+	@Id
+    @Column(name="VERSION_NUMBER")
+    private Integer budgetVersionNumber;
+	@Id
+	@Column(name="SUB_AWARD_NUMBER")
 	private Integer subAwardNumber;
-	private Integer budgetVersionNumber;
+	@Column(name="COMMENTS")
 	private String comments;
+	@Column(name="ORGANIZATION_NAME")
 	private String organizationName;
+	@Column(name="SUB_AWARD_STATUS_CODE")
 	private Integer subAwardStatusCode;
+	@Column(name="SUB_AWARD_XFD_FILE")
 	private byte[] subAwardXfdFileData;
+	@Column(name="SUB_AWARD_XFD_FILE_NAME")
 	private String subAwardXfdFileName;
+	@Lob
+	@Basic(fetch=FetchType.LAZY)
+	@Column(name="SUB_AWARD_XML_FILE")
 	private String subAwardXmlFileData;
+	@Column(name="TRANSLATION_COMMENTS")
 	private String translationComments;
+	@Column(name="XFD_UPDATE_TIMESTAMP")
 	private Timestamp xfdUpdateTimestamp;
+	@Column(name="XFD_UPDATE_USER")
 	private String xfdUpdateUser;
+	@Column(name="XML_UPDATE_TIMESTAMP")
 	private Timestamp xmlUpdateTimestamp;
+	@Column(name="XML_UPDATE_USER")
 	private String xmlUpdateUser;
+	
+	@OneToMany(
+           targetEntity=org.kuali.kra.budget.bo.BudgetSubAwardAttachment.class, mappedBy="budgetSubAwards")
 	private List<BudgetSubAwardAttachment> budgetSubAwardAttachments;
-    private List<BudgetSubAwardFiles> budgetSubAwardFiles;
+	
+    @OneToMany(
+           targetEntity=org.kuali.kra.budget.bo.BudgetSubAwardFiles.class, mappedBy="budgetSubAwards")
+	private List<BudgetSubAwardFiles> budgetSubAwardFiles;
+    
+    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
+    @JoinColumns({@JoinColumn(name="PROPOSAL_NUMBER", insertable = false, updatable = false), 
+                  @JoinColumn(name="VERSION_NUMBER", insertable = false, updatable = false)})
+    private BudgetDocument budgetDocument;
 
 //	private transient FormFile subAwardXfdFile;
 //	private transient FormFile subAwardXmlFile;
@@ -276,4 +325,12 @@ public class BudgetSubAwards extends KraPersistableBusinessObjectBase {
         this.budgetSubAwardFiles = budgetSubAwardFiles;
     }
     
+    public BudgetDocument getBudgetDocument() {
+        return budgetDocument;
+    }
+    
+    public void setBudgetDocument(BudgetDocument budgetDocument) {
+        this.budgetDocument = budgetDocument;
+    }
 }
+

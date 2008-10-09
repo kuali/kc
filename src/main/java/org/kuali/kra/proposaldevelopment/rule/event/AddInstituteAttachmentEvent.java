@@ -17,6 +17,7 @@ package org.kuali.kra.proposaldevelopment.rule.event;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
+import org.kuali.kra.proposaldevelopment.bo.InstituteNarrative;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AddInstituteAttachmentRule;
@@ -29,7 +30,7 @@ public class AddInstituteAttachmentEvent extends NarrativeEventBase{
      * @param proposalDevelopmentDocument
      * @param narrative
      */
-    public AddInstituteAttachmentEvent(String errorPathPrefix, ProposalDevelopmentDocument document, Narrative narrative) {
+    public AddInstituteAttachmentEvent(String errorPathPrefix, ProposalDevelopmentDocument document, InstituteNarrative narrative) {
         super("adding institute attachment to document " + getDocumentId(document), errorPathPrefix, document, narrative);
     }
 
@@ -40,7 +41,7 @@ public class AddInstituteAttachmentEvent extends NarrativeEventBase{
      * @param document
      * @param narrative
      */
-    public AddInstituteAttachmentEvent(String errorPathPrefix, Document document, Narrative narrative) {
+    public AddInstituteAttachmentEvent(String errorPathPrefix, Document document, InstituteNarrative narrative) {
         this(errorPathPrefix, (ProposalDevelopmentDocument) document, narrative);
     }
 

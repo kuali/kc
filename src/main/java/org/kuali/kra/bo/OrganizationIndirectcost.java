@@ -1,21 +1,46 @@
 package org.kuali.kra.bo;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+import javax.persistence.IdClass;
+
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.budget.RateDecimal;
 
+@IdClass(org.kuali.kra.bo.id.OrganizationIndirectcostId.class)
+@Entity
+@Table(name="ORGANIZATION_IDC")
 public class OrganizationIndirectcost extends KraPersistableBusinessObjectBase {
 
+	@Id
+	@Column(name="IDC_NUMBER")
 	private Integer idcNumber;
+	@Id
+	@Column(name="ORGANIZATION_ID")
 	private String organizationId;
+	@Column(name="APPLICABLE_IDC_RATE")
 	private RateDecimal applicableIndirectcostRate;
+	@Column(name="END_DATE")
 	private Date endDate;
+	@Column(name="IDC_COMMENT")
 	private String idcComment;
+	@Column(name="IDC_RATE_TYPE_CODE")
 	private Integer idcRateTypeCode;
+	@Column(name="REQUESTED_DATE")
 	private Date requestedDate;
+	@Column(name="START_DATE")
 	private Date startDate;
-    private Organization organization;
+    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
+	@JoinColumn(name="ORGANIZATION_ID", insertable=false, updatable=false)
+	private Organization organization;
 
 	public OrganizationIndirectcost(){
 		super();
@@ -108,3 +133,4 @@ public class OrganizationIndirectcost extends KraPersistableBusinessObjectBase {
         this.organization = organization;
     }
 }
+

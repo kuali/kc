@@ -1,5 +1,12 @@
 package org.kuali.kra.proposaldevelopment.bo;
 
+import javax.persistence.Version;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -7,6 +14,8 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 /**
  * The Proposal State represents the current state of a proposal.
  */
+@Entity
+@Table(name="PROPOSAL_STATE")
 public class ProposalState extends KraPersistableBusinessObjectBase {
 	
 	public static final String IN_PROGRESS = "1";
@@ -21,7 +30,10 @@ public class ProposalState extends KraPersistableBusinessObjectBase {
 	public static final String CANCELED = "10";
 	public static final String DOCUMENT_ERROR = "11";
 	
-    private String stateTypeCode;
+    @Id
+	@Column(name="STATE_TYPE_CODE")
+	private String stateTypeCode;
+	@Column(name="DESCRIPTION")
 	private String description;
 	
 	/**
@@ -69,3 +81,4 @@ public class ProposalState extends KraPersistableBusinessObjectBase {
 		return map;
 	}
 }
+

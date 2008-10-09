@@ -15,6 +15,19 @@
  */
 package org.kuali.kra.budget.bo;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Version;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+import javax.persistence.IdClass;
+
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
@@ -24,33 +37,64 @@ import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.service.JobCodeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.springframework.util.StringUtils;
 
 /**
  * BudgetPerson business object
  */
+@IdClass(org.kuali.kra.budget.bo.id.BudgetPersonId.class)
+@Entity
+@Table(name="BUDGET_PERSONS")
 public class BudgetPerson extends KraPersistableBusinessObjectBase {
-	
-    private static final long serialVersionUID = 1L;
-    
-    private Date effectiveDate;
+
+	private static final long serialVersionUID = 1L;
+
+    @Id
+    @Column(name="PROPOSAL_NUMBER")
+    private String proposalNumber;
+    @Id
+    @Column(name="VERSION_NUMBER")
+    private Integer budgetVersionNumber;
+    @Id
+    @Column(name="PERSON_SEQUENCE_NUMBER")
+    private Integer personSequenceNumber;
+	@Column(name="EFFECTIVE_DATE")
+	private Date effectiveDate;
+	@Column(name="JOB_CODE")
 	private String jobCode;
 	private String jobTitle;
+	@Column(name="NON_EMPLOYEE_FLAG")
 	private Boolean nonEmployeeFlag;
+	@Column(name="PERSON_ID")
 	private String personId;
-    private Integer rolodexId;
-    private String tbnId;
-	private String proposalNumber;
-	private Integer budgetVersionNumber;
+    @Column(name="ROLODEX_ID")
+	private Integer rolodexId;
+    @Column(name="TBN_ID")
+	private String tbnId;
+	@Column(name="APPOINTMENT_TYPE_CODE")
 	private String appointmentTypeCode;
+	@Column(name="CALCULATION_BASE")
 	private BudgetDecimal calculationBase;
+	@Column(name="PERSON_NAME")
 	private String personName;
+	@OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
+	@JoinColumn(name="APPOINTMENT_TYPE_CODE", insertable=false, updatable=false)
 	private AppointmentType appointmentType;
-	private Integer personSequenceNumber;
+	@OneToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="PERSON_ID", insertable=false, updatable=false)
 	private Person person;
+	@OneToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="ROLODEX_ID", insertable=false, updatable=false)
 	private Rolodex rolodex;
+	
     private String role;
+    
+    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
+    @JoinColumns({@JoinColumn(name="PROPOSAL_NUMBER", insertable = false, updatable = false), 
+                  @JoinColumn(name="VERSION_NUMBER", insertable = false, updatable = false)})
+    private BudgetDocument budgetDocument;
 
 	public Date getEffectiveDate() {
 		return effectiveDate;
@@ -302,6 +346,14 @@ public class BudgetPerson extends KraPersistableBusinessObjectBase {
         this.role = role;
     }
     
+    public BudgetDocument getBudgetDocument() {
+        return budgetDocument;
+    }
+
+    public void setBudgetDocument(BudgetDocument budgetDocument) {
+        this.budgetDocument = budgetDocument;
+    }
+
     /**
      * This method determines if the given budgetPerson is the same person with the same job code & effective date
      * @param budgetPerson
@@ -356,3 +408,4 @@ public class BudgetPerson extends KraPersistableBusinessObjectBase {
     }
     
 }
+

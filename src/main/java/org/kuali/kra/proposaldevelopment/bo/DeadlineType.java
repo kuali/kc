@@ -15,6 +15,13 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import javax.persistence.Version;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -23,9 +30,14 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * Class representation of the Deadline Type Business Object
  *
  */
+@Entity
+@Table(name="DEADLINE_TYPE")
 public class DeadlineType extends KraPersistableBusinessObjectBase {
 	
+	@Id
+	@Column(name="DEADLINE_TYPE_CODE")
 	private String deadlineTypeCode;
+	@Column(name="DESCRIPTION")
 	private String description;
 	
     /**
@@ -73,3 +85,4 @@ public class DeadlineType extends KraPersistableBusinessObjectBase {
     }
 
 }
+

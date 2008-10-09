@@ -15,13 +15,30 @@
  */
 package org.kuali.kra.bo;
 
+import javax.persistence.FetchType;
+import javax.persistence.Basic;
+import javax.persistence.Lob;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+
 import java.util.LinkedHashMap;
 
+@Entity
+@Table(name="EXEMPTION_TYPE")
 public class ExemptionType   extends KraPersistableBusinessObjectBase {
 
-    private String exemptionTypeCode;
-    private String description;
-    private String detailedDescription;
+    @Id
+	@Column(name="EXEMPTION_TYPE_CODE")
+	private String exemptionTypeCode;
+    @Column(name="DESCRIPTION")
+	private String description;
+    @Lob
+	@Basic(fetch=FetchType.LAZY)
+	@Column(name="DETAILED_DESCRIPTION")
+	private String detailedDescription;
 
     public String getDescription() {
         return description;
@@ -59,3 +76,4 @@ public class ExemptionType   extends KraPersistableBusinessObjectBase {
     }
 
 }
+

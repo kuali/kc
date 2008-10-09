@@ -15,15 +15,42 @@
  */
 package org.kuali.kra.s2s.bo;
 
+import javax.persistence.Column;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+import javax.persistence.IdClass;
+
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+@IdClass(org.kuali.kra.s2s.bo.id.S2sAppAttachmentsId.class)
+@Entity
+@Table(name="S2S_APP_ATTACHMENTS")
 public class S2sAppAttachments extends KraPersistableBusinessObjectBase {
+    
+    @Id
+    @Column(name="PROPOSAL_NUMBER")
+    private String proposalNumber;
+    
+	@Id
+	@Column(name="CONTENT_ID")
 	private String contentId;
-	private String proposalNumber;
+	
+	@Column(name="CONTENT_TYPE")
 	private String contentType;
+	
+	@Column(name="HASH_CODE")
 	private String hashCode;
+	
+	@ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
+    @JoinColumn(name="PROPOSAL_NUMBER", insertable = false, updatable = false)
+    private S2sApplication s2sApplication;
 
 	public String getContentId() {
 		return contentId;
@@ -57,8 +84,15 @@ public class S2sAppAttachments extends KraPersistableBusinessObjectBase {
 		this.hashCode = hashCode;
 	}
 
+	public S2sApplication getS2sApplication() {
+        return s2sApplication;
+    }
 
-	@Override 
+    public void setS2sApplication(S2sApplication application) {
+        s2sApplication = application;
+    }
+
+    @Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
 		hashMap.put("contentId", getContentId());
@@ -68,3 +102,4 @@ public class S2sAppAttachments extends KraPersistableBusinessObjectBase {
 		return hashMap;
 	}
 }
+

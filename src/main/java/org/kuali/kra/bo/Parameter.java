@@ -18,19 +18,31 @@ package org.kuali.kra.bo;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * Class representation of the Degree Type Business Object
  *
  * $Id: Parameter.java,v 1.3 2008-07-23 19:16:44 gmcgrego Exp $
  */
+@Entity(name="kraParameter")
+@Table(name="OSP$PARAMETER")
 public class Parameter extends KraPersistableBusinessObjectBase {
 	
+	@Id
+	@Column(name="PARAMETER")
 	private String parameter;
+	
+	@Id
+    @Column(name="EFFECTIVE_DATE")
     private Date effectiveDate;
+	
+	@Column(name="VALUE")
 	private String value;
 	
-
-
 	@Override
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap propMap = new LinkedHashMap();
@@ -78,3 +90,4 @@ public class Parameter extends KraPersistableBusinessObjectBase {
         this.value = value;
     }
 }
+

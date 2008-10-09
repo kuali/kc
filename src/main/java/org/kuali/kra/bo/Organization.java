@@ -1,5 +1,15 @@
 package org.kuali.kra.bo;
 
+import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.FetchType;
+import javax.persistence.OneToOne;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -7,42 +17,90 @@ import java.util.List;
 
 import org.kuali.core.util.TypedArrayList;
 
+@Entity
+@Table(name="ORGANIZATION")
 public class Organization extends KraPersistableBusinessObjectBase {
+	@Id
+	@Column(name="ORGANIZATION_ID")
 	private String organizationId;
+	@Column(name="ADDRESS")
 	private String address;
+	@Column(name="AGENCY_SYMBOL")
 	private String agencySymbol;
+	@Column(name="ANIMAL_WELFARE_ASSURANCE")
 	private String animalWelfareAssurance;
+	@Column(name="CABLE_ADDRESS")
 	private String cableAddress;
+	@Column(name="CAGE_NUMBER")
 	private String cageNumber;
+	@Column(name="COGNIZANT_AUDITOR")
 	private Integer cognizantAuditor;
+	@Column(name="COM_GOV_ENTITY_CODE")
 	private String comGovEntityCode;
+	@Column(name="CONGRESSIONAL_DISTRICT")
 	private String congressionalDistrict;
+	@Column(name="CONTACT_ADDRESS_ID")
 	private Integer contactAddressId;
+	@Column(name="COUNTY")
 	private String county;
+	@Column(name="DODAC_NUMBER")
 	private String dodacNumber;
+	@Column(name="DUNS_NUMBER")
 	private String dunsNumber;
+	@Column(name="DUNS_PLUS_FOUR_NUMBER")
 	private String dunsPlusFourNumber;
+	@Column(name="FEDRAL_EMPLOYER_ID")
 	private String federalEmployerId;
+	@Column(name="HUMAN_SUB_ASSURANCE")
 	private String humanSubAssurance;
+	@Column(name="INCORPORATED_DATE")
 	private Date incorporatedDate;
+	@Column(name="INCORPORATED_IN")
 	private String incorporatedIn;
+	@Column(name="INDIRECT_COST_RATE_AGREEMENT")
 	private String indirectCostRateAgreement;
+	@Column(name="IRS_TAX_EXCEMPTION")
 	private String irsTaxExemption;
+	@Column(name="MASS_EMPLOYEE_CLAIM")
 	private String stateEmployeeClaim;
+	@Column(name="MASS_TAX_EXCEMPT_NUM")
 	private String stateTaxExemptNum;
+	@Column(name="NSF_INSTITUTIONAL_CODE")
 	private String nsfInstitutionalCode;
+	@Column(name="NUMBER_OF_EMPLOYEES")
 	private Integer numberOfEmployees;
+	@Column(name="ONR_RESIDENT_REP")
 	private Integer onrResidentRep;
+	@Column(name="ORGANIZATION_NAME")
 	private String organizationName;
+	@Column(name="PHS_ACOUNT")
 	private String phsAccount;
+	@Column(name="SCIENCE_MISCONDUCT_COMPL_DATE")
 	private Date scienceMisconductComplDate;
+	@Column(name="TELEX_NUMBER")
 	private String telexNumber;
+	@Column(name="VENDOR_CODE")
 	private String vendorCode;
+	
+	@OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
+	@JoinColumn(name="CONTACT_ADDRESS_ID", insertable=false, updatable=false)
 	private Rolodex rolodex;
-    private List<OrganizationYnq> organizationYnqs;
-    private List<OrganizationType> organizationTypes;
-    private List<OrganizationIndirectcost> organizationIdcs;
-    private List<OrganizationAudit> organizationAudits;
+	
+    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
+           targetEntity=org.kuali.kra.bo.OrganizationYnq.class, mappedBy="organization")
+	private List<OrganizationYnq> organizationYnqs;
+    
+    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
+           targetEntity=org.kuali.kra.bo.OrganizationType.class, mappedBy="organization")
+	private List<OrganizationType> organizationTypes;
+    
+    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
+           targetEntity=org.kuali.kra.bo.OrganizationIndirectcost.class, mappedBy="organization")
+	private List<OrganizationIndirectcost> organizationIdcs;
+    
+    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
+           targetEntity=org.kuali.kra.bo.OrganizationAudit.class, mappedBy="organization")
+	private List<OrganizationAudit> organizationAudits;
 
     public Organization() {
         super();
@@ -404,3 +462,4 @@ public class Organization extends KraPersistableBusinessObjectBase {
 
 
 }
+

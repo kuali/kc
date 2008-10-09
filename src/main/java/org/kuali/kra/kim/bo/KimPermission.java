@@ -15,9 +15,17 @@
  */
 package org.kuali.kra.kim.bo;
 
+import javax.persistence.Version;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.jpa.annotations.Sequence;
 
 /**
  * A KIM Permission determines access to an object/operation.  Permissions are
@@ -32,13 +40,24 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  * 
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
+@Entity
+@Table(name="KIM_PERMISSIONS_T")
+@Sequence(name="SEQ_KIM_PERMISSIONS_ID", property="id")
 public class KimPermission extends PersistableBusinessObjectBase {
 
 	private static final long serialVersionUID = -4520809944516623107L;
 	
+	@Id
+	@Column(name="ID")
 	private Long id;
+	
+	@Column(name="NAMESPACE_ID")
 	private Long namespaceId;
+	
+	@Column(name="NAME")
 	private String name;
+	
+	@Column(name="DESCRIPTION")
 	private String description;
 	
     /**
@@ -138,3 +157,4 @@ public class KimPermission extends PersistableBusinessObjectBase {
         return id.equals(permission.id);
     }
 }
+

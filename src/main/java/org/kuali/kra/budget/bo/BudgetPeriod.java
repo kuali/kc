@@ -15,6 +15,21 @@
  */
 package org.kuali.kra.budget.bo;
 
+import javax.persistence.JoinColumns;
+import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
+import javax.persistence.Version;
+import javax.persistence.FetchType;
+import javax.persistence.Basic;
+import javax.persistence.Lob;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,32 +42,70 @@ import java.util.List;
 import org.kuali.core.util.DateUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.rice.jpa.annotations.Sequence;
 
+@Entity
+@Table(name="BUDGET_PERIODS")
+@Sequence(name="SEQ_BUDGET_PERIOD_NUMBER", property="budgetPeriodId")
 public class BudgetPeriod extends KraPersistableBusinessObjectBase {
     private static final long serialVersionUID = -7318331486891820078L;
-    private Long budgetPeriodId;
+    @Id
+	@Column(name="BUDGET_PERIOD_NUMBER")
+	private Long budgetPeriodId;
     
-    private Integer budgetPeriod;
+    @Column(name="BUDGET_PERIOD")
+	private Integer budgetPeriod;
+	@Column(name="PROPOSAL_NUMBER")
 	private String proposalNumber;
+	@Column(name="VERSION_NUMBER")
 	private Integer budgetVersionNumber;
+	@Lob
+	@Basic(fetch=FetchType.LAZY)
+	@Column(name="COMMENTS")
 	private String comments;
+	@Column(name="COST_SHARING_AMOUNT")
 	private BudgetDecimal costSharingAmount;
+	@Column(name="END_DATE")
 	private Date endDate;
+	@Column(name="START_DATE")
 	private Date startDate;
+	@Column(name="TOTAL_COST")
 	private BudgetDecimal totalCost;
+	@Column(name="TOTAL_COST_LIMIT")
 	private BudgetDecimal totalCostLimit;
+	@Column(name="TOTAL_DIRECT_COST")
 	private BudgetDecimal totalDirectCost;
+	@Column(name="TOTAL_INDIRECT_COST")
 	private BudgetDecimal totalIndirectCost;
+	@Column(name="UNDERRECOVERY_AMOUNT")
 	private BudgetDecimal underrecoveryAmount;
+	
+	@OneToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE}, 
+           targetEntity=org.kuali.kra.budget.bo.BudgetLineItem.class, mappedBy="myBudgetPeriod")
 	private List<BudgetLineItem> budgetLineItems;
+	
+	@ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name="BUDGET_PERIOD_NUMBER", insertable=false, updatable=false)
+    private BudgetModular budgetModular;
+	
+	@ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
+    @JoinColumns({@JoinColumn(name="PROPOSAL_NUMBER", insertable = false, updatable = false), 
+                  @JoinColumn(name="VERSION_NUMBER", insertable = false, updatable = false)})
+    private BudgetDocument budgetDocument;
+	
 	// expences total for 'totals' page
 	// if 'totalCost' is intended for 'totals' page, then this is not needed
+	@Transient
     private BudgetDecimal expenseTotal;
+	
+	@Transient
     private Date oldEndDate;
+	
+	@Transient
     private Date oldStartDate;
     
-    private BudgetModular budgetModular;
-
+    @Transient
     private SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
 
 	public BudgetPeriod(){
@@ -322,4 +375,13 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
     public void setBudgetPeriodId(Long budgetPeriodId) {
         this.budgetPeriodId = budgetPeriodId;
     }
+
+    public BudgetDocument getBudgetDocument() {
+        return budgetDocument;
+    }
+
+    public void setBudgetDocument(BudgetDocument budgetDocument) {
+        this.budgetDocument = budgetDocument;
+    }
 }
+

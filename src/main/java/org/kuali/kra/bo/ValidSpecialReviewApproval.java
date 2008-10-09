@@ -18,18 +18,45 @@ package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 /**
  * Class representation of the ValidSpecialReviewApproval business object of the KRA domain
  */
+@IdClass(org.kuali.kra.bo.id.ValidSpecialReviewApprovalId.class)
+@Entity
+@Table(name="VALID_SP_REV_APPROVAL")
 public class ValidSpecialReviewApproval extends KraPersistableBusinessObjectBase {
+	@Id
+	@Column(name="APPROVAL_TYPE_CODE")
 	private String approvalTypeCode;
+	@Id
+	@Column(name="SPECIAL_REVIEW_CODE")
 	private String specialReviewCode;
 	// change type from 'Boolean' to 'boolean'
+	@Column(name="APPLICATION_DATE_FLAG")
 	private boolean applicationDateFlag;
-    private boolean approvalDateFlag;
-    private boolean exemptNumberFlag;
+    @Column(name="APPROVAL_DATE_FLAG")
+	private boolean approvalDateFlag;
+    @Column(name="EXEMPT_NUMBER_FLAG")
+	private boolean exemptNumberFlag;
+	@Column(name="PROTOCOL_NUMBER_FLAG")
 	private boolean protocolNumberFlag;
+	@ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
+	@JoinColumn(name="SPECIAL_REVIEW_CODE", insertable=false, updatable=false)
 	private SpecialReview specialReview;
+	@ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
+	@JoinColumn(name="APPROVAL_TYPE_CODE", referencedColumnName="APPROVAL_TYPE_CODE", insertable=false, updatable=false)
 	private SpecialReviewApprovalType specialReviewApprovalType;
 
 	public String getApprovalTypeCode() {
@@ -110,3 +137,4 @@ public class ValidSpecialReviewApproval extends KraPersistableBusinessObjectBase
         this.exemptNumberFlag = exemptNumberFlag;
     }
 }
+

@@ -15,6 +15,13 @@
  */
 package org.kuali.kra.budget.bo;
 
+import javax.persistence.Version;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -24,10 +31,16 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  *
  * AppointmentType.java
  */
+@Entity
+@Table(name="APPOINTMENT_TYPE")
 public class AppointmentType extends KraPersistableBusinessObjectBase {
 	
+	@Id
+	@Column(name="APPOINTMENT_TYPE_CODE")
 	private String appointmentTypeCode;
-    private Integer duration;
+    @Column(name="DURATION")
+	private Integer duration;
+	@Column(name="DESCRIPTION")
 	private String description;
 	
     /**
@@ -90,3 +103,4 @@ public class AppointmentType extends KraPersistableBusinessObjectBase {
         this.duration = duration;
     }
 }
+
