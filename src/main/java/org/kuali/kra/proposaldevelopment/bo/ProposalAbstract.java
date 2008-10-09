@@ -16,9 +16,23 @@
 
 package org.kuali.kra.proposaldevelopment.bo;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.FetchType;
+import javax.persistence.Basic;
+import javax.persistence.Lob;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+import javax.persistence.IdClass;
+
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 /**
  * Every Proposal can have zero or more Abstracts attached to it.
@@ -27,22 +41,32 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@IdClass(org.kuali.kra.proposaldevelopment.bo.id.ProposalAbstractId.class)
+@Entity
+@Table(name="EPS_PROP_ABSTRACT")
 public class ProposalAbstract extends KraPersistableBusinessObjectBase {
     
     /**
      * Each Abstract is associated with one and only one proposal
      * which is identified by its unique <code>proposalNumber</code>.
      */
-    private String proposalNumber;
+    @Id
+	@Column(name="PROPOSAL_NUMBER")
+	private String proposalNumber;
     
     /**
      * Identifies what type of abstract this is.
      */
-    private String abstractTypeCode;
+    @Id
+	@Column(name="ABSTRACT_TYPE_CODE")
+	private String abstractTypeCode;
     
 	/**
 	 * The user-defined textual string for the abstract.
 	 */
+	@Lob
+	@Basic(fetch=FetchType.LAZY)
+	@Column(name="ABSTRACT_DETAILS")
 	private String abstractDetails;
 	
 	/**
@@ -50,7 +74,13 @@ public class ProposalAbstract extends KraPersistableBusinessObjectBase {
 	 * refers to.  It is stored here to make it easy for a JSP page to
 	 * access the abstract type's description.
 	 */
+	@ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
+	@JoinColumn(name="ABSTRACT_TYPE_CODE", insertable=false, updatable=false)
 	private AbstractType abstractType;
+	
+	@ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
+	@JoinColumn(name="PROPOSAL_NUMBER", insertable = false, updatable = false)
+	private ProposalDevelopmentDocument proposalDevelopmentDocument;
 	
 	/**
 	 * Constructs a ProposalAbstract.
@@ -100,11 +130,11 @@ public class ProposalAbstract extends KraPersistableBusinessObjectBase {
         // cause the abstract type to be read from the database. By
         // the magic of OJB, the data member is automatically updated.
         
-        if (this.abstractTypeCode == null || this.abstractTypeCode.equals("")) {
-            abstractType = null;
-        } else {
-            this.refreshReferenceObject("abstractType");
-        }
+        //if (this.abstractTypeCode == null || this.abstractTypeCode.equals("")) {
+        //    abstractType = null;
+       // } else {
+        //    this.refreshReferenceObject("abstractType");
+        //}
     }
     
 	/**
@@ -148,6 +178,14 @@ public class ProposalAbstract extends KraPersistableBusinessObjectBase {
         this.abstractTypeCode = abstractType.getAbstractTypeCode();
     }
     
+    public ProposalDevelopmentDocument getProposalDevelopmentDocument() {
+        return proposalDevelopmentDocument;
+    }
+
+    public void setProposalDevelopmentDocument(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        this.proposalDevelopmentDocument = proposalDevelopmentDocument;
+    }
+
     @Override
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
@@ -157,3 +195,4 @@ public class ProposalAbstract extends KraPersistableBusinessObjectBase {
 		return hashMap;
 	}
 }
+

@@ -15,6 +15,20 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import javax.persistence.JoinColumns;
+import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
+import javax.persistence.Version;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+import javax.persistence.IdClass;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.LinkedHashMap;
@@ -32,13 +46,39 @@ import static org.apache.commons.lang.StringUtils.isBlank;
  * @author $Author: gmcgrego $
  * @version $Revision: 1.14 $
  */
+@IdClass(org.kuali.kra.proposaldevelopment.bo.id.ProposalPersonUnitId.class)
+@Entity
+@Table(name="EPS_PROP_PERSON_UNITS")
 public class ProposalPersonUnit extends KraPersistableBusinessObjectBase implements CreditSplitable {
-    private String proposalNumber;
-    private Integer proposalPersonNumber;
-    private String unitNumber;
-    private boolean leadUnit;
-    private Unit unit;
-    private List<ProposalUnitCreditSplit> creditSplits;
+    @Id
+	@Column(name="PROPOSAL_NUMBER")
+	private String proposalNumber;
+    
+    @Id
+	@Column(name="PROP_PERSON_NUMBER")
+	private Integer proposalPersonNumber;
+    
+    @Id
+	@Column(name="UNIT_NUMBER")
+	private String unitNumber;
+    
+    @Column(name="LEAD_UNIT_FLAG")
+	private boolean leadUnit;
+    
+    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
+	@JoinColumn(name="UNIT_NUMBER", insertable=false, updatable=false)
+	private Unit unit;
+    
+    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
+           targetEntity=org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit.class, mappedBy="proposalPersonUnit")
+	private List<ProposalUnitCreditSplit> creditSplits;
+    
+    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
+    @JoinColumns({@JoinColumn(name="PROPOSAL_NUMBER", insertable = false, updatable = false),
+                  @JoinColumn(name="PROP_PERSON_NUMBER", insertable=false, updatable=false)})
+    private ProposalPerson proposalPerson;
+    
+    @Transient
     private boolean delete;
 
     /**
@@ -210,6 +250,15 @@ public class ProposalPersonUnit extends KraPersistableBusinessObjectBase impleme
     public void setDelete(boolean delete) {
         this.delete = delete;
     }
+
+    public ProposalPerson getProposalPerson() {
+        return proposalPerson;
+    }
+
+    public void setProposalPerson(ProposalPerson proposalPerson) {
+        this.proposalPerson = proposalPerson;
+    }
 }
+
 
 

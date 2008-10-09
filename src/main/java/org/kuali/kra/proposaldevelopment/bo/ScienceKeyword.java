@@ -1,12 +1,24 @@
 package org.kuali.kra.proposaldevelopment.bo;
 
+import javax.persistence.Version;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+@Entity
+@Table(name="SCIENCE_KEYWORD")
 public class ScienceKeyword extends KraPersistableBusinessObjectBase {
 
+	@Id
+	@Column(name="SCIENCE_KEYWORD_CODE")
 	private String scienceKeywordCode;
+	@Column(name="DESCRIPTION")
 	private String description;
 
 	public String getDescription() {
@@ -32,3 +44,4 @@ public class ScienceKeyword extends KraPersistableBusinessObjectBase {
 		return propMap;
 	}
 }
+

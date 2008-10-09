@@ -15,6 +15,13 @@
  */
 package org.kuali.kra.kim.bo;
 
+import javax.persistence.Version;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
@@ -22,9 +29,15 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 /**
  * Class representation of a Country Code Business Object
  */
+@Entity
+@Table(name="KIM_ROLE_TYPE_T")
 public class KimRoleType extends PersistableBusinessObjectBase {
 	
+	@Id
+	@Column(name="ROLE_TYPE_CODE")
 	private String roleTypeCode;
+	
+	@Column(name="DESCRIPTION")
 	private String description;
 
     public String getRoleTypeCode() {
@@ -54,3 +67,4 @@ public class KimRoleType extends PersistableBusinessObjectBase {
 		return propMap;
 	}
 }
+

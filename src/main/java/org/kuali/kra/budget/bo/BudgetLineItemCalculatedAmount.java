@@ -15,12 +15,40 @@
  */
 package org.kuali.kra.budget.bo;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+import javax.persistence.IdClass;
+
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 
+@IdClass(org.kuali.kra.budget.bo.id.BudgetLineItemCalculatedAmountId.class)
+@Entity
+@Table(name="BUDGET_DETAILS_CAL_AMTS")
 public class BudgetLineItemCalculatedAmount extends AbstractBudgetCalculatedAmount {
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
+    @JoinColumns({@JoinColumn(name = "BUDGET_PERIOD_NUMBER", insertable = false, updatable = false), 
+                  @JoinColumn(name="LINE_ITEM_NUMBER", insertable = false, updatable = false)})
+    private BudgetLineItem budgetLineItem;
+   
+    public BudgetLineItem getBudgetLineItem() {
+        return budgetLineItem;
+    }
+
+    public void setBudgetLineItem(BudgetLineItem budgetLineItem) {
+        this.budgetLineItem = budgetLineItem;
+    }
 
 	@Override 
 	protected LinkedHashMap toStringMapper() {
@@ -39,3 +67,4 @@ public class BudgetLineItemCalculatedAmount extends AbstractBudgetCalculatedAmou
 	}
 
 }
+

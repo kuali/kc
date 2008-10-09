@@ -17,6 +17,12 @@ package org.kuali.kra.proposaldevelopment.bo;
 
 import java.util.LinkedHashMap;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
@@ -27,12 +33,20 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * @author $Author: gmcgrego $
  * @version $Revision: 1.8 $
  */
+@Entity
+@Table(name="EPS_PROP_PERSON_ROLE")
 public class ProposalPersonRole extends KraPersistableBusinessObjectBase {
-    private String proposalPersonRoleId;
-    private String description;
-    private String certificationRequired;
+    @Id
+	@Column(name="PROP_PERSON_ROLE_ID")
+	private String proposalPersonRoleId;
+    @Column(name="DESCRIPTION")
+	private String description;
+    @Column(name="CERTIFICATION_REQUIRED")
+	private String certificationRequired;
+    @Transient
     private Boolean readOnly;
-    private String unitDetailsRequired;
+    @Column(name="UNIT_DETAILS_REQUIRED")
+	private String unitDetailsRequired;
 
     /**
      * Gets the value of proposalPersonRoleId
@@ -114,5 +128,6 @@ public class ProposalPersonRole extends KraPersistableBusinessObjectBase {
         this.certificationRequired = certificationRequired;
     }
 }
+
 
 

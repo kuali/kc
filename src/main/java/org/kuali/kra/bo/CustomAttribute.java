@@ -2,23 +2,51 @@ package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.kuali.rice.jpa.annotations.Sequence;
+
 /**
  * This is bo class of CustomAttribute.
  */
+@Entity
+@Table(name="CUSTOM_ATTRIBUTE")
+@Sequence(name="SEQ_CUSTOM_ATTRIBUTE", property="id")
 public class CustomAttribute extends KraPersistableBusinessObjectBase {
 
+	@Id
+	@Column(name="ID")
 	private Integer id;
+	@Column(name="DATA_LENGTH")
 	private Integer dataLength;
+	@Column(name="DATA_TYPE_CODE")
 	private String dataTypeCode;
+	@Column(name="DEFAULT_VALUE")
 	private String defaultValue;
+	@Column(name="GROUP_NAME")
 	private String groupName;
+	@Column(name="LABEL")
 	private String label;
+	@Column(name="LOOKUP_CLASS")
 	private String lookupClass;
+	@Column(name="LOOKUP_RETURN")
 	private String lookupReturn;
+	@Column(name="NAME")
 	private String name;
+    @Transient
     private String value;
 
-    private CustomAttributeDataType customAttributeDataType;
+    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
+	@JoinColumn(name="DATA_TYPE_CODE", insertable=false, updatable=false)
+	private CustomAttributeDataType customAttributeDataType;
 
 	public CustomAttribute(){
 		super();
@@ -144,3 +172,4 @@ public class CustomAttribute extends KraPersistableBusinessObjectBase {
         return value;
     }
 }
+

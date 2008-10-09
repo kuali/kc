@@ -1,18 +1,43 @@
 package org.kuali.kra.bo;
 
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import javax.persistence.Version;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+@Entity
+@Table(name="UNIT")
 public class Unit extends KraPersistableBusinessObjectBase {
+	@Id
+	@Column(name="UNIT_NUMBER")
 	private String unitNumber;
+	@Column(name="PARENT_UNIT_NUMBER")
 	private String parentUnitNumber;
+	@Column(name="ORGANIZATION_ID")
 	private String organizationId;
+	@Column(name="UNIT_NAME")
 	private String unitName;
+	@OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
+	@JoinColumn(name="PARENT_UNIT_NUMBER", insertable=false, updatable=false)
 	private Unit parentUnit;
-    private List<UnitAdministrator> unitAdministrators;
+    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
+           targetEntity=org.kuali.kra.bo.UnitAdministrator.class, mappedBy="unit")
+	private List<UnitAdministrator> unitAdministrators;
 
-    private Organization organization;
+    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
+	@JoinColumn(name="ORGANIZATION_ID", insertable=false, updatable=false)
+	private Organization organization;
 
     public Unit() {
         super();
@@ -122,3 +147,4 @@ public class Unit extends KraPersistableBusinessObjectBase {
     }
 
 }
+

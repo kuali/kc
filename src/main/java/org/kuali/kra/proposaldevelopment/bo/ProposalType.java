@@ -15,14 +15,26 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import javax.persistence.Version;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+@Entity
+@Table(name="PROPOSAL_TYPE")
 public class ProposalType  extends KraPersistableBusinessObjectBase {
 
-    private String proposalTypeCode;
-    private String description;
+    @Id
+	@Column(name="PROPOSAL_TYPE_CODE")
+	private String proposalTypeCode;
+    @Column(name="DESCRIPTION")
+	private String description;
 
     public String getDescription() {
         return description;
@@ -51,5 +63,6 @@ public class ProposalType  extends KraPersistableBusinessObjectBase {
     }
 
 }
+
 
 

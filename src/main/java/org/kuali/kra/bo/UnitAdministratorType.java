@@ -1,16 +1,31 @@
 package org.kuali.kra.bo;
 
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.budget.bo.BudgetCostShare;
 
+@Entity
+@Table(name="UNIT_ADMINISTRATOR_TYPE")
 public class UnitAdministratorType extends KraPersistableBusinessObjectBase {
 
+	@Id
+	@Column(name="UNIT_ADMINISTRATOR_TYPE_CODE")
 	private String unitAdministratorTypeCode;
+	@Column(name="DESCRIPTION")
 	private String description;
-    private List<UnitAdministrator> unitAdministrators;
+    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
+           targetEntity=org.kuali.kra.bo.UnitAdministrator.class, mappedBy="unitAdministratorType")
+	private List<UnitAdministrator> unitAdministrators;
 
 	public UnitAdministratorType(){
 		super();
@@ -51,3 +66,4 @@ public class UnitAdministratorType extends KraPersistableBusinessObjectBase {
         this.unitAdministrators = unitAdministrators;
     }
 }
+

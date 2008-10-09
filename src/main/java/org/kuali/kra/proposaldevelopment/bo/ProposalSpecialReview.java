@@ -1,5 +1,20 @@
 package org.kuali.kra.proposaldevelopment.bo;
 
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.JoinColumns;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.FetchType;
+import javax.persistence.Basic;
+import javax.persistence.Lob;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+import javax.persistence.IdClass;
+
 import java.sql.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -12,24 +27,54 @@ import org.kuali.kra.bo.SpecialReview;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.ValidSpecialReviewApproval;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 
+@IdClass(org.kuali.kra.proposaldevelopment.bo.id.ProposalSpecialReviewId.class)
+@Entity
+@Table(name="EPS_PROP_SPECIAL_REVIEW")
 public class ProposalSpecialReview extends KraPersistableBusinessObjectBase {
     // TODO : temporarily change proposalnumber from string to integer to see if ojb willwork
-    private String proposalNumber;
-    private Integer specialReviewNumber;
-    private Date applicationDate;
-    private Date approvalDate;
-    private Date expirationDate;
-    private String approvalTypeCode;
-    private String comments;
-    private String protocolNumber;
-    private String specialReviewCode;
-    private SpecialReview specialReview;
-    private SpecialReviewApprovalType specialReviewApprovalType;
+    @Id
+	@Column(name="PROPOSAL_NUMBER")
+	private String proposalNumber;
+    @Id
+	@Column(name="SPECIAL_REVIEW_NUMBER")
+	private Integer specialReviewNumber;
+    @Column(name="APPLICATION_DATE")
+	private Date applicationDate;
+    @Column(name="APPROVAL_DATE")
+	private Date approvalDate;
+    @Column(name="EXPIRATION_DATE")
+	private Date expirationDate;
+    @Column(name="APPROVAL_TYPE_CODE")
+	private String approvalTypeCode;
+    @Lob
+	@Basic(fetch=FetchType.LAZY)
+	@Column(name="COMMENTS")
+	private String comments;
+    @Column(name="PROTOCOL_NUMBER")
+	private String protocolNumber;
+    @Column(name="SPECIAL_REVIEW_CODE")
+	private String specialReviewCode;
+    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
+	@JoinColumn(name="SPECIAL_REVIEW_CODE", insertable=false, updatable=false)
+	private SpecialReview specialReview;
+    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
+	@JoinColumn(name="APPROVAL_TYPE_CODE", insertable=false, updatable=false)
+	private SpecialReviewApprovalType specialReviewApprovalType;
 
-    private ValidSpecialReviewApproval validSpecialReviewApproval;
-    private List proposalExemptNumbers;
+    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
+	@JoinColumns({@JoinColumn(name="APPROVAL_TYPE_CODE", insertable=false, updatable=false), @JoinColumn(name="SPECIAL_REVIEW_CODE", insertable=false, updatable=false)})
+	private ValidSpecialReviewApproval validSpecialReviewApproval;
+    
+    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
+           targetEntity=org.kuali.kra.proposaldevelopment.bo.ProposalExemptNumber.class, mappedBy="proposalSpecialReview")
+	private List proposalExemptNumbers;
+    
+    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
+    @JoinColumn(name="PROPOSAL_NUMBER", insertable = false, updatable = false)
+    private ProposalDevelopmentDocument proposalDevelopmentDocument;
 
     public ProposalSpecialReview() {
         super();
@@ -161,6 +206,12 @@ public class ProposalSpecialReview extends KraPersistableBusinessObjectBase {
         this.proposalExemptNumbers = proposalExemptNumbers;
     }
     
+    public ProposalDevelopmentDocument getProposalDevelopmentDocument() {
+        return proposalDevelopmentDocument;
+    }
     
-    
+    public void setProposalDevelopmentDocument(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        this.proposalDevelopmentDocument = proposalDevelopmentDocument;
+    }
 }
+

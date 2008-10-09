@@ -2,22 +2,49 @@ package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Type;
 import org.kuali.core.bo.DocumentType;
 
 /**
  * 
  * This class bo of CustomAttributeDocument.
  */
+@IdClass(org.kuali.kra.bo.id.CustomAttributeDocumentId.class)
+@Entity
+@Table(name="CUSTOM_ATTRIBUTE_DOCUMENT")
 public class CustomAttributeDocument extends KraPersistableBusinessObjectBase {
 
+	@Id
+	@Column(name="CUSTOM_ATTRIBUTE_ID")
 	private Integer customAttributeId;
+	@Id
+	@Column(name="DOCUMENT_TYPE_CODE")
 	private String documentTypeCode;
+    @Type(type="yes_no")
+	@Column(name="IS_REQUIRED")
 	private boolean required;
+	@Column(name="TYPE_NAME")
 	private String typeName;
 
-    private CustomAttribute customAttribute;
-    private DocumentType documentType;
-    private boolean active;
+    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
+	@JoinColumn(name="CUSTOM_ATTRIBUTE_ID", insertable=false, updatable=false)
+	private CustomAttribute customAttribute;
+    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
+	@JoinColumn(name="DOCUMENT_TYPE_CODE", insertable=false, updatable=false)
+	private DocumentType documentType;
+    @Type(type="yes_no")
+    @Column(name="ACTIVE_FLAG")
+	private boolean active;
 
 	public CustomAttributeDocument(){
 		super();
@@ -114,3 +141,4 @@ public class CustomAttributeDocument extends KraPersistableBusinessObjectBase {
         this.active = active;
     }
 }
+

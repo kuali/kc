@@ -15,13 +15,26 @@
  */
 package org.kuali.kra.s2s.bo;
 
+import javax.persistence.Version;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+@Entity
+@Table(name="S2S_SUBMISSION_TYPE")
 public class S2sSubmissionType extends KraPersistableBusinessObjectBase {
+	@Id
+	@Column(name="S2S_SUBMISSION_TYPE_CODE")
 	private String s2sSubmissionTypeCode;
+	@Column(name="DESCRIPTION")
 	private String description;
+	@Column(name="SORT_ID")
 	private String sortId;
 
 	public String getS2sSubmissionTypeCode() {
@@ -59,3 +72,4 @@ public class S2sSubmissionType extends KraPersistableBusinessObjectBase {
         this.sortId = sortId;
     }
 }
+

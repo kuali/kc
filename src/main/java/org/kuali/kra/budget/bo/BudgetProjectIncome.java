@@ -15,6 +15,17 @@
  */
 package org.kuali.kra.budget.bo;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import javax.persistence.Version;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+import javax.persistence.IdClass;
+
 import java.util.LinkedHashMap;
 
 import org.kuali.core.util.KualiDecimal;
@@ -22,15 +33,22 @@ import org.kuali.core.util.KualiDecimal;
 /**
  * 
  */
+@IdClass(org.kuali.kra.budget.bo.id.BudgetProjectIncomeId.class)
+@Entity
+@Table(name="BUDGET_PROJECT_INCOME")
 public class BudgetProjectIncome extends BudgetDistributionAndIncomeComponent {
     private static final long serialVersionUID = 8999969227018875501L;
 
     public static final String DOCUMENT_COMPONENT_ID_KEY = "BUDGET_PROJECT_INCOME_KEY";
     
-    private Long budgetPeriodId;
-    private Integer budgetPeriodNumber;
-    private String description;
-    private KualiDecimal projectIncome;
+    @Column(name="BUDGET_PERIOD_NUMBER")
+	private Long budgetPeriodId;
+    @Column(name="BUDGET_PERIOD")
+	private Integer budgetPeriodNumber;
+    @Column(name="DESCRIPTION")
+	private String description;
+    @Column(name="AMOUNT")
+	private KualiDecimal projectIncome;
 
     /**
      * 
@@ -117,3 +135,4 @@ public class BudgetProjectIncome extends BudgetDistributionAndIncomeComponent {
         this.budgetPeriodId = budgetPeriodId;
     }
 }
+

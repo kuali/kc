@@ -15,12 +15,27 @@
  */
 package org.kuali.kra.budget.bo;
 
+import javax.persistence.Version;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+import javax.persistence.IdClass;
+
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+@IdClass(org.kuali.kra.budget.bo.id.ValidCeJobCodeId.class)
+@Entity
+@Table(name="VALID_CE_JOB_CODES")
 public class ValidCeJobCode extends KraPersistableBusinessObjectBase {
+	@Id
+	@Column(name="COST_ELEMENT")
 	private String costElement;
+	@Id
+	@Column(name="JOB_CODE")
 	private String jobCode;
 
 	public String getCostElement() {
@@ -48,3 +63,4 @@ public class ValidCeJobCode extends KraPersistableBusinessObjectBase {
 		return hashMap;
 	}
 }
+

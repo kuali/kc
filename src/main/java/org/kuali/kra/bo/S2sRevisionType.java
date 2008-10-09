@@ -15,13 +15,25 @@
  */
 package org.kuali.kra.bo;
 
+import javax.persistence.Version;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+
 import java.util.LinkedHashMap;
 /**
  * 
  * This class is represents S2S_REVISION_TYPE table
  */
+@Entity
+@Table(name="S2S_REVISION_TYPE")
 public class S2sRevisionType extends KraPersistableBusinessObjectBase {
+	@Id
+	@Column(name="S2S_REVISION_TYPE_CODE")
 	private String s2sRevisionTypeCode;
+	@Column(name="DESCRIPTION")
 	private String description;
 
 	public String getS2sRevisionTypeCode() {
@@ -49,3 +61,4 @@ public class S2sRevisionType extends KraPersistableBusinessObjectBase {
 		return hashMap;
 	}
 }
+

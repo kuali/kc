@@ -17,6 +17,10 @@ package org.kuali.kra.kim.bo;
 
 import java.util.LinkedHashMap;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
@@ -26,13 +30,22 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@MappedSuperclass
 public abstract class KimAttribute extends PersistableBusinessObjectBase {
 
 	private static final long serialVersionUID = -2255690191635455239L;
 	
+	@Id
+	@Column(name="ID")
 	private Long id;
+	
+	@Column(name="ATTRIBUTE_TYPE_ID")
 	private Long attributeTypeId;
+	
+	@Column(name="ATTRIBUTE_NAME")
 	private String attributeName;
+	
+	@Column(name="ATTRIBUTE_VALUE")
 	private String attributeValue;
 	
 	/**

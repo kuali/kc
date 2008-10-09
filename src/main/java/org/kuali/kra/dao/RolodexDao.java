@@ -18,10 +18,8 @@ package org.kuali.kra.dao;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ojb.broker.query.Criteria;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.dao.LookupDao;
-import org.kuali.core.dao.ojb.LookupDaoOjb;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Rolodex;
 
@@ -41,28 +39,8 @@ public interface RolodexDao {
      * @return Collection of <code>{@link Rolodex}</code> instances
      */
     public List<? extends BusinessObject> getNonOrganizationalRolodexResults(Map fieldValues, boolean usePrimaryKeys);
-    
-    /**
-     * Create <code>{@link Criteria}</code> instance for the Persistance Broker to search for <code>{@link NonOrganizationalRolodex}</code>
-     * instances.
-     * 
-     * @param businessObjectClass
-     * @param fieldValues
-     * @param usePrimaryKeys indicates whether to simplify the search due to criteria restricted to primary keys
-     * @return Criteria
-     */
-    public Criteria getNonOrganizationalRolodexCriteria(Class businessObjectClass, Map fieldValues, boolean usePrimaryKeys);
-
 
     public LookupDao getLookupDao();
-    
-    /**
-     * Convenience method for casting <code>{@link LookupDao}</code> to <code>{@link LookupDaoOjb}</code> because some methods in 
-     * <code>{@link LookupDaoOjb}</code> are public but not in <code>{@link LookupDao}</code>. This is a hack until the two are sync'd up.
-     * 
-     * @return LookupDaoOjb instance
-     */
-    public LookupDaoOjb getLookupDaoOjb();
 
     public void setLookupDao(LookupDao lookupDao);
 }

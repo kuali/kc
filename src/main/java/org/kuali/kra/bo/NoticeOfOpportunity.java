@@ -1,14 +1,26 @@
 package org.kuali.kra.bo;
 
+import javax.persistence.Version;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+
 import java.util.LinkedHashMap;
 
 /**
  * Class representation of a Notice of Opportunity Business Object
  */
+@Entity
+@Table(name="NOTICE_OF_OPPORTUNITY")
 public class NoticeOfOpportunity extends KraPersistableBusinessObjectBase {
 
-    private String noticeOfOpportunityCode;
-    private String description;
+    @Id
+	@Column(name="NOTICE_OF_OPPORTUNITY_CODE")
+	private String noticeOfOpportunityCode;
+    @Column(name="DESCRIPTION")
+	private String description;
 
     /**
      * Retrieves the description attribute
@@ -55,3 +67,4 @@ public class NoticeOfOpportunity extends KraPersistableBusinessObjectBase {
         return propMap;
     }
 }
+

@@ -15,9 +15,17 @@
  */
 package org.kuali.kra.kim.bo;
 
+import javax.persistence.Version;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.jpa.annotations.Sequence;
 
 /**
  * A KIM Role-Person is an association between a Role and a Person, i.e.
@@ -26,13 +34,22 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@Entity
+@Table(name="KIM_ROLES_PERSONS_T")
+@Sequence(name="SEQ_KIM_ROLES_PERSONS_ID", property="id")
 public class KimRolePerson extends PersistableBusinessObjectBase {
     
     private static final long serialVersionUID = -13700594521231518L;
     
-    private Long id;
-    private Long roleId;
-    private Long personId;
+    @Id
+	@Column(name="ID")
+	private Long id;
+    
+    @Column(name="ROLE_ID")
+	private Long roleId;
+    
+    @Column(name="PERSON_ID")
+	private Long personId;
 
     /**
      * Get the Role-Person's ID.
@@ -115,3 +132,4 @@ public class KimRolePerson extends PersistableBusinessObjectBase {
         return id.equals(rolePerson.id);
     }
 }
+

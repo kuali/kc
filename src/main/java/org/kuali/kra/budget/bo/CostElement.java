@@ -15,6 +15,17 @@
  */
 package org.kuali.kra.budget.bo;
 
+import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.FetchType;
+import javax.persistence.OneToOne;
+import javax.persistence.Version;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -22,13 +33,24 @@ import java.util.List;
 import org.kuali.core.util.AbstractKualiDecimal;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+@Entity
+@Table(name="COST_ELEMENT")
 public class CostElement extends KraPersistableBusinessObjectBase implements Comparable {
+	@Id
+	@Column(name="COST_ELEMENT")
 	private String costElement;
+	@Column(name="BUDGET_CATEGORY_CODE")
 	private String budgetCategoryCode;
+	@Column(name="DESCRIPTION")
 	private String description;
+	@Column(name="ON_OFF_CAMPUS_FLAG")
 	private Boolean onOffCampusFlag;
 	private String budgetCategoryTypeCode;
+	@OneToMany(
+           targetEntity=org.kuali.kra.budget.bo.ValidCeRateType.class, mappedBy="costElementBo")
 	private List<ValidCeRateType> validCeRateTypes;
+	@OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
+	@JoinColumn(name="BUDGET_CATEGORY_CODE", insertable=false, updatable=false)
 	private BudgetCategory budgetCategory;
 	
 	public CostElement(){
@@ -114,3 +136,4 @@ public class CostElement extends KraPersistableBusinessObjectBase implements Com
     }
 
 }
+

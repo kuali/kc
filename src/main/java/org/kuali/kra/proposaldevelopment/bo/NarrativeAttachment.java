@@ -15,16 +15,39 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+import javax.persistence.IdClass;
+
 import java.util.LinkedHashMap;
 
-import org.apache.struts.upload.FormFile;
-
+@IdClass(org.kuali.kra.proposaldevelopment.bo.id.NarrativeAttachmentId.class)
+@Entity
+@Table(name="NARRATIVE_ATTACHMENT")
 public class NarrativeAttachment extends AttachmentDataSource{
-	private Integer moduleNumber;
+	
+	@Id
+	@Column(name="PROPOSAL_NUMBER")
 	private String proposalNumber;
-//	private String fileName;
-//	private String contentType;
-    private byte[] narrativeData;
+	
+	@Id
+    @Column(name="MODULE_NUMBER")
+    private Integer moduleNumber;
+	
+    @Column(name="NARRATIVE_DATA")
+	private byte[] narrativeData;
+    
+    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
+    @JoinColumns({@JoinColumn(name="PROPOSAL_NUMBER", insertable = false, updatable = false),
+                  @JoinColumn(name="MODULE_NUMBER", insertable=false, updatable=false)})
+    private Narrative narrative;
 
 	public Integer getModuleNumber() {
 		return moduleNumber;
@@ -54,8 +77,15 @@ public class NarrativeAttachment extends AttachmentDataSource{
 	    return narrativeData;
 	}
 
+	public Narrative getNarrative() {
+        return narrative;
+    }
 
-	@Override 
+    public void setNarrative(Narrative narrative) {
+        this.narrative = narrative;
+    }
+
+    @Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
 		hashMap.put("moduleNumber", getModuleNumber());
@@ -66,3 +96,4 @@ public class NarrativeAttachment extends AttachmentDataSource{
 	}
 
 }
+
