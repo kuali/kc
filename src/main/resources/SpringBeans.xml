@@ -617,7 +617,7 @@
 		</property>
  	</bean>
 
-	<bean id="budgetVersionRule" class="org.kuali.kra.proposaldevelopment.rules.BudgetVersionRule" singleton="false" />
+	<bean id="budgetVersionRule" class="org.kuali.kra.proposaldevelopment.rules.BudgetVersionRule" scope="prototype" />
 
 	<bean id="proposalStatusService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalStatusServiceImpl">
 		<property name="businessObjectService" >
