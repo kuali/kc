@@ -37,7 +37,9 @@ import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.proposaldevelopment.bo.InstituteNarrative;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.kra.proposaldevelopment.bo.ProposalNarrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.KNSServiceLocator;
@@ -203,8 +205,8 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
     } 
     
     private void setNarrativePermissions(String username, ProposalDevelopmentDocument doc, Map editModeMap) {
-        List<Narrative> narratives = doc.getNarratives();
-        for (Narrative narrative : narratives) {
+        List<ProposalNarrative> narratives = doc.getProposalNarratives();
+        for (ProposalNarrative narrative : narratives) {
             String prefix = "proposalAttachment." + narrative.getModuleNumber() + ".";
             editModeMap.put(prefix + "download", narrative.getDownloadAttachment(username) ? TRUE : FALSE);
             editModeMap.put(prefix + "replace", narrative.getReplaceAttachment(username) ? TRUE : FALSE);
@@ -212,8 +214,8 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
             editModeMap.put(prefix + "modifyRights", narrative.getModifyNarrativeRights(username) ? TRUE : FALSE);
         }
         
-        narratives = doc.getInstituteAttachments();
-        for (Narrative narrative : narratives) {
+        List<InstituteNarrative> instituteNarratives = doc.getInstituteAttachments();
+        for (InstituteNarrative narrative : instituteNarratives) {
             String prefix = "instituteAttachment." + narrative.getModuleNumber() + ".";
             editModeMap.put(prefix + "download", narrative.getDownloadAttachment(username) ? TRUE : FALSE);
             editModeMap.put(prefix + "replace", narrative.getReplaceAttachment(username) ? TRUE : FALSE);

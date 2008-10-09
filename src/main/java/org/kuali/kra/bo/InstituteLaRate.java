@@ -15,6 +15,10 @@
  */
 package org.kuali.kra.bo;
 
+import javax.persistence.Table;
+import javax.persistence.Entity;
+import javax.persistence.IdClass;
+
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.budget.bo.AbstractBudgetRate;
@@ -23,7 +27,10 @@ import org.kuali.kra.budget.bo.BudgetProposalLaRate;
  * 
  * This class represents INSTITUTE_LA_RATE record
  */
-public class InstituteLaRate extends AbstractInstituteRate{
+@IdClass(org.kuali.kra.bo.id.InstituteLaRateId.class)
+@Entity
+@Table(name="INSTITUTE_LA_RATES")
+public class InstituteLaRate extends AbstractInstituteRate {
 
 	@Override 
 	@SuppressWarnings("unchecked")
@@ -45,3 +52,4 @@ public class InstituteLaRate extends AbstractInstituteRate{
     }
 	
 }
+

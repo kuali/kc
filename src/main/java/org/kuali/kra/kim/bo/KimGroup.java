@@ -15,9 +15,17 @@
  */
 package org.kuali.kra.kim.bo;
 
+import javax.persistence.Version;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.jpa.annotations.Sequence;
 
 /**
  * The KIM Group represents a Group.  A Group can contain both Persons
@@ -32,13 +40,20 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@Entity
+@Table(name="KIM_GROUPS_T")
+@Sequence(name="SEQ_KIM_GROUPS_ID", property="id")
 public class KimGroup extends PersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 4974576362491778342L;
 
-    private Long id;
-    private String name;
-    private String description;
+    @Id
+	@Column(name="ID")
+	private Long id;
+    @Column(name="NAME")
+	private String name;
+    @Column(name="DESCRIPTION")
+	private String description;
 
     /**
      * Get the Group's ID.
@@ -120,3 +135,4 @@ public class KimGroup extends PersistableBusinessObjectBase {
         return id.equals(group.id);
     }
 }
+

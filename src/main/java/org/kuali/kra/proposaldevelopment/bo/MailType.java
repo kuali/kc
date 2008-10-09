@@ -15,6 +15,13 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import javax.persistence.Version;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -23,10 +30,15 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * 
  * This class the bo class of mail type.
  */
+@Entity
+@Table(name="MAIL_TYPE")
 public class MailType extends KraPersistableBusinessObjectBase {
     
-    private String mailType;
-    private String description;
+    @Id
+	@Column(name="MAIL_TYPE")
+	private String mailType;
+    @Column(name="DESCRIPTION")
+	private String description;
     
     public String getDescription() {
         return description;
@@ -51,4 +63,5 @@ public class MailType extends KraPersistableBusinessObjectBase {
         return propMap;
     }
 }
+
 

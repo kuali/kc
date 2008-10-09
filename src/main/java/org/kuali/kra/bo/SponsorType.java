@@ -1,10 +1,22 @@
 package org.kuali.kra.bo;
 
+import javax.persistence.Version;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+
 import java.util.LinkedHashMap;
 
+@Entity
+@Table(name="SPONSOR_TYPE")
 public class SponsorType extends KraPersistableBusinessObjectBase {
 	
+	@Id
+	@Column(name="SPONSOR_TYPE_CODE")
 	private String sponsorTypeCode;
+	@Column(name="DESCRIPTION")
 	private String description;
 	
 	/**
@@ -36,3 +48,4 @@ public class SponsorType extends KraPersistableBusinessObjectBase {
 		return lkupMap;
 	}
 }
+

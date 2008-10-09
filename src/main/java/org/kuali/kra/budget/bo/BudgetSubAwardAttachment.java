@@ -15,19 +15,56 @@
  */
 package org.kuali.kra.budget.bo;
 
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.Version;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+import javax.persistence.IdClass;
+
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 import edu.mit.coeus.budget.bean.BudgetSubAwardAttachmentBean;
 
+@IdClass(org.kuali.kra.budget.bo.id.BudgetSubAwardAttachmentId.class)
+@Entity
+@Table(name="BUDGET_SUB_AWARD_ATT")
 public class BudgetSubAwardAttachment extends KraPersistableBusinessObjectBase {
-    private byte[] attachment;
-    private Integer budgetVersionNumber;
+    
+    @Id
+    @Column(name="CONTENT_ID")
     private String contentId;
-    private String contentType;
+    
+    @Id
+    @Column(name="PROPOSAL_NUMBER")
     private String proposalNumber;
-	private Integer subAwardNumber;
+    
+    @Id
+    @Column(name="SUB_AWARD_NUMBER")
+    private Integer subAwardNumber;
+    
+    @Id
+    @Column(name="VERSION_NUMBER")
+    private Integer budgetVersionNumber;
+    
+    @Column(name="ATTACHMENT")
+	private byte[] attachment;
+    
+    @Column(name="CONTENT_TYPE")
+	private String contentType;
+    
+    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
+    @JoinColumns({@JoinColumn(name="PROPOSAL_NUMBER", insertable = false, updatable = false), 
+                  @JoinColumn(name="VERSION_NUMBER", insertable = false, updatable = false),
+                  @JoinColumn(name="SUB_AWARD_NUMBER", insertable=false, updatable=false)})
+    private BudgetSubAwards budgetSubAwards;
 	
 	public BudgetSubAwardAttachment() {
 	    super();
@@ -91,7 +128,15 @@ public class BudgetSubAwardAttachment extends KraPersistableBusinessObjectBase {
 		this.contentType = contentType;
 	}
 	
-	@Override 
+	public BudgetSubAwards getBudgetSubAwards() {
+        return budgetSubAwards;
+    }
+
+    public void setBudgetSubAwards(BudgetSubAwards budgetSubAwards) {
+        this.budgetSubAwards = budgetSubAwards;
+    }
+
+    @Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
 		hashMap.put("contentId", getContentId());
@@ -103,3 +148,4 @@ public class BudgetSubAwardAttachment extends KraPersistableBusinessObjectBase {
 		return hashMap;
 	}
 }
+

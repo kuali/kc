@@ -2,20 +2,50 @@ package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.kim.bo.KimRole;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+import org.kuali.kra.kim.bo.KimRole;
+import org.kuali.rice.jpa.annotations.Sequence;
+
+@Entity
+@Table(name="UNIT_ACL")
+@Sequence(name="SEQ_UNIT_ACL_ID", property="id")
 public class UnitAclEntry extends KraPersistableBusinessObjectBase {
     
-    private Long id;
-    private String personId;
-    private Long roleId;
+    @Id
+	@Column(name="ID")
+	private Long id;
+    @Column(name="PERSON_ID")
+	private String personId;
+    @Column(name="ROLE_ID")
+	private Long roleId;
+	@Column(name="UNIT_NUMBER")
 	private String unitNumber;
-	private Boolean subunits;
-	private Boolean active;
+    @Type(type="yes_no")
+	@Column(name="SUBUNITS")
+	private boolean subunits;
+    @Type(type="yes_no")
+	@Column(name="ACTIVE_FLAG")
+	private boolean active;
 	
+	@OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
+	@JoinColumn(name="PERSON_ID", insertable=false, updatable=false)
 	private Person person;
+	@ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
+	@JoinColumn(name="UNIT_NUMBER", insertable=false, updatable=false)
 	private Unit unit;
-	private KimRole role;
+	@ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
+	@JoinColumn(name="ROLE_ID", insertable=false, updatable=false)
+ 	private KimRole role;
 
     public UnitAclEntry() {
         subunits = false;
@@ -66,19 +96,19 @@ public class UnitAclEntry extends KraPersistableBusinessObjectBase {
         return unit.getUnitName();
     }
 
-    public Boolean getSubunits() {
+    public boolean getSubunits() {
         return subunits;
     }
 
-    public void setSubunits(Boolean subunits) {
+    public void setSubunits(boolean subunits) {
         this.subunits = subunits;
     }
 
-    public Boolean getActive() {
+    public boolean getActive() {
         return active;
     }
 
-    public void setActive(Boolean active) {
+    public void setActive(boolean active) {
         this.active = active;
     }
 
@@ -132,3 +162,4 @@ public class UnitAclEntry extends KraPersistableBusinessObjectBase {
     }
 
 }
+

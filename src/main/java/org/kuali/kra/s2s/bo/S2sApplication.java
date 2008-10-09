@@ -15,14 +15,38 @@
  */
 package org.kuali.kra.s2s.bo;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.FetchType;
+import javax.persistence.Basic;
+import javax.persistence.Lob;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+@Entity
+@Table(name="S2S_APPLICATION")
 public class S2sApplication extends KraPersistableBusinessObjectBase {
+    
+	@Id
+	@Column(name="PROPOSAL_NUMBER")
 	private String proposalNumber;
+	
+	@Lob
+	@Basic(fetch=FetchType.LAZY)
+	@Column(name="APPLICATION")
 	private String application;
+	
+	@OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
+           targetEntity=org.kuali.kra.s2s.bo.S2sAppAttachments.class, mappedBy="s2sApplication")
 	private List<S2sAppAttachments> s2sAppAttachmentList; 
 
 	public String getProposalNumber() {
@@ -66,3 +90,4 @@ public class S2sApplication extends KraPersistableBusinessObjectBase {
         this.s2sAppAttachmentList = s2sAppAttachmentList;
     }
 }
+

@@ -15,6 +15,16 @@
  */
 package org.kuali.kra.bo;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.FetchType;
+import javax.persistence.OneToOne;
+import javax.persistence.Version;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+
 import java.util.LinkedHashMap;
 
 /**
@@ -23,18 +33,34 @@ import java.util.LinkedHashMap;
  * 
  * @see org.kuali.kra.bo.Person
  */
+@Entity
+@Table(name="PERSON_DEGREE")
 public class PersonDegree extends KraPersistableBusinessObjectBase {
-    private String personId;
-    private String degreeCode;
-    private String degree;
-    private DegreeType degreeType;
-    private String fieldOfStudy;
-    private String specialization;
-    private String school;
-    private String schoolIdCode;
-    private String schoolId;
-    private String graduationYear;
-    private Person person;
+    @Id
+	@Column(name="PERSON_ID")
+	private String personId;
+    @Column(name="DEGREE_CODE")
+	private String degreeCode;
+    @Column(name="DEGREE")
+	private String degree;
+    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
+	@JoinColumn(name="DEGREE_CODE", insertable=false, updatable=false)
+	private DegreeType degreeType;
+    @Column(name="FIELD_OF_STUDY")
+	private String fieldOfStudy;
+    @Column(name="SPECIALIZATION")
+	private String specialization;
+    @Column(name="SCHOOL")
+	private String school;
+    @Column(name="SCHOOL_ID_CODE")
+	private String schoolIdCode;
+    @Column(name="SCHOOL_ID")
+	private String schoolId;
+    @Column(name="GRADUATION_YEAR")
+	private String graduationYear;
+    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
+	@JoinColumn(name="PERSON_ID", insertable=false, updatable=false)
+	private Person person;
     
     
     public String getPersonId() {
@@ -153,3 +179,4 @@ public class PersonDegree extends KraPersistableBusinessObjectBase {
     }
 
 }
+

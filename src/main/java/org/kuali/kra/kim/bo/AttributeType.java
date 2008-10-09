@@ -15,9 +15,17 @@
  */
 package org.kuali.kra.kim.bo;
 
+import javax.persistence.Version;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.jpa.annotations.Sequence;
 
 /**
  * This class defines the concept of an attribute type. Given KIM's need for dynamic lists of attributes attached to various
@@ -27,12 +35,19 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  * 
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
+@Entity
+@Table(name="KIM_ATTRIBUTE_TYPES_T")
+@Sequence(name="SEQ_KIM_ATTRIBUTE_TYPE_ID", property="id")
 public class AttributeType extends PersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -3856630570406063764L;
-    private Long id;
-    private String attributeTypeName;
-    private String description;
+    @Id
+	@Column(name="ID")
+	private Long id;
+    @Column(name="NAME")
+	private String attributeTypeName;
+    @Column(name="DESCRIPTION")
+	private String description;
 
     /**
      * This method retrieves the attribute type name.
@@ -115,3 +130,4 @@ public class AttributeType extends PersistableBusinessObjectBase {
         return id.equals(attrType.id);
     }
 }
+

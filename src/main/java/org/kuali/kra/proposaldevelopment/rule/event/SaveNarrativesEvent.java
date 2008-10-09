@@ -20,6 +20,7 @@ import java.util.List;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.kra.proposaldevelopment.bo.ProposalNarrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AddNarrativeRule;
 import org.kuali.kra.proposaldevelopment.rule.SaveNarrativesRule;
@@ -35,7 +36,7 @@ import org.kuali.kra.rule.event.KraDocumentEventBase;
 public class SaveNarrativesEvent extends NarrativeEventBase{
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(SaveNarrativesEvent.class);
    
-    private List<Narrative> originalNarratives;
+    private List<ProposalNarrative> originalNarratives;
     
     /**
      * Constructs an AddNarrativeEvent with the given errorPathPrefix, document, and proposalPerson.
@@ -44,7 +45,7 @@ public class SaveNarrativesEvent extends NarrativeEventBase{
      * @param proposalDevelopmentDocument
      * @param narrative
      */
-    public SaveNarrativesEvent(String errorPathPrefix, ProposalDevelopmentDocument document, Narrative narrative, List<Narrative> originalNarratives) {
+    public SaveNarrativesEvent(String errorPathPrefix, ProposalDevelopmentDocument document, ProposalNarrative narrative, List<ProposalNarrative> originalNarratives) {
         super("Adding narrative to document " + getDocumentId(document), errorPathPrefix, document, narrative);
         this.originalNarratives = originalNarratives;
     }
@@ -56,7 +57,7 @@ public class SaveNarrativesEvent extends NarrativeEventBase{
      * @param document
      * @param narrative
      */
-    public SaveNarrativesEvent(String errorPathPrefix, Document document, Narrative narrative) {
+    public SaveNarrativesEvent(String errorPathPrefix, Document document, ProposalNarrative narrative) {
         this(errorPathPrefix, (ProposalDevelopmentDocument) document, narrative, null);
     }
     
@@ -64,7 +65,7 @@ public class SaveNarrativesEvent extends NarrativeEventBase{
      * Get the original list of narratives to compare against.
      * @return the original narratives
      */
-    public List<Narrative> getOriginalNarratives() {
+    public List<ProposalNarrative> getOriginalNarratives() {
         return this.originalNarratives;
     }
 

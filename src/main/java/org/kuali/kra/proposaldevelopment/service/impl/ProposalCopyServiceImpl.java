@@ -48,11 +48,13 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.proposaldevelopment.bo.InstituteNarrative;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
+import org.kuali.kra.proposaldevelopment.bo.ProposalNarrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
@@ -766,12 +768,12 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         properties.add(getDocProperty("PropPersonBios"));
         copyProperties(src, dest, properties);
         
-        List<Narrative> narratives = src.getNarratives();
-        List<Narrative> newNarratives = copyNarratives(narratives, 1);
-        dest.setNarratives(newNarratives);
+        List<ProposalNarrative> narratives = src.getProposalNarratives();
+        List<ProposalNarrative> newNarratives = (List<ProposalNarrative>) copyNarratives(narratives, 1);
+        dest.setProposalNarratives(newNarratives);
         
-        narratives = src.getInstituteAttachments();
-        dest.setInstituteAttachments(copyNarratives(narratives, newNarratives.size() + 1));
+        List<InstituteNarrative> instituteNarratives = src.getInstituteAttachments();
+        dest.setInstituteAttachments((List<InstituteNarrative>) copyNarratives(instituteNarratives, newNarratives.size() + 1));
         
         // For the first adjustment, the Proposal Attachments must be set to "Incomplete".
         
@@ -784,7 +786,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param narratives the narratives to copy
      * @return the copied narratives
      */
-    private List<Narrative> copyNarratives(List<Narrative> narratives, int moduleNumber) {
+    private List<? extends Narrative> copyNarratives(List<? extends Narrative> narratives, int moduleNumber) {
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
         String username = user.getPersonUserIdentifier();
         Person person = personService.getPersonByName(username);
@@ -852,7 +854,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     private void loadAttachmentContents(ProposalDevelopmentDocument doc) {
         
         // Load personal attachments.
-        List<Narrative> narratives = doc.getNarratives();
+        List<? extends Narrative> narratives = doc.getProposalNarratives();
         for (Narrative narrative : narratives) {
             loadAttachmentContent(narrative);
         }
@@ -906,8 +908,8 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param doc the new proposal development document
      */
     private void setProposalAttachmentsToIncomplete(ProposalDevelopmentDocument doc) {
-        List<Narrative> narratives = doc.getNarratives();
-        for (Narrative narrative : narratives) {
+        List<ProposalNarrative> narratives = doc.getProposalNarratives();
+        for (ProposalNarrative narrative : narratives) {
             narrative.setModuleStatusCode("I");
         }
     }

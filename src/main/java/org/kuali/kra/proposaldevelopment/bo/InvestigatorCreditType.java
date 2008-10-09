@@ -15,6 +15,13 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import javax.persistence.Version;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+
 import java.util.LinkedHashMap;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
@@ -25,11 +32,17 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * @see org.kuali.core.bo.PersistableBusinessObject
  * $Id: InvestigatorCreditType.java,v 1.6 2008-07-23 19:16:37 gmcgrego Exp $
  */
+@Entity
+@Table(name="INV_CREDIT_TYPE")
 public class InvestigatorCreditType extends KraPersistableBusinessObjectBase {
-    private String invCreditTypeCode;
-    private Boolean addsToHundred;
+    @Id
+	@Column(name="INV_CREDIT_TYPE_CODE")
+	private String invCreditTypeCode;
+    @Column(name="ADDS_TO_HUNDRED")
+	private Boolean addsToHundred;
     private Boolean active;
-    private String description;
+    @Column(name="DESCRIPTION")
+	private String description;
 
     /**
      * Retrieves the description attribute
@@ -126,3 +139,4 @@ public class InvestigatorCreditType extends KraPersistableBusinessObjectBase {
     }
 
 }
+

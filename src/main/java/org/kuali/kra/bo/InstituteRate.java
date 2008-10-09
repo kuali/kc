@@ -15,6 +15,19 @@
  */
 package org.kuali.kra.bo;
 
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.FetchType;
+import javax.persistence.OneToOne;
+import javax.persistence.Version;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+import javax.persistence.IdClass;
+
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.budget.bo.AbstractBudgetRate;
@@ -25,10 +38,17 @@ import org.kuali.kra.proposaldevelopment.bo.ActivityType;
  * 
  * This class represents INSTITUTE_RATE record
  */
+@IdClass(org.kuali.kra.bo.id.InstituteRateId.class)
+@Entity
+@Table(name="INSTITUTE_RATES")
 public class InstituteRate extends AbstractInstituteRate {
+	@Id
+	@Column(name="ACTIVITY_TYPE_CODE")
 	private String activityTypeCode;
     
-    private ActivityType activityType;
+    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
+	@JoinColumn(name="ACTIVITY_TYPE_CODE", insertable=false, updatable=false)
+	private ActivityType activityType;
 
 	public String getActivityTypeCode() {
 		return activityTypeCode;
@@ -54,3 +74,4 @@ public class InstituteRate extends AbstractInstituteRate {
         this.activityType = activityType;
     }
 }
+

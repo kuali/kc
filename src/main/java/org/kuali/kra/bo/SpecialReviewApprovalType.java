@@ -15,13 +15,25 @@
  */
 package org.kuali.kra.bo;
 
+import javax.persistence.Version;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+
 import java.util.LinkedHashMap;
 
 
+@Entity
+@Table(name="SP_REV_APPROVAL_TYPE")
 public class SpecialReviewApprovalType  extends KraPersistableBusinessObjectBase {
 
-    private String approvalTypeCode;
-    private String description;
+    @Id
+	@Column(name="APPROVAL_TYPE_CODE")
+	private String approvalTypeCode;
+    @Column(name="DESCRIPTION")
+	private String description;
 
     public String getDescription() {
         return description;
@@ -50,6 +62,7 @@ public class SpecialReviewApprovalType  extends KraPersistableBusinessObjectBase
     }
 
 }
+
 
 
 

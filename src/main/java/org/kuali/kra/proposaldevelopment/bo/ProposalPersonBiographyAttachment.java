@@ -2,21 +2,46 @@ package org.kuali.kra.proposaldevelopment.bo;
 
 import java.util.LinkedHashMap;
 
-import org.apache.struts.upload.FormFile;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  * 
  * This bo for eps_prop_person_bio_attachment
  */
+@IdClass(org.kuali.kra.proposaldevelopment.bo.id.ProposalPersonBiographyAttachmentId.class)
+@Entity
+@Table(name="EPS_PROP_PERSON_BIO_ATTACHMENT")
 public class ProposalPersonBiographyAttachment extends AttachmentDataSource {
-
-	private Integer proposalPersonNumber;
+    
+    @Id
+    @Column(name="PROPOSAL_NUMBER")
     private String proposalNumber;
-    private Integer biographyNumber;
+    
+	@Id
+	@Column(name="PROP_PERSON_NUMBER")
+	private Integer proposalPersonNumber;
+	
+    @Id
+	@Column(name="BIO_NUMBER")
+	private Integer biographyNumber;
+    
+	@Column(name="BIO_DATA")
 	private byte[] biographyData;
-//	private String fileName;
-//    private String contentType;
+    
+    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
+    @JoinColumns({@JoinColumn(name="PROPOSAL_NUMBER", insertable = false, updatable = false),
+                  @JoinColumn(name="PROP_PERSON_NUMBER", insertable=false, updatable=false),
+                  @JoinColumn(name="BIO_NUMBER", insertable=false, updatable=false)})
+    private ProposalPersonBiography proposalPersonBiography;
 
 	public ProposalPersonBiographyAttachment(){
 		super();
@@ -71,3 +96,4 @@ public class ProposalPersonBiographyAttachment extends AttachmentDataSource {
     }
 
 }
+

@@ -22,6 +22,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.MapKey;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToMany;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.service.DateTimeService;
@@ -35,11 +41,19 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.CustomAttributeService;
 
-public class ResearchDocumentBase extends TransactionalDocumentBase {
+@MappedSuperclass
+public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
 
+    @Column(name="UPDATE_USER", nullable=false, length=60)
     private String updateUser;
+    
+    @Column(name="UPDATE_TIMESTAMP", nullable=false)
     private Timestamp updateTimestamp;
-    private List<DocumentNextvalue> documentNextvalues;
+    
+    private transient List<DocumentNextvalue> documentNextvalues;
+    
+    @MapKey(name="documentTypeCode")
+    @OneToMany
     private Map<String, CustomAttributeDocument> customAttributeDocuments;
 
     public ResearchDocumentBase() {

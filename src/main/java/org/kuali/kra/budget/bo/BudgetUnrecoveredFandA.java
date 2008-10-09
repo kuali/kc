@@ -15,19 +15,35 @@
  */
 package org.kuali.kra.budget.bo;
 
+import javax.persistence.Version;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+import javax.persistence.IdClass;
+
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.RateDecimal;
 
+@IdClass(org.kuali.kra.budget.bo.id.BudgetUnrecoveredFandAId.class)
+@Entity
+@Table(name="EPS_PROP_IDC_RATE")
 public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent {
     private static final long serialVersionUID = 6614520585838685080L;
 
     public static final String DOCUMENT_COMPONENT_ID_KEY = "BUDGET_UNRECOVERED_F_AND_A_KEY";
     
-    private BudgetDecimal amount;
-    private RateDecimal applicableRate;
-    private String onCampusFlag;
-    private Integer fiscalYear;
-    private String sourceAccount;
+    @Column(name="UNDERRECOVERY_OF_IDC")
+	private BudgetDecimal amount;
+    @Column(name="APPLICABLE_IDC_RATE")
+	private RateDecimal applicableRate;
+    @Column(name="ON_CAMPUS_FLAG")
+	private String onCampusFlag;
+    @Column(name="FISCAL_YEAR")
+	private Integer fiscalYear;
+    @Column(name="SOURCE_ACCOUNT")
+	private String sourceAccount;
     
     public static final String OFF_CAMPUS_RATE_FLAG = "N"; 
     public static final String ON_CAMPUS_RATE_FLAG = "Y";
@@ -219,3 +235,4 @@ public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent
         return DOCUMENT_COMPONENT_ID_KEY;
     }
 }
+
