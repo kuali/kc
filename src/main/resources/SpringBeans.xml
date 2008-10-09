@@ -387,7 +387,7 @@
       </property>
  	</bean>
  	
-    <bean id="sponsorHierarchyDao" class="org.kuali.kra.dao.ojb.SponsorHierarchyJpaDao" />
+    <bean id="sponsorHierarchyDao" class="org.kuali.kra.dao.jpa.SponsorHierarchyJpaDao" />
 
 	<bean id="narrativeAuthZService" class="org.kuali.kra.proposaldevelopment.service.impl.NarrativeAuthZServiceImpl">
 		<property name="businessObjectService">
