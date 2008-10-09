@@ -32,12 +32,14 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
+import org.kuali.kra.proposaldevelopment.bo.ProposalOverview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.ProposalDataOverrideRule;
 import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.CustomAttributeService;
+import org.kuali.kra.service.KraPersistenceStructureService;
 import org.kuali.rice.KNSServiceLocator;
 
 /**
@@ -63,6 +65,12 @@ public class ProposalDevelopmentDataOverrideRule extends ResearchDocumentRuleBas
         boolean valid = true;
         DataDictionaryService dataDictionaryService = KNSServiceLocator.getDataDictionaryService();
         
+        String overriddenValue = proposalOverriddenData.getChangedValue();
+        KraPersistenceStructureService kraPersistenceStructureService = KraServiceLocator.getService(KraPersistenceStructureService.class);
+        Map<String, String> columnToAttributesMap = kraPersistenceStructureService.getDBColumnToObjectAttributeMap(ProposalOverview.class);
+        String overriddenName = dataDictionaryService.getAttributeErrorLabel(ProposalDevelopmentDocument.class, columnToAttributesMap.get(proposalOverriddenData.getColumnName()));
+        Boolean isRequiredField = dataDictionaryService.isAttributeRequired(ProposalDevelopmentDocument.class, columnToAttributesMap.get(proposalOverriddenData.getColumnName()));
+        
         if (StringUtils.isEmpty(proposalOverriddenData.getColumnName())) {
             valid = false;
             GlobalVariables.getErrorMap().putError("newProposalChangedData.columnName", KeyConstants.ERROR_NO_FIELD_TO_EDIT);
@@ -71,6 +79,12 @@ public class ProposalDevelopmentDataOverrideRule extends ResearchDocumentRuleBas
         if(proposalOverriddenData != null && StringUtils.isNotEmpty(proposalOverriddenData.getChangedValue())) {
             valid &= validateAttributeFormat(proposalOverriddenData, dataDictionaryService);
         }
+        
+        if (isRequiredField && StringUtils.isEmpty(overriddenValue)){
+            valid = false;
+            GlobalVariables.getErrorMap().putError("newProposalChangedData.changedValue", RiceKeyConstants.ERROR_REQUIRED, overriddenName);
+        }
+        
         
         if(proposalOverriddenData != null && StringUtils.isNotEmpty(proposalOverriddenData.getComments())) {
             int commentsMaxLength = dataDictionaryService.getAttributeMaxLength(ProposalChangedData.class, "comments");
@@ -134,6 +148,7 @@ public class ProposalDevelopmentDataOverrideRule extends ResearchDocumentRuleBas
                 }
             }
         }
+        
         
         if ((maxLength != null) && (maxLength.intValue() < overriddenValue.length())) {
             GlobalVariables.getErrorMap().putError(Constants.PROPOSALDATA_CHANGED_VAL_KEY, RiceKeyConstants.ERROR_MAX_LENGTH,
