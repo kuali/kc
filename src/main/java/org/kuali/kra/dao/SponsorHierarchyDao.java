@@ -25,7 +25,7 @@ public interface SponsorHierarchyDao {
      * @return
      */
     
-    public Iterator getTopSponsorHierarchy();
+    public Iterator<Object[]> getTopSponsorHierarchy();
     
     /**
      * 
@@ -40,7 +40,7 @@ public interface SponsorHierarchyDao {
      * @param hierarchyName
      * @return
      */
-    public Iterator getAllSponsors(String hierarchyName);
+    public Iterator<Object[]> getAllSponsors(String hierarchyName);
     
     /**
      * 
@@ -61,7 +61,7 @@ public interface SponsorHierarchyDao {
      * @param levelName
      * @return
      */
-    public String getsubGroups(String hierarchyName, int level, String[] levelName);
+    public String getSubGroups(String hierarchyName, int level, String[] levelName);
 
     public String getSponsorCodesForDeletedGroup(String hierarchyName, int level, String[] levelName);
 
