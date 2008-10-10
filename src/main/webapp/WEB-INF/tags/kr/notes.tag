@@ -68,7 +68,7 @@
     <div class="tab-container" align=center id="G4">
     <p align=left><jsp:doBody/>
 	<div class="h2-container">
-	<h2>Notes and Attachments</h2>
+	<h2>Notes</h2>
 	</div>
         <table cellpadding="0" cellspacing="0" class="datatable" summary="view/add notes">
             <tbody>
