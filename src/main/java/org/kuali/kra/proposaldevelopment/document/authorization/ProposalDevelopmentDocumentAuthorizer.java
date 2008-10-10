@@ -150,10 +150,17 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
                 editModeMap.put(AuthorizationConstants.EditMode.UNVIEWABLE, TRUE);
             }
     
+            String modifyBudgetPermission = null;
+            if(editModeMap.get("addBudget") != null) {
+                modifyBudgetPermission = editModeMap.get("addBudget").toString();
+            }
+            
 	        if(isBudgetComplete(proposalDoc)) {
-    	        editModeMap.put("modifyCompletedBudgets", TRUE);
         	    editModeMap.put("modifyBudgets", FALSE);
             	editModeMap.put("addBudget", FALSE);
+                if(StringUtils.isNotBlank(modifyBudgetPermission) && StringUtils.equals(modifyBudgetPermission, TRUE)) {
+                    editModeMap.put("modifyCompletedBudgets", TRUE);
+                }
         	}
         }
         
