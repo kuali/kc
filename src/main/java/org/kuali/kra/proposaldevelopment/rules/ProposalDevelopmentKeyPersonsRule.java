@@ -151,11 +151,11 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
             
             }
             if(isCoInvestigator(person) && (person.getUnits() != null) && (person.getUnits().size()==0)){
-                reportError("document.proposalPersons[" + personIndex + "].newProposalPersonUnit*",
+                reportError("newProposalPersonUnit[" + personIndex + "].unitNumber",
                             ERROR_ONE_UNIT, person.getFullName());            
             }
             if(isKeyPerson(person) && (person.getOptInUnitStatus().equals("Y")) && (person.getUnits()!= null) && (person.getUnits().size() ==0)){
-                reportError("document.proposalPersons[" + personIndex + "].newProposalPersonUnit*",
+                reportError("newProposalPersonUnit[" + personIndex + "].unitNumber",
                             ERROR_ONE_UNIT, person.getFullName());  
             }
             if(isKeyPerson(person) && StringUtils.isBlank(person.getProjectRole())){
