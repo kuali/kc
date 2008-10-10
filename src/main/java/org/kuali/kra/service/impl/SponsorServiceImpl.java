@@ -99,7 +99,7 @@ public class SponsorServiceImpl implements SponsorService {
         String returnSponsorHierarchy = null;
         String[] ascendantList = groups.split(Constants.SPONSOR_HIERARCHY_SEPARATOR_C1C);
         if (Integer.parseInt(depth) < 10) {
-            returnSponsorHierarchy = sponsorHierarchyDao.getsubGroups(hierarchyName,Integer.parseInt(depth)+1, ascendantList);
+            returnSponsorHierarchy = sponsorHierarchyDao.getSubGroups(hierarchyName,Integer.parseInt(depth)+1, ascendantList);
         }
  
         if (StringUtils.isBlank(returnSponsorHierarchy)) {
