@@ -35,9 +35,11 @@ public class SponsorHierarchy extends KraPersistableBusinessObjectBase {
 	@Id
 	@Column(name="HIERARCHY_NAME")
 	private String hierarchyName;
+	
 	@Id
 	@Column(name="SPONSOR_CODE")
 	private String sponsorCode;
+	
 	@Column(name="LEVEL1")
 	private String level1;
 	@Column(name="LEVEL10")
