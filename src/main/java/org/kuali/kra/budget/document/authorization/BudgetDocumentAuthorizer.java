@@ -77,14 +77,19 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
             editModeMap.put(AuthorizationConstants.EditMode.UNVIEWABLE, TRUE);
         }
         
+        //Extra Code - starts here
+        String modifyBudgetPermission = null;
+        if(editModeMap.get("modifyBudgets") != null) {
+            modifyBudgetPermission = editModeMap.get("modifyBudgets").toString();
+        }
+
         if(isBudgetComplete(proposalDoc, budgetDoc)) {
-            editModeMap.put("modifyCompletedBudgets", TRUE);
             editModeMap.put("modifyBudgets", FALSE);
             editModeMap.put("addBudget", FALSE);
+            if(StringUtils.isNotBlank(modifyBudgetPermission) && StringUtils.equals(modifyBudgetPermission, TRUE)) {
+                editModeMap.put("modifyCompletedBudgets", TRUE);
+            }
             entryEditModeReplacementMap.put(KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET, KraAuthorizationConstants.BudgetEditMode.VIEW_BUDGET);
-
-            //Looks like addBudget is needed in EditModeMap at all times
-            //entryEditModeReplacementMap.put("addBudget", "openBudgets");
         }
         
         return editModeMap;

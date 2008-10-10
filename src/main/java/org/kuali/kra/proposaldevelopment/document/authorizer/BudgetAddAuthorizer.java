@@ -35,7 +35,7 @@ public class BudgetAddAuthorizer extends ProposalAuthorizer {
         ProposalDevelopmentDocument doc = task.getProposalDevelopmentDocument();
         
         boolean hasPermission = false;
-        if (!kraWorkflowService.isInWorkflow(doc)) {
+        if (!kraWorkflowService.isInWorkflow(doc) && !doc.getSubmitFlag()) {
             hasPermission = hasProposalPermission(username, doc, PermissionConstants.MODIFY_BUDGET);
         }
         return hasPermission;
