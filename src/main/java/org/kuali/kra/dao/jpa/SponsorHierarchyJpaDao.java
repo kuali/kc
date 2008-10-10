@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.dao.jpa;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -27,27 +23,21 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.core.bo.Parameter;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.OjbCollectionAware;
-import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.dao.SponsorHierarchyDao;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.exceptions.RiceRuntimeException;
-import org.springmodules.orm.ojb.PersistenceBrokerCallback;
+import org.springframework.transaction.annotation.Transactional;
 
-public class SponsorHierarchyJpaDao extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, SponsorHierarchyDao {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(SponsorHierarchyJpaDao.class);
-    private static final String ERROR_MSG = "Error get sponsor codes.";
-    private static final String SPONSOR_CODE_NAME_SQL = "select sponsor_code, (select sponsor_name from sponsor where sponsor_code = sponsor_hierarchy.sponsor_code) from sponsor_hierarchy ";
-
+public class SponsorHierarchyJpaDao implements SponsorHierarchyDao {
+    private static final Log LOG = LogFactory.getLog(SponsorHierarchyJpaDao.class);
+    
+    private static final String ERROR_MSG = "Error in SponsorHierarchyJpaDao";
+    
     private EntityManager em;
     
     @PersistenceContext
@@ -55,81 +45,93 @@ public class SponsorHierarchyJpaDao extends PlatformAwareDaoBaseOjb implements O
         this.em = em;
     }
 
-    public Iterator getTopSponsorHierarchy() {
-//      Criteria criteriaID = new Criteria();
-//      ReportQueryByCriteria queryID = new ReportQueryByCriteria(SponsorHierarchy.class,criteriaID);
-//      queryID.setAttributes(new String[] {Constants.HIERARCHY_NAME});
-//      queryID.setDistinct(true);
+    @SuppressWarnings("unchecked")
+    @Transactional
+    public Iterator<Object[]> getTopSponsorHierarchy() {
+      try {
+          Query query = em.createQuery("select distinct sh.hierarchyName from SponsorHierarchy sh");        
+          return query.getResultList().iterator();
+      } catch (Exception e) {
+          LOG.error(e.getStackTrace());
+          throw new RiceRuntimeException(ERROR_MSG, e);
+      }      
+    }
 
-      Query query = em.createQuery("select distinct sh.hierarchyName from SponsorHierarchy sh");        
-      return query.getResultList().iterator();
-      
-  }
-    
     /**
      * This is much faster than use 'businessobjectservice.findmatching, and then loop thru bo.
      * @see org.kuali.kra.dao.SponsorHierarchyDao#getAllSponsors(java.lang.String)
      */
-    public Iterator getAllSponsors(String hierarchyName) {
-        
-//      Criteria criteriaID = new Criteria();
-//      criteriaID.addEqualTo(Constants.HIERARCHY_NAME, hierarchyName);
-//      ReportQueryByCriteria queryID = new ReportQueryByCriteria(SponsorHierarchy.class,criteriaID);
-//      queryID.setAttributes(new String[] {Constants.SPONSOR_CODE});
-//      
-      Query query = em.createQuery("select sh.sponsorCode from SponsorHierarchy sh where sh.hierarchyName = :hierarchyName");
-      query.setParameter("hierarchyName", hierarchyName);
-      
-      return query.getResultList().iterator();
-      
+    @SuppressWarnings("unchecked")
+    @Transactional
+    public Iterator<Object[]> getAllSponsors(String hierarchyName) {
+        try {
+            Query query = em.createQuery("select sh.sponsorCode from SponsorHierarchy sh where sh.hierarchyName = :hierarchyName");
+            query.setParameter("hierarchyName", hierarchyName);
+            return query.getResultList().iterator();
+        } catch (Exception e) {
+            LOG.error(e.getStackTrace());
+            throw new RiceRuntimeException(ERROR_MSG, e);
+        }      
   }
     
     /**
      * 
      * @see org.kuali.kra.dao.SponsorHierarchyDao#getSponsorCodesForGroup(java.lang.String, int, java.lang.String[])
      */
+    @SuppressWarnings("unchecked")
+    @Transactional
     public String getSponsorCodesForGroup(String hierarchyName, int level, String[] levelNames) {
-        Query query = createSponsorHierarchyQuery(hierarchyName, level, levelNames);
-        List<Object[]> results = query.getResultList();
-        
-        int groupingNumber = findGroupingNumber();
-        int i = groupingNumber;
-        StringBuilder retStr = new StringBuilder(Constants.EMPTY_STRING);
-        for(Object[] result : results) {
-            if (StringUtils.isBlank(retStr.toString())) {
-                formatResult(retStr, result);
-            } else {
-                i--;
-                if (i > 0) {
-                    retStr.append(Constants.SPONSOR_HIERARCHY_SEPARATOR_C1C);
+        try {
+            Query query = createSponsorHierarchyQuery(hierarchyName, level, levelNames);
+            List<Object[]> results = query.getResultList();
+            
+            int groupingNumber = findGroupingNumber();
+            int i = groupingNumber;
+            StringBuilder retStr = new StringBuilder(Constants.EMPTY_STRING);
+            for(Object[] result : results) {
+                if (StringUtils.isBlank(retStr.toString())) {
                     formatResult(retStr, result);
                 } else {
-                    retStr.append("#1#");
-                    formatResult(retStr, result);
-                    i = groupingNumber;
+                    i--;
+                    if (i > 0) {
+                        retStr.append(Constants.SPONSOR_HIERARCHY_SEPARATOR_C1C);
+                        formatResult(retStr, result);
+                    } else {
+                        retStr.append("#1#");
+                        formatResult(retStr, result);
+                        i = groupingNumber;
+                    }
                 }
             }
+                                       
+            return retStr.toString();
+        } catch (Exception e) {
+            LOG.info(e.getStackTrace());
+            throw new RiceRuntimeException(ERROR_MSG, e);
         }
-                                   
-        return retStr.toString();        
     }
     
+    @SuppressWarnings("unchecked")
+    @Transactional
     public String getSponsorCodesForDeletedGroup(String hierarchyName, int level, String[] levelNames) {
-        Query query = createSponsorCodeDeletionQuery(hierarchyName, level, levelNames);
-        List<Object[]> results = query.getResultList();
-        
-        StringBuilder retStr = new StringBuilder(Constants.EMPTY_STRING);
-        for(Object[] result: results) {
-            String sponsorCode = (String) result[0];
+        try {
+            Query query = createSponsorCodeDeletionQuery(hierarchyName, level, levelNames);
+            List<String> results = query.getResultList();
             
-            if (StringUtils.isBlank(retStr.toString())) {
-                retStr.append(sponsorCode);
-            } else {
-                retStr = retStr.append(";").append(sponsorCode);
+            StringBuilder retStr = new StringBuilder(Constants.EMPTY_STRING);
+            for(String sponsorCode: results) {                
+                if (StringUtils.isBlank(retStr.toString())) {
+                    retStr.append(sponsorCode);
+                } else {
+                    retStr = retStr.append(";").append(sponsorCode);
+                }
             }
+            
+            return retStr.toString();
+        } catch (Exception e) {
+            LOG.info(e.getStackTrace());
+            throw new RiceRuntimeException(ERROR_MSG, e);
         }
-        
-        return retStr.toString();
     }
 
     
@@ -137,40 +139,57 @@ public class SponsorHierarchyJpaDao extends PlatformAwareDaoBaseOjb implements O
      * This much faster then 'businessobjectservice.findmatching'
      * @see org.kuali.kra.dao.SponsorHierarchyDao#getsubGroups(java.lang.String, int, java.lang.String[])
      */
-    public String getsubGroups(String hierarchyName, int level, String[] levelNames) {
-        Query query = createSponsorHierarchySubGroupsQuery(hierarchyName, level, levelNames);
-        List<Object[]> results = query.getResultList();
-        
-        StringBuilder retStr = new StringBuilder(Constants.EMPTY_STRING);
-        for(Object[] result: results) {
-            String levelN = (String) result[0];
-            String levelNSortedId = (String) result[1];
-            if (StringUtils.isBlank(retStr.toString())) {
-                retStr.append(levelN);
-            } else {
-                retStr.append(Constants.SPONSOR_HIERARCHY_SEPARATOR_C1C).append(levelN);
+    @SuppressWarnings("unchecked")
+    @Transactional
+    public String getSubGroups(String hierarchyName, int level, String[] levelNames) {
+        try {
+            Query query = createSponsorHierarchySubGroupsQuery(hierarchyName, level, levelNames);
+            List<Object[]> results = query.getResultList();
+            
+            StringBuilder retStr = new StringBuilder(Constants.EMPTY_STRING);
+            for(Object[] result: results) {
+                String levelN = (String) result[0];
+//                String levelNSortedId = (String) result[1];
+                if (StringUtils.isBlank(retStr.toString())) {
+                    retStr.append(levelN);
+                } else {
+                    retStr.append(Constants.SPONSOR_HIERARCHY_SEPARATOR_C1C).append(levelN);
+                }
             }
+            
+            return retStr.toString();
+        } catch (Exception e) {
+            LOG.info(e.getStackTrace());
+            throw new RiceRuntimeException(ERROR_MSG, e);
         }
-        
-        return retStr.toString();
     }
     
     /**
      * 
      * @see org.kuali.kra.dao.SponsorHierarchyDao#runScripts(java.lang.String[])
      */
+    @Transactional
     public void runScripts(final String[] sqls) {
-        for(String sql: sqls) {
-            if(sql == null) {
-                continue;
+        try {
+            for(String sql: sqls) {
+                if(sql == null) {
+                    continue;
+                }
+                verifySafeSQL(sql);
+                Query query = em.createNativeQuery(sql);
+                query.executeUpdate();            
             }
-            Query query = em.createNativeQuery(sql);
-            query.executeUpdate();            
-        }    
+        } catch (Exception e) {
+            LOG.info(e.getStackTrace());
+            throw new RiceRuntimeException(ERROR_MSG, e);
+        }
     }
 
-    private Session getSession() {
-        return ((Session) em.getDelegate());
+    private void verifySafeSQL(String sql) {
+        String sqlUpperCase = sql.trim().toUpperCase();
+        if(!(sqlUpperCase.startsWith("SELECT") || sqlUpperCase.startsWith("UPDATE") || sqlUpperCase.startsWith("DELETE"))) {
+            throw new IllegalArgumentException("SQL starts with invalid command. Must be one of SELECT, UPDATE, DELETE");
+        }        
     }
 
     private int findGroupingNumber() {
@@ -191,29 +210,38 @@ public class SponsorHierarchyJpaDao extends PlatformAwareDaoBaseOjb implements O
     }
     
     private Query createSponsorHierarchySubGroupsQuery(String hierarchyName, int level, String[] levelNames) {
-        StringBuilder sb = new StringBuilder("select unique sh.level").append(level).append(", sh.level").append(level).append("_sortid from SponsorHierarchy sh");
-        sb.append("where hierarchyName = :hierarchyName");
+        final String ALIAS = "sh";
+        StringBuilder sb = new StringBuilder("select distinct ").append(ALIAS).append(".level").append(level).append(", ");
+        sb.append(createSortIdQueryFieldFromLevel(ALIAS, level));
+        sb.append(" from SponsorHierarchy ").append(ALIAS).append(" where ");
+        addSponsorHierarchyNameWhereClause(sb);
         addLevelCriteria(sb, level, levelNames);
-        sb.append(" order by sh.level").append(level).append("_sortid");
+        sb.append(" order by sh.level").append(level).append("Sortid");
         return createQuery(sb, hierarchyName, level, levelNames);
     }
     
     private Query createSponsorHierarchyQuery(String hierarchyName, int level, String[] levelNames) {
-        StringBuilder sb = new StringBuilder("select sh.sponsorCode, sp.sponsorName from SponsorHierarchy sh, Sponsor sp");
-        sb.append("where hierarchyName = :hierarchyName");
-        sb.append(" and sp.sponsorCode = sh.sponsorCode");
+        StringBuilder sb = new StringBuilder("select sh.sponsorCode, sp.sponsorName from SponsorHierarchy sh, Sponsor sp where ");
+        sb.append("sp.sponsorCode = sh.sponsorCode");
+        sb.append(" and ");
+        addSponsorHierarchyNameWhereClause(sb);
         addLevelCriteria(sb, level, levelNames);
         return createQuery(sb, hierarchyName, level, levelNames);
     }
+
+    private void addSponsorHierarchyNameWhereClause(StringBuilder sb) {
+        sb.append("sh.hierarchyName = :hierarchyName ");
+    }
     
     private Query createSponsorCodeDeletionQuery(String hierarchyName, int level, String[] levelNames) {
-        StringBuilder sb = new StringBuilder("select sh.sponsorCode from SponsorHierarchy sh");
-        sb.append("where hierarchyName = :hierarchyName");
+        StringBuilder sb = new StringBuilder("select sh.sponsorCode from SponsorHierarchy sh where ");
+        addSponsorHierarchyNameWhereClause(sb);
         addLevelCriteria(sb, level, levelNames);
         return createQuery(sb, hierarchyName, level, levelNames);
     }
 
     private Query createQuery(StringBuilder sb, String hierarchyName, int level, String[] levelNames) {
+        System.out.println(sb.toString());
         Query query = em.createQuery(sb.toString());
         setQueryParameters(query, hierarchyName, level, levelNames);
         return query;
@@ -234,5 +262,9 @@ public class SponsorHierarchyJpaDao extends PlatformAwareDaoBaseOjb implements O
             sb.append(" = :");
             sb.append(parm);
         }        
+    }
+    
+    private String createSortIdQueryFieldFromLevel(String alias, int level) {
+        return new StringBuilder(alias).append(".level").append(level).append("Sortid").toString();
     }
 }
