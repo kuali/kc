@@ -27,19 +27,19 @@ import org.kuali.rice.exceptions.RiceRuntimeException;
 public class SponsorHierarchyJpaDaoIntegrationTest {
     private static final String[] LEVEL_NAMES = new String[] {"Industrial"};
 
-    private static final int SPONOSR_HIERARCHY_LEVEL = 1;
+    private static final int SPONSOR_HIERARCHY_LEVEL = 1;
 
     private static final String GOOD_HIERARCHY_NAME = "MIT Brown Book";
 
     private static final String BAD_HIERARCHY_NAME = "BAD_NAME";
 
-    private static final String SPONSOR_HIERARCHY_DAO_BEAIN_ID = "sponsorHierarchyDao";
+    private static final String SPONSOR_HIERARCHY_DAO_BEAN_ID = "sponsorHierarchyDao";
     
     private SponsorHierarchyDao dao;
     
     @Before
     public void setUp() throws Exception {
-        dao = (SponsorHierarchyDao) SpringHelper.getBean(SPONSOR_HIERARCHY_DAO_BEAIN_ID);
+        dao = (SponsorHierarchyDao) SpringHelper.getBean(SPONSOR_HIERARCHY_DAO_BEAN_ID);
     }
     
     @After 
@@ -60,20 +60,20 @@ public class SponsorHierarchyJpaDaoIntegrationTest {
     
     @Test
     public void testGettingSponsorCodesForGroup() {
-        assertFalse(dao.getSponsorCodesForGroup(BAD_HIERARCHY_NAME, SPONOSR_HIERARCHY_LEVEL, LEVEL_NAMES).length() > 0);
-        assertTrue(dao.getSponsorCodesForGroup(GOOD_HIERARCHY_NAME, SPONOSR_HIERARCHY_LEVEL, LEVEL_NAMES).length() > 0);
+        assertFalse(dao.getSponsorCodesForGroup(BAD_HIERARCHY_NAME, SPONSOR_HIERARCHY_LEVEL, LEVEL_NAMES).length() > 0);
+        assertTrue(dao.getSponsorCodesForGroup(GOOD_HIERARCHY_NAME, SPONSOR_HIERARCHY_LEVEL, LEVEL_NAMES).length() > 0);
     }
     
     @Test
     public void testGettingSponsorCodesForDeletedGroup() {
-        assertFalse(dao.getSponsorCodesForDeletedGroup(BAD_HIERARCHY_NAME, SPONOSR_HIERARCHY_LEVEL, LEVEL_NAMES).length() > 0);
-        assertTrue(dao.getSponsorCodesForDeletedGroup(GOOD_HIERARCHY_NAME, SPONOSR_HIERARCHY_LEVEL, LEVEL_NAMES).length() > 0);
+        assertFalse(dao.getSponsorCodesForDeletedGroup(BAD_HIERARCHY_NAME, SPONSOR_HIERARCHY_LEVEL, LEVEL_NAMES).length() > 0);
+        assertTrue(dao.getSponsorCodesForDeletedGroup(GOOD_HIERARCHY_NAME, SPONSOR_HIERARCHY_LEVEL, LEVEL_NAMES).length() > 0);
     }
     
     @Test
     public void testGettingSubGroups() {
-        assertFalse(dao.getSubGroups(BAD_HIERARCHY_NAME, SPONOSR_HIERARCHY_LEVEL, LEVEL_NAMES).length() > 0);
-        assertTrue(dao.getSubGroups(GOOD_HIERARCHY_NAME, SPONOSR_HIERARCHY_LEVEL, LEVEL_NAMES).length() > 0);
+        assertFalse(dao.getSubGroups(BAD_HIERARCHY_NAME, SPONSOR_HIERARCHY_LEVEL, LEVEL_NAMES).length() > 0);
+        assertTrue(dao.getSubGroups(GOOD_HIERARCHY_NAME, SPONSOR_HIERARCHY_LEVEL, LEVEL_NAMES).length() > 0);
     }
     
     @Test
