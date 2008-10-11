@@ -35,8 +35,7 @@ import org.kuali.kra.proposaldevelopment.dao.AttachmentDao;
  */
 
 public class AttachmentDaoOjb  extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, AttachmentDao {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
-    .getLog(AttachmentDaoOjb.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AttachmentDaoOjb.class);
     
     /**
      * 

@@ -470,8 +470,8 @@
         <ref bean="attachmentDao" />
       </property>
  	</bean>
-    <bean id="attachmentDao" parent="platformAwareDao" class="org.kuali.kra.proposaldevelopment.dao.ojb.AttachmentDaoOjb">
-	</bean>	
+ 	
+    <bean id="attachmentDao" class="org.kuali.kra.proposaldevelopment.dao.jpa.AttachmentDaoImpl"/>
 
 	<bean id="keyPersonnelService" class="org.kuali.kra.proposaldevelopment.service.impl.KeyPersonnelServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
@@ -1228,6 +1228,7 @@
          <idref local="personDao" />
          <idref local="kimDao" />
          <idref local="sponsorHierarchyDao" />
+         <idref local="attachmentDao" />
        </list>
      </property>
    </bean>

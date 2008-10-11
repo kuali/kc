@@ -132,18 +132,12 @@ public abstract class KraTestBase extends KNSTestCase {
 
     @After
     public void tearDown() throws Exception {
-        try {         
+        if(transactionalLifecycle != null) {
             transactionalLifecycle.stop();
-        } finally {
-            // we don't want to thrown any exceptions from finally clause
-            try {
-                GlobalVariables.setErrorMap(new ErrorMap());
-                super.tearDown();
-                documentService = null;
-            } catch(Exception e) {
-                e.printStackTrace();
-            }
-		}
+        }
+        GlobalVariables.setErrorMap(new ErrorMap());
+        super.tearDown();
+        documentService = null;
     }
 
     @Override
