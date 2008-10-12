@@ -133,7 +133,9 @@ public abstract class Narrative extends KraPersistableBusinessObjectBase {
     
     @Transient
     private String institutionalAttachmentTypeCode;
+    @Transient
     private Timestamp timestampDisplay;
+    @Transient
     private String uploadUserDisplay;
 
     public Narrative() {

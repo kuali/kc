@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-
 import java.util.LinkedHashMap;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Type;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
@@ -39,7 +39,10 @@ public class InvestigatorCreditType extends KraPersistableBusinessObjectBase {
 	@Column(name="INV_CREDIT_TYPE_CODE")
 	private String invCreditTypeCode;
     @Column(name="ADDS_TO_HUNDRED")
+    //@Type(type="yes_no")
 	private Boolean addsToHundred;
+    @Column(name="ACTIVED_FLAG")
+    //@Type(type="yes_no")
     private Boolean active;
     @Column(name="DESCRIPTION")
 	private String description;
@@ -131,7 +134,7 @@ public class InvestigatorCreditType extends KraPersistableBusinessObjectBase {
 
     /**
      * Write access to the active flag
-     * 
+     *
      * @param active
      */
     public void setActive(Boolean active) {
