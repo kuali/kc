@@ -26,13 +26,19 @@ import javax.persistence.Query;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+import org.kuali.kra.dao.jpa.BudgetDocumentNextValuesDao;
 import org.kuali.kra.kim.bo.KimQualifiedRolePerson;
+import org.kuali.rice.database.platform.Platform;
+import org.kuali.rice.jpa.annotations.Sequence;
+import org.kuali.rice.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.util.RiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * The KIM DAO implementation.  Uses OJB.
  */
 public class KimDaoJpaImpl implements KimDao {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KimDaoJpaImpl.class);
 
     private EntityManager em;
     
@@ -88,4 +94,16 @@ public class KimDaoJpaImpl implements KimDao {
     private Session getSession() {
         return (Session) em.getDelegate();
     }
+    
+    public String getNextAutoIncValue(Sequence sequence) {
+        String value = null;
+        try {
+            Platform platform = (Platform) GlobalResourceLoader.getService(RiceConstants.DB_PLATFORM);
+            value = platform.getNextValSQL(sequence.name(), em).toString();
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return value;
+    }
+
 }

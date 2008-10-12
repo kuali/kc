@@ -22,11 +22,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.MapKey;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.TransactionalDocumentBase;
@@ -51,9 +49,10 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
     private Timestamp updateTimestamp;
     
     private transient List<DocumentNextvalue> documentNextvalues;
-    
-    @MapKey(name="documentTypeCode")
-    @OneToMany
+
+//    @MapKey(name="documentType")
+//    @OneToMany
+    @Transient
     private Map<String, CustomAttributeDocument> customAttributeDocuments;
 
     public ResearchDocumentBase() {
