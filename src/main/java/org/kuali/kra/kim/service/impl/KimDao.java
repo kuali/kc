@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.kuali.kra.kim.bo.KimQualifiedRolePerson;
+import org.kuali.rice.jpa.annotations.Sequence;
 
 /**
  * The KIM DAO has specialized methods for querying the database.
@@ -43,4 +44,6 @@ public interface KimDao {
      * @return true if one or more of the roles has the given permission; otherwise false
      */
     public boolean hasPermission(Collection<Long> roleIds, Long permissionId);
+    
+    public String getNextAutoIncValue(Sequence sequence);
 }
