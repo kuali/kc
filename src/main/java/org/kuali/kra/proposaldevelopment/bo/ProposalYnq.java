@@ -66,6 +66,7 @@ public class ProposalYnq extends KraPersistableBusinessObjectBase {
 	private Ynq ynq;
     
     @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
+    //@JoinColumn(name="PROPOSAL_NUMBER", referencedColumnName="PROPOSAL_NUMBER", insertable = false, updatable = false)
     @JoinColumn(name="PROPOSAL_NUMBER", insertable = false, updatable = false)
     private ProposalDevelopmentDocument proposalDevelopmentDocument;
     

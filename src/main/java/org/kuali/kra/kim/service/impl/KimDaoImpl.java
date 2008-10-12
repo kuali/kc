@@ -27,6 +27,7 @@ import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kra.kim.bo.KimPersonQualifiedRoleAttribute;
 import org.kuali.kra.kim.bo.KimQualifiedRolePerson;
 import org.kuali.kra.kim.bo.KimRolePermission;
+import org.kuali.rice.jpa.annotations.Sequence;
 
 /**
  * The KIM DAO implementation.  Uses OJB.
@@ -74,4 +75,6 @@ public class KimDaoImpl extends PlatformAwareDaoBaseOjb implements KimDao {
         }
         return hasPermission;
     }
+    
+    public String getNextAutoIncValue(Sequence sequence){return "";};
 }
