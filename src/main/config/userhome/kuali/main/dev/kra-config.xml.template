@@ -198,7 +198,7 @@
 
    <param name="kcra.jpa.PersistenceUnitName">kcra-unit</param>
    <param name="kcra.jpa.PersistenceXmlLocation">META-INF/persistence.xml</param>
-   <param name="kcra.jpa.DatabasePlatform">org.hibernate.dialect.Oracle10gDialect</param>
+   <param name="kcra.jpa.DatabasePlatform">org.hibernate.dialect.OracleDialect</param>
    <param name="kcra.jpa.ShowSql">true</param>
    <param name="kcra.jpa.GenerateDdl">false</param>
    <param name="kcra.jpa.UseSerialization">false</param>

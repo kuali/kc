@@ -146,7 +146,7 @@
    <!-- JPA Properties (MYSQL) -->
    <param name="rice.kns.jpa.PersistenceUnitName">kns-unit</param>
    <param name="rice.kns.jpa.PersistenceXmlLocation">META-INF/kns-persistence.xml</param>
-   <param name="rice.kns.jpa.DatabasePlatform">org.hibernate.dialect.Oracle10gDialect</param>
+   <param name="rice.kns.jpa.DatabasePlatform">org.hibernate.dialect.OracleDialect</param>
    <param name="rice.kns.jpa.ShowSql">true</param>
    <param name="rice.kns.jpa.GenerateDdl">false</param>
    <param name="rice.kns.jpa.UseSerialization">false</param>
@@ -160,7 +160,7 @@
 
    <param name="rice.ksb.jpa.PersistenceUnitName">ksb-unit</param>
    <param name="rice.ksb.jpa.PersistenceXmlLocation">META-INF/ksb-persistence.xml</param>
-   <param name="rice.ksb.jpa.DatabasePlatform">org.hibernate.dialect.Oracle10gDialect</param>
+   <param name="rice.ksb.jpa.DatabasePlatform">org.hibernate.dialect.OracleDialect</param>
    <param name="rice.ksb.jpa.ShowSql">true</param>
    <param name="rice.ksb.jpa.GenerateDdl">false</param>
    <param name="rice.ksb.jpa.UseSerialization">false</param>
@@ -173,7 +173,7 @@
 
    <param name="rice.kcb.jpa.PersistenceUnitName">kcb-unit</param>
    <param name="rice.kcb.jpa.PersistenceXmlLocation">META-INF/kcb-persistence.xml</param>
-   <param name="rice.kcb.jpa.DatabasePlatform">org.hibernate.dialect.Oracle10gDialect</param>
+   <param name="rice.kcb.jpa.DatabasePlatform">org.hibernate.dialect.OracleDialect</param>
    <param name="rice.kcb.jpa.ShowSql">true</param>
    <param name="rice.kcb.jpa.GenerateDdl">false</param>
    <param name="rice.kcb.jpa.UseSerialization">false</param>
@@ -186,7 +186,7 @@
 
    <param name="rice.ken.jpa.PersistenceUnitName">ken-unit</param>
    <param name="rice.ken.jpa.PersistenceXmlLocation">META-INF/ken-persistence.xml</param>
-   <param name="rice.ken.jpa.DatabasePlatform">org.hibernate.dialect.Oracle10gDialect</param>
+   <param name="rice.ken.jpa.DatabasePlatform">org.hibernate.dialect.OracleDialect</param>
    <param name="rice.ken.jpa.ShowSql">true</param>
    <param name="rice.ken.jpa.GenerateDdl">false</param>
    <param name="rice.ken.jpa.UseSerialization">false</param>
@@ -200,7 +200,7 @@
 
    <param name="rice.kew.jpa.PersistenceUnitName">kew-unit</param>
    <param name="rice.kew.jpa.PersistenceXmlLocation">META-INF/kew-persistence.xml</param>
-   <param name="rice.kew.jpa.DatabasePlatform">org.hibernate.dialect.Oracle10gDialect</param>
+   <param name="rice.kew.jpa.DatabasePlatform">org.hibernate.dialect.OracleDialect</param>
    <param name="rice.kew.jpa.ShowSql">true</param>
    <param name="rice.kew.jpa.GenerateDdl">false</param>
    <param name="rice.kew.jpa.UseSerialization">false</param>
@@ -214,7 +214,7 @@
 
    <param name="kcra.jpa.PersistenceUnitName">kcra-unit</param>
    <param name="kcra.jpa.PersistenceXmlLocation">META-INF/persistence.xml</param>
-   <param name="kcra.jpa.DatabasePlatform">org.hibernate.dialect.Oracle10gDialect</param>
+   <param name="kcra.jpa.DatabasePlatform">org.hibernate.dialect.OracleDialect</param>
    <param name="kcra.jpa.ShowSql">true</param>
    <param name="kcra.jpa.GenerateDdl">false</param>
    <param name="kcra.jpa.UseSerialization">false</param>
