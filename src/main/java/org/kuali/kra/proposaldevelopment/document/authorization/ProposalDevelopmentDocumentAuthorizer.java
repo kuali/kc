@@ -191,6 +191,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
         editModeMap.put("modifyProposal", editModeMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) ? TRUE : FALSE);
         editModeMap.put("addBudget", canExecuteTask(username, doc, TaskName.ADD_BUDGET));
         editModeMap.put("openBudgets", canExecuteTask(username, doc, TaskName.OPEN_BUDGETS));
+        editModeMap.put("modifyProposalBudget", canExecuteTask(username, doc, TaskName.MODIFY_BUDGET));
         editModeMap.put("modifyPermissions", canExecuteTask(username, doc, TaskName.MODIFY_PROPOSAL_ROLES));
         editModeMap.put("addNarratives", canExecuteTask(username, doc, TaskName.ADD_NARRATIVE));
         editModeMap.put("certify", canExecuteTask(username, doc, TaskName.CERTIFY));
