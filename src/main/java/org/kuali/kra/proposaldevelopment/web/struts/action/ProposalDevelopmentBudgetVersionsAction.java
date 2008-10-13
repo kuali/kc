@@ -115,7 +115,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
      */
     public ActionForward openBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
-        if (!"TRUE".equals(pdForm.getEditingMode().get(AuthorizationConstants.EditMode.VIEW_ONLY))) {
+        if ("TRUE".equals(pdForm.getEditingMode().get("modifyProposalBudget"))) {
             save(mapping, form, request, response);
         }
         ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
