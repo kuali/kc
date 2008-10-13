@@ -18,8 +18,6 @@ package org.kuali.kra.dao;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.dao.LookupDao;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Rolodex;
 
@@ -38,9 +36,6 @@ public interface RolodexDao {
      * @param usePrimaryKeys indicates whether to simplify the search due to criteria restricted to primary keys
      * @return Collection of <code>{@link Rolodex}</code> instances
      */
-    public List<? extends BusinessObject> getNonOrganizationalRolodexResults(Map fieldValues, boolean usePrimaryKeys);
-
-    public LookupDao getLookupDao();
-
-    public void setLookupDao(LookupDao lookupDao);
+    public List<NonOrganizationalRolodex> getNonOrganizationalRolodexResults(Map<String, String> fieldValues, boolean usePrimaryKeys);
+    
 }

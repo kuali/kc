@@ -25,12 +25,12 @@ import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.dao.LookupDao;
 import org.kuali.core.dao.ojb.LookupDaoOjb;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.lookup.CollectionIncomplete;
+import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.dao.RolodexDao;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -48,7 +48,7 @@ public class RolodexDaoOjb extends PlatformAwareDaoBaseOjb implements RolodexDao
     /**
      * @see org.kuali.kra.dao.RolodexDao#getNonOrganizationalRolodexResults(java.util.Map, boolean)
      */
-    public List<? extends BusinessObject> getNonOrganizationalRolodexResults(Map fieldValues, boolean usePrimaryKeys) {
+    public List<NonOrganizationalRolodex> getNonOrganizationalRolodexResults(Map fieldValues, boolean usePrimaryKeys) {
         Collection searchResults = new ArrayList();
         Long matchingResultsCount = null;
         Criteria criteria = getNonOrganizationalRolodexCriteria(Rolodex.class, fieldValues, usePrimaryKeys);

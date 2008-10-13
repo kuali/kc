@@ -15,24 +15,17 @@
  */
 package org.kuali.kra.bo;
 
-import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 /**
  * Special Business Object for NonOrganizational types of <code>{@link Rolodex}</code> instances.
  * 
  */
 @Entity
-@DiscriminatorValue("TWN")
+@DiscriminatorValue("NonOrganizationalRolodex")
 public class NonOrganizationalRolodex extends Rolodex {
-    @Column(name="COUNTRY_CODE", updatable=false, insertable=false )
-    private String title;
-
     public NonOrganizationalRolodex() {
-        setRolodexId(new Integer(0));
     }
 
 }
