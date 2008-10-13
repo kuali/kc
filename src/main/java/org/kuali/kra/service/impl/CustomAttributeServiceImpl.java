@@ -23,6 +23,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.CustomAttributeDataType;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
@@ -100,6 +102,8 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
                     customAttributeDocValue = new CustomAttributeDocValue();
                     customAttributeDocValue.setCustomAttributeId(customAttributeDocument.getCustomAttributeId());
                     customAttributeDocValue.setDocumentNumber(document.getDocumentNumber());
+                    customAttributeDocValue.setUpdateUser(GlobalVariables.getUserSession().getLoggedInUserNetworkId());
+                    customAttributeDocValue.setUpdateTimestamp(((DateTimeService)KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
                 }
 
                 customAttributeDocValue.setValue(customAttributeDocument.getCustomAttribute().getValue());
