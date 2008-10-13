@@ -117,6 +117,7 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
     private void setPermissions(String username, ProposalDevelopmentDocument doc, Map editModeMap) {
         editModeMap.put("addBudget", canExecuteTask(username, doc, TaskName.ADD_BUDGET));
         editModeMap.put("openBudgets", canExecuteTask(username, doc, TaskName.OPEN_BUDGETS));
+        editModeMap.put("modifyProposalBudget", canExecuteTask(username, doc, TaskName.MODIFY_BUDGET));
         editModeMap.put("printProposal", canExecuteTask(username, doc, TaskName.PRINT_PROPOSAL));
         
         entryEditModeReplacementMap.put(KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET, KraAuthorizationConstants.BudgetEditMode.VIEW_BUDGET);
