@@ -27,7 +27,10 @@
 <c:set var="budgetVersionOverviewAttributes" value="${DataDictionary.BudgetVersionOverview.attributes}" />
 <c:set var="javascriptEnabled" value="true" />
 <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}" scope="request" />
-
+<c:set var="readonly" value="true"/>
+<kra:section permission="modifyProposalBudget">
+  <c:set var="readonly" value="false"/>
+ </kra:section> 
 <kul:tabTop tabTitle="Budget Versions (${KualiForm.formattedStartDate} - ${KualiForm.formattedEndDate})" defaultOpen="true" tabErrorKey="document.proposal.budgetVersion*,${Constants.DOCUMENT_ERRORS},${errorKey}" auditCluster="budgetVersionErrors" tabAuditKey="document.budgetVersionOverview">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
@@ -109,12 +112,12 @@
 		            	<div align="center">
 		            		<!--  This field is to hold select status if it's disabled by javascript -->
 		            		<html:hidden name="KualiForm" property="${version}.budgetStatus" disabled="true" />
-		            		<kul:htmlControlAttribute property="${version}.budgetStatus" attributeEntry="${proposalDevelopmentAttributes.budgetStatus}" onchange="javascript: toggleFinalCheckboxes(document)" disabled="${viewOnly}"/>
+		            		<kul:htmlControlAttribute property="${version}.budgetStatus" attributeEntry="${proposalDevelopmentAttributes.budgetStatus}" onchange="javascript: toggleFinalCheckboxes(document)" disabled="${readonly}"/>
 		            	</div>
             		</td>
 	            	<td class="tab-subhead1">
 	            		<div align="center">
-	            			<kul:htmlControlAttribute property="${version}.finalVersionFlag" attributeEntry="${budgetAttributes.finalVersionFlag}" onclick="javascript: enableBudgetStatus(document, '${status.index}')" disabled="${viewOnly}"/>
+	            			<kul:htmlControlAttribute property="${version}.finalVersionFlag" attributeEntry="${budgetAttributes.finalVersionFlag}" onclick="javascript: enableBudgetStatus(document, '${status.index}')" disabled="${readonly}"/>
 	            			<!--  This field is to hold checkbox status if it's disabled by javascript -->
 	            			<html:hidden name="KualiForm" property="${version}.finalVersionFlag" disabled="true" />
 	            		</div>
@@ -167,7 +170,7 @@
 </kul:tabTop>
 <kul:panelFooter />
 <c:choose>                    	
-	<c:when test="${viewOnly}">
+	<c:when test="${readonly}">
 		<img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" onLoad="toggleFinalCheckboxesAndDisable(document);" />
  	</c:when>
 	<c:otherwise>
