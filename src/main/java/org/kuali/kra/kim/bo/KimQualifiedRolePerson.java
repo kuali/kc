@@ -43,6 +43,9 @@ import java.util.Map;
 public class KimQualifiedRolePerson extends KimQualifiedRoleAssignment {
     
     private static final long serialVersionUID = -13700594521231518L;
+    @Id
+    @Column(name="ID")
+    private Long id;
     
     @Column(name="PERSON_ID")
 	private Long personId;

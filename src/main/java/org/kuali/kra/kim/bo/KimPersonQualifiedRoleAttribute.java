@@ -42,6 +42,9 @@ import java.util.LinkedHashMap;
 public class KimPersonQualifiedRoleAttribute extends KimQualifiedRoleAttribute {
 
     private static final long serialVersionUID = -3834313283054550673L;
+    @Id
+    @Column(name="ID")
+    private Long id;
 
     @Column(name="ROLE_PERSON_ID")
 	private Long rolePersonId;
