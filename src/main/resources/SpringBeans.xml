@@ -645,7 +645,11 @@
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BudgetOpenAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="openBudgets" />
                 </bean>
-            </list>
+                
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ModifyBudgetPermission" parent="parentAuthorizer">
+                    <property name="taskName" value="modifyBudget" />
+                </bean>
+           </list>
         </property>
     </bean>
 
