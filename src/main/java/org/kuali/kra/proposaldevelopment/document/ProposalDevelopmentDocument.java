@@ -99,7 +99,7 @@ import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.jpa.annotations.Sequence;
 
 @Entity
-//@AttributeOverride(name="documentNumber", column=@Column(name="DOCUMENT_NUMBER"))
+@AttributeOverride(name="documentNumber", column=@Column(name="DOCUMENT_NUMBER"))
 @Table(name="EPS_PROPOSAL")
 @Sequence(name="SEQ_PROPOSAL_NUMBER_KRA", property="proposalNumber")
 public class ProposalDevelopmentDocument extends ResearchDocumentBase implements Copyable, SessionDocument {
@@ -107,7 +107,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     
 //  @GeneratedValue(generator="propNum")
 //  @SequenceGenerator(name="propNum",sequenceName="SEQ_PROPOSAL_NUMBER_KRA", allocationSize=2)
-//    @Id
+    @Id
 	@Column(name="PROPOSAL_NUMBER")
 	private String proposalNumber;
     
@@ -237,9 +237,9 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
            targetEntity=org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword.class, mappedBy="proposalDevelopmentDocument")
 	private List<PropScienceKeyword> propScienceKeywords;
     
-//    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
-//           targetEntity=org.kuali.kra.proposaldevelopment.bo.ProposalPerson.class, mappedBy="proposalDevelopmentDocument")
-    @Transient
+    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
+           targetEntity=org.kuali.kra.proposaldevelopment.bo.ProposalPerson.class, mappedBy="proposalDevelopmentDocument")
+   // @Transient
     private List<ProposalPerson> proposalPersons;
     
     @Transient
