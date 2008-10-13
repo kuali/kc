@@ -1,13 +1,12 @@
 package org.kuali.kra.proposaldevelopment.bo;
 
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-
 import java.util.LinkedHashMap;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
@@ -30,6 +29,7 @@ public class ProposalColumnsToAlter extends KraPersistableBusinessObjectBase {
 	private String lookupClass;
 	@Column(name="LOOKUP_RETURN")
 	private String lookupReturn;
+	@Transient
 	private String lookupPkReturn;
 	
 	public ProposalColumnsToAlter(){
