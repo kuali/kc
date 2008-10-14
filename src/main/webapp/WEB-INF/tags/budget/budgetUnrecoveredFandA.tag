@@ -2,7 +2,13 @@
 
 <c:set var="ufaAttributes" value="${DataDictionary.BudgetUnrecoveredFandA.attributes}" />
 
-<kul:tab tabTitle="Unrecovered F&A" tabItemCount="${KualiForm.document.budgetUnrecoveredFandACount}" defaultOpen="false" tabErrorKey="newUnrecoveredFandA*,document.unrecoveredFandA*">
+<kul:tab tabTitle="Unrecovered F&A" 
+		tabItemCount="${KualiForm.document.budgetUnrecoveredFandACount}" 
+		defaultOpen="false" 
+		tabErrorKey="newUnrecoveredFandA*,document.unrecoveredFandA*,document.budgetUnrecoveredFandA*" 
+		auditCluster="budgetUnrecoveredFandAAuditErrors" 
+		tabAuditKey="document.budgetUnrecoveredFandA*"
+		useRiceAuditMode="true">
 	<div class="tab-container" align="center">
 		<c:choose>
 			<c:when test="${KualiForm.unrecoveredFandAEditFormVisible}">
