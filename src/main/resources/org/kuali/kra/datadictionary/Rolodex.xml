@@ -68,58 +68,32 @@
 
             <lookupFields>
                 <lookupField attributeName="rolodexId" required="false"/>
-                <lookupField attributeName="addressLine1" required="false"/>
-                <lookupField attributeName="addressLine2" required="false"/>
-                <lookupField attributeName="addressLine3" required="false"/>
+                <lookupField attributeName="organization" required="false"/>
+                <lookupField attributeName="lastName" required="false"/>
+                <lookupField attributeName="firstName" required="false"/>
                 <lookupField attributeName="city" required="false"/>
-                <lookupField attributeName="comments" required="false"/>
-                <lookupField attributeName="countryCode" required="false"/>
                 <lookupField attributeName="county" required="false"/>
                 <lookupField attributeName="state" required="false"/>
-                <lookupField attributeName="deleteFlag" required="false"/>
-                <lookupField attributeName="emailAddress" required="false"/>
-                <lookupField attributeName="faxNumber" required="false"/>
-                <lookupField attributeName="firstName" required="false"/>
-                <lookupField attributeName="lastName" required="false"/>
-                <lookupField attributeName="middleName" required="false"/>
-                <lookupField attributeName="organization" required="false"/>
-                <lookupField attributeName="ownedByUnit" required="false"/>
-                <lookupField attributeName="phoneNumber" required="false"/>
+                <lookupField attributeName="countryCode" required="false"/>
                 <lookupField attributeName="postalCode" required="false"/>
-                <lookupField attributeName="prefix" required="false"/>
+                <lookupField attributeName="emailAddress" required="false"/>
                 <lookupField attributeName="sponsorAddressFlag" required="false"/>
                 <lookupField attributeName="sponsorCode" required="false"/>
-                <lookupField attributeName="suffix" required="false"/>
-                <lookupField attributeName="title" required="false"/>
-
             </lookupFields>
 
             <resultFields>
-                <field attributeName="rolodexId" forceInquiry="true"/>
-                <field attributeName="addressLine1" forceInquiry="false"/>
-                <field attributeName="addressLine2" forceInquiry="false"/>
-                <field attributeName="addressLine3" forceInquiry="false"/>
-                <field attributeName="city" forceInquiry="false"/>
-                <field attributeName="comments" forceInquiry="false"/>
-                <field attributeName="countryCode" forceInquiry="false"/>
-                <field attributeName="county" forceInquiry="false"/>
-                <field attributeName="state" forceInquiry="false"/>
-                <field attributeName="deleteFlag" forceInquiry="false"/>
-                <field attributeName="emailAddress" forceInquiry="false"/>
-                <field attributeName="faxNumber" forceInquiry="false"/>
-                <field attributeName="firstName" forceInquiry="false"/>
-                <field attributeName="lastName" forceInquiry="false"/>
-                <field attributeName="middleName" forceInquiry="false"/>
+                <field attributeName="rolodexId" forceInquiry="true"/>                
                 <field attributeName="organization" forceInquiry="false"/>
-                <field attributeName="unit.unitName" forceInquiry="false"/>
-                <field attributeName="phoneNumber" forceInquiry="false"/>
-                <field attributeName="postalCode" forceInquiry="false"/>
-                <field attributeName="prefix" forceInquiry="false"/>
+                <field attributeName="lastName" forceInquiry="false"/>
+                <field attributeName="firstName" forceInquiry="false"/>               
+                <field attributeName="city" forceInquiry="false"/>
+                <field attributeName="county" forceInquiry="false"/>
+                <field attributeName="state" forceInquiry="false"/>                
+                <field attributeName="countryCode" forceInquiry="false"/>               
+                <field attributeName="postalCode" forceInquiry="false"/>                
+                <field attributeName="emailAddress" forceInquiry="false"/>
                 <field attributeName="sponsorAddressFlag" forceInquiry="false"/>
-                <field attributeName="sponsor.sponsorName" forceInquiry="false"/>
-                <field attributeName="suffix" forceInquiry="false"/>
-                <field attributeName="title" forceInquiry="false"/>
-
+                <field attributeName="sponsorCode" forceInquiry="false"/>
             </resultFields>
         </lookup>
 
