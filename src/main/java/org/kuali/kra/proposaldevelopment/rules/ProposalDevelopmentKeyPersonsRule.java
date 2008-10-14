@@ -125,7 +125,9 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         personIndex=0;
         for (ProposalPerson person : document.getProposalPersons()) {
             
-            String regx="^([0-9]{3}\\-|\\([0-9]{3}\\) ?)[0-9]{3}\\-[0-9]{4}$";
+            //String regx="^([0-9]{3}\\-|\\([0-9]{3}\\) ?)[0-9]{3}\\-[0-9]{4}$";
+            // above changed to below to allow for int'l phones - Jira #KRACOEUS-2012
+            String regx="^[0-9\\-\\(\\)]*$";
             if(person.getPagerNumber()!=null && !(person.getPagerNumber().matches(regx)))
             {
                 GlobalVariables.getErrorMap().putError("document.proposalPersons[" + personIndex + "].pagerNumber",  RiceKeyConstants.ERROR_INVALID_FORMAT,
