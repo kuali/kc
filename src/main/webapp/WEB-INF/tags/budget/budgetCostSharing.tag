@@ -2,7 +2,13 @@
 
 <c:set var="budgetCostShareAttributes" value="${DataDictionary.BudgetCostShare.attributes}" />
 
-<kul:tabTop tabTitle="Cost Sharing (${KualiForm.document.budgetCostShareCount})" defaultOpen="false" tabErrorKey="newCostShare*,document.budgetCostShare*">
+<kul:tabTop 
+		tabTitle="Cost Sharing (${KualiForm.document.budgetCostShareCount})" 
+		defaultOpen="false" 
+		tabErrorKey="newCostShare*,document.budgetCostShare*"
+		auditCluster="budgetCostShareAuditErrors" 
+		tabAuditKey="document.budgetCostShare*"
+		>
 	<div class="tab-container" align="center">
 		<c:choose>
 			<c:when test="${KualiForm.costSharingEditFormVisible}">

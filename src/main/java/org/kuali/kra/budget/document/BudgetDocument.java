@@ -274,6 +274,14 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     }
     
     /**
+     * This method reveals enforcement of Cost Sharing to this budget
+     * @return
+     */
+    public Boolean isCostSharingEnforced() {
+        return loadCostSharingEnforcement();
+    }
+    
+    /**
      * This method reveals availability of Cost Sharing in this budget
      * @return
      */
@@ -286,6 +294,10 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         return costSharingAvailable;
     }
 
+    public Boolean isUnrecoveredFandAEnforced() {
+        return loadUnrecoveredFandAEnforcement();
+    }
+    
     public Boolean isUnrecoveredFandAApplicable() {
         return loadUnrecoveredFandAApplicability();
     }
@@ -1058,7 +1070,7 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
      * @return
      */
     protected Boolean loadCostSharingApplicability() {
-        return getApplicabilityValue(Constants.BUDGET_COST_SHARING_APPLICABILITY_FLAG);        
+        return getBooleanValue(Constants.BUDGET_COST_SHARING_APPLICABILITY_FLAG);        
     }
     
     /**
@@ -1066,7 +1078,23 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
      * @return
      */
     protected Boolean loadUnrecoveredFandAApplicability() {
-        return getApplicabilityValue(Constants.BUDGET_UNRECOVERED_F_AND_A_APPLICABILITY_FLAG);        
+        return getBooleanValue(Constants.BUDGET_UNRECOVERED_F_AND_A_APPLICABILITY_FLAG);        
+    }
+
+    /**
+     * This method loads the cost sharing enforcement flag from the database. Protected to allow mocking out service call
+     * @return
+     */
+    protected Boolean loadCostSharingEnforcement() {
+        return getBooleanValue(Constants.BUDGET_COST_SHARING_ENFORCEMENT_FLAG);        
+    }
+    
+    /**
+     * This method loads the unrecovered F&A enforcement flag from the database. Protected to allow mocking out service call
+     * @return
+     */
+    protected Boolean loadUnrecoveredFandAEnforcement() {
+        return getBooleanValue(Constants.BUDGET_UNRECOVERED_F_AND_A_ENFORCEMENT_FLAG);        
     }
 
     /**
@@ -1198,7 +1226,7 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
      * @param parmName
      * @return
      */
-    protected Boolean getApplicabilityValue(String parmName) {
+    protected Boolean getBooleanValue(String parmName) {
         String parmValue;
         
         try {

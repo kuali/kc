@@ -144,6 +144,8 @@ public interface Constants {
     public static final String BUDGET_CURRENT_FISCAL_YEAR = "budgetCurrentFiscalYear";
     public static final String BUDGET_COST_SHARING_APPLICABILITY_FLAG = "budgetCostSharingApplicabilityFlag";
     public static final String BUDGET_UNRECOVERED_F_AND_A_APPLICABILITY_FLAG = "budgetUnrecoveredFandAApplicabilityFlag";
+    public static final String BUDGET_COST_SHARING_ENFORCEMENT_FLAG = "budgetCostSharingEnforcementFlag";
+    public static final String BUDGET_UNRECOVERED_F_AND_A_ENFORCEMENT_FLAG = "budgetUnrecoveredFandAEnforcementFlag";
     
     // Budget Personnel
     public static final String BUDGET_PERSON_DEFAULT_JOB_CODE = "budgetPersonDefaultJobCode";
@@ -234,6 +236,11 @@ public interface Constants {
     public static final String BUDGET_RATE_PANEL_ANCHOR = "BudgetProposalRate";
     public static final String BUDGET_VERSIONS_PANEL_ANCHOR = "BudgetVersions";
     public static final String BUDGET_PERIOD_KEY = "document.budgetPeriod*";
+    public static final String BUDGET_DISTRIBUTION_AND_INCOME_PAGE = "budgetDistributionAndIncome";
+    public static final String BUDGET_UNRECOVERED_F_AND_A_PANEL_ANCHOR = "budgetUnrecoveredFandA";
+    public static final String BUDGET_UNRECOVERED_F_AND_A_PANEL_NAME = "Budget Unrecovered F and A";
+    public static final String BUDGET_COST_SHARE_PANEL_ANCHOR = "budgetCostSharing";
+    public static final String BUDGET_COST_SHARE_PANEL_NAME = "Budget Cost Sharing";
     
     // Copy proposal
     public static final String COPY_PROPOSAL_PROPERTY_KEY = "copyProposal";
