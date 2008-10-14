@@ -197,7 +197,13 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
     
     private String getActivityTypeDescription(BudgetDocument budgetDocument) {
         if (budgetDocument.isRateSynced() || !KraServiceLocator.getService(BudgetService.class).checkActivityTypeChange(budgetDocument.getProposal(), budgetDocument.getBudgetVersionNumber().toString())) {
-            return budgetDocument.getProposal().getActivityType().getDescription().concat(SPACE);
+            if(budgetDocument.getProposal().getActivityType()!= null){
+                return budgetDocument.getProposal().getActivityType().getDescription().concat(SPACE);
+            }
+            else
+            {
+                return "";
+            }
         } else {
             ProposalDevelopmentDocument pdDoc = budgetDocument.getProposal();
             String activityTypeCode=null;
@@ -218,6 +224,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
                 return "";
             }
         }
+
     }
     
     /**
