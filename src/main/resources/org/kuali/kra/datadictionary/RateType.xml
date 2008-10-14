@@ -64,7 +64,7 @@
 			<label>Rate Class Code </label>
 			<shortLabel>Rate Class Code </shortLabel>
 			<maxLength>3</maxLength>
-			<validationPattern><numeric /></validationPattern>
+			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<text size="3" />
 			</control>
