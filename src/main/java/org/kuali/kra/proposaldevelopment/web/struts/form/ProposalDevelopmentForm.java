@@ -1193,10 +1193,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     public boolean isSubmissionStatusVisible() {
         String routeStatus = this.getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument().getRouteHeader()
         .getDocRouteStatus();
-        return this.getProposalDevelopmentDocument().getSubmitFlag() 
-               || (EdenConstants.ROUTE_HEADER_PROCESSED_CD.equals(routeStatus) 
-                   || EdenConstants.ROUTE_HEADER_FINAL_CD.equals(routeStatus) 
-                   || EdenConstants.ROUTE_HEADER_ENROUTE_CD.equals(routeStatus));
+        return EdenConstants.ROUTE_HEADER_PROCESSED_CD.equals(routeStatus) || EdenConstants.ROUTE_HEADER_FINAL_CD.equals(routeStatus) || (this.getProposalDevelopmentDocument().getSubmitFlag() && EdenConstants.ROUTE_HEADER_ENROUTE_CD.equals(routeStatus));
     }
     
     public boolean isSubmissionStatusReadOnly() {
