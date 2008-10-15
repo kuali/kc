@@ -128,51 +128,51 @@
             </attribute>
 
             <attribute name="cageNumber">
-            <label>Cage Number </label>
-            <shortLabel>Cage Number </shortLabel>
+            <label>CAGE Number </label>
+            <shortLabel>CAGE Number </shortLabel>
             <maxLength>20</maxLength>
             <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
             <control>
                 <text size="20" />
             </control>
-            <summary>Cage Number </summary>
-            <description>Cage Number </description>
+            <summary>CAGE Number </summary>
+            <description>CAGE Number </description>
             </attribute>
 
             <attribute name="dodacNumber">
-            <label>Dodac Number </label>
-            <shortLabel>Dodac Number </shortLabel>
+            <label>DODAC Number </label>
+            <shortLabel>DODAC Number </shortLabel>
             <maxLength>20</maxLength>
             <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
             <control>
                 <text size="20" />
             </control>
-            <summary>Dodac Number </summary>
-            <description>Dodac Number </description>
+            <summary>DODAC Number </summary>
+            <description>DODAC Number </description>
             </attribute>
 
             <attribute name="dunAndBradstreetNumber">
-            <label>Dun And Bradstreet Number </label>
-            <shortLabel>Dun And Bradstreet Number </shortLabel>
+            <label>DUN And Bradstreet Number </label>
+            <shortLabel>DUN And Bradstreet Number </shortLabel>
             <maxLength>20</maxLength>
             <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
             <control>
                 <text size="20" />
             </control>
-            <summary>Dun And Bradstreet Number </summary>
-            <description>Dun And Bradstreet Number </description>
+            <summary>DUN And Bradstreet Number </summary>
+            <description>DUN And Bradstreet Number </description>
             </attribute>
 
             <attribute name="dunsPlusFourNumber">
-            <label>Duns Plus Four Number </label>
-            <shortLabel>Duns Plus Four Number </shortLabel>
+            <label>DUNS Plus Four Number </label>
+            <shortLabel>DUNS Plus Four Number </shortLabel>
             <maxLength>20</maxLength>
             <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
             <control>
                 <text size="20" />
             </control>
-            <summary>Duns Plus Four Number </summary>
-            <description>Duns Plus Four Number </description>
+            <summary>DUNS Plus Four Number </summary>
+            <description>DUNS Plus Four Number </description>
             </attribute>
 
             <attribute name="ownedByUnit">
