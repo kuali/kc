@@ -18,6 +18,8 @@
 --      - Change Active_Ind from '1' to 'Y'
 --   KRACOEUS-1832 28-AUG-2008 Tyler Wilson
 --      - Add cron job parameters
+--   KRACOEUS-2021 15-OCT-2008 Tyler Wilson
+--      - Add parameters for F&A processing.
 --
 -- *****************
 
@@ -48,10 +50,20 @@ VALUES('POSS',    1,    'KR',    'POST SUBMISSION STATUS CODE',    'N',    'Y', 
 update SH_PARM_TYP_T set ACTIVE_IND = 'Y' where ACTIVE_IND = '1';
 
 -- KRACOEUS-1832
- -- System parameters for controlling the deletion of pessimistic locks.
- -- The CRON expression controls when the Quartz timer will trigger.
- -- The expiration timeout (in minutes) determines which locks will be deleted.
- -- Locks that are older than the expiration timeout value will be deleted.
+-- System parameters for controlling the deletion of pessimistic locks.
+-- The CRON expression controls when the Quartz timer will trigger.
+-- The expiration timeout (in minutes) determines which locks will be deleted.
+-- Locks that are older than the expiration timeout value will be deleted.
  
 insert into sh_parm_t (sh_parm_nmspc_cd,sh_parm_dtl_typ_cd,sh_parm_nm,sh_parm_typ_cd,sh_parm_txt,sh_parm_desc,sh_parm_cons_cd,active_ind) values ('KRA-PD','D','pessimisticLocking.cronExpression','CONFG','0 0 1 * * ?','The Cron Expression for Quartz to activate a clearing of old locks','A','Y');
 insert into sh_parm_t (sh_parm_nmspc_cd,sh_parm_dtl_typ_cd,sh_parm_nm,sh_parm_typ_cd,sh_parm_txt,sh_parm_desc,sh_parm_cons_cd,active_ind) values ('KRA-PD','D','pessimisticLocking.timeout','CONFG','1440','The expiration timeout in minutes; expired locks are deleted','A','Y');
+
+-- New Flags for budget cost sharing and unrecovered f and a allocation enforcement
+
+INSERT
+INTO sh_parm_t (sh_parm_nmspc_cd, sh_parm_dtl_typ_cd, sh_parm_nm, obj_id, ver_nbr, sh_parm_typ_cd, sh_parm_txt, sh_parm_desc, sh_parm_cons_cd, wrkgrp_nm, active_ind)
+VALUES('KRA-B', 'D', 'budgetCostSharingEnforcementFlag', '205246DF7F364A3083357960305030C5',1, 'CONFG', 'Y', 'Flag indicating if Cost Sharing allocation should be enforced', 'A', 'WorkflowAdmin', 'Y');
+
+INSERT
+INTO sh_parm_t (sh_parm_nmspc_cd, sh_parm_dtl_typ_cd, sh_parm_nm, obj_id, ver_nbr, sh_parm_typ_cd, sh_parm_txt, sh_parm_desc, sh_parm_cons_cd, wrkgrp_nm, active_ind)
+VALUES('KRA-B', 'D', 'budgetUnrecoveredFandAEnforcementFlag', 'C9E4C6277E234C45BF0E1D041B2491CF',1, 'CONFG', 'Y', 'Flag indicating if Unrecovered F and A allocation should be enforced', 'A', 'WorkflowAdmin', 'Y');
