@@ -13,13 +13,14 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kra.kim.bo.KimRole;
 import org.kuali.rice.jpa.annotations.Sequence;
 
 @Entity
 @Table(name="UNIT_ACL")
 @Sequence(name="SEQ_UNIT_ACL_ID", property="id")
-public class UnitAclEntry extends KraPersistableBusinessObjectBase {
+public class UnitAclEntry extends PersistableBusinessObjectBase {
     
     @Id
 	@Column(name="ID")
