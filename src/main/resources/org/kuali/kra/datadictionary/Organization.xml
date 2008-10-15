@@ -207,15 +207,15 @@
 			</attribute>
 
 			<attribute name="cageNumber">
-			<label>Cage Number </label>
-			<shortLabel>Cage Number </shortLabel>
+			<label>CAGE Number </label>
+			<shortLabel>CAGE Number </shortLabel>
 			<maxLength>20</maxLength>
 			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<text size="20" />
 			</control>
-			<summary>Cage Number </summary>
-			<description>Cage Number </description>
+			<summary>CAGE Number </summary>
+			<description>CAGE Number </description>
 			</attribute>
 
 			<attribute name="cognizantAuditor">
@@ -284,39 +284,39 @@
 			</attribute>
 
 			<attribute name="dodacNumber">
-			<label>Dodac Number </label>
-			<shortLabel>Dodac Number </shortLabel>
+			<label>DODAC Number </label>
+			<shortLabel>DODAC Number </shortLabel>
 			<maxLength>20</maxLength>
 			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<text size="20" />
 			</control>
-			<summary>Dodac Number </summary>
-			<description>Dodac Number </description>
+			<summary>DODAC Number </summary>
+			<description>DODAC Number </description>
 			</attribute>
 
 			<attribute name="dunsNumber">
-			<label>Duns Number </label>
-			<shortLabel>Duns Number </shortLabel>
+			<label>DUNS Number </label>
+			<shortLabel>DUNS Number </shortLabel>
 			<maxLength>20</maxLength>
 			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<text size="20" />
 			</control>
-			<summary>Duns Number </summary>
-			<description>Duns Number </description>
+			<summary>DUNS Number </summary>
+			<description>DUNS Number </description>
 			</attribute>
 
 			<attribute name="dunsPlusFourNumber">
-			<label>Duns Plus Four Number </label>
-			<shortLabel>Duns Plus Four Number </shortLabel>
+			<label>DUNS Plus Four Number </label>
+			<shortLabel>DUNS Plus Four Number </shortLabel>
 			<maxLength>20</maxLength>
 			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<text size="20" />
 			</control>
-			<summary>Duns Plus Four Number </summary>
-			<description>Duns Plus Four Number </description>
+			<summary>DUNS Plus Four Number </summary>
+			<description>DUNS Plus Four Number </description>
 			</attribute>
 
 			<attribute name="federalEmployerId">
