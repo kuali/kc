@@ -43,6 +43,7 @@ public class BudgetCostShareAuditRule implements DocumentAuditRule {
 
         List<BudgetCostShare> costShares = budgetDocument.getBudgetCostShares();
         boolean retval = true;
+        String[] params = { "Cost Sharing" };
 
         // Forces full allocation of cost sharing
         if (budgetDocument.getUnallocatedCostSharing().isNonZero() && budgetDocument.isCostSharingEnforced()) {
@@ -50,7 +51,8 @@ public class BudgetCostShareAuditRule implements DocumentAuditRule {
             for (int i=0;i<costShares.size();i++) {
                 getAuditErrors().add(new AuditError("document.budgetCostShare["+i+"].shareAmount",
                         KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_UNALLOCATED_NOT_ZERO,
-                        Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_COST_SHARE_PANEL_ANCHOR));
+                        Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_COST_SHARE_PANEL_ANCHOR,
+                        params));
             }
         }
         String source = null;
@@ -62,7 +64,8 @@ public class BudgetCostShareAuditRule implements DocumentAuditRule {
                 retval = false;
                 getAuditErrors().add(new AuditError("document.budgetCostShare["+i+"].sourceAccount",
                                                     KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING,
-                                                    Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_COST_SHARE_PANEL_ANCHOR));
+                                                    Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_COST_SHARE_PANEL_ANCHOR,
+                                                    params));
             }
             i++;
         }
