@@ -31,6 +31,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 
 public class BudgetUnrecoveredFandAAuditRule implements DocumentAuditRule {
     public static final String BUDGET_UNRECOVERED_F_AND_A_ERROR_KEY = "budgetUnrecoveredFandAAuditErrors";
+    String[] params = { "Unrecovered F and A" };
 
     public boolean processRunAuditBusinessRules(Document document) {
         BudgetDocument budgetDocument = (BudgetDocument)document;
@@ -49,7 +50,8 @@ public class BudgetUnrecoveredFandAAuditRule implements DocumentAuditRule {
             for (int i=0;i<unrecoveredFandAs.size(); i++) {
                 getAuditErrors().add(new AuditError("document.budgetUnrecoveredFandA["+i+"].amount",
                         KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_UNALLOCATED_NOT_ZERO,
-                        Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_UNRECOVERED_F_AND_A_PANEL_ANCHOR));
+                        Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_UNRECOVERED_F_AND_A_PANEL_ANCHOR,
+                        params));
             }
         }
         String source = null;
@@ -61,7 +63,8 @@ public class BudgetUnrecoveredFandAAuditRule implements DocumentAuditRule {
                 retval = false;
                 getAuditErrors().add(new AuditError("document.budgetUnrecoveredFandA["+i+"].sourceAccount",
                                                     KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING,
-                                                    Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_UNRECOVERED_F_AND_A_PANEL_ANCHOR));
+                                                    Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_UNRECOVERED_F_AND_A_PANEL_ANCHOR,
+                                                    params));
             }
             i++;
         }
