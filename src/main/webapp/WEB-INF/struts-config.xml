@@ -10,6 +10,7 @@
 		<form-bean name="KualiExceptionIncidentForm" type="org.kuali.core.web.struts.form.KualiExceptionIncidentForm" />
 		<form-bean name="ProposalDevelopmentForm" type="org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm" />
 		<form-bean name="BudgetForm" type="org.kuali.kra.budget.web.struts.form.BudgetForm" />
+		<form-bean name="AwardForm" type="org.kuali.kra.award.web.struts.form.AwardForm" />
 		<form-bean name="DocHandlerForm" type="edu.iu.uis.eden.routing.web.DocHandlerForm" />
 		<form-bean name="ChangePasswordForm" type="org.kuali.kra.web.struts.form.ChangePasswordForm" />
 		<form-bean name="UnitHierarchyForm" type="org.kuali.kra.web.struts.form.UnitHierarchyForm" />
@@ -149,6 +150,21 @@
         <forward name="documentLocked" path="/WEB-INF/jsp/DocumentLocked.jsp" />
         <forward name="requiredStateError" path="/WEB-INF/jsp/DocumentLocked.jsp"/>
         <forward name="finalStateError" path="/WEB-INF/jsp/DocumentLocked.jsp"/>
+      </action>
+      
+      <!--  Award -->
+      <action path="/award*" name="AwardForm" input="/WEB-INF/jsp/award/Award{1}.jsp" type="org.kuali.kra.award.web.struts.action.Award{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/award/Award{1}.jsp" />
+          <forward name="award" path="/WEB-INF/jsp/award/AwardAward.jsp" />
+          <forward name="contacts" path="/WEB-INF/jsp/award/AwardContacts.jsp" />
+          <forward name="timeAndMoney" path="/WEB-INF/jsp/award/AwardTimeAndMoney.jsp" />
+          <forward name="paymentReportsAndTerms" path="/WEB-INF/jsp/award/AwardPaymentReportsAndTerms.jsp" />
+          <forward name="specialReview" path="/WEB-INF/jsp/award/AwardSpecialReview.jsp" />
+          <forward name="customData" path="/WEB-INF/jsp/award/AwardCustomData.jsp" />
+          <forward name="questions" path="/WEB-INF/jsp/award/AwardQuestions.jsp" />
+          <forward name="permissions" path="/WEB-INF/jsp/award/AwardPermissions.jsp" />
+          <forward name="notesAndAttachments" path="/WEB-INF/jsp/award/AwardNotesAndAttachments.jsp" />
+          <forward name="awardActions" path="/WEB-INF/jsp/award/AwardActions.jsp" />                    
       </action>
       
       
