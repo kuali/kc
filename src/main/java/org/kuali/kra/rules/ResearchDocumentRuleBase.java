@@ -29,15 +29,18 @@ import org.kuali.core.rule.DocumentAuditRule;
 import org.kuali.core.rules.DocumentRuleBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DictionaryValidationService;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.ExceptionUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * Base implementation class for KRA document business rules
@@ -86,6 +89,8 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
         boolean finalVersionFound = false;
         DictionaryValidationService dictionaryValidationService = getDictionaryValidationService();
         
+        DocumentService documentService = getService(DocumentService.class);        
+        
         String budgetStatusCompleteCode = getKualiConfigurationService().getParameter(
                 Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_COMPLETE_CODE).getParameterValue();
         
@@ -107,6 +112,18 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
                 errorMap.putError("budgetVersionOverview[" + index + "].budgetStatus", KeyConstants.ERROR_NO_FINAL_BUDGET);
                 valid = false;
             }
+            try{
+                BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetVersion.getDocumentNumber());
+                if(budgetVersion.getBudgetStatus()!= null 
+                      && budgetVersion.getBudgetStatus().equalsIgnoreCase(budgetStatusCompleteCode) 
+                      && !budgetDocument.getModularBudgetFlag()){
+                    errorMap.putError("budgetVersionOverview[" + index + "].budgetStatus", KeyConstants.ERROR_BUDGET_STATUS_COMPLETE_WHEN_NOT_MODULER);
+                    valid = false;
+                }
+            }catch(WorkflowException e){
+                System.out.println("Workflow Exception Caught is :" + e);
+            }
+            
 
             index++;
         }
