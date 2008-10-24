@@ -28,8 +28,7 @@
                             </div>
 						</th>
 						<td>
-							<kul:htmlControlAttribute property="document.s2sAppSubmission[${submissionToBeDisplayed-1}].receivedDate" 
-                                                      attributeEntry="${s2sAppSubmissionAttributes.receivedDate}" readOnly="true"/>
+							<fmt:formatDate value="${KualiForm.document.s2sAppSubmission[submissionToBeDisplayed-1].receivedDate}" type="both" dateStyle="short" timeStyle="short"/>							
 						</td>
 						<th width="25%">
 							<div align="left">
@@ -37,8 +36,7 @@
 							</div>
 						</th>
 						<td>
-							<kul:htmlControlAttribute property="document.s2sAppSubmission[${submissionToBeDisplayed-1}].lastModifiedDate" 
-                                                      attributeEntry="${s2sAppSubmissionAttributes.lastModifiedDate}" readOnly="true"/>
+							<fmt:formatDate value="${KualiForm.document.s2sAppSubmission[submissionToBeDisplayed-1].lastModifiedDate}" type="both" dateStyle="short" timeStyle="short"/>							
 						</td>
 					</tr>
 					<tr>

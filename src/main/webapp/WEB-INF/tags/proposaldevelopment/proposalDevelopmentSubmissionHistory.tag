@@ -26,8 +26,8 @@
 	             	<th class="infoline">
 						<c:out value="${status.index+1}" />
 					</th>	                	
-	                <td align="left" valign="middle">
-	                	<kul:htmlControlAttribute property="document.s2sSubmissionHistory[${status.index}].submissionTime" attributeEntry="${s2sSubmissionHistoryAttributes.submissionTime}" readOnly="true" />
+	                <td align="left" valign="middle">	                		                	
+	                	 <fmt:formatDate value="${KualiForm.document.s2sSubmissionHistory[status.index].submissionTime}" type="both" dateStyle="short" timeStyle="short"/>
 					</td>	                
 	                <td>
 	                	<div align="center">
