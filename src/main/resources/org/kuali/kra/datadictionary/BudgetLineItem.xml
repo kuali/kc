@@ -191,8 +191,8 @@
 			<shortLabel>Budget Category Code </shortLabel>
 			<maxLength>3</maxLength>
 			<validationPattern><numeric /></validationPattern>
-			<control>
-				<select valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryValuesFinder" />
+			<control>				
+				<select valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder" businessObjectClass="org.kuali.kra.budget.bo.BudgetCategory" keyAttribute="budgetCategoryCode" labelAttribute="description" includeKeyInLabel="false"/>
 			</control>
 			<summary>Budget Category Code </summary>
 			<description>Budget Category Code </description>
