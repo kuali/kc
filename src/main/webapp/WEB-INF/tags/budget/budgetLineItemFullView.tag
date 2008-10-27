@@ -29,10 +29,7 @@
 <c:set var="applyInRateReadOnly" value="false" />
 <c:if test="${!KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].validToApplyInRate}">
     <c:set var="applyInRateReadOnly" value="true" />
-</c:if>
-<jsp:useBean id="parameterMap" class="java.util.HashMap" scope="request" />
-<c:set target="${parameterMap}" property="budgetCategoryTypeCode" value="${budgetCategoryTypeCode}" />
-          		
+</c:if>          		
        			<kul:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="Line Item Details" tabErrorKey="document.budgetPeriod[${budgetPeriod-1}].budgetLineItem[${budgetLineItemNumber}].*" useCurrentTabIndexAsKey="true">
        				<div>
        				<table cellpadding=0 cellspacing=0 summary="">
@@ -51,7 +48,14 @@
 			        	<tr>
 			        		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.budgetCategoryCode}" noColon="true" /></div></th>
 				        	<td>
-						    	<kra:parameterizedSelectTag property="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetCategoryCode" value="${KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetCategoryCode}" valuesFinder="org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryValuesFinder" tabindex="0" readOnly="${budgetExpensePanelReadOnly}" />
+				        		<c:choose>				        		
+					        		<c:when test="${budgetExpensePanelReadOnly}">
+					        			<c:out value="${KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetCategory.description}"/>
+					        		</c:when>
+					        		<c:otherwise>
+					        			<kul:htmlControlAttribute property="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetCategoryCode"  attributeEntry="${budgetLineItemAttributes.budgetCategoryCode}" readOnly="${budgetExpensePanelReadOnly}"/>
+					        		</c:otherwise>
+				        		</c:choose>		    	
 		         		    </td>				        	
 				        </tr>															
 			        </table>
