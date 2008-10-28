@@ -15,15 +15,6 @@
  */
 package org.kuali.kra.bo;
 
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-
 import java.sql.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -32,33 +23,18 @@ import org.kuali.core.util.TypedArrayList;
 import static org.kuali.kra.infrastructure.Constants.ANSWER_YES_NO;
 import static org.kuali.kra.infrastructure.Constants.ANSWER_YES_NO_NA;
 
-@Entity
-@Table(name="YNQ")
 public class Ynq extends KraPersistableBusinessObjectBase {
 
-	@Id
-	@Column(name="QUESTION_ID")
 	private String questionId;
-	@Column(name="DATE_REQUIRED_FOR")
 	private String dateRequiredFor;
-	@Column(name="DESCRIPTION")
 	private String description;
-	@Column(name="EFFECTIVE_DATE")
 	private Date effectiveDate;
-	@Column(name="EXPLANATION_REQUIRED_FOR")
 	private String explanationRequiredFor;
-	@Column(name="GROUP_NAME")
 	private String groupName;
-	@Column(name="NO_OF_ANSWERS")
 	private Integer noOfAnswers;
-	@Column(name="QUESTION_TYPE")
 	private String questionType;
-	@Column(name="STATUS")
 	private String status;
-	
-    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
-           targetEntity=org.kuali.kra.bo.YnqExplanation.class, mappedBy="question")
-	private List<YnqExplanation> ynqExplanations;
+    private List<YnqExplanation> ynqExplanations;
 
 	public Ynq(){
 		super();
@@ -163,4 +139,3 @@ public class Ynq extends KraPersistableBusinessObjectBase {
 
   
 }
-

@@ -1,29 +1,15 @@
 package org.kuali.kra.budget.bo;
 
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-@Entity
-@Table(name="RATE_CLASS_TYPE")
 public class RateClassType extends KraPersistableBusinessObjectBase {
 
-	@Id
-	@Column(name="RATE_CLASS_TYPE")
 	private String rateClassType;
-	@Column(name="DESCRIPTION")
 	private String description;
-	@Column(name="SORT_ID")
 	private String sortId;
-    @Column(name="PREFIX_ACTIVITY_TYPE")
-	private Boolean prefixActivityType;
+    private Boolean prefixActivityType;
 
 	public RateClassType(){
 		super();
@@ -72,4 +58,3 @@ public class RateClassType extends KraPersistableBusinessObjectBase {
     }
     
 }
-

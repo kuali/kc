@@ -42,7 +42,6 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
-import org.kuali.kra.proposaldevelopment.bo.ProposalNarrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AddNarrativeRule;
 import org.kuali.kra.proposaldevelopment.rule.NewNarrativeUserRightsRule;
@@ -102,7 +101,7 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
         map.removeFromErrorPath("newNarrative");
         int size = map.keySet().size();
         rulePassed &= size<=0;
-        rulePassed &= checkNarrative(document.getProposalNarratives(), (ProposalNarrative) narrative);
+        rulePassed &= checkNarrative(document.getNarratives(), narrative);
         
         return rulePassed;
     }
@@ -115,11 +114,11 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
         
         boolean rulePassed = checkUserRights(saveNarrativesEvent);
         
-        List<ProposalNarrative> narrativeList = saveNarrativesEvent.getProposalNarratives();
+        List<Narrative> narrativeList = saveNarrativesEvent.getNarratives();
         int size = narrativeList.size();
        
         for (int i = 0; i < size; i++) {
-            ProposalNarrative narrative = narrativeList.get(0);
+            Narrative narrative = narrativeList.get(0);
             
             narrativeList.remove(narrative);  
             //--size;
@@ -150,8 +149,8 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
         String username = user.getPersonUserIdentifier();
         
-        List<ProposalNarrative> narratives = saveNarrativesEvent.getProposalNarratives();
-        List<ProposalNarrative> originalNarratives = saveNarrativesEvent.getOriginalNarratives();
+        List<Narrative> narratives = saveNarrativesEvent.getNarratives();
+        List<Narrative> originalNarratives = saveNarrativesEvent.getOriginalNarratives();
         for (Narrative origNarrative : originalNarratives) {
             NarrativeUserRights userRights = getUserRights(username, origNarrative);
             if ((StringUtils.equals(userRights.getAccessType(), NarrativeRight.VIEW_NARRATIVE_RIGHT.getAccessType())) ||
@@ -192,7 +191,7 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
      * @param origNarrative the original narrative to compare against
      * @return the found narrative or null if not found
      */
-    private Narrative findNarrative(List<ProposalNarrative> narratives, Narrative origNarrative) {
+    private Narrative findNarrative(List<Narrative> narratives, Narrative origNarrative) {
         for (Narrative narrative : narratives) {
             if (narrative.getModuleNumber().equals(origNarrative.getModuleNumber())) {
                 return narrative;
@@ -208,7 +207,7 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
      * @param narrative
      * @return true if rules passed, else false
      */
-    private boolean checkNarrative(List<ProposalNarrative> narrativeList, ProposalNarrative narrative) {
+    private boolean checkNarrative(List<Narrative> narrativeList, Narrative narrative) {
         String errorPath=DOCUMENT_NARRATIVES;
         boolean rulePassed = true;
         if(StringUtils.isBlank(narrative.getNarrativeTypeCode())){

@@ -32,7 +32,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeStatus;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
-import org.kuali.kra.proposaldevelopment.bo.ProposalNarrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.AddNarrativeEvent;
 
@@ -86,8 +85,8 @@ public class ProposalDevelopmentNarrativeRuleTest extends ProposalDevelopmentRul
         assertTrue(narrativeTypes.size()>1);
         assertTrue(narrativeStatuses.size()>1);
         
-        ProposalNarrative narrative = new ProposalNarrative();
-        ProposalNarrative newNarrative = new ProposalNarrative();
+        Narrative narrative = new Narrative();
+        Narrative newNarrative = new Narrative();
         narrative.setNarrativeTypeCode(narrativeTypes.get(0).getNarrativeTypeCode());
         newNarrative.setNarrativeTypeCode(narrativeTypes.get(1).getNarrativeTypeCode());
         narrative.setModuleStatusCode(narrativeStatuses.get(0).getNarrativeStatusCode());
@@ -109,7 +108,7 @@ public class ProposalDevelopmentNarrativeRuleTest extends ProposalDevelopmentRul
     @Test
     public void testUnspecifiedNarrativeType() throws Exception {
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
-        ProposalNarrative newNarrative = new ProposalNarrative();
+        Narrative newNarrative = new Narrative();
         newNarrative.setNarrativeTypeCode(EMPTY_STRING);
         newNarrative.setModuleStatusCode(narrativeStatuses.get(0).getNarrativeStatusCode());
         AddNarrativeEvent addNarrativeEvent = new AddNarrativeEvent(EMPTY_STRING,document,newNarrative);
@@ -132,7 +131,7 @@ public class ProposalDevelopmentNarrativeRuleTest extends ProposalDevelopmentRul
     @Test
     public void testUnspecifiedNarrativeStatus() throws Exception {
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
-        ProposalNarrative newNarrative = new ProposalNarrative();
+        Narrative newNarrative = new Narrative();
         newNarrative.setNarrativeTypeCode(narrativeTypes.get(0).getNarrativeTypeCode());
         newNarrative.setModuleStatusCode(EMPTY_STRING);
         newNarrative.setProposalNumber(document.getProposalNumber());
@@ -161,14 +160,14 @@ public class ProposalDevelopmentNarrativeRuleTest extends ProposalDevelopmentRul
         assertTrue(narrativeTypes.size()>1);
         assertTrue(narrativeStatuses.size()>1);
         
-        ProposalNarrative narrative = new ProposalNarrative();
-        ProposalNarrative newNarrative = new ProposalNarrative();
+        Narrative narrative = new Narrative();
+        Narrative newNarrative = new Narrative();
         narrative.setNarrativeTypeCode(narrativeTypes.get(0).getNarrativeTypeCode());
         newNarrative.setNarrativeTypeCode(narrativeTypes.get(0).getNarrativeTypeCode());
         narrative.setModuleStatusCode(narrativeStatuses.get(0).getNarrativeStatusCode());
         newNarrative.setModuleStatusCode(narrativeStatuses.get(0).getNarrativeStatusCode());
         newNarrative.setProposalNumber(document.getProposalNumber());
-        document.getProposalNarratives().add(narrative);
+        document.getNarratives().add(narrative);
 //        document.addNarrative(narrative);
         AddNarrativeEvent addNarrativeEvent = new AddNarrativeEvent(EMPTY_STRING,document,newNarrative);
         assertFalse(rule.processAddNarrativeBusinessRules(addNarrativeEvent));
@@ -193,7 +192,7 @@ public class ProposalDevelopmentNarrativeRuleTest extends ProposalDevelopmentRul
         assertTrue(narrativeTypes.size()>1);
         assertTrue(narrativeStatuses.size()>1);
         
-        ProposalNarrative newNarrative = new ProposalNarrative();
+        Narrative newNarrative = new Narrative();
         newNarrative.setNarrativeTypeCode(narrativeTypes.get(narrativeTypes.size()-1).getNarrativeTypeCode());
         newNarrative.setModuleStatusCode(narrativeStatuses.get(0).getNarrativeStatusCode());
         
@@ -220,7 +219,7 @@ public class ProposalDevelopmentNarrativeRuleTest extends ProposalDevelopmentRul
         assertTrue(narrativeTypes.size()>1);
         assertTrue(narrativeStatuses.size()>1);
         
-        ProposalNarrative newNarrative = new ProposalNarrative();
+        Narrative newNarrative = new Narrative();
         newNarrative.setNarrativeTypeCode(findNarrativeTypeForDescription(narrativeTypes, "Other").getNarrativeTypeCode());
         newNarrative.setModuleStatusCode(narrativeStatuses.get(0).getNarrativeStatusCode());
         newNarrative.setFileName("AttachmentFile.txt");

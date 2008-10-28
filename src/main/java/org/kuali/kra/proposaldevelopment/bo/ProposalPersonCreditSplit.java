@@ -15,19 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-import javax.persistence.IdClass;
-
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -40,32 +27,12 @@ import org.kuali.core.util.KualiDecimal;
  * @author $Author: vsoni $
  * @version $Revision: 1.9 $
  */
-@Entity
-@Table(name="EPS_PROP_PER_CREDIT_SPLIT")
 public final class ProposalPersonCreditSplit extends KraPersistableBusinessObjectBase implements CreditSplit {
-    @Id
-	@Column(name="PROPOSAL_NUMBER")
-	private String proposalNumber;
-    
-    @Id
-	@Column(name="PROP_PERSON_NUMBER")
-	private Integer proposalPersonNumber;
-    
-    @Id
-	@Column(name="INV_CREDIT_TYPE_CODE")
-	private String invCreditTypeCode;
-    
-    @Column(name="CREDIT")
-	private KualiDecimal credit;
-    
-    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="INV_CREDIT_TYPE_CODE", insertable=false, updatable=false)
-	private InvestigatorCreditType investigatorCreditType;
-    
-    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
-    @JoinColumns({@JoinColumn(name="PROPOSAL_NUMBER", insertable = false, updatable = false),
-                  @JoinColumn(name="PROP_PERSON_NUMBER", insertable=false, updatable=false)})
-    private ProposalPerson proposalPerson;
+    private String proposalNumber;
+    private Integer proposalPersonNumber;
+    private String invCreditTypeCode;
+    private KualiDecimal credit;
+    private InvestigatorCreditType investigatorCreditType;
     
     /**
      * Gets the value of invCreditType
@@ -157,15 +124,8 @@ public final class ProposalPersonCreditSplit extends KraPersistableBusinessObjec
         this.credit = argCredit;
     }
 
-	public ProposalPerson getProposalPerson() {
-        return proposalPerson;
-    }
 
-    public void setProposalPerson(ProposalPerson proposalPerson) {
-        this.proposalPerson = proposalPerson;
-    }
-
-    @Override 
+	@Override 
 	protected LinkedHashMap toStringMapper() {
    	    LinkedHashMap hashmap = new LinkedHashMap();    
         hashmap.put("proposalNumber", getProposalNumber());
@@ -176,4 +136,3 @@ public final class ProposalPersonCreditSplit extends KraPersistableBusinessObjec
 		return hashmap;
 	}
 }
-

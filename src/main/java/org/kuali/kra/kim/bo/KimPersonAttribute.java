@@ -15,13 +15,6 @@
  */
 package org.kuali.kra.kim.bo;
 
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-
 import java.util.LinkedHashMap;
 
 /**
@@ -30,16 +23,11 @@ import java.util.LinkedHashMap;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-@Entity
-@Table(name="KIM_PERSON_ATTRIBUTES_T")
 public class KimPersonAttribute extends KimAttribute {
 
 	private static final long serialVersionUID = 2861440911751860350L;
 	
-	@Column(name="PERSON_ID")
 	private Long personId;
-	
-	@Column(name="SPONSOR_NAMESPACE_ID")
 	private Long namespaceId;
     
 	/**
@@ -84,4 +72,3 @@ public class KimPersonAttribute extends KimAttribute {
         return propMap;
 	}
 }
-

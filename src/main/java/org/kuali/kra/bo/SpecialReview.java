@@ -15,25 +15,13 @@
  */
 package org.kuali.kra.bo;
 
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-
 import java.util.LinkedHashMap;
 
 
-@Entity
-@Table(name="SPECIAL_REVIEW")
 public class SpecialReview extends KraPersistableBusinessObjectBase {
 
-    @Id
-	@Column(name="SPECIAL_REVIEW_CODE")
-	private String specialReviewCode;
-    @Column(name="DESCRIPTION")
-	private String description;
+    private String specialReviewCode;
+    private String description;
 
     public String getDescription() {
         return description;
@@ -62,4 +50,3 @@ public class SpecialReview extends KraPersistableBusinessObjectBase {
     }
 
 }
-

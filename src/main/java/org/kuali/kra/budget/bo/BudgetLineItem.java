@@ -15,52 +15,19 @@
  */
 package org.kuali.kra.budget.bo;
 
-import javax.persistence.OneToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Transient;
-import javax.persistence.Version;
-import javax.persistence.FetchType;
-import javax.persistence.Basic;
-import javax.persistence.Lob;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-import javax.persistence.IdClass;
-
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-@IdClass(org.kuali.kra.budget.bo.id.BudgetLineItemId.class)
-@Entity
-@Table(name="BUDGET_DETAILS")
 public class BudgetLineItem extends BudgetLineItemBase {
     
-    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE}, 
-           targetEntity=org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount.class, mappedBy="budgetLineItem")
-	private List<BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts;
-    
-	@OneToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE}, 
-           targetEntity=org.kuali.kra.budget.bo.BudgetPersonnelDetails.class, mappedBy="budgetLineItem")
+    private List<BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts;
 	private List<BudgetPersonnelDetails> budgetPersonnelDetailsList;
-	
-	@OneToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE}, 
-           targetEntity=org.kuali.kra.budget.bo.BudgetRateAndBase.class, mappedBy="budgetLineItem")
+	private boolean budgetPersonnelLineItemDeleted;
 	private List<BudgetRateAndBase> budgetRateAndBaseList;
-
-	@Transient
     private Date oldStartDate;
-	
-	@Transient
     private Date oldEndDate;
-    
-	@Transient
-    private boolean budgetPersonnelLineItemDeleted;
 	
 	public BudgetLineItem(){
 	    super();
@@ -156,4 +123,3 @@ public class BudgetLineItem extends BudgetLineItemBase {
     }
 
 }
-

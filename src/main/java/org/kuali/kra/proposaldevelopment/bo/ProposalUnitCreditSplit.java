@@ -15,19 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-import javax.persistence.IdClass;
-
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -41,42 +28,16 @@ import org.kuali.core.util.KualiDecimal;
  * @author $Id: ProposalUnitCreditSplit.java,v 1.8 2008-07-28 14:48:12 vsoni Exp $
  * @version $Revision: 1.8 $
  */
-@Entity
-@Table(name="EPS_PROP_UNIT_CREDIT_SPLIT")
 public final class ProposalUnitCreditSplit extends KraPersistableBusinessObjectBase implements CreditSplit {
-    @Id
-	@Column(name="PROPOSAL_NUMBER")
-	private String proposalNumber;
-    
-    @Id
-	@Column(name="PROP_PERSON_NUMBER")
-	private Integer proposalPersonNumber;
-    
-    @Id
-	@Column(name="UNIT_NUMBER")
-	private String unitNumber;
-    
-    @Id
-	@Column(name="INV_CREDIT_TYPE_CODE")
-	private String invCreditTypeCode;
-    
-    @Column(name="CREDIT")
-	private KualiDecimal credit;
-    
-    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-    @JoinColumn(name="UNIT_NUMBER", insertable = false, updatable = false)
+    private String proposalNumber;
+    private Integer proposalPersonNumber;
+    private String unitNumber;
+    private String invCreditTypeCode;
+    private KualiDecimal credit;
     private Unit unit;
-    
-    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="INV_CREDIT_TYPE_CODE", insertable=false, updatable=false)
-	private InvestigatorCreditType investigatorCreditType;
+    private InvestigatorCreditType investigatorCreditType;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
-    @JoinColumns({@JoinColumn(name="PROPOSAL_NUMBER", insertable = false, updatable = false),
-                  @JoinColumn(name="PROP_PERSON_NUMBER", insertable=false, updatable=false),
-                  @JoinColumn(name="UNIT_NUMBER", insertable=false, updatable=false)})
-    private ProposalPersonBiography proposalPersonUnit;
-    
+
     /**
      * Gets the value of invCreditType
      *
@@ -212,13 +173,4 @@ public final class ProposalUnitCreditSplit extends KraPersistableBusinessObjectB
     public Unit getUnit() {
         return unit;
     }
-
-    public ProposalPersonBiography getProposalPersonUnit() {
-        return proposalPersonUnit;
-    }
-
-    public void setProposalPersonUnit(ProposalPersonBiography proposalPersonUnit) {
-        this.proposalPersonUnit = proposalPersonUnit;
-    }
 }
-

@@ -24,8 +24,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
-import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.dao.ojb.RolodexDaoOjb;
+
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import static org.kuali.kra.logging.FormattedLogger.info;
 
 /**
  * Test the Data Access Object implementation for <code>{@link Rolodex}</code> business objects
@@ -86,8 +87,7 @@ public class RolodexDaoOjbTest extends KraTestBase {
         assertFalse(-1 == criteria.toString().indexOf("lastName IS NOT NULL"));
     }
     
-    // not using interface because JPA conversion removed the getNonOrganizationalRolodexCriteria methods from the interface
-    private RolodexDaoOjb getRolodexDao() {
-        return (RolodexDaoOjb) getService(RolodexDao.class);
+    private RolodexDao getRolodexDao() {
+        return getService(RolodexDao.class);
     }
 }

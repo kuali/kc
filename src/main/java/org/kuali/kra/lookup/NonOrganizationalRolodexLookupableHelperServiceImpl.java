@@ -23,7 +23,6 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.service.LookupService;
 import org.kuali.core.util.BeanPropertyComparator;
-import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.dao.RolodexDao;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -53,7 +52,7 @@ public class NonOrganizationalRolodexLookupableHelperServiceImpl extends KualiLo
         setDocFormKey(fieldValues.get(KNSConstants.DOC_FORM_KEY));
         setReferencesToRefresh(fieldValues.get(KNSConstants.REFERENCES_TO_REFRESH));
         
-        List<NonOrganizationalRolodex> searchResults = getRolodexDao().getNonOrganizationalRolodexResults(fieldValues, usePrimaryKeys);
+        List<?extends BusinessObject> searchResults = getRolodexDao().getNonOrganizationalRolodexResults(fieldValues, usePrimaryKeys);
         
         // sort list if default sort column given
         List defaultSortColumns = getDefaultSortColumns();

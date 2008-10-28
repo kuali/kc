@@ -385,9 +385,9 @@
       <property name="sponsorHierarchyDao">
         <ref bean="sponsorHierarchyDao" />
       </property>
- 	</bean>
- 	
-    <bean id="sponsorHierarchyDao" class="org.kuali.kra.dao.jpa.SponsorHierarchyJpaDao" />
+    </bean>
+    <bean id="sponsorHierarchyDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.SponsorHierarchyDaoOjb">
+	</bean>	
 
 	<bean id="narrativeAuthZService" class="org.kuali.kra.proposaldevelopment.service.impl.NarrativeAuthZServiceImpl">
 		<property name="businessObjectService">
@@ -470,8 +470,8 @@
         <ref bean="attachmentDao" />
       </property>
  	</bean>
- 	
-    <bean id="attachmentDao" class="org.kuali.kra.proposaldevelopment.dao.jpa.AttachmentDaoImpl"/>
+    <bean id="attachmentDao" parent="platformAwareDao" class="org.kuali.kra.proposaldevelopment.dao.ojb.AttachmentDaoOjb">
+	</bean>	
 
 	<bean id="keyPersonnelService" class="org.kuali.kra.proposaldevelopment.service.impl.KeyPersonnelServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
@@ -1077,13 +1077,15 @@
 	<bean id="customAttributeService" class="org.kuali.kra.service.impl.CustomAttributeServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
-	
 	<!--  Lookupable Helper for Rolodexes -->
-    <bean id="rolodexDao" class="org.kuali.kra.dao.jpa.RolodexDaoImpl" />
+
+    <bean id="rolodexDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.RolodexDaoOjb" >
+        <property name="lookupDao" ref="lookupDao" />
+    </bean>
     
-    <bean id="kimDao" class="org.kuali.kra.kim.service.impl.KimDaoJpaImpl" />
+    <bean id="kimDao" parent="platformAwareDao" class="org.kuali.kra.kim.service.impl.KimDaoImpl" />
         
-    <bean id="personDao" class="org.kuali.kra.dao.jpa.PersonDaoJpa" />
+    <bean id="personDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.PersonDaoOjb" />
     	
     <bean id="nonOrganizationalRolodexHelperService" class="org.kuali.kra.lookup.NonOrganizationalRolodexLookupableHelperServiceImpl" 
        scope="prototype"  parent="lookupableHelperService">
@@ -1198,39 +1200,4 @@
 			</list>
 		</property>
 	</bean>
-	
-	  <!-- START JPA CONFIGURATION -->
-	  
-   <!-- Used for @PersistenceContext auto-injection -->
-   <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
-
-   <bean id="entityManagerFactory" class="org.kuali.rice.jpa.spring.RiceEntityManagerProxyFactoryBean">
-     <constructor-arg value="kcra"/>
-     <constructor-arg ref="dataSource"/>
-   </bean>
-
-   <!-- Used for @Transactional so you don't have to wire services up in here -->
-   <tx:annotation-driven transaction-manager="transactionManager"/>
-
-   <bean id="NoResultExceptionInterceptor" class="org.kuali.rice.jpa.spring.NoResultExceptionInterceptor" />
-
-   <!-- Add your specialized DAOs here... if you don't have any, you can remove this block -->
-   <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
-     <property name="interceptorNames">
-       <list>
-         <idref local="NoResultExceptionInterceptor" />
-       </list>
-     </property>
-     <property name="beanNames">
-       <list>
-         <idref local="personDao" />
-         <idref local="kimDao" />
-         <idref local="sponsorHierarchyDao" />
-         <idref local="attachmentDao" />
-         <idref local="rolodexDao" />
-       </list>
-     </property>
-   </bean>
-	  <!-- END JPA CONFIGURATION -->
-	
 </beans>

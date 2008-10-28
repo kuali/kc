@@ -15,23 +15,6 @@
  */
 package org.kuali.kra.budget.bo;
 
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.OneToOne;
-import javax.persistence.FetchType;
-import javax.persistence.Basic;
-import javax.persistence.Lob;
-import javax.persistence.Transient;
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-import javax.persistence.IdClass;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -40,68 +23,24 @@ import java.sql.Date;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 
-@IdClass(org.kuali.kra.budget.bo.id.BudgetPersonnelDetailsId.class)
-@Entity
-@Table(name="BUDGET_PERSONNEL_DETAILS")
 public class BudgetPersonnelDetails extends BudgetLineItemBase {
     
-    @Id
-	@Column(name="PERSON_NUMBER")
-	private Integer personNumber;
-    
-	@Column(name="JOB_CODE")
+    private Integer personNumber;
+	private BudgetDecimal costSharingPercent=BudgetDecimal.ZERO;
 	private String jobCode;
-	
-	@Column(name="PERIOD_TYPE")
-	private String periodTypeCode;
-	
-	@Column(name="PERSON_ID")
-	private String personId;
-	
-	@Column(name="SEQUENCE_NUMBER")
-	private Integer sequenceNumber;
-	
-	@Column(name="PERSON_SEQUENCE_NUMBER")
-	private Integer personSequenceNumber;
-	
-	@OneToOne(fetch=FetchType.EAGER)
-	@JoinColumns({@JoinColumn(name="PROPOSAL_NUMBER", insertable=false, updatable=false), @JoinColumn(name="VERSION_NUMBER", insertable=false, updatable=false), @JoinColumn(name="PERSON_SEQUENCE_NUMBER", insertable=false, updatable=false)})
-	private BudgetPerson budgetPerson;
-	
-    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE}, 
-           targetEntity=org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount.class, mappedBy="budgetPersonnelDetails")
-	private List<BudgetPersonnelCalculatedAmount> budgetPersonnelCalculatedAmounts;
-    
-    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE}, 
-           targetEntity=org.kuali.kra.budget.bo.BudgetPersonnelRateAndBase.class, mappedBy="budgetPersonnelDetails")
-	private List<BudgetPersonnelRateAndBase> budgetPersonnelRateAndBaseList;
-    
-    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-    @JoinColumn(name="PERIOD_TYPE", insertable=false, updatable=false)
-    private BudgetPeriodType budgetPeriodType;
-    
-    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
-    @JoinColumns({@JoinColumn(name = "BUDGET_PERIOD_NUMBER", insertable = false, updatable = false), 
-                  @JoinColumn(name="LINE_ITEM_NUMBER", insertable = false, updatable = false)})
-    private BudgetLineItem budgetLineItem;
-    
-    @Transient
-    private String effdtAfterStartdtMsg;
-    
-    @Transient
     private Boolean nonEmployeeFlag;
-    
-    @Transient
-    private BudgetDecimal costSharingPercent=BudgetDecimal.ZERO;
-    
-    @Transient
-    private BudgetDecimal salaryRequested=BudgetDecimal.ZERO;
-    
-    @Transient
-    private BudgetDecimal percentCharged=BudgetDecimal.ZERO;
-    
-    @Transient
-    private BudgetDecimal percentEffort=BudgetDecimal.ZERO;
+	private BudgetDecimal percentCharged=BudgetDecimal.ZERO;
+	private BudgetDecimal percentEffort=BudgetDecimal.ZERO;
+	private String periodTypeCode;
+	private String personId;
+	private BudgetDecimal salaryRequested=BudgetDecimal.ZERO;
+	private Integer sequenceNumber;
+	private Integer personSequenceNumber;
+	private BudgetPerson budgetPerson;
+    private List<BudgetPersonnelCalculatedAmount> budgetPersonnelCalculatedAmounts;
+    private List<BudgetPersonnelRateAndBase> budgetPersonnelRateAndBaseList;
+    private String effdtAfterStartdtMsg;
+    private BudgetPeriodType budgetPeriodType;
 
     public BudgetPersonnelDetails(){
         budgetPersonnelCalculatedAmounts = new ArrayList<BudgetPersonnelCalculatedAmount>();
@@ -178,15 +117,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
 	public void setSequenceNumber(Integer sequenceNumber) {
 		this.sequenceNumber = sequenceNumber;
 	}
-	
-	public BudgetLineItem getBudgetLineItem() {
-        return budgetLineItem;
-    }
-    public void setBudgetLineItem(BudgetLineItem budgetLineItem) {
-        this.budgetLineItem = budgetLineItem;
-    }
-    
-    @Override 
+	@Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = super.toStringMapper();
 		hashMap.put("personNumber", getPersonNumber());
@@ -303,4 +234,3 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
         this.budgetPeriodType = budgetPeriodType;
     }
 }
-

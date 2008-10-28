@@ -17,56 +17,18 @@ package org.kuali.kra.budget.bo;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
-
 import org.kuali.kra.bo.AbstractInstituteRate;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.document.BudgetDocument;
-
-@MappedSuperclass
 public abstract class AbstractBudgetRate extends AbstractInstituteRate {
-    
-    @Id
-    @Column(name="PROPOSAL_NUMBER")
 	private String proposalNumber;
-    
-    @Id
-    @Column(name="VERSION_NUMBER")
 	private Integer budgetVersionNumber;
-    
-    @Column(name="APPLICABLE_RATE")
 	private BudgetDecimal applicableRate;
-    
-    @Transient
     private BudgetDecimal oldApplicableRate;
-    
-    @Transient
     private String viewLocation;
-    
-    @Transient
     private boolean displayLocation = true;
-    
-    @Transient
     private String budgetPeriod;
-    
-    @Transient
     private String affectedBudgetPeriod;
-    
-    @Transient
     private String trackAffectedPeriod;
-    
-    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
-    @JoinColumns({@JoinColumn(name="PROPOSAL_NUMBER", insertable = false, updatable = false), 
-                  @JoinColumn(name="VERSION_NUMBER", insertable = false, updatable = false)})
-    private BudgetDocument budgetDocument;
 
     
     public AbstractBudgetRate() {
@@ -186,13 +148,5 @@ public abstract class AbstractBudgetRate extends AbstractInstituteRate {
 
     public final void setTrackAffectedPeriod(String trackAffectedPeriod) {
         this.trackAffectedPeriod = trackAffectedPeriod;
-    }
-
-    public BudgetDocument getBudgetDocument() {
-        return budgetDocument;
-    }
-
-    public void setBudgetDocument(BudgetDocument budgetDocument) {
-        this.budgetDocument = budgetDocument;
     }
 }

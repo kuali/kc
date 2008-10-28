@@ -17,17 +17,11 @@ package org.kuali.kra.proposaldevelopment.bo;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
-
+import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-@MappedSuperclass
 public abstract class AttachmentDataSource extends KraPersistableBusinessObjectBase {
-    @Column(name="FILE_NAME", nullable=true, length=150)
 	private String fileName;
-    
-    @Column(name="CONTENT_TYPE", nullable=true, length=250)
 	private String contentType;
 
 	public String getFileName() {

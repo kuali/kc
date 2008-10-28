@@ -1,28 +1,12 @@
 package org.kuali.kra.bo;
 
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-
-import org.kuali.rice.jpa.annotations.Sequence;
-
 import java.util.LinkedHashMap;
 
 
-@Entity
-@Table(name="NSF_CODES")
-@Sequence(name="SEQUENCE_NSF_CODES", property="nsfSequenceNumber")
 public class NsfCode extends KraPersistableBusinessObjectBase {
 	
-    @Id
-	@Column(name="NSF_SEQUENCE_NUMBER")
-	private Integer nsfSequenceNumber;
-	@Column(name="NSF_CODE")
+    private Integer nsfSequenceNumber;
 	private String nsfCode;
-	@Column(name="DESCRIPTION")
 	private String description;
 	
     public Integer getNsfSequenceNumber() {
@@ -55,4 +39,3 @@ public class NsfCode extends KraPersistableBusinessObjectBase {
 		return propMap;
 	}
 }
-

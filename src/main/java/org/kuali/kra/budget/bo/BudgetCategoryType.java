@@ -15,13 +15,6 @@
  */
 package org.kuali.kra.budget.bo;
 
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -31,16 +24,10 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  *
  * BudgetCategoryType.java
  */
-@Entity
-@Table(name="BUDGET_CATEGORY_TYPE")
 public class BudgetCategoryType extends KraPersistableBusinessObjectBase {
 	
-	@Id
-	@Column(name="BUDGET_CATEGORY_TYPE_CODE")
 	private String budgetCategoryTypeCode;
-	@Column(name="DESCRIPTION")
 	private String description;
-	@Column(name="SORT_ID")
 	private String sortId;
 	
     public String getSortId() {
@@ -95,4 +82,3 @@ public class BudgetCategoryType extends KraPersistableBusinessObjectBase {
     }
 
 }
-

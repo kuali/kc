@@ -1,24 +1,12 @@
 package org.kuali.kra.proposaldevelopment.bo;
 
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-@Entity
-@Table(name="ACTIVITY_TYPE")
 public class ActivityType extends KraPersistableBusinessObjectBase {
 	
-	@Id
-	@Column(name="ACTIVITY_TYPE_CODE")
 	private String activityTypeCode;
-	@Column(name="DESCRIPTION")
 	private String description;
 	
 	public String getActivityTypeCode() {
@@ -44,4 +32,3 @@ public class ActivityType extends KraPersistableBusinessObjectBase {
 		return propMap;
 	}
 }
-

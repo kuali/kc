@@ -2,10 +2,6 @@ package org.kuali.kra.bo;
 
 import java.sql.Timestamp;
 
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
-
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
@@ -19,16 +15,10 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 
-@MappedSuperclass
 public abstract class KraPersistableBusinessObjectBase extends PersistableBusinessObjectBase {
 
-    @Column(name="UPDATE_USER")
     private String updateUser;
-    
-    @Column(name="UPDATE_TIMESTAMP")
     private Timestamp updateTimestamp;
-    
-    @Transient
     private boolean updateUserSet;
 
     /**

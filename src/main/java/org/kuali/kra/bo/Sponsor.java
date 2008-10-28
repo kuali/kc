@@ -15,68 +15,32 @@
  */
 package org.kuali.kra.bo;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-
 import java.util.LinkedHashMap;
 
 /**
  * Class representing a Sponsor Business Object
  */
-@Entity
-@Table(name="SPONSOR")
 public class Sponsor extends KraPersistableBusinessObjectBase {
-	@Id
-	@Column(name="SPONSOR_CODE")
 	private String sponsorCode;
-	@Column(name="ACRONYM")
 	private String acronym;
-	@Column(name="AUDIT_REPORT_SENT_FOR_FY")
 	private String auditReportSentForFy;
-	@Column(name="CAGE_NUMBER")
 	private String cageNumber;
-	@Column(name="COUNTRY_CODE")
 	private String countryCode;
-	@Column(name="DODAC_NUMBER")
 	private String dodacNumber;
-	@Column(name="DUN_AND_BRADSTREET_NUMBER")
 	private String dunAndBradstreetNumber;
-	@Column(name="DUNS_PLUS_FOUR_NUMBER")
 	private String dunsPlusFourNumber;
-	@Column(name="OWNED_BY_UNIT")
 	private String ownedByUnit;
-	@Column(name="POSTAL_CODE")
 	private String postalCode;
-	@Column(name="ROLODEX_ID")
 	private Integer rolodexId;
-	@Column(name="SPONSOR_NAME")
 	private String sponsorName;
-	@Column(name="SPONSOR_TYPE_CODE")
 	private String sponsorTypeCode;
-	@Column(name="STATE")
 	private String state;
-	@Column(name="CREATE_USER")
 	private String createUser;
-    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="SPONSOR_TYPE_CODE", insertable=false, updatable=false)
-	private SponsorType sponsorType;
-    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="COUNTRY_CODE", insertable=false, updatable=false)
-	private Country country;
+    private SponsorType sponsorType;
+    private Country country;
 
-    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="OWNED_BY_UNIT", insertable=false, updatable=false)
-	private Unit unit;
-    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="ROLODEX_ID", insertable=false, updatable=false)
-	private Rolodex rolodex;
+    private Unit unit;
+    private Rolodex rolodex;
 
     public Sponsor(){
         super();
@@ -275,4 +239,3 @@ public class Sponsor extends KraPersistableBusinessObjectBase {
         this.rolodex = rolodex;
     }
 }
-
