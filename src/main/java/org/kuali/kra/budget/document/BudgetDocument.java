@@ -31,24 +31,6 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -90,7 +72,6 @@ import org.kuali.kra.budget.bo.RateType;
 import org.kuali.kra.budget.service.BudgetCalculationService;
 import org.kuali.kra.budget.service.BudgetRatesService;
 import org.kuali.kra.budget.service.BudgetSummaryService;
-import org.kuali.kra.dao.jpa.BudgetDocumentNextValuesDao;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.BudgetDecimalFormatter;
 import org.kuali.kra.infrastructure.Constants;
@@ -101,11 +82,6 @@ import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
-@IdClass(org.kuali.kra.budget.document.BudgetDocumentId.class)
-@Entity
-@AttributeOverrides({@AttributeOverride(name="documentNumber", column=@Column(name="DOCUMENT_NUMBER"))})
-@EntityListeners(BudgetDocumentNextValuesDao.class)
-@Table(name="BUDGET")
 public class BudgetDocument extends ResearchDocumentBase implements Copyable, SessionDocument {
     private static final String DETAIL_TYPE_CODE = "D";
     private static final String BUDGET_NAMESPACE_CODE = "KRA-B";
@@ -116,127 +92,58 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
 
     private static final Log LOG = LogFactory.getLog(BudgetDocument.class);
     
-    @Id
-	@Column(name="PROPOSAL_NUMBER")
-	private String proposalNumber;
-    @Id
-	@Column(name="VERSION_NUMBER")
-	private Integer budgetVersionNumber;
-    @Lob
-	@Basic(fetch=FetchType.LAZY)
-	@Column(name="COMMENTS")
-	private String comments;
-    @Column(name="COST_SHARING_AMOUNT")
-	private BudgetDecimal costSharingAmount; // = new BudgetDecimal(0);
+    private String proposalNumber;
+    private Integer budgetVersionNumber;
+    private String comments;
+    private BudgetDecimal costSharingAmount; // = new BudgetDecimal(0);
     String budgetJustification;
-    @Column(name="END_DATE")
-	private Date endDate;
-    @Column(name="FINAL_VERSION_FLAG")
-	private boolean finalVersionFlag;
-    @Column(name="MODULAR_BUDGET_FLAG")
-	private Boolean modularBudgetFlag;
-    @Column(name="OH_RATE_CLASS_CODE")
-	private String ohRateClassCode;
-    @Column(name="OH_RATE_TYPE_CODE")
-	private String ohRateTypeCode;
-    @Column(name="RESIDUAL_FUNDS")
-	private BudgetDecimal residualFunds;
-    @Column(name="START_DATE")
-	private Date startDate;
-    @Column(name="TOTAL_COST")
-	private BudgetDecimal totalCost;
-    @Column(name="TOTAL_COST_LIMIT")
-	private BudgetDecimal totalCostLimit; // = new BudgetDecimal(0);
-    @Column(name="TOTAL_DIRECT_COST")
-	private BudgetDecimal totalDirectCost;
-    @Column(name="TOTAL_INDIRECT_COST")
-	private BudgetDecimal totalIndirectCost; // = new BudgetDecimal(0);
-    @Column(name="UNDERRECOVERY_AMOUNT")
-	private BudgetDecimal underrecoveryAmount; // = new BudgetDecimal(0);
-    @Column(name="UR_RATE_CLASS_CODE")
-	private String urRateClassCode;
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="PROPOSAL_NUMBER", insertable=false, updatable=false)
-	private ProposalDevelopmentDocument proposal;
-    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="OH_RATE_CLASS_CODE", insertable=false, updatable=false)
-	private RateClass rateClass;
-    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
-           targetEntity=org.kuali.kra.budget.bo.BudgetProposalRate.class, mappedBy="budgetDocument")
-	private List<BudgetProposalRate> budgetProposalRates;
-    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
-           targetEntity=org.kuali.kra.budget.bo.BudgetProposalLaRate.class, mappedBy="budgetDocument")
-	private List<BudgetProposalLaRate> budgetProposalLaRates;
-    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
-           targetEntity=org.kuali.kra.budget.bo.BudgetPeriod.class, mappedBy="budgetDocument")
-	private List<BudgetPeriod> budgetPeriods;
-    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
-           targetEntity=org.kuali.kra.budget.bo.BudgetProjectIncome.class, mappedBy="budgetDocument")
-	private List<BudgetProjectIncome> budgetProjectIncomes;
-    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
-           targetEntity=org.kuali.kra.budget.bo.BudgetCostShare.class, mappedBy="budgetDocument")
-	private List<BudgetCostShare> budgetCostShares;
-    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
-           targetEntity=org.kuali.kra.budget.bo.BudgetUnrecoveredFandA.class, mappedBy="budgetDocument")
-	private List<BudgetUnrecoveredFandA> budgetUnrecoveredFandAs;
+    private Date endDate;
+    private boolean finalVersionFlag;
+    private Boolean modularBudgetFlag;
+    private String ohRateClassCode;
+    private String ohRateTypeCode;
+    private BudgetDecimal residualFunds;
+    private Date startDate;
+    private BudgetDecimal totalCost;
+    private BudgetDecimal totalCostLimit; // = new BudgetDecimal(0);
+    private BudgetDecimal totalDirectCost;
+    private BudgetDecimal totalIndirectCost; // = new BudgetDecimal(0);
+    private BudgetDecimal underrecoveryAmount; // = new BudgetDecimal(0);
+    private String urRateClassCode;
+    private ProposalDevelopmentDocument proposal;
+    private RateClass rateClass;
+    private List<BudgetProposalRate> budgetProposalRates;
+    private List<BudgetProposalLaRate> budgetProposalLaRates;
+    private List<BudgetPeriod> budgetPeriods;
+    private List<BudgetProjectIncome> budgetProjectIncomes;
+    private List<BudgetCostShare> budgetCostShares;
+    private List<BudgetUnrecoveredFandA> budgetUnrecoveredFandAs;
     
-    @Transient
     private String activityTypeCode="x";
-    
-    @Transient
     private boolean BudgetLineItemDeleted = false;
-    
-    @Transient
     private boolean rateClassTypesReloaded = false ;
 
-    @Transient
     private List<BudgetPersonnelDetails> budgetPersonnelDetailsList;
-    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
-           targetEntity=org.kuali.kra.budget.bo.BudgetPerson.class, mappedBy="budgetDocument")
-	private List<BudgetPerson> budgetPersons;
+    private List<BudgetPerson> budgetPersons;
     
-    @Transient
     private Date summaryPeriodStartDate;
-    
-    @Transient
     private Date summaryPeriodEndDate;    
     
-    @Transient
     private List<InstituteRate> instituteRates;
-    
-    @Transient
     private List<InstituteLaRate> instituteLaRates;
-    
-    @Transient
     private List<RateClass> rateClasses;
-    
-    @Transient
     private List<RateClassType> rateClassTypes;
     
-    @Transient
     private SortedMap <CostElement, List> objectCodeTotals ;
-    
-    @Transient
     private SortedMap <RateType, List> calculatedExpenseTotals ;
-    
-    @Transient
     private List<KeyLabelPair> budgetCategoryTypeCodes;
     
-    @Transient
     private String budgetStatus;
+    private String onOffCampusFlag;
     
-    @Column(name="ON_OFF_CAMPUS_FLAG")
-	private String onOffCampusFlag;
-    
-    @Transient
     private List<BudgetPrintForm> budgetPrintForms;
-    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
-           targetEntity=org.kuali.kra.budget.bo.BudgetSubAwards.class, mappedBy="budgetDocument")
-	private List<BudgetSubAwards> budgetSubAwards;
-    
-    @Transient
+    private List<BudgetSubAwards> budgetSubAwards;
     private boolean rateSynced;
-    
     public BudgetDocument(){
         super();
         budgetCostShares = new ArrayList<BudgetCostShare>();
@@ -1573,4 +1480,3 @@ class RateClassTypeComparator implements Comparator<RateClassType> {
       //return s1.toLowerCase().compareTo(s2.toLowerCase());
     }
   }
-

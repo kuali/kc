@@ -15,13 +15,6 @@
  */
 package org.kuali.kra.bo;
 
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-
 import java.util.LinkedHashMap;
 
 /**
@@ -32,14 +25,9 @@ import java.util.LinkedHashMap;
  * @author $Author: gmcgrego $
  * @version $Revision: 1.3 $
  */
-@Entity
-@Table(name="PERSON_EDITABLE_FIELDS")
 public class PersonEditableField extends KraPersistableBusinessObjectBase {
-    @Id
-	@Column(name="FIELD_NAME")
-	private String fieldName;
-    @Column(name="ACTIVE_FLAG")
-	private boolean active;
+    private String fieldName;
+    private boolean active;
 
     /**
      * Gets the value of fieldName
@@ -84,4 +72,3 @@ public class PersonEditableField extends KraPersistableBusinessObjectBase {
 	}
 
 }
-

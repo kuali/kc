@@ -15,19 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-import javax.persistence.IdClass;
-
 import java.util.LinkedHashMap;
 import java.sql.Date;
 
@@ -44,54 +31,19 @@ import static org.apache.commons.lang.StringUtils.isBlank;
  * @author $Author: gmcgrego $
  * @version $Revision: 1.9 $
  */
-@IdClass(org.kuali.kra.proposaldevelopment.bo.id.ProposalPersonDegreeId.class)
-@Entity
-@Table(name="EPS_PROP_PERSON_DEGREE")
 public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
-    @Id
-    @Column(name="PROPOSAL_NUMBER")
+    private Integer proposalPersonNumber;
     private String proposalNumber;
-    
-    @Id
-	@Column(name="PROP_PERSON_NUMBER")
-	private Integer proposalPersonNumber;
-    
-    @Id
-	@Column(name="DEGREE_SEQUENCE_NUMBER")
-	private Integer degreeSequenceNumber;
-    
-    @Column(name="GRADUATION_YEAR")
-	private String graduationYear;
-    
-    @Column(name="DEGREE_CODE")
-	private String degreeCode;
-    
-    @Column(name="DEGREE")
-	private String degree;
-    
-    @Column(name="FIELD_OF_STUDY")
-	private String fieldOfStudy;
-    
-    @Column(name="SPECIALIZATION")
-	private String specialization;
-    
-    @Column(name="SCHOOL")
-	private String school;
-    
-    @Column(name="SCHOOL_ID_CODE")
-	private String schoolIdCode;
-    
-    @Column(name="SCHOOL_ID")
-	private String schoolId;
-    
-    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="DEGREE_CODE", insertable=false, updatable=false)
-	private DegreeType degreeType;
-    
-    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
-    @JoinColumns({@JoinColumn(name="PROPOSAL_NUMBER", insertable = false, updatable = false),
-                  @JoinColumn(name="PROP_PERSON_NUMBER", insertable=false, updatable=false)})
-    private ProposalPerson proposalPerson;
+    private Integer degreeSequenceNumber;
+    private String graduationYear;
+    private String degreeCode;
+    private String degree;
+    private String fieldOfStudy;
+    private String specialization;
+    private String school;
+    private String schoolIdCode;
+    private String schoolId;
+    private DegreeType degreeType;
 
     /**
      * Gets the value of proposalPersonNumber
@@ -323,14 +275,6 @@ public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
         this.degreeSequenceNumber = degreeSequenceNumber;
     }
 
-    public ProposalPerson getProposalPerson() {
-        return proposalPerson;
-    }
-
-    public void setProposalPerson(ProposalPerson proposalPerson) {
-        this.proposalPerson = proposalPerson;
-    }
 }
-
 
 

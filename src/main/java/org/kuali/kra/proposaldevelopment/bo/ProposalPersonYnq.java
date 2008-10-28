@@ -15,55 +15,21 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-import javax.persistence.IdClass;
-import javax.persistence.Transient;
-
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Ynq;
 import org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder;
 
-@IdClass(org.kuali.kra.proposaldevelopment.bo.id.ProposalPersonYnqId.class)
-@Entity
-@Table(name="EPS_PROP_PERS_YNQ")
 public class ProposalPersonYnq extends KraPersistableBusinessObjectBase {
 
-    @Id
-    @Column(name="PROPOSAL_NUMBER")
-    private String proposalNumber;
-    
-	@Id
-	@Column(name="PROP_PERSON_NUMBER")
 	private Integer proposalPersonNumber;
-	
-	@Id
-	@Column(name="QUESTION_ID")
+	private String proposalNumber;
 	private String questionId;
-	
-	@Column(name="ANSWER")
 	private String answer;
-	
-	@Transient
     private String dummyAnswer;
-	
-	@ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="QUESTION_ID", insertable=false, updatable=false)
 	private Ynq ynq;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
-    @JoinColumns({@JoinColumn(name="PROPOSAL_NUMBER", insertable = false, updatable = false),
-                  @JoinColumn(name="PROP_PERSON_NUMBER", insertable=false, updatable=false)})
-    private ProposalPerson proposalPerson;
 
 	public ProposalPersonYnq(){
 		super();
@@ -129,12 +95,4 @@ public class ProposalPersonYnq extends KraPersistableBusinessObjectBase {
         this.dummyAnswer = dummyAnswer;
     }
 
-    public ProposalPerson getProposalPerson() {
-        return proposalPerson;
-    }
-
-    public void setProposalPerson(ProposalPerson proposalPerson) {
-        this.proposalPerson = proposalPerson;
-    }
 }
-

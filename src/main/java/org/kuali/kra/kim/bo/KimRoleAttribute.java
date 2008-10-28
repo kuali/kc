@@ -15,15 +15,6 @@
  */
 package org.kuali.kra.kim.bo;
 
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-
-import org.kuali.rice.jpa.annotations.Sequence;
-
 import java.util.LinkedHashMap;
 
 /**
@@ -32,15 +23,11 @@ import java.util.LinkedHashMap;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-@Entity
-@Table(name="KIM_ROLE_ATTRIBUTES_T")
-@Sequence(name="SEQ_KIM_ROLE_ATTRIBUTES_ID", property="id")
 public class KimRoleAttribute extends KimAttribute {
 
     private static final long serialVersionUID = -411609041830442521L;
     
-    @Column(name="ROLE_ID")
-	private Long roleId;
+    private Long roleId;
  
     /**
      * Get the Role ID this Attribute belongs to.
@@ -67,4 +54,3 @@ public class KimRoleAttribute extends KimAttribute {
         return map;
     }
 }
-

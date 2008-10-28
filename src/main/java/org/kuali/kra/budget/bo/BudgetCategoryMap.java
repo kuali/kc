@@ -15,43 +15,18 @@
  */
 package org.kuali.kra.budget.bo;
 
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-import javax.persistence.IdClass;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-@IdClass(org.kuali.kra.budget.bo.id.BudgetCategoryMapId.class)
-@Entity
-@Table(name="BUDGET_CATEGORY_MAPS")
 public class BudgetCategoryMap extends KraPersistableBusinessObjectBase {
-	@Id
-	@Column(name="MAPPING_NAME")
 	private String mappingName;
-	
-	@Id
-	@Column(name="TARGET_CATEGORY_CODE")
 	private String targetCategoryCode;
-	
-	@Column(name="CATEGORY_TYPE")
 	private String categoryType;
-	
-	@Column(name="DESCRIPTION")
 	private String description;
-	
-    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
-           targetEntity=org.kuali.kra.budget.bo.BudgetCategoryMapping.class, mappedBy="budgetCategoryMap")
-	private List<BudgetCategoryMapping> budgetCategoryMappings;
+    private List<BudgetCategoryMapping> budgetCategoryMappings;
 
     public BudgetCategoryMap(){
         budgetCategoryMappings  = new ArrayList<BudgetCategoryMapping>();
@@ -116,4 +91,3 @@ public class BudgetCategoryMap extends KraPersistableBusinessObjectBase {
         this.budgetCategoryMappings = budgetCategoryMappings;
     }
 }
-

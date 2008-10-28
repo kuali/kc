@@ -15,24 +15,12 @@
  */
 package org.kuali.kra.bo;
 
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-
 import java.util.LinkedHashMap;
 
-@Entity
-@Table(name="YNQ_EXPLANATION_TYPE")
 public class YnqExplanationType extends KraPersistableBusinessObjectBase {
 
-    @Id
-	@Column(name="EXPLANATION_TYPE")
-	private String explanationType; 
-    @Column(name="DESCRIPTION")
-	private String description; 
+    private String explanationType; 
+    private String description; 
 
     public YnqExplanationType(){
         super();
@@ -63,4 +51,3 @@ public class YnqExplanationType extends KraPersistableBusinessObjectBase {
     }
 
 }
-

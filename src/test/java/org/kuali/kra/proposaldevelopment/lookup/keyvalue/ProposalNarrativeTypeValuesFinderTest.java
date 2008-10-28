@@ -26,7 +26,6 @@ import org.junit.Test;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
-import org.kuali.kra.proposaldevelopment.bo.ProposalNarrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 public class ProposalNarrativeTypeValuesFinderTest {
@@ -57,25 +56,25 @@ public class ProposalNarrativeTypeValuesFinderTest {
 
     @Test
     public void testFindingNarrativeValues() throws Exception {
-        document.getProposalNarratives().add(createNarrative(proposalNarrativeType));
+        document.getNarratives().add(createNarrative(proposalNarrativeType));
         Assert.assertEquals(2, finder.getFilteredKeyValues(copyMasterNarrativeTypeList()).size());
-        document.getProposalNarratives().clear();
+        document.getNarratives().clear();
         
-        document.getProposalNarratives().add(createNarrative(bioNarrativeType));
+        document.getNarratives().add(createNarrative(bioNarrativeType));
         Assert.assertEquals(2, finder.getFilteredKeyValues(copyMasterNarrativeTypeList()).size());
-        document.getProposalNarratives().clear();
+        document.getNarratives().clear();
         
-        document.getProposalNarratives().add(createNarrative(otherNarrativeType));
+        document.getNarratives().add(createNarrative(otherNarrativeType));
         Assert.assertEquals(3, finder.getFilteredKeyValues(copyMasterNarrativeTypeList()).size());
-        document.getProposalNarratives().clear();
+        document.getNarratives().clear();
     }
 
     private ArrayList<NarrativeType> copyMasterNarrativeTypeList() {
         return new ArrayList<NarrativeType>(allNarrativeTypes);
     }
 
-    private ProposalNarrative createNarrative(NarrativeType narrativeType) {
-        ProposalNarrative narrative = new MockNarrative();
+    private Narrative createNarrative(NarrativeType narrativeType) {
+        Narrative narrative = new MockNarrative();
         narrative.setNarrativeType(narrativeType);
         narrative.setNarrativeTypeCode(narrativeType.getNarrativeTypeCode());
         
@@ -117,7 +116,7 @@ public class ProposalNarrativeTypeValuesFinderTest {
     
     // Mock out methods that rely on infrastructure services
     @SuppressWarnings("serial")
-    private class MockNarrative extends ProposalNarrative {
+    private class MockNarrative extends Narrative {
 
         @Override
         protected String findLoggedInUserPersonId() {

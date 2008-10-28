@@ -1,78 +1,34 @@
 package org.kuali.kra.proposaldevelopment.bo;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.PropPerDocType;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 /**
  * 
  * This is bo for eps_prop_person_bio.
  */
-@IdClass(org.kuali.kra.proposaldevelopment.bo.id.ProposalPersonBiographyId.class)
-@Entity
-@Table(name="EPS_PROP_PERSON_BIO")
 public class ProposalPersonBiography extends KraPersistableBusinessObjectBase {
-    
-    @Id
-    @Column(name="PROPOSAL_NUMBER")
-    private String proposalNumber;
-    
-	@Id
-	@Column(name="PROP_PERSON_NUMBER")
+
 	private Integer proposalPersonNumber;
-	
-	@Column(name="PERSON_ID")
 	private String personId;
-	
-    @Id
-	@Column(name="BIO_NUMBER")
-	private Integer biographyNumber;
-    
-    @Column(name="ROLODEX_ID")
-	private Integer rolodexId;
-    
-	@Column(name="DESCRIPTION")
+    private String proposalNumber;
+    private Integer biographyNumber;
+    private Integer rolodexId;
 	private String description;
-	
-    @Column(name="DOCUMENT_TYPE_CODE")
-	private String documentTypeCode;
-    
-    @Column(name="FILE_NAME")
-	private String fileName;
-    
+    private String documentTypeCode;
+    private String fileName;
     transient private FormFile personnelAttachmentFile;
+    private List<ProposalPersonBiographyAttachment> personnelAttachmentList;
+    private PropPerDocType propPerDocType;
     private Timestamp timestampDisplay;
     private String uploadUserDisplay;
-    
-    @OneToMany(cascade={CascadeType.REMOVE, CascadeType.MERGE}, 
-           targetEntity=org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment.class, mappedBy="proposalPersonBiography")
-	private List<ProposalPersonBiographyAttachment> personnelAttachmentList;
-    
-    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="DOCUMENT_TYPE_CODE", insertable=false, updatable=false)
-	private PropPerDocType propPerDocType;
-    
-    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
-    @JoinColumn(name="PROPOSAL_NUMBER", insertable = false, updatable = false)
-    private ProposalDevelopmentDocument proposalDevelopmentDocument;
 
 	public ProposalPersonBiography(){
 		super();
@@ -196,11 +152,4 @@ public class ProposalPersonBiography extends KraPersistableBusinessObjectBase {
         this.uploadUserDisplay = uploadUserDisplay;
     }
 
-    public ProposalDevelopmentDocument getProposalDevelopmentDocument() {
-        return proposalDevelopmentDocument;
-    }
-
-    public void setProposalDevelopmentDocument(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        this.proposalDevelopmentDocument = proposalDevelopmentDocument;
-    }
 }

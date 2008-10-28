@@ -15,17 +15,6 @@
  */
 package org.kuali.kra.kim.bo;
 
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-
-import org.kuali.rice.jpa.annotations.Sequence;
-
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,19 +26,12 @@ import java.util.Map;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-@Entity
-@Table(name="KIM_ROLES_GROUPS_QUAL_T")
-@Sequence(name="SEQ_KIM_ROLES_GROUPS_QUAL_ID", property="id")
 public class KimQualifiedRoleGroup extends KimQualifiedRoleAssignment {
     
     private static final long serialVersionUID = 6226604054905776213L;
     
-    @Column(name="GROUP_ID")
-	private Long groupId;
-    
-    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
-           targetEntity=org.kuali.kra.kim.bo.KimGroupQualifiedRoleAttribute.class, mappedBy="kimQualifiedRoleGroup")
-	private List<KimGroupQualifiedRoleAttribute> qualifiedRoleAttributes;
+    private Long groupId;
+    private List<KimGroupQualifiedRoleAttribute> qualifiedRoleAttributes;
     
     /**
      * Get the Group's ID.
@@ -133,4 +115,3 @@ public class KimQualifiedRoleGroup extends KimQualifiedRoleAssignment {
         return groupId.equals(roleGroup.groupId);
     }
 }
-

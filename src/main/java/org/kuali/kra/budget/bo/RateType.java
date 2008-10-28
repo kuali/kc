@@ -17,33 +17,13 @@ package org.kuali.kra.budget.bo;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-@IdClass(org.kuali.kra.budget.bo.id.RateTypeId.class)
-@Entity
-@Table(name="RATE_TYPE")
 public class RateType extends KraPersistableBusinessObjectBase implements Comparable {
-    @Id
-	@Column(name="RATE_CLASS_CODE")
-	private String rateClassCode;
-    @Id
-	@Column(name="RATE_TYPE_CODE")
-	private String rateTypeCode;
-    @Column(name="DESCRIPTION")
-	private String description;
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="RATE_CLASS_CODE", insertable=false, updatable=false)
-	private RateClass rateClass;
+    private String rateClassCode;
+    private String rateTypeCode;
+    private String description;
+    private RateClass rateClass;
 
 
     public String getRateClassCode() {
@@ -115,4 +95,3 @@ public class RateType extends KraPersistableBusinessObjectBase implements Compar
     }
 
 }
-

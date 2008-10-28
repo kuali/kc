@@ -26,22 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
-import org.hibernate.annotations.Type;
 import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.datadictionary.DataDictionary;
@@ -60,21 +45,22 @@ import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
+import org.kuali.kra.bo.SponsorFormTemplate;
+import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.document.BudgetVersionCollection;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.kim.service.impl.KimDao;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
-import org.kuali.kra.proposaldevelopment.bo.InstituteNarrative;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
+import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
 import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
-import org.kuali.kra.proposaldevelopment.bo.ProposalNarrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
@@ -96,257 +82,85 @@ import org.kuali.kra.s2s.bo.S2sSubmissionHistory;
 import org.kuali.kra.service.YnqService;
 import org.kuali.kra.workflow.KraDocumentXMLMaterializer;
 import org.kuali.rice.KNSServiceLocator;
-import org.kuali.rice.jpa.annotations.Sequence;
 
-@Entity
-@AttributeOverride(name="documentNumber", column=@Column(name="DOCUMENT_NUMBER"))
-@Table(name="EPS_PROPOSAL")
-@Sequence(name="SEQ_PROPOSAL_NUMBER_KRA", property="proposalNumber")
-public class ProposalDevelopmentDocument extends ResearchDocumentBase implements Copyable, SessionDocument {
+public class ProposalDevelopmentDocument extends ResearchDocumentBase implements BudgetVersionCollection, Copyable, SessionDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalDevelopmentDocument.class);
     
-//  @GeneratedValue(generator="propNum")
-//  @SequenceGenerator(name="propNum",sequenceName="SEQ_PROPOSAL_NUMBER_KRA", allocationSize=2)
-    @Id
-	@Column(name="PROPOSAL_NUMBER")
-	private String proposalNumber;
-    
-//    @OneToOne(fetch=FetchType.LAZY, cascade={CascadeType.PERSIST})
-//    @JoinColumn(name="DOCUMENT_NUMBER", insertable=false, updatable=false)
-//    protected DocumentHeader documentHeader;
-    
-    @Column(name="PROPOSAL_TYPE_CODE")
-	private String proposalTypeCode;
-    
-    @Column(name="CONTINUED_FROM")
-	private String continuedFrom;
-    
-    @Column(name="SPONSOR_CODE")
-	private String sponsorCode;
-    
-    @Column(name="ACTIVITY_TYPE_CODE")
-	private String activityTypeCode;
-    
-    @Column(name="OWNED_BY_UNIT")
-	private String ownedByUnitNumber;
-    
-    @Column(name="REQUESTED_START_DATE_INITIAL")
-	private Date requestedStartDateInitial;
-    
-    @Column(name="REQUESTED_END_DATE_INITIAL")
-	private Date requestedEndDateInitial;
-    
-    @Column(name="TITLE")
-	private String title;
-    
-    @Column(name="CURRENT_AWARD_NUMBER")
-	private String currentAwardNumber;
-    
-    @Column(name="DEADLINE_DATE")
-	private Date deadlineDate;
-    
-    @Column(name="NOTICE_OF_OPPORTUNITY_CODE")
-	private String noticeOfOpportunityCode;
-    
-    @Column(name="DEADLINE_TYPE")
-	private String deadlineType;
-    
-    @Column(name="CFDA_NUMBER")
-	private String cfdaNumber;
-    
-    @Column(name="PROGRAM_ANNOUNCEMENT_NUMBER")
-	private String programAnnouncementNumber;
-    
-    @Column(name="PRIME_SPONSOR_CODE")
-	private String primeSponsorCode;
-    
-    @Column(name="SPONSOR_PROPOSAL_NUMBER")
-	private String sponsorProposalNumber;
-    
-    @Column(name="NSF_CODE")
-	private String nsfCode;
-    
-    @Column(name="SUBCONTRACT_FLAG")
-	private Boolean subcontracts;
-    
-    @Column(name="AGENCY_DIVISION_CODE")
-	private String agencyDivisionCode;
-    
-    @Column(name="AGENCY_PROGRAM_CODE")
-	private String agencyProgramCode;
-    
-    @Column(name="PROGRAM_ANNOUNCEMENT_TITLE")
-	private String programAnnouncementTitle;
-    
-    @Column(name="MAIL_BY")
-	private String mailBy;
-    
-    @Column(name="MAIL_TYPE")
-	private String mailType;
-    
-    @Column(name="MAIL_ACCOUNT_NUMBER")
-	private String mailAccountNumber;
-    
-    @Column(name="MAIL_DESCRIPTION")
-	private String mailDescription;
-    
-    @Column(name="MAILING_ADDRESS_ID")
-	private Integer mailingAddressId;
-    
-    @Column(name="NUMBER_OF_COPIES")
-	private String numberOfCopies;
-    
-    @Column(name="STATUS_CODE")
-	private String proposalStateTypeCode;
-    
-    @ManyToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name="STATUS_CODE", insertable=false, updatable=false)
+    private String proposalNumber;
+    private String proposalTypeCode;
+    private String continuedFrom;
+    private String sponsorCode;
+    private String activityTypeCode;
+    private String ownedByUnitNumber;
+    private Date requestedStartDateInitial;
+    private Date requestedEndDateInitial;
+    private String title;
+    private String currentAwardNumber;
+    private Date deadlineDate;
+    private String noticeOfOpportunityCode;
+    private String deadlineType;
+    private String cfdaNumber;
+    private String programAnnouncementNumber;
+    private String primeSponsorCode;
+    private String sponsorProposalNumber;
+    private String nsfCode;
+    private Boolean subcontracts;
+    private String agencyDivisionCode;
+    private String agencyProgramCode;
+    private String programAnnouncementTitle;
+    private String mailBy;
+    private String mailType;
+    private String mailAccountNumber;
+    private String mailDescription;
+    private Integer mailingAddressId;
+    private String numberOfCopies;
+    private String proposalStateTypeCode;
     private ProposalState proposalState = null;
-    
-    @Column(name="ORGANIZATION_ID")
-	private String organizationId;
-    
-    @Column(name="PERFORMING_ORGANIZATION_ID")
-	private String performingOrganizationId;
-    
-    // if need bi-directional, then 'proposaldevelopmentdocument' need to be added to proposallocation to reference PD
-//    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
-//            targetEntity=org.kuali.kra.proposaldevelopment.bo.ProposalLocation.class, mappedBy="ERROR: See log")
-    @Transient
-	private List<ProposalLocation> proposalLocations;
-    
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="ORGANIZATION_ID", insertable=false, updatable=false)
-	private Organization organization;
-    
+    private String organizationId;
+    private String performingOrganizationId;
+    private List<ProposalLocation> proposalLocations;
+    private Organization organization;
     // TODO: just for organization panel. not a real reference
-    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="PERFORMING_ORGANIZATION_ID", insertable=false, updatable=false)
-	private Organization performingOrganization;
-    
+    private Organization performingOrganization;
     // TODO: just for delivery panel. not a real reference
-    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="MAILING_ADDRESS_ID", insertable=false, updatable=false)
-	private Rolodex rolodex;
-    
-    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
-           targetEntity=org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview.class, mappedBy="proposalDevelopmentDocument")
-	private List<ProposalSpecialReview> propSpecialReviews;
-    
-    @OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
-           targetEntity=org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword.class, mappedBy="proposalDevelopmentDocument")
-	private List<PropScienceKeyword> propScienceKeywords;
-    
-    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
-           targetEntity=org.kuali.kra.proposaldevelopment.bo.ProposalPerson.class, mappedBy="proposalDevelopmentDocument")
-   // @Transient
+    private Rolodex rolodex;
+    private List<ProposalSpecialReview> propSpecialReviews;
+    private List<PropScienceKeyword> propScienceKeywords;
     private List<ProposalPerson> proposalPersons;
-    
-    @Transient
     private List<S2sOppForms> s2sOppForms;    
-    
-    @Transient
     private ProposalPerson principalInvestigator;
-    
-//    @ManyToOne(fetch=FetchType.EAGER)
-//	@JoinColumn(name="PROPOSAL_NUMBER", insertable=false, updatable=false)
-    @Transient
     private S2sOpportunity s2sOpportunity;
-    
-    @OneToMany(cascade={CascadeType.PERSIST}, 
-           targetEntity=org.kuali.kra.s2s.bo.S2sAppSubmission.class, mappedBy="proposalDevelopmentDocument")
-	private List<S2sAppSubmission> s2sAppSubmission;
-    
-    @Transient
+    private List<S2sAppSubmission> s2sAppSubmission;
     private String newScienceKeywordCode;
-    
-    @Transient
     private String newDescription;
-    
-    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="SPONSOR_CODE", insertable=false, updatable=false)
-	private Sponsor sponsor;
-    
-    @Transient
+    private Sponsor sponsor;
     private Integer nextProposalPersonNumber;
-    
-    @Transient
     private String budgetStatus;
-    
-    @Column(name="POST_SUB_STATUS_CODE")
-	private Integer postSubmissionStatusCode;
-    
-    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
-           targetEntity=org.kuali.kra.proposaldevelopment.bo.ProposalNarrative.class, mappedBy="proposalDevelopmentDocument")
-	private List<ProposalNarrative> narratives;
-    
-    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
-           targetEntity=org.kuali.kra.proposaldevelopment.bo.ProposalAbstract.class, mappedBy="proposalDevelopmentDocument")
-	private List<ProposalAbstract> proposalAbstracts;
-    
-    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
-           targetEntity=org.kuali.kra.proposaldevelopment.bo.InstituteNarrative.class, mappedBy="proposalDevelopmentDocument") 
-	private List<InstituteNarrative> instituteAttachments;
-    
-    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
-           targetEntity=org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography.class, mappedBy="proposalDevelopmentDocument")
-	private List<ProposalPersonBiography> propPersonBios;
-    
-    @Transient
+    private Integer postSubmissionStatusCode;
+    private List<Narrative> narratives;
+    private List<ProposalAbstract> proposalAbstracts;
+    private List<Narrative> instituteAttachments;
+    private List<ProposalPersonBiography> propPersonBios;
     private List<ProposalPerson> investigators;
-    
-    @Transient
     private Collection<InvestigatorCreditType> investigatorCreditTypes;
-    
-    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="OWNED_BY_UNIT", insertable=false, updatable=false)
-	private Unit ownedByUnit;
-    
+    private Unit ownedByUnit;
     transient private NarrativeService narrativeService;
-    
     transient private ProposalPersonBiographyService proposalPersonBiographyService;
-    
-    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="ACTIVITY_TYPE_CODE", insertable=false, updatable=false)
-	private ActivityType activityType;
+    private ActivityType activityType;
 
     private transient Boolean allowsNoteAttachments;
     
-    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
-           targetEntity=org.kuali.kra.proposaldevelopment.bo.ProposalYnq.class, mappedBy="proposalDevelopmentDocument")
-	private List<ProposalYnq> proposalYnqs;
-    
-    @Transient
+    private List<ProposalYnq> proposalYnqs;
     private List<YnqGroupName> ynqGroupNames;
-    
-    @OneToMany(cascade={CascadeType.PERSIST}, 
-           targetEntity=org.kuali.kra.budget.bo.BudgetVersionOverview.class, mappedBy="proposalDevelopmentDocument")
-	private List<BudgetVersionOverview> budgetVersionOverviews;
-    
-    @Column(name="CREATION_STATUS_CODE")
-	private String creationStatusCode;
-    
-    @OneToMany(cascade={CascadeType.PERSIST}, 
-           targetEntity=org.kuali.kra.s2s.bo.S2sSubmissionHistory.class, mappedBy="proposalDevelopmentDocument")
-	private List<S2sSubmissionHistory> s2sSubmissionHistory;
-    
-    @Transient
+    private List<BudgetVersionOverview> budgetVersionOverviews;
+    private String creationStatusCode;
+    private List<S2sSubmissionHistory> s2sSubmissionHistory;
     private boolean nih=false;
-    
-    
-    @Transient
     HashMap<String, String> nihDescription ;
     
-    @OneToMany(cascade={CascadeType.PERSIST}, 
-           targetEntity=org.kuali.kra.proposaldevelopment.bo.ProposalChangedData.class, mappedBy="proposalDevelopmentDocument")
-	private List<ProposalChangedData> proposalChangedDataList;
-    
-    @Transient
+    private List<ProposalChangedData> proposalChangedDataList;
     private Map<String, List<ProposalChangedData>> proposalChangeHistory;
 
-    
-    @Type(type="yes_no")
-    @Column(name="SUBMIT_FLAG")
     private Boolean submitFlag = false;
 
     
@@ -360,9 +174,9 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         propSpecialReviews = new TypedArrayList(ProposalSpecialReview.class);
         proposalPersons = new ArrayList<ProposalPerson>();
         nextProposalPersonNumber = new Integer(1);
-        narratives = new ArrayList<ProposalNarrative>();
+        narratives = new ArrayList<Narrative>();
         proposalAbstracts = new ArrayList<ProposalAbstract>();
-        instituteAttachments = new ArrayList<InstituteNarrative>();
+        instituteAttachments = new ArrayList<Narrative>();
         propPersonBios = new ArrayList<ProposalPersonBiography>();
         proposalYnqs = new ArrayList<ProposalYnq>();
         ynqGroupNames = new ArrayList<YnqGroupName>();
@@ -888,8 +702,8 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         if(retrievedDocument == null)
             return;
         
-        List<ProposalNarrative> narratives = retrievedDocument.getProposalNarratives();
-        for (ProposalNarrative narrative : narratives) {
+        List<Narrative> narratives = retrievedDocument.getNarratives();
+        for (Narrative narrative : narratives) {
             managedLists.add(narrative.getNarrativeUserRights());
         }
         managedLists.add(narratives);
@@ -897,8 +711,8 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         if(isNotLatest(retrievedDocument)) {
             //The same document has been updated by someone else
             //Refresh Narratives related collections
-            if(narratives.size() >= this.getProposalNarratives().size()) {
-                this.setProposalNarratives(narratives);
+            if(narratives.size() >= this.getNarratives().size()) {
+                this.setNarratives(narratives);
             }
         } 
     }
@@ -1019,14 +833,14 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
      * Get the list of Proposal Attachments (Narratives) for this Proposal.
      * @return the proposal's list of narratives.
      */
-    public List<ProposalNarrative> getProposalNarratives() {
+    public List<Narrative> getNarratives() {
         return narratives;
     }
     /**
      * Set the list of Proposal Attachments (Narratives) for this Proposal.
      * @param narratives the proposal's new list of narratives.
      */
-    public void setProposalNarratives(List<ProposalNarrative> narratives) {
+    public void setNarratives(List<Narrative> narratives) {
         this.narratives = narratives;
     }
 
@@ -1046,11 +860,11 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         this.proposalAbstracts = proposalAbstracts;
     }
 
-    public List<InstituteNarrative> getInstituteAttachments() {
+    public List<Narrative> getInstituteAttachments() {
         return instituteAttachments;
     }
 
-    public void setInstituteAttachments(List<InstituteNarrative> instituteAttachments) {
+    public void setInstituteAttachments(List<Narrative> instituteAttachments) {
         this.instituteAttachments = instituteAttachments;
     }
 
@@ -1112,7 +926,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
      * Method to add a new narrative to narratives list
      * @param narrative
      */
-    public void addNarrative(ProposalNarrative narrative) {
+    public void addNarrative(Narrative narrative) {
         getNarrativeService().addNarrative(this, narrative);
     }
     /**
@@ -1129,7 +943,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
      * Method to add a new institute attachment to institute attachment list
      * @param narrative
      */
-    public void addInstituteAttachment(InstituteNarrative narrative) {
+    public void addInstituteAttachment(Narrative narrative) {
         getNarrativeService().addInstituteAttachment(this, narrative);
     }
 
@@ -1143,26 +957,26 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     }
 
     public void populatePersonNameForNarrativeUserRights(int lineNumber) {
-        if(!getProposalNarratives().isEmpty()){
-            ProposalNarrative narrative = getProposalNarratives().get(lineNumber);
+        if(!getNarratives().isEmpty()){
+            Narrative narrative = getNarratives().get(lineNumber);
             getNarrativeService().populatePersonNameForNarrativeUserRights(this, narrative);
         }
     }
 
     public void populatePersonNameForInstituteAttachmentUserRights(int lineNumber) {
         if(!getInstituteAttachments().isEmpty()){
-            InstituteNarrative narrative = getInstituteAttachments().get(lineNumber);
+            Narrative narrative = getInstituteAttachments().get(lineNumber);
             getNarrativeService().populatePersonNameForNarrativeUserRights(this, narrative);
         }
     }
 
     public void replaceAttachment(int selectedLine) {
-        ProposalNarrative narrative = getProposalNarratives().get(selectedLine);
+        Narrative narrative = getNarratives().get(selectedLine);
         getNarrativeService().replaceAttachment(narrative);
     }
     
     public void replaceInstituteAttachment(int selectedLine) {
-        InstituteNarrative narrative = getInstituteAttachments().get(selectedLine);
+        Narrative narrative = getInstituteAttachments().get(selectedLine);
         getNarrativeService().replaceAttachment(narrative);
     }
 
@@ -1288,11 +1102,11 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
      * @param index
      * @return Question at index i
      */
-    public ProposalNarrative getProposalNarrative(int index) {
-        while (getProposalNarratives().size() <= index) {
-            getProposalNarratives().add(new ProposalNarrative());
+    public Narrative getNarrative(int index) {
+        while (getNarratives().size() <= index) {
+            getNarratives().add(new Narrative());
         }
-        return (ProposalNarrative) getProposalNarratives().get(index);
+        return (Narrative) getNarratives().get(index);
     }
 
     /**
@@ -1301,11 +1115,11 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
      * @param index
      * @return Question at index i
      */
-    public InstituteNarrative getInstituteAttachment(int index) {
+    public Narrative getInstituteAttachment(int index) {
         while (getInstituteAttachments().size() <= index) {
-            getInstituteAttachments().add(new InstituteNarrative());
+            getInstituteAttachments().add(new Narrative());
         }
-        return (InstituteNarrative) getInstituteAttachments().get(index);
+        return (Narrative) getInstituteAttachments().get(index);
     }
 
     /**
@@ -1454,26 +1268,10 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         }
         
         KraServiceLocator.getService(ProposalStatusService.class).saveBudgetFinalVersionStatus(this);
-        // temp way to set proposalnumber
-        for (ProposalLocation loc : getProposalLocations()) {
-            loc.setProposalNumber(getProposalNumber());
-        }
-        for (ProposalYnq ynq : getProposalYnqs()) {
-            ynq.setProposalNumber(getProposalNumber());
-        }
-
+        
         if (this.getBudgetVersionOverviews() != null) {
             updateDocumentDescriptions(this.getBudgetVersionOverviews());
         }
-        if (StringUtils.isBlank(getProposalNumber())) {
-            setProposalNumber(getSequenceNumber());
-        }
-    }
-    
-    private String getSequenceNumber() {
-        KimDao personRoleDao = KraServiceLocator.getService(KimDao.class);
-        Sequence sequence = ProposalDevelopmentDocument.class.getAnnotation(Sequence.class); 
-        return personRoleDao.getNextAutoIncValue(sequence);
     }
     
     @Override
@@ -1751,14 +1549,5 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         this.postSubmissionStatusCode = postSubmissionStatusCode;
     }
 
-    public List<ProposalNarrative> getNarratives() {
-        return narratives;
-    }
-
-    public void setNarratives(List<ProposalNarrative> narratives) {
-        this.narratives = narratives;
-    }
-
     
 }
-

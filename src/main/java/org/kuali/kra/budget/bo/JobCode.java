@@ -15,24 +15,12 @@
  */
 package org.kuali.kra.budget.bo;
 
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-@Entity
-@Table(name="JOB_CODE")
 public class JobCode extends KraPersistableBusinessObjectBase {
-	@Id
-	@Column(name="JOB_CODE")
 	private String jobCode;
-	@Column(name="JOB_TITLE")
 	private String jobTitle;
 
 	public String getJobCode() {
@@ -60,4 +48,3 @@ public class JobCode extends KraPersistableBusinessObjectBase {
 		return hashMap;
 	}
 }
-

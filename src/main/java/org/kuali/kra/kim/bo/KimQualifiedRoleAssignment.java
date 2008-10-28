@@ -22,10 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
@@ -35,14 +31,9 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-@MappedSuperclass
 public abstract class KimQualifiedRoleAssignment extends PersistableBusinessObjectBase {
     
-    @Id
-    @Column(name="ID")
     private Long id;
-    
-    @Column(name="ROLE_ID")
     private Long roleId;
    
 

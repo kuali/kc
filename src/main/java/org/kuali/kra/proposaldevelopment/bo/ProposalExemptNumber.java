@@ -15,48 +15,16 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-import javax.persistence.IdClass;
-
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.ExemptionType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-@IdClass(org.kuali.kra.proposaldevelopment.bo.id.ProposalExemptNumberId.class)
-@Entity
-@Table(name="EPS_PROP_EXEMPT_NUMBER")
 public class ProposalExemptNumber extends KraPersistableBusinessObjectBase {
-    @Id
-	@Column(name="PROPOSAL_NUMBER")
-	private String proposalNumber;
-    
-    @Id
-	@Column(name="SPECIAL_REVIEW_NUMBER")
-	private Integer specialReviewNumber;
-    
-    @Id
-	@Column(name="EXEMPTION_TYPE_CODE")
-	private String exemptionTypeCode;
-    
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="EXEMPTION_TYPE_CODE", insertable=false, updatable=false)
-	private ExemptionType exemptionType;
-    
-    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
-    @JoinColumns({@JoinColumn(name="PROPOSAL_NUMBER", insertable = false, updatable = false),
-                  @JoinColumn(name="SPECIAL_REVIEW_NUMBER", insertable=false, updatable=false)})
-    private ProposalSpecialReview proposalSpecialReview;
-    
+    private String proposalNumber;
+    private Integer specialReviewNumber;
+    private String exemptionTypeCode;
+    private ExemptionType exemptionType;
     public String getProposalNumber() {
         return proposalNumber;
     }
@@ -81,15 +49,6 @@ public class ProposalExemptNumber extends KraPersistableBusinessObjectBase {
     public void setExemptionType(ExemptionType exemptionType) {
         this.exemptionType = exemptionType;
     }
-    
-    public ProposalSpecialReview getProposalSpecialReview() {
-        return proposalSpecialReview;
-    }
-    
-    public void setProposalSpecialReview(ProposalSpecialReview proposalSpecialReview) {
-        this.proposalSpecialReview = proposalSpecialReview;
-    }
-    
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap hashMap = new LinkedHashMap();
@@ -100,4 +59,3 @@ public class ProposalExemptNumber extends KraPersistableBusinessObjectBase {
     }
 
 }
-

@@ -17,70 +17,25 @@ package org.kuali.kra.budget.bo;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 
-@MappedSuperclass
 public abstract class AbstractBudgetCalculatedAmount extends KraPersistableBusinessObjectBase {
-    
-    @Id
-    @Column(name="BUDGET_PERIOD_NUMBER")
-    private Long budgetPeriodId;
-    
-    @Id
-    @Column(name="LINE_ITEM_NUMBER")
-    private Integer lineItemNumber;
-    
-    @Id
-    @Column(name="RATE_CLASS_CODE")
-    private String rateClassCode;
-    
-    @Id
-    @Column(name="RATE_TYPE_CODE")
-    private String rateTypeCode;
-    
-	@Column(name="PROPOSAL_NUMBER")
-	private String proposalNumber;
-	
-	@Column(name="VERSION_NUMBER")
-	private Integer budgetVersionNumber;
-	
-	@Column(name="BUDGET_PERIOD")
 	private Integer budgetPeriod;
-	 
-	@Column(name="APPLY_RATE_FLAG")
+	private Integer lineItemNumber;
+	private String proposalNumber;
+	private String rateClassCode;
+	private String rateTypeCode;
+	private Integer budgetVersionNumber;
 	private Boolean applyRateFlag;
-	
-	@Column(name="CALCULATED_COST")
 	private BudgetDecimal calculatedCost;
-	
-	@Column(name="CALCULATED_COST_SHARING")
 	private BudgetDecimal calculatedCostSharing;
-	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
-    @JoinColumn(name = "RATE_CLASS_CODE", insertable = false, updatable = false)
+	private String rateClassType;
+	private Integer rateNumber;
 	private RateClass rateClass;
-	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
-    @JoinColumns({@JoinColumn(name = "RATE_CLASS_CODE", insertable = false, updatable = false),
-                  @JoinColumn(name="RATE_TYPE_CODE", insertable = false, updatable = false)})
 	private RateType rateType;
-	
-	@Transient
-    private String rateClassType;
-    
-    @Transient
-    private Integer rateNumber;
+
+	private Long budgetPeriodId;
 	
 	public Long getBudgetPeriodId() {
         return budgetPeriodId;
@@ -194,7 +149,8 @@ public abstract class AbstractBudgetCalculatedAmount extends KraPersistableBusin
 		this.calculatedCostSharing = calculatedCostSharing;
 	}
 
-    @Override 
+
+	@Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
 		hashMap.put("budgetPeriod", getBudgetPeriod());

@@ -15,16 +15,6 @@
  */
 package org.kuali.kra.budget.bo;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -32,21 +22,13 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 /**
  * To Be Named person business object
  */
-@Entity
-@Table(name="TBN")
 public class TbnPerson extends KraPersistableBusinessObjectBase {
     
-    @Id
-	@Column(name="TBN_ID")
-	private String tbnId;
-    @Column(name="PERSON_NAME")
-	private String personName;
-    @Column(name="JOB_CODE")
-	private String jobCode;
+    private String tbnId;
+    private String personName;
+    private String jobCode;
     
-    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="JOB_CODE", insertable=false, updatable=false)
-	private JobCode jobCodeReference;
+    private JobCode jobCodeReference;
     
     public String getJobCode() {
         return jobCode;
@@ -90,4 +72,3 @@ public class TbnPerson extends KraPersistableBusinessObjectBase {
     }
 
 }
-

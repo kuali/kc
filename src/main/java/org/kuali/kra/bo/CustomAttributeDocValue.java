@@ -2,37 +2,17 @@ package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 /**
  * 
  * This class is bo of CustomAttributeDocValue.
  */
-@IdClass(org.kuali.kra.bo.id.CustomAttributeDocValueId.class)
-@Entity
-@Table(name="CUSTOM_ATTRIBUTE_DOC_VALUE")
 public class CustomAttributeDocValue extends KraPersistableBusinessObjectBase {
 
-	@Id
-	@Column(name="CUSTOM_ATTRIBUTE_ID")
 	private Integer customAttributeId;
-	@Id
-	@Column(name="DOCUMENT_NUMBER")
 	private String documentNumber;
-	@Column(name="VALUE")
 	private String value;
 
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="CUSTOM_ATTRIBUTE_ID", insertable=false, updatable=false)
-	private CustomAttribute customAttribute;
+    private CustomAttribute customAttribute;
 
 	public CustomAttributeDocValue(){
 		super();
@@ -88,4 +68,3 @@ public class CustomAttributeDocValue extends KraPersistableBusinessObjectBase {
         return customAttribute;
     }
 }
-

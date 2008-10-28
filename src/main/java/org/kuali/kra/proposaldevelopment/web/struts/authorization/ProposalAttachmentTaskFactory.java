@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionForm;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
-import org.kuali.kra.proposaldevelopment.bo.ProposalNarrative;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
 /**
@@ -31,9 +30,9 @@ public class ProposalAttachmentTaskFactory extends NarrativeTaskFactory {
     /**
      * @see org.kuali.kra.proposaldevelopment.web.struts.authorization.NarrativeTaskFactory#getNarrative(org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest)
      */
-    protected ProposalNarrative getNarrative(ActionForm form, HttpServletRequest request) {
+    protected Narrative getNarrative(ActionForm form, HttpServletRequest request) {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         int index = getLineNumber(request);
-        return proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalNarrative(index);
+        return proposalDevelopmentForm.getProposalDevelopmentDocument().getNarrative(index);
     }
 }

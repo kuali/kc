@@ -44,8 +44,7 @@ public class SponsorHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements O
     private static final String SPONSOR_CODE_NAME_SQL = "select sponsor_code, (select sponsor_name from sponsor where sponsor_code = sponsor_hierarchy.sponsor_code) from sponsor_hierarchy ";
     private static final String SPONSOR_CODE_HOLDER = "((sponsorcodeholder))";
 
-    @SuppressWarnings("unchecked")
-    public Iterator<Object[]> getTopSponsorHierarchy() {
+    public Iterator getTopSponsorHierarchy() {
         
       Criteria criteriaID = new Criteria();
       ReportQueryByCriteria queryID = new ReportQueryByCriteria(SponsorHierarchy.class,criteriaID);
@@ -60,8 +59,7 @@ public class SponsorHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements O
      * This is much faster than use 'businessobjectservice.findmatching, and then loop thru bo.
      * @see org.kuali.kra.dao.SponsorHierarchyDao#getAllSponsors(java.lang.String)
      */
-    @SuppressWarnings("unchecked")
-    public Iterator<Object[]> getAllSponsors(String hierarchyName) {
+    public Iterator getAllSponsors(String hierarchyName) {
         
       Criteria criteriaID = new Criteria();
       criteriaID.addEqualTo(Constants.HIERARCHY_NAME, hierarchyName);
@@ -202,7 +200,7 @@ public class SponsorHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements O
      * This much faster then 'businessobjectservice.findmatching'
      * @see org.kuali.kra.dao.SponsorHierarchyDao#getsubGroups(java.lang.String, int, java.lang.String[])
      */
-    public String getSubGroups(String hierarchyName, int level, String[] levelName) {
+    public String getsubGroups(String hierarchyName, int level, String[] levelName) {
         String whereSt = "where hierarchy_name = '"+hierarchyName+"'";
         for (int i = 1; i< level; i++) {
             whereSt = whereSt + " and level"+i+" = '" +levelName[i-1]+"'";
@@ -279,7 +277,7 @@ public class SponsorHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements O
                            }
                        }
                     }
-//                   int[] updCnt = stmt.executeBatch();
+                   int[] updCnt = stmt.executeBatch();
 //                   for (int i = 0; i < updCnt.length ; i++) {
 //                       // do we need to do check
 //                   }
