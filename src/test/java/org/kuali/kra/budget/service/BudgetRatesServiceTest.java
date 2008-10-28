@@ -38,6 +38,7 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.AbstractBudgetRate;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetPeriod;
+import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.bo.BudgetProposalLaRate;
 import org.kuali.kra.budget.bo.BudgetProposalRate;
@@ -425,6 +426,8 @@ public class BudgetRatesServiceTest {
                 results = findMatchingInstituteRates(fieldValues);
             } else if(clazz.equals(InstituteLaRate.class)) {
                 results = findMatchingInstituteLaRates(fieldValues);
+            } else if (clazz.equals(BudgetPerson.class)) {
+                results = findMatchingBudgetPersons(fieldValues);
             } else {
                 results = null;
             }
@@ -458,8 +461,24 @@ public class BudgetRatesServiceTest {
             }
             
             return filteredInstituteLaRates;
-        }        
+        }  
+        
+        private Collection findMatchingBudgetPersons(Map fieldValues) {
+            Integer bvNumber = (Integer) fieldValues.get(BudgetRatesServiceImpl.BUDGET_VERSION_NUMBER_KEY);
+            
+            List<BudgetPerson> budgetPersons = new ArrayList<BudgetPerson>();
+            for(BudgetPerson budgetPerson: budgetPersons) {
+                if(budgetPerson.getBudgetVersionNumber().equals(bvNumber)) {
+                    budgetPersons.add(budgetPerson);
+                }
+            }
+            return budgetPersons;
+        }  
+        
     }
+
+       
+        
     
     public class MockBudgetSummaryService implements BudgetSummaryService {
         public void addBudgetPeriod(BudgetDocument budgetDocument, BudgetPeriod newBudgetPeriod) { }

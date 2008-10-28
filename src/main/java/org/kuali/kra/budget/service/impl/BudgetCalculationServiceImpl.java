@@ -28,7 +28,6 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetLineItem;
-import org.kuali.kra.budget.bo.BudgetLineItemBase;
 import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount;
@@ -44,7 +43,9 @@ import org.kuali.kra.budget.calculator.query.And;
 import org.kuali.kra.budget.calculator.query.Equals;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetCalculationService;
+import org.kuali.kra.budget.service.BudgetDistributionAndIncomeService;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 
 
 /**
@@ -257,6 +258,18 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         budgetDocument.setTotalCost(totalCost);
         budgetDocument.setUnderrecoveryAmount(totalUnderrecoveryAmount);
         budgetDocument.setCostSharingAmount(totalCostSharingAmount);
+
+        budgetDocument.getBudgetCostShares().clear();   
+        // Must recalculate the collection as we cleared above
+        if (totalCostSharingAmount.doubleValue() > 0 ) {
+            KraServiceLocator.getService(BudgetDistributionAndIncomeService.class).initializeCostSharingCollectionDefaults(budgetDocument);
+        } 
+        
+        budgetDocument.getBudgetUnrecoveredFandAs().clear();        
+        // Must recalculate the collection as we cleared above
+        if (totalUnderrecoveryAmount.doubleValue() > 0 ) {
+            KraServiceLocator.getService(BudgetDistributionAndIncomeService.class).initializeUnrecoveredFandACollectionDefaults(budgetDocument);
+        }        
     }
 
     /**

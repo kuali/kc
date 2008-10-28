@@ -133,7 +133,7 @@ public class ProposalWorkflowRoutingWebTest extends ProposalDevelopmentWebTestBa
         assertEquals("Andrew Slusar", getFieldValue(KeyPersonnelpage, "newProposalPerson.fullName"));
         setFieldValue(KeyPersonnelpage,"newProposalPerson.proposalPersonRoleId", "KP");
         KeyPersonnelpage = clickOn(KeyPersonnelpage, "methodToCall.insertProposalPerson");
-        KeyPersonnelpage = clickOn(KeyPersonnelpage, "methodToCall.addCertificationQuestion.document.proposalPersons[1].line");
+        KeyPersonnelpage = clickOn(KeyPersonnelpage, "methodToCall.addCertificationQuestion.document.proposalPersons[1].line1");
         setFieldValue(KeyPersonnelpage,"document.proposalPersons[1].proposalPersonYnq[0].answer",RADIO_FIELD_VALUE);
         setFieldValue(KeyPersonnelpage,"document.proposalPersons[1].proposalPersonYnq[1].answer",RADIO_FIELD_VALUE);
         setFieldValue(KeyPersonnelpage,"document.proposalPersons[1].proposalPersonYnq[2].answer",RADIO_FIELD_VALUE);
