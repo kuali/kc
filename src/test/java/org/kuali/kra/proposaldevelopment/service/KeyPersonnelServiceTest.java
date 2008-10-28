@@ -20,17 +20,13 @@ import static org.kuali.kra.logging.FormattedLogger.info;
 
 import java.util.Map;
 
-import org.jmock.Mock;
-import org.jmock.MockObjectTestCase;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.core.UserSession;
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;

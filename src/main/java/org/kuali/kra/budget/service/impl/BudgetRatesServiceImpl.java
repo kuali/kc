@@ -61,6 +61,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
     private static final String SPACE = " ";
     public static final String UNIT_NUMBER_KEY = "unitNumber";
     public static final String ACTIVITY_TYPE_CODE_KEY = "activityTypeCode";
+    public static final String BUDGET_VERSION_NUMBER_KEY = "budgetVersionNumber";
     
     private BusinessObjectService _businessObjectService;
     private static final String PERIOD_SEARCH_SEPARATOR = "|";

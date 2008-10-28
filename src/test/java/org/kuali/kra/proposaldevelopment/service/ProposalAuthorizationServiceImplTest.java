@@ -15,13 +15,12 @@
  */
 package org.kuali.kra.proposaldevelopment.service;
 
-import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import junit.framework.TestCase;
 
 import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
@@ -33,7 +32,6 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.mocks.MockKimDatabase;
 import org.kuali.kra.kim.mocks.MockKimPersonService;
 import org.kuali.kra.kim.mocks.MockKimQualifiedRoleService;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.impl.ProposalAuthorizationServiceImpl;
 import org.kuali.kra.service.impl.mocks.MockPersonService;
@@ -46,7 +44,7 @@ import org.kuali.kra.service.impl.mocks.MockUnitAuthorizationService;
  * are then invoked and the responses are checked against the expected
  * results.
  */
-public class ProposalAuthorizationServiceImplTest extends KraTestBase {
+public class ProposalAuthorizationServiceImplTest extends TestCase {
 
     private MockKimDatabase database;
     private MockKimPersonService personService;
