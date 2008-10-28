@@ -24,9 +24,9 @@ public interface AttachmentDao {
      * @param proposalPersonNumber
      * @param proposalNumber
      * @param biographyNumber
-     * @return An Object[]{updateTimestamp, updateUser}
+     * @return
      */
-    public Iterator<Object[]> getPersonnelTimeStampAndUploadUser(Integer proposalPersonNumber, String proposalNumber, Integer biographyNumber);
+    public Iterator getPersonnelTimeStampAndUploadUser(Integer proposalPersonNumber, String proposalNumber, Integer biographyNumber);
     
     /**
      * 
@@ -35,6 +35,6 @@ public interface AttachmentDao {
      * @param proposalNumber
      * @return
      */
-    public Iterator<Object[]> getNarrativeTimeStampAndUploadUser(Integer moduleNumber, String proposalNumber);
+    public Iterator getNarrativeTimeStampAndUploadUser(Integer moduleNumber, String proposalNumber);
 
 }

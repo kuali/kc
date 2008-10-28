@@ -15,19 +15,6 @@
  */
 package org.kuali.kra.bo;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
-import javax.persistence.Version;
-import javax.persistence.Id;
-import javax.persistence.Column;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-import javax.persistence.IdClass;
-
 import java.util.LinkedHashMap;
 
 import org.apache.ojb.broker.PersistenceBroker;
@@ -35,19 +22,11 @@ import org.apache.ojb.broker.PersistenceBrokerException;
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.bo.PersistableAttachment;
 
-@IdClass(org.kuali.kra.bo.id.SponsorFormTemplateId.class)
-@Entity
-@Table(name="SPONSOR_FORM_TEMPLATES")
 public class SponsorFormTemplate extends AbstractSponsorFormTemplate implements PersistableAttachment{
-    @Column(name="FILE_NAME")
-	private String fileName;
-    @Column(name="CONTENT_TYPE")
-	private String contentType;
-    @Column(name="FORM_TEMPLATE")
-	private byte[] attachmentContent;
-    @Transient
+    private String fileName;
+    private String contentType;
+    private byte[] attachmentContent;
     private FormFile templateFile;
-    @Transient
     private Boolean selectToPrint = false;
 
     public byte[] getAttachmentContent() {
@@ -111,4 +90,3 @@ public class SponsorFormTemplate extends AbstractSponsorFormTemplate implements 
     }
     
 }
-

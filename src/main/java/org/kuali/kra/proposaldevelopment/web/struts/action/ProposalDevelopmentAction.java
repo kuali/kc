@@ -60,7 +60,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
-import org.kuali.kra.proposaldevelopment.bo.ProposalNarrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
@@ -306,11 +305,11 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
          * If a user attempted to change a narrative they were not authorized to,
          * then an error will be posted.
          */
-        List<ProposalNarrative> narratives = (List<ProposalNarrative>) ObjectUtils.deepCopy((Serializable) doc.getProposalNarratives());
-        proposalDevelopmentForm.setProposalNarratives(narratives);
+        List<Narrative> narratives = (List<Narrative>) ObjectUtils.deepCopy((Serializable) doc.getNarratives());
+        proposalDevelopmentForm.setNarratives(narratives);
         KraServiceLocator.getService(ProposalPersonBiographyService.class).setPersonnelBioTimeStampUser(doc.getPropPersonBios());
         List<Narrative> narrativeList = new ArrayList<Narrative> ();
-        narrativeList.addAll(doc.getProposalNarratives());
+        narrativeList.addAll(doc.getNarratives());
         narrativeList.addAll(doc.getInstituteAttachments());
         KraServiceLocator.getService(NarrativeService.class).setNarrativeTimeStampUser(narrativeList);
 

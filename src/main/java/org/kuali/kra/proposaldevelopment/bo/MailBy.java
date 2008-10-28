@@ -1,12 +1,5 @@
 package org.kuali.kra.proposaldevelopment.bo;
 
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -15,14 +8,9 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * 
  * This class is the bo class of mailby code.
  */
-@Entity
-@Table(name="MAIL_BY")
 public class MailBy extends KraPersistableBusinessObjectBase {
 	
-	@Id
-	@Column(name="MAIL_BY_CODE")
 	private String mailByCode;
-	@Column(name="DESCRIPTION")
 	private String description;
 	
 	public String getDescription() {
@@ -48,4 +36,3 @@ public class MailBy extends KraPersistableBusinessObjectBase {
 		return propMap;
 	}
 }
-

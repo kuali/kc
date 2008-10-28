@@ -64,7 +64,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.bo.KimRole;
-import org.kuali.kra.proposaldevelopment.bo.InstituteNarrative;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
@@ -73,7 +72,6 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalAssignedRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
-import org.kuali.kra.proposaldevelopment.bo.ProposalNarrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
@@ -111,14 +109,13 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     private List<Unit> newProposalPersonUnit;
     private String newRolodexId;
     private String newPersonId;
-    private ProposalNarrative newProposalNarrative;
-    private InstituteNarrative newInstituteNarrative;
+    private Narrative newNarrative;
     private FormFile narrativeFile;
     private Map personEditableFields;
     private boolean showMaintenanceLinks;
     private ProposalAbstract newProposalAbstract;
     private ProposalPersonBiography newPropPersonBio;
-    private InstituteNarrative newInstituteAttachment;
+    private Narrative newInstituteAttachment;
     //private boolean auditActivated;
     private ProposalCopyCriteria copyCriteria;
     private Map<String, Parameter> proposalDevelopmentParameters;
@@ -134,7 +131,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     private List<S2sAppSubmission> newS2sAppSubmission;
     private SortedMap<String, List> customAttributeGroups;
     private Map<String, String[]> customAttributeValues;
-    private List<ProposalNarrative> proposalNarratives;
+    private List<Narrative> narratives;
     private boolean reject;
     private List<KeyLabelPair> exemptNumberList;
     private String[] newExemptNumbers;
@@ -163,8 +160,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     public void initialize() {
         setNewPropLocation(new ProposalLocation());
         setNewPropSpecialReview(new ProposalSpecialReview());
-        setNewProposalNarrative(createProposalNarrative());
-        setNewInstituteNarrative(createInstituteNarrative());
+        setNewNarrative(createNarrative());
         setNewProposalPerson(new ProposalPerson());
         setNewProposalPersonDegree(new ArrayList<ProposalPersonDegree>());
         setNewProposalPersonUnit(new ArrayList<Unit>());
@@ -189,14 +185,9 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      * This creates a new Narrative. Protected to allow mocks and stubs to provide their own Narrative that doesn't do a user id lookup
      * @return
      */
-    protected ProposalNarrative createProposalNarrative() {
-        return new ProposalNarrative();
+    protected Narrative createNarrative() {
+        return new Narrative();
     }
-    
-    protected InstituteNarrative createInstituteNarrative() {
-        return new InstituteNarrative();
-    }
-    
     /**
      * Multiple Value Lookups return values to the form through the request, but in some instances do not clear previous values from other lookups because the form resides in the session scope. 
      * This is to set the Multiple Value Lookups to a good state. Values getting cleared are:
@@ -475,8 +466,8 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      * Gets the newNarrative attribute.
      * @return Returns the newNarrative.
      */
-    public ProposalNarrative getNewProposalNarrative() {
-        return newProposalNarrative;
+    public Narrative getNewNarrative() {
+        return newNarrative;
     }
 
 
@@ -484,24 +475,8 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      * Sets the newNarrative attribute value.
      * @param newNarrative The newNarrative to set.
      */
-    public void setNewProposalNarrative(ProposalNarrative newProposalNarrative) {
-        this.newProposalNarrative = newProposalNarrative;
-    }
-    
-    /**
-     * Gets the newNarrative attribute.
-     * @return Returns the newNarrative.
-     */
-    public InstituteNarrative getNewInstituteNarrative() {
-        return newInstituteNarrative;
-    }
-
-    /**
-     * Sets the newNarrative attribute value.
-     * @param newNarrative The newNarrative to set.
-     */
-    public void setNewInstituteNarrative(InstituteNarrative newNarrative) {
-        this.newInstituteNarrative = newInstituteNarrative;
+    public void setNewNarrative(Narrative newNarrative) {
+        this.newNarrative = newNarrative;
     }
 
 
@@ -580,12 +555,12 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     }
 
 
-    public InstituteNarrative getNewInstituteAttachment() {
+    public Narrative getNewInstituteAttachment() {
         return newInstituteAttachment;
     }
 
 
-    public void setNewInstituteAttachment(InstituteNarrative newInstituteAttachment) {
+    public void setNewInstituteAttachment(Narrative newInstituteAttachment) {
         this.newInstituteAttachment = newInstituteAttachment;
     }
 
@@ -647,7 +622,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      */
     public boolean getIsCopyAttachmentsDisabled() {
         ProposalDevelopmentDocument doc = this.getProposalDevelopmentDocument();
-        return !(doc.getProposalNarratives().size() > 0 ||
+        return !(doc.getNarratives().size() > 0 ||
             doc.getInstituteAttachments().size() > 0 ||
             doc.getPropPersonBios().size() > 0);
     }
@@ -1065,16 +1040,16 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      * Set the original list of narratives for comparison when a save occurs.
      * @param narratives the list of narratives
      */
-    public void setProposalNarratives(List<ProposalNarrative> narratives) {
-        this.proposalNarratives = proposalNarratives;
+    public void setNarratives(List<Narrative> narratives) {
+        this.narratives = narratives;
     }
     
     /**
      * Get the original list of narratives.
      * @return the original list of narratives
      */
-    public List<ProposalNarrative> getProposalNarratives() {
-        return this.proposalNarratives;
+    public List<Narrative> getNarratives() {
+        return this.narratives;
     }
 
     public boolean isReject() {

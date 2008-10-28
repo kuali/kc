@@ -15,13 +15,6 @@
  */
 package org.kuali.kra.bo;
 
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-
 import java.util.LinkedHashMap;
 
 /**
@@ -29,15 +22,10 @@ import java.util.LinkedHashMap;
  *
  * $Id: DegreeType.java,v 1.2 2008-07-23 19:16:44 gmcgrego Exp $
  */
-@Entity
-@Table(name="DEGREE_TYPE")
 public class DegreeType extends KraPersistableBusinessObjectBase {
 	
-	@Id
-	@Column(name="DEGREE_CODE")
 	private String degreeCode;
     private Integer degreeLevel;
-	@Column(name="DESCRIPTION")
 	private String description;
 	
     /**
@@ -106,4 +94,3 @@ public class DegreeType extends KraPersistableBusinessObjectBase {
 		return propMap;
 	}
 }
-

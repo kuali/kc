@@ -15,20 +15,6 @@
  */
 package org.kuali.kra.budget.bo;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
-import javax.persistence.Version;
-import javax.persistence.FetchType;
-import javax.persistence.Basic;
-import javax.persistence.Lob;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-import javax.persistence.IdClass;
-
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -47,34 +33,13 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import edu.mit.coeus.budget.bean.BudgetSubAwardAttachmentBean;
 import edu.mit.coeus.budget.bean.BudgetSubAwardBean;
 
-@IdClass(org.kuali.kra.budget.bo.id.BudgetSubAwardFilesId.class)
-@Entity
-@Table(name="BUDGET_SUB_AWARD_FILES")
 public class BudgetSubAwardFiles extends KraPersistableBusinessObjectBase {
-	@Id
-	@Column(name="PROPOSAL_NUMBER")
 	private String proposalNumber;
-	@Id
-    @Column(name="VERSION_NUMBER")
-    private Integer budgetVersionNumber;
-	@Id
-	@Column(name="SUB_AWARD_NUMBER")
 	private Integer subAwardNumber;
-	@Column(name="SUB_AWARD_XFD_FILE")
+	private Integer budgetVersionNumber;
 	private byte[] subAwardXfdFileData;
-	@Column(name="SUB_AWARD_XFD_FILE_NAME")
 	private String subAwardXfdFileName;
-	@Lob
-	@Basic(fetch=FetchType.LAZY)
-	@Column(name="SUB_AWARD_XML_FILE")
 	private String subAwardXmlFileData;
-	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
-    @JoinColumns({@JoinColumn(name="PROPOSAL_NUMBER", insertable = false, updatable = false), 
-                  @JoinColumn(name="VERSION_NUMBER", insertable = false, updatable = false),
-                  @JoinColumn(name="SUB_AWARD_NUMBER", insertable=false, updatable=false)})
-    private BudgetSubAwards budgetSubAwards;
-	
 	
 
 	@SuppressWarnings("unchecked")
@@ -197,12 +162,4 @@ public class BudgetSubAwardFiles extends KraPersistableBusinessObjectBase {
         this.subAwardXmlFileData = subAwardXmlFileData;
     }
 
-    public BudgetSubAwards getBudgetSubAwards() {
-        return budgetSubAwards;
-    }
-
-    public void setBudgetSubAwards(BudgetSubAwards budgetSubAwards) {
-        this.budgetSubAwards = budgetSubAwards;
-    }
 }
-

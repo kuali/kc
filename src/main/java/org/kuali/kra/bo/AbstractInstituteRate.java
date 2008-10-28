@@ -19,9 +19,6 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import javax.naming.OperationNotSupportedException;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
 
 import org.kuali.core.web.format.Formatter;
 import org.kuali.kra.budget.BudgetDecimal;
@@ -34,41 +31,18 @@ import org.kuali.kra.infrastructure.BudgetDecimalFormatter;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RateDecimalFormatter;
 
-@MappedSuperclass
 public abstract class AbstractInstituteRate extends KraPersistableBusinessObjectBase implements Comparable<AbstractInstituteRate>, AbstractInstituteRateKey {
-	
-    @Id
-    @Column(name="FISCAL_YEAR")
-    private String fiscalYear;
-    
-    @Id
-    @Column(name="ON_OFF_CAMPUS_FLAG")
+	private String fiscalYear;
 	private Boolean onOffCampusFlag;
-	
-    @Id
-    @Column(name="RATE_CLASS_CODE")
 	private String rateClassCode;
-    
-    @Id
-    @Column(name="RATE_TYPE_CODE")
 	private String rateTypeCode;
-	
-    @Id
-	@Column(name="START_DATE")
 	private Date startDate;
-	
-    @Id
-	@Column(name="UNIT_NUMBER")
 	private String unitNumber;
-	
-	@Column(name="RATE")
 	private BudgetDecimal instituteRate;
 
 	private RateClass rateClass;
 	private RateType rateType;
 	private Unit unit;
-	
-	@Column(name="ACTIVE_FLAG")
     private Boolean active = true;
 	
     

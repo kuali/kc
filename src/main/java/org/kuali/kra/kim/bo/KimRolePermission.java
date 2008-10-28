@@ -15,21 +15,8 @@
  */
 package org.kuali.kra.kim.bo;
 
-import javax.persistence.OneToOne;
-import javax.persistence.JoinColumn;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-import javax.persistence.IdClass;
-
 import java.util.LinkedHashMap;
 
-import org.hibernate.annotations.Type;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
@@ -38,32 +25,15 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-@IdClass(org.kuali.kra.kim.bo.id.KimRolePermissionId.class)
-@Entity
-@Table(name="KIM_ROLES_PERMISSIONS_T")
 public class KimRolePermission extends PersistableBusinessObjectBase {
     
     private static final long serialVersionUID = 6226604054905776213L;
     
-    @Id
-	@Column(name="ROLE_ID")
-	private Long roleId;
-    
-    @Id
-	@Column(name="PERMISSION_ID")
-	private Long permissionId;
-    
-    @Type(type="yes_no")
-    @Column(name="ACTIVE_FLAG")
-	private boolean active;
-    
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="ROLE_ID", insertable=false, updatable=false)
-	private KimRole role;
-    
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="PERMISSION_ID", insertable=false, updatable=false)
-	private KimPermission permission;
+    private Long roleId;
+    private Long permissionId;
+    private Boolean active;
+    private KimRole role;
+    private KimPermission permission;
 
     /**
      * Get the Role's ID.
@@ -97,11 +67,11 @@ public class KimRolePermission extends PersistableBusinessObjectBase {
         this.permissionId = permissionId;
     }
     
-    public boolean getActive() {
+    public Boolean getActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(Boolean active) {
         this.active = active;
     }
 
@@ -166,4 +136,3 @@ public class KimRolePermission extends PersistableBusinessObjectBase {
                permissionId.equals(rolePermission.permissionId);
     }
 }
-

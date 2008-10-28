@@ -15,16 +15,6 @@
  */
 package org.kuali.kra.budget.bo;
 
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.Transient;
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -32,41 +22,20 @@ import java.util.List;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 
-@Entity
-@Table(name="BUDGET_MODULAR")
 public class BudgetModular extends KraPersistableBusinessObjectBase {
-    @Id
-	@Column(name="BUDGET_PERIOD_NUMBER")
-	private Long budgetPeriodId;
-    
-    @Column(name="PROPOSAL_NUMBER")
-	private String proposalNumber;
-    
-    @Column(name="VERSION_NUMBER")
-	private Integer budgetVersionNumber;
-    
-    @Column(name="BUDGET_PERIOD")
-	private Integer budgetPeriod;
-    
-    @Column(name="DIRECT_COST_LESS_CONSOR_FNA")
-	private BudgetDecimal directCostLessConsortiumFna;
-    
-    @Column(name="CONSORTIUM_FNA")
-	private BudgetDecimal consortiumFna;
-    
-    @Column(name="TOTAL_DIRECT_COST")
-	private BudgetDecimal totalDirectCost;
-    
-    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE}, 
-           targetEntity=org.kuali.kra.budget.bo.BudgetModularIdc.class, mappedBy="budgetModular")
-	private List<BudgetModularIdc> budgetModularIdcs;
+    private Long budgetPeriodId;
+    private String proposalNumber;
+    private Integer budgetVersionNumber;
+    private Integer budgetPeriod;
+    private BudgetDecimal directCostLessConsortiumFna;
+    private BudgetDecimal consortiumFna;
+    private BudgetDecimal totalDirectCost;
     
     // Derived properties
-    @Transient
     private BudgetDecimal totalRequestedCost;
-    
-    @Transient
     private BudgetDecimal totalFnaRequested;
+    
+    private List<BudgetModularIdc> budgetModularIdcs;
     
     public BudgetModular() {
         super();
@@ -242,4 +211,3 @@ public class BudgetModular extends KraPersistableBusinessObjectBase {
     }
 
 }
-

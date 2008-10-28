@@ -26,116 +26,48 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.NarrativeTask;
+import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.PersonService;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 
 /**
  * 
  * This class is BO for narrarive
  */
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="NARRATIVE_TYPE_GROUP", discriminatorType=DiscriminatorType.STRING)
-@IdClass(org.kuali.kra.proposaldevelopment.bo.id.NarrativeId.class)
-@Entity
-@Table(name="NARRATIVE")
-public abstract class Narrative extends KraPersistableBusinessObjectBase {
+public class Narrative extends KraPersistableBusinessObjectBase {
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(Narrative.class);
     
-    @Id
-	@Column(name="PROPOSAL_NUMBER")
-	private String proposalNumber;
-    
-    @Id
-	@Column(name="MODULE_NUMBER")
-	private Integer moduleNumber;
-    
-//    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-//    @JoinColumn(name="NARRATIVE_TYPE_GROUP", insertable=false, updatable=false)
-    @Transient
-    @Column(name="NARRATIVE_TYPE_GROUP")
-    private String narrativeTypeGroup;
-    
-    @Column(name="COMMENTS")
-	private String comments;
-    
-    @Column(name="CONTACT_NAME")
-	private String contactName;
-    
-    @Column(name="EMAIL_ADDRESS")
-	private String emailAddress;
-    
-    @Column(name="MODULE_SEQUENCE_NUMBER")
-	private Integer moduleSequenceNumber;
-    
-    @Column(name="MODULE_STATUS_CODE")
-	private String moduleStatusCode;
-    
-    @Column(name="MODULE_TITLE")
-	private String moduleTitle;
-    
-    @Column(name="NARRATIVE_TYPE_CODE")
-	private String narrativeTypeCode;
-    
-    @Column(name="PHONE_NUMBER")
-	private String phoneNumber;
-    
-    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="NARRATIVE_TYPE_CODE", insertable=false, updatable=false)
-	private NarrativeType narrativeType;
-    
-    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="MODULE_STATUS_CODE", insertable=false, updatable=false)
-	private NarrativeStatus narrativeStatus;
-    
-    @Column(name="FILE_NAME")
-	private String fileName;
-    
-    @OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
-           targetEntity=org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights.class, mappedBy="narrative")
-	private List<NarrativeUserRights> narrativeUserRights;
-    
-    @OneToMany(cascade={CascadeType.REMOVE, CascadeType.MERGE}, 
-           targetEntity=org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment.class, mappedBy="narrative")
-	private List<NarrativeAttachment> narrativeAttachmentList;
-    
-    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
-    @JoinColumn(name="PROPOSAL_NUMBER", insertable = false, updatable = false)
-    private ProposalDevelopmentDocument proposalDevelopmentDocument;
-    
+    private String proposalNumber;
+    private Integer moduleNumber;
+    private String comments;
+    private String contactName;
+    private String emailAddress;
+    private Integer moduleSequenceNumber;
+    private String moduleStatusCode;
+    private String moduleTitle;
+    private String narrativeTypeCode;
+    private String phoneNumber;
+    private NarrativeType narrativeType;
+    private NarrativeStatus narrativeStatus;
+    private String fileName;
+    private List<NarrativeUserRights> narrativeUserRights;
+    private List<NarrativeAttachment> narrativeAttachmentList;
     transient private FormFile narrativeFile;
-    
-    @Transient
     private String institutionalAttachmentTypeCode;
-    @Transient
     private Timestamp timestampDisplay;
-    @Transient
     private String uploadUserDisplay;
 
     public Narrative() {
@@ -315,18 +247,6 @@ public abstract class Narrative extends KraPersistableBusinessObjectBase {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
-    }
-
-    public String getNarrativeTypeGroup() {
-        return narrativeTypeGroup;
-    }
-
-    protected void setNarrativeTypeGroup(String narrativeTypeGroup) {
-        this.narrativeTypeGroup = narrativeTypeGroup;
-    }
-
-    public void setProposalDevelopmentDocument(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        this.proposalDevelopmentDocument = proposalDevelopmentDocument;
     }
 
     /**
@@ -522,4 +442,3 @@ public abstract class Narrative extends KraPersistableBusinessObjectBase {
         this.uploadUserDisplay = uploadUserDisplay;
     }
 }
-

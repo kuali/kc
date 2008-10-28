@@ -17,41 +17,16 @@ package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
-
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.bo.PersistableAttachment;
 
-@MappedSuperclass
 public abstract class AbstractSponsorFormTemplate extends KraPersistableBusinessObjectBase implements Comparable<AbstractSponsorFormTemplate>{
-	
-    @Id
-    @Column(name="PACKAGE_NUMBER")
-    private Integer packageNumber;
-    
-    @Id
-    @Column(name="PAGE_NUMBER")
+	private Integer packageNumber;
 	private Integer pageNumber;
-    
-    @Id
-    @Column(name="SPONSOR_CODE")
 	private String sponsorCode;
-    
-    @Column(name="PAGE_DESCRIPTION")
 	private String pageDescription;
-    
-    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
-    @JoinColumns({@JoinColumn(name="PACKAGE_NUMBER", insertable = false, updatable = false),
-                  @JoinColumn(name="SPONSOR_CODE", insertable=false, updatable=false)})
     private SponsorForms sponsorForms;
 
 	public Integer getPackageNumber() {

@@ -14,17 +14,9 @@
  */
 package org.kuali.kra.kim.bo;
 
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.jpa.annotations.Sequence;
 
 /**
  * The KIM Namespace Default Attribute is an attribute that is applied
@@ -35,27 +27,14 @@ import org.kuali.rice.jpa.annotations.Sequence;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-@Entity
-@Table(name="KIM_NAMESPACE_DFLT_ATTRIBS_T")
-@Sequence(name="SEQ_KIM_NS_DFLT_ATTRIBS_ID", property="id")
 public class KimNamespaceDefaultAttribute extends PersistableBusinessObjectBase {
     
     private static final long serialVersionUID = -8332284694172302250L;
     	
-	@Id
-	@Column(name="ID")
 	private Long id;
-	
-	@Column(name="NAMESPACE_ID")
 	private Long namespaceId;
-	
-	@Column(name="ATTRIBUTE_TYPE_ID")
 	private Long attributeTypeId;
-	
-	@Column(name="ATTRIBUTE_NAME")
 	private String attributeName;
-	
-	@Column(name="DESCRIPTION")
 	private String description;
 	
 	/**
@@ -172,4 +151,3 @@ public class KimNamespaceDefaultAttribute extends PersistableBusinessObjectBase 
         return id.equals(attr.id);
     }
 }
-

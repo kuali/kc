@@ -15,19 +15,6 @@
  */
 package org.kuali.kra.s2s.bo;
 
-import javax.persistence.OneToMany;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Version;
-import javax.persistence.FetchType;
-import javax.persistence.Basic;
-import javax.persistence.Lob;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -35,61 +22,22 @@ import java.util.List;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.S2sRevisionType;
 
-@Entity
-@Table(name="S2S_OPPORTUNITY")
 public class S2sOpportunity extends KraPersistableBusinessObjectBase {
-	@Id
-	@Column(name="PROPOSAL_NUMBER")
 	private String proposalNumber;
-	
-	@Column(name="CFDA_NUMBER")
 	private String cfdaNumber;
-	
-	@Column(name="CLOSING_DATE")
 	private Timestamp closingDate;
-	
-	@Column(name="COMPETETION_ID")
 	private String competetionId;
-	
-	@Column(name="INSTRUCTION_URL")
 	private String instructionUrl;
-	
-	@Column(name="OPENING_DATE")
 	private Timestamp openingDate;
-	
-	@Lob
-	@Basic(fetch=FetchType.LAZY)
-	@Column(name="OPPORTUNITY")
 	private String opportunity;
-	
-	@Column(name="OPPORTUNITY_ID")
 	private String opportunityId;
-	
-	@Column(name="OPPORTUNITY_TITLE")
 	private String opportunityTitle;
-	
-	@Column(name="REVISION_CODE")
 	private String revisionCode;
-	
-	@Column(name="REVISION_OTHER_DESCRIPTION")
 	private String revisionOtherDescription;
-	
-	@Column(name="S2S_SUBMISSION_TYPE_CODE")
 	private String s2sSubmissionTypeCode;
-	
-	@Column(name="SCHEMA_URL")
 	private String schemaUrl;
-	
-	@OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, 
-           targetEntity=org.kuali.kra.s2s.bo.S2sOppForms.class, mappedBy="s2sOpportunity")
 	private List<S2sOppForms> s2sOppForms;
-	
-	@OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="S2S_SUBMISSION_TYPE_CODE", insertable=false, updatable=false)
 	private S2sSubmissionType s2sSubmissionType;
-	
-	@OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="REVISION_CODE", insertable=false, updatable=false)
 	private S2sRevisionType s2sRevisionType;
 	
     public String getProposalNumber() {
@@ -241,4 +189,3 @@ public class S2sOpportunity extends KraPersistableBusinessObjectBase {
         s2sSubmissionType = submissionType;
     }
 }
-

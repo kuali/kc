@@ -15,69 +15,25 @@
  */
 package org.kuali.kra.s2s.bo;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.S2sRevisionType;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.jpa.annotations.Sequence;
 
-@Entity
-@Table(name="SUBMISSION_HISTORY")
-@Sequence(name="SEQUENCE_SUBMISSION_HISTORY", property="id")
 public class S2sSubmissionHistory extends KraPersistableBusinessObjectBase {
-    @Id
-	@Column(name="ID")
-	private Long id;
-    
-    @Column(name="PROPOSAL_NUMBER")
-	private String proposalNumber;
-    
-    @Column(name="PROPOSAL_NUMBER_ORIG")
-	private String proposalNumberOrig;
-    
-    @Column(name="ORIGINAL_PROPOSAL_ID")
-	private String originalProposalId;
-    
-    @Column(name="SUBMITTED_BY")
-	private String submittedBy;
-    
-    @Column(name="S2S_SUBMISSION_TYPE_CODE")
-	private String s2sSubmissionTypeCode;
-    
-    @Column(name="S2S_REVISION_TYPE_CODE")
-	private String s2sRevisionTypeCode;
-    
-    @Column(name="SUBMISSION_TIMESTAMP")
-	private Timestamp submissionTime;
-    
-    @Column(name="FEDERAL_IDENTIFIER")
-	private String federalIdentifier;	
-    
-	@OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="S2S_SUBMISSION_TYPE_CODE", insertable=false, updatable=false)
+    private Long id;
+    private String proposalNumber;
+    private String proposalNumberOrig;
+    private String originalProposalId;
+    private String submittedBy;
+    private String s2sSubmissionTypeCode;
+    private String s2sRevisionTypeCode;
+    private Timestamp submissionTime;
+    private String federalIdentifier;	
 	private S2sSubmissionType s2sSubmissionType;
-	
-	@OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="S2S_REVISION_TYPE_CODE", insertable=false, updatable=false)
 	private S2sRevisionType s2sRevisionType;
-	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
-	@JoinColumn(name="PROPOSAL_NUMBER", insertable = false, updatable = false)
-	private ProposalDevelopmentDocument proposalDevelopmentDocument;
 	
     public String getProposalNumber() {
 		return proposalNumber;
@@ -182,14 +138,5 @@ public class S2sSubmissionHistory extends KraPersistableBusinessObjectBase {
 
     public void setProposalNumberOrig(String proposalNumberOrig) {
         this.proposalNumberOrig = proposalNumberOrig;
-    }
-
-    public ProposalDevelopmentDocument getProposalDevelopmentDocument() {
-        return proposalDevelopmentDocument;
-    }
-
-    public void setProposalDevelopmentDocument(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        this.proposalDevelopmentDocument = proposalDevelopmentDocument;
     }    
 }
-

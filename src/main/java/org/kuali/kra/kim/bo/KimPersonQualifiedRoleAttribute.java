@@ -15,19 +15,6 @@
  */
 package org.kuali.kra.kim.bo;
 
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-
-import org.kuali.rice.jpa.annotations.Sequence;
-
 import java.util.LinkedHashMap;
 
 /**
@@ -36,23 +23,12 @@ import java.util.LinkedHashMap;
  * 
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
-@Entity
-@Table(name="KIM_PERSON_QUAL_ATTR_T")
-@Sequence(name="SEQ_KIM_PERSON_QUAL_ATTR_ID", property="id")
 public class KimPersonQualifiedRoleAttribute extends KimQualifiedRoleAttribute {
 
     private static final long serialVersionUID = -3834313283054550673L;
-    @Id
-    @Column(name="ID")
-    private Long id;
 
-    @Column(name="ROLE_PERSON_ID")
-	private Long rolePersonId;
+    private Long rolePersonId;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
-    @JoinColumns({@JoinColumn(name="ROLE_PERSON_ID", insertable = false, updatable = false)})
-    private KimQualifiedRolePerson kimQualifiedRolePerson;
-    
     /**
      * Get the Role-Person's ID.
      * @return the Role-Person's ID
@@ -69,14 +45,6 @@ public class KimPersonQualifiedRoleAttribute extends KimQualifiedRoleAttribute {
         this.rolePersonId = rolePersonId;
     }
 
-    public KimQualifiedRolePerson getKimQualifiedRolePerson() {
-        return kimQualifiedRolePerson;
-    }
-
-    public void setKimQualifiedRolePerson(KimQualifiedRolePerson kimQualifiedRolePerson) {
-        this.kimQualifiedRolePerson = kimQualifiedRolePerson;
-    }
-
     /**
      * @see org.kuali.kra.kim.bo.KimQualifiedRoleAttribute#toStringMapper()
      */
@@ -86,4 +54,3 @@ public class KimPersonQualifiedRoleAttribute extends KimQualifiedRoleAttribute {
         return propMap;
     }
 }
-

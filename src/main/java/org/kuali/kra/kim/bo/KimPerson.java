@@ -15,17 +15,9 @@
  */
 package org.kuali.kra.kim.bo;
 
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.jpa.annotations.Sequence;
 
 /**
  * A KIM Person represents a user (person).  Each person has a username,
@@ -35,20 +27,12 @@ import org.kuali.rice.jpa.annotations.Sequence;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-@Entity
-@Table(name="KIM_PERSONS_T")
-@Sequence(name="SEQ_KIM_PERSONS_ID", property="id")
 public class KimPerson extends PersistableBusinessObjectBase {
 
 	private static final long serialVersionUID = -1207463934478758540L;
-	@Id
-	@Column(name="ID")
+	
 	private Long id = null;
-	
-	@Column(name="USERNAME")
 	private String username;
-	
-	@Column(name="PASSWORD")
 	private String password;
 	
 	/**
@@ -132,4 +116,3 @@ public class KimPerson extends PersistableBusinessObjectBase {
         return id.equals(person.id);
     }
 }
-

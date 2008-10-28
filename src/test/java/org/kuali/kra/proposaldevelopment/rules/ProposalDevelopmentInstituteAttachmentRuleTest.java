@@ -29,7 +29,6 @@ import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.InstituteNarrative;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeStatus;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
@@ -99,7 +98,7 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
         
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         
-        InstituteNarrative newNarrative = new InstituteNarrative();
+        Narrative newNarrative = new Narrative();
         newNarrative.setNarrativeTypeCode(narrativeTypes.get(1).getNarrativeTypeCode());
         newNarrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
         newNarrative.setFileName("test.dat");
@@ -117,7 +116,7 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
     @Test
     public void testUnspecifiedNarrativeType() throws Exception {
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
-        InstituteNarrative newNarrative = new InstituteNarrative();
+        Narrative newNarrative = new Narrative();
         newNarrative.setNarrativeTypeCode(EMPTY_STRING);
         newNarrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
         newNarrative.setFileName("test.dat");
@@ -140,7 +139,7 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
     @Test
     public void testUnspecifiedNarrativeStatus() throws Exception {
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
-        InstituteNarrative newNarrative = new InstituteNarrative();
+        Narrative newNarrative = new Narrative();
         newNarrative.setNarrativeTypeCode(narrativeTypes.get(0).getNarrativeTypeCode());
         newNarrative.setModuleStatusCode(EMPTY_STRING);
         newNarrative.setFileName("test.dat");
@@ -164,8 +163,8 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
     public void testDuplicateNarrativeType() throws Exception {
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         
-        InstituteNarrative narrative = new InstituteNarrative();
-        InstituteNarrative newNarrative = new InstituteNarrative();
+        Narrative narrative = new Narrative();
+        Narrative newNarrative = new Narrative();
         narrative.setNarrativeTypeCode(narrativeTypes.get(0).getNarrativeTypeCode());
         newNarrative.setNarrativeTypeCode(narrativeTypes.get(0).getNarrativeTypeCode());
         narrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
@@ -190,7 +189,7 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
     public void testFileNameRequired() throws Exception {
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         
-        InstituteNarrative narrative = new InstituteNarrative();
+        Narrative narrative = new Narrative();
         narrative.setNarrativeTypeCode(narrativeTypes.get(0).getNarrativeTypeCode());
         narrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
         narrative.setModuleTitle("description field");

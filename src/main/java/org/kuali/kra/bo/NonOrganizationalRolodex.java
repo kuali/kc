@@ -15,18 +15,10 @@
  */
 package org.kuali.kra.bo;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-
 /**
  * Special Business Object for NonOrganizational types of <code>{@link Rolodex}</code> instances.
  * 
  */
-@Entity
-@DiscriminatorValue("NonOrganizationalRolodex")
 public class NonOrganizationalRolodex extends Rolodex {
-    public NonOrganizationalRolodex() {
-    }
 
 }
-

@@ -15,24 +15,10 @@
  */
 package org.kuali.kra.budget.bo;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-import javax.persistence.IdClass;
-
 import java.util.LinkedHashMap;
 import org.kuali.kra.budget.BudgetDecimal;
 
-@IdClass(org.kuali.kra.budget.bo.id.BudgetRateAndBaseId.class)
-@Entity
-@Table(name="BUDGET_RATE_AND_BASE")
 public class BudgetRateAndBase extends AbstractBudgetRateAndBase {
-	@Column(name="BASE_COST")
 	private BudgetDecimal baseCost;
 
 
@@ -53,4 +39,3 @@ public class BudgetRateAndBase extends AbstractBudgetRateAndBase {
 	}
 
 }
-
