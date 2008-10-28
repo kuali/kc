@@ -1,28 +1,10 @@
 package org.kuali.kra.bo;
 
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-import javax.persistence.IdClass;
-
 import java.util.LinkedHashMap;
 
-@IdClass(org.kuali.kra.bo.id.DocumentNextvalueId.class)
-@Entity
-@Table(name="DOCUMENT_NEXTVALUE")
 public class DocumentNextvalue extends KraPersistableBusinessObjectBase {
-	@Id
-	@Column(name="PROPERTY_NAME")
 	private String propertyName; 
-	
-	@Id
-	@Column(name="DOCUMENT_NUMBER")
 	private String documentKey;
-	
-	@Column(name="NEXT_VALUE")
 	private Integer nextValue;
 
 	public String getPropertyName() {
@@ -59,4 +41,3 @@ public class DocumentNextvalue extends KraPersistableBusinessObjectBase {
     }
 
 }
-

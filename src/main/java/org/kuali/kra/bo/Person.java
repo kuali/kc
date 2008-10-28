@@ -17,20 +17,8 @@ package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
-import org.hibernate.annotations.Type;
 import org.kuali.kra.kim.bo.KimPerson;
 
 /**
@@ -40,172 +28,71 @@ import org.kuali.kra.kim.bo.KimPerson;
  * @see org.kuali.core.bo.PersistableBusinessObject
  * $Id: Person.java,v 1.15 2008-07-23 19:16:44 gmcgrego Exp $
  */
-@Entity
-@MappedSuperclass
-@Table(name="PERSON")
 public class Person extends KraPersistableBusinessObjectBase {
-    @Id
-	@Column(name="PERSON_ID")
-	private String personId;
-    @Column(name="SSN")
-	private String socialSecurityNumber;
-    @Column(name="LAST_NAME")
-	private String lastName;
-    @Column(name="FIRST_NAME")
-	private String firstName;
-    @Column(name="MIDDLE_NAME")
-	private String middleName;
-    @Column(name="FULL_NAME")
-	private String fullName;
-    @Column(name="PRIOR_NAME")
-	private String priorName;
-    @Column(name="USER_NAME")
-	private String userName;
-    @Column(name="EMAIL_ADDRESS")
-	private String emailAddress;
-    @Column(name="DATE_OF_BIRTH")
-	private String dateOfBirth;
-    @Column(name="AGE")
-	private Integer age;
-    @Column(name="AGE_BY_FISCAL_YEAR")
-	private Integer ageByFiscalYear;
-    @Column(name="GENDER")
-	private String gender;
-    @Column(name="RACE")
-	private String race;
-    @Column(name="EDUCATION_LEVEL")
-	private String educationLevel;
-    @Column(name="DEGREE")
-	private String degree;
-    @Column(name="MAJOR")
-	private String major;
-    
-    @Column(name="IS_HANDICAPPED")
-    @Type(type="yes_no")
-	private Boolean handicappedFlag;
-    
-    @Column(name="HANDICAP_TYPE")
-	private String handicapType;
-    
-    @Column(name="IS_VETERAN")
-    @Type(type="yes_no")
-	private Boolean veteranFlag;
-    
-    @Column(name="VETERAN_TYPE")
-	private String veteranType;
-    @Column(name="VISA_CODE")
-	private String visaCode;
-    @Column(name="VISA_TYPE")
-	private String visaType;
-    @Column(name="VISA_RENEWAL_DATE")
-	private String visaRenewalDate;
-    
-    @Column(name="HAS_VISA")
-    @Type(type="yes_no")
-	private Boolean hasVisa;
-    
-    @Column(name="OFFICE_LOCATION")
-	private String officeLocation;
-    @Column(name="OFFICE_PHONE")
-	private String officePhone;
-    @Column(name="SECONDRY_OFFICE_LOCATION")
-	private String secondaryOfficeLocation;
-    @Column(name="SECONDRY_OFFICE_PHONE")
-	private String secondaryOfficePhone;
-    @Column(name="SCHOOL")
-	private String school;
-    @Column(name="YEAR_GRADUATED")
-	private String yearGraduated;
-    @Column(name="DIRECTORY_DEPARTMENT")
-	private String directoryDepartment;
-    @Column(name="SALUTATION")
-	private String saluation;
-    @Column(name="COUNTRY_OF_CITIZENSHIP")
-	private String countryOfCitizenship;
-    @Column(name="PRIMARY_TITLE")
-	private String primaryTitle;
-    @Column(name="DIRECTORY_TITLE")
-	private String directoryTitle;
-    @Column(name="HOME_UNIT")
-	private String homeUnit;
-    
-    @Column(name="IS_FACULTY")
-    @Type(type="yes_no")
-	private Boolean facultyFlag;
-    
-    @Column(name="IS_GRADUATE_STUDENT_STAFF")
-    @Type(type="yes_no")
-	private Boolean graduateStudentStaffFlag;
-    
-    @Column(name="IS_RESEARCH_STAFF")
-    @Type(type="yes_no")
-	private Boolean researchStaffFlag;
-    
-    @Column(name="IS_SERVICE_STAFF")
-    @Type(type="yes_no")
-	private Boolean serviceStaffFlag;
-    
-    @Column(name="IS_SUPPORT_STAFF")
-    @Type(type="yes_no")
-	private Boolean supportStaffFlag;
-    
-    @Column(name="IS_OTHER_ACCADEMIC_GROUP")
-    @Type(type="yes_no")
-	private Boolean otherAcademicGroupFlag;
-    
-    @Column(name="IS_MEDICAL_STAFF")
-    @Type(type="yes_no")
-	private Boolean medicalStaffFlag;
-    
-    @Column(name="VACATION_ACCURAL")
-    @Type(type="yes_no")
-	private Boolean vacationAccrualFlag;
-    
-    @Column(name="IS_ON_SABBATICAL")
-    @Type(type="yes_no")
-	private Boolean onSabbaticalFlag;
-    
-    @Column(name="ID_PROVIDED")
+    private String personId;
+    private String socialSecurityNumber;
+    private String lastName;
+    private String firstName;
+    private String middleName;
+    private String fullName;
+    private String priorName;
+    private String userName;
+    private String emailAddress;
+    private String dateOfBirth;
+    private Integer age;
+    private Integer ageByFiscalYear;
+    private String gender;
+    private String race;
+    private String educationLevel;
+    private String degree;
+    private String major;
+    private Boolean handicappedFlag;
+    private String handicapType;
+    private Boolean veteranFlag;
+    private String veteranType;
+    private String visaCode;
+    private String visaType;
+    private String visaRenewalDate;
+    private Boolean hasVisa;
+    private String officeLocation;
+    private String officePhone;
+    private String secondaryOfficeLocation;
+    private String secondaryOfficePhone;
+    private String school;
+    private String yearGraduated;
+    private String directoryDepartment;
+    private String saluation;
+    private String countryOfCitizenship;
+    private String primaryTitle;
+    private String directoryTitle;
+    private String homeUnit;
+    private Boolean facultyFlag;
+    private Boolean graduateStudentStaffFlag;
+    private Boolean researchStaffFlag;
+    private Boolean serviceStaffFlag;
+    private Boolean supportStaffFlag;
+    private Boolean otherAcademicGroupFlag;
+    private Boolean medicalStaffFlag;
+    private Boolean vacationAccrualFlag;
+    private Boolean onSabbaticalFlag;
     private String idProvided;
-    
-    @Column(name="ID_VERIFIED")
-	private String idVerified;
-    @Column(name="ADDRESS_LINE_1")
-	private String addressLine1;
-    @Column(name="ADDRESS_LINE_2")
-	private String addressLine2;
-    @Column(name="ADDRESS_LINE_3")
-	private String addressLine3;
-    @Column(name="CITY")
-	private String city;
-    @Column(name="COUNTY")
-	private String county;
-    @Column(name="STATE")
-	private String state;
-    @Column(name="POSTAL_CODE")
-	private String postalCode;
-    @Column(name="COUNTRY_CODE")
-	private String countryCode;
-    @Column(name="FAX_NUMBER")
-	private String faxNumber;
-    @Column(name="PAGER_NUMBER")
-	private String pagerNumber;
-    @Column(name="MOBILE_PHONE_NUMBER")
-	private String mobilePhoneNumber;
-    @Column(name="ERA_COMMONS_USER_NAME")
-	private String eraCommonsUserName;
-    @Column(name="KIM_PERSON_ID")
+    private String idVerified;
+    private String addressLine1;
+    private String addressLine2;
+    private String addressLine3;
+    private String city;
+    private String county;
+    private String state;
+    private String postalCode;
+    private String countryCode;
+    private String faxNumber;
+    private String pagerNumber;
+    private String mobilePhoneNumber;
+    private String eraCommonsUserName;
     private Long kimPersonId = null;
-    @Transient
     private KimPerson kimPerson = null;
-    
-    @Column(name="ACTIVE_FLAG")
-    @Type(type="yes_no")
-    private boolean active = true;
-    
-    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="HOME_UNIT", insertable=false, updatable=false)
-	private Unit homeUnitRef;
+    private Boolean active = true;
+    private Unit homeUnitRef;
     
     public Person() {
     }
@@ -1306,11 +1193,11 @@ public class Person extends KraPersistableBusinessObjectBase {
         this.eraCommonsUserName = argEraCommonsUserName;
     }
     
-    public void setActive(boolean active) {
+    public void setActive(Boolean active) {
         this.active = active;
     }
     
-    public boolean getActive() {
+    public Boolean getActive() {
         return active;
     }
 
@@ -1445,4 +1332,3 @@ public class Person extends KraPersistableBusinessObjectBase {
     }
 
 }
-

@@ -15,42 +15,17 @@
  */
 package org.kuali.kra.budget.bo;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
-import javax.persistence.Transient;
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-@Entity
-@Table(name="RATE_CLASS")
 public class RateClass extends KraPersistableBusinessObjectBase {
-    
-	@Id
-	@Column(name="RATE_CLASS_CODE")
 	private String rateClassCode;
-	
-	@Column(name="DESCRIPTION")
 	private String description;
-	
-	@Column(name="RATE_CLASS_TYPE")
 	private String rateClassType;
-	
-	@OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="RATE_CLASS_TYPE", insertable=false, updatable=false)
+	private String rateClassTypeDescription;
 	private RateClassType rateClassTypeT;
-	
-	@Transient
-    private String rateClassTypeDescription;
-    
+
 	public String getRateClassCode() {
 		return rateClassCode;
 	}
@@ -101,4 +76,3 @@ public class RateClass extends KraPersistableBusinessObjectBase {
         this.rateClassTypeT = rateClassTypeT;
     }
 }
-

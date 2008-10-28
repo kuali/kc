@@ -15,18 +15,14 @@
  */
 package org.kuali.kra.bo;
 
-import javax.persistence.Transient;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-import javax.persistence.IdClass;
-
 import java.util.LinkedHashMap;
 
-@IdClass(org.kuali.kra.bo.id.SponsorFormTemplateListId.class)
-@Entity
-@Table(name="SPONSOR_FORM_TEMPLATES")
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerException;
+import org.apache.struts.upload.FormFile;
+import org.kuali.core.bo.PersistableAttachment;
+
 public class SponsorFormTemplateList extends AbstractSponsorFormTemplate {
-    @Transient
     private Boolean selectToPrint = false;
 
     @Override 
@@ -48,4 +44,3 @@ public class SponsorFormTemplateList extends AbstractSponsorFormTemplate {
     }
     
 }
-

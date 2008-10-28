@@ -15,17 +15,9 @@
  */
 package org.kuali.kra.kim.bo;
 
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.jpa.annotations.Sequence;
 
 /**
  * A KIM Role-Group is an association between a Role and a Group, i.e.
@@ -34,22 +26,13 @@ import org.kuali.rice.jpa.annotations.Sequence;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-@Entity
-@Table(name="KIM_ROLES_GROUPS_T")
-@Sequence(name="SEQ_KIM_ROLES_GROUPS_ID", property="id")
 public class KimRoleGroup extends PersistableBusinessObjectBase {
     
     private static final long serialVersionUID = 6226604054905776213L;
     
-    @Id
-	@Column(name="ID")
-	private Long id;
-    
-    @Column(name="ROLE_ID")
-	private Long roleId;
-    
-    @Column(name="GROUP_ID")
-	private Long groupId;
+    private Long id;
+    private Long roleId;
+    private Long groupId;
 
     /**
      * Get the Role-Group's ID.
@@ -132,4 +115,3 @@ public class KimRoleGroup extends PersistableBusinessObjectBase {
         return id.equals(roleGroup.id);
     }
 }
-

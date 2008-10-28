@@ -18,7 +18,6 @@ package org.kuali.kra.proposaldevelopment.rule.event;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
-import org.kuali.kra.proposaldevelopment.bo.ProposalNarrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AddNarrativeRule;
 
@@ -37,7 +36,7 @@ public class AddNarrativeEvent extends NarrativeEventBase{
      * @param proposalDevelopmentDocument
      * @param narrative
      */
-    public AddNarrativeEvent(String errorPathPrefix, ProposalDevelopmentDocument document, ProposalNarrative narrative) {
+    public AddNarrativeEvent(String errorPathPrefix, ProposalDevelopmentDocument document, Narrative narrative) {
         super("adding narrative to document " + getDocumentId(document), errorPathPrefix, document, narrative);
     }
 
@@ -48,7 +47,7 @@ public class AddNarrativeEvent extends NarrativeEventBase{
      * @param document
      * @param narrative
      */
-    public AddNarrativeEvent(String errorPathPrefix, Document document, ProposalNarrative narrative) {
+    public AddNarrativeEvent(String errorPathPrefix, Document document, Narrative narrative) {
         this(errorPathPrefix, (ProposalDevelopmentDocument) document, narrative);
     }
 

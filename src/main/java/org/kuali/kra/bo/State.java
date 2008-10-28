@@ -17,36 +17,16 @@ package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 /**
  * Class representation of a State Code Business Object
  */
-@IdClass(org.kuali.kra.bo.id.StateId.class)
-@Entity
-@Table(name="STATE_CODE")
 public class State extends KraPersistableBusinessObjectBase {
 
-	@Id
-	@Column(name="COUNTRY_CODE")
 	private String countryCode;
-    @Id
-	@Column(name="STATE_CODE")
-	private String stateCode;
-	@Column(name="DESCRIPTION")
+    private String stateCode;
 	private String description;
 
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="COUNTRY_CODE", insertable=false, updatable=false)
-	private Country country;
+    private Country country;
 
     public State() {
         country = new Country();
@@ -137,4 +117,3 @@ public class State extends KraPersistableBusinessObjectBase {
     }
 
 }
-

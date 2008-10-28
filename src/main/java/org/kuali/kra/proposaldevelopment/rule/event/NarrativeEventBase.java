@@ -22,7 +22,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
-import org.kuali.kra.proposaldevelopment.bo.ProposalNarrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 
@@ -36,7 +35,7 @@ public abstract class NarrativeEventBase extends KraDocumentEventBase implements
             .getLog(NarrativeEventBase.class);
 
     private Narrative narrative;
-    private List<ProposalNarrative> narratives;
+    private List<Narrative> narratives;
 
     /**
      * 
@@ -59,10 +58,10 @@ public abstract class NarrativeEventBase extends KraDocumentEventBase implements
                 this.narrative.setFileName(narrative.getNarrativeFile().getFileName());
             }
         }
-        narratives = new ArrayList<ProposalNarrative>();
-        List<ProposalNarrative> narativeListToBeSaved = document.getProposalNarratives();
-        for (ProposalNarrative narrativeToBeSaved : narativeListToBeSaved) {
-            narratives.add((ProposalNarrative) ObjectUtils.deepCopy(narrativeToBeSaved));
+        narratives = new ArrayList<Narrative>();
+        List<Narrative> narativeListToBeSaved = document.getNarratives();
+        for (Narrative narrativeToBeSaved : narativeListToBeSaved) {
+            narratives.add((Narrative) ObjectUtils.deepCopy(narrativeToBeSaved));
         }
         logEvent();
     }
@@ -77,10 +76,10 @@ public abstract class NarrativeEventBase extends KraDocumentEventBase implements
      */
     protected NarrativeEventBase(String description, String errorPathPrefix, ProposalDevelopmentDocument document) {
         super(description, errorPathPrefix, document);
-        narratives = new ArrayList<ProposalNarrative>();
-        List<ProposalNarrative> narativeListToBeSaved = document.getProposalNarratives();
-        for (ProposalNarrative narrativeToBeSaved : narativeListToBeSaved) {
-            narratives.add((ProposalNarrative) ObjectUtils.deepCopy(narrativeToBeSaved));
+        narratives = new ArrayList<Narrative>();
+        List<Narrative> narativeListToBeSaved = document.getNarratives();
+        for (Narrative narrativeToBeSaved : narativeListToBeSaved) {
+            narratives.add((Narrative) ObjectUtils.deepCopy(narrativeToBeSaved));
         }
     }
 
@@ -95,7 +94,7 @@ public abstract class NarrativeEventBase extends KraDocumentEventBase implements
     /**
      * @return <code>{@link Narrative}</code> that triggered this event.
      */
-    public List<ProposalNarrative> getProposalNarratives() {
+    public List<Narrative> getNarratives() {
         return narratives;
     }
 

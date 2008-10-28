@@ -15,13 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -33,15 +26,10 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * Development module without causing a wholesale collision between the two
  * documents.
  */
-@Entity
-@Table(name="EPS_PROPOSAL_BUDGET_STATUS")
 public class ProposalBudgetStatus extends KraPersistableBusinessObjectBase {
     
-    @Id
-	@Column(name="PROPOSAL_NUMBER")
-	private String proposalNumber;
-    @Column(name="BUDGET_STATUS_CODE")
-	private String budgetStatusCode;
+    private String proposalNumber;
+    private String budgetStatusCode;
     
     public String getProposalNumber() {
         return proposalNumber;
@@ -65,4 +53,3 @@ public class ProposalBudgetStatus extends KraPersistableBusinessObjectBase {
     }
 
 }
-

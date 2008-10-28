@@ -15,48 +15,16 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-import javax.persistence.IdClass;
-
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.Person;
 
-@IdClass(org.kuali.kra.proposaldevelopment.bo.id.NarrativeUserRightsId.class)
-@Entity
-@Table(name="NARRATIVE_USER_RIGHTS")
 public class NarrativeUserRights extends KraPersistableBusinessObjectBase {
-	
-	@Id
-	@Column(name="PROPOSAL_NUMBER")
+	private Integer moduleNumber;
 	private String proposalNumber;
-	
-	@Id
-    @Column(name="MODULE_NUMBER")
-    private Integer moduleNumber;
-	
-	@Id
-	@Column(name="USER_ID")
 	private String userId;
-	
-	@Column(name="ACCESS_TYPE")
 	private String accessType;
-	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
-	@JoinColumns({@JoinColumn(name="PROPOSAL_NUMBER", insertable = false, updatable = false),
-	              @JoinColumn(name="MODULE_NUMBER", insertable=false, updatable=false)})
-	private Narrative narrative;
-	
-	@Transient
 	private String personName;
 
 	public Integer getModuleNumber() {
@@ -110,13 +78,4 @@ public class NarrativeUserRights extends KraPersistableBusinessObjectBase {
     public void setPersonName(String personName) {
         this.personName = personName;
     }
-
-    public Narrative getNarrative() {
-        return narrative;
-    }
-
-    public void setNarrative(Narrative narrative) {
-        this.narrative = narrative;
-    }
 }
-

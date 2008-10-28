@@ -15,18 +15,6 @@
  */
 package org.kuali.kra.budget.bo;
 
-import javax.persistence.JoinColumns;
-import javax.persistence.JoinColumn;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-import javax.persistence.IdClass;
-
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.AbstractInstituteRate;
@@ -34,9 +22,6 @@ import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.budget.BudgetDecimal;
 
-@IdClass(org.kuali.kra.budget.bo.id.BudgetProposalLaRateId.class)
-@Entity
-@Table(name="EPS_PROP_LA_RATES")
 public class BudgetProposalLaRate extends AbstractBudgetRate {
 
     public BudgetProposalLaRate() {
@@ -57,4 +42,3 @@ public class BudgetProposalLaRate extends AbstractBudgetRate {
 	}
 
 }
-

@@ -15,26 +15,14 @@
  */
 package org.kuali.kra.bo;
 
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-
 import java.util.LinkedHashMap;
 
 /**
  * Class representation of a Country Code Business Object
  */
-@Entity
-@Table(name="COUNTRY_CODE")
 public class Country extends KraPersistableBusinessObjectBase {
 	
-	@Id
-	@Column(name="COUNTRY_CODE")
 	private String countryCode;
-	@Column(name="COUNTRY_NAME")
 	private String countryName;
 	
     /**
@@ -86,4 +74,3 @@ public class Country extends KraPersistableBusinessObjectBase {
 		return propMap;
 	}
 }
-

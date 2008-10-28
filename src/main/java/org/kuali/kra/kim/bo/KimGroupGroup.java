@@ -15,14 +15,6 @@
  */
 package org.kuali.kra.kim.bo;
 
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-import javax.persistence.IdClass;
-
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
@@ -33,20 +25,12 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-@IdClass(org.kuali.kra.kim.bo.id.KimGroupGroupId.class)
-@Entity
-@Table(name="KIM_GROUPS_GROUPS_T")
 public class KimGroupGroup extends PersistableBusinessObjectBase {
     
     private static final long serialVersionUID = -8643371519534909248L;
     
-    @Id
-	@Column(name="PARENT_GROUP_ID")
-	private Long parentGroupId;
-    
-    @Id
-	@Column(name="MEMBER_GROUP_ID")
-	private Long memberGroupId;
+    private Long parentGroupId;
+    private Long memberGroupId;
 
     /**
      * Get the Parent Group's ID.
@@ -110,4 +94,3 @@ public class KimGroupGroup extends PersistableBusinessObjectBase {
                memberGroupId.equals(groupGroup.memberGroupId);
     }
 }
-

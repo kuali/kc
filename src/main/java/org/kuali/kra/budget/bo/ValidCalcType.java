@@ -17,52 +17,20 @@ package org.kuali.kra.budget.bo;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-@IdClass(org.kuali.kra.budget.bo.id.ValidCalcTypeId.class)
-@Entity
-@Table(name="VALID_CALC_TYPES")
 public class ValidCalcType extends KraPersistableBusinessObjectBase {
-	@Id
-	@Column(name="CALC_TYPE_ID")
 	private String calcTypeId;
-	@Id
-	@Column(name="DEPENDENT_SEQ_NUMBER")
 	private Integer dependentSeqNumber;
-	@Id
-	@Column(name="RATE_CLASS_TYPE")
 	private String rateClassType;
-	@Column(name="DEPENDENT_RATE_CLASS_TYPE")
 	private String dependentRateClassType;
-	@Column(name="RATE_CLASS_CODE")
 	private String rateClassCode;
-	@Column(name="RATE_TYPE_CODE")
 	private String rateTypeCode;
     
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="RATE_CLASS_TYPE", insertable=false, updatable=false)
-	private RateClassType rateClassTypeRef;
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="DEPENDENT_RATE_CLASS_TYPE", insertable=false, updatable=false)
-	private RateClassType dependentRateClassTypeRef;
-    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="RATE_CLASS_CODE", insertable=false, updatable=false)
-	private RateClass rateClass;
-    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumns({@JoinColumn(name="RATE_TYPE_CODE", insertable=false, updatable=false), @JoinColumn(name="RATE_CLASS_CODE", insertable=false, updatable=false)})
-	private RateType rateType;
+    private RateClassType rateClassTypeRef;
+    private RateClassType dependentRateClassTypeRef;
+    private RateClass rateClass;
+    private RateType rateType;
 
 	public String getCalcTypeId() {
 		return calcTypeId;
@@ -156,4 +124,3 @@ public class ValidCalcType extends KraPersistableBusinessObjectBase {
 		return hashMap;
 	}
 }
-

@@ -19,89 +19,36 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.sql.Date;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.service.BudgetService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 
-@MappedSuperclass
 public abstract class BudgetLineItemBase extends KraPersistableBusinessObjectBase {
-    
-    @Id
-    @Column(name="BUDGET_PERIOD_NUMBER")
     private Long budgetPeriodId;
     
-    @Id
-    @Column(name="LINE_ITEM_NUMBER")
-    private Integer lineItemNumber;
-    
-    @Column(name="BUDGET_PERIOD")
     private Integer budgetPeriod;
-	
-    @Column(name="PROPOSAL_NUMBER")
+	private Integer lineItemNumber;
 	private String proposalNumber;
-    
-    @Column(name="VERSION_NUMBER")
 	private Integer budgetVersionNumber;
-    
-    @Column(name="APPLY_IN_RATE_FLAG")
 	private Boolean applyInRateFlag;
-    
-    @Column(name="BUDGET_JUSTIFICATION")
 	private String budgetJustification;
-    
-    @Column(name="COST_ELEMENT")
 	private String costElement;
-    
-    @Column(name="COST_SHARING_AMOUNT")
 	private BudgetDecimal costSharingAmount = BudgetDecimal.ZERO;
-    
-    @Column(name="END_DATE")
 	private Date endDate;
-    
-    @Column(name="LINE_ITEM_COST")
 	private BudgetDecimal lineItemCost = BudgetDecimal.ZERO;
-    
-    @Column(name="LINE_ITEM_DESCRIPTION")
 	private String lineItemDescription;
-    
-    @Column(name="ON_OFF_CAMPUS_FLAG")
 	private Boolean onOffCampusFlag;
-    
-    @Column(name="START_DATE")
 	private Date startDate;
-    
-    @Column(name="UNDERRECOVERY_AMOUNT")
 	private BudgetDecimal underrecoveryAmount = BudgetDecimal.ZERO;
 	
-	@Column(name="BUDGET_CATEGORY_CODE")
     private String budgetCategoryCode;
-    
-    @Column(name="BASED_ON_LINE_ITEM")
     private Integer basedOnLineItem;
-    
-    @Column(name="QUANTITY")
     private Integer quantity;
-    
-    @Column(name="LINE_ITEM_SEQUENCE")
-    private Integer lineItemSequence;
-    
-    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
-    @JoinColumn(name = "BUDGET_PERIOD_NUMBER", insertable = false, updatable = false)
-    private BudgetPeriod myBudgetPeriod;
-   
 	private BudgetDecimal directCost;
 	private BudgetDecimal indirectCost;
     private BudgetCategory budgetCategory;
+    private Integer lineItemSequence;
 	
 	private CostElement costElementBO;
 
@@ -288,15 +235,8 @@ public abstract class BudgetLineItemBase extends KraPersistableBusinessObjectBas
 		this.underrecoveryAmount = underrecoveryAmount;
 	}
 
-	public BudgetPeriod getMyBudgetPeriod() {
-        return myBudgetPeriod;
-    }
 
-    public void setMyBudgetPeriod(BudgetPeriod myBudgetPeriod) {
-        this.myBudgetPeriod = myBudgetPeriod;
-    }
-
-    @Override
+	@Override
 	@SuppressWarnings("unchecked")
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();

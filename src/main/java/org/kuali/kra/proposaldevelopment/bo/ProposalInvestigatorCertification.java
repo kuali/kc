@@ -15,14 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-import javax.persistence.IdClass;
-
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
@@ -36,22 +28,12 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * @author $Author: gmcgrego $
  * @version $Revision: 1.4 $
  */
-@IdClass(org.kuali.kra.proposaldevelopment.bo.id.ProposalInvestigatorCertificationId.class)
-@Entity
-@Table(name="PROPOSAL_INV_CERTIFICATION")
 public class ProposalInvestigatorCertification  extends KraPersistableBusinessObjectBase {
-    @Id
-    @Column(name="PROPOSAL_NUMBER")
+    private Integer proposalPersonNumber;
     private String proposalNumber;
-    @Id
-	@Column(name="PROP_PERSON_NUMBER")
-	private Integer proposalPersonNumber;
-    @Column(name="CERTIFIED_FLAG")
-	private Boolean certified;
-    @Column(name="DATE_CERTIFIED")
-	private Date dateCertified;
-    @Column(name="DATE_RECEIVED_BY_OSP")
-	private Date dateReceivedByOsp;
+    private Boolean certified;
+    private Date dateCertified;
+    private Date dateReceivedByOsp;
 
     /**
      * Gets the value of proposalPersonNumber
@@ -155,6 +137,5 @@ public class ProposalInvestigatorCertification  extends KraPersistableBusinessOb
     }
 
 }
-
 
 

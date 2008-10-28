@@ -15,67 +15,23 @@
  */
 package org.kuali.kra.s2s.bo;
 
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-import javax.persistence.IdClass;
-
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.sql.Timestamp;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
-@IdClass(org.kuali.kra.s2s.bo.id.S2sAppSubmissionId.class)
-@Entity
-@Table(name="S2S_APP_SUBMISSION")
 public class S2sAppSubmission extends KraPersistableBusinessObjectBase {
-	@Id
-	@Column(name="PROPOSAL_NUMBER")
 	private String proposalNumber;
-	
-	@Id
-	@Column(name="SUBMISSION_NUMBER")
 	private Integer submissionNumber;
-	
-	@Column(name="AGENCY_TRACKING_ID")
 	private String agencyTrackingId;
-	
-	@Column(name="COMMENTS")
 	private String comments;
-	
-	@Column(name="GG_TRACKING_ID")
 	private String ggTrackingId;
-	
-	@Column(name="LAST_MODIFIED_DATE")
 	private Timestamp lastModifiedDate;
-	
-	@Column(name="LAST_NOTIFIED_DATE")
 	private Timestamp lastNotifiedDate;
-	
-	@Column(name="RECEIVED_DATE")
 	private Timestamp receivedDate;
-	
-	@Column(name="STATUS")
 	private String status;
-	
-	@ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="PROPOSAL_NUMBER", insertable=false, updatable=false)
-	private S2sApplication s2sApplication;
-	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
-	@JoinColumn(name="PROPOSAL_NUMBER", insertable = false, updatable = false)
-    private ProposalDevelopmentDocument proposalDevelopmentDocument;
+	private List<S2sApplication> s2sApplication;
 
 	public String getProposalNumber() {
 		return proposalNumber;
@@ -170,9 +126,7 @@ public class S2sAppSubmission extends KraPersistableBusinessObjectBase {
      * @return Returns the s2sApplications.
      */
     public List<S2sApplication> getS2sApplication() {
-        List<S2sApplication> list = new ArrayList<S2sApplication>();
-        list.add(s2sApplication);
-        return list;
+        return s2sApplication;
     }
 
     /**
@@ -180,15 +134,6 @@ public class S2sAppSubmission extends KraPersistableBusinessObjectBase {
      * @param applications The s2sApplications to set.
      */
     public void setS2sApplication(List<S2sApplication> s2sApplication) {
-        this.s2sApplication = s2sApplication.get(0);
-    }
-
-    public ProposalDevelopmentDocument getProposalDevelopmentDocument() {
-        return proposalDevelopmentDocument;
-    }
-
-    public void setProposalDevelopmentDocument(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        this.proposalDevelopmentDocument = proposalDevelopmentDocument;
+        this.s2sApplication = s2sApplication;
     }
 }
-

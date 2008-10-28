@@ -57,12 +57,10 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
-import org.kuali.kra.proposaldevelopment.bo.InstituteNarrative;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
-import org.kuali.kra.proposaldevelopment.bo.ProposalNarrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -123,11 +121,11 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
 //            populateNarrativeType(narrative);
 //        }
         
-        ProposalNarrative newNarrative = proposalDevelopmentForm.getNewProposalNarrative();
+        Narrative newNarrative = proposalDevelopmentForm.getNewNarrative();
         
         boolean rulePassed = true;
         // check any business rules
-        rulePassed &= getKualiRuleService().applyRules(new SaveNarrativesEvent(EMPTY_STRING,proposalDevelopmentDocument,newNarrative, proposalDevelopmentForm.getProposalNarratives()));
+        rulePassed &= getKualiRuleService().applyRules(new SaveNarrativesEvent(EMPTY_STRING,proposalDevelopmentDocument,newNarrative, proposalDevelopmentForm.getNarratives()));
         rulePassed &= getKualiRuleService().applyRules(new SavePersonnelAttachmentEvent(EMPTY_STRING, proposalDevelopmentDocument, proposalDevelopmentForm.getNewPropPersonBio()));
         rulePassed &= getKualiRuleService().applyRules(new SaveInstituteAttachmentsEvent(EMPTY_STRING,proposalDevelopmentDocument));
 
@@ -135,8 +133,8 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
             mapping.findForward(Constants.MAPPING_BASIC);
         }
         // refresh, so the status can be displayed properly on tab title
-        List<ProposalNarrative> narativeListToBeSaved = proposalDevelopmentDocument.getProposalNarratives();
-        for (ProposalNarrative narrativeToBeSaved : narativeListToBeSaved) {
+        List<Narrative> narativeListToBeSaved = proposalDevelopmentDocument.getNarratives();
+        for (Narrative narrativeToBeSaved : narativeListToBeSaved) {
             narrativeToBeSaved.refreshNonUpdateableReferences();
         }
         
@@ -157,7 +155,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument)((ProposalDevelopmentForm)form).getDocument();
         KraServiceLocator.getService(ProposalPersonBiographyService.class).setPersonnelBioTimeStampUser(doc.getPropPersonBios());
         List<Narrative> narratives = new ArrayList<Narrative> ();
-        narratives.addAll(doc.getProposalNarratives());
+        narratives.addAll(doc.getNarratives());
         narratives.addAll(doc.getInstituteAttachments());
         KraServiceLocator.getService(NarrativeService.class).setNarrativeTimeStampUser(narratives);
         return actionForward;
@@ -180,10 +178,10 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
-        ProposalNarrative narrative = proposalDevelopmentForm.getNewProposalNarrative();
+        Narrative narrative = proposalDevelopmentForm.getNewNarrative();
         if(getKualiRuleService().applyRules(new AddNarrativeEvent(EMPTY_STRING, proposalDevelopmentDocument, narrative))){
             proposalDevelopmentDocument.addNarrative(narrative);
-            proposalDevelopmentForm.setNewProposalNarrative(new ProposalNarrative());
+            proposalDevelopmentForm.setNewNarrative(new Narrative());
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -229,7 +227,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         String line = request.getParameter(LINE_NUMBER);
         int lineNumber = line == null ? 0 : Integer.parseInt(line);
         ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
-        ProposalNarrative narrative = pd.getProposalNarratives().get(lineNumber);
+        Narrative narrative = pd.getNarratives().get(lineNumber);
         NarrativeAttachment narrativeAttachment = findNarrativeAttachment(narrative);
         if(narrativeAttachment==null && !narrative.getNarrativeAttachmentList().isEmpty()){//get it from the memory
             narrativeAttachment = narrative.getNarrativeAttachmentList().get(0);
@@ -376,7 +374,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
         pd.populatePersonNameForNarrativeUserRights(lineNumber);
         
-        ProposalNarrative narrative = pd.getProposalNarratives().get(lineNumber);
+        Narrative narrative = pd.getNarratives().get(lineNumber);
         List<NarrativeUserRights> userRights = narrative.getNarrativeUserRights();
         List<NarrativeUserRights> editUserRights = (List<NarrativeUserRights>) ObjectUtils.deepCopy((Serializable) userRights);
         proposalDevelopmentForm.setNewNarrativeUserRights(editUserRights);
@@ -414,7 +412,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
             forward = mapping.findForward(MAPPING_NARRATIVE_ATTACHMENT_RIGHTS_PAGE);
         }
         else {
-            proposalDevelopmentDocument.getProposalNarrative(lineNumber).setNarrativeUserRights(newNarrativeUserRights);
+            proposalDevelopmentDocument.getNarrative(lineNumber).setNarrativeUserRights(newNarrativeUserRights);
             forward = mapping.findForward(MAPPING_CLOSE_PAGE);
         }
         
@@ -639,7 +637,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         }
         else if (CONFIRM_DELETE_PROPOSAL_ATTACHMENT_KEY.equals(questionId)) {
             description = PROPOSAL_ATTACHMENT_TYPE_NAME;
-            fileName = doc.getProposalNarrative(getLineToDelete(request)).getFileName();
+            fileName = doc.getNarrative(getLineToDelete(request)).getFileName();
         }
         return buildParameterizedConfirmationQuestion(mapping, form, request, response, questionId, QUESTION_DELETE_ATTACHMENT_CONFIRMATION, description, fileName);
     }
@@ -755,11 +753,11 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
     public ActionForward addInstitutionalAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
-        InstituteNarrative narrative = proposalDevelopmentForm.getNewInstituteAttachment();
+        Narrative narrative = proposalDevelopmentForm.getNewInstituteAttachment();
         narrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
         if(getKualiRuleService().applyRules(new AddInstituteAttachmentEvent(EMPTY_STRING, proposalDevelopmentDocument, narrative))){
             proposalDevelopmentDocument.addInstituteAttachment(narrative);
-            proposalDevelopmentForm.setNewInstituteAttachment(new InstituteNarrative());
+            proposalDevelopmentForm.setNewInstituteAttachment(new Narrative());
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
 

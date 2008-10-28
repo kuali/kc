@@ -15,58 +15,18 @@
  */
 package org.kuali.kra.s2s.bo;
 
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Transient;
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-import javax.persistence.IdClass;
-
 import java.util.LinkedHashMap;
-import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.proposaldevelopment.bo.Narrative;
 
-@IdClass(org.kuali.kra.s2s.bo.id.S2sOppFormsId.class)
-@Entity
-@Table(name="S2S_OPP_FORMS")
 public class S2sOppForms extends KraPersistableBusinessObjectBase {
-    @Id
-    @Column(name="PROPOSAL_NUMBER")
-    private String proposalNumber;
-    
-	@Id
-	@Column(name="OPP_NAME_SPACE")
 	private String oppNameSpace;
-	
-	@Column(name="AVAILABLE")
+	private String proposalNumber;
 	private Boolean available;
-	
-	@Column(name="FORM_NAME")
 	private String formName;
-	
-	@Column(name="INCLUDE")
 	private Boolean include;
-	
-	@Column(name="MANDATORY")
 	private Boolean mandatory;
-	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
-    @JoinColumn(name="PROPOSAL_NUMBER", insertable = false, updatable = false)
-    private S2sOpportunity s2sOpportunity;
-	
-	@Transient
 	private String schemaUrl;
-	
-	@Transient
 	private Boolean selectToPrint;
 
 	public String getOppNameSpace() {
@@ -146,13 +106,4 @@ public class S2sOppForms extends KraPersistableBusinessObjectBase {
     public void setSelectToPrint(Boolean selectToPrint) {
         this.selectToPrint = selectToPrint;
     }
-
-    public S2sOpportunity getS2sOpportunity() {
-        return s2sOpportunity;
-    }
-
-    public void setS2sOpportunity(S2sOpportunity opportunity) {
-        s2sOpportunity = opportunity;
-    }
 }
-

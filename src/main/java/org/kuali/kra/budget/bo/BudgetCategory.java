@@ -15,32 +15,14 @@
  */
 package org.kuali.kra.budget.bo;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-@Entity
-@Table(name="BUDGET_CATEGORY")
 public class BudgetCategory extends KraPersistableBusinessObjectBase {
-	@Id
-	@Column(name="BUDGET_CATEGORY_CODE")
 	private String budgetCategoryCode;
-	@Column(name="CATEGORY_TYPE")
 	private String budgetCategoryTypeCode;
-	@Column(name="DESCRIPTION")
 	private String description;
-	@OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="CATEGORY_TYPE", insertable=false, updatable=false)
 	private BudgetCategoryType budgetCategoryType;
 	
 	public String getBudgetCategoryCode() {
@@ -94,4 +76,3 @@ public class BudgetCategory extends KraPersistableBusinessObjectBase {
     }
 
 }
-

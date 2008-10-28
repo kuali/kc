@@ -15,17 +15,6 @@
  */
 package org.kuali.kra.kim.bo;
 
-import javax.persistence.OneToMany;
-import javax.persistence.JoinColumn;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -34,13 +23,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.annotations.Type;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.rice.jpa.annotations.Sequence;
 
 /**
  * A KIM Role defines a role within a given organization, e.g. President,
@@ -51,36 +38,16 @@ import org.kuali.rice.jpa.annotations.Sequence;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-@Entity
-@Table(name="KIM_ROLES_T")
-@Sequence(name="SEQ_KIM_ROLES_ID", property="id")
 public class KimRole extends PersistableBusinessObjectBase {
 
 	private static final long serialVersionUID = -8535955276605020423L;
 	
-	@Id
-	@Column(name="ID")
 	private Long id;
-	
-	@Column(name="NAME")
 	private String name;
-	
-	@Column(name="DESCRIPTION")
 	private String description;
-	
-	@Column(name="ROLE_TYPE_CODE")
 	private String roleTypeCode;
-	
-    @Type(type="yes_no")
-	@Column(name="DESCEND_FLAG")
-	private boolean descend;
-	
-	@OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST})
-	@JoinColumn(name="ROLE_TYPE_CODE", insertable=false, updatable=false)
+	private Boolean descend;
 	private KimRoleType roleType;
-	
-	@OneToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE}, 
-           targetEntity=org.kuali.kra.kim.bo.KimRolePermission.class, mappedBy="role")
 	private List<KimRolePermission> rolePermissions;
 
 	/**
@@ -158,11 +125,11 @@ public class KimRole extends PersistableBusinessObjectBase {
        return roleType.getDescription();
     }
 
-    public boolean getDescend() {
+    public Boolean getDescend() {
         return descend;
     }
 
-    public void setDescend(boolean descend) {
+    public void setDescend(Boolean descend) {
         this.descend = descend;
     }
     
@@ -243,4 +210,3 @@ public class KimRole extends PersistableBusinessObjectBase {
     }
 
 }
-

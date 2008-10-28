@@ -15,44 +15,16 @@
  */
 package org.kuali.kra.budget.bo;
 
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-import javax.persistence.IdClass;
-
 import java.util.LinkedHashMap;
 import java.sql.Date;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 
-@IdClass(org.kuali.kra.budget.bo.id.BudgetPersonnelRateAndBaseId.class)
-@Entity
-@Table(name="BUDGET_PER_DET_RATE_AND_BASE")
 public class BudgetPersonnelRateAndBase extends AbstractBudgetRateAndBase {
-    
-    @Column(name="PERSON_ID")
-	private String personId;
-    
-    @Id
-	@Column(name="PERSON_NUMBER")
-	private Integer personNumber;
-    
-    @Column(name="SALARY_REQUESTED")
-	private BudgetDecimal salaryRequested;
-    
-//    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
-//    @JoinColumns({@JoinColumn(name="BUDGET_PERIOD_NUMBER", insertable = false, updatable = false), 
-//                  @JoinColumn(name="LINE_ITEM_NUMBER", insertable = false, updatable = false),
-//                  @JoinColumn(name="PERSON_NUMBER", insertable=false, updatable=false)})
-    private BudgetPersonnelDetails budgetPersonnelDetails;
-    
+    private String personId;
+    private Integer personNumber;
+    private BudgetDecimal salaryRequested;
     /**
      * Gets the salaryRequested attribute. 
      * @return Returns the salaryRequested.
@@ -67,14 +39,6 @@ public class BudgetPersonnelRateAndBase extends AbstractBudgetRateAndBase {
     public void setSalaryRequested(BudgetDecimal salaryRequested) {
         this.salaryRequested = salaryRequested;
     }
-    
-    public BudgetPersonnelDetails getBudgetPersonnelDetails() {
-        return budgetPersonnelDetails;
-    }
-    public void setBudgetPersonnelDetails(BudgetPersonnelDetails budgetPersonnelDetails) {
-        this.budgetPersonnelDetails = budgetPersonnelDetails;
-    }
-    
     @Override 
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap hashMap = super.toStringMapper();
@@ -113,4 +77,3 @@ public class BudgetPersonnelRateAndBase extends AbstractBudgetRateAndBase {
     }
 
 }
-

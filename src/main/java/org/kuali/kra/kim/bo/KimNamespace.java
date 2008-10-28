@@ -15,17 +15,9 @@
  */
 package org.kuali.kra.kim.bo;
 
-import javax.persistence.Version;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.jpa.annotations.Sequence;
 
 /**
  * The KIM Namespace represents a single Namespace.  KIM uses 
@@ -36,21 +28,12 @@ import org.kuali.rice.jpa.annotations.Sequence;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-@Entity
-@Table(name="KIM_NAMESPACES_T")
-@Sequence(name="SEQ_KIM_NAMESPACES_ID", property="id")
 public class KimNamespace extends PersistableBusinessObjectBase {
     
     private static final long serialVersionUID = 9118112248900436184L;
     
-	@Id
-	@Column(name="ID")
 	private Long id;
-	
-	@Column(name="NAME")
 	private String name;
-	
-	@Column(name="DESCRIPTION")
 	private String description;
 	
 	/**
@@ -133,4 +116,3 @@ public class KimNamespace extends PersistableBusinessObjectBase {
         return id.equals(namespace.id);
     }
 }
-
