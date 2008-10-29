@@ -16,6 +16,6 @@
 package org.kuali.kra.award.web.struts.action;
 
 
-public class AwardNoteAndAttachmentsAction extends AwardAction {    
+public class AwardNotesAndAttachmentsAction extends AwardAction {    
     
 }
