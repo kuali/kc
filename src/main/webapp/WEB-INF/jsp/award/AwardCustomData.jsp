@@ -14,5 +14,20 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+
+<kul:documentPage
+	showDocumentInfo="true"
+	htmlFormAction="awardCustomData"
+	documentTypeName="AwardDocument"
+	renderMultipart="false"
+	showTabButtons="true"
+	auditCount="0"
+  	headerDispatch="${KualiForm.headerDispatch}"
+  	headerTabActive="customData">
+  	
 This is the Award Custom Data Page - Under Construction
 
+<kul:panelFooter />
+<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
+
+</kul:documentPage>
