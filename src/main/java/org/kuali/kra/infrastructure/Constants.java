@@ -84,6 +84,8 @@ public interface Constants {
     public static final String AUDIT_WARNINGS = "Warnings";
     public static final String GRANTSGOV_ERRORS= "Grants.Gov Errors";
     
+    public static final String PROPOSAL_ACTIONS_PAGE = "proposalActions";
+    public static final String ABSTRACTS_AND_ATTACHMENTS_PAGE = "abstractsAttachments";
     public static final String PROPOSAL_PAGE = "proposal";
     public static final String CUSTOM_ATTRIBUTES_PAGE = "customData";
     public static final String QUESTIONS_PAGE = "questions";
@@ -188,6 +190,7 @@ public interface Constants {
     public static final String S2S_SUBMISSIONTYPE_CODE_KEY="document.s2sOpportunity.s2sSubmissionTypeCode";
     public static final String GRANTS_GOV_PANEL_ANCHOR  = "Opportunity";
     public static final String GRANTS_GOV_OPPORTUNITY_PANEL = "GrantsGov";
+    public static final String ABSTRACTS_AND_ATTACHMENTS_PANEL ="AbstractsAndAttachments";
     public static final String OPPORTUNITY_ID_KEY="document.programAnnouncementNumber";
     public static final String OPPORTUNITY_TITLE_KEY="document.programAnnouncementTitle";
     public static final String CFDA_NUMBER_KEY="document.cfdaNumber";
