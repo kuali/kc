@@ -27,4 +27,7 @@
 
 This is the Award Home Page - Under Construction
 
+<kul:panelFooter />
+<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
+
 </kul:documentPage>

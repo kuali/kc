@@ -14,5 +14,20 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<kul:documentPage
+	showDocumentInfo="true"
+	htmlFormAction="awardPaymentsReportsAndTerms"
+	documentTypeName="AwardDocument"
+	renderMultipart="false"
+	showTabButtons="true"
+	auditCount="0"
+  	headerDispatch="${KualiForm.headerDispatch}"
+  	headerTabActive="paymentsReportsAndTerms">
+ 	
+  	
 This is the Award Payments, Reports & Terms - Under Construction
 
+<kul:panelFooter />
+<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
+
+</kul:documentPage>
