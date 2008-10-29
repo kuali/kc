@@ -31,6 +31,9 @@ public class KeyConstants {
     public static final String WARNING_PAST_DEADLINE_DATE = "warning.past.deadline.date";
     public static final String ERROR_APPROVAL_DATE_BEFORE_APPLICATION_DATE_SPECIALREVIEW = "error.approvalDate.before.applicationDate.for.valid.specialReview";
     public static final String ERROR_START_DATE_AFTER_END_DATE = "error.start.date.after.end.date";
+    
+    // Abstracts and Attachments errors
+    public static final String ERROR_PROPOSAL_ATTACHMENT_NOT_COMPLETE = "error.document.narrativestatuscode.not.complete";
 
     // Proposal Types System Parameter Names
     public static final String PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW = "proposaldevelopment.proposaltype.new";

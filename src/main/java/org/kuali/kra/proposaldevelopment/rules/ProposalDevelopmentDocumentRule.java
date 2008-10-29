@@ -489,6 +489,9 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         
         retval &= new KeyPersonnelAuditRule().processRunAuditBusinessRules(document);
         
+        //audit for Proposal Attachments to ensure status code is set to complete.
+        retval &= new ProposalDevelopmentProposalAttachmentsAuditRule().processRunAuditBusinessRules(document);
+        
         //Change for KRACOEUS-1403
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) document;
         proposalDevelopmentDocument.getYnqService().populateProposalQuestions(proposalDevelopmentDocument.getProposalYnqs(), proposalDevelopmentDocument.getYnqGroupNames(), proposalDevelopmentDocument);
