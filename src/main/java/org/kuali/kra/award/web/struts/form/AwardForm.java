@@ -15,17 +15,14 @@
  */
 package org.kuali.kra.award.web.struts.form;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.datadictionary.HeaderNavigation;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 
 public class AwardForm extends KraTransactionalDocumentFormBase {

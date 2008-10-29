@@ -42,7 +42,7 @@ public class Award extends KraPersistableBusinessObjectBase {
     private String paymentScheduleIndicator;
     private String scienceCodeIndicator;
     private String specialReviewIndicator;
-    private String speicalAwardNumber;
+    private String sponsorAwardNumber;
     private String transferSponsorIndicator;
     private Integer accountTypeCode;
     private Integer activityTypeCode;
@@ -246,12 +246,12 @@ public class Award extends KraPersistableBusinessObjectBase {
     }
 
 
-    public String getSpeicalAwardNumber() {
-        return speicalAwardNumber;
+    public String getSponsorAwardNumber() {
+        return sponsorAwardNumber;
     }
 
-    public void setSpeicalAwardNumber(String speicalAwardNumber) {
-        this.speicalAwardNumber = speicalAwardNumber;
+    public void setSponsorAwardNumber(String sponsorAwardNumber) {
+        this.sponsorAwardNumber = sponsorAwardNumber;
     }
 
 
@@ -474,7 +474,7 @@ public class Award extends KraPersistableBusinessObjectBase {
         hashMap.put("paymentScheduleIndicator", getPaymentScheduleIndicator());
         hashMap.put("scienceCodeIndicator", getScienceCodeIndicator());
         hashMap.put("specialReviewIndicator", getSpecialReviewIndicator());
-        hashMap.put("speicalAwardNumber", getSpeicalAwardNumber());
+        hashMap.put("sponsorAwardNumber", getSponsorAwardNumber());
         hashMap.put("accountTypeCode", getAccountTypeCode());
         hashMap.put("activityTypeCode", getActivityTypeCode());
         hashMap.put("awardTypeCode", getAwardTypeCode());
