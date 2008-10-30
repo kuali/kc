@@ -25,8 +25,22 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 
+/**
+ * 
+ * This class represents the Award Form Struts class.
+ */
 public class AwardForm extends KraTransactionalDocumentFormBase {
     
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -7633960906991275328L;
+    public static final String SAVE = "save";
+    
+    /**
+     * 
+     * Constructs a AwardForm.java.
+     */
     public AwardForm() {
         super();
         this.setDocument(new AwardDocument());
@@ -38,12 +52,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase {
      * This method initialize all form variables
      */
     public void initialize() {
-        DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
-        DocumentEntry docEntry = dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.award.document.AwardDocument.class.getName());
-        List<HeaderNavigation> navList = docEntry.getHeaderNavigationList();
-        HeaderNavigation[] list = new HeaderNavigation[navList.size()];
-        navList.toArray(list);
-        this.setHeaderNavigationTabs(list);   
+        initializeHeaderNavigationTabs();   
     }
     
     /**
@@ -54,11 +63,39 @@ public class AwardForm extends KraTransactionalDocumentFormBase {
      * @return the Header Dispatch action
      */
     public String getHeaderDispatch() {
-        return "save";
+        return SAVE;
     }
     
+    /**
+     * 
+     * This method returns the AwardDocument object.
+     * @return
+     */
     public AwardDocument getAwardDocument() {
         return (AwardDocument) this.getDocument();
+    }
+    
+    /**
+     * 
+     * This method initializes the loads the header navigation tabs.
+     */
+    protected void initializeHeaderNavigationTabs(){
+        DataDictionaryService dataDictionaryService = getDataDictionaryService();
+        DocumentEntry docEntry = dataDictionaryService.getDataDictionary()
+                                    .getDocumentEntry(org.kuali.kra.award.document.AwardDocument.class.getName());
+        List<HeaderNavigation> navList = docEntry.getHeaderNavigationList();
+        HeaderNavigation[] list = new HeaderNavigation[navList.size()];
+        navList.toArray(list);
+        super.setHeaderNavigationTabs(list); 
+    }
+    
+    /**
+     * 
+     * This method is a wrapper method for getting DataDictionary Service using the Service Locator.
+     * @return
+     */
+    protected DataDictionaryService getDataDictionaryService(){
+        return (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
     }
 
 }
