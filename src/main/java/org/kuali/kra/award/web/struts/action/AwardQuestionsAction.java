@@ -15,7 +15,10 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
-
+/**
+ * 
+ * This class represents the Struts Action for Questions page(AwardQuestions.jsp)
+ */
 public class AwardQuestionsAction extends AwardAction {    
     
 }
