@@ -18,9 +18,12 @@ package org.kuali.kra.award.document;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.document.ResearchDocumentBase;
 
+/**
+ * 
+ * This class represents the Award Document Object.
+ */
 public class AwardDocument extends ResearchDocumentBase {
-    private static final String DETAIL_TYPE_CODE = "D";
-    private static final String AWARD_NAMESPACE_CODE = "KRA-A";
+    
     private Award award;
     
     public AwardDocument(){        
