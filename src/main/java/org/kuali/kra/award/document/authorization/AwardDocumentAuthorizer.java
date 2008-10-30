@@ -15,19 +15,12 @@
  */
 package org.kuali.kra.award.document.authorization;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
 
+/**
+ * 
+ * This class represents the Award Document Authorizer.
+ */
 public class AwardDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
     
-    private static final String TRUE = "TRUE";
-    private static final String FALSE = "FALSE";
-    private static Map<String, String> entryEditModeReplacementMap = new HashMap<String, String>();
-    
-    public AwardDocumentAuthorizer() {
-        
-    }
-
 }
