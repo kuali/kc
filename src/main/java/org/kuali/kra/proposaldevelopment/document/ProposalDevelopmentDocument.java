@@ -1035,6 +1035,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     
     
     public List<ProposalYnq> getProposalYnqs() {
+        Collections.sort(proposalYnqs);
         return proposalYnqs;
     }
 
@@ -1046,7 +1047,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         if(ynqGroupNames.isEmpty()) {
             getYnqService().populateProposalQuestions(this.proposalYnqs, this.ynqGroupNames, this);
         }
-        Collections.sort(ynqGroupNames, new YnqGroupName());
+        Collections.sort(ynqGroupNames);
         return ynqGroupNames;
     }
     
