@@ -15,7 +15,10 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
-
+/**
+ * 
+ * This class represents the Struts Action for Contacts page(AwardContacts.jsp)
+ */
 public class AwardContactsAction extends AwardAction {    
     
 }

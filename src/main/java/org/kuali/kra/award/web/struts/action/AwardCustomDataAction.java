@@ -15,7 +15,10 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
-
+/**
+ * 
+ * This class represents the Struts Action for Custom Data page(AwardCustomData.jsp)
+ */
 public class AwardCustomDataAction extends AwardAction {    
     
 }

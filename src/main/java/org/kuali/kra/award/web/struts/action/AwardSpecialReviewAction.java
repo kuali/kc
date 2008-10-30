@@ -15,7 +15,10 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
-
+/**
+ * 
+ * This class represents the Struts Action for Special Review page(AwardSpecialReview.jsp)
+ */
 public class AwardSpecialReviewAction extends AwardAction {    
     
 }
