@@ -65,7 +65,12 @@ public class KraExceptionAction extends Action {
         PessimisticLockService lockService = KNSServiceLocator.getPessimisticLockService();
         
         if(StringUtils.isNotEmpty(documentNumber)) {
-            Document document = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(documentNumber);
+            Document document;
+            try {
+                document = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(documentNumber);
+            } catch (Exception exc) {
+                document = null;
+            }
 
             if (ObjectUtils.isNotNull(document)) {
                 String budgetLockDescriptor = null;
