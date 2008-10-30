@@ -15,7 +15,10 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
-
+/**
+ * 
+ * This class represents the Struts Action for Permissions page(AwardPermissions.jsp)
+ */
 public class AwardPermissionsAction extends AwardAction {    
     
 }

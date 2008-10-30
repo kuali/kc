@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
+import java.util.HashMap;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,6 +24,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.document.Document;
+import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
@@ -30,6 +33,10 @@ import org.kuali.rice.kns.util.KNSConstants;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
 
+/**
+ * 
+ * This class represents base Action class for all the Award pages.
+ */
 public class AwardAction extends KraTransactionalDocumentActionBase {
     
     /**
@@ -62,8 +69,9 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
         return forward;
     }
     
+    @Override
     public ActionForward headerTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+        ((KualiForm) form).setTabStates(new HashMap());
         return super.headerTab(mapping, form, request, response);
     }
     
