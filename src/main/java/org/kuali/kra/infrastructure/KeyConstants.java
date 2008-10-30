@@ -250,4 +250,6 @@ public class KeyConstants {
 
     // Budget Version
     public static final String BUDGET_VERSION_EXISTS = "error.budgetVersion.exists";
+    public static final String MOVE_UNIT_OWN_DESCENDANTS = "error_move_unit";
+    
 }
