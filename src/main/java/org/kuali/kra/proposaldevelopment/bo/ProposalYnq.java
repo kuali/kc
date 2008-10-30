@@ -23,7 +23,7 @@ import org.kuali.kra.bo.Ynq;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.YnqConstants;
 
-public class ProposalYnq extends KraPersistableBusinessObjectBase {
+public class ProposalYnq extends KraPersistableBusinessObjectBase implements Comparable<ProposalYnq>{
 
 	private String proposalNumber;
 	private String questionId;
@@ -140,5 +140,9 @@ public class ProposalYnq extends KraPersistableBusinessObjectBase {
 
     public void setReviewDateRequiredDescription(String reviewDateRequiredDescription) {
         this.reviewDateRequiredDescription = reviewDateRequiredDescription;
+    }
+    
+    public int compareTo(ProposalYnq proposalYnq) {
+        return this.getQuestionId().compareTo(proposalYnq.getQuestionId());
     }
 }
