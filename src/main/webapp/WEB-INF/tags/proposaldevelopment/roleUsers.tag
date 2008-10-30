@@ -19,7 +19,7 @@
 <%@ attribute name="userList" required="true" type="java.util.List" %>
 
 <tr>
-	<th align="right" valign="middle" width="20%">${roleName}:</th>
+	<th align="right" valign="middle" width="35%">${roleName}:</th>
     <td id="${id}" align="left" valign="middle">
       	<c:forEach var="name" items="${userList}" varStatus="status">
        		<c:if test="${status.index != 0}">;&nbsp;</c:if>
