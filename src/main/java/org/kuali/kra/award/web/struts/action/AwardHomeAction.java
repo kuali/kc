@@ -22,9 +22,13 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
-
-public class AwardAwardAction extends AwardAction { 
+/**
+ * 
+ * This class represents the Struts Action for Award page(AwardHome.jsp) 
+ */
+public class AwardHomeAction extends AwardAction { 
     
+    @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return super.execute(mapping, form, request, response);
     }
