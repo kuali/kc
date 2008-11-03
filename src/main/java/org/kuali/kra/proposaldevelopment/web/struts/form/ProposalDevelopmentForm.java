@@ -1057,7 +1057,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         }  
         
         String externalImageURL = "kra.externalizable.images.url";
-        if(showSubmitButton){
+        if(showSubmitButton && doc.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("R")){
             String submitToGrantsGovImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_submittosponsor.gif";
             addExtraButton("methodToCall.submitToSponsor", submitToGrantsGovImage, "Submit To Sponsor");
         }else if(showResubmitButton){
