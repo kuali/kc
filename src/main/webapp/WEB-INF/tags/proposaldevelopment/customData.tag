@@ -37,7 +37,7 @@
 		<c:forEach items="${KualiForm.customAttributeGroups[fullName]}" var="customAttributeDocument" varStatus="status">
 			<tr class="datatable">
 				<th  align="right">
-					<c:if test="${customAttributeDocument.required}">*</c:if>${customAttributeDocument.customAttribute.label}:
+					<c:if test="${customAttributeDocument.required}">*&nbsp;</c:if>${customAttributeDocument.customAttribute.label}:
 				</th>
 				<td width="45%">
 				<c:forEach var="customAttributeDocument1" items="${KualiForm.document.customAttributeDocuments}" > 
