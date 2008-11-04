@@ -10,7 +10,7 @@
     <property name="label" value="Award Document" />
     <property name="shortLabel" value="Award Doc" />
     <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="Doing it right" />
+    <property name="description" value="Award Document" />
     <property name="usePessimisticLocking" value="true" />
     <property name="useWorkflowPessimisticLocking" value="false" />
     <property name="helpDefinition" >
@@ -31,11 +31,11 @@
           <property name="helpDefinition" >
             <bean parent="HelpDefinition"
                   p:parameterNamespace="KRA-A"
-                  p:parameterName="awardAwardHelp"
+                  p:parameterName="awardHomeHelp"
                   p:parameterDetailType="D" />
           </property>
           <property name="headerTabDisplayName" value="Award" />
-          <property name="headerTabNavigateTo" value="award" />
+          <property name="headerTabNavigateTo" value="home" />
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition" >
@@ -64,8 +64,8 @@
                   p:parameterName="awardPaymentsReportsAndTermsHelp"
                   p:parameterDetailType="D" />
           </property>
-          <property name="headerTabDisplayName" value="Payments, Reports &amp; Terms" />
-          <property name="headerTabNavigateTo" value="paymentsReportsAndTerms" />
+          <property name="headerTabDisplayName" value="Payment, Reports &amp; Terms" />
+          <property name="headerTabNavigateTo" value="paymentReportsAndTerms" />
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition" >
@@ -115,7 +115,7 @@
                   p:parameterDetailType="D" />
           </property>
           <property name="headerTabDisplayName" value="Notes &amp; Attachments" />
-          <property name="headerTabNavigateTo" value="notesAndAttachmentsHelp" />
+          <property name="headerTabNavigateTo" value="notesAndAttachments" />
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition" >
@@ -142,13 +142,76 @@
       </list>
     </property>
     <property name="attributes" >
-      <list>        
-        <ref bean="AwardDocument-versionNumber" />
+      <list>
+      	<ref bean="AwardDocument-awardNumber" />
+      	<!--  <ref bean="AwardDocument-awardId" />
+      	<ref bean="AwardDocument-awardNumber" />
+      	<ref bean="AwardDocument-sequenceNumber" />
+      	<ref bean="AwardDocument-sponsorCode" />
+      	<ref bean="AwardDocument-statusCode" />
+      	<ref bean="AwardDocument-templateCode" />
+      	<ref bean="AwardDocument-accountNumber" />
+      	<ref bean="AwardDocument-approvedEquipmentIndicator" />
+      	<ref bean="AwardDocument-approvedForeignTripIndicator" />
+      	<ref bean="AwardDocument-subContractIndicator" />
+      	<ref bean="AwardDocument-awardEffectiveDate" />
+      	<ref bean="AwardDocument-awardExecutionDate" />
+      	<ref bean="AwardDocument-beginDate" />
+      	<ref bean="AwardDocument-costSharingIndicator" />
+      	<ref bean="AwardDocument-idcIndicator" />
+      	<ref bean="AwardDocument-modificationNumber" />
+      	<ref bean="AwardDocument-nsfCode" />
+      	<ref bean="AwardDocument-paymentScheduleIndicator" />
+      	<ref bean="AwardDocument-scienceCodeIndicator" />
+      	<ref bean="AwardDocument-specialReviewIndicator" />
+      	<ref bean="AwardDocument-sponsorAwardNumber" />
+      	<ref bean="AwardDocument-transferSponsorIndicator" />
+      	<ref bean="AwardDocument-accountTypeCode" />
+      	<ref bean="AwardDocument-activityTypeCode" />
+      	<ref bean="AwardDocument-awardTypeCode" />
+      	<ref bean="AwardDocument-primeSponsorCode" />
+      	<ref bean="AwardDocument-basisOfPaymentCode" />
+      	<ref bean="AwardDocument-cfdaNumber" />
+      	<ref bean="AwardDocument-competingRenewalProposalDue" />      	        
+        <ref bean="AwardDocument-dfafsNumber" />
+        <ref bean="AwardDocument-finalInvoiceDue" />
+      	<ref bean="AwardDocument-invoiceNumberOfCopies" />      	        
+        <ref bean="AwardDocument-methodOfPaymentCode" />
+        <ref bean="AwardDocument-nonCompetingContProposalDue" />
+      	<ref bean="AwardDocument-paymentInvoiceFrequencyCode" />      	        
+        <ref bean="AwardDocument-preAwardAuthorizedAmount" />
+        <ref bean="AwardDocument-preAwardEffectiveDate" />
+      	<ref bean="AwardDocument-procurementPriorityCode" />      	        
+        <ref bean="AwardDocument-proposalNumber" />
+        <ref bean="AwardDocument-specialEbRateOffCampus" />
+        <ref bean="AwardDocument-specialEbRateOnCampus" />
+        <ref bean="AwardDocument-subPlanFlag" />
+        <ref bean="AwardDocument-title" />-->
+        <ref bean="AwardDocument-versionNumber" />        
       </list>
     </property>
   </bean>
 
 <!-- Attribute Definitions -->
+	<bean id="AwardDocument-awardNumber" parent="AwardDocument-awardNumber-parentBean" />	
+
+  <bean id="AwardDocument-awardNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="awardNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Award Number" />
+    <property name="shortLabel" value="Award Number" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Award Number" />
+    <property name="description" value="Award Number" />
+  </bean>
   
   <bean id="AwardDocument-versionNumber" parent="AwardDocument-versionNumber-parentBean" />
 

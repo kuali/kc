@@ -26,13 +26,15 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * This class is Award Business Object.
  */
 public class Award extends KraPersistableBusinessObjectBase {
+    
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 3797220122448310165L;
     private Integer awardId;
+    private String documentNumber;
     private String awardNumber;
-    private String sequenceNumber;
+    private Integer sequenceNumber;
     private String sponsorCode;
     private Integer statusCode;
     private Integer templateCode;
@@ -44,7 +46,7 @@ public class Award extends KraPersistableBusinessObjectBase {
     private Date awardExecutionDate;
     private Date beginDate;
     private String costSharingIndicator;
-    private String idcIndicator;
+    private String indirectCostIndicator;
     private String modificationNumber;
     private String nsfCode;
     private String paymentScheduleIndicator;
@@ -59,7 +61,7 @@ public class Award extends KraPersistableBusinessObjectBase {
     private Integer basisOfPaymentCode;
     private String cfdaNumber;
     private Integer competingRenewalProposalDue;
-    private String dfafsNumber;
+    private String documentFundingId;
     private Integer finalInvoiceDue;
     private Integer invoiceNumberOfCopies;
     private Integer methodOfPaymentCode;
@@ -73,6 +75,42 @@ public class Award extends KraPersistableBusinessObjectBase {
     private Integer specialEbRateOnCampus;
     private String subPlanFlag;
     private String title;
+    
+    /**
+     * 
+     * Constructs an Award BO.
+     */
+    public Award() {
+        super();
+        initializeAwardWithDefaultValues();        
+    }
+    
+    /**
+     * 
+     * This method sets the default values for initial persistence as part of skeleton.
+     * As various panels are developed; corresponding field initializations should be removed from
+     * this method.  
+     */
+    private void initializeAwardWithDefaultValues(){
+        setAwardNumber("1");
+        setSequenceNumber(1);
+        setSponsorCode("1");
+        setStatusCode(1);
+        setApprovedEquipmentIndicator("Y");
+        setApprovedForeignTripIndicator("Y");
+        setSubContractIndicator("Y");
+        setCostSharingIndicator("Y");
+        setIdcIndicator("Y");
+        setPaymentScheduleIndicator("Y");
+        setScienceCodeIndicator("Y");
+        setSpecialReviewIndicator("Y");
+        setTransferSponsorIndicator("Y");
+        setActivityTypeCode(1);
+        setAwardTypeCode(1);
+        setBasisOfPaymentCode(1);
+        setMethodOfPaymentCode(1);
+        setTitle("Award");   
+    }
     
     /**
      *
@@ -112,7 +150,7 @@ public class Award extends KraPersistableBusinessObjectBase {
      *
      * @return
      */
-    public String getSequenceNumber() {
+    public Integer getSequenceNumber() {
         return sequenceNumber;
     }
 
@@ -120,7 +158,7 @@ public class Award extends KraPersistableBusinessObjectBase {
      *
      * @param sequenceNumber
      */
-    public void setSequenceNumber(String sequenceNumber) {
+    public void setSequenceNumber(Integer sequenceNumber) {
         this.sequenceNumber = sequenceNumber;
     }
 
@@ -313,19 +351,23 @@ public class Award extends KraPersistableBusinessObjectBase {
 
 
     /**
-     *
+     * 
+     * For ease of use in JSP and tag files; the getter method uses acronym instead of full meaning.
+     * idcIndicator is an acronym. Its full meaning is Indirect Cost Indicator 
      * @return
      */
     public String getIdcIndicator() {
-        return idcIndicator;
+        return indirectCostIndicator;
     }
 
     /**
-     *
-     * @param idcIndicator
+     * 
+     * For ease of use in JSP and tag files; the setter method uses acronym instead of full meaning.
+     * idcIndicator is an acronym. Its full meaning is Indirect Cost Indicator
+     * @param indirectCostIndicator
      */
-    public void setIdcIndicator(String idcIndicator) {
-        this.idcIndicator = idcIndicator;
+    public void setIdcIndicator(String indirectCostIndicator) {
+        this.indirectCostIndicator = indirectCostIndicator;
     }
 
 
@@ -347,7 +389,7 @@ public class Award extends KraPersistableBusinessObjectBase {
 
 
     /**
-     *
+     * NSFCode is an acronym. Its full meaning is National Science Foundation.
      * @return
      */
     public String getNsfCode() {
@@ -355,7 +397,7 @@ public class Award extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     *
+     * NSFCode is an acronym. Its full meaning is National Science Foundation.
      * @param nsfCode
      */
     public void setNsfCode(String nsfCode) {
@@ -534,7 +576,8 @@ public class Award extends KraPersistableBusinessObjectBase {
 
 
     /**
-     *
+     * 
+     * cfdaNumber is an acronym. Its full meaning is Catalog of Federal Domestic Assistance
      * @return
      */
     public String getCfdaNumber() {
@@ -542,7 +585,8 @@ public class Award extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     *
+     * 
+     * cfdaNumber is an acronym. Its full meaning is Catalog of Federal Domestic Assistance
      * @param cfdaNumber
      */
     public void setCfdaNumber(String cfdaNumber) {
@@ -568,19 +612,20 @@ public class Award extends KraPersistableBusinessObjectBase {
 
 
     /**
-     *
+     * 
      * @return
      */
-    public String getDfafsNumber() {
-        return dfafsNumber;
+    public String getDocumentFundingId() {
+        return documentFundingId;
     }
 
     /**
-     *
-     * @param dfafsNumber
+     * 
+     * This method...
+     * @param documentFundingId
      */
-    public void setDfafsNumber(String dfafsNumber) {
-        this.dfafsNumber = dfafsNumber;
+    public void setDocumentFundingId(String documentFundingId) {
+        this.documentFundingId = documentFundingId;
     }
 
 
@@ -812,6 +857,7 @@ public class Award extends KraPersistableBusinessObjectBase {
     protected LinkedHashMap<String,Object> toStringMapper() {        
         LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();        
         hashMap.put("awardId", getAwardId());
+        hashMap.put("documentNumber",getDocumentNumber());
         hashMap.put("awardNumber", getAwardNumber());
         hashMap.put("sequenceNumber", getSequenceNumber());
         hashMap.put("sponsorCode", getSponsorCode());
@@ -825,7 +871,7 @@ public class Award extends KraPersistableBusinessObjectBase {
         hashMap.put("awardExecutionDate", getAwardExecutionDate());
         hashMap.put("beginDate", getBeginDate());
         hashMap.put("costSharingIndicator", getCostSharingIndicator());
-        hashMap.put("idcIndicator", getIdcIndicator());
+        hashMap.put("indirectCostIndicator", getIdcIndicator());
         hashMap.put("modificationNumber", getModificationNumber());
         hashMap.put("nsfCode", getNsfCode());
         hashMap.put("paymentScheduleIndicator", getPaymentScheduleIndicator());
@@ -840,7 +886,7 @@ public class Award extends KraPersistableBusinessObjectBase {
         hashMap.put("basisOfPaymentCode", getBasisOfPaymentCode());
         hashMap.put("cfdaNumber", getCfdaNumber());
         hashMap.put("competingRenewalProposalDue", getCompetingRenewalProposalDue());
-        hashMap.put("dfafsNumber", getDfafsNumber());
+        hashMap.put("documentFundingId", getDocumentFundingId());
         hashMap.put("finalInvoiceDue", getFinalInvoiceDue());
         hashMap.put("invoiceNumberOfCopies", getInvoiceNumberOfCopies());
         hashMap.put("methodOfPaymentCode", getMethodOfPaymentCode());
@@ -855,6 +901,14 @@ public class Award extends KraPersistableBusinessObjectBase {
         hashMap.put("subPlanFlag", getSubPlanFlag());
         hashMap.put("title", getTitle());
         return hashMap;
+    }
+
+    public String getDocumentNumber() {
+        return documentNumber;
+    }
+
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
 
 }

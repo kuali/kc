@@ -15,11 +15,29 @@
  */
 package org.kuali.kra.award.web.struts.form;
 
+import org.kuali.kra.award.document.AwardDocument;
+
+
 
 /**
  * 
  * This class represents the Award Home Form Struts class.
  */
 public class AwardHomeForm extends AwardForm {
+    /**
+     * 
+     * Constructs a AwardHomeForm.java.
+     */
+    public AwardHomeForm() {
+        super();
+    }
     
+    /**
+     * 
+     * This method returns the AwardDocument object.
+     * @return
+     */
+    public AwardDocument getAwardDocument() {
+        return super.getAwardDocument();
+    }
 }

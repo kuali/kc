@@ -21,7 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class AwardTest { 
-    private static final int AWARD_ATTRIBUTES_COUNT = 43;
+    private static final int AWARD_ATTRIBUTES_COUNT = 44;
     
     private Award awardBo;
     
