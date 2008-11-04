@@ -2908,6 +2908,76 @@
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 	</class-descriptor>
+	
+	<!-- Award Tables -->
+	<!--  
+	<class-descriptor class="org.kuali.kra.award.document.AwardDocument" table="AWARD_DOCUMENT">			
+		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>		
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
+        	<foreignkey field-ref="documentNumber" />
+    	</reference-descriptor>    	
+    	<collection-descriptor name="awardList" proxy="true" element-class-ref="org.kuali.kra.award.bo.Award" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        	<inverse-foreignkey field-ref="documentNumber" />
+    	</collection-descriptor>
+	</class-descriptor>
+	
+	
+	<class-descriptor class="org.kuali.kra.award.bo.Award" table="AWARD1">
+		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQUENCE_AWARD_ID" autoincrement="true"/>
+		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
+		<field-descriptor name="sponsorCode" column="SPONSOR_CODE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="statusCode" column="STATUS_CODE" jdbc-type="INTEGER"/>
+		<field-descriptor name="templateCode" column="TEMPLATE_CODE" jdbc-type="INTEGER"/>
+		<field-descriptor name="accountNumber" column="ACCOUNT_NUMBER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="approvedEquipmentIndicator" column="APPRVD_EQUIPMENT_INDICATOR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="approvedForeignTripIndicator" column="APPRVD_FOREIGN_TRIP_INDICATOR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="subContractIndicator" column="APPRVD_SUBCONTRACT_INDICATOR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="awardEffectiveDate" column="AWARD_EFFECTIVE_DATE" jdbc-type="DATE"/>
+		<field-descriptor name="awardExecutionDate" column="AWARD_EXECUTION_DATE" jdbc-type="DATE"/>
+		<field-descriptor name="beginDate" column="BEGIN_DATE" jdbc-type="DATE"/>
+		<field-descriptor name="costSharingIndicator" column="COST_SHARING_INDICATOR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="indirectCostIndicator" column="IDC_INDICATOR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="modificationNumber" column="MODIFICATION_NUMBER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="nsfCode" column="NSF_CODE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="paymentScheduleIndicator" column="PAYMENT_SCHEDULE_INDICATOR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="scienceCodeIndicator" column="SCIENCE_CODE_INDICATOR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="specialReviewIndicator" column="SPECIAL_REVIEW_INDICATOR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="sponsorAwardNumber" column="SPONSOR_AWARD_NUMBER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="transferSponsorIndicator" column="TRANSFER_SPONSOR_INDICATOR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="accountTypeCode" column="ACCOUNT_TYPE_CODE" jdbc-type="INTEGER"/>
+		<field-descriptor name="activityTypeCode" column="ACTIVITY_TYPE_CODE" jdbc-type="INTEGER"/>
+		<field-descriptor name="awardTypeCode" column="AWARD_TYPE_CODE" jdbc-type="INTEGER"/>
+		<field-descriptor name="primeSponsorCode" column="PRIME_SPONSOR_CODE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="basisOfPaymentCode" column="BASIS_OF_PAYMENT_CODE" jdbc-type="INTEGER"/>
+		<field-descriptor name="cfdaNumber" column="CFDA_NUMBER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="competingRenewalProposalDue" column="COMPETING_RENEWAL_PRPSL_DUE" jdbc-type="INTEGER"/>
+		<field-descriptor name="documentFundingId" column="DFAFS_NUMBER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="finalInvoiceDue" column="FINAL_INVOICE_DUE" jdbc-type="INTEGER"/>
+		<field-descriptor name="invoiceNumberOfCopies" column="INVOICE_NUMBER_OF_COPIES" jdbc-type="INTEGER"/>
+		<field-descriptor name="methodOfPaymentCode" column="METHOD_OF_PAYMENT_CODE" jdbc-type="INTEGER"/>
+		<field-descriptor name="nonCompetingContProposalDue" column="NON_COMPETING_CONT_PRPSL_DUE" jdbc-type="INTEGER"/>
+		<field-descriptor name="paymentInvoiceFrequencyCode" column="PAYMENT_INVOICE_FREQ_CODE" jdbc-type="INTEGER"/>
+		<field-descriptor name="preAwardAuthorizedAmount" column="PRE_AWARD_AUTHORIZED_AMOUNT" jdbc-type="INTEGER"/>
+		<field-descriptor name="preAwardEffectiveDate" column="PRE_AWARD_EFFECTIVE_DATE" jdbc-type="DATE"/>
+		<field-descriptor name="procurementPriorityCode" column="PROCUREMENT_PRIORITY_CODE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="specialEbRateOffCampus" column="SPECIAL_EB_RATE_OFF_CAMPUS" jdbc-type="INTEGER"/>
+		<field-descriptor name="specialEbRateOnCampus" column="SPECIAL_EB_RATE_ON_CAMPUS" jdbc-type="INTEGER"/>
+		<field-descriptor name="subPlanFlag" column="SUB_PLAN_FLAG" jdbc-type="VARCHAR"/>
+		<field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>		
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+	</class-descriptor>
+	-->
 
 	<class-descriptor class="org.kuali.kra.irb.document.ProtocolDocument" table="PROTOCOL">
 		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>

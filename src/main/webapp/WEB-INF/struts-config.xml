@@ -154,9 +154,9 @@
       </action>
       
       <!--  Award -->      
-      <action path="/award*" name="Award{1}Form" input="/WEB-INF/jsp/award/Award{1}.jsp" type="org.kuali.kra.award.web.struts.action.Award{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+      <action path="/award*" name="AwardForm" input="/WEB-INF/jsp/award/Award{1}.jsp" type="org.kuali.kra.award.web.struts.action.Award{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/award/Award{1}.jsp" />
-          <forward name="award" path="/WEB-INF/jsp/award/AwardHome.jsp" />
+          <forward name="home" path="/WEB-INF/jsp/award/AwardHome.jsp" />
           <forward name="contacts" path="/WEB-INF/jsp/award/AwardContacts.jsp" />
           <forward name="timeAndMoney" path="/WEB-INF/jsp/award/AwardTimeAndMoney.jsp" />
           <forward name="paymentReportsAndTerms" path="/WEB-INF/jsp/award/AwardPaymentReportsAndTerms.jsp" />

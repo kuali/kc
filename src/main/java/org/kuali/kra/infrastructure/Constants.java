@@ -280,5 +280,17 @@ public interface Constants {
     public static final String SPONSOR_CODE = "sponsorCode";
     public static final String SPONSOR_HIERARCHY_SEPARATOR_C1C = ";1;";
     public static final String SPONSOR_HIERARCHY_SEPARATOR_P1P = "#1#";
-
+    
+    //Award
+    public static final String MAPPING_AWARD_HOME_PAGE = "home";
+    public static final String MAPPING_AWARD_CONTACTS_PAGE = "contacts";
+    public static final String MAPPING_AWARD_TIME_AND_MONEY_PAGE = "timeAndMoney";
+    public static final String MAPPING_AWARD_PAYMENT_REPORTS_AND_TERMS_PAGE = "paymentReportsAndTerms";
+    public static final String MAPPING_AWARD_SPECIAL_REVIEW_PAGE = "specialReview";
+    public static final String MAPPING_AWARD_CUSTOM_DATA_PAGE = "customData";
+    public static final String MAPPING_AWARD_QUESTIONS_PAGE = "questions";
+    public static final String MAPPING_AWARD_PERMISSIONS_PAGE = "permissions";
+    public static final String MAPPING_AWARD_NOTES_AND_ATTACHMENTS_PAGE = "notesAndAttachments";
+    public static final String MAPPING_AWARD_ACTIONS_PAGE = "awardActions";
+    
 }

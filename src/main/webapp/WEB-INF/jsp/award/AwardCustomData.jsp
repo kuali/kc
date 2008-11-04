@@ -27,7 +27,7 @@
   	
 This is the Award Custom Data Page - Under Construction
 
-<kul:panelFooter />
+
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 
 </kul:documentPage>
