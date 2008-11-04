@@ -15,19 +15,21 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<kul:documentPage
+<c:set var="proposalDevelopmentAttributes" value="${DataDictionary.AwardDocument.attributes}" />
+
+  <kul:documentPage
 	showDocumentInfo="true"
-	htmlFormAction="awardAward"
+	htmlFormAction="awardHome"
 	documentTypeName="AwardDocument"
 	renderMultipart="false"
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="award">
+  	headerTabActive="home">
 
 This is the Award Home Page - Under Construction
 
-<kul:panelFooter />
+
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 
 </kul:documentPage>

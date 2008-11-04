@@ -26,7 +26,7 @@
   	
 This is the Award Special Review - Under Construction
 
-<kul:panelFooter />
+
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 
 </kul:documentPage>
