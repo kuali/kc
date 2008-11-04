@@ -695,7 +695,7 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
         selectAnyOption(attachmentsPage, NARRATIVE_TYPE_CODE_ID);
         selectAnyOption(attachmentsPage, PERSONAL_ATTACHMENT_TYPE_ID);
         setFieldValue(attachmentsPage, PERSONAL_FILE_ID, getFilePath());
-        return clickOn(attachmentsPage, "methodToCall.addPersonnelAttachment.anchorPersonnelAttachments0");
+        return clickOnByName(attachmentsPage, "methodToCall.addPersonnelAttachment", true);
     }
     
     /**
@@ -707,7 +707,7 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
     private HtmlPage addInstituteAttachment(HtmlPage attachmentsPage) throws Exception {
         selectAnyOption(attachmentsPage, INSTITUTE_TYPE_CODE_ID);
         setFieldValue(attachmentsPage, INSTITUTE_FILE_ID, getFilePath());
-        return clickOn(attachmentsPage, "methodToCall.addInstitutionalAttachment.anchorInternalAttachments0");
+        return clickOnByName(attachmentsPage, "methodToCall.addInstitutionalAttachment", true);
     }
     
     /**
@@ -724,7 +724,10 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
         keyPersonnelPage = lookup(keyPersonnelPage, "newPersonId", "userName", username);
         setFieldValue(keyPersonnelPage, "newProposalPerson.proposalPersonRoleId", roleId);
         keyPersonnelPage = clickOn(keyPersonnelPage, "methodToCall.insertProposalPerson");
-        setFieldValue(keyPersonnelPage, "document.proposalPersons[0].proposalPersonYnq[0].answer", "Y");
+        HtmlElement element = getElement(keyPersonnelPage, "document.proposalPersons[0].proposalPersonYnq[0].answer");
+        if (element != null) {
+            setFieldValue(keyPersonnelPage, "document.proposalPersons[0].proposalPersonYnq[0].answer", "Y");
+        }
         keyPersonnelPage = clickOn(keyPersonnelPage, "save");
         return keyPersonnelPage;
     }

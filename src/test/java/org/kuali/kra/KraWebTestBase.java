@@ -168,6 +168,31 @@ public abstract class KraWebTestBase extends KraTestBase {
     protected final HtmlPage clickOn(HtmlPage page, String id) throws IOException {
         return clickOn(page, id, null);
     }
+    
+    /**
+     * Simulate clicking on an HTML element in the web page.  To find
+     * the HTML element, the following algorithm is used:
+     * <ol>
+     * <li>Search for a HTML element with an <b>id</b> attribute that matches the given id.</li>
+     * <li>If not found, search for the first HTML element with a <b>name</b> attribute that matches.</li>
+     * <li>If not found, search for the first HTML element with a <b>title</b> attribute that matches.</li>
+     * </ol>
+     * If an HTML element is not found or the element is not clickable,
+     * an assertion will cause the test case to fail.
+     *
+     * Using any of the <b>clickOn()</b> methods is the preferred way to click on an HTML element
+     * due to the Login process.  If the Login web page is encountered, the user will be
+     * automatically logged in and next web page is returned.
+     *
+     * @param page the HTML web page.
+     * @param id the <i>id</i> of the HTML element to click on.
+     * @return the next web page after clicking on the HTML element.
+     * @throws IOException
+     */
+    protected final HtmlPage clickOnByName(HtmlPage page, String id, boolean startsWith) throws IOException {
+        HtmlElement e = getElementByName(page, id, startsWith);
+        return clickOn(e);
+    }
 
     /**
      * Simulate clicking on an HTML element in the web page.  To find
