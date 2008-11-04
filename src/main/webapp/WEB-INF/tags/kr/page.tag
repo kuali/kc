@@ -365,5 +365,6 @@
 </c:if>
 
 </html:form>
+<div id="formComplete"></div>
 </body>
 </html:html>
