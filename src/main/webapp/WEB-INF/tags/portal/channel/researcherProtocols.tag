@@ -18,7 +18,7 @@
 <channel:portalChannelTop channelTitle="Protocols" />
 <div class="body">
   <ul class="chan">
-    <li>Create Protocol</li>
+    <li><portal:portalLink displayTitle="false" title="Create Protocol" url="protocol.do?methodToCall=docHandler&command=initiate&docTypeName=ProtocolDocument">Create Protocol</portal:portalLink></li>
     <li>Pending Protocols</li>
     <li>All My Protocols</li>
     <li>Pending PI Action</li>
