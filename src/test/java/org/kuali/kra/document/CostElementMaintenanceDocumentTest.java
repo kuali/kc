@@ -61,7 +61,7 @@ public class CostElementMaintenanceDocumentTest extends MaintenanceDocumentTestB
         HtmlPage costElementMaintenanceDocumentMaintenanceCopyPage = clickOn(copyLink, "Kuali :: Cost Element Maintenance Document");
         String documentNumber = getFieldValue(costElementMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.documentNumber");
 
-        setFieldValue(costElementMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.financialDocumentDescription", "Cost Element - copy test");
+        setFieldValue(costElementMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.documentDescription", "Cost Element - copy test");
 
         setFieldValue(costElementMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.budgetCategoryCode", "3");
         setFieldValue(costElementMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.description", "test copy cost element");
@@ -102,7 +102,7 @@ public class CostElementMaintenanceDocumentTest extends MaintenanceDocumentTestB
         HtmlPage costElementMaintenanceDocumentMaintenanceEditPage = clickOn(editLink, "Kuali :: Cost Element Maintenance Document");
         String documentNumber = getFieldValue(costElementMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.documentNumber");
 
-        setFieldValue(costElementMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.financialDocumentDescription", "Cost Element - edit test");
+        setFieldValue(costElementMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.documentDescription", "Cost Element - edit test");
         setFieldValue(costElementMaintenanceDocumentMaintenanceEditPage, "document.newMaintainableObject.description", "test edit cost element");
         setFieldValue(costElementMaintenanceDocumentMaintenanceEditPage, "document.newMaintainableObject.onOffCampusFlag", "on");
 
@@ -127,7 +127,7 @@ public class CostElementMaintenanceDocumentTest extends MaintenanceDocumentTestB
         HtmlPage costElementMaintenancePage = getMaintenanceDocumentPage("Cost Element","org.kuali.kra.budget.bo.CostElement","Kuali :: Cost Element Maintenance Document");
         String documentNumber = getFieldValue(costElementMaintenancePage, "document.documentHeader.documentNumber");
         assertContains(costElementMaintenancePage,"Edit Cost Element New * Object Code Name: Budget Category Code: * Description: * On/Off Campus Flag: unchecked");
-        setFieldValue(costElementMaintenancePage, "document.documentHeader.financialDocumentDescription", "Cost Element - test");
+        setFieldValue(costElementMaintenancePage, "document.documentHeader.documentDescription", "Cost Element - test");
         setFieldValue(costElementMaintenancePage, "document.newMaintainableObject.budgetCategoryCode", "3");
         setFieldValue(costElementMaintenancePage, "document.newMaintainableObject.description", "test new cost element");
         setFieldValue(costElementMaintenancePage, "document.newMaintainableObject.costElement", "999");

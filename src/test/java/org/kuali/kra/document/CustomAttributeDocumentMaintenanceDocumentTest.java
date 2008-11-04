@@ -62,7 +62,7 @@ public class CustomAttributeDocumentMaintenanceDocumentTest  extends Maintenance
         HtmlPage customAttributeDocumentMaintenanceCopyPage = clickOn(copyLink, "Kuali :: CustomAttributeDocument Maintenance Document");
         String documentNumber = getFieldValue(customAttributeDocumentMaintenanceCopyPage, "document.documentHeader.documentNumber");
 
-        setFieldValue(customAttributeDocumentMaintenanceCopyPage, "document.documentHeader.financialDocumentDescription", "Custom Attribute Document - copy test");
+        setFieldValue(customAttributeDocumentMaintenanceCopyPage, "document.documentHeader.documentDescription", "Custom Attribute Document - copy test");
 
         setFieldValue(customAttributeDocumentMaintenanceCopyPage, "document.newMaintainableObject.customAttributeId", "99");
         setFieldValue(customAttributeDocumentMaintenanceCopyPage, "document.newMaintainableObject.documentTypeCode", "STTC");
@@ -93,7 +93,7 @@ public class CustomAttributeDocumentMaintenanceDocumentTest  extends Maintenance
         HtmlPage customAttributeDocumentMaintenanceEditPage = clickOn(editLink, "Kuali :: CustomAttributeDocument Maintenance Document");
         String documentNumber = getFieldValue(customAttributeDocumentMaintenanceEditPage, "document.documentHeader.documentNumber");
 
-        setFieldValue(customAttributeDocumentMaintenanceEditPage, "document.documentHeader.financialDocumentDescription", "Custom Attribute Document - edit test");
+        setFieldValue(customAttributeDocumentMaintenanceEditPage, "document.documentHeader.documentDescription", "Custom Attribute Document - edit test");
 
         setFieldValue(customAttributeDocumentMaintenanceEditPage, "document.newMaintainableObject.typeName", "test type name");
                 
@@ -118,7 +118,7 @@ public class CustomAttributeDocumentMaintenanceDocumentTest  extends Maintenance
         HtmlPage customAttributeDocumentMaintenancePage = getMaintenanceDocumentPage("Custom Attribute Document","org.kuali.kra.bo.CustomAttributeDocument","Kuali :: CustomAttributeDocument Maintenance Document");
         String documentNumber = getFieldValue(customAttributeDocumentMaintenancePage, "document.documentHeader.documentNumber");
         assertContains(customAttributeDocumentMaintenancePage,"Edit CustomAttributeDocument New * Custom Attribute ID: * Document Type Code: Required: unchecked Type Name:");
-        setFieldValue(customAttributeDocumentMaintenancePage, "document.documentHeader.financialDocumentDescription", "Custom Attribute Document - test");
+        setFieldValue(customAttributeDocumentMaintenancePage, "document.documentHeader.documentDescription", "Custom Attribute Document - test");
         setFieldValue(customAttributeDocumentMaintenancePage, "document.newMaintainableObject.customAttributeId", "99");
         setFieldValue(customAttributeDocumentMaintenancePage, "document.newMaintainableObject.documentTypeCode", "STTC");
         setFieldValue(customAttributeDocumentMaintenancePage, "document.newMaintainableObject.typeName", "Test Type");

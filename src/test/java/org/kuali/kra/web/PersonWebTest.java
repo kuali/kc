@@ -94,7 +94,7 @@ public class PersonWebTest extends KraWebTestBase {
         HtmlAnchor editHyperlink = getAnchor(personPage, "111111112&methodToCall=edit");
         HtmlPage page = clickOn(editHyperlink);
         
-        setFieldValue(page, "document.documentHeader.financialDocumentDescription", "Test");
+        setFieldValue(page, "document.documentHeader.documentDescription", "Test");
         setFieldValue(page, "document.newMaintainableObject.active", "off");
         clickOn(page, "submit");
         
@@ -128,7 +128,7 @@ public class PersonWebTest extends KraWebTestBase {
         HtmlAnchor createNew = getAnchor(personPage, "Person");
         HtmlPage page = clickOn(createNew);
         
-        setFieldValue(page, "document.documentHeader.financialDocumentDescription", "Test");
+        setFieldValue(page, "document.documentHeader.documentDescription", "Test");
         setFieldValue(page, "document.newMaintainableObject.personId", personId);
         setFieldValue(page, "document.newMaintainableObject.userName", username);
         clickOn(page, "submit");

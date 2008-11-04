@@ -60,7 +60,7 @@ public class BudgetCategoryMaintenanceDocumentTest extends MaintenanceDocumentTe
         HtmlPage budgetCategoryMaintenanceDocumentMaintenanceCopyPage = clickOn(copyLink, "Kuali :: Budget Category Maintenance Document");
         String documentNumber = getFieldValue(budgetCategoryMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.documentNumber");
 
-        setFieldValue(budgetCategoryMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.financialDocumentDescription", "Budget Category - copy test");
+        setFieldValue(budgetCategoryMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.documentDescription", "Budget Category - copy test");
 
         setFieldValue(budgetCategoryMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.budgetCategoryCode", "99");
         setFieldValue(budgetCategoryMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.budgetCategoryTypeCode", "O");
@@ -92,7 +92,7 @@ public class BudgetCategoryMaintenanceDocumentTest extends MaintenanceDocumentTe
         HtmlPage budgetCategoryMaintenanceDocumentMaintenanceEditPage = clickOn(editLink, "Kuali :: Budget Category Maintenance Document");
         String documentNumber = getFieldValue(budgetCategoryMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.documentNumber");
 
-        setFieldValue(budgetCategoryMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.financialDocumentDescription", "Budget Category - edit test");
+        setFieldValue(budgetCategoryMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.documentDescription", "Budget Category - edit test");
 
         setFieldValue(budgetCategoryMaintenanceDocumentMaintenanceEditPage, "document.newMaintainableObject.description", "test edit budget category");
                 
@@ -116,7 +116,7 @@ public class BudgetCategoryMaintenanceDocumentTest extends MaintenanceDocumentTe
         HtmlPage budgetCategoryMaintenancePage = getMaintenanceDocumentPage("Budget Category","org.kuali.kra.budget.bo.BudgetCategory","Kuali :: Budget Category Maintenance Document");
         String documentNumber = getFieldValue(budgetCategoryMaintenancePage, "document.documentHeader.documentNumber");
         assertContains(budgetCategoryMaintenancePage,"Edit Budget Category New * Budget Category Code: Category Type: * Description:");
-        setFieldValue(budgetCategoryMaintenancePage, "document.documentHeader.financialDocumentDescription", "Budget Category - test");
+        setFieldValue(budgetCategoryMaintenancePage, "document.documentHeader.documentDescription", "Budget Category - test");
         setFieldValue(budgetCategoryMaintenancePage, "document.newMaintainableObject.budgetCategoryCode", "99");
         setFieldValue(budgetCategoryMaintenancePage, "document.newMaintainableObject.budgetCategoryTypeCode", "O");
         setFieldValue(budgetCategoryMaintenancePage, "document.newMaintainableObject.description", "test new budget category");

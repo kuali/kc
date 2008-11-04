@@ -59,7 +59,7 @@ public class BudgetCategoryMappingMaintenanceDocumentTest extends MaintenanceDoc
         HtmlPage budgetCategoryMappingMaintenanceDocumentMaintenanceCopyPage = clickOn(copyLink, "Kuali :: Budget Category Mapping Maintenance Document");
         String documentNumber = getFieldValue(budgetCategoryMappingMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.documentNumber");
 
-        setFieldValue(budgetCategoryMappingMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.financialDocumentDescription", "Budget Category Mapping - copy test");
+        setFieldValue(budgetCategoryMappingMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.documentDescription", "Budget Category Mapping - copy test");
 
         setFieldValue(budgetCategoryMappingMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.mappingName", "TEST");
         setFieldValue(budgetCategoryMappingMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.budgetCategoryCode", "10");
@@ -98,7 +98,7 @@ public class BudgetCategoryMappingMaintenanceDocumentTest extends MaintenanceDoc
         HtmlPage budgetCategoryMappingMaintenanceDocumentMaintenanceEditPage = clickOn(editLink, "Kuali :: Budget Category Mapping Maintenance Document");
         String documentNumber = getFieldValue(budgetCategoryMappingMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.documentNumber");
 
-        setFieldValue(budgetCategoryMappingMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.financialDocumentDescription", "Budget Category Mapping - edit test");
+        setFieldValue(budgetCategoryMappingMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.documentDescription", "Budget Category Mapping - edit test");
 
                 
         HtmlPage routedPage = clickOn(budgetCategoryMappingMaintenanceDocumentMaintenanceEditPage, "methodToCall.route", "Kuali :: Budget Category Mapping Maintenance Document");
@@ -122,7 +122,7 @@ public class BudgetCategoryMappingMaintenanceDocumentTest extends MaintenanceDoc
         String documentNumber = getFieldValue(budgetCategoryMappingMaintenancePage, "document.documentHeader.documentNumber");
         assertContains(budgetCategoryMappingMaintenancePage,"Edit Budget Category Mapping New * Budget Category Code: * Mapping Name: * Target Category Code:");
 
-        setFieldValue(budgetCategoryMappingMaintenancePage, "document.documentHeader.financialDocumentDescription", "Budget Category Mapping - new test");
+        setFieldValue(budgetCategoryMappingMaintenancePage, "document.documentHeader.documentDescription", "Budget Category Mapping - new test");
 
         setFieldValue(budgetCategoryMappingMaintenancePage, "document.newMaintainableObject.mappingName", "TEST");
         setFieldValue(budgetCategoryMappingMaintenancePage, "document.newMaintainableObject.budgetCategoryCode", "10");

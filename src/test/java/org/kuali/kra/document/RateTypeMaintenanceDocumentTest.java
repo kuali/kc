@@ -60,7 +60,7 @@ public class RateTypeMaintenanceDocumentTest extends MaintenanceDocumentTestBase
         HtmlPage rateTypeMaintenanceDocumentMaintenanceCopyPage = clickOn(copyLink, "Kuali :: Rate Type Maintenance Document");
         String documentNumber = getFieldValue(rateTypeMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.documentNumber");
 
-        setFieldValue(rateTypeMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.financialDocumentDescription", "Rate Type - copy test");
+        setFieldValue(rateTypeMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.documentDescription", "Rate Type - copy test");
 
         setFieldValue(rateTypeMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.rateClassCode", "10");
         setFieldValue(rateTypeMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.rateTypeCode", "99");
@@ -92,7 +92,7 @@ public class RateTypeMaintenanceDocumentTest extends MaintenanceDocumentTestBase
         HtmlPage rateTypeMaintenanceDocumentMaintenanceEditPage = clickOn(editLink, "Kuali :: Rate Type Maintenance Document");
         String documentNumber = getFieldValue(rateTypeMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.documentNumber");
 
-        setFieldValue(rateTypeMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.financialDocumentDescription", "Rate Type - edit test");
+        setFieldValue(rateTypeMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.documentDescription", "Rate Type - edit test");
 
         setFieldValue(rateTypeMaintenanceDocumentMaintenanceEditPage, "document.newMaintainableObject.description", "test edit rate type");
                 
@@ -116,7 +116,7 @@ public class RateTypeMaintenanceDocumentTest extends MaintenanceDocumentTestBase
         HtmlPage rateTypeMaintenancePage = getMaintenanceDocumentPage("Rate Type","org.kuali.kra.budget.bo.RateType","Kuali :: Rate Type Maintenance Document");
         String documentNumber = getFieldValue(rateTypeMaintenancePage, "document.documentHeader.documentNumber");
         assertContains(rateTypeMaintenancePage,"Edit Rate Type New * Rate Class Code: * Rate Type Code: * Description: ");
-        setFieldValue(rateTypeMaintenancePage, "document.documentHeader.financialDocumentDescription", "Rate Type - test");
+        setFieldValue(rateTypeMaintenancePage, "document.documentHeader.documentDescription", "Rate Type - test");
         setFieldValue(rateTypeMaintenancePage, "document.newMaintainableObject.rateClassCode", "10");
         setFieldValue(rateTypeMaintenancePage, "document.newMaintainableObject.rateTypeCode", "99");
         setFieldValue(rateTypeMaintenancePage, "document.newMaintainableObject.description", "test new rate type");
