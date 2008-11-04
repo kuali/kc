@@ -61,7 +61,7 @@ public class BudgetCategoryMapMaintenanceDocumentTest extends MaintenanceDocumen
         HtmlPage budgetCategoryMapMaintenanceDocumentMaintenanceCopyPage = clickOn(copyLink, "Kuali :: Budget Category Maps Maintenance Document");
         String documentNumber = getFieldValue(budgetCategoryMapMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.documentNumber");
 
-        setFieldValue(budgetCategoryMapMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.financialDocumentDescription", "Budget Category Maps - copy test");
+        setFieldValue(budgetCategoryMapMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.documentDescription", "Budget Category Maps - copy test");
 
         setFieldValue(budgetCategoryMapMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.mappingName", "S2STEST");
         setFieldValue(budgetCategoryMapMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.categoryType", "O");
@@ -96,7 +96,7 @@ public class BudgetCategoryMapMaintenanceDocumentTest extends MaintenanceDocumen
         HtmlPage budgetCategoryMapMaintenanceDocumentMaintenanceEditPage = clickOn(editLink, "Kuali :: Budget Category Maps Maintenance Document");
         String documentNumber = getFieldValue(budgetCategoryMapMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.documentNumber");
 
-        setFieldValue(budgetCategoryMapMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.financialDocumentDescription", "Budget Category Maps - edit test");
+        setFieldValue(budgetCategoryMapMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.documentDescription", "Budget Category Maps - edit test");
 
         setFieldValue(budgetCategoryMapMaintenanceDocumentMaintenanceEditPage, "document.newMaintainableObject.description", "test edit budget category maps");
                 
@@ -122,7 +122,7 @@ public class BudgetCategoryMapMaintenanceDocumentTest extends MaintenanceDocumen
         String documentNumber = getFieldValue(budgetCategoryMapMaintenancePage, "document.documentHeader.documentNumber");
         assertContains(budgetCategoryMapMaintenancePage,"Edit Budget Category Maps New * Mapping Name: * Target Category Code: Category Type: * Description:");
 
-        setFieldValue(budgetCategoryMapMaintenancePage, "document.documentHeader.financialDocumentDescription", "Budget Category Maps - new test");
+        setFieldValue(budgetCategoryMapMaintenancePage, "document.documentHeader.documentDescription", "Budget Category Maps - new test");
 
         setFieldValue(budgetCategoryMapMaintenancePage, "document.newMaintainableObject.mappingName", "S2STEST");
         setFieldValue(budgetCategoryMapMaintenancePage, "document.newMaintainableObject.categoryType", "O");

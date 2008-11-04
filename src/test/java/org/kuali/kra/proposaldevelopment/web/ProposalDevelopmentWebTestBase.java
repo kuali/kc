@@ -46,7 +46,7 @@ public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
     protected static final String GRANTS_GOV_LINK_NAME = "grantsGov.x";
     protected static final String BUDGET_VERSIONS_LINK_NAME = "budgetVersions.x";
     
-    protected static final String DOCUMENT_DESCRIPTION_ID = "document.documentHeader.financialDocumentDescription";
+    protected static final String DOCUMENT_DESCRIPTION_ID = "document.documentHeader.documentDescription";
     protected static final String PROPOSAL_SPONSOR_CODE_ID = "document.sponsorCode";
     protected static final String PROPOSAL_TITLE_ID = "document.title";
     protected static final String PROPOSAL_REQUESTED_START_DATE_ID = "document.requestedStartDateInitial";

@@ -72,7 +72,7 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
         HtmlPage organizationMaintenancePage = clickOn(copyLink, "Kuali :: Organization Maintenance Document");
         String documentNumber = getFieldValue(organizationMaintenancePage, "document.documentHeader.documentNumber");
 
-        setFieldValue(organizationMaintenancePage, "document.documentHeader.financialDocumentDescription", "Organization Maint Doc - copy test");
+        setFieldValue(organizationMaintenancePage, "document.documentHeader.documentDescription", "Organization Maint Doc - copy test");
         setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.organizationId", "00999");
 
         organizationMaintenancePage = setupOrganizationCollections(organizationMaintenancePage);
@@ -110,7 +110,7 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
         HtmlPage organizationMaintenancePage = clickOn(editLink, "Kuali :: Organization Maintenance Document");
         String documentNumber = getFieldValue(organizationMaintenancePage, "document.documentHeader.documentNumber");
 
-        setFieldValue(organizationMaintenancePage, "document.documentHeader.financialDocumentDescription", "Organization Maint Doc - edit test");
+        setFieldValue(organizationMaintenancePage, "document.documentHeader.documentDescription", "Organization Maint Doc - edit test");
 
         organizationMaintenancePage = setupOrganizationCollections(organizationMaintenancePage);
                 
@@ -145,7 +145,7 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
         assertContains(organizationMaintenancePage,"Edit Organization New * Organization Id: Address: Agency Symbol: Animal Welfare Assurance: ");
         
         // set up required fields for organization
-        setFieldValue(organizationMaintenancePage, "document.documentHeader.financialDocumentDescription", "Organization Maint Doc - test");
+        setFieldValue(organizationMaintenancePage, "document.documentHeader.documentDescription", "Organization Maint Doc - test");
         setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.organizationId", "00999");
         setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.organizationName", "test organization");
         setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.contactAddressId", "1741");

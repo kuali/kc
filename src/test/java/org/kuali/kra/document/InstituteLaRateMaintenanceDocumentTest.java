@@ -63,7 +63,7 @@ public class InstituteLaRateMaintenanceDocumentTest extends MaintenanceDocumentT
         HtmlPage instituteLaRateMaintenanceDocumentMaintenanceCopyPage = clickOn(copyLink, "Kuali :: Institute La Rates Maintenance Document");
         String documentNumber = getFieldValue(instituteLaRateMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.documentNumber");
 
-        setFieldValue(instituteLaRateMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.financialDocumentDescription", "Institute La Rate - copy test");
+        setFieldValue(instituteLaRateMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.documentDescription", "Institute La Rate - copy test");
 
         setFieldValue(instituteLaRateMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.rateClassCode", "12");
         setFieldValue(instituteLaRateMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.rateTypeCode", "1");
@@ -109,7 +109,7 @@ public class InstituteLaRateMaintenanceDocumentTest extends MaintenanceDocumentT
         HtmlPage instituteLaRateMaintenanceDocumentMaintenanceEditPage = clickOn(editLink, "Kuali :: Institute La Rates Maintenance Document");
         String documentNumber = getFieldValue(instituteLaRateMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.documentNumber");
 
-        setFieldValue(instituteLaRateMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.financialDocumentDescription", "Institute La Rates - edit test");
+        setFieldValue(instituteLaRateMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.documentDescription", "Institute La Rates - edit test");
         setFieldValue(instituteLaRateMaintenanceDocumentMaintenanceEditPage, "document.newMaintainableObject.instituteRate", "9.9");
 
                 
@@ -138,7 +138,7 @@ public class InstituteLaRateMaintenanceDocumentTest extends MaintenanceDocumentT
         HtmlPage instituteLaRateMaintenancePage = getMaintenanceDocumentPage("Institute La Rate","org.kuali.kra.bo.InstituteLaRate","Kuali :: Institute La Rates Maintenance Document");
         String documentNumber = getFieldValue(instituteLaRateMaintenancePage, "document.documentHeader.documentNumber");
         assertContains(instituteLaRateMaintenancePage,"Edit Institute La Rates New * Fiscal Year: * On/Off Campus Flag: unchecked * Rate Class Code: * Rate Type Code: * Start Date: * Unit Number: * Rate: ");
-        setFieldValue(instituteLaRateMaintenancePage, "document.documentHeader.financialDocumentDescription", "Institute La Rates - test");
+        setFieldValue(instituteLaRateMaintenancePage, "document.documentHeader.documentDescription", "Institute La Rates - test");
         setFieldValue(instituteLaRateMaintenancePage, "document.newMaintainableObject.rateClassCode", "12");
         setFieldValue(instituteLaRateMaintenancePage, "document.newMaintainableObject.rateTypeCode", "1");
         setFieldValue(instituteLaRateMaintenancePage, "document.newMaintainableObject.fiscalYear", "2012");
