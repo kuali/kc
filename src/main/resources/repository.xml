@@ -2909,4 +2909,51 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 	</class-descriptor>
 
+	<class-descriptor class="org.kuali.kra.irb.document.ProtocolDocument" table="PROTOCOL">
+		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
+		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" sequence-name="SEQ_PROTOCOL_SEQUENCE_NUMBER" autoincrement="true"/>
+		<field-descriptor name="protocolTypeCode" column="PROTOCOL_TYPE_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="protocolStatusCode" column="PROTOCOL_STATUS_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="applicationDate" column="APPLICATION_DATE" jdbc-type="DATE" />
+		<field-descriptor name="approvalDate" column="APPROVAL_DATE" jdbc-type="DATE" />
+		<field-descriptor name="expirationDate" column="EXPIRATION_DATE" jdbc-type="DATE" />
+		<field-descriptor name="lastApprovalDate" column="LAST_APPROVAL_DATE" jdbc-type="DATE" />
+		<field-descriptor name="fdaApplicationNumber" column="FDA_APPLICATION_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="referenceNumber1" column="REFERENCE_NUMBER_1" jdbc-type="VARCHAR" />
+		<field-descriptor name="referenceNumber2" column="REFERENCE_NUMBER_2" jdbc-type="VARCHAR" />
+		<field-descriptor name="isBillable" column="IS_BILLABLE" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="protocolStatus" class-ref="org.kuali.kra.irb.bo.ProtocolStatus" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="protocolStatusCode"/>
+		</reference-descriptor>
+		<reference-descriptor name="protocolType" class-ref="org.kuali.kra.irb.bo.ProtocolType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="protocolTypeCode"/>
+		</reference-descriptor>
+	</class-descriptor>
+
+	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolStatus" table="PROTOCOL_STATUS">
+		<field-descriptor name="protocolStatusCode" column="PROTOCOL_STATUS_CODE" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>
+
+	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolType" table="PROTOCOL_TYPE">
+		<field-descriptor name="protocolTypeCode" column="PROTOCOL_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>
+		
 </descriptor-repository>
