@@ -69,21 +69,18 @@ var excludeSubmitRestriction = false;
 function hasFormAlreadyBeenSubmitted() {
 
 	if ( document.getElementById( "formComplete" ) ) { 
-    if (formHasAlreadyBeenSubmitted && !excludeSubmitRestriction) {
-       alert("Page already being processed by the server.");
-       return false;
-    } else {
-       formHasAlreadyBeenSubmitted = true;
-       return true;
-    }
-    excludeSubmitRestriction = false;
-    } 
-    /* gmcgrego - commenting out 'cause it keeps happening when it's not supposed to
-    else {
+	    if (formHasAlreadyBeenSubmitted && !excludeSubmitRestriction) {
+	       alert("Page already being processed by the server.");
+	       return false;
+	    } else {
+	       formHasAlreadyBeenSubmitted = true;
+	       return true;
+	    }
+	    excludeSubmitRestriction = false;
+    }  else {
 	       alert("Page has not finished loading.");
 	       return false;
-	}
-	*/
+	} 
 }
 
 function submitForm() {
