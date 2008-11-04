@@ -25,6 +25,8 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 
+import edu.iu.uis.eden.clientapp.IDocHandler;
+
 /**
  * 
  * This class represents the Award Form Struts class.
@@ -36,13 +38,14 @@ public class AwardForm extends KraTransactionalDocumentFormBase {
      */
     private static final long serialVersionUID = -7633960906991275328L;
     public static final String SAVE = "save";
+    public static final String RELOAD = "reload";
     
     /**
      * 
      * Constructs a AwardForm.java.
      */
     public AwardForm() {
-        super();
+        super();        
         this.setDocument(new AwardDocument());
         initialize();        
     }
@@ -53,7 +56,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase {
      */
     public void initialize() {
         initializeHeaderNavigationTabs();   
-    }
+    }    
     
     /**
      * Get the Header Dispatch.  This determines the action that will occur
@@ -63,7 +66,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase {
      * @return the Header Dispatch action
      */
     public String getHeaderDispatch() {
-        return SAVE;
+        return this.getDocumentActionFlags().getCanSave() ? SAVE : RELOAD;        
     }
     
     /**
@@ -72,7 +75,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase {
      * @return
      */
     public AwardDocument getAwardDocument() {
-        return (AwardDocument) this.getDocument();
+        return (AwardDocument) super.getDocument();
     }
     
     /**
@@ -96,6 +99,18 @@ public class AwardForm extends KraTransactionalDocumentFormBase {
      */
     protected DataDictionaryService getDataDictionaryService(){
         return (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
+    }
+    
+    /**
+     * 
+     * This method initializes either the document or the form based on the command value.
+     */
+    public void initializeFormOrDocumentBasedOnCommand(){
+        if (IDocHandler.INITIATE_COMMAND.equals(getCommand())) {
+            getAwardDocument().initialize();
+        }else{
+            initialize();
+        }
     }
 
 }

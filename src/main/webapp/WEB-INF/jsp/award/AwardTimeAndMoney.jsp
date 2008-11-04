@@ -26,7 +26,7 @@
   	
 This is the Award Time & Money - Under Construction
 
-<kul:panelFooter />
+
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 
 </kul:documentPage>

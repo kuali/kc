@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
-import java.util.HashMap;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,7 +22,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.document.Document;
-import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
@@ -55,59 +52,159 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
              awardForm.setDocument(retrievedDocument);
              request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);
              forward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
-             forward = new ActionForward(forward.getPath()+ "?" + KNSConstants.PARAMETER_DOC_ID + "=" + docIdRequestParameter);  
+             forward = new ActionForward(buildForwardStringForActionListCommand(forward,docIdRequestParameter));  
         } else {
              forward = super.docHandler(mapping, form, request, response);
         }
-
-        if (IDocHandler.INITIATE_COMMAND.equals(awardForm.getCommand())) {
-            awardForm.getAwardDocument().initialize();
-        }else{
-            awardForm.initialize();
-        }
+        
+        awardForm.initializeFormOrDocumentBasedOnCommand();
         
         return forward;
     }
     
-    @Override
-    public ActionForward headerTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ((KualiForm) form).setTabStates(new HashMap());
-        return super.headerTab(mapping, form, request, response);
+    /**
+     * 
+     * This method builds the string for the ActionForward 
+     * @param forward
+     * @param docIdRequestParameter
+     * @return
+     */
+    public String buildForwardStringForActionListCommand(ActionForward forward, String docIdRequestParameter){
+        StringBuilder sb = new StringBuilder();
+        sb.append(forward.getPath());
+        sb.append("?");
+        sb.append(KNSConstants.PARAMETER_DOC_ID);
+        sb.append("=");
+        sb.append(docIdRequestParameter);
+        return null;
+    }
+    /**
+     * 
+     * This method gets called upon navigation to Awards tab.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
+    public ActionForward home(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {        
+        return mapping.findForward(Constants.MAPPING_AWARD_HOME_PAGE);
     }
     
+    /**
+     * 
+     * This method gets called upon navigation to Contacts tab.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
     public ActionForward contacts(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {        
-        return mapping.findForward("contacts");
+        return mapping.findForward(Constants.MAPPING_AWARD_CONTACTS_PAGE);
     }
     
+    /**
+     * 
+     * This method gets called upon navigation to Time & Money tab.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
     public ActionForward timeAndMoney(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {        
-        return mapping.findForward("timeAndMoney");
+        return mapping.findForward(Constants.MAPPING_AWARD_TIME_AND_MONEY_PAGE);
     }
     
+    /**
+     * 
+     * This method gets called upon navigation to Payment, Reports and Terms tab.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
     public ActionForward paymentReportsAndTerms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {        
-        return mapping.findForward("paymentReportsAndTerms");
+        return mapping.findForward(Constants.MAPPING_AWARD_PAYMENT_REPORTS_AND_TERMS_PAGE);
     }
     
+    /**
+     * 
+     * This method gets called upon navigation to Special Review tab.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
     public ActionForward specialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {        
-        return mapping.findForward("specialReview");
+        return mapping.findForward(Constants.MAPPING_AWARD_SPECIAL_REVIEW_PAGE);
     }
     
+    /**
+     * 
+     * This method gets called upon navigation to Special Review tab.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
     public ActionForward customData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {        
-        return mapping.findForward("customData");
+        return mapping.findForward(Constants.MAPPING_AWARD_CUSTOM_DATA_PAGE);
     }
     
-    public ActionForward question(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {        
-        return mapping.findForward("question");
+    /**
+     * 
+     * This method gets called upon navigation to Custom Data tab.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
+    public ActionForward questions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {        
+        return mapping.findForward(Constants.MAPPING_AWARD_QUESTIONS_PAGE);
     }
     
+    /**
+     * 
+     * This method gets called upon navigation to Questions tab.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
     public ActionForward permissions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {        
-        return mapping.findForward("permissions");
+        return mapping.findForward(Constants.MAPPING_AWARD_PERMISSIONS_PAGE);
     }
     
+    /**
+     * 
+     * This method gets called upon navigation to Permissions tab.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
     public ActionForward notesAndAttachments(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {        
-        return mapping.findForward("notesAndAttachments");
+        return mapping.findForward(Constants.MAPPING_AWARD_NOTES_AND_ATTACHMENTS_PAGE);
     }
     
+    /**
+     * 
+     * This method gets called upon navigation to Award Actions tab.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
     public ActionForward awardActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {        
-        return mapping.findForward("awardActions");
+        return mapping.findForward(Constants.MAPPING_AWARD_ACTIONS_PAGE);
     }
 }

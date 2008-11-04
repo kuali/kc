@@ -15,6 +15,11 @@
  */
 package org.kuali.kra.award.document;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.kuali.core.document.Copyable;
+import org.kuali.core.document.SessionDocument;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.document.ResearchDocumentBase;
 
@@ -22,19 +27,78 @@ import org.kuali.kra.document.ResearchDocumentBase;
  * 
  * This class represents the Award Document Object.
  */
-public class AwardDocument extends ResearchDocumentBase {
+public class AwardDocument extends ResearchDocumentBase implements Copyable, SessionDocument{
     
-    private Award award;
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 1668673531338660064L;
+    private String awardNumber;
+    //private Award award;
+    private List<Award> awardList;
     
+    /**
+     * 
+     * Constructs a AwardDocument object
+     */
     public AwardDocument(){        
         super();
+        setAwardNumber("1");
+        awardList = new ArrayList<Award>();
+        Award newAward = new Award();
+        awardList.add(newAward);
+        //award = new Award();        
     }
-
-    public Award getAward() {
+    
+    /*public Award getAward() {
         return award;
     }
 
     public void setAward(Award award) {
         this.award = award;
+    }*/
+
+    /**
+     * 
+     */
+    public String getAwardNumber() {
+        return awardNumber;
+    }
+
+   /**
+    * 
+    * @param awardNumber
+    */
+    public void setAwardNumber(String awardNumber) {
+        this.awardNumber = awardNumber;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public List<Award> getAwardList() {
+        return awardList;
+    }
+
+    /**
+     *
+     * @param awardList
+     */
+    public void setAwardList(List<Award> awardList) {
+        this.awardList = awardList;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();       
+                
+        managedLists.add(awardList);
+        return managedLists;
     }
 }

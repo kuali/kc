@@ -113,7 +113,7 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
     private boolean hasActiveLockRegionChanged(Document document, String activeLockRegion) {
         if(StringUtils.isNotEmpty(activeLockRegion)) {
             for(PessimisticLock lock: document.getPessimisticLocks()) {
-                if(!lock.getLockDescriptor().contains(activeLockRegion)) {
+                if(lock.getLockDescriptor()!=null && !lock.getLockDescriptor().contains(activeLockRegion)) {
                     return true;
                 }
             } 
@@ -260,6 +260,28 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
 
         return isBudgetVersionsAction;
     }
+    
+    private Boolean isAwardAction(){
+        boolean isAwardAction = false;
+        if (StringUtils.isNotBlank(actionName) && actionName.contains("Award")  
+                && StringUtils.isNotBlank(getMethodToCall()) 
+                && StringUtils.isEmpty(navigateTo) && !getMethodToCall().equalsIgnoreCase("headerTab")) { 
+            isAwardAction = true;
+        }else if (StringUtils.isNotEmpty(navigateTo) && (navigateTo.equalsIgnoreCase("home") 
+                || navigateTo.equalsIgnoreCase("contacts")
+                || navigateTo.equalsIgnoreCase("timeAndMoney")
+                || navigateTo.equalsIgnoreCase("paymentReportsAndTerms")
+                || navigateTo.equalsIgnoreCase("specialReview")
+                || navigateTo.equalsIgnoreCase("customData")
+                || navigateTo.equalsIgnoreCase("questions")
+                || navigateTo.equalsIgnoreCase("permissions")
+                || navigateTo.equalsIgnoreCase("notesAndAttachmentsHelp")
+                || navigateTo.equalsIgnoreCase("awardActions"))) {
+            isAwardAction = true; 
+        }
+
+        return isAwardAction;
+    }
 
     private String getNavigateToPage() {
         String navigateToPage = null;
@@ -296,6 +318,9 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
         else if (isBudgetAction()) {
             lockRegion = KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET;
         }
+        else if(isAwardAction()) {
+            lockRegion = KraAuthorizationConstants.LOCK_DESCRIPTOR_AWARD;
+        }
         
         return lockRegion;
     }
@@ -314,11 +339,11 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
         }
         else if (isBudgetVersionsAction() && hasModifyCompletedBudgetPermission(editMode)) {
             tempDocumentActionFlags.setCanSave(true);
+        }else if (isAwardAction()){
+            tempDocumentActionFlags.setCanSave(true);
         }
         else if (isProtocolAction()) {
             tempDocumentActionFlags.setCanSave(true);
         }
-    }  
-
-
+    }    
 }

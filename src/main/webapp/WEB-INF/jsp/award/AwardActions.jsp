@@ -17,7 +17,7 @@
 
 <kul:documentPage
 	showDocumentInfo="true"
-	htmlFormAction="awardAwardActions"
+	htmlFormAction="awardActions"
 	documentTypeName="AwardDocument"
 	renderMultipart="false"
 	showTabButtons="true"
@@ -27,7 +27,7 @@
   	
 This is the Award Actions - Under Construction
 
-<kul:panelFooter />
+
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 
 </kul:documentPage>
