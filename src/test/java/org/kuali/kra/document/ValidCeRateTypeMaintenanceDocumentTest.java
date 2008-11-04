@@ -59,7 +59,7 @@ public class ValidCeRateTypeMaintenanceDocumentTest extends MaintenanceDocumentT
         HtmlPage validCeRateTypeMaintenanceDocumentMaintenanceCopyPage = clickOn(copyLink, "Kuali :: Valid Cost Element Rate Types Maintenance Document");
         String documentNumber = getFieldValue(validCeRateTypeMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.documentNumber");
 
-        setFieldValue(validCeRateTypeMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.financialDocumentDescription", "Valid Cost Element Rate Type - copy test");
+        setFieldValue(validCeRateTypeMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.documentDescription", "Valid Cost Element Rate Type - copy test");
 
         setFieldValue(validCeRateTypeMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.rateClassCode", "5");
         setFieldValue(validCeRateTypeMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.rateTypeCode", "4");
@@ -97,7 +97,7 @@ public class ValidCeRateTypeMaintenanceDocumentTest extends MaintenanceDocumentT
         HtmlPage validCeRateTypeMaintenanceDocumentMaintenanceEditPage = clickOn(editLink, "Kuali :: Valid Cost Element Rate Types Maintenance Document");
         String documentNumber = getFieldValue(validCeRateTypeMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.documentNumber");
 
-        setFieldValue(validCeRateTypeMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.financialDocumentDescription", "Valid Cost Element Rate Type - edit test");
+        setFieldValue(validCeRateTypeMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.documentDescription", "Valid Cost Element Rate Type - edit test");
                 
         HtmlPage routedPage = clickOn(validCeRateTypeMaintenanceDocumentMaintenanceEditPage, "methodToCall.route", "Kuali :: Valid Cost Element Rate Types Maintenance Document");
         
@@ -119,7 +119,7 @@ public class ValidCeRateTypeMaintenanceDocumentTest extends MaintenanceDocumentT
         HtmlPage validCeRateTypeMaintenancePage = getMaintenanceDocumentPage("Valid Cost Element Rate Type","org.kuali.kra.budget.bo.ValidCeRateType","Kuali :: Valid Cost Element Rate Types Maintenance Document");
         String documentNumber = getFieldValue(validCeRateTypeMaintenancePage, "document.documentHeader.documentNumber");
         assertContains(validCeRateTypeMaintenancePage,"Edit Valid Cost Element Rate Types New * Cost Element: * Rate Class Code: * Rate Type Code:");
-        setFieldValue(validCeRateTypeMaintenancePage, "document.documentHeader.financialDocumentDescription", "Valid Cost Element Rate Type - test");
+        setFieldValue(validCeRateTypeMaintenancePage, "document.documentHeader.documentDescription", "Valid Cost Element Rate Type - test");
         setFieldValue(validCeRateTypeMaintenancePage, "document.newMaintainableObject.rateClassCode", "5");
         setFieldValue(validCeRateTypeMaintenancePage, "document.newMaintainableObject.rateTypeCode", "4");
         setFieldValue(validCeRateTypeMaintenancePage, "document.newMaintainableObject.costElement", "421925");

@@ -64,7 +64,7 @@ public class CustomAttributeMaintenanceDocumentTest extends MaintenanceDocumentT
         HtmlPage customAttributeMaintenanceCopyPage = clickOn(copyLink, "Kuali :: CustomAttribute Maintenance Document");
         String documentNumber = getFieldValue(customAttributeMaintenanceCopyPage, "document.documentHeader.documentNumber");
 
-        setFieldValue(customAttributeMaintenanceCopyPage, "document.documentHeader.financialDocumentDescription", "Custom Attribute - copy test");
+        setFieldValue(customAttributeMaintenanceCopyPage, "document.documentHeader.documentDescription", "Custom Attribute - copy test");
 
         setFieldValue(customAttributeMaintenanceCopyPage, "document.newMaintainableObject.id", "999");
                 
@@ -96,7 +96,7 @@ public class CustomAttributeMaintenanceDocumentTest extends MaintenanceDocumentT
         HtmlPage customAttributeMaintenanceEditPage = clickOn(editLink, "Kuali :: CustomAttribute Maintenance Document");
         String documentNumber = getFieldValue(customAttributeMaintenanceEditPage, "document.documentHeader.documentNumber");
 
-        setFieldValue(customAttributeMaintenanceEditPage, "document.documentHeader.financialDocumentDescription", "Custom Attribute - edit test");
+        setFieldValue(customAttributeMaintenanceEditPage, "document.documentHeader.documentDescription", "Custom Attribute - edit test");
 
         setFieldValue(customAttributeMaintenanceEditPage, "document.newMaintainableObject.dataLength", "35");
                 
@@ -123,7 +123,7 @@ public class CustomAttributeMaintenanceDocumentTest extends MaintenanceDocumentT
         HtmlPage customAttributeMaintenancePage = getMaintenanceDocumentPage("Custom Attribute","org.kuali.kra.bo.CustomAttribute","Kuali :: CustomAttribute Maintenance Document");
         String documentNumber = getFieldValue(customAttributeMaintenancePage, "document.documentHeader.documentNumber");
         assertContains(customAttributeMaintenancePage,"CustomAttribute New * Id: Data Length: * Data Type Code: select Default Value: * Group Name: * Label: Lookup Class: select Lookup Return: select * Name");
-        setFieldValue(customAttributeMaintenancePage, "document.documentHeader.financialDocumentDescription", "Custom Attribute - test");
+        setFieldValue(customAttributeMaintenancePage, "document.documentHeader.documentDescription", "Custom Attribute - test");
         setFieldValue(customAttributeMaintenancePage, "document.newMaintainableObject.id", "999");
         setFieldValue(customAttributeMaintenancePage, "document.newMaintainableObject.dataLength", "8");
         setFieldValue(customAttributeMaintenancePage, "document.newMaintainableObject.dataTypeCode", "1");
