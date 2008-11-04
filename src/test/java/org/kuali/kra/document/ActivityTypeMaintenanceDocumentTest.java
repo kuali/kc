@@ -61,7 +61,7 @@ public class ActivityTypeMaintenanceDocumentTest extends MaintenanceDocumentTest
         HtmlPage activityTypeMaintenanceDocumentMaintenanceCopyPage = clickOn(copyLink, "Kuali :: Activity Type Maintenance Document");
         String documentNumber = getFieldValue(activityTypeMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.documentNumber");
 
-        setFieldValue(activityTypeMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.financialDocumentDescription", "Activity Type - copy test");
+        setFieldValue(activityTypeMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.documentDescription", "Activity Type - copy test");
 
         setFieldValue(activityTypeMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.activityTypeCode", "99");
         setFieldValue(activityTypeMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.description", "test copy activity type");
@@ -90,7 +90,7 @@ public class ActivityTypeMaintenanceDocumentTest extends MaintenanceDocumentTest
         HtmlPage activityTypeMaintenanceDocumentMaintenanceEditPage = clickOn(editLink, "Kuali :: Activity Type Maintenance Document");
         String documentNumber = getFieldValue(activityTypeMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.documentNumber");
 
-        setFieldValue(activityTypeMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.financialDocumentDescription", "Activity Type - edit test");
+        setFieldValue(activityTypeMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.documentDescription", "Activity Type - edit test");
 
         setFieldValue(activityTypeMaintenanceDocumentMaintenanceEditPage, "document.newMaintainableObject.description", "test edit activity type");
                 
@@ -113,7 +113,7 @@ public class ActivityTypeMaintenanceDocumentTest extends MaintenanceDocumentTest
         HtmlPage activityTypeMaintenancePage = getMaintenanceDocumentPage("Activity Type","org.kuali.kra.proposaldevelopment.bo.ActivityType","Kuali :: Activity Type Maintenance Document");
         String documentNumber = getFieldValue(activityTypeMaintenancePage, "document.documentHeader.documentNumber");
         assertContains(activityTypeMaintenancePage,"Edit Activity Types New * Activity Type: * Description: ");
-        setFieldValue(activityTypeMaintenancePage, "document.documentHeader.financialDocumentDescription", "Activity Type - test");
+        setFieldValue(activityTypeMaintenancePage, "document.documentHeader.documentDescription", "Activity Type - test");
         setFieldValue(activityTypeMaintenancePage, "document.newMaintainableObject.activityTypeCode", "99");
         setFieldValue(activityTypeMaintenancePage, "document.newMaintainableObject.description", "test new activity type");
         HtmlPage routedActivityTypeMaintenanceDocumentPage = clickOn(activityTypeMaintenancePage, "methodToCall.route", "Kuali :: Activity Type Maintenance Document");

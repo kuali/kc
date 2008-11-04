@@ -65,7 +65,7 @@ public class ValidCalcTypeMaintenanceDocumentTest extends MaintenanceDocumentTes
         String documentNumber = getFieldValue(validCalcTypeMaintenanceDocumentMaintenanceCopyPage,
                 "document.documentHeader.documentNumber");
 
-        setFieldValue(validCalcTypeMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.financialDocumentDescription",
+        setFieldValue(validCalcTypeMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.documentDescription",
                 "Valid Calc Type - copy test");
 
         setFieldValue(validCalcTypeMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.calcTypeId", "99");
@@ -113,7 +113,7 @@ public class ValidCalcTypeMaintenanceDocumentTest extends MaintenanceDocumentTes
         String documentNumber = getFieldValue(validCalcTypeMaintenanceDocumentMaintenanceEditPage,
                 "document.documentHeader.documentNumber");
 
-        setFieldValue(validCalcTypeMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.financialDocumentDescription",
+        setFieldValue(validCalcTypeMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.documentDescription",
                 "Valid Calc Types - edit test");
         setFieldValue(validCalcTypeMaintenanceDocumentMaintenanceEditPage, "document.newMaintainableObject.dependentRateClassType",
                 "X");
@@ -147,7 +147,7 @@ public class ValidCalcTypeMaintenanceDocumentTest extends MaintenanceDocumentTes
         assertContains(
                 validCalcTypeMaintenancePage,
                 "Edit Valid Calc Types New * Calc Type Id: * Dependent Seq Number: * Rate Class Type: Dependent Rate Class Type: Rate Class Code: Rate Type Code:");
-        setFieldValue(validCalcTypeMaintenancePage, "document.documentHeader.financialDocumentDescription",
+        setFieldValue(validCalcTypeMaintenancePage, "document.documentHeader.documentDescription",
                 "Valid Calc Types - test");
         setFieldValue(validCalcTypeMaintenancePage, "document.newMaintainableObject.calcTypeId", "99");
         setFieldValue(validCalcTypeMaintenancePage, "document.newMaintainableObject.rateClassCode", "12");

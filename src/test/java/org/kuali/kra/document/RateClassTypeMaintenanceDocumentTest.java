@@ -60,7 +60,7 @@ public class RateClassTypeMaintenanceDocumentTest extends MaintenanceDocumentTes
         HtmlPage rateClassTypeMaintenanceDocumentMaintenanceCopyPage = clickOn(copyLink, "Kuali :: Rate Class Type Maintenance Document");
         String documentNumber = getFieldValue(rateClassTypeMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.documentNumber");
 
-        setFieldValue(rateClassTypeMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.financialDocumentDescription", "Rate Class Type - copy test");
+        setFieldValue(rateClassTypeMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.documentDescription", "Rate Class Type - copy test");
 
         setFieldValue(rateClassTypeMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.rateClassType", "A");
         setFieldValue(rateClassTypeMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.sortId", "9");
@@ -93,7 +93,7 @@ public class RateClassTypeMaintenanceDocumentTest extends MaintenanceDocumentTes
         HtmlPage rateClassTypeMaintenanceDocumentMaintenanceEditPage = clickOn(editLink, "Kuali :: Rate Class Type Maintenance Document");
         String documentNumber = getFieldValue(rateClassTypeMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.documentNumber");
 
-        setFieldValue(rateClassTypeMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.financialDocumentDescription", "Rate Class Type - edit test");
+        setFieldValue(rateClassTypeMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.documentDescription", "Rate Class Type - edit test");
 
         setFieldValue(rateClassTypeMaintenanceDocumentMaintenanceEditPage, "document.newMaintainableObject.description", "test edit rate class type");
                 
@@ -118,7 +118,7 @@ public class RateClassTypeMaintenanceDocumentTest extends MaintenanceDocumentTes
         HtmlPage rateClassTypeMaintenancePage = getMaintenanceDocumentPage("Rate Class Type","org.kuali.kra.budget.bo.RateClassType","Kuali :: Rate Class Type Maintenance Document");
         String documentNumber = getFieldValue(rateClassTypeMaintenancePage, "document.documentHeader.documentNumber");
         assertContains(rateClassTypeMaintenancePage,"Edit Rate Class Types New * Rate Class Type: * Description: * Prefix Activity Type?: unchecked Sort Id:");
-        setFieldValue(rateClassTypeMaintenancePage, "document.documentHeader.financialDocumentDescription", "Rate Class Type - test");
+        setFieldValue(rateClassTypeMaintenancePage, "document.documentHeader.documentDescription", "Rate Class Type - test");
         setFieldValue(rateClassTypeMaintenancePage, "document.newMaintainableObject.rateClassType", "A");
         setFieldValue(rateClassTypeMaintenancePage, "document.newMaintainableObject.sortId", "9");
         setFieldValue(rateClassTypeMaintenancePage, "document.newMaintainableObject.prefixActivityType", "on");

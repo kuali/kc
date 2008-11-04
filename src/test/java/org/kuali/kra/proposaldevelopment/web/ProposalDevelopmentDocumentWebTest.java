@@ -807,7 +807,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
     }
 
     private void setupProposalDevelopmentDocumentRequiredFields(HtmlForm kualiForm, String description, String sponsorCode, String title, String startDate, String endDate, String activityType, String proposalType, String ownedByUnit) throws Exception {
-        setFieldValue(kualiForm, TEXT_INPUT, "document.documentHeader.financialDocumentDescription", description);
+        setFieldValue(kualiForm, TEXT_INPUT, "document.documentHeader.documentDescription", description);
         setFieldValue(kualiForm, TEXT_INPUT, "document.sponsorCode", sponsorCode);
         setFieldValue(kualiForm, TEXT_AREA, "document.title", title);
         setFieldValue(kualiForm, TEXT_INPUT, "document.requestedStartDateInitial", startDate);

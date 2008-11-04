@@ -63,7 +63,7 @@ public class InstituteRateMaintenanceDocumentTest extends MaintenanceDocumentTes
         HtmlPage instituteRateMaintenanceDocumentMaintenanceCopyPage = clickOn(copyLink, "Kuali :: Institute Rates Maintenance Document");
         String documentNumber = getFieldValue(instituteRateMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.documentNumber");
 
-        setFieldValue(instituteRateMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.financialDocumentDescription", "Institute Rate - copy test");
+        setFieldValue(instituteRateMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.documentDescription", "Institute Rate - copy test");
 
         setFieldValue(instituteRateMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.activityTypeCode", "1");
         setFieldValue(instituteRateMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.rateClassCode", "4");
@@ -110,7 +110,7 @@ public class InstituteRateMaintenanceDocumentTest extends MaintenanceDocumentTes
         HtmlPage instituteRateMaintenanceDocumentMaintenanceEditPage = clickOn(editLink, "Kuali :: Institute Rates Maintenance Document");
         String documentNumber = getFieldValue(instituteRateMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.documentNumber");
 
-        setFieldValue(instituteRateMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.financialDocumentDescription", "Institute Rates - edit test");
+        setFieldValue(instituteRateMaintenanceDocumentMaintenanceEditPage, "document.documentHeader.documentDescription", "Institute Rates - edit test");
         setFieldValue(instituteRateMaintenanceDocumentMaintenanceEditPage, "document.newMaintainableObject.instituteRate", "9.9");
 
                 
@@ -139,7 +139,7 @@ public class InstituteRateMaintenanceDocumentTest extends MaintenanceDocumentTes
         HtmlPage instituteRateMaintenancePage = getMaintenanceDocumentPage("Institute Rate","org.kuali.kra.bo.InstituteRate","Kuali :: Institute Rates Maintenance Document");
         String documentNumber = getFieldValue(instituteRateMaintenancePage, "document.documentHeader.documentNumber");
         assertContains(instituteRateMaintenancePage,"Edit Institute Rates New * Activity Type Code: * Fiscal Year: * On/Off Campus Flag: unchecked * Rate Class Code: * Rate Type Code: * Start Date: * Unit Number: * Rate: ");
-        setFieldValue(instituteRateMaintenancePage, "document.documentHeader.financialDocumentDescription", "Institute Rates - test");
+        setFieldValue(instituteRateMaintenancePage, "document.documentHeader.documentDescription", "Institute Rates - test");
         setFieldValue(instituteRateMaintenancePage, "document.newMaintainableObject.activityTypeCode", "1");
         setFieldValue(instituteRateMaintenancePage, "document.newMaintainableObject.rateClassCode", "4");
         setFieldValue(instituteRateMaintenancePage, "document.newMaintainableObject.rateTypeCode", "2");
