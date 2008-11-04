@@ -232,6 +232,19 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
 
     }
 
+    private boolean isProtocolAction() {
+        boolean isProtocolAction = false;
+
+        if (StringUtils.isNotBlank(actionName) && (actionName.startsWith("Protocol") || actionName.contains("Protocol")) 
+                && StringUtils.isNotBlank(getMethodToCall()) 
+                && StringUtils.isEmpty(navigateTo) && !getMethodToCall().equalsIgnoreCase("headerTab")) { 
+            isProtocolAction = true;
+        }
+
+        return isProtocolAction;
+
+    }
+    
     private boolean isBudgetVersionsAction() {
         boolean isBudgetVersionsAction = false;
 
@@ -300,6 +313,9 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
             tempDocumentActionFlags.setCanSave(true);
         }
         else if (isBudgetVersionsAction() && hasModifyCompletedBudgetPermission(editMode)) {
+            tempDocumentActionFlags.setCanSave(true);
+        }
+        else if (isProtocolAction()) {
             tempDocumentActionFlags.setCanSave(true);
         }
     }  
