@@ -294,7 +294,7 @@
 			<givenName>KULUSER</givenName>
 			<lastName>KULUSER</lastName>
 		</user>
-		<user> <!--  ?? -->
+		<user> 
 			<workflowId>fred</workflowId>
 			<emplId>fred</emplId>
 			<authenticationId>fred</authenticationId>
@@ -336,7 +336,6 @@
 		</user>
 	</users>
 	<workgroups xmlns="ns:workflow/Workgroup" xsi:schemaLocation="ns:workflow/Workgroup resource:Workgroup">
-		<!-- 
 		<workgroup>
 			<id>1</id>
 			<workgroupName>WorkflowAdmin</workgroupName>
@@ -370,7 +369,6 @@
 				<authenticationId>employee</authenticationId>
 			</members>
 		</workgroup>
-		-->
 	</workgroups>
 	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
 		<ruleTemplate allowOverwrite="true">

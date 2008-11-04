@@ -35,6 +35,7 @@ import edu.iu.uis.eden.KEWServiceLocator;
 import edu.iu.uis.eden.batch.FileXmlDocCollection;
 import edu.iu.uis.eden.batch.XmlDoc;
 import edu.iu.uis.eden.batch.XmlDocCollection;
+import edu.iu.uis.eden.batch.XmlIngesterService;
 
 public class KraKEWXmlDataLoaderLifecycle implements Lifecycle {
 
@@ -68,13 +69,23 @@ public class KraKEWXmlDataLoaderLifecycle implements Lifecycle {
 
     
     private void loadKraKewXml() throws Exception {
+        List<String> rules = new ArrayList<String>();
         Resource resource = getFileResource(pathname);
         String filename;
+        
+        this.loadXmlFile(pathname + File.separator + "DefaultKewTestData.xml");
         for (File file : resource.getFile().listFiles()) {
             filename=file.getName();
-            if (filename.endsWith(".xml")) {
+            if (filename.equals("DefaultKewTestData.xml")) {
+                // do nothing
+            } else if (filename.endsWith("Rules.xml")) {
+                rules.add(filename);
+            } else if (filename.endsWith(".xml")) {
                 this.loadXmlFile(pathname + File.separator + filename);
             }
+        }
+        for (String fileName : rules) {
+            this.loadXmlFile(pathname + File.separator + fileName);
         }
 
     }
@@ -93,7 +104,8 @@ public class KraKEWXmlDataLoaderLifecycle implements Lifecycle {
         List<XmlDocCollection> xmlFiles = new ArrayList<XmlDocCollection>();
         XmlDocCollection docCollection = getFileXmlDocCollection(xmlFile, "UnitTestTemp");
         xmlFiles.add(docCollection);
-        KEWServiceLocator.getXmlIngesterService().ingest(xmlFiles);
+        XmlIngesterService service = KEWServiceLocator.getXmlIngesterService();
+        service.ingest(xmlFiles);
         for (Iterator iterator = docCollection.getXmlDocs().iterator(); iterator.hasNext();) {
             XmlDoc doc = (XmlDoc) iterator.next();
             if (!doc.isProcessed()) {

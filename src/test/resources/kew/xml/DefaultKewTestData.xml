@@ -228,6 +228,7 @@
             <givenName>admin</givenName>
             <lastName>admin</lastName>
         </user>
+        <!--  
         <user>
 			<workflowId>jtester</workflowId>
 			<emplId>jtester</emplId>
@@ -237,11 +238,11 @@
 			<displayName>Joe Tester</displayName>
 			<givenName>Joe</givenName>
 			<lastName>Tester</lastName>
-		</user>
+		</user> -->
 	</users>
 	<workgroups xmlns="ns:workflow/Workgroup" xsi:schemaLocation="ns:workflow/Workgroup resource:Workgroup">
 		<workgroup>
-			<id>1</id>
+			<id>100</id>
 			<workgroupName>TestWorkgroup</workgroupName>
 			<description>TestWorkgroup</description>
 			<members>
@@ -257,6 +258,7 @@
 				<authenticationId>jitrue</authenticationId>
 			</members>
 		</workgroup>
+		<!--  
 		<workgroup allowOverwrite="true">
 			<id>2</id>
 			<workgroupName>WorkflowAdmin</workgroupName>
@@ -271,8 +273,9 @@
 				<authenticationId>jtester</authenticationId>
 			</members>
 		</workgroup>
+		-->
 		<workgroup>
-			<id>3</id>
+			<id>103</id>
 			<workgroupName>NonSIT</workgroupName>
 			<description>NonSIT</description>
 			<members>
@@ -283,7 +286,7 @@
 			</members>
 		</workgroup>
 		<workgroup>
-			<id>4</id>
+			<id>104</id>
 			<workgroupName>BlanketApproveWorkgroup</workgroupName>
 			<description>BlanketApproveWorkgroup</description>
 			<members>
