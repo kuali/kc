@@ -19,6 +19,9 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
 import static org.kuali.RiceConstants.QUESTION_CLICKED_BUTTON;
 import static org.kuali.RiceConstants.QUESTION_INST_ATTRIBUTE_NAME;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import static org.kuali.kra.logging.BufferedLogger.debug;
+import static org.kuali.kra.logging.BufferedLogger.info;
 
 import java.util.List;
 
@@ -29,14 +32,13 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.authorization.AuthorizationConstants;
-import org.kuali.core.document.authorization.PessimisticLock;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
+import org.kuali.kra.budget.bo.RateClass;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.service.BudgetService;
 import org.kuali.kra.budget.service.BudgetRatesService;
+import org.kuali.kra.budget.service.BudgetService;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -45,12 +47,8 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.question.CopyPeriodsQuestion;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
-import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.exception.WorkflowException;
-
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-import static org.kuali.kra.logging.BufferedLogger.*;
 
 /**
  * Struts Action class for requests from the Budget Versions page.
@@ -202,15 +200,26 @@ public class BudgetVersionsAction extends BudgetAction {
         // TODO jira 780 - it indicated only from PD screen, not sure we need it here
         // if we don't implement it here, then it's not consistent.
         boolean valid = true;
+        
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
 
         try {
-            valid &=getProposalDevelopmentService() .validateBudgetAuditRuleBeforeSaveBudgetVersion(budgetForm.getBudgetDocument().getProposal());
+            valid &=getProposalDevelopmentService() .validateBudgetAuditRuleBeforeSaveBudgetVersion(budgetDocument.getProposal());
         } catch (Exception ex) {
             info("Audit rule check failed ", ex.getStackTrace());
         }
         if (!valid) {
             // set up error message to go to validate panel
-            GlobalVariables.getErrorMap().putError("document.proposal.budgetVersionOverview["+Integer.toString(budgetForm.getFinalBudgetVersion()-1)+"].budgetStatus", KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
+            
+            Integer budgetVersionNumber = budgetForm.getFinalBudgetVersion();
+            // ask form for final version number... if it is null, ask current budget document its version number
+            if (budgetVersionNumber == null || budgetVersionNumber == -1) {
+                budgetVersionNumber = budgetDocument.getBudgetVersionNumber();
+            }
+            GlobalVariables
+                .getErrorMap()
+                    .putError("document.proposal.budgetVersionOverview["+(budgetVersionNumber-1)+"].budgetStatus", 
+                                KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
         } 
         
         if (budgetForm.isSaveAfterCopy()) {
