@@ -26,6 +26,22 @@
 	} else {
 		kraTextAreaFieldLabel = request.getParameter(Constants.TEXT_AREA_FIELD_LABEL);
 	}
+	
+	String kraTextAreaFieldName = null;
+	if (request.getParameter(Constants.TEXT_AREA_FIELD_NAME) == null
+			|| request.getParameter(Constants.TEXT_AREA_FIELD_NAME).trim().equals("")) {
+		kraTextAreaFieldName = (String) request.getAttribute(Constants.TEXT_AREA_FIELD_NAME);
+	} else {
+		kraTextAreaFieldName = request.getParameter(Constants.TEXT_AREA_FIELD_NAME);
+	}
+	
+	String kraHtmlFormAction = null;
+	if (request.getParameter(Constants.HTML_FORM_ACTION) == null
+			|| request.getParameter(Constants.HTML_FORM_ACTION).trim().equals("")) {
+		kraHtmlFormAction = (String) request.getAttribute(Constants.HTML_FORM_ACTION);
+	} else {
+		kraHtmlFormAction = request.getParameter(Constants.HTML_FORM_ACTION);
+	}
 
 %>
 
@@ -40,11 +56,11 @@
 	value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
 <c:if test="${empty kraTextAreaFieldName}">
 	<c:set var="kraTextAreaFieldName"
-		value="<%=request.getParameter("textAreaFieldName")%>" />
+		value="<%=kraTextAreaFieldName%>" />
 </c:if>
 <c:if test="${empty htmlFormAction}">
 	<c:set var="htmlFormAction"
-		value="<%=request.getParameter("htmlFormAction")%>" />
+		value="<%=kraHtmlFormAction%>" />
 </c:if>
 
 <html:form styleId="kualiForm" method="post"
