@@ -25,6 +25,7 @@ import java.util.TreeMap;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetLineItem;
@@ -346,8 +347,11 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         BudgetPeriodCalculator periodCalculator = new BudgetPeriodCalculator();
         periodCalculator.syncToPeriodCostLimit(budgetDocument, budgetPeriod, budgetLineItem);
         List<String> errors = periodCalculator.getErrorMessages();
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
         if(!errors.isEmpty()){
-          //TODO:handle errors
+            for (String error : errors) {
+                errorMap.putError("document.budgetPeriod[" + (budgetPeriod.getBudgetPeriod() - 1) + "].budgetLineItem["+ (budgetLineItem.getLineItemNumber() - 1) +"].lineItemCost", error);
+            }
         }
     }
 
@@ -356,7 +360,10 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         periodCalculator.applyToLaterPeriods(budgetDocument, budgetPeriod, budgetLineItem);
         List<String> errors = periodCalculator.getErrorMessages();
         if(!errors.isEmpty()){
-            //TODO:handle errors
+            ErrorMap errorMap = GlobalVariables.getErrorMap();
+            for (String error : errors) {
+                errorMap.putError("document.budgetPeriod[" + (budgetPeriod.getBudgetPeriod() - 1) + "].budgetLineItem["+ (budgetLineItem.getLineItemNumber() - 1) +"].costElement",error);
+            }
         }
     }
     public BusinessObjectService getBusinessObjectService() {
