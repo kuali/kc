@@ -20,21 +20,38 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * 
+ * This class tests methods in Award.java class
+ */
 public class AwardTest { 
     private static final int AWARD_ATTRIBUTES_COUNT = 44;
     
     private Award awardBo;
     
+    /**
+     *
+     * @throws Exception
+     */
     @Before
     public void setUp() throws Exception {
         awardBo = new Award();
     }
 
+    /**
+     *
+     * @throws Exception
+     */
     @After
     public void tearDown() throws Exception {
         awardBo = null;
     }
     
+    /**
+     * 
+     * This method tests that total attributes of Award Business Object 
+     * @throws Exception
+     */
     @Test
     public void testAwardBoAttributesCount() throws Exception {              
         Assert.assertEquals(awardBo.toStringMapper().size(),AWARD_ATTRIBUTES_COUNT);
