@@ -251,5 +251,11 @@ public class KeyConstants {
     // Budget Version
     public static final String BUDGET_VERSION_EXISTS = "error.budgetVersion.exists";
     public static final String MOVE_UNIT_OWN_DESCENDANTS = "error_move_unit";
+
+    public static final String PERSONNEL_CATEGORY = "P";
+    public static final String CANNOT_SYNC_TO_ZERO_LIMIT = "error.sync.to.zero.limit";
+    public static final String TOTAL_COST_ALREADY_IN_SYNC = "total.cost.already.sync";
+    public static final String INSUFFICIENT_AMOUNT_TO_SYNC = "insufficient.amount.to.sync";
+    public static final String CANNOT_PERFORM_THIS_OPERATION_ON_PERSONNEL_LINE_ITEM = "personnellinetem.exists";
     
 }
