@@ -52,7 +52,7 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
              awardForm.setDocument(retrievedDocument);
              request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);
              forward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
-             forward = new ActionForward(buildForwardStringForActionListCommand(forward,docIdRequestParameter));  
+             forward = new ActionForward(buildForwardStringForActionListCommand(forward.getPath(),docIdRequestParameter));  
         } else {
              forward = super.docHandler(mapping, form, request, response);
         }
@@ -69,14 +69,14 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
      * @param docIdRequestParameter
      * @return
      */
-    public String buildForwardStringForActionListCommand(ActionForward forward, String docIdRequestParameter){
+    public String buildForwardStringForActionListCommand(String forwardPath, String docIdRequestParameter){
         StringBuilder sb = new StringBuilder();
-        sb.append(forward.getPath());
+        sb.append(forwardPath);
         sb.append("?");
         sb.append(KNSConstants.PARAMETER_DOC_ID);
         sb.append("=");
         sb.append(docIdRequestParameter);
-        return null;
+        return sb.toString();
     }
     /**
      * 
