@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.jasper.tagplugins.jstl.core.Url;
 import org.apache.log4j.Logger;
 import org.junit.After;
@@ -795,7 +796,7 @@ public abstract class KraWebTestBase extends KraTestBase {
         HtmlElement field = getElement(page, id);
         assertTrue(field != null);
 
-        ClickableElement btn = (ClickableElement) this.getNextSibling(field);
+        ClickableElement btn = (ClickableElement) this.getNextSibling(field, "input");
         assertTrue(btn != null);
 
         HtmlPage textPage = clickOn(btn);
@@ -1507,6 +1508,33 @@ public abstract class KraWebTestBase extends KraTestBase {
             }
         }
         return sibling;
+    }
+    
+    /**
+     * Get the next sibling HTML element.
+     *
+     * @param element an HTML element.
+     * @return the next sibling HTML element or null if there is none.
+     */
+    protected final HtmlElement getNextSibling(HtmlElement element, String elementName) {
+        DomNode node = element.getParentNode();
+        if (node instanceof HtmlElement) {
+            HtmlElement parent = (HtmlElement) node;
+            Iterator iterator = parent.getChildElementsIterator();
+            while (iterator.hasNext()) {
+                HtmlElement e = (HtmlElement) iterator.next();
+                if (e == element) {
+                    while (iterator.hasNext()) {
+                        HtmlElement sibling = (HtmlElement) iterator.next();
+                        if (StringUtils.equalsIgnoreCase(sibling.getNodeName(), elementName)) {
+                            return sibling;
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+        return null;
     }
 
     /**
