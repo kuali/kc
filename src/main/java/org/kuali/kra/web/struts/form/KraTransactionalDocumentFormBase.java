@@ -261,6 +261,11 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
         return isBudgetVersionsAction;
     }
     
+    /**
+     * 
+     * This method returns true if user is on any of the Award pages.
+     * @return
+     */
     private Boolean isAwardAction(){
         boolean isAwardAction = false;
         if (StringUtils.isNotBlank(actionName) && actionName.contains("Award")  
@@ -339,7 +344,8 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
         }
         else if (isBudgetVersionsAction() && hasModifyCompletedBudgetPermission(editMode)) {
             tempDocumentActionFlags.setCanSave(true);
-        }else if (isAwardAction()){
+        }
+        else if (isAwardAction()){
             tempDocumentActionFlags.setCanSave(true);
         }
         else if (isProtocolAction()) {
