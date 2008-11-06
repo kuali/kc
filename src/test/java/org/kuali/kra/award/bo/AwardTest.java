@@ -54,7 +54,7 @@ public class AwardTest {
      */
     @Test
     public void testAwardBoAttributesCount() throws Exception {              
-        Assert.assertEquals(awardBo.toStringMapper().size(),AWARD_ATTRIBUTES_COUNT);
+        Assert.assertEquals(AWARD_ATTRIBUTES_COUNT, awardBo.toStringMapper().size());
     }
     
 }
