@@ -15,8 +15,6 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="proposalDevelopmentAttributes" value="${DataDictionary.AwardDocument.attributes}" />
-
   <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="awardHome"
