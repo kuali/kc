@@ -229,3 +229,10 @@ VALUES('KR-NS', 'Document', 'SESSION_TIMEOUT_WARNING_MESSAGE_TIME', sys_guid(), 
 
 INSERT INTO SH_PARM_T(SH_PARM_NMSPC_CD, SH_PARM_DTL_TYP_CD, SH_PARM_NM, OBJ_ID, VER_NBR, SH_PARM_TYP_CD, SH_PARM_TXT, SH_PARM_DESC, SH_PARM_CONS_CD, WRKGRP_NM) 
 VALUES('KR-NS', 'Document', 'PESSIMISTIC_LOCK_ADMIN_GROUP', sys_guid(), 1, 'AUTH', 'KUALI_ROLE_SUPERVISOR', 'Workgroup which can perform admin deletion and lookup functions for Pessimistic Locks.', 'A', 'KUALI_FMSOPS');
+
+INSERT
+INTO sh_parm_t(sh_parm_nmspc_cd,    sh_parm_dtl_typ_cd,    sh_parm_nm,    obj_id,    ver_nbr,    sh_parm_typ_cd,    sh_parm_txt,    sh_parm_desc,    sh_parm_cons_cd,    wrkgrp_nm,    active_ind)
+VALUES('KR-NS',    'All',    'MAX_FILE_SIZE_DEFAULT_UPLOAD',    '4CBAA7A57E0581C1E0404F8189D82E3D',    1,    'CONFG',    '5M',    'Maximum file upload size for the application. Used by PojoFormBase. Must be an integer, optionally followed by "K", "M", or "G". Only used if no other upload limits are in effect.',    'A',    'WorkflowAdmin',    'Y');
+
+
+
