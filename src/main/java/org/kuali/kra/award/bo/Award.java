@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
@@ -34,8 +35,8 @@ public class Award extends KraPersistableBusinessObjectBase {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 3797220122448310165L;
-    private Integer awardId;
-    private String documentNumber;
+    private Long awardId;
+    private AwardDocument awardDocument;
     private String awardNumber;
     private Integer sequenceNumber;
     private String sponsorCode;
@@ -119,7 +120,7 @@ public class Award extends KraPersistableBusinessObjectBase {
      *
      * @return
      */
-    public Integer getAwardId() {
+    public Long getAwardId() {
         return awardId;
     }
 
@@ -127,7 +128,7 @@ public class Award extends KraPersistableBusinessObjectBase {
      *
      * @param awardId
      */
-    public void setAwardId(Integer awardId) {
+    public void setAwardId(Long awardId) {
         this.awardId = awardId;
     }
 
@@ -860,7 +861,6 @@ public class Award extends KraPersistableBusinessObjectBase {
     protected LinkedHashMap<String,Object> toStringMapper() {        
         LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();        
         hashMap.put("awardId", getAwardId());
-        hashMap.put("documentNumber",getDocumentNumber());
         hashMap.put("awardNumber", getAwardNumber());
         hashMap.put("sequenceNumber", getSequenceNumber());
         hashMap.put("sponsorCode", getSponsorCode());
@@ -904,14 +904,14 @@ public class Award extends KraPersistableBusinessObjectBase {
         hashMap.put("subPlanFlag", getSubPlanFlag());
         hashMap.put("title", getTitle());
         return hashMap;
+    }    
+
+    public AwardDocument getAwardDocument() {
+        return awardDocument;
     }
 
-    public String getDocumentNumber() {
-        return documentNumber;
-    }
-
-    public void setDocumentNumber(String documentNumber) {
-        this.documentNumber = documentNumber;
+    public void setAwardDocument(AwardDocument awardDocument) {
+        this.awardDocument = awardDocument;
     }
 
 }

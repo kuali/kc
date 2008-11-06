@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.award.document;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.document.Copyable;
@@ -34,8 +33,8 @@ public class AwardDocument extends ResearchDocumentBase implements Copyable, Ses
      */
     private static final long serialVersionUID = 1668673531338660064L;
     private String awardNumber;
-    //private Award award;
-    private List<Award> awardList;
+    private Award award;
+    //private List<Award> awardList;
     
     /**
      * 
@@ -44,19 +43,20 @@ public class AwardDocument extends ResearchDocumentBase implements Copyable, Ses
     public AwardDocument(){        
         super();
         setAwardNumber("1");
-        awardList = new ArrayList<Award>();
-        Award newAward = new Award();
-        awardList.add(newAward);
-        //award = new Award();        
+        //awardList = new ArrayList<Award>();
+        //Award newAward = new Award();
+        //newAward.setDocumentNumber(this.documentNumber);
+        //awardList.add(newAward);
+        award = new Award();        
     }
     
-    /*public Award getAward() {
+    public Award getAward() {
         return award;
     }
 
     public void setAward(Award award) {
         this.award = award;
-    }*/
+    }
 
     /**
      * 
@@ -77,17 +77,17 @@ public class AwardDocument extends ResearchDocumentBase implements Copyable, Ses
      *
      * @return
      */
-    public List<Award> getAwardList() {
+    /*public List<Award> getAwardList() {
         return awardList;
-    }
+    }*/
 
     /**
      *
      * @param awardList
      */
-    public void setAwardList(List<Award> awardList) {
+    /*public void setAwardList(List<Award> awardList) {
         this.awardList = awardList;
-    }
+    }*/
     
     /**
      * 
@@ -98,7 +98,7 @@ public class AwardDocument extends ResearchDocumentBase implements Copyable, Ses
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();       
                 
-        managedLists.add(awardList);
+        //managedLists.add(awardList);
         return managedLists;
     }
 }
