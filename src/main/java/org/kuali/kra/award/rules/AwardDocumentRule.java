@@ -28,10 +28,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase  {
     
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
-        boolean retval = true;
-        retval &= super.processCustomRouteDocumentBusinessRules(document);
-        
-        return retval;
+        return super.processCustomRouteDocumentBusinessRules(document);
     }
 
     @Override
@@ -40,8 +37,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase  {
             return false;
         }
 
-        boolean valid = true;
-        return valid;
+        return true;
     }
 
 
@@ -49,11 +45,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase  {
      * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.core.document.Document)
      */
     public boolean processRunAuditBusinessRules(Document document){
-        boolean retval = true;
-        
-        retval &= super.processRunAuditBusinessRules(document);
-        
-        return retval;
+        return super.processRunAuditBusinessRules(document);
     }
 
 }
