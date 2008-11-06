@@ -22,6 +22,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.document.Document;
+import org.kuali.core.service.DocumentService;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
@@ -29,6 +30,7 @@ import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSConstants;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * 
@@ -41,22 +43,8 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
      */
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward forward = null;
-        
-        AwardForm awardForm = (AwardForm) form;
-        String command = awardForm.getCommand();
-        
-        if (IDocHandler.ACTIONLIST_INLINE_COMMAND.equals(command)) {
-             String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
-             Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
-             awardForm.setDocument(retrievedDocument);
-             request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);
-             forward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
-             forward = new ActionForward(buildForwardStringForActionListCommand(forward.getPath(),docIdRequestParameter));  
-        } else {
-             forward = super.docHandler(mapping, form, request, response);
-        }
-        
+        AwardForm awardForm = (AwardForm) form;        
+        ActionForward forward = handleDocument(mapping, form, request, response, awardForm);        
         awardForm.initializeFormOrDocumentBasedOnCommand();
         
         return forward;
@@ -206,5 +194,40 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
      */
     public ActionForward awardActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {        
         return mapping.findForward(Constants.MAPPING_AWARD_ACTIONS_PAGE);
+    }
+
+    /**
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @param awardForm
+     * @return
+     * @throws WorkflowException
+     * @throws Exception
+     */
+    ActionForward handleDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+                                            HttpServletResponse response, AwardForm awardForm) throws WorkflowException, Exception {
+        String command = awardForm.getCommand();
+        ActionForward forward;        
+        if (IDocHandler.ACTIONLIST_INLINE_COMMAND.equals(command)) {
+            String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
+            Document retrievedDocument = getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
+            awardForm.setDocument(retrievedDocument);
+            request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);
+            ActionForward baseForward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
+            forward = new ActionForward(buildForwardStringForActionListCommand(baseForward.getPath(),docIdRequestParameter));  
+        } else {
+        forward = super.docHandler(mapping, form, request, response);
+        }
+        return forward;
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    DocumentService getDocumentService() {
+        return KNSServiceLocator.getDocumentService();
     }
 }
