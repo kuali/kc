@@ -27,6 +27,9 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  */
 public class Award extends KraPersistableBusinessObjectBase {
     
+    private static final String ONE = "1";
+    private static final String AWARD_TITLE = "Award";
+    private static final String YES_FLAG = "Y";
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -92,24 +95,24 @@ public class Award extends KraPersistableBusinessObjectBase {
      * this method.  
      */
     private void initializeAwardWithDefaultValues(){
-        setAwardNumber("1");
+        setAwardNumber(ONE);
         setSequenceNumber(1);
-        setSponsorCode("1");
+        setSponsorCode(ONE);
         setStatusCode(1);
-        setApprovedEquipmentIndicator("Y");
-        setApprovedForeignTripIndicator("Y");
-        setSubContractIndicator("Y");
-        setCostSharingIndicator("Y");
-        setIdcIndicator("Y");
-        setPaymentScheduleIndicator("Y");
-        setScienceCodeIndicator("Y");
-        setSpecialReviewIndicator("Y");
-        setTransferSponsorIndicator("Y");
+        setApprovedEquipmentIndicator(YES_FLAG);
+        setApprovedForeignTripIndicator(YES_FLAG);
+        setSubContractIndicator(YES_FLAG);
+        setCostSharingIndicator(YES_FLAG);
+        setIdcIndicator(YES_FLAG);
+        setPaymentScheduleIndicator(YES_FLAG);
+        setScienceCodeIndicator(YES_FLAG);
+        setSpecialReviewIndicator(YES_FLAG);
+        setTransferSponsorIndicator(YES_FLAG);
         setActivityTypeCode(1);
         setAwardTypeCode(1);
         setBasisOfPaymentCode(1);
         setMethodOfPaymentCode(1);
-        setTitle("Award");   
+        setTitle(AWARD_TITLE);   
     }
     
     /**
