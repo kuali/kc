@@ -539,7 +539,7 @@
                 </validationPattern>
 
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder" businessObjectClass="org.kuali.kra.proposaldevelopment.bo.PostSubmissionStatus" keyAttribute="postSubmissionStatusCode" labelAttribute="description" includeKeyInLabel="false"/>
+                    <select valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.PostSubmissionStatusValuesFinder" />
                 </control>
 
                 <summary>Post Submission Status Code</summary>
