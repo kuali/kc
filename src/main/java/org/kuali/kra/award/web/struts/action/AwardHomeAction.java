@@ -38,7 +38,8 @@ public class AwardHomeAction extends AwardAction {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{        
         AwardForm awardForm = (AwardForm)form;
         AwardDocument awardDocument = (AwardDocument)awardForm.getDocument();
-        awardDocument.getAwardList().get(0).setDocumentNumber(awardDocument.getAwardNumber());
+        //awardDocument.getAwardList().get(0).setDocumentNumber(awardDocument.getAwardNumber());
+        //awardDocument.getAward().setDocumentNumber(awardDocument.getAwardNumber());
         return super.save(mapping, form, request, response);
     }
 }
