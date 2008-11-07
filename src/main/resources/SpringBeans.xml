@@ -1200,4 +1200,10 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="researchAreasService" class="org.kuali.kra.service.impl.ResearchAreasServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+	
 </beans>

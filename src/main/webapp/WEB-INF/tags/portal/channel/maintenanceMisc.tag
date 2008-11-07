@@ -28,6 +28,7 @@
     <li>Negotiation Activity Type</li>
     <li>Negotiation Status</li>
     <li>Organization Type</li>
+    <li><portal:portalLink displayTitle="true" title="Research Areas" url="researchAreas.do" /></li>
     <li>Rule Functions</li>
     <li>Rule Functions Argument</li>
     <li>Rule Variables</li>
