@@ -48,35 +48,13 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.KNSServiceLocator;
 
 public class BudgetPeriodCalculator {
-//    /**
-//     * Cost limit for this period is set to 0. Cannot sync a line item cost to zero limit.
-//     */
-//    private static final String CANNOT_SYNC_TO_ZERO_LIMIT = "Cost limit for this period is set to 0. Cannot sync a line item cost to zero limit.";
-//    /**
-//     * Cost limit and total cost for this period is already in sync.
-//     */
-//    private static final String TOTAL_COST_ALREADY_IN_SYNC = "Cost limit and total cost for this period is already in sync.";
-//
-//    /**
-//     * Insufficient amount on the line item to sync with cost limit.
-//     */
-//    private static final String INSUFFICIENT_AMOUNT_TO_SYNC = "Insufficient amount on the line item to sync with cost limit.";
-
-    
-//    private static final String PERSONNEL_CATEGORY = "P";
-//    /**
-//     * Cannot perform this operation on a line item with personel budget details.
-//     */
-//    private static final String CANNOT_PERFORM_THIS_OPERATION_ON_PERSONNEL_LINE_ITEM = "Cannot perform this operation on a line item with personel budget details.";
     private BudgetCalculationService budgetCalculationService;
-    private DateTimeService dateTimeService;
     private List<String> errorMessages;
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AbstractBudgetCalculator.class);
 
     public BudgetPeriodCalculator() {
         budgetCalculationService = getService(BudgetCalculationService.class);
         errorMessages = new ArrayList<String>();
-        dateTimeService = KNSServiceLocator.getDateTimeService();
     }
 
     /**
@@ -322,7 +300,7 @@ public class BudgetPeriodCalculator {
 //        if (budgetDetailBean.getBudgetCategory().getBudgetCategoryTypeCode().equals(KeyConstants.PERSONNEL_CATEGORY)) {
       if (budgetDetailBean.getBudgetCategory().getBudgetCategoryTypeCode().equals(KeyConstants.PERSONNEL_CATEGORY) && 
               !budgetDetailBean.getBudgetPersonnelDetailsList().isEmpty()) {
-            errorMessages.add(KeyConstants.CANNOT_PERFORM_THIS_OPERATION_ON_PERSONNEL_LINE_ITEM);
+            errorMessages.add(KeyConstants.PERSONNEL_LINE_ITEM_EXISTS);
             return;
         }
 

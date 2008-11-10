@@ -256,6 +256,6 @@ public class KeyConstants {
     public static final String CANNOT_SYNC_TO_ZERO_LIMIT = "error.sync.to.zero.limit";
     public static final String TOTAL_COST_ALREADY_IN_SYNC = "total.cost.already.sync";
     public static final String INSUFFICIENT_AMOUNT_TO_SYNC = "insufficient.amount.to.sync";
-    public static final String CANNOT_PERFORM_THIS_OPERATION_ON_PERSONNEL_LINE_ITEM = "personnellinetem.exists";
+    public static final String PERSONNEL_LINE_ITEM_EXISTS = "personnelLineItem.exists";
     
 }
