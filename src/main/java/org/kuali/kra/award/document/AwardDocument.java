@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.document.Copyable;
@@ -25,6 +26,11 @@ import org.kuali.kra.document.ResearchDocumentBase;
 /**
  * 
  * This class represents the Award Document Object.
+ * AwardDocument has a 1:1 relationship with Award Business Object.
+ * We have declared a list of Award BOs in the AwardDocument at the same time to
+ * get around the OJB anonymous keys issue of primary keys of different data types.
+ * Also we have provided convenient getter and setter methods so that to the outside world;
+ * Award and AwardDocument can have a 1:1 relationship.
  */
 public class AwardDocument extends ResearchDocumentBase implements Copyable, SessionDocument{
     
@@ -32,9 +38,10 @@ public class AwardDocument extends ResearchDocumentBase implements Copyable, Ses
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 1668673531338660064L;
+    private static final String ONE = "1";
+    
     private String awardNumber;
-    private Award award;
-    //private List<Award> awardList;
+    private List<Award> awardList;
     
     /**
      * 
@@ -42,20 +49,30 @@ public class AwardDocument extends ResearchDocumentBase implements Copyable, Ses
      */
     public AwardDocument(){        
         super();
-        setAwardNumber("1");
-        //awardList = new ArrayList<Award>();
-        //Award newAward = new Award();
-        //newAward.setDocumentNumber(this.documentNumber);
-        //awardList.add(newAward);
-        award = new Award();        
+        setAwardNumber(ONE);
+        awardList = new ArrayList<Award>();
+        Award newAward = new Award();
+        awardList.add(newAward);
     }
     
+    /**
+     * 
+     * This method is a convenience method for facilitating a 1:1 relationship between AwardDocument 
+     * and Award to the outside world - aka a single Award field associated with AwardDocument
+     * @return
+     */
     public Award getAward() {
-        return award;
+        return awardList.get(0);
     }
 
+    /**
+     * 
+     * This method is a convenience method for facilitating a 1:1 relationship between AwardDocument 
+     * and Award to the outside world - aka a single Award field associated with AwardDocument
+     * @param award
+     */
     public void setAward(Award award) {
-        this.award = award;
+        awardList.set(0, award);
     }
 
     /**
@@ -77,17 +94,17 @@ public class AwardDocument extends ResearchDocumentBase implements Copyable, Ses
      *
      * @return
      */
-    /*public List<Award> getAwardList() {
+    public List<Award> getAwardList() {
         return awardList;
-    }*/
+    }
 
     /**
      *
      * @param awardList
      */
-    /*public void setAwardList(List<Award> awardList) {
+    public void setAwardList(List<Award> awardList) {
         this.awardList = awardList;
-    }*/
+    }
     
     /**
      * 
@@ -98,7 +115,7 @@ public class AwardDocument extends ResearchDocumentBase implements Copyable, Ses
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();       
                 
-        //managedLists.add(awardList);
+        managedLists.add(awardList);
         return managedLists;
     }
 }

@@ -15,14 +15,6 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.web.struts.form.AwardForm;
 
 /**
  * 
@@ -30,16 +22,4 @@ import org.kuali.kra.award.web.struts.form.AwardForm;
  */
 public class AwardHomeAction extends AwardAction { 
     
-    /**
-     * Before calling the super save; setting the document number in award BO from AwardDocument.
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{        
-        AwardForm awardForm = (AwardForm)form;
-        AwardDocument awardDocument = (AwardDocument)awardForm.getDocument();
-        //awardDocument.getAwardList().get(0).setDocumentNumber(awardDocument.getAwardNumber());
-        //awardDocument.getAward().setDocumentNumber(awardDocument.getAwardNumber());
-        return super.save(mapping, form, request, response);
-    }
 }
