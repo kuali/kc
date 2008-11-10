@@ -18,8 +18,8 @@
 <channel:portalChannelTop channelTitle="Awards" />
 <div class="body">
   <ul class="chan">
-  	<!--<li><portal:portalLink displayTitle="false" title="Create Award" url="awardAward.do?methodToCall=docHandler&command=initiate&docTypeName=AwardDocument">Create Award</portal:portalLink></li>-->
-  	<li>Create Award</li>
+  	<li><portal:portalLink displayTitle="false" title="Create Award" url="awardHome.do?methodToCall=docHandler&command=initiate&docTypeName=AwardDocument">Create Award</portal:portalLink></li>
+  	<!--<li>Create Award</li>-->
     <li>Awards in Progress</li>
     <li>All my Awards</li>
   </ul>
