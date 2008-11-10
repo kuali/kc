@@ -121,8 +121,8 @@
 	<bean id="ProtocolDocument-protocolNumber-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="protocolNumber" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Protocol Number" />
-		<property name="shortLabel" value="Protocol Number" />
+		<property name="label" value="Protocol#" />
+		<property name="shortLabel" value="Protocol#" />
 		<property name="maxLength" value="20" />
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
@@ -180,8 +180,8 @@
 	<bean id="ProtocolDocument-protocolStatusCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="protocolStatusCode" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Protocol Status Code" />
-		<property name="shortLabel" value="Protocol Status Code" />
+		<property name="label" value="Protocol Status" />
+		<property name="shortLabel" value="Protocol Status" />
 		<property name="maxLength" value="22" />
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
@@ -253,8 +253,8 @@
 	<bean id="ProtocolDocument-approvalDate" parent="ProtocolDocument-approvalDate-parentBean" />
 	<bean id="ProtocolDocument-approvalDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
 		<property name="name" value="approvalDate" />
-		<property name="label" value="Approval Date" />
-		<property name="shortLabel" value="Approval Date" />
+		<property name="label" value="Initial Approval Date" />
+		<property name="shortLabel" value="Initial Approval Date" />
 		<property name="summary" value="Approval Date" />
 		<property name="description" value="Approval Date" />
 	</bean>
