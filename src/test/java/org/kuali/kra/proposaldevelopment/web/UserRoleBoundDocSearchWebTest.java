@@ -49,7 +49,8 @@ public class UserRoleBoundDocSearchWebTest extends ProposalDevelopmentWebTestBas
         HtmlAnchor hyperlink = getAnchor(documentTypeSearchPage, "docTypeFullName=ProposalDevelopmentDocument");
         assertNotNull(hyperlink);
         final HtmlPage docPage = clickOn(hyperlink);
-        assertTrue(docPage.asText().contains("Document Type: KRA Proposal Development"));
+       
+        assertTrue(docPage.asText().contains("KRA Proposal Development"));
         // should see the user roles specified in document type xml : aggregator/budget creator/narrative writer/viewer/approver
         assertTrue(docPage.asText().contains("Aggregator: Budget Creator: Narrative Writer: Viewer: Approver:")); 
          
