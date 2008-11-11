@@ -2927,7 +2927,7 @@
 	</class-descriptor>
 	
 	
-	<class-descriptor class="org.kuali.kra.award.bo.Award" table="AWARD1">
+	<class-descriptor class="org.kuali.kra.award.bo.Award" table="AWARD">
 		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQUENCE_AWARD_ID" />		
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" access="anonymous" />
 		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR"/>
