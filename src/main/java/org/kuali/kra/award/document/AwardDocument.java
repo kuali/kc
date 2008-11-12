@@ -22,6 +22,7 @@ import org.kuali.core.document.Copyable;
 import org.kuali.core.document.SessionDocument;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.proposaldevelopment.bo.ScienceKeyword;
 
 /**
  * 
@@ -43,6 +44,9 @@ public class AwardDocument extends ResearchDocumentBase implements Copyable, Ses
     private String awardNumber;
     private List<Award> awardList;
     
+    private String newKeyword;
+    private List<ScienceKeyword> keywords;
+    
     /**
      * 
      * Constructs a AwardDocument object
@@ -53,6 +57,7 @@ public class AwardDocument extends ResearchDocumentBase implements Copyable, Ses
         awardList = new ArrayList<Award>();
         Award newAward = new Award();
         awardList.add(newAward);
+        keywords = new ArrayList<ScienceKeyword>();
     }
     
     /**
@@ -117,5 +122,37 @@ public class AwardDocument extends ResearchDocumentBase implements Copyable, Ses
                 
         managedLists.add(awardList);
         return managedLists;
+    }
+
+    /**
+     * Gets the newKeyword attribute. 
+     * @return Returns the newKeyword.
+     */
+    public String getNewKeyword() {
+        return newKeyword;
+    }
+
+    /**
+     * Sets the newKeyword attribute value.
+     * @param newKeyword The newKeyword to set.
+     */
+    public void setNewKeyword(String newKeyword) {
+        this.newKeyword = newKeyword;
+    }
+
+    /**
+     * Gets the keywords attribute. 
+     * @return Returns the keywords.
+     */
+    public List<ScienceKeyword> getKeywords() {
+        return keywords;
+    }
+
+    /**
+     * Sets the keywords attribute value.
+     * @param keywords The keywords to set.
+     */
+    public void setKeywords(List<ScienceKeyword> keywords) {
+        this.keywords = keywords;
     }
 }
