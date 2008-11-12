@@ -24,9 +24,27 @@
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="home">
-
+<c:set var="displayKeywordPanel" value="true" />
 This is the Award Home Page - Under Construction
 
+<div align="right"><kul:help documentTypeName="AwardDocument" pageName="Award" /></div>
+<kul:documentOverview editingMode="${KualiForm.editingMode}" />
+<kra-a:awardFundingPropsals />
+<kra-a:awardDetailsDates />
+<kra-a:awardSubaward />
+<kra-a:awardSponsorTemplate />
+
+<c:if test="${displayKeywordPanel}">
+<kra-a:awardKeywords />
+</c:if>
+
+<kul:panelFooter />
+
+<SCRIPT type="text/javascript">
+var kualiForm = document.forms['KualiForm'];
+var kualiElements = kualiForm.elements;
+</SCRIPT>
+<script language="javascript" src="scripts/kuali_application.js"></script>
 
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 
