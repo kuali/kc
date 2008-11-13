@@ -1080,7 +1080,8 @@
 	<!--  Lookupable Helper for Rolodexes -->
 
     <bean id="rolodexDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.RolodexDaoOjb" >
-        <property name="lookupDao" ref="lookupDao" />
+        <property name="dateTimeService" ref="dateTimeService" />
+        <property name="persistenceStructureService" ref="persistenceStructureService" />
     </bean>
     
     <bean id="kimDao" parent="platformAwareDao" class="org.kuali.kra.kim.service.impl.KimDaoImpl" />

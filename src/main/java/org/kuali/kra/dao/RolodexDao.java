@@ -52,17 +52,4 @@ public interface RolodexDao {
      * @return Criteria
      */
     public Criteria getNonOrganizationalRolodexCriteria(Class businessObjectClass, Map fieldValues, boolean usePrimaryKeys);
-
-
-    public LookupDao getLookupDao();
-    
-    /**
-     * Convenience method for casting <code>{@link LookupDao}</code> to <code>{@link LookupDaoOjb}</code> because some methods in 
-     * <code>{@link LookupDaoOjb}</code> are public but not in <code>{@link LookupDao}</code>. This is a hack until the two are sync'd up.
-     * 
-     * @return LookupDaoOjb instance
-     */
-    public LookupDaoOjb getLookupDaoOjb();
-
-    public void setLookupDao(LookupDao lookupDao);
 }
