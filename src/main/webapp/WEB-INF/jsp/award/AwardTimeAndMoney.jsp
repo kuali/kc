@@ -25,7 +25,24 @@
   	headerTabActive="timeAndMoney">
   	
 This is the Award Time & Money - Under Construction
+<div align="right"><kul:help documentTypeName="AwardDocument" pageName="TimeAndMoney" /></div>
 
+<kra-a:awardTimeAndMoney />
+<kra-a:awardBudget />
+<kra-a:awardDirectFnAFundsDistribution />
+<kra-a:awardCostShare />
+<kra-a:awardRates />
+<kra-a:awardSummary />
+<kra-a:awardHistory />
+<kra-a:awardPreAwardAuthorizations />
+
+<kul:panelFooter />
+
+<SCRIPT type="text/javascript">
+var kualiForm = document.forms['KualiForm'];
+var kualiElements = kualiForm.elements;
+</SCRIPT>
+<script language="javascript" src="scripts/kuali_application.js"></script>
 
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 
