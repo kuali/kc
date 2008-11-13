@@ -21,7 +21,7 @@
     </property>
     <property name="documentTypeName" value="AwardDocument" />
     <property name="documentClass" value="org.kuali.kra.award.document.AwardDocument" />
-    <!--  <property name="businessRulesClass" value="org.kuali.kra.award.rules.AwardDocumentRule" />-->
+    <property name="businessRulesClass" value="org.kuali.kra.award.rules.AwardDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kra.award.document.authorization.AwardDocumentAuthorizer" />
     <property name="documentTypeCode" value="AWRD" />
     <property name="allowsCopy" value="true" />
