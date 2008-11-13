@@ -40,10 +40,8 @@ import org.springmodules.orm.ojb.OjbOperationException;
  * OJB Implementation of <code>{@link RolodexDao}</code>
  * 
  */
-public class RolodexDaoOjb extends PlatformAwareDaoBaseOjb implements RolodexDao {
+public class RolodexDaoOjb extends LookupDaoOjb implements RolodexDao {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(RolodexDaoOjb.class);
-    
-    private LookupDao lookupDao;
     
     /**
      * @see org.kuali.kra.dao.RolodexDao#getNonOrganizationalRolodexResults(java.util.Map, boolean)
@@ -82,10 +80,10 @@ public class RolodexDaoOjb extends PlatformAwareDaoBaseOjb implements RolodexDao
         Criteria retval;
         
         if (usePrimaryKeys) {
-            retval = getLookupDaoOjb().getCollectionCriteriaFromMapUsingPrimaryKeysOnly(businessObjectClass, fieldValues);
+            retval = getCollectionCriteriaFromMapUsingPrimaryKeysOnly(businessObjectClass, fieldValues);
         }
         else {
-            retval = getLookupDaoOjb().getCollectionCriteriaFromMap(checkBusinessObjectClass(businessObjectClass), fieldValues);   
+            retval = getCollectionCriteriaFromMap(checkBusinessObjectClass(businessObjectClass), fieldValues);   
         }  
         
         retval.addNotNull("firstName");
@@ -99,33 +97,18 @@ public class RolodexDaoOjb extends PlatformAwareDaoBaseOjb implements RolodexDao
     
     private PersistableBusinessObject checkBusinessObjectClass(Class businessObjectClass) {
         if (businessObjectClass == null) {
-            throw new IllegalArgumentException("BusinessObject class passed to LookupDaoOjb findCollectionBySearchHelper... method was null");
+            throw new IllegalArgumentException("BusinessObject class passed to RolodexDaoOjb findCollectionBySearchHelper... method was null");
         }
         PersistableBusinessObject businessObject = null;
         try {
             businessObject = (PersistableBusinessObject) businessObjectClass.newInstance();
         }
         catch (IllegalAccessException e) {
-            throw new RuntimeException("LookupDaoOjb could not get instance of " + businessObjectClass.getName(), e);
+            throw new RuntimeException("RolodexDaoOjb could not get instance of " + businessObjectClass.getName(), e);
         }
         catch (InstantiationException e) {
-            throw new RuntimeException("LookupDaoOjb could not get instance of " + businessObjectClass.getName(), e);
+            throw new RuntimeException("RolodexDaoOjb could not get instance of " + businessObjectClass.getName(), e);
         }
         return businessObject;
-    }
-
-    public LookupDao getLookupDao() {
-        return lookupDao;
-    }
-    
-    /**
-     * @see org.kuali.kra.dao.RolodexDao#getLookupDaoOjb()
-     */
-    public LookupDaoOjb getLookupDaoOjb() {
-        return (LookupDaoOjb) getLookupDao();
-    }
-
-    public void setLookupDao(LookupDao lookupDao) {
-        this.lookupDao = lookupDao;
     }
 }
