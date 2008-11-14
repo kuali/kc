@@ -17,6 +17,8 @@ package org.kuali.kra.budget.lookup.keyvalue;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -57,7 +59,6 @@ public class CostElementValuesFinder extends KeyValuesBase{
         Collection budgetCategoryCodes = keyValuesService.findAll(BudgetCategory.class);
         KualiForm form = GlobalVariables.getKualiForm();        
         
-        keyValues.add(new KeyLabelPair("", "select"));
         
         BudgetForm budgetForm = (BudgetForm)form;
         for (Iterator iter = costElements.iterator(); iter.hasNext();) {
@@ -70,7 +71,10 @@ public class CostElementValuesFinder extends KeyValuesBase{
                     }
                 }
             } 
-        }        
+        }
+        // added comparator below to alphabetize lists on label
+        Collections.sort(keyValues, new KeyLabelPairComparator());
+        keyValues.add(0, new KeyLabelPair("", "select"));
         return keyValues;
     }
     
@@ -79,5 +83,11 @@ public class CostElementValuesFinder extends KeyValuesBase{
     }
     public void setBudgetCategoryTypeCode(String budgetCategoryTypeCode) {
         this.budgetCategoryTypeCode = budgetCategoryTypeCode;
+    }
+    
+    class KeyLabelPairComparator implements Comparator<KeyLabelPair> {
+        public int compare(KeyLabelPair o1, KeyLabelPair o2) {
+            return o1.getLabel().compareToIgnoreCase(o2.getLabel());
+        }        
     }
 }
