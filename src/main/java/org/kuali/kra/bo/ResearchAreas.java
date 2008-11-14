@@ -57,6 +57,13 @@ public class ResearchAreas extends KraPersistableBusinessObjectBase {
     public ResearchAreas(){
         super();
     }
+    
+    public ResearchAreas(String researchAreaCode, String parentResearchAreaCode, String description){
+        super();
+        this.researchAreaCode = researchAreaCode;
+        this.parentResearchAreaCode = parentResearchAreaCode;
+        this.description = description;
+    }
 
     public String getResearchAreaCode() {
         return researchAreaCode;
