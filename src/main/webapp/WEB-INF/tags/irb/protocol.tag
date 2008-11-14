@@ -26,10 +26,12 @@
                 <td>
                       <kra:kraControlAttribute property="document.protocolStatusCode" readOnly="${readOnly}" attributeEntry="${protocolDocumentAttributes.protocolStatusCode}" />
                 </td>
-           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolDocumentAttributes.isBillable}" /></div></th>
+                <!-- 
+           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolDocumentAttributes.billable}" /></div></th>
            		<td>
-           			<kul:htmlControlAttribute property="document.isBillable" attributeEntry="${protocolDocumentAttributes.isBillable}" />
+           			<kul:htmlControlAttribute property="document.billable" attributeEntry="${protocolDocumentAttributes.billable}" />
            		</td>
+           		 -->
             </tr>
             <tr>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolDocumentAttributes.title}" /></div></th>
@@ -38,6 +40,7 @@
                     <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${protocolDocumentAttributes.title.label}" />
                 </td>
             </tr>
+<!--             
             <tr>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolDocumentAttributes.description}" /></div></th>
                 <td colspan="3" align="left" valign="middle">
@@ -45,6 +48,7 @@
                     <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${protocolDocumentAttributes.description.label}" />
                 </td>
             </tr>
+ -->            
             <tr>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolDocumentAttributes.applicationDate}" /></div></th>
                 <td align="left" valign="middle">
@@ -65,6 +69,7 @@
                 	<kul:htmlControlAttribute property="document.lastApprovalDate" attributeEntry="${protocolDocumentAttributes.lastApprovalDate}" datePicker="true" />
                 </td>
             </tr>
+<!--             
             <tr>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolDocumentAttributes.fdaApplicationNumber}" /></div></th>
                 <td colspan="3" align="left" valign="middle">
@@ -84,6 +89,7 @@
                 	<kul:htmlControlAttribute property="document.referenceNumber2" attributeEntry="${protocolDocumentAttributes.referenceNumber2}" />
                 </td>
             </tr>
+ -->              
         </table>
     </div>
 </kul:tab>

@@ -32,6 +32,8 @@
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <kra-irb:protocol />
 <kra-irb:protocolStatusDateAndRiskLevel />
+<kra-irb:protocolAdditionalInformation />
+
 
 <kul:panelFooter />
 	<kul:documentControls 

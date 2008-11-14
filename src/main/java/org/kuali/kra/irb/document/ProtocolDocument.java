@@ -44,7 +44,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
 	private String fdaApplicationNumber; 
 	private String referenceNumber1; 
 	private String referenceNumber2; 
-	private boolean isBillable; 
+	private boolean billable; 
 	private String specialReviewIndicator; 
 	private String vulnerableSubjectIndicator; 
 	private String keyStudyPersonIndicator; 
@@ -201,12 +201,12 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
 		this.referenceNumber2 = referenceNumber2;
 	}
 
-	public boolean getIsBillable() {
-		return isBillable;
+	public boolean isBillable() {
+		return billable;
 	}
 
-	public void setIsBillable(boolean isBillable) {
-		this.isBillable = isBillable;
+	public void setBillable(boolean billable) {
+		this.billable = billable;
 	}
 
 	public String getSpecialReviewIndicator() {
@@ -282,7 +282,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
 		hashMap.put("fdaApplicationNumber", getFdaApplicationNumber());
 		hashMap.put("referenceNumber1", getReferenceNumber1());
 		hashMap.put("referenceNumber2", getReferenceNumber2());
-		hashMap.put("isBillable", getIsBillable());
+		hashMap.put("isBillable", isBillable());
 		hashMap.put("specialReviewIndicator", getSpecialReviewIndicator());
 		hashMap.put("vulnerableSubjectIndicator", getVulnerableSubjectIndicator());
 		hashMap.put("keyStudyPersonIndicator", getKeyStudyPersonIndicator());
