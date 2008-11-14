@@ -17,11 +17,14 @@
 package org.kuali.kra.irb.document;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.SessionDocument;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.irb.bo.ProtocolRiskLevels;
 import org.kuali.kra.irb.bo.ProtocolStatus;
 import org.kuali.kra.irb.bo.ProtocolType;
 
@@ -52,6 +55,8 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
 	
     private ProtocolStatus protocolStatus; 
     private ProtocolType protocolType; 
+    
+    private List<ProtocolRiskLevels> riskLevels;
 	/*
 	private ProtocolVulnerableSub protocolVulnerableSub; 
 	private ProtocolVoteAbstainees protocolVoteAbstainees; 
@@ -77,6 +82,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
 	
 	public ProtocolDocument() { 
         super();
+        riskLevels = new ArrayList<ProtocolRiskLevels>();
 
 	} 
 	
@@ -301,6 +307,14 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
 
     public void setProtocolType(ProtocolType protocolType) {
         this.protocolType = protocolType;
+    }
+
+    public List<ProtocolRiskLevels> getRiskLevels() {
+        return riskLevels;
+    }
+
+    public void setRiskLevels(List<ProtocolRiskLevels> riskLevels) {
+        this.riskLevels = riskLevels;
     }
 	
 }
