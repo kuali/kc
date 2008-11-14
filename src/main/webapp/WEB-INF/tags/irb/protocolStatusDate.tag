@@ -1,15 +1,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="protocolDocumentAttributes" value="${DataDictionary.ProtocolDocument.attributes}" />
-
-<kul:tab tabTitle="Status & Dates" defaultOpen="true" tabErrorKey="" >
-	<div class="tab-container" align="center">
-    	<h3>
-    		<span class="subhead-left">Status & Dates</span>
-    		<!-- TODO : check what is the proper help class ? -->
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.bo.ProtocolType" altText="help"/></span>
-        </h3>
-        
+		<kul:subtab lookedUpCollectionName="statusAndDate" width="100%" subTabTitle="Status & Dates">      
         <table cellpadding=0 cellspacing=0 summary="">
         	<tr>
 				<th width="30%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolDocumentAttributes.protocolNumber}"/></div></th>
@@ -37,5 +29,4 @@
                 </td>
             </tr>
         </table>
-    </div>
-</kul:tab>
+       </kul:subtab> 
