@@ -70,8 +70,6 @@
         <module name="EqualsHashCode"/>
         <module name="InnerAssignment"/>
         <module name="MagicNumber">
-            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="KCRA Violation"/>
-            <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="KCRA Violation"/>
         </module>
         <module name="RedundantThrows">
             <property name="logLoadErrors" value="true"/>
@@ -94,8 +92,6 @@
             <property name="severity" value="info"/>
         </module>
         <module name="TodoComment">
-            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="KCRA Violation"/>
-            <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="KCRA Violation"/>
         </module>
         <module name="UpperEll">
             <property name="severity" value="error"/>
@@ -132,27 +128,18 @@
             <property name="severity" value="info"/>
         </module>
         <module name="MultipleStringLiterals">
-            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="KCRA Violation"/>
-            <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="KCRA Violation"/>
         </module>
         <module name="MultipleVariableDeclarations">
-            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="KCRA Violation"/>
-            <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="KCRA Violation"/>
         </module>
         <module name="NestedIfDepth">
-            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="KCRA Violation"/>
-            <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="KCRA Violation"/>
             <property name="max" value="3"/>
         </module>
         <module name="NestedTryDepth">
-            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="KCRA Violation"/>
-            <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="KCRA Violation"/>
             <property name="max" value="3"/>
         </module>
         <module name="PackageDeclaration"/>
         <module name="ParameterAssignment"/>
         <module name="ReturnCount">
-            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="KCRA Violation"/>
         </module>
         <module name="StringLiteralEquality"/>
         <module name="SuperClone"/>
@@ -162,7 +149,6 @@
             <property name="severity" value="info"/>
         </module>
         <module name="GenericIllegalRegexp">
-            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="KRCA Violation"/>
             <property name="format" value="^import static org\.junit.*$"/>
         </module>
         <module name="LocalFinalVariableName">
@@ -180,19 +166,13 @@
         </module>
         <module name="StaticVariableName"/>
         <module name="FileLength">
-            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="KCRA Violation"/>
-            <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="KCRA Violation"/>
         </module>
         <module name="LineLength">
-            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="KCRA Violation"/>
-            <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="KCRA Violation"/>
             <property name="severity" value="info"/>
             <property name="max" value="110"/>
             <property name="tabWidth" value="4"/>
         </module>
         <module name="MethodLength">
-            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="KCRA Violation"/>
-            <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="KCRA Violation"/>
             <property name="max" value="30"/>
             <property name="countEmpty" value="false"/>
         </module>
@@ -246,8 +226,6 @@
         </module>
         <module name="InnerAssignment"/>
         <module name="MagicNumber">
-            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="KCRA Violation"/>
-            <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="KCRA Violation"/>
         </module>
         <module name="MissingSwitchDefault">
             <property name="severity" value="info"/>
