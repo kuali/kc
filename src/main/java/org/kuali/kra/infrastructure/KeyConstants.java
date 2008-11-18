@@ -241,4 +241,13 @@ public class KeyConstants {
 
     // Budget Version
     public static final String BUDGET_VERSION_EXISTS = "error.budgetVersion.exists";
+    
+    //Award Indirect Cost Rate
+    public static final String ERROR_REQUIRED_APPLICABLE_INDIRECT_COST_RATE = "error.required.applicable.indirect.cost.rate";
+    public static final String ERROR_REQUIRED_INDIRECT_RATE_TYPE_CODE = "error.required.indirect.rate.type.code";
+    public static final String ERROR_REQUIRED_FISCAL_YEAR = "error.required.fiscal.year";
+    public static final String ERROR_REQUIRED_START_DATE= "error.required.start.date";
+    public static final String ERROR_END_DATE_BEFORE_START_DATE_INDIRECT_COST_RATE = "error.endDate.before.startDate.for.valid.indirectCostRate";
+    public static final String ERROR_FISCAL_YEAR_INCORRECT_FORMAT = "error.fiscalYear.IncorrectFormat";
+    
 }
