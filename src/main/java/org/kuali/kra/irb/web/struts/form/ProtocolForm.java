@@ -19,11 +19,14 @@ package org.kuali.kra.irb.web.struts.form;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.bo.Parameter;
 import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.datadictionary.HeaderNavigation;
 import org.kuali.core.service.DataDictionaryService;
@@ -39,7 +42,9 @@ import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class ProtocolForm extends KraTransactionalDocumentFormBase {
+    
     private static final long serialVersionUID = -7633960906991275328L;
+    private Map<String, Parameter> protocolParameters;
     
     public ProtocolForm() {
         super();
@@ -52,7 +57,8 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
      * This method initialize all form variables
      */
     public void initialize() {
-        initializeHeaderNavigationTabs();   
+        initializeHeaderNavigationTabs(); 
+        protocolParameters = new HashMap<String, Parameter>();
     }
 
 
@@ -114,6 +120,14 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
 
     public KualiConfigurationService getConfigurationService() {
         return getService(KualiConfigurationService.class);
+    }
+
+    public void setProtocolParameters(Map<String, Parameter> protocolParameters) {
+        this.protocolParameters = protocolParameters;
+    }
+
+    public Map<String, Parameter> getProtocolParameters() {
+        return protocolParameters;
     }
 
 }
