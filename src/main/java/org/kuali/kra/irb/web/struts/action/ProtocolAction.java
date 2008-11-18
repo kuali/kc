@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.irb.web.struts.action;
 
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,6 +24,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.document.Document;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
@@ -42,6 +45,13 @@ public class ProtocolAction extends KraTransactionalDocumentActionBase {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
+        
+        // setup any Protocol System Parameters that will be needed
+        KualiConfigurationService configService = getService(KualiConfigurationService.class);
+        ((ProtocolForm)form).getProtocolParameters().put(Constants.PARAMETER_MODULE_PROTOCOL_REFERENCEID1, configService.getParameter(Constants.PARAMETER_MODULE_PROTOCOL, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PARAMETER_MODULE_PROTOCOL_REFERENCEID1));
+        ((ProtocolForm)form).getProtocolParameters().put(Constants.PARAMETER_MODULE_PROTOCOL_REFERENCEID2, configService.getParameter(Constants.PARAMETER_MODULE_PROTOCOL, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PARAMETER_MODULE_PROTOCOL_REFERENCEID2));
+
+        
         return actionForward;
     }
 

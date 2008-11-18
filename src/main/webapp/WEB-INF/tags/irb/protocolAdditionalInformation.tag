@@ -27,11 +27,11 @@
 
 
             <tr>
-                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolDocumentAttributes.referenceNumber1}" /></div></th>
+                <th><div align="right">${KualiForm.protocolParameters['irb.protocol.referenceID1'].parameterValue}:</div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.referenceNumber1" attributeEntry="${protocolDocumentAttributes.referenceNumber1}" />
                 </td>
-                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolDocumentAttributes.referenceNumber2}" /></div></th>
+                <th><div align="right">${KualiForm.protocolParameters['irb.protocol.referenceID2'].parameterValue}:</div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.referenceNumber2" attributeEntry="${protocolDocumentAttributes.referenceNumber2}" />
                 </td>
