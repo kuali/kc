@@ -39,6 +39,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
@@ -48,6 +49,9 @@ import org.kuali.kra.proposaldevelopment.rule.NewNarrativeUserRightsRule;
 import org.kuali.kra.proposaldevelopment.rule.SaveNarrativesRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddNarrativeEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
+import org.kuali.kra.proposaldevelopment.service.NarrativeService;
+import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
+import org.kuali.kra.proposaldevelopment.service.impl.NarrativeServiceImpl;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.PersonService;
 
@@ -255,6 +259,7 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
         boolean isValid = true;
         
         // Must have at least one user with the right to modify narratives.
+      
        
         if (!hasNarrativeRight(newNarrativeUserRights, NarrativeRight.MODIFY_NARRATIVE_RIGHT)) {
             isValid = false;
@@ -276,7 +281,21 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
                                  KeyConstants.ERROR_NARRATIVE_USER_RIGHT_NO_PERMISSION, person.getFullName());
             }
         }
-        
+        ProposalAuthorizationService proposalAuthorizationService = KraServiceLocator.getService(ProposalAuthorizationService.class);
+        List<Person> aggregators=proposalAuthorizationService.getPersonsInRole(document, RoleConstants.AGGREGATOR);
+        if(aggregators.size()== 1 ){
+            for(Person person:aggregators){
+                for (NarrativeUserRights userRights : newNarrativeUserRights) {
+                    if(person.getPersonId().equals(userRights.getUserId())){
+                        if(userRights.getAccessType().equals(NarrativeRight.VIEW_NARRATIVE_RIGHT.getAccessType())){
+                            isValid = false;
+                            this.reportError(Constants.NEW_NARRATIVE_USER_RIGHTS_PROPERTY_KEY, 
+                                    KeyConstants.ERROR_ONE_AGGREGATOR_MODFIY, person.getFullName());
+                        }
+                    }
+                }
+            }
+        }
         return isValid;
     }
     
