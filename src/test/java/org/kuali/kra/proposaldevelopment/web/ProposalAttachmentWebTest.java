@@ -128,7 +128,7 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
         setNarrativeAccess(userRightsPage, 0, "R");
         userRightsPage = clickOn(userRightsPage, "save");
         List<String> errors = this.getErrors(userRightsPage, "tab-Rights-div");
-        assertEquals(1, errors.size());
+        assertEquals(2, errors.size());
         assertTrue(containsError(errors, "At least one user"));
     }
     
