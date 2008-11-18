@@ -16,6 +16,4 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 
-<kul:tab tabTitle="Rates" defaultOpen="false" tabErrorKey="document.award*">	
-    Under construction
-</kul:tab>
+<kra-a:awardFandARates />

@@ -16,7 +16,9 @@
 package org.kuali.kra.award.bo;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.award.document.AwardDocument;
@@ -79,6 +81,7 @@ public class Award extends KraPersistableBusinessObjectBase {
     private Integer specialEbRateOnCampus;
     private String subPlanFlag;
     private String title;
+    private List<AwardIndirectCostRate> awardIndirectCostRate;
     
     /**
      * 
@@ -86,7 +89,8 @@ public class Award extends KraPersistableBusinessObjectBase {
      */
     public Award() {
         super();
-        initializeAwardWithDefaultValues();        
+        initializeAwardWithDefaultValues();
+        awardIndirectCostRate = new ArrayList<AwardIndirectCostRate>();
     }
     
     /**
@@ -858,6 +862,7 @@ public class Award extends KraPersistableBusinessObjectBase {
      * 
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
+    @Override 
     protected LinkedHashMap<String,Object> toStringMapper() {        
         LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();        
         hashMap.put("awardId", getAwardId());
@@ -912,6 +917,14 @@ public class Award extends KraPersistableBusinessObjectBase {
 
     public void setAwardDocument(AwardDocument awardDocument) {
         this.awardDocument = awardDocument;
+    }
+
+    public List<AwardIndirectCostRate> getAwardIndirectCostRate() {
+        return awardIndirectCostRate;
+    }
+
+    public void setAwardIndirectCostRate(List<AwardIndirectCostRate> awardIndirectCostRate) {
+        this.awardIndirectCostRate = awardIndirectCostRate;
     }
 
 }

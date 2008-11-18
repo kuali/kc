@@ -17,6 +17,8 @@ package org.kuali.kra.award.rules;
 
 import org.kuali.core.document.Document;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.rule.AddIndirectCostRateRule;
+import org.kuali.kra.award.rule.event.AddAwardIndirectCostRateEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 /**
@@ -24,7 +26,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class AwardDocumentRule extends ResearchDocumentRuleBase  {
+public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddIndirectCostRateRule {
     
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -46,6 +48,16 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase  {
      */
     public boolean processRunAuditBusinessRules(Document document){
         return super.processRunAuditBusinessRules(document);
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.award.rule.AddIndirectCostRateRule#processAddIndirectCostRatesBusinessRules(org.kuali.kra.award.rule.event.AddAwardIndirectCostRateEvent)
+     */
+    public boolean processAddIndirectCostRatesBusinessRules(AddAwardIndirectCostRateEvent 
+            addAwardIndirectCostRateEvent) {        
+        return new AwardIndirectCostRateRule().processAddIndirectCostRatesBusinessRules(
+                addAwardIndirectCostRateEvent);            
     }
 
 }
