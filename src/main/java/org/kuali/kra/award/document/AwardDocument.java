@@ -120,6 +120,7 @@ public class AwardDocument extends ResearchDocumentBase implements Copyable, Ses
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();       
                 
+        managedLists.add(getAward().getAwardIndirectCostRate());
         managedLists.add(awardList);
         return managedLists;
     }

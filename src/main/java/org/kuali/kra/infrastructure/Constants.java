@@ -285,6 +285,7 @@ public interface Constants {
     public static final String SPONSOR_HIERARCHY_SEPARATOR_P1P = "#1#";
     
     //Award
+    public static final String MAPPING_AWARD_BASIC = "basic";
     public static final String MAPPING_AWARD_HOME_PAGE = "home";
     public static final String MAPPING_AWARD_CONTACTS_PAGE = "contacts";
     public static final String MAPPING_AWARD_TIME_AND_MONEY_PAGE = "timeAndMoney";
