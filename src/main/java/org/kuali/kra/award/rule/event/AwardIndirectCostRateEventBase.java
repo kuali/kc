@@ -43,7 +43,7 @@ logEvent();
 }
 
 /**
-* @return <code>{@link ProposalSpecialReview}</code> that triggered this event.
+* @return <code>{@link AwardIndirectCostRate}</code> that triggered this event.
 */
 public AwardIndirectCostRate getAwardIndirectCostRate() {
 return awardIndirectCostRate;
@@ -55,7 +55,7 @@ return awardIndirectCostRate;
 public void validate() {
 super.validate();
 if (getAwardIndirectCostRate() == null) {
-    throw new IllegalArgumentException("invalid (null) proposal specialreview");
+    throw new IllegalArgumentException("invalid (null) award indirectCostRate");
 }
 }
 
