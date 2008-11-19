@@ -21,7 +21,7 @@
 <c:set var="awardIndirectCostRateAttributes" value="${DataDictionary.AwardIndirectCostRate.attributes}" />
 <c:set var="action" value="awardTimeAndMoney" />
 
-<kul:tab tabTitle="Rates" defaultOpen="false" tabErrorKey="newAwardIndirectCostRate.*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
+<kul:tab tabTitle="Rates" defaultOpen="false" tabErrorKey="newAwardIndirectCostRate.*,document.awardList[0].awardIndirectCostRate*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left"> F&A Rates</span>
@@ -99,55 +99,55 @@
 					</div>
                 </td>
             </tr>
-            
-        	<c:forEach var="awardIndirectCostRate" items="${KualiForm.document.awardList[0].awardIndirectCostRate}" varStatus="status">
+            <c:set var="total" value="0" />
+        	<c:forEach var="awardIndirectCostRate" items="${KualiForm.document.award.awardIndirectCostRate}" varStatus="status">
 	             <tr>
 					<th width="5%" class="infoline">
 						<c:out value="${status.index+1}" />
 					</th>	                
 	                <td width="9%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.awardList[0].awardIndirectCostRate[${status.index}].applicableIndirectCostRate" attributeEntry="${awardIndirectCostRateAttributes.applicableIndirectCostRate}" />
+                		<kul:htmlControlAttribute property="document.award.awardIndirectCostRate[${status.index}].applicableIndirectCostRate" attributeEntry="${awardIndirectCostRateAttributes.applicableIndirectCostRate}" />
 					</div>
 					</td>
 	                <td width="9%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.awardList[0].awardIndirectCostRate[${status.index}].idcRateTypeCode" attributeEntry="${awardIndirectCostRateAttributes.idcRateTypeCode}" />
+                		<kul:htmlControlAttribute property="document.award.awardIndirectCostRate[${status.index}].idcRateTypeCode" attributeEntry="${awardIndirectCostRateAttributes.idcRateTypeCode}" />
 					</div>
 					</td>
 	                <td width="9%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.awardList[0].awardIndirectCostRate[${status.index}].fiscalYear" attributeEntry="${awardIndirectCostRateAttributes.fiscalYear}" />
+                		<kul:htmlControlAttribute property="document.award.awardIndirectCostRate[${status.index}].fiscalYear" attributeEntry="${awardIndirectCostRateAttributes.fiscalYear}" />
 					</div>
 					</td>
 					<td width="9%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.awardList[0].awardIndirectCostRate[${status.index}].startDate" attributeEntry="${awardIndirectCostRateAttributes.startDate}" datePicker="true" />
+                		<kul:htmlControlAttribute property="document.award.awardIndirectCostRate[${status.index}].startDate" attributeEntry="${awardIndirectCostRateAttributes.startDate}" datePicker="true" />
 					</div>
 					</td>
 	                <td width="9%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.awardList[0].awardIndirectCostRate[${status.index}].endDate" attributeEntry="${awardIndirectCostRateAttributes.endDate}" datePicker="true" />
+                		<kul:htmlControlAttribute property="document.award.awardIndirectCostRate[${status.index}].endDate" attributeEntry="${awardIndirectCostRateAttributes.endDate}" datePicker="true" />
 					</div>
 					</td>
 	                <td width="9%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.awardList[0].awardIndirectCostRate[${status.index}].onCampusFlag" attributeEntry="${awardIndirectCostRateAttributes.onCampusFlag}" />
+                		<kul:htmlControlAttribute property="document.award.awardIndirectCostRate[${status.index}].onCampusFlag" attributeEntry="${awardIndirectCostRateAttributes.onCampusFlag}" />
 					</div>
 					</td>
 	                <td width="9%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.awardList[0].awardIndirectCostRate[${status.index}].underrecoveryOfIndirectCost" attributeEntry="${awardIndirectCostRateAttributes.underrecoveryOfIndirectCost}" />
+                		<kul:htmlControlAttribute property="document.award.awardIndirectCostRate[${status.index}].underrecoveryOfIndirectCost" attributeEntry="${awardIndirectCostRateAttributes.underrecoveryOfIndirectCost}" />
 					</div>
 					</td>
 	                <td width="9%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.awardList[0].awardIndirectCostRate[${status.index}].sourceAccount" attributeEntry="${awardIndirectCostRateAttributes.sourceAccount}" />
+                		<kul:htmlControlAttribute property="document.award.awardIndirectCostRate[${status.index}].sourceAccount" attributeEntry="${awardIndirectCostRateAttributes.sourceAccount}" />
 					</div>
 					</td>
 	                <td width="9%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.awardList[0].awardIndirectCostRate[${status.index}].destinationAccount" attributeEntry="${awardIndirectCostRateAttributes.destinationAccount}" />
+                		<kul:htmlControlAttribute property="document.award.awardIndirectCostRate[${status.index}].destinationAccount" attributeEntry="${awardIndirectCostRateAttributes.destinationAccount}" />
 					</div>
 					</td>
 					<td width="10%" valign="middle">
@@ -156,11 +156,43 @@
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 					</div>
 					</td>
+					<c:set var="total" value="${total + KualiForm.document.award.awardIndirectCostRate[status.index].underrecoveryOfIndirectCost}" />
 
 	            </tr>
-        	</c:forEach> 
+        	</c:forEach>
+        	<c:if test="${not empty KualiForm.document.award.awardIndirectCostRate}" >
+        		<tr>
+        			<th width="5%" class="infoline">
+						<c:out value="Total" />
+					</th>
+					<td valign="middle" colspan="6" class="infoline">
+					<div align="center">
+                		&nbsp;
+					</div>
+					</td>
+					<td valign="middle" class="infoline">
+					<div align="center">                		
+                		<fmt:formatNumber type="CURRENCY" value="${total}" />
+					</div>
+					</td>
+					<td valign="middle" colspan="3" class="infoline">
+					<div align="center">
+                		&nbsp;
+					</div>
+					</td>
+        		
+        		</tr>
+        	</c:if>	 
         	
         </table>
+        
+        <BR><BR>
+
+		<div align="center">
+             		<html:image property="methodToCall.recalculateFandARate"
+				src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' styleClass="tinybutton"/>
+		</div>
+
 
     </div>
 </kul:tab>

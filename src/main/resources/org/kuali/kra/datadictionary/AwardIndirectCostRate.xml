@@ -92,17 +92,13 @@
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
-		</property>
-		<!--  <property name="control" >
 	      	<bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ActivityType"
+	            p:businessObjectClass="org.kuali.kra.award.bo.IndirectCostRateType"
 	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 	            p:includeKeyInLabel="false"
-	            p:keyAttribute="activityTypeCode"
+	            p:keyAttribute="indirectCostRateTypeCode"
 	            p:labelAttribute="description" />
-    	</property>-->
+    	</property>
 		<property name="summary" value="Idc Rate Type Code" />
 		<property name="description" value="Idc Rate Type Code" />
 	</bean>
