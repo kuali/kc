@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -29,6 +27,7 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.rule.event.AddAwardIndirectCostRateEvent;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 
 /**
  * 
@@ -50,11 +49,11 @@ public class AwardTimeAndMoneyAction extends AwardAction {
     public ActionForward addFandARate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         AwardIndirectCostRate newAwardIndirectCostRate = awardForm.getNewAwardIndirectCostRate();
-        if(getKualiRuleService().applyRules(new AddAwardIndirectCostRateEvent(Constants.EMPTY_STRING, awardForm.getAwardDocument(), newAwardIndirectCostRate))){
+        if(getKualiRuleService().applyRules(new AddAwardIndirectCostRateEvent(Constants.EMPTY_STRING, 
+                awardForm.getAwardDocument(), newAwardIndirectCostRate))){
             awardForm.getAwardDocument().getAward().getAwardIndirectCostRate().add(newAwardIndirectCostRate);
             awardForm.setNewAwardIndirectCostRate(new AwardIndirectCostRate());
         }
-            //TODO: Change to constant
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);     
     }
     
@@ -98,7 +97,6 @@ public class AwardTimeAndMoneyAction extends AwardAction {
      * @return
      */
     protected KualiRuleService getKualiRuleService() {
-        return getService(KualiRuleService.class);
+        return KraServiceLocator.getService(KualiRuleService.class);
     }
-    
 }
