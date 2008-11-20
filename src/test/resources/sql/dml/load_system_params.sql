@@ -234,5 +234,12 @@ INSERT
 INTO sh_parm_t(sh_parm_nmspc_cd,    sh_parm_dtl_typ_cd,    sh_parm_nm,    obj_id,    ver_nbr,    sh_parm_typ_cd,    sh_parm_txt,    sh_parm_desc,    sh_parm_cons_cd,    wrkgrp_nm,    active_ind)
 VALUES('KR-NS',    'All',    'MAX_FILE_SIZE_DEFAULT_UPLOAD',    '4CBAA7A57E0581C1E0404F8189D82E3D',    1,    'CONFG',    '5M',    'Maximum file upload size for the application. Used by PojoFormBase. Must be an integer, optionally followed by "K", "M", or "G". Only used if no other upload limits are in effect.',    'A',    'WorkflowAdmin',    'Y');
 
+INSERT INTO sh_parm_nmspc_t
+(SH_PARM_NMSPC_CD,SH_PARM_NMSPC_NM,ACTIVE_IND, OBJ_ID, VER_NBR)
+values('KC-AWARD', 'Award','Y',sys_guid(),'1');
 
+INSERT into SH_PARM_T 
+( SH_PARM_NMSPC_CD, SH_PARM_DTL_TYP_CD, SH_PARM_NM,  SH_PARM_TYP_CD, SH_PARM_TXT, SH_PARM_DESC, SH_PARM_CONS_CD, WRKGRP_NM, ACTIVE_IND, OBJ_ID, VER_NBR)
+Values 
+('KC-AWARD','D','mit.idc.validation.enabled','CONFG','1','MitIdcValidationEnabled is configurable at impl time','A','WorkflowAdmin','Y',sys_guid(),'1');
 
