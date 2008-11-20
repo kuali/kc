@@ -5,7 +5,7 @@ insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFI
  values ('000000004','OConnor','Lora','Lora OConnor','ljoconno','Indiana University','000001', 2, 'Y', SYSDATE,'KRADEV','1')
  ;
 insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR)
- values ('000000005','Hutchinson','Bryan','Bryan Hutchinson','bhutchinson','Cornell University','000001',3, 'Y', SYSDATE,'KRADEV','1')
+ values ('000000005','Hutchinson','Bryan','Bryan Hutchinson','bhutchin','Cornell University','000001',3, 'Y', SYSDATE,'KRADEV','1')
  ;
 insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR)
  values ('000000006','Slusar','Andrew','Andrew Slusar','aslusar','Cornell University','000001',4, 'Y', SYSDATE,'KRADEV','1')
