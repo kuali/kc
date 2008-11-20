@@ -118,7 +118,7 @@ public class BudgetExpenseWebTest extends ProposalDevelopmentWebTestBase {
         setFieldValue(budgetExpensePage, "newBudgetLineItems[0].lineItemCost", "5");
         
         final HtmlForm form2 = (HtmlForm) budgetExpensePage.getForms().get(0);
-        String completeButtonName = "methodToCall.addBudgetLineItem.budgetCategoryTypeCodeP.catTypeIndex0.anchorPersonnel";
+        String completeButtonName = "methodToCall.addBudgetLineItem.budgetCategoryTypeCodeP.catTypeIndex0.anchor";
         final HtmlImageInput button = (HtmlImageInput) form2.getInputByName(completeButtonName);
         HtmlPage page2 = (HtmlPage) button.click();
         
@@ -129,7 +129,7 @@ public class BudgetExpenseWebTest extends ProposalDevelopmentWebTestBase {
         setFieldValue(budgetExpensePage, "newBudgetLineItems[0].quantity", "10");
         setFieldValue(budgetExpensePage, "newBudgetLineItems[0].lineItemCost", "5");
         
-        completeButtonName = "methodToCall.addBudgetLineItem.budgetCategoryTypeCodeP.catTypeIndex0.anchorPersonnel";
+        completeButtonName = "methodToCall.addBudgetLineItem.budgetCategoryTypeCodeP.catTypeIndex0.anchor";
         
         final HtmlImageInput button1 = (HtmlImageInput) form2.getInputByName(completeButtonName);
         HtmlPage page3 = (HtmlPage) button1.click();
@@ -147,25 +147,26 @@ public class BudgetExpenseWebTest extends ProposalDevelopmentWebTestBase {
         
         setFieldValue(budgetExpensePage, "newBudgetLineItems[0].costElement", "421568");
         setFieldValue(budgetExpensePage, "newBudgetLineItems[0].lineItemDescription", "PersonnelLineItem");
-        setFieldValue(budgetExpensePage, "newBudgetLineItems[0].underrecoveryAmount", "1");
+        //setFieldValue(budgetExpensePage, "newBudgetLineItems[0].underrecoveryAmount", "1");
         setFieldValue(budgetExpensePage, "newBudgetLineItems[0].costSharingAmount", "2");
         setFieldValue(budgetExpensePage, "newBudgetLineItems[0].quantity", "10");
         setFieldValue(budgetExpensePage, "newBudgetLineItems[0].lineItemCost", "5");
         
         final HtmlForm form2 = (HtmlForm) budgetExpensePage.getForms().get(0);        
-        String completeButtonName = "methodToCall.addBudgetLineItem.budgetCategoryTypeCodeP.catTypeIndex0.anchorPersonnel";        
+        String completeButtonName = "methodToCall.addBudgetLineItem.budgetCategoryTypeCodeP.catTypeIndex0.anchor";        
         final HtmlImageInput button = (HtmlImageInput) form2.getInputByName(completeButtonName);
         HtmlPage page2 = (HtmlPage) button.click();
         
-        setFieldValue(budgetExpensePage, "newBudgetLineItems[0].costElement", "421568");
-        setFieldValue(budgetExpensePage, "newBudgetLineItems[0].lineItemDescription", "PersonnelLineItem2");
-        setFieldValue(budgetExpensePage, "newBudgetLineItems[0].underrecoveryAmount", "1");
-        setFieldValue(budgetExpensePage, "newBudgetLineItems[0].costSharingAmount", "2");
-        setFieldValue(budgetExpensePage, "newBudgetLineItems[0].quantity", "10");
-        setFieldValue(budgetExpensePage, "newBudgetLineItems[0].lineItemCost", "5");
+        setFieldValue(page2, "newBudgetLineItems[0].costElement", "421568");
+        setFieldValue(page2, "newBudgetLineItems[0].lineItemDescription", "PersonnelLineItem2");
+        //setFieldValue(budgetExpensePage, "newBudgetLineItems[0].underrecoveryAmount", "1");
+        setFieldValue(page2, "newBudgetLineItems[0].costSharingAmount", "2");
+        setFieldValue(page2, "newBudgetLineItems[0].quantity", "10");
+        setFieldValue(page2, "newBudgetLineItems[0].lineItemCost", "5");
         
-        completeButtonName = "methodToCall.addBudgetLineItem.budgetCategoryTypeCodeP.catTypeIndex0.anchorPersonnel";        
-        final HtmlImageInput button1 = (HtmlImageInput) form2.getInputByName(completeButtonName);
+        final HtmlForm form2a = (HtmlForm) page2.getForms().get(0);  
+        completeButtonName = "methodToCall.addBudgetLineItem.budgetCategoryTypeCodeP.catTypeIndex0.anchor";        
+        final HtmlImageInput button1 = (HtmlImageInput) form2a.getInputByName(completeButtonName);
         HtmlPage page3 = (HtmlPage) button1.click();
         
         HtmlPage page4 = clickOn(page3, "methodToCall.save");
@@ -177,7 +178,8 @@ public class BudgetExpenseWebTest extends ProposalDevelopmentWebTestBase {
         final HtmlImageInput button2 = (HtmlImageInput) form3.getInputByName(completeButtonName);
         HtmlPage page5 = (HtmlPage) button2.click();
         
-        final HtmlForm form4 = (HtmlForm) page5.getForms().get(0);        
+        final HtmlForm form4 = (HtmlForm) page5.getForms().get(0);  
+        System.out.println(form4.asXml());
         final HtmlImageInput button3 = (HtmlImageInput) form4.getInputByName(completeButtonName);
         HtmlPage page6 = (HtmlPage) button3.click();
         
@@ -211,7 +213,7 @@ public class BudgetExpenseWebTest extends ProposalDevelopmentWebTestBase {
         setFieldValue(budgetExpensePage, "newBudgetLineItems[1].quantity", "10");
         setFieldValue(budgetExpensePage, "newBudgetLineItems[1].lineItemCost", "5");
         
-        completeButtonName="methodToCall.addBudgetLineItem.budgetCategoryTypeCodeE.catTypeIndex1.anchorEquipment";
+        completeButtonName="methodToCall.addBudgetLineItem.budgetCategoryTypeCodeE.catTypeIndex1.anchor";
         final HtmlImageInput button1 = (HtmlImageInput) form2.getInputByName(completeButtonName);
         HtmlPage page3 = (HtmlPage) button1.click();
         HtmlPage page4 = clickOn(page3, "methodToCall.save");
@@ -227,7 +229,7 @@ public class BudgetExpenseWebTest extends ProposalDevelopmentWebTestBase {
                 
         setFieldValue(budgetExpensePage, "newBudgetLineItems[0].costElement", "421568");
         setFieldValue(budgetExpensePage, "newBudgetLineItems[0].lineItemDescription", "PersonnelLineItem");
-        setFieldValue(budgetExpensePage, "newBudgetLineItems[0].underrecoveryAmount", "1");
+        //setFieldValue(budgetExpensePage, "newBudgetLineItems[0].underrecoveryAmount", "1");
         setFieldValue(budgetExpensePage, "newBudgetLineItems[0].costSharingAmount", "2");
         setFieldValue(budgetExpensePage, "newBudgetLineItems[0].quantity", "10");
         setFieldValue(budgetExpensePage, "newBudgetLineItems[0].lineItemCost", "5");
@@ -237,15 +239,16 @@ public class BudgetExpenseWebTest extends ProposalDevelopmentWebTestBase {
         final HtmlImageInput button = (HtmlImageInput) form2.getInputByName(completeButtonName);
         HtmlPage page2 = (HtmlPage) button.click();
         
-        setFieldValue(budgetExpensePage, "newBudgetLineItems[1].costElement", "421504");
-        setFieldValue(budgetExpensePage, "newBudgetLineItems[1].lineItemDescription", "EquipmentLineItem");
-        setFieldValue(budgetExpensePage, "newBudgetLineItems[1].underrecoveryAmount", "1");
-        setFieldValue(budgetExpensePage, "newBudgetLineItems[1].costSharingAmount", "2");
-        setFieldValue(budgetExpensePage, "newBudgetLineItems[1].quantity", "10");
-        setFieldValue(budgetExpensePage, "newBudgetLineItems[1].lineItemCost", "5");
+        setFieldValue(page2, "newBudgetLineItems[1].costElement", "421504");
+        setFieldValue(page2, "newBudgetLineItems[1].lineItemDescription", "EquipmentLineItem");
+        //setFieldValue(budgetExpensePage, "newBudgetLineItems[1].underrecoveryAmount", "1");
+        setFieldValue(page2, "newBudgetLineItems[1].costSharingAmount", "2");
+        setFieldValue(page2, "newBudgetLineItems[1].quantity", "10");
+        setFieldValue(page2, "newBudgetLineItems[1].lineItemCost", "5");
         
-        completeButtonName="methodToCall.addBudgetLineItem.budgetCategoryTypeCodeE.catTypeIndex1.anchorEquipment";        
-        final HtmlImageInput button1 = (HtmlImageInput) form2.getInputByName(completeButtonName);
+        final HtmlForm form2a = (HtmlForm) page2.getForms().get(0);
+        completeButtonName="methodToCall.addBudgetLineItem.budgetCategoryTypeCodeE.catTypeIndex1.anchor4";        
+        final HtmlImageInput button1 = (HtmlImageInput) form2a.getInputByName(completeButtonName);
         HtmlPage page3 = (HtmlPage) button1.click();
         
         HtmlPage page4 = clickOn(page3, "methodToCall.save");
@@ -258,7 +261,8 @@ public class BudgetExpenseWebTest extends ProposalDevelopmentWebTestBase {
         HtmlPage page5 = (HtmlPage) button2.click();
         
         completeButtonName="methodToCall.deleteBudgetLineItem.line0.anchor3";
-        final HtmlForm form4 = (HtmlForm) page5.getForms().get(0);        
+        final HtmlForm form4 = (HtmlForm) page5.getForms().get(0); 
+        System.out.println(form4.asXml());
         final HtmlImageInput button3 = (HtmlImageInput) form4.getInputByName(completeButtonName);
         HtmlPage page6 = (HtmlPage) button3.click();
         
