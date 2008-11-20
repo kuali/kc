@@ -86,11 +86,11 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Type" />
 		<property name="shortLabel" value="Type" />
-		<property name="maxLength" value="22" />
-		<property name="required" value="true" />
+		<property name="maxLength" value="22" />		
 		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
+			<bean parent="NumericValidationPattern" />
 		</property>
+		<property name="required" value="true" />
 		<property name="control" >
 	      	<bean parent="SelectControlDefinition"
 	            p:businessObjectClass="org.kuali.kra.award.bo.IndirectCostRateType"
@@ -109,15 +109,15 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Fiscal Year" />
 		<property name="shortLabel" value="Fiscal Year" />
-		<property name="maxLength" value="4" />
-		<property name="required" value="true" />
+		<property name="maxLength" value="4" />		
 		<property name="validationPattern" >
       		<bean parent="NumericValidationPattern"
             	p:exactLength="4" />
     	</property>
+    	<property name="required" value="true" />
 		<property name="control" >
 			<bean parent="TextControlDefinition"
-				p:size="5" />
+				p:size="4" />
 		</property>
 		<property name="summary" value="Fiscal Year" />
 		<property name="description" value="Fiscal Year" />

@@ -250,4 +250,10 @@ public class KeyConstants {
     public static final String ERROR_END_DATE_BEFORE_START_DATE_INDIRECT_COST_RATE = "error.endDate.before.startDate.for.valid.indirectCostRate";
     public static final String ERROR_FISCAL_YEAR_INCORRECT_FORMAT = "error.fiscalYear.IncorrectFormat";
     
+    //Award System Parameters    
+    public static final String MIT_IDC_VALIDATION_ENABLED = "mit.idc.validation.enabled";
+    public static final String MIT_IDC_VALIDATION_ENABLED_VALUE_FOR_COMPARISON = "1";
+    //Award Validation Error Messages
+    public static final String INDIRECT_COST_RATE_NOT_IN_PAIR = "indirectCostRate.not.in.pair";
+    
 }

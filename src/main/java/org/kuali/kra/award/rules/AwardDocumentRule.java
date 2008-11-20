@@ -15,10 +15,20 @@
  */
 package org.kuali.kra.award.rules;
 
+import java.util.HashMap;
+
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.ErrorMap;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.kra.award.bo.AwardIndirectCostRate;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.rule.AddIndirectCostRateRule;
 import org.kuali.kra.award.rule.event.AddAwardIndirectCostRateEvent;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 /**
@@ -28,6 +38,9 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  */
 public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddIndirectCostRateRule {
     
+    public static final String DOCUMENT_ERROR_PATH = "document";
+    public static final String AWARD_ERROR_PATH = "award";
+    
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         return super.processCustomRouteDocumentBusinessRules(document);
@@ -35,11 +48,14 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddIn
 
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
+        boolean retval = true;
         if (!(document instanceof AwardDocument)) {
             return false;
         }
+        
+        retval &= processAwardIndirectCostRateBusinessRules(document);
 
-        return true;
+        return retval;
     }
 
 
@@ -58,6 +74,49 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddIn
             addAwardIndirectCostRateEvent) {        
         return new AwardIndirectCostRateRule().processAddIndirectCostRatesBusinessRules(
                 addAwardIndirectCostRateEvent);            
+    }    
+    
+    protected boolean processAwardIndirectCostRateBusinessRules(Document document) {
+        boolean retval = true;
+        AwardDocument awardDocument = (AwardDocument)document;
+        if(StringUtils.equalsIgnoreCase(
+                getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_AWARD, 
+                        Constants.PARAMETER_COMPONENT_DOCUMENT,
+                        KeyConstants.MIT_IDC_VALIDATION_ENABLED).getParameterValue(),KeyConstants.MIT_IDC_VALIDATION_ENABLED_VALUE_FOR_COMPARISON)){
+            retval = isIndirectCostRateInputInPairs(awardDocument);
+        }        
+        return retval;
     }
-
+    
+    protected KualiConfigurationService getKualiConfigurationService(){
+        return KraServiceLocator.getService(KualiConfigurationService.class);
+    }
+    
+    protected boolean isIndirectCostRateInputInPairs(AwardDocument awardDocument){
+        HashMap<Integer,String> a1 = new HashMap<Integer,String>();
+        HashMap<Integer,String> b1 = new HashMap<Integer,String>();        
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        int i=0;
+        
+        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+        errorMap.addToErrorPath(AWARD_ERROR_PATH);
+        
+        for(AwardIndirectCostRate awardIndirectCostRate:awardDocument.getAward().getAwardIndirectCostRate()){
+            if(StringUtils.equalsIgnoreCase(awardIndirectCostRate.getOnCampusFlag(),"N")){
+                a1.put(awardIndirectCostRate.getIdcRateTypeCode(), awardIndirectCostRate.getOnCampusFlag());
+            }else if(StringUtils.equalsIgnoreCase(awardIndirectCostRate.getOnCampusFlag(),"F")){
+                b1.put(awardIndirectCostRate.getIdcRateTypeCode(), awardIndirectCostRate.getOnCampusFlag());
+            }
+        }       
+        
+        for(AwardIndirectCostRate awardIndirectCostRate:awardDocument.getAward().getAwardIndirectCostRate()){            
+            if((a1.containsKey(awardIndirectCostRate.getIdcRateTypeCode()) && !b1.containsKey(awardIndirectCostRate.getIdcRateTypeCode()))
+                    ||(b1.containsKey(awardIndirectCostRate.getIdcRateTypeCode()) && !a1.containsKey(awardIndirectCostRate.getIdcRateTypeCode()))){                
+                errorMap.putError("awardIndirectCostRate[" + i + "].idcRateTypeCode", KeyConstants.INDIRECT_COST_RATE_NOT_IN_PAIR);
+                return false;
+            }
+            i++;
+        }
+        return true;        
+    }
 }

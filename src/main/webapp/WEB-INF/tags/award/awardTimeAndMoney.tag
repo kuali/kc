@@ -16,6 +16,6 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 
-<kul:tabTop tabTitle="Time & Money" defaultOpen="false" tabErrorKey="document.award*">
+<kul:tabTop tabTitle="Time & Money" defaultOpen="false" tabErrorKey="">
 	Under construction
 </kul:tabTop>
