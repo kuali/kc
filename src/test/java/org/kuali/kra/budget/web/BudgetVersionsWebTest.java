@@ -198,6 +198,7 @@ public class BudgetVersionsWebTest extends ProposalDevelopmentWebTestBase {
         pdBudgetVersionsPage = clickImageButton(pdBudgetVersionsPage, form3, "methodToCall.processAnswer.button0");
         assertNotNull(pdBudgetVersionsPage);
         
+        System.out.println(pdBudgetVersionsPage.asXml());
         HtmlTable table = getTable(pdBudgetVersionsPage, BUDGET_VERSIONS_TABLE);
         assertTrue("row count is " + table.getRowCount(), table.getRowCount() == 4);
     }
