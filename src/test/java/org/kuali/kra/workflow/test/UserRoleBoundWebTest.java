@@ -67,7 +67,7 @@ public class UserRoleBoundWebTest extends ProposalDevelopmentWebTestBase {
        permissionsPage = addUser(permissionsPage, "jtester", "Viewer");
        permissionsPage=addUser(permissionsPage, "tdurkin", "Aggregator");
        permissionsPage=addUser(permissionsPage, "aslusar", "Budget Creator");
-       permissionsPage=addUser(permissionsPage, "bhutchinson", "Narrative Writer");
+       permissionsPage=addUser(permissionsPage, "bhutchin", "Narrative Writer");
        HtmlPage keyPersonnelPage = clickOnTab(permissionsPage, KEY_PERSONNEL_LINK_NAME);
        ProposalDevelopmentDocument savedDocument = (ProposalDevelopmentDocument) documentService
        .getByDocumentHeaderId(documentNumber.getDefaultValue());
@@ -79,7 +79,7 @@ public class UserRoleBoundWebTest extends ProposalDevelopmentWebTestBase {
        assertTrue(doccontent.contains("jtester"));
        assertTrue(doccontent.contains("tdurkin"));
        assertTrue(doccontent.contains("aslusar"));
-       assertTrue(doccontent.contains("bhutchinson"));
+       assertTrue(doccontent.contains("bhutchin"));
        
        
    }
