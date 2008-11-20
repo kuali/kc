@@ -16,6 +16,6 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 
-<kul:tab tabTitle="History" defaultOpen="false" tabErrorKey="document.award*">
+<kul:tab tabTitle="History" defaultOpen="false" tabErrorKey="">
 	Under construction
 </kul:tab>

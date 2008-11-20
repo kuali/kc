@@ -32,7 +32,7 @@ public class AwardIndirectCostRate extends KraPersistableBusinessObjectBase {
 	private KualiDecimal applicableIndirectCostRate; 
 	private Integer idcRateTypeCode; 
 	private String fiscalYear; 
-	private boolean onCampusFlag; 
+	private String onCampusFlag; 
 	private KualiDecimal underrecoveryOfIndirectCost; 
 	private String sourceAccount; 
 	private String destinationAccount; 
@@ -77,11 +77,11 @@ public class AwardIndirectCostRate extends KraPersistableBusinessObjectBase {
 		this.fiscalYear = fiscalYear;
 	}
 
-	public boolean getOnCampusFlag() {
+	public String getOnCampusFlag() {
 		return onCampusFlag;
 	}
 
-	public void setOnCampusFlag(boolean onCampusFlag) {
+	public void setOnCampusFlag(String onCampusFlag) {
 		this.onCampusFlag = onCampusFlag;
 	}
 
