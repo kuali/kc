@@ -91,10 +91,11 @@ public class ProposalDevelopmentProposalSpecialReviewRuleTest extends ProposalDe
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
  
         ProposalSpecialReview newProposalSpecialReview = new ProposalSpecialReview();
-        newProposalSpecialReview.setApprovalTypeCode(approvalTypeCodes.get(0).getApprovalTypeCode());
+        newProposalSpecialReview.setApprovalTypeCode(approvalTypeCodes.get(1).getApprovalTypeCode());
         newProposalSpecialReview.setSpecialReviewCode(specialReviewCodes.get(0).getSpecialReviewCode());
         newProposalSpecialReview.setApplicationDate(new Date(dateFormat.parse("Aug 1, 2007").getTime()));
         newProposalSpecialReview.setApprovalDate(new Date(dateFormat.parse("Aug 21, 2007").getTime()));
+        newProposalSpecialReview.setProtocolNumber("123");
         AddProposalSpecialReviewEvent addProposalSpecialReviewEvent = new AddProposalSpecialReviewEvent(Constants.EMPTY_STRING, document,
             newProposalSpecialReview);
         assertTrue(rule.processAddProposalSpecialReviewBusinessRules(addProposalSpecialReviewEvent));
@@ -115,6 +116,7 @@ public class ProposalDevelopmentProposalSpecialReviewRuleTest extends ProposalDe
         newProposalSpecialReview.setSpecialReviewCode(specialReviewCodes.get(0).getSpecialReviewCode());
         newProposalSpecialReview.setApplicationDate(new Date(dateFormat.parse("Aug 1, 2007").getTime()));
         newProposalSpecialReview.setApprovalDate(new Date(dateFormat.parse("Aug 21, 2007").getTime()));
+        newProposalSpecialReview.setProtocolNumber("123");
         AddProposalSpecialReviewEvent addProposalSpecialReviewEvent = new AddProposalSpecialReviewEvent(Constants.EMPTY_STRING, document,
             newProposalSpecialReview);
         assertFalse(rule.processAddProposalSpecialReviewBusinessRules(addProposalSpecialReviewEvent));
@@ -137,10 +139,11 @@ public class ProposalDevelopmentProposalSpecialReviewRuleTest extends ProposalDe
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
 
         ProposalSpecialReview newProposalSpecialReview = new ProposalSpecialReview();
-        newProposalSpecialReview.setApprovalTypeCode(approvalTypeCodes.get(0).getApprovalTypeCode());
+        newProposalSpecialReview.setApprovalTypeCode(approvalTypeCodes.get(1).getApprovalTypeCode());
         //newProposalSpecialReview.setSpecialReviewCode(specialReviewCodes.get(0).getSpecialReviewCode());
         newProposalSpecialReview.setApplicationDate(new Date(dateFormat.parse("Aug 1, 2007").getTime()));
         newProposalSpecialReview.setApprovalDate(new Date(dateFormat.parse("Aug 21, 2007").getTime()));
+        newProposalSpecialReview.setProtocolNumber("123");
         AddProposalSpecialReviewEvent addProposalSpecialReviewEvent = new AddProposalSpecialReviewEvent(Constants.EMPTY_STRING, document,
             newProposalSpecialReview);
         assertFalse(rule.processAddProposalSpecialReviewBusinessRules(addProposalSpecialReviewEvent));
@@ -162,11 +165,12 @@ public class ProposalDevelopmentProposalSpecialReviewRuleTest extends ProposalDe
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
 
         ProposalSpecialReview newProposalSpecialReview = new ProposalSpecialReview();
-        newProposalSpecialReview.setApprovalTypeCode(approvalTypeCodes.get(0).getApprovalTypeCode());
+        newProposalSpecialReview.setApprovalTypeCode(approvalTypeCodes.get(1).getApprovalTypeCode());
         newProposalSpecialReview.setSpecialReviewCode(specialReviewCodes.get(0).getSpecialReviewCode());
         // 08/01/2008 > 08/01/2007
         newProposalSpecialReview.setApplicationDate(new Date(dateFormat.parse("Aug 1, 2008").getTime()));
         newProposalSpecialReview.setApprovalDate(new Date(dateFormat.parse("Aug 21, 2007").getTime()));
+        newProposalSpecialReview.setProtocolNumber("123");
         AddProposalSpecialReviewEvent addProposalSpecialReviewEvent = new AddProposalSpecialReviewEvent(Constants.EMPTY_STRING, document,
             newProposalSpecialReview);
         assertFalse(rule.processAddProposalSpecialReviewBusinessRules(addProposalSpecialReviewEvent));
@@ -176,6 +180,32 @@ public class ProposalDevelopmentProposalSpecialReviewRuleTest extends ProposalDe
 
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), KeyConstants.ERROR_APPROVAL_DATE_BEFORE_APPLICATION_DATE_SPECIALREVIEW);
+    }
+
+    /**
+     * Test adding an proposal special with approval data before application date. 
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testApprovalDateWithoutApproval() throws Exception {
+        ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
+
+        ProposalSpecialReview newProposalSpecialReview = new ProposalSpecialReview();
+        newProposalSpecialReview.setApprovalTypeCode(approvalTypeCodes.get(0).getApprovalTypeCode());
+        newProposalSpecialReview.setSpecialReviewCode(specialReviewCodes.get(0).getSpecialReviewCode());
+        newProposalSpecialReview.setApplicationDate(new Date(dateFormat.parse("Aug 1, 2008").getTime()));
+        newProposalSpecialReview.setApprovalDate(new Date(dateFormat.parse("Aug 21, 2008").getTime()));
+        newProposalSpecialReview.setProtocolNumber("123");
+        AddProposalSpecialReviewEvent addProposalSpecialReviewEvent = new AddProposalSpecialReviewEvent(Constants.EMPTY_STRING, document,
+            newProposalSpecialReview);
+        assertFalse(rule.processAddProposalSpecialReviewBusinessRules(addProposalSpecialReviewEvent));
+
+        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_PROPOSAL_SPECIAL_REVIEW + ".approvalDate");
+        assertTrue(errors.size() == 1);
+
+        ErrorMessage message = (ErrorMessage) errors.get(0);
+        assertEquals(message.getErrorKey(), KeyConstants.ERROR_NOT_APPROVED_SPECIALREVIEW);
     }
 
 }
