@@ -21,7 +21,7 @@
 <c:set var="awardIndirectCostRateAttributes" value="${DataDictionary.AwardIndirectCostRate.attributes}" />
 <c:set var="action" value="awardTimeAndMoney" />
 
-<kul:tab tabTitle="Rates" defaultOpen="false" tabErrorKey="newAwardIndirectCostRate.*,document.awardList[0].awardIndirectCostRate*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
+<kul:tab tabTitle="Rates" defaultOpen="false" tabErrorKey="newAwardIndirectCostRate.*,document.award.awardIndirectCostRate*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left"> F&A Rates</span>
@@ -112,7 +112,7 @@
 					</td>
 	                <td width="9%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.award.awardIndirectCostRate[${status.index}].idcRateTypeCode" attributeEntry="${awardIndirectCostRateAttributes.idcRateTypeCode}" />
+                		<kul:htmlControlAttribute property="document.award.awardIndirectCostRate[${status.index}].idcRateTypeCode" attributeEntry="${awardIndirectCostRateAttributes.idcRateTypeCode}" />                		
 					</div>
 					</td>
 	                <td width="9%" valign="middle">
