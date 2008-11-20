@@ -31,6 +31,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.kuali.core.UserSession;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.KraTestBase;
 
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonComparator;
@@ -57,6 +59,7 @@ public class ProposalPersonComparatorTest extends KraTestBase {
     public void setUp() throws Exception {
         super.setUp();
         comparator = new ProposalPersonComparator();
+        GlobalVariables.setUserSession(new UserSession("quickstart"));
     }
     
     /**
@@ -66,6 +69,7 @@ public class ProposalPersonComparatorTest extends KraTestBase {
     @After
     public void tearDown() throws Exception {
         super.tearDown();
+        GlobalVariables.setUserSession(null);
     }
 
     /**
@@ -73,9 +77,9 @@ public class ProposalPersonComparatorTest extends KraTestBase {
      * 
      */
     @Test
-    public void principleInvestigator() {
+    public void principleInvestigator() throws Exception {
         final List<ProposalPerson> sortedList = new ArrayList<ProposalPerson>();
-        final ProposalDevelopmentDocument document = new ProposalDevelopmentDocument();
+        final ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) getDocumentService().getNewDocument("ProposalDevelopmentDocument");
         
         final ProposalPerson person1 = INVESTIGATOR_SPLIT_ADDS_TO_ONE_HUNDRED.getPerson();
         getKeyPersonnelService().populateProposalPerson(person1, document);
