@@ -42,10 +42,26 @@ import org.kuali.kra.budget.service.BudgetCalculationService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.test.data.PerTestUnitTestData;
+import org.kuali.rice.test.data.UnitTestData;
+import org.kuali.rice.test.data.UnitTestFile;
+import org.kuali.rice.test.data.UnitTestSql;
 
 /**
  * This class is for testing period item calculations
  */
+@PerTestUnitTestData(
+        @UnitTestData(order = { 
+                UnitTestData.Type.SQL_STATEMENTS, UnitTestData.Type.SQL_FILES }, 
+        sqlStatements = {
+                      @UnitTestSql("delete from institute_rates"),
+                      @UnitTestSql("delete from institute_la_rates")
+                      }, 
+        sqlFiles = {
+                @UnitTestFile(filename = "classpath:sql/dml/LOAD_INSTITUTE_RATES.sql", delimiter = ";")
+                ,@UnitTestFile(filename = "classpath:sql/dml/LOAD_INSTITUTE_LA_RATES.sql", delimiter = ";")
+                })
+        )
 
 public class BudgetPeriodCalculatorTest extends KraTestBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(LineItemCalculatorTest.class);
