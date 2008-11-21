@@ -15,17 +15,30 @@
  */
 package org.kuali.kra.budget.lookup.keyvalue;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
+import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.budget.bo.BudgetPeriodType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 
 public class BudgetPeriodTypeValuesFinder extends KeyValuesBase {
+    
     public List<KeyLabelPair> getKeyValues() {
-        KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
-        return keyValueFinderService.getKeyValues(BudgetPeriodType.class, "budgetPeriodTypeCode", "description");
+        KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
+        Collection budgetPeriodTypes = keyValuesService.findAll(BudgetPeriodType.class);
+        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        
+        for (Iterator iter = budgetPeriodTypes.iterator(); iter.hasNext();) {
+            BudgetPeriodType budgetPeriodType = (BudgetPeriodType) iter.next();
+            keyValues.add(new KeyLabelPair(budgetPeriodType.getBudgetPeriodTypeCode().toString(), budgetPeriodType.getDescription()));                            
+        }
+                
+        return keyValues;
     }
+
 }
