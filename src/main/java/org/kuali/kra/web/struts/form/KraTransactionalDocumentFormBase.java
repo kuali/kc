@@ -32,6 +32,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.KNSServiceLocator;
   
 public class KraTransactionalDocumentFormBase extends KualiTransactionalDocumentFormBase {
@@ -130,14 +131,14 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
         if ((StringUtils.isNotBlank(actionName) && StringUtils.isNotBlank(getMethodToCall())) 
                 && actionName.startsWith("Proposal") && !actionName.contains("AbstractsAttachments")
                 && !actionName.contains("BudgetVersions") 
-                && StringUtils.isEmpty(navigateTo) && !getMethodToCall().equalsIgnoreCase("headerTab")) {
+                && StringUtils.isEmpty(navigateTo) && !getMethodToCall().equalsIgnoreCase(Constants.HEADER_TAB)) {
             isProposalAction = true;
         }
-        else if (StringUtils.isNotEmpty(navigateTo) && (navigateTo.equalsIgnoreCase("proposal") 
-                || navigateTo.equalsIgnoreCase("specialReview") || navigateTo.equalsIgnoreCase("customData") 
-                || navigateTo.equalsIgnoreCase("keyPersonnel") || navigateTo.equalsIgnoreCase("permissions") 
-                || navigateTo.equalsIgnoreCase("questions") 
-                || navigateTo.equalsIgnoreCase("grantsGov") || navigateTo.equalsIgnoreCase("actions"))) {
+        else if (StringUtils.isNotEmpty(navigateTo) && (navigateTo.equalsIgnoreCase(Constants.PROPOSAL_PAGE) 
+                || navigateTo.equalsIgnoreCase(Constants.SPECIAL_REVIEW_PAGE) || navigateTo.equalsIgnoreCase(Constants.CUSTOM_ATTRIBUTES_PAGE) 
+                || navigateTo.equalsIgnoreCase(Constants.KEY_PERSONNEL_PAGE) || navigateTo.equalsIgnoreCase(Constants.PERMISSIONS_PAGE) 
+                || navigateTo.equalsIgnoreCase(Constants.QUESTIONS_PAGE) 
+                || navigateTo.equalsIgnoreCase(Constants.GRANTS_GOV_PAGE) || navigateTo.equalsIgnoreCase(Constants.PROPOSAL_ACTIONS_PAGE))) {
             isProposalAction = true;
         }
 
@@ -200,10 +201,10 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
 
         if (StringUtils.isNotBlank(actionName) && StringUtils.isNotBlank(getMethodToCall()) 
                 && actionName.contains("AbstractsAttachments") 
-                && StringUtils.isEmpty(navigateTo) && !getMethodToCall().equalsIgnoreCase("headerTab")) { 
+                && StringUtils.isEmpty(navigateTo) && !getMethodToCall().equalsIgnoreCase(Constants.HEADER_TAB)) { 
             isNarrativeAction = true;
         }
-        else if (StringUtils.isNotEmpty(navigateTo) && navigateTo.equalsIgnoreCase("abstractsAttachments")) {
+        else if (StringUtils.isNotEmpty(navigateTo) && navigateTo.equalsIgnoreCase(Constants.ATTACHMENTS_PAGE)) {
             isNarrativeAction = true;
         }
 
@@ -216,15 +217,15 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
 
         if (StringUtils.isNotBlank(actionName) && (actionName.startsWith("Budget") || actionName.contains("BudgetVersions")) 
                 && StringUtils.isNotBlank(getMethodToCall()) 
-                && StringUtils.isEmpty(navigateTo) && !getMethodToCall().equalsIgnoreCase("headerTab")) { 
+                && StringUtils.isEmpty(navigateTo) && !getMethodToCall().equalsIgnoreCase(Constants.HEADER_TAB)) { 
             isBudgetAction = true;
         }
-        else if (StringUtils.isNotEmpty(navigateTo) && (navigateTo.equalsIgnoreCase("versions") 
-                || navigateTo.equalsIgnoreCase("summary") || navigateTo.equalsIgnoreCase("personnel") 
-                || navigateTo.equalsIgnoreCase("expenses") || navigateTo.equalsIgnoreCase("rates") 
-                || navigateTo.equalsIgnoreCase("distributionAndIncome") || navigateTo.equalsIgnoreCase("modularBudget") 
-                || navigateTo.equalsIgnoreCase("totals") || navigateTo.equalsIgnoreCase("proposalHierarchy")  
-                || navigateTo.equalsIgnoreCase("budgetActions") || navigateTo.equalsIgnoreCase("budgetVersions"))) {
+        else if (StringUtils.isNotEmpty(navigateTo) && (navigateTo.equalsIgnoreCase(Constants.BUDGET_VERSIONS_PAGE) 
+                || navigateTo.equalsIgnoreCase(Constants.BUDGET_PERIOD_PAGE) || navigateTo.equalsIgnoreCase(Constants.BUDGET_PERSONNEL_PAGE) 
+                || navigateTo.equalsIgnoreCase(Constants.BUDGET_EXPENSES_PAGE) || navigateTo.equalsIgnoreCase(Constants.BUDGET_RATES_PAGE) 
+                || navigateTo.equalsIgnoreCase(Constants.BUDGET_DIST_AND_INCOME_PAGE) || navigateTo.equalsIgnoreCase(Constants.BUDGET_MODULAR_PAGE) 
+                || navigateTo.equalsIgnoreCase(Constants.BUDGET_SUMMARY_TOTALS_PAGE) || navigateTo.equalsIgnoreCase(Constants.PROPOSAL_HIERARCHY_PAGE)  
+                || navigateTo.equalsIgnoreCase(Constants.BUDGET_ACTIONS_PAGE) || navigateTo.equalsIgnoreCase(Constants.PD_BUDGET_VERSIONS_PAGE))) {
             isBudgetAction = true; 
         }
 
@@ -237,11 +238,11 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
 
         if (StringUtils.isNotBlank(actionName) && actionName.contains("BudgetVersions")  
                 && StringUtils.isNotBlank(getMethodToCall()) 
-                && StringUtils.isEmpty(navigateTo) && !getMethodToCall().equalsIgnoreCase("headerTab")) { 
+                && StringUtils.isEmpty(navigateTo) && !getMethodToCall().equalsIgnoreCase(Constants.HEADER_TAB)) { 
             isBudgetVersionsAction = true;
         }
-        else if (StringUtils.isNotEmpty(navigateTo) && (navigateTo.equalsIgnoreCase("versions") 
-                || navigateTo.equalsIgnoreCase("budgetVersions"))) {
+        else if (StringUtils.isNotEmpty(navigateTo) && (navigateTo.equalsIgnoreCase(Constants.BUDGET_VERSIONS_PAGE) 
+                || navigateTo.equalsIgnoreCase(Constants.PD_BUDGET_VERSIONS_PAGE))) {
             isBudgetVersionsAction = true; 
         }
 
@@ -259,12 +260,12 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
         }
 
         String tmpMethodtoCall = getMethodToCall();
-        if (StringUtils.isNotEmpty(tmpMethodtoCall) && (tmpMethodtoCall.equalsIgnoreCase("budgetVersions") 
-                || tmpMethodtoCall.equalsIgnoreCase("proposal") || tmpMethodtoCall.equalsIgnoreCase("keyPersonnel") 
-                || tmpMethodtoCall.equalsIgnoreCase("specialReview") || tmpMethodtoCall.equalsIgnoreCase("questions") 
-                || tmpMethodtoCall.equalsIgnoreCase("permissions") || tmpMethodtoCall.equalsIgnoreCase("grantsGov") 
-                || tmpMethodtoCall.equalsIgnoreCase("abstractsAttachments") || tmpMethodtoCall.equalsIgnoreCase("customData")  
-                || tmpMethodtoCall.equalsIgnoreCase("actions") )) {
+        if (StringUtils.isNotEmpty(tmpMethodtoCall) && (tmpMethodtoCall.equalsIgnoreCase(Constants.PD_BUDGET_VERSIONS_PAGE) 
+                || tmpMethodtoCall.equalsIgnoreCase(Constants.PROPOSAL_PAGE) || tmpMethodtoCall.equalsIgnoreCase(Constants.KEY_PERSONNEL_PAGE) 
+                || tmpMethodtoCall.equalsIgnoreCase(Constants.SPECIAL_REVIEW_PAGE) || tmpMethodtoCall.equalsIgnoreCase(Constants.QUESTIONS_PAGE) 
+                || tmpMethodtoCall.equalsIgnoreCase(Constants.PERMISSIONS_PAGE) || tmpMethodtoCall.equalsIgnoreCase(Constants.GRANTS_GOV_PAGE) 
+                || tmpMethodtoCall.equalsIgnoreCase(Constants.ATTACHMENTS_PAGE) || tmpMethodtoCall.equalsIgnoreCase(Constants.CUSTOM_ATTRIBUTES_PAGE)  
+                || tmpMethodtoCall.equalsIgnoreCase(Constants.PROPOSAL_ACTIONS_PAGE) )) {
             return tmpMethodtoCall; 
         }
         
