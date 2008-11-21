@@ -62,7 +62,8 @@ public class BudgetSummaryWebTest extends ProposalDevelopmentWebTestBase {
         assertContains(budgetSummaryPage, PERIOD2_START_DATE);
         assertContains(budgetSummaryPage, PERIOD2_END_DATE);
         
-        HtmlPage saveBudgetSummaryPage = saveDoc(budgetSummaryPage);
+        //HtmlPage saveBudgetSummaryPage = saveDoc(budgetSummaryPage);
+        HtmlPage saveBudgetSummaryPage = clickOn(budgetSummaryPage, "methodToCall.save");
         assertDoesNotContain(saveBudgetSummaryPage, ERRORS_FOUND_ON_PAGE);
         assertContains(saveBudgetSummaryPage, SAVE_SUCCESS_MESSAGE);
         
