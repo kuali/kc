@@ -312,7 +312,7 @@
 		    <div class="excol">
 		  	    <c:if test="${!empty extraTopButtons}">
 		            <c:forEach items="${extraTopButtons}" var="extraButton">
-		        	    <html:image src="${extraButton.extraButtonSource}" styleClass="tinybutton" property="${extraButton.extraButtonProperty}" alt="${extraButton.extraButtonAltText}"/> &nbsp;&nbsp;
+		        	    <html:image src="${extraButton.extraButtonSource}" styleClass="tinybutton" property="${extraButton.extraButtonProperty}" alt="${extraButton.extraButtonAltText}" onclick="${extraButton.extraButtonOnclick}" /> &nbsp;&nbsp;
 		            </c:forEach>
 	            </c:if>
 			    <c:if test="${showTabButtons != '' && showTabButtons == true}">			 

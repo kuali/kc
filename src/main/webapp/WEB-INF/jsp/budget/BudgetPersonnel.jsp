@@ -17,43 +17,43 @@
 <c:set var="readOnly" value="${not KualiForm.editingMode['modifyBudgets']}" scope="request" />
 
 <c:if test="${KualiForm.editingMode['modifyBudgets']}">
-	<c:set var="extraButtonSource" value="${ConfigProperties.kra.externalizable.images.url}buttonsmall_synctoprop.gif" />
-	<c:set var="extraButtonProperty" value="methodToCall.synchToProposal" />
-	<c:set var="extraButtonAlt" value="Synch to Proposal" />
+	<c:set var="extraButtons" value="${KualiForm.extraPersonnelButtons}" scope="request"/>
 </c:if>
-
-
 
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="budgetPersonnel"
 	documentTypeName="BudgetDocument"
   	headerDispatch="${KualiForm.headerDispatch}"
+  	showTabButtons="true" 
   	headerTabActive="personnel"
   	extraTopButtons="${KualiForm.extraTopButtons}">
   	
-  	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Project Personnel" /></div>
+  	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Personnel" /></div>
   	
-	<kra-b:budgetAddPersonnel/>
-
-	<br/>
+	<kra-b:budgetExpensesSelectBudgetPeriod />
+	<br><br>
 	
-	<kra-b:budgetPersonnel/>
-
-	<kul:documentControls 
-		transactionalDocument="false"
-		suppressRoutingControls="true"
-		viewOnly="${KualiForm.editingMode['viewOnly']}"
-		extraButtonSource="${extraButtonSource}"
-		extraButtonProperty="${extraButtonProperty}"
-		extraButtonAlt="${extraButtonAlt}"
-		/>
-		
-<script type="text/javascript">
+	<kra-b:projectPersonnel/>
+	
+	<c:set var="action" value="budgetExpensesAction" />
+	<c:set var="budgetCategoryTypeCodeKey" value="${KualiForm.document.budgetCategoryTypeCodes[0].key}" />
+	<c:set var="budgetCategoryTypeCodeLabel" value="${KualiForm.document.budgetCategoryTypeCodes[0].label}" />
+	<c:set var="catCodes" value="0" />
+	
+	<kra-b:budgetExpenseBudgetOverview transparentBackground="false" defaultOpen="false" /> 
+	<kra-b:budgetPersonnelDetail budgetCategoryTypeCodeKey="${budgetCategoryTypeCodeKey}" budgetCategoryTypeCodeLabel="${budgetCategoryTypeCodeLabel}" catCodes="${catCodes}"/>
+	
+	<kul:panelFooter />
+	
+	<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" extraButtons="${extraButtons}"  viewOnly="${KualiForm.editingMode['viewOnly']}" />	
+	
+	<SCRIPT type="text/javascript">
 	var kualiForm = document.forms['KualiForm'];
 	var kualiElements = kualiForm.elements;
-</script>
-				
+	</SCRIPT>
+	
 <script language="javascript" src="scripts/kuali_application.js"></script>	
 <script language="javascript" src="dwr/interface/JobCodeService.js"></script>
+	
 </kul:documentPage>

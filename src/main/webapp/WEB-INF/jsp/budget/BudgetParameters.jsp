@@ -23,15 +23,15 @@
 
 <kul:documentPage
 	showDocumentInfo="true"
-	htmlFormAction="budgetSummary"
+	htmlFormAction="budgetParameters"
 	documentTypeName="BudgetDocument"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="summary"
+  	headerTabActive="parameters"
   	extraTopButtons="${KualiForm.extraTopButtons}">
   	
-  	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Summary" /></div>
+  	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Parameters" /></div>
 
-<kra-b:budgetSummary /> 
+<kra-b:budgetParameters /> 
 <kra-b:budgetPeriodAndTotals /> 
 <script language="javascript" src="scripts/kuali_application.js"></script>
 <kul:documentControls 

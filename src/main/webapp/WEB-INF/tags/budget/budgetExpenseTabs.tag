@@ -19,6 +19,6 @@
 			
 <kra-b:budgetExpenseBudgetOverview /> 
     	   			   	
-<c:forEach var="budgetCategoryTypeCodes" items="${KualiForm.document.budgetCategoryTypeCodes}" varStatus="catCodes">
-	<kra-b:budgetDetailed budgetCategoryTypeCodesKey="${budgetCategoryTypeCodes.key}" budgetCategoryTypeCodesLabel="${budgetCategoryTypeCodes.label}" catCodes="${catCodes.index}"/>		
+<c:forEach var="budgetCategoryTypeCode" items="${KualiForm.document.budgetCategoryTypeCodes}" varStatus="catCodes">
+	<kra-b:budgetDetailed budgetCategoryTypeCodeKey="${budgetCategoryTypeCode.key}" budgetCategoryTypeCodeLabel="${budgetCategoryTypeCode.label}" catCodes="${catCodes.index}"/>
 </c:forEach>

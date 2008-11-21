@@ -42,7 +42,7 @@
     	<c:out value="${readOnlyAlternateDisplay}"/>	 
      </c:when>
  	<c:otherwise>
- 	<html:select property="${property}" tabindex="${tabindex}" >  
+ 	<html:select property="${property}" tabindex="${tabindex}" styleClass="${styleClass}" >  
    		${selectOptions}   
 	</html:select> 
 	</c:otherwise>  
