@@ -29,7 +29,7 @@ public class BudgetInflationRatesWebTest extends BudgetRatesWebTestBase {
     private static final String PERSONNEL_IMAGE_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.personnel.x";
     private static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
     private static final String SAVE_SUCCESS_MESSAGE = "Document was successfully saved";
-    private static final String SYNC_INFLATION_RATES_BUTTON = "methodToCall.syncRates.line2.anchor3";
+    private static final String SYNC_INFLATION_RATES_BUTTON = "methodToCall.syncRates.line2.anchor2";
     private static final String PROCESS_ANSWER_YES = "methodToCall.processAnswer.button0"; 
     private static final String BDOC_BUDGET_RATES_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.rates.x";
 

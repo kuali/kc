@@ -17,12 +17,8 @@ package org.kuali.kra.maintenance;
 
 import java.io.IOException;
 
-import org.junit.After;
-import org.junit.Before;
-import org.kuali.core.UserSession;
 import org.kuali.core.document.MaintenanceDocumentBase;
 import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.KraWebTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 
@@ -30,18 +26,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public abstract class MaintenanceDocumentTestBase extends KraWebTestBase {
-
-
-    @Before
-    public void setUp() throws Exception {
-        super.setUp();
-        GlobalVariables.setUserSession(new UserSession("quickstart"));
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        super.tearDown();
-    }
 
     /**
      * 
