@@ -226,6 +226,41 @@ function loadBudgetCategoryCode(objectCode,budgetCategoryCode){
 		ObjectCodeToBudgetCategoryCodeService.getBudgetCategoryCodeForCostElment(objectCodeValue,dwrReply);
 	}
 }
+
+/*
+ * Load Start and End Dates based on the Fiscal Year
+ */ 
+function loadStartAndEndDates(fiscalYear,startDate,endDate){
+	var fiscalYearValue = DWRUtil.getValue( fiscalYear );
+
+	if (fiscalYearValue=='') {
+		clearRecipients( startDate, "" );
+		clearRecipients( endDate, "" );
+	} else {
+		var dwrReply = {
+			callback:function(data) {
+				if ( data != null ) {
+					if ( fiscalYear != null && fiscalYear != "" ) {						
+						var option_array=data.split(",");						
+						setRecipientValue( startDate, option_array[0] );
+						setRecipientValue( endDate, option_array[1] );
+					}
+				} else {
+					if ( fiscalYear != null && fiscalYear != "" ) {
+						setRecipientValue(  startDate, wrapError( "not found" ), true );
+						setRecipientValue(  endDate, wrapError( "not found" ), true );
+					}
+				}
+			},
+			errorHandler:function( errorMessage ) {
+				window.status = errorMessage;
+				setRecipientValue( startDate, wrapError( "not found" ), true );
+				setRecipientValue( endDate, wrapError( "not found" ), true );
+			}
+		};
+		AwardIndirectCostRateService.getStartAndEndDatesBasedOnFiscalYear(fiscalYearValue,dwrReply);
+	}
+}
  
 /*
  * Load the Unit Name field based on the Unit Number passed in.
