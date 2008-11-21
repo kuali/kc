@@ -59,7 +59,7 @@
 				</td>
                 <td width="5%" valign="middle" class="infoline">
                 	<div align="center">
-                	<kul:htmlControlAttribute property="newAwardIndirectCostRate.fiscalYear" attributeEntry="${awardIndirectCostRateAttributes.fiscalYear}" />
+                	<kul:htmlControlAttribute property="newAwardIndirectCostRate.fiscalYear" attributeEntry="${awardIndirectCostRateAttributes.fiscalYear}" onblur="loadStartAndEndDates('newAwardIndirectCostRate.fiscalYear', 'newAwardIndirectCostRate.startDate','newAwardIndirectCostRate.endDate');"/>                																																																	
                 	</div>
 				</td>
 				<td width="5%" valign="middle" class="infoline">
@@ -117,7 +117,7 @@
 					</td>
 	                <td width="9%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.award.awardIndirectCostRate[${status.index}].fiscalYear" attributeEntry="${awardIndirectCostRateAttributes.fiscalYear}" />
+                		<kul:htmlControlAttribute property="document.award.awardIndirectCostRate[${status.index}].fiscalYear" attributeEntry="${awardIndirectCostRateAttributes.fiscalYear}" onblur="loadStartAndEndDates('document.award.awardIndirectCostRate[${status.index}].fiscalYear', 'document.award.awardIndirectCostRate[${status.index}].startDate','document.award.awardIndirectCostRate[${status.index}].endDate');" />
 					</div>
 					</td>
 					<td width="9%" valign="middle">
