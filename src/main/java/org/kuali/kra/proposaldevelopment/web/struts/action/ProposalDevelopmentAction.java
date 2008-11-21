@@ -234,7 +234,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
 
         if (proposalDevelopmentForm.getMethodToCall().equals("save") && proposalDevelopmentForm.isAuditActivated()) {
             // TODO : need to check whether the error is really fixed ?
-            forward = mapping.findForward("actions");
+            forward = mapping.findForward(Constants.PROPOSAL_ACTIONS_PAGE);
         }
 
         return forward;
@@ -272,7 +272,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
     }
     
     public ActionForward proposal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        return mapping.findForward("proposal");
+        return mapping.findForward(Constants.PROPOSAL_PAGE);
     }
 
     /**
@@ -291,30 +291,30 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         // Let this be taken care of in KeyPersonnelAction execute() method
         if (this instanceof ProposalDevelopmentKeyPersonnelAction) {
             LOG.info("forwarding to keyPersonnel action");
-            return mapping.findForward("keyPersonnel");
+            return mapping.findForward(Constants.KEY_PERSONNEL_PAGE);
         }
 
         new ProposalDevelopmentKeyPersonnelAction().prepare(form, request);
 
-        return mapping.findForward("keyPersonnel");
+        return mapping.findForward(Constants.KEY_PERSONNEL_PAGE);
     }
 
     public ActionForward specialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ((ProposalDevelopmentForm) form).setExemptNumberList(KraServiceLocator.getService(ProposalDevelopmentService.class).getExemptionTypeKeyValues());
         KraServiceLocator.getService(ProposalDevelopmentService.class).populateExemptNumbersToForm((ProposalDevelopmentForm)form);
-        return mapping.findForward("specialReview");
+        return mapping.findForward(Constants.SPECIAL_REVIEW_PAGE);
     }
 
     public ActionForward questions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        return mapping.findForward("questions");
+        return mapping.findForward(Constants.QUESTIONS_PAGE);
     }
     
     public ActionForward permissions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        return mapping.findForward("permissions");
+        return mapping.findForward(Constants.PERMISSIONS_PAGE);
     }
     
     public ActionForward grantsGov(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        return mapping.findForward("grantsGov");
+        return mapping.findForward(Constants.GRANTS_GOV_PAGE);
     }
     
     public ActionForward budgetVersions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -325,7 +325,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         }        
         pdForm.setFinalBudgetVersion(getFinalBudgetVersion(pdForm.getProposalDevelopmentDocument().getBudgetVersionOverviews()));
         setBudgetStatuses(pdForm.getProposalDevelopmentDocument());
-        return mapping.findForward("budgetVersions");
+        return mapping.findForward(Constants.PD_BUDGET_VERSIONS_PAGE);
     }
     
     public ActionForward abstractsAttachments(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -349,7 +349,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         narrativeList.addAll(doc.getInstituteAttachments());
         KraServiceLocator.getService(NarrativeService.class).setNarrativeTimeStampUser(narrativeList);
 
-        return mapping.findForward("abstractsAttachments");
+        return mapping.findForward(Constants.ATTACHMENTS_PAGE);
     }
 
     public ActionForward customData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -384,7 +384,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
 
         ((ProposalDevelopmentForm)form).setCustomAttributeGroups(customAttributeGroups);
 
-        return mapping.findForward("customData");
+        return mapping.findForward(Constants.CUSTOM_ATTRIBUTES_PAGE);
     }
 
     public ActionForward actions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -392,7 +392,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
         PrintService printService = KraServiceLocator.getService(PrintService.class);
         printService.populateSponsorForms(proposalDevelopmentForm.getSponsorFormTemplates(), proposalDevelopmentDocument.getSponsorCode());
-        return mapping.findForward("actions");
+        return mapping.findForward(Constants.PROPOSAL_ACTIONS_PAGE);
     }
 
     /**

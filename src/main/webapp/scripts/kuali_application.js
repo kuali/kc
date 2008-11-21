@@ -1,5 +1,19 @@
-
-
+/*
+ * Copyright 2006-2008 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.osedu.org/licenses/ECL-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ 
 function selectAllGGForms(document) {
     var j = 0;
 	for (var i = 0; i < document.KualiForm.elements.length; i++) {
@@ -1135,3 +1149,136 @@ function unselectAllBudgetForms(document) {
 // CustomAttributeService._path = '../dwr'; 
 // CustomAttributeService.getLookupReturnsForAjaxCall = function(p0, callback) { DWREngine._execute(CustomAttributeService._path, 'CustomAttributeService', 'getLookupReturnsForAjaxCall', p0, callback); } 
 
+//Budget Personnel UI-1.1
+var personnelRatesWindow;
+function personnelRatesPopup(budgetPeriod, lineNumber, rateClassCode, rateTypeCode, docFormKey, sessionDocument){
+var documentWebScope
+  if (sessionDocument == "true") {
+      documentWebScope="session";
+  }
+  if (personnelRatesWindow && personnelRatesWindow.open && !personnelRatesWindow.closed){
+  	personnelRatesWindow.focus();
+  }else{
+    personnelRatesWindow = window.open(extractUrlBase()+"/budgetPersonnel.do?methodToCall=personnelRates&budgetPeriod="+budgetPeriod+"&line="+lineNumber+"&rateClassCode="+rateClassCode+"&rateTypeCode="+rateTypeCode+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope, "personnelRatesWindow", "width=800, height=300, scrollbars=yes");
+    if (window.focus) {
+         personnelRatesWindow.focus();
+    }
+  }
+}
+
+var personnelRateCostSharingWindow;
+function personnelRateCostSharingPopup(fieldNameInd, budgetPeriod, lineNumber, rateClassCode, rateTypeCode, docFormKey, sessionDocument){
+var documentWebScope
+  if (sessionDocument == "true") {
+      documentWebScope="session";
+  }
+  if (personnelRateCostSharingWindow && personnelRateCostSharingWindow.open && !personnelRateCostSharingWindow.closed){
+  	personnelRateCostSharingWindow.focus();
+  }else{
+    personnelRateCostSharingWindow = window.open(extractUrlBase()+"/budgetPersonnel.do?methodToCall=personnelRates&fieldName="+fieldNameInd+"&budgetPeriod="+budgetPeriod+"&line="+lineNumber+"&rateClassCode="+rateClassCode+"&rateTypeCode="+rateTypeCode+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope, "personnelRateCostSharingWindow", "width=800, height=300, scrollbars=yes");
+    if (window.focus) {
+         personnelRateCostSharingWindow.focus();
+    }
+  }
+}
+
+var personnelDetailsWindow;
+function personnelDetailsPopup(budgetPeriod, lineNumber, personNumber, docFormKey, sessionDocument){
+var documentWebScope
+  if (sessionDocument == "true") {
+      documentWebScope="session";
+  }
+  if (personnelDetailsWindow && personnelDetailsWindow.open && !personnelDetailsWindow.closed){
+  	personnelDetailsWindow.focus();
+  }else{
+    personnelDetailsWindow = window.open(extractUrlBase()+"/budgetPersonnel.do?methodToCall=personnelDetails&budgetPeriod="+budgetPeriod+"&line="+lineNumber+"&personNumber="+personNumber+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope, "personnelDetailsWindow", "width=650, height=400, scrollbars=yes");
+    if (window.focus) {
+         personnelDetailsWindow.focus();
+    }
+  }
+}
+
+var costElementFieldName;
+
+ function updateCostElement(proposalNumber, budgetVersionNumber, costElement, personSequenceNumberField, budgetCategoryTypeCode, callbackFunction ) {
+	var personSequenceNumber = personSequenceNumberField.value;
+	costElementFieldName = costElement;
+	if ( personSequenceNumber != "") {
+		var dwrReply = {
+			callback:callbackFunction,
+			errorHandler:function( errorMessage ) { 
+				window.status = errorMessage;
+			}
+		};
+		BudgetService.getApplicableCostElementsForAjaxCall(proposalNumber, budgetVersionNumber, personSequenceNumber, budgetCategoryTypeCode, dwrReply );
+	} else {
+	    kualiElements[costElementFieldName].options.length=1;
+	    var ceLookupDiv = document.getElementById("ceLookupDiv");
+	 	ceLookupDiv.style.display = '';
+	}
+}
+
+function updateCostElement_Callback( data ) {
+	var ceLookupDiv = document.getElementById("ceLookupDiv");
+	ceLookupDiv.style.display = '';
+	 	
+	kualiElements[costElementFieldName].options.length=0; //reset 
+	var data_array=data.split(",");
+	var optionNum=0;
+	var nameLabelPair;
+	var ceLookupFlag;
+	
+	while (optionNum < data_array.length)
+	 {
+ 		if (optionNum == 0) {
+		     kualiElements[costElementFieldName].options[0]=new Option("select:","", true, true);
+		} else if (optionNum > 0 && optionNum < data_array.length-1) {
+	  		nameLabelPair = data_array[optionNum].split(";");
+			kualiElements[costElementFieldName].options[optionNum]=new Option(nameLabelPair[1], nameLabelPair[0]);
+		} else if (optionNum == data_array.length-1) {
+			nameLabelPair = data_array[optionNum].split(";");
+			ceLookupFlag = nameLabelPair[1];
+		}
+     	optionNum+=1;
+	 }
+	 
+	 if(ceLookupFlag != '' && ceLookupFlag == 'false') {
+	 	//disable Cost Element Lookup icon
+	 	ceLookupDiv.style.display = 'none';
+	 }
+}
+
+function disableGrpNameTextbox(groupNameSelectField) {
+	var selectedIndex = groupNameSelectField.selectedIndex;
+	var selectedText = groupNameSelectField.options[groupNameSelectField.selectedIndex].text;
+	//alert(selectedText);
+	
+	var groupNameTextField = document.getElementById("newGroupName");
+	groupNameTextField.value="";
+	
+	if(selectedText != 'select') {
+		groupNameTextField.disabled = true;
+	} else {
+		groupNameTextField.disabled = false;
+	}
+}
+
+function resetGrpNameTextbox() {
+	var groupNameTextField = document.getElementById("newGroupName");
+	if(groupNameTextField.value != '' && groupNameTextField.value == '(new group)') {
+		groupNameTextField.value="";
+	}
+}
+
+function previousPeriodSet() {
+	document.forms[0].submit();
+}
+
+function nextPeriodSet() {
+	document.forms[0].submit();
+}
+
+function showAllPanels() {
+	var test = showTab(document, 'Summary');
+	expandAll('true', false); 
+}

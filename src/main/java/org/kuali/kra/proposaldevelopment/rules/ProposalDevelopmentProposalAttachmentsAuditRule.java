@@ -43,7 +43,7 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule  implements Documen
     
              if (narrative.getModuleStatusCode().equals("I")){
                  valid = false;            
-                 auditErrors.add(new AuditError("document.narrative["+i+"].moduleStatusCode", KeyConstants.ERROR_PROPOSAL_ATTACHMENT_NOT_COMPLETE, Constants.ABSTRACTS_AND_ATTACHMENTS_PAGE));
+                 auditErrors.add(new AuditError("document.narrative["+i+"].moduleStatusCode", KeyConstants.ERROR_PROPOSAL_ATTACHMENT_NOT_COMPLETE, Constants.ATTACHMENTS_PAGE));
              }
              i++;
             }

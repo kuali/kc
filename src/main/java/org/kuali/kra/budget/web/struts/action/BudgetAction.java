@@ -19,6 +19,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,11 +35,14 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.WebUtils;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.budget.bo.BudgetLineItem;
+import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPerson;
+import org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -53,15 +57,18 @@ import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.web.struts.action.ProposalActionBase;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
 
 public class BudgetAction extends ProposalActionBase {
     private static final Log LOG = LogFactory.getLog(BudgetAction.class);
-
+    private static final String PERSONNEL_CATEGORY_TYPE_DESC = "Personnel";
+    
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -104,7 +111,7 @@ public class BudgetAction extends ProposalActionBase {
         
         
         if (actionForward != null) {
-            if (("totals").equals(actionForward.getName())) { 
+            if (("summaryTotals").equals(actionForward.getName())) { 
                 ((BudgetForm)form).suppressButtonsForTotalPage();
             }               
         }
@@ -163,63 +170,155 @@ public class BudgetAction extends ProposalActionBase {
         budgetForm.getBudgetDocument().getProposal().refreshReferenceObject(Constants.BUDGET_VERSION_OVERVIEWS);
         budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(budgetForm.getBudgetDocument().getProposal().getBudgetVersionOverviews()));
         setBudgetStatuses(budgetForm.getBudgetDocument().getProposal());
-        return mapping.findForward("versions");
+        return mapping.findForward(Constants.BUDGET_VERSIONS_PAGE);
     }
 
-    public ActionForward summary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    public ActionForward parameters(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         reconcileBudgetStatus((BudgetForm) form);
         ((BudgetForm) form).getBudgetDocument().getBudgetSummaryService().setupOldStartEndDate(((BudgetForm) form).getBudgetDocument(),false);
-        return mapping.findForward("summary");
+        return mapping.findForward(Constants.BUDGET_PERIOD_PAGE);
     }
 
     public ActionForward personnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         BudgetForm budgetForm = (BudgetForm) form;
+        populatePersonnelCategoryTypeCodes(budgetForm);
         reconcilePersonnelRoles(budgetForm.getBudgetDocument());
         
-        return mapping.findForward("personnel");
+        for(BudgetPeriod period : budgetForm.getBudgetDocument().getBudgetPeriods()) {
+            for(BudgetLineItem lineItem : period.getBudgetLineItems()) {
+                for(BudgetPersonnelDetails budgetPersonnelDetails : lineItem.getBudgetPersonnelDetailsList()) {
+                    budgetPersonnelDetails.refreshReferenceObject("budgetPerson");
+                    ObjectUtils.materializeObjects(budgetPersonnelDetails.getBudgetPersonnelCalculatedAmounts());
+                    for(BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount:budgetPersonnelDetails.getBudgetPersonnelCalculatedAmounts()){
+                        if(budgetPersonnelCalculatedAmount.getRateClass() == null) {
+                            budgetPersonnelCalculatedAmount.refreshReferenceObject("rateClass");
+                        }
+                    }
+                }
+                
+                for(BudgetLineItemCalculatedAmount lineItemCalculatedAmount:lineItem.getBudgetLineItemCalculatedAmounts()){
+                    if(lineItemCalculatedAmount.getRateClass() == null) {
+                        lineItemCalculatedAmount.refreshReferenceObject("rateClass");
+                    }
+                }
+            }
+        }
+        return mapping.findForward(Constants.BUDGET_PERSONNEL_PAGE);
     }
 
+    protected void populatePersonnelCategoryTypeCodes(BudgetForm budgetForm) {
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument(); 
+        
+        BudgetCategoryTypeValuesFinder budgetCategoryTypeValuesFinder = new BudgetCategoryTypeValuesFinder();
+        List<KeyLabelPair> budgetCategoryTypes = new ArrayList<KeyLabelPair>();      
+        
+        for(KeyLabelPair budgetCategoryType: budgetCategoryTypeValuesFinder.getKeyValues()){
+            if(budgetCategoryType.getLabel().equalsIgnoreCase(PERSONNEL_CATEGORY_TYPE_DESC)) {
+                budgetCategoryTypes.add(budgetCategoryType);
+                BudgetLineItem newBudgetLineItem = new BudgetLineItem();
+                budgetForm.getNewBudgetLineItems().add(newBudgetLineItem);
+            }
+        }
+        budgetForm.getBudgetDocument().setBudgetCategoryTypeCodes(budgetCategoryTypes); 
+    }
+
+    protected void populateNonPersonnelCategoryTypeCodes(BudgetForm budgetForm) {
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument(); 
+        
+        BudgetCategoryTypeValuesFinder budgetCategoryTypeValuesFinder = new BudgetCategoryTypeValuesFinder();
+        List<KeyLabelPair> budgetCategoryTypes = new ArrayList<KeyLabelPair>();      
+        
+        for(KeyLabelPair budgetCategoryType: budgetCategoryTypeValuesFinder.getKeyValues()){
+            if(!budgetCategoryType.getLabel().equalsIgnoreCase(PERSONNEL_CATEGORY_TYPE_DESC)) {
+                budgetCategoryTypes.add(budgetCategoryType);
+                BudgetLineItem newBudgetLineItem = new BudgetLineItem();
+                budgetForm.getNewBudgetLineItems().add(newBudgetLineItem);
+            }
+        }
+        budgetForm.getBudgetDocument().setBudgetCategoryTypeCodes(budgetCategoryTypes); 
+    }
+    
     public ActionForward expenses(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetCategoryTypeValuesFinder budgetCategoryTypeValuesFinder = new BudgetCategoryTypeValuesFinder();
-        List<KeyLabelPair> budgetCategoryTypes = new ArrayList<KeyLabelPair>();        
-        budgetCategoryTypes = budgetCategoryTypeValuesFinder.getKeyValues();
-        for(int i=0;i<budgetCategoryTypes.size();i++){
-            budgetForm.getNewBudgetLineItems().add(new BudgetLineItem());
-        }
-        budgetForm.getBudgetDocument().setBudgetCategoryTypeCodes(budgetCategoryTypes);
+        
+        populateNonPersonnelCategoryTypeCodes(budgetForm);
+        
         BudgetDocument budgetDocument = (BudgetDocument) budgetForm.getBudgetDocument();
         budgetDocument.refreshReferenceObject("budgetPeriods");       
         
-        return mapping.findForward("expenses");
+        return mapping.findForward(Constants.BUDGET_EXPENSES_PAGE);
     }
 
     public ActionForward rates(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        return mapping.findForward("rates");
+        return mapping.findForward(Constants.BUDGET_RATES_PAGE);
     }
 
     public ActionForward distributionAndIncome(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         BudgetDistributionAndIncomeService budgetDistributionAndIncomeService = new BudgetDistributionAndIncomeServiceImpl();
         budgetDistributionAndIncomeService.initializeCollectionDefaults(((BudgetForm) form).getBudgetDocument());
         
-        return mapping.findForward("distributionAndIncome");
+        return mapping.findForward(Constants.BUDGET_DIST_AND_INCOME_PAGE);
     }
 
     public ActionForward modularBudget(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetModularService budgetModularService = KraServiceLocator.getService(BudgetModularService.class);
         budgetForm.setBudgetModularSummary(budgetModularService.generateModularSummary(budgetForm.getBudgetDocument()));
-        return mapping.findForward("modularBudget");
+        return mapping.findForward(Constants.BUDGET_MODULAR_PAGE);
     }
 
-    public ActionForward totals(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    protected void populatePersonnelRoles(BudgetDocument budgetDocument) {
+        KeyPersonnelService keyPersonnelServiec = KraServiceLocator.getService(KeyPersonnelService.class);
+        ProposalDevelopmentDocument proposal = budgetDocument.getProposal();
+        boolean nihSponsorProposal = keyPersonnelServiec.isSponsorNIH(proposal);
+        Map roleDescriptions = budgetDocument.getProposal().getNihDescription();
+        
+        List<BudgetPerson> budgetPersons = budgetDocument.getBudgetPersons();
+        for (BudgetPerson budgetPerson: budgetPersons) {
+            String roleDesc = "";
+            if (budgetPerson.getRolodexId() != null) {
+                ProposalPerson person = proposal.getProposalNonEmployee(budgetPerson.getRolodexId());
+                ProposalPersonRole role = proposal.getProposalNonEmployeeRole(budgetPerson.getRolodexId());
+                if (role != null) { 
+                    roleDesc = (nihSponsorProposal && roleDescriptions.get(role.getProposalPersonRoleId()) != null) ? roleDescriptions.get(role.getProposalPersonRoleId()).toString() : role.getDescription();
+                    if(person != null && StringUtils.equals(Constants.KEY_PERSON_ROLE, role.getProposalPersonRoleId()) && StringUtils.isNotEmpty(person.getProjectRole())) {
+                        roleDesc = person.getProjectRole();
+                    }
+                }
+            } else if (budgetPerson.getPersonId() != null) {
+                ProposalPerson person = proposal.getProposalEmployee(budgetPerson.getPersonId());  
+                ProposalPersonRole role = proposal.getProposalEmployeeRole(budgetPerson.getPersonId());
+                if (role != null) { 
+                    roleDesc = (nihSponsorProposal && roleDescriptions.get(role.getProposalPersonRoleId()) != null) ? roleDescriptions.get(role.getProposalPersonRoleId()).toString() : role.getDescription();
+                    if(person != null && StringUtils.equals(Constants.KEY_PERSON_ROLE, role.getProposalPersonRoleId()) && StringUtils.isNotEmpty(person.getProjectRole())) {
+                        roleDesc = person.getProjectRole();
+                    }
+                }
+            }
+            
+            budgetPerson.setRole(roleDesc);
+        }
+    }
+    
+    public ActionForward summaryTotals(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         BudgetForm budgetForm = (BudgetForm) form;
-        budgetForm.getBudgetDocument().getBudgetTotals();
-        return mapping.findForward("totals");
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument(); 
+        populatePersonnelRoles(budgetDocument);
+        
+        for(BudgetPeriod period : budgetForm.getBudgetDocument().getBudgetPeriods()) {
+            for(BudgetLineItem lineItem : period.getBudgetLineItems()) {
+                for(BudgetPersonnelDetails budgetPersonnelDetails : lineItem.getBudgetPersonnelDetailsList()) {
+                    budgetPersonnelDetails.refreshReferenceObject("budgetPerson");
+                }
+            }
+        }
+        
+        budgetDocument.getBudgetTotals();
+        return mapping.findForward(Constants.BUDGET_SUMMARY_TOTALS_PAGE);
     }
 
     public ActionForward proposalHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        return mapping.findForward("proposalHierarchy");
+        return mapping.findForward(Constants.PROPOSAL_HIERARCHY_PAGE);
     }
 
     public ActionForward budgetActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -230,7 +329,7 @@ public class BudgetAction extends ProposalActionBase {
             budgetPrintService.populateBudgetPrintForms(budgetDocument);
         }
         KraServiceLocator.getService(BudgetSubAwardService.class).populateBudgetSubAwardAttachments(budgetDocument);
-        return mapping.findForward("budgetActions");
+        return mapping.findForward(Constants.BUDGET_ACTIONS_PAGE);
     }
     
     public ActionForward returnToProposal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -276,13 +375,13 @@ public class BudgetAction extends ProposalActionBase {
      * 
      * Sets periodTypeCode in BudgetPersonnelDetails to system variable BUDGET_PERSON_DEFAULT_PERIOD_TYPE
      */
-    public void setBudgetPersonDefaultPeriodTypeCode(BudgetForm budgetForm){
-        KualiConfigurationService kualiConfigurationService = KraServiceLocator.getService(KualiConfigurationService.class);
-        budgetForm.setNewBudgetPersonnelDetails(new BudgetPersonnelDetails());
-        budgetForm.getNewBudgetPersonnelDetails().setPeriodTypeCode(kualiConfigurationService.getParameterValue(
-                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_PERSON_DEFAULT_PERIOD_TYPE));
-        
-    }
+//    public void setBudgetPersonDefaultPeriodTypeCode(BudgetForm budgetForm){
+//        KualiConfigurationService kualiConfigurationService = KraServiceLocator.getService(KualiConfigurationService.class);
+//        budgetForm.setNewBudgetPersonnelDetails(new BudgetPersonnelDetails());
+//        budgetForm.getNewBudgetPersonnelDetails().setPeriodTypeCode(kualiConfigurationService.getParameterValue(
+//                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_PERSON_DEFAULT_PERIOD_TYPE));
+//        
+//    }
 
     /**
      * 

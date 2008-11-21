@@ -17,11 +17,14 @@ package org.kuali.kra.budget.lookup.keyvalue;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
@@ -32,6 +35,7 @@ import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
+import org.kuali.rice.KNSServiceLocator;
 
 /**
  * Finds the available set of supported Narrative Statuses.  See
@@ -54,17 +58,23 @@ public class BudgetPersonValuesFinder extends KeyValuesBase {
      */
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> keyLabelPairs = null;
-        
+        BusinessObjectService boService = KNSServiceLocator.getBusinessObjectService();
         KualiForm form = GlobalVariables.getKualiForm();
         if(form instanceof KualiDocumentFormBase) {
             Document doc = ((KualiDocumentFormBase) form).getDocument();
             if(doc instanceof BudgetDocument) {
-                List<BudgetPerson> budgetPersons = ((BudgetDocument)doc).getBudgetPersons();
+                BudgetDocument budgetDocument = (BudgetDocument) doc;
+                Map queryMap = new HashMap();
+                queryMap.put("proposalNumber", budgetDocument.getProposalNumber());
+                queryMap.put("budgetVersionNumber", budgetDocument.getBudgetVersionNumber());
+                List<BudgetPerson> budgetPersons = (List<BudgetPerson>) boService.findMatching(BudgetPerson.class, queryMap);
+
                 keyLabelPairs = buildKeyLabelPairs(budgetPersons);
             }
         }
         return keyLabelPairs; 
     }
+    
     private List<KeyLabelPair> buildKeyLabelPairs(List<BudgetPerson> budgetPersons) {
         List<KeyLabelPair> keyLabelPairs = new ArrayList<KeyLabelPair>();
         keyLabelPairs.add(new KeyLabelPair(null, "Select"));
@@ -81,11 +91,12 @@ public class BudgetPersonValuesFinder extends KeyValuesBase {
                     
                 }
                 if (!duplicatePerson) {
-                    keyLabelPairs.add(new KeyLabelPair(budgetPerson.getPersonSequenceNumber(), 
-                                        (budgetPerson.getPersonName())+" - "+budgetPerson.getJobCode()));
+                  keyLabelPairs.add(new KeyLabelPair(budgetPerson.getPersonSequenceNumber(), budgetPerson.getPersonName() + " - " + budgetPerson.getJobCode()));
                 }
             }
         }
+        keyLabelPairs.add(new KeyLabelPair("-1", "Summary"));
         return keyLabelPairs;
+
     }
 }

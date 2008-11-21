@@ -51,12 +51,11 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
     /**
      * @see org.kuali.kra.budget.service.BudgetPersonnelBudgetService#addBudgetPersonnelDetails(org.kuali.kra.budget.bo.BudgetLineItem, org.kuali.kra.budget.bo.BudgetPersonnelDetails)
      */
-    public void addBudgetPersonnelDetails(BudgetDocument budgetDocument,int budgetPeriodIndex,int budgetLineItemIndex, BudgetPersonnelDetails newBudgetPersonnelDetails) {
-        BudgetLineItem budgetLineItem = budgetDocument.getBudgetPeriod(budgetPeriodIndex).getBudgetLineItems().get(budgetLineItemIndex);
+    public void addBudgetPersonnelDetails(BudgetDocument budgetDocument, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetails) {
         try {
             ConvertUtils.register(new SqlDateConverter(null), java.sql.Date.class);
             ConvertUtils.register(new SqlTimestampConverter(null), java.sql.Timestamp.class);
-            BeanUtils.copyProperties(newBudgetPersonnelDetails,(BudgetLineItemBase)budgetLineItem);
+            BeanUtils.copyProperties(newBudgetPersonnelDetails,(BudgetLineItemBase) budgetLineItem);
         }catch (Exception e) {
             copyLineItemToPersonnelDetails(budgetLineItem, newBudgetPersonnelDetails);
         }
@@ -67,10 +66,13 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
         newBudgetPersonnelDetails.setPersonNumber(budgetDocument.getHackedDocumentNextValue(Constants.BUDGET_PERSON_LINE_NUMBER));
         newBudgetPersonnelDetails.setPersonSequenceNumber(newBudgetPersonnelDetails.getPersonSequenceNumber());
         BudgetPerson budgetPerson = budgetPersonService.findBudgetPerson(newBudgetPersonnelDetails);
-        newBudgetPersonnelDetails.setPersonId(budgetPerson.getPersonRolodexTbnId());
-        newBudgetPersonnelDetails.setJobCode(budgetPerson.getJobCode());
+        if(budgetPerson != null) {
+            newBudgetPersonnelDetails.setPersonId(budgetPerson.getPersonRolodexTbnId());
+            newBudgetPersonnelDetails.setJobCode(budgetPerson.getJobCode());
+            newBudgetPersonnelDetails.setBudgetPerson(budgetPerson);
+        }
         newBudgetPersonnelDetails.setSequenceNumber(budgetDocument.getHackedDocumentNextValue(Constants.BUDGET_PERSON_LINE_SEQUENCE_NUMBER));
-        budgetCalculationService.populateCalculatedAmount(budgetDocument, newBudgetPersonnelDetails);
+        //budgetCalculationService.populateCalculatedAmount(budgetDocument, newBudgetPersonnelDetails);
         newBudgetPersonnelDetails.refreshNonUpdateableReferences();
         budgetLineItem.getBudgetPersonnelDetailsList().add(newBudgetPersonnelDetails);
     }
@@ -132,6 +134,8 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
         budgetPersonnelDetails.setLineItemNumber(budgetLineItem.getLineItemNumber());
         budgetPersonnelDetails.setCostElement(budgetLineItem.getCostElement());
         budgetPersonnelDetails.setCostElementBO(budgetLineItem.getCostElementBO());
+        budgetPersonnelDetails.setApplyInRateFlag(budgetLineItem.getApplyInRateFlag());
+        budgetPersonnelDetails.setOnOffCampusFlag(budgetLineItem.getOnOffCampusFlag());
     }
 
     public void deleteBudgetPersonnelDetails(BudgetDocument budgetDocument, int selectedBudgetPeriodIndex,

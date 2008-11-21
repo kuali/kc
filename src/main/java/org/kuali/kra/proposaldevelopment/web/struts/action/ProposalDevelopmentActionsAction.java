@@ -55,6 +55,7 @@ import org.kuali.core.web.struts.action.AuditModeAction;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.bo.SponsorFormTemplate;
 import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
@@ -375,7 +376,21 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                 
                 ProposalDevelopmentDocument copiedDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
                 initializeProposalUsers(copiedDocument);//add in any default permissions
-                copiedDocument.setS2sAppSubmission(new ArrayList<S2sAppSubmission>());            
+                copiedDocument.setS2sAppSubmission(new ArrayList<S2sAppSubmission>());
+                
+                //We need to copy DocumentNextValues to properly handle copied collections
+//                List<DocumentNextvalue> newDocumentNextValues = new ArrayList<DocumentNextvalue>();
+//                for(DocumentNextvalue documentNextValue : doc.getDocumentNextvalues()) {
+//                    DocumentNextvalue newDocumentNextValue = new DocumentNextvalue();
+//                    newDocumentNextValue.setDocumentKey(copiedDocument.getProposalNumber());
+//                    newDocumentNextValue.setVersionNumber(null);
+//                    newDocumentNextValue.setObjectId(null);
+//                    newDocumentNextValue.setPropertyName(documentNextValue.getPropertyName());
+//                    newDocumentNextValue.setNextValue(documentNextValue.getNextValue());
+//                    newDocumentNextValues.add(newDocumentNextValue); 
+//                }
+//                copiedDocument.setDocumentNextvalues(newDocumentNextValues);
+
                 DocumentService docService = KraServiceLocator.getService(DocumentService.class);
                 docService.saveDocument(copiedDocument);
                 
@@ -881,7 +896,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     public ActionForward personnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         String forward = getForwardToBudgetUrl(form);
         // TODO : what if forward is null
-        forward = StringUtils.replace(forward, "budgetSummary.do?", "budgetPersonnel.do?auditActivated=true&");
+        forward = StringUtils.replace(forward, "budgetParameters.do?", "budgetPersonnel.do?auditActivated=true&");
         
         return new ActionForward(forward, true);
     }
@@ -918,7 +933,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                 viewBudgetPeriodParam = "viewBudgetPeriod=" + methodToCallAttribute.substring(methodToCallAttribute.indexOf("=", idx)+1,methodToCallAttribute.indexOf(".", idx))+"&";
             }
         }
-        forward = StringUtils.replace(forward, "budgetSummary.do?", "budgetExpenses.do?auditActivated=true&");
+        forward = StringUtils.replace(forward, "budgetParameters.do?", "budgetExpenses.do?auditActivated=true&");
         if (viewBudgetPeriodParam != null) {
             forward = StringUtils.replace(forward, "budgetExpenses.do?", "budgetExpenses.do?"+viewBudgetPeriodParam); 
         }
@@ -936,14 +951,14 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
      */
     public ActionForward summary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         String forward = getForwardToBudgetUrl(form);
-        forward = StringUtils.replace(forward, "budgetSummary.do?", "budgetSummary.do?auditActivated=true&");
+        forward = StringUtils.replace(forward, "budgetParameters.do?", "budgetParameters.do?auditActivated=true&");
         
         return new ActionForward(forward, true);
     }
     
     public ActionForward budgetRate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         String forward = getForwardToBudgetUrl(form);
-        forward = StringUtils.replace(forward, "budgetSummary.do?", "budgetRates.do?auditActivated=true&anchor="+((KualiForm)form).getAnchor()+"&");
+        forward = StringUtils.replace(forward, "budgetParameters.do?", "budgetRates.do?auditActivated=true&anchor="+((KualiForm)form).getAnchor()+"&");
         return new ActionForward(forward, true);
     }
 

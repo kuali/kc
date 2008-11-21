@@ -20,20 +20,26 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedMap;
+import java.util.SortedSet;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.bo.BudgetCategoryType;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.bo.CostElement;
+import org.kuali.kra.budget.bo.RateClass;
 import org.kuali.kra.budget.bo.RateType;
 import org.kuali.kra.budget.calculator.BudgetPeriodCalculator;
 import org.kuali.kra.budget.calculator.LineItemCalculator;
@@ -73,17 +79,6 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                     ((BudgetForm)GlobalVariables.getKualiForm()).setOhRateClassCodePrevValue(workOhCode);
                 }
             }
-//            List<BudgetLineItem> cvLineItemDetails = budgetPeriod.getBudgetLineItems();
-//            if(cvLineItemDetails.isEmpty() ){
-//                Map fieldValues = new HashMap();
-//                fieldValues.put("proposalNumber", budgetPeriod.getProposalNumber());
-//                fieldValues.put("budgetVersionNumber", budgetPeriod.getBudgetVersionNumber());
-//                fieldValues.put("budgetPeriod", budgetPeriod.getBudgetPeriod());
-//                Collection<BudgetLineItem> deletedLineItems = businessObjectService.findMatching(BudgetLineItem.class, fieldValues);
-//                if(!deletedLineItems.isEmpty()){
-//                    
-//                }
-//            }
         }
         if (((BudgetForm)GlobalVariables.getKualiForm())!=null && ((BudgetForm)GlobalVariables.getKualiForm()).getOhRateClassCodePrevValue() == null && ohRateClassCodePrevValue != null) {
             // if not all periods are calculated, then this code has potential to be null, and this will force
@@ -273,6 +268,301 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         }        
     }
 
+    private SortedMap<BudgetCategoryType, List<CostElement>> categorizeObjectCodesByCategory(BudgetDocument budgetDocument) {
+        SortedMap<CostElement, List> objectCodeTotals = budgetDocument.getObjectCodeTotals();
+        SortedMap<BudgetCategoryType, List<CostElement>> objectCodeListByBudgetCategoryType = new TreeMap<BudgetCategoryType, List<CostElement>>();
+        
+        for(CostElement objectCode : objectCodeTotals.keySet()) {
+            objectCode.refreshReferenceObject("budgetCategory");
+            if(objectCode.getBudgetCategory() != null) {
+                objectCode.getBudgetCategory().refreshReferenceObject("budgetCategoryType");
+                objectCode.setBudgetCategoryTypeCode(objectCode.getBudgetCategory().getBudgetCategoryTypeCode());
+            }
+            if(!objectCodeListByBudgetCategoryType.containsKey(objectCode.getBudgetCategory().getBudgetCategoryType())) {
+                List<CostElement> filteredObjectCodes = filterObjectCodesByBudgetCategoryType(objectCodeTotals.keySet(), objectCode.getBudgetCategoryTypeCode());
+                objectCodeListByBudgetCategoryType.put(objectCode.getBudgetCategory().getBudgetCategoryType(), filteredObjectCodes);
+            }
+        }
+        
+        return objectCodeListByBudgetCategoryType;
+    }
+    
+    private BudgetCategoryType getPersonnelCategoryType() {
+        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
+        Map primaryKeys = new HashMap();
+        primaryKeys.put("budgetCategoryTypeCode", "P");
+        return (BudgetCategoryType) boService.findByPrimaryKey(BudgetCategoryType.class, primaryKeys);
+    }
+    
+    public void calculateBudgetSummaryTotals(BudgetDocument budgetDocument){
+        calculateBudgetTotals(budgetDocument);
+        SortedMap<CostElement, List> objectCodeTotals = budgetDocument.getObjectCodeTotals();
+        //Categorize all Object Codes per their Category Type
+        SortedMap<BudgetCategoryType, List<CostElement>> objectCodeListByBudgetCategoryType = categorizeObjectCodesByCategory(budgetDocument);   
+       
+        SortedMap<CostElement, List<BudgetPersonnelDetails>> objectCodePersonnelList = new TreeMap<CostElement, List<BudgetPersonnelDetails>>();
+        SortedMap<CostElement, List<BudgetPersonnelDetails>> objectCodeUniquePersonnelList = new TreeMap<CostElement, List<BudgetPersonnelDetails>>();
+        
+        SortedMap<String, List> objectCodePersonnelSalaryTotals = new TreeMap<String, List>();
+        SortedMap<String, List> objectCodePersonnelFringeTotals = new TreeMap<String, List>();
+        
+        //Temp collections for maintaining Sub Section Totals
+        SortedSet<String> objectCodePersonnelSalaryTotalsByPeriod = new TreeSet<String>();
+        SortedSet<String> objectCodePersonnelFringeTotalsByPeriod = new TreeSet<String>();
+
+        SortedMap<RateType, List> personnelCalculatedExpenseTotals = new TreeMap<RateType, List>();
+        SortedMap<RateType, List> nonPersonnelCalculatedExpenseTotals = new TreeMap<RateType, List>(); 
+
+        List <BudgetDecimal> periodSummarySalaryTotals = new ArrayList<BudgetDecimal>();
+        for (int i = 0; i < budgetDocument.getBudgetPeriods().size(); i++) {
+            periodSummarySalaryTotals.add(i,BudgetDecimal.ZERO);
+        }
+        List <BudgetDecimal> periodSummaryFringeTotals = new ArrayList<BudgetDecimal>();
+        for (int i = 0; i < budgetDocument.getBudgetPeriods().size(); i++) {
+            periodSummaryFringeTotals.add(i,BudgetDecimal.ZERO);
+        }
+        SortedMap<String, List> subTotalsBySubSection = new TreeMap<String, List>();
+        subTotalsBySubSection.put("personnelSalaryTotals", periodSummarySalaryTotals);
+        subTotalsBySubSection.put("personnelFringeTotals", periodSummaryFringeTotals);
+        
+        //Loop thru the Personnel Object Codes - to calculate Salary, Fringe Totals etc.. per person
+        BudgetCategoryType personnelCategory =  getPersonnelCategoryType();
+        List<CostElement> personnelObjectCodes = objectCodeListByBudgetCategoryType.get(personnelCategory); 
+        
+        if(CollectionUtils.isNotEmpty(personnelObjectCodes)) {
+            for(CostElement personnelCostElement : personnelObjectCodes) {
+                if(!objectCodeUniquePersonnelList.containsKey(personnelCostElement)) {
+                    objectCodeUniquePersonnelList.put(personnelCostElement, new ArrayList<BudgetPersonnelDetails>());
+                }
+                
+                for (BudgetPeriod budgetPeriod: budgetDocument.getBudgetPeriods()) {
+                    QueryList lineItemQueryList = new QueryList();
+                    lineItemQueryList.addAll(budgetPeriod.getBudgetLineItems());
+                    Equals objectCodeEquals = new Equals("costElement", personnelCostElement.getCostElement());
+                    QueryList<BudgetLineItem> filteredLineItems = lineItemQueryList.filter(objectCodeEquals);
+                    QueryList personnelQueryList = new QueryList();
+                    
+                    //Loop thru the matching Line Items to gather personnel info
+                    for(BudgetLineItem matchingLineItem : filteredLineItems) {
+                        personnelQueryList.addAll(matchingLineItem.getBudgetPersonnelDetailsList());
+                    }
+                   
+                    int matchingLineItemIndex = 0;
+                    for(BudgetLineItem matchingLineItem : filteredLineItems) {
+                        for(BudgetPersonnelDetails budgetPersonnelDetails : matchingLineItem.getBudgetPersonnelDetailsList()) {
+                            budgetPersonnelDetails.refreshReferenceObject("budgetPerson");
+                            Equals personIdEquals = new Equals("personId", budgetPersonnelDetails.getPersonId());
+                            QueryList personOccurrencesForSameObjectCode = personnelQueryList.filter(personIdEquals);
+                            
+                            //Calculate the Salary Totals for each Person
+                            BudgetDecimal personSalaryTotalsForCurrentPeriod = personOccurrencesForSameObjectCode.sumObjects("salaryRequested");
+                            
+                            if (!objectCodePersonnelSalaryTotals.containsKey(matchingLineItem.getCostElement()+","+budgetPersonnelDetails.getPersonId())) {
+                                objectCodeUniquePersonnelList.get(matchingLineItem.getCostElementBO()).add(budgetPersonnelDetails);
+                                // set up for all periods and put into map
+                                List <BudgetDecimal> periodTotals = new ArrayList<BudgetDecimal>();
+                                for (int i = 0; i < budgetDocument.getBudgetPeriods().size(); i++) {
+                                    periodTotals.add(i,BudgetDecimal.ZERO);
+                                }
+                                objectCodePersonnelSalaryTotals.put(matchingLineItem.getCostElement()+","+budgetPersonnelDetails.getPersonId(), periodTotals);
+                            }
+                            //Setting the total lines here - so that they'll be set just once for a unique person within an Object Code
+                            objectCodePersonnelSalaryTotals.get(matchingLineItem.getCostElement()+","+budgetPersonnelDetails.getPersonId()).set(budgetPeriod.getBudgetPeriod() - 1, personSalaryTotalsForCurrentPeriod);
+                            //subTotalsBySubSection.get("personnelSalaryTotals").set(budgetPeriod.getBudgetPeriod() - 1, ((BudgetDecimal) (subTotalsBySubSection.get("personnelSalaryTotals").get(budgetPeriod.getBudgetPeriod() - 1))).add(personSalaryTotalsForCurrentPeriod));
+                            if (objectCodePersonnelSalaryTotalsByPeriod.add(budgetPeriod.getBudgetPeriod().toString() + ","+ matchingLineItem.getCostElement()+","+budgetPersonnelDetails.getPersonId())) {
+                                subTotalsBySubSection.get("personnelSalaryTotals").set(budgetPeriod.getBudgetPeriod() - 1, ((BudgetDecimal) (subTotalsBySubSection.get("personnelSalaryTotals").get(budgetPeriod.getBudgetPeriod() - 1))).add(personSalaryTotalsForCurrentPeriod));
+                            }
+                            
+                            //Calculate the Fringe Totals for each Person
+                            BudgetDecimal personFringeTotalsForCurrentPeriod = BudgetDecimal.ZERO;
+                            if (!objectCodePersonnelFringeTotals.containsKey(matchingLineItem.getCostElement()+","+budgetPersonnelDetails.getPersonId())) {
+                                // set up for all periods and put into map
+                                List <BudgetDecimal> periodFringeTotals = new ArrayList<BudgetDecimal>();
+                                for (int i = 0; i < budgetDocument.getBudgetPeriods().size(); i++) {
+                                    periodFringeTotals.add(i,BudgetDecimal.ZERO);
+                                }
+                                objectCodePersonnelFringeTotals.put(matchingLineItem.getCostElement()+","+budgetPersonnelDetails.getPersonId(), periodFringeTotals); 
+                            }   
+                            
+                            //Calculate the Fringe Totals for that Person (cumulative fringe for all occurrences of the person)
+                            for(Object person : personOccurrencesForSameObjectCode) {
+                                BudgetPersonnelDetails personOccurrence = (BudgetPersonnelDetails) person;
+                                for(BudgetPersonnelCalculatedAmount calcExpenseAmount : personOccurrence.getBudgetPersonnelCalculatedAmounts()) {
+                                    calcExpenseAmount.refreshReferenceObject("rateClass");
+                                    //Check for Employee Benefits RateClassType
+                                    if(calcExpenseAmount.getRateClass().getRateClassType().equalsIgnoreCase("E")) {
+                                        personFringeTotalsForCurrentPeriod = personFringeTotalsForCurrentPeriod.add(calcExpenseAmount.getCalculatedCost());
+                                    }
+                                }
+                            }
+                            objectCodePersonnelFringeTotals.get(matchingLineItem.getCostElement()+","+budgetPersonnelDetails.getPersonId()).set(budgetPeriod.getBudgetPeriod() - 1, personFringeTotalsForCurrentPeriod);
+                            //subTotalsBySubSection.get("personnelFringeTotals").set(budgetPeriod.getBudgetPeriod() - 1, ((BudgetDecimal) (subTotalsBySubSection.get("personnelFringeTotals").get(budgetPeriod.getBudgetPeriod() - 1))).add(personFringeTotalsForCurrentPeriod));
+                            
+                            if (objectCodePersonnelFringeTotalsByPeriod.add(budgetPeriod.getBudgetPeriod().toString() + ","+ matchingLineItem.getCostElement()+","+budgetPersonnelDetails.getPersonId())) {
+                                subTotalsBySubSection.get("personnelFringeTotals").set(budgetPeriod.getBudgetPeriod() - 1, ((BudgetDecimal) (subTotalsBySubSection.get("personnelFringeTotals").get(budgetPeriod.getBudgetPeriod() - 1))).add(personFringeTotalsForCurrentPeriod));
+                            }
+                        } 
+                        
+                        //Need to handle the Summary Items - if any
+                        if(CollectionUtils.isEmpty(matchingLineItem.getBudgetPersonnelDetailsList())) {
+                            //Include Summary Item Salary (Line Item Cost)
+                            if (!objectCodePersonnelSalaryTotals.containsKey(matchingLineItem.getCostElement())) {
+                                // set up for all periods and put into map
+                                List <BudgetDecimal> periodTotals = new ArrayList<BudgetDecimal>();
+                                for (int i = 0; i < budgetDocument.getBudgetPeriods().size(); i++) {
+                                    periodTotals.add(i,BudgetDecimal.ZERO);
+                                }
+                                objectCodePersonnelSalaryTotals.put(matchingLineItem.getCostElement(), periodTotals);
+                            }
+                            objectCodePersonnelSalaryTotals.get(matchingLineItem.getCostElement()).set(budgetPeriod.getBudgetPeriod() - 1, ((BudgetDecimal) objectCodePersonnelSalaryTotals.get(matchingLineItem.getCostElement()).get(budgetPeriod.getBudgetPeriod() - 1)).add(matchingLineItem.getLineItemCost()));
+                            
+                            //Include Summary Item Fringe Amt
+                            BudgetDecimal summaryFringeTotalsForCurrentPeriod = BudgetDecimal.ZERO;
+                            if (!objectCodePersonnelFringeTotals.containsKey(matchingLineItem.getCostElement())) {
+                                // set up for all periods and put into map
+                                List <BudgetDecimal> periodFringeTotals = new ArrayList<BudgetDecimal>();
+                                for (int i = 0; i < budgetDocument.getBudgetPeriods().size(); i++) {
+                                    periodFringeTotals.add(i,BudgetDecimal.ZERO);
+                                }
+                                objectCodePersonnelFringeTotals.put(matchingLineItem.getCostElement(), periodFringeTotals); 
+                            }
+                            
+                            for(BudgetLineItemCalculatedAmount lineItemCalculatedAmount : matchingLineItem.getBudgetLineItemCalculatedAmounts()) {
+                                lineItemCalculatedAmount.refreshReferenceObject("rateClass");
+                                //Check for Employee Benefits RateClassType
+                                if(lineItemCalculatedAmount.getRateClass().getRateClassType().equalsIgnoreCase("E")) {
+                                    summaryFringeTotalsForCurrentPeriod = summaryFringeTotalsForCurrentPeriod.add(lineItemCalculatedAmount.getCalculatedCost());
+                                }
+                            }
+                            objectCodePersonnelFringeTotals.get(matchingLineItem.getCostElement()).set(budgetPeriod.getBudgetPeriod() - 1, ((BudgetDecimal) objectCodePersonnelFringeTotals.get(matchingLineItem.getCostElement()).get(budgetPeriod.getBudgetPeriod() - 1)).add(summaryFringeTotalsForCurrentPeriod));
+
+                            if(matchingLineItemIndex == filteredLineItems.size()-1) { 
+                                 subTotalsBySubSection.get("personnelSalaryTotals").set(budgetPeriod.getBudgetPeriod() - 1, ((BudgetDecimal) (subTotalsBySubSection.get("personnelSalaryTotals").get(budgetPeriod.getBudgetPeriod() - 1))).add((BudgetDecimal) (objectCodePersonnelSalaryTotals.get(matchingLineItem.getCostElement()).get(budgetPeriod.getBudgetPeriod()-1))));
+                                 subTotalsBySubSection.get("personnelFringeTotals").set(budgetPeriod.getBudgetPeriod() - 1, ((BudgetDecimal) (subTotalsBySubSection.get("personnelFringeTotals").get(budgetPeriod.getBudgetPeriod() - 1))).add((BudgetDecimal) (objectCodePersonnelFringeTotals.get(matchingLineItem.getCostElement()).get(budgetPeriod.getBudgetPeriod()-1))));
+                            }
+                        }
+                        
+                        matchingLineItemIndex++;
+                    }
+                
+                } //Budget Period Looping Ends here
+            } //Personnel Object Code Looping Ends here
+        }
+        
+        budgetDocument.setBudgetSummaryTotals(subTotalsBySubSection);
+        personnelCalculatedExpenseTotals = calculateExpenseTotals(budgetDocument, true);
+        nonPersonnelCalculatedExpenseTotals = calculateExpenseTotals(budgetDocument, false);
+        
+        budgetDocument.setObjectCodeListByBudgetCategoryType(objectCodeListByBudgetCategoryType);
+        //budgetDocument.setObjectCodePersonnelList(objectCodePersonnelList);
+        budgetDocument.setObjectCodePersonnelList(objectCodeUniquePersonnelList);
+        budgetDocument.setObjectCodePersonnelSalaryTotals(objectCodePersonnelSalaryTotals);
+        budgetDocument.setObjectCodePersonnelFringeTotals(objectCodePersonnelFringeTotals);
+        budgetDocument.setPersonnelCalculatedExpenseTotals(personnelCalculatedExpenseTotals);
+        budgetDocument.setNonPersonnelCalculatedExpenseTotals(nonPersonnelCalculatedExpenseTotals);
+        calculateNonPersonnelSummaryTotals(budgetDocument);
+    }  
+    
+    private void calculateNonPersonnelSummaryTotals(BudgetDocument budgetDocument) {
+        for(BudgetCategoryType budgetCategoryType : budgetDocument.getObjectCodeListByBudgetCategoryType().keySet()) {
+            if(!StringUtils.equals(budgetCategoryType.getBudgetCategoryTypeCode(), "P")) {
+                List <BudgetDecimal> nonPersonnelTotals = new ArrayList<BudgetDecimal>();
+                for (int i = 0; i < budgetDocument.getBudgetPeriods().size(); i++) {
+                    nonPersonnelTotals.add(i,BudgetDecimal.ZERO);
+                }
+                budgetDocument.getBudgetSummaryTotals().put(budgetCategoryType.getBudgetCategoryTypeCode(), nonPersonnelTotals);
+                
+                List<CostElement> objectCodes = budgetDocument.getObjectCodeListByBudgetCategoryType().get(budgetCategoryType);
+                for(CostElement objectCode : objectCodes) {
+                    List<BudgetDecimal> objectCodePeriodTotals = budgetDocument.getObjectCodeTotals().get(objectCode);
+                    for(BudgetPeriod budgetPeriod : budgetDocument.getBudgetPeriods()) {
+                        budgetDocument.getBudgetSummaryTotals().get(budgetCategoryType.getBudgetCategoryTypeCode()).set(budgetPeriod.getBudgetPeriod() - 1, ((BudgetDecimal) (budgetDocument.getBudgetSummaryTotals().get(budgetCategoryType.getBudgetCategoryTypeCode()).get(budgetPeriod.getBudgetPeriod() - 1))).add(objectCodePeriodTotals.get(budgetPeriod.getBudgetPeriod() - 1)));
+                    }
+                }
+            }
+        }
+    }
+    
+    private List<CostElement> filterObjectCodesByBudgetCategoryType(Set<CostElement> objectCodes, String budgetCategoryType) {
+        List<CostElement> filteredObjectCodes = new ArrayList<CostElement>();
+        for(CostElement costElement : objectCodes) {
+            if(costElement.getBudgetCategory().getBudgetCategoryTypeCode().equalsIgnoreCase(budgetCategoryType)) {
+                filteredObjectCodes.add(costElement);
+            }
+        }
+        
+        return filteredObjectCodes;
+    }
+    
+    private SortedMap<RateType, List> calculateExpenseTotals(BudgetDocument budgetDocument, boolean personnelFlag){
+        SortedMap<RateType, List> calculatedExpenseTotals = new TreeMap <RateType, List> ();
+        
+        List <BudgetDecimal> calculatedDirectCostSummaryTotals = new ArrayList<BudgetDecimal>();
+        for (int i = 0; i < budgetDocument.getBudgetPeriods().size(); i++) {
+            calculatedDirectCostSummaryTotals.add(i,BudgetDecimal.ZERO);
+        }
+        String totalsMapKey = null;
+        if(personnelFlag) {
+            totalsMapKey = "personnelCalculatedExpenseSummaryTotals";
+        } else {
+            totalsMapKey = "nonPersonnelCalculatedExpenseSummaryTotals"; 
+        }
+        budgetDocument.getBudgetSummaryTotals().put(totalsMapKey, calculatedDirectCostSummaryTotals);
+        
+        for (BudgetPeriod budgetPeriod: budgetDocument.getBudgetPeriods()) {
+            for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
+                if((personnelFlag && StringUtils.equals(budgetLineItem.getCostElementBO().getBudgetCategory().getBudgetCategoryTypeCode(), "P")) ||  
+                        (!personnelFlag && !StringUtils.equals(budgetLineItem.getCostElementBO().getBudgetCategory().getBudgetCategoryTypeCode(), "P"))  ) {
+                    // get calculated expenses                        
+                    QueryList lineItemCalcAmtQueryList = new QueryList();
+                    lineItemCalcAmtQueryList.addAll(budgetLineItem.getBudgetLineItemCalculatedAmounts());
+                    List <RateType> rateTypes = new ArrayList<RateType>();
+    
+                    for ( Object item : budgetLineItem.getBudgetLineItemCalculatedAmounts()) {
+                        BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount = (BudgetLineItemCalculatedAmount) item;
+                        if (budgetLineItemCalculatedAmount.getRateType() == null) {
+                            budgetLineItemCalculatedAmount.refreshReferenceObject("rateType");
+                        }
+                        if (budgetLineItemCalculatedAmount.getRateType() != null && budgetLineItemCalculatedAmount.getRateType().getRateClass() == null) {
+                            budgetLineItemCalculatedAmount.getRateType().refreshReferenceObject("rateClass");
+                        }
+                        RateType rateType = budgetLineItemCalculatedAmount.getRateType();
+                        RateClass rateClass = null;
+                        if(rateType != null) {
+                            budgetLineItemCalculatedAmount.getRateType().refreshReferenceObject("rateClass");
+                            rateClass = budgetLineItemCalculatedAmount.getRateType().getRateClass();
+                        }
+                        
+                        if (((personnelFlag && rateClass != null && !StringUtils.equals(rateClass.getRateClassType(), "E")) || !personnelFlag) && !rateTypes.contains(rateType)) {
+                            rateTypes.add(rateType);
+                            Equals equalsRC = new Equals("rateClassCode", budgetLineItemCalculatedAmount.getRateClassCode());
+                            Equals equalsRT = new Equals("rateTypeCode", budgetLineItemCalculatedAmount.getRateTypeCode());
+                            And RCandRT = new And(equalsRC, equalsRT);
+                            BudgetDecimal rateTypeTotalInThisPeriod = lineItemCalcAmtQueryList.sumObjects("calculatedCost", RCandRT);
+                            if (!calculatedExpenseTotals.containsKey(rateType)) {
+                                List <BudgetDecimal> rateTypePeriodTotals = new ArrayList<BudgetDecimal>();
+                                for (int i = 0; i < budgetDocument.getBudgetPeriods().size(); i++) {
+                                    rateTypePeriodTotals.add(i,BudgetDecimal.ZERO);
+                                }
+                                calculatedExpenseTotals.put(budgetLineItemCalculatedAmount.getRateType(), rateTypePeriodTotals);
+                            }
+                            calculatedExpenseTotals.get(rateType).set(budgetPeriod.getBudgetPeriod() - 1,((BudgetDecimal)calculatedExpenseTotals.get(rateType).get(budgetPeriod.getBudgetPeriod() - 1)).add(rateTypeTotalInThisPeriod));
+                            
+                            if(!StringUtils.equals(rateClass.getRateClassType(), "O")) {
+                                budgetDocument.getBudgetSummaryTotals().get(totalsMapKey).set(budgetPeriod.getBudgetPeriod() - 1, ((BudgetDecimal) (budgetDocument.getBudgetSummaryTotals().get(totalsMapKey).get(budgetPeriod.getBudgetPeriod() - 1))).add(rateTypeTotalInThisPeriod));
+                            }
+                            
+                            budgetPeriod.setExpenseTotal(budgetPeriod.getExpenseTotal().add(rateTypeTotalInThisPeriod));
+                       }
+                    }
+                }
+
+            }
+        }
+        
+        return calculatedExpenseTotals;
+    }
+
     /**
      * 
      * @see org.kuali.kra.budget.service.BudgetCalculationService#calculateBudgetTotals(org.kuali.kra.budget.document.BudgetDocument)
@@ -381,16 +671,36 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         new PersonnelLineItemCalculator(budgetDocument,newBudgetPersonnelDetails).setCalculatedAmounts(budgetDocument, newBudgetPersonnelDetails);
     }
 
+//    public void updatePersonnelBudgetRate(BudgetLineItem budgetLineItem){
+//        for(BudgetPersonnelDetails budgetPersonnelDetails: budgetLineItem.getBudgetPersonnelDetailsList()){
+//            List<BudgetPersonnelCalculatedAmount> personnelCalculatedAmounts = budgetPersonnelDetails.getBudgetPersonnelCalculatedAmounts();
+//            List<BudgetLineItemCalculatedAmount> lineItemCalculatedAmounts = budgetLineItem.getBudgetLineItemCalculatedAmounts();
+//
+//            int minSize = Math.min(lineItemCalculatedAmounts.size(), personnelCalculatedAmounts.size());
+//
+//            for (int j = 0; j < minSize; j++) {
+//                personnelCalculatedAmounts.get(j).setApplyRateFlag(budgetLineItem.getBudgetLineItemCalculatedAmounts().get(j).getApplyRateFlag());                        
+//            }
+//        }
+//    }
+    
     public void updatePersonnelBudgetRate(BudgetLineItem budgetLineItem){
+        int j = 0;
         for(BudgetPersonnelDetails budgetPersonnelDetails: budgetLineItem.getBudgetPersonnelDetailsList()){
-            List<BudgetPersonnelCalculatedAmount> personnelCalculatedAmounts = budgetPersonnelDetails.getBudgetPersonnelCalculatedAmounts();
-            List<BudgetLineItemCalculatedAmount> lineItemCalculatedAmounts = budgetLineItem.getBudgetLineItemCalculatedAmounts();
-
-            int minSize = Math.min(lineItemCalculatedAmounts.size(), personnelCalculatedAmounts.size());
-
-            for (int j = 0; j < minSize; j++) {
-                personnelCalculatedAmounts.get(j).setApplyRateFlag(budgetLineItem.getBudgetLineItemCalculatedAmounts().get(j).getApplyRateFlag());                        
+            j=0;
+            for(BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount:budgetPersonnelDetails.getBudgetPersonnelCalculatedAmounts()){
+                Boolean updatedApplyRateFlag = null;
+                
+                for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmout : budgetLineItem.getBudgetLineItemCalculatedAmounts()) {
+                    if(budgetLineItemCalculatedAmout.getRateClassCode().equalsIgnoreCase(budgetPersonnelCalculatedAmount.getRateClassCode()) && 
+                            budgetLineItemCalculatedAmout.getRateTypeCode().equalsIgnoreCase(budgetPersonnelCalculatedAmount.getRateTypeCode())) {
+                        updatedApplyRateFlag = budgetLineItemCalculatedAmout.getApplyRateFlag();
+                    }
+                }
+                budgetPersonnelCalculatedAmount.setApplyRateFlag(updatedApplyRateFlag);                        
+                j++;
             }
         }
     }
+
 }

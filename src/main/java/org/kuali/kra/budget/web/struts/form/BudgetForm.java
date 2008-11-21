@@ -57,7 +57,7 @@ public class BudgetForm extends ProposalFormBase {
     private static final String RETURN_TO_PROPOSAL_ALT_TEXT = "return to proposal";
 
     private static final String KRA_EXTERNALIZABLE_IMAGES_URI_KEY = "kra.externalizable.images.url";
-
+    private static final String KR_EXTERNALIZABLE_IMAGES_URI_KEY = "kr.externalizable.images.url";
     private static final String RETURN_TO_PROPOSAL_METHOD_TO_CALL = "methodToCall.returnToProposal";
 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetForm.class);
@@ -67,7 +67,8 @@ public class BudgetForm extends ProposalFormBase {
     private String newTbnPersons;
     
     private BudgetPeriod newBudgetPeriod;
-    private List<BudgetLineItem> newBudgetLineItems;    
+    private List<BudgetLineItem> newBudgetLineItems;   
+    private BudgetLineItem newPersonnelLineItem;   
     private Integer newBudgetPeriodNumber = 0;    
     
 	private BudgetCostShare newBudgetCostShare;
@@ -106,6 +107,8 @@ public class BudgetForm extends ProposalFormBase {
     private BudgetSubAwards newSubAward;
     private Integer personnelDetailLine;
     private FormFile subAwardFile;
+    
+    private String newGroupName;
     
     public String getOhRateClassCodePrevValue() {
         return ohRateClassCodePrevValue;
@@ -159,7 +162,8 @@ public class BudgetForm extends ProposalFormBase {
         newBudgetProjectIncome = new BudgetProjectIncome();
         newBudgetCostShare = new BudgetCostShare();
         newBudgetUnrecoveredFandA = new BudgetUnrecoveredFandA();            
-        newBudgetLineItems = new ArrayList<BudgetLineItem>();        
+        newBudgetLineItems = new ArrayList<BudgetLineItem>();
+        newPersonnelLineItem = new BudgetLineItem();          
         setDocumentNextValueRefresh(true);
         budgetJustificationWrapper = new BudgetJustificationWrapper(getBudgetDocument().getBudgetJustification());
         newSubAward = new BudgetSubAwards();
@@ -221,9 +225,9 @@ public class BudgetForm extends ProposalFormBase {
         extraButtons.clear();
         String externalImageURL = KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
         String calculateCurrentPeriodImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_calculateCurrent2.gif"; 
-        String viewPersonnelSalariesImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_viewpersal.gif"; 
+        //String viewPersonnelSalariesImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_viewpersal.gif"; 
         addExtraButton("methodToCall.calculateCurrentPeriod", calculateCurrentPeriodImage, "Calculate Current Period");
-        addExtraButton("methodToCall.viewPersonnelSalaries",viewPersonnelSalariesImage, "View Personnel Salaries");
+        //addExtraButton("methodToCall.viewPersonnelSalaries",viewPersonnelSalariesImage, "View Personnel Salaries");
         
         return extraButtons;
     }
@@ -240,6 +244,45 @@ public class BudgetForm extends ProposalFormBase {
         return extraButtons;
     }
 
+    public List<ExtraButton> getExtraPersonnelButtons() {
+        // clear out the extra buttons array
+        extraButtons.clear();
+        String externalImageURL = KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
+        
+//        String syncToProposalImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_synctoprop.gif"; 
+//        addExtraButton("methodToCall.synchToProposal", syncToProposalImage, "Synch to Proposal");
+        String calculateCurrentPeriodImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_calculateCurrent2.gif"; 
+        addExtraButton("methodToCall.calculateCurrentPeriod", calculateCurrentPeriodImage, "Calculate Current Period");
+        String viewPersonnelSalariesImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_viewpersal.gif"; 
+        addExtraButton("methodToCall.viewPersonnelSalaries",viewPersonnelSalariesImage, "View Personnel Salaries");
+        
+        return extraButtons;
+    }
+
+
+    public List<ExtraButton> getExtraTotalsTopButtons() {
+        extraTopButtons.clear();
+        extraTopButtons.add(configureReturnToProposalTopButton()); 
+        
+        ExtraButton customExpandAllButton = new ExtraButton();
+        String expandAllImage = lookupKualiConfigurationService().getPropertyString(KR_EXTERNALIZABLE_IMAGES_URI_KEY) + "tinybutton-expandall.gif"; 
+        customExpandAllButton.setExtraButtonProperty("methodToCall.showAllTabs");
+        customExpandAllButton.setExtraButtonSource(expandAllImage);
+        customExpandAllButton.setExtraButtonAltText("show all panel content");
+        customExpandAllButton.setExtraButtonOnclick("javascript: showAllPanels(); return false;");
+        
+        ExtraButton customCollapseAllButton = new ExtraButton();
+        String hideAllImage = lookupKualiConfigurationService().getPropertyString(KR_EXTERNALIZABLE_IMAGES_URI_KEY) + "tinybutton-collapseall.gif"; 
+        customCollapseAllButton.setExtraButtonProperty("methodToCall.hideAllTabs");
+        customCollapseAllButton.setExtraButtonSource(hideAllImage);
+        customCollapseAllButton.setExtraButtonAltText("hide all panel content");
+        customCollapseAllButton.setExtraButtonOnclick("javascript: expandAll('false', false); return false");
+        
+        extraTopButtons.add(customExpandAllButton);
+        extraTopButtons.add(customCollapseAllButton);
+        return extraTopButtons;
+    }
+    
     /**
      * This is a utility method to add a new button to the extra buttons
      * collection.
@@ -677,4 +720,21 @@ public class BudgetForm extends ProposalFormBase {
     public void setSaveAfterCopy(boolean val) {
         saveAfterCopy = val;
     }
+
+    public BudgetLineItem getNewPersonnelLineItem() {
+        return newPersonnelLineItem;
+    }
+
+    public void setNewPersonnelLineItem(BudgetLineItem newPersonnelLineItem) {
+        this.newPersonnelLineItem = newPersonnelLineItem;
+    }
+
+    public String getNewGroupName() {
+        return newGroupName;
+    }
+
+    public void setNewGroupName(String newGroupName) {
+        this.newGroupName = newGroupName;
+    }
+    
 }

@@ -15,8 +15,10 @@
  */
 package org.kuali.kra.budget.service;
 
+import java.util.List;
 import org.kuali.kra.budget.bo.BudgetLineItemBase;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
+import org.kuali.kra.budget.bo.ValidCeJobCode;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
@@ -66,5 +68,48 @@ public interface BudgetService {
     
     public String getActivityTypeForBudget(BudgetDocument budgetDocument);
     
+    /**
+     * This method returns the applicable Object Codes (Cost Elements) for a given Budget Person 
+     * based on his Job Code
+     * @param proposalNumber
+     * @param budgetVersionNumber
+     * @param personSequenceNumber
+     * @return List of Cost Elements
+     * @throws Exception
+     */
+    public List<ValidCeJobCode> getApplicableCostElements(String proposalNumber, String budgetVersionNumber, String personSequenceNumber) throws Exception ;
+    
+    /**
+     * 
+     * This method returns the applicable Object Codes (Cost Elements) for a given Budget Person, converted to string separated by ",".
+     * @param proposalNumber
+     * @param budgetVersionNumber
+     * @param personSequenceNumber
+     * @return List of Cost Elements
+     * @throws Exception
+     */
+    public String getApplicableCostElementsForAjaxCall(String proposalNumber, String budgetVersionNumber, String personSequenceNumber, String budgetCategoryTypeCode) throws Exception ;
+
+    /**
+     * This method returns the existing Personnel Line Item Group Names 
+     * based on his Job Code
+     * @param proposalNumber
+     * @param budgetVersionNumber
+     * @param budgetPeriod
+     * @return List of existing Group Names
+     * @throws Exception
+     */
+    public List<String> getExistingGroupNames(String proposalNumber, String budgetVersionNumber, String budgetPeriod) throws Exception ;
+    
+    /**
+     * 
+     * This method returns the existing Personnel Line Item Group Names , converted to string separated by ",".
+     * @param proposalNumber
+     * @param budgetVersionNumber
+     * @param budgetPeriod
+     * @return List of existing Group Names
+     * @throws Exception
+     */
+    public String getExistingGroupNamesForAjaxCall(String proposalNumber, String budgetVersionNumber, String budgetPeriod) throws Exception ;
 
 }

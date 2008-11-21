@@ -16,6 +16,7 @@
 package org.kuali.kra.budget.service;
 
 import org.kuali.kra.budget.bo.BudgetLineItem;
+import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -24,7 +25,7 @@ import org.kuali.kra.budget.document.BudgetDocument;
  * This class...
  */
 public interface BudgetPersonnelBudgetService {
-    public void addBudgetPersonnelDetails(BudgetDocument budgetDocument,int selectedBudgetLineItem, int selectedBudgetLineItemIndex, BudgetPersonnelDetails newBudegtPersonnelDetails);
+    public void addBudgetPersonnelDetails(BudgetDocument budgetDocument, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem, BudgetPersonnelDetails newBudegtPersonnelDetails);
     public void calculateBudgetPersonnelBudget(BudgetDocument budgetDocument, BudgetLineItem selectedBudgetLineItem,
             BudgetPersonnelDetails budgetPersonnelDetails,  int lineNumber);
     public void deleteBudgetPersonnelDetails(BudgetDocument budgetDocument, int selectedBudgetPeriodIndex,

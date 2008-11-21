@@ -611,9 +611,9 @@
              <pageHelp parameterNamespace="KRA-PD" parameterDetailType="D" parameterName="proposalDevelopmentProposalHelp"/> 
           </headerNavigationTab>
           <headerNavigationTab>
-          	<navigateTo>budgetVersions</navigateTo>
-          	<displayName>Budget Versions</displayName>
-             <pageHelp parameterNamespace="KRA-B" parameterDetailType="D" parameterName="budgetVersionsHelp"/> 
+            <navigateTo>grantsGov</navigateTo>
+            <displayName>Grants.gov</displayName>
+             <pageHelp parameterNamespace="KRA-PD" parameterDetailType="D" parameterName="proposalDevelopmentGrantsGovHelp"/> 
           </headerNavigationTab>
           <headerNavigationTab>
             <navigateTo>keyPersonnel</navigateTo>
@@ -631,24 +631,24 @@
              <pageHelp parameterNamespace="KRA-PD" parameterDetailType="D" parameterName="proposalDevelopmentCustomDataHelp"/> 
           </headerNavigationTab>
           <headerNavigationTab>
-            <navigateTo>questions</navigateTo>
-            <displayName>Questions</displayName>
-             <pageHelp parameterNamespace="KRA-PD" parameterDetailType="D" parameterName="proposalDevelopmentQuestionsHelp"/> 
-          </headerNavigationTab>
-          <headerNavigationTab>
-            <navigateTo>permissions</navigateTo>
-            <displayName>Permissions</displayName>
-             <pageHelp parameterNamespace="KRA-PD" parameterDetailType="D" parameterName="proposalDevelopmentPermissionsHelp"/> 
-          </headerNavigationTab>
-          <headerNavigationTab>
             <navigateTo>abstractsAttachments</navigateTo>
             <displayName>Abstracts and Attachments </displayName>
              <pageHelp parameterNamespace="KRA-PD" parameterDetailType="D" parameterName="proposalDevelopmentAbstractsAttachmentsHelp"/> 
           </headerNavigationTab>
           <headerNavigationTab>
-            <navigateTo>grantsGov</navigateTo>
-            <displayName>Grants.gov</displayName>
-             <pageHelp parameterNamespace="KRA-PD" parameterDetailType="D" parameterName="proposalDevelopmentGrantsGovHelp"/> 
+            <navigateTo>questions</navigateTo>
+            <displayName>Questions</displayName>
+             <pageHelp parameterNamespace="KRA-PD" parameterDetailType="D" parameterName="proposalDevelopmentQuestionsHelp"/> 
+          </headerNavigationTab>
+          <headerNavigationTab>
+          	<navigateTo>budgetVersions</navigateTo>
+          	<displayName>Budget Versions</displayName>
+             <pageHelp parameterNamespace="KRA-PD" parameterDetailType="D" parameterName="proposalDevelopmentBudgetVersionsHelp"/> 
+          </headerNavigationTab>
+          <headerNavigationTab>
+            <navigateTo>permissions</navigateTo>
+            <displayName>Permissions</displayName>
+             <pageHelp parameterNamespace="KRA-PD" parameterDetailType="D" parameterName="proposalDevelopmentPermissionsHelp"/> 
           </headerNavigationTab>
           <headerNavigationTab>
             <navigateTo>actions</navigateTo>

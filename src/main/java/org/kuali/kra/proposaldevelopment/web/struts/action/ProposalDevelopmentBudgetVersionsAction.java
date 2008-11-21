@@ -132,7 +132,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
             }
             String forward = buildForwardUrl(routeHeaderId);
             if (pdForm.isAuditActivated()) {
-                forward = StringUtils.replace(forward, "budgetSummary.do?", "budgetSummary.do?auditActivated=true&");
+                forward = StringUtils.replace(forward, "budgetParameters.do?", "budgetParameters.do?auditActivated=true&");
             }
             return new ActionForward(forward, true);
         }
@@ -157,10 +157,10 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         String forward = buildForwardUrl(routeHeaderId);
         if (confirm) {
             budgetDocument.setActivityTypeCode(budgetDocument.getProposal().getActivityTypeCode());
-            forward = StringUtils.replace(forward, "budgetSummary.do?", "budgetSummary.do?syncBudgetRate=Y&");
+            forward = StringUtils.replace(forward, "budgetParameters.do?", "budgetParameters.do?syncBudgetRate=Y&");
         }
         if (pdForm.isAuditActivated()) {
-            forward = StringUtils.replace(forward, "budgetSummary.do?", "budgetSummary.do?auditActivated=true&");
+            forward = StringUtils.replace(forward, "budgetParameters.do?", "budgetParameters.do?auditActivated=true&");
         }
         return new ActionForward(forward, true);
     }

@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
@@ -69,7 +70,16 @@ public class BudgetExpenseRule {
                         errorMap.putError("document.budgetPeriod["+(currentBudgetLineItem.getBudgetPeriod()-1)+"].budgetLineItem["+selectedLineItem+"].costElement", KeyConstants.ERROR_APPLY_TO_LATER_PERIODS,budgetLineItemToBeApplied.getBudgetPeriod().toString());
                         return false;
                     }
+                } else if(StringUtils.equals(currentBudgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode(), PERSONNEL_CATEGORY)){
+                    //Additional Check for Personnel Source Line Item
+                    if(StringUtils.equals(currentBudgetLineItem.getCostElement(), budgetLineItemToBeApplied.getCostElement()) && 
+                            StringUtils.equals(currentBudgetLineItem.getGroupName(), budgetLineItemToBeApplied.getGroupName())) {
+                        errorMap.putError("document.budgetPeriod["+(currentBudgetLineItem.getBudgetPeriod()-1)+"].budgetLineItem["+selectedLineItem+"].costElement", KeyConstants.ERROR_PERSONNELLINEITEM_APPLY_TO_LATER_PERIODS,budgetLineItemToBeApplied.getBudgetPeriod().toString());
+                        return false;
+                    }
+                   
                 }
+
             }
         }
         

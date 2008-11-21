@@ -204,7 +204,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
             }
         }
         if(budgetVersionsExists && !finalAndCompleteBudgetVersionFound){
-            auditErrors.add(new AuditError("document.budgetVersionOverview", KeyConstants.AUDIT_ERROR_NO_BUDGETVERSION_COMPLETE_AND_FINAL, Constants.BUDGET_VERSIONS_PAGE + "." + Constants.BUDGET_VERSIONS_PANEL_ANCHOR));
+            auditErrors.add(new AuditError("document.budgetVersionOverview", KeyConstants.AUDIT_ERROR_NO_BUDGETVERSION_COMPLETE_AND_FINAL, Constants.PD_BUDGET_VERSIONS_PAGE + "." + Constants.BUDGET_VERSIONS_PANEL_ANCHOR));
             valid &= false;
         }
         if (auditErrors.size() > 0) {

@@ -44,6 +44,7 @@ import org.kuali.kra.budget.calculator.query.LesserThan;
 import org.kuali.kra.budget.calculator.query.Or;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.KNSServiceLocator;
 
 /**
  * This class...
@@ -139,8 +140,35 @@ public class SalaryCalculator {
     private QueryList<BudgetPerson> filterBudgetPersons() {
         // TODO : this may have issues for tbn person.  Whose perid=null, and some of them has same jobcd
         QueryList<BudgetPerson> filteredPersons = new QueryList<BudgetPerson>();
-        if(budgetDocument.getBudgetPersons().isEmpty()) return filteredPersons;
-        QueryList<BudgetPerson> budgetPersons = new QueryList<BudgetPerson>(budgetDocument.getBudgetPersons());
+        List<BudgetPerson> savedBudgetPersons = new ArrayList<BudgetPerson>();
+        
+        BusinessObjectService businessObjectService = KNSServiceLocator.getBusinessObjectService();
+        Map queryMap = new HashMap();
+        queryMap.put("proposalNumber", budgetDocument.getProposalNumber());
+        queryMap.put("budgetVersionNumber", budgetDocument.getBudgetVersionNumber());
+        savedBudgetPersons = (List<BudgetPerson>) businessObjectService.findMatching(BudgetPerson.class, queryMap);
+        if(savedBudgetPersons.isEmpty()) return filteredPersons;
+
+        int i = 0;
+        boolean personInDocument = false;
+        List<BudgetPerson> documentBudgetPersons = new ArrayList<BudgetPerson>();
+        for(BudgetPerson savedPerson : savedBudgetPersons){
+            personInDocument = false;
+            for(BudgetPerson docPerson : budgetDocument.getBudgetPersons()){
+                if(savedPerson.getPersonSequenceNumber().intValue() == docPerson.getPersonSequenceNumber().intValue()) {
+                    documentBudgetPersons.add(i, docPerson);
+                    personInDocument = true;
+                }
+            }
+            
+            if(!personInDocument) { 
+                documentBudgetPersons.add(i, savedPerson);
+            }
+            i++;
+        }
+        
+        QueryList<BudgetPerson> budgetPersons = new QueryList<BudgetPerson>(documentBudgetPersons); 
+
         Equals ePersonSeqNumber = new Equals("personSequenceNumber", personnelLineItem.getPersonSequenceNumber());
         QueryList<BudgetPerson> fltdBudgetPersonList = budgetPersons.filter(ePersonSeqNumber);
         if(fltdBudgetPersonList.isEmpty()) return filteredPersons;

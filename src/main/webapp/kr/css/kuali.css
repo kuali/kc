@@ -134,6 +134,11 @@ input
 	float: right;
 }
 
+.text-right
+{
+	text-align: right;
+}
+
 .pagetitle
 {
 	width: 100%;
@@ -470,6 +475,19 @@ a.fineprint:hover
 	background-position: bottom;
 }
 
+#workarea td.darkInfoline
+{
+	border-left-color: #999999;
+	border-left-width: 1px;
+	border-left-style: solid;
+	background-image: url("../images/th-back1.gif");
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #3b3131;
+	padding: 2px;
+	background-position: bottom;
+}
+
 #workarea td.tabtable1-mid
 {
 	background-image: url("../images/tab-bevel2.gif");
@@ -705,6 +723,11 @@ img.helpicon
 }
 
 #workarea input.amount
+{
+	text-align: right;
+}
+
+#workarea input.number
 {
 	text-align: right;
 }
@@ -971,6 +994,45 @@ td.infoline
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
 	border-bottom-color: #999999;
+	padding: 2px;
+	background-position: bottom;
+}
+
+td.darkInfoline
+{
+	border-left-color: #999999;
+	border-left-width: 1px;
+	border-left-style: solid;
+	background-image: url("../images/th-back1.gif");
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #3b3131;
+	padding: 2px;
+	background-position: bottom;
+}
+
+th.darkInfoline
+{
+	border-left-color: #999999;
+	border-left-width: 1px;
+	border-left-style: solid;
+	background-image: url("../images/th-back1.gif");
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #3b3131;
+	padding: 2px;
+	background-position: bottom;
+}
+
+#workarea th.darkInfoline
+{
+	border-left-color: #999999;
+	border-left-width: 1px;
+	border-left-style: solid;
+	background-image: url("../images/th-back1.gif");
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #3b3131;
 	padding: 2px;
 	background-position: bottom;
 }

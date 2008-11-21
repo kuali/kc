@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
@@ -155,7 +156,18 @@ public class BudgetPeriodCalculator {
 
                     budgetCalculationService.calculateBudgetLineItem(budgetDocument, budgetLineItemToBeApplied);
                     prevBudgetLineItem = budgetLineItemToBeApplied;
+               } else if(StringUtils.equals(currentBudgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode(), KeyConstants.PERSONNEL_CATEGORY)){
+                    //Additional Check for Personnel Source Line Item
+                    if(StringUtils.equals(currentBudgetLineItem.getCostElement(), budgetLineItemToBeApplied.getCostElement()) && 
+                            StringUtils.equals(currentBudgetLineItem.getGroupName(), budgetLineItemToBeApplied.getGroupName())) {
+                        errorMessages.add("This line item contains personnel budget details"
+                                + " and there is already a line item on period " + budgetPeriod + " for this Object Code \\ Group combination. \n"
+                                + "Cannot apply the changes to later periods.");
+                        return;
+                    }
+                   
                 }
+
             }
             // new line item check
             int gap;
