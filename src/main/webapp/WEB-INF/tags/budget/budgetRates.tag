@@ -18,35 +18,6 @@
 <c:set var="budgetProposalRatesAttributes" value="${DataDictionary.BudgetProposalRate.attributes}" />
 <c:set var="action" value="budgetRates" />
 
-<kul:uncollapsable tabTitle="Select View">
-	<div align="center">
-    	<table  cellpadding="0" cellspacing="0" summary="">
-        	<tr>
-                <td>
-                	<div align="right">Location:
-                  		<kul:htmlControlAttribute readOnly="false" property="viewLocation" attributeEntry="${budgetProposalRatesAttributes.viewLocation}" styleClass="fixed-size-200-select"/>
-                	</div>
-                </td>
-                <td width="4%">
-                	&nbsp;
-                </td>
-                <!-- 
-                <td width="48%">
-                	<div align="right">Budget Period:
-                  		<kul:htmlControlAttribute readOnly="false" property="viewBudgetPeriod" attributeEntry="${budgetProposalRatesAttributes.budgetPeriod}" styleClass="fixed-size-200-select"/>
-					</div>                  
-                </td>
-                 -->
-            </tr>
-        </table>
-        <br>
-        <html:image property="methodToCall.updateRatesView" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-updateview.gif" title="Update View" alt="Update View" styleClass="tinybutton"/>
-    </div>
-</kul:uncollapsable>
-
-<br/>
-
-
 <div id="workarea">
 <c:forEach items="${KualiForm.document.rateClassTypes}" var="rates" varStatus="gps">
 <bean:define id="rateClass" name="KualiForm" property="document.rateClassTypes[${gps.index}].description"/>
