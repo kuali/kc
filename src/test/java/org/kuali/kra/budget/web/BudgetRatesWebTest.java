@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.budget.web;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 
@@ -27,9 +28,9 @@ public class BudgetRatesWebTest extends BudgetRatesWebTestBase {
     private static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
     private static final String SAVE_SUCCESS_MESSAGE = "Document was successfully saved";
 
-    private static final String SYNC_RATES_FnA_TAB = "methodToCall.syncRates.line0.anchor1";
-    private static final String RESET_RATES_FnA_TAB = "methodToCall.resetRates.line0.anchor1";
-    private static final String SYNC_RATES_OTHER_TAB = "methodToCall.syncRates.line6.anchor7";
+    private static final String SYNC_RATES_FnA_TAB = "methodToCall.syncRates.line0.anchor0";
+    private static final String RESET_RATES_FnA_TAB = "methodToCall.resetRates.line0.anchor0";
+    private static final String SYNC_RATES_OTHER_TAB = "methodToCall.syncRates.line6.anchor6";
     
     private static final String BUDGET_RATE_TYPE = "Administrative Salaries (7/1)";
     private static final String ON_CAMPUS_TEXT = "Yes";
@@ -127,6 +128,7 @@ public class BudgetRatesWebTest extends BudgetRatesWebTestBase {
      * 
      * @throws Exception
      */
+    @Ignore
     @Test
     public void testSelectView() throws Exception {
        
