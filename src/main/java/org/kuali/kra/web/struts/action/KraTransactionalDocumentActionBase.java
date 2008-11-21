@@ -68,7 +68,7 @@ import static org.kuali.kra.logging.BufferedLogger.*;
 public class KraTransactionalDocumentActionBase extends KualiTransactionalDocumentActionBase {
     
     private static final String DEFAULT_TAB = "budgetVersions";
-    private static final String ALTERNATE_OPEN_TAB = "budgetSummary";
+    private static final String ALTERNATE_OPEN_TAB = "budgetParameters";
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)

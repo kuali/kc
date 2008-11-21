@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
@@ -31,19 +32,24 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetLineItemBase;
+import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetModular;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.bo.BudgetProposalRate;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.bo.CostElement;
+import org.kuali.kra.budget.bo.ValidCeJobCode;
 import org.kuali.kra.budget.bo.ValidCeRateType;
 import org.kuali.kra.budget.calculator.QueryList;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.calculator.query.Equals;
 import org.kuali.kra.budget.calculator.query.QueryEngine;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.lookup.keyvalue.CostElementValuesFinder;
 import org.kuali.kra.budget.service.BudgetPersonService;
 import org.kuali.kra.budget.service.BudgetService;
 import org.kuali.kra.infrastructure.Constants;
@@ -320,6 +326,101 @@ public class BudgetServiceImpl implements BudgetService {
                 
         return "x";
         
+    }
+
+    public List<ValidCeJobCode> getApplicableCostElements(String proposalNumber, String budgetVersionNumber, String personSequenceNumber)
+        throws Exception {
+        List<ValidCeJobCode> validCostElements = null;
+        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
+
+        String jobCodeValidationEnabledInd = KraServiceLocator.getService(KualiConfigurationService.class).getParameter(
+                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT,
+                Constants.BUDGET_JOBCODE_VALIDATION_ENABLED).getParameterValue();
+        
+        if(StringUtils.isNotEmpty(jobCodeValidationEnabledInd) && jobCodeValidationEnabledInd.equals("Y")) { 
+            Map fieldValues = new HashMap();
+            fieldValues.put("proposalNumber", proposalNumber);
+            fieldValues.put("budgetVersionNumber", budgetVersionNumber);
+            fieldValues.put("personSequenceNumber", personSequenceNumber);
+            BudgetPerson budgetPerson = (BudgetPerson) boService.findByPrimaryKey(BudgetPerson.class, fieldValues);
+            
+            fieldValues.clear();
+            if(budgetPerson != null && StringUtils.isNotEmpty(budgetPerson.getJobCode())) {
+                fieldValues.put("jobCode", budgetPerson.getJobCode().toUpperCase());
+                validCostElements = (List<ValidCeJobCode>) boService.findMatching(ValidCeJobCode.class, fieldValues);
+            }
+        }
+        
+        return validCostElements;
+    }
+    
+    public String getApplicableCostElementsForAjaxCall(String proposalNumber, String budgetVersionNumber,
+        String personSequenceNumber, String budgetCategoryTypeCode) throws Exception {
+        
+        String resultStr = "";
+        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
+        List<ValidCeJobCode> validCostElements = getApplicableCostElements(proposalNumber, budgetVersionNumber, personSequenceNumber);
+        
+//        String jobCodeValidationEnabledInd = KraServiceLocator.getService(KualiConfigurationService.class).getParameter(
+//                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT,
+//                Constants.BUDGET_JOBCODE_VALIDATION_ENABLED).getParameterValue();
+//        
+//        if(StringUtils.isNotEmpty(jobCodeValidationEnabledInd) && jobCodeValidationEnabledInd.equals("Y")) { 
+//            validCostElements = getApplicableCostElements(proposalNumber, budgetVersionNumber, personSequenceNumber);
+//        }
+        
+        if(CollectionUtils.isNotEmpty(validCostElements)) {
+            for (ValidCeJobCode validCE : validCostElements) {
+                Map fieldValues = new HashMap();
+                fieldValues.put("costElement", validCE.getCostElement());
+                CostElement costElement = (CostElement) boService.findByPrimaryKey(CostElement.class, fieldValues);
+                resultStr += "," + validCE.getCostElement() + ";" + costElement.getDescription();
+            }
+            resultStr += ",ceLookup;false";
+        } else {
+            CostElementValuesFinder ceValuesFinder = new CostElementValuesFinder();
+            ceValuesFinder.setBudgetCategoryTypeCode(budgetCategoryTypeCode);
+            List<KeyLabelPair> allPersonnelCostElements = ceValuesFinder.getKeyValues();
+            for (KeyLabelPair keyLabelPair : allPersonnelCostElements) {
+                if(StringUtils.isNotEmpty(keyLabelPair.getKey().toString())) {
+                    resultStr += "," + keyLabelPair.getKey() + ";" + keyLabelPair.getLabel();
+                }
+            }
+            resultStr += ",ceLookup;true";
+        }
+        
+        return resultStr;
+    }
+
+    public List<String> getExistingGroupNames(String proposalNumber, String budgetVersionNumber, String budgetPeriod)
+            throws Exception {
+        List<String> groupNames = new ArrayList<String>();
+        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
+        Map fieldValues = new HashMap();
+        fieldValues.put("proposalNumber", proposalNumber);
+        fieldValues.put("budgetVersionNumber", budgetVersionNumber);
+        fieldValues.put("budgetPeriodId", budgetPeriod);
+        List<BudgetLineItem> budgetLineItems = (List<BudgetLineItem>) boService.findByPrimaryKey(BudgetLineItem.class, fieldValues);
+        
+        for(BudgetLineItem budgetLineItem: budgetLineItems) {
+            if(StringUtils.isNotEmpty(budgetLineItem.getGroupName())) {
+                groupNames.add(budgetLineItem.getGroupName());
+            }
+        }
+        
+        return groupNames;
+    }
+
+    public String getExistingGroupNamesForAjaxCall(String proposalNumber, String budgetVersionNumber, String budgetPeriod)
+            throws Exception {
+        List<String> groupNames = getExistingGroupNames(proposalNumber, budgetVersionNumber, budgetPeriod);
+        String resultStr = "";
+        
+        for (String groupName : groupNames) {
+            resultStr += "," + groupName;
+        }
+        
+        return resultStr;
     }
 
 }

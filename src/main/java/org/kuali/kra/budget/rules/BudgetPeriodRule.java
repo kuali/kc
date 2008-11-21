@@ -46,7 +46,7 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
     private static final Logger LOG = Logger.getLogger(BudgetPeriodRule.class);
 
     private static final String NEW_BUDGET_PERIOD = "newBudgetPeriod";
-    private static final String BUDGET_SUMMARY = "budgetSummary";
+    private static final String BUDGET_SUMMARY = "budgetParameters";
     private Date projectStartDate;
     private Date projectEndDate;
     private Date previousPeriodEndDate;

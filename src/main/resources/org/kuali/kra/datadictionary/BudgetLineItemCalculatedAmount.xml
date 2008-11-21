@@ -163,29 +163,29 @@
 			</attribute>
 
 			<attribute name="applyRateFlag">
-			<label>Apply Rate Flag </label>
-			<shortLabel>Apply Rate Flag </shortLabel>
+			<label>Apply Rate? </label>
+			<shortLabel>Apply Rate? </shortLabel>
 			<maxLength>1</maxLength>
 			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<checkbox />
 			</control>
-			<summary>Apply Rate Flag </summary>
-			<description>Apply Rate Flag </description>
+			<summary>Apply Rate? </summary>
+			<description>Apply Rate? </description>
 			</attribute>
 
             <attributeReference name="calculatedCost" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="genericAmount">
-			<label>Calculated Cost </label>
-			<shortLabel>Calculated Cost </shortLabel>
-			<summary>Calculated Cost </summary>
-			<description>Calculated Cost </description>
+			<label>Rate Cost </label>
+			<shortLabel>Rate Cost </shortLabel>
+			<summary>Rate Cost </summary>
+			<description>Rate Cost </description>
 			</attributeReference>
 
             <attributeReference name="calculatedCostSharing" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="genericAmount">
-			<label>Calculated Cost Sharing </label>
-			<shortLabel>Calculated Cost Sharing </shortLabel>
-			<summary>Calculated Cost Sharing </summary>
-			<description>Calculated Cost Sharing </description>
+			<label>Rate Cost Sharing </label>
+			<shortLabel>Rate Cost Sharing </shortLabel>
+			<summary>Rate Cost Sharing </summary>
+			<description>Rate Cost Sharing </description>
 			</attributeReference>
 
 		</attributes>

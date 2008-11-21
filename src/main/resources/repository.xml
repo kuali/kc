@@ -1840,6 +1840,7 @@
 		<field-descriptor name="budgetCategoryCode" column="BUDGET_CATEGORY_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="budgetJustification" column="BUDGET_JUSTIFICATION" jdbc-type="CLOB"/>
 		<field-descriptor name="costElement" column="COST_ELEMENT" jdbc-type="VARCHAR"/>
+		<field-descriptor name="groupName" column="GROUP_NAME" jdbc-type="VARCHAR"/>
 		<field-descriptor name="costSharingAmount" column="COST_SHARING_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="endDate" column="END_DATE" jdbc-type="DATE"/>
 		<field-descriptor name="lineItemCost" column="LINE_ITEM_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
@@ -2374,9 +2375,11 @@
 			<foreignkey field-ref="budgetVersionNumber"/>
 			<foreignkey field-ref="personSequenceNumber"/> 
 		</reference-descriptor>
+		<!-- 
 		<reference-descriptor name="budgetPeriodType" class-ref="org.kuali.kra.budget.bo.BudgetPeriodType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="periodTypeCode"/>
 		</reference-descriptor>
+		-->
 	</class-descriptor> 
 	
 	<class-descriptor class="org.kuali.kra.budget.bo.BudgetModular" table="BUDGET_MODULAR">

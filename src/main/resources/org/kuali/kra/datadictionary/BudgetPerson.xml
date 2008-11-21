@@ -83,22 +83,17 @@
             </resultFields>
         </lookup>
 
-<!--         <titleAttribute>effectiveDate</titleAttribute>
-		<titleAttribute>jobCode</titleAttribute>
-		<titleAttribute>nonEmployeeFlag</titleAttribute>
-		<titleAttribute>versionNumber</titleAttribute>
-		<titleAttribute>proposalNumber</titleAttribute> -->
 		<titleAttribute>personId</titleAttribute>
         <attributes>
 
             <attributeReference name="effectiveDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
-                <label>Effective Date</label>
-                <shortLabel>Effective Date</shortLabel>
+                <label>Salary Effective Date</label>
+                <shortLabel>Salary Effective Date</shortLabel>
 
  				<required>true</required>
 
-                <summary>Effective Date</summary>
-                <description>Effective Date.</description>
+                <summary>Salary Effective Date</summary>
+                <description>Salary Effective Date.</description>
       		</attributeReference>
 
 
@@ -183,7 +178,13 @@
 			<description>Calculation Base </description>			
 			</attributeReference>
 
-			<attributeReference name="personName" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="fullName" />
+			<attributeReference name="personName" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="fullName" >
+			<label>Personnel</label>
+			<shortLabel>Personnel</shortLabel>
+			<summary>Personnel</summary>
+			<description>Personnel</description>			
+			</attributeReference>
+
 			<attributeReference name="jobTitle" sourceClassName="org.kuali.kra.budget.bo.JobCode" sourceAttributeName="jobTitle" />
 			
 		</attributes>

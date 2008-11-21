@@ -18,6 +18,7 @@ package org.kuali.kra.budget.bo;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
@@ -25,7 +26,6 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.service.JobCodeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.springframework.util.StringUtils;
 
 /**
  * BudgetPerson business object
@@ -309,10 +309,25 @@ public class BudgetPerson extends KraPersistableBusinessObjectBase {
      * @return boolean
      */
     public boolean isDuplicatePerson(BudgetPerson budgetPerson) {
-        if (this.getJobCode() != budgetPerson.getJobCode()
-                || this.getEffectiveDate() != budgetPerson.getEffectiveDate()) {
+        if (!StringUtils.equals(this.getJobCode(), budgetPerson.getJobCode())
+                || !this.getEffectiveDate().equals(budgetPerson.getEffectiveDate())) {
             return false;
         }
+        if (this.getNonEmployeeFlag() != null && this.getNonEmployeeFlag() && budgetPerson.getNonEmployeeFlag() != null && budgetPerson.getNonEmployeeFlag()) {
+            if (this.getRolodexId() != null && budgetPerson.getRolodexId() != null) {
+                return this.getRolodexId().equals(budgetPerson.getRolodexId());
+            } else if (this.getTbnId() != null && budgetPerson.getTbnId() != null) {
+                return this.getTbnId().equals(budgetPerson.getTbnId());
+            }
+            return false;
+        } else if (this.getNonEmployeeFlag() != null && !this.getNonEmployeeFlag() && budgetPerson.getNonEmployeeFlag() != null && !budgetPerson.getNonEmployeeFlag()) {
+            return this.getPersonId().equals(budgetPerson.getPersonId());
+        }
+        // else non-employee vs. employee
+        return false;
+    }
+
+    public boolean isSamePerson(BudgetPerson budgetPerson) {
         if (this.getNonEmployeeFlag() && budgetPerson.getNonEmployeeFlag()) {
             if (this.getRolodexId() != null && budgetPerson.getRolodexId() != null) {
                 return this.getRolodexId().equals(budgetPerson.getRolodexId());
@@ -354,8 +369,8 @@ public class BudgetPerson extends KraPersistableBusinessObjectBase {
     }
     
     private void getJobTitleFromJobCode() {
-        if (StringUtils.hasText(getJobCode()) && 
-                (this.jobCodeRef == null || !StringUtils.hasText(this.jobCodeRef.getJobTitle())) ) { 
+        if (StringUtils.isNotBlank(getJobCode()) && 
+                (this.jobCodeRef == null || !StringUtils.isNotBlank(this.jobCodeRef.getJobTitle())) ) { 
                 JobCodeService jcService = KraServiceLocator.getService(JobCodeService.class);
                 this.jobCodeRef = jcService.findJobCodeRef(getJobCode());
             }

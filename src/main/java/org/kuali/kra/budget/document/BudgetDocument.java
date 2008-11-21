@@ -47,6 +47,7 @@ import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.RateDecimal;
+import org.kuali.kra.budget.bo.BudgetCategoryType;
 import org.kuali.kra.budget.bo.BudgetCostShare;
 import org.kuali.kra.budget.bo.BudgetDistributionAndIncomeComponent;
 import org.kuali.kra.budget.bo.BudgetLineItem;
@@ -136,7 +137,17 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     
     private SortedMap <CostElement, List> objectCodeTotals ;
     private SortedMap <RateType, List> calculatedExpenseTotals ;
+        
+    private SortedMap <RateType, List> personnelCalculatedExpenseTotals ; 
+    private SortedMap <RateType, List> nonPersonnelCalculatedExpenseTotals ; 
+    
     private List<KeyLabelPair> budgetCategoryTypeCodes;
+    
+    private SortedMap<BudgetCategoryType, List<CostElement>> objectCodeListByBudgetCategoryType;   
+    private SortedMap<CostElement, List<BudgetPersonnelDetails>> objectCodePersonnelList;
+    private SortedMap<String, List> objectCodePersonnelSalaryTotals;
+    private SortedMap<String, List> objectCodePersonnelFringeTotals;
+    private SortedMap<String, List> budgetSummaryTotals;
     
     private String budgetStatus;
     private String onOffCampusFlag;
@@ -438,7 +449,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     }
 
     public BudgetDecimal getTotalCostLimit() {
-        return totalCostLimit;
+        return totalCostLimit == null ?  new BudgetDecimal(0) : totalCostLimit;
     }
 
     public void setTotalCostLimit(BudgetDecimal totalCostLimit) {
@@ -971,7 +982,7 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
     }
 
     public void getBudgetTotals() {
-        KraServiceLocator.getService(BudgetCalculationService.class).calculateBudgetTotals(this);
+        KraServiceLocator.getService(BudgetCalculationService.class).calculateBudgetSummaryTotals(this);
     }
 
     public SortedMap<CostElement, List> getObjectCodeTotals() {
@@ -1498,6 +1509,63 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
     public void setRateSynced(boolean rateSynced) {
         this.rateSynced = rateSynced;
     }
+    
+    public SortedMap<BudgetCategoryType, List<CostElement>> getObjectCodeListByBudgetCategoryType() {
+        return objectCodeListByBudgetCategoryType;
+    }
+
+    public void setObjectCodeListByBudgetCategoryType(SortedMap<BudgetCategoryType, List<CostElement>> objectCodeListByBudgetCategoryType) {
+        this.objectCodeListByBudgetCategoryType = objectCodeListByBudgetCategoryType;
+    }
+
+    public SortedMap<CostElement, List<BudgetPersonnelDetails>> getObjectCodePersonnelList() {
+        return objectCodePersonnelList;
+    }
+
+    public void setObjectCodePersonnelList(SortedMap<CostElement, List<BudgetPersonnelDetails>> objectCodePersonnelList) {
+        this.objectCodePersonnelList = objectCodePersonnelList;
+    }
+
+    public SortedMap<String, List> getObjectCodePersonnelSalaryTotals() {
+        return objectCodePersonnelSalaryTotals;
+    }
+
+    public void setObjectCodePersonnelSalaryTotals(SortedMap<String, List> objectCodePersonnelSalaryTotals) {
+        this.objectCodePersonnelSalaryTotals = objectCodePersonnelSalaryTotals;
+    }
+
+    public SortedMap<String, List> getObjectCodePersonnelFringeTotals() {
+        return objectCodePersonnelFringeTotals;
+    }
+
+    public void setObjectCodePersonnelFringeTotals(SortedMap<String, List> objectCodePersonnelFringeTotals) {
+        this.objectCodePersonnelFringeTotals = objectCodePersonnelFringeTotals;
+    }
+
+    public SortedMap<RateType, List> getPersonnelCalculatedExpenseTotals() {
+        return personnelCalculatedExpenseTotals;
+    }
+
+    public void setPersonnelCalculatedExpenseTotals(SortedMap<RateType, List> personnelCalculatedExpenseTotals) {
+        this.personnelCalculatedExpenseTotals = personnelCalculatedExpenseTotals;
+    }
+
+    public SortedMap<RateType, List> getNonPersonnelCalculatedExpenseTotals() {
+        return nonPersonnelCalculatedExpenseTotals;
+    }
+
+    public void setNonPersonnelCalculatedExpenseTotals(SortedMap<RateType, List> nonPersonnelCalculatedExpenseTotals) {
+        this.nonPersonnelCalculatedExpenseTotals = nonPersonnelCalculatedExpenseTotals;
+    }
+
+    public SortedMap<String, List> getBudgetSummaryTotals() {
+        return budgetSummaryTotals;
+    }
+
+    public void setBudgetSummaryTotals(SortedMap<String, List> budgetSummaryTotals) {
+        this.budgetSummaryTotals = budgetSummaryTotals;
+    }
+    
 }
 
 class RateClassTypeComparator implements Comparator<RateClassType> {

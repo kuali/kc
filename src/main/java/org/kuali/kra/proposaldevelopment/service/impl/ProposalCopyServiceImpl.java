@@ -38,6 +38,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.bo.BudgetModular;
@@ -133,6 +134,8 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                                                    "SubmitFlag",
                                                    "ProposalStateTypeCode",
                                                    "ProposalState" };
+    
+    private static String forceCopyProperty = "documentNextvalues";
     
     /**
      * Each property in the document that can be copied is represented
@@ -405,6 +408,23 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         return null;
     }
     
+    /**
+     * Gets the setter method for a property.
+     * 
+     * @param name the name of the property.
+     * @param methods the list of methods to look in for the getter method.
+     * @return the getter method or null if not found.
+     */
+    private Method getSetter(String name, Method[] methods) {
+        String setter = "set" + name;
+        for (Method method : methods) {
+            if (setter.equals(method.getName())) {
+                return method;
+            }
+        }
+        return null;
+    }
+        
     /**
      * Set the lead unit for the new proposal.
      * @param doc the new proposal development document

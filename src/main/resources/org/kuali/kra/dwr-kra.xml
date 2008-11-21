@@ -63,5 +63,9 @@
 			<param name="beanName" value="jobCodeService" />
 			<include method="findJobCodeTitle" />
 		</create>
+		<create creator="spring" javascript="BudgetService">
+			<param name="beanName" value="budgetService" />
+			<include method="getApplicableCostElementsForAjaxCall" />
+		</create>
 	</allow>
 </dwr>

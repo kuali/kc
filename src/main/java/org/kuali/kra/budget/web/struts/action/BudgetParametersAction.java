@@ -58,8 +58,8 @@ import org.kuali.kra.web.struts.action.StrutsConfirmation;
 
 import static org.kuali.kra.logging.BufferedLogger.*;
 
-public class BudgetSummaryAction extends BudgetAction {
-    private static final Log LOG = LogFactory.getLog(BudgetSummaryAction.class);
+public class BudgetParametersAction extends BudgetAction {
+    private static final Log LOG = LogFactory.getLog(BudgetParametersAction.class);
     private static final String CONFIRM_RECALCULATE_BUDGET_KEY = "calculateAllPeriods";
     private static final String CONFIRM_SAVE_BUDGET_KEY = "saveAfterQuestion";
     private static final String CONFIRM_HEADER_TAB_KEY = "headerTabAfterQuestion";

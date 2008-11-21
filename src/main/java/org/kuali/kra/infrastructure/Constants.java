@@ -84,17 +84,20 @@ public interface Constants {
     public static final String AUDIT_WARNINGS = "Warnings";
     public static final String GRANTSGOV_ERRORS= "Grants.Gov Errors";
     
-    public static final String PROPOSAL_ACTIONS_PAGE = "proposalActions";
-    public static final String ABSTRACTS_AND_ATTACHMENTS_PAGE = "abstractsAttachments";
+    //public static final String PROPOSAL_ACTIONS_PAGE = "proposalActions";
+    //public static final String ABSTRACTS_AND_ATTACHMENTS_PAGE = "abstractsAttachments";
     public static final String PROPOSAL_PAGE = "proposal";
     public static final String CUSTOM_ATTRIBUTES_PAGE = "customData";
     public static final String QUESTIONS_PAGE = "questions";
+    public static final String PERMISSIONS_PAGE = "permissions";
+    public static final String PROPOSAL_ACTIONS_PAGE = "actions";
+    public static final String ATTACHMENTS_PAGE = "abstractsAttachments";
     public static final String SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR = "SponsorProgramInformation";
     public static final String SPONSOR_PROGRAM_INFORMATION_PANEL_NAME = "Sponsor & Program Information";
     public static final String REQUIRED_FIELDS_PANEL_ANCHOR = "RequiredFieldsforSavingDocument";
     public static final String REQUIRED_FIELDS_PANEL_NAME = "Required Fields for Saving Document ";
     
-    public static final String BUDGET_EXPENSES_PAGE = "budgetExpenses";
+    public static final String BUDGET_EXPENSES_PAGE_KEY = "budgetExpenses";
     public static final String BUDGET_EXPENSES_OVERVIEW_PANEL_ANCHOR = "BudgetOvervieV";
     public static final String BUDGET_EXPENSES_OVERVIEW_PANEL_NAME = "Budget Overview (Period ";
     // Proposal Document Property Constants
@@ -141,7 +144,7 @@ public interface Constants {
     public static final String BUDGET_DEFAULT_OVERHEAD_RATE_TYPE_CODE = "defaultOverheadRateTypeCode";
     public static final String BUDGET_DEFAULT_UNDERRECOVERY_RATE_CODE = "defaultUnderrecoveryRateClassCode";
     public static final String BUDGET_DEFAULT_MODULAR_FLAG = "defaultModularFlag";
-    
+    public static final String BUDGET_JOBCODE_VALIDATION_ENABLED = "JOBCODE_VALIDATION_ENABLED";    
     // Budget Distribution And Income
     public static final String BUDGET_CURRENT_FISCAL_YEAR = "budgetCurrentFiscalYear";
     public static final String BUDGET_COST_SHARING_APPLICABILITY_FLAG = "budgetCostSharingApplicabilityFlag";
@@ -152,13 +155,14 @@ public interface Constants {
     // Budget Personnel
     public static final String BUDGET_PERSON_DEFAULT_JOB_CODE = "budgetPersonDefaultJobCode";
     public static final String BUDGET_PERSON_DEFAULT_APPOINTMENT_TYPE = "budgetPersonDefaultAppointmentType";
-    public static final String BUDGET_PERSON_DEFAULT_PERIOD_TYPE = "budgetPersonDefaultPeriodType";
+    //public static final String BUDGET_PERSON_DEFAULT_PERIOD_TYPE = "budgetPersonDefaultPeriodType";
     public static final String BUDGET_PERSON_DEFAULT_CALCULATION_BASE = "budgetPersonDefaultCalculationBase";
     public static final String BUDGET_PERSON_DEFAULT_EFFECTIVE_DATE = "budgetPersonDefaultEffectiveDate";
     public static final String PERSON_SEQUENCE_NUMBER = "personSequenceNumber";
     public static final String BUDGET_PERSONNEL_PAGE = "personnel";
     public static final String JOB_CODE = "jobCode";
-    
+    public static final String BUDGET_CATEGORY_PERSONNEL = "P";
+        
     // KIM Authorization Namespace for KRA
     public static final String KRA_NAMESPACE = "KRA";
     
@@ -185,6 +189,10 @@ public interface Constants {
     public static final String BUDGET_EXPENSE_LOOKUP_MESSAGE2 = "budget.expense.lookup.message2";
     public static final String PERCENT_EFFORT_FIELD = "Percent Effort";
     public static final String PERCENT_CHARGED_FIELD = "Percent Charged";
+    public static final String BUDGET_PERSON_DETAILS_DEFAULT_PERIODTYPE = "budgetPersonDetailsDefaultPeriodType";
+    
+    //Budget Totals
+    public static final int BUDGET_SUMMARY_PERIOD_GROUP_SIZE = 5;
     
     //Grants.gov
     public static final String S2S_SUBMISSIONTYPE_CODE_KEY="document.s2sOpportunity.s2sSubmissionTypeCode";
@@ -232,9 +240,18 @@ public interface Constants {
     public static final String SPECIAL_REVIEW_PANEL_NAME = "Special Review Information";
     public static final String BUDGET_PERIOD_PANEL_NAME = "Budget Period And Totals Information";
     public static final String BUDGET_RATE_PANEL_NAME = "Budget Rate";
-    public static final String BUDGET_PERIOD_PAGE = "summary";
     public static final String BUDGET_RATE_PAGE = "budgetRate";
-    public static final String BUDGET_VERSIONS_PAGE = "budgetVersions";
+    public static final String BUDGET_PERIOD_PAGE = "parameters";
+    public static final String BUDGET_VERSIONS_PAGE = "versions"; 
+    public static final String PD_BUDGET_VERSIONS_PAGE = "budgetVersions"; 
+    public static final String BUDGET_EXPENSES_PAGE = "expenses";
+    public static final String BUDGET_ACTIONS_PAGE = "budgetActions";
+    public static final String BUDGET_RATES_PAGE = "rates";
+    public static final String BUDGET_DIST_AND_INCOME_PAGE = "distributionAndIncome";
+    public static final String BUDGET_MODULAR_PAGE = "modularBudget";    
+    public static final String BUDGET_SUMMARY_TOTALS_PAGE = "summaryTotals";
+    public static final String PROPOSAL_HIERARCHY_PAGE = "proposalHierarchy";
+    
     public static final String BUDGET_PERIOD_PANEL_ANCHOR = "BudgetPeriodsAmpTotals";
     public static final String BUDGET_RATE_PANEL_ANCHOR = "BudgetProposalRate";
     public static final String BUDGET_VERSIONS_PANEL_ANCHOR = "BudgetVersions";

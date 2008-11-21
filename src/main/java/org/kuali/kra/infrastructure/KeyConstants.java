@@ -182,8 +182,12 @@ public class KeyConstants {
     public static final String ERROR_LINEITEM_ENDDATE_AFTER_PERIOD_ENDDATE = "error.lineItemEndDate.after.periodEndDate";
     public static final String ERROR_PERSONNELBUDGETLINEITEM_STARTDATE_BEFORE_LINEITEM_STARTDATE = "error.personnelBudgetLinelineItemStartDate.before.lineItemStartDate";
     public static final String ERROR_PERSONNELBUDGETLINEITEM_ENDDATE_AFTER_LINEITEM_ENDDATE = "error.personnelBudgetLineItemEndDate.after.lineItemEndDate";
+    public static final String ERROR_PERCENT_EFFORT_INVALID = "error.percentEffortInvalid";
+    public static final String ERROR_PERCENT_CHARGED_INVALID = "error.percentChargedInvalid";
     public static final String ERROR_PERCENT_EFFORT_LESS_THAN_PERCENT_CHARGED = "error.percentEffort.lessThan.percentCharged";
     public static final String ERROR_COST_ELEMENT_NOT_SELECTED = "error.costElement.notSelected";
+    public static final String ERROR_BUDGET_PERSONNEL_NOT_SELECTED = "error.budgetPersonnel.notSelected";
+    public static final String ERROR_BUDGET_PERSONNEL_INCOMPLETE = "error.budgetPersonnel.incomplete";
     public static final String ERROR_GLOBAL_MESSAGE = "error.global.application";
     public static final String WARNING_PERIOD_COST_LIMIT_EXCEEDED= "warning.periodCostLimit.exceeded";
 
@@ -228,6 +232,7 @@ public class KeyConstants {
     public static final String ERROR_DELETE_LINE_ITEM = "error.delete.lineitem";
     public static final String ERROR_INSERT_BUDGET_PERIOD = "error.insert.budget.period";
     public static final String ERROR_APPLY_TO_LATER_PERIODS = "error.applyTo.later.periods";
+    public static final String ERROR_PERSONNELLINEITEM_APPLY_TO_LATER_PERIODS = "error.personnelLineItem.applyTo.later.periods";
 
     public static final String PROPOSAL_DATA_OVERRIDE_SAME_VALUE = "error.proposalData.override.samevalue";
     public static final String PROPOSAL_EDITABLECOLUMN_DATATYPE_MISMATCH = "error.column.datatype.mismatch";
@@ -247,7 +252,7 @@ public class KeyConstants {
     public static final String ERROR_LINE_ITEM_START_DATE = "error.line.item.start.date";
     public static final String QUESTION_DEFAULT_BUDGET_PERIODs = "document.question.defaultBudgetPeriods.text";
     public static final String AUDIT_WARNING_RATE_OUT_OF_SYNC = "warning.rate.outofsync";
-    public static final String ERROR_DUPLICATE_PERSON = "error.duplicate.person";
+    //public static final String ERROR_DUPLICATE_PERSON = "error.duplicate.person";
 
     // Budget Version
     public static final String BUDGET_VERSION_EXISTS = "error.budgetVersion.exists";
@@ -259,4 +264,11 @@ public class KeyConstants {
     public static final String INSUFFICIENT_AMOUNT_TO_SYNC = "insufficient.amount.to.sync";
     public static final String PERSONNEL_LINE_ITEM_EXISTS = "personnelLineItem.exists";
     
+    // budget personnel details
+    public static final String ERROR_REQUIRED_PERIOD_TYPE = "error.required.periodTypeCode";
+    public static final String ERROR_PERSONNEL_EXISTS = "error.personnelExists";
+    public static final String ERROR_SUMMARY_LINEITEM_EXISTS = "error.summaryLineItemExists";
+    public static final String ERROR_SUMMARY_LINEITEM_EXISTS_ADD_PERSON = "error.summaryLineItemExists.addPerson";
+    public static final String ERROR_PERSON_JOBCODE_CHANGE = "error.person.jobcodeChange";
+    public static final String ERROR_DUPLICATE_PERSON = "error.duplicate.personnel";
 }

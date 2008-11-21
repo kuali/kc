@@ -181,15 +181,15 @@
 			</attribute>
 
 			<attribute name="applyRateFlag">
-			<label>Apply Rate Flag </label>
-			<shortLabel>Apply Rate Flag </shortLabel>
+			<label>Apply Rate? </label>
+			<shortLabel>Apply Rate? </shortLabel>
 			<maxLength>1</maxLength>
 			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<text size="1" />
 			</control>
-			<summary>Apply Rate Flag </summary>
-			<description>Apply Rate Flag </description>
+			<summary>Apply Rate? </summary>
+			<description>Apply Rate? </description>
 			</attribute>
 
             <attributeReference name="calculatedCost" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="genericAmount">

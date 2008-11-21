@@ -157,7 +157,7 @@ public class BudgetVersionsAction extends BudgetAction {
         budgetDocument.setActivityTypeCode(budgetDocument.getProposal().getActivityTypeCode());
         String forward = buildForwardUrl(routeHeaderId);
         if (confirm) {
-            forward = forward.replace("budgetSummary.do?", "budgetSummary.do?syncBudgetRate=Y&");
+            forward = forward.replace("budgetParameters.do?", "budgetParameters.do?syncBudgetRate=Y&");
         }
         return new ActionForward(forward, true);
     }
