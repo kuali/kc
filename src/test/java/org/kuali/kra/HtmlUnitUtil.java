@@ -75,8 +75,8 @@ public class HtmlUnitUtil extends Assert {
         return null;
     }
 
-    private static HtmlSelect getSelectField(HtmlPage page, String textFieldId) {
-        HtmlElement element = getElement(page, textFieldId);
+    public static HtmlSelect getSelectField(HtmlPage page, String selectFieldId) {
+        HtmlElement element = getElement(page, selectFieldId);
         if(element != null && element instanceof HtmlSelect) {
             return (HtmlSelect) element;
         }
