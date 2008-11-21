@@ -68,6 +68,10 @@
 			<include method="getSubResearchAreasForTreeView" />
 			<include method="getAscendantList" />			
 		</create>
+		<create creator="spring" javascript="AwardIndirectCostRateService">
+			<param name="beanName" value="awardIndirectCostRateService" />			
+			<include method="getStartAndEndDatesBasedOnFiscalYear" />
+		</create>
 		
 	</allow>
 </dwr>
