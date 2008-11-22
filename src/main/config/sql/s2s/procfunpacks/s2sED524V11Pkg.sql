@@ -476,76 +476,82 @@ li_period number;
 begin
 
 /* get fringe */
-select  decode ( sum(osp$budget_personnel_cal_amts.calculated_cost ),NULL, 0,
-					   sum(osp$budget_personnel_cal_amts.calculated_cost ) ) ,
-			  decode ( sum(osp$budget_personnel_cal_amts.calculated_cost_sharing ),NULL, 0,
-					   sum(osp$budget_personnel_cal_amts.calculated_cost_sharing ) )
-into li_fringe, li_fringe_cs
-   from   	osp$budget_personnel_cal_amts,  osp$budget_personnel_details,  OSP$RATE_CLASS
-   where  	osp$budget_personnel_cal_amts.proposal_number = as_proposal_number
-   and    	osp$budget_personnel_cal_amts.version_number = ai_version_number
-   and    	osp$budget_personnel_cal_amts.budget_period  = ai_period
-   and    	osp$budget_personnel_cal_amts.rate_class_code = osp$rate_class.rate_class_code
-   and   ( (osp$RATE_CLASS.rate_class_TYPE = 'E' AND
+/* get fringe */
+BEGIN
+SELECT  DECODE ( SUM(osp$budget_personnel_cal_amts.calculated_cost ),NULL, 0,
+					   SUM(osp$budget_personnel_cal_amts.calculated_cost ) ) ,
+			  DECODE ( SUM(osp$budget_personnel_cal_amts.calculated_cost_sharing ),NULL, 0,
+					   SUM(osp$budget_personnel_cal_amts.calculated_cost_sharing ) )
+INTO li_fringe, li_fringe_cs
+   FROM   	osp$budget_personnel_cal_amts,  osp$budget_personnel_details,  OSP$RATE_CLASS
+   WHERE  	osp$budget_personnel_cal_amts.proposal_number = as_proposal_number
+   AND    	osp$budget_personnel_cal_amts.version_number = ai_version_number
+   AND    	osp$budget_personnel_cal_amts.budget_period  = ai_period
+   AND    	osp$budget_personnel_cal_amts.rate_class_code = osp$rate_class.rate_class_code
+   AND   ( (osp$RATE_CLASS.RATE_CLASS_TYPE = 'E' AND
       osp$budget_personnel_cal_amts.RATE_TYPE_CODE <> 3)
        OR
-     (osp$RATE_CLASS.rate_class_TYPE = 'V' AND
+     (osp$RATE_CLASS.RATE_CLASS_TYPE = 'V' AND
        osp$budget_personnel_cal_amts.RATE_TYPE_CODE <> 2))
-   and   osp$budget_personnel_cal_Amts.person_number = osp$budget_personnel_details.person_number
-   and   osp$budget_personnel_details.proposal_number =  osp$budget_personnel_cal_amts.proposal_number
-   and   osp$budget_personnel_details.line_item_number = osp$budget_personnel_cal_amts.line_item_number
-   and   osp$budget_personnel_details.version_number = ai_version_number
-   and   osp$budget_personnel_details.budget_period = ai_period;
-	exception When NO_DATA_FOUND then
+   AND   osp$budget_personnel_cal_Amts.person_number = osp$budget_personnel_details.person_number
+   AND   osp$budget_personnel_details.proposal_number =  osp$budget_personnel_cal_amts.proposal_number
+   AND   osp$budget_personnel_details.line_item_number = osp$budget_personnel_cal_amts.line_item_number
+   AND   osp$budget_personnel_details.version_number = ai_version_number
+   AND   osp$budget_personnel_details.budget_period = ai_period;
+	EXCEPTION WHEN NO_DATA_FOUND THEN
             li_fringe:=0; li_fringe_cs:=0;
+END;
 
-
-	select	bd.budget_period  ,
-        		decode(sum(bd.line_item_cost),null,0,sum(bd.line_item_cost))  ,
-				decode(sum(bd.COST_SHARING_AMOUNT),null,0,sum(bd.cost_sharing_amount))
-   into     li_period, li_cost, li_cost_cs
-	from   	osp$budget_details bd,
+BEGIN
+	SELECT	bd.budget_period  ,
+        		DECODE(SUM(bd.line_item_cost),NULL,0,SUM(bd.line_item_cost))  ,
+				DECODE(SUM(bd.COST_SHARING_AMOUNT),NULL,0,SUM(bd.cost_sharing_amount))
+   INTO     li_period, li_cost, li_cost_cs
+	FROM   	osp$budget_details bd,
        		osp$cost_element  ce,
        		OSP$BUDGET_CATEGORY_MAPPING mapping,
        		osp$budget_category_maps maps,
        		osp$budget b
-	where  	bd.proposal_number = as_proposal_number
+	WHERE  	bd.proposal_number = as_proposal_number
   	AND  		B.PROPOSAL_NUMBER = BD.PROPOSAL_NUMBER
   	AND  		B.VERSION_NUMBER = BD.VERSION_NUMBER
   	AND  		B.VERSION_NUMBER = ai_version_number
-	and		Bd.budget_period = ai_period
- 	and  		bd.cost_element = ce.cost_element
+	AND		Bd.budget_period = ai_period
+ 	AND  		bd.COST_ELEMENT = ce.COST_ELEMENT
   	AND  		bd.budget_category_code =  mapping.COEUS_CATEGORY_CODE
-  	and  		MAPPING.mapping_name =  maps.mapping_name
-  and  		MAPPING.target_category_code =  maps.target_category_code
+  	AND  		MAPPING.mapping_name =  maps.mapping_name
+  AND  		MAPPING.target_category_code =  maps.target_category_code
   AND  		MAPS.target_Category_code NOT IN ('04','42', '43','73','74','75')
   AND       MAPS.category_type = 'O'
   AND  		MAPPING.MAPPING_NAME = 'S2S'
-  group by  bd.budget_period;
-	exception When NO_DATA_FOUND then
+  GROUP BY  bd.budget_period;
+	EXCEPTION WHEN NO_DATA_FOUND THEN
             li_period:=0; li_cost:=0; li_cost_cs:=0;
 
+END;
 
 
-select  	 a.budget_period,
-          decode(sum(a.calculated_cost) ,null,0,sum(a.calculated_cost)),
-          decode(sum(a.calculated_cost_sharing) , null, 0, sum(a.calculated_cost_sharing))
-  into    li_period, li_cost1, li_cost1_cs
- from   		osp$budget_details_cal_amts a, osp$budget_details d , osp$rate_class r, osp$budget b
- where  		a.proposal_number = as_proposal_number
-   and      a.proposal_number = b.proposal_number
-   and      b.version_number = ai_version_number
- and   		b.version_number = a.version_number
- and   		a.rate_class_code = r.rate_class_code
- and 		   r.rate_class_type != 'O'
- and   		a.proposal_number = d.proposal_number
- and   		a.budget_period = d.budget_period
- and			a.budget_period = ai_period
- and   		a.version_number = d.version_number
- and   		a.line_item_number = d.line_item_number
-group by 	a.budget_period;
-	exception When NO_DATA_FOUND then
+BEGIN
+SELECT  	 a.budget_period,
+          DECODE(SUM(a.calculated_cost) ,NULL,0,SUM(a.calculated_cost)),
+          DECODE(SUM(a.calculated_cost_sharing) , NULL, 0, SUM(a.calculated_cost_sharing))
+  INTO    li_period, li_cost1, li_cost1_cs
+ FROM   		osp$budget_details_cal_amts a, osp$budget_details d , osp$rate_class r, osp$budget b
+ WHERE  		a.proposal_number = as_proposal_number
+   AND      a.proposal_number = b.proposal_number
+   AND      b.version_number = ai_version_number
+ AND   		b.version_number = a.version_number
+ AND   		a.rate_class_code = r.rate_class_code
+ AND 		   r.RATE_CLASS_TYPE != 'O'
+ AND   		a.proposal_number = d.proposal_number
+ AND   		a.budget_period = d.budget_period
+ AND			a.budget_period = ai_period
+ AND   		a.version_number = d.version_number
+ AND   		a.line_item_number = d.line_item_number
+GROUP BY 	a.budget_period;
+	EXCEPTION WHEN NO_DATA_FOUND THEN
             li_period:=0; li_cost1:=0; li_cost1_cs:=0;
+END;
 
 li_total_cost := 0;
 li_total_cs := 0;
