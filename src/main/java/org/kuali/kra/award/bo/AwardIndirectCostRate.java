@@ -27,134 +27,247 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * This class represents the AwardIndirectCostRate Business Object.
  */
 public class AwardIndirectCostRate extends KraPersistableBusinessObjectBase { 
-	
-	/**
+
+    /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 1L;
     private Long awardIndirectCostRateId;
-	private KualiDecimal applicableIndirectCostRate; 
-	private Integer idcRateTypeCode; 
-	private String fiscalYear; 
-	private String onCampusFlag; 
-	private KualiDecimal underrecoveryOfIndirectCost; 
-	private String sourceAccount; 
-	private String destinationAccount; 
-	private Date startDate; 
-	private Date endDate;
-	private Award award; 
-	
-	
-	public AwardIndirectCostRate() { 
+    private KualiDecimal applicableIndirectCostRate; 
+    private Integer indirectCostRateTypeCode; 
+    private String fiscalYear; 
+    private String onCampusFlag; 
+    private KualiDecimal underrecoveryOfIndirectCost; 
+    private String sourceAccount; 
+    private String destinationAccount; 
+    private Date startDate; 
+    private Date endDate;
+    private Award award; 
+    
+    /**
+     * 
+     * Constructs a AwardIndirectCostRate.java.
+     */
+    public AwardIndirectCostRate() { 
 
-	} 
-	
-	public Long getAwardIndirectCostRateId() {
-		return awardIndirectCostRateId;
-	}
+    } 
+    
+    /**
+     * 
+     * This method...
+     * @return
+     */
+    public Long getAwardIndirectCostRateId() {
+        return awardIndirectCostRateId;
+    }
 
-	public void setAwardIndirectCostRateId(Long awardIndirectCostRateId) {
-		this.awardIndirectCostRateId = awardIndirectCostRateId;
-	}
+    /**
+     * 
+     * This method...
+     * @param awardIndirectCostRateId
+     */
+    public void setAwardIndirectCostRateId(Long awardIndirectCostRateId) {
+        this.awardIndirectCostRateId = awardIndirectCostRateId;
+    }
 
-	public KualiDecimal getApplicableIndirectCostRate() {
-		return applicableIndirectCostRate;
-	}
+    /**
+     * 
+     * This method...
+     * @return
+     */
+    public KualiDecimal getApplicableIndirectCostRate() {
+        return applicableIndirectCostRate;
+    }
 
-	public void setApplicableIndirectCostRate(KualiDecimal applicableIndirectCostRate) {
-		this.applicableIndirectCostRate = applicableIndirectCostRate;
-	}
+    /**
+     * 
+     * This method...
+     * @param applicableIndirectCostRate
+     */
+    public void setApplicableIndirectCostRate(KualiDecimal applicableIndirectCostRate) {
+        this.applicableIndirectCostRate = applicableIndirectCostRate;
+    }
 
-	public Integer getIdcRateTypeCode() {
-		return idcRateTypeCode;
-	}
+    /**
+     * 
+     * This method...
+     * @return
+     */
+    public Integer getIdcRateTypeCode() {
+        return indirectCostRateTypeCode;
+    }
 
-	public void setIdcRateTypeCode(Integer idcRateTypeCode) {
-		this.idcRateTypeCode = idcRateTypeCode;
-	}
+    /**
+     * 
+     * This method...
+     * @param indirectCostRateTypeCode
+     */
+    public void setIdcRateTypeCode(Integer indirectCostRateTypeCode) {
+        this.indirectCostRateTypeCode = indirectCostRateTypeCode;
+    }
 
-	public String getFiscalYear() {
-		return fiscalYear;
-	}
+    /**
+     * 
+     * This method...
+     * @return
+     */
+    public String getFiscalYear() {
+        return fiscalYear;
+    }
 
-	public void setFiscalYear(String fiscalYear) {
-		this.fiscalYear = fiscalYear;
-	}
+    /**
+     * 
+     * This method...
+     * @param fiscalYear
+     */
+    public void setFiscalYear(String fiscalYear) {
+        this.fiscalYear = fiscalYear;
+    }
 
-	public String getOnCampusFlag() {
-		return onCampusFlag;
-	}
+    /**
+     * 
+     * This method...
+     * @return
+     */
+    public String getOnCampusFlag() {
+        return onCampusFlag;
+    }
 
-	public void setOnCampusFlag(String onCampusFlag) {
-		this.onCampusFlag = onCampusFlag;
-	}
+    /**
+     * 
+     * This method...
+     * @param onCampusFlag
+     */
+    public void setOnCampusFlag(String onCampusFlag) {
+        this.onCampusFlag = onCampusFlag;
+    }
 
-	public KualiDecimal getUnderrecoveryOfIndirectCost() {
-		return underrecoveryOfIndirectCost;
-	}
+    /**
+     * 
+     * This method...
+     * @return
+     */
+    public KualiDecimal getUnderrecoveryOfIndirectCost() {
+        return underrecoveryOfIndirectCost;
+    }
 
-	public void setUnderrecoveryOfIndirectCost(KualiDecimal underrecoveryOfIndirectCost) {
-		this.underrecoveryOfIndirectCost = underrecoveryOfIndirectCost;
-	}
+    /**
+     * 
+     * This method...
+     * @param underrecoveryOfIndirectCost
+     */
+    public void setUnderrecoveryOfIndirectCost(KualiDecimal underrecoveryOfIndirectCost) {
+        this.underrecoveryOfIndirectCost = underrecoveryOfIndirectCost;
+    }
 
-	public String getSourceAccount() {
-		return sourceAccount;
-	}
+    /**
+     * 
+     * This method...
+     * @return
+     */
+    public String getSourceAccount() {
+        return sourceAccount;
+    }
 
-	public void setSourceAccount(String sourceAccount) {
-		this.sourceAccount = sourceAccount;
-	}
+    /**
+     * 
+     * This method...
+     * @param sourceAccount
+     */
+    public void setSourceAccount(String sourceAccount) {
+        this.sourceAccount = sourceAccount;
+    }
 
-	public String getDestinationAccount() {
-		return destinationAccount;
-	}
+    /**
+     * 
+     * This method...
+     * @return
+     */
+    public String getDestinationAccount() {
+        return destinationAccount;
+    }
 
-	public void setDestinationAccount(String destinationAccount) {
-		this.destinationAccount = destinationAccount;
-	}
+    /**
+     * 
+     * This method...
+     * @param destinationAccount
+     */
+    public void setDestinationAccount(String destinationAccount) {
+        this.destinationAccount = destinationAccount;
+    }
 
-	public Date getStartDate() {
-		return startDate;
-	}
+    /**
+     * 
+     * This method...
+     * @return
+     */
+    public Date getStartDate() {
+        return startDate;
+    }
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
+    /**
+     * 
+     * This method...
+     * @param startDate
+     */
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
 
-	public Date getEndDate() {
-		return endDate;
-	}
+    /**
+     * 
+     * This method...
+     * @return
+     */
+    public Date getEndDate() {
+        return endDate;
+    }
 
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
+    /**
+     * 
+     * This method...
+     * @param endDate
+     */
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
 
-	/**
-	 * 
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	@Override 
-	protected LinkedHashMap<String,Object> toStringMapper() {
-		LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
-		hashMap.put("awardIndirectCostRateId", getAwardIndirectCostRateId());
-		hashMap.put("applicableIndirectCostRate", getApplicableIndirectCostRate());
-		hashMap.put("idcRateTypeCode", getIdcRateTypeCode());
-		hashMap.put("fiscalYear", getFiscalYear());
-		hashMap.put("onCampusFlag", getOnCampusFlag());
-		hashMap.put("underrecoveryOfIndirectCost", getUnderrecoveryOfIndirectCost());
-		hashMap.put("sourceAccount", getSourceAccount());
-		hashMap.put("destinationAccount", getDestinationAccount());
-		hashMap.put("startDate", getStartDate());
-		hashMap.put("endDate", getEndDate());
-		return hashMap;
-	}
+    /**
+     * 
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    @Override 
+    protected LinkedHashMap<String,Object> toStringMapper() {
+        LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
+        hashMap.put("awardIndirectCostRateId", getAwardIndirectCostRateId());
+        hashMap.put("applicableIndirectCostRate", getApplicableIndirectCostRate());
+        hashMap.put("idcRateTypeCode", getIdcRateTypeCode());
+        hashMap.put("fiscalYear", getFiscalYear());
+        hashMap.put("onCampusFlag", getOnCampusFlag());
+        hashMap.put("underrecoveryOfIndirectCost", getUnderrecoveryOfIndirectCost());
+        hashMap.put("sourceAccount", getSourceAccount());
+        hashMap.put("destinationAccount", getDestinationAccount());
+        hashMap.put("startDate", getStartDate());
+        hashMap.put("endDate", getEndDate());
+        return hashMap;
+    }
 
+    /**
+     * 
+     * This method...
+     * @return
+     */
     public Award getAward() {
         return award;
     }
 
+    /**
+     * 
+     * This method...
+     * @param award
+     */
     public void setAward(Award award) {
         this.award = award;
     }
-	
+    
 }
