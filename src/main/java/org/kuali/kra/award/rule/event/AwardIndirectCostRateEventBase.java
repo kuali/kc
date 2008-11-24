@@ -16,66 +16,74 @@
 package org.kuali.kra.award.rule.event;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Document;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.award.bo.AwardIndirectCostRate;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 
-public abstract class AwardIndirectCostRateEventBase  extends KraDocumentEventBase implements AwardIndirectCostRateEvent {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
-    .getLog(AwardIndirectCostRateEventBase.class);
-
-private AwardIndirectCostRate awardIndirectCostRate;
-
 /**
-* @see org.kuali.kra.rule.event.KraDocumentEventBase#KraDocumentEventBase(String, String, Document)
-*/
-protected AwardIndirectCostRateEventBase(String description, String errorPathPrefix, AwardDocument document,
-    AwardIndirectCostRate awardIndirectCostRate) {
-super(description, errorPathPrefix, document);
+ * 
+ * This is the base event class for <code>AwardIndirectCostRate</code> business object.
+ */
+public abstract class AwardIndirectCostRateEventBase extends KraDocumentEventBase implements AwardIndirectCostRateEvent {
+    private static final org.apache.commons.logging.Log LOG = 
+        org.apache.commons.logging.LogFactory.getLog(AwardIndirectCostRateEventBase.class);
 
-// by doing a deep copy, we are ensuring that the business rule class can't update
-// the original object by reference
-this.awardIndirectCostRate = (AwardIndirectCostRate) ObjectUtils.deepCopy(awardIndirectCostRate);
-logEvent();
-}
+    private AwardIndirectCostRate awardIndirectCostRate;
 
-/**
-* @return <code>{@link AwardIndirectCostRate}</code> that triggered this event.
-*/
-public AwardIndirectCostRate getAwardIndirectCostRate() {
-return awardIndirectCostRate;
-}
+    /**
+     * 
+     * Constructs a AwardIndirectCostRateEventBase.java.
+     * @param description
+     * @param errorPathPrefix
+     * @param document
+     * @param awardIndirectCostRate
+     */
+    protected AwardIndirectCostRateEventBase(String description, String errorPathPrefix, 
+            AwardDocument document, AwardIndirectCostRate awardIndirectCostRate) {
+        super(description, errorPathPrefix, document);
+    
+        // by doing a deep copy, we are ensuring that the business rule class can't update
+        // the original object by reference
+        this.awardIndirectCostRate = (AwardIndirectCostRate) ObjectUtils.deepCopy(awardIndirectCostRate);
+        logEvent();
+    }
 
-/**
-* @see org.kuali.core.rule.event.KualiDocumentEvent#validate()
-*/
-public void validate() {
-super.validate();
-if (getAwardIndirectCostRate() == null) {
-    throw new IllegalArgumentException("invalid (null) award indirectCostRate");
-}
-}
+    /**
+    * @return <code>{@link AwardIndirectCostRate}</code> that triggered this event.
+    */
+    public AwardIndirectCostRate getAwardIndirectCostRate() {
+        return awardIndirectCostRate;
+    }
 
-/**
-* Logs the event type and some information about the associated special review
-*/
-protected void logEvent() {
-StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
-logMessage.append(" with ");
+    /**
+    * @see org.kuali.core.rule.event.KualiDocumentEvent#validate()
+    */
+    public void validate() {
+        super.validate();
+        if (getAwardIndirectCostRate() == null) {
+            throw new IllegalArgumentException("invalid (null) award indirectCostRate");
+        }
+    }
 
-// vary logging detail as needed
-if (getAwardIndirectCostRate() == null) {
-    logMessage.append("null proposalSpecialReview");
-}
-else {
-    logMessage.append(getAwardIndirectCostRate().toString());
-}
-
-LOG.debug(logMessage);
-}
+    /**
+    * Logs the event type and some information about the associated special review
+    */
+    protected void logEvent() {
+        StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(
+                this.getClass().getName(), "."));
+        logMessage.append(" with ");
+        
+        // vary logging detail as needed
+        if (getAwardIndirectCostRate() == null) {
+            logMessage.append("null proposalSpecialReview");
+        }
+        else {
+            logMessage.append(getAwardIndirectCostRate().toString());
+        }
+        
+        LOG.debug(logMessage);
+    }
 
 
 }

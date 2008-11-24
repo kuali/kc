@@ -3,6 +3,10 @@ package org.kuali.kra.award.rule;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.award.rule.event.AddAwardIndirectCostRateEvent;
 
+/**
+ * 
+ * This interface declares the rule method associated with <code>AwardIndirectCostRate</code> Business Object.
+ */
 public interface AddIndirectCostRateRule extends BusinessRule {
     
     /**
