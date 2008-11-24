@@ -20,9 +20,17 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+/**
+ * 
+ * This class represetns the IndirectCostRateType Business Object.
+ */
 public class IndirectCostRateType extends KraPersistableBusinessObjectBase { 
 	
-	private Integer indirectCostRateTypeCode; 
+	/**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -6901016199815302736L;
+    private Integer indirectCostRateTypeCode; 
 	private String description; 
 	
 	public IndirectCostRateType() { 
