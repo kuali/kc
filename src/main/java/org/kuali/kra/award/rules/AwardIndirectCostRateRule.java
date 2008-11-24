@@ -29,13 +29,17 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 public class AwardIndirectCostRateRule  extends ResearchDocumentRuleBase implements AddIndirectCostRateRule {
     private static final String NEW_INDIRECT_COST_RATE = "newAwardIndirectCostRate";
     private static final int FISCAL_YEAR_LENGTH = 4;
+    private static final String FISCAL_YEAR_STRING = ".fiscalYear";
 
     /**
      * 
-     * @see org.kuali.kra.award.rule.AddIndirectCostRateRule#processAddIndirectCostRatesBusinessRules(org.kuali.kra.award.rule.event.AddAwardIndirectCostRateEvent)
+     * @see org.kuali.kra.award.rule.AddIndirectCostRateRule
+     * #processAddIndirectCostRatesBusinessRules(org.kuali.kra.award.rule.event.AddAwardIndirectCostRateEvent)
      */
-    public boolean processAddIndirectCostRatesBusinessRules(AddAwardIndirectCostRateEvent addAwardIndirectCostRateEvent) {
-        AwardIndirectCostRate awardIndirectCostRate = addAwardIndirectCostRateEvent.getAwardIndirectCostRate();        
+    public boolean processAddIndirectCostRatesBusinessRules(AddAwardIndirectCostRateEvent
+            addAwardIndirectCostRateEvent) {
+        AwardIndirectCostRate awardIndirectCostRate = 
+            addAwardIndirectCostRateEvent.getAwardIndirectCostRate();        
         boolean rulePassed = true;
         
         rulePassed &= evaluateRuleForApplicableIndirectCostRate(awardIndirectCostRate);
@@ -87,21 +91,22 @@ public class AwardIndirectCostRateRule  extends ResearchDocumentRuleBase impleme
      * @return
      */
     protected boolean evaluateRuleForFiscalYear(AwardIndirectCostRate awardIndirectCostRate){
-        boolean rulePassed = true;
+        boolean rulePassed = true;        
         if(awardIndirectCostRate.getFiscalYear()==null 
                 || StringUtils.isBlank(awardIndirectCostRate.getFiscalYear())){
             rulePassed = false;
-            reportError(NEW_INDIRECT_COST_RATE+".fiscalYear", KeyConstants.ERROR_REQUIRED_FISCAL_YEAR);
+            reportError(NEW_INDIRECT_COST_RATE+FISCAL_YEAR_STRING
+                    , KeyConstants.ERROR_REQUIRED_FISCAL_YEAR);
         }else if(awardIndirectCostRate.getFiscalYear().length()!=FISCAL_YEAR_LENGTH){
             rulePassed = false;
-            reportError(NEW_INDIRECT_COST_RATE+".fiscalYear"
+            reportError(NEW_INDIRECT_COST_RATE+FISCAL_YEAR_STRING
                     , KeyConstants.ERROR_FISCAL_YEAR_INCORRECT_FORMAT);
         }else{
             try{
                 Integer.parseInt(awardIndirectCostRate.getFiscalYear());
             }catch(NumberFormatException e){
                 rulePassed = false;
-                reportError(NEW_INDIRECT_COST_RATE+".fiscalYear"
+                reportError(NEW_INDIRECT_COST_RATE+FISCAL_YEAR_STRING
                         , KeyConstants.ERROR_FISCAL_YEAR_INCORRECT_FORMAT);
             }
         }
@@ -132,5 +137,5 @@ public class AwardIndirectCostRateRule  extends ResearchDocumentRuleBase impleme
         }
         return rulePassed;
     }
-
+    
 }
