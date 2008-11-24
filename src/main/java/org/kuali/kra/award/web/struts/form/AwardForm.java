@@ -87,8 +87,8 @@ public class AwardForm extends KraTransactionalDocumentFormBase {
      */
     protected void initializeHeaderNavigationTabs(){
         DataDictionaryService dataDictionaryService = getDataDictionaryService();
-        DocumentEntry docEntry = dataDictionaryService.getDataDictionary()
-                                    .getDocumentEntry(org.kuali.kra.award.document.AwardDocument.class.getName());
+        DocumentEntry docEntry = dataDictionaryService.getDataDictionary().getDocumentEntry(
+                org.kuali.kra.award.document.AwardDocument.class.getName());
         List<HeaderNavigation> navList = docEntry.getHeaderNavigationList();
         HeaderNavigation[] list = new HeaderNavigation[navList.size()];
         navList.toArray(list);

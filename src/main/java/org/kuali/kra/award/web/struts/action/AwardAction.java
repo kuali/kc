@@ -30,7 +30,6 @@ import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSConstants;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
-import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * 
@@ -203,11 +202,10 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
      * @param response
      * @param awardForm
      * @return
-     * @throws WorkflowException
      * @throws Exception
      */
     ActionForward handleDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-                                            HttpServletResponse response, AwardForm awardForm) throws WorkflowException, Exception {
+                                            HttpServletResponse response, AwardForm awardForm) throws Exception {
         String command = awardForm.getCommand();
         ActionForward forward;        
         if (IDocHandler.ACTIONLIST_INLINE_COMMAND.equals(command)) {
