@@ -83,7 +83,6 @@ public class BudgetTotalsWebTest extends ProposalDevelopmentWebTestBase {
     private static final String  VACATION_LINE = "Vacation - Vacation 4275.00 4275.00 4275.00 4275.00 17100.0";
     private static final String  TOTALS_LINE = "Totals 609081.25 578125.00 578125.00 578125.00 2343456.25";
     
-    private TransactionalLifecycle transactionalLifecycle;
     private DocumentService documentService = null;
     private String documentNumber;
     private String proposalNumber;
@@ -92,13 +91,10 @@ public class BudgetTotalsWebTest extends ProposalDevelopmentWebTestBase {
     public void setUp() throws Exception {
         super.setUp();
         documentService = KNSServiceLocator.getDocumentService();
-        transactionalLifecycle = new TransactionalLifecycle();
-        transactionalLifecycle.start();
     }
 
     @After
     public void tearDown() throws Exception {
-        transactionalLifecycle.stop();
         super.tearDown();
         documentService = null;
     }
