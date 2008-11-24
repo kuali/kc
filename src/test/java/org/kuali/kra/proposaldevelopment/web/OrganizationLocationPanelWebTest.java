@@ -43,7 +43,7 @@ public class OrganizationLocationPanelWebTest extends ProposalDevelopmentWebTest
 
        // start to set up organization/location panel
        // organization
-       HtmlPage locationPage = lookup(proposalPage, "org.kuali.kra.bo.Organization");
+       HtmlPage locationPage = lookup(proposalPage, "org.kuali.kra.bo.Organization", "organizationId", "000001");
 
        assertEquals("000001", getFieldValue(locationPage, "document.organizationId"));
        assertContains(locationPage, "Congressional District: Eighth");
