@@ -22,6 +22,10 @@ import java.util.LinkedHashMap;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+/**
+ * 
+ * This class represents the AwardIndirectCostRate Business Object.
+ */
 public class AwardIndirectCostRate extends KraPersistableBusinessObjectBase { 
 	
 	/**
