@@ -90,7 +90,8 @@ public class AwardIndirectCostRate extends KraPersistableBusinessObjectBase {
 
     /**
      * 
-     * This method...
+     * For ease of use in JSP and tag files; the getter method uses acronym instead of full meaning.
+     * IdcRateTypeCode is an acronym. Its full meaning is Indirect Cost Rate Type Code
      * @return
      */
     public Integer getIdcRateTypeCode() {
@@ -99,7 +100,8 @@ public class AwardIndirectCostRate extends KraPersistableBusinessObjectBase {
 
     /**
      * 
-     * This method...
+     * For ease of use in JSP and tag files; the setter method uses acronym instead of full meaning.
+     * IdcRateTypeCode is an acronym. Its full meaning is Indirect Cost Rate Type Code
      * @param indirectCostRateTypeCode
      */
     public void setIdcRateTypeCode(Integer indirectCostRateTypeCode) {
@@ -241,7 +243,7 @@ public class AwardIndirectCostRate extends KraPersistableBusinessObjectBase {
         LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
         hashMap.put("awardIndirectCostRateId", getAwardIndirectCostRateId());
         hashMap.put("applicableIndirectCostRate", getApplicableIndirectCostRate());
-        hashMap.put("idcRateTypeCode", getIdcRateTypeCode());
+        hashMap.put("indirectCostRateTypeCode", getIdcRateTypeCode());
         hashMap.put("fiscalYear", getFiscalYear());
         hashMap.put("onCampusFlag", getOnCampusFlag());
         hashMap.put("underrecoveryOfIndirectCost", getUnderrecoveryOfIndirectCost());
