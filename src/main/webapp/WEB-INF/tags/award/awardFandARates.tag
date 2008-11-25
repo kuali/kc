@@ -18,28 +18,28 @@
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="awardIndirectCostRateAttributes" value="${DataDictionary.AwardIndirectCostRate.attributes}" />
+<c:set var="awardFandaRateAttributes" value="${DataDictionary.AwardFandaRate.attributes}" />
 <c:set var="action" value="awardTimeAndMoney" />
 
-<kul:tab tabTitle="Rates" defaultOpen="false" tabErrorKey="newAwardIndirectCostRate.*,document.award.awardIndirectCostRate*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
+<kul:tab tabTitle="Rates" defaultOpen="false" tabErrorKey="newAwardFandaRate.*,document.award.awardFandaRate*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left"> F&A Rates</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.award.bo.AwardIndirectCostRate" altText="help"/></span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.award.bo.AwardFandaRate" altText="help"/></span>
         </h3>
         
         <table cellpadding="0" cellspacing="0" summary="">
           	<tr>
           		<th width="5%"><div align="center">&nbsp;</div></th>
-          		<th width="9%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardIndirectCostRateAttributes.applicableIndirectCostRate}" noColon="true" /></div></th>
-          		<th width="9%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardIndirectCostRateAttributes.idcRateTypeCode}" noColon="true" /></div></th>
-          		<th width="9%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardIndirectCostRateAttributes.fiscalYear}" noColon="true" /></div></th>
-          		<th width="9%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardIndirectCostRateAttributes.startDate}" noColon="true" /></div></th>
-          		<th width="9%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardIndirectCostRateAttributes.endDate}" noColon="true" /></div></th>
-          		<th width="9%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardIndirectCostRateAttributes.onCampusFlag}" noColon="true" /></div></th>
-          		<th width="9%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardIndirectCostRateAttributes.underrecoveryOfIndirectCost}" noColon="true" /></div></th>
-          		<th width="9%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardIndirectCostRateAttributes.sourceAccount}" noColon="true" /></div></th>
-          		<th width="9%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardIndirectCostRateAttributes.destinationAccount}" noColon="true" /></div></th>          		
+          		<th width="9%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardFandaRateAttributes.applicableFandaRate}" noColon="true" /></div></th>
+          		<th width="9%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardFandaRateAttributes.fandaRateTypeCode}" noColon="true" /></div></th>
+          		<th width="9%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardFandaRateAttributes.fiscalYear}" noColon="true" /></div></th>
+          		<th width="9%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardFandaRateAttributes.startDate}" noColon="true" /></div></th>
+          		<th width="9%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardFandaRateAttributes.endDate}" noColon="true" /></div></th>
+          		<th width="9%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardFandaRateAttributes.onCampusFlag}" noColon="true" /></div></th>
+          		<th width="9%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardFandaRateAttributes.underrecoveryOfIndirectCost}" noColon="true" /></div></th>
+          		<th width="9%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardFandaRateAttributes.sourceAccount}" noColon="true" /></div></th>
+          		<th width="9%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardFandaRateAttributes.destinationAccount}" noColon="true" /></div></th>          		
           		<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
           	</tr>
              <tr>
@@ -49,47 +49,47 @@
                 
                 <td width="10%" valign="middle" class="infoline">
                 	<div align="center">
-                	<kul:htmlControlAttribute property="newAwardIndirectCostRate.applicableIndirectCostRate" attributeEntry="${awardIndirectCostRateAttributes.applicableIndirectCostRate}" />&nbsp;%
+                	<kul:htmlControlAttribute property="newAwardFandaRate.applicableFandaRate" attributeEntry="${awardFandaRateAttributes.applicableFandaRate}" />&nbsp;%
                 	</div>
 				</td>
                 <td width="5%" valign="middle" class="infoline">
                 	<div align="center">
-                	<kul:htmlControlAttribute property="newAwardIndirectCostRate.idcRateTypeCode" attributeEntry="${awardIndirectCostRateAttributes.idcRateTypeCode}" />
+                	<kul:htmlControlAttribute property="newAwardFandaRate.fandaRateTypeCode" attributeEntry="${awardFandaRateAttributes.fandaRateTypeCode}" />
                 	</div>
 				</td>
                 <td width="5%" valign="middle" class="infoline">
                 	<div align="center">
-                	<kul:htmlControlAttribute property="newAwardIndirectCostRate.fiscalYear" attributeEntry="${awardIndirectCostRateAttributes.fiscalYear}" onblur="loadStartAndEndDates('newAwardIndirectCostRate.fiscalYear', 'newAwardIndirectCostRate.startDate','newAwardIndirectCostRate.endDate');"/>                																																																	
+                	<kul:htmlControlAttribute property="newAwardFandaRate.fiscalYear" attributeEntry="${awardFandaRateAttributes.fiscalYear}" onblur="loadStartAndEndDates('newAwardFandaRate.fiscalYear', 'newAwardFandaRate.startDate','newAwardFandaRate.endDate');"/>                																																																	
                 	</div>
 				</td>
 				<td width="5%" valign="middle" class="infoline">
                 	<div align="center">
-                	<kul:htmlControlAttribute property="newAwardIndirectCostRate.startDate" attributeEntry="${awardIndirectCostRateAttributes.startDate}" datePicker="true" />
+                	<kul:htmlControlAttribute property="newAwardFandaRate.startDate" attributeEntry="${awardFandaRateAttributes.startDate}" datePicker="true" />
                 	</div>
 				</td>
                 <td width="5%" valign="middle" class="infoline">
                 	<div align="center">
-                	<kul:htmlControlAttribute property="newAwardIndirectCostRate.endDate" attributeEntry="${awardIndirectCostRateAttributes.endDate}" datePicker="true" />
+                	<kul:htmlControlAttribute property="newAwardFandaRate.endDate" attributeEntry="${awardFandaRateAttributes.endDate}" datePicker="true" />
                 	</div>
 				</td>
 				<td width="5%" valign="middle" class="infoline">
                 	<div align="center">
-                	<kul:htmlControlAttribute property="newAwardIndirectCostRate.onCampusFlag" attributeEntry="${awardIndirectCostRateAttributes.onCampusFlag}" />
+                	<kul:htmlControlAttribute property="newAwardFandaRate.onCampusFlag" attributeEntry="${awardFandaRateAttributes.onCampusFlag}" />
                 	</div>
 				</td>
 				<td width="5%" valign="middle" class="infoline">
                 	<div align="center">
-                	<kul:htmlControlAttribute property="newAwardIndirectCostRate.underrecoveryOfIndirectCost" attributeEntry="${awardIndirectCostRateAttributes.underrecoveryOfIndirectCost}" />
+                	<kul:htmlControlAttribute property="newAwardFandaRate.underrecoveryOfIndirectCost" attributeEntry="${awardFandaRateAttributes.underrecoveryOfIndirectCost}" />
                 	</div>
 				</td>
 				<td width="5%" valign="middle" class="infoline">
                 	<div align="center">
-                	<kul:htmlControlAttribute property="newAwardIndirectCostRate.sourceAccount" attributeEntry="${awardIndirectCostRateAttributes.sourceAccount}" />
+                	<kul:htmlControlAttribute property="newAwardFandaRate.sourceAccount" attributeEntry="${awardFandaRateAttributes.sourceAccount}" />
                 	</div>
 				</td>
                 <td width="5%" valign="middle" class="infoline">
                 	<div align="center">
-                	<kul:htmlControlAttribute property="newAwardIndirectCostRate.destinationAccount" attributeEntry="${awardIndirectCostRateAttributes.destinationAccount}" />
+                	<kul:htmlControlAttribute property="newAwardFandaRate.destinationAccount" attributeEntry="${awardFandaRateAttributes.destinationAccount}" />
                 	</div>
 				</td>
 				<td class="infoline">
@@ -100,54 +100,54 @@
                 </td>
             </tr>
             <c:set var="total" value="0" />
-        	<c:forEach var="awardIndirectCostRate" items="${KualiForm.document.award.awardIndirectCostRate}" varStatus="status">
+        	<c:forEach var="awardFandaRate" items="${KualiForm.document.award.awardFandaRate}" varStatus="status">
 	             <tr>
 					<th width="5%" class="infoline">
 						<c:out value="${status.index+1}" />
 					</th>	                
 	                <td width="9%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.award.awardIndirectCostRate[${status.index}].applicableIndirectCostRate" attributeEntry="${awardIndirectCostRateAttributes.applicableIndirectCostRate}" />
+                		<kul:htmlControlAttribute property="document.award.awardFandaRate[${status.index}].applicableFandaRate" attributeEntry="${awardFandaRateAttributes.applicableFandaRate}" />
 					</div>
 					</td>
 	                <td width="9%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.award.awardIndirectCostRate[${status.index}].idcRateTypeCode" attributeEntry="${awardIndirectCostRateAttributes.idcRateTypeCode}" />                		
+                		<kul:htmlControlAttribute property="document.award.awardFandaRate[${status.index}].fandaRateTypeCode" attributeEntry="${awardFandaRateAttributes.fandaRateTypeCode}" />                		
 					</div>
 					</td>
 	                <td width="9%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.award.awardIndirectCostRate[${status.index}].fiscalYear" attributeEntry="${awardIndirectCostRateAttributes.fiscalYear}" onblur="loadStartAndEndDates('document.award.awardIndirectCostRate[${status.index}].fiscalYear', 'document.award.awardIndirectCostRate[${status.index}].startDate','document.award.awardIndirectCostRate[${status.index}].endDate');" />
+                		<kul:htmlControlAttribute property="document.award.awardFandaRate[${status.index}].fiscalYear" attributeEntry="${awardFandaRateAttributes.fiscalYear}" onblur="loadStartAndEndDates('document.award.awardFandaRate[${status.index}].fiscalYear', 'document.award.awardFandaRate[${status.index}].startDate','document.award.awardFandaRate[${status.index}].endDate');" />
 					</div>
 					</td>
 					<td width="9%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.award.awardIndirectCostRate[${status.index}].startDate" attributeEntry="${awardIndirectCostRateAttributes.startDate}" datePicker="true" />
+                		<kul:htmlControlAttribute property="document.award.awardFandaRate[${status.index}].startDate" attributeEntry="${awardFandaRateAttributes.startDate}" datePicker="true" />
 					</div>
 					</td>
 	                <td width="9%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.award.awardIndirectCostRate[${status.index}].endDate" attributeEntry="${awardIndirectCostRateAttributes.endDate}" datePicker="true" />
+                		<kul:htmlControlAttribute property="document.award.awardFandaRate[${status.index}].endDate" attributeEntry="${awardFandaRateAttributes.endDate}" datePicker="true" />
 					</div>
 					</td>
 	                <td width="9%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.award.awardIndirectCostRate[${status.index}].onCampusFlag" attributeEntry="${awardIndirectCostRateAttributes.onCampusFlag}" />
+                		<kul:htmlControlAttribute property="document.award.awardFandaRate[${status.index}].onCampusFlag" attributeEntry="${awardFandaRateAttributes.onCampusFlag}" />
 					</div>
 					</td>
 	                <td width="9%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.award.awardIndirectCostRate[${status.index}].underrecoveryOfIndirectCost" attributeEntry="${awardIndirectCostRateAttributes.underrecoveryOfIndirectCost}" />
+                		<kul:htmlControlAttribute property="document.award.awardFandaRate[${status.index}].underrecoveryOfIndirectCost" attributeEntry="${awardFandaRateAttributes.underrecoveryOfIndirectCost}" />
 					</div>
 					</td>
 	                <td width="9%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.award.awardIndirectCostRate[${status.index}].sourceAccount" attributeEntry="${awardIndirectCostRateAttributes.sourceAccount}" />
+                		<kul:htmlControlAttribute property="document.award.awardFandaRate[${status.index}].sourceAccount" attributeEntry="${awardFandaRateAttributes.sourceAccount}" />
 					</div>
 					</td>
 	                <td width="9%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.award.awardIndirectCostRate[${status.index}].destinationAccount" attributeEntry="${awardIndirectCostRateAttributes.destinationAccount}" />
+                		<kul:htmlControlAttribute property="document.award.awardFandaRate[${status.index}].destinationAccount" attributeEntry="${awardFandaRateAttributes.destinationAccount}" />
 					</div>
 					</td>
 					<td width="10%" valign="middle">
@@ -156,11 +156,11 @@
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 					</div>
 					</td>
-					<c:set var="total" value="${total + KualiForm.document.award.awardIndirectCostRate[status.index].underrecoveryOfIndirectCost}" />
+					<c:set var="total" value="${total + KualiForm.document.award.awardFandaRate[status.index].underrecoveryOfIndirectCost}" />
 
 	            </tr>
         	</c:forEach>
-        	<c:if test="${not empty KualiForm.document.award.awardIndirectCostRate}" >
+        	<c:if test="${not empty KualiForm.document.award.awardFandaRate}" >
         		<tr>
         			<th width="5%" class="infoline">
 						<c:out value="Total" />

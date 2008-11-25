@@ -23,10 +23,10 @@ import org.kuali.core.document.Document;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kra.award.bo.AwardIndirectCostRate;
+import org.kuali.kra.award.bo.AwardFandaRate;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.rule.AddIndirectCostRateRule;
-import org.kuali.kra.award.rule.event.AddAwardIndirectCostRateEvent;
+import org.kuali.kra.award.rule.AddFandaRateRule;
+import org.kuali.kra.award.rule.event.AddAwardFandaRateEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -37,7 +37,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  * Responsible for delegating rules to independent rule classes.
  *
  */
-public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddIndirectCostRateRule {
+public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddFandaRateRule {
     
     public static final String DOCUMENT_ERROR_PATH = "document";
     public static final String AWARD_ERROR_PATH = "award";
@@ -64,7 +64,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddIn
             return false;
         }
         
-        retval &= processAwardIndirectCostRateBusinessRules(document);
+        retval &= processAwardFandaRateBusinessRules(document);
 
         return retval;
     }
@@ -80,24 +80,24 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddIn
     
     /**
      * 
-     * @see org.kuali.kra.award.rule.AddIndirectCostRateRule#
-     * processAddIndirectCostRatesBusinessRules(
-     * org.kuali.kra.award.rule.event.AddAwardIndirectCostRateEvent)
+     * @see org.kuali.kra.award.rule.AddFandaRateRule#
+     * processAddFandaRateBusinessRules(
+     * org.kuali.kra.award.rule.event.AddAwardFandaRateEvent)
      */
-    public boolean processAddIndirectCostRatesBusinessRules(AddAwardIndirectCostRateEvent 
-            addAwardIndirectCostRateEvent) {        
-        return new AwardIndirectCostRateRule().processAddIndirectCostRatesBusinessRules(
-                addAwardIndirectCostRateEvent);            
+    public boolean processAddFandaRateBusinessRules(AddAwardFandaRateEvent 
+            addAwardFandaRateEvent) {        
+        return new AwardFandaRateRule().processAddFandaRateBusinessRules(
+                addAwardFandaRateEvent);            
     }    
     
     /**
      * 
-     * This method evaluates the business rules for <code>AwardIndirectCostRate</code>
+     * This method evaluates the business rules for <code>AwardFandaRate</code>
      * business object.
      * @param document
      * @return
      */
-    protected boolean processAwardIndirectCostRateBusinessRules(Document document) {
+    protected boolean processAwardFandaRateBusinessRules(Document document) {
         boolean retval = true;
         AwardDocument awardDocument = (AwardDocument) document;
         if(StringUtils.equalsIgnoreCase(
@@ -105,7 +105,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddIn
                         Constants.PARAMETER_COMPONENT_DOCUMENT,
                         KeyConstants.MIT_IDC_VALIDATION_ENABLED).getParameterValue(),
                         KeyConstants.MIT_IDC_VALIDATION_ENABLED_VALUE_FOR_COMPARISON)){
-            retval = isIndirectCostRateInputInPairs(awardDocument.getAward().getAwardIndirectCostRate());
+            retval = isFandaRateInputInPairs(awardDocument.getAward().getAwardFandaRate());
         }        
         return retval;
     }
@@ -120,14 +120,14 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddIn
     
     /**
      * 
-     * This method takes as the input a list of <code>AwardIndirectCostRate</code>,
+     * This method takes as the input a list of <code>AwardFandaRate</code>,
      * iterates through it twice to find out whether both on campus and off campus entries
      * are present for every indirectRateTypeCode. 
      * Returns true if they both are present.
-     * @param awardIndirectCostRateList
+     * @param awardFandaRateList
      * @return
      */
-    protected boolean isIndirectCostRateInputInPairs(List<AwardIndirectCostRate> awardIndirectCostRateList){
+    protected boolean isFandaRateInputInPairs(List<AwardFandaRate> awardFandaRateList){
         HashMap<Integer,String> a1 = new HashMap<Integer,String>();
         HashMap<Integer,String> b1 = new HashMap<Integer,String>();        
         ErrorMap errorMap = GlobalVariables.getErrorMap();
@@ -136,19 +136,19 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddIn
         errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
         errorMap.addToErrorPath(AWARD_ERROR_PATH);
         
-        for(AwardIndirectCostRate awardIndirectCostRate : awardIndirectCostRateList){
-            if(StringUtils.equalsIgnoreCase(awardIndirectCostRate.getOnCampusFlag(),"N")){
-                a1.put(awardIndirectCostRate.getIdcRateTypeCode(), awardIndirectCostRate.getOnCampusFlag());
-            }else if(StringUtils.equalsIgnoreCase(awardIndirectCostRate.getOnCampusFlag(),"F")){
-                b1.put(awardIndirectCostRate.getIdcRateTypeCode(), awardIndirectCostRate.getOnCampusFlag());
+        for(AwardFandaRate awardFandaRate : awardFandaRateList){
+            if(StringUtils.equalsIgnoreCase(awardFandaRate.getOnCampusFlag(),"N")){
+                a1.put(awardFandaRate.getFandaRateTypeCode(), awardFandaRate.getOnCampusFlag());
+            }else if(StringUtils.equalsIgnoreCase(awardFandaRate.getOnCampusFlag(),"F")){
+                b1.put(awardFandaRate.getFandaRateTypeCode(), awardFandaRate.getOnCampusFlag());
             }
         }
-        for(AwardIndirectCostRate awardIndirectCostRate : awardIndirectCostRateList){            
-            if((a1.containsKey(awardIndirectCostRate.getIdcRateTypeCode()) 
-                    && !b1.containsKey(awardIndirectCostRate.getIdcRateTypeCode()))
-                    ||(b1.containsKey(awardIndirectCostRate.getIdcRateTypeCode()) 
-                            && !a1.containsKey(awardIndirectCostRate.getIdcRateTypeCode()))){                
-                errorMap.putError("awardIndirectCostRate[" + i + "].idcRateTypeCode"
+        for(AwardFandaRate awardFandaRate : awardFandaRateList){            
+            if((a1.containsKey(awardFandaRate.getFandaRateTypeCode()) 
+                    && !b1.containsKey(awardFandaRate.getFandaRateTypeCode()))
+                    ||(b1.containsKey(awardFandaRate.getFandaRateTypeCode()) 
+                            && !a1.containsKey(awardFandaRate.getFandaRateTypeCode()))){                
+                errorMap.putError("awardFandaRate[" + i + "].fandaRateTypeCode"
                         , KeyConstants.INDIRECT_COST_RATE_NOT_IN_PAIR);
                 return false;
             }

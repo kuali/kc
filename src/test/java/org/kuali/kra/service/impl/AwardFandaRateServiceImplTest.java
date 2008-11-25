@@ -19,31 +19,31 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.service.AwardIndirectCostRateService;
+import org.kuali.kra.service.AwardFandaRateService;
 
 /**
  * 
- * This class tests <code>AwardIndirectCostRateService</code>
+ * This class tests <code>AwardFandaRateService</code>
  */
-public class AwardIndirectCostRateServiceImplTest {
+public class AwardFandaRateServiceImplTest {
     
-    AwardIndirectCostRateService awardIndirectCostRateService;
+    AwardFandaRateService awardFandaRateService;
     private static final String FISCAL_YEAR_STRING = "2008";
     private static final String MOCK_EXPECTED_DATE_STRING = "07/01/2007,06/30/2008";
 
     @Before
     public void setUp() throws Exception {
-        awardIndirectCostRateService = new AwardIndirectCostRateServiceImpl();
+        awardFandaRateService = new AwardFandaRateServiceImpl();
     }
 
     @After
     public void tearDown() throws Exception {
-        awardIndirectCostRateService = null;
+        awardFandaRateService = null;
     }
 
     @Test
     public final void testGetStartAndEndDatesBasedOnFiscalYear() {
-        String dates = awardIndirectCostRateService.getStartAndEndDatesBasedOnFiscalYear(FISCAL_YEAR_STRING);
+        String dates = awardFandaRateService.getStartAndEndDatesBasedOnFiscalYear(FISCAL_YEAR_STRING);
         Assert.assertEquals(MOCK_EXPECTED_DATE_STRING,dates);        
     }
 

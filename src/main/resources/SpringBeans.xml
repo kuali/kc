@@ -1136,7 +1136,7 @@
 		</property>
 	</bean>
 	
-	<bean id="awardIndirectCostRateService" class="org.kuali.kra.service.impl.AwardIndirectCostRateServiceImpl">		
+	<bean id="awardFandaRateService" class="org.kuali.kra.service.impl.AwardFandaRateServiceImpl">		
 	</bean>
 	
 	<bean id="onOffCampusLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" scope="prototype">

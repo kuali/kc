@@ -16,16 +16,16 @@
 package org.kuali.kra.award.rule.event;
 
 import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.kra.award.bo.AwardIndirectCostRate;
+import org.kuali.kra.award.bo.AwardFandaRate;
 
 /**
  * 
  * This class...
  */
-public interface AwardIndirectCostRateEvent extends KualiDocumentEvent {
+public interface AwardFandaRateEvent extends KualiDocumentEvent {
     
     /**
-     * @return <code>{@link AwardIndirectCostRate}</code> that triggered this event.
+     * @return <code>{@link AwardFandaRate}</code> that triggered this event.
      */
-    public AwardIndirectCostRate getAwardIndirectCostRate();
+    public AwardFandaRate getAwardFandaRate();
 }
