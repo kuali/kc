@@ -16,19 +16,19 @@
 package org.kuali.kra.service.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.service.AwardIndirectCostRateService;
+import org.kuali.kra.service.AwardFandaRateService;
 
 /**
  * 
- * This is the implementation of <code>AwardIndirectCostRateService</code> interface.
+ * This is the implementation of <code>AwardFandaRateService</code> interface.
  */
-public class AwardIndirectCostRateServiceImpl implements AwardIndirectCostRateService {
+public class AwardFandaRateServiceImpl implements AwardFandaRateService {
     
     public static final int FISCAL_YEAR_LENGTH = 4;
 
     /**
      * 
-     * @see org.kuali.kra.service.AwardIndirectCostRateService#getStartAndEndDatesBasedOnFiscalYear(java.lang.String)
+     * @see org.kuali.kra.service.AwardFandaRateService#getStartAndEndDatesBasedOnFiscalYear(java.lang.String)
      */
     public String getStartAndEndDatesBasedOnFiscalYear(String fiscalYear){
         StringBuilder dates = new StringBuilder();
@@ -40,11 +40,11 @@ public class AwardIndirectCostRateServiceImpl implements AwardIndirectCostRateSe
         }
         
         if (StringUtils.isNotEmpty(fiscalYear) && fiscalYear.length()==FISCAL_YEAR_LENGTH) {
-            dates.append("07/01/");// + startDateYear);
+            dates.append("07/01/");
             dates.append(startDateYear);
             dates.append(",");
             dates.append("06/30/");
-            dates.append(fiscalYear);
+            dates.append(fiscalYear);            
         }
         return dates.toString();
     }

@@ -24,10 +24,10 @@ import org.junit.Test;
  * 
  * This class tests methods in Award.java class
  */
-public class AwardIndirectCostRateTest { 
-    private static final int AWARD_INDIRECT_COST_RATE_COUNT = 10;
+public class AwardFandaRateTest { 
+    private static final int AWARD_FANDA_RATE_COUNT = 10;
     
-    private AwardIndirectCostRate awardIndirectCostRateBO;
+    private AwardFandaRate awardFandaRate;
     
     /**
      *
@@ -35,7 +35,7 @@ public class AwardIndirectCostRateTest {
      */
     @Before
     public void setUp() throws Exception {
-        awardIndirectCostRateBO = new AwardIndirectCostRate();
+        awardFandaRate = new AwardFandaRate();
     }
 
     /**
@@ -44,7 +44,7 @@ public class AwardIndirectCostRateTest {
      */
     @After
     public void tearDown() throws Exception {
-        awardIndirectCostRateBO = null;
+        awardFandaRate = null;
     }
     
     /**
@@ -54,7 +54,7 @@ public class AwardIndirectCostRateTest {
      */
     @Test
     public void testAwardIndirectCostRateBoAttributesCount() throws Exception {              
-        Assert.assertEquals(AWARD_INDIRECT_COST_RATE_COUNT, awardIndirectCostRateBO.toStringMapper().size());
+        Assert.assertEquals(AWARD_FANDA_RATE_COUNT, awardFandaRate.toStringMapper().size());
     }
     
 }
