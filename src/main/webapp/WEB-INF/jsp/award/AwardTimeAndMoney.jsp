@@ -43,7 +43,7 @@ var kualiForm = document.forms['KualiForm'];
 var kualiElements = kualiForm.elements;
 </SCRIPT>
 <script language="javascript" src="scripts/kuali_application.js"></script>
-<script language="javascript" src="dwr/interface/AwardIndirectCostRateService.js"></script>
+<script language="javascript" src="dwr/interface/AwardFandaRateService.js"></script>
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 
 </kul:documentPage>

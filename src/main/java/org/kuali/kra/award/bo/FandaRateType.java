@@ -22,22 +22,22 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * 
- * This class represents the IndirectCostRateType Business Object.
+ * This class represents the FandaRateType Business Object.
  */
-public class IndirectCostRateType extends KraPersistableBusinessObjectBase { 
+public class FandaRateType extends KraPersistableBusinessObjectBase { 
     
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -6901016199815302736L;
-    private Integer indirectCostRateTypeCode; 
+    private Integer fandaRateTypeCode; 
     private String description; 
     
     /**
      * 
-     * Constructs a IndirectCostRateType.java.
+     * Constructs a FandaRateType.java.
      */
-    public IndirectCostRateType() { 
+    public FandaRateType() { 
 
     } 
     
@@ -45,16 +45,16 @@ public class IndirectCostRateType extends KraPersistableBusinessObjectBase {
      *
      * @return
      */
-    public Integer getIndirectCostRateTypeCode() {
-        return indirectCostRateTypeCode;
+    public Integer getFandaRateTypeCode() {
+        return fandaRateTypeCode;
     }
 
     /**
      *
-     * @param indirectCostRateTypeCode
+     * @param fandaRateTypeCode
      */
-    public void setIndirectCostRateTypeCode(Integer indirectCostRateTypeCode) {
-        this.indirectCostRateTypeCode = indirectCostRateTypeCode;
+    public void setFandaRateTypeCode(Integer fandaRateTypeCode) {
+        this.fandaRateTypeCode = fandaRateTypeCode;
     }
 
     /**
@@ -80,7 +80,7 @@ public class IndirectCostRateType extends KraPersistableBusinessObjectBase {
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("indirectCostRateTypeCode", getIndirectCostRateTypeCode());
+        hashMap.put("fandaRateTypeCode", getFandaRateTypeCode());
         hashMap.put("description", getDescription());
         return hashMap;
     }

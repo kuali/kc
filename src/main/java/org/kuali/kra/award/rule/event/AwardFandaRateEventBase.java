@@ -17,43 +17,43 @@ package org.kuali.kra.award.rule.event;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kra.award.bo.AwardIndirectCostRate;
+import org.kuali.kra.award.bo.AwardFandaRate;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 
 /**
  * 
- * This is the base event class for <code>AwardIndirectCostRate</code> business object.
+ * This is the base event class for <code>AwardFandaRate</code> business object.
  */
-public abstract class AwardIndirectCostRateEventBase extends KraDocumentEventBase implements AwardIndirectCostRateEvent {
+public abstract class AwardFandaRateEventBase extends KraDocumentEventBase implements AwardFandaRateEvent {
     private static final org.apache.commons.logging.Log LOG = 
-        org.apache.commons.logging.LogFactory.getLog(AwardIndirectCostRateEventBase.class);
+        org.apache.commons.logging.LogFactory.getLog(AwardFandaRateEventBase.class);
 
-    private AwardIndirectCostRate awardIndirectCostRate;
+    private AwardFandaRate awardFandaRate;
 
     /**
      * 
-     * Constructs a AwardIndirectCostRateEventBase.java.
+     * Constructs a AwardFandaRateEventBase.java.
      * @param description
      * @param errorPathPrefix
      * @param document
-     * @param awardIndirectCostRate
+     * @param awardFandaRate
      */
-    protected AwardIndirectCostRateEventBase(String description, String errorPathPrefix, 
-            AwardDocument document, AwardIndirectCostRate awardIndirectCostRate) {
+    protected AwardFandaRateEventBase(String description, String errorPathPrefix, 
+            AwardDocument document, AwardFandaRate awardFandaRate) {
         super(description, errorPathPrefix, document);
     
         // by doing a deep copy, we are ensuring that the business rule class can't update
         // the original object by reference
-        this.awardIndirectCostRate = (AwardIndirectCostRate) ObjectUtils.deepCopy(awardIndirectCostRate);
+        this.awardFandaRate = (AwardFandaRate) ObjectUtils.deepCopy(awardFandaRate);
         logEvent();
     }
 
     /**
-    * @return <code>{@link AwardIndirectCostRate}</code> that triggered this event.
+    * @return <code>{@link AwardFandaRate}</code> that triggered this event.
     */
-    public AwardIndirectCostRate getAwardIndirectCostRate() {
-        return awardIndirectCostRate;
+    public AwardFandaRate getAwardFandaRate() {
+        return awardFandaRate;
     }
 
     /**
@@ -61,8 +61,8 @@ public abstract class AwardIndirectCostRateEventBase extends KraDocumentEventBas
     */
     public void validate() {
         super.validate();
-        if (getAwardIndirectCostRate() == null) {
-            throw new IllegalArgumentException("invalid (null) award indirectCostRate");
+        if (getAwardFandaRate() == null) {
+            throw new IllegalArgumentException("invalid (null) award fandaRate");
         }
     }
 
@@ -75,11 +75,11 @@ public abstract class AwardIndirectCostRateEventBase extends KraDocumentEventBas
         logMessage.append(" with ");
         
         // vary logging detail as needed
-        if (getAwardIndirectCostRate() == null) {
+        if (getAwardFandaRate() == null) {
             logMessage.append("null proposalSpecialReview");
         }
         else {
-            logMessage.append(getAwardIndirectCostRate().toString());
+            logMessage.append(getAwardFandaRate().toString());
         }
         
         LOG.debug(logMessage);

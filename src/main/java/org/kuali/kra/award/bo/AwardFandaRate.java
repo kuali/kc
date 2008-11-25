@@ -24,17 +24,17 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * 
- * This class represents the AwardIndirectCostRate Business Object.
+ * This class represents the AwardFandaRate Business Object.
  */
-public class AwardIndirectCostRate extends KraPersistableBusinessObjectBase { 
+public class AwardFandaRate extends KraPersistableBusinessObjectBase { 
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 1L;
-    private Long awardIndirectCostRateId;
-    private KualiDecimal applicableIndirectCostRate; 
-    private Integer indirectCostRateTypeCode; 
+    private Long awardFandaRateId;
+    private KualiDecimal applicableFandaRate; 
+    private Integer fandaRateTypeCode; 
     private String fiscalYear; 
     private String onCampusFlag; 
     private KualiDecimal underrecoveryOfIndirectCost; 
@@ -46,9 +46,9 @@ public class AwardIndirectCostRate extends KraPersistableBusinessObjectBase {
     
     /**
      * 
-     * Constructs a AwardIndirectCostRate.java.
+     * Constructs a AwardFandaRate.java.
      */
-    public AwardIndirectCostRate() { 
+    public AwardFandaRate() { 
 
     } 
     
@@ -57,17 +57,17 @@ public class AwardIndirectCostRate extends KraPersistableBusinessObjectBase {
      * This method...
      * @return
      */
-    public Long getAwardIndirectCostRateId() {
-        return awardIndirectCostRateId;
+    public Long getAwardFandaRateId() {
+        return awardFandaRateId;
     }
 
     /**
      * 
      * This method...
-     * @param awardIndirectCostRateId
+     * @param awardFandaRateId
      */
-    public void setAwardIndirectCostRateId(Long awardIndirectCostRateId) {
-        this.awardIndirectCostRateId = awardIndirectCostRateId;
+    public void setAwardFandaRateId(Long awardFandaRateId) {
+        this.awardFandaRateId = awardFandaRateId;
     }
 
     /**
@@ -75,37 +75,35 @@ public class AwardIndirectCostRate extends KraPersistableBusinessObjectBase {
      * This method...
      * @return
      */
-    public KualiDecimal getApplicableIndirectCostRate() {
-        return applicableIndirectCostRate;
+    public KualiDecimal getApplicableFandaRate() {
+        return applicableFandaRate;
     }
 
     /**
      * 
      * This method...
-     * @param applicableIndirectCostRate
+     * @param applicableFandaRate
      */
-    public void setApplicableIndirectCostRate(KualiDecimal applicableIndirectCostRate) {
-        this.applicableIndirectCostRate = applicableIndirectCostRate;
+    public void setApplicableFandaRate(KualiDecimal applicableFandaRate) {
+        this.applicableFandaRate = applicableFandaRate;
     }
 
     /**
      * 
-     * For ease of use in JSP and tag files; the getter method uses acronym instead of full meaning.
-     * IdcRateTypeCode is an acronym. Its full meaning is Indirect Cost Rate Type Code
+     * This method...
      * @return
      */
-    public Integer getIdcRateTypeCode() {
-        return indirectCostRateTypeCode;
+    public Integer getFandaRateTypeCode() {
+        return fandaRateTypeCode;
     }
 
     /**
      * 
-     * For ease of use in JSP and tag files; the setter method uses acronym instead of full meaning.
-     * IdcRateTypeCode is an acronym. Its full meaning is Indirect Cost Rate Type Code
-     * @param indirectCostRateTypeCode
+     * This method...
+     * @param fandaRateTypeCode
      */
-    public void setIdcRateTypeCode(Integer indirectCostRateTypeCode) {
-        this.indirectCostRateTypeCode = indirectCostRateTypeCode;
+    public void setFandaRateTypeCode(Integer fandaRateTypeCode) {
+        this.fandaRateTypeCode = fandaRateTypeCode;
     }
 
     /**
@@ -241,9 +239,9 @@ public class AwardIndirectCostRate extends KraPersistableBusinessObjectBase {
     @Override 
     protected LinkedHashMap<String,Object> toStringMapper() {
         LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
-        hashMap.put("awardIndirectCostRateId", getAwardIndirectCostRateId());
-        hashMap.put("applicableIndirectCostRate", getApplicableIndirectCostRate());
-        hashMap.put("indirectCostRateTypeCode", getIdcRateTypeCode());
+        hashMap.put("awardFandaRateId", getAwardFandaRateId());
+        hashMap.put("applicableFandaRate", getApplicableFandaRate());
+        hashMap.put("fandaRateTypeCode", getFandaRateTypeCode());
         hashMap.put("fiscalYear", getFiscalYear());
         hashMap.put("onCampusFlag", getOnCampusFlag());
         hashMap.put("underrecoveryOfIndirectCost", getUnderrecoveryOfIndirectCost());
