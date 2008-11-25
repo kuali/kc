@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
+<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ attribute name="tabTitle" required="true" %>
 <%@ attribute name="tabDescription" required="false" %>
 <%@ attribute name="tabErrorKey" required="false" %>
