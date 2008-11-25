@@ -17,7 +17,8 @@ package org.kuali.kra.award.web.struts.action;
 
 /**
  * 
- * This class represents the Struts Action for Payments, Reports & Terms page(AwardPaymentsReportsAndTerms.jsp)
+ * This class represents the Struts Action for Payments, 
+ * Reports & Terms page(AwardPaymentsReportsAndTerms.jsp)
  */
 public class AwardPaymentReportsAndTermsAction extends AwardAction {    
     

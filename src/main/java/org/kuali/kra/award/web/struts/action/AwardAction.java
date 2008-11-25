@@ -38,10 +38,13 @@ import edu.iu.uis.eden.clientapp.IDocHandler;
 public class AwardAction extends KraTransactionalDocumentActionBase {
     
     /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(
+     * org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, 
+     * javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
-    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward docHandler(ActionMapping mapping, ActionForm form
+            , HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;        
         ActionForward forward = handleDocument(mapping, form, request, response, awardForm);        
         awardForm.initializeFormOrDocumentBasedOnCommand();
@@ -74,7 +77,8 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
      * @param response
      * @return
      */
-    public ActionForward home(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {        
+    public ActionForward home(ActionMapping mapping, ActionForm form
+            , HttpServletRequest request, HttpServletResponse response) {        
         return mapping.findForward(Constants.MAPPING_AWARD_HOME_PAGE);
     }
     
@@ -87,7 +91,8 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
      * @param response
      * @return
      */
-    public ActionForward contacts(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {        
+    public ActionForward contacts(ActionMapping mapping, ActionForm form
+            , HttpServletRequest request, HttpServletResponse response) {        
         return mapping.findForward(Constants.MAPPING_AWARD_CONTACTS_PAGE);
     }
     
@@ -100,7 +105,8 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
      * @param response
      * @return
      */
-    public ActionForward timeAndMoney(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {        
+    public ActionForward timeAndMoney(ActionMapping mapping, ActionForm form
+            , HttpServletRequest request, HttpServletResponse response) {        
         return mapping.findForward(Constants.MAPPING_AWARD_TIME_AND_MONEY_PAGE);
     }
     
@@ -113,7 +119,8 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
      * @param response
      * @return
      */
-    public ActionForward paymentReportsAndTerms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {        
+    public ActionForward paymentReportsAndTerms(ActionMapping mapping, ActionForm form
+            , HttpServletRequest request, HttpServletResponse response) {        
         return mapping.findForward(Constants.MAPPING_AWARD_PAYMENT_REPORTS_AND_TERMS_PAGE);
     }
     
@@ -126,7 +133,8 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
      * @param response
      * @return
      */
-    public ActionForward specialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {        
+    public ActionForward specialReview(ActionMapping mapping, ActionForm form
+            , HttpServletRequest request, HttpServletResponse response) {        
         return mapping.findForward(Constants.MAPPING_AWARD_SPECIAL_REVIEW_PAGE);
     }
     
@@ -139,7 +147,8 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
      * @param response
      * @return
      */
-    public ActionForward customData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {        
+    public ActionForward customData(ActionMapping mapping, ActionForm form
+            , HttpServletRequest request, HttpServletResponse response) {        
         return mapping.findForward(Constants.MAPPING_AWARD_CUSTOM_DATA_PAGE);
     }
     
@@ -152,7 +161,8 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
      * @param response
      * @return
      */
-    public ActionForward questions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {        
+    public ActionForward questions(ActionMapping mapping, ActionForm form
+            , HttpServletRequest request, HttpServletResponse response) {        
         return mapping.findForward(Constants.MAPPING_AWARD_QUESTIONS_PAGE);
     }
     
@@ -165,7 +175,8 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
      * @param response
      * @return
      */
-    public ActionForward permissions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {        
+    public ActionForward permissions(ActionMapping mapping, ActionForm form
+            , HttpServletRequest request, HttpServletResponse response) {        
         return mapping.findForward(Constants.MAPPING_AWARD_PERMISSIONS_PAGE);
     }
     
@@ -178,7 +189,8 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
      * @param response
      * @return
      */
-    public ActionForward notesAndAttachments(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {        
+    public ActionForward notesAndAttachments(ActionMapping mapping, ActionForm form
+            , HttpServletRequest request, HttpServletResponse response) {        
         return mapping.findForward(Constants.MAPPING_AWARD_NOTES_AND_ATTACHMENTS_PAGE);
     }
     
@@ -191,7 +203,8 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
      * @param response
      * @return
      */
-    public ActionForward awardActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {        
+    public ActionForward awardActions(ActionMapping mapping, ActionForm form
+            , HttpServletRequest request, HttpServletResponse response) {        
         return mapping.findForward(Constants.MAPPING_AWARD_ACTIONS_PAGE);
     }
 
@@ -205,7 +218,7 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
      * @throws Exception
      */
     ActionForward handleDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-                                            HttpServletResponse response, AwardForm awardForm) throws Exception {
+                                  HttpServletResponse response, AwardForm awardForm) throws Exception {
         String command = awardForm.getCommand();
         ActionForward forward;        
         if (IDocHandler.ACTIONLIST_INLINE_COMMAND.equals(command)) {
@@ -214,7 +227,8 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
             awardForm.setDocument(retrievedDocument);
             request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);
             ActionForward baseForward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
-            forward = new ActionForward(buildForwardStringForActionListCommand(baseForward.getPath(),docIdRequestParameter));  
+            forward = new ActionForward(buildForwardStringForActionListCommand(
+                    baseForward.getPath(),docIdRequestParameter));  
         } else {
         forward = super.docHandler(mapping, form, request, response);
         }

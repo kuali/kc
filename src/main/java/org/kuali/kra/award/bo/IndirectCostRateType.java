@@ -22,43 +22,67 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * 
- * This class represetns the IndirectCostRateType Business Object.
+ * This class represents the IndirectCostRateType Business Object.
  */
 public class IndirectCostRateType extends KraPersistableBusinessObjectBase { 
-	
-	/**
+    
+    /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -6901016199815302736L;
     private Integer indirectCostRateTypeCode; 
-	private String description; 
-	
-	public IndirectCostRateType() { 
+    private String description; 
+    
+    /**
+     * 
+     * Constructs a IndirectCostRateType.java.
+     */
+    public IndirectCostRateType() { 
 
-	} 
-	
-	public Integer getIndirectCostRateTypeCode() {
-		return indirectCostRateTypeCode;
-	}
+    } 
+    
+    /**
+     *
+     * @return
+     */
+    public Integer getIndirectCostRateTypeCode() {
+        return indirectCostRateTypeCode;
+    }
 
-	public void setIndirectCostRateTypeCode(Integer indirectCostRateTypeCode) {
-		this.indirectCostRateTypeCode = indirectCostRateTypeCode;
-	}
+    /**
+     *
+     * @param indirectCostRateTypeCode
+     */
+    public void setIndirectCostRateTypeCode(Integer indirectCostRateTypeCode) {
+        this.indirectCostRateTypeCode = indirectCostRateTypeCode;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    /**
+     *
+     * @return
+     */
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    /**
+     *
+     * @param description
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("indirectCostRateTypeCode", getIndirectCostRateTypeCode());
-		hashMap.put("description", getDescription());
-		return hashMap;
-	}
-	
+    /**
+     * 
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    @Override 
+    protected LinkedHashMap<String, Object> toStringMapper() {
+        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
+        hashMap.put("indirectCostRateTypeCode", getIndirectCostRateTypeCode());
+        hashMap.put("description", getDescription());
+        return hashMap;
+    }
+    
 }
