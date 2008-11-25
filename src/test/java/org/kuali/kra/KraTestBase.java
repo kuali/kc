@@ -33,6 +33,7 @@ import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestFile;
 import org.kuali.rice.test.lifecycles.TransactionalLifecycle;
 import org.kuali.rice.testharness.KNSTestCase;
+import org.kuali.rice.util.OrmUtils;
 
 @PerSuiteUnitTestData(
         @UnitTestData(
@@ -168,9 +169,19 @@ public abstract class KraTestBase extends KNSTestCase {
     }
 
     protected Document getDocument(String documentNumber) throws Exception {
-        transactionalLifecycle.stop();
+        //transactionalLifecycle.stop();
+        
+        // Unfortunately, I can only clear the cache for OJB.  I have been
+        // unable to force a refresh on a document when it is in the cache.
+        // This is a pain if I need to recheck a document after the database
+        // has been changed.  Therefore, for OJB, I clear the cache which
+        // will force a new instance of the document to be retrieved from the database
+        // instead of the cache.
+        if (!OrmUtils.isJpaEnabled()) {
+            KNSServiceLocator.getPersistenceServiceOjb().clearCache();
+        }
         Document doc=getDocumentService().getByDocumentHeaderId(documentNumber);
-        transactionalLifecycle.start();
+       // transactionalLifecycle.start();
         return doc;
 
     }
