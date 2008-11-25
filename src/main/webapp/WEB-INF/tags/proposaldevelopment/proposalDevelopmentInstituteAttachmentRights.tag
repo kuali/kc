@@ -17,7 +17,7 @@
 
 <c:set var="narrativeUserRightsAttributes" value="${DataDictionary.NarrativeUserRights.attributes}" />
 <c:set var="selectedInstituteAttachment" value="${KualiForm.document.instituteAttachments[line]}"/>
-<%-- <kul:uncollapsable tabTitle="Rights"  > --%>
+<%-- <kra:uncollapsable tabTitle="Rights"  > --%>
 <kul:tabTop defaultOpen="true" tabTitle="Rights" tabErrorKey="newNarrativeUserRight*">
 	<div class="tab-container" align="center">
 	    <input type="hidden" name="line" value="${line}" />
@@ -53,4 +53,4 @@
         </table>
     </div>
 </kul:tabTop>    
-<%--</kul:uncollapsable>--%>
+<%--</kra:uncollapsable>--%>
