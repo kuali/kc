@@ -258,7 +258,7 @@ function loadStartAndEndDates(fiscalYear,startDate,endDate){
 				setRecipientValue( endDate, wrapError( "not found" ), true );
 			}
 		};
-		AwardIndirectCostRateService.getStartAndEndDatesBasedOnFiscalYear(fiscalYearValue,dwrReply);
+		AwardFandaRateService.getStartAndEndDatesBasedOnFiscalYear(fiscalYearValue,dwrReply);
 	}
 }
  

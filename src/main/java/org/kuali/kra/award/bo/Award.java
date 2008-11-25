@@ -81,7 +81,7 @@ public class Award extends KraPersistableBusinessObjectBase {
     private Integer specialEbRateOnCampus;
     private String subPlanFlag;
     private String title;
-    private List<AwardIndirectCostRate> awardIndirectCostRate;
+    private List<AwardFandaRate> awardFandaRate;
     
     /**
      * 
@@ -90,7 +90,7 @@ public class Award extends KraPersistableBusinessObjectBase {
     public Award() {
         super();
         initializeAwardWithDefaultValues();
-        awardIndirectCostRate = new ArrayList<AwardIndirectCostRate>();
+        awardFandaRate = new ArrayList<AwardFandaRate>();
     }
     
     /**
@@ -919,12 +919,12 @@ public class Award extends KraPersistableBusinessObjectBase {
         this.awardDocument = awardDocument;
     }
 
-    public List<AwardIndirectCostRate> getAwardIndirectCostRate() {
-        return awardIndirectCostRate;
+    public List<AwardFandaRate> getAwardFandaRate() {
+        return awardFandaRate;
     }
 
-    public void setAwardIndirectCostRate(List<AwardIndirectCostRate> awardIndirectCostRate) {
-        this.awardIndirectCostRate = awardIndirectCostRate;
+    public void setAwardFandaRate(List<AwardFandaRate> awardFandaRate) {
+        this.awardFandaRate = awardFandaRate;
     }
 
 }

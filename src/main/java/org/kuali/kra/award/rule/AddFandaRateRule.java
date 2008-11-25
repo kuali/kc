@@ -16,13 +16,13 @@
 package org.kuali.kra.award.rule;
 
 import org.kuali.core.rule.BusinessRule;
-import org.kuali.kra.award.rule.event.AddAwardIndirectCostRateEvent;
+import org.kuali.kra.award.rule.event.AddAwardFandaRateEvent;
 
 /**
  * 
- * This interface declares the rule method associated with <code>AwardIndirectCostRate</code> Business Object.
+ * This interface declares the rule method associated with <code>AwardFandaRate</code> Business Object.
  */
-public interface AddIndirectCostRateRule extends BusinessRule {
+public interface AddFandaRateRule extends BusinessRule {
     
     /**
      * Rule invoked upon adding a indirect cost rate
@@ -30,7 +30,7 @@ public interface AddIndirectCostRateRule extends BusinessRule {
      *
      * @return boolean
      */
-    public boolean processAddIndirectCostRatesBusinessRules(
-            AddAwardIndirectCostRateEvent addAwardIndirectCostRateEvent);
+    public boolean processAddFandaRateBusinessRules(
+            AddAwardFandaRateEvent addAwardFandaRateEvent);
 
 }

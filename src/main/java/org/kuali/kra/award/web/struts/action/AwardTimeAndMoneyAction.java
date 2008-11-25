@@ -23,9 +23,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.kra.award.bo.Award;
-import org.kuali.kra.award.bo.AwardIndirectCostRate;
+import org.kuali.kra.award.bo.AwardFandaRate;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.rule.event.AddAwardIndirectCostRateEvent;
+import org.kuali.kra.award.rule.event.AddAwardFandaRateEvent;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -38,8 +38,9 @@ public class AwardTimeAndMoneyAction extends AwardAction {
     
     /**
      * 
-     * This method adds an awardIndirectCost Rate. It gets called upon add action on F&A Rates Sub-Panel of 
-     * Rates Panel
+     * This method adds an <code>AwardFandaRate</code> business object to 
+     * the list of <code>AwardFandaRate</code> business objects
+     * It gets called upon delete action on F&A Rates Sub-Panel of Rates Panel
      * @param mapping
      * @param form
      * @param request
@@ -50,23 +51,33 @@ public class AwardTimeAndMoneyAction extends AwardAction {
     public ActionForward addFandaRate(ActionMapping mapping, ActionForm form, HttpServletRequest request
             , HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
-        AwardIndirectCostRate newAwardIndirectCostRate = awardForm.getNewAwardIndirectCostRate();
-        if(getKualiRuleService().applyRules(new AddAwardIndirectCostRateEvent(Constants.EMPTY_STRING, 
-                awardForm.getAwardDocument(), newAwardIndirectCostRate))){
-            addFandaRateToAward(awardForm.getAwardDocument().getAward(),newAwardIndirectCostRate);            
-            awardForm.setNewAwardIndirectCostRate(new AwardIndirectCostRate());
+        AwardFandaRate newAwardFandaRate = awardForm.getNewAwardFandaRate();
+        if(getKualiRuleService().applyRules(new AddAwardFandaRateEvent(Constants.EMPTY_STRING, 
+                awardForm.getAwardDocument(), newAwardFandaRate))){
+            addFandaRateToAward(awardForm.getAwardDocument().getAward(),newAwardFandaRate);            
+            awardForm.setNewAwardFandaRate(new AwardFandaRate());
         }
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);     
     }
     
-    boolean addFandaRateToAward(Award award, AwardIndirectCostRate awardIndirectCostRate){
-        return award.getAwardIndirectCostRate().add(awardIndirectCostRate);
+    /**
+     * 
+     * This method is a convenience method for adding an <code>AwardFandaRate</code> to
+     * <code>Award</code> business object.This way the add functionality can be tested
+     * independently using a JUnit Test.
+     * @param award
+     * @param awardFandaRate
+     * @return
+     */
+    boolean addFandaRateToAward(Award award, AwardFandaRate awardFandaRate){
+        return award.getAwardFandaRate().add(awardFandaRate);
     }
     
     /**
      * 
-     * This method deletes an awardIndirectCostRate; It gets called upon delete action on 
-     * F&A Rates Sub-Panel of Rates Panel
+     * This method deletes an <code>AwardFandaRate</code> business object from 
+     * the list of <code>AwardFandaRate</code> business objects
+     * It gets called upon delete action on F&A Rates Sub-Panel of Rates Panel
      * @param mapping
      * @param form
      * @param request
@@ -82,8 +93,17 @@ public class AwardTimeAndMoneyAction extends AwardAction {
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
+    /**
+     * 
+     * This method is a convenience method for deleting an <code>AwardFandaRate</code> from
+     * <code>Award</code> business object. This way the delete functionality can be tested
+     * independently using a JUnit Test.
+     * @param award
+     * @param lineToDelete
+     * @return
+     */
     boolean deleteFandaRateFromAward(Award award, int lineToDelete){
-        award.getAwardIndirectCostRate().remove(lineToDelete);
+        award.getAwardFandaRate().remove(lineToDelete);
         return true;
     }
     

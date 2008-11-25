@@ -20,7 +20,7 @@ import java.util.List;
 import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.datadictionary.HeaderNavigation;
 import org.kuali.core.service.DataDictionaryService;
-import org.kuali.kra.award.bo.AwardIndirectCostRate;
+import org.kuali.kra.award.bo.AwardFandaRate;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -40,7 +40,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase {
     private static final long serialVersionUID = -7633960906991275328L;
     public static final String SAVE = "save";
     public static final String RELOAD = "reload";
-    private AwardIndirectCostRate newAwardIndirectCostRate;
+    private AwardFandaRate newAwardFandaRate;
     
     /**
      * 
@@ -58,7 +58,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase {
      */
     public void initialize() {
         initializeHeaderNavigationTabs();
-        newAwardIndirectCostRate = new AwardIndirectCostRate();
+        newAwardFandaRate = new AwardFandaRate();
     }    
     
     /**
@@ -120,16 +120,16 @@ public class AwardForm extends KraTransactionalDocumentFormBase {
      *
      * @return
      */
-    public AwardIndirectCostRate getNewAwardIndirectCostRate() {
-        return newAwardIndirectCostRate;
+    public AwardFandaRate getNewAwardFandaRate() {
+        return newAwardFandaRate;
     }
 
     /**
      *
-     * @param newAwardIndirectCostRate
+     * @param newAwardFandaRate
      */
-    public void setNewAwardIndirectCostRate(AwardIndirectCostRate newAwardIndirectCostRate) {
-        this.newAwardIndirectCostRate = newAwardIndirectCostRate;
+    public void setNewAwardFandaRate(AwardFandaRate newAwardFandaRate) {
+        this.newAwardFandaRate = newAwardFandaRate;
     }
 
 }

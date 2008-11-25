@@ -17,55 +17,55 @@ package org.kuali.kra.award.rule.event;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
-import org.kuali.kra.award.bo.AwardIndirectCostRate;
+import org.kuali.kra.award.bo.AwardFandaRate;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.rule.AddIndirectCostRateRule;
+import org.kuali.kra.award.rule.AddFandaRateRule;
 
 /**
  * 
- * This class represents the AddAwardIndirectCostRateEvent
+ * This class represents the AddAwardFandaRateEvent
  */
-public class AddAwardIndirectCostRateEvent extends AwardIndirectCostRateEventBase{
+public class AddAwardFandaRateEvent extends AwardFandaRateEventBase{
     
     /**
-     * Constructs an AddAwardIndirectCostRateEvent with the given errorPathPrefix, 
-     * awardDocument, and awardIndirectCostRate.
+     * Constructs an AddAwardFandaRateEvent with the given errorPathPrefix, 
+     * awardDocument, and awardFandaRate.
      * 
      * @param errorPathPrefix
      * @param awardDocument
-     * @param awardIndirectCostRate
+     * @param awardFandaRate
      */
-    public AddAwardIndirectCostRateEvent(String errorPathPrefix, AwardDocument awardDocument
-            , AwardIndirectCostRate awardIndirectCostRate) {
+    public AddAwardFandaRateEvent(String errorPathPrefix, AwardDocument awardDocument
+            , AwardFandaRate awardFandaRate) {
         super("adding Indirect Cost Rate to Award document " + getDocumentId(awardDocument)
-                , errorPathPrefix, awardDocument, awardIndirectCostRate);
+                , errorPathPrefix, awardDocument, awardFandaRate);
     }
 
     /**
-     * Constructs an AddAwardIndirectCostRateEvent with the given errorPathPrefix
-     * , document, and awardIndirectCostRate.
+     * Constructs an AddAwardFandaRateEvent with the given errorPathPrefix
+     * , document, and awardFandaRate.
      * 
      * @param errorPathPrefix
      * @param document
-     * @param awardIndirectCostRate
+     * @param awardFandaRate
      */
-    public AddAwardIndirectCostRateEvent(String errorPathPrefix, Document document
-            , AwardIndirectCostRate awardIndirectCostRate) {
-        this(errorPathPrefix, (AwardDocument) document, awardIndirectCostRate);
+    public AddAwardFandaRateEvent(String errorPathPrefix, Document document
+            , AwardFandaRate awardFandaRate) {
+        this(errorPathPrefix, (AwardDocument) document, awardFandaRate);
     }
 
     /**
      * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
     public Class getRuleInterfaceClass() {
-        return AddIndirectCostRateRule.class;
+        return AddFandaRateRule.class;
     }
 
     /**
      * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((AddIndirectCostRateRule) rule).processAddIndirectCostRatesBusinessRules(this);
+        return ((AddFandaRateRule) rule).processAddFandaRateBusinessRules(this);
     }
 
 }

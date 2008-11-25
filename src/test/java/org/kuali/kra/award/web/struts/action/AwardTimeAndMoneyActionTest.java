@@ -23,7 +23,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.award.bo.Award;
-import org.kuali.kra.award.bo.AwardIndirectCostRate;
+import org.kuali.kra.award.bo.AwardFandaRate;
 
 /**
  * 
@@ -34,7 +34,7 @@ public class AwardTimeAndMoneyActionTest {
     
     AwardTimeAndMoneyAction awardTimeAndMoneyAction;
     Award award;
-    AwardIndirectCostRate awardIndirectCostRate;
+    AwardFandaRate awardFandaRate;
     public static final String MOCK_FORWARD_STRING = "FORWARD_STRING";
     public static final String MOCK_DOC_ID_REQUEST_PARAMETER = "21";
     public static final String MOCK_EXPECTED_RESULT_STRING = "FORWARD_STRING?docId=21";
@@ -48,14 +48,14 @@ public class AwardTimeAndMoneyActionTest {
     public void setUp() throws Exception {
         awardTimeAndMoneyAction = new AwardTimeAndMoneyAction();
         award = new Award();        
-        awardIndirectCostRate = new AwardIndirectCostRate();
-        awardIndirectCostRate.setApplicableIndirectCostRate(new KualiDecimal(5));
-        awardIndirectCostRate.setFiscalYear("2008");
-        awardIndirectCostRate.setIdcRateTypeCode(5);
-        awardIndirectCostRate.setOnCampusFlag("N");
-        awardIndirectCostRate.setUnderrecoveryOfIndirectCost(new KualiDecimal(1000));
-        awardIndirectCostRate.setStartDate(new Date(new Long("1183316613046")));        
-        awardIndirectCostRate.setEndDate(new Date(new Long("1214852613046")));  
+        awardFandaRate = new AwardFandaRate();
+        awardFandaRate.setApplicableFandaRate(new KualiDecimal(5));
+        awardFandaRate.setFiscalYear("2008");
+        awardFandaRate.setFandaRateTypeCode(5);
+        awardFandaRate.setOnCampusFlag("N");
+        awardFandaRate.setUnderrecoveryOfIndirectCost(new KualiDecimal(1000));
+        awardFandaRate.setStartDate(new Date(new Long("1183316613046")));        
+        awardFandaRate.setEndDate(new Date(new Long("1214852613046")));  
     }
 
     /**
@@ -64,19 +64,21 @@ public class AwardTimeAndMoneyActionTest {
      */
     @After
     public void tearDown() throws Exception {
+        award = null;
+        awardFandaRate = null;
         awardTimeAndMoneyAction = null;
     }
     
     @Test
     public void testAddFandaRateToAward(){
-        Assert.assertTrue(awardTimeAndMoneyAction.addFandaRateToAward(award, awardIndirectCostRate));
+        Assert.assertTrue(awardTimeAndMoneyAction.addFandaRateToAward(award, awardFandaRate));
     }
     
     @Test
     public void testDeleteFandaRateFromAward(){        
-        awardTimeAndMoneyAction.addFandaRateToAward(award, awardIndirectCostRate);        
+        awardTimeAndMoneyAction.addFandaRateToAward(award, awardFandaRate);        
         awardTimeAndMoneyAction.deleteFandaRateFromAward(award, 0);
-        Assert.assertEquals(ZERO, award.getAwardIndirectCostRate().size());        
+        Assert.assertEquals(ZERO, award.getAwardFandaRate().size());        
     }
 
 }

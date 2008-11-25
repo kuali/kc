@@ -17,9 +17,9 @@ package org.kuali.kra.service;
 
 /**
  * 
- * This is the AwardIndirectCostRateService interface.
+ * This is the AwardFandaRateService interface.
  */
-public interface AwardIndirectCostRateService {
+public interface AwardFandaRateService {
     
     /**
      * 

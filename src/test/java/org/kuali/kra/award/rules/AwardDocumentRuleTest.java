@@ -26,54 +26,54 @@ import org.junit.Test;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kra.award.bo.AwardIndirectCostRate;
+import org.kuali.kra.award.bo.AwardFandaRate;
 
 /**
  * 
  * This class tests the <code>AwardDocumentRule</code> class
  */
 public class AwardDocumentRuleTest {
-    List<AwardIndirectCostRate> awardIndirectCostRateList;
-    AwardIndirectCostRate awardIndirectCostRate1;
-    AwardIndirectCostRate awardIndirectCostRate2;
+    List<AwardFandaRate> awardFandaRateList;
+    AwardFandaRate awardFandaRate1;
+    AwardFandaRate awardFandaRate2;
     AwardDocumentRule awardDocumentRule;
 
     @Before
     public void setUp() throws Exception {
-        awardIndirectCostRateList = new ArrayList<AwardIndirectCostRate>();
+        awardFandaRateList = new ArrayList<AwardFandaRate>();
         awardDocumentRule = new AwardDocumentRule();
-        awardIndirectCostRate1 = new AwardIndirectCostRate();
-        awardIndirectCostRate2 = new AwardIndirectCostRate();
-        awardIndirectCostRate1.setApplicableIndirectCostRate(new KualiDecimal(5));
-        awardIndirectCostRate1.setFiscalYear("2008");
-        awardIndirectCostRate1.setIdcRateTypeCode(5);
-        awardIndirectCostRate1.setOnCampusFlag("N");
-        awardIndirectCostRate1.setUnderrecoveryOfIndirectCost(new KualiDecimal(1000));
-        awardIndirectCostRate1.setStartDate(new Date(new Long("1183316613046")));        
-        awardIndirectCostRate1.setEndDate(new Date(new Long("1214852613046")));
-        awardIndirectCostRate2.setApplicableIndirectCostRate(new KualiDecimal(5));
-        awardIndirectCostRate2.setFiscalYear("2008");
-        awardIndirectCostRate2.setIdcRateTypeCode(5);
-        awardIndirectCostRate2.setOnCampusFlag("F");
-        awardIndirectCostRate2.setUnderrecoveryOfIndirectCost(new KualiDecimal(1000));
-        awardIndirectCostRate2.setStartDate(new Date(new Long("1183316613046")));        
-        awardIndirectCostRate2.setEndDate(new Date(new Long("1214852613046")));
-        awardIndirectCostRateList.add(awardIndirectCostRate1);
-        awardIndirectCostRateList.add(awardIndirectCostRate2);
+        awardFandaRate1 = new AwardFandaRate();
+        awardFandaRate2 = new AwardFandaRate();
+        awardFandaRate1.setApplicableFandaRate(new KualiDecimal(5));
+        awardFandaRate1.setFiscalYear("2008");
+        awardFandaRate1.setFandaRateTypeCode(5);
+        awardFandaRate1.setOnCampusFlag("N");
+        awardFandaRate1.setUnderrecoveryOfIndirectCost(new KualiDecimal(1000));
+        awardFandaRate1.setStartDate(new Date(new Long("1183316613046")));        
+        awardFandaRate1.setEndDate(new Date(new Long("1214852613046")));
+        awardFandaRate2.setApplicableFandaRate(new KualiDecimal(5));
+        awardFandaRate2.setFiscalYear("2008");
+        awardFandaRate2.setFandaRateTypeCode(5);
+        awardFandaRate2.setOnCampusFlag("F");
+        awardFandaRate2.setUnderrecoveryOfIndirectCost(new KualiDecimal(1000));
+        awardFandaRate2.setStartDate(new Date(new Long("1183316613046")));        
+        awardFandaRate2.setEndDate(new Date(new Long("1214852613046")));
+        awardFandaRateList.add(awardFandaRate1);
+        awardFandaRateList.add(awardFandaRate2);
         GlobalVariables.setErrorMap(new ErrorMap());
     }
 
     @After
     public void tearDown() throws Exception {
-        awardIndirectCostRateList = null;
+        awardFandaRateList = null;
         awardDocumentRule = null;
-        awardIndirectCostRate1 = null;
-        awardIndirectCostRate2 = null;
+        awardFandaRate1 = null;
+        awardFandaRate2 = null;
     }
 
     @Test
-    public final void testIsIndirectCostRateInputInPairs() {
-        Assert.assertTrue(awardDocumentRule.isIndirectCostRateInputInPairs(awardIndirectCostRateList));
+    public final void testIsFandaRateInputInPairs() {
+        Assert.assertTrue(awardDocumentRule.isFandaRateInputInPairs(awardFandaRateList));
     }
 
 }
