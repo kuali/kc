@@ -30,6 +30,7 @@ public interface AddIndirectCostRateRule extends BusinessRule {
      *
      * @return boolean
      */
-    public boolean processAddIndirectCostRatesBusinessRules(AddAwardIndirectCostRateEvent addAwardIndirectCostRateEvent);
+    public boolean processAddIndirectCostRatesBusinessRules(
+            AddAwardIndirectCostRateEvent addAwardIndirectCostRateEvent);
 
 }
