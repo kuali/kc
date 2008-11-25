@@ -84,6 +84,5 @@ public abstract class AwardIndirectCostRateEventBase extends KraDocumentEventBas
         
         LOG.debug(logMessage);
     }
-
-
+    
 }

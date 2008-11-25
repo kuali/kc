@@ -22,6 +22,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.KualiRuleService;
+import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardIndirectCostRate;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.rule.event.AddAwardIndirectCostRateEvent;
@@ -46,21 +47,26 @@ public class AwardTimeAndMoneyAction extends AwardAction {
      * @return
      * @throws Exception
      */
-    public ActionForward addFandARate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward addFandaRate(ActionMapping mapping, ActionForm form, HttpServletRequest request
+            , HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         AwardIndirectCostRate newAwardIndirectCostRate = awardForm.getNewAwardIndirectCostRate();
         if(getKualiRuleService().applyRules(new AddAwardIndirectCostRateEvent(Constants.EMPTY_STRING, 
                 awardForm.getAwardDocument(), newAwardIndirectCostRate))){
-            awardForm.getAwardDocument().getAward().getAwardIndirectCostRate().add(newAwardIndirectCostRate);
+            addFandaRateToAward(awardForm.getAwardDocument().getAward(),newAwardIndirectCostRate);            
             awardForm.setNewAwardIndirectCostRate(new AwardIndirectCostRate());
         }
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);     
     }
     
+    boolean addFandaRateToAward(Award award, AwardIndirectCostRate awardIndirectCostRate){
+        return award.getAwardIndirectCostRate().add(awardIndirectCostRate);
+    }
+    
     /**
      * 
-     * This method deletes an awardIndirectCostRate; It gets called upon delete action on F&A Rates Sub-Panel of 
-     * Rates Panel
+     * This method deletes an awardIndirectCostRate; It gets called upon delete action on 
+     * F&A Rates Sub-Panel of Rates Panel
      * @param mapping
      * @param form
      * @param request
@@ -68,16 +74,23 @@ public class AwardTimeAndMoneyAction extends AwardAction {
      * @return
      * @throws Exception
      */
-    public ActionForward deleteFandARate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward deleteFandaRate(ActionMapping mapping, ActionForm form
+            , HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
-        AwardDocument awardDocument = (AwardDocument)awardForm.getDocument();
-        awardDocument.getAward().getAwardIndirectCostRate().remove(getLineToDelete(request));
+        AwardDocument awardDocument = (AwardDocument) awardForm.getDocument();        
+        deleteFandaRateFromAward(awardDocument.getAward(),getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    boolean deleteFandaRateFromAward(Award award, int lineToDelete){
+        award.getAwardIndirectCostRate().remove(lineToDelete);
+        return true;
     }
     
     /**
      * 
-     * This method recalculates the Unrecovered F&A; It gets called upon Recalculate action on F&A Rates sub-panel
+     * This method recalculates the Unrecovered F&A; It gets called upon Recalculate action on 
+     * F&A Rates sub-panel
      * of Rates Panel.
      * @param mapping
      * @param form
@@ -86,7 +99,8 @@ public class AwardTimeAndMoneyAction extends AwardAction {
      * @return
      * @throws Exception
      */
-    public ActionForward recalculateFandARate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward recalculateFandARate(ActionMapping mapping, ActionForm form
+            , HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }

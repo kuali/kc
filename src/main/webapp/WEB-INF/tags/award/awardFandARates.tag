@@ -94,7 +94,7 @@
 				</td>
 				<td class="infoline">
 					<div width="10%" align="center">
-						<html:image property="methodToCall.addFandARate.anchor${tabKey}"
+						<html:image property="methodToCall.addFandaRate.anchor${tabKey}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
 					</div>
                 </td>
@@ -152,7 +152,7 @@
 					</td>
 					<td width="10%" valign="middle">
 					<div align="center">
-                		<html:image property="methodToCall.deleteFandARate.line${status.index}.anchor${currentTabIndex}"
+                		<html:image property="methodToCall.deleteFandaRate.line${status.index}.anchor${currentTabIndex}"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 					</div>
 					</td>

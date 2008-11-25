@@ -28,24 +28,29 @@ import org.kuali.kra.award.rule.AddIndirectCostRateRule;
 public class AddAwardIndirectCostRateEvent extends AwardIndirectCostRateEventBase{
     
     /**
-     * Constructs an AddAwardIndirectCostRateEvent with the given errorPathPrefix, awardDocument, and awardIndirectCostRate.
+     * Constructs an AddAwardIndirectCostRateEvent with the given errorPathPrefix, 
+     * awardDocument, and awardIndirectCostRate.
      * 
      * @param errorPathPrefix
      * @param awardDocument
      * @param awardIndirectCostRate
      */
-    public AddAwardIndirectCostRateEvent(String errorPathPrefix, AwardDocument awardDocument, AwardIndirectCostRate awardIndirectCostRate) {
-        super("adding Indirect Cost Rate to Award document " + getDocumentId(awardDocument), errorPathPrefix, awardDocument, awardIndirectCostRate);
+    public AddAwardIndirectCostRateEvent(String errorPathPrefix, AwardDocument awardDocument
+            , AwardIndirectCostRate awardIndirectCostRate) {
+        super("adding Indirect Cost Rate to Award document " + getDocumentId(awardDocument)
+                , errorPathPrefix, awardDocument, awardIndirectCostRate);
     }
 
     /**
-     * Constructs an AddAwardIndirectCostRateEvent with the given errorPathPrefix, document, and awardIndirectCostRate.
+     * Constructs an AddAwardIndirectCostRateEvent with the given errorPathPrefix
+     * , document, and awardIndirectCostRate.
      * 
      * @param errorPathPrefix
      * @param document
      * @param awardIndirectCostRate
      */
-    public AddAwardIndirectCostRateEvent(String errorPathPrefix, Document document, AwardIndirectCostRate awardIndirectCostRate) {
+    public AddAwardIndirectCostRateEvent(String errorPathPrefix, Document document
+            , AwardIndirectCostRate awardIndirectCostRate) {
         this(errorPathPrefix, (AwardDocument) document, awardIndirectCostRate);
     }
 
