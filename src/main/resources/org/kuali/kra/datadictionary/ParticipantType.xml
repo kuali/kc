@@ -53,8 +53,12 @@
 			<bean parent="NumericValidationPattern" />
 		</property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="3" />
+			<bean parent="SelectControlDefinition"
+				p:businessObjectClass="org.kuali.kra.irb.bo.ParticipantType"
+				p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" 
+				p:includeKeyInLabel="false"
+				p:keyAttribute="participantTypeCode"
+				p:labelAttribute="description" />
 		</property>
 		<property name="summary" value="Participant Type Code" />
 		<property name="description" value="Participant Type Code" />
