@@ -34,23 +34,23 @@
     <li>Membership Role</li>
     <li>Minute Entry Type</li>
     <li>Organization Correspondents</li>
+    <li><portal:portalLink displayTitle="true" title="Participant Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.irb.bo.ParticipantType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li>Protocol Action Type</li>
     <li>Protocol Contingency</li>
     <li>Protocol Correspondence Recipients</li>
     <li>Protocol Follow-up Actions</li>
     <li>Protocol Organization Type</li>
     <li>Protocol Review Type</li>
-    <li>Protocol Reviewer Type<?li>
+    <li>Protocol Reviewer Type</li>
     <li>Protocol Status</li>
     <li>Protocol Type</li>
     <li>Reference Type</li>
-    <li>Scheduled Other Action Type<?li>
+    <li>Scheduled Other Action Type</li>
     <li>Schedule Status</li>
     <li>Submission Status</li>
     <li>Submission Type</li>
     <li>Submission Type Qualifier</li>
     <li>Unit Correspondents</li>
-    <li>Vulnerable Subject Type</li>
   <ul>
 </div>
 <channel:portalChannelBottom />
