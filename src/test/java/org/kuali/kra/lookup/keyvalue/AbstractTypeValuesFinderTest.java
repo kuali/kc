@@ -58,5 +58,7 @@ public class AbstractTypeValuesFinderTest extends ValuesFinderTestBase {
         this.addKeyValue("13", "Publications");
         this.addKeyValue("14", "Reviewers Not to Include");
         this.addKeyValue("15", "Deviation Authorization");
+        this.addKeyValue("16", "Areas Affected");
+        this.addKeyValue("17", "Relevance");
     }
 }
