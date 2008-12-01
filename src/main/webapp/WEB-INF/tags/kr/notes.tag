@@ -28,15 +28,9 @@
 
 <c:set var="noteColSpan" value="6" />
 
-<c:choose>
-	<c:when test="${fn:endsWith(KualiForm.document.class.name, 'ProposalDevelopmentDocument')}">
-		<c:set var="allowsAttachments" value="${KualiForm.document.allowsNoteAttachments}" />
-		<c:set var="readOnly" value="${not KualiForm.editingMode['modifyProposal']}" scope="request" />
-	</c:when>
-	<c:otherwise>
-		<c:set var="allowsAttachments" value="true" />
-	</c:otherwise>
-</c:choose>
+<%-- allow any user with read access to the proposal to add a note --%>
+<c:set var="readOnly" value="false" />
+<c:set var="allowsAttachments" value="true" />
 
 <c:if test="${empty noteType}">
 	<%-- default to document header notes this default should probably be set somewhere else --%>
