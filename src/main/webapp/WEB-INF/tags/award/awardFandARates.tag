@@ -20,12 +20,15 @@
 
 <c:set var="awardFandaRateAttributes" value="${DataDictionary.AwardFandaRate.attributes}" />
 <c:set var="action" value="awardTimeAndMoney" />
-
 <kul:tab tabTitle="Rates" defaultOpen="false" tabErrorKey="newAwardFandaRate.*,document.award.awardFandaRate*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
-	<div class="tab-container" align="center">
+	<div class="tab-container" align="right">
     	<h3>
     		<span class="subhead-left"> F&A Rates</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.award.bo.AwardFandaRate" altText="help"/></span>
+    		<span class="subhead-right">
+    			<kul:help businessObjectClassName="org.kuali.kra.award.bo.AwardFandaRate" altText="help"/>						
+				<kul:lookup boClassName="org.kuali.kra.award.bo.ValidRates" anchor="${tabKey}" autoSearch="yes" 
+				            readOnlyFields="yes" hideReturnLink="true" suppressActions="true" />		
+			</span>
         </h3>
         
         <table cellpadding="0" cellspacing="0" summary="">
@@ -47,47 +50,47 @@
 					<c:out value="Add:" />
 				</th>
                 
-                <td width="10%" valign="middle" class="infoline">
+                <td width="9%" valign="middle" class="infoline">
                 	<div align="center">
                 	<kul:htmlControlAttribute property="newAwardFandaRate.applicableFandaRate" attributeEntry="${awardFandaRateAttributes.applicableFandaRate}" />&nbsp;%
                 	</div>
 				</td>
-                <td width="5%" valign="middle" class="infoline">
+                <td width="9%" valign="middle" class="infoline">
                 	<div align="center">
                 	<kul:htmlControlAttribute property="newAwardFandaRate.fandaRateTypeCode" attributeEntry="${awardFandaRateAttributes.fandaRateTypeCode}" />
                 	</div>
 				</td>
-                <td width="5%" valign="middle" class="infoline">
+                <td width="9%" valign="middle" class="infoline">
                 	<div align="center">
                 	<kul:htmlControlAttribute property="newAwardFandaRate.fiscalYear" attributeEntry="${awardFandaRateAttributes.fiscalYear}" onblur="loadStartAndEndDates('newAwardFandaRate.fiscalYear', 'newAwardFandaRate.startDate','newAwardFandaRate.endDate');"/>                																																																	
                 	</div>
 				</td>
-				<td width="5%" valign="middle" class="infoline">
+				<td width="9%" valign="middle" class="infoline">
                 	<div align="center">
                 	<kul:htmlControlAttribute property="newAwardFandaRate.startDate" attributeEntry="${awardFandaRateAttributes.startDate}" datePicker="true" />
                 	</div>
 				</td>
-                <td width="5%" valign="middle" class="infoline">
+                <td width="9%" valign="middle" class="infoline">
                 	<div align="center">
                 	<kul:htmlControlAttribute property="newAwardFandaRate.endDate" attributeEntry="${awardFandaRateAttributes.endDate}" datePicker="true" />
                 	</div>
 				</td>
-				<td width="5%" valign="middle" class="infoline">
+				<td width="9%" valign="middle" class="infoline">
                 	<div align="center">
                 	<kul:htmlControlAttribute property="newAwardFandaRate.onCampusFlag" attributeEntry="${awardFandaRateAttributes.onCampusFlag}" />
                 	</div>
 				</td>
-				<td width="5%" valign="middle" class="infoline">
+				<td width="9%" valign="middle" class="infoline">
                 	<div align="center">
                 	<kul:htmlControlAttribute property="newAwardFandaRate.underrecoveryOfIndirectCost" attributeEntry="${awardFandaRateAttributes.underrecoveryOfIndirectCost}" />
                 	</div>
 				</td>
-				<td width="5%" valign="middle" class="infoline">
+				<td width="9%" valign="middle" class="infoline">
                 	<div align="center">
                 	<kul:htmlControlAttribute property="newAwardFandaRate.sourceAccount" attributeEntry="${awardFandaRateAttributes.sourceAccount}" />
                 	</div>
 				</td>
-                <td width="5%" valign="middle" class="infoline">
+                <td width="9%" valign="middle" class="infoline">
                 	<div align="center">
                 	<kul:htmlControlAttribute property="newAwardFandaRate.destinationAccount" attributeEntry="${awardFandaRateAttributes.destinationAccount}" />
                 	</div>
@@ -96,7 +99,7 @@
 					<div width="10%" align="center">
 						<html:image property="methodToCall.addFandaRate.anchor${tabKey}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
-					</div>
+					</div>					
                 </td>
             </tr>
             <c:set var="total" value="0" />
