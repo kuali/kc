@@ -31,7 +31,7 @@ This is the Award Time & Money - Under Construction
 <kra-a:awardBudget />
 <kra-a:awardDirectFnAFundsDistribution />
 <kra-a:awardCostShare />
-<kra-a:awardRates />
+<kra-a:awardFandARates />
 <kra-a:awardSummary />
 <kra-a:awardHistory />
 <kra-a:awardPreAwardAuthorizations />
