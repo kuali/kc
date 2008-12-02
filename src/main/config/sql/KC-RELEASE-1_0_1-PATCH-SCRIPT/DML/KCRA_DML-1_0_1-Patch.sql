@@ -73,4 +73,7 @@ INSERT INTO EPS_PROP_POST_SUB_STATUS (STATUS_CODE, DESCRIPTION, DEFINITION, UPDA
 INSERT INTO EPS_PROP_POST_SUB_STATUS (STATUS_CODE, DESCRIPTION, DEFINITION, UPDATE_TIMESTAMP, UPDATE_USER) VALUES ('7', 'Helds for Funds Availability', 'was not awarded as sponsor ran out of funds', SYSDATE, 'KRADEV');
 INSERT INTO EPS_PROP_POST_SUB_STATUS (STATUS_CODE, DESCRIPTION, DEFINITION, UPDATE_TIMESTAMP, UPDATE_USER) VALUES ('8', 'Void', 'Used to mark unwanted,incorrect reports', SYSDATE, 'KRADEV');
 
+-- Adding new Abstract Types for grants.gov compliance.
+insert into abstract_type (abstract_type_code,description,update_timestamp,update_user) values('16','Areas Affected',sysdate,'kradev');
+insert into abstract_type (abstract_type_code,description,update_timestamp,update_user) values('17','Relevance',sysdate,'kradev');
 
