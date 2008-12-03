@@ -1,0 +1,203 @@
+<!--
+ Copyright 2006-2008 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="ProtocolResearchAreas" parent="ProtocolResearchAreas-parentBean" />
+	<bean id="ProtocolResearchAreas-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.irb.bo.ProtocolResearchAreas" />
+		<property name="inquiryDefinition" >
+			<ref bean="ProtocolResearchAreas-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition" >
+			<ref bean="ProtocolResearchAreas-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="protocolResearchAreasId" />
+		<property name="attributes" >
+			<list>
+				<ref bean="ProtocolResearchAreas-protocolId" />
+				<ref bean="ProtocolResearchAreas-protocolNumber" />
+				<ref bean="ProtocolResearchAreas-sequenceNumber" />
+				<ref bean="ProtocolResearchAreas-researchAreaCode" />
+				<ref bean="ProtocolResearchAreas-versionNumber" />
+				<ref bean="ProtocolResearchAreas-selectResearchArea" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+	
+	<bean id="ProtocolResearchAreas-protocolId" parent="ProtocolResearchAreas-protocolId-parentBean" />
+	<bean id="ProtocolResearchAreas-protocolId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="protocolId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Protocol Id" />
+		<property name="shortLabel" value="Protocol Id" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Protocol Id" />
+		<property name="description" value="Protocol Id" />
+	</bean>
+
+	<bean id="ProtocolResearchAreas-protocolNumber" parent="ProtocolResearchAreas-protocolNumber-parentBean" />
+	<bean id="ProtocolResearchAreas-protocolNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="protocolNumber" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Protocol Number" />
+		<property name="shortLabel" value="Protocol Number" />
+		<property name="maxLength" value="20" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Protocol Number" />
+		<property name="description" value="Protocol Number" />
+	</bean>
+
+	<bean id="ProtocolResearchAreas-sequenceNumber" parent="ProtocolResearchAreas-sequenceNumber-parentBean" />
+	<bean id="ProtocolResearchAreas-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="sequenceNumber" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Sequence Number" />
+		<property name="shortLabel" value="Sequence Number" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Sequence Number" />
+		<property name="description" value="Sequence Number" />
+	</bean>
+
+	<bean id="ProtocolResearchAreas-researchAreaCode" parent="ProtocolResearchAreas-researchAreaCode-parentBean" />
+	<bean id="ProtocolResearchAreas-researchAreaCode-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="researchAreaCode" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Research Area Code" />
+		<property name="shortLabel" value="Research Area Code" />
+		<property name="maxLength" value="8" />
+		<property name="validationPattern" >
+			<bean parent="AnyCharacterValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Research Area Code" />
+		<property name="description" value="Research Area Code" />
+	</bean>
+
+	<bean id="ProtocolResearchAreas-versionNumber" parent="ProtocolResearchAreas-versionNumber-parentBean" />
+	<bean id="ProtocolResearchAreas-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+	</bean>
+
+	<bean id="ProtocolResearchAreas-selectResearchArea" parent="ProtocolResearchAreas-selectResearchArea-parentBean" />
+
+	<bean id="ProtocolResearchAreas-selectResearchArea-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="selectResearchArea" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Select Research Area" />
+		<property name="shortLabel" value="Select Research Area" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+		<property name="summary" value="Select Research Area" />
+		<property name="description" value="Select Research Area" />
+	</bean>
+
+
+	<!-- Business Object Inquiry Definition -->
+	<bean id="ProtocolResearchAreas-inquiryDefinition" parent="ProtocolResearchAreas-inquiryDefinition-parentBean" />
+	<bean id="ProtocolResearchAreas-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Protocol Research Areas Id" />
+		<property name="inquirySections" >
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Protocol Research Areas Id" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields" >
+						<list>
+							<bean parent="FieldDefinition"
+								p:attributeName="protocolId" />
+							<bean parent="FieldDefinition"
+								p:attributeName="protocolNumber" />
+							<bean parent="FieldDefinition"
+								p:attributeName="sequenceNumber" />
+							<bean parent="FieldDefinition"
+								p:attributeName="researchAreaCode" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+	<bean id="ProtocolResearchAreas-lookupDefinition" parent="ProtocolResearchAreas-lookupDefinition-parentBean" />
+	<bean id="ProtocolResearchAreas-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Protocol Research Areas Lookup" />
+		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+		<property name="instructions" value="Look up a Protocol Research Areas" />
+		<property name="defaultSort" >
+			<bean parent="SortDefinition" >
+		</bean>
+		</property>
+		<property name="lookupFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					p:attributeName="protocolId" />
+				<bean parent="FieldDefinition"
+					p:attributeName="protocolNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="sequenceNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="researchAreaCode" />
+			</list>
+		</property>
+		<property name="resultFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					p:attributeName="protocolId" />
+				<bean parent="FieldDefinition"
+					p:attributeName="protocolNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="sequenceNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="researchAreaCode" />
+			</list>
+		</property>
+	</bean>
+</beans>

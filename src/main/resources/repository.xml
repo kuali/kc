@@ -3051,6 +3051,9 @@
     	<collection-descriptor name="riskLevels" proxy="true" element-class-ref="org.kuali.kra.irb.bo.ProtocolRiskLevels" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="protocolId" />
     	</collection-descriptor>
+   		<collection-descriptor name="protocolResearchAreas" element-class-ref="org.kuali.kra.irb.bo.ProtocolResearchAreas" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="protocolId" />
+		</collection-descriptor>    	
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolStatus" table="PROTOCOL_STATUS">
@@ -3078,6 +3081,8 @@
 		<field-descriptor name="parentResearchAreaCode" column="PARENT_RESEARCH_AREA_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 <!-- 
 		<collection-descriptor name="CommMemberExpertise" proxy="true" element-class-ref="org.kuali.kra.bo.CommMemberExpertise" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
 			<inverse-foreignkey field-ref="researchAreaCode"/>
@@ -3089,6 +3094,23 @@
 			<inverse-foreignkey field-ref="researchAreaCode"/>
 		</collection-descriptor>
 -->
+	</class-descriptor>
+
+	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolResearchAreas" table="PROTOCOL_RESEARCH_AREAS">
+		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" primarykey="true"/>
+		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="researchAreaCode" column="RESEARCH_AREA_CODE" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.document.ProtocolDocument" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="protocolId"/>
+		</reference-descriptor>
+		<reference-descriptor name="researchAreas" class-ref="org.kuali.kra.bo.ResearchAreas" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="researchAreaCode"/>
+		</reference-descriptor>
 	</class-descriptor>
 		
 	<class-descriptor class="org.kuali.kra.irb.bo.RiskLevel" table="RISK_LEVEL">
