@@ -39,9 +39,7 @@ public class AwardDocument extends ResearchDocumentBase implements Copyable, Ses
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 1668673531338660064L;
-    private static final String ONE = "1";
     
-    private String awardNumber;
     private List<Award> awardList;
     
     private String newKeyword;
@@ -52,8 +50,7 @@ public class AwardDocument extends ResearchDocumentBase implements Copyable, Ses
      * Constructs a AwardDocument object
      */
     public AwardDocument(){        
-        super();
-        setAwardNumber(ONE);
+        super();        
         awardList = new ArrayList<Award>();
         Award newAward = new Award();
         awardList.add(newAward);
@@ -79,21 +76,7 @@ public class AwardDocument extends ResearchDocumentBase implements Copyable, Ses
     public void setAward(Award award) {
         awardList.set(0, award);
     }
-
-    /**
-     * 
-     */
-    public String getAwardNumber() {
-        return awardNumber;
-    }
-
-   /**
-    * 
-    * @param awardNumber
-    */
-    public void setAwardNumber(String awardNumber) {
-        this.awardNumber = awardNumber;
-    }
+   
 
     /**
      *
