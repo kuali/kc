@@ -17,28 +17,68 @@ package org.kuali.kra.irb.web.struts.action;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.RiceKeyConstants;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.Document;
+import org.kuali.core.lookup.LookupResultsService;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.web.struts.action.KualiDocumentActionBase;
+import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.kra.bo.ResearchAreas;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.irb.bo.ProtocolResearchAreas;
+import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.util.RiceConstants;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
 
 public class ProtocolAction extends KraTransactionalDocumentActionBase {
-
+    
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolAction.class);
+    
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        return super.save(mapping, form, request, response);
+        
+        //Save the list for later use
+        List<ProtocolResearchAreas> protocolResearchAreas = ((ProtocolForm)form).getProtocolDocument().getProtocolResearchAreas();
+        //Reset list with no values
+        ((ProtocolForm)form).getProtocolDocument().setProtocolResearchAreas(new ArrayList<ProtocolResearchAreas>());
+        
+        //Save only Protocol
+        ActionForward af = super.save(mapping, form, request, response);
+        
+        if(null != protocolResearchAreas && !protocolResearchAreas.isEmpty()) {
+            //Set values of 2 fields now
+            for(ProtocolResearchAreas protocolResearchArea: protocolResearchAreas) {
+                protocolResearchArea.setSequenceNumber(((ProtocolForm)form).getProtocolDocument().getSequenceNumber());
+                protocolResearchArea.setProtocolNumber(((ProtocolForm)form).getProtocolDocument().getProtocolNumber());
+            }
+            //Set list back to document form
+            ((ProtocolForm)form).getProtocolDocument().setProtocolResearchAreas(protocolResearchAreas);
+            //RE-Save with Additional Information.
+            af = super.save(mapping, form, request, response);
+        }
+        
+        return af;
     }
 
     @Override
@@ -60,9 +100,77 @@ public class ProtocolAction extends KraTransactionalDocumentActionBase {
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         super.refresh(mapping, form, request, response);
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
+                     
+        // KNS UI hook for lookup resultset, check to see if we are coming back from a lookup
+        if (Constants.MULTIPLE_VALUE.equals(protocolForm.getRefreshCaller())) {
+            // Multivalue lookup. Note that the multivalue keyword lookup results are returned persisted to avoid using session.
+            // Since URLs have a max length of 2000 chars, field conversions can not be done.
+            String lookupResultsSequenceNumber = protocolForm.getLookupResultsSequenceNumber();
+            
+            if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
+                
+                Class lookupResultsBOClass = Class.forName(protocolForm.getLookupResultsBOClassName());
+                String tmp = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
+                LookupResultsService service = KNSServiceLocator.getLookupResultsService();
+                Collection<PersistableBusinessObject> rawValues = service.retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass,tmp);
+                
+                if (lookupResultsBOClass.isAssignableFrom(ResearchAreas.class)) {
+                    for (Iterator iter = rawValues.iterator(); iter.hasNext();) {
+                        //New ResearchAreas added by user selection
+                        ResearchAreas newResearchAreas = (ResearchAreas) iter.next();
+                        // ignore / drop duplicates
+                        if (!isDuplicateProtocolResearchAreas(newResearchAreas, protocolDocument.getProtocolResearchAreas())) {
+                            //Add new ProtocolResearchAreas to list
+                            protocolDocument.addProtocolResearchAreas(createInstanceOfProtocolResearchAreas(protocolDocument, newResearchAreas));
+                        }
+                    }//End of for
+                }//End of if
+            }
+        }
+        
         return mapping.findForward("basic");
     }
-
+    
+    /**
+     * This method is private helper method, to create instance of ProtocolResearchAreas and set appropriate values.
+     * @param protocolDocument
+     * @param researchAreas
+     * @return
+     */
+    private ProtocolResearchAreas createInstanceOfProtocolResearchAreas(ProtocolDocument protocolDocument, ResearchAreas researchAreas) {
+        ProtocolResearchAreas protocolResearchAreas = new ProtocolResearchAreas();
+        protocolResearchAreas.setProtocol(protocolDocument);                            
+        if(null != protocolDocument.getProtocolId())
+            protocolResearchAreas.setProtocolId(protocolDocument.getProtocolId());
+        
+        if(null != protocolDocument.getProtocolNumber())
+            protocolResearchAreas.setProtocolNumber(protocolDocument.getProtocolNumber());
+        
+        if(null != protocolDocument.getSequenceNumber())
+            protocolResearchAreas.setSequenceNumber(protocolDocument.getSequenceNumber());
+        
+        protocolResearchAreas.setResearchAreaCode(researchAreas.getResearchAreaCode());
+        protocolResearchAreas.setResearchAreas(researchAreas);
+        return protocolResearchAreas;
+    }
+    /**
+     * This method is private helper method, to restrict duplicate ProtocolResearchAreas insertion in list.
+     * @param newResearchAreaCode
+     * @param protocolResearchAreas
+     * @return
+     */
+    private boolean isDuplicateProtocolResearchAreas(ResearchAreas newResearchAreas, List<ProtocolResearchAreas> protocolResearchAreas) {
+        for (ProtocolResearchAreas pra  : protocolResearchAreas) {    
+            if (pra.getResearchAreas().equals(newResearchAreas)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     @Override
     public ActionForward headerTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return super.headerTab(mapping, form, request, response);
@@ -97,6 +205,58 @@ public class ProtocolAction extends KraTransactionalDocumentActionBase {
         
         return forward;
     }
-    
+
+    /**
+     * This method is hook to KNS, selects/sets select boolean field to true of ProtocolResearchArea for the UI list.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward selectAllProtocolDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
+        List<ProtocolResearchAreas> listOfProtocolResearchAreas = protocolDocument.getProtocolResearchAreas();
+        
+        for (ProtocolResearchAreas protocolResearchAreas: listOfProtocolResearchAreas) {  
+            //Transient field set to true
+            protocolResearchAreas.setSelectResearchArea(true);
+        }
+
+        return mapping.findForward("basic");
+    }
+
+    /**
+     * This method is hook to KNS, deletes selected ProtocolResearchArea from the UI list. Method is called in protocolAdditonalInformation.tag 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteSelectedProtocolDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
+        List<ProtocolResearchAreas> listOfProtocolResearchAreas = protocolDocument.getProtocolResearchAreas();
+        
+        List<ProtocolResearchAreas> newProtocolResearchAreas = new ArrayList<ProtocolResearchAreas>();
+        
+        for (ProtocolResearchAreas protocolResearchAreas  : listOfProtocolResearchAreas) {
+            //Filters out not selected object
+            if (!protocolResearchAreas.getSelectResearchArea()) {
+                newProtocolResearchAreas.add(protocolResearchAreas);
+            }
+        }
+        protocolDocument.setProtocolResearchAreas(newProtocolResearchAreas);
+
+        return mapping.findForward("basic");
+    }
     
 }

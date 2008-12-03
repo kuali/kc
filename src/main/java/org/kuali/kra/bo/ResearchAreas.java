@@ -107,5 +107,31 @@ public class ResearchAreas extends KraPersistableBusinessObjectBase {
         hashMap.put("parentResearchAreaCode", getParentResearchAreaCode());
         return hashMap;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((researchAreaCode == null) ? 0 : researchAreaCode.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ResearchAreas other = (ResearchAreas) obj;
+        if (researchAreaCode == null) {
+            if (other.researchAreaCode != null)
+                return false;
+        }
+        else if (!researchAreaCode.equalsIgnoreCase(other.researchAreaCode))
+            return false;
+        return true;
+    }
 }
 
