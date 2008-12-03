@@ -24,6 +24,7 @@ import java.util.List;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.SessionDocument;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.irb.bo.ProtocolResearchAreas;
 import org.kuali.kra.irb.bo.ProtocolRiskLevels;
 import org.kuali.kra.irb.bo.ProtocolStatus;
 import org.kuali.kra.irb.bo.ProtocolType;
@@ -57,6 +58,12 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
     private ProtocolType protocolType; 
     
     private List<ProtocolRiskLevels> riskLevels;
+    
+    private List<ProtocolResearchAreas> protocolResearchAreas;
+    
+    //Is transient, used for lookup select option in UI by KNS 
+    private String newDescription;
+    
 	/*
 	private ProtocolVulnerableSub protocolVulnerableSub; 
 	private ProtocolVoteAbstainees protocolVoteAbstainees; 
@@ -83,7 +90,8 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
 	public ProtocolDocument() { 
         super();
         riskLevels = new ArrayList<ProtocolRiskLevels>();
-
+        protocolResearchAreas = new ArrayList<ProtocolResearchAreas>();// new TypedArrayList(ProtocolResearchAreas.class);  
+        newDescription = getDefaultNewDescription();
 	} 
 	
     public void initialize() {
@@ -316,5 +324,43 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
     public void setRiskLevels(List<ProtocolRiskLevels> riskLevels) {
         this.riskLevels = riskLevels;
     }
-	
+    
+    public String getNewDescription() {
+        return newDescription;
+    }
+    
+    public void setNewDescription(String newDescription) {
+        this.newDescription = newDescription;
+    }
+
+    public String getDefaultNewDescription() {
+        return "(select)";
+    }
+    public void setProtocolResearchAreas(List<ProtocolResearchAreas> protocolResearchAreas) {
+        this.protocolResearchAreas = protocolResearchAreas;
+    }
+
+    public List<ProtocolResearchAreas> getProtocolResearchAreas() {
+        return protocolResearchAreas;
+    }
+    
+    public void addProtocolResearchAreas(ProtocolResearchAreas protocolResearchArea) {
+        getProtocolResearchAreas().add(protocolResearchArea);
+    }
+
+    public ProtocolResearchAreas getProtocolResearchAreas(int index) {
+        while (getProtocolResearchAreas().size() <= index) {
+            getProtocolResearchAreas().add(new ProtocolResearchAreas());
+        }
+        return (ProtocolResearchAreas) getProtocolResearchAreas().get(index);
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add(getProtocolResearchAreas());
+        return managedLists;
+
+    }
 }
