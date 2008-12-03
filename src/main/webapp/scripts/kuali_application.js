@@ -1169,3 +1169,16 @@ function unselectAllBudgetForms(document) {
 // CustomAttributeService._path = '../dwr'; 
 // CustomAttributeService.getLookupReturnsForAjaxCall = function(p0, callback) { DWREngine._execute(CustomAttributeService._path, 'CustomAttributeService', 'getLookupReturnsForAjaxCall', p0, callback); } 
 
+function selectAllResearchAreas(document) {
+    var j = 0;
+	for (var i = 0; i < document.KualiForm.elements.length; i++) {
+	  var e = document.KualiForm.elements[i];
+	  if(e.type == 'checkbox') {
+	  	var name = 'document.protocolResearchAreas[' + j + '].selectResearchArea';
+	  	if (e.name == name) {
+ 		    e.checked = true;
+	  		j++; 
+	  	}
+	  }
+	}
+}

@@ -46,6 +46,10 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
     private static final long serialVersionUID = -7633960906991275328L;
     private Map<String, Parameter> protocolParameters;
     
+    //KNS Lookup hooks
+    private String lookupResultsSequenceNumber;
+    private String lookupResultsBOClassName;
+    
     public ProtocolForm() {
         super();
         this.setDocument(new ProtocolDocument());
@@ -104,6 +108,8 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
      */
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         super.reset(mapping, request);
+        this.setLookupResultsSequenceNumber(null);
+        this.setLookupResultsBOClassName(null);
     }
 
 
@@ -129,5 +135,20 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
     public Map<String, Parameter> getProtocolParameters() {
         return protocolParameters;
     }
+    
+    public String getLookupResultsSequenceNumber() {
+        return lookupResultsSequenceNumber;
+    }
 
+    public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {
+        this.lookupResultsSequenceNumber = lookupResultsSequenceNumber;
+    }
+    
+    public String getLookupResultsBOClassName() {
+        return lookupResultsBOClassName;
+    }
+
+    public void setLookupResultsBOClassName(String lookupResultsBOClassName) {
+        this.lookupResultsBOClassName = lookupResultsBOClassName;
+    }
 }
