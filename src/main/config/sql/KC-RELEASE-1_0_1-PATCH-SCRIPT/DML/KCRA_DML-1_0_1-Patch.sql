@@ -1,6 +1,6 @@
 -- *****************
 --
--- SQL script to patch a release 1.0 DB to release 1.0.1 DB
+-- SQL script to patch a release 1.1 DB to Patch release 1 DB
 -- Created 6-AUG-2008 by Tyler Wilson
 --
 -- Includes JIRA Fixes:
@@ -20,6 +20,12 @@
 --      - Add cron job parameters
 --   KRACOEUS-2021 15-OCT-2008 Tyler Wilson
 --      - Add parameters for F&A processing.
+--   KRACOEUS-2065 3-NOV-2008 Tyler Wilson
+--      - Change Grants.Gov question group
+--   KRACOEUS-2068 7-NOV-2008 Tyler Wilson
+--      - added post submission statuses.
+--   KRACOEUS-2098 2-DEC-2008 Tyler Wilson
+--      - Add Activity Type Changes
 --
 -- *****************
 
@@ -76,4 +82,10 @@ INSERT INTO EPS_PROP_POST_SUB_STATUS (STATUS_CODE, DESCRIPTION, DEFINITION, UPDA
 -- Adding new Abstract Types for grants.gov compliance.
 insert into abstract_type (abstract_type_code,description,update_timestamp,update_user) values('16','Areas Affected',sysdate,'kradev');
 insert into abstract_type (abstract_type_code,description,update_timestamp,update_user) values('17','Relevance',sysdate,'kradev');
+
+-- Combine the 'COEUS' and 'Grants.Gov' YNQ groups
+-- and name the new group 'General Y/N Questions'.
+UPDATE YNQ 
+SET GROUP_NAME = 'General Y/N Questions'
+WHERE GROUP_NAME IN ('COEUS', 'Grants.Gov');
 
