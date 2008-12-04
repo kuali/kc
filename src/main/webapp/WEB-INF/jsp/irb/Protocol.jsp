@@ -33,7 +33,7 @@
 <kra-irb:protocol />
 <kra-irb:protocolStatusDateAndRiskLevel />
 <kra-irb:protocolAdditionalInformation />
-
+<kra-irb:protocolParticipants />
 
 <kul:panelFooter />
 	<kul:documentControls 

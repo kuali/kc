@@ -34,6 +34,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.bo.ProtocolParticipant;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 
@@ -45,6 +46,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
     
     private static final long serialVersionUID = -7633960906991275328L;
     private Map<String, Parameter> protocolParameters;
+    private ProtocolParticipant newProtocolParticipant;
     
     //KNS Lookup hooks
     private String lookupResultsSequenceNumber;
@@ -63,13 +65,21 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
     public void initialize() {
         initializeHeaderNavigationTabs(); 
         protocolParameters = new HashMap<String, Parameter>();
+        setNewProtocolParticipant(new ProtocolParticipant());
     }
-
 
     public ProtocolDocument getProtocolDocument() {
         return (ProtocolDocument) this.getDocument();
     }
-    
+
+    public ProtocolParticipant getNewProtocolParticipant() {
+        return newProtocolParticipant;
+    }
+
+    public void setNewProtocolParticipant(ProtocolParticipant newProtocolParticipant) {
+        this.newProtocolParticipant = newProtocolParticipant;
+    }
+
     /**
      * 
      * This method initializes the loads the header navigation tabs.
