@@ -1,1 +1,0 @@
-update SH_PARM_TYP_T set ACTIVE_IND = 'Y' where ACTIVE_IND = '1';
