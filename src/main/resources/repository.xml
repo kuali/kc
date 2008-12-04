@@ -3054,6 +3054,9 @@
    		<collection-descriptor name="protocolResearchAreas" element-class-ref="org.kuali.kra.irb.bo.ProtocolResearchAreas" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="protocolId" />
 		</collection-descriptor>    	
+        <reference-descriptor name="protocolParticipant" class-ref="org.kuali.kra.irb.bo.ProtocolParticipant" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="protocolId"/>
+        </reference-descriptor>
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolStatus" table="PROTOCOL_STATUS">
@@ -3149,6 +3152,21 @@
 		</reference-descriptor>
 	</class-descriptor>
 	
+    <class-descriptor class="org.kuali.kra.irb.bo.ProtocolParticipant" table="PROTOCOL_VULNERABLE_SUB">
+        <field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+        <field-descriptor name="participantTypeCode" column="VULNERABLE_SUBJECT_TYPE_CODE" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="participantCount" column="SUBJECT_COUNT" jdbc-type="INTEGER" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <reference-descriptor name="participantType" class-ref="org.kuali.kra.irb.bo.ParticipantType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="participantTypeCode"/>
+        </reference-descriptor>
+    </class-descriptor>
+
 	<class-descriptor class="org.kuali.kra.irb.bo.ParticipantType" table="VULNERABLE_SUBJECT_TYPE">
 		<field-descriptor name="participantTypeCode" column="VULNERABLE_SUBJECT_TYPE_CODE" jdbc-type="INTEGER" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />

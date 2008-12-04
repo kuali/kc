@@ -23,7 +23,9 @@ import java.util.List;
 
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.SessionDocument;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.irb.bo.ProtocolParticipant;
 import org.kuali.kra.irb.bo.ProtocolResearchAreas;
 import org.kuali.kra.irb.bo.ProtocolRiskLevels;
 import org.kuali.kra.irb.bo.ProtocolStatus;
@@ -58,6 +60,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
     private ProtocolType protocolType; 
     
     private List<ProtocolRiskLevels> riskLevels;
+    private List<ProtocolParticipant> protocolParticipants;
     
     private List<ProtocolResearchAreas> protocolResearchAreas;
     
@@ -90,6 +93,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
 	public ProtocolDocument() { 
         super();
         riskLevels = new ArrayList<ProtocolRiskLevels>();
+        protocolParticipants = new TypedArrayList(ProtocolParticipant.class);
         protocolResearchAreas = new ArrayList<ProtocolResearchAreas>();// new TypedArrayList(ProtocolResearchAreas.class);  
         newDescription = getDefaultNewDescription();
 	} 
@@ -324,7 +328,25 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
     public void setRiskLevels(List<ProtocolRiskLevels> riskLevels) {
         this.riskLevels = riskLevels;
     }
+
+    public List<ProtocolParticipant> getProtocolParticipants() {
+        return protocolParticipants;
+    }
+
+    public void setProtocolParticipants(List<ProtocolParticipant> protocolParticipants) {
+        this.protocolParticipants = protocolParticipants;
+    }
     
+    /**
+     * Gets index i from the protocol participant list.
+     * 
+     * @param index
+     * @return protocol participant at index i
+     */
+    public ProtocolParticipant getProtocolParticipant(int index) {
+        return getProtocolParticipants().get(index);
+    }
+
     public String getNewDescription() {
         return newDescription;
     }

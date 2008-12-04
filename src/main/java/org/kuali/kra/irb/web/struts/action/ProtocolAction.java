@@ -35,11 +35,14 @@ import org.kuali.core.document.Document;
 import org.kuali.core.lookup.LookupResultsService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.action.KualiDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kra.bo.ResearchAreas;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.irb.bo.ProtocolParticipant;
+import org.kuali.kra.irb.rule.event.AddProtocolParticipantEvent;
 import org.kuali.kra.irb.bo.ProtocolResearchAreas;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
@@ -259,4 +262,27 @@ public class ProtocolAction extends KraTransactionalDocumentActionBase {
         return mapping.findForward("basic");
     }
     
+    public ActionForward addProtocolParticipant(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolParticipant newProtocolParticipant = protocolForm.getNewProtocolParticipant();
+        if(getKualiRuleService().applyRules(new AddProtocolParticipantEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument(), newProtocolParticipant))) {
+            protocolForm.getProtocolDocument().getProtocolParticipants().add(newProtocolParticipant);
+            protocolForm.setNewProtocolParticipant(new ProtocolParticipant());
+        }
+        return mapping.findForward("basic");
+    }
+
+//    public ActionForward deleteProtocolParticipant(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+//        ProtocolForm protocolForm = (ProtocolForm) form;
+//        protocolForm.getProposalDevelopmentDocument().getPropSpecialReviews().remove(getLineToDelete(request));
+//        proposalDevelopmentForm.getDocumentExemptNumbers().remove(getLineToDelete(request));
+//        GlobalVariables.getErrorMap().clear();
+//
+//        return mapping.findForward("basic");
+//    }
+
+    // TODO : move this method up?
+    private KualiRuleService getKualiRuleService() {
+        return getService(KualiRuleService.class);
+    }
 }
