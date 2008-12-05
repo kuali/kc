@@ -125,7 +125,7 @@ public class ProtocolAction extends KraTransactionalDocumentActionBase {
                         //New ResearchAreas added by user selection
                         ResearchAreas newResearchAreas = (ResearchAreas) iter.next();
                         // ignore / drop duplicates
-                        if (!isDuplicateProtocolResearchAreas(newResearchAreas, protocolDocument.getProtocol().getProtocolResearchAreas())) {
+                        if (!isDuplicateResearchAreas(newResearchAreas, protocolDocument.getProtocol().getProtocolResearchAreas())) {
                             //Add new ProtocolResearchAreas to list
                             protocolDocument.getProtocol().addProtocolResearchAreas(createInstanceOfProtocolResearchAreas(protocolDocument, newResearchAreas));
                         }
@@ -165,7 +165,7 @@ public class ProtocolAction extends KraTransactionalDocumentActionBase {
      * @param protocolResearchAreas
      * @return
      */
-    private boolean isDuplicateProtocolResearchAreas(ResearchAreas newResearchAreas, List<ProtocolResearchAreas> protocolResearchAreas) {
+    private boolean isDuplicateResearchAreas(ResearchAreas newResearchAreas, List<ProtocolResearchAreas> protocolResearchAreas) {
         for (ProtocolResearchAreas pra  : protocolResearchAreas) {    
             if (pra.getResearchAreas().equals(newResearchAreas)) {
                 return true;
