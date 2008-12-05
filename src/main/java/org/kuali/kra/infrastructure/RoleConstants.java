@@ -27,6 +27,7 @@ public interface RoleConstants {
     public static final String PROPOSAL_ROLE_TYPE = "P";
     public static final String OSP_ROLE_TYPE = "O";
     public static final String DEPARTMENT_ROLE_TYPE = "D";
+    public static final String PROTOCOL_ROLE_TYPE = "R";
     
     // The names of the standard roles as used by KIM to identify a role.
     
@@ -36,4 +37,7 @@ public interface RoleConstants {
     public static final String BUDGET_CREATOR = "Budget Creator";
     public static final String VIEWER = "Viewer";
     public static final String UNASSIGNED = "unassigned";
+    public static final String PROTOCOL_CREATOR = "Protocol Creator";
+    public static final String PROTOCOL_AGGREGATOR = "Protocol Aggregator";
+    public static final String PROTOCOL_VIEWER = "Protocol Viewer";
 }
