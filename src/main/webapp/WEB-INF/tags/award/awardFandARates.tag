@@ -20,7 +20,7 @@
 
 <c:set var="awardFandaRateAttributes" value="${DataDictionary.AwardFandaRate.attributes}" />
 <c:set var="action" value="awardTimeAndMoney" />
-<kul:tab tabTitle="Rates" defaultOpen="false" tabErrorKey="newAwardFandaRate.*,document.award.awardFandaRate*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
+<kul:tab tabTitle="Rates" defaultOpen="false" tabErrorKey="newAwardFandaRate.*,document.awardList[0].awardFandaRate*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="right">
     	<h3>
     		<span class="subhead-left"> F&A Rates</span>
@@ -103,54 +103,54 @@
                 </td>
             </tr>
             <c:set var="total" value="0" />
-        	<c:forEach var="awardFandaRate" items="${KualiForm.document.award.awardFandaRate}" varStatus="status">
+        	<c:forEach var="awardFandaRate" items="${KualiForm.document.awardList[0].awardFandaRate}" varStatus="status">
 	             <tr>
 					<th width="5%" class="infoline">
 						<c:out value="${status.index+1}" />
 					</th>	                
 	                <td width="9%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.award.awardFandaRate[${status.index}].applicableFandaRate" attributeEntry="${awardFandaRateAttributes.applicableFandaRate}" />
+                		<kul:htmlControlAttribute property="document.awardList[0].awardFandaRate[${status.index}].applicableFandaRate" attributeEntry="${awardFandaRateAttributes.applicableFandaRate}" />
 					</div>
 					</td>
 	                <td width="9%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.award.awardFandaRate[${status.index}].fandaRateTypeCode" attributeEntry="${awardFandaRateAttributes.fandaRateTypeCode}" />                		
+                		<kul:htmlControlAttribute property="document.awardList[0].awardFandaRate[${status.index}].fandaRateTypeCode" attributeEntry="${awardFandaRateAttributes.fandaRateTypeCode}" />                		
 					</div>
 					</td>
 	                <td width="9%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.award.awardFandaRate[${status.index}].fiscalYear" attributeEntry="${awardFandaRateAttributes.fiscalYear}" onblur="loadStartAndEndDates('document.award.awardFandaRate[${status.index}].fiscalYear', 'document.award.awardFandaRate[${status.index}].startDate','document.award.awardFandaRate[${status.index}].endDate');" />
+                		<kul:htmlControlAttribute property="document.awardList[0].awardFandaRate[${status.index}].fiscalYear" attributeEntry="${awardFandaRateAttributes.fiscalYear}" onblur="loadStartAndEndDates('document.awardList[0].awardFandaRate[${status.index}].fiscalYear', 'document.awardList[0].awardFandaRate[${status.index}].startDate','document.awardList[0].awardFandaRate[${status.index}].endDate');" />
 					</div>
 					</td>
 					<td width="9%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.award.awardFandaRate[${status.index}].startDate" attributeEntry="${awardFandaRateAttributes.startDate}" datePicker="true" />
+                		<kul:htmlControlAttribute property="document.awardList[0].awardFandaRate[${status.index}].startDate" attributeEntry="${awardFandaRateAttributes.startDate}" datePicker="true" />
 					</div>
 					</td>
 	                <td width="9%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.award.awardFandaRate[${status.index}].endDate" attributeEntry="${awardFandaRateAttributes.endDate}" datePicker="true" />
+                		<kul:htmlControlAttribute property="document.awardList[0].awardFandaRate[${status.index}].endDate" attributeEntry="${awardFandaRateAttributes.endDate}" datePicker="true" />
 					</div>
 					</td>
 	                <td width="9%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.award.awardFandaRate[${status.index}].onCampusFlag" attributeEntry="${awardFandaRateAttributes.onCampusFlag}" />
+                		<kul:htmlControlAttribute property="document.awardList[0].awardFandaRate[${status.index}].onCampusFlag" attributeEntry="${awardFandaRateAttributes.onCampusFlag}" />
 					</div>
 					</td>
 	                <td width="9%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.award.awardFandaRate[${status.index}].underrecoveryOfIndirectCost" attributeEntry="${awardFandaRateAttributes.underrecoveryOfIndirectCost}" />
+                		<kul:htmlControlAttribute property="document.awardList[0].awardFandaRate[${status.index}].underrecoveryOfIndirectCost" attributeEntry="${awardFandaRateAttributes.underrecoveryOfIndirectCost}" />
 					</div>
 					</td>
 	                <td width="9%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.award.awardFandaRate[${status.index}].sourceAccount" attributeEntry="${awardFandaRateAttributes.sourceAccount}" />
+                		<kul:htmlControlAttribute property="document.awardList[0].awardFandaRate[${status.index}].sourceAccount" attributeEntry="${awardFandaRateAttributes.sourceAccount}" />
 					</div>
 					</td>
 	                <td width="9%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.award.awardFandaRate[${status.index}].destinationAccount" attributeEntry="${awardFandaRateAttributes.destinationAccount}" />
+                		<kul:htmlControlAttribute property="document.awardList[0].awardFandaRate[${status.index}].destinationAccount" attributeEntry="${awardFandaRateAttributes.destinationAccount}" />
 					</div>
 					</td>
 					<td width="10%" valign="middle">
@@ -159,11 +159,11 @@
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 					</div>
 					</td>
-					<c:set var="total" value="${total + KualiForm.document.award.awardFandaRate[status.index].underrecoveryOfIndirectCost}" />
+					<c:set var="total" value="${total + KualiForm.document.awardList[0].awardFandaRate[status.index].underrecoveryOfIndirectCost}" />
 
 	            </tr>
         	</c:forEach>
-        	<c:if test="${not empty KualiForm.document.award.awardFandaRate}" >
+        	<c:if test="${not empty KualiForm.document.awardList[0].awardFandaRate}" >
         		<tr>
         			<th width="5%" class="infoline">
 						<c:out value="Total" />
