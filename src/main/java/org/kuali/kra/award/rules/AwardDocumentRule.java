@@ -40,7 +40,9 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddFandaRateRule {
     
     public static final String DOCUMENT_ERROR_PATH = "document";
-    public static final String AWARD_ERROR_PATH = "award";
+    public static final String AWARD_ERROR_PATH = "awardList[0]";
+    public static final boolean VALIDATION_REQUIRED = true;
+    public static final boolean CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME = false;
     
     /**
      * 
@@ -60,9 +62,16 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddFa
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean retval = true;
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
         if (!(document instanceof AwardDocument)) {
             return false;
         }
+        
+        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+        getDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(
+                document, getMaxDictionaryValidationDepth(),
+                VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
+        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
         
         retval &= processAwardFandaRateBusinessRules(document);
 
