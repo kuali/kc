@@ -80,11 +80,11 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
         verifySavedRequiredFields();        
     
         //Assert Additional Fields
-        assertTrue(getProtocolDocument().isBillable());
-        assertEquals(PROTOCOL_FDAAPPLICATIONNUMBER, getProtocolDocument().getFdaApplicationNumber());
-        assertEquals(PROTOCOL_REFERENCENUMBER1, getProtocolDocument().getReferenceNumber1());
-        assertEquals(PROTOCOL_REFERENCENUMBER2, getProtocolDocument().getReferenceNumber2());
-        assertEquals(PROTOCOL_DESCRIPTION, getProtocolDocument().getDescription());
+        assertTrue(getProtocolDocument().getProtocol().isBillable());
+        assertEquals(PROTOCOL_FDAAPPLICATIONNUMBER, getProtocolDocument().getProtocol().getFdaApplicationNumber());
+        assertEquals(PROTOCOL_REFERENCENUMBER1, getProtocolDocument().getProtocol().getReferenceNumber1());
+        assertEquals(PROTOCOL_REFERENCENUMBER2, getProtocolDocument().getProtocol().getReferenceNumber2());
+        assertEquals(PROTOCOL_DESCRIPTION, getProtocolDocument().getProtocol().getDescription());
         
     }
 }
