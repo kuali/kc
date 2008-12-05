@@ -45,7 +45,8 @@ import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 public class ProtocolForm extends KraTransactionalDocumentFormBase {
     
     private static final long serialVersionUID = -7633960906991275328L;
-    private Map<String, Parameter> protocolParameters;
+    
+    private ProtocolHelper protocolHelper;
     private ProtocolParticipant newProtocolParticipant;
     
     //KNS Lookup hooks
@@ -64,8 +65,8 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
      */
     public void initialize() {
         initializeHeaderNavigationTabs(); 
-        protocolParameters = new HashMap<String, Parameter>();
         setNewProtocolParticipant(new ProtocolParticipant());
+        setProtocolHelper(new ProtocolHelper());
     }
 
     public ProtocolDocument getProtocolDocument() {
@@ -137,14 +138,6 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
     public KualiConfigurationService getConfigurationService() {
         return getService(KualiConfigurationService.class);
     }
-
-    public void setProtocolParameters(Map<String, Parameter> protocolParameters) {
-        this.protocolParameters = protocolParameters;
-    }
-
-    public Map<String, Parameter> getProtocolParameters() {
-        return protocolParameters;
-    }
     
     public String getLookupResultsSequenceNumber() {
         return lookupResultsSequenceNumber;
@@ -160,5 +153,13 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
 
     public void setLookupResultsBOClassName(String lookupResultsBOClassName) {
         this.lookupResultsBOClassName = lookupResultsBOClassName;
+    }
+
+    public void setProtocolHelper(ProtocolHelper protocolHelper) {
+        this.protocolHelper = protocolHelper;
+    }
+
+    public ProtocolHelper getProtocolHelper() {
+        return protocolHelper;
     }
 }
