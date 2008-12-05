@@ -46,7 +46,7 @@ public class Protocol extends KraPersistableBusinessObjectBase{
     private String fdaApplicationNumber; 
     private String referenceNumber1; 
     private String referenceNumber2; 
-    private boolean billable; 
+    private Boolean billable; 
     private String specialReviewIndicator; 
     private String vulnerableSubjectIndicator; 
     private String keyStudyPersonIndicator; 
