@@ -21,6 +21,9 @@ package org.kuali.kra.infrastructure;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public interface PermissionConstants {
+    
+    /* Proposal/Budget Permissions */
+    
     public static final String CREATE_PROPOSAL = "CREATE_PROPOSAL";
     public static final String MODIFY_PROPOSAL = "MODIFY_PROPOSAL";
     public static final String VIEW_PROPOSAL = "VIEW_PROPOSAL";
@@ -33,5 +36,17 @@ public interface PermissionConstants {
     public static final String PRINT_PROPOSAL = "PRINT_PROPOSAL";
     public static final String ALTER_PROPOSAL_DATA = "ALTER_PROPOSAL_DATA";
     public static final String SUBMIT_TO_SPONSOR = "SUBMIT_TO_SPONSOR";
-    public static final String SUBMIT_PROPOSAL = "SUBMIT_PROPOSAL";;
+    public static final String SUBMIT_PROPOSAL = "SUBMIT_PROPOSAL";
+    
+    /* IRB Permissions */
+    
+    public static final String CREATE_PROTOCOL = "CREATE_PROTOCOL";
+    public static final String MODIFY_PROTOCOL = "MODIFY_PROTOCOL";
+    public static final String VIEW_PROTOCOL = "VIEW_PROTOCOL";
+    public static final String MAINTAIN_PROTOCOL_ACCESS = "MAINTAIN_PROTOCOL_ACCESS";
+    public static final String ADD_PROTOCOL_NOTES = "ADD_PROTOCOL_NOTES";
+    public static final String CREATE_AMMENDMENT = "CREATE_AMMENDMENT";
+    public static final String CREATE_RENEWAL = "CREATE_RENEWAL";
+    public static final String MAINTAIN_PROTOCOL_RELATED_PROJ = "MAINTAIN_PROTOCOL_RELATED_PROJ";
+    public static final String EDIT_PROTOCOL_BILLABLE = "EDIT_PROTOCOL_BILLABLE";
 }
