@@ -281,10 +281,10 @@ public abstract class ProtocolWebTestBase extends KraWebTestBase {
     protected void verifySavedRequiredFields() {
         // TODO check with Bryan or Don
         // assertEquals(DEFAULT_DOCUMENT_DESCRIPTION, doc.getDocumentHeader().getDocumentDescription()); //Not persisted BUG??
-        assertEquals(PROTOCOL_STATUS, getProtocolDocument().getProtocolStatus().getDescription());
-        assertEquals(PROTOCOL_TYPE_CODE, getProtocolDocument().getProtocolType().getDescription());
-        assertEquals(PROTOCOL_TITLE, getProtocolDocument().getTitle());
-        assertEquals(PROTOCOL_APPLICATION_DATE_RESULT, getProtocolDocument().getApplicationDate().toString());
+        assertEquals(PROTOCOL_STATUS, getProtocolDocument().getProtocol().getProtocolStatus().getDescription());
+        assertEquals(PROTOCOL_TYPE_CODE, getProtocolDocument().getProtocol().getProtocolType().getDescription());
+        assertEquals(PROTOCOL_TITLE, getProtocolDocument().getProtocol().getTitle());
+        assertEquals(PROTOCOL_APPLICATION_DATE_RESULT, getProtocolDocument().getProtocol().getApplicationDate().toString());
     }
 
     /**
