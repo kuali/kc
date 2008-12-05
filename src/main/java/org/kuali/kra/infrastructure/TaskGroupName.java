@@ -28,4 +28,5 @@ public interface TaskGroupName {
     public static final String PROPOSAL = "proposal";
     public static final String NARRATIVE = "narrative";
     public static final String BUDGET = "budget";
+    public static final String PROTOCOL = "protocol";
 }
