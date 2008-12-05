@@ -62,9 +62,9 @@ public class ProtocolAction extends KraTransactionalDocumentActionBase {
             throws Exception {
         
         //Save the list for later use
-        List<ProtocolResearchAreas> protocolResearchAreas = ((ProtocolForm)form).getProtocolDocument().getProtocolResearchAreas();
+        List<ProtocolResearchAreas> protocolResearchAreas = ((ProtocolForm)form).getProtocolDocument().getProtocol().getProtocolResearchAreas();
         //Reset list with no values
-        ((ProtocolForm)form).getProtocolDocument().setProtocolResearchAreas(new ArrayList<ProtocolResearchAreas>());
+        ((ProtocolForm)form).getProtocolDocument().getProtocol().setProtocolResearchAreas(new ArrayList<ProtocolResearchAreas>());
         
         //Save only Protocol
         ActionForward af = super.save(mapping, form, request, response);
@@ -72,11 +72,11 @@ public class ProtocolAction extends KraTransactionalDocumentActionBase {
         if(null != protocolResearchAreas && !protocolResearchAreas.isEmpty()) {
             //Set values of 2 fields now
             for(ProtocolResearchAreas protocolResearchArea: protocolResearchAreas) {
-                protocolResearchArea.setSequenceNumber(((ProtocolForm)form).getProtocolDocument().getSequenceNumber());
-                protocolResearchArea.setProtocolNumber(((ProtocolForm)form).getProtocolDocument().getProtocolNumber());
+                protocolResearchArea.setSequenceNumber(((ProtocolForm)form).getProtocolDocument().getProtocol().getSequenceNumber());
+                protocolResearchArea.setProtocolNumber(((ProtocolForm)form).getProtocolDocument().getProtocol().getProtocolNumber());
             }
             //Set list back to document form
-            ((ProtocolForm)form).getProtocolDocument().setProtocolResearchAreas(protocolResearchAreas);
+            ((ProtocolForm)form).getProtocolDocument().getProtocol().setProtocolResearchAreas(protocolResearchAreas);
             //RE-Save with Additional Information.
             af = super.save(mapping, form, request, response);
         }
@@ -125,9 +125,9 @@ public class ProtocolAction extends KraTransactionalDocumentActionBase {
                         //New ResearchAreas added by user selection
                         ResearchAreas newResearchAreas = (ResearchAreas) iter.next();
                         // ignore / drop duplicates
-                        if (!isDuplicateProtocolResearchAreas(newResearchAreas, protocolDocument.getProtocolResearchAreas())) {
+                        if (!isDuplicateProtocolResearchAreas(newResearchAreas, protocolDocument.getProtocol().getProtocolResearchAreas())) {
                             //Add new ProtocolResearchAreas to list
-                            protocolDocument.addProtocolResearchAreas(createInstanceOfProtocolResearchAreas(protocolDocument, newResearchAreas));
+                            protocolDocument.getProtocol().addProtocolResearchAreas(createInstanceOfProtocolResearchAreas(protocolDocument, newResearchAreas));
                         }
                     }//End of for
                 }//End of if
@@ -146,14 +146,14 @@ public class ProtocolAction extends KraTransactionalDocumentActionBase {
     private ProtocolResearchAreas createInstanceOfProtocolResearchAreas(ProtocolDocument protocolDocument, ResearchAreas researchAreas) {
         ProtocolResearchAreas protocolResearchAreas = new ProtocolResearchAreas();
         protocolResearchAreas.setProtocol(protocolDocument);                            
-        if(null != protocolDocument.getProtocolId())
-            protocolResearchAreas.setProtocolId(protocolDocument.getProtocolId());
+        if(null != protocolDocument.getProtocol().getProtocolId())
+            protocolResearchAreas.setProtocolId(protocolDocument.getProtocol().getProtocolId());
         
-        if(null != protocolDocument.getProtocolNumber())
-            protocolResearchAreas.setProtocolNumber(protocolDocument.getProtocolNumber());
+        if(null != protocolDocument.getProtocol().getProtocolNumber())
+            protocolResearchAreas.setProtocolNumber(protocolDocument.getProtocol().getProtocolNumber());
         
-        if(null != protocolDocument.getSequenceNumber())
-            protocolResearchAreas.setSequenceNumber(protocolDocument.getSequenceNumber());
+        if(null != protocolDocument.getProtocol().getSequenceNumber())
+            protocolResearchAreas.setSequenceNumber(protocolDocument.getProtocol().getSequenceNumber());
         
         protocolResearchAreas.setResearchAreaCode(researchAreas.getResearchAreaCode());
         protocolResearchAreas.setResearchAreas(researchAreas);
@@ -223,7 +223,7 @@ public class ProtocolAction extends KraTransactionalDocumentActionBase {
 
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
-        List<ProtocolResearchAreas> listOfProtocolResearchAreas = protocolDocument.getProtocolResearchAreas();
+        List<ProtocolResearchAreas> listOfProtocolResearchAreas = protocolDocument.getProtocol().getProtocolResearchAreas();
         
         for (ProtocolResearchAreas protocolResearchAreas: listOfProtocolResearchAreas) {  
             //Transient field set to true
@@ -247,7 +247,7 @@ public class ProtocolAction extends KraTransactionalDocumentActionBase {
 
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
-        List<ProtocolResearchAreas> listOfProtocolResearchAreas = protocolDocument.getProtocolResearchAreas();
+        List<ProtocolResearchAreas> listOfProtocolResearchAreas = protocolDocument.getProtocol().getProtocolResearchAreas();
         
         List<ProtocolResearchAreas> newProtocolResearchAreas = new ArrayList<ProtocolResearchAreas>();
         
@@ -257,7 +257,7 @@ public class ProtocolAction extends KraTransactionalDocumentActionBase {
                 newProtocolResearchAreas.add(protocolResearchAreas);
             }
         }
-        protocolDocument.setProtocolResearchAreas(newProtocolResearchAreas);
+        protocolDocument.getProtocol().setProtocolResearchAreas(newProtocolResearchAreas);
 
         return mapping.findForward("basic");
     }
@@ -266,7 +266,7 @@ public class ProtocolAction extends KraTransactionalDocumentActionBase {
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolParticipant newProtocolParticipant = protocolForm.getNewProtocolParticipant();
         if(getKualiRuleService().applyRules(new AddProtocolParticipantEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument(), newProtocolParticipant))) {
-            protocolForm.getProtocolDocument().getProtocolParticipants().add(newProtocolParticipant);
+            protocolForm.getProtocolDocument().getProtocol().getProtocolParticipants().add(newProtocolParticipant);
             protocolForm.setNewProtocolParticipant(new ProtocolParticipant());
         }
         return mapping.findForward("basic");

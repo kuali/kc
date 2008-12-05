@@ -1,7 +1,8 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 <c:set var="protocolDocumentAttributes" value="${DataDictionary.ProtocolDocument.attributes}" />
-<c:set var="textAreaFieldName" value="document.title" />
+<c:set var="protocolAttributes" value="${DataDictionary.Protocol.attributes}" />
+<c:set var="textAreaFieldName" value="document.protocol.title" />
 <c:set var="action" value="protocol" />
 <c:set var="className" value="org.kuali.kra.irb.document.ProtocolDocument" />
 
@@ -18,13 +19,13 @@
         <table cellpadding=0 cellspacing=0 summary="">
 
 	       <tr>
-                <th><div align="right" width="52%"><kul:htmlAttributeLabel attributeEntry="${protocolDocumentAttributes.fdaApplicationNumber}" /></div></th>
+                <th><div align="right" width="52%"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.fdaApplicationNumber}" /></div></th>
                 <td align="left" valign="middle" width="25%" >
-                	<kul:htmlControlAttribute property="document.fdaApplicationNumber" attributeEntry="${protocolDocumentAttributes.fdaApplicationNumber}" />
+                	<kul:htmlControlAttribute property="document.protocol.fdaApplicationNumber" attributeEntry="${protocolAttributes.fdaApplicationNumber}" />
                 </td>
-                <th><div align="right" width="5%"><kul:htmlAttributeLabel attributeEntry="${protocolDocumentAttributes.billable}" /></div></th>
+                <th><div align="right" width="5%"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.billable}" /></div></th>
                 <td align="left" valign="middle" width="18%">
-                	<kul:htmlControlAttribute property="document.billable" attributeEntry="${protocolDocumentAttributes.billable}" />
+                	<kul:htmlControlAttribute property="document.protocol.billable" attributeEntry="${protocolAttributes.billable}" />
                 </td>
             </tr>
 
@@ -32,19 +33,19 @@
             <tr>
                 <th><div align="right">${KualiForm.protocolParameters['irb.protocol.referenceID1'].parameterValue}:</div></th>
                 <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.referenceNumber1" attributeEntry="${protocolDocumentAttributes.referenceNumber1}" />
+                	<kul:htmlControlAttribute property="document.protocol.referenceNumber1" attributeEntry="${protocolAttributes.referenceNumber1}" />
                 </td>
                 <th><div align="right">${KualiForm.protocolParameters['irb.protocol.referenceID2'].parameterValue}:</div></th>
                 <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.referenceNumber2" attributeEntry="${protocolDocumentAttributes.referenceNumber2}" />
+                	<kul:htmlControlAttribute property="document.protocol.referenceNumber2" attributeEntry="${protocolAttributes.referenceNumber2}" />
                 </td>
             </tr>
 
             <tr>
-                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolDocumentAttributes.description}" /></div></th>
+                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.description}" /></div></th>
                 <td colspan="3" align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.description" attributeEntry="${protocolDocumentAttributes.description}" />
-                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${protocolDocumentAttributes.description.label}" />
+                	<kul:htmlControlAttribute property="document.protocol.description" attributeEntry="${protocolAttributes.description}" />
+                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${protocolAttributes.description.label}" />
                 </td>
             </tr>
 
@@ -63,7 +64,7 @@
              </tr>
             <tr>
               <th width="10%" class="infoline">Add:</th>
-              <td width="70%" class="infoline">${KualiForm.document.newDescription}
+              <td width="70%" class="infoline">${KualiForm.document.protocol.newDescription}
               		<kul:multipleValueLookup boClassName="org.kuali.kra.bo.ResearchAreas" 
               		lookedUpCollectionName="protocolResearchAreas"
               		anchor="${tabKey}"/>
@@ -74,19 +75,19 @@
               </div></td>
             </tr>
 
-            <logic:iterate name="KualiForm" id="protocolResearchAreas" property="document.protocolResearchAreas" indexId="ctr">
+            <logic:iterate name="KualiForm" id="protocolResearchAreas" property="document.protocol.protocolResearchAreas" indexId="ctr">
               <tr>
                 <td class="infoline"><div align="center">
                 	${ctr+1} 
                 </div></td>
                 <td>
-                	 ${KualiForm.document.protocolResearchAreas[ctr].researchAreas.description}
+                	 ${KualiForm.document.protocol.protocolResearchAreas[ctr].researchAreas.description}
 					<kul:lookup boClassName="org.kuali.kra.bo.ResearchAreas" 
-					fieldConversions="researchAreaCode:document.protocolResearchAreas[${ctr}].researchAreaCode,description:document.protocolResearchAreas[${ctr}].researchAreas.description"
+					fieldConversions="researchAreaCode:document.protocol.protocolResearchAreas[${ctr}].researchAreaCode,description:document.protocol.protocolResearchAreas[${ctr}].researchAreas.description"
 					lookupParameters="" hideReturnLink="false" />
                 </td>
                 <td><div align="center">
-                  <kul:htmlControlAttribute property="document.protocolResearchAreas[${ctr}].selectResearchArea" attributeEntry="${DataDictionary.ProtocolResearchAreas.attributes.selectResearchArea}" readOnly="${readOnly}" />
+                  <kul:htmlControlAttribute property="document.protocol.protocolResearchAreas[${ctr}].selectResearchArea" attributeEntry="${DataDictionary.ProtocolResearchAreas.attributes.selectResearchArea}" readOnly="${readOnly}" />
                 </div></td>
               </tr>
             </logic:iterate>
@@ -95,7 +96,7 @@
               <tr>
                 <td class="infoline" colspan=2>&nbsp;</td>
                 <td nowrap class="infoline"><div align=center>
-                <c:if test="${fn:length(KualiForm.document.protocolResearchAreas) > 0}">
+                <c:if test="${fn:length(KualiForm.document.protocol.protocolResearchAreas) > 0}">
 	                <html:image property="methodToCall.selectAllProtocolDocument.anchor${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-selectall.gif" title="Select All" alt="Select All" styleClass="tinybutton" onclick="javascript: selectAllResearchAreas(document);return false" />    
 	                <html:image property="methodToCall.deleteSelectedProtocolDocument.anchor${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-deleteselected.gif" title="Delete Selected" alt="Delete Selected" styleClass="tinybutton" />
 	            </c:if>
