@@ -73,16 +73,16 @@
 			<%-- New data --%>
 			
 			<%-- Existing data --%>
-        	<c:forEach var="protocolParticipant" items="${KualiForm.document.protocolParticipants}" varStatus="status">
+        	<c:forEach var="protocolParticipant" items="${KualiForm.document.protocol.protocolParticipants}" varStatus="status">
 	             <tr>
 					<th class="infoline">
 						<c:out value="${status.index+1}" />
 					</th>
 	                <td align="left" valign="middle">
-	                	<div align="center"> <kul:htmlControlAttribute property="document.protocolParticipants[${status.index}].participantTypeCode" readOnlyAlternateDisplay="${protocolParticipant.participantType.description}" attributeEntry="${participantTypeAttributes.participantTypeCode}"  styleClass="fixed-size-select" readOnly="true" /> </div>
+	                	<div align="center"> <kul:htmlControlAttribute property="document.protocol.protocolParticipants[${status.index}].participantTypeCode" readOnlyAlternateDisplay="${protocolParticipant.participantType.description}" attributeEntry="${participantTypeAttributes.participantTypeCode}"  styleClass="fixed-size-select" readOnly="true" /> </div>
 					</td>
 	                <td align="left" valign="middle">
-	                	<div align="center"> <kul:htmlControlAttribute property="document.protocolParticipants[${status.index}].participantCount" attributeEntry="${protocolParticipantAttributes.participantCount}" readOnly="true" /> </div>
+	                	<div align="center"> <kul:htmlControlAttribute property="document.protocol.protocolParticipants[${status.index}].participantCount" attributeEntry="${protocolParticipantAttributes.participantCount}" readOnly="true" /> </div>
 	                </td>
 
 					<td>
