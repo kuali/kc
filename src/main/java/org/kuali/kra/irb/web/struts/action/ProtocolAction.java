@@ -89,11 +89,8 @@ public class ProtocolAction extends KraTransactionalDocumentActionBase {
             throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
         
-        // setup any Protocol System Parameters that will be needed
-        KualiConfigurationService configService = getService(KualiConfigurationService.class);
-        ((ProtocolForm)form).getProtocolParameters().put(Constants.PARAMETER_MODULE_PROTOCOL_REFERENCEID1, configService.getParameter(Constants.PARAMETER_MODULE_PROTOCOL, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PARAMETER_MODULE_PROTOCOL_REFERENCEID1));
-        ((ProtocolForm)form).getProtocolParameters().put(Constants.PARAMETER_MODULE_PROTOCOL_REFERENCEID2, configService.getParameter(Constants.PARAMETER_MODULE_PROTOCOL, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PARAMETER_MODULE_PROTOCOL_REFERENCEID2));
-
+        //Call to prepareView sets Labels Values from configuration service
+        ((ProtocolForm)form).getProtocolHelper().prepareView();
         
         return actionForward;
     }
