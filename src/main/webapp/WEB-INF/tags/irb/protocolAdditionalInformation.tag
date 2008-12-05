@@ -31,11 +31,11 @@
 
 
             <tr>
-                <th><div align="right">${KualiForm.protocolParameters['irb.protocol.referenceID1'].parameterValue}:</div></th>
+                <th><div align="right">${KualiForm.protocolHelper.referenceId1Label}:</div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.protocol.referenceNumber1" attributeEntry="${protocolAttributes.referenceNumber1}" />
                 </td>
-                <th><div align="right">${KualiForm.protocolParameters['irb.protocol.referenceID2'].parameterValue}:</div></th>
+                <th><div align="right">${KualiForm.protocolHelper.referenceId2Label}:</div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.protocol.referenceNumber2" attributeEntry="${protocolAttributes.referenceNumber2}" />
                 </td>
