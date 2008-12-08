@@ -62,21 +62,19 @@
 	</bean>
 
 	<bean id="ProtocolParticipant-participantTypeCode" parent="ProtocolParticipant-participantTypeCode-parentBean" />
-	<bean id="ProtocolParticipant-participantTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+	<bean id="ProtocolParticipant-participantTypeCode-parentBean" abstract="true" parent="ParticipantType-participantTypeCode" >
 		<property name="name" value="participantTypeCode" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Participant Type Code" />
-		<property name="shortLabel" value="Participant Type Code" />
-		<property name="maxLength" value="3" />
-		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
-		</property>
+		<property name="label" value="Description" />
+        <property name="shortLabel" value="Description" />
+		<property name="required" value="true" />
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
-		</property>
-		<property name="summary" value="Participant Type Code" />
-		<property name="description" value="Participant Type Code" />
+            <bean parent="SelectControlDefinition"
+                p:businessObjectClass="org.kuali.kra.irb.bo.ParticipantType"
+                p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" 
+                p:includeKeyInLabel="false"
+                p:keyAttribute="participantTypeCode"
+                p:labelAttribute="description" />
+        </property>
 	</bean>
 
 	<bean id="ProtocolParticipant-participantCount" parent="ProtocolParticipant-participantCount-parentBean" />

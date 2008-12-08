@@ -31,7 +31,6 @@ public class ProtocolParticipant extends KraPersistableBusinessObjectBase {
     private Integer sequenceNumber;
     private Integer participantTypeCode; 
     private Integer participantCount; 
-    private ParticipantType participantType; 
     
     public ProtocolParticipant() { 
 
@@ -46,7 +45,6 @@ public class ProtocolParticipant extends KraPersistableBusinessObjectBase {
         this.protocolId = protocolId;
         this.participantTypeCode = participantType.getParticipantTypeCode();
         this.participantCount = participantCount;
-        this.participantType = participantType;
     }
     
     public Integer getProtocolId() {
@@ -87,14 +85,6 @@ public class ProtocolParticipant extends KraPersistableBusinessObjectBase {
 
     public void setParticipantCount(Integer participantCount) {
         this.participantCount = participantCount;
-    }
-
-    public ParticipantType getParticipantType() {
-        return participantType;
-    }
-
-    public void setParticipantType(ParticipantType participantType) {
-        this.participantType = participantType;
     }
 
     @Override 

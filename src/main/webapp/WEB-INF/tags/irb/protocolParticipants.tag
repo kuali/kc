@@ -20,7 +20,7 @@
 <c:set var="participantTypeAttributes" value="${DataDictionary.ParticipantType.attributes}" />
 <c:set var="action" value="protocolParticipant" />
 
-<kul:tab tabTitle="Participant Types" defaultOpen="true" tabErrorKey="" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
+<kul:tab tabTitle="Participant Types" defaultOpen="false" tabErrorKey="newProtocolParticipant.*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left"> Participant Types </span>
@@ -32,7 +32,7 @@
         	<%-- Header --%>
         	<tr>
         		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" />
-        		<kul:htmlAttributeHeaderCell attributeEntry="${participantTypeAttributes.description}" scope="col" />
+        		<kul:htmlAttributeHeaderCell attributeEntry="${protocolParticipantAttributes.participantTypeCode}" scope="col" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${protocolParticipantAttributes.participantCount}" scope="col" />
 				<c:if test="${not readOnly}">
 					<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
@@ -40,36 +40,34 @@
 			</tr>
 			<%-- Header --%>
 			
-			<%-- New data --%>
-<%--        TO DO: are permissions needed?              --%>
-<%--       	<kra:section permission="modifyProtocol">   --%>
-             <tr>
+            <%-- New data --%>
+        	<kra:section permission="modifyProtocol">
+	            <tr>
 				<th class="infoline">
 					<c:out value="Add:" />
 				</th>
-
-                <td align="left" valign="middle">
-                	<div align="center">
-                		<kul:htmlControlAttribute property="newProtocolParticipant.participantTypeCode" attributeEntry="${participantTypeAttributes.participantTypeCode}" />
+	
+	            <td align="left" valign="middle" class="infoline">
+	               	<div align="center">
+	               		<kul:htmlControlAttribute property="newProtocolParticipant.participantTypeCode" attributeEntry="${protocolParticipantAttributes.participantTypeCode}" />
 	            	</div>
 				</td>
 				
-
-                <td align="left" valign="middle">
-                	<div align="center">
-                		<kul:htmlControlAttribute property="newProtocolParticipant.participantCount" attributeEntry="${protocolParticipantAttributes.participantCount}" />
-                	</div>
-                </td>
-
-				<td align="left" valign="middle">
+	
+	            <td align="left" valign="middle" class="infoline">
+	               	<div align="center">
+	               	    <kul:htmlControlAttribute property="newProtocolParticipant.participantCount" attributeEntry="${protocolParticipantAttributes.participantCount}" />
+	               	</div>
+	            </td>
+	
+				<td align="left" valign="middle" class="infoline">
 					<div align=center>
 						<html:image property="methodToCall.addProtocolParticipant.anchor${tabKey}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
 					</div>
-                </td>
-            </tr>
-<%--        TO DO: are permissions needed? --%>
-<%--        </kra:section>			       --%>
+	               </td>
+	            </tr>
+            </kra:section>
 			<%-- New data --%>
 			
 			<%-- Existing data --%>
@@ -79,10 +77,10 @@
 						<c:out value="${status.index+1}" />
 					</th>
 	                <td align="left" valign="middle">
-	                	<div align="center"> <kul:htmlControlAttribute property="document.protocol.protocolParticipants[${status.index}].participantTypeCode" readOnlyAlternateDisplay="${protocolParticipant.participantType.description}" attributeEntry="${participantTypeAttributes.participantTypeCode}"  styleClass="fixed-size-select" readOnly="true" /> </div>
+	                	<div align="center"> <kul:htmlControlAttribute property="document.protocol.protocolParticipants[${status.index}].participantTypeCode" attributeEntry="${protocolParticipantAttributes.participantTypeCode}"  /> </div>
 					</td>
 	                <td align="left" valign="middle">
-	                	<div align="center"> <kul:htmlControlAttribute property="document.protocol.protocolParticipants[${status.index}].participantCount" attributeEntry="${protocolParticipantAttributes.participantCount}" readOnly="true" /> </div>
+	                	<div align="center"> <kul:htmlControlAttribute property="document.protocol.protocolParticipants[${status.index}].participantCount" attributeEntry="${protocolParticipantAttributes.participantCount}" /> </div>
 	                </td>
 
 					<td>
