@@ -30,7 +30,7 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
 /**
  * This class contains methods common to ProposalDevelopment and Budget forms.
  */
-public class ProposalFormBase extends KraTransactionalDocumentFormBase {
+public abstract class ProposalFormBase extends KraTransactionalDocumentFormBase {
     
     private String newBudgetVersionName;
     private Integer finalBudgetVersion;
@@ -58,6 +58,7 @@ public class ProposalFormBase extends KraTransactionalDocumentFormBase {
         this.setLookupResultsBOClassName(null);
     }
     
+    // Getters and setters
     public Integer getFinalBudgetVersion() {
         return finalBudgetVersion;
     }
@@ -130,5 +131,5 @@ public class ProposalFormBase extends KraTransactionalDocumentFormBase {
     public void setAuditActivated(boolean auditActivated) {
         this.auditActivated = auditActivated;
     }
-
+    
 }
