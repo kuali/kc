@@ -2,7 +2,7 @@
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 <c:set var="protocolDocumentAttributes" value="${DataDictionary.ProtocolDocument.attributes}" />
 <c:set var="protocolAttributes" value="${DataDictionary.Protocol.attributes}" />
-<c:set var="textAreaFieldName" value="document.protocol.title" />
+<c:set var="textAreaFieldName" value="document.protocol.description" />
 <c:set var="action" value="protocol" />
 <c:set var="className" value="org.kuali.kra.irb.document.ProtocolDocument" />
 
