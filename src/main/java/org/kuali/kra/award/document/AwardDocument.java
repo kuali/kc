@@ -46,15 +46,11 @@ public class AwardDocument extends ResearchDocumentBase implements Copyable, Ses
     private List<ScienceKeyword> keywords;
     
     /**
-     * 
      * Constructs a AwardDocument object
      */
     public AwardDocument(){        
         super();        
-        awardList = new ArrayList<Award>();
-        Award newAward = new Award();
-        awardList.add(newAward);
-        keywords = new ArrayList<ScienceKeyword>();
+        init();
     }
     
     /**
@@ -77,7 +73,6 @@ public class AwardDocument extends ResearchDocumentBase implements Copyable, Ses
         awardList.set(0, award);
     }
    
-
     /**
      *
      * @return
@@ -138,5 +133,11 @@ public class AwardDocument extends ResearchDocumentBase implements Copyable, Ses
      */
     public void setKeywords(List<ScienceKeyword> keywords) {
         this.keywords = keywords;
+    }
+    
+    protected void init() {
+        awardList = new ArrayList<Award>();
+        awardList.add(new Award());
+        keywords = new ArrayList<ScienceKeyword>();
     }
 }
