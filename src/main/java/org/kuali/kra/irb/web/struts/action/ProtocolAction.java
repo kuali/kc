@@ -60,26 +60,8 @@ public class ProtocolAction extends KraTransactionalDocumentActionBase {
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        
-        //Save the list for later use
-        List<ProtocolResearchAreas> protocolResearchAreas = ((ProtocolForm)form).getProtocolDocument().getProtocol().getProtocolResearchAreas();
-        //Reset list with no values
-        ((ProtocolForm)form).getProtocolDocument().getProtocol().setProtocolResearchAreas(new ArrayList<ProtocolResearchAreas>());
-        
-        //Save only Protocol
+
         ActionForward af = super.save(mapping, form, request, response);
-        
-        if(null != protocolResearchAreas && !protocolResearchAreas.isEmpty()) {
-            //Set values of 2 fields now
-            for(ProtocolResearchAreas protocolResearchArea: protocolResearchAreas) {
-                protocolResearchArea.setSequenceNumber(((ProtocolForm)form).getProtocolDocument().getProtocol().getSequenceNumber());
-                protocolResearchArea.setProtocolNumber(((ProtocolForm)form).getProtocolDocument().getProtocol().getProtocolNumber());
-            }
-            //Set list back to document form
-            ((ProtocolForm)form).getProtocolDocument().getProtocol().setProtocolResearchAreas(protocolResearchAreas);
-            //RE-Save with Additional Information.
-            af = super.save(mapping, form, request, response);
-        }
         
         return af;
     }
@@ -148,9 +130,13 @@ public class ProtocolAction extends KraTransactionalDocumentActionBase {
         
         if(null != protocolDocument.getProtocol().getProtocolNumber())
             protocolResearchAreas.setProtocolNumber(protocolDocument.getProtocol().getProtocolNumber());
+        else
+            protocolResearchAreas.setProtocolNumber("0");
         
         if(null != protocolDocument.getProtocol().getSequenceNumber())
             protocolResearchAreas.setSequenceNumber(protocolDocument.getProtocol().getSequenceNumber());
+        else
+            protocolResearchAreas.setSequenceNumber(0);
         
         protocolResearchAreas.setResearchAreaCode(researchAreas.getResearchAreaCode());
         protocolResearchAreas.setResearchAreas(researchAreas);
