@@ -79,16 +79,16 @@ public abstract class ProtocolWebTestBase extends KraWebTestBase {
     protected static final String DOCUMENT_DESCRIPTION_ID = "document.documentHeader.documentDescription";
     protected static final String DEFAULT_DOCUMENT_DESCRIPTION = "Protocol Document";
 
-    protected static final String PROTOCOL_STATUS_ID = "document.protocolStatusCode";
+    protected static final String PROTOCOL_STATUS_ID = "document.protocol.protocolStatusCode";
     protected static final String PROTOCOL_STATUS = "Pending/In Progress";
 
-    protected static final String PROTOCOL_TYPE_CODE_ID = "document.protocolTypeCode";
+    protected static final String PROTOCOL_TYPE_CODE_ID = "document.protocol.protocolTypeCode";
     protected static final String PROTOCOL_TYPE_CODE = "Standard";
 
-    protected static final String PROTOCOL_TITLE_ID = "document.title";
+    protected static final String PROTOCOL_TITLE_ID = "document.protocol.title";
     protected static final String PROTOCOL_TITLE = "Some text title goes here...";
 
-    protected static final String PROTOCOL_APPLICATION_DATE_ID = "document.applicationDate";
+    protected static final String PROTOCOL_APPLICATION_DATE_ID = "document.protocol.applicationDate";
     protected static final String PROTOCOL_APPLICATION_DATE = "11/12/2008";
     protected static final String PROTOCOL_APPLICATION_DATE_RESULT = "2008-11-12"; // TODO if required
 
@@ -133,7 +133,7 @@ public abstract class ProtocolWebTestBase extends KraWebTestBase {
      */
     public void setPage(HtmlPage page) {
         this.page = page;
-        assertTrue("Kuali :: Protocol Document".equals(getPage().getTitleText()));
+        assertTrue("Kuali :: Protocol Document".equalsIgnoreCase(getPage().getTitleText()));
     }
 
     /**

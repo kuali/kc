@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.web;
 
 import org.junit.Test;
+import org.kuali.core.document.TransactionalDocumentBase;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
@@ -23,21 +24,23 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  * This class tests additional fields data set. 
  */
 public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
-
+    
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolAdditionalFieldsWebTest.class);
+    
     //Test field for Additional Sub Panel
-    protected static final String PROTOCOL_ISBILLABLE_ID =  "document.billable";
+    protected static final String PROTOCOL_ISBILLABLE_ID =  "document.protocol.billable";
     protected static final String PROTOCOL_ISBILLABLE =  "on";
     
-    protected static final String PROTOCOL_FDAAPPLICATIONNUMBER_ID = "document.fdaApplicationNumber";
+    protected static final String PROTOCOL_FDAAPPLICATIONNUMBER_ID = "document.protocol.fdaApplicationNumber";
     protected static final String PROTOCOL_FDAAPPLICATIONNUMBER = "A11111";
     
-    protected static final String PROTOCOL_REFERENCENUMBER1_ID = "document.referenceNumber1";
+    protected static final String PROTOCOL_REFERENCENUMBER1_ID = "document.protocol.referenceNumber1";
     protected static final String PROTOCOL_REFERENCENUMBER1 = "0000";
     
-    protected static final String PROTOCOL_REFERENCENUMBER2_ID = "document.referenceNumber2";
+    protected static final String PROTOCOL_REFERENCENUMBER2_ID = "document.protocol.referenceNumber2";
     protected static final String PROTOCOL_REFERENCENUMBER2 = "0010";
     
-    protected static final String PROTOCOL_DESCRIPTION_ID =  "document.description";
+    protected static final String PROTOCOL_DESCRIPTION_ID =  "document.protocol.description";
     protected static final String PROTOCOL_DESCRIPTION =  "keyword_to_test1";
     
     /**
@@ -50,7 +53,9 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
         //Click to create new protocol link
         HtmlPage page = clickOn(getPortalPage(), "Create Protocol", "Kuali Portal Index");
         page = getInnerPages(page).get(0);
-       
+        
+        LOG.info("Page Title - " + page.getTitleText());
+        
         //Set Parent Html Page
         setPage(page);
         
