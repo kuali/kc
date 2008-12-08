@@ -42,6 +42,7 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
     
     protected static final String PROTOCOL_DESCRIPTION_ID =  "document.protocol.description";
     protected static final String PROTOCOL_DESCRIPTION =  "keyword_to_test1";
+    protected static final String PROTOCOL_DESCRIPTION2 = "test should be done based on feature";
     
     /**
      * This method asserts the form's additional field value persistence. 
@@ -54,32 +55,27 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
         HtmlPage page = clickOn(getPortalPage(), "Create Protocol", "Kuali Portal Index");
         page = getInnerPages(page).get(0);
         
-        LOG.info("Page Title - " + page.getTitleText());
-        
-        //Set Parent Html Page
-        setPage(page);
-        
+        assertTrue("Kuali :: Protocol Document".equalsIgnoreCase(page.getTitleText()));
         //Required Fields to begin with for saving protocol document
-        setRequiredFields();
+        setRequiredFields(page);
         
         //Additional Fields to populate for this test case
-        setFieldValue(HTML_CHECK_BOX_INPUT, PROTOCOL_ISBILLABLE_ID, PROTOCOL_ISBILLABLE, -1);
-        setFieldValue(HTML_TEXT_INPUT, PROTOCOL_FDAAPPLICATIONNUMBER_ID, PROTOCOL_FDAAPPLICATIONNUMBER, -1);
-        setFieldValue(HTML_TEXT_INPUT, PROTOCOL_REFERENCENUMBER1_ID, PROTOCOL_REFERENCENUMBER1, -1);
-        setFieldValue(HTML_TEXT_INPUT, PROTOCOL_REFERENCENUMBER2_ID, PROTOCOL_REFERENCENUMBER2, -1);
-        setFieldValue(HTML_TEXT_AREA, PROTOCOL_DESCRIPTION_ID, PROTOCOL_DESCRIPTION, -1);
+        
+        super.setFieldValue(page, PROTOCOL_ISBILLABLE_ID, PROTOCOL_ISBILLABLE);
+        super.setFieldValue(page, PROTOCOL_FDAAPPLICATIONNUMBER_ID, PROTOCOL_FDAAPPLICATIONNUMBER);
+        super.setFieldValue(page, PROTOCOL_REFERENCENUMBER1_ID, PROTOCOL_REFERENCENUMBER1);
+        super.setFieldValue(page, PROTOCOL_REFERENCENUMBER2_ID, PROTOCOL_REFERENCENUMBER2);
+        super.setFieldValue(page, PROTOCOL_DESCRIPTION_ID, PROTOCOL_DESCRIPTION);
         
         //Invoke save method by clicking save button on form
-        HtmlPage resultPage = invokeLifeCycleMethod(HTML_SAVE);
+        HtmlPage resultPage = super.saveDoc(page);
         
         assertNotNull(resultPage);
         assertEquals("Kuali :: Protocol Document", resultPage.getTitleText());
-
-        String pageAsText = resultPage.asText();
-        String errorMessage = extractErrorMessage(pageAsText);
-        assertFalse(errorMessage, pageAsText.contains(ERRORS_FOUND_ON_PAGE));
         
-        setProtocolDocument(null); //Can also be set by child if required
+        super.hasError(resultPage);
+        
+        setProtocolDocument(null, resultPage); //Can also be set by child if required
         
         //Assert Required Fields
         verifySavedRequiredFields();        
@@ -91,5 +87,15 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
         assertEquals(PROTOCOL_REFERENCENUMBER2, getProtocolDocument().getProtocol().getReferenceNumber2());
         assertEquals(PROTOCOL_DESCRIPTION, getProtocolDocument().getProtocol().getDescription());
         
+    }
+    
+    @Test
+    public void testExpandedTextArea() throws Exception {
+         
+        //Click to create new protocol link
+        HtmlPage page = clickOn(getPortalPage(), "Create Protocol", "Kuali Portal Index");
+        page = getInnerPages(page).get(0);
+        
+        super.checkExpandedTextArea(page, PROTOCOL_DESCRIPTION_ID, PROTOCOL_DESCRIPTION, PROTOCOL_DESCRIPTION2);
     }
 }
