@@ -35,7 +35,7 @@ import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.KNSServiceLocator;
   
-public class KraTransactionalDocumentFormBase extends KualiTransactionalDocumentFormBase {
+public abstract class KraTransactionalDocumentFormBase extends KualiTransactionalDocumentFormBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
             .getLog(KraTransactionalDocumentFormBase.class);
 
@@ -125,27 +125,7 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
         return false;
     }
     
-    private boolean isProposalAction() {
-        boolean isProposalAction = false;
-
-        if ((StringUtils.isNotBlank(actionName) && StringUtils.isNotBlank(getMethodToCall())) 
-                && actionName.startsWith("Proposal") && !actionName.contains("AbstractsAttachments")
-                && !actionName.contains("BudgetVersions") 
-                && StringUtils.isEmpty(navigateTo) && !getMethodToCall().equalsIgnoreCase(Constants.HEADER_TAB)) {
-            isProposalAction = true;
-        }
-        else if (StringUtils.isNotEmpty(navigateTo) && (navigateTo.equalsIgnoreCase(Constants.PROPOSAL_PAGE) 
-                || navigateTo.equalsIgnoreCase(Constants.SPECIAL_REVIEW_PAGE) || navigateTo.equalsIgnoreCase(Constants.CUSTOM_ATTRIBUTES_PAGE) 
-                || navigateTo.equalsIgnoreCase(Constants.KEY_PERSONNEL_PAGE) || navigateTo.equalsIgnoreCase(Constants.PERMISSIONS_PAGE) 
-                || navigateTo.equalsIgnoreCase(Constants.QUESTIONS_PAGE) 
-                || navigateTo.equalsIgnoreCase(Constants.GRANTS_GOV_PAGE) || navigateTo.equalsIgnoreCase(Constants.PROPOSAL_ACTIONS_PAGE))) {
-            isProposalAction = true;
-        }
-
-        return isProposalAction;
-    }
-
-    private boolean hasModifyProposalPermission(Map editMode) {
+    protected boolean hasModifyProposalPermission(Map editMode) {
         if (editMode != null && editMode.containsKey(KraAuthorizationConstants.ProposalEditMode.MODIFY_PROPOSAL)) {
             String modifyProposalPermission = (String) editMode.get(KraAuthorizationConstants.ProposalEditMode.MODIFY_PROPOSAL);
             return ((ObjectUtils.isNotNull(modifyProposalPermission)) && (DocumentAuthorizerBase.EDIT_MODE_DEFAULT_TRUE_VALUE
@@ -155,7 +135,7 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
         return false;
     }
 
-    private boolean hasModifyBudgetPermission(Map editMode) {
+    protected boolean hasModifyBudgetPermission(Map editMode) {
         String modifyBudgetPermission = "";
         boolean hasModifyBudgetPermission = false;
         
@@ -175,7 +155,7 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
         return hasModifyBudgetPermission;
     }
 
-    private boolean hasModifyCompletedBudgetPermission(Map editMode) {
+    protected boolean hasModifyCompletedBudgetPermission(Map editMode) {
         if (editMode != null && editMode.containsKey("modifyCompletedBudgets")) {
             String modifyBudgetPermission = (String) editMode.get("modifyCompletedBudgets");
             editMode.remove("modifyCompletedBudgets");
@@ -186,7 +166,7 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
         return false;
     }
     
-    private boolean hasModifyNarrativesPermission(Map editMode) {
+    protected boolean hasModifyNarrativesPermission(Map editMode) {
         if (editMode != null && editMode.containsKey(KraAuthorizationConstants.ProposalEditMode.ADD_NARRATIVES)) {
             String modifyNarrativesPermission = (String) editMode.get(KraAuthorizationConstants.ProposalEditMode.ADD_NARRATIVES);
             return ((ObjectUtils.isNotNull(modifyNarrativesPermission)) && (DocumentAuthorizerBase.EDIT_MODE_DEFAULT_TRUE_VALUE
@@ -194,22 +174,6 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
         }
 
         return false;
-    }
-
-    private boolean isNarrativeAction() {
-        boolean isNarrativeAction = false;
-
-        if (StringUtils.isNotBlank(actionName) && StringUtils.isNotBlank(getMethodToCall()) 
-                && actionName.contains("AbstractsAttachments") 
-                && StringUtils.isEmpty(navigateTo) && !getMethodToCall().equalsIgnoreCase(Constants.HEADER_TAB)) { 
-            isNarrativeAction = true;
-        }
-        else if (StringUtils.isNotEmpty(navigateTo) && navigateTo.equalsIgnoreCase(Constants.ATTACHMENTS_PAGE)) {
-            isNarrativeAction = true;
-        }
-
-        return isNarrativeAction;
-
     }
 
     private boolean isBudgetAction() {
@@ -231,22 +195,6 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
 
         return isBudgetAction;
 
-    }
-
-    private boolean isBudgetVersionsAction() {
-        boolean isBudgetVersionsAction = false;
-
-        if (StringUtils.isNotBlank(actionName) && actionName.contains("BudgetVersions")  
-                && StringUtils.isNotBlank(getMethodToCall()) 
-                && StringUtils.isEmpty(navigateTo) && !getMethodToCall().equalsIgnoreCase(Constants.HEADER_TAB)) { 
-            isBudgetVersionsAction = true;
-        }
-        else if (StringUtils.isNotEmpty(navigateTo) && (navigateTo.equalsIgnoreCase(Constants.BUDGET_VERSIONS_PAGE) 
-                || navigateTo.equalsIgnoreCase(Constants.PD_BUDGET_VERSIONS_PAGE))) {
-            isBudgetVersionsAction = true; 
-        }
-
-        return isBudgetVersionsAction;
     }
 
     private String getNavigateToPage() {
@@ -272,38 +220,8 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
         return null;
     }
     
-    private String getLockRegion() {
-        String lockRegion = ""; 
-        
-        if (isProposalAction()) {
-            lockRegion = KraAuthorizationConstants.LOCK_DESCRIPTOR_PROPOSAL;
-        }
-        else if (isNarrativeAction()) {
-            lockRegion = null;
-        }
-        else if (isBudgetAction()) {
-            lockRegion = KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET;
-        }
-        
-        return lockRegion;
-    }
+    protected abstract String getLockRegion();
     
-    private void setSaveDocumentControl(DocumentActionFlags tempDocumentActionFlags, Map editMode) {
-        tempDocumentActionFlags.setCanSave(false);   
-
-        if (isProposalAction() && hasModifyProposalPermission(editMode)) {
-            tempDocumentActionFlags.setCanSave(true);
-        }
-        else if (isNarrativeAction() && hasModifyNarrativesPermission(editMode)) {
-            tempDocumentActionFlags.setCanSave(true);
-        }
-        else if (isBudgetAction() && hasModifyBudgetPermission(editMode)) {
-            tempDocumentActionFlags.setCanSave(true);
-        }
-        else if (isBudgetVersionsAction() && hasModifyCompletedBudgetPermission(editMode)) {
-            tempDocumentActionFlags.setCanSave(true);
-        }
-    }  
-
+    protected abstract void setSaveDocumentControl(DocumentActionFlags tempDocumentActionFlags, Map editMode);
 
 }
