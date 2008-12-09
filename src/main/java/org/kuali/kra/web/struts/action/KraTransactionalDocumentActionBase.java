@@ -50,10 +50,12 @@ import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.authorization.Task;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.ResearchDocumentService;
+import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.authorization.WebAuthorizationService;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.notification.util.NotificationConstants;
@@ -290,7 +292,26 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         }
         return isAuthorized;
     }
-
+    
+    /**
+     * Is the current user authorized to perform the given task?
+     * @param task the task
+     * @return true if authorized; otherwise false
+     */
+    protected boolean isAuthorized(Task task) {
+        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        String username = user.getPersonUserIdentifier();
+        
+        TaskAuthorizationService authorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        boolean isAuthorized = authorizationService.isAuthorized(username, task);
+        if (!isAuthorized) {
+            LOG.error("User not authorized to perform " + task.getTaskName());
+            ErrorMap errorMap = GlobalVariables.getErrorMap();
+            errorMap.putErrorWithoutFullErrorPath(Constants.TASK_AUTHORIZATION, KeyConstants.AUTHORIZATION_VIOLATION);
+        }
+        return isAuthorized;
+    }
+        
     /**
      * Process an Authorization Violation.
      * 
