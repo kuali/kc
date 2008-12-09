@@ -1174,7 +1174,7 @@ function selectAllResearchAreas(document) {
 	for (var i = 0; i < document.KualiForm.elements.length; i++) {
 	  var e = document.KualiForm.elements[i];
 	  if(e.type == 'checkbox') {
-	  	var name = 'document.protocolResearchAreas[' + j + '].selectResearchArea';
+	  	var name = 'document.protocol.protocolResearchAreas[' + j + '].selectResearchArea';
 	  	if (e.name == name) {
  		    e.checked = true;
 	  		j++; 
