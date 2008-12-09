@@ -54,4 +54,15 @@ public interface TaskName {
      */
     public static final String MODIFY_BUDGET = "modifyBudget";
     public static final String VIEW_BUDGET = "viewBudget";
+    
+    /*
+     * Protocol Tasks.
+     */
+    public static final String MODIFY_PROTOCOL = "modifyProtocol";
+    public static final String VIEW_PROTOCOL = "viewProtocol";
+    public static final String MODIFY_PROTOCOL_ROLES = "modifyProtocolRoles";
+    public static final String ADD_PROTOCOL_NOTES = "addProtocolNotes";
+    public static final String CREATE_PROTOCOL_AMMENDMENT = "createAmmendment";
+    public static final String CREATE_PROTOCOL_RENEWAL = "createRenewal";
+    public static final String MODIFY_PROTOCOL_BILLABLE = "modifyBillable";
 }
