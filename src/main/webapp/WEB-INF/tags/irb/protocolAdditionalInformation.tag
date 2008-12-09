@@ -52,7 +52,7 @@
        </table>
 
     	<h3>
-    		<span class="subhead-left">Keywords</span>
+    		<span class="subhead-left">Area of Research</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.ResearchAreas" altText="help"/></span>
         </h3>
        
