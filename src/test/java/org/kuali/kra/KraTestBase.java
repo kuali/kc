@@ -16,24 +16,15 @@
 
 package org.kuali.kra;
 
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
-import org.kuali.core.document.Document;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.KNSServiceLocator;
-import org.kuali.rice.config.spring.ConfigFactoryBean;
-import org.kuali.rice.lifecycle.Lifecycle;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestFile;
-import org.kuali.rice.test.lifecycles.TransactionalLifecycle;
-import org.kuali.rice.testharness.KNSTestCase;
-import org.kuali.rice.util.OrmUtils;
+
+/**
+ * This class is the base class for all KCRA Tests requiring a Spring context with persistence, and preloaded test data
+ */
 
 @PerSuiteUnitTestData(
         @UnitTestData(
@@ -109,90 +100,15 @@ import org.kuali.rice.util.OrmUtils;
             }
         )
     )
- 
-public abstract class KraTestBase extends KNSTestCase {
-
-    protected TransactionalLifecycle transactionalLifecycle;
-    private DocumentService documentService = null;
+public abstract class KraTestBase extends KcraNoDataTestBase {
 
     @Before
     public void setUp() throws Exception {
-        setContextName("/kra-dev");
-        setRelativeWebappRoot("/src/main/webapp");
-//        setSqlDelimiter(";");
-        setXmlFilename("classpath:DefaultTestData.xml");
-        setSqlFilename("classpath:DefaultTestData.sql");
         super.setUp();
-        
-        documentService = KNSServiceLocator.getDocumentService();
-        GlobalVariables.setErrorMap(new ErrorMap());
-        transactionalLifecycle = new TransactionalLifecycle();
-        transactionalLifecycle.setTransactionManager(KNSServiceLocator.getTransactionManager());
-        transactionalLifecycle.start();
     }
-
+    
     @After
     public void tearDown() throws Exception {
-        if(transactionalLifecycle != null) {
-            transactionalLifecycle.stop();
-        }
-        GlobalVariables.setErrorMap(new ErrorMap());
         super.tearDown();
-        documentService = null;
-    }
-
-    @Override
-    protected String getModuleName() {
-        return "";
-    }
-    
-    @Override
-    protected String getModuleTestConfigLocation() {
-        return "classpath:META-INF/kra-test-config.xml";
-    }
-
-    @Override
-    public List<Lifecycle> getSuiteLifecycles() {
-        ConfigFactoryBean.CONFIG_OVERRIDE_LOCATION = "classpath:META-INF/kra-test-config.xml";
-        List<Lifecycle> lifeCycles= super.getSuiteLifecycles();
-        //lifeCycles.add(new KraSQLDataLoaderLifecycle());
-        lifeCycles.add(new KraKEWXmlDataLoaderLifecycle());
-        return lifeCycles;
-    }
-
-    public DocumentService getDocumentService() throws Exception {
-        return documentService;
-    }
-
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
-    }
-
-    protected Document getDocument(String documentNumber) throws Exception {
-        //transactionalLifecycle.stop();
-        
-        // Unfortunately, I can only clear the cache for OJB.  I have been
-        // unable to force a refresh on a document when it is in the cache.
-        // This is a pain if I need to recheck a document after the database
-        // has been changed.  Therefore, for OJB, I clear the cache which
-        // will force a new instance of the document to be retrieved from the database
-        // instead of the cache.
-        if (!OrmUtils.isJpaEnabled()) {
-            KNSServiceLocator.getPersistenceServiceOjb().clearCache();
-        }
-        Document doc=getDocumentService().getByDocumentHeaderId(documentNumber);
-       // transactionalLifecycle.start();
-        return doc;
-
-    }
-    
-    /**
-     *  Delegate to <code>{@link KraServiceLocator#getService(Class)}</code>
-     * @param <T>
-     * @param serviceClass class of service to get instance for
-     * @return Service instance
-     */
-    protected final <T> T getService(Class<T> serviceClass) {
-        return KraServiceLocator.getService(serviceClass);
     }
 }
