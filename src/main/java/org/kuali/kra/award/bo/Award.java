@@ -19,10 +19,13 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.infrastructure.Constants;
 
 /**
  * 
@@ -81,15 +84,19 @@ public class Award extends KraPersistableBusinessObjectBase {
     private Integer specialEbRateOnCampus;
     private String subPlanFlag;
     private String title;
-    private List<AwardFandaRate> awardFandaRate;
-    
+    private List<AwardComment> awardComments;
+    Map<Integer, AwardComment> commentMap;
+    private List<AwardCostShare> awardCostShares;
+    List<AwardFandaRate> awardFandaRate;
     /**
      * 
      * Constructs an Award BO.
      */
     public Award() {
         super();
-        initializeAwardWithDefaultValues();
+        initializeAwardWithDefaultValues(); 
+        setAwardCostShares(new ArrayList<AwardCostShare>());
+        setAwardComments(new ArrayList<AwardComment>());
         awardFandaRate = new ArrayList<AwardFandaRate>();
     }
     
@@ -118,6 +125,21 @@ public class Award extends KraPersistableBusinessObjectBase {
         setBasisOfPaymentCode(1);
         setMethodOfPaymentCode(1);
         setTitle(AWARD_TITLE);   
+    }
+    
+    
+    /**
+    *
+    * @return
+    */
+    private Map<Integer, AwardComment> getCommentMap(){
+        if(commentMap == null){
+            commentMap = new HashMap<Integer, AwardComment>();
+            for(AwardComment ac : awardComments){
+                commentMap.put(ac.getCommentType().getCommentTypeCode(), ac);
+            }
+        }
+        return commentMap;
     }
     
     /**
@@ -908,6 +930,8 @@ public class Award extends KraPersistableBusinessObjectBase {
         hashMap.put("specialEbRateOnCampus", getSpecialEbRateOnCampus());
         hashMap.put("subPlanFlag", getSubPlanFlag());
         hashMap.put("title", getTitle());
+        hashMap.put("awardCostShares", getAwardCostShares());
+        hashMap.put("awardComments", getAwardComments());
         return hashMap;
     }    
 
@@ -918,6 +942,47 @@ public class Award extends KraPersistableBusinessObjectBase {
     public void setAwardDocument(AwardDocument awardDocument) {
         this.awardDocument = awardDocument;
     }
+
+    public List<AwardComment> getAwardComments() {
+        return awardComments;
+    }
+
+    public void setAwardComments(List<AwardComment> awardComments) {
+        this.awardComments = awardComments;
+    }
+
+    public List<AwardCostShare> getAwardCostShares() {
+        return awardCostShares;
+    }
+
+    public void setAwardCostShares(List<AwardCostShare> awardCostShares) {
+        this.awardCostShares = awardCostShares;
+    }
+
+    /**
+    *
+    * Get the award Cost Share Comments.  If the comment has not been set...... initialize and return new Comment.
+    */
+    public AwardComment getAwardCostShareComment(){
+        AwardCommentFactory awardCommentFactory = new AwardCommentFactory();  //create Factory class
+        AwardComment awardComment = getCommentMap().get(Constants.COST_SHARE_COMMENT_TYPE_CODE);
+        if(awardComment == null){
+            awardComment = awardCommentFactory.createCostShareComment(this);  //if null initialize in factory class
+            awardComments.add(awardComment);  //add the new CostShareComment to the awardComments list.
+            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);  //add to Map
+        }
+        return awardComment;
+    }
+    
+    public KualiDecimal getTotalCostShareCommitmentAmount(){
+        KualiDecimal returnVal = new KualiDecimal(0);
+        for(AwardCostShare awardCostShare : awardCostShares){
+            returnVal = returnVal.add(awardCostShare.getCommitmentAmount());
+        }
+        return returnVal;
+    }
+    
+    
 
     public List<AwardFandaRate> getAwardFandaRate() {
         return awardFandaRate;
