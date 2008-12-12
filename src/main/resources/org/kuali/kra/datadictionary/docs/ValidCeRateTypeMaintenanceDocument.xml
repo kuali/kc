@@ -56,6 +56,7 @@
                 	<maintainableField name="costElement" required="true"/>
 					<maintainableField name="rateClassCode" required="true"/>
 					<maintainableField name="rateTypeCode" required="true"/>
+					<maintainableField name="active" required="true"/>
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>
