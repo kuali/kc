@@ -242,6 +242,13 @@ public class KeyConstants {
     // Budget Version
     public static final String BUDGET_VERSION_EXISTS = "error.budgetVersion.exists";
     
+    //Award Cost Share
+    public static final String ERROR_FISCAL_YEAR_RANGE = "error.awardCostShare.fiscalYear.range";
+    public static final String ERROR_SOURCE_DESTINATION = "error.awardCostShare.source.destination";
+    
+    //Award Cost Share Confirmation Questions
+    public static final String QUESTION_DELETE_COST_SHARE = "document.question.deleteCostShare.text";
+    
     //Award Indirect Cost Rate
     public static final String ERROR_REQUIRED_APPLICABLE_INDIRECT_COST_RATE = "error.required.applicable.indirect.cost.rate";
     public static final String ERROR_REQUIRED_INDIRECT_RATE_TYPE_CODE = "error.required.indirect.rate.type.code";
