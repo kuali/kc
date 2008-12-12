@@ -15,22 +15,34 @@
  */
 package org.kuali.kra.award.rules;
 
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
+import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.util.ErrorMap;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.award.bo.AwardFandaRate;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.award.rule.AddFandaRateRule;
 import org.kuali.kra.award.rule.event.AddAwardFandaRateEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.award.bo.AwardCostShare;
 
 /**
  * Main Business Rule class for <code>{@link AwardDocument}</code>. 
@@ -74,10 +86,46 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddFa
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
         
         retval &= processAwardFandaRateBusinessRules(document);
+        retval &= processCostShareBusinessRules(document);
 
         return retval;
     }
+    
+    /**
+    *
+    * process Cost Share business rules.
+    * @param awardDocument
+    * @return
+    */
+    private boolean processCostShareBusinessRules(Document document) {
+        boolean valid = true;
 
+        //checkErrors();
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        AwardDocument awardDocument = (AwardDocument) document;
+        int i = 0;
+        List<AwardCostShare> awardCostShares = awardDocument.getAward().getAwardCostShares();
+        GlobalVariables.getErrorMap().addToErrorPath("award");
+        for (AwardCostShare awardCostShare : awardCostShares) {
+            String errorPath = "awardCostShares[" + i + "]";
+            errorMap.addToErrorPath(errorPath);
+            int fiscalYear = Integer.parseInt(awardCostShare.getFiscalYear());//get the integer value of Fiscal Year.
+            //test for equality of source and destination
+            if(awardCostShare.getSource().equals(awardCostShare.getDestination())) {
+                 valid = false;
+                 errorMap.putError("source", KeyConstants.ERROR_SOURCE_DESTINATION);
+             }
+            //test valid fiscal year range.
+            if(fiscalYear < 1900 || fiscalYear > 2499) {
+                valid = false;
+                errorMap.putError("fiscalYear", KeyConstants.ERROR_FISCAL_YEAR_RANGE);
+            }
+            errorMap.removeFromErrorPath(errorPath);
+            i++;
+        }
+        errorMap.removeFromErrorPath("award");
+        return valid;
+    }
 
     /**
      * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(
