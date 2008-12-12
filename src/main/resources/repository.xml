@@ -3274,4 +3274,24 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>
 			
+	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolLocation" table="PROTOCOL_LOCATION">
+		<field-descriptor name="protocolLocationId" column="PROTOCOL_LOCATION_ID" jdbc-type="INTEGER" primarykey="true" />
+		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="INTEGER" />
+		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="protocolOrganizationTypeCode" column="PROTOCOL_ORG_TYPE_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="organizationId" column="ORGANIZATION_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="organization" class-ref="org.kuali.kra.irb.bo.Organization" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="organizationId"/>
+		</reference-descriptor>
+		<reference-descriptor name="protocolOrganizationType" class-ref="org.kuali.kra.irb.bo.ProtocolOrganizationType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="protocolOrganizationTypeCode"/>
+		</reference-descriptor>
+	</class-descriptor>
+			
 </descriptor-repository>
