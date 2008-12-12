@@ -1263,17 +1263,22 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         else if (isNarrativeAction() && hasModifyNarrativesPermission(editMode)) {
             tempDocumentActionFlags.setCanSave(true);
         }
-        else if (isBudgetVersionsAction() && hasModifyCompletedBudgetPermission(editMode)) {
+        else if (isBudgetVersionsAction() && (hasModifyCompletedBudgetPermission(editMode) || hasModifyBudgetPermission(editMode))) {
             tempDocumentActionFlags.setCanSave(true);
         }
     }
     
     // Returns piece that should be locked for this form
     protected String getLockRegion() {
-        if (isNarrativeAction()) {
-            return null;
+        String lockRegion = "";
+        if (isProposalAction()) {
+            lockRegion = KraAuthorizationConstants.LOCK_DESCRIPTOR_PROPOSAL;
+        } else if (isNarrativeAction()) {
+            lockRegion = null;
+        } else if (isBudgetVersionsAction()) {
+            lockRegion = KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET;
         }
-        return KraAuthorizationConstants.LOCK_DESCRIPTOR_PROPOSAL;
+        return lockRegion;
     }
     
     // Checks whether the action associated with this form instance maps to a ProposalDevelopment page
