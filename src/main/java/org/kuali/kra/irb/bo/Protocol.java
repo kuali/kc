@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.irb.document.ProtocolDocument;
 
 /**
  * 
@@ -54,6 +55,7 @@ public class Protocol extends KraPersistableBusinessObjectBase{
     private String correspondentIndicator; 
     private String referenceIndicator; 
     private String relatedProjectsIndicator; 
+    private ProtocolDocument protocolDocument;
     
     private ProtocolStatus protocolStatus; 
     private ProtocolType protocolType; 
@@ -352,6 +354,14 @@ public class Protocol extends KraPersistableBusinessObjectBase{
             getProtocolResearchAreas().add(new ProtocolResearchAreas());
         }
         return (ProtocolResearchAreas) getProtocolResearchAreas().get(index);
+    }
+
+    public ProtocolDocument getProtocolDocument() {
+        return protocolDocument;
+    }
+
+    public void setProtocolDocument(ProtocolDocument protocolDocument) {
+        this.protocolDocument = protocolDocument;
     }
     
 }
