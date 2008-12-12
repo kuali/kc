@@ -35,6 +35,7 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.bo.ProtocolParticipant;
+import org.kuali.kra.irb.bo.ProtocolReference;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 
@@ -48,6 +49,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
     
     private ProtocolHelper protocolHelper;
     private ProtocolParticipant newProtocolParticipant;
+    private ProtocolReference newProtocolReference;
     
     //KNS Lookup hooks
     private String lookupResultsSequenceNumber;
@@ -67,6 +69,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
         initializeHeaderNavigationTabs(); 
         setNewProtocolParticipant(new ProtocolParticipant());
         setProtocolHelper(new ProtocolHelper());
+        setNewProtocolReference(new ProtocolReference());
     }
 
     public ProtocolDocument getProtocolDocument() {
@@ -161,5 +164,13 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
 
     public ProtocolHelper getProtocolHelper() {
         return protocolHelper;
+    }
+
+    public void setNewProtocolReference(ProtocolReference newProtocolReference) {
+        this.newProtocolReference = newProtocolReference;
+    }
+
+    public ProtocolReference getNewProtocolReference() {
+        return newProtocolReference;
     }
 }
