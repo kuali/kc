@@ -36,7 +36,10 @@ create table protocol_references (
   update_user                   varchar2 (60)  	not null,
   ver_nbr 						number(8) default 1 not null,
   obj_id						varchar2 (36) default sys_guid() not null)
-/  
+/
+
+CREATE SEQUENCE SEQ_PROTOCOL_REFERENCES_ID START WITH 1 MAXVALUE 99999999 MINVALUE 1 NOCYCLE NOCACHE NOORDER
+/
 
 alter table protocol_references
   add constraint pk_protocol_reference_id
