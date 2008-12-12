@@ -25,6 +25,7 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
+import org.kuali.kra.award.bo.*;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
 
@@ -40,8 +41,20 @@ public class AwardForm extends KraTransactionalDocumentFormBase {
     private static final long serialVersionUID = -7633960906991275328L;
     public static final String SAVE = "save";
     public static final String RELOAD = "reload";
+    private AwardCostShare newAwardCostShare;
+    private AwardComment newAwardCostShareComment;
+    
     private AwardFandaRate newAwardFandaRate;
     
+    
+    public AwardCostShare getNewAwardCostShare() {
+        return newAwardCostShare;
+    }
+
+    public void setNewAwardCostShare(AwardCostShare newAwardCostShare) {
+        this.newAwardCostShare = newAwardCostShare;
+    }
+
     /**
      * 
      * Constructs a AwardForm.java.
@@ -58,6 +71,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase {
      */
     public void initialize() {
         initializeHeaderNavigationTabs();
+        newAwardCostShare = new AwardCostShare();
         newAwardFandaRate = new AwardFandaRate();
     }    
     
@@ -114,6 +128,14 @@ public class AwardForm extends KraTransactionalDocumentFormBase {
         }else{
             initialize();
         }
+    }
+
+    public AwardComment getNewAwardCostShareComment() {
+        return newAwardCostShareComment;
+    }
+
+    public void setNewAwardCostShareComment(AwardComment newAwardCostShareComment) {
+        this.newAwardCostShareComment = newAwardCostShareComment;
     }
 
     /**

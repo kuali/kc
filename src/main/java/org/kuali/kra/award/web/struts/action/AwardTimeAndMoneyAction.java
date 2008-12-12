@@ -21,6 +21,26 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.budget.bo.BudgetPeriod;
+import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.rule.event.AddBudgetPeriodEvent;
+import org.kuali.kra.budget.web.struts.form.BudgetForm;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.web.struts.action.StrutsConfirmation;
+import org.kuali.kra.award.web.struts.form.AwardForm;
+import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.bo.AwardCostShare;
+import org.kuali.kra.award.bo.AwardComment;
+import java.util.List;
+import java.util.ArrayList;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardFandaRate;
@@ -35,6 +55,105 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
  * This class represents the Struts Action for Time & Money page(AwardTimeAndMoney.jsp)
  */
 public class AwardTimeAndMoneyAction extends AwardAction {    
+  
+    private static final String CONFIRM_DELETE_COST_SHARE = "confirmDeleteCostShare";
+    private static final String CONFIRM_DELETE_COST_SHARE_KEY = "confirmDeleteCostShareKey";
+    
+    /**
+     * This method is used to add a new Award Cost Share
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return mapping forward
+     * @throws Exception
+     */
+    public ActionForward addCostShare(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        AwardDocument awardDocument = awardForm.getAwardDocument();
+        AwardCostShare awardCostShare = awardForm.getNewAwardCostShare();
+        //initialize fields not set on form.  Cost Share Type object reference set on BO setAwardCostShareTypeCode().
+        awardCostShare.setAward(awardDocument.getAward());
+        awardCostShare.setAwardNumber(awardDocument.getAward().getAwardNumber());
+        awardCostShare.setSequenceNumber(awardDocument.getAward().getSequenceNumber());
+       
+        awardDocument.getAward().getAwardCostShares().add(awardCostShare);
+        awardForm.setNewAwardCostShare(new AwardCostShare());
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * This method is used to delete an Award Cost Share
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return mapping forward
+     * @throws Exception
+     */
+    public ActionForward deleteCostShare(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        int delCostShare = getLineToDelete(request);
+        return confirm(buildDeleteCostShareConfirmationQuestion(mapping, form, request, response,
+                delCostShare+1), CONFIRM_DELETE_COST_SHARE, "");
+    }
+    
+    /**
+     * This method is used to delete an Award Cost Share
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return mapping forward
+     * @throws Exception
+     */
+    public ActionForward confirmDeleteCostShare(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        AwardDocument awardDocument = awardForm.getAwardDocument();
+        int delCostShare = getLineToDelete(request);
+        
+        awardDocument.getAward().getAwardCostShares().remove(delCostShare);
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * This method is used to recalculate the Total commitment amount in the Cost Share panel.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return mapping forward
+     * @throws Exception
+     */
+    public ActionForward recalculateCostShareTotal(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+       
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * 
+     * This method is to build the confirmation question for deleting Cost Shares.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @param deletePeriod
+     * @return
+     * @throws Exception
+     */
+    private StrutsConfirmation buildDeleteCostShareConfirmationQuestion(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response, int deleteCostShare) throws Exception {
+        return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_DELETE_COST_SHARE_KEY,
+                KeyConstants.QUESTION_DELETE_COST_SHARE, Integer.toString(deleteCostShare));
+    }
     
     /**
      * 

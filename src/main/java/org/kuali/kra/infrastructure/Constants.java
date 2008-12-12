@@ -297,6 +297,8 @@ public interface Constants {
     public static final String MAPPING_AWARD_NOTES_AND_ATTACHMENTS_PAGE = "notesAndAttachments";
     public static final String MAPPING_AWARD_ACTIONS_PAGE = "awardActions";
     
+    public static final Integer COST_SHARE_COMMENT_TYPE_CODE = 9;
+    
     public static final String PARAMETER_MODULE_AWARD = "KC-AWARD";
     
 }
