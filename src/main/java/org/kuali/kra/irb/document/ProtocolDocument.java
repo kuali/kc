@@ -24,6 +24,15 @@ import org.kuali.core.document.SessionDocument;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.irb.bo.Protocol;
 
+/**
+ * 
+ * This class represents the Protocol Document Object.
+ * ProtocolDocument has a 1:1 relationship with Protocol Business Object.
+ * We have declared a list of Protocol BOs in the ProtocolDocument at the same time to
+ * get around the OJB anonymous keys issue of primary keys of different data types.
+ * Also we have provided convenient getter and setter methods so that to the outside world;
+ * Protocol and ProtocolDocument can have a 1:1 relationship.
+ */
 public class ProtocolDocument extends ResearchDocumentBase implements Copyable, SessionDocument { 
 	
     
@@ -32,30 +41,10 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
      */
     private static final long serialVersionUID = 803158468103165087L;
     private List<Protocol> protocolList;
-    
-	/*
-	private ProtocolVulnerableSub protocolVulnerableSub; 
-	private ProtocolVoteAbstainees protocolVoteAbstainees; 
-	private ProtocolSpecialReview protocolSpecialReview; 
-	private ProtocolReviewers protocolReviewers; 
-	private ProtocolResearchAreas protocolResearchAreas; 
-	private ProtocolLocation protocolLocation; 
-	private ProtocolKeyPersons protocolKeyPersons; 
-	private ProtocolFundingSource protocolFundingSource; 
-	private ProtocolCorrespondents protocolCorrespondents; 
-	private ProtocolNotepad protocolNotepad; 
-	private ProtocolCustomData protocolCustomData; 
-	private ProtocolRelatedProjects protocolRelatedProjects; 
-	private ProtocolReferences protocolReferences; 
-	private ProtocolUserRoles protocolUserRoles; 
-	private ProtoAmendRenewal protoAmendRenewal; 
-	private ProtocolSubmission protocolSubmission; 
-	private ProtocolInvestigators protocolInvestigators; 
-	private ProtocolDocuments protocolDocuments; 
-	private ProtocolActions protocolActions; 
-	private ProtocolLinks protocolLinks; 
-	*/
 	
+    /**
+     * Constructs a ProtocolDocument object
+     */
 	public ProtocolDocument() { 
         super();
         protocolList = new ArrayList<Protocol>();
@@ -89,21 +78,29 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
 
 
     /**
-     *
-     * @return
+     * 
+     * This method is used by OJB to get around with anonymous keys issue.
+     * Warning : Developers should never use this method.
+     * @return List<Protocol>
      */
     public List<Protocol> getProtocolList() {
         return protocolList;
     }
 
     /**
-     *
+     * 
+     * This method is used by OJB to get around with anonymous keys issue.
+     * Warning : Developers should never use this method
      * @param protocolList
      */
     public void setProtocolList(List<Protocol> protocolList) {
         this.protocolList = protocolList;
     }
     
+    /**
+     * 
+     * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     */
     @SuppressWarnings("unchecked")
     @Override
     public List buildListOfDeletionAwareLists() {
