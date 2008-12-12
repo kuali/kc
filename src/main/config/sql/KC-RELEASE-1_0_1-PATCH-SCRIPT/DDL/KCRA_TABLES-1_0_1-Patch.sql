@@ -104,3 +104,6 @@ ALTER TABLE
 MODIFY 
    ( 
    user_name varchar2(10) not null);
+   
+-- Add Active Flag to Valid Rate Types.
+alter table VALID_CE_RATE_TYPES add ACTIVE_FLAG varchar2(1) DEFAULT 'Y' NOT NULL;
