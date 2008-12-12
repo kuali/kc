@@ -1226,5 +1226,11 @@
 			<ref bean="kimQualifiedRoleService" />
 		</property>
 	</bean>
+
+	<bean id="protocolReferenceTypeService" class="org.kuali.kra.irb.service.impl.ProtocolReferenceServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>	
 	
 </beans>

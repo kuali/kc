@@ -3140,9 +3140,12 @@
     	<collection-descriptor name="riskLevels" proxy="true" element-class-ref="org.kuali.kra.irb.bo.ProtocolRiskLevels" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="protocolId" />
     	</collection-descriptor>
-   		<collection-descriptor name="protocolResearchAreas" element-class-ref="org.kuali.kra.irb.bo.ProtocolResearchAreas" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+   		<collection-descriptor name="protocolResearchAreas" element-class-ref="org.kuali.kra.irb.bo.ProtocolResearchAreas" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="protocolId" />
 		</collection-descriptor>    	
+   		<collection-descriptor name="protocolReferences" element-class-ref="org.kuali.kra.irb.bo.ProtocolReference"  auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="protocolId" />
+		</collection-descriptor>    		
         <reference-descriptor name="protocolParticipant" class-ref="org.kuali.kra.irb.bo.ProtocolParticipant" auto-retrieve="false" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="protocolId"/>
         </reference-descriptor>
@@ -3265,6 +3268,35 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>
 
+	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolReferenceType" table="PROTOCOL_REFERENCE_TYPE">
+		<field-descriptor name="protocolReferenceTypeCode" column="PROTOCOL_REFERENCE_TYPE_CODE" jdbc-type="INTEGER" primarykey="true" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>
+
+	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolReference" table="PROTOCOL_REFERENCES">		
+	    <field-descriptor name="protocolReferenceId" column="PROTOCOL_REFERENCE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_REFERENCES_ID" autoincrement="true"/>
+		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT"/>
+		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="protocolReferenceNumber" column="PROTOCOL_REFERENCE_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="protocolReferenceTypeCode" column="PROTOCOL_REFERENCE_TYPE_CODE" jdbc-type="INTEGER"/>
+		<field-descriptor name="referenceKey" column="REFERENCE_KEY" jdbc-type="VARCHAR" />
+		<field-descriptor name="applicationDate" column="APPLICATION_DATE" jdbc-type="DATE" />
+		<field-descriptor name="approvalDate" column="APPROVAL_DATE" jdbc-type="DATE" />
+		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="protocolReferenceType" class-ref="org.kuali.kra.irb.bo.ProtocolReferenceType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="protocolReferenceTypeCode"/>
+		</reference-descriptor>
+	</class-descriptor>		
+
 	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolOrganizationType" table="PROTOCOL_ORG_TYPE">
 		<field-descriptor name="protocolOrganizationTypeCode" column="PROTOCOL_ORG_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
@@ -3293,5 +3325,4 @@
 			<foreignkey field-ref="protocolOrganizationTypeCode"/>
 		</reference-descriptor>
 	</class-descriptor>
-			
 </descriptor-repository>

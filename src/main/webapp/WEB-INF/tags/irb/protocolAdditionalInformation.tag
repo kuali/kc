@@ -2,6 +2,8 @@
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 <c:set var="protocolDocumentAttributes" value="${DataDictionary.ProtocolDocument.attributes}" />
 <c:set var="protocolAttributes" value="${DataDictionary.Protocol.attributes}" />
+<c:set var="protocolReferenceAttributes" value="${DataDictionary.ProtocolReference.attributes}" />
+<c:set var="protocolReferenceTypeAttributes" value="${DataDictionary.ProtocolReferenceType.attributes}" />  
 <c:set var="textAreaFieldName" value="document.protocol.description" />
 <c:set var="action" value="protocol" />
 <c:set var="className" value="org.kuali.kra.irb.document.ProtocolDocument" />
@@ -9,7 +11,7 @@
 <c:set var="researchAreasAttributes" value="${DataDictionary.ResearchAreas.attributes}" />
 
 
-<kul:tab tabTitle="Additional Information" defaultOpen="false" tabErrorKey="" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
+<kul:tab tabTitle="Additional Information" defaultOpen="false" tabErrorKey="newProtocolReference.protocolReferenceTypeCode" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Additional Information</span>
@@ -51,6 +53,116 @@
 
        </table>
 
+       
+       <%-- Other Identifiers--%>
+    	<h3>
+    		<span class="subhead-left">Other Identifiers</span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.bo.ProtocolReferenceType" altText="help"/></span>
+        </h3>
+        
+        <table cellpadding=0 cellspacing=0 class="datatable" summary="View/edit protocol other identifiers">
+        
+        	<%-- Header --%>
+        	<tr>
+        		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" />
+        		<kul:htmlAttributeHeaderCell attributeEntry="${protocolReferenceAttributes.protocolReferenceTypeCode}" scope="col" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${protocolReferenceAttributes.referenceKey}" scope="col" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${protocolReferenceAttributes.applicationDate}" scope="col" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${protocolReferenceAttributes.approvalDate}" scope="col" />
+				<%--<c:if test="${not readOnly}">--%>
+					<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
+				<%--</c:if>--%>
+			</tr>
+			<%-- Header --%>
+			
+            <%-- New data --%>
+        	<kra:section permission="modifyProtocol">
+	            <tr>
+				<th class="infoline">
+					<c:out value="Add:" />
+				</th>
+	
+	            <td align="left" valign="middle" class="infoline">
+	               	<div align="center">
+	               		<kul:htmlControlAttribute property="newProtocolReference.protocolReferenceTypeCode" attributeEntry="${protocolReferenceAttributes.protocolReferenceTypeCode}" />
+	            	</div>
+				</td>
+				
+	            <td align="left" valign="middle" class="infoline">
+	               	<div align="center">
+	               		<kul:htmlControlAttribute property="newProtocolReference.referenceKey" attributeEntry="${protocolReferenceAttributes.referenceKey}" />
+	            	</div>
+				</td>
+								
+	            <td align="left" valign="middle" class="infoline">
+	               	<div align="center">
+	               		<kul:htmlControlAttribute property="newProtocolReference.applicationDate" attributeEntry="${protocolReferenceAttributes.applicationDate}" datePicker="true" />
+	            	</div>
+				</td>
+
+	            <td align="left" valign="middle" class="infoline">
+	               	<div align="center">
+	               		<kul:htmlControlAttribute property="newProtocolReference.approvalDate" attributeEntry="${protocolReferenceAttributes.approvalDate}" datePicker="true" />
+	            	</div>
+				</td>
+	
+				<td align="left" valign="middle" class="infoline">
+					<div align=center>
+						<html:image property="methodToCall.addProtocolReference.anchor${tabKey}"
+						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+					</div>
+	               </td>
+	            </tr>
+            </kra:section>
+			<%-- New data --%>
+			
+			<%-- Existing data --%>
+        	<c:forEach var="protocolParticipant" items="${KualiForm.document.protocol.protocolReferences}" varStatus="status">
+	             <tr>
+					<th class="infoline">
+						<c:out value="${status.index+1}" />
+					</th>
+	                <td align="left" valign="middle">
+	                	<div align="center"> 
+	                	<kul:htmlControlAttribute property="document.protocol.protocolReferences[${status.index}].protocolReferenceType.description" 
+	                													readOnly="true"	attributeEntry="${protocolReferenceTypeAttributes.description}"  /> </div>
+					</td>
+
+	                <td align="left" valign="middle">
+	                	<div align="center"> 
+	                	<kul:htmlControlAttribute property="document.protocol.protocolReferences[${status.index}].referenceKey" 
+	                													readOnly="true"	attributeEntry="${protocolReferenceAttributes.referenceKey}"  /> </div>
+					</td>
+
+	                <td align="left" valign="middle">
+	                	<div align="center"> 
+	                	<kul:htmlControlAttribute property="document.protocol.protocolReferences[${status.index}].applicationDate" 
+	                													readOnly="true"	attributeEntry="${protocolReferenceAttributes.applicationDate}"  /> </div>
+					</td>
+
+	                <td align="left" valign="middle">
+	                	<div align="center"> 
+	                	<kul:htmlControlAttribute property="document.protocol.protocolReferences[${status.index}].approvalDate" 
+	                													readOnly="true"	attributeEntry="${protocolReferenceAttributes.approvalDate}"  /> </div>
+					</td>
+
+					<td>
+						<div align=center>&nbsp;
+							<kra:section permission="modifyProtocol">  
+								<html:image property="methodToCall.deleteProtocolReference.line${status.index}.anchor${currentTabIndex}"
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+							</kra:section>  
+						</div>
+	                </td>
+	            </tr>
+        	</c:forEach>
+			<%-- Existing data --%>
+	        				
+        </table>       
+        
+        <%--End of Other Identifiers --%>
+
+		<%--Area of Research --%>
     	<h3>
     		<span class="subhead-left">Area of Research</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.ResearchAreas" altText="help"/></span>
@@ -104,7 +216,8 @@
               </tr>
              </kra:section> 
 
-        </table>              
-       
+        </table>
+        <%--End of Area of Research --%> 
+                           
     </div>
 </kul:tab>
