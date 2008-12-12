@@ -19,8 +19,10 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,8 +43,13 @@ import org.kuali.core.web.struts.action.KualiDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kra.bo.ResearchAreas;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.bo.ProtocolParticipant;
+import org.kuali.kra.irb.bo.ProtocolReferenceType;
+import org.kuali.kra.irb.bo.ProtocolReference;
 import org.kuali.kra.irb.rule.event.AddProtocolParticipantEvent;
+import org.kuali.kra.irb.service.ProtocolReferenceService;
 import org.kuali.kra.irb.bo.ProtocolResearchAreas;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
@@ -59,11 +66,8 @@ public class ProtocolAction extends KraTransactionalDocumentActionBase {
     
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-
-        ActionForward af = super.save(mapping, form, request, response);
-        
-        return af;
+            throws Exception {      
+        return super.save(mapping, form, request, response);
     }
 
     @Override
@@ -113,7 +117,7 @@ public class ProtocolAction extends KraTransactionalDocumentActionBase {
             }
         }
         
-        return mapping.findForward("basic");
+        return mapping.findForward(Constants.MAPPING_BASIC );
     }
     
     /**
@@ -213,7 +217,7 @@ public class ProtocolAction extends KraTransactionalDocumentActionBase {
             protocolResearchAreas.setSelectResearchArea(true);
         }
 
-        return mapping.findForward("basic");
+        return mapping.findForward(Constants.MAPPING_BASIC );
     }
 
     /**
@@ -242,8 +246,18 @@ public class ProtocolAction extends KraTransactionalDocumentActionBase {
         }
         protocolDocument.getProtocol().setProtocolResearchAreas(newProtocolResearchAreas);
 
-        return mapping.findForward("basic");
+        return mapping.findForward(Constants.MAPPING_BASIC );
     }
+    
+    
+//  public ActionForward deleteProtocolParticipant(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+//      ProtocolForm protocolForm = (ProtocolForm) form;
+//      protocolForm.getProposalDevelopmentDocument().getPropSpecialReviews().remove(getLineToDelete(request));
+//      proposalDevelopmentForm.getDocumentExemptNumbers().remove(getLineToDelete(request));
+//      GlobalVariables.getErrorMap().clear();
+//
+//      return mapping.findForward("basic");
+//  }
     
     public ActionForward addProtocolParticipant(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
@@ -254,15 +268,52 @@ public class ProtocolAction extends KraTransactionalDocumentActionBase {
         }
         return mapping.findForward("basic");
     }
+    
+    
+    //TODO move protocol edits to service
+    public ActionForward addProtocolReference(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolReference newProtocolReference = protocolForm.getNewProtocolReference();
+        
+        if(null == newProtocolReference.getProtocolReferenceTypeCode()) {
+            GlobalVariables.getErrorMap().putError("Type", "cannot be null");
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+        
+        ProtocolReferenceService service = (ProtocolReferenceService)KraServiceLocator.getService("protocolReferenceTypeService");//.getService(ProtocolReferenceTypeService.class);
+        
+        service.addProtocolReference(protocolForm.getProtocolDocument(), newProtocolReference);
+/*        Map keyMap = new HashMap();
+        keyMap.put("protocolReferenceTypeCode", newProtocolReference.getProtocolReferenceTypeCode());
+        
+        ProtocolReferenceType prt = (ProtocolReferenceType) KNSServiceLocator.getBusinessObjectService().findByPrimaryKey(ProtocolReferenceType.class, keyMap);
+        
+        newProtocolReference.setProtocolReferenceType(prt);
 
-//    public ActionForward deleteProtocolParticipant(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        protocolForm.getProposalDevelopmentDocument().getPropSpecialReviews().remove(getLineToDelete(request));
-//        proposalDevelopmentForm.getDocumentExemptNumbers().remove(getLineToDelete(request));
-//        GlobalVariables.getErrorMap().clear();
-//
-//        return mapping.findForward("basic");
-//    }
+        newProtocolReference.setProtocolNumber("0");
+        newProtocolReference.setSequenceNumber(0);
+        newProtocolReference.setProtocolReferenceNumber(0);*/
+        
+        //protocolForm.getProtocolDocument().getProtocol().getProtocolReferences().add(newProtocolReference);
+        
+        protocolForm.setNewProtocolReference(new ProtocolReference());
+        return mapping.findForward(Constants.MAPPING_BASIC );
+    }
+    
+    //TODO move protocol edits to service
+    public ActionForward deleteProtocolReference(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        
+        ProtocolReferenceService service = (ProtocolReferenceService)KraServiceLocator.getService("protocolReferenceTypeService");
+        
+        LOG.info("Line no ------- " + protocolForm.getProtocolDocument().getProtocol().getProtocolReferences().size());
+        LOG.info("Line no ------- " + getLineToDelete(request));
+        
+        service.deleteProtocolReference(protocolForm.getProtocolDocument(), getLineToDelete(request));
+        
+        //protocolForm.getProtocolDocument().getProtocol().getProtocolReferences().remove(getLineToDelete(request));       
+        return mapping.findForward(Constants.MAPPING_BASIC );
+    }
 
     // TODO : move this method up?
     private KualiRuleService getKualiRuleService() {

@@ -65,6 +65,8 @@ public class Protocol extends KraPersistableBusinessObjectBase{
     
     private List<ProtocolResearchAreas> protocolResearchAreas;
     
+    private List<ProtocolReference> protocolReferences;
+    
     //Is transient, used for lookup select option in UI by KNS 
     private String newDescription;
     
@@ -76,7 +78,8 @@ public class Protocol extends KraPersistableBusinessObjectBase{
         super();
         riskLevels = new ArrayList<ProtocolRiskLevels>();
         protocolParticipants = new TypedArrayList(ProtocolParticipant.class);
-        protocolResearchAreas = new ArrayList<ProtocolResearchAreas>();// new TypedArrayList(ProtocolResearchAreas.class);  
+        protocolResearchAreas = new ArrayList<ProtocolResearchAreas>();// new TypedArrayList(ProtocolResearchAreas.class);
+        protocolReferences = new ArrayList<ProtocolReference>(); //ArrayList<ProtocolReference>();
         newDescription = getDefaultNewDescription();
     }
 
@@ -356,6 +359,14 @@ public class Protocol extends KraPersistableBusinessObjectBase{
         return (ProtocolResearchAreas) getProtocolResearchAreas().get(index);
     }
 
+    public void setProtocolReferences(List<ProtocolReference> protocolReferences) {
+        this.protocolReferences = protocolReferences;
+    }
+
+    public List<ProtocolReference> getProtocolReferences() {
+        return protocolReferences;
+    }
+
     public ProtocolDocument getProtocolDocument() {
         return protocolDocument;
     }
@@ -363,5 +374,15 @@ public class Protocol extends KraPersistableBusinessObjectBase{
     public void setProtocolDocument(ProtocolDocument protocolDocument) {
         this.protocolDocument = protocolDocument;
     }
+
     
+    @SuppressWarnings("unchecked")
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add(this.protocolResearchAreas);
+        managedLists.add(this.protocolReferences);
+        return managedLists;
+
+    }
 }
