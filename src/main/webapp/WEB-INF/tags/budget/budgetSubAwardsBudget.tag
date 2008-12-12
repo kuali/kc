@@ -58,7 +58,7 @@
 					<td class="infoline">
 						<div align=center>
 							<html:image property="methodToCall.translateXFD.anchor${tabKey}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-exportxml.gif' styleClass="tinybutton"/>
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-extractxml.gif' styleClass="tinybutton"/>
 						</div>
 	                </td>
             </tr>
@@ -91,7 +91,7 @@
 					<td valign="middle" class="infoline">
 						<div align=center>
 							<html:image property="methodToCall.viewXFD.line${status.index}.anchor${currentTabIndex}"
-							src='${ConfigProperties.kra.externalizable.images.url}Viewpdf.gif' styleClass="tinybutton"/>
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-viewpdf.gif' styleClass="tinybutton"/>
 							<html:image property="methodToCall.viewXML.line${status.index}.anchor${currentTabIndex}"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-viewxml.gif' styleClass="tinybutton"/>
 							<html:image property="methodToCall.delete.line${status.index}.anchor${currentTabIndex}"
