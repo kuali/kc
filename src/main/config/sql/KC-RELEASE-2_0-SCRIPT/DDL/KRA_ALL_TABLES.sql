@@ -226,3 +226,109 @@ UPDATE_TIMESTAMP DATE NOT NULL,
 UPDATE_USER VARCHAR2(10) NOT NULL)
 /
 
+CREATE TABLE AWARD_COMMENT ( 
+	AWARD_COMMENT_ID			NUMBER(8,0),
+	AWARD_ID					NUMBER,
+	AWARD_NUMBER				VARCHAR2(10),
+	SEQUENCE_NUMBER				NUMBER(8,0),
+	COMMENT_TYPE_CODE			NUMBER(3,0),
+	CHECKLIST_PRINT_FLAG		VARCHAR2(1),
+	COMMENTS					CLOB,
+    UPDATE_TIMESTAMP       		DATE,
+    UPDATE_USER            		VARCHAR2(60),
+    VER_NBR 					NUMBER(8,0) DEFAULT 1,
+	OBJ_ID 						VARCHAR2(36) DEFAULT SYS_GUID()
+)
+/
+
+CREATE TABLE AWARD_COST_SHARE ( 
+	AWARD_COST_SHARE_ID		NUMBER(8,0),
+    AWARD_ID       			NUMBER,
+    AWARD_NUMBER			VARCHAR2(10),
+    SEQUENCE_NUMBER        	NUMBER(8,0),
+    FISCAL_YEAR            	VARCHAR2(4),
+    COST_SHARE_PERCENTAGE	NUMBER(5,2),
+    COST_SHARE_TYPE_CODE 	NUMBER(3,0),
+    SOURCE         			VARCHAR2(7),
+    DESTINATION		    	VARCHAR2(7),
+    COMMITMENT_AMOUNT       NUMBER(12,2),
+    UPDATE_TIMESTAMP       	DATE,
+    UPDATE_USER            	VARCHAR2(60),
+    VER_NBR 				NUMBER(8,0) DEFAULT 1,
+	OBJ_ID 					VARCHAR2(36) DEFAULT SYS_GUID()
+)
+/
+
+CREATE TABLE COMMENT_TYPE ( 
+	COMMENT_TYPE_CODE			NUMBER(3,0),
+	DESCRIPTION					VARCHAR2(200),
+	TEMPLATE_FLAG				VARCHAR2(1),
+	CHECKLIST_FLAG				VARCHAR2(1),
+	AWARD_COMMENT_SCREEN_FLAG	VARCHAR2(1),
+    UPDATE_TIMESTAMP       		DATE,
+    UPDATE_USER            		VARCHAR2(60),
+    VER_NBR 					NUMBER(8,0) DEFAULT 1,
+	OBJ_ID 						VARCHAR2(36) DEFAULT SYS_GUID()
+)
+/
+
+CREATE TABLE COST_SHARE_TYPE ( 
+	COST_SHARE_TYPE_CODE	NUMBER(3,0),
+	DESCRIPTION				VARCHAR2(200),
+    UPDATE_TIMESTAMP       	DATE,
+    UPDATE_USER            	VARCHAR2(60),
+    VER_NBR 				NUMBER(8,0),
+	OBJ_ID 					VARCHAR2(36) DEFAULT SYS_GUID()
+)
+/
+
+CREATE TABLE PROTOCOL_ORG_TYPE ( 
+	PROTOCOL_ORG_TYPE_CODE VARCHAR2(3) NOT NULL, 
+	DESCRIPTION VARCHAR2(200) NOT NULL, 
+	UPDATE_TIMESTAMP DATE NOT NULL, 
+	UPDATE_USER VARCHAR2(60) NOT NULL, 
+	VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL, 
+	OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL)
+/
+
+CREATE TABLE PROTOCOL_LOCATION ( 
+	PROTOCOL_LOCATION_ID NUMBER(12,0) NOT NULL, 
+	PROTOCOL_ID NUMBER(12,0) NOT NULL, 
+	PROTOCOL_NUMBER VARCHAR2(20) NOT NULL, 
+	SEQUENCE_NUMBER NUMBER(4,0) NOT NULL, 
+	PROTOCOL_ORG_TYPE_CODE VARCHAR2(3) NOT NULL, 
+	ORGANIZATION_ID VARCHAR2(8) NOT NULL, 
+	ROLODEX_ID NUMBER(6,0), 
+	UPDATE_TIMESTAMP DATE NOT NULL, 
+	UPDATE_USER VARCHAR2(60) NOT NULL, 
+	VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL, 
+	OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL)
+/
+
+create table protocol_reference_type (
+  protocol_reference_type_code  number (3)    not null,
+  description                   varchar2 (200)  not null,
+  update_timestamp              date          not null,
+  update_user                   varchar2 (60)  not null,
+  ver_nbr 						number(8) default 1 not null,
+  obj_id						varchar2 (36) default sys_guid() not null)
+  
+/
+  
+create table protocol_references (
+  protocol_reference_id         number (4)	    not null,
+  protocol_id 					number (12) 	not null,
+  protocol_number               varchar2 (20)  	not null,
+  sequence_number               number (4)    	not null,
+  protocol_reference_number     number (3)    	not null,
+  protocol_reference_type_code  number (3)    	not null,
+  reference_key                 varchar2 (50)  	not null,
+  application_date              date,
+  approval_date                 date,
+  comments                      long,
+  update_timestamp              date          	not null,
+  update_user                   varchar2 (60)  	not null,
+  ver_nbr 						number(8) default 1 not null,
+  obj_id						varchar2 (36) default sys_guid() not null)
+/
+
