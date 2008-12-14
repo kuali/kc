@@ -107,3 +107,44 @@ CREATE OR REPLACE VIEW OSP$PROTOCOL_RESEARCH_AREAS AS SELECT
 FROM PROTOCOL_RESEARCH_AREAS
 /  
 
+CREATE OR REPLACE VIEW OSP$PROTOCOL_ORG_TYPE AS SELECT 
+	PROTOCOL_ORG_TYPE_CODE, 
+	DESCRIPTION, 
+	UPDATE_TIMESTAMP, 
+	UPDATE_USER
+FROM PROTOCOL_ORG_TYPE
+/
+
+CREATE OR REPLACE VIEW OSP$PROTOCOL_LOCATION AS SELECT 
+	PROTOCOL_NUMBER, 
+	SEQUENCE_NUMBER, 
+	PROTOCOL_ORG_TYPE_CODE, 
+	ORGANIZATION_ID, 
+	ROLODEX_ID, 
+	UPDATE_TIMESTAMP, 
+	UPDATE_USER
+FROM PROTOCOL_LOCATION
+/
+
+create or replace view osp$protocol_reference_type as select
+  protocol_reference_type_code,
+  description,
+  update_timestamp,
+  update_user
+from protocol_reference_type
+/
+
+create or replace view osp$protocol_references as select
+  protocol_number,
+  sequence_number,
+  protocol_reference_number,
+  protocol_reference_type_code,
+  reference_key,
+  application_date,
+  approval_date,
+  comments,
+  update_timestamp,
+  update_user
+from protocol_references
+/
+
