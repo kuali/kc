@@ -28,10 +28,7 @@
 		<property name="lookupDefinition" >
 			<ref bean="ProtocolLocation-lookupDefinition" />
 		</property>
-		<property name="titleAttribute" value="protocolNumber" />
-		<property name="titleAttribute" value="sequenceNumber" />
-		<property name="titleAttribute" value="protocolOrganizationTypeCode" />
-		<property name="titleAttribute" value="organizationId" />
+		<property name="titleAttribute" value="protocolLocationId" />
 		<property name="attributes" >
 			<list>
 				<ref bean="ProtocolLocation-protocolLocationId" />
@@ -126,9 +123,9 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Protocol Organization Type Code" />
 		<property name="shortLabel" value="Protocol Organization Type Code" />
-		<property name="maxLength" value="3" />
+		<property name="maxLength" value="22" />
 		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
+			<bean parent="NumericValidationPattern" />
 		</property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"
@@ -181,36 +178,27 @@
 	<!-- Business Object Inquiry Definition -->
 	<bean id="ProtocolLocation-inquiryDefinition" parent="ProtocolLocation-inquiryDefinition-parentBean" />
 	<bean id="ProtocolLocation-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-		<property name="title" value="Protocol Number" />
-		<property name="title" value="Sequence Number" />
-		<property name="title" value="Protocol Organization Type Code" />
-		<property name="title" value="Organization Id" />
+		<property name="title" value="Protocol Location Id" />
 		<property name="inquirySections" >
 			<list>
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Protocol Number" />
-					<property name="title" value="Sequence Number" />
-					<property name="title" value="Protocol Organization Type Code" />
-					<property name="title" value="Organization Id" />
+					<property name="title" value="Protocol Location Id" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list>
 							<bean parent="FieldDefinition"
-								p:attributeName="protocolLocationId" />
+								p:attributeName="protocolLocationId" 
+								p:forceInquiry="true" />
 							<bean parent="FieldDefinition"
 								p:attributeName="protocolId" />
 							<bean parent="FieldDefinition"
-								p:attributeName="protocolNumber" 
-								p:forceInquiry="true" />
+								p:attributeName="protocolNumber" />
 							<bean parent="FieldDefinition"
-								p:attributeName="sequenceNumber" 
-								p:forceInquiry="true" />
+								p:attributeName="sequenceNumber" />
 							<bean parent="FieldDefinition"
-								p:attributeName="protocolOrganizationTypeCode" 
-								p:forceInquiry="true" />
+								p:attributeName="protocolOrganizationTypeCode" />
 							<bean parent="FieldDefinition"
-								p:attributeName="organizationId" 
-								p:forceInquiry="true" />
+								p:attributeName="organizationId" />
 							<bean parent="FieldDefinition"
 								p:attributeName="rolodexId" />
 						</list>
@@ -233,21 +221,18 @@
 		<property name="lookupFields" >
 			<list>
 				<bean parent="FieldDefinition"
-					p:attributeName="protocolLocationId" />
+					p:attributeName="protocolLocationId" 
+					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
 					p:attributeName="protocolId" />
 				<bean parent="FieldDefinition"
-					p:attributeName="protocolNumber" 
-					p:forceInquiry="true" />
+					p:attributeName="protocolNumber" />
 				<bean parent="FieldDefinition"
-					p:attributeName="sequenceNumber" 
-					p:forceInquiry="true" />
+					p:attributeName="sequenceNumber" />
 				<bean parent="FieldDefinition"
-					p:attributeName="protocolOrganizationTypeCode" 
-					p:forceInquiry="true" />
+					p:attributeName="protocolOrganizationTypeCode" />
 				<bean parent="FieldDefinition"
-					p:attributeName="organizationId" 
-					p:forceInquiry="true" />
+					p:attributeName="organizationId" />
 				<bean parent="FieldDefinition"
 					p:attributeName="rolodexId" />
 			</list>
@@ -255,21 +240,18 @@
 		<property name="resultFields" >
 			<list>
 				<bean parent="FieldDefinition"
-					p:attributeName="protocolLocationId" />
+					p:attributeName="protocolLocationId" 
+					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
 					p:attributeName="protocolId" />
 				<bean parent="FieldDefinition"
-					p:attributeName="protocolNumber" 
-					p:forceInquiry="true" />
+					p:attributeName="protocolNumber" />
 				<bean parent="FieldDefinition"
-					p:attributeName="sequenceNumber" 
-					p:forceInquiry="true" />
+					p:attributeName="sequenceNumber" />
 				<bean parent="FieldDefinition"
-					p:attributeName="protocolOrganizationTypeCode" 
-					p:forceInquiry="true" />
+					p:attributeName="protocolOrganizationTypeCode" />
 				<bean parent="FieldDefinition"
-					p:attributeName="organizationId" 
-					p:forceInquiry="true" />
+					p:attributeName="organizationId" />
 				<bean parent="FieldDefinition"
 					p:attributeName="rolodexId" />
 			</list>
