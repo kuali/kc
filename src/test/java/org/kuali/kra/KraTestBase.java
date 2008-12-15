@@ -97,6 +97,7 @@ import org.kuali.rice.test.data.UnitTestFile;
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_ORGANIZATION_TYPE.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_EPS_PROPOSAL_STATUS.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_proposal_state.sql", delimiter = ";")
+                ,@UnitTestFile(filename = "classpath:sql/dml/load_IDC_RATE_TYPE.sql", delimiter = ";")
             }
         )
     )
