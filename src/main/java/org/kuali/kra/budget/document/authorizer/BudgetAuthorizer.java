@@ -13,15 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.document.authorizer;
+package org.kuali.kra.budget.document.authorizer;
 
-import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.TaskAuthorizerImpl;
-import org.kuali.kra.infrastructure.NarrativeRight;
-import org.kuali.kra.proposaldevelopment.bo.Narrative;
-import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 
@@ -29,7 +23,7 @@ import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
  * Base class for Narrative Authorizers.
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public abstract class NarrativeAuthorizer extends TaskAuthorizerImpl {
+public abstract class BudgetAuthorizer extends TaskAuthorizerImpl {
     
     private ProposalAuthorizationService proposalAuthorizationService;
     
@@ -51,25 +45,5 @@ public abstract class NarrativeAuthorizer extends TaskAuthorizerImpl {
      */
     protected final boolean hasProposalPermission(String username, ProposalDevelopmentDocument doc, String permissionName) {
         return proposalAuthorizationService.hasPermission(username, doc, permissionName);
-    }
-    
-    /**
-     * Does the user have the given narrative right for the given narrative?
-     * @param username the username of the user
-     * @param narrative the narrative
-     * @param narrativeRight the narrative right we are looking for
-     * @return true if the user has the narrative right for the narrative
-     */
-    protected final boolean hasNarrativeRight(String username, Narrative narrative, NarrativeRight narrativeRight) {
-        List<NarrativeUserRights> userRightsList = narrative.getNarrativeUserRights();
-        for (NarrativeUserRights userRights : userRightsList) {
-            String personUserName = personService.getPersonUserName(userRights.getUserId());
-            if (StringUtils.equals(username, personUserName)) {
-                if (StringUtils.equals(userRights.getAccessType(), narrativeRight.getAccessType())) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 }
