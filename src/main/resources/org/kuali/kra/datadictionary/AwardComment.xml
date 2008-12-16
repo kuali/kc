@@ -125,8 +125,8 @@
     </property>
     <property name="control" >
       <bean parent="TextareaControlDefinition"
-            p:rows="3"
-            p:cols="60" />
+            p:rows="5"
+            p:cols="170" />
     </property>
     <property name="summary" value="Comments" />
     <property name="description" value="Comments" />

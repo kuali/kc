@@ -19,6 +19,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="awardFandaRateAttributes" value="${DataDictionary.AwardFandaRate.attributes}" />
+<c:set var="awardFandaRateCommentAttributes" value="${DataDictionary.AwardComment.attributes}" />
 <c:set var="action" value="awardTimeAndMoney" />
 <kul:tab tabTitle="Rates" defaultOpen="false" tabErrorKey="newAwardFandaRate.*,document.awardList[0].awardFandaRate*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="right">
@@ -178,24 +179,31 @@
                 		<fmt:formatNumber type="CURRENCY" value="${total}" />
 					</div>
 					</td>
-					<td valign="middle" colspan="3" class="infoline">
+					<td valign="middle" colspan="2" class="infoline">
 					<div align="center">
                 		&nbsp;
 					</div>
 					</td>
-        		
+					<td valign="middle" class="infoline">
+					<div align="center">
+             		<html:image property="methodToCall.recalculateFandARate" 
+             					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' 
+             					styleClass="tinybutton"/>
+					</div>
+					</td>
+        		</tr>        		
+        	</c:if>
+        		<tr>
+        			<th width="100" align="right" scope="row"><div align="center">Comments:</div></th>
+        			<td class="infoline" colspan="10">
+            	 		<div align="left">
+            	  	 		<kul:htmlControlAttribute property="document.award.awardFandaRateComment.comments" attributeEntry="${awardFandaRateCommentAttributes.comments}"/>
+            	  	 		<kra:expandedTextArea textAreaFieldName="document.award.awardFandaRateComment.comments" action="${action}" textAreaLabel="${awardFandaRateCommentAttributes.comments.label}" />
+            	 		</div>
+            		</td>            
         		</tr>
-        	</c:if>	 
-        	
         </table>
-        
         <BR><BR>
-
-		<div align="center">
-             		<html:image property="methodToCall.recalculateFandARate"
-				src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' styleClass="tinybutton"/>
-		</div>
-
 
     </div>
 </kul:tab>
