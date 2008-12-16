@@ -17,6 +17,7 @@ package org.kuali.kra.budget.web.struts.form;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,13 +26,15 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.datadictionary.HeaderNavigation;
 import org.kuali.core.document.Document;
+import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ActionFormUtilMap;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.core.web.ui.HeaderField;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetCostShare;
 import org.kuali.kra.budget.bo.BudgetLineItem;
@@ -51,9 +54,6 @@ import org.kuali.kra.web.struts.form.ProposalFormBase;
 import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.exception.WorkflowException;
-
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 
 public class BudgetForm extends ProposalFormBase {
     private static final String RETURN_TO_PROPOSAL_ALT_TEXT = "return to proposal";
@@ -692,4 +692,17 @@ public class BudgetForm extends ProposalFormBase {
     public void setSubAwardFile(FormFile subAwardFile) {
         this.subAwardFile = subAwardFile;
     }
+    
+    protected void setSaveDocumentControl(DocumentActionFlags tempDocumentActionFlags, Map editMode) {
+        tempDocumentActionFlags.setCanSave(false);
+
+        if (hasModifyBudgetPermission(editMode)) {
+            tempDocumentActionFlags.setCanSave(true);
+        }
+    }
+    
+    protected String getLockRegion() {
+        return KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET;
+    }
+    
 }

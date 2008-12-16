@@ -16,10 +16,13 @@
 package org.kuali.kra.award.web.struts.form;
 
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.datadictionary.HeaderNavigation;
+import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.service.DataDictionaryService;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.award.bo.AwardFandaRate;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.infrastructure.Constants;
@@ -152,6 +155,14 @@ public class AwardForm extends KraTransactionalDocumentFormBase {
      */
     public void setNewAwardFandaRate(AwardFandaRate newAwardFandaRate) {
         this.newAwardFandaRate = newAwardFandaRate;
+    }
+    
+    protected void setSaveDocumentControl(DocumentActionFlags tempDocumentActionFlags, Map editMode) {
+        tempDocumentActionFlags.setCanSave(true);
+    }
+    
+    protected String getLockRegion() {
+        return KraAuthorizationConstants.LOCK_DESCRIPTOR_AWARD;
     }
 
 }
