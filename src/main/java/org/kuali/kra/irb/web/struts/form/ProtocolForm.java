@@ -19,16 +19,15 @@ package org.kuali.kra.irb.web.struts.form;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.bo.Parameter;
 import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.datadictionary.HeaderNavigation;
+import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
@@ -172,5 +171,13 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
 
     public ProtocolReference getNewProtocolReference() {
         return newProtocolReference;
+    }
+    
+    protected void setSaveDocumentControl(DocumentActionFlags tempDocumentActionFlags, Map editMode) {
+        tempDocumentActionFlags.setCanSave(true);
+    }
+    
+    protected String getLockRegion() {
+        return "";
     }
 }

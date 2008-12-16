@@ -90,6 +90,9 @@ public interface Constants {
     public static final String PROPOSAL_PAGE = "proposal";
     public static final String CUSTOM_ATTRIBUTES_PAGE = "customData";
     public static final String QUESTIONS_PAGE = "questions";
+    public static final String PERMISSIONS_PAGE = "permissions";
+    public static final String PROPOSAL_ACTIONS_PAGE = "actions";
+    public static final String ATTACHMENTS_PAGE = "abstractsAttachments";
     public static final String SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR = "SponsorProgramInformation";
     public static final String SPONSOR_PROGRAM_INFORMATION_PANEL_NAME = "Sponsor & Program Information";
     public static final String REQUIRED_FIELDS_PANEL_ANCHOR = "RequiredFieldsforSavingDocument";
@@ -230,6 +233,7 @@ public interface Constants {
     public static final String BUDGET_PERIOD_PAGE = "summary";
     public static final String BUDGET_RATE_PAGE = "budgetRate";
     public static final String BUDGET_VERSIONS_PAGE = "budgetVersions";
+    public static final String PD_BUDGET_VERSIONS_PAGE = "budgetVersions";
     public static final String BUDGET_PERIOD_PANEL_ANCHOR = "BudgetPeriodsAmpTotals";
     public static final String BUDGET_RATE_PANEL_ANCHOR = "BudgetProposalRate";
     public static final String BUDGET_VERSIONS_PANEL_ANCHOR = "BudgetVersions";
