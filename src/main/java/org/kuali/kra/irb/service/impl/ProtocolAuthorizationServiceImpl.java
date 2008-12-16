@@ -24,7 +24,7 @@ import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.service.ProtocolAuthorizationService;
 import org.kuali.kra.kim.pojo.QualifiedRole;
 import org.kuali.kra.kim.service.PersonService;
@@ -81,38 +81,38 @@ public class ProtocolAuthorizationServiceImpl implements ProtocolAuthorizationSe
     /**
      * @see org.kuali.kra.protocoldevelopment.service.ProtocolAuthorizationService#getUserNames(org.kuali.kra.protocoldevelopment.document.ProtocolDocument, java.lang.String)
      */
-    public List<String> getUserNames(ProtocolDocument doc, String roleName) {
+    public List<String> getUserNames(Protocol protocol, String roleName) {
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
-        qualifiedRoleAttributes.put(PROTOCOL_KEY, doc.getProtocol().getProtocolNumber());
+        qualifiedRoleAttributes.put(PROTOCOL_KEY, protocol.getProtocolNumber());
         return kimQualifiedRoleService.getPersonUsernames(roleName, qualifiedRoleAttributes);
     }
 
     /**
      * @see org.kuali.kra.protocoldevelopment.service.ProtocolAuthorizationService#addRole(java.lang.String, java.lang.String, org.kuali.kra.protocoldevelopment.document.ProtocolDocument)
      */
-    public void addRole(String username, String roleName, ProtocolDocument doc) {
+    public void addRole(String username, String roleName, Protocol protocol) {
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
-        qualifiedRoleAttributes.put(PROTOCOL_KEY, doc.getProtocol().getProtocolNumber());
+        qualifiedRoleAttributes.put(PROTOCOL_KEY, protocol.getProtocolNumber());
         kimPersonService.addQualifiedRole(username, roleName, qualifiedRoleAttributes);
     }
 
     /**
      * @see org.kuali.kra.protocoldevelopment.service.ProtocolAuthorizationService#removeRole(java.lang.String, java.lang.String, org.kuali.kra.protocoldevelopment.document.ProtocolDocument)
      */
-    public void removeRole(String username, String roleName, ProtocolDocument doc) {
+    public void removeRole(String username, String roleName, Protocol protocol) {
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
-        qualifiedRoleAttributes.put(PROTOCOL_KEY, doc.getProtocol().getProtocolNumber());
+        qualifiedRoleAttributes.put(PROTOCOL_KEY, protocol.getProtocolNumber());
         kimPersonService.removeQualifiedRole(username, roleName, qualifiedRoleAttributes);
     }
     
     /**
      * @see org.kuali.kra.protocoldevelopment.service.ProtocolAuthorizationService#hasPermission(java.lang.String, org.kuali.kra.protocoldevelopment.document.ProtocolDocument, java.lang.String)
      */
-    public boolean hasPermission(String username, ProtocolDocument doc, String permissionName) {
+    public boolean hasPermission(String username, Protocol protocol, String permissionName) {
         boolean userHasPermission = false;
         if (isValidPerson(username)) {
             Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
-            qualifiedRoleAttributes.put(PROTOCOL_KEY, doc.getProtocol().getProtocolNumber());
+            qualifiedRoleAttributes.put(PROTOCOL_KEY, protocol.getProtocolNumber());
             userHasPermission = kimPersonService.hasQualifiedPermission(username, Constants.KRA_NAMESPACE, permissionName, qualifiedRoleAttributes);
             if (!userHasPermission) {
                 Person person = personService.getPersonByName(username);
@@ -132,11 +132,11 @@ public class ProtocolAuthorizationServiceImpl implements ProtocolAuthorizationSe
     /**
      * @see org.kuali.kra.protocoldevelopment.service.ProtocolAuthorizationService#hasRole(java.lang.String, org.kuali.kra.protocoldevelopment.document.ProtocolDocument, java.lang.String)
      */
-    public boolean hasRole(String username, ProtocolDocument doc, String roleName) {
+    public boolean hasRole(String username, Protocol protocol, String roleName) {
         boolean userHasPermission = false;
         if (isValidPerson(username)) {
             Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
-            qualifiedRoleAttributes.put(PROTOCOL_KEY, doc.getProtocol().getProtocolNumber());
+            qualifiedRoleAttributes.put(PROTOCOL_KEY, protocol.getProtocolNumber());
             return kimPersonService.hasQualifiedRole(username, roleName, qualifiedRoleAttributes);
         }
         return false;
@@ -145,10 +145,10 @@ public class ProtocolAuthorizationServiceImpl implements ProtocolAuthorizationSe
     /**
      * @see org.kuali.kra.protocoldevelopment.service.ProtocolAuthorizationService#getRoles(java.lang.String, org.kuali.kra.protocoldevelopment.document.ProtocolDocument)
      */
-    public List<String> getRoles(String username, ProtocolDocument doc) {
+    public List<String> getRoles(String username, Protocol protocol) {
         List<String> roleNames = new ArrayList<String>();
         if (isValidPerson(username)) {
-            String protocolNbr = doc.getProtocol().getProtocolNumber();
+            String protocolNbr = protocol.getProtocolNumber();
             if (protocolNbr != null) {
                 List<QualifiedRole> roles = kimPersonService.getQualifiedRoles(username);
                 for (QualifiedRole role : roles) {
@@ -168,10 +168,10 @@ public class ProtocolAuthorizationServiceImpl implements ProtocolAuthorizationSe
     /**
      * @see org.kuali.kra.protocoldevelopment.service.ProtocolAuthorizationService#getPersonsInRole(org.kuali.kra.protocoldevelopment.document.ProtocolDocument, java.lang.String)
      */
-    public List<Person> getPersonsInRole(ProtocolDocument doc, String roleName) {
+    public List<Person> getPersonsInRole(Protocol protocol, String roleName) {
         List<Person> persons = new ArrayList<Person>();
         Map<String, String> qualifiedRoleAttrs = new HashMap<String, String>();
-        qualifiedRoleAttrs.put(PROTOCOL_KEY, doc.getProtocol().getProtocolNumber());
+        qualifiedRoleAttrs.put(PROTOCOL_KEY, protocol.getProtocolNumber());
         List<String> usernames = kimQualifiedRoleService.getPersonUsernames(roleName, qualifiedRoleAttrs);
         for (String username : usernames) {
             Person person = personService.getPersonByName(username);
@@ -185,34 +185,34 @@ public class ProtocolAuthorizationServiceImpl implements ProtocolAuthorizationSe
     /**
      * @see org.kuali.kra.protocoldevelopment.service.ProtocolAuthorizationService#getAllRolePersons(org.kuali.kra.protocoldevelopment.document.ProtocolDocument)
      */
-    public List<RolePersons> getAllRolePersons(ProtocolDocument doc) {
-        String[] roleNames = { RoleConstants.PROTOCOL_AGGREGATOR, 
-                               RoleConstants.PROTOCOL_VIEWER, 
-                               "approver"
-        };
-        
+    public List<RolePersons> getAllRolePersons(Protocol protocol) {
         List<RolePersons> rolePersonsList = new ArrayList<RolePersons>();
-        for (String roleName : roleNames) {
-            
-            if (roleName == RoleConstants.PROTOCOL_AGGREGATOR) {
-                Map<String, String> qualifiedRoleAttrs = new HashMap<String, String>(); 
-                qualifiedRoleAttrs.put(PROTOCOL_KEY, doc.getProtocol().getProtocolNumber());
-                List<String> usernames = kimQualifiedRoleService.getPersonUsernames(roleName, qualifiedRoleAttrs);
-                RolePersons rolePersons = new RolePersons();
-
-                rolePersons.setAggregator(usernames);
-                rolePersonsList.add(rolePersons);
-            }
-            else if (roleName == RoleConstants.PROTOCOL_VIEWER) {
-                Map<String, String> qualifiedRoleAttrs = new HashMap<String, String>(); 
-                qualifiedRoleAttrs.put(PROTOCOL_KEY, doc.getProtocol().getProtocolNumber());
-                List<String> usernames = kimQualifiedRoleService.getPersonUsernames(roleName, qualifiedRoleAttrs);
-                RolePersons rolePersons = new RolePersons();
-                rolePersons.setViewer(usernames);
-                rolePersonsList.add(rolePersons);
-            }                
-        }
+      
+        List<String> usernames = getUserNamesInRole(protocol, RoleConstants.PROTOCOL_AGGREGATOR);
+        RolePersons rolePersons = new RolePersons();
+        rolePersons.setAggregator(usernames);
+        rolePersonsList.add(rolePersons);
+        
+        usernames = getUserNamesInRole(protocol, RoleConstants.PROTOCOL_VIEWER);
+        rolePersons = new RolePersons();
+        rolePersons.setViewer(usernames);
+        rolePersonsList.add(rolePersons);
 
         return rolePersonsList;
+    }
+    
+    /**
+     * Get the usernames of the people with the given role in the protocol.
+     * @param protocol the protocol
+     * @param roleName the name of the role
+     * @return the list of userNames of people with that role in the protocol
+     */
+    private List<String> getUserNamesInRole(Protocol protocol, String roleName) {
+        List<String> userNames = new ArrayList<String>();
+        List<Person> persons = getPersonsInRole(protocol, roleName);
+        for (Person person : persons) {
+            userNames.add(person.getUserName());
+        }
+        return userNames;
     }
 }
