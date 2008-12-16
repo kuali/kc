@@ -760,6 +760,8 @@ public abstract class KraWebTestBase extends KraTestBase {
      * expanded text area icon (pencil) for displaying another web page with a larger
      * text area box.  This method does the following to verify that the expanded text
      * area feature is working properly.
+     * Note: Pencil icon's position should be next to TextArea with no other elements in between,
+     * in case if element/elements exist, use variant.
      * <ol>
      * <li>The text area is set to the <i>text1</i> value.</li>
      * <li>The Expanded Text Area icon is clicked on.</li>
@@ -787,26 +789,50 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @throws IOException
      */
     protected final HtmlPage checkExpandedTextArea(HtmlPage page, String id, String text1, String text2) throws IOException {
+
+        return checkExpandedTextArea(page, id, null, text1, text2);
+        
+    }
+    
+    /**
+     * This method is variant, it explicitly checks for Pencil Icon button's Id as provided by method @param iconTextAreaId.
+     * @param page the HTML web page with the text area control.
+     * @param textAreaId identifies the text area.
+     * @param iconTextAreaId identifies the pencil icon text area.
+     * @param text1 the string to set the original text area to.
+     * @param text2 the string to set in the Expanded Text Area web page.
+     * @return the resulting web page from saving <i>text2</i>.
+     * @throws IOException
+     */
+    protected final HtmlPage checkExpandedTextArea(HtmlPage page, String textAreaId, String iconTextAreaId, String text1, String text2) throws IOException {
         boolean javascriptEnabled = webClient.isJavaScriptEnabled();
 
         webClient.setJavaScriptEnabled(false);
 
-        setFieldValue(page, id, text1);
+        setFieldValue(page, textAreaId, text1);
 
-        HtmlElement field = getElement(page, id);
+        HtmlElement field = getElement(page, textAreaId);
         assertTrue(field != null);
-
+        
         ClickableElement btn = (ClickableElement) this.getNextSibling(field, "input");
+        
+        //If pencil icon is not located next TextArea following alternate method will be used if iconTextAreaId is not null.
+        if(null == btn && null != iconTextAreaId) {
+            HtmlElement expandedField = getElement(page, iconTextAreaId);
+            if(null != expandedField)
+                btn = (ClickableElement)expandedField;
+        }
+        
         assertTrue(btn != null);
 
         HtmlPage textPage = clickOn(btn);
 
-        assertEquals(getFieldValue(textPage, id), text1);
+        assertEquals(getFieldValue(textPage, textAreaId), text1);
 
-        setFieldValue(textPage, id, text2);
+        setFieldValue(textPage, textAreaId, text2);
         HtmlPage returnPage = clickOn(textPage, "return");
 
-        assertEquals(getFieldValue(returnPage, id), text2);
+        assertEquals(getFieldValue(returnPage, textAreaId), text2);
 
         webClient.setJavaScriptEnabled(javascriptEnabled);
 

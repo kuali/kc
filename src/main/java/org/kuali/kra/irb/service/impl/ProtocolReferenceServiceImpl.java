@@ -19,11 +19,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolReference;
 import org.kuali.kra.irb.bo.ProtocolReferenceType;
-import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.service.ProtocolReferenceService;
-import org.kuali.kra.irb.web.struts.action.ProtocolAction;
+
 
 public class ProtocolReferenceServiceImpl implements ProtocolReferenceService {
     
@@ -43,34 +43,28 @@ public class ProtocolReferenceServiceImpl implements ProtocolReferenceService {
     /**
      * @see org.kuali.kra.irb.service.ProtocolReferenceService#addProtocolReference(org.kuali.kra.irb.document.ProtocolDocument, org.kuali.kra.irb.bo.ProtocolReference)
      */
-    public void addProtocolReference(ProtocolDocument protocolDocument, ProtocolReference protocolReference) {
+    public void addProtocolReference(Protocol protocol, ProtocolReference protocolReference) {
         Map keyMap = new HashMap();
         keyMap.put("protocolReferenceTypeCode", protocolReference.getProtocolReferenceTypeCode());
         
-        ProtocolReferenceType prt = (ProtocolReferenceType) businessObjectService.findByPrimaryKey(ProtocolReferenceType.class, keyMap);
+        ProtocolReferenceType potocolReferenceType = (ProtocolReferenceType) businessObjectService.findByPrimaryKey(ProtocolReferenceType.class, keyMap);
         
-        protocolReference.setProtocolReferenceType(prt);
-
+        protocolReference.setProtocolReferenceType(potocolReferenceType);
+        //TODO Framework problem of 2 saves
         protocolReference.setProtocolNumber("0");
         protocolReference.setSequenceNumber(0);
         protocolReference.setProtocolReferenceNumber(0);
         
-        protocolDocument.getProtocol().getProtocolReferences().add(protocolReference);
+        protocol.getProtocolReferences().add(protocolReference);
     }
 
     /**
      * @see org.kuali.kra.irb.service.ProtocolReferenceService#deleteProtocolReference(org.kuali.kra.irb.document.ProtocolDocument, java.lang.Integer)
      */
-    public void deleteProtocolReference(ProtocolDocument protocolDocument, int lineNumber) {
-        LOG.info("comes in");
-        
-        LOG.info("Line no -------1 " + protocolDocument.getProtocol().getProtocolReferences().size());
-        LOG.info("Line no -------1 " + lineNumber);
-        
-        protocolDocument.getProtocol().getProtocolReferences().remove(lineNumber);  
-        
-        LOG.info("Line no -------2 " + protocolDocument.getProtocol().getProtocolReferences().size());
-        LOG.info("Line no -------2 " + lineNumber);
+    public void deleteProtocolReference(Protocol protocol, int lineNumber) {
+
+        protocol.getProtocolReferences().remove(lineNumber);  
+
     }
    
 }
