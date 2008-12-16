@@ -2980,6 +2980,9 @@
         <collection-descriptor name="awardCostShares" proxy="true" element-class-ref="org.kuali.kra.award.bo.AwardCostShare" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="awardId"/>
         </collection-descriptor>
+        <collection-descriptor name="awardFandaRate" proxy="true" element-class-ref="org.kuali.kra.award.bo.AwardFandaRate" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        	<inverse-foreignkey field-ref="awardId" />
+    	</collection-descriptor>
 	</class-descriptor>	
 	
 	<class-descriptor class="org.kuali.kra.award.bo.AwardCostShare" table="AWARD_COST_SHARE">
