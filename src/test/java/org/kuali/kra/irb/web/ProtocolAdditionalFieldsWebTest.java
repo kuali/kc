@@ -15,13 +15,22 @@
  */
 package org.kuali.kra.irb.web;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.Test;
 import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.kra.irb.bo.Protocol;
+import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestFile;
 
 import com.gargoylesoftware.htmlunit.ScriptResult;
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlHiddenInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlTable;
 
@@ -29,7 +38,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlTable;
  * This class tests additional fields data set. 
  */
 @PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
-        @UnitTestFile(filename = "classpath:sql/dml/load_research_areas.sql", delimiter = ";") }))
+        @UnitTestFile(filename = "classpath:sql/dml/load_research_areas.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_reference_type.sql", delimiter = ";")}))
 public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
     
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolAdditionalFieldsWebTest.class);
@@ -66,6 +76,14 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
     private static final String FIRST_ROW_DATA_UNCHECKED = "1 TaxidermyTaxidermist";
     
     private static final String SECOND_ROW_DATA = "2 Turf and Turfgrass Management";
+    
+    private static final String PROTOCOL_REFERENCE_PROTOCOLREFERENCETYPECODE_ID = "newProtocolReference.protocolReferenceTypeCode";
+    private static final String PROTOCOL_REFERENCE_PROTOCOLREFERENCETYPECODE = "4";
+    private static final String PROTOCOL_REFERENCE_PROTOCOLREFERENCETYPECODE_VALUE = "COAG";
+    
+    private static final String PROTOCOL_REFERENCE_REFERENCEKEY_ID = "newProtocolReference.referenceKey";
+    private static final String PROTOCOL_REFERENCE_REFERENCEKEY = "My Test";
+    
     /**
      * This method asserts the form's additional field value persistence. 
      * @throws Exception
@@ -118,7 +136,8 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
         HtmlPage page = clickOn(getPortalPage(), "Create Protocol", "Kuali Portal Index");
         page = getInnerPages(page).get(0);
         
-        super.checkExpandedTextArea(page, PROTOCOL_DESCRIPTION_ID, PROTOCOL_DESCRIPTION, PROTOCOL_DESCRIPTION2);
+        super.checkExpandedTextArea(page, PROTOCOL_DESCRIPTION_ID, "methodToCall.kraUpdateTextArea.((#document.protocol.description:protocol:Summary/Keywords#))", 
+                PROTOCOL_DESCRIPTION, PROTOCOL_DESCRIPTION2);
     }
     
     @Test
@@ -187,4 +206,42 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
         assertNotNull(pageComplete);
         assertEquals("Kuali :: Protocol Document", pageComplete.getTitleText());
     }
+
+    @Test
+    public void testProtoclOtherIdentifierPanel() throws Exception {
+        
+        //Click to create new protocol link
+        HtmlPage page = clickOn(getPortalPage(), "Create Protocol", "Kuali Portal Index");
+        page = getInnerPages(page).get(0);
+        
+        assertTrue("Kuali :: Protocol Document".equalsIgnoreCase(page.getTitleText()));
+        //Required Fields to begin with for saving protocol document
+        setRequiredFields(page);
+        
+        //Invoke save method by clicking save button on form
+        HtmlPage resultPage = super.saveDoc(page);
+        
+        assertNotNull(resultPage);
+        assertEquals("Kuali :: Protocol Document", resultPage.getTitleText());
+        
+        setProtocolDocument(null, resultPage); //Can also be set by child if required
+        
+        super.setFieldValue(resultPage,PROTOCOL_REFERENCE_PROTOCOLREFERENCETYPECODE_ID, PROTOCOL_REFERENCE_PROTOCOLREFERENCETYPECODE);
+        super.setFieldValue(resultPage,PROTOCOL_REFERENCE_REFERENCEKEY_ID, PROTOCOL_REFERENCE_REFERENCEKEY);
+        
+        HtmlPage pageAfterAdd= clickOn(resultPage,"methodToCall.addProtocolReference.anchor");
+        
+        setProtocolDocument(null, pageAfterAdd); //Can also be set by child if required
+        
+        LOG.info("getProtocolDocument().getProtocol().getProtocolReferences()  " + getProtocolDocument().getProtocol().getProtocolReferences().size());
+        
+        
+        //Invoke save method by clicking save button on form
+        HtmlPage resultPageWithOtherIdentifiers = super.saveDoc(pageAfterAdd);
+        
+        assertContains(resultPageWithOtherIdentifiers, PROTOCOL_REFERENCE_PROTOCOLREFERENCETYPECODE_VALUE);
+        assertContains(resultPageWithOtherIdentifiers, PROTOCOL_REFERENCE_REFERENCEKEY);
+        
+    }
+    
 }

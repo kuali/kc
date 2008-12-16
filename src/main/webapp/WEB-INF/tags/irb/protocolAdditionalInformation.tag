@@ -17,42 +17,57 @@
     		<span class="subhead-left">Additional Information</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.bo.ProtocolType" altText="help"/></span>
         </h3>
-        
-        <table cellpadding=0 cellspacing=0 summary="">
 
-	       <tr>
-                <th><div align="right" width="52%"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.fdaApplicationNumber}" /></div></th>
-                <td align="left" valign="middle" width="25%" >
+			<table cellpadding=0 cellspacing=0 summary="">
+
+              <tr>
+                <th width="33%"><div align="right">
+                    <kul:htmlAttributeLabel attributeEntry="${protocolAttributes.fdaApplicationNumber}" />
+                  </div></th>
+                <td width="26%">
                 	<kul:htmlControlAttribute property="document.protocol.fdaApplicationNumber" attributeEntry="${protocolAttributes.fdaApplicationNumber}" />
                 </td>
-                <th><div align="right" width="5%"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.billable}" /></div></th>
-                <td align="left" valign="middle" width="18%">
+                <th width="23%"><div align="right">
+					<kul:htmlAttributeLabel attributeEntry="${protocolAttributes.billable}" />
+ 				  </div></th>
+                <td width="18%" align=left valign=middle>
                 	<kul:htmlControlAttribute property="document.protocol.billable" attributeEntry="${protocolAttributes.billable}" />
                 </td>
-            </tr>
+              </tr>
+              <tr>
+                <th><div align="right">
+                    ${KualiForm.protocolHelper.referenceId1Label}:
+                  </div></th>
+                <td align=left valign=middle><span> <span>
+                  	<kul:htmlControlAttribute property="document.protocol.referenceNumber1" attributeEntry="${protocolAttributes.referenceNumber1}" />
+                 </span></span></td>
+                <th><div align="right">
+                    ${KualiForm.protocolHelper.referenceId2Label}:
+                  </div></th>
+                <td align=left valign=middle><span>
+                  <kul:htmlControlAttribute property="document.protocol.referenceNumber2" attributeEntry="${protocolAttributes.referenceNumber2}" />
+                 </span></td>
+              </tr>
+              <tr>
+                <th><div align="right">
+                    <kul:htmlAttributeLabel attributeEntry="${protocolAttributes.description}" />
+                  </div></th>
+                <td colspan="3" align=left valign=middle>
+                	
+                    <table style="border:none; width:100%;" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td style="border:none;">
+                                <kul:htmlControlAttribute property="document.protocol.description" attributeEntry="${protocolAttributes.description}" />
+                            </td>
+                            <td style="border:none; width:20px; vertical-align:bottom;">
+                                <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${protocolAttributes.description.label}" />
+                            </td>
+                        </tr>
+                    </table>
 
-
-            <tr>
-                <th><div align="right">${KualiForm.protocolHelper.referenceId1Label}:</div></th>
-                <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.protocol.referenceNumber1" attributeEntry="${protocolAttributes.referenceNumber1}" />
                 </td>
-                <th><div align="right">${KualiForm.protocolHelper.referenceId2Label}:</div></th>
-                <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.protocol.referenceNumber2" attributeEntry="${protocolAttributes.referenceNumber2}" />
-                </td>
-            </tr>
-
-            <tr>
-                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.description}" /></div></th>
-                <td colspan="3" align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.protocol.description" attributeEntry="${protocolAttributes.description}" />
-                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${protocolAttributes.description.label}" />
-                </td>
-            </tr>
-
-       </table>
-
+              </tr>
+            </table>
        
        <%-- Other Identifiers--%>
     	<h3>
@@ -194,9 +209,6 @@
                 </div></td>
                 <td>
                 	 ${KualiForm.document.protocol.protocolResearchAreas[ctr].researchAreas.description}
-					<kul:lookup boClassName="org.kuali.kra.bo.ResearchAreas" 
-					fieldConversions="researchAreaCode:document.protocol.protocolResearchAreas[${ctr}].researchAreaCode,description:document.protocol.protocolResearchAreas[${ctr}].researchAreas.description"
-					lookupParameters="" hideReturnLink="false" />
                 </td>
                 <td><div align="center">
                   <kul:htmlControlAttribute property="document.protocol.protocolResearchAreas[${ctr}].selectResearchArea" attributeEntry="${DataDictionary.ProtocolResearchAreas.attributes.selectResearchArea}" readOnly="${readOnly}" />
