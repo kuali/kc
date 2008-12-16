@@ -15,23 +15,57 @@
  */
 package org.kuali.kra.irb.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import java.util.LinkedHashMap;
 import java.sql.Date;
+import java.util.LinkedHashMap;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+
+@Entity 
+@Table(name="PROTOCOL_REFERENCES")
 public class ProtocolReference extends KraPersistableBusinessObjectBase { 
 	
+    @Id 
+    @Column(name="PROTOCOL_REFERENCE_ID")
     private Long protocolReferenceId;
+    
+    @Column(name="PROTOCOL_ID")
 	private Long protocolId; 
+    
+    @Column(name="PROTOCOL_NUMBER")
 	private String protocolNumber; 
-	private Integer sequenceNumber; 
+    
+    @Column(name="SEQUENCE_NUMBER")
+	private Integer sequenceNumber;
+    
+    @Column(name="PROTOCOL_REFERENCE_NUMBER")
 	private Integer protocolReferenceNumber; 
+    
+    @Column(name="PROTOCOL_REFERENCE_TYPE_CODE")
 	private Integer protocolReferenceTypeCode; 
+    
+    @Column(name="REFERENCE_KEY")
 	private String referenceKey; 
+    
+    @Column(name="APPLICATION_DATE")
 	private Date applicationDate; 
+    
+    @Column(name="APPROVAL_DATE")
 	private Date approvalDate; 
+    
+    @Column(name="COMMENTS")
 	private String comments; 
 	
+    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name="PROTOCOL_REFERENCE_TYPE_CODE", insertable=true, updatable=true)
 	private ProtocolReferenceType protocolReferenceType; 
 	
 	public ProtocolReference() { 
@@ -126,7 +160,8 @@ public class ProtocolReference extends KraPersistableBusinessObjectBase {
 		this.protocolReferenceType = protocolReferenceType;
 	}
 
-	@Override 
+	@SuppressWarnings("unchecked")
+    @Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
 		hashMap.put("protocolReferenceId", getProtocolReferenceId());
