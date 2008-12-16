@@ -45,7 +45,7 @@ public abstract class ProtocolAuthorizer extends TaskAuthorizerImpl {
     public abstract boolean isAuthorized(String username, ProtocolTask task);
 
     /**
-     * Set by the Spring Framework.
+     * Set the Protocol Authorization Service.  Usually injected by the Spring Framework.
      * @param protocolAuthorizationService
      */
     public void setProtocolAuthorizationService(ProtocolAuthorizationService protocolAuthorizationService) {
