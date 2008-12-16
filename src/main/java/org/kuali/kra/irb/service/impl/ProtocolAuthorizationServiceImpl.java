@@ -188,31 +188,16 @@ public class ProtocolAuthorizationServiceImpl implements ProtocolAuthorizationSe
     public List<RolePersons> getAllRolePersons(Protocol protocol) {
         List<RolePersons> rolePersonsList = new ArrayList<RolePersons>();
       
-        List<String> usernames = getUserNamesInRole(protocol, RoleConstants.PROTOCOL_AGGREGATOR);
+        List<String> usernames = getUserNames(protocol, RoleConstants.PROTOCOL_AGGREGATOR);
         RolePersons rolePersons = new RolePersons();
         rolePersons.setAggregator(usernames);
         rolePersonsList.add(rolePersons);
         
-        usernames = getUserNamesInRole(protocol, RoleConstants.PROTOCOL_VIEWER);
+        usernames = getUserNames(protocol, RoleConstants.PROTOCOL_VIEWER);
         rolePersons = new RolePersons();
         rolePersons.setViewer(usernames);
         rolePersonsList.add(rolePersons);
 
         return rolePersonsList;
-    }
-    
-    /**
-     * Get the usernames of the people with the given role in the protocol.
-     * @param protocol the protocol
-     * @param roleName the name of the role
-     * @return the list of userNames of people with that role in the protocol
-     */
-    private List<String> getUserNamesInRole(Protocol protocol, String roleName) {
-        List<String> userNames = new ArrayList<String>();
-        List<Person> persons = getPersonsInRole(protocol, roleName);
-        for (Person person : persons) {
-            userNames.add(person.getUserName());
-        }
-        return userNames;
     }
 }
