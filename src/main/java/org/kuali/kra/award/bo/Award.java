@@ -974,6 +974,21 @@ public class Award extends KraPersistableBusinessObjectBase {
         return awardComment;
     }
     
+    /**
+    *
+    * Get the award F & A Rates Comments.  If the comment has not been set...... initialize and return new Comment.
+    */
+    public AwardComment getAwardFandaRateComment(){
+        AwardCommentFactory awardCommentFactory = new AwardCommentFactory();  //create Factory class
+        AwardComment awardComment = getCommentMap().get(Constants.FANDA_RATE_COMMENT_TYPE_CODE);
+        if(awardComment == null){
+            awardComment = awardCommentFactory.createFandaRateComment(this);  //if null initialize in factory class
+            awardComments.add(awardComment);  //add the new CostShareComment to the awardComments list.
+            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);  //add to Map
+        }
+        return awardComment;
+    }
+    
     public KualiDecimal getTotalCostShareCommitmentAmount(){
         KualiDecimal returnVal = new KualiDecimal(0);
         for(AwardCostShare awardCostShare : awardCostShares){

@@ -30,6 +30,10 @@ public class AwardCommentFactory {
     public AwardComment createCostShareComment(Award award) {
         return createAwardComment(award, Constants.COST_SHARE_COMMENT_TYPE_CODE, true);
     }
+    
+    public AwardComment createFandaRateComment(Award award) {
+        return createAwardComment(award, Constants.FANDA_RATE_COMMENT_TYPE_CODE, true);
+    }
 
     public  AwardComment createAwardComment(Award award, int commentTypeCode, boolean checklistPrintFlag) {
                 AwardComment comment = new AwardComment();
