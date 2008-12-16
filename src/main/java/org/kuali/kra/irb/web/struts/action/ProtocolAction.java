@@ -268,9 +268,17 @@ public class ProtocolAction extends KraTransactionalDocumentActionBase {
         }
         return mapping.findForward("basic");
     }
-    
-    
-    //TODO move protocol edits to service
+        
+
+    /**
+     * This method is hook to KNS, it adds ProtocolReference. Method is called in protocolAdditonalInformation.tag 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward addProtocolReference(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolReference newProtocolReference = protocolForm.getNewProtocolReference();
@@ -280,38 +288,31 @@ public class ProtocolAction extends KraTransactionalDocumentActionBase {
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
         
-        ProtocolReferenceService service = (ProtocolReferenceService)KraServiceLocator.getService("protocolReferenceTypeService");//.getService(ProtocolReferenceTypeService.class);
+        ProtocolReferenceService service = (ProtocolReferenceService)KraServiceLocator.getService("protocolReferenceTypeService");
         
-        service.addProtocolReference(protocolForm.getProtocolDocument(), newProtocolReference);
-/*        Map keyMap = new HashMap();
-        keyMap.put("protocolReferenceTypeCode", newProtocolReference.getProtocolReferenceTypeCode());
-        
-        ProtocolReferenceType prt = (ProtocolReferenceType) KNSServiceLocator.getBusinessObjectService().findByPrimaryKey(ProtocolReferenceType.class, keyMap);
-        
-        newProtocolReference.setProtocolReferenceType(prt);
-
-        newProtocolReference.setProtocolNumber("0");
-        newProtocolReference.setSequenceNumber(0);
-        newProtocolReference.setProtocolReferenceNumber(0);*/
-        
-        //protocolForm.getProtocolDocument().getProtocol().getProtocolReferences().add(newProtocolReference);
-        
+        service.addProtocolReference(protocolForm.getProtocolDocument().getProtocol(), newProtocolReference);
+              
         protocolForm.setNewProtocolReference(new ProtocolReference());
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
     
-    //TODO move protocol edits to service
+
+    /**
+     * This method is hook to KNS, it deletes selected ProtocolReference from the UI list. Method is called in protocolAdditonalInformation.tag 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward deleteProtocolReference(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         
         ProtocolReferenceService service = (ProtocolReferenceService)KraServiceLocator.getService("protocolReferenceTypeService");
         
-        LOG.info("Line no ------- " + protocolForm.getProtocolDocument().getProtocol().getProtocolReferences().size());
-        LOG.info("Line no ------- " + getLineToDelete(request));
-        
-        service.deleteProtocolReference(protocolForm.getProtocolDocument(), getLineToDelete(request));
-        
-        //protocolForm.getProtocolDocument().getProtocol().getProtocolReferences().remove(getLineToDelete(request));       
+        service.deleteProtocolReference(protocolForm.getProtocolDocument().getProtocol(), getLineToDelete(request));
+   
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
 

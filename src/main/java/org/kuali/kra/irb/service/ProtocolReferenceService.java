@@ -15,14 +15,27 @@
  */
 package org.kuali.kra.irb.service;
 
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolReference;
 import org.kuali.kra.irb.document.ProtocolDocument;
 
 
 public interface ProtocolReferenceService {
 
-    public abstract void addProtocolReference(ProtocolDocument protocolDocument, ProtocolReference protocolReference);
+    /**
+     * This method adds ProtocolReference to the List of ProtocolReferences along with 
+     * appropriate ProtocolReferenceType.
+     * @param protocol which contains list of ProtocolReferences.
+     * @param protocolReference object is added to ProtocolReferences list after setting ProtocolReferenceType.
+     */
+    public abstract void addProtocolReference(Protocol protocol, ProtocolReference protocolReference);
     
-    public abstract void deleteProtocolReference(ProtocolDocument protocolDocument, int lineNumber);
+    /**
+     * This method deletes ProtocolReference from the List at specified position(lineNumber)
+     * @param protocol which contains list of ProtocolRefernces
+     * @param lineNumber to be deleted
+     */
+    public abstract void deleteProtocolReference(Protocol protocol, int lineNumber);
 
 }
