@@ -17,32 +17,31 @@ package org.kuali.kra.irb.document.authorization;
 
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.infrastructure.TaskGroupName;
-import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.kra.irb.bo.Protocol;
 
 /**
  * A Protocol Task is a task that performs an action against a
- * Protocol Document.  To assist authorization, the
- * Protocol Document is available.
+ * Protocol.  To assist authorization, the Protocol is available.
  */
 public final class ProtocolTask extends Task {
     
-    private ProtocolDocument document;
+    private Protocol protocol;
     
     /**
      * Constructs a ProtocolTask.
      * @param taskName the name of the task
-     * @param doc the Protocol Document
+     * @param protocol the Protocol
      */
-    public ProtocolTask(String taskName, ProtocolDocument document) {
+    public ProtocolTask(String taskName, Protocol protocol) {
         super(TaskGroupName.PROTOCOL, taskName);
-        this.document = document;
+        this.protocol = protocol;
     }
 
     /**
-     * Get the Protocol Document.
-     * @return the Protocol Document
+     * Get the Protocol.
+     * @return the Protocol
      */
-    public ProtocolDocument getProtocolDocument() {
-        return document;
+    public Protocol getProtocol() {
+        return protocol;
     }
 }
