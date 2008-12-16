@@ -17,13 +17,17 @@ package org.kuali.kra.proposaldevelopment.document.authorizer;
 
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.authorization.TaskAuthorizerImpl;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
+import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 
 /**
  * A Proposal Authorizer determines if a user can perform
  * a given task on a proposal.  
  */
 public abstract class ProposalAuthorizer extends TaskAuthorizerImpl {
+    
+    private ProposalAuthorizationService proposalAuthorizationService;
     
     /**
      * @see org.kuali.kra.authorization.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.authorization.Task)
@@ -39,4 +43,23 @@ public abstract class ProposalAuthorizer extends TaskAuthorizerImpl {
      * @return true if the user is authorized; otherwise false
      */
     public abstract boolean isAuthorized(String username, ProposalTask task);
+    
+    /**
+     * Set the Proposal Authorization Service.  Injected by the Spring Framework.
+     * @param proposalAuthorizationService the Proposal Authorization Service
+     */
+    public final void setProposalAuthorizationService(ProposalAuthorizationService proposalAuthorizationService) {
+        this.proposalAuthorizationService = proposalAuthorizationService;
+    }
+    
+    /**
+     * Does the given user has the permission for this proposal development document?
+     * @param username the unique username of the user
+     * @param doc the proposal development document
+     * @param permissionName the name of the permission
+     * @return true if the person has the permission; otherwise false
+     */
+    protected final boolean hasProposalPermission(String username, ProposalDevelopmentDocument doc, String permissionName) {
+        return proposalAuthorizationService.hasPermission(username, doc, permissionName);
+    }
 }

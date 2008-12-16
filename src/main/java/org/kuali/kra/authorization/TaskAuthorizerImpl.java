@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.authorization;
 
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.PersonService;
 import org.kuali.kra.service.UnitAuthorizationService;
@@ -28,7 +26,6 @@ import org.kuali.kra.service.UnitAuthorizationService;
 public abstract class TaskAuthorizerImpl implements TaskAuthorizer {
 
     private String taskName;
-    private ProposalAuthorizationService proposalAuthorizationService;
     private UnitAuthorizationService unitAuthorizationService;
     protected KraWorkflowService kraWorkflowService;
     protected PersonService personService;
@@ -47,14 +44,6 @@ public abstract class TaskAuthorizerImpl implements TaskAuthorizer {
      */
     public final void setUnitAuthorizationService(UnitAuthorizationService unitAuthorizationService) {
         this.unitAuthorizationService = unitAuthorizationService;
-    }
-    
-    /**
-     * Set the Proposal Authorization Service.  Injected by the Spring Framework.
-     * @param proposalAuthorizationService the Proposal Authorization Service
-     */
-    public final void setProposalAuthorizationService(ProposalAuthorizationService proposalAuthorizationService) {
-        this.proposalAuthorizationService = proposalAuthorizationService;
     }
     
     /**
@@ -92,16 +81,5 @@ public abstract class TaskAuthorizerImpl implements TaskAuthorizer {
     
     protected final boolean hasUnitPermission(String username, String unitNumber, String permissionName) {
         return unitAuthorizationService.hasPermission(username, unitNumber, permissionName);
-    }
-    
-    /**
-     * Does the given user has the permission for this proposal development document?
-     * @param username the unique username of the user
-     * @param doc the proposal development document
-     * @param permissionName the name of the permission
-     * @return true if the person has the permission; otherwise false
-     */
-    protected final boolean hasProposalPermission(String username, ProposalDevelopmentDocument doc, String permissionName) {
-        return proposalAuthorizationService.hasPermission(username, doc, permissionName);
     }
 }
