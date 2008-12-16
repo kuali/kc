@@ -635,9 +635,15 @@
     
     <!-- ************* TASK AUTHORIZATION BEGIN **************** -->
 
-    <bean id="parentAuthorizer" class="org.kuali.kra.authorization.BogusTaskAuthorizer">
+    <bean id="parentProposalAuthorizer" abstract="true" class="org.kuali.kra.authorization.TaskAuthorizerImpl">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
         <property name="proposalAuthorizationService" ref="proposalAuthorizationService" />
+        <property name="kraWorkflowService" ref="kraWorkflowService" />
+        <property name="personService" ref="personService" />
+    </bean>
+    
+    <bean id="parentAuthorizer" abstract="true" class="org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer">
+        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
         <property name="kraWorkflowService" ref="kraWorkflowService" />
         <property name="personService" ref="personService" />
     </bean>
@@ -659,57 +665,57 @@
         <property name="groupName" value="proposal" />
         <property name="taskAuthorizers">
             <list>
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ModifyProposalAuthorizer" parent="parentAuthorizer">
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ModifyProposalAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="modifyProposal" />
                 </bean>
                 
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ViewProposalAuthorizer" parent="parentAuthorizer">
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ViewProposalAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="viewProposal" />
                 </bean>
                 
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer" parent="parentAuthorizer">
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="printProposal" />
                     <property name="permission" value="PRINT_PROPOSAL" />
                 </bean>
                 
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer" parent="parentAuthorizer">
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="submitToSponsor" />
                     <property name="permission" value="SUBMIT_TO_SPONSOR" />
                 </bean>
                 
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.SubmitToWorkflowAuthorizer" parent="parentAuthorizer">
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.SubmitToWorkflowAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="submitToWorkflow" />
                 </bean>
                 
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer" parent="parentAuthorizer">
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="certify" />
                     <property name="permission" value="CERTIFY" />
                 </bean>
 
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ShowAlterProposalDataAuthorizer" parent="parentAuthorizer">
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ShowAlterProposalDataAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="showAlterProposalData" />
                 </bean>
                 
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.AlterProposalDataAuthorizer" parent="parentAuthorizer">
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.AlterProposalDataAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="alterProposalData" />
                 </bean>
                 
                 <!--  Task Authorizer for modifying persons and their roles on a proposal -->
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ModifyProposalPermissionsAuthorizer" parent="parentAuthorizer">
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ModifyProposalPermissionsAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="modifyProposalRoles" />
                 </bean>
                 
                 <!-- Narratives -->
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeAddAuthorizer" parent="parentAuthorizer">
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeAddAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="addNarrative" />
                 </bean>
                 
                  <!-- Budget -->
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BudgetAddAuthorizer" parent="parentAuthorizer">
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BudgetAddAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="addBudget" />
                 </bean>
                 
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BudgetOpenAuthorizer" parent="parentAuthorizer">
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BudgetOpenAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="openBudgets" />
                 </bean>
             </list>
@@ -721,16 +727,16 @@
         <property name="groupName" value="narrative" />
         <property name="taskAuthorizers">
             <list>
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeModifyAuthorizer" parent="parentAuthorizer">
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeModifyAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="modifyNarrativeRights" />
                 </bean>
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeReadAuthorizer" parent="parentAuthorizer">
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeReadAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="downloadNarrative" />
                 </bean>
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeModifyAuthorizer" parent="parentAuthorizer">
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeModifyAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="deleteNarrative" />
                 </bean>
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeReplaceAuthorizer" parent="parentAuthorizer">
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeReplaceAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="replaceNarrative" />
                 </bean>
             </list>
@@ -742,11 +748,11 @@
         <property name="groupName" value="budget" />
         <property name="taskAuthorizers">
             <list>
-                <bean class="org.kuali.kra.budget.document.authorizer.BudgetModifyAuthorizer" parent="parentAuthorizer">
+                <bean class="org.kuali.kra.budget.document.authorizer.BudgetModifyAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="modifyBudget" />
                 </bean>
                 
-                <bean class="org.kuali.kra.budget.document.authorizer.BudgetViewAuthorizer" parent="parentAuthorizer">
+                <bean class="org.kuali.kra.budget.document.authorizer.BudgetViewAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="viewBudget" />
                 </bean>
             </list>

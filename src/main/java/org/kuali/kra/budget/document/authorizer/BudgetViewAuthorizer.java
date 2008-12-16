@@ -16,7 +16,6 @@
 package org.kuali.kra.budget.document.authorizer;
 
 import org.kuali.kra.authorization.Task;
-import org.kuali.kra.authorization.TaskAuthorizerImpl;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.authorization.BudgetTask;
 import org.kuali.kra.infrastructure.PermissionConstants;
@@ -28,7 +27,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class BudgetViewAuthorizer extends TaskAuthorizerImpl {
+public class BudgetViewAuthorizer extends BudgetAuthorizer {
  
     /**
      * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.core.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
