@@ -46,6 +46,7 @@ import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.datadictionary.HeaderNavigation;
+import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
@@ -55,6 +56,7 @@ import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.core.web.ui.HeaderField;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.PersonEditableField;
 import org.kuali.kra.bo.SponsorFormTemplateList;
@@ -1271,6 +1273,89 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         }
         
         return getSponsorFormTemplates().get(index);
+    }
+    
+//  Set the document controls that should be available on the page
+    protected void setSaveDocumentControl(DocumentActionFlags tempDocumentActionFlags, Map editMode) {
+        tempDocumentActionFlags.setCanSave(false);
+
+        if (isProposalAction() && hasModifyProposalPermission(editMode)) {
+            tempDocumentActionFlags.setCanSave(true);
+        }
+        else if (isNarrativeAction() && hasModifyNarrativesPermission(editMode)) {
+            tempDocumentActionFlags.setCanSave(true);
+        }
+        else if (isBudgetVersionsAction() && (hasModifyCompletedBudgetPermission(editMode) || hasModifyBudgetPermission(editMode))) {
+            tempDocumentActionFlags.setCanSave(true);
+        }
+    }
+    
+    // Returns piece that should be locked for this form
+    protected String getLockRegion() {
+        String lockRegion = "";
+        if (isProposalAction()) {
+            lockRegion = KraAuthorizationConstants.LOCK_DESCRIPTOR_PROPOSAL;
+        } else if (isNarrativeAction()) {
+            lockRegion = null;
+        } else if (isBudgetVersionsAction()) {
+            lockRegion = KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET;
+        }
+        return lockRegion;
+    }
+    
+    // Checks whether the action associated with this form instance maps to a ProposalDevelopment page
+    private boolean isProposalAction() {
+        boolean isProposalAction = false;
+
+        if ((StringUtils.isNotBlank(actionName) && StringUtils.isNotBlank(getMethodToCall())) 
+                && actionName.startsWith("Proposal") && !actionName.contains("AbstractsAttachments")
+                && !actionName.contains("BudgetVersions") 
+                && StringUtils.isEmpty(navigateTo) && !getMethodToCall().equalsIgnoreCase(Constants.HEADER_TAB)) {
+            isProposalAction = true;
+        }
+        else if (StringUtils.isNotEmpty(navigateTo) && (navigateTo.equalsIgnoreCase(Constants.PROPOSAL_PAGE) 
+                || navigateTo.equalsIgnoreCase(Constants.SPECIAL_REVIEW_PAGE) || navigateTo.equalsIgnoreCase(Constants.CUSTOM_ATTRIBUTES_PAGE) 
+                || navigateTo.equalsIgnoreCase(Constants.KEY_PERSONNEL_PAGE) || navigateTo.equalsIgnoreCase(Constants.PERMISSIONS_PAGE) 
+                || navigateTo.equalsIgnoreCase(Constants.QUESTIONS_PAGE) 
+                || navigateTo.equalsIgnoreCase(Constants.GRANTS_GOV_PAGE) || navigateTo.equalsIgnoreCase(Constants.PROPOSAL_ACTIONS_PAGE))) {
+            isProposalAction = true;
+        }
+
+        return isProposalAction;
+    }
+    
+    // Checks whether the action associated with this form instance maps to the Narrative page
+    private boolean isNarrativeAction() {
+        boolean isNarrativeAction = false;
+
+        if (StringUtils.isNotBlank(actionName) && StringUtils.isNotBlank(getMethodToCall()) 
+                && actionName.contains("AbstractsAttachments") 
+                && StringUtils.isEmpty(navigateTo) && !getMethodToCall().equalsIgnoreCase(Constants.HEADER_TAB)) { 
+            isNarrativeAction = true;
+        }
+        else if (StringUtils.isNotEmpty(navigateTo) && navigateTo.equalsIgnoreCase(Constants.ATTACHMENTS_PAGE)) {
+            isNarrativeAction = true;
+        }
+
+        return isNarrativeAction;
+
+    }
+    
+    // Checks whether the action associated with this form instance maps to the BudgetVersions page
+    private boolean isBudgetVersionsAction() {
+        boolean isBudgetVersionsAction = false;
+
+        if (StringUtils.isNotBlank(actionName) && actionName.contains("BudgetVersions")  
+                && StringUtils.isNotBlank(getMethodToCall()) 
+                && StringUtils.isEmpty(navigateTo) && !getMethodToCall().equalsIgnoreCase(Constants.HEADER_TAB)) { 
+            isBudgetVersionsAction = true;
+        }
+        else if (StringUtils.isNotEmpty(navigateTo) && (navigateTo.equalsIgnoreCase(Constants.BUDGET_VERSIONS_PAGE) 
+                || navigateTo.equalsIgnoreCase(Constants.PD_BUDGET_VERSIONS_PAGE))) {
+            isBudgetVersionsAction = true; 
+        }
+
+        return isBudgetVersionsAction;
     }
 
 }

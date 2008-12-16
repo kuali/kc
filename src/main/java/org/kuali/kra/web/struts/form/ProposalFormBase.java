@@ -30,7 +30,7 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
 /**
  * This class contains methods common to ProposalDevelopment and Budget forms.
  */
-public class ProposalFormBase extends KraTransactionalDocumentFormBase {
+public abstract class ProposalFormBase extends KraTransactionalDocumentFormBase {
     
     private String newBudgetVersionName;
     private Integer finalBudgetVersion;

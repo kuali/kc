@@ -34,7 +34,7 @@ import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.rice.KNSServiceLocator;
   
-public class KraTransactionalDocumentFormBase extends KualiTransactionalDocumentFormBase {
+public abstract class KraTransactionalDocumentFormBase extends KualiTransactionalDocumentFormBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
             .getLog(KraTransactionalDocumentFormBase.class);
 
@@ -123,28 +123,8 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
         
         return false;
     }
-    
-    private boolean isProposalAction() {
-        boolean isProposalAction = false;
 
-        if ((StringUtils.isNotBlank(actionName) && StringUtils.isNotBlank(getMethodToCall())) 
-                && actionName.startsWith("Proposal") && !actionName.contains("AbstractsAttachments")
-                && !actionName.contains("BudgetVersions") 
-                && StringUtils.isEmpty(navigateTo) && !getMethodToCall().equalsIgnoreCase("headerTab")) {
-            isProposalAction = true;
-        }
-        else if (StringUtils.isNotEmpty(navigateTo) && (navigateTo.equalsIgnoreCase("proposal") 
-                || navigateTo.equalsIgnoreCase("specialReview") || navigateTo.equalsIgnoreCase("customData") 
-                || navigateTo.equalsIgnoreCase("keyPersonnel") || navigateTo.equalsIgnoreCase("permissions") 
-                || navigateTo.equalsIgnoreCase("questions") 
-                || navigateTo.equalsIgnoreCase("grantsGov") || navigateTo.equalsIgnoreCase("actions"))) {
-            isProposalAction = true;
-        }
-
-        return isProposalAction;
-    }
-
-    private boolean hasModifyProposalPermission(Map editMode) {
+    protected boolean hasModifyProposalPermission(Map editMode) {
         if (editMode != null && editMode.containsKey(KraAuthorizationConstants.ProposalEditMode.MODIFY_PROPOSAL)) {
             String modifyProposalPermission = (String) editMode.get(KraAuthorizationConstants.ProposalEditMode.MODIFY_PROPOSAL);
             return ((ObjectUtils.isNotNull(modifyProposalPermission)) && (DocumentAuthorizerBase.EDIT_MODE_DEFAULT_TRUE_VALUE
@@ -154,7 +134,7 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
         return false;
     }
 
-    private boolean hasModifyBudgetPermission(Map editMode) {
+    protected boolean hasModifyBudgetPermission(Map editMode) {
         String modifyBudgetPermission = "";
         boolean hasModifyBudgetPermission = false;
         
@@ -174,7 +154,7 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
         return hasModifyBudgetPermission;
     }
 
-    private boolean hasModifyCompletedBudgetPermission(Map editMode) {
+    protected boolean hasModifyCompletedBudgetPermission(Map editMode) {
         if (editMode != null && editMode.containsKey("modifyCompletedBudgets")) {
             String modifyBudgetPermission = (String) editMode.get("modifyCompletedBudgets");
             editMode.remove("modifyCompletedBudgets");
@@ -185,7 +165,7 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
         return false;
     }
     
-    private boolean hasModifyNarrativesPermission(Map editMode) {
+    protected boolean hasModifyNarrativesPermission(Map editMode) {
         if (editMode != null && editMode.containsKey(KraAuthorizationConstants.ProposalEditMode.ADD_NARRATIVES)) {
             String modifyNarrativesPermission = (String) editMode.get(KraAuthorizationConstants.ProposalEditMode.ADD_NARRATIVES);
             return ((ObjectUtils.isNotNull(modifyNarrativesPermission)) && (DocumentAuthorizerBase.EDIT_MODE_DEFAULT_TRUE_VALUE
@@ -193,99 +173,6 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
         }
 
         return false;
-    }
-
-    private boolean isNarrativeAction() {
-        boolean isNarrativeAction = false;
-
-        if (StringUtils.isNotBlank(actionName) && StringUtils.isNotBlank(getMethodToCall()) 
-                && actionName.contains("AbstractsAttachments") 
-                && StringUtils.isEmpty(navigateTo) && !getMethodToCall().equalsIgnoreCase("headerTab")) { 
-            isNarrativeAction = true;
-        }
-        else if (StringUtils.isNotEmpty(navigateTo) && navigateTo.equalsIgnoreCase("abstractsAttachments")) {
-            isNarrativeAction = true;
-        }
-
-        return isNarrativeAction;
-
-    }
-
-    private boolean isBudgetAction() {
-        boolean isBudgetAction = false;
-
-        if (StringUtils.isNotBlank(actionName) && (actionName.startsWith("Budget") || actionName.contains("BudgetVersions")) 
-                && StringUtils.isNotBlank(getMethodToCall()) 
-                && StringUtils.isEmpty(navigateTo) && !getMethodToCall().equalsIgnoreCase("headerTab")) { 
-            isBudgetAction = true;
-        }
-        else if (StringUtils.isNotEmpty(navigateTo) && (navigateTo.equalsIgnoreCase("versions") 
-                || navigateTo.equalsIgnoreCase("summary") || navigateTo.equalsIgnoreCase("personnel") 
-                || navigateTo.equalsIgnoreCase("expenses") || navigateTo.equalsIgnoreCase("rates") 
-                || navigateTo.equalsIgnoreCase("distributionAndIncome") || navigateTo.equalsIgnoreCase("modularBudget") 
-                || navigateTo.equalsIgnoreCase("totals") || navigateTo.equalsIgnoreCase("proposalHierarchy")  
-                || navigateTo.equalsIgnoreCase("budgetActions") || navigateTo.equalsIgnoreCase("budgetVersions"))) {
-            isBudgetAction = true; 
-        }
-
-        return isBudgetAction;
-
-    }
-
-    private boolean isProtocolAction() {
-        boolean isProtocolAction = false;
-
-        if (StringUtils.isNotBlank(actionName) && (actionName.startsWith("Protocol") || actionName.contains("Protocol")) 
-                && StringUtils.isNotBlank(getMethodToCall()) 
-                && StringUtils.isEmpty(navigateTo) && !getMethodToCall().equalsIgnoreCase("headerTab")) { 
-            isProtocolAction = true;
-        }
-
-        return isProtocolAction;
-
-    }
-    
-    private boolean isBudgetVersionsAction() {
-        boolean isBudgetVersionsAction = false;
-
-        if (StringUtils.isNotBlank(actionName) && actionName.contains("BudgetVersions")  
-                && StringUtils.isNotBlank(getMethodToCall()) 
-                && StringUtils.isEmpty(navigateTo) && !getMethodToCall().equalsIgnoreCase("headerTab")) { 
-            isBudgetVersionsAction = true;
-        }
-        else if (StringUtils.isNotEmpty(navigateTo) && (navigateTo.equalsIgnoreCase("versions") 
-                || navigateTo.equalsIgnoreCase("budgetVersions"))) {
-            isBudgetVersionsAction = true; 
-        }
-
-        return isBudgetVersionsAction;
-    }
-    
-    /**
-     * 
-     * This method returns true if user is on any of the Award pages.
-     * @return
-     */
-    private Boolean isAwardAction(){
-        boolean isAwardAction = false;
-        if (StringUtils.isNotBlank(actionName) && actionName.contains("Award")  
-                && StringUtils.isNotBlank(getMethodToCall()) 
-                && StringUtils.isEmpty(navigateTo) && !getMethodToCall().equalsIgnoreCase("headerTab")) { 
-            isAwardAction = true;
-        }else if (StringUtils.isNotEmpty(navigateTo) && (navigateTo.equalsIgnoreCase("home") 
-                || navigateTo.equalsIgnoreCase("contacts")
-                || navigateTo.equalsIgnoreCase("timeAndMoney")
-                || navigateTo.equalsIgnoreCase("paymentReportsAndTerms")
-                || navigateTo.equalsIgnoreCase("specialReview")
-                || navigateTo.equalsIgnoreCase("customData")
-                || navigateTo.equalsIgnoreCase("questions")
-                || navigateTo.equalsIgnoreCase("permissions")
-                || navigateTo.equalsIgnoreCase("notesAndAttachmentsHelp")
-                || navigateTo.equalsIgnoreCase("awardActions"))) {
-            isAwardAction = true; 
-        }
-
-        return isAwardAction;
     }
 
     private String getNavigateToPage() {
@@ -311,45 +198,8 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
         return null;
     }
     
-    private String getLockRegion() {
-        String lockRegion = ""; 
-        
-        if (isProposalAction()) {
-            lockRegion = KraAuthorizationConstants.LOCK_DESCRIPTOR_PROPOSAL;
-        }
-        else if (isNarrativeAction()) {
-            lockRegion = null;
-        }
-        else if (isBudgetAction()) {
-            lockRegion = KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET;
-        }
-        else if(isAwardAction()) {
-            lockRegion = KraAuthorizationConstants.LOCK_DESCRIPTOR_AWARD;
-        }
-        
-        return lockRegion;
-    }
+    protected abstract String getLockRegion();
     
-    private void setSaveDocumentControl(DocumentActionFlags tempDocumentActionFlags, Map editMode) {
-        tempDocumentActionFlags.setCanSave(false);   
-
-        if (isProposalAction() && hasModifyProposalPermission(editMode)) {
-            tempDocumentActionFlags.setCanSave(true);
-        }
-        else if (isNarrativeAction() && hasModifyNarrativesPermission(editMode)) {
-            tempDocumentActionFlags.setCanSave(true);
-        }
-        else if (isBudgetAction() && hasModifyBudgetPermission(editMode)) {
-            tempDocumentActionFlags.setCanSave(true);
-        }
-        else if (isBudgetVersionsAction() && hasModifyCompletedBudgetPermission(editMode)) {
-            tempDocumentActionFlags.setCanSave(true);
-        }
-        else if (isAwardAction()){
-            tempDocumentActionFlags.setCanSave(true);
-        }
-        else if (isProtocolAction()) {
-            tempDocumentActionFlags.setCanSave(true);
-        }
-    }    
+    protected abstract void setSaveDocumentControl(DocumentActionFlags tempDocumentActionFlags, Map editMode);
+    
 }
