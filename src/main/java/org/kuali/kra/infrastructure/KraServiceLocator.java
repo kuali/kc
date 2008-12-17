@@ -22,13 +22,16 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class KraServiceLocator {
 
-    public static final String SPRING_BEANS = "classpath:SpringBeans.xml";
+    public static final String COMMON_SPRING_BEANS = "SpringBeans.xml";
+    public static final String AWARD_SPRING_BEANS = "org/kuali/kra/award/AwardSpringBeans.xml";
+    public static final String IRB_SPRING_BEANS = "org/kuali/kra/irb/IrbSpringBeans.xml";
 
     private static ConfigurableApplicationContext appContext;
 
     private static void initialize() {
         if (appContext == null) {
-            appContext = new ClassPathXmlApplicationContext(SPRING_BEANS);
+            String[] springFiles = new String[] {COMMON_SPRING_BEANS, AWARD_SPRING_BEANS};
+            appContext = new ClassPathXmlApplicationContext(springFiles);
         }
     }
 
