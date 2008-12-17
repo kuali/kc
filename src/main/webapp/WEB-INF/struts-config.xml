@@ -179,7 +179,7 @@
       <!--  KRA IRB Mapping -->
       <action path="/protocol*" name="ProtocolForm" input="/WEB-INF/jsp/irb/Protocol{1}.jsp" type="org.kuali.kra.irb.web.struts.action.Protocol{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/irb/Protocol{1}.jsp" />
-          <forward name="protocol" path="/WEB-INF/jsp/irb/Protocol.jsp" />
+          <forward name="protocol" path="/WEB-INF/jsp/irb/ProtocolProtocol.jsp" />
       </action>
       
     </action-mappings>
