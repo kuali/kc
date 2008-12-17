@@ -20,7 +20,7 @@
 
 <kul:documentPage
 	showDocumentInfo="true"
-	htmlFormAction="protocol"
+	htmlFormAction="protocolProtocol"
 	documentTypeName="ProtocolDocument"
 	renderMultipart="false"
 	showTabButtons="true"

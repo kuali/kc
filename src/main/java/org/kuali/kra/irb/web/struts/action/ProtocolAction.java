@@ -17,12 +17,7 @@ package org.kuali.kra.irb.web.struts.action;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,36 +26,27 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.RiceKeyConstants;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.Document;
 import org.kuali.core.lookup.LookupResultsService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.struts.action.KualiDocumentActionBase;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.kra.bo.ResearchAreas;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.bo.ProtocolParticipant;
-import org.kuali.kra.irb.bo.ProtocolReferenceType;
-import org.kuali.kra.irb.bo.ProtocolReference;
-import org.kuali.kra.irb.rule.event.AddProtocolParticipantEvent;
-import org.kuali.kra.irb.service.ProtocolReferenceService;
-import org.kuali.kra.irb.bo.ProtocolResearchAreas;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.util.RiceConstants;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
 
-public class ProtocolAction extends KraTransactionalDocumentActionBase {
+/**
+ * The ProtocolAction is the base class for all Protocol actions.  Each derived
+ * Action class corresponds to one tab (web page).  The derived Action class handles
+ * all user requests for that particular tab (web page).
+ */
+public abstract class ProtocolAction extends KraTransactionalDocumentActionBase {
     
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolAction.class);
     
@@ -69,18 +55,6 @@ public class ProtocolAction extends KraTransactionalDocumentActionBase {
             throws Exception {      
         return super.save(mapping, form, request, response);
     }
-
-    @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        ActionForward actionForward = super.execute(mapping, form, request, response);
-        
-        //Call to prepareView sets Labels Values from configuration service
-        ((ProtocolForm)form).getProtocolHelper().prepareView();
-        
-        return actionForward;
-    }
-
 
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -99,21 +73,11 @@ public class ProtocolAction extends KraTransactionalDocumentActionBase {
             if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
                 
                 Class lookupResultsBOClass = Class.forName(protocolForm.getLookupResultsBOClassName());
-                String tmp = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
+                String userName = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
                 LookupResultsService service = KNSServiceLocator.getLookupResultsService();
-                Collection<PersistableBusinessObject> rawValues = service.retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass,tmp);
+                Collection<PersistableBusinessObject> selectedBOs = service.retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, userName);
                 
-                if (lookupResultsBOClass.isAssignableFrom(ResearchAreas.class)) {
-                    for (Iterator iter = rawValues.iterator(); iter.hasNext();) {
-                        //New ResearchAreas added by user selection
-                        ResearchAreas newResearchAreas = (ResearchAreas) iter.next();
-                        // ignore / drop duplicates
-                        if (!isDuplicateResearchAreas(newResearchAreas, protocolDocument.getProtocol().getProtocolResearchAreas())) {
-                            //Add new ProtocolResearchAreas to list
-                            protocolDocument.getProtocol().addProtocolResearchAreas(createInstanceOfProtocolResearchAreas(protocolDocument, newResearchAreas));
-                        }
-                    }//End of for
-                }//End of if
+                processMultipleLookupResults(protocolDocument, lookupResultsBOClass, selectedBOs);
             }
         }
         
@@ -121,44 +85,17 @@ public class ProtocolAction extends KraTransactionalDocumentActionBase {
     }
     
     /**
-     * This method is private helper method, to create instance of ProtocolResearchAreas and set appropriate values.
-     * @param protocolDocument
-     * @param researchAreas
-     * @return
+     * This method must be overridden by a derived class if that derived class has a field that requires a 
+     * Lookup that returns multiple values.  The derived class should first check the class of the selected BOs.
+     * Based upon the class, the Protocol can be updated accordingly.  This is necessary since there may be
+     * more than one multi-lookup on a web page.
+     * 
+     * @param protocolDocument the Protocol Document
+     * @param lookupResultsBOClass the class of the BOs that are returned by the Lookup
+     * @param selectedBOs the selected BOs
      */
-    private ProtocolResearchAreas createInstanceOfProtocolResearchAreas(ProtocolDocument protocolDocument, ResearchAreas researchAreas) {
-        ProtocolResearchAreas protocolResearchAreas = new ProtocolResearchAreas();
-        protocolResearchAreas.setProtocol(protocolDocument);                            
-        if(null != protocolDocument.getProtocol().getProtocolId())
-            protocolResearchAreas.setProtocolId(protocolDocument.getProtocol().getProtocolId());
-        
-        if(null != protocolDocument.getProtocol().getProtocolNumber())
-            protocolResearchAreas.setProtocolNumber(protocolDocument.getProtocol().getProtocolNumber());
-        else
-            protocolResearchAreas.setProtocolNumber("0");
-        
-        if(null != protocolDocument.getProtocol().getSequenceNumber())
-            protocolResearchAreas.setSequenceNumber(protocolDocument.getProtocol().getSequenceNumber());
-        else
-            protocolResearchAreas.setSequenceNumber(0);
-        
-        protocolResearchAreas.setResearchAreaCode(researchAreas.getResearchAreaCode());
-        protocolResearchAreas.setResearchAreas(researchAreas);
-        return protocolResearchAreas;
-    }
-    /**
-     * This method is private helper method, to restrict duplicate ProtocolResearchAreas insertion in list.
-     * @param newResearchAreaCode
-     * @param protocolResearchAreas
-     * @return
-     */
-    private boolean isDuplicateResearchAreas(ResearchAreas newResearchAreas, List<ProtocolResearchAreas> protocolResearchAreas) {
-        for (ProtocolResearchAreas pra  : protocolResearchAreas) {    
-            if (pra.getResearchAreas().equals(newResearchAreas)) {
-                return true;
-            }
-        }
-        return false;
+    protected void processMultipleLookupResults(ProtocolDocument protocolDocument, Class lookupResultsBOClass, Collection<PersistableBusinessObject> selectedBOs) {
+        // do nothing
     }
     
     @Override
@@ -197,127 +134,19 @@ public class ProtocolAction extends KraTransactionalDocumentActionBase {
     }
 
     /**
-     * This method is hook to KNS, selects/sets select boolean field to true of ProtocolResearchArea for the UI list.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * Get the Kuali Rule Service.
+     * @return the Kuali Rule Service
      */
-    public ActionForward selectAllProtocolDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
-        List<ProtocolResearchAreas> listOfProtocolResearchAreas = protocolDocument.getProtocol().getProtocolResearchAreas();
-        
-        for (ProtocolResearchAreas protocolResearchAreas: listOfProtocolResearchAreas) {  
-            //Transient field set to true
-            protocolResearchAreas.setSelectResearchArea(true);
-        }
-
-        return mapping.findForward(Constants.MAPPING_BASIC );
-    }
-
-    /**
-     * This method is hook to KNS, deletes selected ProtocolResearchArea from the UI list. Method is called in protocolAdditonalInformation.tag 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward deleteSelectedProtocolDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
-        List<ProtocolResearchAreas> listOfProtocolResearchAreas = protocolDocument.getProtocol().getProtocolResearchAreas();
-        
-        List<ProtocolResearchAreas> newProtocolResearchAreas = new ArrayList<ProtocolResearchAreas>();
-        
-        for (ProtocolResearchAreas protocolResearchAreas  : listOfProtocolResearchAreas) {
-            //Filters out not selected object
-            if (!protocolResearchAreas.getSelectResearchArea()) {
-                newProtocolResearchAreas.add(protocolResearchAreas);
-            }
-        }
-        protocolDocument.getProtocol().setProtocolResearchAreas(newProtocolResearchAreas);
-
-        return mapping.findForward(Constants.MAPPING_BASIC );
-    }
-    
-    
-//  public ActionForward deleteProtocolParticipant(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//      ProtocolForm protocolForm = (ProtocolForm) form;
-//      protocolForm.getProposalDevelopmentDocument().getPropSpecialReviews().remove(getLineToDelete(request));
-//      proposalDevelopmentForm.getDocumentExemptNumbers().remove(getLineToDelete(request));
-//      GlobalVariables.getErrorMap().clear();
-//
-//      return mapping.findForward("basic");
-//  }
-    
-    public ActionForward addProtocolParticipant(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolParticipant newProtocolParticipant = protocolForm.getNewProtocolParticipant();
-        if(getKualiRuleService().applyRules(new AddProtocolParticipantEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument(), newProtocolParticipant))) {
-            protocolForm.getProtocolDocument().getProtocol().getProtocolParticipants().add(newProtocolParticipant);
-            protocolForm.setNewProtocolParticipant(new ProtocolParticipant());
-        }
-        return mapping.findForward("basic");
-    }
-        
-
-    /**
-     * This method is hook to KNS, it adds ProtocolReference. Method is called in protocolAdditonalInformation.tag 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward addProtocolReference(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolReference newProtocolReference = protocolForm.getNewProtocolReference();
-        
-        if(null == newProtocolReference.getProtocolReferenceTypeCode()) {
-            GlobalVariables.getErrorMap().putError("Type", "cannot be null");
-            return mapping.findForward(Constants.MAPPING_BASIC);
-        }
-        
-        ProtocolReferenceService service = (ProtocolReferenceService)KraServiceLocator.getService("protocolReferenceTypeService");
-        
-        service.addProtocolReference(protocolForm.getProtocolDocument().getProtocol(), newProtocolReference);
-              
-        protocolForm.setNewProtocolReference(new ProtocolReference());
-        return mapping.findForward(Constants.MAPPING_BASIC );
-    }
-    
-
-    /**
-     * This method is hook to KNS, it deletes selected ProtocolReference from the UI list. Method is called in protocolAdditonalInformation.tag 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward deleteProtocolReference(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        
-        ProtocolReferenceService service = (ProtocolReferenceService)KraServiceLocator.getService("protocolReferenceTypeService");
-        
-        service.deleteProtocolReference(protocolForm.getProtocolDocument().getProtocol(), getLineToDelete(request));
-   
-        return mapping.findForward(Constants.MAPPING_BASIC );
-    }
-
-    // TODO : move this method up?
     private KualiRuleService getKualiRuleService() {
         return getService(KualiRuleService.class);
+    }
+    
+    /**
+     * Use the Kuali Rule Service to apply the rules for the given event.
+     * @param event the event to process
+     * @return true if success; false if there was a validation error
+     */
+    protected final boolean applyRules(KualiDocumentEvent event) {
+        return getKualiRuleService().applyRules(event);
     }
 }
