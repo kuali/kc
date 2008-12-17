@@ -3052,27 +3052,6 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>
 	
-	
-	
-
-	<class-descriptor class="org.kuali.kra.award.bo.AwardFandaRate" table="AWARD_IDC_RATE">
-		<field-descriptor name="awardFandaRateId" column="AWARD_IDC_RATE_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQUENCE_AWARD_ID" />
-		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" access="anonymous" />
-		<field-descriptor name="applicableFandaRate" column="APPLICABLE_IDC_RATE" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
-		<field-descriptor name="fandaRateTypeCode" column="IDC_RATE_TYPE_CODE" jdbc-type="INTEGER" />
-		<field-descriptor name="fiscalYear" column="FISCAL_YEAR" jdbc-type="VARCHAR" />
-		<field-descriptor name="onCampusFlag" column="ON_CAMPUS_FLAG" jdbc-type="VARCHAR" />
-		<field-descriptor name="underrecoveryOfIndirectCost" column="UNDERRECOVERY_OF_IDC" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
-		<field-descriptor name="sourceAccount" column="SOURCE_ACCOUNT" jdbc-type="VARCHAR" />
-		<field-descriptor name="destinationAccount" column="DESTINATION_ACCOUNT" jdbc-type="VARCHAR" />
-		<field-descriptor name="startDate" column="START_DATE" jdbc-type="DATE" />
-		<field-descriptor name="endDate" column="END_DATE" jdbc-type="DATE" />
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-	</class-descriptor>
-	
 	<class-descriptor class="org.kuali.kra.award.bo.FandaRateType" table="IDC_RATE_TYPE">
 		<field-descriptor name="fandaRateTypeCode" column="IDC_RATE_TYPE_CODE" jdbc-type="INTEGER" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
