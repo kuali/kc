@@ -1142,9 +1142,6 @@
 		</property>
 	</bean>
 	
-	<bean id="awardFandaRateService" class="org.kuali.kra.service.impl.AwardFandaRateServiceImpl">		
-	</bean>
-	
 	<bean id="onOffCampusLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" scope="prototype">
   		<property name="lookupableHelperService">
     		<ref bean="onOffCampusLookupableHelperServiceImpl" />
