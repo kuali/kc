@@ -3290,7 +3290,7 @@
 		<field-descriptor name="referenceKey" column="REFERENCE_KEY" jdbc-type="VARCHAR" />
 		<field-descriptor name="applicationDate" column="APPLICATION_DATE" jdbc-type="DATE" />
 		<field-descriptor name="approvalDate" column="APPROVAL_DATE" jdbc-type="DATE" />
-		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
+		<field-descriptor name="comments" column="COMMENTS" jdbc-type="CLOB" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
