@@ -325,7 +325,7 @@ create table protocol_references (
   reference_key                 varchar2 (50)  	not null,
   application_date              date,
   approval_date                 date,
-  comments                      long,
+  comments                      clob,
   update_timestamp              date          	not null,
   update_user                   varchar2 (60)  	not null,
   ver_nbr 						number(8) default 1 not null,
