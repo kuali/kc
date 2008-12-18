@@ -14,6 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="tldHeader.jsp"%>
+<%@ page import="org.kuali.kra.util.Explorer" %>
 
 <%--NOTE: DO NOT FORMAT THIS FILE, DISPLAY:COLUMN WILL NOT WORK CORRECTLY IF IT CONTAINS LINE BREAKS --%>
 <c:set var="headerMenu" value="" />
@@ -128,23 +129,28 @@
 			    	<bean-el:message key="lookup.using.primary.keys" arg0="${KualiForm.primaryKeyFieldLabels}"/>
 			    	<br/><br/>
 			    </c:if>
-				<display:table class="datatable-100" cellspacing="0"
+
+			<display:table class="datatable-100" cellspacing="0"
 				requestURIcontext="false" cellpadding="0" name="${reqSearchResults}"
-				id="row" export="true" pagesize="100"
+				id="row" export="true" pagesize="100" defaultsort="1"
 				requestURI="lookup.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&searchResultKey=${searchResultKey}&searchUsingOnlyPrimaryKeyValues=${KualiForm.searchUsingOnlyPrimaryKeyValues}">
 
 				<c:forEach items="${row.columns}" var="column" varStatus="loopStatus">
-          <c:set var="colClass" value="${ fn:startsWith(column.formatter, 'org.kuali.core.web.format.CurrencyFormatter') ? 'numbercell' : 'infocell' }" />
+         		 	<c:set var="colClass" value="${ fn:startsWith(column.formatter, 'org.kuali.core.web.format.CurrencyFormatter') ? 'numbercell' : 'infocell' }" />
+         		 	
+         		 	<%-- The next statement replaces the default KNS supplied StringCellComparator with the NaturalStringCellComparator as a temporary fix until Rice implements a feature to substitute comparators --%>
+          			<c:set var="theComparator" value="${ fn:startsWith(column.comparator, 'org.kuali.core.web.comparator.StringCellComparator') ? 'org.kuali.kra.util.NaturalStringCellComparator' : column.comparator }" />
+          
 					<c:choose>
 						<%--NOTE: Check if exporting first, as this should be outputted without extra HTML formatting --%>
 						<c:when	test="${param['d-16544-e'] != null}">
 								<display:column class="${colClass}" sortable="${column.sortable}"
-									title="${column.columnTitle}" comparator="${column.comparator}"
+									title="${column.columnTitle}" comparator="${theComparator}"
 									maxLength="${column.maxLength}"><c:out value="${column.propertyValue}" escapeXml="false" default="" /></display:column>
 						</c:when>
 						<c:when	test="${!empty column.propertyURL}">
 							<display:column class="${colClass}" sortable="${column.sortable}"
-								title="${column.columnTitle}" comparator="${column.comparator}">
+								title="${column.columnTitle}" comparator="${theComparator}">
 								<a href="<c:out value="${column.propertyURL}"/>" target="blank" title="${column.propertyValue}"><c:out
 									value="${fn:substring(column.propertyValue, 0, column.maxLength)}"
 									/><c:if test="${column.maxLength gt 0 && fn:length(column.propertyValue) gt column.maxLength}">...</c:if></a> &nbsp;
@@ -153,12 +159,12 @@
 <%--NOTE: DO NOT FORMAT THIS FILE, DISPLAY:COLUMN WILL NOT WORK CORRECTLY IF IT CONTAINS LINE BREAKS --%>
 						<c:when test="${column.columnTitle == 'Project Code'}">
 							<display:column class="${colClass}" sortable="${column.sortable}"
-								title="${column.columnTitle}" comparator="${column.comparator}"
+								title="${column.columnTitle}" comparator="${theComparator}"
 								maxLength="${column.maxLength}" decorator="org.kuali.core.web.ui.FormatAwareDecorator"><div style="white-space: nowrap"><c:out value="${column.propertyValue}" />&nbsp;</div></display:column>
                         </c:when>
 						<c:otherwise>
 							<display:column class="${colClass}" sortable="${column.sortable}"
-								title="${column.columnTitle}" comparator="${column.comparator}"
+								title="${column.columnTitle}" comparator="${theComparator}"
 								maxLength="${column.maxLength}" decorator="org.kuali.core.web.ui.FormatAwareDecorator"><c:out value="${column.propertyValue}"/>&nbsp;</display:column>
                         </c:otherwise>
 					</c:choose>
