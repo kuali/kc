@@ -1230,6 +1230,23 @@
 		</property>
 	</bean>
 
+	<bean id="parentProtocolAuthorizer" class="org.kuali.kra.irb.document.authorizer.ProtocolAuthorizer" abstract="true">
+		<property name="protocolAuthorizationService">
+			<ref bean="protocolAuthorizationService" />
+		</property>
+	</bean>	
+
+	<bean id="protocolTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
+        <property name="groupName" value="protocol" />
+        <property name="taskAuthorizers">
+            <list>
+                <bean class="org.kuali.kra.irb.document.authorizer.AddProtocolBillableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="modifyBillable" />
+                </bean>
+           </list>
+        </property>
+    </bean>
+
 	<bean id="protocolReferenceTypeService" class="org.kuali.kra.irb.service.impl.ProtocolReferenceServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
