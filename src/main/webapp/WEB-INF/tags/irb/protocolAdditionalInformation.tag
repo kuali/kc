@@ -11,7 +11,7 @@
 <c:set var="researchAreasAttributes" value="${DataDictionary.ResearchAreas.attributes}" />
 
 
-<kul:tab tabTitle="Additional Information" defaultOpen="false" tabErrorKey="newProtocolReference.protocolReferenceTypeCode" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
+<kul:tab tabTitle="Additional Information" defaultOpen="false" tabErrorKey="newProtocolReference*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Additional Information</span>

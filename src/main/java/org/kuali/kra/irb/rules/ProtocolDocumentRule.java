@@ -17,6 +17,8 @@ package org.kuali.kra.irb.rules;
 
 import org.kuali.core.document.Document;
 import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.kra.irb.rule.AddProtocolReferenceRule;
+import org.kuali.kra.irb.rule.event.AddProtocolReferenceEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 /**
@@ -24,7 +26,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolDocumentRule extends ResearchDocumentRuleBase  {
+public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule{
     
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -54,6 +56,12 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  {
         retval &= super.processRunAuditBusinessRules(document);
         
         return retval;
+    }
+
+    public boolean processAddProtocolReferenceBusinessRules(AddProtocolReferenceEvent addProtocolReferenceEvent) {
+
+        return new ProtocolReferenceRule().processAddProtocolReferenceBusinessRules(addProtocolReferenceEvent);
+        
     }
 
 }
