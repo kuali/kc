@@ -16,10 +16,8 @@
 package org.kuali.kra.irb.rules;
 
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.rule.AddProtocolReferenceRule;
 import org.kuali.kra.irb.rule.event.AddProtocolReferenceEvent;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 /**
  * This class is implementation of <code>AddProtocolReferenceRule</code> interface. Impl makes sure necessary rules are satisfied 
