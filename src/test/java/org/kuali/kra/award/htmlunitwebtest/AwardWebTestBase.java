@@ -15,13 +15,14 @@
  */
 package org.kuali.kra.award.htmlunitwebtest;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
 import org.kuali.kra.KraWebTestBase;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.award.document.AwardDocument;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -32,6 +33,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * Base class for all htmlunit tests involving the Award Document Pages.
  * 
  */
+@SuppressWarnings("unchecked")
 public abstract class AwardWebTestBase extends KraWebTestBase {
     
     protected static final String CONTACTS_LINK_NAME = "contacts.x";
@@ -118,7 +120,11 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
     }
     
     /**
-     * Sets the Proposal Development's required fields to legal default values.
+     * As we build the Award Home page further; the required fields will increase;
+     * So we have to add more fields to this method as and when the fields are added 
+     * on Award Home page.
+     * 
+     * Sets the Award Document's required fields to legal default values.
      * @param page the Proposal Development web page.
      */
     protected void setDefaultRequiredFields(HtmlPage page) {
@@ -133,17 +139,14 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
     }
     
     /**
-     * Sets the required fields for a Proposal Development document.
+     * As we build the Award Home page further; the required fields will increase;
+     * So we have to add more fields to this method as and when the fields are added 
+     * on Award Home page.
+     * 
+     * Sets the required fields for a Award document.
      * 
      * @param page the Proposal Development web page.
      * @param description the value for the description field.
-     * @param sponsorCode the value for the sponsor code field.
-     * @param title the value for the title field.
-     * @param startDate the value for the requested start date field.
-     * @param endDate the value for the requested end date field.
-     * @param activityType the value for the activity type code.
-     * @param proposalType the value for the proposal type code.
-     * @param ownedByUnit the value for the owned by unit field.
      */
     protected void setRequiredFields(HtmlPage page, String description){//, String sponsorCode, String title, String startDate, String endDate, String activityType, String proposalType, String ownedByUnit) {
         setFieldValue(page, DOCUMENT_DESCRIPTION_ID, description);
@@ -195,6 +198,15 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
         }
     }
     
+    /**
+     * 
+     * Get the Award Time & Money Web Page. To do this, we first
+     * get the Award Home page and fill in the required
+     * fields with some default values.  We can then navigate to the
+     * Award Time & Money Web Page.
+     * @return
+     * @throws Exception
+     */
     protected HtmlPage getAwardTimeAndMoneyPage() throws Exception {
         HtmlPage awardHomePage = this.getAwardHomePage();
         this.setDefaultRequiredFields(awardHomePage);
@@ -203,12 +215,12 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
     }
     
     /**
-     * Get the Abstracts & Attachments Web Page. To do this, we first
-     * get the Proposal Development Web Page and fill in the required
+     * Get the Award Actions Web Page. To do this, we first
+     * get the Award Home page and fill in the required
      * fields with some default values.  We can then navigate to the
-     * Abstracts & Attachments Web Page.
+     * Award Actions Web Page.
      * 
-     * @return the Abstracts & Attachments Web Page.
+     * @return the Award Actions Web Page.
      * @throws Exception
      */
     protected HtmlPage getAwardActionsPage() throws Exception {
@@ -224,27 +236,16 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
     }
     
     /**
+     * As we build the Award Home page further; the required fields will increase;
+     * So we have to add more fields to this method as and when the fields are added 
+     * on Award Home page.
      * This method checks document fields against the passed in values
      * @param doc the document to check values against
-     * @param activityType to check
-     * @param ownedByUnit to check
      * @param description to check
-     * @param sponsorCode to check
-     * @param title toi check
-     * @param requestedStartDateInitial to check
-     * @param requestedEndDateInitial to check
-     * @param proposalTypeCode to check
      * @throws WorkflowException
      */
-    protected void verifySavedRequiredFields(ProposalDevelopmentDocument doc, String activityType, String ownedByUnitNumber, String description, String sponsorCode, String title, String requestedStartDateInitial, String requestedEndDateInitial, String proposalTypeCode) throws WorkflowException {
-        assertEquals(activityType, doc.getActivityTypeCode());
-        assertEquals(ownedByUnitNumber, doc.getOwnedByUnitNumber());
+    protected void verifySavedRequiredFields(AwardDocument doc, String description) throws WorkflowException {
         assertEquals(description, doc.getDocumentHeader().getDocumentDescription());
-        assertEquals(sponsorCode, doc.getSponsorCode());
-        assertEquals(title, doc.getTitle());
-        assertEquals(requestedStartDateInitial, doc.getRequestedStartDateInitial().toString());
-        assertEquals(requestedEndDateInitial, doc.getRequestedEndDateInitial().toString());
-        assertEquals(proposalTypeCode, doc.getProposalTypeCode());
     }
 
 }
