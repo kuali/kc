@@ -34,6 +34,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.bo.ProtocolParticipant;
 import org.kuali.kra.irb.bo.ProtocolReference;
 import org.kuali.kra.irb.rule.event.AddProtocolParticipantEvent;
+import org.kuali.kra.irb.rule.event.AddProtocolReferenceEvent;
 import org.kuali.kra.irb.service.ProtocolReferenceService;
 import org.kuali.kra.irb.bo.ProtocolResearchAreas;
 import org.kuali.kra.irb.document.ProtocolDocument;
@@ -255,15 +256,14 @@ public class ProtocolProtocolAction extends ProtocolAction {
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolReference newProtocolReference = protocolForm.getNewProtocolReference();
         
-        if(null == newProtocolReference.getProtocolReferenceTypeCode()) {
-            GlobalVariables.getErrorMap().putError("Type", "cannot be null");
-            return mapping.findForward(Constants.MAPPING_BASIC);
+        if(applyRules(new AddProtocolReferenceEvent(Constants.EMPTY_STRING,protocolForm.getProtocolDocument(),newProtocolReference))) {
+      
+            ProtocolReferenceService service = (ProtocolReferenceService)KraServiceLocator.getService("protocolReferenceTypeService");
+            
+            service.addProtocolReference(protocolForm.getProtocolDocument().getProtocol(), newProtocolReference);
+          
         }
-        
-        ProtocolReferenceService service = (ProtocolReferenceService)KraServiceLocator.getService("protocolReferenceTypeService");
-        
-        service.addProtocolReference(protocolForm.getProtocolDocument().getProtocol(), newProtocolReference);
-              
+          
         protocolForm.setNewProtocolReference(new ProtocolReference());
         return mapping.findForward(Constants.MAPPING_BASIC );
     }

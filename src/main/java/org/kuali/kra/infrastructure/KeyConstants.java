@@ -16,6 +16,11 @@
 package org.kuali.kra.infrastructure;
 
 public class KeyConstants {
+    
+    //Error messages for Protocol Document
+    public static final String ERROR_PROTOCOLREFERENCE_PROTOCOLREFERENCETYPECODE = "error.required.for.protocolReference.protocolReferenceTypeCode";
+    public static final String ERROR_PROTOCOLREFERENCE_PROTOCOLREFERENCEKEY = "error.required.for.protocolReference.protocolReferenceKey";
+    
     public static final String ERROR_REQUIRED_FOR_APPROVED_SPECIALREVIEW = "error.required.for.approved.specialReview";
     public static final String ERROR_NOT_APPROVED_SPECIALREVIEW = "error.not.approved.specialReview";
     public static final String ERROR_REQUIRED_SELECT_APPROVAL_STATUS = "error.required.select.approval.status";
