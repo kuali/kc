@@ -21,7 +21,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.ErrorMessage;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.bo.ProtocolReference;
 import org.kuali.kra.irb.bo.ProtocolReferenceType;
@@ -69,7 +73,6 @@ public class ProtocolRuleTest extends ProtocolRuleTestBase {
 
     /**
      * Test a good case.
-     * 
      * @throws Exception
      */
     @Test
@@ -86,5 +89,26 @@ public class ProtocolRuleTest extends ProtocolRuleTestBase {
         assertTrue(rule.processAddProtocolReferenceBusinessRules(event));
 
     }
-
+    
+    @Test
+    public void testNotValid() throws Exception {
+        
+        ProtocolDocument document = getNewProtocolDocument();        
+        ProtocolReference newProtocolReference = new ProtocolReference();
+        
+        AddProtocolReferenceEvent event = new AddProtocolReferenceEvent(Constants.EMPTY_STRING,document,newProtocolReference);
+        assertFalse(rule.processAddProtocolReferenceBusinessRules(event));
+        
+        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_PROTOCOLREFERENCE + ".protocolReferenceTypeCode");
+        assertTrue(errors.size() == 1);    
+        ErrorMessage message = (ErrorMessage) errors.get(0);
+        assertEquals(message.getErrorKey(), KeyConstants.ERROR_PROTOCOLREFERENCE_PROTOCOLREFERENCETYPECODE);
+        
+        
+        errors = GlobalVariables.getErrorMap().getMessages(NEW_PROTOCOLREFERENCE + ".referenceKey");
+        assertTrue(errors.size() == 1);
+        message = (ErrorMessage) errors.get(0);
+        assertEquals(message.getErrorKey(), KeyConstants.ERROR_PROTOCOLREFERENCE_PROTOCOLREFERENCEKEY);
+        
+    }
 }
