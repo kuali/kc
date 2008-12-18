@@ -67,7 +67,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
     public void initialize() {
         initializeHeaderNavigationTabs(); 
         setNewProtocolParticipant(new ProtocolParticipant());
-        setProtocolHelper(new ProtocolHelper());
+        setProtocolHelper(new ProtocolHelper(this));
         setNewProtocolReference(new ProtocolReference());
     }
 
