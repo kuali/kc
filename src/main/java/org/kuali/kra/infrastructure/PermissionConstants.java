@@ -49,4 +49,18 @@ public interface PermissionConstants {
     public static final String CREATE_RENEWAL = "CREATE_RENEWAL";
     public static final String MAINTAIN_PROTOCOL_RELATED_PROJ = "MAINTAIN_PROTOCOL_RELATED_PROJ";
     public static final String EDIT_PROTOCOL_BILLABLE = "EDIT_PROTOCOL_BILLABLE";
+    public static final String ADD_COMMITTE = "ADD_COMMITTE";
+    public static final String ADMINSTRATIVE_CORRECTION = "ADMINSTRATIVE_CORRECTION";
+    public static final String GENERATE_AGENDA = "GENERATE_AGENDA";
+    public static final String GENERATE_MINUTES = "GENERATE_MINUTES";
+    public static final String GENERATE_SCHEDULE = "GENERATE_SCHEDULE";
+    public static final String MAINTAIN_IRB_CORRESP_TEMPLATE = "MAINTAIN_IRB_CORRESP_TEMPLATE";
+    public static final String MAINTAIN_MEMBERSHIPS = "MAINTAIN_MEMBERSHIPS";
+    public static final String MAINTAIN_MINUTES = "MAINTAIN_MINUTES";
+    public static final String MAINTAIN_PROTOCOL_SUBMISSIONS = "MAINTAIN_PROTOCOL_SUBMISSIONS";
+    public static final String MAINTAIN_PROTO_REVIEW_COMMENTS = "MAINTAIN_PROTO_REVIEW_COMMENTS";
+    public static final String MODIFY_COMMITTEE = "MODIFY_COMMITTEE";
+    public static final String MODIFY_SCHEDULE = "MODIFY_SCHEDULE";
+    public static final String PERFORM_IRB_ACTIONS_ON_PROTO = "PERFORM_IRB_ACTIONS_ON_PROTO";
+    public static final String VIEW_RESTRICTED_NOTES = "VIEW_RESTRICTED_NOTES";
 }
