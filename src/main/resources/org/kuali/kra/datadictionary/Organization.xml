@@ -383,8 +383,8 @@
   <bean id="Organization-humanSubAssurance-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="humanSubAssurance" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Human Sub Assurance" />
-    <property name="shortLabel" value="Human Sub Assurance" />
+    <property name="label" value="FWA Number" />
+    <property name="shortLabel" value="FWA Number" />
     <property name="maxLength" value="30" />
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
@@ -393,8 +393,8 @@
       <bean parent="TextControlDefinition"
             p:size="30" />
     </property>
-    <property name="summary" value="Human Sub Assurance" />
-    <property name="description" value="Human Sub Assurance" />
+    <property name="summary" value="FWA Number - Human Sub Assurance" />
+    <property name="description" value="FWA Number - Human Sub Assurance" />
   </bean>
   <bean id="Organization-incorporatedDate" parent="Organization-incorporatedDate-parentBean" />
 

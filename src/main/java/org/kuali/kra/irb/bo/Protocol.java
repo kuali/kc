@@ -66,6 +66,7 @@ public class Protocol extends KraPersistableBusinessObjectBase{
     private List<ProtocolResearchArea> protocolResearchAreas;
     
     private List<ProtocolReference> protocolReferences;
+    private List<ProtocolLocation> protocolLocations;
     
     //Is transient, used for lookup select option in UI by KNS 
     private String newDescription;
@@ -81,6 +82,7 @@ public class Protocol extends KraPersistableBusinessObjectBase{
         protocolResearchAreas = new ArrayList<ProtocolResearchArea>();// new TypedArrayList(ProtocolResearchAreas.class);
         protocolReferences = new ArrayList<ProtocolReference>(); //ArrayList<ProtocolReference>();
         newDescription = getDefaultNewDescription();
+        protocolLocations = new ArrayList<ProtocolLocation>(); //ArrayList<ProtocolLocation>();
     }
 
     public Long getProtocolId() {
@@ -375,6 +377,13 @@ public class Protocol extends KraPersistableBusinessObjectBase{
         this.protocolDocument = protocolDocument;
     }
 
+    public void setProtocolLocations(List<ProtocolLocation> protocolLocations) {
+        this.protocolLocations = protocolLocations;
+    }
+
+    public List<ProtocolLocation> getProtocolLocations() {
+        return protocolLocations;
+    }
     
     @SuppressWarnings("unchecked")
     @Override
@@ -382,6 +391,7 @@ public class Protocol extends KraPersistableBusinessObjectBase{
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(this.protocolResearchAreas);
         managedLists.add(this.protocolReferences);
+        managedLists.add(getProtocolLocations());
         return managedLists;
 
     }

@@ -15,9 +15,7 @@
  */
 package org.kuali.kra.irb.web.struts.action;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,12 +28,13 @@ import org.kuali.core.document.Document;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.bo.ProtocolLocation;
 import org.kuali.kra.irb.bo.ProtocolParticipant;
 import org.kuali.kra.irb.bo.ProtocolReference;
-import org.kuali.kra.irb.bo.ProtocolResearchArea;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.rule.event.AddProtocolParticipantEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolReferenceEvent;
+import org.kuali.kra.irb.service.ProtocolLocationService;
 import org.kuali.kra.irb.service.ProtocolReferenceService;
 import org.kuali.kra.irb.service.ProtocolResearchAreaService;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
@@ -192,4 +191,68 @@ public class ProtocolProtocolAction extends ProtocolAction {
    
         return mapping.findForward(Constants.MAPPING_BASIC );
     }    
+
+    /**
+     * This method is linked to ProtocolLocationService to perform the action - Add Protocol Location. 
+     * Method is called in protocolLocations.tag 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward addProtocolLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolLocation newProtocolLocation = protocolForm.getNewProtocolLocation();
+        
+        
+        ProtocolLocationService service = (ProtocolLocationService)KraServiceLocator.getService("protocolLocationService");
+        
+        service.addProtocolLocation(protocolForm.getProtocolDocument().getProtocol(), newProtocolLocation);
+              
+        protocolForm.setNewProtocolLocation(new ProtocolLocation());
+        return mapping.findForward(Constants.MAPPING_BASIC );
+    }
+    
+    /**
+     * This method is linked to ProtocolLocationService to perform the action - Delete Protocol Location. 
+     * Method is called in protocolLocations.tag 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteProtocolLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        
+        ProtocolLocationService service = (ProtocolLocationService)KraServiceLocator.getService("protocolLocationService");
+        
+        service.deleteProtocolLocation(protocolForm.getProtocolDocument().getProtocol(), getLineToDelete(request));
+              
+        return mapping.findForward(Constants.MAPPING_BASIC );
+    }
+
+    /**
+     * This method is linked to ProtocolLocationService to perform the action - Clear Protocol Location address. 
+     * Method is called in protocolLocations.tag 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward clearProtocolLocationAddress(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        
+        ProtocolLocationService service = (ProtocolLocationService)KraServiceLocator.getService("protocolLocationService");
+        
+        service.clearProtocolLocationAddress(protocolForm.getProtocolDocument().getProtocol(), getSelectedLine(request));
+              
+        return mapping.findForward(Constants.MAPPING_BASIC );
+    }
+
 }

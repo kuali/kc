@@ -1,0 +1,149 @@
+<%--
+ Copyright 2006-2008 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+--%>
+<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+
+<c:set var="protocolLocationAttributes" value="${DataDictionary.ProtocolLocation.attributes}" />
+<c:set var="organizationAttributes" value="${DataDictionary.Organization.attributes}" />
+<c:set var="protocolOrganizationTypeAttributes" value="${DataDictionary.ProtocolOrganizationType.attributes}" />
+<c:set var="rolodexAttributes" value="${DataDictionary.Rolodex.attributes}" />
+<c:set var="action" value="protocolLocation" />
+
+<kul:tab tabTitle="Protocol Organization" defaultOpen="true" tabErrorKey="" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
+	<div class="tab-container" align="center">
+    	<h3>
+    		<span class="subhead-left"> Protocol Location</span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.bo.ProtocolLocation" altText="help"/></span>
+        </h3>
+        
+        <table cellpadding="0" cellspacing="0" summary="">
+          	<%-- Header --%>
+          	<tr>
+          		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" /> 
+          		<kul:htmlAttributeHeaderCell attributeEntry="${protocolLocationAttributes.organizationId}" scope="col" /></div></th>
+          		<kul:htmlAttributeHeaderCell attributeEntry="${protocolLocationAttributes.protocolOrganizationTypeCode}" scope="col" /></div></th>
+          		<kul:htmlAttributeHeaderCell attributeEntry="${protocolLocationAttributes.rolodexId}" scope="col" /></div></th>
+          		<kul:htmlAttributeHeaderCell attributeEntry="${organizationAttributes.humanSubAssurance}" scope="col" /></div></th>
+          		<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
+          	</tr> 
+          	<%-- Header --%>
+          	
+             <%-- New data --%>
+        	<kra:section permission="modifyProtocol">
+	             <tr>
+					<th class="infoline">
+						<c:out value="Add:" />
+					</th>
+	
+	                <td align="left" valign="middle"  class="infoline">
+	                	<kul:htmlControlAttribute property="newProtocolLocation.organizationId" attributeEntry="${protocolLocationAttributes.organizationId}" />
+	                    <kul:lookup boClassName="org.kuali.kra.bo.Organization" 
+	                    fieldConversions="organizationId:newProtocolLocation.organizationId,contactAddressId:newProtocolLocation.rolodexId,humanSubAssurance:newProtocolLocation.organization.humanSubAssurance,organizationName:newProtocolLocation.organization.organizationName,rolodex.firstName:newProtocolLocation.organization.rolodex.firstName,rolodex.lastName:newProtocolLocation.organization.rolodex.lastName,rolodex.addressLine1:newProtocolLocation.organization.rolodex.addressLine1,rolodex.addressLine2:newProtocolLocation.organization.rolodex.addressLine2,rolodex.addressLine3:newProtocolLocation.organization.rolodex.addressLine3,rolodex.city:newProtocolLocation.organization.rolodex.city,rolodex.state:newProtocolLocation.organization.rolodex.state" anchor="${currentTabIndex}"/> 
+	                    <kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="newProtocolLocation.organizationId:organizationId" anchor="${currentTabIndex}"/>
+	                </td>
+	                <td align="left" valign="middle" class="infoline">
+	                	<div align="center">
+	                	<kul:htmlControlAttribute property="newProtocolLocation.protocolOrganizationTypeCode" attributeEntry="${protocolLocationAttributes.protocolOrganizationTypeCode}" />
+	                	</div>
+					</td>
+	                <td align="left" valign="middle" class="infoline">
+	                	<div align="center">
+							&nbsp;
+	
+	                	<!-- <kul:htmlControlAttribute property="newProtocolLocation.rolodexId" attributeEntry="${protocolLocationAttributes.rolodexId}" /> -->
+	                	</div>
+					</td>
+	                <td align="left" valign="middle" class="infoline">
+	                	<div align="center">
+							&nbsp;
+	                	</div>
+					</td>
+					<td class="infoline">
+						<div align="center">
+							<html:image property="methodToCall.addProtocolLocation.anchor${tabKey}"
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+						</div>
+	                </td>
+	            </tr>
+            </kra:section>
+            <%-- New data --%>
+            
+            <%-- Existing data --%>
+        	<c:forEach var="protocolLocation" items="${KualiForm.document.protocol.protocolLocations}" varStatus="status">
+	             <tr>
+					<th class="infoline">
+						<c:out value="${status.index+1}" />
+					</th>
+                  <td align="left" valign="middle">
+					<div align="left">
+                		<kul:htmlControlAttribute property="document.protocol.protocolLocations[${status.index}].organizationId" readOnly="true" attributeEntry="${protocolLocationAttributes.organizationId}" /> 
+                    	<kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="document.protocol.protocolLocations[${status.index}].organizationId:organizationId" anchor="${currentTabIndex}"/> <br>
+                		<kul:htmlControlAttribute property="document.protocol.protocolLocations[${status.index}].organization.organizationName" readOnly="true" attributeEntry="${organizationAttributes.organizationName}" />
+					</div>
+				  </td>
+                  <td align="left" valign="middle">
+					<div align="left">
+                		<kul:htmlControlAttribute property="document.protocol.protocolLocations[${status.index}].protocolOrganizationType.description" readOnly="true" attributeEntry="${protocolOrganizationTypeAttributes.description}" />
+					</div>
+				  </td>
+                  <td align="left" valign="middle">
+					<div align="left">
+						<c:if test="${!empty KualiForm.document.protocol.protocolLocations[status.index].rolodex.lastName}">
+							<c:out value="${KualiForm.document.protocol.protocolLocations[status.index].rolodex.lastName}, " />
+						</c:if>
+						<c:if test="${!empty KualiForm.document.protocol.protocolLocations[status.index].rolodex.firstName}">
+							<c:out value="${KualiForm.document.protocol.protocolLocations[status.index].rolodex.firstName}: " />
+						</c:if>
+						<c:if test="${!empty KualiForm.document.protocol.protocolLocations[status.index].rolodex.addressLine1 || !empty KualiForm.document.protocol.protocolLocations[status.index].rolodex.addressLine2 || !empty KualiForm.document.protocol.protocolLocations[status.index].rolodex.addressLine3}">
+							<c:out value="${KualiForm.document.protocol.protocolLocations[status.index].rolodex.addressLine1}" />
+				            <c:out value="${KualiForm.document.protocol.protocolLocations[status.index].rolodex.addressLine2}" />
+				            <c:out value="${KualiForm.document.protocol.protocolLocations[status.index].rolodex.addressLine3}," />
+						</c:if>
+						<c:if test="${!empty KualiForm.document.protocol.protocolLocations[status.index].rolodex.city || !empty KualiForm.document.protocol.protocolLocations[status.index].rolodex.state || !empty KualiForm.document.protocol.protocolLocations[status.index].rolodex.postalCode}">
+							<c:out value="${KualiForm.document.protocol.protocolLocations[status.index].rolodex.city}," />&nbsp
+				            <c:out value="${KualiForm.document.protocol.protocolLocations[status.index].rolodex.state}" />&nbsp
+				            <c:out value="${KualiForm.document.protocol.protocolLocations[status.index].rolodex.postalCode}" />
+						</c:if>
+						<kra:section permission="modifyProtocol">  
+	                    	<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" 
+	                    		fieldConversions="rolodexId:document.protocol.protocolLocations[${status.index}].rolodexId,firstName:document.protocol.protocolLocations[${status.index}].rolodex.firstName,lastName:document.protocol.protocolLocations[${status.index}].rolodex.lastName,postalCode:document.protocol.protocolLocations[${status.index}].rolodex.postalCode,addressLine1:document.protocol.protocolLocations[${status.index}].rolodex.addressLine1,addressLine2:document.protocol.protocolLocations[${status.index}].rolodex.addressLine2,addressLine3:document.protocol.protocolLocations[${status.index}].rolodex.addressLine3,city:document.protocol.protocolLocations[${status.index}].rolodex.city,state:document.protocol.protocolLocations[${status.index}].rolodex.state"	anchor="${currentTabIndex}"/> 
+						</kra:section>  
+                    	<kul:directInquiry boClassName="org.kuali.kra.bo.Rolodex" inquiryParameters="document.protocol.protocolLocations[${status.index}].rolodexId:rolodexId" anchor="${currentTabIndex}"/>
+					</div>
+				  </td>
+                  <td align="left" valign="middle">
+					<div align="left">
+                		<kul:htmlControlAttribute property="document.protocol.protocolLocations[${status.index}].organization.humanSubAssurance" readOnly="true" attributeEntry="${protocolLocationAttributes.sequenceNumber}" />
+					</div>
+				  </td>
+				  <td>
+					<div align=center>&nbsp;
+						<kra:section permission="modifyProtocol">  
+							<html:image property="methodToCall.clearProtocolLocationAddress.line${status.index}.anchor${currentTabIndex}"
+								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-clraddress.gif' styleClass="tinybutton"/>
+							<html:image property="methodToCall.deleteProtocolLocation.line${status.index}.anchor${currentTabIndex}"
+								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+						</kra:section>  
+					</div>
+	              </td>
+	            </tr>
+				<input type="hidden" name="document.protocol.protocolLocations[${status.index}].rolodexId" value="${KualiForm.document.protocol.protocolLocations[status.index].rolodexId}">
+
+        	</c:forEach> 
+            <%-- Existing data --%>
+        </table>
+
+    </div>
+</kul:tab>
