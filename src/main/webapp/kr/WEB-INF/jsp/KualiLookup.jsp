@@ -14,7 +14,6 @@
  limitations under the License.
 --%>
 <%@ include file="tldHeader.jsp"%>
-<%@ page import="org.kuali.kra.util.Explorer" %>
 
 <%--NOTE: DO NOT FORMAT THIS FILE, DISPLAY:COLUMN WILL NOT WORK CORRECTLY IF IT CONTAINS LINE BREAKS --%>
 <c:set var="headerMenu" value="" />
