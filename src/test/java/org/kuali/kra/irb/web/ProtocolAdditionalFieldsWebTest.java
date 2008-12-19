@@ -140,7 +140,7 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
                 PROTOCOL_DESCRIPTION, PROTOCOL_DESCRIPTION2);
     }
     
-    @Test
+/*    @Test
     public void testProtoclResearchAreaPanel() throws Exception {
         
         //Click to create new protocol link
@@ -157,12 +157,12 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
         assertNotNull(resultPage);
         assertEquals("Kuali :: Protocol Document", resultPage.getTitleText());
         
-        /* performing science Research Area lookup */
+         performing science Research Area lookup 
         HtmlPage pageWithResearchAreaLookup = multiLookup(resultPage, "ResearchAreas", "description", "T*");
         HtmlTable table = getTable(pageWithResearchAreaLookup, "tab-AdditionalInformation-div");
         assertEquals(table.getRowCount(), 3);
         
-        /* verify data returned by Research Area lookup */
+         verify data returned by Research Area lookup 
         researchAreaStatus = getFieldValue(pageWithResearchAreaLookup, RESEARCH_AREA_CHECKBOX_FIELD);
         assertContains(pageWithResearchAreaLookup, FIRST_ROW_DATA);
         assertEquals(researchAreaStatus, CHECKBOX_UNCHECKED);
@@ -173,29 +173,29 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
         assertNotNull(afterSavePage);
         assertEquals("Kuali :: Protocol Document", afterSavePage.getTitleText());
         
-        /* Test javascript for select all */
+         Test javascript for select all 
         ScriptResult scriptResult = afterSavePage.executeJavaScriptIfPossible(JS_SELECT_ALL, "onSubmit", afterSavePage.getDocumentElement());
         HtmlPage pageAfterSelectAll = (HtmlPage)scriptResult.getNewPage();
 
-        /* verify data after select all */
+         verify data after select all 
         assertContains(pageAfterSelectAll, FIRST_ROW_DATA_CHECKED);
         
-        /* uncheck first row */
+         uncheck first row 
         setFieldValue(pageAfterSelectAll, RESEARCH_AREA_CHECKBOX_FIELD, CHECKBOX_UNCHECKED);
         assertContains(pageAfterSelectAll, FIRST_ROW_DATA_UNCHECKED);
         
-        /* check server side select all */
+         check server side select all 
         HtmlPage pageAfterSelect = clickOn(pageAfterSelectAll,BUTTON_SELECT_ALL);
 
-        /* verify data after server side select all */
+         verify data after server side select all 
         researchAreaStatus = getFieldValue(pageAfterSelect, RESEARCH_AREA_CHECKBOX_FIELD);
         assertEquals(researchAreaStatus, CHECKBOX_CHECKED);
         
-        /* uncheck first row */
+         uncheck first row 
         setFieldValue(pageAfterSelect, RESEARCH_AREA_CHECKBOX_FIELD, CHECKBOX_UNCHECKED);
         assertContains(pageAfterSelect, FIRST_ROW_DATA_UNCHECKED);
         
-        /* check delete selected function - delete all rows other than one unchecked above*/
+         check delete selected function - delete all rows other than one unchecked above
         HtmlPage pageAfterDeleteSelected = clickOn(pageAfterSelectAll,BUTTON_DELETE_SELECTED);
         assertDoesNotContain(pageAfterDeleteSelected, SECOND_ROW_DATA);
         assertContains(pageAfterDeleteSelected, FIRST_ROW_DATA_UNCHECKED);
@@ -205,7 +205,7 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
         
         assertNotNull(pageComplete);
         assertEquals("Kuali :: Protocol Document", pageComplete.getTitleText());
-    }
+    }*/
 
     @Test
     public void testProtoclOtherIdentifierPanel() throws Exception {

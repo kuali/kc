@@ -21,7 +21,7 @@
 
 	<bean id="ProtocolResearchAreas" parent="ProtocolResearchAreas-parentBean" />
 	<bean id="ProtocolResearchAreas-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.irb.bo.ProtocolResearchAreas" />
+		<property name="businessObjectClass" value="org.kuali.kra.irb.bo.ProtocolResearchArea" />
 		<property name="inquiryDefinition" >
 			<ref bean="ProtocolResearchAreas-inquiryDefinition" />
 		</property>
@@ -36,7 +36,6 @@
 				<ref bean="ProtocolResearchAreas-sequenceNumber" />
 				<ref bean="ProtocolResearchAreas-researchAreaCode" />
 				<ref bean="ProtocolResearchAreas-versionNumber" />
-				<ref bean="ProtocolResearchAreas-selectResearchArea" />
 			</list>
 		</property>
 	</bean>
@@ -118,26 +117,6 @@
 	<bean id="ProtocolResearchAreas-versionNumber" parent="ProtocolResearchAreas-versionNumber-parentBean" />
 	<bean id="ProtocolResearchAreas-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
 	</bean>
-
-	<bean id="ProtocolResearchAreas-selectResearchArea" parent="ProtocolResearchAreas-selectResearchArea-parentBean" />
-
-	<bean id="ProtocolResearchAreas-selectResearchArea-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="name" value="selectResearchArea" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Select Research Area" />
-		<property name="shortLabel" value="Select Research Area" />
-		<property name="maxLength" value="3" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="CheckboxControlDefinition" />
-		</property>
-		<property name="summary" value="Select Research Area" />
-		<property name="description" value="Select Research Area" />
-	</bean>
-
 
 	<!-- Business Object Inquiry Definition -->
 	<bean id="ProtocolResearchAreas-inquiryDefinition" parent="ProtocolResearchAreas-inquiryDefinition-parentBean" />

@@ -33,6 +33,7 @@ import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
@@ -74,7 +75,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
                 
                 Class lookupResultsBOClass = Class.forName(protocolForm.getLookupResultsBOClassName());
                 String userName = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
-                LookupResultsService service = KNSServiceLocator.getLookupResultsService();
+                LookupResultsService service = KraServiceLocator.getService(LookupResultsService.class);
                 Collection<PersistableBusinessObject> selectedBOs = service.retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, userName);
                 
                 processMultipleLookupResults(protocolDocument, lookupResultsBOClass, selectedBOs);

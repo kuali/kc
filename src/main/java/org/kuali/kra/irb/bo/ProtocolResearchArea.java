@@ -15,26 +15,44 @@
  */
 package org.kuali.kra.irb.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.ResearchAreas;
-import org.kuali.kra.irb.document.ProtocolDocument;
-
 import java.util.LinkedHashMap;
 
-public class ProtocolResearchAreas extends KraPersistableBusinessObjectBase { 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.ResearchArea;
+
+
+@javax.persistence.Entity 
+@Table(name="PROTOCOL_RESEARCH_AREAS")
+public class ProtocolResearchArea extends KraPersistableBusinessObjectBase { 
 	
+    @Column(name="PROTOCOL_ID")
 	private Long protocolId; 
+    
+    @Column(name="PROTOCOL_NUMBER")
 	private String protocolNumber; 
-	private Integer sequenceNumber; 
+    
+    @Column(name="SEQUENCE_NUMBER")
+	private Integer sequenceNumber;
+    
+    @Column(name="RESEARCH_AREA_CODE")
 	private String researchAreaCode; 
 	
-	private ProtocolDocument protocol; 
-	private ResearchAreas researchAreas; 
+    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name="PROTOCOL_ID", insertable=false, updatable=false)    
+	private Protocol protocol;
 	
-	//Is transient, used for lookup selection and deletion in UI by KNS 
-	private Boolean selectResearchArea = false;
+	@ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
+	@JoinColumn(name="RESEARCH_AREA_CODE", insertable=false, updatable=false)
+	private ResearchArea researchAreas; 
 	
-	public ProtocolResearchAreas() { 
+	public ProtocolResearchArea() { 
 
 	} 
 
@@ -70,19 +88,19 @@ public class ProtocolResearchAreas extends KraPersistableBusinessObjectBase {
 		this.researchAreaCode = researchAreaCode;
 	}
 
-	public ProtocolDocument getProtocol() {
+	public Protocol getProtocol() {
 		return protocol;
 	}
 
-	public void setProtocol(ProtocolDocument protocol) {
+	public void setProtocol(Protocol protocol) {
 		this.protocol = protocol;
 	}
 
-	public ResearchAreas getResearchAreas() {
+	public ResearchArea getResearchAreas() {
 		return researchAreas;
 	}
 
-	public void setResearchAreas(ResearchAreas researchAreas) {
+	public void setResearchAreas(ResearchArea researchAreas) {
 		this.researchAreas = researchAreas;
 	}
 
@@ -97,11 +115,4 @@ public class ProtocolResearchAreas extends KraPersistableBusinessObjectBase {
 		return hashMap;
 	}
 	
-    public Boolean getSelectResearchArea() {
-        return selectResearchArea;
-    }
-
-    public void setSelectResearchArea(Boolean selectResearchArea) {
-        this.selectResearchArea = selectResearchArea;
-    }
 }
