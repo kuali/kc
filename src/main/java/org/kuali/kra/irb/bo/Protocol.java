@@ -63,7 +63,7 @@ public class Protocol extends KraPersistableBusinessObjectBase{
     private List<ProtocolRiskLevels> riskLevels;
     private List<ProtocolParticipant> protocolParticipants;
     
-    private List<ProtocolResearchAreas> protocolResearchAreas;
+    private List<ProtocolResearchArea> protocolResearchAreas;
     
     private List<ProtocolReference> protocolReferences;
     
@@ -78,7 +78,7 @@ public class Protocol extends KraPersistableBusinessObjectBase{
         super();
         riskLevels = new ArrayList<ProtocolRiskLevels>();
         protocolParticipants = new TypedArrayList(ProtocolParticipant.class);
-        protocolResearchAreas = new ArrayList<ProtocolResearchAreas>();// new TypedArrayList(ProtocolResearchAreas.class);
+        protocolResearchAreas = new ArrayList<ProtocolResearchArea>();// new TypedArrayList(ProtocolResearchAreas.class);
         protocolReferences = new ArrayList<ProtocolReference>(); //ArrayList<ProtocolReference>();
         newDescription = getDefaultNewDescription();
     }
@@ -340,23 +340,23 @@ public class Protocol extends KraPersistableBusinessObjectBase{
     public String getDefaultNewDescription() {
         return "(select)";
     }
-    public void setProtocolResearchAreas(List<ProtocolResearchAreas> protocolResearchAreas) {
+    public void setProtocolResearchAreas(List<ProtocolResearchArea> protocolResearchAreas) {
         this.protocolResearchAreas = protocolResearchAreas;
     }
 
-    public List<ProtocolResearchAreas> getProtocolResearchAreas() {
+    public List<ProtocolResearchArea> getProtocolResearchAreas() {
         return protocolResearchAreas;
     }
     
-    public void addProtocolResearchAreas(ProtocolResearchAreas protocolResearchArea) {
+    public void addProtocolResearchAreas(ProtocolResearchArea protocolResearchArea) {
         getProtocolResearchAreas().add(protocolResearchArea);
     }
 
-    public ProtocolResearchAreas getProtocolResearchAreas(int index) {
+    public ProtocolResearchArea getProtocolResearchAreas(int index) {
         while (getProtocolResearchAreas().size() <= index) {
-            getProtocolResearchAreas().add(new ProtocolResearchAreas());
+            getProtocolResearchAreas().add(new ProtocolResearchArea());
         }
-        return (ProtocolResearchAreas) getProtocolResearchAreas().get(index);
+        return (ProtocolResearchArea) getProtocolResearchAreas().get(index);
     }
 
     public void setProtocolReferences(List<ProtocolReference> protocolReferences) {

@@ -26,16 +26,19 @@ import org.hibernate.annotations.Type;
 
 @Entity 
 @Table(name="RESEARCH_AREAS")
-public class ResearchAreas extends KraPersistableBusinessObjectBase {
+public class ResearchArea extends KraPersistableBusinessObjectBase {
 
     @Id 
     @Column(name="RESEARCH_AREA_CODE")
     private String researchAreaCode; 
+    
     @Column(name="PARENT_RESEARCH_AREA_CODE")
     private String parentResearchAreaCode; 
+    
     @Type(type="yes_no")
     @Column(name="HAS_CHILDREN_FLAG")
     private boolean hasChildrenFlag; 
+    
     @Column(name="DESCRIPTION")
     private String description; 
     
@@ -54,11 +57,11 @@ public class ResearchAreas extends KraPersistableBusinessObjectBase {
     private ProtocolResearchAreas protocolResearchAreas
     */
 
-    public ResearchAreas(){
+    public ResearchArea(){
         super();
     }
     
-    public ResearchAreas(String researchAreaCode, String parentResearchAreaCode, String description){
+    public ResearchArea(String researchAreaCode, String parentResearchAreaCode, String description){
         super();
         this.researchAreaCode = researchAreaCode;
         this.parentResearchAreaCode = parentResearchAreaCode;
@@ -124,7 +127,7 @@ public class ResearchAreas extends KraPersistableBusinessObjectBase {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        ResearchAreas other = (ResearchAreas) obj;
+        ResearchArea other = (ResearchArea) obj;
         if (researchAreaCode == null) {
             if (other.researchAreaCode != null)
                 return false;

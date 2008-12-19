@@ -23,7 +23,7 @@
 
 	<bean id="ResearchAreas" parent="ResearchAreas-parentBean" />
 	<bean id="ResearchAreas-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.bo.ResearchAreas" />
+		<property name="businessObjectClass" value="org.kuali.kra.bo.ResearchArea" />
 		<property name="inquiryDefinition" >
 			<ref bean="ResearchAreas-inquiryDefinition" />
 		</property>

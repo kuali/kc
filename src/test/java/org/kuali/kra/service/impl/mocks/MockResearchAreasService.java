@@ -18,13 +18,13 @@ package org.kuali.kra.service.impl.mocks;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kra.bo.ResearchAreas;
+import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.service.ResearchAreasService;
 
 public class MockResearchAreasService implements ResearchAreasService {
     
-    private List<ResearchAreas> researchAreas = new ArrayList<ResearchAreas>();
+    private List<ResearchArea> researchAreas = new ArrayList<ResearchArea>();
 
     public String getAscendantList(String researchAreaCode) {
         // TODO Auto-generated method stub
@@ -42,7 +42,7 @@ public class MockResearchAreasService implements ResearchAreasService {
     }
 
     public void addResearchAreas(String researchAreaCode, String parentResearchAreaCode, boolean hasChildrenFlag) {
-        ResearchAreas researchArea = new ResearchAreas();
+        ResearchArea researchArea = new ResearchArea();
         researchArea.setResearchAreaCode(researchAreaCode);
         researchArea.setParentResearchAreaCode(parentResearchAreaCode);
         researchArea.setHasChildrenFlag(hasChildrenFlag);
