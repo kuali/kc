@@ -5,7 +5,7 @@
 <c:set var="protocolReferenceAttributes" value="${DataDictionary.ProtocolReference.attributes}" />
 <c:set var="protocolReferenceTypeAttributes" value="${DataDictionary.ProtocolReferenceType.attributes}" />  
 <c:set var="textAreaFieldName" value="document.protocol.description" />
-<c:set var="action" value="protocol" />
+<c:set var="action" value="protocolProtocol" />
 <c:set var="className" value="org.kuali.kra.irb.document.ProtocolDocument" />
 
 <c:set var="researchAreasAttributes" value="${DataDictionary.ResearchAreas.attributes}" />
