@@ -19,6 +19,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Organization;
+import org.kuali.kra.bo.Rolodex;
 
 /**
  * This class represents the Protocol Location Business Object.
@@ -30,13 +31,14 @@ public class ProtocolLocation extends KraPersistableBusinessObjectBase {
      */
     private static final long serialVersionUID = 6509347537504066578L;
     private Integer protocolLocationId; 
-	private Integer protocolId; 
+	private Long protocolId; 
 	private String protocolNumber; 
 	private Integer sequenceNumber; 
 	private String protocolOrganizationTypeCode; 
 	private String organizationId; 
 	private Integer rolodexId; 
 	
+    private Rolodex rolodex;
 	private Organization organization; 
 	private ProtocolOrganizationType protocolOrganizationType; 
 	
@@ -55,11 +57,11 @@ public class ProtocolLocation extends KraPersistableBusinessObjectBase {
 		this.protocolLocationId = protocolLocationId;
 	}
 
-	public Integer getProtocolId() {
+	public Long getProtocolId() {
 		return protocolId;
 	}
 
-	public void setProtocolId(Integer protocolId) {
+	public void setProtocolId(Long protocolId) {
 		this.protocolId = protocolId;
 	}
 
@@ -134,5 +136,13 @@ public class ProtocolLocation extends KraPersistableBusinessObjectBase {
 		hashMap.put("rolodexId", getRolodexId());
 		return hashMap;
 	}
-	
+
+    public Rolodex getRolodex() {
+        return rolodex;
+    }
+
+    public void setRolodex(Rolodex rolodex) {
+        this.rolodex = rolodex;
+    }
+
 }

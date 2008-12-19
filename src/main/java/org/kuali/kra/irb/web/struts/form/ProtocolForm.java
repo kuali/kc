@@ -33,6 +33,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.bo.ProtocolLocation;
 import org.kuali.kra.irb.bo.ProtocolParticipant;
 import org.kuali.kra.irb.bo.ProtocolReference;
 import org.kuali.kra.irb.document.ProtocolDocument;
@@ -49,6 +50,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
     private ProtocolHelper protocolHelper;
     private ProtocolParticipant newProtocolParticipant;
     private ProtocolReference newProtocolReference;
+    private ProtocolLocation newProtocolLocation;
     
     //KNS Lookup hooks
     private String lookupResultsSequenceNumber;
@@ -69,6 +71,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
         setNewProtocolParticipant(new ProtocolParticipant());
         setProtocolHelper(new ProtocolHelper(this));
         setNewProtocolReference(new ProtocolReference());
+        setNewProtocolLocation(new ProtocolLocation());
     }
 
     public ProtocolDocument getProtocolDocument() {
@@ -180,4 +183,13 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
     protected String getLockRegion() {
         return "";
     }
+
+    public void setNewProtocolLocation(ProtocolLocation newProtocolLocation) {
+        this.newProtocolLocation = newProtocolLocation;
+    }
+
+    public ProtocolLocation getNewProtocolLocation() {
+        return newProtocolLocation;
+    }
+
 }
