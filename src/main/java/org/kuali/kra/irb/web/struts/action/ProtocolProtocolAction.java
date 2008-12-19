@@ -27,17 +27,17 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.Document;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.kra.bo.ResearchAreas;
+import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.bo.ProtocolParticipant;
 import org.kuali.kra.irb.bo.ProtocolReference;
+import org.kuali.kra.irb.bo.ProtocolResearchArea;
+import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.rule.event.AddProtocolParticipantEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolReferenceEvent;
 import org.kuali.kra.irb.service.ProtocolReferenceService;
-import org.kuali.kra.irb.bo.ProtocolResearchAreas;
-import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.kra.irb.service.ProtocolResearchAreaService;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -74,72 +74,12 @@ public class ProtocolProtocolAction extends ProtocolAction {
      */
     @Override
     protected void processMultipleLookupResults(ProtocolDocument protocolDocument, Class lookupResultsBOClass, Collection<PersistableBusinessObject> selectedBOs) {
-        if (lookupResultsBOClass.isAssignableFrom(ResearchAreas.class)) {
-            addResearchAreas(protocolDocument, selectedBOs);
+        if (lookupResultsBOClass.isAssignableFrom(ResearchArea.class)) {
+            ProtocolResearchAreaService service = (ProtocolResearchAreaService)KraServiceLocator.getService("protocolResearchAreaService");
+            service.addProtocolResearchArea(protocolDocument, selectedBOs);
         }
     }
-    
-    /**
-     * When a multi-lookup returns for a set of Research Areas, we must add them to the Protocol Document.
-     * Note that we don't add duplicate research areas.
-     * NOTE: This should be moved to a service since it is business logic.
-     * @param protocolDocument the Protocol Document
-     * @param selectedBOs the selected BOs (Research Areas)
-     */
-    private void addResearchAreas(ProtocolDocument protocolDocument, Collection<PersistableBusinessObject> selectedBOs) {
-        for (PersistableBusinessObject bo : selectedBOs) {
-            //New ResearchAreas added by user selection
-            ResearchAreas newResearchAreas = (ResearchAreas) bo;
-            // ignore / drop duplicates
-            if (!isDuplicateResearchAreas(newResearchAreas, protocolDocument.getProtocol().getProtocolResearchAreas())) {
-                //Add new ProtocolResearchAreas to list
-                protocolDocument.getProtocol().addProtocolResearchAreas(createInstanceOfProtocolResearchAreas(protocolDocument, newResearchAreas));
-            }
-        }
-    }
-    
-    /**
-     * This method is private helper method, to create instance of ProtocolResearchAreas and set appropriate values.
-     * @param protocolDocument
-     * @param researchAreas
-     * @return
-     */
-    private ProtocolResearchAreas createInstanceOfProtocolResearchAreas(ProtocolDocument protocolDocument, ResearchAreas researchAreas) {
-        ProtocolResearchAreas protocolResearchAreas = new ProtocolResearchAreas();
-        protocolResearchAreas.setProtocol(protocolDocument);                            
-        if(null != protocolDocument.getProtocol().getProtocolId())
-            protocolResearchAreas.setProtocolId(protocolDocument.getProtocol().getProtocolId());
-        
-        if(null != protocolDocument.getProtocol().getProtocolNumber())
-            protocolResearchAreas.setProtocolNumber(protocolDocument.getProtocol().getProtocolNumber());
-        else
-            protocolResearchAreas.setProtocolNumber("0");
-        
-        if(null != protocolDocument.getProtocol().getSequenceNumber())
-            protocolResearchAreas.setSequenceNumber(protocolDocument.getProtocol().getSequenceNumber());
-        else
-            protocolResearchAreas.setSequenceNumber(0);
-        
-        protocolResearchAreas.setResearchAreaCode(researchAreas.getResearchAreaCode());
-        protocolResearchAreas.setResearchAreas(researchAreas);
-        return protocolResearchAreas;
-    }
-    
-    /**
-     * This method is private helper method, to restrict duplicate ProtocolResearchAreas insertion in list.
-     * @param newResearchAreaCode
-     * @param protocolResearchAreas
-     * @return
-     */
-    private boolean isDuplicateResearchAreas(ResearchAreas newResearchAreas, List<ProtocolResearchAreas> protocolResearchAreas) {
-        for (ProtocolResearchAreas pra  : protocolResearchAreas) {    
-            if (pra.getResearchAreas().equals(newResearchAreas)) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
+      
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -168,61 +108,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
         }
         
         return forward;
-    }
-    
-    /**
-     * This method is hook to KNS, selects/sets select boolean field to true of ProtocolResearchArea for the UI list.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward selectAllProtocolDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
-        List<ProtocolResearchAreas> listOfProtocolResearchAreas = protocolDocument.getProtocol().getProtocolResearchAreas();
-        
-        for (ProtocolResearchAreas protocolResearchAreas: listOfProtocolResearchAreas) {  
-            //Transient field set to true
-            protocolResearchAreas.setSelectResearchArea(true);
-        }
-
-        return mapping.findForward(Constants.MAPPING_BASIC );
-    }
-
-    /**
-     * This method is hook to KNS, deletes selected ProtocolResearchArea from the UI list. Method is called in protocolAdditonalInformation.tag 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward deleteSelectedProtocolDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
-        List<ProtocolResearchAreas> listOfProtocolResearchAreas = protocolDocument.getProtocol().getProtocolResearchAreas();
-        
-        List<ProtocolResearchAreas> newProtocolResearchAreas = new ArrayList<ProtocolResearchAreas>();
-        
-        for (ProtocolResearchAreas protocolResearchAreas  : listOfProtocolResearchAreas) {
-            //Filters out not selected object
-            if (!protocolResearchAreas.getSelectResearchArea()) {
-                newProtocolResearchAreas.add(protocolResearchAreas);
-            }
-        }
-        protocolDocument.getProtocol().setProtocolResearchAreas(newProtocolResearchAreas);
-
-        return mapping.findForward(Constants.MAPPING_BASIC );
-    }
-    
+    }    
     
 //  public ActionForward deleteProtocolParticipant(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 //      ProtocolForm protocolForm = (ProtocolForm) form;
@@ -287,4 +173,23 @@ public class ProtocolProtocolAction extends ProtocolAction {
    
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
+    
+    /**
+     * This method is hook to KNS, it deletes selected ProtocolResearchArea from the UI list. Method is called in protocolAdditonalInformation.tag 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteProtocolResearchArea(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        
+        ProtocolResearchAreaService service = (ProtocolResearchAreaService)KraServiceLocator.getService("protocolResearchAreaService");
+        
+        service.deleteProtocolResearchArea(protocolForm.getProtocolDocument().getProtocol(), getLineToDelete(request));
+   
+        return mapping.findForward(Constants.MAPPING_BASIC );
+    }    
 }

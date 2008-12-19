@@ -23,7 +23,7 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kra.bo.ResearchAreas;
+import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.service.ResearchAreasService;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -34,13 +34,13 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
     private static final String SEPARATOR = ";1;";
 
     public String getInitialResearchAreasList() {
-        List<ResearchAreas> researchAreasList = getSubResearchAreas("000000");
+        List<ResearchArea> researchAreasList = getSubResearchAreas("000000");
         if (CollectionUtils.isEmpty(researchAreasList)) {
             return Constants.EMPTY_STRING;
         }
-        ResearchAreas topResearcgArea = researchAreasList.get(0);
+        ResearchArea topResearcgArea = researchAreasList.get(0);
         String initialResearchAreas = topResearcgArea.getResearchAreaCode() +KNSConstants.BLANK_SPACE+COLUMN+KNSConstants.BLANK_SPACE+topResearcgArea.getDescription()+SEPARATOR;
-        for (ResearchAreas researcgArea : getSubResearchAreas(topResearcgArea.getResearchAreaCode())) {
+        for (ResearchArea researcgArea : getSubResearchAreas(topResearcgArea.getResearchAreaCode())) {
             initialResearchAreas = initialResearchAreas + researcgArea.getResearchAreaCode() +KNSConstants.BLANK_SPACE+COLUMN+KNSConstants.BLANK_SPACE+researcgArea.getDescription()+SEPARATOR;
         }
         initialResearchAreas = initialResearchAreas.substring(0, initialResearchAreas.length() - 3);
@@ -51,7 +51,7 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
 
     public String getSubResearchAreasForTreeView(String researchAreaCode) {
         String researchAreas = null;
-        for (ResearchAreas researcgArea : getSubResearchAreas(researchAreaCode)) {
+        for (ResearchArea researcgArea : getSubResearchAreas(researchAreaCode)) {
             if (StringUtils.isNotBlank(researchAreas)) {
                 researchAreas = researchAreas +"," +researcgArea.getResearchAreaCode()+KNSConstants.BLANK_SPACE+COLUMN+KNSConstants.BLANK_SPACE+researcgArea.getDescription();
             } else {
@@ -68,11 +68,11 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("researchAreaCode", researchAreaCode);
         // what if not found, can it be casted? is it return a pbo or null
-        ResearchAreas researchArea = (ResearchAreas)businessObjectService.findByPrimaryKey(ResearchAreas.class, fieldValues);
+        ResearchArea researchArea = (ResearchArea)businessObjectService.findByPrimaryKey(ResearchArea.class, fieldValues);
 
         while (researchArea != null && !researchArea.getParentResearchAreaCode().equals("000000")) {
             fieldValues.put("researchAreaCode", researchArea.getParentResearchAreaCode());
-            researchArea = (ResearchAreas)businessObjectService.findByPrimaryKey(ResearchAreas.class, fieldValues);            
+            researchArea = (ResearchArea)businessObjectService.findByPrimaryKey(ResearchArea.class, fieldValues);            
             if (researchArea != null) {
                 if (retStr.equals(Constants.EMPTY_STRING)) {
                     retStr = researchArea.getResearchAreaCode();
@@ -87,11 +87,11 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
         
     }
 
-    private List<ResearchAreas> getSubResearchAreas(String researchAreaCode) {
-        List<ResearchAreas> researchAreasList = new ArrayList<ResearchAreas>();
+    private List<ResearchArea> getSubResearchAreas(String researchAreaCode) {
+        List<ResearchArea> researchAreasList = new ArrayList<ResearchArea>();
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("parentResearchAreaCode", researchAreaCode);
-        researchAreasList.addAll(businessObjectService.findMatchingOrderBy(ResearchAreas.class, fieldValues, "researchAreaCode", true));
+        researchAreasList.addAll(businessObjectService.findMatchingOrderBy(ResearchArea.class, fieldValues, "researchAreaCode", true));
         return researchAreasList;
     }
 
