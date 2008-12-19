@@ -1252,5 +1252,8 @@
 			<ref bean="businessObjectService" />
 		</property>
 	</bean>	
+
+	<bean id="protocolResearchAreaService" class="org.kuali.kra.irb.service.impl.ProtocolResearchAreaServiceImpl">
+	</bean>	
 	
 </beans>

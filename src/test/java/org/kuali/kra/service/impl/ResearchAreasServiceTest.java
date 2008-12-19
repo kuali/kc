@@ -27,7 +27,7 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kra.bo.ResearchAreas;
+import org.kuali.kra.bo.ResearchArea;
 
 @RunWith(JMock.class)
 public class ResearchAreasServiceTest {
@@ -46,18 +46,18 @@ public class ResearchAreasServiceTest {
         context.checking(new Expectations() {{
             Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put("parentResearchAreaCode", "000000");
-            List<ResearchAreas> researchAreasList = new ArrayList<ResearchAreas>();
-            ResearchAreas researchAreas = new ResearchAreas();
+            List<ResearchArea> researchAreasList = new ArrayList<ResearchArea>();
+            ResearchArea researchAreas = new ResearchArea();
             researchAreas.setResearchAreaCode("000001");
             researchAreas.setParentResearchAreaCode("000000");
             researchAreas.setDescription("All Research Areas");
             researchAreasList.add(researchAreas);
 
-            one(businessObjectService).findMatchingOrderBy(ResearchAreas.class, fieldValues, "researchAreaCode", true);
+            one(businessObjectService).findMatchingOrderBy(ResearchArea.class, fieldValues, "researchAreaCode", true);
             will(returnValue(researchAreasList));
             fieldValues = new HashMap<String, Object>();
             fieldValues.put("parentResearchAreaCode", "000001");
-            one(businessObjectService).findMatchingOrderBy(ResearchAreas.class, fieldValues, "researchAreaCode", true);
+            one(businessObjectService).findMatchingOrderBy(ResearchArea.class, fieldValues, "researchAreaCode", true);
             will(returnValue(getSubResearchAreasFor000001()));
         }});
         researchAreasService.setBusinessObjectService(businessObjectService);
@@ -72,7 +72,7 @@ public class ResearchAreasServiceTest {
         context.checking(new Expectations() {{
             Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put("parentResearchAreaCode", "04.");
-            one(businessObjectService).findMatchingOrderBy(ResearchAreas.class, fieldValues, "researchAreaCode", true);
+            one(businessObjectService).findMatchingOrderBy(ResearchArea.class, fieldValues, "researchAreaCode", true);
             will(returnValue(getSubResearchAreasFor04()));
         }});
         researchAreasService.setBusinessObjectService(businessObjectService);
@@ -87,49 +87,49 @@ public class ResearchAreasServiceTest {
         context.checking(new Expectations() {{
             Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put("researchAreaCode", "04.9999");
-            one(businessObjectService).findByPrimaryKey(ResearchAreas.class, fieldValues);
-            will(returnValue(new ResearchAreas("04.9999","04.99","")));
+            one(businessObjectService).findByPrimaryKey(ResearchArea.class, fieldValues);
+            will(returnValue(new ResearchArea("04.9999","04.99","")));
 
             fieldValues = new HashMap<String, Object>();
             fieldValues.put("researchAreaCode", "04.99");
-            one(businessObjectService).findByPrimaryKey(ResearchAreas.class, fieldValues);
-            will(returnValue(new ResearchAreas("04.99","04.","")));
+            one(businessObjectService).findByPrimaryKey(ResearchArea.class, fieldValues);
+            will(returnValue(new ResearchArea("04.99","04.","")));
             
             fieldValues = new HashMap<String, Object>();
             fieldValues.put("researchAreaCode", "04.");
-            one(businessObjectService).findByPrimaryKey(ResearchAreas.class, fieldValues);
-            will(returnValue(new ResearchAreas("04.","000001","")));
+            one(businessObjectService).findByPrimaryKey(ResearchArea.class, fieldValues);
+            will(returnValue(new ResearchArea("04.","000001","")));
             
             fieldValues = new HashMap<String, Object>();
             fieldValues.put("researchAreaCode", "000001");
-            one(businessObjectService).findByPrimaryKey(ResearchAreas.class, fieldValues);
-            will(returnValue(new ResearchAreas("000001","000000","")));
+            one(businessObjectService).findByPrimaryKey(ResearchArea.class, fieldValues);
+            will(returnValue(new ResearchArea("000001","000000","")));
         }});
         researchAreasService.setBusinessObjectService(businessObjectService);
         org.junit.Assert.assertEquals(researchAreasService.getAscendantList("04.9999"), ASCENDANTS);    
     }
 
     
-    private List<ResearchAreas> getSubResearchAreasFor000001() {
-        List<ResearchAreas> researchAreasList = new ArrayList<ResearchAreas>();
-        researchAreasList.add(new ResearchAreas("01.","000001", "AGRICULTURE"));
-        researchAreasList.add(new ResearchAreas("03.","000001", "NATURAL RESOURCES AND CONSERVATION"));
-        researchAreasList.add(new ResearchAreas("04.","000001", "ARCHITECTURE AND RELATED SERVICES"));
-        researchAreasList.add(new ResearchAreas("05.","000001", "AREA"));
+    private List<ResearchArea> getSubResearchAreasFor000001() {
+        List<ResearchArea> researchAreasList = new ArrayList<ResearchArea>();
+        researchAreasList.add(new ResearchArea("01.","000001", "AGRICULTURE"));
+        researchAreasList.add(new ResearchArea("03.","000001", "NATURAL RESOURCES AND CONSERVATION"));
+        researchAreasList.add(new ResearchArea("04.","000001", "ARCHITECTURE AND RELATED SERVICES"));
+        researchAreasList.add(new ResearchArea("05.","000001", "AREA"));
         return researchAreasList;
 
     }
 
-    private List<ResearchAreas> getSubResearchAreasFor04() {
-        List<ResearchAreas> researchAreasList = new ArrayList<ResearchAreas>();
-        researchAreasList.add(new ResearchAreas("04.02","04.", "Architecture"));
-        researchAreasList.add(new ResearchAreas("04.03","04.", "CityUrban"));
-        researchAreasList.add(new ResearchAreas("04.04","04.", "Environmental Design"));
-        researchAreasList.add(new ResearchAreas("04.05","04.", "Interior Architecture"));
-        researchAreasList.add(new ResearchAreas("04.06","04.", "Landscape Architecture"));
-        researchAreasList.add(new ResearchAreas("04.08","04.", "Architectural History and Criticism"));
-        researchAreasList.add(new ResearchAreas("04.09","04.", "Architectural TechnologyTechnician"));
-        researchAreasList.add(new ResearchAreas("04.99","04.", "Architecture and Related Services"));
+    private List<ResearchArea> getSubResearchAreasFor04() {
+        List<ResearchArea> researchAreasList = new ArrayList<ResearchArea>();
+        researchAreasList.add(new ResearchArea("04.02","04.", "Architecture"));
+        researchAreasList.add(new ResearchArea("04.03","04.", "CityUrban"));
+        researchAreasList.add(new ResearchArea("04.04","04.", "Environmental Design"));
+        researchAreasList.add(new ResearchArea("04.05","04.", "Interior Architecture"));
+        researchAreasList.add(new ResearchArea("04.06","04.", "Landscape Architecture"));
+        researchAreasList.add(new ResearchArea("04.08","04.", "Architectural History and Criticism"));
+        researchAreasList.add(new ResearchArea("04.09","04.", "Architectural TechnologyTechnician"));
+        researchAreasList.add(new ResearchArea("04.99","04.", "Architecture and Related Services"));
         return researchAreasList;
     }
 }

@@ -192,7 +192,7 @@
             <tr>
               <th width="10%" class="infoline">Add:</th>
               <td width="70%" class="infoline">${KualiForm.document.protocol.newDescription}
-              		<kul:multipleValueLookup boClassName="org.kuali.kra.bo.ResearchAreas" 
+              		<kul:multipleValueLookup boClassName="org.kuali.kra.bo.ResearchArea" 
               		lookedUpCollectionName="protocolResearchAreas"
               		anchor="${tabKey}"/>
 			  </td>
@@ -202,32 +202,23 @@
               </div></td>
             </tr>
 
-            <logic:iterate name="KualiForm" id="protocolResearchAreas" property="document.protocol.protocolResearchAreas" indexId="ctr">
+            <logic:iterate name="KualiForm" id="protocolResearchAreas" property="document.protocol.protocolResearchAreas" indexId="ctr" >
               <tr>
                 <td class="infoline"><div align="center">
                 	${ctr+1} 
                 </div></td>
                 <td>
-                	 ${KualiForm.document.protocol.protocolResearchAreas[ctr].researchAreas.description}
+                	${KualiForm.document.protocol.protocolResearchAreas[ctr].researchAreas.researchAreaCode}:${KualiForm.document.protocol.protocolResearchAreas[ctr].researchAreas.description}
                 </td>
                 <td><div align="center">
-                  <kul:htmlControlAttribute property="document.protocol.protocolResearchAreas[${ctr}].selectResearchArea" attributeEntry="${DataDictionary.ProtocolResearchAreas.attributes.selectResearchArea}" readOnly="${readOnly}" />
-                </div></td>
+							<kra:section permission="modifyProtocol">  
+								<html:image property="methodToCall.deleteProtocolResearchArea.line${ctr}.anchor${currentTabIndex}"
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+							</kra:section>                    
+                </div></td>           
               </tr>
             </logic:iterate>
             
-            <kra:section permission="modifyProtocol">
-              <tr>
-                <td class="infoline" colspan=2>&nbsp;</td>
-                <td nowrap class="infoline"><div align=center>
-                <c:if test="${fn:length(KualiForm.document.protocol.protocolResearchAreas) > 0}">
-	                <html:image property="methodToCall.selectAllProtocolDocument.anchor${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-selectall.gif" title="Select All" alt="Select All" styleClass="tinybutton" onclick="javascript: selectAllResearchAreas(document);return false" />    
-	                <html:image property="methodToCall.deleteSelectedProtocolDocument.anchor${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-deleteselected.gif" title="Delete Selected" alt="Delete Selected" styleClass="tinybutton" />
-	            </c:if>
-                </div></td>
-              </tr>
-             </kra:section> 
-
         </table>
         <%--End of Area of Research --%> 
                            
