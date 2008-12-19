@@ -1256,4 +1256,7 @@
 	<bean id="protocolResearchAreaService" class="org.kuali.kra.irb.service.impl.ProtocolResearchAreaServiceImpl">
 	</bean>	
 	
+	<bean id="protocolLocationService" class="org.kuali.kra.irb.service.impl.ProtocolLocationServiceImpl">
+	</bean>	
+
 </beans>
