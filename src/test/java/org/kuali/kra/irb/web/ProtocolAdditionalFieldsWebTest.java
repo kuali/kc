@@ -15,22 +15,13 @@
  */
 package org.kuali.kra.irb.web;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
 
 import org.junit.Test;
-import org.kuali.core.document.TransactionalDocumentBase;
-import org.kuali.kra.irb.bo.Protocol;
-import org.kuali.kra.irb.document.ProtocolDocument;
-import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestFile;
 
-import com.gargoylesoftware.htmlunit.ScriptResult;
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlHiddenInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlTable;
 
@@ -61,21 +52,7 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
     protected static final String PROTOCOL_DESCRIPTION =  "keyword_to_test1";
     protected static final String PROTOCOL_DESCRIPTION2 = "test should be done based on feature";
     
-    private static final String JS_SELECT_ALL = "selectAllResearchAreas(document)";
-    
-    private static final String CHECKBOX_CHECKED = "on";
-    private static final String CHECKBOX_UNCHECKED = "off";
-    private String researchAreaStatus = CHECKBOX_UNCHECKED;
-    
-    private static final String RESEARCH_AREA_CHECKBOX_FIELD = "document.protocol.protocolResearchAreas[0].selectResearchArea";
-    private static final String BUTTON_SELECT_ALL = "methodToCall.selectAllProtocolDocument.anchor";
-    private static final String BUTTON_DELETE_SELECTED = "methodToCall.deleteSelectedProtocolDocument.anchor";
-    
-    private static final String FIRST_ROW_DATA = "1 TaxidermyTaxidermist";
-    private static final String FIRST_ROW_DATA_CHECKED = "1 TaxidermyTaxidermist";
-    private static final String FIRST_ROW_DATA_UNCHECKED = "1 TaxidermyTaxidermist";
-    
-    private static final String SECOND_ROW_DATA = "2 Turf and Turfgrass Management";
+    private static final String FIRST_ROW_DATA = "01.0508:TaxidermyTaxidermist ";
     
     private static final String PROTOCOL_REFERENCE_PROTOCOLREFERENCETYPECODE_ID = "newProtocolReference.protocolReferenceTypeCode";
     private static final String PROTOCOL_REFERENCE_PROTOCOLREFERENCETYPECODE = "4";
@@ -135,12 +112,11 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
         //Click to create new protocol link
         HtmlPage page = clickOn(getPortalPage(), "Create Protocol", "Kuali Portal Index");
         page = getInnerPages(page).get(0);
-        
-        super.checkExpandedTextArea(page, PROTOCOL_DESCRIPTION_ID, "methodToCall.kraUpdateTextArea.((#document.protocol.description:protocol:Summary/Keywords#))", 
+        super.checkExpandedTextArea(page, PROTOCOL_DESCRIPTION_ID, "methodToCall.kraUpdateTextArea.((#document.protocol.description:protocolProtocol:Summary/Keywords#))", 
                 PROTOCOL_DESCRIPTION, PROTOCOL_DESCRIPTION2);
     }
     
-/*    @Test
+    @Test
     public void testProtoclResearchAreaPanel() throws Exception {
         
         //Click to create new protocol link
@@ -157,15 +133,13 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
         assertNotNull(resultPage);
         assertEquals("Kuali :: Protocol Document", resultPage.getTitleText());
         
-         performing science Research Area lookup 
+        //performing science Research Area lookup 
         HtmlPage pageWithResearchAreaLookup = multiLookup(resultPage, "ResearchAreas", "description", "T*");
         HtmlTable table = getTable(pageWithResearchAreaLookup, "tab-AdditionalInformation-div");
         assertEquals(table.getRowCount(), 3);
         
-         verify data returned by Research Area lookup 
-        researchAreaStatus = getFieldValue(pageWithResearchAreaLookup, RESEARCH_AREA_CHECKBOX_FIELD);
+        //verify data returned by Research Area lookup 
         assertContains(pageWithResearchAreaLookup, FIRST_ROW_DATA);
-        assertEquals(researchAreaStatus, CHECKBOX_UNCHECKED);
         
         //Invoke save method by clicking save button on form
         HtmlPage afterSavePage = super.saveDoc(pageWithResearchAreaLookup);
@@ -173,39 +147,16 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
         assertNotNull(afterSavePage);
         assertEquals("Kuali :: Protocol Document", afterSavePage.getTitleText());
         
-         Test javascript for select all 
-        ScriptResult scriptResult = afterSavePage.executeJavaScriptIfPossible(JS_SELECT_ALL, "onSubmit", afterSavePage.getDocumentElement());
-        HtmlPage pageAfterSelectAll = (HtmlPage)scriptResult.getNewPage();
-
-         verify data after select all 
-        assertContains(pageAfterSelectAll, FIRST_ROW_DATA_CHECKED);
+        HtmlPage pageAfterDelete = clickOn(afterSavePage, "methodToCall.deleteProtocolResearchArea.line0.anchor5");
         
-         uncheck first row 
-        setFieldValue(pageAfterSelectAll, RESEARCH_AREA_CHECKBOX_FIELD, CHECKBOX_UNCHECKED);
-        assertContains(pageAfterSelectAll, FIRST_ROW_DATA_UNCHECKED);
-        
-         check server side select all 
-        HtmlPage pageAfterSelect = clickOn(pageAfterSelectAll,BUTTON_SELECT_ALL);
-
-         verify data after server side select all 
-        researchAreaStatus = getFieldValue(pageAfterSelect, RESEARCH_AREA_CHECKBOX_FIELD);
-        assertEquals(researchAreaStatus, CHECKBOX_CHECKED);
-        
-         uncheck first row 
-        setFieldValue(pageAfterSelect, RESEARCH_AREA_CHECKBOX_FIELD, CHECKBOX_UNCHECKED);
-        assertContains(pageAfterSelect, FIRST_ROW_DATA_UNCHECKED);
-        
-         check delete selected function - delete all rows other than one unchecked above
-        HtmlPage pageAfterDeleteSelected = clickOn(pageAfterSelectAll,BUTTON_DELETE_SELECTED);
-        assertDoesNotContain(pageAfterDeleteSelected, SECOND_ROW_DATA);
-        assertContains(pageAfterDeleteSelected, FIRST_ROW_DATA_UNCHECKED);
+        assertDoesNotContain(pageAfterDelete, FIRST_ROW_DATA);
         
         //Invoke save method by clicking save button on form
-        HtmlPage pageComplete = super.saveDoc(pageAfterDeleteSelected);
+        HtmlPage saveAfterDeletePage = super.saveDoc(pageAfterDelete);
         
-        assertNotNull(pageComplete);
-        assertEquals("Kuali :: Protocol Document", pageComplete.getTitleText());
-    }*/
+        //Test after save to make sure list is delete aware
+        assertDoesNotContain(saveAfterDeletePage, FIRST_ROW_DATA);
+    }
 
     @Test
     public void testProtoclOtherIdentifierPanel() throws Exception {
@@ -232,15 +183,25 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
         HtmlPage pageAfterAdd= clickOn(resultPage,"methodToCall.addProtocolReference.anchor");
         
         setProtocolDocument(null, pageAfterAdd); //Can also be set by child if required
-        
-        LOG.info("getProtocolDocument().getProtocol().getProtocolReferences()  " + getProtocolDocument().getProtocol().getProtocolReferences().size());
-        
-        
+                
         //Invoke save method by clicking save button on form
         HtmlPage resultPageWithOtherIdentifiers = super.saveDoc(pageAfterAdd);
         
         assertContains(resultPageWithOtherIdentifiers, PROTOCOL_REFERENCE_PROTOCOLREFERENCETYPECODE_VALUE);
         assertContains(resultPageWithOtherIdentifiers, PROTOCOL_REFERENCE_REFERENCEKEY);
+        
+        
+        HtmlPage pageAfterDelete = clickOn(resultPageWithOtherIdentifiers, "methodToCall.deleteProtocolReference.line0.anchor5");
+        
+        assertDoesNotContain(pageAfterDelete, PROTOCOL_REFERENCE_PROTOCOLREFERENCETYPECODE_VALUE);
+        assertDoesNotContain(pageAfterDelete, PROTOCOL_REFERENCE_REFERENCEKEY);
+        
+        //Invoke save method by clicking save button on form
+        HtmlPage saveAfterDeletePage = super.saveDoc(pageAfterDelete);
+        
+        //Test after save to make sure list is delete aware
+        assertDoesNotContain(saveAfterDeletePage, PROTOCOL_REFERENCE_PROTOCOLREFERENCETYPECODE_VALUE);
+        assertDoesNotContain(saveAfterDeletePage, PROTOCOL_REFERENCE_REFERENCEKEY);
         
     }
     
