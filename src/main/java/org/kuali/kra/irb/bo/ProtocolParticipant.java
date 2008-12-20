@@ -22,36 +22,47 @@ import org.kuali.kra.proposaldevelopment.bo.ScienceKeyword;
 import java.util.LinkedHashMap;
 import java.sql.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
+@Entity 
+@Table(name="PROTOCOL_VULNERABLE_SUB")
 public class ProtocolParticipant extends KraPersistableBusinessObjectBase { 
 
-    private Integer protocolId;
+    @Id 
+    @Column(name="PROTOCOL_ID")
+    private Long protocolId;
+
+    @Column(name="PROTOCOL_NUMBER")
     private String protocolNumber; 
+
+    @Column(name="SEQUENCE_NUMBER")
     private Integer sequenceNumber;
-    private Integer participantTypeCode; 
-    private Integer participantCount; 
+
+    @Column(name="VULNERABLE_SUBJECT_TYPE_CODE")
+    private String participantTypeCode; 
+
+    @Column(name="SUBJECT_COUNT")
+    private Integer participantCount;
+    
+    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name="VULNERABLE_SUBJECT_TYPE_CODE", insertable=true, updatable=true)
+    private ParticipantType participantType;
     
     public ProtocolParticipant() { 
-
     } 
 
-    /**
-     * Constructs a ProtocolParticipant.
-     * @param proposalNumber
-     * @param scienceKeyword
-     */
-    public ProtocolParticipant(Integer protocolId, ParticipantType participantType, Integer participantCount) {
-        this.protocolId = protocolId;
-        this.participantTypeCode = participantType.getParticipantTypeCode();
-        this.participantCount = participantCount;
-    }
-    
-    public Integer getProtocolId() {
+    public Long getProtocolId() {
         return protocolId;
     }
 
-    public void setProtocolId(Integer protocolId) {
+    public void setProtocolId(Long protocolId) {
         this.protocolId = protocolId;
     }
 
@@ -71,11 +82,11 @@ public class ProtocolParticipant extends KraPersistableBusinessObjectBase {
         return sequenceNumber;
     }
 
-    public Integer getParticipantTypeCode() {
+    public String getParticipantTypeCode() {
         return participantTypeCode;
     }
 
-    public void setParticipantTypeCode(Integer participantTypeCode) {
+    public void setParticipantTypeCode(String participantTypeCode) {
         this.participantTypeCode = participantTypeCode;
     }
 
@@ -85,6 +96,15 @@ public class ProtocolParticipant extends KraPersistableBusinessObjectBase {
 
     public void setParticipantCount(Integer participantCount) {
         this.participantCount = participantCount;
+    }
+
+    public void setParticipantType(ParticipantType participantType) {
+        this.participantType = participantType;
+// TODO: cniesen       this.participantTypeCode = participantType.getParticipantTypeCode();
+    }
+
+    public ParticipantType getParticipantType() {
+        return participantType;
     }
 
     @Override 

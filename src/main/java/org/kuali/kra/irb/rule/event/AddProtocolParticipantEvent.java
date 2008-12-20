@@ -15,38 +15,29 @@
  */
 package org.kuali.kra.irb.rule.event;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.irb.bo.ProtocolParticipant;
+import org.kuali.kra.irb.bo.ProtocolReference;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.rule.AddProtocolParticipantRule;
-import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.rule.AddProposalLocationRule;
+import org.kuali.kra.rule.event.KraDocumentEventBase;
 
+/**
+ * This class represents the AddProtocolParticipantEvent
+ */
 public class AddProtocolParticipantEvent extends ProtocolParticipantEventBase {
-    /**
-     * Constructs an AddProposalLocationEvent with the given errorPathPrefix, document, and protocolParticipant.
-     * 
-     * @param errorPathPrefix
-     * @param protocolParticipantDocument
-     * @param protocolParticipant
-     */
+    
     public AddProtocolParticipantEvent(String errorPathPrefix, ProtocolDocument document, ProtocolParticipant protocolParticipant) {
-        super("adding protocol participant to document " + getDocumentId(document), errorPathPrefix, document, protocolParticipant);
+        super("adding ProtocolParticipant to document " + getDocumentId(document), errorPathPrefix, document, protocolParticipant);
     }
 
-    /**
-     * Constructs an AddProtocolParticipantEvent with the given errorPathPrefix, document, and protocolParticipant.
-     * 
-     * @param errorPathPrefix
-     * @param document
-     * @param protocolParticipant
-     */
     public AddProtocolParticipantEvent(String errorPathPrefix, Document document, ProtocolParticipant protocolParticipant) {
         this(errorPathPrefix, (ProtocolDocument) document, protocolParticipant);
     }
-
+    
     /**
      * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
