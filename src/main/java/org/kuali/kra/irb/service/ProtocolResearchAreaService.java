@@ -18,9 +18,8 @@ package org.kuali.kra.irb.service;
 import java.util.Collection;
 
 import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.irb.bo.Protocol;
-import org.kuali.kra.irb.document.ProtocolDocument;
+
 
 public interface ProtocolResearchAreaService {
 
@@ -31,7 +30,7 @@ public interface ProtocolResearchAreaService {
      * @param protocolDocument the Protocol Document
      * @param selectedBOs the selected BOs (Research Areas)
      */
-    public abstract void addProtocolResearchArea(ProtocolDocument protocolDocument, Collection<PersistableBusinessObject> selectedBOs);
+    public abstract void addProtocolResearchArea(Protocol protocol, Collection<PersistableBusinessObject> selectedBOs);
     
     /**
      * This method deletes ProtocolResearchArea from the List at specified position(lineNumber)

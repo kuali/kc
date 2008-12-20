@@ -31,7 +31,7 @@
 					<kul:htmlAttributeLabel attributeEntry="${protocolAttributes.billable}" />
  				  </div></th>
                 <td width="18%" align=left valign=middle>
-                	<kul:htmlControlAttribute property="document.protocol.billable" attributeEntry="${protocolAttributes.billable}" readOnly="${KualiForm.protocolHelper.billableReadOnly}"/>
+                	<kul:htmlControlAttribute property="document.protocol.billable" attributeEntry="${protocolAttributes.billable}" disabled="${KualiForm.protocolHelper.billableReadOnly}"/>
                 </td>
               </tr>
               <tr>
