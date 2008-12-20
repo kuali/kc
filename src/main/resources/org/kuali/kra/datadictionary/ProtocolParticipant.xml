@@ -64,16 +64,13 @@
 	<bean id="ProtocolParticipant-participantTypeCode" parent="ProtocolParticipant-participantTypeCode-parentBean" />
 	<bean id="ProtocolParticipant-participantTypeCode-parentBean" abstract="true" parent="ParticipantType-participantTypeCode" >
 		<property name="name" value="participantTypeCode" />
-		<property name="label" value="Description" />
+		<property name="label" value="Protocol Participant Description" />
         <property name="shortLabel" value="Description" />
 		<property name="required" value="true" />
 		<property name="control" >
             <bean parent="SelectControlDefinition"
-                p:businessObjectClass="org.kuali.kra.irb.bo.ParticipantType"
-                p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" 
-                p:includeKeyInLabel="false"
-                p:keyAttribute="participantTypeCode"
-                p:labelAttribute="description" />
+                p:valuesFinderClass="org.kuali.kra.irb.lookup.keyvalue.ParticipantTypeValuesFinder" 
+                p:includeKeyInLabel="false" />
         </property>
 	</bean>
 
@@ -81,11 +78,11 @@
 	<bean id="ProtocolParticipant-participantCount-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="participantCount" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Count" />
+		<property name="label" value="Protocol Participant Count" />
 		<property name="shortLabel" value="Count" />
 		<property name="maxLength" value="6" />
 		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
+        <bean parent="NumericValidationPattern" />
 		</property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"

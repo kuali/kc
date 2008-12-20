@@ -18,13 +18,15 @@ package org.kuali.kra.irb.rule;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.irb.rule.event.AddProtocolParticipantEvent;
 
+/**
+ * This class adds rule for adding new <code>ProtocolParticipant</code> object
+ */
 public interface AddProtocolParticipantRule extends BusinessRule {
 
     /**
-     * Rule invoked upon adding a protocol participant 
-     * <code>{@link org.kuali.kra.irb.document.ProtocolDocument}</code>
-     *
-     * @return boolean
+     * This method evaluates to true if ProcotcolParticipant objects satisfy required fields and business rules.
+     * @param addProtocolParticipantEvent
+     * @return boolean true for valid object and false for invalid entry
      */
     public boolean processAddProtocolParticipantBusinessRules(AddProtocolParticipantEvent addProtocolParticipantEvent);
 

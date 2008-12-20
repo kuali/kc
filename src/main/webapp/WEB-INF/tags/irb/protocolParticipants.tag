@@ -17,10 +17,9 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="protocolParticipantAttributes" value="${DataDictionary.ProtocolParticipant.attributes}" />
-<c:set var="participantTypeAttributes" value="${DataDictionary.ParticipantType.attributes}" />
 <c:set var="action" value="protocolParticipant" />
 
-<kul:tab tabTitle="Participant Types" defaultOpen="false" tabErrorKey="newProtocolParticipant.*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
+<kul:tab tabTitle="Participant Types" defaultOpen="false" tabErrorKey="newProtocolParticipant.*,document.protocol.protocolParticipants*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left"> Participant Types </span>
@@ -77,7 +76,7 @@
 						<c:out value="${status.index+1}" />
 					</th>
 	                <td align="left" valign="middle">
-	                	<div align="center"> <kul:htmlControlAttribute property="document.protocol.protocolParticipants[${status.index}].participantTypeCode" attributeEntry="${protocolParticipantAttributes.participantTypeCode}"  /> </div>
+	                    <div align="center"> ${protocolParticipant.participantType.description} </div>
 					</td>
 	                <td align="left" valign="middle">
 	                	<div align="center"> <kul:htmlControlAttribute property="document.protocol.protocolParticipants[${status.index}].participantCount" attributeEntry="${protocolParticipantAttributes.participantCount}" /> </div>
