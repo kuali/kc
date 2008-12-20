@@ -306,4 +306,7 @@ public interface Constants {
     
     public static final String PARAMETER_MODULE_AWARD = "KC-AWARD";
     
+    // IRB
+    public static final String PARTICIPANTS_PROPERTY_KEY = "newProtocolParticipant";
+    
 }

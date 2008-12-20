@@ -16,8 +16,11 @@
 package org.kuali.kra.irb.rules;
 
 import org.kuali.core.document.Document;
+import org.kuali.kra.irb.bo.ProtocolParticipant;
 import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.kra.irb.rule.AddProtocolParticipantRule;
 import org.kuali.kra.irb.rule.AddProtocolReferenceRule;
+import org.kuali.kra.irb.rule.event.AddProtocolParticipantEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolReferenceEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
@@ -26,7 +29,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule{
+public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolParticipantRule {
     
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -56,6 +59,13 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         retval &= super.processRunAuditBusinessRules(document);
         
         return retval;
+    }
+
+    /**
+     * @see org.kuali.kra.irb.rule.AddProtocolParticipantRule#processAddParticipantBusinessRules(org.kuali.kra.irb.document.ProtocolDocument, org.kuali.kra.irb.bo.ProtocolParticipant)
+     */
+    public boolean processAddProtocolParticipantBusinessRules(AddProtocolParticipantEvent addProtocolParticipantEvent) {
+        return new ProtocolParticipantRule().processAddProtocolParticipantBusinessRules(addProtocolParticipantEvent);
     }
 
     public boolean processAddProtocolReferenceBusinessRules(AddProtocolReferenceEvent addProtocolReferenceEvent) {

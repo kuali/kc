@@ -31,8 +31,9 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.bo.ProtocolLocation;
 import org.kuali.kra.irb.bo.ProtocolParticipant;
 import org.kuali.kra.irb.bo.ProtocolReference;
-import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.rule.event.AddProtocolParticipantEvent;
+import org.kuali.kra.irb.service.ProtocolParticipantService;
+import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.rule.event.AddProtocolReferenceEvent;
 import org.kuali.kra.irb.service.ProtocolLocationService;
 import org.kuali.kra.irb.service.ProtocolReferenceService;
@@ -109,23 +110,55 @@ public class ProtocolProtocolAction extends ProtocolAction {
         return forward;
     }    
     
-//  public ActionForward deleteProtocolParticipant(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//      ProtocolForm protocolForm = (ProtocolForm) form;
-//      protocolForm.getProposalDevelopmentDocument().getPropSpecialReviews().remove(getLineToDelete(request));
-//      proposalDevelopmentForm.getDocumentExemptNumbers().remove(getLineToDelete(request));
-//      GlobalVariables.getErrorMap().clear();
-//
-//      return mapping.findForward("basic");
-//  }
-    
-    public ActionForward addProtocolParticipant(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    /**
+     * 
+     * This method adds an <code>ProtocolParticipant</code> business object to 
+     * the list of <code>ProtocolParticipants</code> business objects
+     * It gets called upon add action on the Participant Types sub-panel of the Protocol panel
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward addProtocolParticipant(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolParticipant newProtocolParticipant = protocolForm.getNewProtocolParticipant();
+        
         if(applyRules(new AddProtocolParticipantEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument(), newProtocolParticipant))) {
-            protocolForm.getProtocolDocument().getProtocol().getProtocolParticipants().add(newProtocolParticipant);
+            ProtocolParticipantService service = (ProtocolParticipantService)KraServiceLocator.getService("protocolParticipantTypeService");
+            service.addProtocolParticipant(protocolForm.getProtocolDocument().getProtocol(), newProtocolParticipant);
             protocolForm.setNewProtocolParticipant(new ProtocolParticipant());
         }
-        return mapping.findForward("basic");
+              
+        return mapping.findForward(Constants.MAPPING_BASIC );
+    }
+  
+    /**
+     * 
+     * This method deletes an <code>ProtocolParticipant</code> business object from 
+     * the list of <code>ProtocolParticipants</code> business objects
+     * It gets called upon delete action on the Participant Types sub-panel of the Protocol panel
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteProtocolParticipant(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+//        protocolForm.getProtocolDocument().getProtocol().getProtocolParticipants().remove(getLineToDelete(request));
+//        GlobalVariables.getErrorMap().clear();
+        
+        ProtocolParticipantService service = (ProtocolParticipantService)KraServiceLocator.getService("protocolParticipantTypeService");
+        
+        service.deleteProtocolParticipant(protocolForm.getProtocolDocument().getProtocol(), getLineToDelete(request));
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     /**

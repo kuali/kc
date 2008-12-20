@@ -16,45 +16,48 @@
 package org.kuali.kra.irb.rule.event;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.irb.bo.ProtocolParticipant;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 
 public abstract class ProtocolParticipantEventBase extends KraDocumentEventBase implements ProtocolParticipantEvent {
 
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolParticipantEventBase.class);
-    
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
+            .getLog(ProtocolParticipantEventBase.class);
+
     private ProtocolParticipant protocolParticipant;
 
     /**
      * @see org.kuali.kra.rule.event.KraDocumentEventBase#KraDocumentEventBase(String, String, Document)
      */
-    protected ProtocolParticipantEventBase(String description, String errorPathPrefix, ProtocolDocument document, ProtocolParticipant protocolParticipant) {
+    protected ProtocolParticipantEventBase(String description, String errorPathPrefix, ProtocolDocument document,
+            ProtocolParticipant protocolParticipant) {
         super(description, errorPathPrefix, document);
 
-        //by doing a deep copy, we are ensuring that the business rule class can't update
-        //the original object by reference
-        //this.budgetPeriod = (BudgetPeriod) ObjectUtils.deepCopy(budgetPeriod);
-        this.protocolParticipant = protocolParticipant;
+        // by doing a deep copy, we are ensuring that the business rule class can't update
+        // the original object by reference
+        this.protocolParticipant = (ProtocolParticipant) ObjectUtils.deepCopy(protocolParticipant);
+
         logEvent();
     }
-    
+
     /**
      * @return <code>{@link ProtocolParticipant}</code> that triggered this event.
      */
     public ProtocolParticipant getProtocolParticipant() {
-        return protocolParticipant;
+        return this.protocolParticipant;
     }
 
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#validate()
-     */
-    public void validate() {
-        super.validate();
-        if (getProtocolParticipant() == null) {
-            throw new IllegalArgumentException("invalid (null) protocol participant");
-        }
-    }
+    // /**
+    // * @see org.kuali.core.rule.event.KualiDocumentEvent#validate()
+    // */
+    // public void validate() {
+    // super.validate();
+    // if (getProtocolParticipant() == null) {
+    // throw new IllegalArgumentException("invalid (null) protocol participant");
+    // }
+    // }
 
     /**
      * Logs the event type and some information about the associated location
