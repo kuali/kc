@@ -768,6 +768,7 @@
                 <ref bean="proposalTaskAuthorizers" />
                 <ref bean="narrativeTaskAuthorizers" />
                 <ref bean="budgetTaskAuthorizers" />
+                <ref bean="protocolTaskAuthorizers" />
             </list>
         </property>
     </bean>
