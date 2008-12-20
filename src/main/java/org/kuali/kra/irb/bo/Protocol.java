@@ -77,6 +77,7 @@ public class Protocol extends KraPersistableBusinessObjectBase{
      */
     public Protocol() {
         super();
+        billable = false;
         riskLevels = new ArrayList<ProtocolRiskLevels>();
         protocolParticipants = new TypedArrayList(ProtocolParticipant.class);
         protocolResearchAreas = new ArrayList<ProtocolResearchArea>();// new TypedArrayList(ProtocolResearchAreas.class);

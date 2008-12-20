@@ -35,14 +35,14 @@ public class ProtocolResearchAreaServiceImpl implements ProtocolResearchAreaServ
     /**
      * @see org.kuali.kra.irb.service.ProtocolResearchAreaService#addProtocolResearchArea(org.kuali.kra.irb.bo.Protocol, org.kuali.kra.bo.ResearchArea)
      */
-    public void addProtocolResearchArea(ProtocolDocument protocolDocument, Collection<PersistableBusinessObject> selectedBOs) {
+    public void addProtocolResearchArea(Protocol protocol, Collection<PersistableBusinessObject> selectedBOs) {
         for (PersistableBusinessObject bo : selectedBOs) {
             //New ResearchAreas added by user selection
             ResearchArea newResearchAreas = (ResearchArea) bo;
             // ignore / drop duplicates
-            if (!isDuplicateResearchAreas(newResearchAreas, protocolDocument.getProtocol().getProtocolResearchAreas())) {
+            if (!isDuplicateResearchAreas(newResearchAreas, protocol.getProtocolResearchAreas())) {
                 //Add new ProtocolResearchAreas to list
-                protocolDocument.getProtocol().addProtocolResearchAreas(createInstanceOfProtocolResearchAreas(protocolDocument, newResearchAreas));
+                protocol.addProtocolResearchAreas(createInstanceOfProtocolResearchAreas(protocol, newResearchAreas));
             }
         }
     }
@@ -62,19 +62,19 @@ public class ProtocolResearchAreaServiceImpl implements ProtocolResearchAreaServ
      * @param researchAreas
      * @return
      */
-    private ProtocolResearchArea createInstanceOfProtocolResearchAreas(ProtocolDocument protocolDocument, ResearchArea researchAreas) {
+    private ProtocolResearchArea createInstanceOfProtocolResearchAreas(Protocol protocol, ResearchArea researchAreas) {
         ProtocolResearchArea protocolResearchAreas = new ProtocolResearchArea();
-        protocolResearchAreas.setProtocol(protocolDocument.getProtocol());                            
-        if(null != protocolDocument.getProtocol().getProtocolId())
-            protocolResearchAreas.setProtocolId(protocolDocument.getProtocol().getProtocolId());
+        protocolResearchAreas.setProtocol(protocol);                            
+        if(null != protocol.getProtocolId())
+            protocolResearchAreas.setProtocolId(protocol.getProtocolId());
         
-        if(null != protocolDocument.getProtocol().getProtocolNumber())
-            protocolResearchAreas.setProtocolNumber(protocolDocument.getProtocol().getProtocolNumber());
+        if(null != protocol.getProtocolNumber())
+            protocolResearchAreas.setProtocolNumber(protocol.getProtocolNumber());
         else
             protocolResearchAreas.setProtocolNumber("0");
         
-        if(null != protocolDocument.getProtocol().getSequenceNumber())
-            protocolResearchAreas.setSequenceNumber(protocolDocument.getProtocol().getSequenceNumber());
+        if(null != protocol.getSequenceNumber())
+            protocolResearchAreas.setSequenceNumber(protocol.getSequenceNumber());
         else
             protocolResearchAreas.setSequenceNumber(0);
         

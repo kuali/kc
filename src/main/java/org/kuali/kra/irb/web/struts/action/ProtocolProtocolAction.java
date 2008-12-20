@@ -75,7 +75,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
     protected void processMultipleLookupResults(ProtocolDocument protocolDocument, Class lookupResultsBOClass, Collection<PersistableBusinessObject> selectedBOs) {
         if (lookupResultsBOClass.isAssignableFrom(ResearchArea.class)) {
             ProtocolResearchAreaService service = (ProtocolResearchAreaService)KraServiceLocator.getService("protocolResearchAreaService");
-            service.addProtocolResearchArea(protocolDocument, selectedBOs);
+            service.addProtocolResearchArea(protocolDocument.getProtocol(), selectedBOs);
         }
     }
       
