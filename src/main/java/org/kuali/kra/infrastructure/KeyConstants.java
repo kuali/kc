@@ -268,4 +268,9 @@ public class KeyConstants {
     //Award Validation Error Messages
     public static final String INDIRECT_COST_RATE_NOT_IN_PAIR = "indirectCostRate.not.in.pair";
     
+    // IRB Protocol Participant Types Validation Messages
+    public static final String ERROR_PROTOCOL_PARTICIPANT_TYPE_NOT_SELECTED = "error.protocol.participantType.notselected";
+    public static final String ERROR_PROTOCOL_PARTICIPANT_TYPE_INVALID = "error.protocol.participantType.invalid";
+    public static final String ERROR_PROTOCOL_PARTICIPANT_TYPE_DUPLICATE = "error.protocol.participantType.duplicate";
+    public static final String ERROR_PROTOCOL_PARTICIPANT_COUNT_INVALID = "error.protocol.participantCount.invalid";
 }

@@ -20,20 +20,31 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import java.util.LinkedHashMap;
 import java.sql.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity 
+@Table(name="VULNERABLE_SUBJECT_TYPE")
 public class ParticipantType extends KraPersistableBusinessObjectBase { 
 	
-	private Integer participantTypeCode; 
-	private String description; 
+    @Id 
+    @Column(name="VULNERABLE_SUBJECT_TYPE_CODE")
+	private String participantTypeCode; 
+
+    @Column(name="DESCRIPTION")
+    private String description; 
 	
 	public ParticipantType() { 
 
 	} 
 	
-	public Integer getParticipantTypeCode() {
+	public String getParticipantTypeCode() {
 		return participantTypeCode;
 	}
 
-	public void setParticipantTypeCode(Integer participantTypeCode) {
+	public void setParticipantTypeCode(String participantTypeCode) {
 		this.participantTypeCode = participantTypeCode;
 	}
 
