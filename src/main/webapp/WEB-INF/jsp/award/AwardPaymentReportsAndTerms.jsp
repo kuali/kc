@@ -27,6 +27,24 @@
   	
 This is the Award Payments, Reports & Terms - Under Construction
 
+<div align="right"><kul:help documentTypeName="AwardDocument" pageName="PaymentReportsAndTerms" /></div>
+
+<kra-a:awardPaymentAndInvoices />
+<kra-a:awardReports />
+<kra-a:awardReportingRequirements />
+<kra-a:awardTerms />
+<kra-a:awardSpecialApproval />
+<kra-a:awardProposalDue />
+<kra-a:awardCloseout />
+
+<kul:panelFooter />
+
+<SCRIPT type="text/javascript">
+var kualiForm = document.forms['KualiForm'];
+var kualiElements = kualiForm.elements;
+</SCRIPT>
+<script language="javascript" src="scripts/kuali_application.js"></script>
+
 
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 
