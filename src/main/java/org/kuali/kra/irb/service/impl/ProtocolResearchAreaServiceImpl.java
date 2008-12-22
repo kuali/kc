@@ -19,16 +19,12 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolResearchArea;
-import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.service.ProtocolResearchAreaService;
 
-/**
- * This class...
- */
+
 public class ProtocolResearchAreaServiceImpl implements ProtocolResearchAreaService {
 
        
