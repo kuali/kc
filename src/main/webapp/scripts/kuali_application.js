@@ -294,6 +294,35 @@ function loadUnitName(unitNumberFieldName) {
 }
 
 /*
+ * Load the Unit Name field based on the Unit Number passed in.
+ */
+function loadUnitNameTo(unitNumberFieldName, unitNameFieldName) {
+	var unitNumber = DWRUtil.getValue( unitNumberFieldName );
+	if (unitNumber=='') {
+		clearRecipients( unitNameFieldName, "(select)" );
+	} else {
+		var dwrReply = {
+			callback:function(data) {
+				if ( data != null ) {
+					if ( unitNameFieldName != null && unitNameFieldName != "" ) {
+						setRecipientValue( unitNameFieldName, data );
+					}
+				} else {
+					if ( unitNameFieldName != null && unitNameFieldName != "" ) {
+						setRecipientValue(  unitNameFieldName, wrapError( "not found" ), true );
+					}
+				}
+			},
+			errorHandler:function( errorMessage ) {
+				window.status = errorMessage;
+				setRecipientValue( unitNameFieldName, wrapError( "not found" ), true );
+			}
+		};
+		UnitService.getUnitName(unitNumber,dwrReply);
+	}
+}
+
+/*
  * Load the JobCode Title field based on the Job Code passed in.
  */
 function loadJobCodeTitle(jobCodeFieldName, jobCodeTitleFieldName ) {
@@ -321,6 +350,90 @@ function loadJobCodeTitle(jobCodeFieldName, jobCodeTitleFieldName ) {
 		};
 		JobCodeService.findJobCodeTitle(jobCode,dwrReply);
 	}
+}
+
+/*
+ * Load the Principal Investigator field based on the person Id Number passed in.
+ */
+function loadPIName(piNumberFieldName, piTitleFieldName ) {
+	var personIdNumber = DWRUtil.getValue( piNumberFieldName );
+
+	if (personIdNumber=='') {
+		clearRecipients( piTitleFieldName, "" );
+	} else {
+		var dwrReply = {
+			callback:function(data) {
+				if ( data != null ) {
+					if ( piTitleFieldName != null && piTitleFieldName != "" ) {
+						setRecipientValue( piTitleFieldName, data.fullName );
+					}
+				} else {
+					if ( piTitleFieldName != null && piTitleFieldName != "" ) {
+						setRecipientValue(  piTitleFieldName, wrapError( "not found" ), true );
+					}
+				}
+			},
+			errorHandler:function( errorMessage ) {
+				window.status = errorMessage;
+				setRecipientValue( piTitleFieldName, wrapError( "not found" ), true );
+			}
+		};
+		PersonService.getPerson(personIdNumber,dwrReply);
+	}
+}
+
+/*
+ * Load the Principal Investigator field based on the person Id Number passed in.
+ */
+function loadPINameAndUnit(piNumberFieldName, piTitleFieldName, unitIdFieldName, unitNameFieldName, nonEmployeeFlagFieldName) {
+	var personIdNumber = DWRUtil.getValue( piNumberFieldName );
+	var nonEmployeeFlag = DWRUtil.getValue( nonEmployeeFlagFieldName );
+
+	if (personIdNumber=='') {
+		clearRecipients( piTitleFieldName, "" );
+	} else {
+		var dwrReply = {
+			callback:function(data) {
+				if ( data != null ) {
+					if (nonEmployeeFlag==false) {
+						if ( piTitleFieldName != null && piTitleFieldName != "" ) {
+							setRecipientValue( piTitleFieldName, data.fullName );
+							
+							var unitIdNumber = DWRUtil.getValue( unitIdFieldName );
+							if (unitIdNumber=='') {
+								setRecipientValue( unitIdFieldName, data.homeUnitRef.unitNumber );
+								setRecipientValue( unitNameFieldName, data.homeUnitRef.unitName );
+							}
+						}
+					}
+					else {
+						if ( piTitleFieldName != null && piTitleFieldName != "" ) {
+							setRecipientValue( piTitleFieldName, data.fullName );
+							
+							var unitIdNumber = DWRUtil.getValue( unitIdFieldName );
+							if (unitIdNumber=='') {
+								setRecipientValue( unitIdFieldName, data.unit.unitNumber );
+								setRecipientValue( unitNameFieldName, data.unit.unitName );
+							}
+						}
+					}
+				} else {
+					if ( piTitleFieldName != null && piTitleFieldName != "" ) {
+						setRecipientValue(  piTitleFieldName, wrapError( "not found" ), true );
+					}
+				}
+			},
+			errorHandler:function( errorMessage ) {
+				window.status = errorMessage;
+				setRecipientValue( piTitleFieldName, wrapError( "not found" ), true );
+			}
+		};
+	}
+	if (nonEmployeeFlag==false) {
+		PersonService.getPerson(personIdNumber,dwrReply);
+	} else {
+		RolodexService.getRolodex(personIdNumber,dwrReply);
+	};
 }
 
 function loadSponsorCode_1( sponsorCodeFieldName) {
