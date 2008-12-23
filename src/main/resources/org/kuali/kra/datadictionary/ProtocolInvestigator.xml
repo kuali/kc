@@ -1,0 +1,294 @@
+<!--
+/*
+ * Copyright 2006-2008 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.osedu.org/licenses/ECL-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="ProtocolInvestigator" parent="ProtocolInvestigator-parentBean" />
+	<bean id="ProtocolInvestigator-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.irb.bo.ProtocolInvestigator" />
+		<property name="inquiryDefinition" >
+			<ref bean="ProtocolInvestigator-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition" >
+			<ref bean="ProtocolInvestigator-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="protocolInvestigatorsId" />
+		<property name="attributes" >
+			<list>
+				<ref bean="ProtocolInvestigator-protocolInvestigatorsId" />
+				<ref bean="ProtocolInvestigator-protocolId" />
+				<ref bean="ProtocolInvestigator-protocolNumber" />
+				<ref bean="ProtocolInvestigator-sequenceNumber" />
+				<ref bean="ProtocolInvestigator-personId" />
+				<ref bean="ProtocolInvestigator-personName" />
+				<ref bean="ProtocolInvestigator-nonEmployeeFlag" />
+				<ref bean="ProtocolInvestigator-principalInvestigatorFlag" />
+				<ref bean="ProtocolInvestigator-affiliationTypeCode" />
+				<ref bean="ProtocolInvestigator-versionNumber" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+	
+	<bean id="ProtocolInvestigator-protocolInvestigatorsId" parent="ProtocolInvestigator-protocolInvestigatorsId-parentBean" />
+	<bean id="ProtocolInvestigator-protocolInvestigatorsId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="protocolInvestigatorsId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Protocol Investigators Id" />
+		<property name="shortLabel" value="Protocol Investigators Id" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Protocol Investigators Id" />
+		<property name="description" value="Protocol Investigators Id" />
+	</bean>
+
+	<bean id="ProtocolInvestigator-protocolId" parent="ProtocolInvestigator-protocolId-parentBean" />
+	<bean id="ProtocolInvestigator-protocolId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="protocolId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Protocol Id" />
+		<property name="shortLabel" value="Protocol Id" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Protocol Id" />
+		<property name="description" value="Protocol Id" />
+	</bean>
+
+	<bean id="ProtocolInvestigator-protocolNumber" parent="ProtocolInvestigator-protocolNumber-parentBean" />
+	<bean id="ProtocolInvestigator-protocolNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="protocolNumber" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Protocol Number" />
+		<property name="shortLabel" value="Protocol Number" />
+		<property name="maxLength" value="20" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Protocol Number" />
+		<property name="description" value="Protocol Number" />
+	</bean>
+
+	<bean id="ProtocolInvestigator-sequenceNumber" parent="ProtocolInvestigator-sequenceNumber-parentBean" />
+	<bean id="ProtocolInvestigator-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="sequenceNumber" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Sequence Number" />
+		<property name="shortLabel" value="Sequence Number" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Sequence Number" />
+		<property name="description" value="Sequence Number" />
+	</bean>
+
+	<bean id="ProtocolInvestigator-personId" parent="ProtocolInvestigator-personId-parentBean" />
+	<bean id="ProtocolInvestigator-personId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="personId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Person Id" />
+		<property name="shortLabel" value="Person Id" />
+		<property name="maxLength" value="9" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Person Id" />
+		<property name="description" value="Person Id" />
+	</bean>
+
+	<bean id="ProtocolInvestigator-personName" parent="ProtocolInvestigator-personName-parentBean" />
+	<bean id="ProtocolInvestigator-personName-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="personName" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Protocol Investigator Person Name" />
+		<property name="shortLabel" value="Protocol Investigator Person Name" />
+		<property name="maxLength" value="90" />
+		<property name="validationPattern" >
+			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Protocol Investigator Person Name" />
+		<property name="description" value="Protocol Investigator Person Name" />
+	</bean>
+
+	<bean id="ProtocolInvestigator-nonEmployeeFlag" parent="ProtocolInvestigator-nonEmployeeFlag-parentBean" />
+	<bean id="ProtocolInvestigator-nonEmployeeFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+		<property name="name" value="nonEmployeeFlag" />
+		<property name="label" value="Non Employee Flag" />
+		<property name="shortLabel" value="Non Employee Flag" />
+		<property name="summary" value="Non Employee Flag" />
+		<property name="description" value="Non Employee Flag" />
+	</bean>
+
+	<bean id="ProtocolInvestigator-principalInvestigatorFlag" parent="ProtocolInvestigator-principalInvestigatorFlag-parentBean" />
+	<bean id="ProtocolInvestigator-principalInvestigatorFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+		<property name="name" value="principalInvestigatorFlag" />
+		<property name="label" value="Principal Investigator Flag" />
+		<property name="shortLabel" value="Principal Investigator Flag" />
+		<property name="summary" value="Principal Investigator Flag" />
+		<property name="description" value="Principal Investigator Flag" />
+	</bean>
+
+	<bean id="ProtocolInvestigator-affiliationTypeCode" parent="ProtocolInvestigator-affiliationTypeCode-parentBean" />
+	<bean id="ProtocolInvestigator-affiliationTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="affiliationTypeCode" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Affiliation Type Code" />
+		<property name="shortLabel" value="Affiliation Type Code" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Affiliation Type Code" />
+		<property name="description" value="Affiliation Type Code" />
+	</bean>
+
+	<bean id="ProtocolInvestigator-versionNumber" parent="ProtocolInvestigator-versionNumber-parentBean" />
+	<bean id="ProtocolInvestigator-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
+	<bean id="ProtocolInvestigator-inquiryDefinition" parent="ProtocolInvestigator-inquiryDefinition-parentBean" />
+	<bean id="ProtocolInvestigator-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Protocol Investigators Id" />
+		<property name="inquirySections" >
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Protocol Investigators Id" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields" >
+						<list>
+							<bean parent="FieldDefinition"
+								p:attributeName="protocolInvestigatorsId" 
+								p:forceInquiry="true" />
+							<bean parent="FieldDefinition"
+								p:attributeName="protocolId" />
+							<bean parent="FieldDefinition"
+								p:attributeName="protocolNumber" />
+							<bean parent="FieldDefinition"
+								p:attributeName="sequenceNumber" />
+							<bean parent="FieldDefinition"
+								p:attributeName="personId" />
+							<bean parent="FieldDefinition"
+								p:attributeName="personName" />
+							<bean parent="FieldDefinition"
+								p:attributeName="nonEmployeeFlag" />
+							<bean parent="FieldDefinition"
+								p:attributeName="principalInvestigatorFlag" />
+							<bean parent="FieldDefinition"
+								p:attributeName="affiliationTypeCode" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+	<bean id="ProtocolInvestigator-lookupDefinition" parent="ProtocolInvestigator-lookupDefinition-parentBean" />
+	<bean id="ProtocolInvestigator-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Protocol Investigators Lookup" />
+		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+		<property name="instructions" value="Look up a Protocol Investigators" />
+		<property name="defaultSort" >
+			<bean parent="SortDefinition" >
+		</bean>
+		</property>
+		<property name="lookupFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					p:attributeName="protocolInvestigatorsId" 
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition"
+					p:attributeName="protocolId" />
+				<bean parent="FieldDefinition"
+					p:attributeName="protocolNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="sequenceNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="personId" />
+				<bean parent="FieldDefinition"
+					p:attributeName="personName" />
+				<bean parent="FieldDefinition"
+					p:attributeName="nonEmployeeFlag" />
+				<bean parent="FieldDefinition"
+					p:attributeName="principalInvestigatorFlag" />
+				<bean parent="FieldDefinition"
+					p:attributeName="affiliationTypeCode" />
+			</list>
+		</property>
+		<property name="resultFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					p:attributeName="protocolInvestigatorsId" 
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition"
+					p:attributeName="protocolId" />
+				<bean parent="FieldDefinition"
+					p:attributeName="protocolNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="sequenceNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="personId" />
+				<bean parent="FieldDefinition"
+					p:attributeName="personName" />
+				<bean parent="FieldDefinition"
+					p:attributeName="nonEmployeeFlag" />
+				<bean parent="FieldDefinition"
+					p:attributeName="principalInvestigatorFlag" />
+				<bean parent="FieldDefinition"
+					p:attributeName="affiliationTypeCode" />
+			</list>
+		</property>
+	</bean>
+</beans>

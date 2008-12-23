@@ -16,8 +16,8 @@
         <table cellpadding=0 cellspacing=0 summary="">
         	<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.protocolNumber}" /></div></th>
-                <td>${KualiForm.document.protocol.protocolNumber}&nbsp;</td>
-				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.protocolTypeCode}" /></div></th>
+<%--                <td>${KualiForm.document.protocol.protocolNumber}&nbsp;</td>
+--%>				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.protocolTypeCode}" /></div></th>
                 <td>
                       <kra:kraControlAttribute property="document.protocol.protocolTypeCode" readOnly="${readOnly}" attributeEntry="${protocolAttributes.protocolTypeCode}" />
                 </td>

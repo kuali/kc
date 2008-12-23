@@ -507,6 +507,15 @@
         </property>
  	</bean>
  	
+ 	<bean id="rolodexService" class="org.kuali.kra.service.impl.RolodexServiceImpl">
+ 		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="rolodexDao">
+            <ref bean="rolodexDao" />
+        </property>
+ 	</bean>
+ 	
     <bean id="kimServiceHelper" class="org.kuali.kra.kim.service.impl.ServiceBase">
  		<property name="businessObjectService">
 			<ref bean="businessObjectService" />

@@ -298,6 +298,23 @@ table.grid
 	border-right-color: #999999;
 }
 
+#workarea td.neutral
+{
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+
+}
+#workarea table.neutral
+{
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+
+}
+
 #workarea table.tab
 {
 	width: 100%;
