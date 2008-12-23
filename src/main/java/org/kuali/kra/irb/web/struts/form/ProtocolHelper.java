@@ -19,8 +19,10 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.document.authorization.ProtocolTask;
@@ -28,10 +30,16 @@ import org.kuali.kra.service.TaskAuthorizationService;
 
 public class ProtocolHelper {
     
+
+    /**
+     * Each Helper must contain a reference to its document form
+     * so that it can access the actual document.
+     */
+    private KualiForm form;
+    
     private String referenceId1Label;
     private String referenceId2Label;
 
-    private ProtocolForm form;
     private boolean billableReadOnly = false;
 
     public ProtocolHelper(ProtocolForm form) {
@@ -43,9 +51,24 @@ public class ProtocolHelper {
         KualiConfigurationService configService = getService(KualiConfigurationService.class);
         setReferenceId1Label((configService.getParameter(Constants.PARAMETER_MODULE_PROTOCOL, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PARAMETER_MODULE_PROTOCOL_REFERENCEID1)).getParameterValue());
         setReferenceId2Label((configService.getParameter(Constants.PARAMETER_MODULE_PROTOCOL, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PARAMETER_MODULE_PROTOCOL_REFERENCEID2)).getParameterValue());
-        
-        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_BILLABLE, form.getProtocolDocument().getProtocol());
+
+        // call services...
+        // set attributes needed by the view
+        ProtocolDocument document = (ProtocolDocument)((ProtocolForm)form).getDocument();
+        if (document == null || document.getProtocol() == null) {
+            throw new IllegalArgumentException("invalid (null) ProtocolDocument in ProtocolForm");
+        }
+        document.getProtocol().resolvePrincipalInvestigator();        
+        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_BILLABLE, document.getProtocol());
         billableReadOnly = !getTaskAuthorizationService().isAuthorized(getUsername(), task);
+    }
+
+
+    /**
+     * Constructor.
+     */
+    public ProtocolHelper(KualiForm form) {
+        this.form = form;
     }
 
     public void setReferenceId1Label(String referenceId1Label) {
@@ -55,7 +78,7 @@ public class ProtocolHelper {
     public String getReferenceId1Label() {
         return referenceId1Label;
     }
-
+    
     public void setReferenceId2Label(String referenceId2Label) {
         this.referenceId2Label = referenceId2Label;
     }

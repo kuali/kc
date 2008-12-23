@@ -39,6 +39,8 @@
 				<ref bean="Protocol-sequenceNumber" />
 				<ref bean="Protocol-protocolTypeCode" />
 				<ref bean="Protocol-protocolStatusCode" />
+				<ref bean="Protocol-leadUnitNumber" />
+				<ref bean="Protocol-principalInvestigatorId" />
 				<ref bean="Protocol-title" />
 				<ref bean="Protocol-description" />
 				<ref bean="Protocol-applicationDate" />
@@ -161,6 +163,44 @@
     	</property>
 		<property name="summary" value="Protocol Status Code" />
 		<property name="description" value="Protocol Status Code" />
+	</bean>
+
+	<bean id="Protocol-leadUnitNumber" parent="Protocol-leadUnitNumber-parentBean" />
+	<bean id="Protocol-leadUnitNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="leadUnitNumber" />
+		<property name="required" value="true" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Lead Unit" />
+		<property name="shortLabel" value="Lead Unit" />
+		<property name="maxLength" value="8" />
+		<property name="validationPattern" >
+			<bean parent="AnyCharacterValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="8" />
+		</property>
+		<property name="summary" value="Lead Unit" />
+		<property name="description" value="The protocol's fixed home unit that will be used for routing and business rule purposes." />
+	</bean>
+	
+	<bean id="Protocol-principalInvestigatorId" parent="Protocol-principalInvestigatorId-parentBean" />
+	<bean id="Protocol-principalInvestigatorId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="principalInvestigatorId" />
+    	<property name="required" value="true" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Principal Investigator" />
+		<property name="shortLabel" value="Principal Investigator" />
+		<property name="maxLength" value="9" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="9" />
+		</property>
+		<property name="summary" value="Principal Investigator" />
+		<property name="description" value="The protocol's principal investigator Id number." />
 	</bean>
 
 	<bean id="Protocol-title" parent="Protocol-title-parentBean" />
