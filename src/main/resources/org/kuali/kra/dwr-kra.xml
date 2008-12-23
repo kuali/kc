@@ -27,6 +27,16 @@
 		<convert converter="bean" match="org.kuali.kra.budget.bo.JobCode">
 			<param name="include" value="jobCode" />
 		</convert>		
+		<convert converter="bean" match="org.kuali.kra.bo.Person">
+			<param name="include" value="fullName,homeUnitRef" />			
+		</convert>	
+		<convert converter="bean" match="org.kuali.kra.bo.Rolodex">
+			<param name="include" value="firstName,lastName,fullName,unit" />			
+		</convert>	
+		<convert converter="bean" match="org.kuali.kra.bo.Unit">
+			<param name="include" value="unitNumber,unitName" />			
+		</convert>	
+		
 		<create creator="spring" javascript="SponsorService">
 			<param name="beanName" value="sponsorService" />
 			<include method="getSponsorName" />
@@ -46,6 +56,11 @@
 		<create creator="spring" javascript="PersonService">
 			<param name="beanName" value="personService" />
 			<include method="getPersonFullname" />
+			<include method="getPerson" />
+		</create>
+		<create creator="spring" javascript="RolodexService">
+			<param name="beanName" value="rolodexService" />
+			<include method="getRolodex" />
 		</create>
 		<create creator="spring" javascript="CustomAttributeService">
 			<param name="beanName" value="customAttributeService" />

@@ -236,6 +236,21 @@ public class Rolodex extends KraPersistableBusinessObjectBase {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	
+	public String getFullName() {
+	    StringBuffer ret = new StringBuffer();
+	    if (firstName != null) {
+	    ret.append(firstName);
+	    }
+	    if (middleName !=null) {
+	        ret.append(" "+middleName);
+	    }
+	    if (lastName != null) {
+	        ret.append(" "+lastName);
+	    }
+	    return ret.toString();
+	}
+	
 
     /**
      * Unit reference referred by {@link #getOwnedByUnit()}

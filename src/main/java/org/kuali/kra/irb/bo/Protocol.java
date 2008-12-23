@@ -22,7 +22,10 @@ import java.util.List;
 
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.kra.service.UnitService;
+import org.springframework.util.StringUtils;
 
 /**
  * 
@@ -71,6 +74,18 @@ public class Protocol extends KraPersistableBusinessObjectBase{
     //Is transient, used for lookup select option in UI by KNS 
     private String newDescription;
     
+    private boolean nonEmployeeFlag;
+
+    private List<ProtocolInvestigator> protocolInvestigators; 
+    private String principalInvestigatorId;
+    private String principalInvestigatorName;
+    private String personId;
+    private String rolodexId;
+    private String leadUnitNumber;
+    private String leadUnitName;
+    
+    private String lookupUnitNumber;
+    
     /**
      * 
      * Constructs an Protocol BO.
@@ -83,6 +98,9 @@ public class Protocol extends KraPersistableBusinessObjectBase{
         protocolResearchAreas = new ArrayList<ProtocolResearchArea>();// new TypedArrayList(ProtocolResearchAreas.class);
         protocolReferences = new ArrayList<ProtocolReference>(); //ArrayList<ProtocolReference>();
         newDescription = getDefaultNewDescription();
+        protocolInvestigators = new ArrayList<ProtocolInvestigator>();
+        protocolStatus = new ProtocolStatus();
+        protocolStatusCode = protocolStatus.getProtocolStatusCode();
         protocolLocations = new ArrayList<ProtocolLocation>(); //ArrayList<ProtocolLocation>();
     }
 
@@ -392,8 +410,193 @@ public class Protocol extends KraPersistableBusinessObjectBase{
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(this.protocolResearchAreas);
         managedLists.add(this.protocolReferences);
+        managedLists.add(this.protocolInvestigators);
         managedLists.add(getProtocolLocations());
         return managedLists;
 
+    }
+
+    public List<ProtocolInvestigator> getProtocolInvestigators() {
+        return protocolInvestigators;
+    }
+
+    public void setProtocolInvestigators(List<ProtocolInvestigator> protocolInvestigators) {
+        this.protocolInvestigators = protocolInvestigators;
+    }
+
+    public ProtocolInvestigator getPrincipalInvestigator() {
+        ProtocolInvestigator principalInvestigator = null;
+        for ( ProtocolInvestigator investigator : getProtocolInvestigators() ) {
+            if (investigator.getPrincipalInvestigatorFlag()) {
+                principalInvestigator = investigator;
+            }
+        }
+        return principalInvestigator;
+    }
+
+
+    public ProtocolUnit getLeadUnit() {
+        ProtocolUnit leadUnit = null;
+        if (getPrincipalInvestigator() != null) {
+            for ( ProtocolUnit unit : getPrincipalInvestigator().getProtocolUnits() ) {
+                if (unit.getLeadUnitFlag()) {
+                    leadUnit = unit;
+                }
+            }
+        }
+        return leadUnit;
+    }    
+
+    public String getLeadUnitName() {
+        return leadUnitName;
+    }
+
+    public void setLeadUnitName(String leadUnitName) {
+        this.leadUnitName = leadUnitName;
+    }
+    
+    public String getLeadUnitNumber() {
+        return leadUnitNumber;
+    }
+
+    public void setLeadUnitNumber(String leadUnitNumber) {
+        this.leadUnitNumber = leadUnitNumber;
+
+        refreshLeadUnitName(leadUnitNumber);
+        updateLeadUnitInPI(leadUnitNumber);    
+    }
+    
+    private void refreshLeadUnitName(String leadUnitNumber) {        
+        setLeadUnitName(KraServiceLocator.getService(UnitService.class).getUnitName(leadUnitNumber));
+    }
+    
+    private void updateLeadUnitInPI(String leadUnitNumber)  {
+        if (StringUtils.hasText(leadUnitNumber)) {
+            ProtocolInvestigator principal = getPrincipalInvestigator();
+            if (principal != null) {
+                if (principal.getLeadUnit() != null) {
+                    principal.getLeadUnit().setUnitNumber(leadUnitNumber); 
+                    principal.getLeadUnit().setPersonId(getPrincipalInvestigator().getPersonId());
+                } else {
+                    ProtocolUnit leadUnit = new ProtocolUnit();
+                    leadUnit.setUnitNumber(leadUnitNumber);
+                    leadUnit.setPersonId(getPrincipalInvestigator().getPersonId());  
+                    leadUnit.setLeadUnitFlag(true); 
+                    getPrincipalInvestigator().getProtocolUnits().add(leadUnit);
+                    
+                }
+            }
+        }
+    }
+
+
+
+    public String getPrincipalInvestigatorId() {       
+        return principalInvestigatorId;
+    }
+
+    public void setPrincipalInvestigatorId(String principalInvestigatorId) {
+        this.principalInvestigatorId = principalInvestigatorId;
+        updatePrincipalInvestigator(principalInvestigatorId);
+    }
+    
+    public String getPrincipalInvestigatorName() {
+        return principalInvestigatorName;
+    }
+
+    public void setPrincipalInvestigatorName(String principalInvestigatorName) {
+        this.principalInvestigatorName = principalInvestigatorName;
+    }
+
+    public boolean isNonEmployeeFlag() {
+ /*       //refresh nonEmpFrom PI
+        if (getPrincipalInvestigator() != null) {
+            this.nonEmployeeFlag = getPrincipalInvestigator().getNonEmployeeFlag();
+        }*/
+        return this.nonEmployeeFlag;
+    }
+
+    public void setNonEmployeeFlag(boolean nonEmployeeFlag) {
+      //  boolean changed = this.nonEmployeeFlag != nonEmployeeFlag;
+        this.nonEmployeeFlag = nonEmployeeFlag;
+        
+/*        // If this flag changes, we have to update the PI name as we're dealing w/ rolodex versus person
+        if (changed) {
+            setPrincipalInvestigatorId(this.principalInvestigatorId);
+        }   */     
+    }
+   
+    
+    private void updatePrincipalInvestigator(String principalInvestigatorId) {
+        ProtocolInvestigator pi = getPrincipalInvestigator();
+        if (pi !=null ) {
+            pi.setPersonId(principalInvestigatorId);
+            pi.setPersonNameFromId(principalInvestigatorId, nonEmployeeFlag);
+            updateLeadUnitInPI(getLeadUnitNumber());
+            pi.setNonEmployeeFlag(this.nonEmployeeFlag);
+
+        } else {
+            if (principalInvestigatorId != null) {
+                pi = new ProtocolInvestigator();
+                pi.setPersonId(principalInvestigatorId);
+                pi.setPersonNameFromId(principalInvestigatorId, nonEmployeeFlag);
+                pi.setPrincipalInvestigatorFlag(true);
+                updateLeadUnitInPI(getLeadUnitNumber());
+                pi.setNonEmployeeFlag(this.nonEmployeeFlag);
+                protocolInvestigators.add(pi);
+            }
+        }
+        setPrincipalInvestigatorName( pi.getPersonName());
+    }
+    
+    public void resolvePrincipalInvestigator() {
+        ProtocolInvestigator principal = getPrincipalInvestigator();
+        if (principal != null ) {
+            this.nonEmployeeFlag = principal.getNonEmployeeFlag();
+            setPrincipalInvestigatorId(principal.getPersonId());
+            setPrincipalInvestigatorName(principal.getPersonName());
+
+            if (principal.getLeadUnit() != null) {
+                setLeadUnitNumber(principal.getLeadUnit().getUnitNumber()); 
+            }
+        }
+    }
+
+    public String getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(String personId) {
+        this.personId = personId;
+        if (StringUtils.hasText(personId)) {
+            setNonEmployeeFlag(false);
+            setRolodexId(null);
+            setPrincipalInvestigatorId(personId);
+        }
+    }
+
+    public String getRolodexId() {
+        return rolodexId;
+    }
+
+    public void setRolodexId(String rolodexId) {
+        this.rolodexId = rolodexId;
+        if (StringUtils.hasText(rolodexId)) {
+            setNonEmployeeFlag(true);
+            setPersonId(null);
+            setPrincipalInvestigatorId(rolodexId);
+
+        }
+    }
+
+    public String getLookupUnitNumber() {
+        return lookupUnitNumber;
+    }
+
+    public void setLookupUnitNumber(String lookupUnitNumber) {
+        this.lookupUnitNumber = lookupUnitNumber;
+        if (lookupUnitNumber != null && !StringUtils.hasText(leadUnitNumber)) {
+            leadUnitNumber = lookupUnitNumber;
+        }
     }
 }
