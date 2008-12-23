@@ -82,6 +82,7 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
     public  void testAdditionalFields() throws Exception {
         
         //Click to create new protocol link
+        HtmlPage portalPage = getPortalPage();
         HtmlPage page = clickOn(getPortalPage(), NEW_PROTOCOL,KUALI_PORTAL_INDEX);
         page = getInnerPages(page).get(0);
         
@@ -112,6 +113,11 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
         verifySavedRequiredFields();        
     
         //Assert Additional Fields
+/*        assertTrue(getProtocolDocument().isBillable());
+        assertEquals(PROTOCOL_FDAAPPLICATIONNUMBER, getProtocolDocument().getFdaApplicationNumber());
+        assertEquals(PROTOCOL_REFERENCENUMBER1, getProtocolDocument().getReferenceNumber1());
+        assertEquals(PROTOCOL_REFERENCENUMBER2, getProtocolDocument().getReferenceNumber2());
+        assertEquals(PROTOCOL_DESCRIPTION, getProtocolDocument().getDescription());*/
         //assertTrue(getProtocolDocument().getProtocol().isBillable());
         assertEquals(PROTOCOL_FDAAPPLICATIONNUMBER, getProtocolDocument().getProtocol().getFdaApplicationNumber());
         assertEquals(PROTOCOL_REFERENCENUMBER1, getProtocolDocument().getProtocol().getReferenceNumber1());

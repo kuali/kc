@@ -81,7 +81,22 @@ public abstract class ProtocolWebTestBase extends KraWebTestBase {
 
     protected static final String PROTOCOL_APPLICATION_DATE = "11/12/2008";
     protected static final String PROTOCOL_APPLICATION_DATE_RESULT = "2008-11-12"; // TODO if required
+    
+    protected static final String PROTOCOL_PI_ID_FIELD = "document.principalInvestigatorId";
+    protected static final String PROTOCOL_PI_ID = "000000008";
+    
+    protected static final String PROTOCOL_PI_NAME_FIELD = "document.principalInvestigatorName";
+    protected static final String PROTOCOL_PI_NAME = "Joe Tester";
+    
+    protected static final String PROTOCOL_PI_LEAD_UNIT_NUM_FIELD = "document.leadUnitNumber";
+    protected static final String PROTOCOL_PI_LEAD_UNIT_NUM= "BL-BL";
+    
+    protected static final String PROTOCOL_PI_LEAD_UNIT_NAME_FIELD = "document.leadUnitName";
+    protected static final String PROTOCOL_PI_LEAD_UNIT_NAME = "Bloomington Campus";    
 
+    protected static final String PROTOCOL_PI_NON_EMP_FIELD = "document.nonEmployeeFlag";
+    protected static final String PROTOCOL_PI_NON_EMP = "true";    
+    
     /**
      * Web test setup overloading. Sets up DocumentService and asserts.
      * @see org.kuali.kra.KraWebTestBase#setUp()
@@ -138,6 +153,18 @@ public abstract class ProtocolWebTestBase extends KraWebTestBase {
     public ProtocolDocument getProtocolDocument() {
         return protocolDocument;
     }
+
+    /**
+     * Helper method for sub-classes to set required fields for saving form.
+     */
+    protected void setRequiredFields() {
+/*        setFieldValue(HTML_TEXT_INPUT, DOCUMENT_DESCRIPTION_ID, DEFAULT_DOCUMENT_DESCRIPTION, -1);
+        setFieldValue(HTML_SELECTED_INPUT, PROTOCOL_TYPE_CODE_ID, PROTOCOL_TYPE_CODE, -1);
+        setFieldValue(HTML_TEXT_AREA, PROTOCOL_TITLE_ID, PROTOCOL_TITLE, -1);
+        setFieldValue(HTML_TEXT_INPUT, PROTOCOL_PI_ID_FIELD, PROTOCOL_PI_ID, -1);
+//        setFieldValue(HTML_TEXT_INPUT, PROTOCOL_APPLICATION_DATE_ID, PROTOCOL_APPLICATION_DATE, -1);
+        setFieldValue(HTML_TEXT_INPUT, PROTOCOL_PI_LEAD_UNIT_NUM_FIELD, PROTOCOL_PI_LEAD_UNIT_NUM, -1);     */   
+    }
     
     protected void setRequiredFields(HtmlPage page){ 
         setRequiredFields(page, buildDefaultMap()); 
@@ -168,6 +195,18 @@ public abstract class ProtocolWebTestBase extends KraWebTestBase {
      * This method asserts whether required fields where saved
      */
     protected void verifySavedRequiredFields() {
+        // TODO check with Bryan or Don
+        // assertEquals(DEFAULT_DOCUMENT_DESCRIPTION, doc.getDocumentHeader().getDocumentDescription()); //Not persisted BUG??
+
+/*        assertEquals(PROTOCOL_STATUS, getProtocolDocument().getProtocolStatus().getDescription());
+        assertEquals(PROTOCOL_TYPE_CODE, getProtocolDocument().getProtocolType().getDescription());
+        assertEquals(PROTOCOL_TITLE, getProtocolDocument().getTitle());
+        assertEquals(PROTOCOL_PI_ID, getProtocolDocument().getPrincipalInvestigatorId());
+        assertEquals(PROTOCOL_PI_NAME, getProtocolDocument().getPrincipalInvestigatorId());
+        assertEquals(PROTOCOL_PI_LEAD_UNIT_NUM, getProtocolDocument().getLeadUnitNumber());
+        assertEquals(PROTOCOL_PI_LEAD_UNIT_NAME, getProtocolDocument().getLeadUnitName());
+
+        assertEquals(PROTOCOL_APPLICATION_DATE_RESULT, getProtocolDocument().getApplicationDate().toString());*/
         assertEquals(DEFAULT_DOCUMENT_DESCRIPTION, getProtocolDocument().getDocumentHeader().getDocumentDescription()); //Not persisted BUG??
         assertEquals(PROTOCOL_STATUS, getProtocolDocument().getProtocol().getProtocolStatus().getProtocolStatusCode());
         assertEquals(PROTOCOL_TYPE_CODE, getProtocolDocument().getProtocol().getProtocolType().getProtocolTypeCode());
