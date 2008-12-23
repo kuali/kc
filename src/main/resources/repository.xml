@@ -3119,6 +3119,11 @@
 		<reference-descriptor name="protocolType" class-ref="org.kuali.kra.irb.bo.ProtocolType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protocolTypeCode"/>
 		</reference-descriptor>
+			
+		<collection-descriptor name="protocolInvestigators" proxy="true" element-class-ref="org.kuali.kra.irb.bo.ProtocolInvestigator" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="protocolId"/>
+		</collection-descriptor>
+		
     	<collection-descriptor name="riskLevels" proxy="true" element-class-ref="org.kuali.kra.irb.bo.ProtocolRiskLevels" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="protocolId" />
     	</collection-descriptor>
@@ -3153,6 +3158,89 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.bo.AffiliationType" table="AFFILIATION_TYPE">
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="affiliationTypeCode" column="AFFILIATION_TYPE_CODE" jdbc-type="INTEGER" primarykey="true" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<collection-descriptor name="protocolInvestigator" proxy="true" element-class-ref="org.kuali.kra.irb.bo.ProtocolInvestigator" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+			<inverse-foreignkey field-ref="affiliationTypeCode"/>
+		</collection-descriptor>
+		<collection-descriptor name="protocolKeyPerson" proxy="true" element-class-ref="org.kuali.kra.irb.bo.ProtocolKeyPerson" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+			<inverse-foreignkey field-ref="affiliationTypeCode"/>
+		</collection-descriptor>
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolInvestigator" table="PROTOCOL_INVESTIGATORS">
+		<field-descriptor name="protocolInvestigatorsId" column="PROTOCOL_INVESTIGATORS_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true"/>
+		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="personName" column="PERSON_NAME" jdbc-type="VARCHAR" />
+		<field-descriptor name="nonEmployeeFlag" column="NON_EMPLOYEE_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="principalInvestigatorFlag" column="PRINCIPAL_INVESTIGATOR_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="affiliationTypeCode" column="AFFILIATION_TYPE_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<collection-descriptor name="protocolUnits" proxy="true" element-class-ref="org.kuali.kra.irb.bo.ProtocolUnit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+			<inverse-foreignkey field-ref="protocolInvestigatorsId"/>
+		</collection-descriptor>
+		<reference-descriptor name="protocolDocument" class-ref="org.kuali.kra.irb.document.ProtocolDocument" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="protocolId"/>
+		</reference-descriptor>
+		<reference-descriptor name="affiliationType" class-ref="org.kuali.kra.bo.AffiliationType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="affiliationTypeCode"/>
+		</reference-descriptor>
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolKeyPerson" table="PROTOCOL_KEY_PERSONS">
+		<field-descriptor name="protocolKeyPersonsId" column="PROTOCOL_KEY_PERSONS_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true"/>
+		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="INTEGER" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="personName" column="PERSON_NAME" jdbc-type="VARCHAR" />
+		<field-descriptor name="personRole" column="PERSON_ROLE" jdbc-type="VARCHAR" />
+		<field-descriptor name="nonEmployeeFlag" column="NON_EMPLOYEE_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="affiliationTypeCode" column="AFFILIATION_TYPE_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<reference-descriptor name="protocolDocument" class-ref="org.kuali.kra.irb.document.ProtocolDocument" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="protocolId"/>
+		</reference-descriptor>
+		<reference-descriptor name="affiliationType" class-ref="org.kuali.kra.bo.AffiliationType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="affiliationTypeCode"/>
+		</reference-descriptor>
+	</class-descriptor>	
+	
+	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolUnit" table="PROTOCOL_UNITS">
+		<field-descriptor name="protocolUnitsId" column="PROTOCOL_UNITS_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true"/>
+		<field-descriptor name="protocolInvestigatorsId" column="PROTOCOL_INVESTIGATORS_ID" jdbc-type="INTEGER" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="leadUnitFlag" column="LEAD_UNIT_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<reference-descriptor name="protocolInvestigator" class-ref="org.kuali.kra.irb.bo.ProtocolInvestigator" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="protocolInvestigatorsId"/>
+		</reference-descriptor>
+		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="unitNumber"/>
+		</reference-descriptor>
+	</class-descriptor>
+
 		
 	<class-descriptor class="org.kuali.kra.bo.ResearchArea" table="RESEARCH_AREAS">
 		<field-descriptor name="researchAreaCode" column="RESEARCH_AREA_CODE" jdbc-type="VARCHAR" primarykey="true"/>
