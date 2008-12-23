@@ -1,5 +1,5 @@
 <config>
-	<param name="environment">dev</param>
+	<param name="environment">${environment}</param>
 	<param name="module.name">kra</param>
 	<param name="config.location">classpath:META-INF/common-config-locations.xml</param>
 	<param name="config.location">${alt.build.location}</param>
