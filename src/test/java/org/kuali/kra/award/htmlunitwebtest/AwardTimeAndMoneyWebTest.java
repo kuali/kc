@@ -220,5 +220,55 @@ public class AwardTimeAndMoneyWebTest extends AwardWebTestBase{
         System.out.println(awardTimeAndMoneyPageAfterRecalculate.asText());
         assertContains(awardTimeAndMoneyPageAfterRecalculate,"3945");
     }
+    
+    /**
+     * 
+     * This method tests the comments functionality on Award F&A Rate panel
+     *  
+     * @throws Exception
+     */
+    @Test
+    public void testAwardFandaRatePanelComments() throws Exception {
+        
+        setFieldValue(awardTimeAndMoneyPage, "newAwardFandaRate.applicableFandaRate", "5");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardFandaRate.fandaRateTypeCode", "1");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardFandaRate.fiscalYear", "2008");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardFandaRate.startDate", "07/01/2007");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardFandaRate.endDate", "06/30/2008");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardFandaRate.onCampusFlag", "N");
+        
+        final HtmlForm form1 = (HtmlForm) awardTimeAndMoneyPage.getForms().get(0);        
+        String completeButtonName1=getImageTagName(awardTimeAndMoneyPage, "methodToCall.addFandaRate");        
+        final HtmlImageInput button1 = (HtmlImageInput) form1.getInputByName(completeButtonName1);
+        HtmlPage awardTimeAndMoneyPageAfterAddingOnCampus = (HtmlPage) button1.click();
+        
+        setFieldValue(awardTimeAndMoneyPageAfterAddingOnCampus, "newAwardFandaRate.applicableFandaRate", "5");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingOnCampus, "newAwardFandaRate.fandaRateTypeCode", "1");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingOnCampus, "newAwardFandaRate.fiscalYear", "2008");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingOnCampus, "newAwardFandaRate.startDate", "07/01/2007");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingOnCampus, "newAwardFandaRate.endDate", "06/30/2008");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingOnCampus, "newAwardFandaRate.onCampusFlag", "F");
+        
+        final HtmlForm form2 = (HtmlForm) awardTimeAndMoneyPageAfterAddingOnCampus.getForms().get(0);        
+        String completeButtonName2=getImageTagName(awardTimeAndMoneyPageAfterAddingOnCampus, "methodToCall.addFandaRate");        
+        final HtmlImageInput button2 = (HtmlImageInput) form2.getInputByName(completeButtonName2);
+        HtmlPage awardTimeAndMoneyPageAfterAddingOnCampusAndOffCampus = (HtmlPage) button2.click();
+        
+        HtmlPage awardTimeAndMoneyPageAfterSave = clickOn(awardTimeAndMoneyPageAfterAddingOnCampusAndOffCampus, "methodToCall.save");
+        assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERRORS_FOUND_ON_PAGE);
+        assertContains(awardTimeAndMoneyPageAfterSave,SAVE_SUCCESS_MESSAGE);
+        
+        
+        setFieldValue(awardTimeAndMoneyPageAfterSave, "document.award.awardFandaRateComment.comments", "We are testing Comments");
+        
+        HtmlPage awardTimeAndMoneyPageAfterAnotherSave = clickOn(awardTimeAndMoneyPageAfterSave, "methodToCall.save");
+        assertDoesNotContain(awardTimeAndMoneyPageAfterAnotherSave, ERRORS_FOUND_ON_PAGE);
+        assertContains(awardTimeAndMoneyPageAfterAnotherSave,SAVE_SUCCESS_MESSAGE);
+        HtmlPage awardTimeAndMoneyPageAfterAnotherReload = clickOn(awardTimeAndMoneyPageAfterAnotherSave, "methodToCall.reload");
+        assertContains(awardTimeAndMoneyPageAfterAnotherReload,"We are testing Comments");
+        
+    }
+    
+    
 
 }
