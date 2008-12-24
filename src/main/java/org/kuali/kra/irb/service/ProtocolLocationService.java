@@ -29,6 +29,13 @@ public interface ProtocolLocationService {
     public abstract void addProtocolLocation(Protocol protocol, ProtocolLocation protocolLocation);
     
     /**
+     * This method adds a default ProtocolLocation to the List of ProtocolLocations.
+     * i.e. Initialize protocol location with a default organization
+     * @param protocol which contains list of ProtocolLocations.
+     */
+    public abstract void addDefaultProtocolLocation(Protocol protocol);
+
+    /**
      * This method deletes ProtocolLocation from the List at specified position(lineNumber)
      * @param protocol which contains list of ProtocolLocations
      * @param lineNumber to be deleted

@@ -273,4 +273,13 @@ public class KeyConstants {
     public static final String ERROR_PROTOCOL_PARTICIPANT_TYPE_INVALID = "error.protocol.participantType.invalid";
     public static final String ERROR_PROTOCOL_PARTICIPANT_TYPE_DUPLICATE = "error.protocol.participantType.duplicate";
     public static final String ERROR_PROTOCOL_PARTICIPANT_COUNT_INVALID = "error.protocol.participantCount.invalid";
+
+    // IRB Protocol Location Validation Messages
+    public static final String ERROR_PROTOCOL_LOCATION_ORGANIZATION_ID_NOT_FOUND = "error.protocolLocation.organizationId.notFound";
+    public static final String ERROR_PROTOCOL_LOCATION_ORGANIZATION_ID_INVALID = "error.protocolLocation.organizationId.invalid";
+    public static final String ERROR_PROTOCOL_LOCATION_ORGANIZATION_ID_DUPLICATE = "error.protocolLocation.organizationId.duplicate";
+    public static final String ERROR_PROTOCOL_LOCATION_ORGANIZATION_TYPE_CODE_NOT_FOUND = "error.protocolLocation.organizationTypeCode.notFound";
+    public static final String ERROR_PROTOCOL_LOCATION_SHOULD_EXIST = "error.protocolLocation.shouldExist";
+    
+
 }
