@@ -57,6 +57,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
     private String newRolodexId;
     private String newPersonId;
     private String leadUnitNumber;
+    private String organizationName;
 
     
     public String getLeadUnitNumber() {
@@ -229,6 +230,14 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
 
     public ProtocolLocation getNewProtocolLocation() {
         return newProtocolLocation;
+    }
+
+    public String getOrganizationName() {
+        return organizationName;
+    }
+
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
     }
 
 }

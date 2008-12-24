@@ -24,6 +24,7 @@ import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.kra.irb.service.ProtocolLocationService;
 import org.kuali.kra.service.UnitService;
 import org.springframework.util.StringUtils;
 
@@ -102,6 +103,7 @@ public class Protocol extends KraPersistableBusinessObjectBase{
         protocolStatus = new ProtocolStatus();
         protocolStatusCode = protocolStatus.getProtocolStatusCode();
         protocolLocations = new ArrayList<ProtocolLocation>(); //ArrayList<ProtocolLocation>();
+        initializeProtocolLocation();
     }
 
     public Long getProtocolId() {
@@ -599,4 +601,22 @@ public class Protocol extends KraPersistableBusinessObjectBase{
             leadUnitNumber = lookupUnitNumber;
         }
     }
+
+    /**
+     * This method is to get protocol location service
+     * @return ProtocolLocationService
+     */
+    private ProtocolLocationService getProtocolLocationService() {
+        ProtocolLocationService protocolLocationService = (ProtocolLocationService)KraServiceLocator.getService("protocolLocationService");
+        return protocolLocationService;
+    }
+
+    /*
+     * Initialize protocol location.
+     * Add default organization.
+     */
+    private void initializeProtocolLocation() {
+        getProtocolLocationService().addDefaultProtocolLocation(this);
+    }
+    
 }

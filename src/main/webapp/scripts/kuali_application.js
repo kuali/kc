@@ -1281,3 +1281,33 @@ function unselectAllBudgetForms(document) {
 //function CustomAttributeService() { }
 // CustomAttributeService._path = '../dwr'; 
 // CustomAttributeService.getLookupReturnsForAjaxCall = function(p0, callback) { DWREngine._execute(CustomAttributeService._path, 'CustomAttributeService', 'getLookupReturnsForAjaxCall', p0, callback); } 
+
+/*
+ * Load the Organization Name field based on the Organization Code passed in.
+ */
+function loadOrganizationName(organizationIdFieldName, organizationNameFieldName ) {
+	
+	var organizationId = DWRUtil.getValue( organizationIdFieldName );
+	if (organizationId=='') {
+		clearRecipients( organizationNameFieldName, "" );
+	} else {
+		var dwrReply = {
+			callback:function(data) {
+				if ( data != null ) {
+					if ( organizationNameFieldName != null && organizationNameFieldName != "" ) {
+						setRecipientValue( organizationNameFieldName, data );
+					}
+				} else {
+					if ( organizationNameFieldName != null && organizationNameFieldName != "" ) {
+						setRecipientValue(  organizationNameFieldName, wrapError( "not found" ), true );
+					}
+				}
+			},
+			errorHandler:function( errorMessage ) {
+				window.status = errorMessage;
+				setRecipientValue( organizationNameFieldName, wrapError( "not found" ), true );
+			}
+		};
+		OrganizationService.getOrganizationName(organizationId,dwrReply);
+	}
+}

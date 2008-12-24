@@ -308,5 +308,7 @@ public interface Constants {
     
     // IRB
     public static final String PARTICIPANTS_PROPERTY_KEY = "newProtocolParticipant";
+    public static final String DEFAULT_PROTOCOL_ORGANIZATION_TYPE_CODE = "1";
+    public static final String DEFAULT_PROTOCOL_ORGANIZATION_ID = "000001";
     
 }

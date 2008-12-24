@@ -1274,5 +1274,10 @@
             <ref bean="businessObjectService" />
         </property>
     </bean> 
+	<bean id="organizationService" class="org.kuali.kra.service.impl.OrganizationServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+    </bean>
 
 </beans>

@@ -31,11 +31,13 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.bo.ProtocolLocation;
 import org.kuali.kra.irb.bo.ProtocolParticipant;
 import org.kuali.kra.irb.bo.ProtocolReference;
-import org.kuali.kra.irb.rule.event.AddProtocolParticipantEvent;
-import org.kuali.kra.irb.service.ProtocolParticipantService;
 import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.kra.irb.rule.event.AddProtocolLocationEvent;
+import org.kuali.kra.irb.rule.event.AddProtocolParticipantEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolReferenceEvent;
+import org.kuali.kra.irb.rule.event.SaveProtocolLocationEvent;
 import org.kuali.kra.irb.service.ProtocolLocationService;
+import org.kuali.kra.irb.service.ProtocolParticipantService;
 import org.kuali.kra.irb.service.ProtocolReferenceService;
 import org.kuali.kra.irb.service.ProtocolResearchAreaService;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
@@ -55,6 +57,14 @@ public class ProtocolProtocolAction extends ProtocolAction {
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {      
+
+        boolean rulePassed = true;
+        // check any business rules
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        rulePassed &= applyRules(new SaveProtocolLocationEvent(Constants.EMPTY_STRING,protocolForm.getProtocolDocument()));
+        if (!rulePassed){
+            mapping.findForward(Constants.MAPPING_BASIC);
+        }
         return super.save(mapping, form, request, response);
     }
 
@@ -239,12 +249,11 @@ public class ProtocolProtocolAction extends ProtocolAction {
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolLocation newProtocolLocation = protocolForm.getNewProtocolLocation();
         
+        if(applyRules(new AddProtocolLocationEvent(Constants.EMPTY_STRING,protocolForm.getProtocolDocument(),newProtocolLocation))) {
+            getProtocolLocationService().addProtocolLocation(protocolForm.getProtocolDocument().getProtocol(), newProtocolLocation);
+            protocolForm.setNewProtocolLocation(new ProtocolLocation());
+        }
         
-        ProtocolLocationService service = (ProtocolLocationService)KraServiceLocator.getService("protocolLocationService");
-        
-        service.addProtocolLocation(protocolForm.getProtocolDocument().getProtocol(), newProtocolLocation);
-              
-        protocolForm.setNewProtocolLocation(new ProtocolLocation());
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
     
@@ -260,11 +269,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
      */
     public ActionForward deleteProtocolLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        
-        ProtocolLocationService service = (ProtocolLocationService)KraServiceLocator.getService("protocolLocationService");
-        
-        service.deleteProtocolLocation(protocolForm.getProtocolDocument().getProtocol(), getLineToDelete(request));
-              
+        getProtocolLocationService().deleteProtocolLocation(protocolForm.getProtocolDocument().getProtocol(), getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
 
@@ -280,12 +285,17 @@ public class ProtocolProtocolAction extends ProtocolAction {
      */
     public ActionForward clearProtocolLocationAddress(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        
-        ProtocolLocationService service = (ProtocolLocationService)KraServiceLocator.getService("protocolLocationService");
-        
-        service.clearProtocolLocationAddress(protocolForm.getProtocolDocument().getProtocol(), getSelectedLine(request));
-              
+        getProtocolLocationService().clearProtocolLocationAddress(protocolForm.getProtocolDocument().getProtocol(), getSelectedLine(request));
         return mapping.findForward(Constants.MAPPING_BASIC );
+    }
+    
+    /**
+     * This method is to get protocol location service
+     * @return ProtocolLocationService
+     */
+    private ProtocolLocationService getProtocolLocationService() {
+        ProtocolLocationService protocolLocationService = (ProtocolLocationService)KraServiceLocator.getService("protocolLocationService");
+        return protocolLocationService;
     }
 
 }
