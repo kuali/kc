@@ -16,12 +16,16 @@
 package org.kuali.kra.irb.rules;
 
 import org.kuali.core.document.Document;
-import org.kuali.kra.irb.bo.ProtocolParticipant;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.kra.irb.rule.AddProtocolLocationRule;
 import org.kuali.kra.irb.rule.AddProtocolParticipantRule;
 import org.kuali.kra.irb.rule.AddProtocolReferenceRule;
+import org.kuali.kra.irb.rule.SaveProtocolLocationRule;
+import org.kuali.kra.irb.rule.event.AddProtocolLocationEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolParticipantEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolReferenceEvent;
+import org.kuali.kra.irb.rule.event.SaveProtocolLocationEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 /**
@@ -29,7 +33,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolParticipantRule {
+public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolParticipantRule, AddProtocolLocationRule, SaveProtocolLocationRule {
     
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -46,6 +50,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         }
 
         boolean valid = true;
+
         return valid;
     }
 
@@ -74,4 +79,21 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         
     }
 
+    /**
+     * @see org.kuali.kra.irb.rule.AddProtocolLocationRule#processAddProtocolLocationBusinessRules(org.kuali.kra.irb.rule.event.AddProtocolLocationEvent)
+     */
+    public boolean processAddProtocolLocationBusinessRules(AddProtocolLocationEvent addProtocolLocationEvent) {
+
+        return new ProtocolLocationRule().processAddProtocolLocationBusinessRules(addProtocolLocationEvent);
+        
+    }
+
+    /**
+     * @see org.kuali.kra.irb.rule.SaveProtocolLocationRule#processSaveProtocolLocationBusinessRules(org.kuali.kra.irb.rule.event.SaveProtocolLocationEvent)
+     */
+    public boolean processSaveProtocolLocationBusinessRules(SaveProtocolLocationEvent saveProtocolLocationEvent) {
+
+        return new ProtocolLocationRule().processSaveProtocolLocationBusinessRules(saveProtocolLocationEvent);
+        
+    }
 }
