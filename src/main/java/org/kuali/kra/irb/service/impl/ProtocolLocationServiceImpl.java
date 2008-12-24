@@ -52,7 +52,7 @@ public class ProtocolLocationServiceImpl implements ProtocolLocationService {
             ProtocolLocation protocolLocation = new ProtocolLocation();
             protocolLocation.setProtocolNumber("0");
             protocolLocation.setSequenceNumber(0);
-            Organization organization = getOrganization();
+            Organization organization = getOrganization(Constants.DEFAULT_PROTOCOL_ORGANIZATION_ID);
             protocolLocation.setOrganization(organization);
             protocolLocation.setOrganizationId(organization.getOrganizationId());
             protocolLocation.setRolodexId(organization.getContactAddressId());
@@ -87,9 +87,9 @@ public class ProtocolLocationServiceImpl implements ProtocolLocationService {
      * Method is linked to organization service.
      * @return Organization
      */
-    private Organization getOrganization() {
+    private Organization getOrganization(String organizationId) {
         OrganizationService organizationService = KraServiceLocator.getService(OrganizationService.class);
-        return organizationService.getPersonOrganization();
+        return organizationService.getOrganization(organizationId);
     }
     
 }
