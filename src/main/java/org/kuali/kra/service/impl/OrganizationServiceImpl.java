@@ -54,52 +54,11 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     /**
-     * @see org.kuali.kra.service.OrganizationService#getPersonOrganization()
-     */
-    public Organization getPersonOrganization() {
-        String organizationId = Constants.DEFAULT_PROTOCOL_ORGANIZATION_ID;
-        Person person = getPerson();
-        String currentUnit = person.getHomeUnit();
-        do {
-            if(!StringUtils.isEmpty(currentUnit)) {
-                Unit unit = getUnit(currentUnit);
-                if(!StringUtils.isEmpty(unit.getOrganizationId())) {
-                    organizationId = unit.getOrganizationId();
-                    break;
-                }
-                currentUnit = unit.getParentUnitNumber();
-            }
-        } while(currentUnit != null);
-
-        return getOrganization(organizationId);
-    }
-    
-    /**
-     * Get the person from the database.  This is the user in the current session.
-     * @return person
-     */
-    private Person getPerson() {
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
-        String username = user.getPersonUserIdentifier();
-        PersonService personService = KraServiceLocator.getService(PersonService.class);
-        return personService.getPersonByName(username);
-    }
-    
-    /**
-     * Get the unit from the database based on unit number.  
-     * @return unit
-     */
-    private Unit getUnit(String unitNumber) {
-        UnitService unitService = KraServiceLocator.getService(UnitService.class);
-        return unitService.getUnit(unitNumber);
-    }
-
-    /**
      * This method is to get Organization for a given organization id
      * @param organizationId
      * @return Organization
      */
-    private Organization getOrganization(String organizationId) {
+    public Organization getOrganization(String organizationId) {
         Organization organization = null;
 
         if (StringUtils.isNotEmpty(organizationId)) {
