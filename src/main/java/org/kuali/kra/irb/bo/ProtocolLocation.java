@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.infrastructure.Constants;
 
 /**
  * This class represents the Protocol Location Business Object.
@@ -46,7 +47,11 @@ public class ProtocolLocation extends KraPersistableBusinessObjectBase {
 	 * Constructs a ProtocolLocation.java.
 	 */
 	public ProtocolLocation() { 
-
+	    /**
+	     * Set default protocol organization type code.
+	     * Initially set Organization type code drop down to this value. 
+	     */
+	    setProtocolOrganizationTypeCode(Constants.DEFAULT_PROTOCOL_ORGANIZATION_TYPE_CODE);
 	} 
 	
 	public Integer getProtocolLocationId() {

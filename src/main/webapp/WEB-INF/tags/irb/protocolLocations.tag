@@ -14,6 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<script language="javascript" src="dwr/interface/OrganizationService.js"></script>
 
 <c:set var="protocolLocationAttributes" value="${DataDictionary.ProtocolLocation.attributes}" />
 <c:set var="organizationAttributes" value="${DataDictionary.Organization.attributes}" />
@@ -21,7 +22,7 @@
 <c:set var="rolodexAttributes" value="${DataDictionary.Rolodex.attributes}" />
 <c:set var="action" value="protocolLocation" />
 
-<kul:tab tabTitle="Protocol Organization" defaultOpen="true" tabErrorKey="" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
+<kul:tab tabTitle="Protocol Organization" defaultOpen="true" tabErrorKey="newProtocolLocation*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left"> Protocol Location</span>
@@ -48,10 +49,14 @@
 					</th>
 	
 	                <td align="left" valign="middle"  class="infoline">
-	                	<kul:htmlControlAttribute property="newProtocolLocation.organizationId" attributeEntry="${protocolLocationAttributes.organizationId}" />
+	                	<kul:htmlControlAttribute property="newProtocolLocation.organizationId" attributeEntry="${protocolLocationAttributes.organizationId}" onblur="loadOrganizationName('newProtocolLocation.organizationId', 'organizationName');" />
 	                    <kul:lookup boClassName="org.kuali.kra.bo.Organization" 
 	                    fieldConversions="organizationId:newProtocolLocation.organizationId,contactAddressId:newProtocolLocation.rolodexId,humanSubAssurance:newProtocolLocation.organization.humanSubAssurance,organizationName:newProtocolLocation.organization.organizationName,rolodex.firstName:newProtocolLocation.organization.rolodex.firstName,rolodex.lastName:newProtocolLocation.organization.rolodex.lastName,rolodex.addressLine1:newProtocolLocation.organization.rolodex.addressLine1,rolodex.addressLine2:newProtocolLocation.organization.rolodex.addressLine2,rolodex.addressLine3:newProtocolLocation.organization.rolodex.addressLine3,rolodex.city:newProtocolLocation.organization.rolodex.city,rolodex.state:newProtocolLocation.organization.rolodex.state" anchor="${currentTabIndex}"/> 
 	                    <kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="newProtocolLocation.organizationId:organizationId" anchor="${currentTabIndex}"/>
+                		<br />
+                		<div id="organizationName.div" class="fineprint">
+                			${KualiForm.organizationName}&nbsp;
+						</div>
 	                </td>
 	                <td align="left" valign="middle" class="infoline">
 	                	<div align="center">
