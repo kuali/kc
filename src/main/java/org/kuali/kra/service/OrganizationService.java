@@ -28,9 +28,9 @@ public interface OrganizationService {
     
     /**
      * This method returns the organization
-     * Organization id is retrieved based on logged in person unit number
      * Organization data is retrieved based on above organization id.
+     * @param organizationId identifier for the organization
      * @return organization
      */
-    public Organization getPersonOrganization();
+    public Organization getOrganization(String organizationId);
 }
