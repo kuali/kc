@@ -58,6 +58,7 @@ import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.bo.TbnPerson;
+import org.kuali.kra.budget.bo.ValidCeJobCode;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.rules.BudgetExpenseRule;
 import org.kuali.kra.budget.rules.BudgetPersonnelExpenseRule;
@@ -65,6 +66,7 @@ import org.kuali.kra.budget.rules.BudgetPersonnelRule;
 import org.kuali.kra.budget.service.BudgetCalculationService;
 import org.kuali.kra.budget.service.BudgetPersonService;
 import org.kuali.kra.budget.service.BudgetPersonnelBudgetService;
+import org.kuali.kra.budget.service.BudgetService;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -128,6 +130,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         DictionaryValidationService dictionaryValidationService = KraServiceLocator.getService(DictionaryValidationService.class);
         KualiConfigurationService kualiConfigurationService = KraServiceLocator.getService(KualiConfigurationService.class);
+        BudgetPersonnelRule budgetPersonnelRule = new BudgetPersonnelRule();
         
         Integer budgetCategoryTypeIndex = Integer.parseInt(getBudgetCategoryTypeIndex(request));
         BudgetLineItem newBudgetLineItem = budgetForm.getNewBudgetLineItems().get(budgetCategoryTypeIndex);
@@ -136,6 +139,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         budgetPersonDetails.setBudgetVersionNumber(budgetDocument.getBudgetVersionNumber());
         budgetPersonDetails.setPeriodTypeCode(kualiConfigurationService.getParameterValue(
                 Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_PERSON_DETAILS_DEFAULT_PERIODTYPE));
+        budgetPersonDetails.setCostElement(newBudgetLineItem.getCostElement());
         
         String groupErrorKey = "";
         if(StringUtils.isNotEmpty(newBudgetLineItem.getGroupName())) {
@@ -159,6 +163,8 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
             GlobalVariables.getErrorMap().putError("newBudgetLineItems[" + budgetCategoryTypeIndex + "].costElement", KeyConstants.ERROR_COST_ELEMENT_NOT_SELECTED);
         }else if(budgetPersonDetails.getPersonSequenceNumber() == null){
             GlobalVariables.getErrorMap().putError("newBudgetPersonnelDetails.personSequenceNumber", KeyConstants.ERROR_BUDGET_PERSONNEL_NOT_SELECTED);
+        } else if(!budgetPersonnelRule.processCheckJobCodeObjectCodeCombo(budgetDocument, budgetPersonDetails, false)) {
+            GlobalVariables.getErrorMap().putError("newBudgetLineItems[" + budgetCategoryTypeIndex + "].costElement", KeyConstants.ERROR_JOBCODE_COST_ELEMENT_COMBO_INVALID);
         }
         else{
             Map<String, String> primaryKeys = new HashMap<String, String>();
@@ -258,10 +264,6 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     } 
-    
-        private boolean validateSummaryAdd() {
-        return false;
-    }
     
     private void setLineItemQuantity(BudgetLineItem personnelLineItem) {
         HashMap uniqueBudgetPersonnelCount = new HashMap();
@@ -587,9 +589,10 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
 
     private boolean budgetPersonnelDetailsCheck(BudgetDocument budgetDocument) {
         boolean valid = true;
+        boolean validJobCodeCECombo = false;
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
         List<BudgetLineItem> budgetLineItems;
-        
+        BudgetPersonnelRule budgetPersonnelRule = new BudgetPersonnelRule();
         int i=0;
         int j=0;
         int k=0;
@@ -602,6 +605,12 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
                     k=0;
                     for(BudgetPersonnelDetails budgetPersonnelDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
                         valid &= !(personnelDetailsCheck(budgetDocument, i, j, k));
+                        
+                        validJobCodeCECombo = budgetPersonnelRule.processCheckJobCodeObjectCodeCombo(budgetDocument, budgetPersonnelDetails, true);
+                        if(!validJobCodeCECombo)  {
+                            GlobalVariables.getErrorMap().putError("document.budgetPeriod[" + i   +"].budgetLineItem[" + j + "].budgetPersonnelDetailsList[" + k + "].personSequenceNumber", KeyConstants.ERROR_JOBCODE_COST_ELEMENT_COMBO_INVALID);
+                        }
+                        valid &= validJobCodeCECombo;
                         k++;
                     }
                 }
