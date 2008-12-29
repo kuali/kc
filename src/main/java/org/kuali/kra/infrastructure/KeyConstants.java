@@ -272,4 +272,5 @@ public class KeyConstants {
     public static final String ERROR_PERSON_JOBCODE_CHANGE = "error.person.jobcodeChange";
     public static final String ERROR_DUPLICATE_PERSON = "error.duplicate.personnel";
     public static final String ERROR_JOBCODE_COST_ELEMENT_COMBO_INVALID = "error.jobCode.costElement.invalid";
+    public static final String ERROR_SAVE_JOBCODE_COST_ELEMENT_COMBO_INVALID = "error.save.jobCode.costElement.invalid";
 }
