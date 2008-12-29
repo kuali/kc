@@ -608,7 +608,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
                         
                         validJobCodeCECombo = budgetPersonnelRule.processCheckJobCodeObjectCodeCombo(budgetDocument, budgetPersonnelDetails, true);
                         if(!validJobCodeCECombo)  {
-                            GlobalVariables.getErrorMap().putError("document.budgetPeriod[" + i   +"].budgetLineItem[" + j + "].budgetPersonnelDetailsList[" + k + "].personSequenceNumber", KeyConstants.ERROR_JOBCODE_COST_ELEMENT_COMBO_INVALID);
+                            GlobalVariables.getErrorMap().putError("document.budgetPeriod[" + i   +"].budgetLineItem[" + j + "].budgetPersonnelDetailsList[" + k + "].personSequenceNumber", KeyConstants.ERROR_SAVE_JOBCODE_COST_ELEMENT_COMBO_INVALID);
                         }
                         valid &= validJobCodeCECombo;
                         k++;
