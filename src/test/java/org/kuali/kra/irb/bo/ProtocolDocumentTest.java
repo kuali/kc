@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.bo;
 
-import java.sql.Date;
-
 import org.apache.log4j.Logger;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -24,11 +22,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.core.UserSession;
-import org.kuali.core.document.Document;
-import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.KraTestBase;
-import org.kuali.kra.KraTestBaseLite;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
