@@ -25,6 +25,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.RiceKeyConstants;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.BudgetDecimal;
@@ -35,6 +36,7 @@ import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.bo.ValidCeJobCode;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetService;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.KNSServiceLocator;
@@ -215,4 +217,64 @@ public class BudgetPersonnelRule {
         
         return valid;
     }
+    
+    private List<ValidCeJobCode> getApplicableCostElements(BudgetDocument budgetDocument, BudgetPersonnelDetails newBudgetPersonnelDetails, boolean save) {
+        List<ValidCeJobCode> validCostElements = null;
+        BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
+        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
+    
+        try {
+            if(save) {
+                String jobCodeValidationEnabledInd = KraServiceLocator.getService(KualiConfigurationService.class).getParameter(
+                        Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT,
+                        Constants.BUDGET_JOBCODE_VALIDATION_ENABLED).getParameterValue();
+                
+                Map fieldValues = new HashMap();
+                BudgetPerson budgetPerson = null;
+                
+                if(StringUtils.isNotEmpty(jobCodeValidationEnabledInd) && jobCodeValidationEnabledInd.equals("Y")) { 
+                    List<BudgetPerson> budgetPersons = budgetDocument.getBudgetPersons();
+                    for(BudgetPerson tmpBudgetPerson : budgetDocument.getBudgetPersons()) {
+                        if(tmpBudgetPerson.getPersonSequenceNumber().intValue() == newBudgetPersonnelDetails.getPersonSequenceNumber().intValue()) {
+                            budgetPerson = tmpBudgetPerson;
+                            break;
+                        }
+                    }
+                    if(budgetPerson != null && StringUtils.isNotEmpty(budgetPerson.getJobCode())) {
+                        fieldValues.put("jobCode", budgetPerson.getJobCode().toUpperCase());
+                        validCostElements = (List<ValidCeJobCode>) boService.findMatching(ValidCeJobCode.class, fieldValues);
+                    }
+                }
+                
+            } else {
+                validCostElements = budgetService.getApplicableCostElements(budgetDocument.getProposalNumber(), budgetDocument.getBudgetVersionNumber().toString(), newBudgetPersonnelDetails.getPersonSequenceNumber().toString());
+            }
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Exception Occurred while calling BudgetService getApplicableCostElements");
+        }
+         
+        return validCostElements;
+    }
+    
+    public boolean processCheckJobCodeObjectCodeCombo(BudgetDocument budgetDocument, BudgetPersonnelDetails newBudgetPersonnelDetails, boolean save) {
+        List<ValidCeJobCode> validCostElements = null;
+        boolean isValid = false;
+        
+        validCostElements = getApplicableCostElements(budgetDocument, newBudgetPersonnelDetails, save);
+        
+        if(CollectionUtils.isEmpty(validCostElements)) {
+            isValid = true;
+        } else {
+            for(ValidCeJobCode validCeJobCode : validCostElements) {
+                if(validCeJobCode.getCostElement().equalsIgnoreCase(newBudgetPersonnelDetails.getCostElement())) {
+                    isValid = true;
+                    break;
+                }
+            }
+        }
+
+        return isValid;
+    }
+
 }

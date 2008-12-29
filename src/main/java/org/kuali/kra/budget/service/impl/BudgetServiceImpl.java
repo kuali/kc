@@ -361,14 +361,6 @@ public class BudgetServiceImpl implements BudgetService {
         BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
         List<ValidCeJobCode> validCostElements = getApplicableCostElements(proposalNumber, budgetVersionNumber, personSequenceNumber);
         
-//        String jobCodeValidationEnabledInd = KraServiceLocator.getService(KualiConfigurationService.class).getParameter(
-//                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT,
-//                Constants.BUDGET_JOBCODE_VALIDATION_ENABLED).getParameterValue();
-//        
-//        if(StringUtils.isNotEmpty(jobCodeValidationEnabledInd) && jobCodeValidationEnabledInd.equals("Y")) { 
-//            validCostElements = getApplicableCostElements(proposalNumber, budgetVersionNumber, personSequenceNumber);
-//        }
-        
         if(CollectionUtils.isNotEmpty(validCostElements)) {
             for (ValidCeJobCode validCE : validCostElements) {
                 Map fieldValues = new HashMap();
