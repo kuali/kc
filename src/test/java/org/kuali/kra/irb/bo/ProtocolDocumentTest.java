@@ -27,6 +27,7 @@ import org.kuali.core.UserSession;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kra.KraTestBase;
 import org.kuali.kra.KraTestBaseLite;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.rice.KNSServiceLocator;
@@ -51,7 +52,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
             }
         )
     )
-public class ProtocolDocumentTest extends KraTestBaseLite {
+public class ProtocolDocumentTest extends KraTestBase {
     
     private Mockery context = new JUnit4Mockery();
     protected final Logger LOG = Logger.getLogger(getClass());
