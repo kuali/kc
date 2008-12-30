@@ -89,7 +89,8 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
         assertTrue(PROTOCOL_DOCUMENT_NAME.equalsIgnoreCase(page.getTitleText()));
         
         //Required Fields to begin with for saving protocol document
-        setRequiredFields(page);
+        //setRequiredFields(page);
+        setProtocolRequiredFields(page);
         
         //Additional Fields to populate for this test case
         
@@ -144,7 +145,9 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
         assertEquals("disabled",expandedField.getAttributeValue("disabled"));
         
         //Required Fields to begin with for saving protocol document
-        setRequiredFields(page);
+        //setRequiredFields(page);
+        setProtocolRequiredFields(page);
+
        
         //Invoke save method by clicking save button on form
         HtmlPage resultPage = super.saveDoc(page);
@@ -210,7 +213,9 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
         
         assertTrue(PROTOCOL_DOCUMENT_NAME.equalsIgnoreCase(page.getTitleText()));
         //Required Fields to begin with for saving protocol document
-        setRequiredFields(page);
+        //setRequiredFields(page);
+        setProtocolRequiredFields(page);
+
         
         //Invoke save method by clicking save button on form
         HtmlPage resultPage = super.saveDoc(page);
@@ -262,7 +267,9 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
         
         assertTrue(PROTOCOL_DOCUMENT_NAME.equalsIgnoreCase(page.getTitleText()));
         //Required Fields to begin with for saving protocol document
-        setRequiredFields(page);
+        //setRequiredFields(page);
+        setProtocolRequiredFields(page);
+
         
         //Invoke save method by clicking save button on form
         HtmlPage resultPage = super.saveDoc(page);

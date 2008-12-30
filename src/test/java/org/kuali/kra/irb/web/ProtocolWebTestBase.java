@@ -15,7 +15,9 @@
  */
 package org.kuali.kra.irb.web;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.junit.After;
@@ -28,6 +30,7 @@ import org.kuali.rice.test.data.PerSuiteUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestFile;
 
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlHiddenInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
@@ -38,14 +41,20 @@ import edu.iu.uis.eden.exception.WorkflowException;
  */
 @PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
         @UnitTestFile(filename = "classpath:sql/dml/load_protocol_status.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ORG_TYPE.sql", delimiter = ";"),
         @UnitTestFile(filename = "classpath:sql/dml/load_protocol_type.sql", delimiter = ";") }))
 public abstract class ProtocolWebTestBase extends KraWebTestBase {
     
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolWebTestBase.class);
+
+    /* check for save success - any errors found in the page */
+    protected static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
+    protected static final String SAVE_SUCCESS_MESSAGE = "Document was successfully saved";
     
     // KEW Struts Constants
     protected static final String KUALI_FORM_NAME = "KualiForm";
     protected static final String KUALI_DOCUMENT_NUMBER = "document.documentHeader.documentNumber";
+    protected static final String SAVE_PAGE = "methodToCall.save";
 
     // Services
     private DocumentService documentService;
@@ -53,32 +62,40 @@ public abstract class ProtocolWebTestBase extends KraWebTestBase {
     // Set by child class
     private ProtocolDocument protocolDocument;
 
-    // Begin Required Fields
-    protected enum UiLookupKey {       
-        DOCUMENT_DESCRIPTION_ID("document.documentHeader.documentDescription"),
-        PROTOCOL_STATUS_ID("document.protocol.protocolStatusCode"),
-        PROTOCOL_TYPE_CODE_ID("document.protocol.protocolTypeCode"),
-        PROTOCOL_TITLE_ID("document.protocol.title"),
-        PROTOCOL_APPLICATION_DATE_ID("document.protocol.applicationDate");
-        
-        private String value;
+    /**
+     * protocol required fields
+     */
+    protected enum ProtocolRequiredFields {       
+        DOCUMENT_DESCRIPTION("document.documentHeader.documentDescription", "Protocol Document"),
+        PROTOCOL_TYPE_CODE("document.protocol.protocolTypeCode", "1"),
+        PROTOCOL_TITLE("document.protocol.title", "New protocol test");
+                
+        private final String code;   
+        private final String value;
 
-        public String getValue() {
-            return value;
-        }
-        UiLookupKey(String value){
+        ProtocolRequiredFields(String code, String value){
+            this.code = code;
             this.value = value;          
         }
+
+        public String getCode() {   
+            return code; 
+        }
+
+        public String getValue() { 
+            return value; 
+        }
+
     }
-   
+    
+    
     protected static final String DEFAULT_DOCUMENT_DESCRIPTION = "Protocol Document";
 
     protected static final String PROTOCOL_STATUS = "100"; //test of option "Pending/In Progress";
 
     protected static final String PROTOCOL_TYPE_CODE = "1";//test of option "Standard";
 
-    protected static final String PROTOCOL_TITLE = "Some text title goes here...";
-
+    protected static final String PROTOCOL_TITLE = "New protocol test";
     protected static final String PROTOCOL_APPLICATION_DATE = "11/12/2008";
     protected static final String PROTOCOL_APPLICATION_DATE_RESULT = "2008-11-12"; // TODO if required
     
@@ -97,6 +114,8 @@ public abstract class ProtocolWebTestBase extends KraWebTestBase {
     protected static final String PROTOCOL_PI_NON_EMP_FIELD = "document.nonEmployeeFlag";
     protected static final String PROTOCOL_PI_NON_EMP = "true";    
     
+    private HtmlPage protocolHomePage;    
+
     /**
      * Web test setup overloading. Sets up DocumentService and asserts.
      * @see org.kuali.kra.KraWebTestBase#setUp()
@@ -107,6 +126,7 @@ public abstract class ProtocolWebTestBase extends KraWebTestBase {
         setDocumentService(KNSServiceLocator.getDocumentService());
         // Assert documentService, required to test save feature of form
         assertNotNull(getDocumentService());
+        setProtocolHomePage(buildProtocolDocumentPage());
     }
 
     /**
@@ -153,44 +173,164 @@ public abstract class ProtocolWebTestBase extends KraWebTestBase {
     public ProtocolDocument getProtocolDocument() {
         return protocolDocument;
     }
-
+    
     /**
-     * Helper method for sub-classes to set required fields for saving form.
+     * Create a new instance of the protocol document page by clicking on the link to the portal page. 
+     * The resulting page of the click through is a frame, so it is important to get the inner page.
+     * 
+     * @return <code>{@link HtmlPage}</code> instance of the protocol document page
+     * @throws IOException
      */
-    protected void setRequiredFields() {
-/*        setFieldValue(HTML_TEXT_INPUT, DOCUMENT_DESCRIPTION_ID, DEFAULT_DOCUMENT_DESCRIPTION, -1);
-        setFieldValue(HTML_SELECTED_INPUT, PROTOCOL_TYPE_CODE_ID, PROTOCOL_TYPE_CODE, -1);
-        setFieldValue(HTML_TEXT_AREA, PROTOCOL_TITLE_ID, PROTOCOL_TITLE, -1);
-        setFieldValue(HTML_TEXT_INPUT, PROTOCOL_PI_ID_FIELD, PROTOCOL_PI_ID, -1);
-//        setFieldValue(HTML_TEXT_INPUT, PROTOCOL_APPLICATION_DATE_ID, PROTOCOL_APPLICATION_DATE, -1);
-        setFieldValue(HTML_TEXT_INPUT, PROTOCOL_PI_LEAD_UNIT_NUM_FIELD, PROTOCOL_PI_LEAD_UNIT_NUM, -1);     */   
-    }
-    
-    protected void setRequiredFields(HtmlPage page){ 
-        setRequiredFields(page, buildDefaultMap()); 
-    }
-    
-    private Map<UiLookupKey, String> buildDefaultMap() {
-        Map<UiLookupKey, String> params = new HashMap<UiLookupKey, String>();
-        params.put(UiLookupKey.DOCUMENT_DESCRIPTION_ID, DEFAULT_DOCUMENT_DESCRIPTION);
-        params.put(UiLookupKey.PROTOCOL_STATUS_ID, PROTOCOL_STATUS);
-        params.put(UiLookupKey.PROTOCOL_TYPE_CODE_ID, PROTOCOL_TYPE_CODE);
-        params.put(UiLookupKey.PROTOCOL_TITLE_ID, PROTOCOL_TITLE);
-        params.put(UiLookupKey.PROTOCOL_APPLICATION_DATE_ID, PROTOCOL_APPLICATION_DATE);
-        return params;
+    protected final HtmlPage buildProtocolDocumentPage() throws Exception {
+        HtmlPage retval = clickOn(getPortalPage(), "Create Protocol", "Kuali Portal Index");
+        retval = getInnerPages(retval).get(0);
+        System.out.println(retval.getTitleText());
+        assertTrue("Kuali :: Protocol Document".equals(retval.getTitleText()));
+        return retval;
     }
     
     /**
-     * Helper method for sub-classes to set required fields for saving form.
+     * Sets the protocol page for tests. Typically, run out of <code>{@link #setUp()}</code>
+     * 
+     * @param protocolHomePage <code>{@link HtmlPage}</code> instance for the test
      */
-    protected void setRequiredFields(HtmlPage page, Map<UiLookupKey, String> params) {
-        super.setFieldValue(page, UiLookupKey.DOCUMENT_DESCRIPTION_ID.getValue(), params.get(UiLookupKey.DOCUMENT_DESCRIPTION_ID)); 
-        super.setFieldValue(page, UiLookupKey.PROTOCOL_STATUS_ID.getValue(), params.get(UiLookupKey.PROTOCOL_STATUS_ID));
-        super.setFieldValue(page, UiLookupKey.PROTOCOL_TYPE_CODE_ID.getValue(), params.get(UiLookupKey.PROTOCOL_TYPE_CODE_ID));; 
-        super.setFieldValue(page, UiLookupKey.PROTOCOL_TITLE_ID.getValue(), params.get(UiLookupKey.PROTOCOL_TITLE_ID)); 
-        super.setFieldValue(page, UiLookupKey.PROTOCOL_APPLICATION_DATE_ID.getValue(), params.get(UiLookupKey.PROTOCOL_APPLICATION_DATE_ID));
+    protected final void setProtocolHomePage(HtmlPage protocolHomePage) {
+        this.protocolHomePage = protocolHomePage;
     }
 
+    /**
+     * Gets the Protocol Home web page for creating a new Protocol document.
+     * We don't want to test within the Portal.  This means that we will extract the
+     * protocol web page from within the Portal's Inline Frame (iframe).
+     * 
+     * @return the Protocol Home web page.
+     */
+    protected final HtmlPage getProtocolHomePage() {
+        return this.protocolHomePage;
+    }
+
+    /**
+     * Gets the Protocol Page after saving all required fields - creating a new Protocol document.
+     * 
+     * @return the Protocol page after saving all required fields.
+     */
+    protected final HtmlPage getProtocolSavedRequiredFieldsPage() throws Exception {
+        HtmlPage protocolPage = getProtocolHomePage();
+        setProtocolRequiredFields(protocolPage);
+        protocolPage = savePage(protocolPage);
+        validateSavedPage(protocolPage);
+        return protocolPage;
+    }
+
+    /**
+     * Sets the required fields for a Protocol document.
+     * 
+     * @param page - protocol web page.
+     */
+    protected void setProtocolRequiredFields(HtmlPage page){
+        setFieldValues(page, getProtocolRequiredFieldsMap());
+    }
+
+    /**
+     * This method is to construct a map of required fields
+     * linked to enum ProtocolRequiredFields declared on top
+     * @return protocol document required fields and values
+     */
+    protected Map<String,String> getProtocolRequiredFieldsMap(){
+        Map<String,String> requiredFieldMap = new HashMap<String,String>(); 
+        for (ProtocolRequiredFields protocolRequiredFields : ProtocolRequiredFields.values()) {
+            requiredFieldMap.put(protocolRequiredFields.getCode(), protocolRequiredFields.getValue());
+        }
+        return requiredFieldMap;
+    }
+
+    /**
+     * 
+     * This method gets the values mentioned in the map and set it to the page.
+     * It uses setFieldValue(HtmlPage,string,string) method to set the value to the page by using key.
+     * @param page
+     * @param keyValues
+     */
+    protected void setFieldValues(HtmlPage page, Map<String, String> keyValues) {
+        Iterator<String> it = keyValues.keySet().iterator();
+        while (it.hasNext()) {
+            String key = (String) it.next();
+            setFieldValue(page, key, keyValues.get(key));
+        }
+    }
+
+    /**
+     * 
+     * This method checks the values mentioned in the map against the values in from the page.
+     * It uses getFieldValue(HtmlPage,string) method to get the value from page by using key.
+     * @param page
+     * @param keyValues
+     */
+    protected void validatePage(HtmlPage page, Map<String, String> keyValues) {
+        Iterator<String> it = keyValues.keySet().iterator();
+        while (it.hasNext()) {
+            String key = (String) it.next();
+            assertEquals(getFieldValue(page, key), keyValues.get(key));
+        }
+    }
+    
+    /**
+     * This method is to save a given page
+     * @param page
+     * @return saved page
+     * @throws Exception
+     */
+    protected HtmlPage savePage(HtmlPage page) throws Exception {
+        HtmlPage savedPage = clickOn(page, SAVE_PAGE);
+        return savedPage;
+    }
+
+    /**
+     * This method is to validate a saved page. Check to see if there are no errors in the page
+     * and save success message is displayed
+     * @param page
+     * @return
+     * @throws Exception
+     */
+    protected void validateSavedPage(HtmlPage page) throws Exception {
+        assertDoesNotContain(page, ERRORS_FOUND_ON_PAGE);
+        assertContains(page,SAVE_SUCCESS_MESSAGE);        
+    }
+
+    /**
+     * This method is to select a tag by given name
+     * @param page
+     * @param tabName
+     * @return
+     * @throws Exception
+     */
+    protected HtmlPage clickOnTab(HtmlPage page, String tabName) throws Exception {
+        HtmlElement element = getElementByNameEndsWith(page, tabName);
+        return clickOn(element);
+    }
+    
+    /**
+     * 
+     * This method is to test the <code>ExtendedTextArea</code> tag
+     * @param page
+     * @param textAreaFieldName
+     * @param moreTextToBeAdded
+     * @param action
+     * @param textAreaLabel
+     * @param tabIndex
+     * @throws Exception
+     */
+    protected void testTextAreaPopup(HtmlPage page, String textAreaFieldName,String moreTextToBeAdded,String action,String textAreaLabel,String tabIndex) throws Exception{
+        HtmlPage textAreaPopupPage = clickOn(page, "methodToCall.updateTextArea.((#"+textAreaFieldName+":"+action+":"+textAreaLabel+"#))"+tabIndex);
+        String currentValue = getFieldValue(textAreaPopupPage, textAreaFieldName);
+        String completeText = currentValue+moreTextToBeAdded;
+        setFieldValue(textAreaPopupPage, textAreaFieldName, completeText);
+        super.assertContains(textAreaPopupPage, textAreaLabel);
+        HtmlPage textAreasAddedPage = clickOn(textAreaPopupPage,"methodToCall.postTextAreaToParent.anchor"+tabIndex);
+        assertEquals(getFieldValue(textAreasAddedPage, textAreaFieldName), completeText);
+    }
+    
+    
     /**
      * This method asserts whether required fields where saved
      */
@@ -212,5 +352,66 @@ public abstract class ProtocolWebTestBase extends KraWebTestBase {
         assertEquals(PROTOCOL_TYPE_CODE, getProtocolDocument().getProtocol().getProtocolType().getProtocolTypeCode());
         assertEquals(PROTOCOL_TITLE, getProtocolDocument().getProtocol().getTitle());
         assertEquals(PROTOCOL_APPLICATION_DATE_RESULT, getProtocolDocument().getProtocol().getApplicationDate().toString());
+    }
+    
+    private void removedCode() {
+        /*
+        // Begin Required Fields
+        protected enum UiLookupKey {       
+            DOCUMENT_DESCRIPTION_ID("document.documentHeader.documentDescription"),
+            PROTOCOL_STATUS_ID("document.protocol.protocolStatusCode"),
+            PROTOCOL_TYPE_CODE_ID("document.protocol.protocolTypeCode"),
+            PROTOCOL_TITLE_ID("document.protocol.title"),
+            PROTOCOL_APPLICATION_DATE_ID("document.protocol.applicationDate");
+            
+            private String value;
+
+            public String getValue() {
+                return value;
+            }
+            UiLookupKey(String value){
+                this.value = value;          
+            }
+        }
+        */
+
+        
+        /*
+            protected void setRequiredFields() {
+        /*        setFieldValue(HTML_TEXT_INPUT, DOCUMENT_DESCRIPTION_ID, DEFAULT_DOCUMENT_DESCRIPTION, -1);
+                setFieldValue(HTML_SELECTED_INPUT, PROTOCOL_TYPE_CODE_ID, PROTOCOL_TYPE_CODE, -1);
+                setFieldValue(HTML_TEXT_AREA, PROTOCOL_TITLE_ID, PROTOCOL_TITLE, -1);
+                setFieldValue(HTML_TEXT_INPUT, PROTOCOL_PI_ID_FIELD, PROTOCOL_PI_ID, -1);
+        //        setFieldValue(HTML_TEXT_INPUT, PROTOCOL_APPLICATION_DATE_ID, PROTOCOL_APPLICATION_DATE, -1);
+                setFieldValue(HTML_TEXT_INPUT, PROTOCOL_PI_LEAD_UNIT_NUM_FIELD, PROTOCOL_PI_LEAD_UNIT_NUM, -1);       
+            }
+            
+            protected void setRequiredFields(HtmlPage page){ 
+                setRequiredFields(page, buildDefaultMap()); 
+            }
+            
+            private Map<UiLookupKey, String> buildDefaultMap() {
+                Map<UiLookupKey, String> params = new HashMap<UiLookupKey, String>();
+                params.put(UiLookupKey.DOCUMENT_DESCRIPTION_ID, DEFAULT_DOCUMENT_DESCRIPTION);
+                params.put(UiLookupKey.PROTOCOL_STATUS_ID, PROTOCOL_STATUS);
+                params.put(UiLookupKey.PROTOCOL_TYPE_CODE_ID, PROTOCOL_TYPE_CODE);
+                params.put(UiLookupKey.PROTOCOL_TITLE_ID, PROTOCOL_TITLE);
+                params.put(UiLookupKey.PROTOCOL_APPLICATION_DATE_ID, PROTOCOL_APPLICATION_DATE);
+                return params;
+            }
+            
+            /**
+             * Helper method for sub-classes to set required fields for saving form.
+            protected void setRequiredFields(HtmlPage page, Map<UiLookupKey, String> params) {
+                super.setFieldValue(page, UiLookupKey.DOCUMENT_DESCRIPTION_ID.getValue(), params.get(UiLookupKey.DOCUMENT_DESCRIPTION_ID)); 
+                super.setFieldValue(page, UiLookupKey.PROTOCOL_STATUS_ID.getValue(), params.get(UiLookupKey.PROTOCOL_STATUS_ID));
+                super.setFieldValue(page, UiLookupKey.PROTOCOL_TYPE_CODE_ID.getValue(), params.get(UiLookupKey.PROTOCOL_TYPE_CODE_ID));; 
+                super.setFieldValue(page, UiLookupKey.PROTOCOL_TITLE_ID.getValue(), params.get(UiLookupKey.PROTOCOL_TITLE_ID)); 
+                super.setFieldValue(page, UiLookupKey.PROTOCOL_APPLICATION_DATE_ID.getValue(), params.get(UiLookupKey.PROTOCOL_APPLICATION_DATE_ID));
+            }
+        
+        
+         *
+         */
     }
 }
