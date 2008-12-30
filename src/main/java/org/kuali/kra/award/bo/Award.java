@@ -88,6 +88,8 @@ public class Award extends KraPersistableBusinessObjectBase {
     Map<Integer, AwardComment> commentMap;
     private List<AwardCostShare> awardCostShares;
     List<AwardFandaRate> awardFandaRate;
+    private List<AwardApprovedSubaward> awardApprovedSubawards;
+
     /**
      * 
      * Constructs an Award BO.
@@ -957,6 +959,14 @@ public class Award extends KraPersistableBusinessObjectBase {
 
     public void setAwardCostShares(List<AwardCostShare> awardCostShares) {
         this.awardCostShares = awardCostShares;
+    }
+    
+    public List<AwardApprovedSubaward> getAwardApprovedSubawards() {
+        return awardApprovedSubawards;
+    }
+
+    public void setAwardApprovedSubawards(List<AwardApprovedSubaward> awardApprovedSubawards) {
+        this.awardApprovedSubawards = awardApprovedSubawards;
     }
 
     /**
