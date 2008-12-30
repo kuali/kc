@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.web.struts.form;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,12 +24,15 @@ import org.kuali.core.datadictionary.HeaderNavigation;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.award.bo.AwardApprovedSubaward;
+import org.kuali.kra.award.bo.AwardComment;
+import org.kuali.kra.award.bo.AwardCostShare;
 import org.kuali.kra.award.bo.AwardFandaRate;
+import org.kuali.kra.award.bo.AwardReportTerms;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
-import org.kuali.kra.award.bo.*;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
 
@@ -38,27 +42,22 @@ import edu.iu.uis.eden.clientapp.IDocHandler;
  */
 public class AwardForm extends KraTransactionalDocumentFormBase {
     
+    public static final String SAVE = "save";
+    public static final String RELOAD = "reload";
+    
     /**
      * Comment for <code>serialVersionUID</code>
      */
-    private static final long serialVersionUID = -7633960906991275328L;
-    public static final String SAVE = "save";
-    public static final String RELOAD = "reload";
+    private static final long serialVersionUID = -7633960906991275328L;    
     private AwardCostShare newAwardCostShare;
     private AwardComment newAwardCostShareComment;
     private AwardApprovedSubaward newAwardApprovedSubaward;
     
     private AwardFandaRate newAwardFandaRate;
+    private List<AwardReportTerms> newAwardReportTerms;
+    private List<AwardReportTerms> newAwardReportTermsRecipients;
     
     
-    public AwardCostShare getNewAwardCostShare() {
-        return newAwardCostShare;
-    }
-
-    public void setNewAwardCostShare(AwardCostShare newAwardCostShare) {
-        this.newAwardCostShare = newAwardCostShare;
-    }
-
     /**
      * 
      * Constructs a AwardForm.java.
@@ -77,6 +76,8 @@ public class AwardForm extends KraTransactionalDocumentFormBase {
         initializeHeaderNavigationTabs();
         newAwardCostShare = new AwardCostShare();
         newAwardFandaRate = new AwardFandaRate();
+        newAwardReportTerms = new ArrayList<AwardReportTerms>();
+        newAwardReportTermsRecipients = new ArrayList<AwardReportTerms>();
     }    
     
     /**
@@ -166,12 +167,36 @@ public class AwardForm extends KraTransactionalDocumentFormBase {
         return KraAuthorizationConstants.LOCK_DESCRIPTOR_AWARD;
     }
 
+    public List<AwardReportTerms> getNewAwardReportTerms() {
+        return newAwardReportTerms;
+    }
+
+    public void setNewAwardReportTerms(List<AwardReportTerms> newAwardReportTerms) {
+        this.newAwardReportTerms = newAwardReportTerms;
+    }
+
+    public List<AwardReportTerms> getNewAwardReportTermsRecipients() {
+        return newAwardReportTermsRecipients;
+    }
+
+    public void setNewAwardReportTermsRecipients(List<AwardReportTerms> newAwardReportTermsRecipients) {
+        this.newAwardReportTermsRecipients = newAwardReportTermsRecipients;
+    }
+
     public AwardApprovedSubaward getNewAwardApprovedSubaward() {
         return newAwardApprovedSubaward;
     }
 
     public void setNewAwardApprovedSubaward(AwardApprovedSubaward newAwardApprovedSubaward) {
         this.newAwardApprovedSubaward = newAwardApprovedSubaward;
+    }
+    
+    public AwardCostShare getNewAwardCostShare() {
+        return newAwardCostShare;
+    }
+
+    public void setNewAwardCostShare(AwardCostShare newAwardCostShare) {
+        this.newAwardCostShare = newAwardCostShare;
     }
 
 }

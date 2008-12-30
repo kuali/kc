@@ -87,7 +87,10 @@ public class Award extends KraPersistableBusinessObjectBase {
     private List<AwardComment> awardComments;
     Map<Integer, AwardComment> commentMap;
     private List<AwardCostShare> awardCostShares;
-    List<AwardFandaRate> awardFandaRate;
+    private List<AwardFandaRate> awardFandaRate;
+    private List<AwardReportTerms> awardReportTerms;
+       
+
     private List<AwardApprovedSubaward> awardApprovedSubawards;
 
     /**
@@ -99,7 +102,8 @@ public class Award extends KraPersistableBusinessObjectBase {
         initializeAwardWithDefaultValues(); 
         setAwardCostShares(new ArrayList<AwardCostShare>());
         setAwardComments(new ArrayList<AwardComment>());
-        awardFandaRate = new ArrayList<AwardFandaRate>();
+        setAwardFandaRate(new ArrayList<AwardFandaRate>());
+        setAwardReportTerms(new ArrayList<AwardReportTerms>());
     }
     
     /**
@@ -1015,6 +1019,14 @@ public class Award extends KraPersistableBusinessObjectBase {
 
     public void setAwardFandaRate(List<AwardFandaRate> awardFandaRate) {
         this.awardFandaRate = awardFandaRate;
+    }
+    
+    public List<AwardReportTerms> getAwardReportTerms() {
+        return awardReportTerms;
+    }
+
+    public void setAwardReportTerms(List<AwardReportTerms> awardReportTerms) {
+        this.awardReportTerms = awardReportTerms;
     }
 
 }
