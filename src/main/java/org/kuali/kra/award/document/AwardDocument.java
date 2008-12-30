@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.SessionDocument;
+import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.proposaldevelopment.bo.ScienceKeyword;
@@ -44,6 +45,8 @@ public class AwardDocument extends ResearchDocumentBase implements Copyable, Ses
     
     private String newKeyword;
     private List<ScienceKeyword> keywords;
+    private List<KeyLabelPair> reportClasses;
+    private List<KeyLabelPair> reportCodes;
     
     /**
      * Constructs a AwardDocument object
@@ -99,6 +102,7 @@ public class AwardDocument extends ResearchDocumentBase implements Copyable, Ses
         List managedLists = super.buildListOfDeletionAwareLists();       
                 
         managedLists.add(getAward().getAwardFandaRate());
+        managedLists.add(getAward().getAwardReportTerms());
         managedLists.add(awardList);
         return managedLists;
     }
@@ -139,5 +143,21 @@ public class AwardDocument extends ResearchDocumentBase implements Copyable, Ses
         awardList = new ArrayList<Award>();
         awardList.add(new Award());
         keywords = new ArrayList<ScienceKeyword>();
+    }
+
+    public List<KeyLabelPair> getReportClasses() {
+        return reportClasses;
+    }
+
+    public void setReportClasses(List<KeyLabelPair> reportClasses) {
+        this.reportClasses = reportClasses;
+    }
+
+    public List<KeyLabelPair> getReportCodes() {
+        return reportCodes;
+    }
+
+    public void setReportCodes(List<KeyLabelPair> reportCodes) {
+        this.reportCodes = reportCodes;
     }
 }

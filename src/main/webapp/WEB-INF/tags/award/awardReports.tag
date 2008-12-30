@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
+<c:set var="awardReportTermsAttributes" value="${DataDictionary.AwardReportTerms.attributes}" />
 
 <kul:tab tabTitle="Reports" defaultOpen="false" tabErrorKey="">
 	<div class="tab-container" align="right">
@@ -23,6 +23,9 @@
     		<span class="subhead-right">
     			<kul:help businessObjectClassName="org.kuali.kra.award.bo.AwardFandaRate" altText="help"/>
 			</span>
-        </h3>
+        </h3>                
+        <c:forEach var="reportClass" items="${KualiForm.document.reportClasses}" varStatus="reportClassIndex">        	        	
+			<kra-a:awardReportClasses index="${reportClassIndex.index}" reportClassKey="${reportClass.key}" reportClassLabel="${reportClass.label}" />
+		</c:forEach>
     </div>    
 </kul:tab>

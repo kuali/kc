@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,6 +26,10 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kra.award.bo.AwardReportTerms;
+import org.kuali.kra.award.lookup.keyvalue.ReportClassValuesFinder;
+import org.kuali.kra.award.lookup.keyvalue.ReportCodeValuesFinder;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
@@ -120,7 +127,25 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
      * @return
      */
     public ActionForward paymentReportsAndTerms(ActionMapping mapping, ActionForm form
-            , HttpServletRequest request, HttpServletResponse response) {        
+            , HttpServletRequest request, HttpServletResponse response) {
+        AwardForm awardForm = (AwardForm) form;
+        ReportClassValuesFinder reportClassValuesFinder = new ReportClassValuesFinder();
+        ReportCodeValuesFinder reportCodeValuesFinder = new ReportCodeValuesFinder();
+        List<KeyLabelPair> reportClasses = new ArrayList<KeyLabelPair>();
+        List<KeyLabelPair> reportCodes = new ArrayList<KeyLabelPair>();
+        reportClasses = reportClassValuesFinder.getKeyValues();
+        reportCodes = reportCodeValuesFinder.getKeyValues();
+        
+        for(int i=0;i<reportClasses.size();i++){
+            awardForm.getNewAwardReportTerms().add(new AwardReportTerms());
+        }
+        
+        for(int i=0;i<awardForm.getAwardDocument().getAward().getAwardReportTerms().size();i++){
+            awardForm.getNewAwardReportTermsRecipients().add(new AwardReportTerms());
+        }
+        awardForm.getAwardDocument().setReportClasses(reportClasses);
+        awardForm.getAwardDocument().setReportCodes(reportCodes);
+        
         return mapping.findForward(Constants.MAPPING_AWARD_PAYMENT_REPORTS_AND_TERMS_PAGE);
     }
     
