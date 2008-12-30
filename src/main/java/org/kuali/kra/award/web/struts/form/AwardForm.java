@@ -46,6 +46,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase {
     public static final String RELOAD = "reload";
     private AwardCostShare newAwardCostShare;
     private AwardComment newAwardCostShareComment;
+    private AwardApprovedSubaward newAwardApprovedSubaward;
     
     private AwardFandaRate newAwardFandaRate;
     
@@ -163,6 +164,14 @@ public class AwardForm extends KraTransactionalDocumentFormBase {
     
     protected String getLockRegion() {
         return KraAuthorizationConstants.LOCK_DESCRIPTOR_AWARD;
+    }
+
+    public AwardApprovedSubaward getNewAwardApprovedSubaward() {
+        return newAwardApprovedSubaward;
+    }
+
+    public void setNewAwardApprovedSubaward(AwardApprovedSubaward newAwardApprovedSubaward) {
+        this.newAwardApprovedSubaward = newAwardApprovedSubaward;
     }
 
 }
