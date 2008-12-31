@@ -7,7 +7,7 @@
 <c:set var="nonEmpFlag" value="false" />
 <c:set var="className" value="org.kuali.kra.protocol.document.ProtocolDocument" />
 
-<kul:tab tabTitle="Required Fields for Saving Document" defaultOpen="true" tabErrorKey="newPrincipalInvestigator*, document.currentAwardNumber*,document.continuedFrom,document.sponsorCode*,document.ProtocolTypeCode*,document.requestedStartDateInitial*,document.ownedByUnit*,document.requestedEndDateInitial*,document.activityTypeCode*,document.title" auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.title" useRiceAuditMode="true">
+<kul:tab tabTitle="Required Fields for Saving Document" defaultOpen="true" tabErrorKey="document.protocol.protocolTypeCode*,principalInvestigator*,document.protocol.principalInvestigatorName*,document.protocol.title*,document.protocol.principalInvestigatorId*,document.protocol.leadUnitNumber*, document.currentAwardNumber*,document.continuedFrom,document.sponsorCode*,document.ProtocolTypeCode*,document.requestedStartDateInitial*,document.ownedByUnit*,document.requestedEndDateInitial*,document.activityTypeCode*,document.title" auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.title" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Required Fields for Saving Document</span>
@@ -22,30 +22,31 @@
                 </td>
 				
 				<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.principalInvestigatorId}" /></div></th>
-                <td align="left" valign="top">                
-					<c:if test="${empty KualiForm.document.protocol.protocolId}">
-						<label> Employee Search</label>
-						<label>
-						<kul:lookup boClassName="org.kuali.kra.bo.Person" 
-                         fieldConversions="personId:document.protocol.personId,fullName:document.protocol.principalInvestigatorName,homeUnitRef.unitNumber:document.protocol.lookupUnitNumber" 
-                         /></label>
-                        <kul:directInquiry boClassName="org.kuali.kra.bo.Person" 
-                         inquiryParameters="document.protocol.principalInvestigatorId:personId,document.protocol.principalInvestigatorName:fullName" 
-                         anchor="${tabKey}" />
-                        <br>
-						<label>Non-employee Search</label> 
-						<label>
-						<kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" 
-                         fieldConversions="rolodexId:document.protocol.rolodexId,unit.unitNumber:document.protocol.lookupUnitNumber,fullName:document.protocol.principalInvestigatorName"  
-                         />
-                        </label>
-                        <kul:directInquiry boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" 
-                         inquiryParameters="document.protocol.principalInvestigatorId:rolodexId" 
-                         anchor="${tabKey}" />						
-						<br/>
-						</label>
-					</c:if>
-
+                <td align="left" valign="top">
+                <div id="principalInvestigator.div" property="principalInvestigator" >
+                               	
+						<c:if test="${empty KualiForm.document.protocol.protocolId}">          					
+							<label> Employee Search</label>
+							<label>
+							<kul:lookup boClassName="org.kuali.kra.bo.Person" 
+	                         fieldConversions="personId:document.protocol.personId,fullName:document.protocol.principalInvestigatorName,homeUnitRef.unitNumber:document.protocol.lookupUnitNumber" 
+	                         /></label>
+	                        <kul:directInquiry boClassName="org.kuali.kra.bo.Person" 
+	                         inquiryParameters="document.protocol.principalInvestigatorId:personId,document.protocol.principalInvestigatorName:fullName" 
+	                         anchor="${tabKey}" />
+	                        <br>
+							<label>Non-employee Search</label> 
+							<label>
+							<kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" 
+	                         fieldConversions="rolodexId:document.protocol.rolodexId,unit.unitNumber:document.protocol.lookupUnitNumber,fullName:document.protocol.principalInvestigatorName"  
+	                         />
+	                        </label>
+	                        <kul:directInquiry boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" 
+	                         inquiryParameters="document.protocol.principalInvestigatorId:rolodexId" 
+	                         anchor="${tabKey}" />						
+							<br/>
+							</label>
+						</c:if>
 					<br>
 									
 					<div id="principalInvestigatorName.div" >
@@ -61,6 +62,7 @@
                         </c:if>
 					</div>
                 </td>
+				</div>
 
 
             </tr>
