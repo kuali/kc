@@ -36,6 +36,7 @@ import org.kuali.kra.irb.rule.event.AddProtocolLocationEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolParticipantEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolReferenceEvent;
 import org.kuali.kra.irb.rule.event.SaveProtocolLocationEvent;
+import org.kuali.kra.irb.rule.event.SaveProtocolRequiredFieldsEvent;
 import org.kuali.kra.irb.service.ProtocolLocationService;
 import org.kuali.kra.irb.service.ProtocolParticipantService;
 import org.kuali.kra.irb.service.ProtocolReferenceService;
@@ -62,6 +63,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
         // check any business rules
         ProtocolForm protocolForm = (ProtocolForm) form;
         rulePassed &= applyRules(new SaveProtocolLocationEvent(Constants.EMPTY_STRING,protocolForm.getProtocolDocument()));
+        rulePassed &= applyRules(new SaveProtocolRequiredFieldsEvent(protocolForm.getProtocolDocument()));
         if (!rulePassed){
             mapping.findForward(Constants.MAPPING_BASIC);
         }
