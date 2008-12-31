@@ -549,6 +549,7 @@ public class Protocol extends KraPersistableBusinessObjectBase{
             }
         }
         setPrincipalInvestigatorName( pi.getPersonName());
+
     }
     
     public void resolvePrincipalInvestigator() {
