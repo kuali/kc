@@ -24,44 +24,57 @@ import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolParticipant;
 import org.kuali.kra.irb.service.ProtocolParticipantService;
 
+/**
+ * 
+ * This class implements the services to maintain the <code>{@link ProtocolParticipant}</code>s of a 
+ * <code>{@link Protocol}</code>.
+ * 
+ * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ */
 public class ProtocolParticipantServiceImpl implements ProtocolParticipantService {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolParticipantServiceImpl.class);
-    
     private BusinessObjectService businessObjectService;
 
     /**
-     * Set the Business Object Service.  Injected by the Spring Framework.
+     * Set the Business Object Service. Injected by the Spring Framework.
+     * 
      * @param businessObjectService the business object service
-     */            
+     */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
+
     /**
-     * @see org.kuali.kra.irb.service.ProtocolParticipantService#addProtocolParticipant(org.kuali.kra.irb.document.ProtocolDocument, org.kuali.kra.irb.bo.ProtocolParticipant)
+     * This method adds the ProtocolParticipant to the List of ProtocolParticipants along with the 
+     * appropriate ParticipantType.
+     * 
+     * @param protocol which contains list of ProtocolParticipant.
+     * @param protocolParticipant which is added to ProtocolParticipants list after setting ParticipantType.
      */
     public void addProtocolParticipant(Protocol protocol, ProtocolParticipant protocolParticipant) {
         Map keyMap = new HashMap();
         keyMap.put("participantTypeCode", protocolParticipant.getParticipantTypeCode());
-        
-        ParticipantType participantType = (ParticipantType) businessObjectService.findByPrimaryKey(ParticipantType.class, keyMap);
-        
+
+        ParticipantType participantType = 
+            (ParticipantType) businessObjectService.findByPrimaryKey(ParticipantType.class, keyMap);
+
         protocolParticipant.setParticipantType(participantType);
-        
-        //TODO Framework problem of 2 saves
+
+        // TODO Framework problem of 2 saves
         protocolParticipant.setProtocolNumber("0");
         protocolParticipant.setSequenceNumber(0);
-        
+
         protocol.getProtocolParticipants().add(protocolParticipant);
-        
+
     }
 
     /**
-     * @see org.kuali.kra.irb.service.ProtocolParticipantService#deleteProtocolParticipant(org.kuali.kra.irb.document.ProtocolDocument, java.lang.Integer)
+     * This method deletes the ProtocolParticipant from the List at specified position(lineNumber)
+     * 
+     * @param protocol which contains list of ProtocolParticipants
+     * @param lineNumber to be deleted
      */
     public void deleteProtocolParticipant(Protocol protocol, int lineNumber) {
         protocol.getProtocolParticipants().remove(lineNumber);
     }
-
 }

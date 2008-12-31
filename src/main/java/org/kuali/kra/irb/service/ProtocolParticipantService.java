@@ -15,27 +15,33 @@
  */
 package org.kuali.kra.irb.service;
 
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolParticipant;
-import org.kuali.kra.irb.document.ProtocolDocument;
 
-
+/**
+ * 
+ * This interface describes the service API to maintain the <code>{@link ProtocolParticipant}</code>s of a
+ * <code>{@link Protocol}</code>.
+ * 
+ * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ */
 public interface ProtocolParticipantService {
 
     /**
-     * This method adds ProtocolParticipant to the List of ProtocolParticipants along with 
-     * the appropriate ParticipantType.
+     * This method adds the ProtocolParticipant to the List of ProtocolParticipants along with the 
+     * appropriate ParticipantType.
+     * 
      * @param protocol which contains list of ProtocolParticipant.
      * @param protocolParticipant which is added to ProtocolParticipants list after setting ParticipantType.
      */
-    public abstract void addProtocolParticipant(Protocol protocol, ProtocolParticipant protocolParticipant);
-    
+    void addProtocolParticipant(Protocol protocol, ProtocolParticipant protocolParticipant);
+
     /**
-     * This method deletes ProtocolParticipant from the List at specified position(lineNumber)
+     * This method deletes the ProtocolParticipant from the List at specified position(lineNumber)
+     * 
      * @param protocol which contains list of ProtocolParticipants
      * @param lineNumber to be deleted
      */
-    public abstract void deleteProtocolParticipant(Protocol protocol, int lineNumber);
+    void deleteProtocolParticipant(Protocol protocol, int lineNumber);
 
 }

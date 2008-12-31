@@ -19,13 +19,17 @@ import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.kra.irb.bo.ProtocolParticipant;
 
 /**
- * Event triggered when a protocol participant state is modified on a 
- * <code>{@link ProtocolDocument}</code>
  *
+ * This interface addresses the lookup of the <code>{@link ProtocolParticipant}</code> of an event.
+ *
+ * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public interface ProtocolParticipantEvent extends KualiDocumentEvent {
     /**
-     * @return <code>{@link ProtocolParticipant}</code> that triggered this event.
+     * 
+     * Get the <code>{@link ProtocolParticipant}</code> of this event.
+     * 
+     * @return <code>ProtocolParticipant</code>
      */
-    public ProtocolParticipant getProtocolParticipant();
+     ProtocolParticipant getProtocolParticipant();
 }
