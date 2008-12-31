@@ -18,50 +18,52 @@ package org.kuali.kra.irb.bo;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import java.util.LinkedHashMap;
-import java.sql.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity 
-@Table(name="VULNERABLE_SUBJECT_TYPE")
-public class ParticipantType extends KraPersistableBusinessObjectBase { 
-	
-    @Id 
-    @Column(name="VULNERABLE_SUBJECT_TYPE_CODE")
-	private String participantTypeCode; 
+/**
+ * 
+ * This class implements the participant type object.
+ * 
+ * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ */
+@Entity
+@Table(name = "VULNERABLE_SUBJECT_TYPE")
+public class ParticipantType extends KraPersistableBusinessObjectBase {
 
-    @Column(name="DESCRIPTION")
-    private String description; 
-	
-	public ParticipantType() { 
+    @Id
+    @Column(name = "VULNERABLE_SUBJECT_TYPE_CODE")
+    private String participantTypeCode;
 
-	} 
-	
-	public String getParticipantTypeCode() {
-		return participantTypeCode;
-	}
+    @Column(name = "DESCRIPTION")
+    private String description;
 
-	public void setParticipantTypeCode(String participantTypeCode) {
-		this.participantTypeCode = participantTypeCode;
-	}
+    public ParticipantType() {
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getParticipantTypeCode() {
+        return participantTypeCode;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setParticipantTypeCode(String participantTypeCode) {
+        this.participantTypeCode = participantTypeCode;
+    }
 
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("participantTypeCode", getParticipantTypeCode());
-		hashMap.put("description", getDescription());
-		return hashMap;
-	}
-	
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap hashMap = new LinkedHashMap();
+        hashMap.put("participantTypeCode", getParticipantTypeCode());
+        hashMap.put("description", getDescription());
+        return hashMap;
+    }
 }

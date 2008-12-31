@@ -21,7 +21,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -30,70 +29,84 @@ import org.kuali.kra.irb.bo.ProtocolParticipant;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.rule.AddProtocolParticipantRule;
 import org.kuali.kra.irb.rule.event.AddProtocolParticipantEvent;
-import org.kuali.kra.irb.rule.event.AddProtocolReferenceEvent;
 
+/**
+ * 
+ * This class contains the rules to validate a <code>{@link ProtocolParticipant}</code>
+ * 
+ * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ */
 public class ProtocolParticipantRule extends ProtocolDocumentRule implements AddProtocolParticipantRule {
 
     /**
-     * Don't allow participants with an invalid participant type code, duplicate participants (i.e.
-     * same participant type code), or where the participant count in a non-positive number.
      * 
-     * @see org.kuali.kra.irb.rule.ParticipantRule#processAddParticipantBusinessRules(org.kuali.kra.irb.document.ProtocolDocument, org.kuali.kra.irb.bo.ProtocolParticipant)
+     * Process the validation rules for an <code>{@link AddProtocolParticipantEvent}</code>
+     * Participants with an invalid participant type code, duplicate participants (i.e. same
+     * participant type code), or where the participant count is a non-positive number are not allowed.
+     * 
+     * @param addProtocolParticipantEvent
+     * @return <code>true</code> if valid, <code>false</code> otherwise
      */
-    public boolean processAddProtocolParticipantBusinessRules(AddProtocolParticipantEvent addProtocolParticipantEvent) {
+    public boolean processAddProtocolParticipantBusinessRules(AddProtocolParticipantEvent 
+            addProtocolParticipantEvent) {
+        final String PROPERTY_NAME_TYPE_CODE = Constants.PARTICIPANTS_PROPERTY_KEY +  ".participantTypeCode";
+        final String PROPERTY_NAME_COUNT = Constants.PARTICIPANTS_PROPERTY_KEY + ".participantCount";
         boolean isValid = true;
-        String participantTypeCode = addProtocolParticipantEvent.getProtocolParticipant().getParticipantTypeCode();
+        ProtocolParticipant protocolParticipant = addProtocolParticipantEvent.getProtocolParticipant();
+        String participantTypeCode = protocolParticipant.getParticipantTypeCode(); 
         
         if (StringUtils.isBlank(participantTypeCode)) {
             isValid = false;
-            reportError(Constants.PARTICIPANTS_PROPERTY_KEY + ".participantTypeCode", KeyConstants.ERROR_PROTOCOL_PARTICIPANT_TYPE_NOT_SELECTED, "Description");
-        }
-        else if (isInvalid(participantTypeCode)) {
+            reportError(PROPERTY_NAME_TYPE_CODE, KeyConstants.ERROR_PROTOCOL_PARTICIPANT_TYPE_NOT_SELECTED);
+        } else if (!isValidParticipantTypeCode(participantTypeCode)) {
             isValid = false;
-            reportError(Constants.PARTICIPANTS_PROPERTY_KEY + ".participantTypeCode", KeyConstants.ERROR_PROTOCOL_PARTICIPANT_TYPE_INVALID, "Description");
-        }
-        else if (isDuplicate((ProtocolDocument)addProtocolParticipantEvent.getDocument(), participantTypeCode)) {
+            reportError(PROPERTY_NAME_TYPE_CODE, KeyConstants.ERROR_PROTOCOL_PARTICIPANT_TYPE_INVALID);
+        } else if (isDuplicate((ProtocolDocument) addProtocolParticipantEvent.getDocument(), 
+                participantTypeCode)) {
             isValid = false;
-            reportError(Constants.PARTICIPANTS_PROPERTY_KEY + ".participantTypeCode", KeyConstants.ERROR_PROTOCOL_PARTICIPANT_TYPE_DUPLICATE, "Description");
+            reportError(PROPERTY_NAME_TYPE_CODE, KeyConstants.ERROR_PROTOCOL_PARTICIPANT_TYPE_DUPLICATE);
         }
 
         Integer participantCount = addProtocolParticipantEvent.getProtocolParticipant().getParticipantCount();
         if ((participantCount != null) && (participantCount <= 0)) {
             isValid = false;
-            reportError(Constants.PARTICIPANTS_PROPERTY_KEY + ".participantCount", KeyConstants.ERROR_PROTOCOL_PARTICIPANT_COUNT_INVALID, "Count");
+            reportError(PROPERTY_NAME_COUNT, KeyConstants.ERROR_PROTOCOL_PARTICIPANT_COUNT_INVALID);
         }
 
         return isValid;
     }
-    
- 
+     
     /**
-     * Is this an invalid participant type code?  Query the database for a matching participant
-     * type code.  If found, it is valid; otherwise it is invalid.
      * 
-     * @param participantTypeCode, the participant type code to test against.
-     * @return true if invalid; false if valid
+     * Validates the <code>{@link ParticipantTypeCode}</code>.  
+     * 
+     * @param participantTypeCode, the participant type code to validate.
+     * @return <code>true</code> if valid, <code>false</code> otherwise
      */
-    private boolean isInvalid(String participantTypeCode) {
+    private boolean isValidParticipantTypeCode(String participantTypeCode) {
+        boolean isValid = false;
+
         if (participantTypeCode != null) {
-            BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            // Query the database for a matching participant type code
+            BusinessObjectService businessObjectService = 
+                KraServiceLocator.getService(BusinessObjectService.class);
             Map<String,String> fieldValues = new HashMap<String,String>();
             fieldValues.put("participantTypeCode", participantTypeCode);
             if (businessObjectService.countMatching(ParticipantType.class, fieldValues) == 1) {
-                return false;
+                isValid = true;
             }
         }
-        return true;
+        return isValid;
     }
 
     /**
-     * Is this a duplicate participant?  Participants must have a unique participant type code.
-     * If a participant already exists with the same participant type code, do not allow
-     * the next participant.
      * 
-     * @param document, the protocol document
-     * @param participantTypeCode, the participant type code to compare against
-     * @return true if it is a duplicate; otherwise false
+     * Check if the <code>{@link ParticipantTypeCode}</code> exists already as a 
+     * <code>{@link ProtocolParticipant}</code>.
+     * 
+     * @param document, the protocol document to which the protocol participant is added
+     * @param participantTypeCode, the participant type code of the protocol participant to be added
+     * @return <code>true</code> if it is a duplicate, <code>false</code> otherwise
      */
     private boolean isDuplicate(ProtocolDocument document, String participantTypeCode) {
         List<ProtocolParticipant> protocolParticipants = document.getProtocol().getProtocolParticipants();
