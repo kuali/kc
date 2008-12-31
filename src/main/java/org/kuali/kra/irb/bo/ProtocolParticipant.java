@@ -17,11 +17,7 @@
 package org.kuali.kra.irb.bo;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.proposaldevelopment.bo.ScienceKeyword;
-
 import java.util.LinkedHashMap;
-import java.sql.Date;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,32 +27,38 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@Entity 
-@Table(name="PROTOCOL_VULNERABLE_SUB")
-public class ProtocolParticipant extends KraPersistableBusinessObjectBase { 
+/**
+ * 
+ * This class implements the protocol participant object.
+ * 
+ * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ */
+@Entity
+@Table(name = "PROTOCOL_VULNERABLE_SUB")
+public class ProtocolParticipant extends KraPersistableBusinessObjectBase {
 
-    @Id 
-    @Column(name="PROTOCOL_ID")
+    @Id
+    @Column(name = "PROTOCOL_ID")
     private Long protocolId;
 
-    @Column(name="PROTOCOL_NUMBER")
-    private String protocolNumber; 
+    @Column(name = "PROTOCOL_NUMBER")
+    private String protocolNumber;
 
-    @Column(name="SEQUENCE_NUMBER")
+    @Column(name = "SEQUENCE_NUMBER")
     private Integer sequenceNumber;
 
-    @Column(name="VULNERABLE_SUBJECT_TYPE_CODE")
-    private String participantTypeCode; 
+    @Column(name = "VULNERABLE_SUBJECT_TYPE_CODE")
+    private String participantTypeCode;
 
-    @Column(name="SUBJECT_COUNT")
+    @Column(name = "SUBJECT_COUNT")
     private Integer participantCount;
-    
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="VULNERABLE_SUBJECT_TYPE_CODE", insertable=true, updatable=true)
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinColumn(name = "VULNERABLE_SUBJECT_TYPE_CODE", insertable = true, updatable = true)
     private ParticipantType participantType;
-    
-    public ProtocolParticipant() { 
-    } 
+
+    public ProtocolParticipant() {
+    }
 
     public Long getProtocolId() {
         return protocolId;
@@ -100,14 +102,13 @@ public class ProtocolParticipant extends KraPersistableBusinessObjectBase {
 
     public void setParticipantType(ParticipantType participantType) {
         this.participantType = participantType;
-// TODO: cniesen       this.participantTypeCode = participantType.getParticipantTypeCode();
     }
 
     public ParticipantType getParticipantType() {
         return participantType;
     }
 
-    @Override 
+    @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap hashMap = new LinkedHashMap();
         hashMap.put("protocolId", getProtocolId());
@@ -115,5 +116,5 @@ public class ProtocolParticipant extends KraPersistableBusinessObjectBase {
         hashMap.put("participantCount", getParticipantCount());
         return hashMap;
     }
-    
+
 }

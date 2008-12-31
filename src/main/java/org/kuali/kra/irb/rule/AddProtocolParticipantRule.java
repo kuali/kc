@@ -19,15 +19,19 @@ import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.irb.rule.event.AddProtocolParticipantEvent;
 
 /**
- * This class adds rule for adding new <code>ProtocolParticipant</code> object
+ * 
+ * This interface addresses the adds rule for adding a new <code>ProtocolParticipant</code>
+ * 
+ * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public interface AddProtocolParticipantRule extends BusinessRule {
 
     /**
-     * This method evaluates to true if ProcotcolParticipant objects satisfy required fields and business rules.
+     * 
+     * Processes the validation rules for an <code>{@link AddProtocolParticipantEvent}</code>
+     * 
      * @param addProtocolParticipantEvent
-     * @return boolean true for valid object and false for invalid entry
+     * @return <code>true</code> if valid, <code>false</code> otherwise
      */
     public boolean processAddProtocolParticipantBusinessRules(AddProtocolParticipantEvent addProtocolParticipantEvent);
-
 }
