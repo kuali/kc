@@ -22,10 +22,12 @@ import org.kuali.kra.irb.rule.AddProtocolLocationRule;
 import org.kuali.kra.irb.rule.AddProtocolParticipantRule;
 import org.kuali.kra.irb.rule.AddProtocolReferenceRule;
 import org.kuali.kra.irb.rule.SaveProtocolLocationRule;
+import org.kuali.kra.irb.rule.SaveProtocolRequiredFieldsRule;
 import org.kuali.kra.irb.rule.event.AddProtocolLocationEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolParticipantEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolReferenceEvent;
 import org.kuali.kra.irb.rule.event.SaveProtocolLocationEvent;
+import org.kuali.kra.irb.rule.event.SaveProtocolRequiredFieldsEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 /**
@@ -33,7 +35,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolParticipantRule, AddProtocolLocationRule, SaveProtocolLocationRule {
+public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolParticipantRule, AddProtocolLocationRule, SaveProtocolLocationRule, SaveProtocolRequiredFieldsRule {
     
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -94,6 +96,12 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
     public boolean processSaveProtocolLocationBusinessRules(SaveProtocolLocationEvent saveProtocolLocationEvent) {
 
         return new ProtocolLocationRule().processSaveProtocolLocationBusinessRules(saveProtocolLocationEvent);
+        
+    }
+    
+    public boolean processSaveProtocolRequiredFieldsRules(SaveProtocolRequiredFieldsEvent saveProtocolRequiredFieldsEvent) {
+
+        return new ProtocolRequiredFieldsRule().processSaveProtocolRequiredFieldsRules(saveProtocolRequiredFieldsEvent);
         
     }
 }
