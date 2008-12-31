@@ -15,41 +15,66 @@
  */
 package org.kuali.kra.irb.rule.event;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.irb.bo.ProtocolParticipant;
-import org.kuali.kra.irb.bo.ProtocolReference;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.rule.AddProtocolParticipantRule;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 
 /**
- * This class represents the AddProtocolParticipantEvent
+ * 
+ * This class represents the event when a <code>{@link ProtocolParticipant}</code> is added to a 
+ * <code>{@link Protocol}</code>.
+ * 
+ * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class AddProtocolParticipantEvent extends ProtocolParticipantEventBase {
-    
-    public AddProtocolParticipantEvent(String errorPathPrefix, ProtocolDocument document, ProtocolParticipant protocolParticipant) {
-        super("adding ProtocolParticipant to document " + getDocumentId(document), errorPathPrefix, document, protocolParticipant);
+    /**
+     * 
+     * Constructs a <code>{@link AddProtocolParticipantEvent}</code>.
+     * 
+     * @param errorPathPrefix
+     * @param document
+     * @param protocolParticipant
+     */
+    public AddProtocolParticipantEvent(String errorPathPrefix, ProtocolDocument document, 
+            ProtocolParticipant protocolParticipant) {
+        super("adding ProtocolParticipant to document " + getDocumentId(document), 
+                errorPathPrefix, document, protocolParticipant);
     }
-
-    public AddProtocolParticipantEvent(String errorPathPrefix, Document document, ProtocolParticipant protocolParticipant) {
+    
+    /**
+     * 
+     * Constructs a <code>{@link AddProtocolParticipantEvent}</code>.
+     * 
+     * @param errorPathPrefix
+     * @param document
+     * @param protocolParticipant
+     */
+    public AddProtocolParticipantEvent(String errorPathPrefix, Document document, 
+            ProtocolParticipant protocolParticipant) {
         this(errorPathPrefix, (ProtocolDocument) document, protocolParticipant);
     }
     
     /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
+     * 
+     * Returns the <code>{@link AddProtocolParticipantRule}</code> class which is needed to validate a
+     * <code>{@link ProtocolParticipant}</code>
+     * 
+     * @return <code>{@link AddProtocolParticipantRule} class</code>
      */
     public Class getRuleInterfaceClass() {
         return AddProtocolParticipantRule.class;
     }
 
     /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
+     * 
+     * Invokes the processing of the rules when adding a <code>{@link ProtocolParticipant}</code>.
+     * 
+     * @param The <code>{@link AddProtocolParticipantRule}</code> that is to be used for processing
+     * @return <code>true</code> if all rules are satisfied, otherwise <code>false</code>
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((AddProtocolParticipantRule) rule).processAddProtocolParticipantBusinessRules(this);
     }
-
 }

@@ -17,7 +17,6 @@ package org.kuali.kra.irb.lookup.keyvalue;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
@@ -31,6 +30,8 @@ import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 
 /**
+ * 
+ * TODO: cniesen - add/improve descriptions
  * Finds the available set of supported Participant Types.  See
  * the method <code>getKeyValues()</code> for a full description.
  * 
@@ -59,13 +60,15 @@ public class ParticipantTypeValuesFinder extends KeyValuesBase {
      */
     public List<KeyLabelPair> getKeyValues() {
         ProtocolDocument doc = getDocument();
-        KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
+        KeyValuesService keyValuesService = 
+            (KeyValuesService) KraServiceLocator.getService("keyValuesService");
         Collection<ParticipantType> participantTypes = keyValuesService.findAll(ParticipantType.class);
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", "select"));
         for (ParticipantType participantType : participantTypes) {
             if (!hasParticipant(doc, participantType)) {
-                keyValues.add(new KeyLabelPair(participantType.getParticipantTypeCode(), participantType.getDescription()));
+                keyValues.add(new KeyLabelPair(participantType.getParticipantTypeCode(), 
+                        participantType.getDescription()));
             }
         }
         return keyValues;
@@ -97,7 +100,8 @@ public class ParticipantTypeValuesFinder extends KeyValuesBase {
         if (doc != null) {
             List<ProtocolParticipant> protocolParticipants = doc.getProtocol().getProtocolParticipants();
             for (ProtocolParticipant protocolParticipant : protocolParticipants) {
-                if (protocolParticipant.getParticipantTypeCode().equals(participantType.getParticipantTypeCode())) {
+                if (protocolParticipant.getParticipantTypeCode().
+                        equals(participantType.getParticipantTypeCode())) {
                     return true;
                 }
             }

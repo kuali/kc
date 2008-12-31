@@ -16,23 +16,38 @@
 package org.kuali.kra.irb.rule.event;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.irb.bo.ProtocolParticipant;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 
-public abstract class ProtocolParticipantEventBase extends KraDocumentEventBase implements ProtocolParticipantEvent {
+/**
+ * 
+ * This abstract class is used for specific <code>{@link ProtocolParticipant}</code> events.
+ * 
+ * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ */
+public abstract class ProtocolParticipantEventBase extends KraDocumentEventBase 
+                                                   implements ProtocolParticipantEvent {
 
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
-            .getLog(ProtocolParticipantEventBase.class);
+    private static final Log LOG = LogFactory.getLog(ProtocolParticipantEventBase.class);
 
     private ProtocolParticipant protocolParticipant;
 
     /**
-     * @see org.kuali.kra.rule.event.KraDocumentEventBase#KraDocumentEventBase(String, String, Document)
+     * 
+     * Constructs a <code>{@link ProtocolParticipantEventBase}</code>
+     * 
+     * 
+     * @param description
+     * @param errorPathPrefix
+     * @param document
+     * @param protocolParticipant
      */
-    protected ProtocolParticipantEventBase(String description, String errorPathPrefix, ProtocolDocument document,
-            ProtocolParticipant protocolParticipant) {
+    protected ProtocolParticipantEventBase(String description, String errorPathPrefix, 
+            ProtocolDocument document, ProtocolParticipant protocolParticipant) {
         super(description, errorPathPrefix, document);
 
         // by doing a deep copy, we are ensuring that the business rule class can't update
@@ -43,34 +58,28 @@ public abstract class ProtocolParticipantEventBase extends KraDocumentEventBase 
     }
 
     /**
-     * @return <code>{@link ProtocolParticipant}</code> that triggered this event.
+     * 
+     * Get the <code>{@link ProtocolParticipant}</code> of this event.
+     * 
+     * @return <code>ProtocolParticipant</code>
      */
     public ProtocolParticipant getProtocolParticipant() {
         return this.protocolParticipant;
     }
 
-    // /**
-    // * @see org.kuali.core.rule.event.KualiDocumentEvent#validate()
-    // */
-    // public void validate() {
-    // super.validate();
-    // if (getProtocolParticipant() == null) {
-    // throw new IllegalArgumentException("invalid (null) protocol participant");
-    // }
-    // }
-
     /**
-     * Logs the event type and some information about the associated location
+     * 
+     * Logs the event type and some information about the associated location.
      */
     protected void logEvent() {
-        StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
+        String className = StringUtils.substringAfterLast(this.getClass().getName(), ".");
+        StringBuffer logMessage = new StringBuffer(className);
         logMessage.append(" with ");
 
         // vary logging detail as needed
         if (getProtocolParticipant() == null) {
             logMessage.append("null protocolParticipant");
-        }
-        else {
+        } else {
             logMessage.append(getProtocolParticipant().toString());
         }
 
