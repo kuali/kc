@@ -24,7 +24,12 @@
 				<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.principalInvestigatorId}" /></div></th>
                 <td align="left" valign="top">
                 <div id="principalInvestigator.div" property="principalInvestigator" >
-                               	
+                        <c:if test="${empty KualiForm.document.protocol.personId}">          					                	
+                	    	<input type="hidden" name="document.protocol.personId" value="">              
+                	    </c:if>       
+                	    <c:if test="${empty KualiForm.document.protocol.rolodexId}">          					                	
+                	    	<input type="hidden" name="document.protocol.rolodexId" value="">              
+                	    </c:if>   	
 						<c:if test="${empty KualiForm.document.protocol.protocolId}">          					
 							<label> Employee Search</label>
 							<label>
