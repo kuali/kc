@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.web.filter;
 
-import java.lang.reflect.Method;
 import java.util.Enumeration;
 
 import java.io.IOException;
@@ -30,6 +29,7 @@ import javax.servlet.ServletResponse;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.MDC;
+import org.kuali.kra.util.SensitiveFieldFilterUtil;
 
 /**
  * Part of KRA's {@link FilterChain} that handles {@link HttpServletRequest} and {@link HttpSession} state. State information
@@ -109,7 +109,7 @@ public class RequestLoggingFilter implements Filter {
         MDC.put("clientIp", request.getRemoteAddr());
                 
         LOG.info("RequestURI: " + request.getRequestURI());
-            
+        
         if (LOG.isDebugEnabled()) {
             LOG.debug("\n***************************** HEADERS **********************************\n"
                       + getRequestHeadersMessage(request));
@@ -164,6 +164,11 @@ public class RequestLoggingFilter implements Filter {
         for (Enumeration<String> parameterNames = request.getParameterNames();
              parameterNames.hasMoreElements();) {
             String parameterName = parameterNames.nextElement();
+            //Filter Sensitive Fields out before logging
+            if(SensitiveFieldFilterUtil.isFieldSensitive(parameterName)) {
+                continue;
+            }
+       
             retval.append(parameterName).append(": {").toString();
 
             for (String parameterValue : request.getParameterValues(parameterName)) {
