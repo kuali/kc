@@ -74,6 +74,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
             newAwardReportTerm.setSequenceNumber(awardForm.getAwardDocument().getAward().getSequenceNumber());
             addAwardReportTermToAward(awardForm.getAwardDocument().getAward(),newAwardReportTerm);            
             awardForm.getNewAwardReportTerms().set(getReportClassCodeIndex(request),new AwardReportTerms());
+            awardForm.getNewAwardReportTermsRecipients().add(new AwardReportTerms());
         //}
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
@@ -128,6 +129,20 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
+    public ActionForward deleteRecipients(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        AwardDocument awardDocument = awardForm.getAwardDocument();
+        if(getRecipientsSize(request)>1){
+            this.deleteAwardReportTerms(mapping, form, request, response);
+        }else{
+            awardDocument.getAward().getAwardReportTerms().get(getLineToDelete(request)).setContactTypeCode(null);
+            awardDocument.getAward().getAwardReportTerms().get(getLineToDelete(request)).setNumberOfCopies(null);
+            awardDocument.getAward().getAwardReportTerms().get(getLineToDelete(request)).setRolodexId(null);
+        }
+        
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
     protected int getReportClass(HttpServletRequest request) {
         int reportClass = -1;
         String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
@@ -170,6 +185,16 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         }
 
         return recipientIndex;
+    }
+    
+    protected int getRecipientsSize(HttpServletRequest request) {
+        int recipientsSize = -1;
+        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        if (StringUtils.isNotBlank(parameterName)) {
+            String recipientsSizeString = StringUtils.substringBetween(parameterName, ".recipientsSize", ".");
+            recipientsSize = Integer.parseInt(recipientsSizeString);
+        }        
+        return recipientsSize;
     }
     
 }

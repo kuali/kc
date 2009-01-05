@@ -116,7 +116,7 @@
 	    </tr>
 	    <tr>
 	        <td colspan="9">
-	            <kra-a:awardReportRecipients innerTabParent="${reportClass.label}" index="${status.index}" reportClassKey="${reportClassKey}" reportCode="${awardReportTerms.reportCode}" />	            	    
+	            <kra-a:awardReportRecipients innerTabParent="${reportClassLabel}" index="${status.index}" reportClassKey="${reportClassKey}" reportCode="${awardReportTerms.reportCode}" />	            	    
 	        </td>
 	    </tr>
 	                    </c:if>	            
