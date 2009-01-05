@@ -42,6 +42,7 @@
         <td width="5%" valign="middle" class="infoline">
         <div align="center">
         	<kul:htmlControlAttribute property="newAwardReportTermsRecipients[${index}].rolodexId" attributeEntry="${awardReportTermsAttributes.rolodexId}" />
+        	<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" fieldConversions="rolodexId:newAwardReportTermsRecipients[${index}].rolodexId" anchor="${tabKey}" lookupParameters="newAwardReportTermsRecipients[${index}].rolodexId:rolodexId" />
         </div>
         </td>					                
         <td width="5%" valign="middle" class="infoline">
@@ -56,12 +57,23 @@
         </div>
         </td>
     </tr>
+    <c:set var="recipientsSize" value="0" />
+    <c:forEach var="awardReportTermsForCount" items="${KualiForm.document.award.awardReportTerms}" varStatus="count">
+           <c:if test="${awardReportTermsForCount.reportClassCode == reportClassKey}">           									            
+               <c:if test="${awardReportTermsForCount.reportCode == reportCode}">               							            
+                   <c:if test="${not empty awardReportTermsForCount.contactTypeCode}">                   		
+                       <c:set var="recipientsSize" value="${recipientsSize + 1}" />
+                   </c:if>
+               </c:if>
+           </c:if>
+    </c:forEach>           
+                       
        <c:set var="counterRecipients" value="0" />					            
        <c:forEach var="awardReportTermsAgain" items="${KualiForm.document.award.awardReportTerms}" varStatus="status1">					            
            <c:if test="${awardReportTermsAgain.reportClassCode == reportClassKey}">					            
                <c:if test="${awardReportTermsAgain.reportCode == reportCode}">					            
                    <c:if test="${not empty awardReportTermsAgain.contactTypeCode}">
-                       <c:set var="counterRecipients" value="${counterRecipients + 1}" />					            					            
+                       <c:set var="counterRecipients" value="${counterRecipients + 1}" />
     <tr>
         <th width="5%" class="infoline" >
 	        <c:out value="${counterRecipients}" />
@@ -83,7 +95,7 @@
         </td>
         <td valign="middle" >
         <div align="center">
-       	    <html:image property="methodToCall.deleteAwardReportTerms.line${status1.index}.anchor${currentTabIndex}"
+       	    <html:image property="methodToCall.deleteRecipients.line${status1.index}.recipientsSize${recipientsSize}.anchor${currentTabIndex}"
                 src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
         </div>
         </td>
