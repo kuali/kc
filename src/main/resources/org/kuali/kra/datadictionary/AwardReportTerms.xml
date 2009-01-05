@@ -146,6 +146,7 @@
 	<bean id="AwardReportTerms-reportCode" parent="AwardReportTerms-reportCode-parentBean" />
 	<bean id="AwardReportTerms-reportCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="reportCode" />
+		<property name="required" value="true" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Type" />
 		<property name="shortLabel" value="Type" />
@@ -168,6 +169,7 @@
 	<bean id="AwardReportTerms-frequencyCode" parent="AwardReportTerms-frequencyCode-parentBean" />
 	<bean id="AwardReportTerms-frequencyCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="frequencyCode" />
+		<property name="required" value="true" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Frequency" />
 		<property name="shortLabel" value="Frequency" />
@@ -190,6 +192,7 @@
 	<bean id="AwardReportTerms-frequencyBaseCode" parent="AwardReportTerms-frequencyBaseCode-parentBean" />
 	<bean id="AwardReportTerms-frequencyBaseCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="frequencyBaseCode" />
+		<property name="required" value="true" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Frequency Base" />
 		<property name="shortLabel" value="Frequency Base" />
@@ -212,6 +215,7 @@
 	<bean id="AwardReportTerms-ospDistributionCode" parent="AwardReportTerms-ospDistributionCode-parentBean" />
 	<bean id="AwardReportTerms-ospDistributionCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="ospDistributionCode" />
+		<property name="required" value="true" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="OSP File Copy" />
 		<property name="shortLabel" value="OSP File Copy" />
@@ -234,6 +238,7 @@
 	<bean id="AwardReportTerms-contactTypeCode" parent="AwardReportTerms-contactTypeCode-parentBean" />
 	<bean id="AwardReportTerms-contactTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="contactTypeCode" />
+		<property name="required" value="true" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Contact Type" />
 		<property name="shortLabel" value="Contact Type" />
@@ -256,6 +261,7 @@
 	<bean id="AwardReportTerms-rolodexId" parent="AwardReportTerms-rolodexId-parentBean" />
 	<bean id="AwardReportTerms-rolodexId-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="rolodexId" />
+		<property name="required" value="true" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Name/Organization" />
 		<property name="shortLabel" value="Name/Organization" />
@@ -273,11 +279,12 @@
 
 	<bean id="AwardReportTerms-dueDate" parent="AwardReportTerms-dueDate-parentBean" />
 	<bean id="AwardReportTerms-dueDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
-		<property name="name" value="dueDate" />
+		<property name="name" value="dueDate" />		
 		<property name="label" value="Due Date" />
 		<property name="shortLabel" value="Due Date" />
 		<property name="summary" value="Due Date" />
 		<property name="description" value="Due Date" />
+		<property name="required" value="true" />
 	</bean>
 
 	<bean id="AwardReportTerms-numberOfCopies" parent="AwardReportTerms-numberOfCopies-parentBean" />
