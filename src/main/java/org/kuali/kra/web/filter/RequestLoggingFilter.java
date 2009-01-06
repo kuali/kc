@@ -29,6 +29,8 @@ import javax.servlet.ServletResponse;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.MDC;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.web.filter.KualiCasFilter;
 import org.kuali.kra.util.SensitiveFieldFilterUtil;
 
 /**
@@ -53,7 +55,13 @@ import org.kuali.kra.util.SensitiveFieldFilterUtil;
  *
  */
 public class RequestLoggingFilter implements Filter {
+    
     private static final Logger LOG = Logger.getLogger(RequestLoggingFilter.class);
+    
+    //(Partial parameter names can also be used, Note: NO wildcard characters)
+    private static final String [] paramsToLogInfoByDefault = {"methodToCall"}; 
+    
+    private static final Boolean SENSITIVE_FILEDS_FILTER = true;
     
     private FilterConfig config;
     
@@ -108,13 +116,18 @@ public class RequestLoggingFilter implements Filter {
         
         MDC.put("clientIp", request.getRemoteAddr());
                 
-        LOG.info("RequestURI: " + request.getRequestURI());
+        LOG.info("Current User :" + request.getRemoteUser());
+        
+        //RequestURI & methodToCall (request parameter) are logged to trace user actions
+        LOG.info("RequestURI : " + request.getRequestURI());
+        LOG.info(getRequestParametersMessage(request, SENSITIVE_FILEDS_FILTER, paramsToLogInfoByDefault));
         
         if (LOG.isDebugEnabled()) {
+
             LOG.debug("\n***************************** HEADERS **********************************\n"
                       + getRequestHeadersMessage(request));
             LOG.debug("\n***************************** PARAMETERS *******************************\n"
-                      + getRequestParametersMessage(request));
+                      + getRequestParametersMessage(request, SENSITIVE_FILEDS_FILTER));
             LOG.debug("\n***************************** ATTRIBUTES *******************************\n"
                       + getRequestAttributesMessage(request));
         }
@@ -153,35 +166,68 @@ public class RequestLoggingFilter implements Filter {
 
     /**
      * Constructs a log message that displays parameter information belonging to the given
-     * {@link HttpServletRequest} instance. This method uses two nested loops to iterate parameters
-     * and then iterate through parameter values because a parameter may have one or more values.
-     *
+     * {@link HttpServletRequest} instance. It also provides {@link Boolean} flag
+     * to filter out sensitive field info from logging. Method is also enhanced to provide
+     * info on selected parameters, which can be passed along {@link String} array.
+     * 
      * @param request
+     * @param sensitivefieldsfilter 
+     * @param params (Partial parameter names can also be used, Note: NO wildcard characters)
      * @return Log message
      */
-    private String getRequestParametersMessage(HttpServletRequest request) {
+    private String getRequestParametersMessage(HttpServletRequest request, Boolean sensitivefieldsfilter, String... params) {
+        
         StringBuilder retval = new StringBuilder();
-        for (Enumeration<String> parameterNames = request.getParameterNames();
-             parameterNames.hasMoreElements();) {
+        
+        for (Enumeration<String> parameterNames = request.getParameterNames(); parameterNames.hasMoreElements();) {
+            
             String parameterName = parameterNames.nextElement();
-            //Filter Sensitive Fields out before logging
-            if(SensitiveFieldFilterUtil.isFieldSensitive(parameterName)) {
+            
+            //Avoid logging Sensitive Fields if SENSITIVE_FILEDS_FILTER is set to true
+            if(sensitivefieldsfilter && SensitiveFieldFilterUtil.isFieldSensitive(parameterName)) {
                 continue;
             }
-       
-            retval.append(parameterName).append(": {").toString();
-
-            for (String parameterValue : request.getParameterValues(parameterName)) {
-                retval.append(parameterValue);
-                retval.append(",");
-            }
-
-            retval.append("}\n");
-        }
+            
+            if(params.length == 0){
+                retval.append(getRequestParameterMessage(request, parameterName));
+                retval.append("\n");
+            } 
+            else {
+                for(String p: params) {
+                    if(parameterName.contains(p)) {
+                        retval.append(getRequestParameterMessage(request, parameterName));
+                        break; //breaks inner for
+                    }
+                }//end of for
+            }//end of else 
+            
+        }//end of outer for
         
         return retval.toString();
     }
+    
+    /**
+     * This method constructs and returns message info for passed parameter. Method also
+     * iterates over parameterValues returned from request because a parameter may have 
+     * one or more values.
+     * @param request
+     * @param parameterName
+     * @return Parameter Info
+     */
+    private String getRequestParameterMessage(HttpServletRequest request, String parameterName) {
+        StringBuilder retval = new StringBuilder();
+        retval.append(parameterName).append(": {").toString();
 
+        for (String parameterValue : request.getParameterValues(parameterName)) {
+            retval.append(parameterValue);
+            retval.append(",");
+        }
+
+        retval.append("}");
+        
+        return retval.toString();
+    }
+    
     /**
      * Constructs a log message that displays attribute information belonging to the given
      * {@link HttpServletRequest} instance. 
