@@ -15,17 +15,23 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.award.bo.Award;
+import org.kuali.kra.award.bo.AwardScienceKeyword;
 import org.kuali.kra.award.bo.AwardCostShare;
 import org.kuali.kra.award.bo.AwardApprovedSubaward;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.KeywordsService;
 
 
 /**
@@ -33,8 +39,7 @@ import org.kuali.kra.infrastructure.Constants;
  * This class represents the Struts Action for Award page(AwardHome.jsp) 
  */
 public class AwardHomeAction extends AwardAction { 
- 
-    
+
     /**
      * This method is used to add a new Award Cost Share
      * 
@@ -81,5 +86,70 @@ public class AwardHomeAction extends AwardAction {
      
     }
     
-    
+
+    /**
+     * This takes care of populating the ScienceKeywords in keywords list after the selected Keywords returns from <code>multilookup</code>
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        super.refresh(mapping, form, request, response);
+        AwardForm awardMultiLookupForm = (AwardForm) form;
+        Award awardDocument = awardMultiLookupForm.getAwardDocument().getAward();
+        getKeywordService().addKeywords(awardDocument, awardMultiLookupForm);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }    
+    /**
+     * 
+     * This method...
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    protected KeywordsService getKeywordService(){
+        return KraServiceLocator.getService(KeywordsService.class);
+    }
+    /**
+     * 
+     * This method is for selecting all keywords if javascript is disabled on a browser. 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return Basic ActionForward
+     * @throws Exception
+     */
+    public ActionForward selectAllScienceKeyword(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        AwardForm awardForm = (AwardForm) form;
+        AwardDocument awardDocument = awardForm.getAwardDocument();
+        List<AwardScienceKeyword> keywords = awardDocument.getAward().getKeywords();
+        for (AwardScienceKeyword awardScienceKeyword : keywords) {
+            awardScienceKeyword.setSelectKeyword(true);
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /**
+     * 
+     * This method is to delete selected keywords from the keywords list. 
+     * It uses {@link KeywordsService} to process the request 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @SuppressWarnings("unchecked")
+    public ActionForward deleteSelectedScienceKeyword(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        AwardDocument awardDocument = awardForm.getAwardDocument();
+        KeywordsService keywordsService = KraServiceLocator.getService(KeywordsService.class);
+        keywordsService.deleteKeyword(awardDocument.getAward()); 
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
 }

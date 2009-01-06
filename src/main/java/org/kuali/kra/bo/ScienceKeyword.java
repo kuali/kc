@@ -1,4 +1,4 @@
-package org.kuali.kra.proposaldevelopment.bo;
+package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
@@ -6,7 +6,11 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class ScienceKeyword extends KraPersistableBusinessObjectBase {
 
-	private String scienceKeywordCode;
+	/**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 7064465474079964486L;
+    private String scienceKeywordCode;
 	private String description;
 
 	public String getDescription() {
@@ -22,7 +26,8 @@ public class ScienceKeyword extends KraPersistableBusinessObjectBase {
 		this.scienceKeywordCode = scienceCode;
 	}
 
-	@Override
+	@SuppressWarnings("unchecked")
+    @Override
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap propMap = new LinkedHashMap();
 		propMap.put("scienceKeywordCode", this.getScienceKeywordCode());
