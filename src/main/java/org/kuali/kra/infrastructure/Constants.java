@@ -305,10 +305,11 @@ public interface Constants {
     public static final Integer FANDA_RATE_COMMENT_TYPE_CODE = 8;
     
     public static final String PARAMETER_MODULE_AWARD = "KC-AWARD";
-    
+    public static final String AWARD_SPECIALREVIEW_NUMBER = "AWARD_SPECIALREVIEW_NUMBER";
+
     // IRB
     public static final String PARTICIPANTS_PROPERTY_KEY = "newProtocolParticipant";
     public static final String DEFAULT_PROTOCOL_ORGANIZATION_TYPE_CODE = "1";
     public static final String DEFAULT_PROTOCOL_ORGANIZATION_ID = "000001";
-    
+        
 }

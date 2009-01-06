@@ -26,12 +26,16 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.bo.ScienceKeyword;
+import org.kuali.kra.document.KeywordsManager;
+import org.kuali.kra.document.SpecialReviewManager;
 
 /**
  * 
  * This class is Award Business Object.
+ * It implements ProcessKeywords to process all operations related to AwardScenceKeywords.
  */
-public class Award extends KraPersistableBusinessObjectBase {
+public class Award extends KraPersistableBusinessObjectBase implements KeywordsManager<AwardScienceKeyword>,SpecialReviewManager<AwardSpecialReview>{
     
     private static final String ONE = "1";
     private static final String AWARD_TITLE = "Award";
@@ -84,14 +88,18 @@ public class Award extends KraPersistableBusinessObjectBase {
     private Integer specialEbRateOnCampus;
     private String subPlanFlag;
     private String title;
+    
     private List<AwardComment> awardComments;
     Map<Integer, AwardComment> commentMap;
     private List<AwardCostShare> awardCostShares;
-    private List<AwardFandaRate> awardFandaRate;
+    List<AwardFandaRate> awardFandaRate;
     private List<AwardReportTerms> awardReportTerms;
        
 
     private List<AwardApprovedSubaward> awardApprovedSubawards;
+    
+    private List<AwardScienceKeyword> keywords;
+    private List<AwardSpecialReview> specialReviews;
 
     /**
      * 
@@ -99,11 +107,13 @@ public class Award extends KraPersistableBusinessObjectBase {
      */
     public Award() {
         super();
-        initializeAwardWithDefaultValues(); 
+        initializeAwardWithDefaultValues();       
         setAwardCostShares(new ArrayList<AwardCostShare>());
         setAwardComments(new ArrayList<AwardComment>());
         setAwardFandaRate(new ArrayList<AwardFandaRate>());
         setAwardReportTerms(new ArrayList<AwardReportTerms>());
+        keywords = new ArrayList<AwardScienceKeyword>();
+        specialReviews = new ArrayList<AwardSpecialReview>();
     }
     
     /**
@@ -132,7 +142,6 @@ public class Award extends KraPersistableBusinessObjectBase {
         setMethodOfPaymentCode(1);
         setTitle(AWARD_TITLE);   
     }
-    
     
     /**
     *
@@ -1029,4 +1038,68 @@ public class Award extends KraPersistableBusinessObjectBase {
         this.awardReportTerms = awardReportTerms;
     }
 
+    /**
+     * Gets the keywords attribute. 
+     * @return Returns the keywords.
+     */
+    public List<AwardScienceKeyword> getKeywords() {
+        return keywords;
+    }
+
+    /**
+     * Sets the keywords attribute value.
+     * @param keywords The keywords to set.
+     */
+    public void setKeywords(List<AwardScienceKeyword> keywords) {
+        this.keywords = keywords;
+    }
+    /**
+     * Add selected science keyword to award science keywords list.
+     * @see org.kuali.kra.document.KeywordsManager#addKeyword(org.kuali.kra.bo.ScienceKeyword)
+     */
+    public void addKeyword(ScienceKeyword scienceKeyword) {
+        AwardScienceKeyword awardScienceKeyword = new AwardScienceKeyword(getAwardId(), scienceKeyword);
+        getKeywords().add(awardScienceKeyword);
+    }
+
+    /**
+     * It returns the ScienceKeyword object from keywords list
+     * @see org.kuali.kra.document.KeywordsManager#getKeyword(int)
+     */
+    public AwardScienceKeyword getKeyword(int index) {
+        return getKeywords().get(index);
+    }
+
+    /**
+     * Sets the awardSpecialReviews attribute value.
+     * @param awardSpecialReviews The awardSpecialReviews to set.
+     */
+    public void setSpecialReviews(List<AwardSpecialReview> awardSpecialReviews) {
+        this.specialReviews = awardSpecialReviews;
+    }
+
+    /**
+     * Add AwardSpecialReview to the AwardSpecialReview list
+     * @see org.kuali.kra.document.SpecialReviewManager#addSpecialReview(java.lang.Object)
+     */
+    public void addSpecialReview(AwardSpecialReview specialReview) {
+        specialReview.setAward(this);
+        getSpecialReviews().add(specialReview);
+    }
+
+    /**
+     * Get AwardSpecialReview from special review list
+     * @see org.kuali.kra.document.SpecialReviewManager#getSpecialReview(int)
+     */
+    public AwardSpecialReview getSpecialReview(int index) {
+        return getSpecialReviews().get(index);
+    }
+
+    /**
+     * Get special review list
+     * @see org.kuali.kra.document.SpecialReviewManager#getSpecialReviews()
+     */
+    public List<AwardSpecialReview> getSpecialReviews() {
+        return specialReviews;
+    }
 }

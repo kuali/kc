@@ -23,7 +23,7 @@ import org.kuali.core.document.SessionDocument;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.document.ResearchDocumentBase;
-import org.kuali.kra.proposaldevelopment.bo.ScienceKeyword;
+import org.kuali.kra.bo.ScienceKeyword;
 
 /**
  * 
@@ -34,7 +34,7 @@ import org.kuali.kra.proposaldevelopment.bo.ScienceKeyword;
  * Also we have provided convenient getter and setter methods so that to the outside world;
  * Award and AwardDocument can have a 1:1 relationship.
  */
-public class AwardDocument extends ResearchDocumentBase implements Copyable, SessionDocument{
+public class AwardDocument extends ResearchDocumentBase implements  Copyable, SessionDocument{
     
     /**
      * Comment for <code>serialVersionUID</code>
@@ -42,9 +42,6 @@ public class AwardDocument extends ResearchDocumentBase implements Copyable, Ses
     private static final long serialVersionUID = 1668673531338660064L;
     
     private List<Award> awardList;
-    
-    private String newKeyword;
-    private List<ScienceKeyword> keywords;
     private List<KeyLabelPair> reportClasses;
     private List<KeyLabelPair> reportCodes;
     
@@ -106,44 +103,12 @@ public class AwardDocument extends ResearchDocumentBase implements Copyable, Ses
         managedLists.add(awardList);
         return managedLists;
     }
-
-    /**
-     * Gets the newKeyword attribute. 
-     * @return Returns the newKeyword.
-     */
-    public String getNewKeyword() {
-        return newKeyword;
-    }
-
-    /**
-     * Sets the newKeyword attribute value.
-     * @param newKeyword The newKeyword to set.
-     */
-    public void setNewKeyword(String newKeyword) {
-        this.newKeyword = newKeyword;
-    }
-
-    /**
-     * Gets the keywords attribute. 
-     * @return Returns the keywords.
-     */
-    public List<ScienceKeyword> getKeywords() {
-        return keywords;
-    }
-
-    /**
-     * Sets the keywords attribute value.
-     * @param keywords The keywords to set.
-     */
-    public void setKeywords(List<ScienceKeyword> keywords) {
-        this.keywords = keywords;
-    }
     
     protected void init() {
         awardList = new ArrayList<Award>();
         awardList.add(new Award());
-        keywords = new ArrayList<ScienceKeyword>();
     }
+
 
     public List<KeyLabelPair> getReportClasses() {
         return reportClasses;

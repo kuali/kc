@@ -15,14 +15,14 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-
+<c:set var="awardKeywordAttributes" value="${DataDictionary.AwardScienceKeyword.attributes}" />
 <c:set var="scienceKeywordAttributes" value="${DataDictionary.ScienceKeyword.attributes}" />
 
 <kul:tab tabTitle="Keywords" defaultOpen="false" tabErrorKey="">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Keywords</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.ScienceKeyword" altText="help"/></span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.ScienceKeyword" altText="help"/></span>
         </h3>
        
         <table cellpadding=0 cellspacing="0"  summary="">
@@ -33,8 +33,8 @@
              </tr>
             <tr>
               <th width="10%" class="infoline">Add:</th>
-              <td width="70%" class="infoline">(select)${KualiForm.document.newKeyword}
-              		<kul:multipleValueLookup boClassName="org.kuali.kra.proposaldevelopment.bo.ScienceKeyword" 
+              <td width="70%" class="infoline">(select)
+              		<kul:multipleValueLookup boClassName="org.kuali.kra.bo.ScienceKeyword" 
               		lookedUpCollectionName="keywords" 
               		anchor="${tabKey}"/>
 			  </td>
@@ -43,34 +43,34 @@
               &nbsp;
               </div></td>
             </tr>
-			<c:forEach var="KualiForm" items="${KualiForm.document.keywords}" varStatus="status">		
+			<c:forEach var="awardKeywords" items="${KualiForm.document.award.keywords}" varStatus="status">		
               <tr>
                 <td class="infoline"><div align="center">
-                	${status+1} 
+                	${status.index+1} 
                 </div></td>
                 <td>
-                	 ${KualiForm.document.keywords[status].scienceKeyword.description}
-					<kul:lookup boClassName="org.kuali.kra.proposaldevelopment.bo.ScienceKeyword" 
-						fieldConversions="scienceKeywordCode:document.keyword[${status}].scienceKeywordCode,description:document.keyword[${status}].scienceKeyword.description"
+                	 ${KualiForm.document.award.keywords[status.index].scienceKeyword.description}
+					<kul:lookup boClassName="org.kuali.kra.bo.ScienceKeyword" 
+						fieldConversions="scienceKeywordCode:document.award.keyword[${status.index}].scienceKeywordCode,description:document.award.keyword[${status.index}].scienceKeyword.description"
 						lookupParameters="" hideReturnLink="false" />
                 </td>
                 <td><div align="center">
-                  <kul:htmlControlAttribute property="document.keyword[${status}].selectKeyword" attributeEntry="${DataDictionary.PropScienceKeyword.attributes.selectKeyword}" readOnly="${readOnly}" />
+                  <kul:htmlControlAttribute property="document.award.keyword[${status.index}].selectKeyword" attributeEntry="${DataDictionary.PropScienceKeyword.attributes.selectKeyword}" readOnly="${readOnly}" />
                 </div></td>
               </tr>
             </c:forEach>
-            
-            <kra:section permission="modifyProposal">
+            <%-- kra:section should be added by looking at the authorization--%>
+            <%-- <kra:section permission="modifyAward">--%>
               <tr>
                 <td class="infoline" colspan=2>&nbsp;</td>
                 <td nowrap class="infoline"><div align=center>
-                <c:if test="${fn:length(KualiForm.document.keywords) > 0}">
-	                <html:image property="methodToCall.selectAllScienceKeyword.anchor${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-selectall.gif" title="Select All" alt="Select All" styleClass="tinybutton" onclick="javascript: selectAllKeywords(document);return false" />    
+                <c:if test="${fn:length(KualiForm.document.award.keywords) > 0}">
+	                <html:image property="methodToCall.selectAllScienceKeyword.anchor${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-selectall.gif" title="Select All" alt="Select All" styleClass="tinybutton" onclick="javascript: selectAllAwardKeywords(document);return false" />    
 	                <html:image property="methodToCall.deleteSelectedScienceKeyword.anchor${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-deleteselected.gif" title="Delete Selected" alt="Delete Selected" styleClass="tinybutton" />
 	            </c:if>
                 </div></td>
               </tr>
-             </kra:section> 
+             <%--</kra:section>--%> 
         </table>
     </div>
 </kul:tab>
