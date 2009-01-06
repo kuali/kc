@@ -1,4 +1,2 @@
 form.document.person.ssn
 ssn*
-document.documentHeader.documentDescription
-approvalDate*
