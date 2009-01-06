@@ -40,6 +40,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * Abstract Protocol Web Test base class provides common functionalities required by extended class.
  */
 @PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
+        @UnitTestFile(filename = "classpath:sql/dml/load_system_params.sql", delimiter = ";"),
         @UnitTestFile(filename = "classpath:sql/dml/load_protocol_status.sql", delimiter = ";"),
         @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ORG_TYPE.sql", delimiter = ";"),
         @UnitTestFile(filename = "classpath:sql/dml/load_protocol_type.sql", delimiter = ";") }))
@@ -68,7 +69,10 @@ public abstract class ProtocolWebTestBase extends KraWebTestBase {
     protected enum ProtocolRequiredFields {       
         DOCUMENT_DESCRIPTION("document.documentHeader.documentDescription", "Protocol Document"),
         PROTOCOL_TYPE_CODE("document.protocol.protocolTypeCode", "1"),
-        PROTOCOL_TITLE("document.protocol.title", "New protocol test");
+        PROTOCOL_TITLE("document.protocol.title", "New protocol test"),
+     //   PROTOCOL_STATUS_ID("document.protocol.protocolStatusCode"),
+        PROTOCOL_PI_ID("document.protocol.personId", "000000001"),
+        PROTOCOL_LEAD_UNIT_NUM("document.protocol.leadUnitNumber", "BL-BL");
                 
         private final String code;   
         private final String value;

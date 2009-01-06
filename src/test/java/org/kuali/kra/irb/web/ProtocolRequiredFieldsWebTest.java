@@ -35,32 +35,22 @@ public class ProtocolRequiredFieldsWebTest extends ProtocolWebTestBase {
         HtmlPage portalPage = getPortalPage();
         HtmlPage page = clickOn(portalPage, "Create Protocol", "Kuali Portal Index");
         page = getInnerPages(page).get(0);
-       
-        //Set Parent Html Page
-/*        setPage(page);
         
-        //Required Fields to begin with for saving protocol document
-        setRequiredFields();
-        
+        setProtocolRequiredFields(page);
+        HtmlPage resultPage = savePage(page);
+        validateSavedPage(resultPage); 
+        //getProtocolSavedRequiredFieldsPage();
         
         //Invoke save method by clicking save button on form
-        HtmlPage resultPage = invokeLifeCycleMethod(HTML_SAVE);
+       // HtmlPage resultPage = super.saveDoc(page);
         
         assertNotNull(resultPage);
-        //assertEquals("Kuali :: Protocol Document", resultPage.getTitleText());
-        
-        String pageAsText = resultPage.asText();
-        String errorMessage = extractErrorMessage(pageAsText);
-        assertFalse(errorMessage, pageAsText.contains(ERRORS_FOUND_ON_PAGE));
-        
-        setProtocolDocument(null);*/ //Can also be set by child if required
+        assertEquals("Kuali :: Protocol Document", resultPage.getTitleText()); 
+
+        setProtocolDocument(null,resultPage); 
         
         //Assert Required Fields
         verifySavedRequiredFields();        
-        /*
-        //Assert Additional Fields
-        assertTrue(getProtocolDocument().isBillable());
-        assertEquals(PROTOCOL_DESCRIPTION, getProtocolDocument().getDescription());*/
         
     }
     
