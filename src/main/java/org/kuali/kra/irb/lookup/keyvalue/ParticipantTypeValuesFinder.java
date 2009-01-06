@@ -31,7 +31,6 @@ import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 
 /**
  * 
- * TODO: cniesen - add/improve descriptions
  * Finds the available set of supported Participant Types.  See
  * the method <code>getKeyValues()</code> for a full description.
  * 
