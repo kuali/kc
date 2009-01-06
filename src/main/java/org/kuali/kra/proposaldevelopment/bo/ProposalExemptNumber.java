@@ -19,12 +19,13 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.ExemptionType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.AbstractSpecialReviewExemption;
 
-public class ProposalExemptNumber extends KraPersistableBusinessObjectBase {
+public class ProposalExemptNumber extends AbstractSpecialReviewExemption {
     private String proposalNumber;
     private Integer specialReviewNumber;
-    private String exemptionTypeCode;
-    private ExemptionType exemptionType;
+//    private String exemptionTypeCode;
+//    private ExemptionType exemptionType;
     public String getProposalNumber() {
         return proposalNumber;
     }
@@ -37,24 +38,23 @@ public class ProposalExemptNumber extends KraPersistableBusinessObjectBase {
     public void setSpecialReviewNumber(Integer specialReviewNumber) {
         this.specialReviewNumber = specialReviewNumber;
     }
-    public String getExemptionTypeCode() {
-        return exemptionTypeCode;
-    }
-    public void setExemptionTypeCode(String exemptionTypeCode) {
-        this.exemptionTypeCode = exemptionTypeCode;
-    }
-    public ExemptionType getExemptionType() {
-        return exemptionType;
-    }
-    public void setExemptionType(ExemptionType exemptionType) {
-        this.exemptionType = exemptionType;
-    }
+//    public String getExemptionTypeCode() {
+//        return exemptionTypeCode;
+//    }
+//    public void setExemptionTypeCode(String exemptionTypeCode) {
+//        this.exemptionTypeCode = exemptionTypeCode;
+//    }
+//    public ExemptionType getExemptionType() {
+//        return exemptionType;
+//    }
+//    public void setExemptionType(ExemptionType exemptionType) {
+//        this.exemptionType = exemptionType;
+//    }
     @Override
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = new LinkedHashMap();
+        LinkedHashMap hashMap = super.toStringMapper();
         hashMap.put("proposalNumber", getProposalNumber());
         hashMap.put("specialReviewNumber", getSpecialReviewNumber());
-        hashMap.put("exemptionTypeCode", getExemptionTypeCode());
         return hashMap;
     }
 

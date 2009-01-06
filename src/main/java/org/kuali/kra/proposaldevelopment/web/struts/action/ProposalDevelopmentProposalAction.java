@@ -43,7 +43,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonComparator;
-import org.kuali.kra.proposaldevelopment.bo.ScienceKeyword;
+import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.AddProposalLocationEvent;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;

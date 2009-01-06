@@ -41,20 +41,24 @@ import org.kuali.kra.award.rule.event.AddAwardFandaRateEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.rule.SpecialReviewRule;
+import org.kuali.kra.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.award.bo.AwardCostShare;
+import org.kuali.kra.bo.AbstractSpecialReview;
 
 /**
  * Main Business Rule class for <code>{@link AwardDocument}</code>. 
  * Responsible for delegating rules to independent rule classes.
  *
  */
-public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddFandaRateRule {
+public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddFandaRateRule,SpecialReviewRule {
     
     public static final String DOCUMENT_ERROR_PATH = "document";
     public static final String AWARD_ERROR_PATH = "awardList[0]";
     public static final boolean VALIDATION_REQUIRED = true;
     public static final boolean CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME = false;
+    private static final String NEW_SPECIAL_REVIEW = "newSpecialReview";
     
     /**
      * 
@@ -212,5 +216,36 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddFa
             i++;
         }
         return true;        
+    }
+
+    /**
+     * Error upon add - 
+     * 1.  Select a special review type
+     * 2.  Select an approval status
+     * 3.  Approval Date should be later than Application Date
+     */
+    public boolean processAddSpecialReviewEvent(AddSpecialReviewEvent addSpecialReviewEvent) {
+        AbstractSpecialReview specialReview = addSpecialReviewEvent.getSpecialReview();
+        Document document = addSpecialReviewEvent.getDocument();
+//        ProposalSpecialReview proposalSpecialReview = addProposalSpecialReviewEvent.getProposalSpecialReview();
+        boolean rulePassed = true;
+        String errorPath = NEW_SPECIAL_REVIEW;
+        String[] dateParams = {"Approval Date","Application Date"};
+
+        if(StringUtils.isBlank(specialReview.getApprovalTypeCode())){
+            rulePassed = false;
+            reportError(errorPath+".approvalTypeCode", KeyConstants.ERROR_REQUIRED_SELECT_APPROVAL_STATUS);
+        }
+        if(StringUtils.isBlank(specialReview.getSpecialReviewCode())){
+            rulePassed = false;
+            reportError(errorPath+".specialReviewCode", KeyConstants.ERROR_REQUIRED_SELECT_SPECIAL_REVIEW_CODE);
+        }
+        if (specialReview.getApplicationDate() !=null && specialReview.getApprovalDate() != null && 
+                specialReview.getApprovalDate().before(specialReview.getApplicationDate())) {
+            rulePassed = false;
+            reportError(errorPath+".approvalDate", KeyConstants.ERROR_APPROVAL_DATE_BEFORE_APPLICATION_DATE_SPECIALREVIEW,dateParams);
+        }
+
+        return rulePassed;
     }
 }

@@ -15,10 +15,47 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.award.bo.Award;
+import org.kuali.kra.award.bo.AwardSpecialReview;
+import org.kuali.kra.award.bo.AwardSpecialReviewExemption;
+import org.kuali.kra.award.web.struts.form.AwardForm;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.SpecialReviewService;
+
 /**
  * 
  * This class represents the Struts Action for Special Review page(AwardSpecialReview.jsp)
  */
 public class AwardSpecialReviewAction extends AwardAction {    
+    public ActionForward addSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm)form;
+        Award award = awardForm.getAwardDocument().getAward();
+        getSpecialReviewService().addSpecialReview(award,awardForm);
+        return mapping.findForward("basic");
+    }
+    private SpecialReviewService<AwardSpecialReview,AwardSpecialReviewExemption> getSpecialReviewService() {
+        return KraServiceLocator.getService(SpecialReviewService.class);
+    }
+    public ActionForward deleteSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm)form;
+        Award award = awardForm.getAwardDocument().getAward();
+        getSpecialReviewService().deleteSpecialReview(award,getLineToDelete(request));
+
+        return mapping.findForward("basic");
+    }
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        AwardForm awardForm = (AwardForm)form;
+        Award award = awardForm.getAwardDocument().getAward();
+        getSpecialReviewService().processBeforeSaveSpecialReview(award);
+        return super.save(mapping, form, request, response);
+    }
     
 }
