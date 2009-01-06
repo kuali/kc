@@ -26,7 +26,10 @@
   	
 This is the Award Special Review - Under Construction
 
+<div align="right"><kul:help documentTypeName="AwardDocument" pageName="Special Review" /></div>
 
+<kra-a:awardSpecialReview /> 
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
+<script language="javascript" src="scripts/kuali_application.js"></script>
 
 </kul:documentPage>

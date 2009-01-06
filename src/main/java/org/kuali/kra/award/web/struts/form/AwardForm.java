@@ -29,10 +29,17 @@ import org.kuali.kra.award.bo.AwardComment;
 import org.kuali.kra.award.bo.AwardCostShare;
 import org.kuali.kra.award.bo.AwardFandaRate;
 import org.kuali.kra.award.bo.AwardReportTerms;
+import org.kuali.kra.award.bo.AwardSpecialReview;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
+import org.kuali.kra.web.struts.form.SpecialReviewFormBase;
+import org.kuali.kra.award.bo.*;
+import org.kuali.kra.bo.AbstractSpecialReview;
+import org.kuali.kra.bo.AbstractSpecialReviewExemption;
+import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.web.struts.form.MultiLookupFormBase;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
 
@@ -40,7 +47,7 @@ import edu.iu.uis.eden.clientapp.IDocHandler;
  * 
  * This class represents the Award Form Struts class.
  */
-public class AwardForm extends KraTransactionalDocumentFormBase {
+public class AwardForm extends KraTransactionalDocumentFormBase implements MultiLookupFormBase,SpecialReviewFormBase<AwardSpecialReviewExemption> {
     
     public static final String SAVE = "save";
     public static final String RELOAD = "reload";
@@ -48,7 +55,12 @@ public class AwardForm extends KraTransactionalDocumentFormBase {
     /**
      * Comment for <code>serialVersionUID</code>
      */
-    private static final long serialVersionUID = -7633960906991275328L;    
+    private static final long serialVersionUID = -7633960906991275328L;
+    private String lookupResultsBOClassName;
+    private String lookupResultsSequenceNumber;
+    private AwardSpecialReview newAwardSpecialReview;
+    private List<AwardSpecialReviewExemption> newSpecialReviewExemptions;
+    private String[] newExemptionTypeCodes;
     private AwardCostShare newAwardCostShare;
     private AwardComment newAwardCostShareComment;
     private AwardApprovedSubaward newAwardApprovedSubaward;
@@ -60,7 +72,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase {
     
     /**
      * 
-     * Constructs a AwardForm.java.
+     * Constructs a AwardForm.
      */
     public AwardForm() {
         super();        
@@ -78,6 +90,8 @@ public class AwardForm extends KraTransactionalDocumentFormBase {
         newAwardFandaRate = new AwardFandaRate();
         newAwardReportTerms = new ArrayList<AwardReportTerms>();
         newAwardReportTermsRecipients = new ArrayList<AwardReportTerms>();
+        newAwardSpecialReview = new AwardSpecialReview();
+        newSpecialReviewExemptions = new ArrayList<AwardSpecialReviewExemption>();
     }    
     
     /**
@@ -134,7 +148,6 @@ public class AwardForm extends KraTransactionalDocumentFormBase {
             initialize();
         }
     }
-
     public AwardComment getNewAwardCostShareComment() {
         return newAwardCostShareComment;
     }
@@ -166,7 +179,6 @@ public class AwardForm extends KraTransactionalDocumentFormBase {
     protected String getLockRegion() {
         return KraAuthorizationConstants.LOCK_DESCRIPTOR_AWARD;
     }
-
     public List<AwardReportTerms> getNewAwardReportTerms() {
         return newAwardReportTerms;
     }
@@ -197,6 +209,90 @@ public class AwardForm extends KraTransactionalDocumentFormBase {
 
     public void setNewAwardCostShare(AwardCostShare newAwardCostShare) {
         this.newAwardCostShare = newAwardCostShare;
+    }
+
+    /**
+     * Gets the lookupResultsBOClassName attribute. 
+     * @return Returns the lookupResultsBOClassName.
+     */
+    public String getLookupResultsBOClassName() {
+        return lookupResultsBOClassName;
+    }
+
+    /**
+     * Sets the lookupResultsBOClassName attribute value.
+     * @param lookupResultsBOClassName The lookupResultsBOClassName to set.
+     */
+    public void setLookupResultsBOClassName(String lookupResultsBOClassName) {
+        this.lookupResultsBOClassName = lookupResultsBOClassName;
+    }
+
+    /**
+     * Gets the lookupResultsSequenceNumber attribute. 
+     * @return Returns the lookupResultsSequenceNumber.
+     */
+    public String getLookupResultsSequenceNumber() {
+        return lookupResultsSequenceNumber;
+    }
+
+    /**
+     * Sets the lookupResultsSequenceNumber attribute value.
+     * @param lookupResultsSequenceNumber The lookupResultsSequenceNumber to set.
+     */
+    public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {
+        this.lookupResultsSequenceNumber = lookupResultsSequenceNumber;
+    }
+
+    /**
+     * Gets the newAwardSpecialReview attribute. 
+     * @return Returns the newAwardSpecialReview.
+     */
+    public AwardSpecialReview getNewSpecialReview() {
+        return newAwardSpecialReview;
+    }
+
+    /**
+     * Sets the newAwardSpecialReview attribute value.
+     * @param newAwardSpecialReview The newAwardSpecialReview to set.
+     */
+    public void setNewSpecialReview(AwardSpecialReview newAwardSpecialReview) {
+        this.newAwardSpecialReview = newAwardSpecialReview;
+    }
+
+
+    public List<AwardSpecialReviewExemption> getNewSpecialReviewExemptions() {
+        return newSpecialReviewExemptions;
+    }
+
+    public AwardSpecialReviewExemption getNewSpecialReviewExemption(int index) {
+        return newSpecialReviewExemptions.get(index);
+    }
+    /**
+     * Sets the newSpecialReviewExcemptions attribute value.
+     * @param newSpecialReviewExcemptions The newSpecialReviewExcemptions to set.
+     */
+    public void setNewSpecialReviewExemptions(List<AwardSpecialReviewExemption> newSpecialReviewExcemptions) {
+        this.newSpecialReviewExemptions = newSpecialReviewExcemptions;
+    }
+
+    public ResearchDocumentBase getResearchDocument() {
+        return getAwardDocument();
+    }
+
+    /**
+     * Gets the newExemptionTypeCodes attribute. 
+     * @return Returns the newExemptionTypeCodes.
+     */
+    public String[] getNewExemptionTypeCodes() {
+        return newExemptionTypeCodes;
+    }
+
+    /**
+     * Sets the newExemptionTypeCodes attribute value.
+     * @param newExemptionTypeCodes The newExemptionTypeCodes to set.
+     */
+    public void setNewExemptionTypeCodes(String... newExemptionTypeCodes) {
+        this.newExemptionTypeCodes = newExemptionTypeCodes;
     }
 
 }
