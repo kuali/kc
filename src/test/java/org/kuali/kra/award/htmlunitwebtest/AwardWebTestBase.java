@@ -59,7 +59,7 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
     
     protected static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
     protected static final String SAVE_SUCCESS_MESSAGE = "Document was successfully saved";
-    
+    protected static final String ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST = "table or view does not exist";
     private HtmlPage awardHomePage;    
     
     /**
