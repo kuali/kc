@@ -21,7 +21,7 @@
     <li>Affiliation Type</li>
     <li>Batch Correspondence</li>
     <li>Committee Membership Status</li>
-    <li>Committee Membership Type</li>
+    <li><portal:portalLink displayTitle="true" title="Committee Membership Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.committee.bo.CommMembershipType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li>Committee Type</li>
     <li>Correspondence Generated</li>
     <li>Correspondence Types</li>
