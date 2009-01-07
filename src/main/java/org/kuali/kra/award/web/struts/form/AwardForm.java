@@ -58,6 +58,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase implements Multi
     private static final long serialVersionUID = -7633960906991275328L;
     private String lookupResultsBOClassName;
     private String lookupResultsSequenceNumber;
+    private String awardReportTermPanelNumber;
     private AwardSpecialReview newAwardSpecialReview;
     private List<AwardSpecialReviewExemption> newSpecialReviewExemptions;
     private String[] newExemptionTypeCodes;
@@ -293,6 +294,14 @@ public class AwardForm extends KraTransactionalDocumentFormBase implements Multi
      */
     public void setNewExemptionTypeCodes(String... newExemptionTypeCodes) {
         this.newExemptionTypeCodes = newExemptionTypeCodes;
+    }
+
+    public String getAwardReportTermPanelNumber() {
+        return awardReportTermPanelNumber;
+    }
+
+    public void setAwardReportTermPanelNumber(String awardReportTermPanelNumber) {
+        this.awardReportTermPanelNumber = awardReportTermPanelNumber;
     }
 
 }
