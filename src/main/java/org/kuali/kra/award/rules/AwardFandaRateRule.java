@@ -60,7 +60,7 @@ public class AwardFandaRateRule  extends ResearchDocumentRuleBase implements Add
         boolean rulePassed = true;
         if(awardFandaRate.getApplicableFandaRate()==null 
                 || StringUtils.isBlank(awardFandaRate.getApplicableFandaRate().toString())){
-            rulePassed = true;
+            rulePassed = false;
             reportError(NEW_AWARD_FANDA_RATE+".applicableFandaRate"
                     , KeyConstants.ERROR_REQUIRED_APPLICABLE_INDIRECT_COST_RATE);
         }
