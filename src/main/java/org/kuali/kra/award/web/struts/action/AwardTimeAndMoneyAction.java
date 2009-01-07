@@ -21,34 +21,15 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.budget.bo.BudgetPeriod;
-import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.rule.event.AddBudgetPeriodEvent;
-import org.kuali.kra.budget.web.struts.form.BudgetForm;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.web.struts.action.StrutsConfirmation;
-import org.kuali.kra.award.web.struts.form.AwardForm;
-import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.bo.AwardCostShare;
-import org.kuali.kra.award.bo.AwardComment;
-import java.util.List;
-import java.util.ArrayList;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
-import org.kuali.core.service.KualiRuleService;
 import org.kuali.kra.award.bo.Award;
+import org.kuali.kra.award.bo.AwardCostShare;
 import org.kuali.kra.award.bo.AwardFandaRate;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.rule.event.AddAwardFandaRateEvent;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.web.struts.action.StrutsConfirmation;
 
 /**
  * 
@@ -242,14 +223,5 @@ public class AwardTimeAndMoneyAction extends AwardAction {
             , HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
-    }
-    
-    /**
-     * 
-     * This method is a helper method to retrieve KualiRuleService.
-     * @return
-     */
-    protected KualiRuleService getKualiRuleService() {
-        return KraServiceLocator.getService(KualiRuleService.class);
     }
 }

@@ -262,6 +262,15 @@ public class KeyConstants {
     public static final String ERROR_END_DATE_BEFORE_START_DATE_INDIRECT_COST_RATE = "error.endDate.before.startDate.for.valid.indirectCostRate";
     public static final String ERROR_FISCAL_YEAR_INCORRECT_FORMAT = "error.fiscalYear.IncorrectFormat";
     
+    //Award Reports
+    public static final String ERROR_REQUIRED_REPORT_CODE = "error.required.report.code";
+    public static final String ERROR_REQUIRED_FREQUENCY_CODE = "error.required.frequency.code";
+    public static final String ERROR_REQUIRED_FREQUENCY_BASE_CODE = "error.required.frequency.base.code";
+    public static final String ERROR_REQUIRED_DISTRIBUTION_CODE = "error.required.distribution.code";
+    public static final String ERROR_REQUIRED_DUE_DATE = "error.required.due.date";
+    public static final String ERROR_REQUIRED_CONTACT_TYPE = "error.required.contact.type";
+    public static final String ERROR_REQUIRED_ROLODEX_ID = "error.required.rolodex.id";
+    
     //Award System Parameters    
     public static final String MIT_IDC_VALIDATION_ENABLED = "mit.idc.validation.enabled";
     public static final String MIT_IDC_VALIDATION_ENABLED_VALUE_FOR_COMPARISON = "1";
