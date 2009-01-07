@@ -15,50 +15,45 @@
  */
 package org.kuali.kra.award.rules;
 
-import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
 import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kra.award.bo.AwardCostShare;
 import org.kuali.kra.award.bo.AwardFandaRate;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.award.rule.AddAwardReportTermRecipientRule;
+import org.kuali.kra.award.rule.AddAwardReportTermRule;
 import org.kuali.kra.award.rule.AddFandaRateRule;
 import org.kuali.kra.award.rule.event.AddAwardFandaRateEvent;
+import org.kuali.kra.award.rule.event.AddAwardReportTermEvent;
+import org.kuali.kra.award.rule.event.AddAwardReportTermRecipientEvent;
+import org.kuali.kra.bo.AbstractSpecialReview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rule.SpecialReviewRule;
 import org.kuali.kra.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.kra.award.bo.AwardCostShare;
-import org.kuali.kra.bo.AbstractSpecialReview;
 
 /**
  * Main Business Rule class for <code>{@link AwardDocument}</code>. 
  * Responsible for delegating rules to independent rule classes.
  *
  */
-public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddFandaRateRule,SpecialReviewRule {
+public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddFandaRateRule,SpecialReviewRule,AddAwardReportTermRule, AddAwardReportTermRecipientRule {
     
     public static final String DOCUMENT_ERROR_PATH = "document";
     public static final String AWARD_ERROR_PATH = "awardList[0]";
     public static final boolean VALIDATION_REQUIRED = true;
     public static final boolean CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME = false;
     private static final String NEW_SPECIAL_REVIEW = "newSpecialReview";
+    private static final String NEW_AWARD_FANDA_RATE = "newAwardFandaRate";
+    
     
     /**
      * 
@@ -170,6 +165,27 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddFa
         }        
         return retval;
     }
+    
+    /**
+     * 
+     * @see org.kuali.kra.award.rule.AddAwardReportTermRule#processAddAwardReportTermEvent(
+     * org.kuali.kra.award.rule.event.AddAwardReportTermEvent)
+     */
+    public boolean processAddAwardReportTermEvent(AddAwardReportTermEvent 
+            addAwardReportTermEvent) {
+        return new AwardReportTermRule().processAddAwardReportTermEvent(addAwardReportTermEvent);        
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.award.rule.AddAwardReportTermRecipientRule#processAddAwardReportTermRecipientEvent(
+     * org.kuali.kra.award.rule.event.AddAwardReportTermRecipientEvent)
+     */
+    public boolean processAddAwardReportTermRecipientEvent(AddAwardReportTermRecipientEvent 
+            addAwardReportTermRecipientEvent) {
+        return new AwardReportTermRule().processAddAwardReportTermRecipientEvent(addAwardReportTermRecipientEvent);        
+    }
+    
     
     /**
      * 

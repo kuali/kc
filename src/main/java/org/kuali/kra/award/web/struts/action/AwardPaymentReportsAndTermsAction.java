@@ -31,6 +31,8 @@ import org.kuali.kra.award.bo.AwardReportTerms;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.lookup.keyvalue.ReportClassValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.ReportCodeValuesFinder;
+import org.kuali.kra.award.rule.event.AddAwardReportTermEvent;
+import org.kuali.kra.award.rule.event.AddAwardReportTermRecipientEvent;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -66,16 +68,17 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
     
     public ActionForward addAwardReportTerms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
+        awardForm.setAwardReportTermPanelNumber(new Integer(getReportClassCodeIndex(request)).toString());
         AwardReportTerms newAwardReportTerm = awardForm.getNewAwardReportTerms().get(getReportClassCodeIndex(request));
-        /*if(getKualiRuleService().applyRules(new AddAwardFandaRateEvent(Constants.EMPTY_STRING, 
-                awardForm.getAwardDocument(), newAwardReportTerm))){*/
+        if(getKualiRuleService().applyRules(new AddAwardReportTermEvent(Constants.EMPTY_STRING,
+                awardForm.getAwardDocument(), newAwardReportTerm))){
             newAwardReportTerm.setReportClassCode(getReportClass(request));
             newAwardReportTerm.setAwardNumber(awardForm.getAwardDocument().getAward().getAwardNumber());
             newAwardReportTerm.setSequenceNumber(awardForm.getAwardDocument().getAward().getSequenceNumber());
             addAwardReportTermToAward(awardForm.getAwardDocument().getAward(),newAwardReportTerm);            
             awardForm.getNewAwardReportTerms().set(getReportClassCodeIndex(request),new AwardReportTerms());
             awardForm.getNewAwardReportTermsRecipients().add(new AwardReportTerms());
-        //}
+        }
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
@@ -91,40 +94,44 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
     }
     
     public ActionForward addRecipients(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AwardForm awardForm = (AwardForm) form;        
+        AwardForm awardForm = (AwardForm) form;
+        awardForm.setAwardReportTermPanelNumber(new Integer(getRecipientIndex(request)).toString());
         AwardReportTerms newAwardReportTerm = awardForm.getNewAwardReportTermsRecipients().get(getRecipientIndex(request));
         AwardReportTerms newAwardReportTermRecipients = new AwardReportTerms();
         AwardDocument awardDocument = awardForm.getAwardDocument();
         int i=0;
         boolean addNew = false;
-        for(AwardReportTerms awardReportTerms: awardDocument.getAward().getAwardReportTerms()){
-            if(awardReportTerms.getReportCode().equals(getReportCode(request))){
-                if(awardReportTerms.getContactTypeCode()!=null){
-                    newAwardReportTermRecipients.setAwardNumber(awardReportTerms.getAwardNumber());
-                    newAwardReportTermRecipients.setSequenceNumber(awardReportTerms.getSequenceNumber());
-                    newAwardReportTermRecipients.setReportClassCode(awardReportTerms.getReportClassCode());
-                    newAwardReportTermRecipients.setReportCode(awardReportTerms.getReportCode());
-                    newAwardReportTermRecipients.setFrequencyCode(awardReportTerms.getFrequencyCode());
-                    newAwardReportTermRecipients.setFrequencyBaseCode(awardReportTerms.getFrequencyBaseCode());
-                    newAwardReportTermRecipients.setOspDistributionCode(awardReportTerms.getOspDistributionCode());
-                    newAwardReportTermRecipients.setDueDate(awardReportTerms.getDueDate());
-                    newAwardReportTermRecipients.setContactTypeCode(newAwardReportTerm.getContactTypeCode());
-                    newAwardReportTermRecipients.setNumberOfCopies(newAwardReportTerm.getNumberOfCopies());
-                    newAwardReportTermRecipients.setRolodexId(newAwardReportTerm.getRolodexId());
-                    addNew = true;
-                }else{                    
-                    awardDocument.getAward().getAwardReportTerms().get(i).setContactTypeCode(newAwardReportTerm.getContactTypeCode());
-                    awardDocument.getAward().getAwardReportTerms().get(i).setNumberOfCopies(newAwardReportTerm.getNumberOfCopies());
-                    awardDocument.getAward().getAwardReportTerms().get(i).setRolodexId(newAwardReportTerm.getRolodexId());
-                }                
+        if(getKualiRuleService().applyRules(new AddAwardReportTermRecipientEvent(Constants.EMPTY_STRING,
+                awardForm.getAwardDocument(), newAwardReportTerm))){
+            for(AwardReportTerms awardReportTerms: awardDocument.getAward().getAwardReportTerms()){
+                if(awardReportTerms.getReportCode().equals(getReportCode(request))){
+                    if(awardReportTerms.getContactTypeCode()!=null){
+                        newAwardReportTermRecipients.setAwardNumber(awardReportTerms.getAwardNumber());
+                        newAwardReportTermRecipients.setSequenceNumber(awardReportTerms.getSequenceNumber());
+                        newAwardReportTermRecipients.setReportClassCode(awardReportTerms.getReportClassCode());
+                        newAwardReportTermRecipients.setReportCode(awardReportTerms.getReportCode());
+                        newAwardReportTermRecipients.setFrequencyCode(awardReportTerms.getFrequencyCode());
+                        newAwardReportTermRecipients.setFrequencyBaseCode(awardReportTerms.getFrequencyBaseCode());
+                        newAwardReportTermRecipients.setOspDistributionCode(awardReportTerms.getOspDistributionCode());
+                        newAwardReportTermRecipients.setDueDate(awardReportTerms.getDueDate());
+                        newAwardReportTermRecipients.setContactTypeCode(newAwardReportTerm.getContactTypeCode());
+                        newAwardReportTermRecipients.setNumberOfCopies(newAwardReportTerm.getNumberOfCopies());
+                        newAwardReportTermRecipients.setRolodexId(newAwardReportTerm.getRolodexId());
+                        addNew = true;
+                    }else{                    
+                        awardDocument.getAward().getAwardReportTerms().get(i).setContactTypeCode(newAwardReportTerm.getContactTypeCode());
+                        awardDocument.getAward().getAwardReportTerms().get(i).setNumberOfCopies(newAwardReportTerm.getNumberOfCopies());
+                        awardDocument.getAward().getAwardReportTerms().get(i).setRolodexId(newAwardReportTerm.getRolodexId());
+                    }                
+                }
+                i++;
             }
-            i++;
+            if(addNew){
+                awardDocument.getAward().getAwardReportTerms().add(newAwardReportTermRecipients);
+            }
+            
+            awardForm.getNewAwardReportTermsRecipients().set(getRecipientIndex(request),new AwardReportTerms());
         }
-        if(addNew){
-            awardDocument.getAward().getAwardReportTerms().add(newAwardReportTermRecipients);
-        }
-        
-        awardForm.getNewAwardReportTermsRecipients().set(getRecipientIndex(request),new AwardReportTerms());
         
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
