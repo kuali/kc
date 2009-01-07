@@ -87,6 +87,7 @@ public class AwardTimeAndMoneyWebTest extends AwardWebTestBase{
         HtmlPage awardTimeAndMoneyPageAfterAddingOnCampusAndOffCampus = (HtmlPage) button2.click();
         
         HtmlPage awardTimeAndMoneyPageAfterSave = clickOn(awardTimeAndMoneyPageAfterAddingOnCampusAndOffCampus, "methodToCall.save");
+        assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);        
         assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERRORS_FOUND_ON_PAGE);
         assertContains(awardTimeAndMoneyPageAfterSave,SAVE_SUCCESS_MESSAGE);        
     }
@@ -164,6 +165,7 @@ public class AwardTimeAndMoneyWebTest extends AwardWebTestBase{
         HtmlPage awardTimeAndMoneyPageAfterAddingOnCampusAndOffCampus = (HtmlPage) button2.click();
         
         HtmlPage awardTimeAndMoneyPageAfterSave = clickOn(awardTimeAndMoneyPageAfterAddingOnCampusAndOffCampus, "methodToCall.save");
+        assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);
         assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERRORS_FOUND_ON_PAGE);
         assertContains(awardTimeAndMoneyPageAfterSave,SAVE_SUCCESS_MESSAGE);
         
@@ -172,6 +174,7 @@ public class AwardTimeAndMoneyWebTest extends AwardWebTestBase{
         
         HtmlPage awardTimeAndMoneyPageAfterSaveAgain = clickOn(awardTimeAndMoneyPageAfterDelete2, "methodToCall.save");
         
+        assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);
         assertDoesNotContain(awardTimeAndMoneyPageAfterSaveAgain, ERRORS_FOUND_ON_PAGE);
         assertContains(awardTimeAndMoneyPageAfterSaveAgain,SAVE_SUCCESS_MESSAGE);
                 
@@ -210,6 +213,7 @@ public class AwardTimeAndMoneyWebTest extends AwardWebTestBase{
         HtmlPage awardTimeAndMoneyPageAfterAddingOnCampusAndOffCampus = (HtmlPage) button2.click();
         
         HtmlPage awardTimeAndMoneyPageAfterSave = clickOn(awardTimeAndMoneyPageAfterAddingOnCampusAndOffCampus, "methodToCall.save");
+        assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);
         assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERRORS_FOUND_ON_PAGE);
         assertContains(awardTimeAndMoneyPageAfterSave,SAVE_SUCCESS_MESSAGE);
         
@@ -255,6 +259,7 @@ public class AwardTimeAndMoneyWebTest extends AwardWebTestBase{
         HtmlPage awardTimeAndMoneyPageAfterAddingOnCampusAndOffCampus = (HtmlPage) button2.click();
         
         HtmlPage awardTimeAndMoneyPageAfterSave = clickOn(awardTimeAndMoneyPageAfterAddingOnCampusAndOffCampus, "methodToCall.save");
+        assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);
         assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERRORS_FOUND_ON_PAGE);
         assertContains(awardTimeAndMoneyPageAfterSave,SAVE_SUCCESS_MESSAGE);
         
@@ -262,6 +267,7 @@ public class AwardTimeAndMoneyWebTest extends AwardWebTestBase{
         setFieldValue(awardTimeAndMoneyPageAfterSave, "document.award.awardFandaRateComment.comments", "We are testing Comments");
         
         HtmlPage awardTimeAndMoneyPageAfterAnotherSave = clickOn(awardTimeAndMoneyPageAfterSave, "methodToCall.save");
+        assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);
         assertDoesNotContain(awardTimeAndMoneyPageAfterAnotherSave, ERRORS_FOUND_ON_PAGE);
         assertContains(awardTimeAndMoneyPageAfterAnotherSave,SAVE_SUCCESS_MESSAGE);
         HtmlPage awardTimeAndMoneyPageAfterAnotherReload = clickOn(awardTimeAndMoneyPageAfterAnotherSave, "methodToCall.reload");
