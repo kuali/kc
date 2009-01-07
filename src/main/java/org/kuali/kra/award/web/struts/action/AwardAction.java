@@ -26,12 +26,14 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.award.bo.AwardReportTerms;
 import org.kuali.kra.award.lookup.keyvalue.ReportClassValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.ReportCodeValuesFinder;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -266,5 +268,14 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
      */
     DocumentService getDocumentService() {
         return KNSServiceLocator.getDocumentService();
+    }
+    
+    /**
+     * 
+     * This method is a helper method to retrieve KualiRuleService.
+     * @return
+     */
+    protected KualiRuleService getKualiRuleService() {
+        return KraServiceLocator.getService(KualiRuleService.class);
     }
 }

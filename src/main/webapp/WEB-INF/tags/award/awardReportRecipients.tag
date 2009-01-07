@@ -21,7 +21,7 @@
 
 <c:set var="awardReportTermsAttributes" value="${DataDictionary.AwardReportTerms.attributes}" />
 
-<kul:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="Recipients" useCurrentTabIndexAsKey="true">
+<kul:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="Recipients" useCurrentTabIndexAsKey="true" tabErrorKey="newAwardReportTermsRecipients[${index}]*" >
 	<table cellpadding="0" cellspacing="0" summary="">
 	<tr>
 		<th width="10%"><div align="center">&nbsp;</div></th>
