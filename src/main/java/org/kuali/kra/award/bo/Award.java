@@ -110,6 +110,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         initializeAwardWithDefaultValues();       
         setAwardCostShares(new ArrayList<AwardCostShare>());
         setAwardComments(new ArrayList<AwardComment>());
+        awardApprovedSubawards = (new ArrayList<AwardApprovedSubaward>());
         setAwardFandaRate(new ArrayList<AwardFandaRate>());
         setAwardReportTerms(new ArrayList<AwardReportTerms>());
         keywords = new ArrayList<AwardScienceKeyword>();
@@ -1016,6 +1017,14 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         KualiDecimal returnVal = new KualiDecimal(0);
         for(AwardCostShare awardCostShare : awardCostShares){
             returnVal = returnVal.add(awardCostShare.getCommitmentAmount());
+        }
+        return returnVal;
+    }
+    
+    public KualiDecimal getTotalApprovedSubawardAmount(){
+        KualiDecimal returnVal = new KualiDecimal(0);
+        for(AwardApprovedSubaward awardApprovedSubaward : awardApprovedSubawards){
+            returnVal = returnVal.add(awardApprovedSubaward.getAmount());
         }
         return returnVal;
     }

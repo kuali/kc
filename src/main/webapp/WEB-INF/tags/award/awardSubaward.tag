@@ -20,7 +20,7 @@
 <c:set var="action" value="awardTimeAndMoney" />
 
 
-<kul:tab tabTitle="Subaward" defaultOpen="false" tabErrorKey="document.award*">
+<kul:tab tabTitle="Subaward" defaultOpen="false" tabErrorKey="document.awardList[0].awardApprovedSubawards*">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Approved Subawards</span>
@@ -38,6 +38,7 @@
             	<td class="infoline">
             	  	<div align="center">
             	  	 	<kul:htmlControlAttribute property="newAwardApprovedSubaward.organizationName" attributeEntry="${awardApprovedSubawardAttributes.organizationName}"/>
+            	  	 	<kul:lookup boClassName="org.kuali.kra.bo.Organization" fieldConversions="organizationName:newAwardApprovedSubaward.organizationName" anchor="${tabKey}" />
             	 	</div>
             	</td>
 	            <td class="infoline">
@@ -52,19 +53,17 @@
 					</div>
 	            </td>
           	</tr>
-          	<c:forEach var="awardApprovedSubawards" items="${KualiForm.document.award.awardApprovedSubawards}" varStatus="status">
+          	<c:forEach var="awardApprovedSubawards" items="${KualiForm.document.awardList[0].awardApprovedSubawards}" varStatus="status">
 	             <tr>
 					<th width="5%" class="infoline">
-						<c:out value="${status.index+1}" />
+						${status.index+1}
 					</th>
 	                <td width="10%" valign="middle">
-					<div align="center">
-                		<kul:htmlControlAttribute property="document.award.awardApprovedSubawards[${status.index}].organizationName" attributeEntry="${awardApprovedSubawardAttributes.organizationName}"/>
-					</div>
+						${awardApprovedSubawards.organizationName}
 					</td>
 	                <td width="20%" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.award.awardApprovedSubawards[${status.index}].amount" attributeEntry="${awardApprovedSubawardAttributes.amount}"/>
+                		<kul:htmlControlAttribute property="document.awardList[0].awardApprovedSubawards[${status.index}].amount" attributeEntry="${awardApprovedSubawardAttributes.amount}"/>
 					</div>
 	                </td>
 					<td width="10%">
@@ -75,6 +74,17 @@
 	                </td>
 	            </tr>
         	</c:forEach> 
+        	<tr>
+          		<th align="center" scope="row"><div>Total:</div></th>
+          		<th colspan="1" scope="row">&nbsp;</th>
+          		<th align="center"> 		                		
+	                	$<fmt:formatNumber value="${KualiForm.document.awardList[0].totalApprovedSubawardAmount}" type="currency" currencySymbol="" maxFractionDigits="2" />
+	         	</th>
+	         	<th align="center" scope="row">
+	         			<html:image property="methodToCall.recalculateSubawardTotal.anchor${tabKey}"
+						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' styleClass="tinybutton"/>
+	         	</th>
+          	</tr>
         </table>
      </div>
 </kul:tab>
