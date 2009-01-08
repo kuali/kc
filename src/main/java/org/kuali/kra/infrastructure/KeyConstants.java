@@ -251,6 +251,9 @@ public class KeyConstants {
     public static final String ERROR_FISCAL_YEAR_RANGE = "error.awardCostShare.fiscalYear.range";
     public static final String ERROR_SOURCE_DESTINATION = "error.awardCostShare.source.destination";
     
+    //Award Approved Subaward
+    public static final String ERROR_AMOUNT_IS_ZERO = "error.awardApprovedSubaward.Amount.equals.zero";
+    public static final String ERROR_DUPLICATE_ORGANIZATION_NAME = "error.awardApprovedSubaward.duplicate.organization.name";
     //Award Cost Share Confirmation Questions
     public static final String QUESTION_DELETE_COST_SHARE = "document.question.deleteCostShare.text";
     
