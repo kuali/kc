@@ -95,6 +95,7 @@
 						<directory>${basedir}/src/main/resources</directory>
 						<includes>
 							<include>META-INF/kra-config.xml</include>
+							<include>log4j.xml</include>
 						</includes>
 					</resource>
 					<resource>

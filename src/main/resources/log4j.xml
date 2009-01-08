@@ -16,7 +16,7 @@
 	</appender>
 
 	<appender name="LogFile" class="org.apache.log4j.DailyRollingFileAppender">
-            <param name="File"   value="kra_application.log" />
+            <param name="File" value="/opt/logs/${environment}/kra/kra_request.log"/>
             <layout class="org.apache.log4j.PatternLayout">
 		      <param name="ConversionPattern" value="%d [%t] D:%X{docID} U:%X{user} [%X{clientIp}]:: %m%n"/>
             </layout>
