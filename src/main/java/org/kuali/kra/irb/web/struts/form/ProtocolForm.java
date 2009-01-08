@@ -30,6 +30,7 @@ import org.kuali.core.datadictionary.HeaderNavigation;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.ActionFormUtilMap;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -128,6 +129,11 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
+        
+        // Temporary hack for KRACOEUS-489
+        if (getActionFormUtilMap() instanceof ActionFormUtilMap) {
+            ((ActionFormUtilMap) getActionFormUtilMap()).clear();
+        }       
     }
     
     protected void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
