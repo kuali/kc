@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "https://test.kuali.org/dtds/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.core.document.authorization.PessimisticLock">
+
+
+        <inquiry>
+            <title>Pessimistic Lock Inquiry</title>
+
+            <inquirySections><inquirySection title="Lock Information"><inquiryFields>
+                <field attributeName="ownedByPersonUniversalIdentifier" />
+                <field attributeName="lockDescriptor" />
+                <field attributeName="generatedTimestamp" />
+                <field attributeName="documentNumber" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <lookupableID>pessimisticLockLookupable</lookupableID>
+           
+            <title>Pessimistic Lock Lookup</title>
+
+            <instructions>Look up a Pessimistic Lock</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="ownedByPersonUniversalIdentifier" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <!-- <lookupField attributeName="ownedByUser.personUserIdentifier" required="false" noLookup="true" />
+                <lookupField attributeName="ownedByUser.personName" required="false" /> -->
+                <lookupField attributeName="ownedByPersonUniversalIdentifier" required="false" />
+                <lookupField attributeName="lockDescriptor" required="false" />
+                <lookupField attributeName="generatedTimestamp" required="false" />
+                <lookupField attributeName="documentNumber" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="ownedByPersonUniversalIdentifier" />
+                <field attributeName="lockDescriptor" />
+                <field attributeName="generatedTimestamp" />
+                <field attributeName="documentNumber" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="id">
+                <label>Lock Id</label>
+                <shortLabel>Id</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>campusTypeCode</summary>
+                <description>campusTypeCode description...</description>
+			</attribute>
+
+            <attribute name="ownedByPersonUniversalIdentifier">
+                <label>Lock Owner Universal ID</label>
+                <shortLabel>Owner Unvl ID</shortLabel>
+                <maxLength>10</maxLength>
+				<validationPattern>
+					<numeric />
+				</validationPattern>
+                <required>true</required>
+             	<control>
+					<text size="10" />
+				</control>
+				<summary>Lock Owner Universal ID</summary>
+				<description>Lock Owner Universal ID</description>
+            </attribute>
+ 
+            <attributeReference name="ownedByUser.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
+                <label>Lock Owner User ID</label>
+                <shortLabel>Owner User ID</shortLabel>
+                <required>false</required>
+                <control>
+                    <kualiUser universalIdAttributeName="ownedByPersonUniversalIdentifier" userIdAttributeName="ownedByUser.personUserIdentifier" personNameAttributeName="ownedByUser.personName" />
+                </control>
+            </attributeReference>
+
+            <attributeReference name="ownedByUser.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
+                <label>Lock Owner</label>
+                <shortLabel>Owner</shortLabel>
+                <required>false</required>
+                <control>
+                    <hidden />
+                </control>
+            </attributeReference>
+
+            <attribute name="lockDescriptor">
+                <label>Lock Descriptor</label>
+                <shortLabel>Descriptor</shortLabel>
+
+                <maxLength>4000</maxLength>
+                <validationPattern><alphaNumeric allowUnderscore="true" allowWhitespace="true" /></validationPattern>
+
+                <control>
+                    <text size="30" />
+                </control>
+
+                <summary>campusTypeCode</summary>
+                <description>campusTypeCode description...</description>
+			</attribute>
+
+            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber"></attributeReference>
+
+            <attributeReference name="generatedTimestamp" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
+                <label>Generated Time</label>
+                <shortLabel>Gen Time</shortLabel>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>This field defines the date and time the lock was created.</description>
+                <formatterClass>org.kuali.core.web.format.TimestampAMPMFormatter</formatterClass>
+            </attributeReference>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+            <attributeReference name="objectId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="objectId" />
+
+        </attributes>
+
+		<!-- 
+        <relationships>
+            <relationship objectAttributeName="ownedByUser" >
+                <primitiveAttribute sourceName="ownedByPersonUniversalIdentifier" targetName="personUniversalIdentifier" />
+				<supportAttribute sourceName="ownedByUser.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
+				<supportAttribute sourceName="ownedByUser.personName" targetName="personName" />
+            </relationship>
+		</relationships> -->
+
+        <objectLabel>Pessimistic Lock</objectLabel>
+    </businessObject>
+</dictionaryEntry>
