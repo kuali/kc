@@ -86,6 +86,22 @@ public class AwardHomeAction extends AwardAction {
      
     }
     
+    /**
+     * This method is used to recalculate the Total Subaward amount in the Subaward panel.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return mapping forward
+     * @throws Exception
+     */
+    public ActionForward recalculateSubawardTotal(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+       
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+   
 
     /**
      * This takes care of populating the ScienceKeywords in keywords list after the selected Keywords returns from <code>multilookup</code>
@@ -152,4 +168,5 @@ public class AwardHomeAction extends AwardAction {
         keywordsService.deleteKeyword(awardDocument.getAward()); 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+    
 }
