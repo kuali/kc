@@ -24,6 +24,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.award.bo.AwardCostShare;
+import org.kuali.kra.award.bo.AwardApprovedSubaward;
 import org.kuali.kra.award.bo.AwardFandaRate;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.rule.AddAwardReportTermRecipientRule;
@@ -39,6 +40,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rule.SpecialReviewRule;
 import org.kuali.kra.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.core.util.KualiDecimal;
 
 /**
  * Main Business Rule class for <code>{@link AwardDocument}</code>. 
@@ -86,6 +88,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddFa
         
         retval &= processAwardFandaRateBusinessRules(document);
         retval &= processCostShareBusinessRules(document);
+        retval &= processApprovedSubawardBusinessRules(document);
 
         return retval;
     }
@@ -104,7 +107,8 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddFa
         AwardDocument awardDocument = (AwardDocument) document;
         int i = 0;
         List<AwardCostShare> awardCostShares = awardDocument.getAward().getAwardCostShares();
-        GlobalVariables.getErrorMap().addToErrorPath("award");
+        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+        errorMap.addToErrorPath(AWARD_ERROR_PATH);
         for (AwardCostShare awardCostShare : awardCostShares) {
             String errorPath = "awardCostShares[" + i + "]";
             errorMap.addToErrorPath(errorPath);
@@ -117,14 +121,64 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddFa
             //test valid fiscal year range.
             if(fiscalYear < 1900 || fiscalYear > 2499) {
                 valid = false;
+                System.out.println("errorPath:" + errorMap.getErrorPath());
                 errorMap.putError("fiscalYear", KeyConstants.ERROR_FISCAL_YEAR_RANGE);
             }
             errorMap.removeFromErrorPath(errorPath);
             i++;
         }
-        errorMap.removeFromErrorPath("award");
+        errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
+        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
         return valid;
     }
+    
+    /**
+    *
+    * process Cost Share business rules.
+    * @param awardDocument
+    * @return
+    */
+    private boolean processApprovedSubawardBusinessRules(Document document) {
+        boolean valid = true;
+
+        //checkErrors();
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        AwardDocument awardDocument = (AwardDocument) document;
+        int i = 0;
+        List<AwardApprovedSubaward> awardApprovedSubawards = awardDocument.getAward().getAwardApprovedSubawards();
+        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+        errorMap.addToErrorPath(AWARD_ERROR_PATH);
+        loop:
+            for (AwardApprovedSubaward awardApprovedSubaward : awardApprovedSubawards) {
+                String errorPath = "awardApprovedSubawards[" + i + "]";
+                errorMap.addToErrorPath(errorPath);
+                int amount = awardApprovedSubaward.getAmount().intValue();
+                //test for equality of source and destination
+                if(amount <= 0) {
+                    valid = false;
+                    errorMap.putError("amount", KeyConstants.ERROR_AMOUNT_IS_ZERO);
+                }
+                //test for duplicate organizations
+                int j = 0;
+                for (AwardApprovedSubaward loopAwardApprovedSubaward : awardApprovedSubawards) {
+                    if (i != j){
+                        if(awardApprovedSubaward.getOrganizationName().equals(loopAwardApprovedSubaward.getOrganizationName())){
+                            valid = false;
+                            errorMap.putError("organizationName", KeyConstants.ERROR_DUPLICATE_ORGANIZATION_NAME);
+                            errorMap.removeFromErrorPath(errorPath);
+                            break loop;
+                        }
+                    }
+                    j++;
+                }
+                errorMap.removeFromErrorPath(errorPath);
+                i++;
+            }
+        errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
+        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
+        return valid;
+    }
+
 
     /**
      * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(
@@ -205,6 +259,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddFa
      * @return
      */
     protected boolean isFandaRateInputInPairs(List<AwardFandaRate> awardFandaRateList){
+        boolean valid = true;
         HashMap<Integer,String> a1 = new HashMap<Integer,String>();
         HashMap<Integer,String> b1 = new HashMap<Integer,String>();        
         ErrorMap errorMap = GlobalVariables.getErrorMap();
@@ -227,11 +282,13 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddFa
                             && !a1.containsKey(awardFandaRate.getFandaRateTypeCode()))){                
                 errorMap.putError("awardFandaRate[" + i + "].fandaRateTypeCode"
                         , KeyConstants.INDIRECT_COST_RATE_NOT_IN_PAIR);
-                return false;
+                valid = false;
             }
             i++;
         }
-        return true;        
+        errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
+        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
+        return valid;        
     }
 
     /**
