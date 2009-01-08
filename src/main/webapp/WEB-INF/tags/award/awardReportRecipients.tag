@@ -21,7 +21,26 @@
 
 <c:set var="awardReportTermsAttributes" value="${DataDictionary.AwardReportTerms.attributes}" />
 
-<kul:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="Recipients" useCurrentTabIndexAsKey="true" tabErrorKey="newAwardReportTermsRecipients[${index}]*" >
+<c:set var="tabErrorKeyStringRecipients" value=""  />
+<c:set var="recipientsSize" value="0" />
+    <c:forEach var="awardReportTermsForCount" items="${KualiForm.document.award.awardReportTerms}" varStatus="count">
+           <c:if test="${awardReportTermsForCount.reportClassCode == reportClassKey}">           									            
+               <c:if test="${awardReportTermsForCount.reportCode == reportCode}">               							            
+                   <c:if test="${not empty awardReportTermsForCount.contactTypeCode || not empty awardReportTermsForCount.rolodexId}">                   		
+                       <c:set var="recipientsSize" value="${recipientsSize + 1}" />                       
+                       <c:choose>
+                           <c:when test="${empty tabErrorKeyStringRecipients}" >	   
+	                           <c:set var="tabErrorKeyStringRecipients" value="document.awardList[0].awardReportTerms[${count.index}].contactTypeCode,document.awardList[0].awardReportTerms[${count.index}].rolodexId"  />
+	                       </c:when>
+	                       <c:otherwise>
+	                           <c:set var="tabErrorKeyStringRecipients" value="${tabErrorKeyStringRecipients},document.awardList[0].awardReportTerms[${count.index}].contactTypeCode,document.awardList[0].awardReportTerms[${count.index}].rolodexId"  />	                       
+	                       </c:otherwise>
+	                   </c:choose>
+                   </c:if>
+               </c:if>
+           </c:if>
+    </c:forEach>    
+<kul:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="Recipients" useCurrentTabIndexAsKey="true" tabErrorKey="newAwardReportTermsRecipients[${index}]*,${tabErrorKeyStringRecipients}" >
 	<table cellpadding="0" cellspacing="0" summary="">
 	<tr>
 		<th width="10%"><div align="center">&nbsp;</div></th>
@@ -56,23 +75,13 @@
                 src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
         </div>
         </td>
-    </tr>
-    <c:set var="recipientsSize" value="0" />
-    <c:forEach var="awardReportTermsForCount" items="${KualiForm.document.award.awardReportTerms}" varStatus="count">
-           <c:if test="${awardReportTermsForCount.reportClassCode == reportClassKey}">           									            
-               <c:if test="${awardReportTermsForCount.reportCode == reportCode}">               							            
-                   <c:if test="${not empty awardReportTermsForCount.contactTypeCode}">                   		
-                       <c:set var="recipientsSize" value="${recipientsSize + 1}" />
-                   </c:if>
-               </c:if>
-           </c:if>
-    </c:forEach>           
+    </tr>               
                        
        <c:set var="counterRecipients" value="0" />					            
        <c:forEach var="awardReportTermsAgain" items="${KualiForm.document.award.awardReportTerms}" varStatus="status1">					            
            <c:if test="${awardReportTermsAgain.reportClassCode == reportClassKey}">					            
                <c:if test="${awardReportTermsAgain.reportCode == reportCode}">					            
-                   <c:if test="${not empty awardReportTermsAgain.contactTypeCode}">
+                   <c:if test="${not empty awardReportTermsAgain.contactTypeCode || not empty awardReportTermsAgain.rolodexId}">
                        <c:set var="counterRecipients" value="${counterRecipients + 1}" />
     <tr>
         <th width="5%" class="infoline" >
@@ -80,17 +89,17 @@
         </th>
         <td width="5%" valign="middle">
         <div align="center">
-            <kul:htmlControlAttribute property="document.award.awardReportTerms[${status1.index}].contactTypeCode" attributeEntry="${awardReportTermsAttributes.contactTypeCode}" />
+            <kul:htmlControlAttribute property="document.awardList[0].awardReportTerms[${status1.index}].contactTypeCode" attributeEntry="${awardReportTermsAttributes.contactTypeCode}" />
         </div>
         </td>
         <td width="5%" valign="middle">
         <div align="center">
-            <kul:htmlControlAttribute property="document.award.awardReportTerms[${status1.index}].rolodexId" attributeEntry="${awardReportTermsAttributes.rolodexId}" />
+            <kul:htmlControlAttribute property="document.awardList[0].awardReportTerms[${status1.index}].rolodexId" attributeEntry="${awardReportTermsAttributes.rolodexId}" />
         </div>
         </td>					                
         <td width="5%" valign="middle">
         <div align="center">
-            <kul:htmlControlAttribute property="document.award.awardReportTerms[${status1.index}].numberOfCopies" attributeEntry="${awardReportTermsAttributes.numberOfCopies}" />
+            <kul:htmlControlAttribute property="document.awardList[0].awardReportTerms[${status1.index}].numberOfCopies" attributeEntry="${awardReportTermsAttributes.numberOfCopies}" />
         </div>
         </td>
         <td valign="middle" >
