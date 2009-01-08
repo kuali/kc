@@ -25,18 +25,17 @@
 <c:set var="recipientsSize" value="0" />
     <c:forEach var="awardReportTermsForCount" items="${KualiForm.document.award.awardReportTerms}" varStatus="count">
            <c:if test="${awardReportTermsForCount.reportClassCode == reportClassKey}">           									            
-               <c:if test="${awardReportTermsForCount.reportCode == reportCode}">               							            
-                   <c:if test="${not empty awardReportTermsForCount.contactTypeCode || not empty awardReportTermsForCount.rolodexId}">                   		
-                       <c:set var="recipientsSize" value="${recipientsSize + 1}" />                       
-                       <c:choose>
-                           <c:when test="${empty tabErrorKeyStringRecipients}" >	   
-	                           <c:set var="tabErrorKeyStringRecipients" value="document.awardList[0].awardReportTerms[${count.index}].contactTypeCode,document.awardList[0].awardReportTerms[${count.index}].rolodexId"  />
-	                       </c:when>
-	                       <c:otherwise>
-	                           <c:set var="tabErrorKeyStringRecipients" value="${tabErrorKeyStringRecipients},document.awardList[0].awardReportTerms[${count.index}].contactTypeCode,document.awardList[0].awardReportTerms[${count.index}].rolodexId"  />	                       
-	                       </c:otherwise>
-	                   </c:choose>
-                   </c:if>
+               <c:if test="${awardReportTermsForCount.reportCode == reportCode}">
+                   <c:set var="recipientsSize" value="${recipientsSize + 1}" />                       
+                   <c:choose>
+                       <c:when test="${empty tabErrorKeyStringRecipients}" >	   
+                        <c:set var="tabErrorKeyStringRecipients" value="document.awardList[0].awardReportTerms[${count.index}].contactTypeCode,document.awardList[0].awardReportTerms[${count.index}].rolodexId"  />
+                   </c:when>
+                   <c:otherwise>
+                       <c:set var="tabErrorKeyStringRecipients" value="${tabErrorKeyStringRecipients},document.awardList[0].awardReportTerms[${count.index}].contactTypeCode,document.awardList[0].awardReportTerms[${count.index}].rolodexId"  />	                       
+                   </c:otherwise>
+               </c:choose>
+                   
                </c:if>
            </c:if>
     </c:forEach>    
@@ -80,8 +79,7 @@
        <c:set var="counterRecipients" value="0" />					            
        <c:forEach var="awardReportTermsAgain" items="${KualiForm.document.award.awardReportTerms}" varStatus="status1">					            
            <c:if test="${awardReportTermsAgain.reportClassCode == reportClassKey}">					            
-               <c:if test="${awardReportTermsAgain.reportCode == reportCode}">					            
-                   <c:if test="${not empty awardReportTermsAgain.contactTypeCode || not empty awardReportTermsAgain.rolodexId}">
+               <c:if test="${awardReportTermsAgain.reportCode == reportCode}">
                        <c:set var="counterRecipients" value="${counterRecipients + 1}" />
     <tr>
         <th width="5%" class="infoline" >
@@ -108,8 +106,7 @@
                 src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
         </div>
         </td>
-    </tr>
-                   </c:if>
+    </tr>          
                </c:if>
            </c:if>
        </c:forEach>					          	
