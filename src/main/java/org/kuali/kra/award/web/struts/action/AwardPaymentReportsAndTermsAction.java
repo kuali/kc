@@ -82,11 +82,48 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
-    public ActionForward deleteAwardReportTerms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward deleteAwardReportTerms(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDocument = awardForm.getAwardDocument();
-        awardDocument.getAward().getAwardReportTerms().remove(getLineToDelete(request));
+        AwardReportTerms awardReportTermsToBeDeleted = 
+            awardDocument.getAward().getAwardReportTerms().get(getLineToDelete(request));
+        
+        for(AwardReportTerms awardReportTerms:determineAwardReportTermsToBeDeleted(
+                awardDocument.getAward().getAwardReportTerms(), awardReportTermsToBeDeleted)){
+            awardDocument.getAward().getAwardReportTerms().remove(awardReportTerms);
+        }
+        
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    protected List<AwardReportTerms> determineAwardReportTermsToBeDeleted(
+            List<AwardReportTerms> listAwardReportTerms, AwardReportTerms awardReportTermsToBeDeleted){
+        ArrayList<AwardReportTerms> indexForDeletion = new ArrayList<AwardReportTerms>();
+        for(AwardReportTerms awardReportTerms: listAwardReportTerms){
+            if(StringUtils.equalsIgnoreCase(awardReportTermsToBeDeleted.getReportClassCode().toString(),
+                    awardReportTerms.getReportClassCode().toString())){
+                if(StringUtils.equalsIgnoreCase(
+                        awardReportTermsToBeDeleted.getReportCode().toString(),
+                        awardReportTerms.getReportCode().toString()) 
+                        && StringUtils.equalsIgnoreCase(
+                                awardReportTermsToBeDeleted.getFrequencyCode().toString(),
+                                awardReportTerms.getFrequencyCode().toString())
+                        && StringUtils.equalsIgnoreCase(
+                                awardReportTermsToBeDeleted.getFrequencyBaseCode().toString(),
+                                awardReportTerms.getFrequencyBaseCode().toString())
+                        && StringUtils.equalsIgnoreCase(
+                                awardReportTermsToBeDeleted.getDueDate().toString(),
+                                awardReportTerms.getDueDate().toString())
+                        && StringUtils.equalsIgnoreCase(
+                                awardReportTermsToBeDeleted.getOspDistributionCode().toString(),
+                                awardReportTerms.getOspDistributionCode().toString())){
+                    indexForDeletion.add(awardReportTerms);
+                }
+            }            
+        }
+        
+        return indexForDeletion;
     }
     
     boolean addAwardReportTermToAward(Award award, AwardReportTerms awardReportTerms){
