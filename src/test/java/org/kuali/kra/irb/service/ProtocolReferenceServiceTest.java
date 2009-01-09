@@ -35,10 +35,10 @@ public class ProtocolReferenceServiceTest {
         protocol.setProtocolReferences(new ArrayList<ProtocolReference>());
         
         ProtocolReference bo1 = new ProtocolReference();
-        bo1.setProtocolReferenceId(1l);
+        bo1.setProtocolReferenceId(1L);
         
         ProtocolReference bo2 = new ProtocolReference();
-        bo2.setProtocolReferenceId(2l);
+        bo2.setProtocolReferenceId(2L);
         
         protocol.getProtocolReferences().add(bo1);
         protocol.getProtocolReferences().add(bo2);
