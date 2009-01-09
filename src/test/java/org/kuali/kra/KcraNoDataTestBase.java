@@ -51,7 +51,7 @@ public abstract class KcraNoDataTestBase extends KNSTestCase {
         setSqlFilename("classpath:DefaultTestData.sql");
         super.setUp();
         
-        documentService = getDocumentService();
+        documentService = getService(DocumentService.class);
         GlobalVariables.setErrorMap(new ErrorMap());
         transactionalLifecycle = new TransactionalLifecycle();
         transactionalLifecycle.setTransactionManager(KNSServiceLocator.getTransactionManager());
