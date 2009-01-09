@@ -52,7 +52,7 @@ public class ProtocolResearchAreaServiceTest {
         listOfResearchArea.add(bo2);
         
         protocol = new Protocol();
-        protocol.setProtocolId(1l);
+        protocol.setProtocolId(1L);
         
         service = new ProtocolResearchAreaServiceImpl();
     }
