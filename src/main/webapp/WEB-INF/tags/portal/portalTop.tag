@@ -20,7 +20,14 @@
 <html>
 <head>
 <title>Kuali Portal Index</title>
-<link href="css/portal.css" rel="stylesheet" type="text/css" />
+
+<c:forEach items="${fn:split(ConfigProperties.portal.css.files, ',')}" var="cssFile">
+	<c:if test="${fn:length(fn:trim(cssFile)) > 0}">
+        <link href="${pageContext.request.contextPath}/${fn:trim(cssFile)}" rel="stylesheet" type="text/css" />
+	</c:if>
+</c:forEach>
+
+
 <script language="JavaScript" type="text/javascript" src="kr/scripts/my_common.js"></script>
 <script language="javascript" >
 if (top.location != self.location) {
