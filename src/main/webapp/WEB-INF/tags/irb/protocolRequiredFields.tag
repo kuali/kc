@@ -2,7 +2,7 @@
 
 <c:set var="protocolDocumentAttributes" value="${DataDictionary.ProtocolDocument.attributes}" />
 <c:set var="protocolAttributes" value="${DataDictionary.Protocol.attributes}" />
-<c:set var="textAreaFieldName" value="document.title" />
+<c:set var="textAreaFieldName" value="document.protocol.title" />
 <c:set var="action" value="protocol" />
 <c:set var="nonEmpFlag" value="false" />
 <c:set var="className" value="org.kuali.kra.protocol.document.ProtocolDocument" />
