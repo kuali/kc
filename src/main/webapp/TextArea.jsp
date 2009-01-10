@@ -34,7 +34,14 @@
 	} else {
 		kraTextAreaFieldName = request.getParameter(Constants.TEXT_AREA_FIELD_NAME);
 	}
-	
+	String viewOnly = null;
+	if (request.getParameter("viewOnly") == null
+			|| request.getParameter("viewOnly").trim().equals("")) {
+		viewOnly = (String) request.getAttribute("viewOnly");
+	} else {
+		viewOnly = request.getParameter("viewOnly");
+	}
+
 	String kraHtmlFormAction = null;
 	if (request.getParameter(Constants.HTML_FORM_ACTION) == null
 			|| request.getParameter(Constants.HTML_FORM_ACTION).trim().equals("")) {
@@ -62,6 +69,8 @@
 	<c:set var="htmlFormAction"
 		value="<%=kraHtmlFormAction%>" />
 </c:if>
+	<c:set var="viewOnly"
+		value="<%=viewOnly%>" />
 
 <html:form styleId="kualiForm" method="post"
 	action="/${htmlFormAction}.do" enctype=""
@@ -69,18 +78,29 @@
 	<table align="center">
 		<tr>
 			<td><kul:htmlControlAttribute property="${kraTextAreaFieldName}"
-				attributeEntry="${kraAttributeReferenceDummyAttributes.bigDescription}" />
+				attributeEntry="${kraAttributeReferenceDummyAttributes.bigDescription}" disabled="${viewOnly}"/>
 
 			</td>
 		</tr>
 
 		<tr>
 			<td>
+			<c:choose>
+			<c:when test="${viewOnly == 'true'}">
+			<div id="globalbuttons" class="globalbuttons"><input
+				type="image" name="methodToCall.kraPostTextAreaToParent.anchor${textAreaFieldAnchor}"
+				onclick='javascript:window.close();'
+				src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif"
+				class="globalbuttons" title="return" alt="return"></div>
+			</c:when>
+			<c:otherwise>
 			<div id="globalbuttons" class="globalbuttons"><input
 				type="image" name="methodToCall.kraPostTextAreaToParent.anchor${textAreaFieldAnchor}"
 				onclick='javascript:kraPostValueToParentWindow();return false'
 				src="${ConfigProperties.kra.externalizable.images.url}buttonsmall_return.gif"
 				class="globalbuttons" title="return" alt="return"></div>
+			</c:otherwise>
+			</c:choose>	
 			</td>
 		</tr>
 	</table>

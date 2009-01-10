@@ -72,7 +72,7 @@
 		</property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"
-				p:size="10" />
+				p:size="30" />
 		</property>
 		<property name="summary" value="Description" />
 		<property name="description" value="Description" />
