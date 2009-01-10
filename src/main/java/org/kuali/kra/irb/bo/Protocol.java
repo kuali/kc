@@ -25,6 +25,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.service.ProtocolLocationService;
+import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.service.UnitService;
 import org.springframework.util.StringUtils;
 
@@ -334,6 +335,20 @@ public class Protocol extends KraPersistableBusinessObjectBase{
         this.riskLevels = riskLevels;
     }
 
+    /**
+     * Gets index i from the propSpecialReviews list.
+     * 
+     * @param index
+     * @return Question at index i
+     */
+    public ProtocolRiskLevels getRiskLevel(int index) {
+        while (getRiskLevels().size() <= index) {
+            getRiskLevels().add(new ProtocolRiskLevels());
+        }
+        return (ProtocolRiskLevels) getRiskLevels().get(index);
+    }
+
+    
     public List<ProtocolParticipant> getProtocolParticipants() {
         return protocolParticipants;
     }

@@ -53,9 +53,8 @@ public class ProtocolRiskLevels extends KraPersistableBusinessObjectBase {
 	private Date dateAssigned; 
 	@Column(name="DATE_UPDATED")
 	private Date dateUpdated; 
-	@Type(type="yes_no")
 	@Column(name="STATUS")
-	private boolean status; 
+	private String status; 
 	
 	@ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinColumn(name="PROTOCOL_ID", insertable=false, updatable=false)
@@ -134,11 +133,11 @@ public class ProtocolRiskLevels extends KraPersistableBusinessObjectBase {
 		this.dateUpdated = dateUpdated;
 	}
 
-	public boolean getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(boolean status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
