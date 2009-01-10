@@ -99,7 +99,7 @@ function selectAllKeywords(document) {
 	}
 }
 
-function kraTextAreaPop(textAreaName,htmlFormAction,textAreaLabel,docFormKey, sessionDocument){
+function kraTextAreaPop(textAreaName,htmlFormAction,textAreaLabel,docFormKey, sessionDocument, viewOnly){
   var documentWebScope
   if (sessionDocument == "true") {
       documentWebScope="session"
@@ -111,8 +111,13 @@ function kraTextAreaPop(textAreaName,htmlFormAction,textAreaLabel,docFormKey, se
   extractUrl=url.substr(0,idx2)
   //text=text.replace(/\n/g,'<br>');
   //window.open(extractUrl+"/updateTextArea.do?" + text+"&textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope, "_blank", "width=640, height=600, scrollbars=yes");
-  window.open(extractUrl+"/kraUpdateTextArea.do?&textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope, "_blank", "width=640, height=600, scrollbars=yes");
+  window.open(extractUrl+"/kraUpdateTextArea.do?&textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope+"&viewOnly="+viewOnly, "_blank", "width=640, height=600, scrollbars=yes");
 }
+
+
+//function kraTextAreaPop(textAreaName,htmlFormAction,textAreaLabel,docFormKey, sessionDocument){
+//	kraTextArea(textAreaName,htmlFormAction,textAreaLabel,docFormKey, sessionDocument, "false")
+//}
 
 var kraTextAreaFieldName
 function kraSetTextArea() {
@@ -127,6 +132,28 @@ function kraSetTextArea() {
   
 //  alert (escape(text))
 //  alert (unescape(text))
+
+}
+
+function viewCommentPop(fieldName,label){
+  url=window.location.href
+  pathname=window.location.pathname
+  idx1=url.indexOf(pathname);
+  idx2=url.indexOf("/",idx1+1);
+  extractUrl=url.substr(0,idx2)
+  //text=text.replace(/\n/g,'<br>');
+  //window.open(extractUrl+"/updateTextArea.do?" + text+"&textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope, "_blank", "width=640, height=600, scrollbars=yes");
+  window.open(extractUrl+"/viewComment.do?&commentFieldName="+fieldName+"&commentFieldLabel="+label, "_blank", "width=640, height=600, scrollbars=yes");
+}
+
+function setComment() {
+  passData=document.location.search.substring(1);
+  var idx=passData.indexOf("&commentFieldName=")
+  var idx2=passData.indexOf("&commentFieldLabel=")
+  fieldName=passData.substring(idx+18,idx2)
+  text = window.opener.document.getElementById(fieldName).value;
+  document.getElementById(fieldName).value = text;
+  
 
 }
 
