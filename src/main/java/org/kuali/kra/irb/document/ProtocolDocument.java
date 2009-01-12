@@ -21,8 +21,11 @@ import java.util.List;
 
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.SessionDocument;
+import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.bo.Protocol;
+import org.kuali.kra.irb.service.ProtocolAuthorizationService;
 
 /**
  * 
@@ -108,5 +111,13 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         managedLists.add(protocolList);
         return managedLists;
 
+    }
+    
+    /**
+     * @see org.kuali.kra.document.ResearchDocumentBase#getAllRolePersons()
+     */
+    protected List<RolePersons> getAllRolePersons() {
+        ProtocolAuthorizationService protocolAuthService = (ProtocolAuthorizationService) KraServiceLocator.getService(ProtocolAuthorizationService.class); 
+        return protocolAuthService.getAllRolePersons(getProtocol());
     }
 }
