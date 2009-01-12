@@ -61,22 +61,8 @@
 	</bean>
 
 	<bean id="RiskLevel-description" parent="RiskLevel-description-parentBean" />
-	<bean id="RiskLevel-description-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="description" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Description" />
-		<property name="shortLabel" value="Description" />
-		<property name="maxLength" value="200" />
-		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
-		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="30" />
-		</property>
-		<property name="summary" value="Description" />
-		<property name="description" value="Description" />
-	</bean>
+  <bean id="RiskLevel-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+  </bean>
 
 	<bean id="RiskLevel-versionNumber" parent="RiskLevel-versionNumber-parentBean" />
 	<bean id="RiskLevel-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">

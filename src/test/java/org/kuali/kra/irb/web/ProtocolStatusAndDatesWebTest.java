@@ -62,7 +62,7 @@ public class ProtocolStatusAndDatesWebTest extends ProtocolWebTestBase{
         assertContains(protocolPage,"* Protocol Status: Pending/In Progress ");        
         assertContains(protocolPage,"Initial Approval Date: Last Approval Date: ");        
         assertContains(protocolPage,"Submission Date: Generated on Submission Expiration Date: ");   
-        assertContains(protocolPage,"Risk Levels Risk Level Code Date Assigned Date Updated Status Comments &nbsp Additional Information"); 
+        assertContains(protocolPage,"Risk Levels Risk Level Date Assigned Date Updated Status Comments &nbsp Additional Information"); 
         //validatePage(protocolPage, pageMap);
     }
     
