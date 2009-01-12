@@ -34,11 +34,11 @@ import org.kuali.kra.irb.document.ProtocolDocument;
 
 @Entity 
 @Table(name="PROTOCOL_RISK_LEVELS")
-public class ProtocolRiskLevels extends KraPersistableBusinessObjectBase { 
+public class ProtocolRiskLevel extends KraPersistableBusinessObjectBase { 
 	
 	@Id 
 	@Column(name="PROTOCOL_RISK_LEVELS_ID")
-	private Integer protocolRiskLevelsId; 
+	private Integer protocolRiskLevelId; 
 	@Column(name="PROTOCOL_ID")
 	private Integer protocolId; 
 	@Column(name="PROTOCOL_NUMBER")
@@ -65,16 +65,16 @@ public class ProtocolRiskLevels extends KraPersistableBusinessObjectBase {
 	private RiskLevel riskLevel;
 	
 	
-	public ProtocolRiskLevels() { 
+	public ProtocolRiskLevel() { 
 
 	} 
 	
-	public Integer getProtocolRiskLevelsId() {
-		return protocolRiskLevelsId;
+	public Integer getProtocolRiskLevelId() {
+		return protocolRiskLevelId;
 	}
 
-	public void setProtocolRiskLevelsId(Integer protocolRiskLevelsId) {
-		this.protocolRiskLevelsId = protocolRiskLevelsId;
+	public void setProtocolRiskLevelId(Integer protocolRiskLevelId) {
+		this.protocolRiskLevelId = protocolRiskLevelId;
 	}
 
 	public Integer getProtocolId() {
@@ -160,7 +160,7 @@ public class ProtocolRiskLevels extends KraPersistableBusinessObjectBase {
 	@Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("protocolRiskLevelsId", getProtocolRiskLevelsId());
+		hashMap.put("protocolRiskLevelId", getProtocolRiskLevelId());
 		hashMap.put("protocolId", getProtocolId());
 		hashMap.put("protocolNumber", getProtocolNumber());
 		hashMap.put("sequenceNumber", getSequenceNumber());
