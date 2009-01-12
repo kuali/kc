@@ -27,8 +27,14 @@ import org.kuali.kra.award.bo.ReportClass;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 
+/**
+ * 
+ * This class is a values finder for <code>ReportClass</code> business object.
+ */
+@SuppressWarnings("unchecked")
 public class ReportClassValuesFinder extends KeyValuesBase {
-    KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
+    KeyValueFinderService keyValueFinderService= 
+        (KeyValueFinderService) KraServiceLocator.getService("keyValueFinderService");
     
     /**
      * Constructs the list of Report Classes.  Each entry

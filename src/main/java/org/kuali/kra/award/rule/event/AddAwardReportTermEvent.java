@@ -16,13 +16,13 @@
 package org.kuali.kra.award.rule.event;
 
 import org.kuali.core.rule.BusinessRule;
-import org.kuali.kra.award.bo.AwardReportTerms;
+import org.kuali.kra.award.bo.AwardReportTerm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.rule.AddAwardReportTermRule;
 
 /**
  * 
- * This is the base event class for <code>AwardReportTerms</code> business object.
+ * This is the base event class for <code>AwardReportTerm</code> business object.
  */
 public class AddAwardReportTermEvent extends AwardReportTermEventBase {
     private static final org.apache.commons.logging.Log LOG = 
@@ -37,7 +37,7 @@ public class AddAwardReportTermEvent extends AwardReportTermEventBase {
      * @param awardReportTerm
      */
     public AddAwardReportTermEvent(String errorPathPrefix, 
-            AwardDocument document, AwardReportTerms awardReportTerm) {
+            AwardDocument document, AwardReportTerm awardReportTerm) {
         super("adding Award Report Term to Award document ", errorPathPrefix, document, awardReportTerm);
         logEvent();
     }

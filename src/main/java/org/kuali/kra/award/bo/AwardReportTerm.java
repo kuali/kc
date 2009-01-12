@@ -22,9 +22,18 @@ import java.util.LinkedHashMap;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Rolodex;
 
-public class AwardReportTerms extends KraPersistableBusinessObjectBase { 
+/**
+ * 
+ * This class represents the AwardReportTerm business object and is mapped
+ * to AWARD_REPORT_TERMS table
+ */
+public class AwardReportTerm extends KraPersistableBusinessObjectBase { 
     
-    private Integer awardReportTermsId; 
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -3117988810554700250L;
+    private Integer awardReportTermId; 
     private Integer awardId; 
     private String awardNumber; 
     private Integer sequenceNumber; 
@@ -47,16 +56,16 @@ public class AwardReportTerms extends KraPersistableBusinessObjectBase {
     private Rolodex rolodex; 
     private Award award; 
     
-    public AwardReportTerms() { 
+    public AwardReportTerm() { 
 
     } 
     
-    public Integer getAwardReportTermsId() {
-        return awardReportTermsId;
+    public Integer getAwardReportTermId() {
+        return awardReportTermId;
     }
 
-    public void setAwardReportTermsId(Integer awardReportTermsId) {
-        this.awardReportTermsId = awardReportTermsId;
+    public void setAwardReportTermId(Integer awardReportTermId) {
+        this.awardReportTermId = awardReportTermId;
     }
 
     public Integer getAwardId() {
@@ -154,89 +163,14 @@ public class AwardReportTerms extends KraPersistableBusinessObjectBase {
     public void setNumberOfCopies(Integer numberOfCopies) {
         this.numberOfCopies = numberOfCopies;
     }
-
-    /*public ContactType getContactType() {
-        return contactType;
-    }
-
-    public void setContactType(ContactType contactType) {
-        this.contactType = contactType;
-    }
-
-    public Distribution getDistribution() {
-        return distribution;
-    }
-
-    public void setDistribution(Distribution distribution) {
-        this.distribution = distribution;
-    }
-
-    public Frequency getFrequency() {
-        return frequency;
-    }
-
-    public void setFrequency(Frequency frequency) {
-        this.frequency = frequency;
-    }
-
-    public FrequencyBase getFrequencyBase() {
-        return frequencyBase;
-    }
-
-    public void setFrequencyBase(FrequencyBase frequencyBase) {
-        this.frequencyBase = frequencyBase;
-    }
-
-    public Report getReport() {
-        return report;
-    }
-
-    public void setReport(Report report) {
-        this.report = report;
-    }
-
-    public ReportClass getReportClass() {
-        return reportClass;
-    }
-
-    public void setReportClass(ReportClass reportClass) {
-        this.reportClass = reportClass;
-    }
-
-    public Rolodex getRolodex() {
-        return rolodex;
-    }
-
-    public void setRolodex(Rolodex rolodex) {
-        this.rolodex = rolodex;
-    }*/
-
+    
     public Award getAward() {
         return award;
     }
 
     public void setAward(Award award) {
         this.award = award;
-    }
-
-    @Override 
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = new LinkedHashMap();
-        hashMap.put("awardReportTermsId", getAwardReportTermsId());
-        hashMap.put("awardId", getAwardId());
-        hashMap.put("awardNumber", getAwardNumber());
-        hashMap.put("sequenceNumber", getSequenceNumber());
-        hashMap.put("reportClassCode", getReportClassCode());
-        hashMap.put("reportCode", getReportCode());
-        hashMap.put("frequencyCode", getFrequencyCode());
-        hashMap.put("frequencyBaseCode", getFrequencyBaseCode());
-        hashMap.put("ospDistributionCode", getOspDistributionCode());
-        hashMap.put("contactTypeCode", getContactTypeCode());
-        hashMap.put("rolodexId", getRolodexId());
-        hashMap.put("dueDate", getDueDate());
-        hashMap.put("numberOfCopies", getNumberOfCopies());
-        return hashMap;
-    }
+    }    
 
     public ContactType getContactType() {
         return contactType;
@@ -292,6 +226,25 @@ public class AwardReportTerms extends KraPersistableBusinessObjectBase {
 
     public void setRolodex(Rolodex rolodex) {
         this.rolodex = rolodex;
+    }
+    
+    @Override 
+    protected LinkedHashMap<String, Object> toStringMapper() {
+        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
+        hashMap.put("awardReportTermId", getAwardReportTermId());
+        hashMap.put("awardId", getAwardId());
+        hashMap.put("awardNumber", getAwardNumber());
+        hashMap.put("sequenceNumber", getSequenceNumber());
+        hashMap.put("reportClassCode", getReportClassCode());
+        hashMap.put("reportCode", getReportCode());
+        hashMap.put("frequencyCode", getFrequencyCode());
+        hashMap.put("frequencyBaseCode", getFrequencyBaseCode());
+        hashMap.put("ospDistributionCode", getOspDistributionCode());
+        hashMap.put("contactTypeCode", getContactTypeCode());
+        hashMap.put("rolodexId", getRolodexId());
+        hashMap.put("dueDate", getDueDate());
+        hashMap.put("numberOfCopies", getNumberOfCopies());
+        return hashMap;
     }
     
 }

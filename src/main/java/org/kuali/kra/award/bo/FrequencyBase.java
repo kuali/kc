@@ -16,78 +16,87 @@
 
 package org.kuali.kra.award.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import java.util.LinkedHashMap;
-import java.sql.Date;
 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+
+/**
+ * 
+ * This class represents the FrequencyBase business object and is mapped
+ * with FREQUENCY_BASE table.
+ */
 public class FrequencyBase extends KraPersistableBusinessObjectBase { 
-	
-	private Integer frequencyBaseCode; 
-	private String description; 
-	
-	/*private TemplateReportTerms templateReportTerms; 
-	private ValidFrequencyBase validFrequencyBase; 
-	private AwardReporting awardReporting; 
-	private AwardReportTerms awardReportTerms;*/ 
-	
-	public FrequencyBase() { 
+    
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 5406416029670950959L;
+    private Integer frequencyBaseCode; 
+    private String description; 
+    
+    /*private TemplateReportTerms templateReportTerms; 
+    private ValidFrequencyBase validFrequencyBase; 
+    private AwardReporting awardReporting; 
+    private AwardReportTerms awardReportTerms;*/ 
+    
+    public FrequencyBase() { 
 
-	} 
-	
-	public Integer getFrequencyBaseCode() {
-		return frequencyBaseCode;
-	}
+    } 
+    
+    public Integer getFrequencyBaseCode() {
+        return frequencyBaseCode;
+    }
 
-	public void setFrequencyBaseCode(Integer frequencyBaseCode) {
-		this.frequencyBaseCode = frequencyBaseCode;
-	}
+    public void setFrequencyBaseCode(Integer frequencyBaseCode) {
+        this.frequencyBaseCode = frequencyBaseCode;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	/*public TemplateReportTerms getTemplateReportTerms() {
-		return templateReportTerms;
-	}
+    /*public TemplateReportTerms getTemplateReportTerms() {
+        return templateReportTerms;
+    }
 
-	public void setTemplateReportTerms(TemplateReportTerms templateReportTerms) {
-		this.templateReportTerms = templateReportTerms;
-	}
+    public void setTemplateReportTerms(TemplateReportTerms templateReportTerms) {
+        this.templateReportTerms = templateReportTerms;
+    }
 
-	public ValidFrequencyBase getValidFrequencyBase() {
-		return validFrequencyBase;
-	}
+    public ValidFrequencyBase getValidFrequencyBase() {
+        return validFrequencyBase;
+    }
 
-	public void setValidFrequencyBase(ValidFrequencyBase validFrequencyBase) {
-		this.validFrequencyBase = validFrequencyBase;
-	}
+    public void setValidFrequencyBase(ValidFrequencyBase validFrequencyBase) {
+        this.validFrequencyBase = validFrequencyBase;
+    }
 
-	public AwardReporting getAwardReporting() {
-		return awardReporting;
-	}
+    public AwardReporting getAwardReporting() {
+        return awardReporting;
+    }
 
-	public void setAwardReporting(AwardReporting awardReporting) {
-		this.awardReporting = awardReporting;
-	}
+    public void setAwardReporting(AwardReporting awardReporting) {
+        this.awardReporting = awardReporting;
+    }
 
-	public AwardReportTerms getAwardReportTerms() {
-		return awardReportTerms;
-	}
+    public AwardReportTerms getAwardReportTerms() {
+        return awardReportTerms;
+    }
 
-	public void setAwardReportTerms(AwardReportTerms awardReportTerms) {
-		this.awardReportTerms = awardReportTerms;
-	}*/
+    public void setAwardReportTerms(AwardReportTerms awardReportTerms) {
+        this.awardReportTerms = awardReportTerms;
+    }*/
 
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("frequencyBaseCode", getFrequencyBaseCode());
-		hashMap.put("description", getDescription());
-		return hashMap;
-	}
-	
+    @Override 
+    protected LinkedHashMap<String, Object> toStringMapper() {
+        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
+        hashMap.put("frequencyBaseCode", getFrequencyBaseCode());
+        hashMap.put("description", getDescription());
+        return hashMap;
+    }
+    
 }
