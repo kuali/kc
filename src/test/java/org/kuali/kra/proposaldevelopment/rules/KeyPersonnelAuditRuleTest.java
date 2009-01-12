@@ -88,7 +88,7 @@ public class KeyPersonnelAuditRuleTest extends KraTestBase {
      * Locate {@link BusinessObjectService} bean within Spring
      * 
      */
-    private BusinessObjectService getBusinessObjectService() {
+    protected BusinessObjectService getBusinessObjectService() {
         return getService(BusinessObjectService.class);
         
     }
