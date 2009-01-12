@@ -43,6 +43,7 @@ import org.kuali.core.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.core.workflow.KualiTransactionalDocumentInformation;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.Organization;
+import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.SponsorFormTemplate;
@@ -1424,34 +1425,10 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         return this.getBudgetVersionOverviews().size();
     }
 
-    /**
-     * Wraps a document in an instance of KualiDocumentXmlMaterializer, that provides additional metadata for serialization
-     * 
-     * @see org.kuali.core.document.Document#wrapDocumentWithMetadataForXmlSerialization()
-     */
-    @Override
-    public KualiDocumentXmlMaterializer wrapDocumentWithMetadataForXmlSerialization() {
-        ProposalAuthorizationService proposalauthservice=(ProposalAuthorizationService)KraServiceLocator.getService(ProposalAuthorizationService.class); 
-        KualiTransactionalDocumentInformation transInfo = new KualiTransactionalDocumentInformation();
-        DocumentInitiator initiatior = new DocumentInitiator();
-        String initiatorNetworkId = getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
-        try {
-            UniversalUser initiatorUser = KNSServiceLocator.getUniversalUserService().getUniversalUser(new AuthenticationUserId(initiatorNetworkId));
-            initiatorUser.getModuleUsers(); // init the module users map for serialization
-            initiatior.setUniversalUser(initiatorUser);
-        }
-        catch (UserNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        transInfo.setDocumentInitiator(initiatior);
-        KraDocumentXMLMaterializer xmlWrapper=new KraDocumentXMLMaterializer(); 
-        //KualiDocumentXmlMaterializer xmlWrapper = new KualiDocumentXmlMaterializer(); 
-        xmlWrapper.setDocument(this); 
-        xmlWrapper.setKualiTransactionalDocumentInformation(transInfo); 
-        xmlWrapper.setRolepersons(proposalauthservice.getAllRolePersons(this)); 
-        return xmlWrapper; 
-
-    } 
+    protected List<RolePersons> getAllRolePersons() {
+        ProposalAuthorizationService proposalAuthService = (ProposalAuthorizationService) KraServiceLocator.getService(ProposalAuthorizationService.class); 
+        return proposalAuthService.getAllRolePersons(this);
+    }
   
     public boolean isNih() {
         return nih;
