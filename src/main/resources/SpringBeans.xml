@@ -676,6 +676,9 @@
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeReplaceAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="replaceNarrative" />
                 </bean>
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ModifyNarrativesAuthorizer" parent="parentAuthorizer">
+                    <property name="taskName" value="modifyNarratives" />
+                </bean>                
             </list>
         </property>
     </bean>
@@ -789,6 +792,12 @@
                 <entry key="replaceInstituteAttachment">
                     <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.InstituteAttachmentTaskFactory" parent="parentTaskFactory">
                         <property name="taskName" value="replaceNarrative" />
+                    </bean>
+                </entry>
+                
+                <entry key="save">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.NarrtivesCommonTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="modifyNarratives" />
                     </bean>
                 </entry>
             </map>

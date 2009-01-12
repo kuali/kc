@@ -19,28 +19,20 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionForm;
 import org.kuali.kra.authorization.Task;
-import org.kuali.kra.proposaldevelopment.bo.Narrative;
-import org.kuali.kra.proposaldevelopment.document.authorization.NarrativeTask;
+import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
+
+
 /**
- * The Proposal Attachment Task Factory will create a Narrative Task using
- * an proposal attachment narrative.
+ * The Narratives Common Task Factory will create a Proposal Task.
  */
-public class ProposalAttachmentTaskFactory extends NarrativeTaskFactory {
-    
-    /**
-     * @see org.kuali.kra.proposaldevelopment.web.struts.authorization.NarrativeTaskFactory#getNarrative(org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest)
-     */
-    protected Narrative getNarrative(ActionForm form, HttpServletRequest request) {
-        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        int index = getLineNumber(request);
-        return proposalDevelopmentForm.getProposalDevelopmentDocument().getNarrative(index);
-    }
-    
+public class NarrtivesCommonTaskFactory extends NarrativeTaskFactory {
+
     public Task createTask(ActionForm form, HttpServletRequest request) {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        Narrative narrative = getNarrative(form, request);
-        return new NarrativeTask(getTaskName(), proposalDevelopmentForm.getProposalDevelopmentDocument(), narrative);
+        return new ProposalTask(getTaskName(), proposalDevelopmentForm.getProposalDevelopmentDocument());
     }
+
+
 }
