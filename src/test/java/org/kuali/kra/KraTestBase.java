@@ -107,6 +107,10 @@ public abstract class KraTestBase extends KcraNoDataTestBase {
 
     @Before
     public void setUp() throws Exception {
+        setContextName("/kra-dev");
+        setRelativeWebappRoot("/src/main/webapp");
+        setXmlFilename("classpath:DefaultTestData.xml");
+        setSqlFilename("classpath:DefaultTestData.sql");
         super.setUp();
     }
     
