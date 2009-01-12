@@ -21,6 +21,7 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.kuali.core.document.Document;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
@@ -28,9 +29,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.config.spring.ConfigFactoryBean;
 import org.kuali.rice.lifecycle.Lifecycle;
-import org.kuali.rice.test.data.PerSuiteUnitTestData;
-import org.kuali.rice.test.data.UnitTestData;
-import org.kuali.rice.test.data.UnitTestFile;
 import org.kuali.rice.test.lifecycles.TransactionalLifecycle;
 import org.kuali.rice.testharness.KNSTestCase;
 import org.kuali.rice.util.OrmUtils;
@@ -42,13 +40,10 @@ public abstract class KcraNoDataTestBase extends KNSTestCase {
 
     protected TransactionalLifecycle transactionalLifecycle;
     private DocumentService documentService;
+    private BusinessObjectService businessObjectService;
 
     @Before
     public void setUp() throws Exception {
-        setContextName("/kra-dev");
-        setRelativeWebappRoot("/src/main/webapp");
-        setXmlFilename("classpath:DefaultTestData.xml");
-        setSqlFilename("classpath:DefaultTestData.sql");
         super.setUp();
         
         documentService = getService(DocumentService.class);
@@ -87,7 +82,17 @@ public abstract class KcraNoDataTestBase extends KNSTestCase {
         return lifeCycles;
     }
 
-    public DocumentService getDocumentService() throws Exception {
+    protected BusinessObjectService getBusinessObjectService() throws Exception {
+        if(businessObjectService == null) {
+            businessObjectService = KNSServiceLocator.getBusinessObjectService();
+        }
+        return businessObjectService;
+    }
+    
+    protected DocumentService getDocumentService() throws Exception {
+        if(documentService == null) {
+            documentService = KNSServiceLocator.getDocumentService();
+        }
         return documentService;
     }
 
