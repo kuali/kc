@@ -16,69 +16,78 @@
 
 package org.kuali.kra.award.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import java.util.LinkedHashMap;
-import java.sql.Date;
 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+
+/**
+ * 
+ * This class represents Distribution business object and is mapped
+ * with DISTRIBUTION table.
+ */
 public class Distribution extends KraPersistableBusinessObjectBase { 
-	
-	private Integer ospDistributionCode; 
-	private String description; 
-	
-	/*private TemplateReportTerms templateReportTerms; 
-	private AwardReporting awardReporting; 
-	private AwardReportTerms awardReportTerms;*/ 
-	
-	public Distribution() { 
+    
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -8638092879516673772L;
+    private Integer ospDistributionCode; 
+    private String description; 
+    
+    /*private TemplateReportTerms templateReportTerms; 
+    private AwardReporting awardReporting; 
+    private AwardReportTerms awardReportTerms;*/ 
+    
+    public Distribution() { 
 
-	} 
-	
-	public Integer getOspDistributionCode() {
-		return ospDistributionCode;
-	}
+    } 
+    
+    public Integer getOspDistributionCode() {
+        return ospDistributionCode;
+    }
 
-	public void setOspDistributionCode(Integer ospDistributionCode) {
-		this.ospDistributionCode = ospDistributionCode;
-	}
+    public void setOspDistributionCode(Integer ospDistributionCode) {
+        this.ospDistributionCode = ospDistributionCode;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	/*public TemplateReportTerms getTemplateReportTerms() {
-		return templateReportTerms;
-	}
+    /*public TemplateReportTerms getTemplateReportTerms() {
+        return templateReportTerms;
+    }
 
-	public void setTemplateReportTerms(TemplateReportTerms templateReportTerms) {
-		this.templateReportTerms = templateReportTerms;
-	}
+    public void setTemplateReportTerms(TemplateReportTerms templateReportTerms) {
+        this.templateReportTerms = templateReportTerms;
+    }
 
-	public AwardReporting getAwardReporting() {
-		return awardReporting;
-	}
+    public AwardReporting getAwardReporting() {
+        return awardReporting;
+    }
 
-	public void setAwardReporting(AwardReporting awardReporting) {
-		this.awardReporting = awardReporting;
-	}
+    public void setAwardReporting(AwardReporting awardReporting) {
+        this.awardReporting = awardReporting;
+    }
 
-	public AwardReportTerms getAwardReportTerms() {
-		return awardReportTerms;
-	}
+    public AwardReportTerms getAwardReportTerms() {
+        return awardReportTerms;
+    }
 
-	public void setAwardReportTerms(AwardReportTerms awardReportTerms) {
-		this.awardReportTerms = awardReportTerms;
-	}*/
+    public void setAwardReportTerms(AwardReportTerms awardReportTerms) {
+        this.awardReportTerms = awardReportTerms;
+    }*/
 
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("ospDistributionCode", getOspDistributionCode());
-		hashMap.put("description", getDescription());
-		return hashMap;
-	}
-	
+    @Override 
+    protected LinkedHashMap<String, Object> toStringMapper() {
+        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
+        hashMap.put("ospDistributionCode", getOspDistributionCode());
+        hashMap.put("description", getDescription());
+        return hashMap;
+    }
+    
 }

@@ -28,18 +28,16 @@ import org.kuali.kra.award.bo.AwardApprovedSubaward;
 import org.kuali.kra.award.bo.AwardComment;
 import org.kuali.kra.award.bo.AwardCostShare;
 import org.kuali.kra.award.bo.AwardFandaRate;
-import org.kuali.kra.award.bo.AwardReportTerms;
+import org.kuali.kra.award.bo.AwardReportTerm;
 import org.kuali.kra.award.bo.AwardSpecialReview;
+import org.kuali.kra.award.bo.AwardSpecialReviewExemption;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
-import org.kuali.kra.web.struts.form.SpecialReviewFormBase;
-import org.kuali.kra.award.bo.*;
-import org.kuali.kra.bo.AbstractSpecialReview;
-import org.kuali.kra.bo.AbstractSpecialReviewExemption;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.web.struts.form.MultiLookupFormBase;
+import org.kuali.kra.web.struts.form.SpecialReviewFormBase;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
 
@@ -67,8 +65,8 @@ public class AwardForm extends KraTransactionalDocumentFormBase implements Multi
     private AwardApprovedSubaward newAwardApprovedSubaward;
     
     private AwardFandaRate newAwardFandaRate;
-    private List<AwardReportTerms> newAwardReportTerms;
-    private List<AwardReportTerms> newAwardReportTermsRecipients;
+    private List<AwardReportTerm> newAwardReportTerm;
+    private List<AwardReportTerm> newAwardReportTermRecipient;
     
     
     /**
@@ -89,8 +87,8 @@ public class AwardForm extends KraTransactionalDocumentFormBase implements Multi
         initializeHeaderNavigationTabs();
         newAwardCostShare = new AwardCostShare();
         newAwardFandaRate = new AwardFandaRate();
-        newAwardReportTerms = new ArrayList<AwardReportTerms>();
-        newAwardReportTermsRecipients = new ArrayList<AwardReportTerms>();
+        newAwardReportTerm = new ArrayList<AwardReportTerm>();
+        newAwardReportTermRecipient = new ArrayList<AwardReportTerm>();
         newAwardSpecialReview = new AwardSpecialReview();
         newSpecialReviewExemptions = new ArrayList<AwardSpecialReviewExemption>();
     }    
@@ -180,20 +178,20 @@ public class AwardForm extends KraTransactionalDocumentFormBase implements Multi
     protected String getLockRegion() {
         return KraAuthorizationConstants.LOCK_DESCRIPTOR_AWARD;
     }
-    public List<AwardReportTerms> getNewAwardReportTerms() {
-        return newAwardReportTerms;
+    public List<AwardReportTerm> getNewAwardReportTerm() {
+        return newAwardReportTerm;
     }
 
-    public void setNewAwardReportTerms(List<AwardReportTerms> newAwardReportTerms) {
-        this.newAwardReportTerms = newAwardReportTerms;
+    public void setNewAwardReportTerm(List<AwardReportTerm> newAwardReportTerm) {
+        this.newAwardReportTerm = newAwardReportTerm;
     }
 
-    public List<AwardReportTerms> getNewAwardReportTermsRecipients() {
-        return newAwardReportTermsRecipients;
+    public List<AwardReportTerm> getNewAwardReportTermRecipient() {
+        return newAwardReportTermRecipient;
     }
 
-    public void setNewAwardReportTermsRecipients(List<AwardReportTerms> newAwardReportTermsRecipients) {
-        this.newAwardReportTermsRecipients = newAwardReportTermsRecipients;
+    public void setNewAwardReportTermRecipient(List<AwardReportTerm> newAwardReportTermRecipient) {
+        this.newAwardReportTermRecipient = newAwardReportTermRecipient;
     }
 
     public AwardApprovedSubaward getNewAwardApprovedSubaward() {
