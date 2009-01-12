@@ -23,17 +23,26 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.user.AuthenticationUserId;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.workflow.DocumentInitiator;
+import org.kuali.core.workflow.KualiDocumentXmlMaterializer;
+import org.kuali.core.workflow.KualiTransactionalDocumentInformation;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
+import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.service.BudgetService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.CustomAttributeService;
+import org.kuali.kra.workflow.KraDocumentXMLMaterializer;
+import org.kuali.rice.KNSServiceLocator;
 
 public class ResearchDocumentBase extends TransactionalDocumentBase {
 
@@ -187,4 +196,41 @@ public class ResearchDocumentBase extends TransactionalDocumentBase {
         return customAttributeDocuments.get(key);
     }
     
+    /**
+     * Wraps a document in an instance of KualiDocumentXmlMaterializer, that provides additional metadata for serialization
+     * 
+     * @see org.kuali.core.document.Document#wrapDocumentWithMetadataForXmlSerialization()
+     */
+    @Override
+    public KualiDocumentXmlMaterializer wrapDocumentWithMetadataForXmlSerialization() {
+        KualiTransactionalDocumentInformation transInfo = new KualiTransactionalDocumentInformation();
+        DocumentInitiator initiatior = new DocumentInitiator();
+        String initiatorNetworkId = getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
+        try {
+            UniversalUser initiatorUser = KNSServiceLocator.getUniversalUserService().getUniversalUser(new AuthenticationUserId(initiatorNetworkId));
+            initiatorUser.getModuleUsers(); // init the module users map for serialization
+            initiatior.setUniversalUser(initiatorUser);
+        }
+        catch (UserNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        transInfo.setDocumentInitiator(initiatior);
+        KraDocumentXMLMaterializer xmlWrapper = new KraDocumentXMLMaterializer(); 
+        //KualiDocumentXmlMaterializer xmlWrapper = new KualiDocumentXmlMaterializer(); 
+        xmlWrapper.setDocument(this); 
+        xmlWrapper.setKualiTransactionalDocumentInformation(transInfo); 
+        xmlWrapper.setRolepersons(getAllRolePersons()); 
+        return xmlWrapper; 
+    }
+
+    /**
+     * Get the list of roles for the document along with each of the individuals in those roles.
+     * This information will be serialized into XML for workflow routing purposes.  It is
+     * expected that this method will be overridden by derived classes.
+     * 
+     * @return the list of roles and the users in those roles for this document
+     */
+    protected List<RolePersons> getAllRolePersons() {
+        return new ArrayList<RolePersons>();
+    } 
 }
