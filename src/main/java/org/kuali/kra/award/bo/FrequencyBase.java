@@ -39,22 +39,42 @@ public class FrequencyBase extends KraPersistableBusinessObjectBase {
     private AwardReporting awardReporting; 
     private AwardReportTerms awardReportTerms;*/ 
     
+    /**
+     * Constructs a FrequencyBase object.
+     */
     public FrequencyBase() { 
 
     } 
     
+    /**
+     * 
+     * This method...
+     * @return
+     */
     public Integer getFrequencyBaseCode() {
         return frequencyBaseCode;
     }
 
+    /**
+     * 
+     * @param frequencyBaseCode
+     */
     public void setFrequencyBaseCode(Integer frequencyBaseCode) {
         this.frequencyBaseCode = frequencyBaseCode;
     }
 
+    /**
+     * 
+     * @return
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * 
+     * @param description
+     */
     public void setDescription(String description) {
         this.description = description;
     }
@@ -91,7 +111,11 @@ public class FrequencyBase extends KraPersistableBusinessObjectBase {
         this.awardReportTerms = awardReportTerms;
     }*/
 
-    @Override 
+    /**
+     * 
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    @Override    
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
         hashMap.put("frequencyBaseCode", getFrequencyBaseCode());

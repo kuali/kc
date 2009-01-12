@@ -87,8 +87,8 @@ public class AwardForm extends KraTransactionalDocumentFormBase implements Multi
         initializeHeaderNavigationTabs();
         newAwardCostShare = new AwardCostShare();
         newAwardFandaRate = new AwardFandaRate();
-        newAwardReportTerm = new ArrayList<AwardReportTerm>();
-        newAwardReportTermRecipient = new ArrayList<AwardReportTerm>();
+        setNewAwardReportTerm(new ArrayList<AwardReportTerm>());
+        setNewAwardReportTermRecipient(new ArrayList<AwardReportTerm>());        
         newAwardSpecialReview = new AwardSpecialReview();
         newSpecialReviewExemptions = new ArrayList<AwardSpecialReviewExemption>();
     }    

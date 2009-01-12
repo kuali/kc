@@ -38,22 +38,41 @@ public class Distribution extends KraPersistableBusinessObjectBase {
     private AwardReporting awardReporting; 
     private AwardReportTerms awardReportTerms;*/ 
     
+    /**
+     * Constructs a Distribution.java
+     */
     public Distribution() { 
 
     } 
     
+    /**
+     * 
+     * @return
+     */
     public Integer getOspDistributionCode() {
         return ospDistributionCode;
     }
 
+    /**
+     * 
+     * @param ospDistributionCode
+     */
     public void setOspDistributionCode(Integer ospDistributionCode) {
         this.ospDistributionCode = ospDistributionCode;
     }
 
+    /**
+     * 
+     * @return
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * 
+     * @param description
+     */
     public void setDescription(String description) {
         this.description = description;
     }
@@ -82,6 +101,10 @@ public class Distribution extends KraPersistableBusinessObjectBase {
         this.awardReportTerms = awardReportTerms;
     }*/
 
+    /**
+     * 
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();

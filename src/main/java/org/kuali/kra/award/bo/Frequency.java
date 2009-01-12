@@ -47,78 +47,153 @@ public class Frequency extends KraPersistableBusinessObjectBase {
     private AwardReporting awardReporting; 
     private AwardReportTerms awardReportTerms;*/ 
     
+    /**
+     * Constructs a Frequency object.
+     */
     public Frequency() { 
 
     } 
     
+    /**
+     *
+     * @return
+     */
     public Integer getFrequencyCode() {
         return frequencyCode;
     }
 
+    /**
+     *
+     * @param frequencyCode
+     */
     public void setFrequencyCode(Integer frequencyCode) {
         this.frequencyCode = frequencyCode;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     *
+     * @param description
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+    /**
+     *
+     * @return
+     */
     public Integer getNumberOfDays() {
         return numberOfDays;
     }
 
+    /**
+     *
+     * @param numberOfDays
+     */
     public void setNumberOfDays(Integer numberOfDays) {
         this.numberOfDays = numberOfDays;
     }
 
+    /**
+     *
+     * @return
+     */
     public Integer getNumberOfMonths() {
         return numberOfMonths;
     }
 
+    /**
+     *
+     * @param numberOfMonths
+     */
     public void setNumberOfMonths(Integer numberOfMonths) {
         this.numberOfMonths = numberOfMonths;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean getRepeatFlag() {
         return repeatFlag;
     }
 
+    /**
+     *
+     * @param repeatFlag
+     */
     public void setRepeatFlag(boolean repeatFlag) {
         this.repeatFlag = repeatFlag;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean getProposalDueFlag() {
         return proposalDueFlag;
     }
 
+    /**
+     *
+     * @param proposalDueFlag
+     */
     public void setProposalDueFlag(boolean proposalDueFlag) {
         this.proposalDueFlag = proposalDueFlag;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean getInvoiceFlag() {
         return invoiceFlag;
     }
 
+    /**
+     *
+     * @param invoiceFlag
+     */
     public void setInvoiceFlag(boolean invoiceFlag) {
         this.invoiceFlag = invoiceFlag;
     }
 
+    /**
+     *
+     * @return
+     */
     public Integer getAdvanceNumberOfDays() {
         return advanceNumberOfDays;
     }
 
+    /**
+     *
+     * @param advanceNumberOfDays
+     */
     public void setAdvanceNumberOfDays(Integer advanceNumberOfDays) {
         this.advanceNumberOfDays = advanceNumberOfDays;
     }
 
+    /**
+     *
+     * @return
+     */
     public Integer getAdvanceNumberOfMonths() {
         return advanceNumberOfMonths;
     }
 
+    /**
+     *
+     * @param advanceNumberOfMonths
+     */
     public void setAdvanceNumberOfMonths(Integer advanceNumberOfMonths) {
         this.advanceNumberOfMonths = advanceNumberOfMonths;
     }
@@ -163,6 +238,10 @@ public class Frequency extends KraPersistableBusinessObjectBase {
         this.awardReportTerms = awardReportTerms;
     }*/
 
+    /**
+     * 
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
