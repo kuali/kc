@@ -17,18 +17,18 @@ package org.kuali.kra.award.bo;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.document.SpecialReviewManager;
+import org.kuali.kra.infrastructure.Constants;
 
 /**
  * 
@@ -899,8 +899,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     /**
      * 
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override 
+     */    
+    @Override    
     protected LinkedHashMap<String,Object> toStringMapper() {        
         LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();        
         hashMap.put("awardId", getAwardId());

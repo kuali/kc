@@ -40,30 +40,57 @@ public class ReportClass extends KraPersistableBusinessObjectBase {
     private AwardReporting awardReporting; 
     private AwardReportTerms awardReportTerms;*/ 
     
+    /**
+     * Constructs a ReportClass.java
+     */
     public ReportClass() { 
 
     } 
     
+    /**
+     * 
+     * @return
+     */
     public Integer getReportClassCode() {
         return reportClassCode;
     }
 
+    /**
+     * 
+     * @param reportClassCode
+     */
     public void setReportClassCode(Integer reportClassCode) {
         this.reportClassCode = reportClassCode;
     }
 
+    /**
+     * 
+     * @return
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * 
+     * @param description
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+    /**
+     * 
+     * @return
+     */
     public boolean getGenerateReportRequirements() {
         return generateReportRequirements;
     }
 
+    /**
+     * 
+     * @param generateReportRequirements
+     */
     public void setGenerateReportRequirements(boolean generateReportRequirements) {
         this.generateReportRequirements = generateReportRequirements;
     }
@@ -100,6 +127,10 @@ public class ReportClass extends KraPersistableBusinessObjectBase {
         this.awardReportTerms = awardReportTerms;
     }*/
 
+    /**
+     * 
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
     @Override 
     protected LinkedHashMap<String,Object> toStringMapper() {
         LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();

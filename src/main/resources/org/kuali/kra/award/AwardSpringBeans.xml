@@ -37,5 +37,8 @@
 
 	<bean id="awardFandaRateService" class="org.kuali.kra.service.impl.AwardFandaRateServiceImpl">		
 	</bean>
+	
+	<bean id="awardReportsService" class="org.kuali.kra.service.impl.AwardReportsServiceImpl">		
+	</bean>
 
 </beans>

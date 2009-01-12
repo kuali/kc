@@ -23,16 +23,16 @@
 <c:set var="tabErrorKeyString" value=""  />
 <c:set var="reportCodeForComparison" value=""  />
 <c:forEach var="reportCode" items="${KualiForm.document.reportCodes}" varStatus="reportCodeIndex">	                                            
-    <c:forEach var="awardReportTerm" items="${KualiForm.document.award.awardReportTerm}" varStatus="status">        		 
+    <c:forEach var="awardReportTerm" items="${KualiForm.document.award.awardReportTerms}" varStatus="status">        		 
 	    <c:if test="${awardReportTerm.reportClassCode == reportClassKey }" >
 	        <c:if test="${reportCode.key == awardReportTerm.reportCode}" >
 	            <c:if test="${reportCodeForComparison != awardReportTerm.reportCode}" >
 	            	<c:choose>
 	            	    <c:when test="${empty tabErrorKeyString}" >	            	
-	                        <c:set var="tabErrorKeyString" value="document.awardList[0].awardReportTerm[${status.index}].reportCode,document.awardList[0].awardReportTerm[${status.index}].frequencyCode,document.awardList[0].awardReportTerm[${status.index}].frequencyBaseCode,document.awardList[0].awardReportTerm[${status.index}].ospDistributionCode,document.awardList[0].awardReportTerm[${status.index}].dueDate"  />
+	                        <c:set var="tabErrorKeyString" value="document.awardList[0].awardReportTerms[${status.index}].reportCode,document.awardList[0].awardReportTerms[${status.index}].frequencyCode,document.awardList[0].awardReportTerms[${status.index}].frequencyBaseCode,document.awardList[0].awardReportTerms[${status.index}].ospDistributionCode,document.awardList[0].awardReportTerms[${status.index}].dueDate"  />
 	                    </c:when>
 	                    <c:otherwise >
-	                        <c:set var="tabErrorKeyString" value="${tabErrorKeyString},document.awardList[0].awardReportTerm[${status.index}].reportCode,document.awardList[0].awardReportTerm[${status.index}].frequencyCode,document.awardList[0].awardReportTerm[${status.index}].frequencyBaseCode,document.awardList[0].awardReportTerm[${status.index}].ospDistributionCode,document.awardList[0].awardReportTerm[${status.index}].dueDate"  />
+	                        <c:set var="tabErrorKeyString" value="${tabErrorKeyString},document.awardList[0].awardReportTerms[${status.index}].reportCode,document.awardList[0].awardReportTerms[${status.index}].frequencyCode,document.awardList[0].awardReportTerms[${status.index}].frequencyBaseCode,document.awardList[0].awardReportTerms[${status.index}].ospDistributionCode,document.awardList[0].awardReportTerms[${status.index}].dueDate"  />
 	                    </c:otherwise>
 	                </c:choose>    	                    
 	                <c:set var="reportCodeForComparison" value="${awardReportTerm.reportCode}" />
@@ -97,7 +97,7 @@
         <c:set var="dueDateForComparison" value=""  />
         <c:set var="counterReport" value="0" />        
         <c:forEach var="reportCode" items="${KualiForm.document.reportCodes}" varStatus="reportCodeIndex">	                                            
-            <c:forEach var="awardReportTerm" items="${KualiForm.document.award.awardReportTerm}" varStatus="status">        		 
+            <c:forEach var="awardReportTerm" items="${KualiForm.document.award.awardReportTerms}" varStatus="status">        		 
 	            <c:if test="${awardReportTerm.reportClassCode == reportClassKey }" >
 	                <c:if test="${reportCode.key == awardReportTerm.reportCode}" >	                	 
 	                    <c:if test="${reportCodeForComparison != awardReportTerm.reportCode
@@ -117,27 +117,27 @@
 			</th>			                
 	        <td width="5%" valign="middle">        
 			<div align="center">
-                <kul:htmlControlAttribute property="document.awardList[0].awardReportTerm[${status.index}].reportCode" attributeEntry="${awardReportTermAttributes.reportCode}" />
+                <kul:htmlControlAttribute property="document.awardList[0].awardReportTerms[${status.index}].reportCode" attributeEntry="${awardReportTermAttributes.reportCode}" />
 			</div>
 			</td>
 	        <td width="5%" valign="middle">
 			<div align="center">
-                <kul:htmlControlAttribute property="document.awardList[0].awardReportTerm[${status.index}].frequencyCode" attributeEntry="${awardReportTermAttributes.frequencyCode}" />
+                <kul:htmlControlAttribute property="document.awardList[0].awardReportTerms[${status.index}].frequencyCode" attributeEntry="${awardReportTermAttributes.frequencyCode}" />
 			</div>
 			</td>
 	        <td width="5%" valign="middle">
 			<div align="center">
-                <kul:htmlControlAttribute property="document.awardList[0].awardReportTerm[${status.index}].frequencyBaseCode" attributeEntry="${awardReportTermAttributes.frequencyBaseCode}" />
+                <kul:htmlControlAttribute property="document.awardList[0].awardReportTerms[${status.index}].frequencyBaseCode" attributeEntry="${awardReportTermAttributes.frequencyBaseCode}" />
 			</div>
 			</td>
 	        <td width="13%" valign="middle">
 			<div align="center">
-                <kul:htmlControlAttribute property="document.awardList[0].awardReportTerm[${status.index}].ospDistributionCode" attributeEntry="${awardReportTermAttributes.ospDistributionCode}" />
+                <kul:htmlControlAttribute property="document.awardList[0].awardReportTerms[${status.index}].ospDistributionCode" attributeEntry="${awardReportTermAttributes.ospDistributionCode}" />
 			</div>
 			</td>	                
 	        <td width="10%" valign="middle">
 			<div align="center">
-                <kul:htmlControlAttribute property="document.awardList[0].awardReportTerm[${status.index}].dueDate" attributeEntry="${awardReportTermAttributes.dueDate}" datePicker="true" />
+                <kul:htmlControlAttribute property="document.awardList[0].awardReportTerms[${status.index}].dueDate" attributeEntry="${awardReportTermAttributes.dueDate}" datePicker="true" />
 			</div>
 			</td>
 			</td>
