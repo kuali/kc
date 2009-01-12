@@ -39,11 +39,7 @@ public abstract class NarrativeTaskFactory extends WebTaskFactoryImpl {
     /**
      * @see org.kuali.kra.web.struts.authorization.WebTaskFactory#createTask(org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest)
      */
-    public final Task createTask(ActionForm form, HttpServletRequest request) {
-        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        Narrative narrative = getNarrative(form, request);
-        return new NarrativeTask(getTaskName(), proposalDevelopmentForm.getProposalDevelopmentDocument(), narrative);
-    }
+    public abstract Task createTask(ActionForm form, HttpServletRequest request);
     
     /**
      * @see org.kuali.kra.web.struts.authorization.impl.WebTaskFactoryImpl#getTaskGroupName()
@@ -52,14 +48,6 @@ public abstract class NarrativeTaskFactory extends WebTaskFactoryImpl {
     public final String getTaskGroupName() {
         return TaskGroupName.NARRATIVE;
     }
-    
-    /**
-     * Get the narrative to insert into the Narrative Task.
-     * @param form the form
-     * @param request the HTTP request
-     * @return the narrative
-     */
-    protected abstract Narrative getNarrative(ActionForm form, HttpServletRequest request);
     
     /**
      * Get the line number from the HTTP request.  

@@ -18,7 +18,9 @@ package org.kuali.kra.proposaldevelopment.web.struts.authorization;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionForm;
+import org.kuali.kra.authorization.Task;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.kra.proposaldevelopment.document.authorization.NarrativeTask;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
 /**
@@ -34,5 +36,11 @@ public class InstituteAttachmentTaskFactory extends NarrativeTaskFactory {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         int index = getLineNumber(request);
         return proposalDevelopmentForm.getProposalDevelopmentDocument().getInstituteAttachment(index);
+    }
+    
+    public Task createTask(ActionForm form, HttpServletRequest request) {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        Narrative narrative = getNarrative(form, request);
+        return new NarrativeTask(getTaskName(), proposalDevelopmentForm.getProposalDevelopmentDocument(), narrative);
     }
 }
