@@ -65,7 +65,7 @@ public class Protocol extends KraPersistableBusinessObjectBase{
     private ProtocolStatus protocolStatus; 
     private ProtocolType protocolType; 
 
-    private List<ProtocolRiskLevels> riskLevels;
+    private List<ProtocolRiskLevel> protocolRiskLevels;
     private List<ProtocolParticipant> protocolParticipants;
     
     private List<ProtocolResearchArea> protocolResearchAreas;
@@ -95,7 +95,7 @@ public class Protocol extends KraPersistableBusinessObjectBase{
     public Protocol() {
         super();
         billable = false;
-        riskLevels = new ArrayList<ProtocolRiskLevels>();
+        protocolRiskLevels = new ArrayList<ProtocolRiskLevel>();
         protocolParticipants = new TypedArrayList(ProtocolParticipant.class);
         protocolResearchAreas = new ArrayList<ProtocolResearchArea>();// new TypedArrayList(ProtocolResearchAreas.class);
         protocolReferences = new ArrayList<ProtocolReference>(); //ArrayList<ProtocolReference>();
@@ -327,12 +327,12 @@ public class Protocol extends KraPersistableBusinessObjectBase{
         this.protocolType = protocolType;
     }
 
-    public List<ProtocolRiskLevels> getRiskLevels() {
-        return riskLevels;
+    public List<ProtocolRiskLevel> getProtocolRiskLevels() {
+        return protocolRiskLevels;
     }
 
-    public void setRiskLevels(List<ProtocolRiskLevels> riskLevels) {
-        this.riskLevels = riskLevels;
+    public void setProtocolRiskLevels(List<ProtocolRiskLevel> protocolRiskLevels) {
+        this.protocolRiskLevels = protocolRiskLevels;
     }
 
     /**
@@ -341,11 +341,11 @@ public class Protocol extends KraPersistableBusinessObjectBase{
      * @param index
      * @return Question at index i
      */
-    public ProtocolRiskLevels getRiskLevel(int index) {
-        while (getRiskLevels().size() <= index) {
-            getRiskLevels().add(new ProtocolRiskLevels());
+    public ProtocolRiskLevel getProtocolRiskLevel(int index) {
+        while (getProtocolRiskLevels().size() <= index) {
+            getProtocolRiskLevels().add(new ProtocolRiskLevel());
         }
-        return (ProtocolRiskLevels) getRiskLevels().get(index);
+        return (ProtocolRiskLevel) getProtocolRiskLevels().get(index);
     }
 
     
