@@ -16,8 +16,6 @@
 package org.kuali.kra.award.web.struts.action;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,16 +25,15 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardReportTerm;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.lookup.keyvalue.ReportClassValuesFinder;
-import org.kuali.kra.award.lookup.keyvalue.ReportCodeValuesFinder;
 import org.kuali.kra.award.rule.event.AddAwardReportTermEvent;
 import org.kuali.kra.award.rule.event.AddAwardReportTermRecipientEvent;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.AwardReportsService;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**
@@ -45,86 +42,126 @@ import org.kuali.rice.kns.util.KNSConstants;
  * Reports & Terms page(AwardPaymentsReportsAndTerms.jsp)
  */
 public class AwardPaymentReportsAndTermsAction extends AwardAction {
-    
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-        return super.execute(mapping, form, request, response);
-    }
-    
-    
-    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    /**
+     * 
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#reload(
+     * org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, 
+     * javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    public ActionForward reload(ActionMapping mapping, ActionForm form, 
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
         AwardForm awardForm = (AwardForm) form;
         
         ActionForward actionForward = super.reload(mapping, form, request, response);
-
-        ReportClassValuesFinder reportClassValuesFinder = new ReportClassValuesFinder();
-        ReportCodeValuesFinder reportCodeValuesFinder = new ReportCodeValuesFinder();
-        List<KeyLabelPair> reportClasses = new ArrayList<KeyLabelPair>();
-        List<KeyLabelPair> reportCodes = new ArrayList<KeyLabelPair>();
-        reportClasses = reportClassValuesFinder.getKeyValues();
-        reportCodes = reportCodeValuesFinder.getKeyValues();
-        for(int i=0;i<reportClasses.size();i++){
-            awardForm.getNewAwardReportTerm().add(new AwardReportTerm());
-        }
-        for(int i=0;i<awardForm.getAwardDocument().getAward().getAwardReportTerms().size();i++){
-            awardForm.getNewAwardReportTermRecipient().add(new AwardReportTerm());
-        }
-        awardForm.getAwardDocument().setReportClasses(reportClasses);
-        awardForm.getAwardDocument().setReportCodes(reportCodes);
-        Collections.sort(awardForm.getAwardDocument().getAward().getAwardReportTerms(),new AwardReportTermsComparator5());
-        Collections.sort(awardForm.getAwardDocument().getAward().getAwardReportTerms(),new AwardReportTermsComparator4());
-        Collections.sort(awardForm.getAwardDocument().getAward().getAwardReportTerms(),new AwardReportTermsComparator3());
-        Collections.sort(awardForm.getAwardDocument().getAward().getAwardReportTerms(),new AwardReportTermsComparator2());
-        Collections.sort(awardForm.getAwardDocument().getAward().getAwardReportTerms(),new AwardReportTermsComparator1());
         
-        //Collections.sort(list, c)(awardForm.getAwardDocument().getAward().getAwardReportTerm());
-        //awardForm.getAwardDocument().getAward().getAwardReportTerm()
-        return actionForward;
+        AwardReportsService awardReportsService = KraServiceLocator.getService(AwardReportsService.class);
+        awardReportsService.doPreparations(awardForm);
+        
+        return actionForward;        
     }
     
+    /**
+     * 
+     * This method adds a new AwardReportTerm object to the list of AwardReportTerm objects
+     * inside Award.
+     * For every added AwardReportTerm object; we are adding an empty AwardReportTerm object to
+     * AwardForm.newAwardReportTermRecipients list - for recipients to be added.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward addAwardReportTerm(ActionMapping mapping, ActionForm form, 
             HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
         AwardForm awardForm = (AwardForm) form;
+        AwardDocument awardDocument= (AwardDocument) awardForm.getAwardDocument();
+        
         awardForm.setAwardReportTermPanelNumber(new Integer(getReportClassCodeIndex(request)).toString());
+        
         AwardReportTerm newAwardReportTerm = 
             awardForm.getNewAwardReportTerm().get(getReportClassCodeIndex(request));
+        
         if(getKualiRuleService().applyRules(new AddAwardReportTermEvent(Constants.EMPTY_STRING,
                 awardForm.getAwardDocument(), newAwardReportTerm))){
-            newAwardReportTerm.setReportClassCode(getReportClass(request));
-            newAwardReportTerm.setAwardNumber(awardForm.getAwardDocument().getAward().getAwardNumber());
-            newAwardReportTerm.setSequenceNumber(awardForm.getAwardDocument().getAward().getSequenceNumber());
-            addAwardReportTermToAward(awardForm.getAwardDocument().getAward(),newAwardReportTerm);            
-            awardForm.getNewAwardReportTerm().set(getReportClassCodeIndex(request),new AwardReportTerm());
-            AwardReportTerm awardReportTermForRecipients = new AwardReportTerm();
-            awardReportTermForRecipients.setReportClassCode(newAwardReportTerm.getReportClassCode());
-            awardReportTermForRecipients.setReportCode(newAwardReportTerm.getReportCode());
-            awardReportTermForRecipients.setFrequencyCode(newAwardReportTerm.getFrequencyCode());
-            awardReportTermForRecipients.setOspDistributionCode(newAwardReportTerm.getFrequencyBaseCode());
-            awardReportTermForRecipients.setDueDate(newAwardReportTerm.getDueDate());
+            
+            awardDocument.getAward().setAwardReportTerms(addAwardReportTermToAward(
+                    awardDocument.getAward(),newAwardReportTerm, getReportClass(request)));            
+            awardForm.getNewAwardReportTerm().set(
+                    getReportClassCodeIndex(request),new AwardReportTerm());            
             awardForm.getNewAwardReportTermRecipient().add(new AwardReportTerm());
         }
+        
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
+    /**
+     * 
+     * This method adds the newAwardReportTerm to the list of <code>AwardReportTerm</code> objects.
+     * @param award
+     * @param newAwardReportTerm
+     * @param reportClass
+     * @return
+     */
+    protected List<AwardReportTerm> addAwardReportTermToAward(
+            Award award, AwardReportTerm newAwardReportTerm, int reportClass){
+        newAwardReportTerm.setReportClassCode(reportClass);
+        newAwardReportTerm.setAwardNumber(award.getAwardNumber());
+        newAwardReportTerm.setSequenceNumber(award.getSequenceNumber());
+        award.getAwardReportTerms().add(newAwardReportTerm);
+        return award.getAwardReportTerms();
+    }
+    
+    /**
+     * 
+     * This method deletes a AwardReportTerm from the list of AwardReportTerm objects.
+     * This method also calls another method which fetches a list of recipients that need to be deleted;
+     * since all the recipients associated with the AwardReportTerm also need to be deleted and 
+     * then all those objects are deleted.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward deleteAwardReportTerm(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDocument = awardForm.getAwardDocument();
+        
         AwardReportTerm awardReportTermToBeDeleted = 
             awardDocument.getAward().getAwardReportTerms().get(getLineToDelete(request));
         
-        for(AwardReportTerm awardReportTerm:determineAwardReportTermRecipientsToBeDeleted(
-                awardDocument.getAward().getAwardReportTerms(), awardReportTermToBeDeleted)){
+        List<AwardReportTerm> awardReportTermRecipientsToBeDeleted = getAwardReportTermRecipientsToBeDeleted(
+                awardDocument.getAward().getAwardReportTerms(), awardReportTermToBeDeleted);
+        
+        for(AwardReportTerm awardReportTerm:awardReportTermRecipientsToBeDeleted){
             awardDocument.getAward().getAwardReportTerms().remove(awardReportTerm);
         }
         
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
-    protected List<AwardReportTerm> determineAwardReportTermRecipientsToBeDeleted(
-            List<AwardReportTerm> listAwardReportTerm, AwardReportTerm awardReportTermToBeDeleted){
-        ArrayList<AwardReportTerm> indexForDeletion = new ArrayList<AwardReportTerm>();
-        for(AwardReportTerm awardReportTerm: listAwardReportTerm){
+    /**
+     * 
+     * This method navigates through the list of all AwardReportTerm objects for the current Award
+     * and returns the recipients related with parent AwardReportTerm object.
+     * @param listAwardReportTerm
+     * @param awardReportTermToBeDeleted
+     * @return
+     */
+    protected List<AwardReportTerm> getAwardReportTermRecipientsToBeDeleted(
+            List<AwardReportTerm> awardReportTerms, AwardReportTerm awardReportTermToBeDeleted){
+        
+        ArrayList<AwardReportTerm> awardReportTermRecipientsForDeletion = new ArrayList<AwardReportTerm>();
+        for(AwardReportTerm awardReportTerm: awardReportTerms){
             if(StringUtils.equalsIgnoreCase(awardReportTermToBeDeleted.getReportClassCode().toString(),
                     awardReportTerm.getReportClassCode().toString())){
                 if(StringUtils.equalsIgnoreCase(
@@ -142,39 +179,66 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
                         && StringUtils.equalsIgnoreCase(
                                 awardReportTermToBeDeleted.getOspDistributionCode().toString(),
                                 awardReportTerm.getOspDistributionCode().toString())){
-                    indexForDeletion.add(awardReportTerm);
+                    awardReportTermRecipientsForDeletion.add(awardReportTerm);
                 }
             }            
         }
         
-        return indexForDeletion;
-    }
+        return awardReportTermRecipientsForDeletion;
+    }    
     
-    boolean addAwardReportTermToAward(Award award, AwardReportTerm awardReportTerm){
-        return award.getAwardReportTerms().add(awardReportTerm);
-    }
-    
+    /**
+     * 
+     * This method gets the newAwardReportTerm object from the form, evaluates the rules and adds it
+     * to the list of AwardReportTerm objects.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward addRecipient(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
         AwardForm awardForm = (AwardForm) form;
+        
         awardForm.setAwardReportTermPanelNumber(new Integer(getRecipientIndex(request)).toString());
+        
         AwardReportTerm newAwardReportTerm = awardForm.getNewAwardReportTermRecipient().
-                                                get(getRecipientIndex(request));
-        newAwardReportTerm.setAwardNumber(awardForm.getAwardDocument().getAward().getAwardNumber());
-        newAwardReportTerm.setSequenceNumber(awardForm.getAwardDocument().getAward().getSequenceNumber());
+                                                get(getRecipientIndex(request));        
+        
         AwardDocument awardDocument = awardForm.getAwardDocument();
         if(getKualiRuleService().applyRules(new AddAwardReportTermRecipientEvent(Constants.EMPTY_STRING,
-                awardDocument, newAwardReportTerm))){            
+                awardDocument, newAwardReportTerm))){
             
-            addAwardReportTermToAward(awardDocument.getAward(),newAwardReportTerm);
+            awardDocument.getAward().setAwardReportTerms(addAwardReportTermToAward(
+                    awardDocument.getAward(),newAwardReportTerm, getReportClass(request)));          
         }
         
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
-    public ActionForward deleteRecipient(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    /**
+     * 
+     * This method deletes a recipient.
+     * It reads the recipientsSize from the request; it deletes a AwardReportTerm object from the list
+     * if the size is more than 1, otherwise it sets the contactTypeCode, rolodexId and numberOfCopies
+     * to null.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteRecipient(ActionMapping mapping, ActionForm form, 
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDocument = awardForm.getAwardDocument();
+        
         if(getRecipientSize(request)>1){
             awardDocument.getAward().getAwardReportTerms().remove(getLineToDelete(request));
         }else{
@@ -184,11 +248,16 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
                     getLineToDelete(request)).setNumberOfCopies(null);
             awardDocument.getAward().getAwardReportTerms().get(
                     getLineToDelete(request)).setRolodexId(null);
-        }
-        
+        }        
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
+    /**
+     * 
+     * This method reads the reportClass from the request.
+     * @param request
+     * @return
+     */
     protected int getReportClass(HttpServletRequest request) {
         int reportClass = -1;
         String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
@@ -200,6 +269,12 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         return reportClass;
     }
     
+    /**
+     * 
+     * This method reads the reportCode from the request.
+     * @param request
+     * @return
+     */
     protected int getReportCode(HttpServletRequest request) {
         int reportCode = -1;
         String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
@@ -211,17 +286,34 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         return reportCode;
     }
     
+    /**
+     * 
+     * This method reads the reportClassCodeIndex from the request.
+     * It is specified in the tag file and is used for showing the validation errors while adding
+     * a new AwardReportTerm object.
+     * @param request
+     * @return
+     */
     protected int getReportClassCodeIndex(HttpServletRequest request) {
         int reportClassIndex = -1;
         String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
-            String reportClassIndexString = StringUtils.substringBetween(parameterName, ".reportClassIndex", ".");
+            String reportClassIndexString = StringUtils.substringBetween(
+                    parameterName, ".reportClassIndex", ".");
             reportClassIndex = Integer.parseInt(reportClassIndexString);
         }
 
         return reportClassIndex;
     }
     
+    /**
+     * 
+     * This method reads the recipientIndex from the request.
+     * It is specified in the tag file and is used for showing the validation errors while adding
+     * a new AwardReportTerm object as a recipient. 
+     * @param request
+     * @return
+     */
     protected int getRecipientIndex(HttpServletRequest request) {
         int recipientIndex = -1;
         String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
@@ -233,6 +325,12 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         return recipientIndex;
     }
     
+    /**
+     * 
+     * This method reads the recipient size from the request.
+     * @param request
+     * @return
+     */    
     protected int getRecipientSize(HttpServletRequest request) {
         int recipientSize = -1;
         String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
@@ -244,33 +342,3 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
     }
     
 }
-
-class AwardReportTermsComparator1 implements Comparator<AwardReportTerm> {
-    public int compare(AwardReportTerm awardReportTerm1, AwardReportTerm awardReportTerm2) {
-        return  awardReportTerm1.getReportCode().compareTo(awardReportTerm2.getReportCode());
-    }
-  }
-
-class AwardReportTermsComparator2 implements Comparator<AwardReportTerm> {
-    public int compare(AwardReportTerm awardReportTerm1, AwardReportTerm awardReportTerm2) {
-        return  awardReportTerm1.getFrequencyCode().compareTo(awardReportTerm2.getFrequencyCode());
-    }
-  }
-
-class AwardReportTermsComparator3 implements Comparator<AwardReportTerm> {
-    public int compare(AwardReportTerm awardReportTerm1, AwardReportTerm awardReportTerm2) {
-        return  awardReportTerm1.getFrequencyBaseCode().compareTo(awardReportTerm2.getFrequencyBaseCode());
-    }
-  }
-
-class AwardReportTermsComparator4 implements Comparator<AwardReportTerm> {
-    public int compare(AwardReportTerm awardReportTerm1, AwardReportTerm awardReportTerm2) {
-        return  awardReportTerm1.getOspDistributionCode().compareTo(awardReportTerm2.getOspDistributionCode());
-    }
-  }
-
-class AwardReportTermsComparator5 implements Comparator<AwardReportTerm> {
-    public int compare(AwardReportTerm awardReportTerm1, AwardReportTerm awardReportTerm2) {
-        return  awardReportTerm1.getDueDate().compareTo(awardReportTerm2.getDueDate());
-    }
-  }

@@ -40,22 +40,42 @@ public class ContactType extends KraPersistableBusinessObjectBase {
     private AwardContact awardContact; 
     private AwardReportTerms awardReportTerms;*/ 
     
+    /**
+     * Constructs a ContactType.java
+     */
     public ContactType() { 
 
     } 
     
+    /**
+     * 
+     * This method...
+     * @return
+     */
     public Integer getContactTypeCode() {
         return contactTypeCode;
     }
 
+    /**
+     * 
+     * @param contactTypeCode
+     */
     public void setContactTypeCode(Integer contactTypeCode) {
         this.contactTypeCode = contactTypeCode;
     }
 
+    /**
+     * 
+     * @return
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * 
+     * @param description
+     */
     public void setDescription(String description) {
         this.description = description;
     }
@@ -100,6 +120,10 @@ public class ContactType extends KraPersistableBusinessObjectBase {
         this.awardReportTerms = awardReportTerms;
     }*/
 
+    /**
+     * 
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
