@@ -100,6 +100,8 @@ import org.kuali.rice.test.data.UnitTestFile;
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_IDC_RATE_TYPE.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/LOAD_VULNERABLE_SUBJECT_TYPE.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_COMMENT_TYPE.sql", delimiter = ";")
+                ,@UnitTestFile(filename = "classpath:sql/dml/load_committee_type.sql", delimiter = ";")
+                ,@UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";")
             }
         )
     )
