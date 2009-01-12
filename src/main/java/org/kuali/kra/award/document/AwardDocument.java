@@ -23,7 +23,6 @@ import org.kuali.core.document.SessionDocument;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.document.ResearchDocumentBase;
-import org.kuali.kra.bo.ScienceKeyword;
 
 /**
  * 

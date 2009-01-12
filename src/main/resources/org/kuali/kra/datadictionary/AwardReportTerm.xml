@@ -21,41 +21,41 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="AwardReportTerms" parent="AwardReportTerms-parentBean" />
-	<bean id="AwardReportTerms-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.award.bo.AwardReportTerms" />
+	<bean id="AwardReportTerm" parent="AwardReportTerm-parentBean" />
+	<bean id="AwardReportTerm-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.award.bo.AwardReportTerm" />
 		<property name="inquiryDefinition" >
-			<ref bean="AwardReportTerms-inquiryDefinition" />
+			<ref bean="AwardReportTerm-inquiryDefinition" />
 		</property>
 		<property name="lookupDefinition" >
-			<ref bean="AwardReportTerms-lookupDefinition" />
+			<ref bean="AwardReportTerm-lookupDefinition" />
 		</property>
-		<property name="titleAttribute" value="awardReportTermsId" />
+		<property name="titleAttribute" value="awardReportTermId" />
 		<property name="attributes" >
 			<list>
-				<ref bean="AwardReportTerms-awardReportTermsId" />
-				<ref bean="AwardReportTerms-awardId" />
-				<ref bean="AwardReportTerms-awardNumber" />
-				<ref bean="AwardReportTerms-sequenceNumber" />
-				<ref bean="AwardReportTerms-reportClassCode" />
-				<ref bean="AwardReportTerms-reportCode" />
-				<ref bean="AwardReportTerms-frequencyCode" />
-				<ref bean="AwardReportTerms-frequencyBaseCode" />
-				<ref bean="AwardReportTerms-ospDistributionCode" />
-				<ref bean="AwardReportTerms-contactTypeCode" />
-				<ref bean="AwardReportTerms-rolodexId" />
-				<ref bean="AwardReportTerms-dueDate" />
-				<ref bean="AwardReportTerms-numberOfCopies" />
-				<ref bean="AwardReportTerms-versionNumber" />
+				<ref bean="AwardReportTerm-AwardReportTermId" />
+				<ref bean="AwardReportTerm-awardId" />
+				<ref bean="AwardReportTerm-awardNumber" />
+				<ref bean="AwardReportTerm-sequenceNumber" />
+				<ref bean="AwardReportTerm-reportClassCode" />
+				<ref bean="AwardReportTerm-reportCode" />
+				<ref bean="AwardReportTerm-frequencyCode" />
+				<ref bean="AwardReportTerm-frequencyBaseCode" />
+				<ref bean="AwardReportTerm-ospDistributionCode" />
+				<ref bean="AwardReportTerm-contactTypeCode" />
+				<ref bean="AwardReportTerm-rolodexId" />
+				<ref bean="AwardReportTerm-dueDate" />
+				<ref bean="AwardReportTerm-numberOfCopies" />
+				<ref bean="AwardReportTerm-versionNumber" />
 			</list>
 		</property>
 	</bean>
 
 	<!-- Attribute Definitions -->
 	
-	<bean id="AwardReportTerms-awardReportTermsId" parent="AwardReportTerms-awardReportTermsId-parentBean" />
-	<bean id="AwardReportTerms-awardReportTermsId-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="awardReportTermsId" />
+	<bean id="AwardReportTerm-AwardReportTermId" parent="AwardReportTerm-AwardReportTermId-parentBean" />
+	<bean id="AwardReportTerm-AwardReportTermId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="AwardReportTermId" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Award Report Terms Id" />
 		<property name="shortLabel" value="Award Report Terms Id" />
@@ -71,8 +71,8 @@
 		<property name="description" value="Award Report Terms Id" />
 	</bean>
 
-	<bean id="AwardReportTerms-awardId" parent="AwardReportTerms-awardId-parentBean" />
-	<bean id="AwardReportTerms-awardId-parentBean" abstract="true" parent="AttributeDefinition" >
+	<bean id="AwardReportTerm-awardId" parent="AwardReportTerm-awardId-parentBean" />
+	<bean id="AwardReportTerm-awardId-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="awardId" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Award Id" />
@@ -89,8 +89,8 @@
 		<property name="description" value="Award Id" />
 	</bean>
 
-	<bean id="AwardReportTerms-awardNumber" parent="AwardReportTerms-awardNumber-parentBean" />
-	<bean id="AwardReportTerms-awardNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+	<bean id="AwardReportTerm-awardNumber" parent="AwardReportTerm-awardNumber-parentBean" />
+	<bean id="AwardReportTerm-awardNumber-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="awardNumber" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Award Number" />
@@ -107,8 +107,8 @@
 		<property name="description" value="Award Number" />
 	</bean>
 
-	<bean id="AwardReportTerms-sequenceNumber" parent="AwardReportTerms-sequenceNumber-parentBean" />
-	<bean id="AwardReportTerms-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+	<bean id="AwardReportTerm-sequenceNumber" parent="AwardReportTerm-sequenceNumber-parentBean" />
+	<bean id="AwardReportTerm-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="sequenceNumber" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Sequence Number" />
@@ -125,8 +125,8 @@
 		<property name="description" value="Sequence Number" />
 	</bean>
 
-	<bean id="AwardReportTerms-reportClassCode" parent="AwardReportTerms-reportClassCode-parentBean" />
-	<bean id="AwardReportTerms-reportClassCode-parentBean" abstract="true" parent="AttributeDefinition" >
+	<bean id="AwardReportTerm-reportClassCode" parent="AwardReportTerm-reportClassCode-parentBean" />
+	<bean id="AwardReportTerm-reportClassCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="reportClassCode" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Report Class Code" />
@@ -143,8 +143,8 @@
 		<property name="description" value="Report Class Code" />
 	</bean>
 
-	<bean id="AwardReportTerms-reportCode" parent="AwardReportTerms-reportCode-parentBean" />
-	<bean id="AwardReportTerms-reportCode-parentBean" abstract="true" parent="AttributeDefinition" >
+	<bean id="AwardReportTerm-reportCode" parent="AwardReportTerm-reportCode-parentBean" />
+	<bean id="AwardReportTerm-reportCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="reportCode" />
 		<property name="required" value="true" />
 		<property name="forceUppercase" value="false" />
@@ -166,8 +166,8 @@
 		<property name="description" value="Type" />
 	</bean>
 
-	<bean id="AwardReportTerms-frequencyCode" parent="AwardReportTerms-frequencyCode-parentBean" />
-	<bean id="AwardReportTerms-frequencyCode-parentBean" abstract="true" parent="AttributeDefinition" >
+	<bean id="AwardReportTerm-frequencyCode" parent="AwardReportTerm-frequencyCode-parentBean" />
+	<bean id="AwardReportTerm-frequencyCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="frequencyCode" />
 		<property name="required" value="true" />
 		<property name="forceUppercase" value="false" />
@@ -189,8 +189,8 @@
 		<property name="description" value="Frequency" />
 	</bean>
 
-	<bean id="AwardReportTerms-frequencyBaseCode" parent="AwardReportTerms-frequencyBaseCode-parentBean" />
-	<bean id="AwardReportTerms-frequencyBaseCode-parentBean" abstract="true" parent="AttributeDefinition" >
+	<bean id="AwardReportTerm-frequencyBaseCode" parent="AwardReportTerm-frequencyBaseCode-parentBean" />
+	<bean id="AwardReportTerm-frequencyBaseCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="frequencyBaseCode" />
 		<property name="required" value="true" />
 		<property name="forceUppercase" value="false" />
@@ -212,8 +212,8 @@
 		<property name="description" value="Frequency Base" />
 	</bean>
 
-	<bean id="AwardReportTerms-ospDistributionCode" parent="AwardReportTerms-ospDistributionCode-parentBean" />
-	<bean id="AwardReportTerms-ospDistributionCode-parentBean" abstract="true" parent="AttributeDefinition" >
+	<bean id="AwardReportTerm-ospDistributionCode" parent="AwardReportTerm-ospDistributionCode-parentBean" />
+	<bean id="AwardReportTerm-ospDistributionCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="ospDistributionCode" />
 		<property name="required" value="true" />
 		<property name="forceUppercase" value="false" />
@@ -235,8 +235,8 @@
 		<property name="description" value="OSP File Copy" />
 	</bean>
 
-	<bean id="AwardReportTerms-contactTypeCode" parent="AwardReportTerms-contactTypeCode-parentBean" />
-	<bean id="AwardReportTerms-contactTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+	<bean id="AwardReportTerm-contactTypeCode" parent="AwardReportTerm-contactTypeCode-parentBean" />
+	<bean id="AwardReportTerm-contactTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="contactTypeCode" />
 		<property name="required" value="true" />
 		<property name="forceUppercase" value="false" />
@@ -258,8 +258,8 @@
 		<property name="description" value="Contact Type" />
 	</bean>
 
-	<bean id="AwardReportTerms-rolodexId" parent="AwardReportTerms-rolodexId-parentBean" />
-	<bean id="AwardReportTerms-rolodexId-parentBean" abstract="true" parent="AttributeDefinition" >
+	<bean id="AwardReportTerm-rolodexId" parent="AwardReportTerm-rolodexId-parentBean" />
+	<bean id="AwardReportTerm-rolodexId-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="rolodexId" />
 		<property name="required" value="true" />
 		<property name="forceUppercase" value="false" />
@@ -277,8 +277,8 @@
 		<property name="description" value="Name/Organization" />
 	</bean>
 
-	<bean id="AwardReportTerms-dueDate" parent="AwardReportTerms-dueDate-parentBean" />
-	<bean id="AwardReportTerms-dueDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+	<bean id="AwardReportTerm-dueDate" parent="AwardReportTerm-dueDate-parentBean" />
+	<bean id="AwardReportTerm-dueDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
 		<property name="name" value="dueDate" />		
 		<property name="label" value="Due Date" />
 		<property name="shortLabel" value="Due Date" />
@@ -287,8 +287,8 @@
 		<property name="required" value="true" />
 	</bean>
 
-	<bean id="AwardReportTerms-numberOfCopies" parent="AwardReportTerms-numberOfCopies-parentBean" />
-	<bean id="AwardReportTerms-numberOfCopies-parentBean" abstract="true" parent="AttributeDefinition" >
+	<bean id="AwardReportTerm-numberOfCopies" parent="AwardReportTerm-numberOfCopies-parentBean" />
+	<bean id="AwardReportTerm-numberOfCopies-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="numberOfCopies" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="# Of Copies" />
@@ -305,13 +305,13 @@
 		<property name="description" value="# Of Copies" />
 	</bean>
 
-	<bean id="AwardReportTerms-versionNumber" parent="AwardReportTerms-versionNumber-parentBean" />
-	<bean id="AwardReportTerms-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+	<bean id="AwardReportTerm-versionNumber" parent="AwardReportTerm-versionNumber-parentBean" />
+	<bean id="AwardReportTerm-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
 	</bean>
 
 	<!-- Business Object Inquiry Definition -->
-	<bean id="AwardReportTerms-inquiryDefinition" parent="AwardReportTerms-inquiryDefinition-parentBean" />
-	<bean id="AwardReportTerms-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+	<bean id="AwardReportTerm-inquiryDefinition" parent="AwardReportTerm-inquiryDefinition-parentBean" />
+	<bean id="AwardReportTerm-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 		<property name="title" value="Award Report Terms Id" />
 		<property name="inquirySections" >
 			<list>
@@ -321,7 +321,7 @@
 					<property name="inquiryFields" >
 						<list>
 							<bean parent="FieldDefinition"
-								p:attributeName="awardReportTermsId" 
+								p:attributeName="AwardReportTermId" 
 								p:forceInquiry="true" />
 							<bean parent="FieldDefinition"
 								p:attributeName="awardId" />
@@ -355,8 +355,8 @@
 	</bean>
 
 	<!-- Business Object Lookup Definition -->
-	<bean id="AwardReportTerms-lookupDefinition" parent="AwardReportTerms-lookupDefinition-parentBean" />
-	<bean id="AwardReportTerms-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+	<bean id="AwardReportTerm-lookupDefinition" parent="AwardReportTerm-lookupDefinition-parentBean" />
+	<bean id="AwardReportTerm-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Award Report Terms Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 		<property name="instructions" value="Look up a Award Report Terms" />
@@ -367,7 +367,7 @@
 		<property name="lookupFields" >
 			<list>
 				<bean parent="FieldDefinition"
-					p:attributeName="awardReportTermsId" 
+					p:attributeName="AwardReportTermId" 
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
 					p:attributeName="awardId" />
@@ -398,7 +398,7 @@
 		<property name="resultFields" >
 			<list>
 				<bean parent="FieldDefinition"
-					p:attributeName="awardReportTermsId" 
+					p:attributeName="AwardReportTermId" 
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
 					p:attributeName="awardId" />

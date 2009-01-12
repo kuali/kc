@@ -17,9 +17,8 @@ package org.kuali.kra.award.rule.event;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kra.award.bo.AwardReportTerms;
+import org.kuali.kra.award.bo.AwardReportTerm;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.rules.AwardReportTermRule;
 import org.kuali.kra.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 
@@ -31,7 +30,7 @@ public abstract class AwardReportTermEventBase extends KraDocumentEventBase impl
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AddSpecialReviewEvent.class);
 
-    private AwardReportTerms awardReportTerms;
+    private AwardReportTerm awardReportTerm;
     /**
      * Constructs an AddProposalSpecialReviewEvent with the given errorPathPrefix, document, and proposalSpecialReview.
      * 
@@ -40,9 +39,9 @@ public abstract class AwardReportTermEventBase extends KraDocumentEventBase impl
      * @param proposalSpecialReview
      */
     protected AwardReportTermEventBase(String description, String errorPathPrefix, 
-            AwardDocument document, AwardReportTerms awardReportTerms){
+            AwardDocument document, AwardReportTerm awardReportTerm){
         super("adding special review to document " + getDocumentId(document), errorPathPrefix, document);
-        this.awardReportTerms = (AwardReportTerms) ObjectUtils.deepCopy(awardReportTerms);
+        this.awardReportTerm = (AwardReportTerm) ObjectUtils.deepCopy(awardReportTerm);
         logEvent();
     }    
     
@@ -51,7 +50,7 @@ public abstract class AwardReportTermEventBase extends KraDocumentEventBase impl
      */
     public void validate() {
         super.validate();
-        if (getAwardReportTerms() == null) {
+        if (getAwardReportTerm() == null) {
             throw new IllegalArgumentException("invalid (null) specialreview");
         }
     }
@@ -64,17 +63,17 @@ public abstract class AwardReportTermEventBase extends KraDocumentEventBase impl
         logMessage.append(" with ");
 
         // vary logging detail as needed
-        if (getAwardReportTerms() == null) {
+        if (getAwardReportTerm() == null) {
             logMessage.append("null Award Report Terms");
         }
         else {
-            logMessage.append(getAwardReportTerms().toString());
+            logMessage.append(getAwardReportTerm().toString());
         }
 
         LOG.debug(logMessage);
     }
 
-    public AwardReportTerms getAwardReportTerms() {
-        return awardReportTerms;
+    public AwardReportTerm getAwardReportTerm() {
+        return awardReportTerm;
     }
 }

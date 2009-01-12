@@ -16,6 +16,7 @@
 package org.kuali.kra.award.web.struts.action;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +29,7 @@ import org.kuali.core.document.Document;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kra.award.bo.AwardReportTerms;
+import org.kuali.kra.award.bo.AwardReportTerm;
 import org.kuali.kra.award.lookup.keyvalue.ReportClassValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.ReportCodeValuesFinder;
 import org.kuali.kra.award.web.struts.form.AwardForm;
@@ -139,14 +140,20 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
         reportCodes = reportCodeValuesFinder.getKeyValues();
         
         for(int i=0;i<reportClasses.size();i++){
-            awardForm.getNewAwardReportTerms().add(new AwardReportTerms());
+            awardForm.getNewAwardReportTerm().add(new AwardReportTerm());
         }
         
         for(int i=0;i<awardForm.getAwardDocument().getAward().getAwardReportTerms().size();i++){
-            awardForm.getNewAwardReportTermsRecipients().add(new AwardReportTerms());
+            awardForm.getNewAwardReportTermRecipient().add(new AwardReportTerm());
         }
         awardForm.getAwardDocument().setReportClasses(reportClasses);
         awardForm.getAwardDocument().setReportCodes(reportCodes);
+        
+        Collections.sort(awardForm.getAwardDocument().getAward().getAwardReportTerms(),new AwardReportTermsComparator5());
+        Collections.sort(awardForm.getAwardDocument().getAward().getAwardReportTerms(),new AwardReportTermsComparator4());
+        Collections.sort(awardForm.getAwardDocument().getAward().getAwardReportTerms(),new AwardReportTermsComparator3());
+        Collections.sort(awardForm.getAwardDocument().getAward().getAwardReportTerms(),new AwardReportTermsComparator2());
+        Collections.sort(awardForm.getAwardDocument().getAward().getAwardReportTerms(),new AwardReportTermsComparator1());
         
         return mapping.findForward(Constants.MAPPING_AWARD_PAYMENT_REPORTS_AND_TERMS_PAGE);
     }

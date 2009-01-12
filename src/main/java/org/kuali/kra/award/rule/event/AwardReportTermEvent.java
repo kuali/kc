@@ -16,7 +16,7 @@
 package org.kuali.kra.award.rule.event;
 
 import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.kra.award.bo.AwardReportTerms;
+import org.kuali.kra.award.bo.AwardReportTerm;
 
 /**
  * 
@@ -25,7 +25,7 @@ import org.kuali.kra.award.bo.AwardReportTerms;
 public interface AwardReportTermEvent extends KualiDocumentEvent {
     
     /**
-     * @return <code>{@link AwardReportTerms}</code> that triggered this event.
+     * @return <code>{@link AwardReportTerm}</code> that triggered this event.
      */
-    public AwardReportTerms getAwardReportTerms();
+    public AwardReportTerm getAwardReportTerm();
 }

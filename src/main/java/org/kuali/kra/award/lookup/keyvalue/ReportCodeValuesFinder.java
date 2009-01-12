@@ -27,15 +27,21 @@ import org.kuali.kra.award.bo.Report;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 
+/**
+ * 
+ * This class is a values finder for <code>Report</code> business object.
+ */
+@SuppressWarnings("unchecked")
 public class ReportCodeValuesFinder extends KeyValuesBase {
-    KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
+    
+    KeyValueFinderService keyValueFinderService= 
+        (KeyValueFinderService) KraServiceLocator.getService("keyValueFinderService");
     
     /**
-     * Constructs the list of Report Classes.  Each entry
+     * Constructs the list of Reports.  Each entry
      * in the list is a &lt;key, value&gt; pair, where the "key" is the unique
-     * report class code and the "value" is the textual description that is viewed
-     * by a user.  The list is obtained from the AwardDocument if any are defined there. 
-     * Otherwise, it is obtained from a lookup of the REPORT_CLASS database table
+     * report code and the "value" is the textual description that is viewed
+     * by a user.  The list is obtained from a lookup of the REPORT database table
      * via the "KeyValueFinderService".
      * 
      * @return the list of &lt;key, value&gt; pairs of abstract types.  The first entry
@@ -43,15 +49,16 @@ public class ReportCodeValuesFinder extends KeyValuesBase {
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List<KeyLabelPair> getKeyValues() {
-        KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
+        KeyValuesService keyValuesService = 
+            (KeyValuesService) KraServiceLocator.getService("keyValuesService");
         Collection reportCodes = keyValuesService.findAll(Report.class);
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         
         for (Iterator iter = reportCodes.iterator(); iter.hasNext();) {
             Report report = (Report) iter.next();
-            keyValues.add(new KeyLabelPair(report.getReportCode().toString(), report.getDescription()));                            
-        }
-                
+            keyValues.add(new KeyLabelPair(report.getReportCode().toString()
+                    , report.getDescription()));                            
+        }                
         return keyValues;
     }
    

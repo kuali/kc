@@ -23,8 +23,8 @@ import org.kuali.core.document.Document;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kra.award.bo.AwardCostShare;
 import org.kuali.kra.award.bo.AwardApprovedSubaward;
+import org.kuali.kra.award.bo.AwardCostShare;
 import org.kuali.kra.award.bo.AwardFandaRate;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.rule.AddAwardReportTermRecipientRule;
@@ -40,7 +40,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rule.SpecialReviewRule;
 import org.kuali.kra.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.core.util.KualiDecimal;
 
 /**
  * Main Business Rule class for <code>{@link AwardDocument}</code>. 
