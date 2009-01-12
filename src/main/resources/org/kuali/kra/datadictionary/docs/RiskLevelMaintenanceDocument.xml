@@ -45,7 +45,7 @@
 				p:parameterName="riskLevelMaintenanceHelp"
 				p:parameterDetailType="D" />
 			</property>
-		<property name="documentTypeName" value="Risk Level Maintenance Document" />
+		<property name="documentTypeName" value="RiskLevelMaintenanceDocument" />
 		<property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
 		<property name="documentTypeCode" value="RISK" />
 		<property name="authorizations" >

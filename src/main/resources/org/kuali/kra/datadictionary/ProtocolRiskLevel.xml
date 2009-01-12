@@ -21,37 +21,37 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="ProtocolRiskLevels" parent="ProtocolRiskLevels-parentBean" />
-	<bean id="ProtocolRiskLevels-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.irb.bo.ProtocolRiskLevels" />
+	<bean id="ProtocolRiskLevel" parent="ProtocolRiskLevel-parentBean" />
+	<bean id="ProtocolRiskLevel-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.irb.bo.ProtocolRiskLevel" />
 		<property name="inquiryDefinition" >
-			<ref bean="ProtocolRiskLevels-inquiryDefinition" />
+			<ref bean="ProtocolRiskLevel-inquiryDefinition" />
 		</property>
 		<property name="lookupDefinition" >
-			<ref bean="ProtocolRiskLevels-lookupDefinition" />
+			<ref bean="ProtocolRiskLevel-lookupDefinition" />
 		</property>
-		<property name="titleAttribute" value="protocolRiskLevelsId" />
+		<property name="titleAttribute" value="ProtocolRiskLevelId" />
 		<property name="attributes" >
 			<list>
-				<ref bean="ProtocolRiskLevels-protocolRiskLevelsId" />
-				<ref bean="ProtocolRiskLevels-protocolId" />
-				<ref bean="ProtocolRiskLevels-protocolNumber" />
-				<ref bean="ProtocolRiskLevels-sequenceNumber" />
-				<ref bean="ProtocolRiskLevels-riskLevelCode" />
-				<ref bean="ProtocolRiskLevels-comments" />
-				<ref bean="ProtocolRiskLevels-dateAssigned" />
-				<ref bean="ProtocolRiskLevels-dateUpdated" />
-				<ref bean="ProtocolRiskLevels-status" />
-				<ref bean="ProtocolRiskLevels-versionNumber" />
+				<ref bean="ProtocolRiskLevel-ProtocolRiskLevelId" />
+				<ref bean="ProtocolRiskLevel-protocolId" />
+				<ref bean="ProtocolRiskLevel-protocolNumber" />
+				<ref bean="ProtocolRiskLevel-sequenceNumber" />
+				<ref bean="ProtocolRiskLevel-riskLevelCode" />
+				<ref bean="ProtocolRiskLevel-comments" />
+				<ref bean="ProtocolRiskLevel-dateAssigned" />
+				<ref bean="ProtocolRiskLevel-dateUpdated" />
+				<ref bean="ProtocolRiskLevel-status" />
+				<ref bean="ProtocolRiskLevel-versionNumber" />
 			</list>
 		</property>
 	</bean>
 
 	<!-- Attribute Definitions -->
 	
-	<bean id="ProtocolRiskLevels-protocolRiskLevelsId" parent="ProtocolRiskLevels-protocolRiskLevelsId-parentBean" />
-	<bean id="ProtocolRiskLevels-protocolRiskLevelsId-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="protocolRiskLevelsId" />
+	<bean id="ProtocolRiskLevel-ProtocolRiskLevelId" parent="ProtocolRiskLevel-ProtocolRiskLevelId-parentBean" />
+	<bean id="ProtocolRiskLevel-ProtocolRiskLevelId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="ProtocolRiskLevelId" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Protocol Risk Levels Id" />
 		<property name="shortLabel" value="Protocol Risk Levels Id" />
@@ -67,8 +67,8 @@
 		<property name="description" value="Protocol Risk Levels Id" />
 	</bean>
 
-	<bean id="ProtocolRiskLevels-protocolId" parent="ProtocolRiskLevels-protocolId-parentBean" />
-	<bean id="ProtocolRiskLevels-protocolId-parentBean" abstract="true" parent="AttributeDefinition" >
+	<bean id="ProtocolRiskLevel-protocolId" parent="ProtocolRiskLevel-protocolId-parentBean" />
+	<bean id="ProtocolRiskLevel-protocolId-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="protocolId" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Protocol Id" />
@@ -85,8 +85,8 @@
 		<property name="description" value="Protocol Id" />
 	</bean>
 
-	<bean id="ProtocolRiskLevels-protocolNumber" parent="ProtocolRiskLevels-protocolNumber-parentBean" />
-	<bean id="ProtocolRiskLevels-protocolNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+	<bean id="ProtocolRiskLevel-protocolNumber" parent="ProtocolRiskLevel-protocolNumber-parentBean" />
+	<bean id="ProtocolRiskLevel-protocolNumber-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="protocolNumber" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Protocol Number" />
@@ -103,8 +103,8 @@
 		<property name="description" value="Protocol Number" />
 	</bean>
 
-	<bean id="ProtocolRiskLevels-sequenceNumber" parent="ProtocolRiskLevels-sequenceNumber-parentBean" />
-	<bean id="ProtocolRiskLevels-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+	<bean id="ProtocolRiskLevel-sequenceNumber" parent="ProtocolRiskLevel-sequenceNumber-parentBean" />
+	<bean id="ProtocolRiskLevel-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="sequenceNumber" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Sequence Number" />
@@ -121,12 +121,12 @@
 		<property name="description" value="Sequence Number" />
 	</bean>
 
-	<bean id="ProtocolRiskLevels-riskLevelCode" parent="ProtocolRiskLevels-riskLevelCode-parentBean" />
-	<bean id="ProtocolRiskLevels-riskLevelCode-parentBean" abstract="true" parent="AttributeDefinition" >
+	<bean id="ProtocolRiskLevel-riskLevelCode" parent="ProtocolRiskLevel-riskLevelCode-parentBean" />
+	<bean id="ProtocolRiskLevel-riskLevelCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="riskLevelCode" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Risk Level Code" />
-		<property name="shortLabel" value="Risk Level Code" />
+		<property name="label" value="Risk Level" />
+		<property name="shortLabel" value="Risk Level" />
 		<property name="maxLength" value="22" />
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
@@ -139,8 +139,8 @@
 		<property name="description" value="Risk Level Code" />
 	</bean>
 
-	<bean id="ProtocolRiskLevels-comments" parent="ProtocolRiskLevels-comments-parentBean" />
-	<bean id="ProtocolRiskLevels-comments-parentBean" abstract="true" parent="AttributeDefinition" >
+	<bean id="ProtocolRiskLevel-comments" parent="ProtocolRiskLevel-comments-parentBean" />
+	<bean id="ProtocolRiskLevel-comments-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="comments" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Comments" />
@@ -158,8 +158,8 @@
 		<property name="description" value="Comments" />
 	</bean>
 
-	<bean id="ProtocolRiskLevels-dateAssigned" parent="ProtocolRiskLevels-dateAssigned-parentBean" />
-	<bean id="ProtocolRiskLevels-dateAssigned-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+	<bean id="ProtocolRiskLevel-dateAssigned" parent="ProtocolRiskLevel-dateAssigned-parentBean" />
+	<bean id="ProtocolRiskLevel-dateAssigned-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
 		<property name="name" value="dateAssigned" />
 		<property name="label" value="Date Assigned" />
 		<property name="shortLabel" value="Date Assigned" />
@@ -167,8 +167,8 @@
 		<property name="description" value="Date Assigned" />
 	</bean>
 
-	<bean id="ProtocolRiskLevels-dateUpdated" parent="ProtocolRiskLevels-dateUpdated-parentBean" />
-	<bean id="ProtocolRiskLevels-dateUpdated-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+	<bean id="ProtocolRiskLevel-dateUpdated" parent="ProtocolRiskLevel-dateUpdated-parentBean" />
+	<bean id="ProtocolRiskLevel-dateUpdated-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
 		<property name="name" value="dateUpdated" />
 		<property name="label" value="Date Updated" />
 		<property name="shortLabel" value="Date Updated" />
@@ -176,8 +176,8 @@
 		<property name="description" value="Date Updated" />
 	</bean>
 
-	<bean id="ProtocolRiskLevels-status" parent="ProtocolRiskLevels-status-parentBean" />
-	<bean id="ProtocolRiskLevels-status-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+	<bean id="ProtocolRiskLevel-status" parent="ProtocolRiskLevel-status-parentBean" />
+	<bean id="ProtocolRiskLevel-status-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
 		<property name="name" value="status" />
 		<property name="label" value="Status" />
 		<property name="shortLabel" value="Status" />
@@ -185,23 +185,23 @@
 		<property name="description" value="Status" />
 	</bean>
 
-	<bean id="ProtocolRiskLevels-versionNumber" parent="ProtocolRiskLevels-versionNumber-parentBean" />
-	<bean id="ProtocolRiskLevels-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+	<bean id="ProtocolRiskLevel-versionNumber" parent="ProtocolRiskLevel-versionNumber-parentBean" />
+	<bean id="ProtocolRiskLevel-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
 	</bean>
 
 	<!-- Business Object Inquiry Definition -->
-	<bean id="ProtocolRiskLevels-inquiryDefinition" parent="ProtocolRiskLevels-inquiryDefinition-parentBean" />
-	<bean id="ProtocolRiskLevels-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-		<property name="title" value="Protocol Risk Levels Id" />
+	<bean id="ProtocolRiskLevel-inquiryDefinition" parent="ProtocolRiskLevel-inquiryDefinition-parentBean" />
+	<bean id="ProtocolRiskLevel-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Protocol Risk Level Id" />
 		<property name="inquirySections" >
 			<list>
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Protocol Risk Levels Id" />
+					<property name="title" value="Protocol Risk Level Id" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list>
 							<bean parent="FieldDefinition"
-								p:attributeName="protocolRiskLevelsId" 
+								p:attributeName="ProtocolRiskLevelId" 
 								p:forceInquiry="true" />
 							<bean parent="FieldDefinition"
 								p:attributeName="protocolId" />
@@ -227,8 +227,8 @@
 	</bean>
 
 	<!-- Business Object Lookup Definition -->
-	<bean id="ProtocolRiskLevels-lookupDefinition" parent="ProtocolRiskLevels-lookupDefinition-parentBean" />
-	<bean id="ProtocolRiskLevels-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+	<bean id="ProtocolRiskLevel-lookupDefinition" parent="ProtocolRiskLevel-lookupDefinition-parentBean" />
+	<bean id="ProtocolRiskLevel-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Protocol Risk Levels Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 		<property name="instructions" value="Look up a Protocol Risk Levels" />
@@ -239,7 +239,7 @@
 		<property name="lookupFields" >
 			<list>
 				<bean parent="FieldDefinition"
-					p:attributeName="protocolRiskLevelsId" 
+					p:attributeName="ProtocolRiskLevelId" 
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
 					p:attributeName="protocolId" />
@@ -262,7 +262,7 @@
 		<property name="resultFields" >
 			<list>
 				<bean parent="FieldDefinition"
-					p:attributeName="protocolRiskLevelsId" 
+					p:attributeName="ProtocolRiskLevelId" 
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
 					p:attributeName="protocolId" />
