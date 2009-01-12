@@ -16,88 +16,97 @@
 
 package org.kuali.kra.award.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import java.util.LinkedHashMap;
-import java.sql.Date;
 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+
+/**
+ * 
+ * This class represents the ReportClass business object and is mapped to
+ * REPORT_CLASS table.
+ */
 public class ReportClass extends KraPersistableBusinessObjectBase { 
-	
-	private Integer reportClassCode; 
-	private String description; 
-	private boolean generateReportRequirements; 
-	
-	/*private TemplateReportTerms templateReportTerms; 
-	private ValidClassReportFreq validClassReportFreq; 
-	private AwardReporting awardReporting; 
-	private AwardReportTerms awardReportTerms;*/ 
-	
-	public ReportClass() { 
+    
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 2641812275218339806L;
+    private Integer reportClassCode; 
+    private String description; 
+    private boolean generateReportRequirements; 
+    
+    /*private TemplateReportTerms templateReportTerms; 
+    private ValidClassReportFreq validClassReportFreq; 
+    private AwardReporting awardReporting; 
+    private AwardReportTerms awardReportTerms;*/ 
+    
+    public ReportClass() { 
 
-	} 
-	
-	public Integer getReportClassCode() {
-		return reportClassCode;
-	}
+    } 
+    
+    public Integer getReportClassCode() {
+        return reportClassCode;
+    }
 
-	public void setReportClassCode(Integer reportClassCode) {
-		this.reportClassCode = reportClassCode;
-	}
+    public void setReportClassCode(Integer reportClassCode) {
+        this.reportClassCode = reportClassCode;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public boolean getGenerateReportRequirements() {
-		return generateReportRequirements;
-	}
+    public boolean getGenerateReportRequirements() {
+        return generateReportRequirements;
+    }
 
-	public void setGenerateReportRequirements(boolean generateReportRequirements) {
-		this.generateReportRequirements = generateReportRequirements;
-	}
+    public void setGenerateReportRequirements(boolean generateReportRequirements) {
+        this.generateReportRequirements = generateReportRequirements;
+    }
 
-	/*public TemplateReportTerms getTemplateReportTerms() {
-		return templateReportTerms;
-	}
+    /*public TemplateReportTerms getTemplateReportTerms() {
+        return templateReportTerms;
+    }
 
-	public void setTemplateReportTerms(TemplateReportTerms templateReportTerms) {
-		this.templateReportTerms = templateReportTerms;
-	}
+    public void setTemplateReportTerms(TemplateReportTerms templateReportTerms) {
+        this.templateReportTerms = templateReportTerms;
+    }
 
-	public ValidClassReportFreq getValidClassReportFreq() {
-		return validClassReportFreq;
-	}
+    public ValidClassReportFreq getValidClassReportFreq() {
+        return validClassReportFreq;
+    }
 
-	public void setValidClassReportFreq(ValidClassReportFreq validClassReportFreq) {
-		this.validClassReportFreq = validClassReportFreq;
-	}
+    public void setValidClassReportFreq(ValidClassReportFreq validClassReportFreq) {
+        this.validClassReportFreq = validClassReportFreq;
+    }
 
-	public AwardReporting getAwardReporting() {
-		return awardReporting;
-	}
+    public AwardReporting getAwardReporting() {
+        return awardReporting;
+    }
 
-	public void setAwardReporting(AwardReporting awardReporting) {
-		this.awardReporting = awardReporting;
-	}
+    public void setAwardReporting(AwardReporting awardReporting) {
+        this.awardReporting = awardReporting;
+    }
 
-	public AwardReportTerms getAwardReportTerms() {
-		return awardReportTerms;
-	}
+    public AwardReportTerms getAwardReportTerms() {
+        return awardReportTerms;
+    }
 
-	public void setAwardReportTerms(AwardReportTerms awardReportTerms) {
-		this.awardReportTerms = awardReportTerms;
-	}*/
+    public void setAwardReportTerms(AwardReportTerms awardReportTerms) {
+        this.awardReportTerms = awardReportTerms;
+    }*/
 
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("reportClassCode", getReportClassCode());
-		hashMap.put("description", getDescription());
-		hashMap.put("generateReportRequirements", getGenerateReportRequirements());
-		return hashMap;
-	}
-	
+    @Override 
+    protected LinkedHashMap<String,Object> toStringMapper() {
+        LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
+        hashMap.put("reportClassCode", getReportClassCode());
+        hashMap.put("description", getDescription());
+        hashMap.put("generateReportRequirements", getGenerateReportRequirements());
+        return hashMap;
+    }
+    
 }

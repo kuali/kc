@@ -16,6 +16,8 @@
 package org.kuali.kra.award.web.struts.action;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +29,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.award.bo.Award;
-import org.kuali.kra.award.bo.AwardReportTerms;
+import org.kuali.kra.award.bo.AwardReportTerm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.lookup.keyvalue.ReportClassValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.ReportCodeValuesFinder;
@@ -44,6 +46,12 @@ import org.kuali.rice.kns.util.KNSConstants;
  */
 public class AwardPaymentReportsAndTermsAction extends AwardAction {
     
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        return super.execute(mapping, form, request, response);
+    }
+    
+    
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         
@@ -56,69 +64,85 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         reportClasses = reportClassValuesFinder.getKeyValues();
         reportCodes = reportCodeValuesFinder.getKeyValues();
         for(int i=0;i<reportClasses.size();i++){
-            awardForm.getNewAwardReportTerms().add(new AwardReportTerms());
+            awardForm.getNewAwardReportTerm().add(new AwardReportTerm());
         }
         for(int i=0;i<awardForm.getAwardDocument().getAward().getAwardReportTerms().size();i++){
-            awardForm.getNewAwardReportTermsRecipients().add(new AwardReportTerms());
+            awardForm.getNewAwardReportTermRecipient().add(new AwardReportTerm());
         }
         awardForm.getAwardDocument().setReportClasses(reportClasses);
         awardForm.getAwardDocument().setReportCodes(reportCodes);
+        Collections.sort(awardForm.getAwardDocument().getAward().getAwardReportTerms(),new AwardReportTermsComparator5());
+        Collections.sort(awardForm.getAwardDocument().getAward().getAwardReportTerms(),new AwardReportTermsComparator4());
+        Collections.sort(awardForm.getAwardDocument().getAward().getAwardReportTerms(),new AwardReportTermsComparator3());
+        Collections.sort(awardForm.getAwardDocument().getAward().getAwardReportTerms(),new AwardReportTermsComparator2());
+        Collections.sort(awardForm.getAwardDocument().getAward().getAwardReportTerms(),new AwardReportTermsComparator1());
+        
+        //Collections.sort(list, c)(awardForm.getAwardDocument().getAward().getAwardReportTerm());
+        //awardForm.getAwardDocument().getAward().getAwardReportTerm()
         return actionForward;
     }
     
-    public ActionForward addAwardReportTerms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward addAwardReportTerm(ActionMapping mapping, ActionForm form, 
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         awardForm.setAwardReportTermPanelNumber(new Integer(getReportClassCodeIndex(request)).toString());
-        AwardReportTerms newAwardReportTerm = awardForm.getNewAwardReportTerms().get(getReportClassCodeIndex(request));
+        AwardReportTerm newAwardReportTerm = 
+            awardForm.getNewAwardReportTerm().get(getReportClassCodeIndex(request));
         if(getKualiRuleService().applyRules(new AddAwardReportTermEvent(Constants.EMPTY_STRING,
                 awardForm.getAwardDocument(), newAwardReportTerm))){
             newAwardReportTerm.setReportClassCode(getReportClass(request));
             newAwardReportTerm.setAwardNumber(awardForm.getAwardDocument().getAward().getAwardNumber());
             newAwardReportTerm.setSequenceNumber(awardForm.getAwardDocument().getAward().getSequenceNumber());
             addAwardReportTermToAward(awardForm.getAwardDocument().getAward(),newAwardReportTerm);            
-            awardForm.getNewAwardReportTerms().set(getReportClassCodeIndex(request),new AwardReportTerms());
-            awardForm.getNewAwardReportTermsRecipients().add(new AwardReportTerms());
+            awardForm.getNewAwardReportTerm().set(getReportClassCodeIndex(request),new AwardReportTerm());
+            AwardReportTerm awardReportTermForRecipients = new AwardReportTerm();
+            awardReportTermForRecipients.setReportClassCode(newAwardReportTerm.getReportClassCode());
+            awardReportTermForRecipients.setReportCode(newAwardReportTerm.getReportCode());
+            awardReportTermForRecipients.setFrequencyCode(newAwardReportTerm.getFrequencyCode());
+            awardReportTermForRecipients.setOspDistributionCode(newAwardReportTerm.getFrequencyBaseCode());
+            awardReportTermForRecipients.setDueDate(newAwardReportTerm.getDueDate());
+            awardForm.getNewAwardReportTermRecipient().add(new AwardReportTerm());
         }
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
-    public ActionForward deleteAwardReportTerms(ActionMapping mapping, ActionForm form,
+    public ActionForward deleteAwardReportTerm(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDocument = awardForm.getAwardDocument();
-        AwardReportTerms awardReportTermsToBeDeleted = 
+        AwardReportTerm awardReportTermToBeDeleted = 
             awardDocument.getAward().getAwardReportTerms().get(getLineToDelete(request));
         
-        for(AwardReportTerms awardReportTerms:determineAwardReportTermsToBeDeleted(
-                awardDocument.getAward().getAwardReportTerms(), awardReportTermsToBeDeleted)){
-            awardDocument.getAward().getAwardReportTerms().remove(awardReportTerms);
+        for(AwardReportTerm awardReportTerm:determineAwardReportTermRecipientsToBeDeleted(
+                awardDocument.getAward().getAwardReportTerms(), awardReportTermToBeDeleted)){
+            awardDocument.getAward().getAwardReportTerms().remove(awardReportTerm);
         }
         
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
-    protected List<AwardReportTerms> determineAwardReportTermsToBeDeleted(
-            List<AwardReportTerms> listAwardReportTerms, AwardReportTerms awardReportTermsToBeDeleted){
-        ArrayList<AwardReportTerms> indexForDeletion = new ArrayList<AwardReportTerms>();
-        for(AwardReportTerms awardReportTerms: listAwardReportTerms){
-            if(StringUtils.equalsIgnoreCase(awardReportTermsToBeDeleted.getReportClassCode().toString(),
-                    awardReportTerms.getReportClassCode().toString())){
+    protected List<AwardReportTerm> determineAwardReportTermRecipientsToBeDeleted(
+            List<AwardReportTerm> listAwardReportTerm, AwardReportTerm awardReportTermToBeDeleted){
+        ArrayList<AwardReportTerm> indexForDeletion = new ArrayList<AwardReportTerm>();
+        for(AwardReportTerm awardReportTerm: listAwardReportTerm){
+            if(StringUtils.equalsIgnoreCase(awardReportTermToBeDeleted.getReportClassCode().toString(),
+                    awardReportTerm.getReportClassCode().toString())){
                 if(StringUtils.equalsIgnoreCase(
-                        awardReportTermsToBeDeleted.getReportCode().toString(),
-                        awardReportTerms.getReportCode().toString()) 
+                        awardReportTermToBeDeleted.getReportCode().toString(),
+                        awardReportTerm.getReportCode().toString()) 
                         && StringUtils.equalsIgnoreCase(
-                                awardReportTermsToBeDeleted.getFrequencyCode().toString(),
-                                awardReportTerms.getFrequencyCode().toString())
+                                awardReportTermToBeDeleted.getFrequencyCode().toString(),
+                                awardReportTerm.getFrequencyCode().toString())
                         && StringUtils.equalsIgnoreCase(
-                                awardReportTermsToBeDeleted.getFrequencyBaseCode().toString(),
-                                awardReportTerms.getFrequencyBaseCode().toString())
+                                awardReportTermToBeDeleted.getFrequencyBaseCode().toString(),
+                                awardReportTerm.getFrequencyBaseCode().toString())
                         && StringUtils.equalsIgnoreCase(
-                                awardReportTermsToBeDeleted.getDueDate().toString(),
-                                awardReportTerms.getDueDate().toString())
+                                awardReportTermToBeDeleted.getDueDate().toString(),
+                                awardReportTerm.getDueDate().toString())
                         && StringUtils.equalsIgnoreCase(
-                                awardReportTermsToBeDeleted.getOspDistributionCode().toString(),
-                                awardReportTerms.getOspDistributionCode().toString())){
-                    indexForDeletion.add(awardReportTerms);
+                                awardReportTermToBeDeleted.getOspDistributionCode().toString(),
+                                awardReportTerm.getOspDistributionCode().toString())){
+                    indexForDeletion.add(awardReportTerm);
                 }
             }            
         }
@@ -126,62 +150,40 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         return indexForDeletion;
     }
     
-    boolean addAwardReportTermToAward(Award award, AwardReportTerms awardReportTerms){
-        return award.getAwardReportTerms().add(awardReportTerms);
+    boolean addAwardReportTermToAward(Award award, AwardReportTerm awardReportTerm){
+        return award.getAwardReportTerms().add(awardReportTerm);
     }
     
-    public ActionForward addRecipients(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward addRecipient(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         awardForm.setAwardReportTermPanelNumber(new Integer(getRecipientIndex(request)).toString());
-        AwardReportTerms newAwardReportTerm = awardForm.getNewAwardReportTermsRecipients().get(getRecipientIndex(request));
-        AwardReportTerms newAwardReportTermRecipients = new AwardReportTerms();
+        AwardReportTerm newAwardReportTerm = awardForm.getNewAwardReportTermRecipient().
+                                                get(getRecipientIndex(request));
+        newAwardReportTerm.setAwardNumber(awardForm.getAwardDocument().getAward().getAwardNumber());
+        newAwardReportTerm.setSequenceNumber(awardForm.getAwardDocument().getAward().getSequenceNumber());
         AwardDocument awardDocument = awardForm.getAwardDocument();
-        int i=0;
-        boolean addNew = false;
         if(getKualiRuleService().applyRules(new AddAwardReportTermRecipientEvent(Constants.EMPTY_STRING,
-                awardForm.getAwardDocument(), newAwardReportTerm))){
-            for(AwardReportTerms awardReportTerms: awardDocument.getAward().getAwardReportTerms()){
-                if(awardReportTerms.getReportCode().equals(getReportCode(request))){
-                    if(awardReportTerms.getContactTypeCode()!=null){
-                        newAwardReportTermRecipients.setAwardNumber(awardReportTerms.getAwardNumber());
-                        newAwardReportTermRecipients.setSequenceNumber(awardReportTerms.getSequenceNumber());
-                        newAwardReportTermRecipients.setReportClassCode(awardReportTerms.getReportClassCode());
-                        newAwardReportTermRecipients.setReportCode(awardReportTerms.getReportCode());
-                        newAwardReportTermRecipients.setFrequencyCode(awardReportTerms.getFrequencyCode());
-                        newAwardReportTermRecipients.setFrequencyBaseCode(awardReportTerms.getFrequencyBaseCode());
-                        newAwardReportTermRecipients.setOspDistributionCode(awardReportTerms.getOspDistributionCode());
-                        newAwardReportTermRecipients.setDueDate(awardReportTerms.getDueDate());
-                        newAwardReportTermRecipients.setContactTypeCode(newAwardReportTerm.getContactTypeCode());
-                        newAwardReportTermRecipients.setNumberOfCopies(newAwardReportTerm.getNumberOfCopies());
-                        newAwardReportTermRecipients.setRolodexId(newAwardReportTerm.getRolodexId());
-                        addNew = true;
-                    }else{                    
-                        awardDocument.getAward().getAwardReportTerms().get(i).setContactTypeCode(newAwardReportTerm.getContactTypeCode());
-                        awardDocument.getAward().getAwardReportTerms().get(i).setNumberOfCopies(newAwardReportTerm.getNumberOfCopies());
-                        awardDocument.getAward().getAwardReportTerms().get(i).setRolodexId(newAwardReportTerm.getRolodexId());
-                    }                
-                }
-                i++;
-            }
-            if(addNew){
-                awardDocument.getAward().getAwardReportTerms().add(newAwardReportTermRecipients);
-            }
+                awardDocument, newAwardReportTerm))){            
             
-            awardForm.getNewAwardReportTermsRecipients().set(getRecipientIndex(request),new AwardReportTerms());
+            addAwardReportTermToAward(awardDocument.getAward(),newAwardReportTerm);
         }
         
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
-    public ActionForward deleteRecipients(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward deleteRecipient(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDocument = awardForm.getAwardDocument();
-        if(getRecipientsSize(request)>1){
-            this.deleteAwardReportTerms(mapping, form, request, response);
+        if(getRecipientSize(request)>1){
+            awardDocument.getAward().getAwardReportTerms().remove(getLineToDelete(request));
         }else{
-            awardDocument.getAward().getAwardReportTerms().get(getLineToDelete(request)).setContactTypeCode(null);
-            awardDocument.getAward().getAwardReportTerms().get(getLineToDelete(request)).setNumberOfCopies(null);
-            awardDocument.getAward().getAwardReportTerms().get(getLineToDelete(request)).setRolodexId(null);
+            awardDocument.getAward().getAwardReportTerms().get(
+                    getLineToDelete(request)).setContactTypeCode(null);
+            awardDocument.getAward().getAwardReportTerms().get(
+                    getLineToDelete(request)).setNumberOfCopies(null);
+            awardDocument.getAward().getAwardReportTerms().get(
+                    getLineToDelete(request)).setRolodexId(null);
         }
         
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
@@ -231,14 +233,44 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         return recipientIndex;
     }
     
-    protected int getRecipientsSize(HttpServletRequest request) {
-        int recipientsSize = -1;
+    protected int getRecipientSize(HttpServletRequest request) {
+        int recipientSize = -1;
         String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
-            String recipientsSizeString = StringUtils.substringBetween(parameterName, ".recipientsSize", ".");
-            recipientsSize = Integer.parseInt(recipientsSizeString);
+            String recipientSizeString = StringUtils.substringBetween(parameterName, ".recipientSize", ".");
+            recipientSize = Integer.parseInt(recipientSizeString);
         }        
-        return recipientsSize;
+        return recipientSize;
     }
     
 }
+
+class AwardReportTermsComparator1 implements Comparator<AwardReportTerm> {
+    public int compare(AwardReportTerm awardReportTerm1, AwardReportTerm awardReportTerm2) {
+        return  awardReportTerm1.getReportCode().compareTo(awardReportTerm2.getReportCode());
+    }
+  }
+
+class AwardReportTermsComparator2 implements Comparator<AwardReportTerm> {
+    public int compare(AwardReportTerm awardReportTerm1, AwardReportTerm awardReportTerm2) {
+        return  awardReportTerm1.getFrequencyCode().compareTo(awardReportTerm2.getFrequencyCode());
+    }
+  }
+
+class AwardReportTermsComparator3 implements Comparator<AwardReportTerm> {
+    public int compare(AwardReportTerm awardReportTerm1, AwardReportTerm awardReportTerm2) {
+        return  awardReportTerm1.getFrequencyBaseCode().compareTo(awardReportTerm2.getFrequencyBaseCode());
+    }
+  }
+
+class AwardReportTermsComparator4 implements Comparator<AwardReportTerm> {
+    public int compare(AwardReportTerm awardReportTerm1, AwardReportTerm awardReportTerm2) {
+        return  awardReportTerm1.getOspDistributionCode().compareTo(awardReportTerm2.getOspDistributionCode());
+    }
+  }
+
+class AwardReportTermsComparator5 implements Comparator<AwardReportTerm> {
+    public int compare(AwardReportTerm awardReportTerm1, AwardReportTerm awardReportTerm2) {
+        return  awardReportTerm1.getDueDate().compareTo(awardReportTerm2.getDueDate());
+    }
+  }

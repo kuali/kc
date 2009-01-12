@@ -90,10 +90,10 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private String title;
     
     private List<AwardComment> awardComments;
-    Map<Integer, AwardComment> commentMap;
+    private Map<Integer, AwardComment> commentMap;
     private List<AwardCostShare> awardCostShares;
-    List<AwardFandaRate> awardFandaRate;
-    private List<AwardReportTerms> awardReportTerms;
+    private List<AwardFandaRate> awardFandaRate;
+    private List<AwardReportTerm> awardReportTerms;
        
 
     private List<AwardApprovedSubaward> awardApprovedSubawards;
@@ -112,7 +112,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         setAwardComments(new ArrayList<AwardComment>());
         awardApprovedSubawards = (new ArrayList<AwardApprovedSubaward>());
         setAwardFandaRate(new ArrayList<AwardFandaRate>());
-        setAwardReportTerms(new ArrayList<AwardReportTerms>());
+        setAwardReportTerms(new ArrayList<AwardReportTerm>());
         keywords = new ArrayList<AwardScienceKeyword>();
         specialReviews = new ArrayList<AwardSpecialReview>();
     }
@@ -1039,11 +1039,11 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         this.awardFandaRate = awardFandaRate;
     }
     
-    public List<AwardReportTerms> getAwardReportTerms() {
+    public List<AwardReportTerm> getAwardReportTerms() {
         return awardReportTerms;
     }
 
-    public void setAwardReportTerms(List<AwardReportTerms> awardReportTerms) {
+    public void setAwardReportTerms(List<AwardReportTerm> awardReportTerms) {
         this.awardReportTerms = awardReportTerms;
     }
 

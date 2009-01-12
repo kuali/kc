@@ -88,7 +88,7 @@
         <collection-descriptor name="awardFandaRate" proxy="true" element-class-ref="org.kuali.kra.award.bo.AwardFandaRate" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="awardId" />
     	</collection-descriptor>
-    	<collection-descriptor name="awardReportTerms" proxy="true" element-class-ref="org.kuali.kra.award.bo.AwardReportTerms" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    	<collection-descriptor name="awardReportTerms" proxy="true" element-class-ref="org.kuali.kra.award.bo.AwardReportTerm" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="awardId" />
     	</collection-descriptor>
     	<collection-descriptor name="awardApprovedSubawards" proxy="true" element-class-ref="org.kuali.kra.award.bo.AwardApprovedSubaward" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -294,8 +294,8 @@
 	</class-descriptor>	
 	
 	
-	<class-descriptor class="org.kuali.kra.award.bo.AwardReportTerms" table="AWARD_REPORT_TERMS">
-		<field-descriptor name="awardReportTermsId" column="AWARD_REPORT_TERMS_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="SEQUENCE_AWARD_ID"/>
+	<class-descriptor class="org.kuali.kra.award.bo.AwardReportTerm" table="AWARD_REPORT_TERMS">
+		<field-descriptor name="awardReportTermId" column="AWARD_REPORT_TERMS_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="SEQUENCE_AWARD_ID"/>
 		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" access="anonymous" />		
 		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />

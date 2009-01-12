@@ -14,7 +14,6 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<c:set var="awardReportTermsAttributes" value="${DataDictionary.AwardReportTerms.attributes}" />
 
 <kul:tab tabTitle="Reports" defaultOpen="false" tabErrorKey="">
 	<div class="tab-container" align="right">

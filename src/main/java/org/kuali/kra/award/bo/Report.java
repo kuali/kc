@@ -16,88 +16,97 @@
 
 package org.kuali.kra.award.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import java.util.LinkedHashMap;
-import java.sql.Date;
 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+
+/**
+ * 
+ * This class represents the Report business object and is mapped
+ * with REPORT table.
+ */
 public class Report extends KraPersistableBusinessObjectBase { 
-	
-	private Integer reportCode; 
-	private String description; 
-	private boolean finalReportFlag; 
-	
-	/*private TemplateReportTerms templateReportTerms; 
-	private ValidClassReportFreq validClassReportFreq; 
-	private AwardReporting awardReporting; 
-	private AwardReportTerms awardReportTerms;*/ 
-	
-	public Report() { 
+    
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 4555054434451627778L;
+    private Integer reportCode; 
+    private String description; 
+    private boolean finalReportFlag; 
+    
+    /*private TemplateReportTerms templateReportTerms; 
+    private ValidClassReportFreq validClassReportFreq; 
+    private AwardReporting awardReporting; 
+    private AwardReportTerms awardReportTerms;*/ 
+    
+    public Report() { 
 
-	} 
-	
-	public Integer getReportCode() {
-		return reportCode;
-	}
+    } 
+    
+    public Integer getReportCode() {
+        return reportCode;
+    }
 
-	public void setReportCode(Integer reportCode) {
-		this.reportCode = reportCode;
-	}
+    public void setReportCode(Integer reportCode) {
+        this.reportCode = reportCode;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public boolean getFinalReportFlag() {
-		return finalReportFlag;
-	}
+    public boolean getFinalReportFlag() {
+        return finalReportFlag;
+    }
 
-	public void setFinalReportFlag(boolean finalReportFlag) {
-		this.finalReportFlag = finalReportFlag;
-	}
+    public void setFinalReportFlag(boolean finalReportFlag) {
+        this.finalReportFlag = finalReportFlag;
+    }
 
-	/*public TemplateReportTerms getTemplateReportTerms() {
-		return templateReportTerms;
-	}
+    /*public TemplateReportTerms getTemplateReportTerms() {
+        return templateReportTerms;
+    }
 
-	public void setTemplateReportTerms(TemplateReportTerms templateReportTerms) {
-		this.templateReportTerms = templateReportTerms;
-	}
+    public void setTemplateReportTerms(TemplateReportTerms templateReportTerms) {
+        this.templateReportTerms = templateReportTerms;
+    }
 
-	public ValidClassReportFreq getValidClassReportFreq() {
-		return validClassReportFreq;
-	}
+    public ValidClassReportFreq getValidClassReportFreq() {
+        return validClassReportFreq;
+    }
 
-	public void setValidClassReportFreq(ValidClassReportFreq validClassReportFreq) {
-		this.validClassReportFreq = validClassReportFreq;
-	}
+    public void setValidClassReportFreq(ValidClassReportFreq validClassReportFreq) {
+        this.validClassReportFreq = validClassReportFreq;
+    }
 
-	public AwardReporting getAwardReporting() {
-		return awardReporting;
-	}
+    public AwardReporting getAwardReporting() {
+        return awardReporting;
+    }
 
-	public void setAwardReporting(AwardReporting awardReporting) {
-		this.awardReporting = awardReporting;
-	}
+    public void setAwardReporting(AwardReporting awardReporting) {
+        this.awardReporting = awardReporting;
+    }
 
-	public AwardReportTerms getAwardReportTerms() {
-		return awardReportTerms;
-	}
+    public AwardReportTerms getAwardReportTerms() {
+        return awardReportTerms;
+    }
 
-	public void setAwardReportTerms(AwardReportTerms awardReportTerms) {
-		this.awardReportTerms = awardReportTerms;
-	}*/
+    public void setAwardReportTerms(AwardReportTerms awardReportTerms) {
+        this.awardReportTerms = awardReportTerms;
+    }*/
 
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("reportCode", getReportCode());
-		hashMap.put("description", getDescription());
-		hashMap.put("finalReportFlag", getFinalReportFlag());
-		return hashMap;
-	}
-	
+    @Override 
+    protected LinkedHashMap<String, Object> toStringMapper() {
+        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
+        hashMap.put("reportCode", getReportCode());
+        hashMap.put("description", getDescription());
+        hashMap.put("finalReportFlag", getFinalReportFlag());
+        return hashMap;
+    }
+    
 }
