@@ -35,6 +35,7 @@ import org.kuali.kra.award.lookup.keyvalue.ReportCodeValuesFinder;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.AwardReportsService;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -132,28 +133,9 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
     public ActionForward paymentReportsAndTerms(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) {
         AwardForm awardForm = (AwardForm) form;
-        ReportClassValuesFinder reportClassValuesFinder = new ReportClassValuesFinder();
-        ReportCodeValuesFinder reportCodeValuesFinder = new ReportCodeValuesFinder();
-        List<KeyLabelPair> reportClasses = new ArrayList<KeyLabelPair>();
-        List<KeyLabelPair> reportCodes = new ArrayList<KeyLabelPair>();
-        reportClasses = reportClassValuesFinder.getKeyValues();
-        reportCodes = reportCodeValuesFinder.getKeyValues();
-        
-        for(int i=0;i<reportClasses.size();i++){
-            awardForm.getNewAwardReportTerm().add(new AwardReportTerm());
-        }
-        
-        for(int i=0;i<awardForm.getAwardDocument().getAward().getAwardReportTerms().size();i++){
-            awardForm.getNewAwardReportTermRecipient().add(new AwardReportTerm());
-        }
-        awardForm.getAwardDocument().setReportClasses(reportClasses);
-        awardForm.getAwardDocument().setReportCodes(reportCodes);
-        
-        Collections.sort(awardForm.getAwardDocument().getAward().getAwardReportTerms(),new AwardReportTermsComparator5());
-        Collections.sort(awardForm.getAwardDocument().getAward().getAwardReportTerms(),new AwardReportTermsComparator4());
-        Collections.sort(awardForm.getAwardDocument().getAward().getAwardReportTerms(),new AwardReportTermsComparator3());
-        Collections.sort(awardForm.getAwardDocument().getAward().getAwardReportTerms(),new AwardReportTermsComparator2());
-        Collections.sort(awardForm.getAwardDocument().getAward().getAwardReportTerms(),new AwardReportTermsComparator1());
+        AwardReportsService awardReportsService = KraServiceLocator.getService(AwardReportsService.class);
+                
+        awardReportsService.doPreparations(awardForm);
         
         return mapping.findForward(Constants.MAPPING_AWARD_PAYMENT_REPORTS_AND_TERMS_PAGE);
     }
