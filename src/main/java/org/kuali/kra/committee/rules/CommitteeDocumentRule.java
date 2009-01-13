@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.committee.rules;
+package org.kuali.kra.committee.rules;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.util.GlobalVariables;

@@ -17,7 +17,7 @@
 		<form-bean name="SponsorHierarchyForm" type="org.kuali.kra.web.struts.form.SponsorHierarchyForm" />
 		<form-bean name="ProtocolForm" type="org.kuali.kra.irb.web.struts.form.ProtocolForm" />
 		<form-bean name="ResearchAreasForm" type="org.kuali.kra.web.struts.form.ResearchAreasForm" />
-		<form-bean name="CommitteeForm" type="org.kuali.kra.irb.committee.web.struts.form.CommitteeForm" />
+		<form-bean name="CommitteeForm" type="org.kuali.kra.committee.web.struts.form.CommitteeForm" />
     </form-beans>
 
     <global-exceptions>
@@ -184,7 +184,7 @@
       </action>
       
       <!--  KRA IRB Committee Mapping -->
-      <action path="/committee*" name="CommitteeForm" input="/WEB-INF/jsp/committee/Committee{1}.jsp" type="org.kuali.kra.irb.committee.web.struts.action.Committee{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+      <action path="/committee*" name="CommitteeForm" input="/WEB-INF/jsp/committee/Committee{1}.jsp" type="org.kuali.kra.committee.web.struts.action.Committee{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/committee/Committee{1}.jsp" />
           <forward name="committee" path="/WEB-INF/jsp/committee/CommitteeCommittee.jsp" />
       </action>

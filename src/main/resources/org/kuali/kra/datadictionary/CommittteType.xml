@@ -21,7 +21,7 @@
 
 	<bean id="CommitteeType" parent="CommitteeType-parentBean" />
 	<bean id="CommitteeType-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.irb.committee.bo.CommitteeType" />
+		<property name="businessObjectClass" value="org.kuali.kra.committee.bo.CommitteeType" />
 		<property name="inquiryDefinition" >
 			<ref bean="CommitteeType-inquiryDefinition" />
 		</property>

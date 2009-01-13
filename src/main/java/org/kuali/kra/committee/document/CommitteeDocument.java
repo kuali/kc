@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.kra.irb.committee.document;
+package org.kuali.kra.committee.document;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +22,8 @@ import java.util.List;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.SessionDocument;
 import org.kuali.kra.bo.RolePersons;
+import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.document.ResearchDocumentBase;
-import org.kuali.kra.irb.committee.bo.Committee;
 
 /**
  * The Committee Document wraps a single Committee BO.  

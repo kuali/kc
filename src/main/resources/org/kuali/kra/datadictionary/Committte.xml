@@ -21,7 +21,7 @@
 
 	<bean id="Committee" parent="Committee-parentBean" />
 	<bean id="Committee-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.irb.committee.bo.Committee" />
+		<property name="businessObjectClass" value="org.kuali.kra.committee.bo.Committee" />
 		<property name="inquiryDefinition" >
 			<ref bean="Committee-inquiryDefinition" />
 		</property>
@@ -109,7 +109,7 @@
 	    <property name="required" value="true" />
 	    <property name="control" >
 	      <bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.irb.committee.bo.CommitteeType"
+	            p:businessObjectClass="org.kuali.kra.committee.bo.CommitteeType"
 	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 	            p:includeKeyInLabel="false"
 	            p:keyAttribute="committeeTypeCode"
