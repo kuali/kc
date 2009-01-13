@@ -30,15 +30,16 @@ import org.kuali.kra.award.bo.AwardFandaRate;
  * This class Tests the methods in AwardAction.java
  */
 
-public class AwardTimeAndMoneyActionTest {
+public class AwardTimeAndMoneyActionTest{
     
-    AwardTimeAndMoneyAction awardTimeAndMoneyAction;
-    Award award;
-    AwardFandaRate awardFandaRate;
     public static final String MOCK_FORWARD_STRING = "FORWARD_STRING";
     public static final String MOCK_DOC_ID_REQUEST_PARAMETER = "21";
     public static final String MOCK_EXPECTED_RESULT_STRING = "FORWARD_STRING?docId=21";
     public static final int ZERO = 0;
+    
+    AwardTimeAndMoneyAction awardTimeAndMoneyAction;
+    Award award;
+    AwardFandaRate awardFandaRate;
     
     /**
      *

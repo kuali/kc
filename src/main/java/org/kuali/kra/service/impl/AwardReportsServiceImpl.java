@@ -37,34 +37,51 @@ import org.kuali.kra.service.AwardReportsService;
  */
 public class AwardReportsServiceImpl implements AwardReportsService {
     
-    public void doPreparations(AwardForm awardForm){        
+    /**
+     * 
+     * @see org.kuali.kra.service.AwardReportsService#doPreparations(
+     * org.kuali.kra.award.web.struts.form.AwardForm)
+     */
+    public void doPreparations(AwardForm awardForm){
+        
+        assignReportClassToAwardForm(awardForm);        
+        assignReportCodeToAwardForm(awardForm);        
+        sortAwardReportTerms(awardForm.getAwardDocument().getAward().getAwardReportTerms());
+    }
+    
+    /**
+     * 
+     * This method sorts the list of AwardReportTerm objects using different comparator classes.
+     * @param awardReportTerms
+     */
+    protected void sortAwardReportTerms(List<AwardReportTerm> awardReportTerms){
+        Collections.sort(awardReportTerms, new AwardReportTermsComparator5());
+        Collections.sort(awardReportTerms, new AwardReportTermsComparator4());
+        Collections.sort(awardReportTerms, new AwardReportTermsComparator3());
+        Collections.sort(awardReportTerms, new AwardReportTermsComparator2());
+        Collections.sort(awardReportTerms, new AwardReportTermsComparator1());
+    }
+    
+    protected void assignReportClassToAwardForm(AwardForm awardForm){
         ReportClassValuesFinder reportClassValuesFinder = new ReportClassValuesFinder();
-        ReportCodeValuesFinder reportCodeValuesFinder = new ReportCodeValuesFinder();
         List<KeyLabelPair> reportClasses = new ArrayList<KeyLabelPair>();
-        List<KeyLabelPair> reportCodes = new ArrayList<KeyLabelPair>();
         
         reportClasses = reportClassValuesFinder.getKeyValues();
+        awardForm.setReportClasses(reportClasses);
+        
         for(int i=0;i<reportClasses.size();i++){
             awardForm.getNewAwardReportTerm().add(new AwardReportTerm());
-        }
-        awardForm.getAwardDocument().setReportClasses(reportClasses);
+        }        
+    }
+    
+    protected void assignReportCodeToAwardForm(AwardForm awardForm){
+        ReportCodeValuesFinder reportCodeValuesFinder = new ReportCodeValuesFinder();
         
-        reportCodes = reportCodeValuesFinder.getKeyValues();
+        awardForm.setReportCodes(reportCodeValuesFinder.getKeyValues());        
+        
         for(int i=0;i<awardForm.getAwardDocument().getAward().getAwardReportTerms().size();i++){
             awardForm.getNewAwardReportTermRecipient().add(new AwardReportTerm());
         }
-        awardForm.getAwardDocument().setReportCodes(reportCodes);
-        
-        Collections.sort(awardForm.getAwardDocument().getAward().getAwardReportTerms(),
-                new AwardReportTermsComparator5());
-        Collections.sort(awardForm.getAwardDocument().getAward().getAwardReportTerms(),
-                new AwardReportTermsComparator4());
-        Collections.sort(awardForm.getAwardDocument().getAward().getAwardReportTerms(),
-                new AwardReportTermsComparator3());
-        Collections.sort(awardForm.getAwardDocument().getAward().getAwardReportTerms(),
-                new AwardReportTermsComparator2());
-        Collections.sort(awardForm.getAwardDocument().getAward().getAwardReportTerms(),
-                new AwardReportTermsComparator1());        
     }
 
 }
