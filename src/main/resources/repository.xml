@@ -3258,7 +3258,7 @@
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.irb.committee.bo.CommitteeType" table="COMMITTEE_TYPE">
+	<class-descriptor class="org.kuali.kra.committee.bo.CommitteeType" table="COMMITTEE_TYPE">
 		<field-descriptor name="committeeTypeCode" column="COMMITTEE_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -3267,13 +3267,13 @@
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.irb.committee.document.CommitteeDocument" table="COMMITTEE_DOCUMENT">
+	<class-descriptor class="org.kuali.kra.committee.document.CommitteeDocument" table="COMMITTEE_DOCUMENT">
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>		
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    	<collection-descriptor name="committeeList" proxy="true" element-class-ref="org.kuali.kra.irb.committee.bo.Committee" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    	<collection-descriptor name="committeeList" proxy="true" element-class-ref="org.kuali.kra.committee.bo.Committee" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="documentNumber" />
     	</collection-descriptor>
     	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -3281,7 +3281,7 @@
     	</reference-descriptor>
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.irb.committee.bo.Committee" table="COMMITTEE">
+	<class-descriptor class="org.kuali.kra.committee.bo.Committee" table="COMMITTEE">
 		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMMITTEE_ID" autoincrement="true"/>
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" access="anonymous"/>
 		<field-descriptor name="committeeId" column="COMMITTEE_ID" jdbc-type="VARCHAR" />
@@ -3299,7 +3299,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     	
-    	<reference-descriptor name="committeeDocument" class-ref="org.kuali.kra.irb.committee.document.CommitteeDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
+    	<reference-descriptor name="committeeDocument" class-ref="org.kuali.kra.committee.document.CommitteeDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="documentNumber" />
     	</reference-descriptor>
     	
@@ -3307,7 +3307,7 @@
             <foreignkey field-ref="homeUnitNumber" />
          </reference-descriptor>
          
-         <reference-descriptor name="committeeType" class-ref="org.kuali.kra.irb.committee.bo.CommitteeType" auto-retrieve="true" auto-update="none" auto-delete="none">
+         <reference-descriptor name="committeeType" class-ref="org.kuali.kra.committee.bo.CommitteeType" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="committeeTypeCode" />
          </reference-descriptor>
          

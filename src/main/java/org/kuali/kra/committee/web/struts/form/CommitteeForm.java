@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.committee.web.struts.form;
+package org.kuali.kra.committee.web.struts.form;
 
 import java.util.List;
 import java.util.Map;
@@ -26,9 +26,9 @@ import org.kuali.core.datadictionary.HeaderNavigation;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.committee.document.CommitteeDocument;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 
 /**
@@ -82,7 +82,7 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
      */
     protected void initializeHeaderNavigationTabs(){
         DocumentEntry docEntry = getDataDictionaryService().getDataDictionary()
-                                    .getDocumentEntry(org.kuali.kra.irb.committee.document.CommitteeDocument.class.getName());
+                                    .getDocumentEntry(org.kuali.kra.committee.document.CommitteeDocument.class.getName());
         List<HeaderNavigation> navList = docEntry.getHeaderNavigationList();
         HeaderNavigation[] list = new HeaderNavigation[navList.size()];
         navList.toArray(list);

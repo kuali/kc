@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.committee.web.struts.action;
+package org.kuali.kra.committee.web.struts.action;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
@@ -32,10 +32,10 @@ import org.kuali.core.lookup.LookupResultsService;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kra.committee.document.CommitteeDocument;
+import org.kuali.kra.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.committee.document.CommitteeDocument;
-import org.kuali.kra.irb.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -131,6 +131,18 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
         }
         
         return forward;
+    }
+    
+    /**
+     * Go to the committee tab.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
+    public ActionForward committee(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        return mapping.findForward("committee");
     }
 
     /**
