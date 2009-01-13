@@ -41,8 +41,6 @@ public class AwardDocument extends ResearchDocumentBase implements  Copyable, Se
     private static final long serialVersionUID = 1668673531338660064L;
     
     private List<Award> awardList;
-    private List<KeyLabelPair> reportClasses;
-    private List<KeyLabelPair> reportCodes;
     
     /**
      * Constructs a AwardDocument object
@@ -106,22 +104,5 @@ public class AwardDocument extends ResearchDocumentBase implements  Copyable, Se
     protected void init() {
         awardList = new ArrayList<Award>();
         awardList.add(new Award());
-    }
-
-
-    public List<KeyLabelPair> getReportClasses() {
-        return reportClasses;
-    }
-
-    public void setReportClasses(List<KeyLabelPair> reportClasses) {
-        this.reportClasses = reportClasses;
-    }
-
-    public List<KeyLabelPair> getReportCodes() {
-        return reportCodes;
-    }
-
-    public void setReportCodes(List<KeyLabelPair> reportCodes) {
-        this.reportCodes = reportCodes;
     }
 }
