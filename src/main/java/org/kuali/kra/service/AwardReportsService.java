@@ -23,6 +23,11 @@ import org.kuali.kra.award.web.struts.form.AwardForm;
  */
 public interface AwardReportsService {
     
+    /**
+     * 
+     * This method prepares the AwardReportTerm and related objects for the display of UI.
+     * @param awardForm
+     */
     public void doPreparations(AwardForm awardForm);
     
 }
