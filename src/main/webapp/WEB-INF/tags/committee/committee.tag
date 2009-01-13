@@ -1,14 +1,14 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="committeeAttributes" value="${DataDictionary.Committee.attributes}" />
-<c:set var="action" value="committee" />
-<c:set var="className" value="org.kuali.kra.irb.committee.document.CommitteeDocument" />
+<c:set var="action" value="committeeCommittee" />
+<c:set var="className" value="org.kuali.kra.committee.document.CommitteeDocument" />
 
 <kul:tab tabTitle="Committee" defaultOpen="true" tabErrorKey="document.committee*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.title" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Committee</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.committee.bo.Committee" altText="help"/></span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.committee.bo.Committee" altText="help"/></span>
         </h3>
 		
 		<table cellpadding="4" cellspacing="0" summary="">
@@ -41,11 +41,11 @@
 		        <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.committeeDescription}" /></div></th>
                 <td>
                     <kra:kraControlAttribute property="document.committeeList[0].committeeDescription" readOnly="${readOnly}" attributeEntry="${committeeAttributes.committeeDescription}" />
-                    <kra:expandedTextArea textAreaFieldName="document.committee.committeeDescription" action="${action}" textAreaLabel="${committeeAttributes.committeeDescription.label}" />
+                    <kra:expandedTextArea textAreaFieldName="document.committeeList[0].committeeDescription" action="${action}" textAreaLabel="${committeeAttributes.committeeDescription.label}" />
                 </td>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.scheduleDescription}" /></div></th>
                 <td align="left" valign="middle">
-                	<kra:kraControlAttribute property="document.committee.scheduleDescription" readOnly="${readOnly}" attributeEntry="${committeeAttributes.scheduleDescription}" />
+                	<kra:kraControlAttribute property="document.committeeList[0].scheduleDescription" readOnly="${readOnly}" attributeEntry="${committeeAttributes.scheduleDescription}" />
                     <kra:expandedTextArea textAreaFieldName="document.committeeList[0].scheduleDescription" action="${action}" textAreaLabel="${committeeAttributes.scheduleDescription.label}" />
                 </td>
             </tr>
@@ -58,7 +58,7 @@
                 
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.reviewTypeCode}" /></div></th>
                 <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.committee.reviewTypeCode" attributeEntry="${committeeAttributes.reviewTypeCode}" />
+                	<kul:htmlControlAttribute property="document.committeeList[0].reviewTypeCode" attributeEntry="${committeeAttributes.reviewTypeCode}" />
                 </td>
             </tr>
             

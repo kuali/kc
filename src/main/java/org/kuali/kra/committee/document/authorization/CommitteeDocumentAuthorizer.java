@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.committee.document.authorization;
+package org.kuali.kra.committee.document.authorization;
 
 import java.util.HashMap;
 import java.util.Map;
