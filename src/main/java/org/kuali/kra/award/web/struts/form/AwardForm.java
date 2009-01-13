@@ -23,6 +23,7 @@ import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.datadictionary.HeaderNavigation;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.award.bo.AwardApprovedSubaward;
 import org.kuali.kra.award.bo.AwardComment;
@@ -67,8 +68,26 @@ public class AwardForm extends KraTransactionalDocumentFormBase implements Multi
     private AwardFandaRate newAwardFandaRate;
     private List<AwardReportTerm> newAwardReportTerm;
     private List<AwardReportTerm> newAwardReportTermRecipient;
+    private List<KeyLabelPair> reportClasses;
+    private List<KeyLabelPair> reportCodes;
     
     
+    public List<KeyLabelPair> getReportClasses() {
+        return reportClasses;
+    }
+
+    public void setReportClasses(List<KeyLabelPair> reportClasses) {
+        this.reportClasses = reportClasses;
+    }
+
+    public List<KeyLabelPair> getReportCodes() {
+        return reportCodes;
+    }
+
+    public void setReportCodes(List<KeyLabelPair> reportCodes) {
+        this.reportCodes = reportCodes;
+    }
+
     /**
      * 
      * Constructs a AwardForm.

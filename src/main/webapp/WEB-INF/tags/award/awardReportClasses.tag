@@ -22,7 +22,7 @@
 
 <c:set var="tabErrorKeyString" value=""  />
 <c:set var="reportCodeForComparison" value=""  />
-<c:forEach var="reportCode" items="${KualiForm.document.reportCodes}" varStatus="reportCodeIndex">	                                            
+<c:forEach var="reportCode" items="${KualiForm.reportCodes}" varStatus="reportCodeIndex">	                                            
     <c:forEach var="awardReportTerm" items="${KualiForm.document.award.awardReportTerms}" varStatus="status">        		 
 	    <c:if test="${awardReportTerm.reportClassCode == reportClassKey }" >
 	        <c:if test="${reportCode.key == awardReportTerm.reportCode}" >
@@ -96,7 +96,7 @@
         <c:set var="distributionCodeForComparison" value=""  />
         <c:set var="dueDateForComparison" value=""  />
         <c:set var="counterReport" value="0" />        
-        <c:forEach var="reportCode" items="${KualiForm.document.reportCodes}" varStatus="reportCodeIndex">	                                            
+        <c:forEach var="reportCode" items="${KualiForm.reportCodes}" varStatus="reportCodeIndex">	                                            
             <c:forEach var="awardReportTerm" items="${KualiForm.document.award.awardReportTerms}" varStatus="status">        		 
 	            <c:if test="${awardReportTerm.reportClassCode == reportClassKey }" >
 	                <c:if test="${reportCode.key == awardReportTerm.reportCode}" >	                	 
