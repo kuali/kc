@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.committee.bo;
+package org.kuali.kra.committee.bo;
 
 import java.util.LinkedHashMap;
 
@@ -22,8 +22,8 @@ import javax.persistence.Id;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.irb.bo.ProtocolReviewType;
-import org.kuali.kra.irb.committee.document.CommitteeDocument;
 
 /**
  * Represents a single committee within an institution.

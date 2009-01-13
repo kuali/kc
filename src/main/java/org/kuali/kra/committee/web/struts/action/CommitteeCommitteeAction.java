@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.committee.web.struts.action;
+package org.kuali.kra.committee.web.struts.action;
 
 /**
  * The CommitteeCommitteeAction corresponds to the Committee tab (web page).  It is

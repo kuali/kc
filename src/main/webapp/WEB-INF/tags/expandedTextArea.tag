@@ -26,6 +26,7 @@
            <c:set var="altMsg" value="View Comment"/>
     </c:when>
     <c:otherwise>
+           <c:set var="viewOnly" value="false" />
            <c:set var="srcImage" value="${ConfigProperties.kr.externalizable.images.url}pencil_add.png"/>
            <c:set var="altMsg" value="Expand Text Area"/>
     </c:otherwise>
