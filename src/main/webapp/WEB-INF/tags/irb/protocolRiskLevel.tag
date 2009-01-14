@@ -5,7 +5,7 @@
 <c:set var="action" value="protocolProtocol" />
     	<h3>
     		<span class="subhead-left">Risk Levels</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.bo.RiskLevel" altText="help"/></span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.RiskLevel" altText="help"/></span>
         </h3>
         <table cellpadding=0 cellspacing=0 summary="">
         	<tr>
