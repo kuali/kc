@@ -30,6 +30,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.RiskLevel;
 import org.kuali.kra.irb.document.ProtocolDocument;
 
 @Entity 

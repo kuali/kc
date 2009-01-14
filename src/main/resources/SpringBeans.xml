@@ -1222,57 +1222,8 @@
 			<ref bean="businessObjectService" />
 		</property>
 	</bean>
-	
-	<!-- Protocol Services -->
-	
-	<bean id="protocolAuthorizationService" class="org.kuali.kra.irb.service.impl.ProtocolAuthorizationServiceImpl">
-		<property name="unitAuthorizationService">
-			<ref bean="unitAuthorizationService" />
-		</property>
-		<property name="personService">
-			<ref bean="personService" />
-		</property>
-		<property name="kimPersonService">
-			<ref bean="kimPersonService" />
-		</property>
-		<property name="kimQualifiedRoleService">
-			<ref bean="kimQualifiedRoleService" />
-		</property>
-	</bean>
 
-	<bean id="parentProtocolAuthorizer" class="org.kuali.kra.irb.document.authorizer.ProtocolAuthorizer" abstract="true">
-		<property name="protocolAuthorizationService">
-			<ref bean="protocolAuthorizationService" />
-		</property>
-	</bean>	
-
-	<bean id="protocolTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
-        <property name="groupName" value="protocol" />
-        <property name="taskAuthorizers">
-            <list>
-                <bean class="org.kuali.kra.irb.document.authorizer.AddProtocolBillableAuthorizer" parent="parentProtocolAuthorizer">
-                    <property name="taskName" value="modifyBillable" />
-                </bean>
-           </list>
-        </property>
-    </bean>
-
-	<bean id="protocolReferenceTypeService" class="org.kuali.kra.irb.service.impl.ProtocolReferenceServiceImpl">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-	</bean>	
-
-	<bean id="protocolResearchAreaService" class="org.kuali.kra.irb.service.impl.ProtocolResearchAreaServiceImpl">
-	</bean>	
-	
-	<bean id="protocolLocationService" class="org.kuali.kra.irb.service.impl.ProtocolLocationServiceImpl">
-	</bean>	
-    <bean id="protocolParticipantTypeService" class="org.kuali.kra.irb.service.impl.ProtocolParticipantServiceImpl">
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property>
-    </bean> 
+    <!--  the following are called by irb for now.  move to irb -->
 	<bean id="organizationService" class="org.kuali.kra.service.impl.OrganizationServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
@@ -1283,5 +1234,6 @@
 	</bean>
 	<bean id="specialReviewService" class="org.kuali.kra.service.impl.SpecialReviewServiceImpl">
 	</bean>
+	
 	
 </beans>
