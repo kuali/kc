@@ -22,10 +22,10 @@
 <c:set var="rolodexAttributes" value="${DataDictionary.Rolodex.attributes}" />
 <c:set var="action" value="protocolLocation" />
 
-<kul:tab tabTitle="Protocol Organization" defaultOpen="true" tabErrorKey="newProtocolLocation*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
+<kul:tab tabTitle="Organizations" defaultOpen="true" tabErrorKey="newProtocolLocation*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
-    		<span class="subhead-left"> Protocol Location</span>
+    		<span class="subhead-left">Organizations</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.bo.ProtocolLocation" altText="help"/></span>
         </h3>
         
