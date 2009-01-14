@@ -41,7 +41,7 @@ public class ProtocolRiskLevel extends KraPersistableBusinessObjectBase {
 	@Column(name="PROTOCOL_RISK_LEVELS_ID")
 	private Integer protocolRiskLevelId; 
 	@Column(name="PROTOCOL_ID")
-	private Integer protocolId; 
+	private Long protocolId; 
 	@Column(name="PROTOCOL_NUMBER")
 	private String protocolNumber; 
 	@Column(name="SEQUENCE_NUMBER")
@@ -78,11 +78,11 @@ public class ProtocolRiskLevel extends KraPersistableBusinessObjectBase {
 		this.protocolRiskLevelId = protocolRiskLevelId;
 	}
 
-	public Integer getProtocolId() {
+	public Long getProtocolId() {
 		return protocolId;
 	}
 
-	public void setProtocolId(Integer protocolId) {
+	public void setProtocolId(Long protocolId) {
 		this.protocolId = protocolId;
 	}
 
