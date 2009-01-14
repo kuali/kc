@@ -23,7 +23,7 @@
 
 	<bean id="RiskLevel" parent="RiskLevel-parentBean" />
 	<bean id="RiskLevel-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.irb.bo.RiskLevel" />
+		<property name="businessObjectClass" value="org.kuali.kra.bo.RiskLevel" />
 		<property name="inquiryDefinition" >
 			<ref bean="RiskLevel-inquiryDefinition" />
 		</property>
