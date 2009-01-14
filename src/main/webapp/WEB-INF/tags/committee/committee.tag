@@ -67,9 +67,9 @@
                 <td>
                     <kra:kraControlAttribute property="document.committeeList[0].maxProtocols" readOnly="${readOnly}" attributeEntry="${committeeAttributes.maxProtocols}" />
                 </td>
-                <th></th>
+                <th><div align="right"><nobr><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.updateTimestamp}" /></nobr></div></th>
                 <td align="left" valign="middle">
-                
+                    <kra:kraControlAttribute property="document.committeeList[0].updateTimestamp" readOnly="true" attributeEntry="${committeeAttributes.updateTimestamp}" />
                 </td>
             </tr>
             
@@ -78,9 +78,9 @@
                 <td>
                     <kra:kraControlAttribute property="document.committeeList[0].advancedSubmissionDaysRequired" readOnly="${readOnly}" attributeEntry="${committeeAttributes.advancedSubmissionDaysRequired}" />
                 </td>
-                <th></th>
+                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.updateUser}" /></div></th>
                 <td align="left" valign="middle">
-                
+                    <kra:kraControlAttribute property="document.committeeList[0].updateUser" readOnly="true" attributeEntry="${committeeAttributes.updateUser}" />
                 </td>
             </tr>
 		</table>
