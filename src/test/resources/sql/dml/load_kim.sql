@@ -37,6 +37,11 @@ insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(33,'MODI
 insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(34,'MODIFY_SCHEDULE','Modify schedule details for committees in a unit', 2);
 insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(35,'PERFORM_IRB_ACTIONS_ON_PROTO','Perform any IRB action on a protocol submitted to a committee', 2);
 insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(36,'VIEW_RESTRICTED_NOTES','View Restricted Notes in Protocols', 2);
+insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(37,'VIEW_AGENDA','View Agenda', 2);
+insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(38,'VIEW_COMMITTEE','View all committees in a unit', 2);
+insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(39,'VIEW_MEMBER_DETAILS','View membership details for a member in a committee', 2);
+insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(40,'VIEW_MINUTES','View Minutes', 2);
+insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(41,'VIEW_SCHEDULE','View schedule details of committees in a unit', 2);
 
 insert into KIM_ROLE_TYPE_T (ROLE_TYPE_CODE, DESCRIPTION) values ('P', 'Proposal');
 insert into KIM_ROLE_TYPE_T (ROLE_TYPE_CODE, DESCRIPTION) values ('O', 'OSP');
@@ -55,6 +60,7 @@ insert into KIM_ROLES_T (ID,NAME,DESCRIPTION, ROLE_TYPE_CODE, DESCEND_FLAG) valu
 insert into KIM_ROLES_T (ID,NAME,DESCRIPTION, ROLE_TYPE_CODE, DESCEND_FLAG) values(10,'Protocol Aggregator','Protocol Aggregator', 'R', 'N');
 insert into KIM_ROLES_T (ID,NAME,DESCRIPTION, ROLE_TYPE_CODE, DESCEND_FLAG) values(11,'Protocol Viewer','Protocol Viewer', 'R', 'N');
 insert into KIM_ROLES_T (ID,NAME,DESCRIPTION, ROLE_TYPE_CODE, DESCEND_FLAG) values(12,'IRB Administrator','IRB Administrator', 'D', 'Y');
+insert into KIM_ROLES_T (ID,NAME,DESCRIPTION, ROLE_TYPE_CODE, DESCEND_FLAG) values(13,'IRB Reviewer','IRB Reviewer', 'D', 'Y');
 
 insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(1,1);
 insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(2,2);
@@ -114,7 +120,17 @@ insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(12,33);
 insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(12,34);
 insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(12,35);
 insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(12,36);
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(12,37);
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(12,38);
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(12,39);
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(12,40);
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(12,41);
 
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(13,37);
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(13,38);
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(13,39);
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(13,40);
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(13,41);
 
 insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (1, 'quickstart', 'fK69ATFsAydwQuteang+xMva+Tc=');
 insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (2, 'ljoconno', 'fK69ATFsAydwQuteang+xMva+Tc=');
