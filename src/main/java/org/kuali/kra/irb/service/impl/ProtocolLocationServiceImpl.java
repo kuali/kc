@@ -30,7 +30,7 @@ public class ProtocolLocationServiceImpl implements ProtocolLocationService {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolLocationServiceImpl.class);
     
     /**
-     * @see org.kuali.kra.irb.service.ProtocolReferenceService#addProtocolReference(org.kuali.kra.irb.document.ProtocolDocument, org.kuali.kra.irb.bo.ProtocolReference)
+     * @see org.kuali.kra.irb.service.ProtocolLocationService#addProtocolLocation(org.kuali.kra.irb.bo.Protocol, org.kuali.kra.irb.bo.ProtocolLocation)
      */
     public void addProtocolLocation(Protocol protocol, ProtocolLocation protocolLocation) {
         
@@ -45,7 +45,7 @@ public class ProtocolLocationServiceImpl implements ProtocolLocationService {
     }
 
     /**
-     * @see org.kuali.kra.irb.service.ProtocolLocationService#addDefaultProtocolLocation(org.kuali.kra.irb.bo.Protocol, org.kuali.kra.irb.bo.ProtocolLocation)
+     * @see org.kuali.kra.irb.service.ProtocolLocationService#addDefaultProtocolLocation(org.kuali.kra.irb.bo.Protocol)
      */
     public void addDefaultProtocolLocation(Protocol protocol) {
         if(protocol.getProtocolLocations().size() == 0) {
@@ -64,7 +64,7 @@ public class ProtocolLocationServiceImpl implements ProtocolLocationService {
     }
     
     /**
-     * @see org.kuali.kra.irb.service.ProtocolReferenceService#deleteProtocolReference(org.kuali.kra.irb.document.ProtocolDocument, java.lang.Integer)
+     * @see org.kuali.kra.irb.service.ProtocolLocationService#deleteProtocolLocation(org.kuali.kra.irb.bo.Protocol, int)
      */
     public void deleteProtocolLocation(Protocol protocol, int lineNumber) {
 
