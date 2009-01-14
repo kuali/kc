@@ -35,11 +35,11 @@
 		kraTextAreaFieldName = request.getParameter(Constants.TEXT_AREA_FIELD_NAME);
 	}
 	String viewOnly = null;
-	if (request.getParameter("viewOnly") == null
-			|| request.getParameter("viewOnly").trim().equals("")) {
-		viewOnly = (String) request.getAttribute("viewOnly");
+	if (request.getParameter(Constants.VIEW_ONLY) == null
+			|| request.getParameter(Constants.VIEW_ONLY).trim().equals("")) {
+		viewOnly = (String) request.getAttribute(Constants.VIEW_ONLY);
 	} else {
-		viewOnly = request.getParameter("viewOnly");
+		viewOnly = request.getParameter(Constants.VIEW_ONLY);
 	}
 
 	String kraHtmlFormAction = null;
