@@ -301,5 +301,6 @@ public class KeyConstants {
     public static final String ERROR_PROTOCOL_TITLE_NOT_FOUND = "error.protocolRequiredFields.title.notFound";
     public static final String ERROR_PROTOCOL_TYPE_NOT_FOUND = "error.protocolRequiredFields.typeCode.notFound";
 
-    
+    //  Committee Messages
+    public static final String ERROR_COMMITTEE_DUPLICATE_ID = "error.committee.duplicateId";
 }
