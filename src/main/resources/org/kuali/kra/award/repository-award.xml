@@ -349,7 +349,7 @@
 		<!--<collection-descriptor name="templateReportTerms" proxy="true" element-class-ref="org.kuali.kra.bo.TemplateReportTerms" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="reportClassCode"/>
 		</collection-descriptor>
-		<collection-descriptor name="validClassReportFreq" proxy="true" element-class-ref="org.kuali.kra.bo.ValidClassReportFreq" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+		<collection-descriptor name="validClassReportFrequency" proxy="true" element-class-ref="org.kuali.kra.bo.ValidClassReportFrequency" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="reportClassCode"/>
 		</collection-descriptor>
 		<collection-descriptor name="awardReporting" proxy="true" element-class-ref="org.kuali.kra.bo.AwardReporting" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
@@ -395,7 +395,7 @@
 		<!--  <collection-descriptor name="templateReportTerms" proxy="true" element-class-ref="org.kuali.kra.bo.TemplateReportTerms" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="reportCode"/>
 		</collection-descriptor>
-		<collection-descriptor name="validClassReportFreq" proxy="true" element-class-ref="org.kuali.kra.bo.ValidClassReportFreq" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+		<collection-descriptor name="validClassReportFrequency" proxy="true" element-class-ref="org.kuali.kra.bo.ValidClassReportFrequency" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="reportCode"/>
 		</collection-descriptor>
 		<collection-descriptor name="awardReporting" proxy="true" element-class-ref="org.kuali.kra.bo.AwardReporting" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
@@ -424,7 +424,7 @@
 		<!--  <collection-descriptor name="templateReportTerms" proxy="true" element-class-ref="org.kuali.kra.bo.TemplateReportTerms" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="frequencyCode"/>
 		</collection-descriptor>
-		<collection-descriptor name="validClassReportFreq" proxy="true" element-class-ref="org.kuali.kra.bo.ValidClassReportFreq" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+		<collection-descriptor name="validClassReportFrequency" proxy="true" element-class-ref="org.kuali.kra.bo.ValidClassReportFrequency" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="frequencyCode"/>
 		</collection-descriptor>
 		<collection-descriptor name="validFrequencyBase" proxy="true" element-class-ref="org.kuali.kra.bo.ValidFrequencyBase" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
@@ -475,6 +475,26 @@
 		<collection-descriptor name="awardReportTerms" proxy="true" element-class-ref="org.kuali.kra.bo.AwardReportTerms" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="ospDistributionCode"/>
 		</collection-descriptor>-->
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.award.bo.ValidClassReportFrequency" table="VALID_CLASS_REPORT_FREQ">
+		<field-descriptor name="validClassReportFreqId" column="VALID_CLASS_REPORT_FREQ_ID" jdbc-type="INTEGER" primarykey="true" />
+		<field-descriptor name="reportClassCode" column="REPORT_CLASS_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="reportCode" column="REPORT_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="frequencyCode" column="FREQUENCY_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="frequency" class-ref="org.kuali.kra.award.bo.Frequency" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="frequencyCode"/>
+		</reference-descriptor>
+		<reference-descriptor name="report" class-ref="org.kuali.kra.award.bo.Report" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="reportCode"/>
+		</reference-descriptor>
+		<reference-descriptor name="reportClass" class-ref="org.kuali.kra.award.bo.ReportClass" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="reportClassCode"/>
+		</reference-descriptor>
 	</class-descriptor>	
 	
 </descriptor-repository>

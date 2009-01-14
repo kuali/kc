@@ -20,6 +20,9 @@
 
 <c:set var="awardReportTermAttributes" value="${DataDictionary.AwardReportTerm.attributes}" />
 
+<jsp:useBean id="paramMap" class="java.util.HashMap"/>
+<c:set target="${paramMap}" property="reportClassCode" value="${reportClassKey}" />
+
 <c:set var="tabErrorKeyString" value=""  />
 <c:set var="reportCodeForComparison" value=""  />
 <c:forEach var="reportCode" items="${KualiForm.reportCodes}" varStatus="reportCodeIndex">	                                            
@@ -59,12 +62,36 @@
 			</th>
             <td width="5%" valign="middle" class="infoline">
             <div align="center">
-                <kul:htmlControlAttribute property="newAwardReportTerm[${index}].reportCode" attributeEntry="${awardReportTermAttributes.reportCode}" />
+                <html:select property="newAwardReportTerm[${index}].reportCode" tabindex="0" >                
+                <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.ReportCodeValuesFinder', paramMap)}" var="option">                	
+	                <c:choose>                    	
+	                	<c:when test="${KualiForm.newAwardReportTerm[index].reportCode == option.key}">
+	                        <option value="${option.key}" selected>${option.label}</option>
+	                    </c:when>
+	                    <c:otherwise>
+	                        <c:out value="${option.label}"/>
+	                        <option value="${option.key}">${option.label}</option>
+	                    </c:otherwise>
+	                </c:choose>                    
+	            </c:forEach>
+	            </html:select>
             </div>
 			</td>
             <td width="5%" valign="middle" class="infoline">
-            <div align="center">
-                <kul:htmlControlAttribute property="newAwardReportTerm[${index}].frequencyCode" attributeEntry="${awardReportTermAttributes.frequencyCode}" />
+            <div align="center">                
+                <html:select property="newAwardReportTerm[${index}].frequencyCode" tabindex="0" >                
+                <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder', paramMap)}" var="option">                	
+	                <c:choose>                    	
+	                	<c:when test="${KualiForm.newAwardReportTerm[index].frequencyCode == option.key}">
+	                        <option value="${option.key}" selected>${option.label}</option>
+	                    </c:when>
+	                    <c:otherwise>
+	                        <c:out value="${option.label}"/>
+	                        <option value="${option.key}">${option.label}</option>
+	                    </c:otherwise>
+	                </c:choose>                    
+	            </c:forEach>
+	            </html:select>
             </div>
 			</td>
             <td width="5%" valign="middle" class="infoline">
@@ -116,13 +143,37 @@
 			    <c:out value="${counterReport}" />
 			</th>			                
 	        <td width="5%" valign="middle">        
-			<div align="center">
-                <kul:htmlControlAttribute property="document.awardList[0].awardReportTerms[${status.index}].reportCode" attributeEntry="${awardReportTermAttributes.reportCode}" />
+			<div align="center">                
+                <html:select property="document.awardList[0].awardReportTerms[${status.index}].reportCode" tabindex="0" >                
+                <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.ReportCodeValuesFinder', paramMap)}" var="option">                	
+	                <c:choose>                    	
+	                	<c:when test="${KualiForm.document.awardList[0].awardReportTerms[status.index].reportCode == option.key}">
+	                        <option value="${option.key}" selected>${option.label}</option>
+	                    </c:when>
+	                    <c:otherwise>
+	                        <c:out value="${option.label}"/>
+	                        <option value="${option.key}">${option.label}</option>
+	                    </c:otherwise>
+	                </c:choose>                    
+	            </c:forEach>
+	            </html:select>
 			</div>
 			</td>
 	        <td width="5%" valign="middle">
 			<div align="center">
-                <kul:htmlControlAttribute property="document.awardList[0].awardReportTerms[${status.index}].frequencyCode" attributeEntry="${awardReportTermAttributes.frequencyCode}" />
+                <html:select property="document.awardList[0].awardReportTerms[${status.index}].frequencyCode" tabindex="0" >                
+                <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder', paramMap)}" var="option">                	
+	                <c:choose>                    	
+	                	<c:when test="${KualiForm.document.awardList[0].awardReportTerms[status.index].frequencyCode == option.key}">
+	                        <option value="${option.key}" selected>${option.label}</option>
+	                    </c:when>
+	                    <c:otherwise>
+	                        <c:out value="${option.label}"/>
+	                        <option value="${option.key}">${option.label}</option>
+	                    </c:otherwise>
+	                </c:choose>                    
+	            </c:forEach>
+	            </html:select>
 			</div>
 			</td>
 	        <td width="5%" valign="middle">

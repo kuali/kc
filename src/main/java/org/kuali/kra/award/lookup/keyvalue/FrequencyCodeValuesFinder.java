@@ -31,10 +31,10 @@ import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 
 /**
  * 
- * This class is a values finder for <code>Report</code> business object.
+ * This class is a values finder for <code>Frequency</code> business object.
  */
 @SuppressWarnings("unchecked")
-public class ReportCodeValuesFinder extends KeyValuesBase {
+public class FrequencyCodeValuesFinder extends KeyValuesBase {
     
     KeyValueFinderService keyValueFinderService= 
         (KeyValueFinderService) KraServiceLocator.getService("keyValueFinderService");
@@ -59,20 +59,20 @@ public class ReportCodeValuesFinder extends KeyValuesBase {
         
         Collection validClassReportFrequencies = keyValuesService.findAll(ValidClassReportFrequency.class);
         
-        HashMap uniqueReportCodes = new HashMap();
+        HashMap uniqueFrequencyCodes = new HashMap();
         ValidClassReportFrequency validClassReportFrequency = new ValidClassReportFrequency();
         int key=0;
         
         for (Iterator iter1 = validClassReportFrequencies.iterator(); iter1.hasNext();) {
             validClassReportFrequency = (ValidClassReportFrequency) iter1.next();
-            validClassReportFrequency.refreshReferenceObject("report");            
-            if((!uniqueReportCodes.containsValue(validClassReportFrequency.getReportCode()))
+            validClassReportFrequency.refreshReferenceObject("frequency");            
+            if((!uniqueFrequencyCodes.containsValue(validClassReportFrequency.getFrequencyCode()))
                     && StringUtils.equalsIgnoreCase(
                             validClassReportFrequency.getReportClassCode().toString(),getReportClassCode())){
                 
-                keyValues.add(new KeyLabelPair(validClassReportFrequency.getReportCode().toString()
-                        , validClassReportFrequency.getReport().getDescription()));
-                uniqueReportCodes.put(key, validClassReportFrequency.getReportCode());                
+                keyValues.add(new KeyLabelPair(validClassReportFrequency.getFrequencyCode().toString()
+                        , validClassReportFrequency.getFrequency().getDescription()));
+                uniqueFrequencyCodes.put(key, validClassReportFrequency.getFrequencyCode());                
             }
             key++;     
         }
