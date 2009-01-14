@@ -314,4 +314,6 @@ public interface Constants {
 
     public static final String VIEW_ONLY = "viewOnly";
 
+    // Committee
+    public static final String COMMITTEE_PROPERTY_KEY = "committee";
 }

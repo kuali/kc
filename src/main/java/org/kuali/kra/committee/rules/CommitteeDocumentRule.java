@@ -15,8 +15,15 @@
  */
 package org.kuali.kra.committee.rules;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.document.CommitteeDocument;
+import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 /**
@@ -66,11 +73,48 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase {
         getDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(document, getMaxDictionaryValidationDepth(), VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
         valid &= GlobalVariables.getErrorMap().isEmpty();
         
+        valid &= validateUniqueCommitteeId((CommitteeDocument) document);
+        
         GlobalVariables.getErrorMap().removeFromErrorPath("document");
         
         return valid;
     }
-
+    
+    /**
+     * Verify that we are not saving a committee with a duplicate Committee ID.
+     * In other words, each committee must have a unique Committee ID.
+     * @param document Committee Document
+     * @return true if valid; otherwise false
+     */
+    private boolean validateUniqueCommitteeId(CommitteeDocument document) {
+        
+        boolean valid = true;
+        
+        CommitteeService committeeService = KraServiceLocator.getService(CommitteeService.class);
+        Committee committee = committeeService.getCommitteeById(document.getCommittee().getCommitteeId());
+        
+        // The committee is null if we are creating a committee with a new committee ID or
+        // we are changing the committee ID.
+        
+        if (committee != null) {
+            
+            // There is no conflict if we are only modifying the same committee.
+            
+            if (!committee.getId().equals(document.getCommittee().getId())) {
+                
+                // We can have a conflict if we find a different committee in the database
+                // and it has the same ID as the committee we are trying to save.
+                
+                if (StringUtils.equals(committee.getCommitteeId(), document.getCommittee().getCommitteeId())) {
+                    valid = false;
+                    reportError(Constants.COMMITTEE_PROPERTY_KEY + "List[0].committeeId", 
+                                KeyConstants.ERROR_COMMITTEE_DUPLICATE_ID);
+                }
+            }
+        }
+        return valid;
+    }
+    
     /**
      * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.core.document.Document)
      */
