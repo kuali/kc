@@ -20,9 +20,7 @@ import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.document.authorization.ProtocolTask;
 
-/**
- * This class...
- */
+
 public class AddProtocolBillableAuthorizer extends ProtocolAuthorizer {
 
     /**
