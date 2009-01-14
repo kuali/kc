@@ -24,33 +24,33 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.core.web.ui.KeyLabelPair;
 
-public class ReportCodeValuesFinderTest {
+public class FrequencyCodeValuesFinderTest {
     
-    ReportCodeValuesFinder reportCodeValuesFinder;
-    List<KeyLabelPair> reportCodes;
+    FrequencyCodeValuesFinder frequencyCodeValuesFinder;
+    List<KeyLabelPair> frequencyCodes;
 
     @Before
     public void setUp() throws Exception {
-        reportCodeValuesFinder = new ReportCodeValuesFinder();
-        reportCodeValuesFinder.setReportClassCode("1");
-        reportCodes = new ArrayList<KeyLabelPair>();
-        reportCodes = reportCodeValuesFinder.getKeyValues();
+        frequencyCodeValuesFinder = new FrequencyCodeValuesFinder();
+        frequencyCodeValuesFinder.setReportClassCode("1");
+        frequencyCodes = new ArrayList<KeyLabelPair>();
+        frequencyCodes = frequencyCodeValuesFinder.getKeyValues();
     }
 
     @After
     public void tearDown() throws Exception {
-        reportCodeValuesFinder = null;
-        reportCodes = null;
+        frequencyCodeValuesFinder = null;
+        frequencyCodes = null;
     }
 
     @Test
     public final void testGetKeyValues() {
-        Assert.assertEquals(10,reportCodes.size());
+        Assert.assertEquals(30,frequencyCodes.size());
     }
     
     @Test
     public final void testGetKeyValuesAreNotNull() {
-        for(KeyLabelPair keyLabelPair:reportCodes){
+        for(KeyLabelPair keyLabelPair:frequencyCodes){
             Assert.assertNotNull(keyLabelPair.getKey());
             Assert.assertNotNull(keyLabelPair.getLabel());
         }
