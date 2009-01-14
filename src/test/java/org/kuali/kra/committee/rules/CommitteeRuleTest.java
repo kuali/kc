@@ -25,8 +25,10 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.KraTestBase;
+import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.rules.CommitteeDocumentRule;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -82,7 +84,7 @@ public class CommitteeRuleTest extends KraTestBase {
          * There should be nine required fields.
          */
         ErrorMap errorMap = GlobalVariables.getErrorMap();
-        assertEquals(9, errorMap.getErrorCount());
+        assertEquals(10, errorMap.getErrorCount());
         
         /*
          * Verify that the error keys for each of the required fields 
@@ -97,6 +99,50 @@ public class CommitteeRuleTest extends KraTestBase {
         assertTrue(errorMap.containsKey("document.committeeList[0].advancedSubmissionDaysRequired"));
         assertTrue(errorMap.containsKey("document.committeeList[0].reviewTypeCode"));
         assertTrue(errorMap.containsKey("document.committeeList[0].committeeId"));
+        assertTrue(errorMap.containsKey("document.committeeList[0].committeeDescription"));
+    }
+    
+    /**
+     * The committee IDs are required to be unique. 
+     * @throws Exception
+     */
+    @Test
+    public void testDuplicateIds() throws Exception {
+        
+        CommitteeDocument document = getNewCommitteeDocument();
+        setCommitteeProperties(document);
+        documentService.saveDocument(document);
+       
+        document = getNewCommitteeDocument();
+        setCommitteeProperties(document);
+        
+        /*
+         * Verify that we can't save a committee with a duplicate Committee ID.
+         */
+        boolean rulesPassed = rule.processSaveDocument(document);
+        assertFalse(rulesPassed);
+        
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        assertTrue(errorMap.containsMessageKey(KeyConstants.ERROR_COMMITTEE_DUPLICATE_ID));
+    }
+    
+    /**
+     * Set the required fields for a committee.
+     * @param document
+     */
+    private void setCommitteeProperties(CommitteeDocument document) {
+        Committee committee = document.getCommittee();
+        document.getDocumentHeader().setDocumentDescription("test");
+        committee.setCommitteeId("999");
+        committee.setCommitteeName("test");
+        committee.setCommitteeTypeCode("1");
+        committee.setHomeUnitNumber("000001");
+        committee.setCommitteeDescription("description");
+        committee.setMaxProtocols(5);
+        committee.setMinimumMembersRequired(4);
+        committee.setAdvancedSubmissionDaysRequired(3);
+        committee.setReviewTypeCode("1");
+        committee.setScheduleDescription("schedule description");
     }
     
     /**
