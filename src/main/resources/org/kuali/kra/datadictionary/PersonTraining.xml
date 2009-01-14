@@ -1,0 +1,300 @@
+<!--
+ Copyright 2006-2008 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="PersonTraining" parent="PersonTraining-parentBean" />
+	<bean id="PersonTraining-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.bo.PersonTraining" />
+		<property name="inquiryDefinition" >
+			<ref bean="PersonTraining-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition" >
+			<ref bean="PersonTraining-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="personTrainingId" />
+		<property name="attributes" >
+			<list>
+				<ref bean="PersonTraining-personTrainingId" />
+				<ref bean="PersonTraining-personId" />
+				<ref bean="PersonTraining-trainingNumber" />
+				<ref bean="PersonTraining-trainingCode" />
+				<ref bean="PersonTraining-dateRequested" />
+				<ref bean="PersonTraining-dateSubmitted" />
+				<ref bean="PersonTraining-dateAcknowledged" />
+				<ref bean="PersonTraining-followupDate" />
+				<ref bean="PersonTraining-score" />
+				<ref bean="PersonTraining-comments" />
+				<ref bean="PersonTraining-versionNumber" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+	
+	<bean id="PersonTraining-personTrainingId" parent="PersonTraining-personTrainingId-parentBean" />
+	<bean id="PersonTraining-personTrainingId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="personTrainingId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Person Training Id" />
+		<property name="shortLabel" value="Person Training Id" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Person Training Id" />
+		<property name="description" value="Person Training Id" />
+	</bean>
+
+	<bean id="PersonTraining-personId" parent="PersonTraining-personId-parentBean" />
+	<bean id="PersonTraining-personId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="personId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Person Id" />
+		<property name="shortLabel" value="Person Id" />
+		<property name="maxLength" value="9" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Person Id" />
+		<property name="description" value="Person Id" />
+	</bean>
+
+	<bean id="PersonTraining-trainingNumber" parent="PersonTraining-trainingNumber-parentBean" />
+	<bean id="PersonTraining-trainingNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="trainingNumber" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Training Number" />
+		<property name="shortLabel" value="Training Number" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Training Number" />
+		<property name="description" value="Training Number" />
+	</bean>
+
+	<bean id="PersonTraining-trainingCode" parent="PersonTraining-trainingCode-parentBean" />
+	<bean id="PersonTraining-trainingCode-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="trainingCode" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Training Code" />
+		<property name="shortLabel" value="Training Code" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Training Code" />
+		<property name="description" value="Training Code" />
+	</bean>
+
+	<bean id="PersonTraining-dateRequested" parent="PersonTraining-dateRequested-parentBean" />
+	<bean id="PersonTraining-dateRequested-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+		<property name="name" value="dateRequested" />
+		<property name="label" value="Date Requested" />
+		<property name="shortLabel" value="Date Requested" />
+		<property name="summary" value="Date Requested" />
+		<property name="description" value="Date Requested" />
+	</bean>
+
+	<bean id="PersonTraining-dateSubmitted" parent="PersonTraining-dateSubmitted-parentBean" />
+	<bean id="PersonTraining-dateSubmitted-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+		<property name="name" value="dateSubmitted" />
+		<property name="label" value="Date Submitted" />
+		<property name="shortLabel" value="Date Submitted" />
+		<property name="summary" value="Date Submitted" />
+		<property name="description" value="Date Submitted" />
+	</bean>
+
+	<bean id="PersonTraining-dateAcknowledged" parent="PersonTraining-dateAcknowledged-parentBean" />
+	<bean id="PersonTraining-dateAcknowledged-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+		<property name="name" value="dateAcknowledged" />
+		<property name="label" value="Date Acknowledged" />
+		<property name="shortLabel" value="Date Acknowledged" />
+		<property name="summary" value="Date Acknowledged" />
+		<property name="description" value="Date Acknowledged" />
+	</bean>
+
+	<bean id="PersonTraining-followupDate" parent="PersonTraining-followupDate-parentBean" />
+	<bean id="PersonTraining-followupDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+		<property name="name" value="followupDate" />
+		<property name="label" value="Followup Date" />
+		<property name="shortLabel" value="Followup Date" />
+		<property name="summary" value="Followup Date" />
+		<property name="description" value="Followup Date" />
+	</bean>
+
+	<bean id="PersonTraining-score" parent="PersonTraining-score-parentBean" />
+	<bean id="PersonTraining-score-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="score" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Score" />
+		<property name="shortLabel" value="Score" />
+		<property name="maxLength" value="9" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Score" />
+		<property name="description" value="Score" />
+	</bean>
+
+	<bean id="PersonTraining-comments" parent="PersonTraining-comments-parentBean" />
+	<bean id="PersonTraining-comments-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="comments" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Comments" />
+		<property name="shortLabel" value="Comments" />
+		<property name="maxLength" value="4000" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextareaControlDefinition"
+				p:rows="3"
+				p:cols="20" />
+		</property>
+		<property name="summary" value="Comments" />
+		<property name="description" value="Comments" />
+	</bean>
+
+	<bean id="PersonTraining-versionNumber" parent="PersonTraining-versionNumber-parentBean" />
+	<bean id="PersonTraining-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
+	<bean id="PersonTraining-inquiryDefinition" parent="PersonTraining-inquiryDefinition-parentBean" />
+	<bean id="PersonTraining-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Person Training Id" />
+		<property name="inquirySections" >
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Person Training Id" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields" >
+						<list>
+							<bean parent="FieldDefinition"
+								p:attributeName="personTrainingId" 
+								p:forceInquiry="true" />
+							<bean parent="FieldDefinition"
+								p:attributeName="personId" />
+							<bean parent="FieldDefinition"
+								p:attributeName="trainingNumber" />
+							<bean parent="FieldDefinition"
+								p:attributeName="trainingCode" />
+							<bean parent="FieldDefinition"
+								p:attributeName="dateRequested" />
+							<bean parent="FieldDefinition"
+								p:attributeName="dateSubmitted" />
+							<bean parent="FieldDefinition"
+								p:attributeName="dateAcknowledged" />
+							<bean parent="FieldDefinition"
+								p:attributeName="followupDate" />
+							<bean parent="FieldDefinition"
+								p:attributeName="score" />
+							<bean parent="FieldDefinition"
+								p:attributeName="comments" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+	<bean id="PersonTraining-lookupDefinition" parent="PersonTraining-lookupDefinition-parentBean" />
+	<bean id="PersonTraining-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Person Training Lookup" />
+		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+		<property name="instructions" value="Look up a Person Training" />
+		<property name="defaultSort" >
+			<bean parent="SortDefinition" >
+		</bean>
+		</property>
+		<property name="lookupFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					p:attributeName="personTrainingId" 
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition"
+					p:attributeName="personId" />
+				<bean parent="FieldDefinition"
+					p:attributeName="trainingNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="trainingCode" />
+				<bean parent="FieldDefinition"
+					p:attributeName="dateRequested" />
+				<bean parent="FieldDefinition"
+					p:attributeName="dateSubmitted" />
+				<bean parent="FieldDefinition"
+					p:attributeName="dateAcknowledged" />
+				<bean parent="FieldDefinition"
+					p:attributeName="followupDate" />
+				<bean parent="FieldDefinition"
+					p:attributeName="score" />
+				<bean parent="FieldDefinition"
+					p:attributeName="comments" />
+			</list>
+		</property>
+		<property name="resultFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					p:attributeName="personTrainingId" 
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition"
+					p:attributeName="personId" />
+				<bean parent="FieldDefinition"
+					p:attributeName="trainingNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="trainingCode" />
+				<bean parent="FieldDefinition"
+					p:attributeName="dateRequested" />
+				<bean parent="FieldDefinition"
+					p:attributeName="dateSubmitted" />
+				<bean parent="FieldDefinition"
+					p:attributeName="dateAcknowledged" />
+				<bean parent="FieldDefinition"
+					p:attributeName="followupDate" />
+				<bean parent="FieldDefinition"
+					p:attributeName="score" />
+				<bean parent="FieldDefinition"
+					p:attributeName="comments" />
+			</list>
+		</property>
+	</bean>
+</beans>
