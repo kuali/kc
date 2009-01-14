@@ -77,9 +77,28 @@
 	onsubmit="return hasFormAlreadyBeenSubmitted();">
 	<table align="center">
 		<tr>
-			<td><kul:htmlControlAttribute property="${kraTextAreaFieldName}"
-				attributeEntry="${kraAttributeReferenceDummyAttributes.bigDescription}" disabled="${viewOnly}"/>
-
+			<td>
+			  <c:choose>
+			    <c:when test="${viewOnly == 'true'}" >
+		            <c:set var="attributeEntry" value="${kraAttributeReferenceDummyAttributes.bigDescription}"/>
+		            <html:textarea property="${kraTextAreaFieldName}"  tabindex="0" 
+		                           rows="${attributeEntry.control.rows}" cols="${attributeEntry.control.cols}" 
+		                           styleId="${kraTextAreaFieldName}" 
+		                           onkeyup="textLimit(${attributeEntry.maxLength});" readonly="true"/> 
+		            <script type="text/javascript"> 
+		              function textLimit(maxlen) { 
+		              var field=window.document.forms[0].elements['${property}']; 
+		                if (field.value.length > maxlen) { 
+		                  field.value = field.value.substr(0, maxlen); 
+		                } 
+		              }; 
+		            </script> 
+			    </c:when>
+			    <c:otherwise>
+					<kul:htmlControlAttribute property="${kraTextAreaFieldName}"
+				 		attributeEntry="${kraAttributeReferenceDummyAttributes.bigDescription}" disabled="${viewOnly}"/>
+                </c:otherwise>
+			  </c:choose>
 			</td>
 		</tr>
 
