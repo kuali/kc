@@ -144,7 +144,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         request.setAttribute(org.kuali.kra.infrastructure.Constants.TEXT_AREA_FIELD_NAME, keyValue[0]);
         request.setAttribute(org.kuali.kra.infrastructure.Constants.HTML_FORM_ACTION, keyValue[1]);
         request.setAttribute(org.kuali.kra.infrastructure.Constants.TEXT_AREA_FIELD_LABEL, keyValue[2]);
-        request.setAttribute("viewOnly", keyValue[3]);
+        request.setAttribute(org.kuali.kra.infrastructure.Constants.VIEW_ONLY, keyValue[3]);
         if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
             request.setAttribute(org.kuali.kra.infrastructure.Constants.TEXT_AREA_FIELD_ANCHOR, ((KualiForm) form).getAnchor());
         }
