@@ -41,6 +41,8 @@
 				<ref bean="CommitteeAttribute-MinimumMembersRequired" />
 				<ref bean="CommitteeAttribute-MaxProtocols" />
 				<ref bean="CommitteeAttribute-AdvancedSubmissionDaysRequired" />
+				<ref bean="CommitteeAttribute-UpdateUser" />
+				<ref bean="CommitteeAttribute-UpdateTimestamp" />
 				<ref bean="CommitteeAttribute-VersionNumber" />
 			</list>
 		</property>
@@ -230,6 +232,18 @@
 	    </property>
 	    <property name="summary" value="Adv Submission Days" />
 	    <property name="description" value="Adv Submission Days" />
+    </bean>
+    
+    <bean id="CommitteeAttribute-UpdateUser" parent="CommitteeAttribute-UpdateUser-parentBean" />
+    <bean id="CommitteeAttribute-UpdateUser-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateUser">
+        <property name="label" value="Updated User" />
+        <property name="description" value="The user who created or last modified the Committee." />
+    </bean>
+    
+    <bean id="CommitteeAttribute-UpdateTimestamp" parent="CommitteeAttribute-UpdateTimestamp-parentBean" />
+    <bean id="CommitteeAttribute-UpdateTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateTimestamp">
+        <property name="label" value="Committee Info Last Updated" />
+        <property name="description" value="The timestamp when the Committee was created or last modified." />
     </bean>
 
 	<bean id="CommitteeAttribute-VersionNumber" parent="CommitteeAttribute-VersionNumber-parentBean" />
