@@ -37,7 +37,6 @@ import org.kuali.kra.service.UnitAuthorizationService;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class ProtocolAuthorizationServiceImpl implements ProtocolAuthorizationService {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolAuthorizationServiceImpl.class);
     
     private static final String PROTOCOL_KEY = "kra.protocol";
     
@@ -133,7 +132,6 @@ public class ProtocolAuthorizationServiceImpl implements ProtocolAuthorizationSe
      * @see org.kuali.kra.protocoldevelopment.service.ProtocolAuthorizationService#hasRole(java.lang.String, org.kuali.kra.protocoldevelopment.document.ProtocolDocument, java.lang.String)
      */
     public boolean hasRole(String username, Protocol protocol, String roleName) {
-        boolean userHasPermission = false;
         if (isValidPerson(username)) {
             Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
             qualifiedRoleAttributes.put(PROTOCOL_KEY, protocol.getProtocolNumber());
