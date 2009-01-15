@@ -334,20 +334,6 @@ public class Protocol extends KraPersistableBusinessObjectBase{
     public void setProtocolRiskLevels(List<ProtocolRiskLevel> protocolRiskLevels) {
         this.protocolRiskLevels = protocolRiskLevels;
     }
-
-    /**
-     * Gets index i from the propSpecialReviews list.
-     * 
-     * @param index
-     * @return Question at index i
-     */
-    public ProtocolRiskLevel getProtocolRiskLevel(int index) {
-        while (getProtocolRiskLevels().size() <= index) {
-            getProtocolRiskLevels().add(new ProtocolRiskLevel());
-        }
-        return (ProtocolRiskLevel) getProtocolRiskLevels().get(index);
-    }
-
     
     public List<ProtocolParticipant> getProtocolParticipants() {
         return protocolParticipants;
