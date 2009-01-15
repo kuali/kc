@@ -238,7 +238,7 @@
 		<property name="control" >
       		<bean parent="TextareaControlDefinition"
             	p:rows="3"
-            	p:cols="168"/> <!-- p:cols="38"/> -->
+            	p:cols="100"/> <!-- p:cols="38"/> -->
 		</property>
 		<property name="summary" value="Description" />
 		<property name="description" value="Description" />
