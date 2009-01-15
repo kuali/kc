@@ -25,7 +25,29 @@
     <c:if test="${gps.first}">
       <c:set var="transparent" value="true" />
     </c:if> 
-<kul:tab tabTitle="${rateClass}" defaultOpen="false" auditCluster="budgetRateAuditWarnings"  tabAuditKey="document.budgetProposalRate[${rateClass}]*" tabErrorKey="document.budgetProposalRate[${rateClass}]*" transparentBackground="${transparent}"  useRiceAuditMode="true">
+    
+<%-- 
+	The tabKey var created below creates the tabAuditKey and tabErrorKey for the kul:tab tag 
+	since the contents between the tabs are only differentiated by consecutive numbering.
+--%>
+<c:set var="tabKey" value="document.budgetProposalRate[${rateClass}]*" />
+<c:forEach items="${KualiForm.document.budgetProposalRates}" var="proposalRates" varStatus="status">
+	<bean:define id="irateClassType" name="KualiForm" property="document.budgetProposalRates[${status.index}].rateClass.rateClassType"/>
+	<bean:define id="displayRow" name="KualiForm" property="document.budgetProposalRates[${status.index}].displayLocation"/>
+	<c:if test="${irateClassType == rateClassType && displayRow == 'Yes'}">
+		<c:set var="tabKey" value="${tabKey},document.budgetProposalRates[${status.index}]*" />
+	</c:if>
+</c:forEach>
+<c:forEach items="${KualiForm.document.budgetProposalRates}" var="proposalLaRates" varStatus="laStatus">
+	<bean:define id="irateClassType" name="KualiForm" property="document.budgetProposalLaRates[${laStatus.index}].rateClass.rateClassType"/>
+	<bean:define id="displayRow" name="KualiForm" property="document.budgetProposalLaRates[${laStatus.index}].displayLocation"/>
+	<c:if test="${irateClassType == rateClassType && displayRow == 'Yes'}">
+		<c:set var="tabKey" value="${tabKey},document.budgetProposalLaRates[${laStatus.index}]*" />
+	</c:if>
+</c:forEach>   
+    
+    
+<kul:tab tabTitle="${rateClass}" defaultOpen="false" auditCluster="budgetRateAuditWarnings"  tabAuditKey="${tabKey}" tabErrorKey="${tabKey}" transparentBackground="${transparent}"  useRiceAuditMode="true">
     <c:set var="transparent" value="false" />
 	<div class="tab-container" align="center">
     	<div class="h2-container">
