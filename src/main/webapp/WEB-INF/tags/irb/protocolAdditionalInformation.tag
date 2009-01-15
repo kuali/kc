@@ -5,6 +5,7 @@
 <c:set var="protocolReferenceAttributes" value="${DataDictionary.ProtocolReference.attributes}" />
 <c:set var="protocolReferenceTypeAttributes" value="${DataDictionary.ProtocolReferenceType.attributes}" />  
 <c:set var="textAreaFieldName" value="document.protocol.description" />
+<c:set var="textAreaFieldName1" value="newProtocolReference.comments" />
 <c:set var="action" value="protocolProtocol" />
 <c:set var="className" value="org.kuali.kra.irb.document.ProtocolDocument" />
 
@@ -57,9 +58,8 @@
                     <table style="border:none; width:100%;" cellpadding="0" cellspacing="0">
                         <tr>
                             <td style="border:none;">
-                                <kul:htmlControlAttribute property="document.protocol.description" attributeEntry="${protocolAttributes.description}" />
-                            </td>
-                            <td style="border:none; width:20px; vertical-align:bottom;">
+
+								<kul:htmlControlAttribute property="document.protocol.description" attributeEntry="${protocolAttributes.description}" />
                                 <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${protocolAttributes.description.label}" />
                             </td>
                         </tr>
@@ -69,72 +69,75 @@
               </tr>
             </table>
        
+       <br>
        <%-- Other Identifiers--%>
     	<h3>
     		<span class="subhead-left">Other Identifiers</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.bo.ProtocolReferenceType" altText="help"/></span>
         </h3>
         
-        <table cellpadding=0 cellspacing=0 class="datatable" summary="View/edit protocol other identifiers">
+        <table cellpadding=0 cellspacing=0 summary="View/edit protocol other identifiers">
         
         	<%-- Header --%>
         	<tr>
-        		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" />
-        		<kul:htmlAttributeHeaderCell attributeEntry="${protocolReferenceAttributes.protocolReferenceTypeCode}" scope="col" />
-				<kul:htmlAttributeHeaderCell attributeEntry="${protocolReferenceAttributes.referenceKey}" scope="col" />
-				<kul:htmlAttributeHeaderCell attributeEntry="${protocolReferenceAttributes.applicationDate}" scope="col" />
-				<kul:htmlAttributeHeaderCell attributeEntry="${protocolReferenceAttributes.approvalDate}" scope="col" />
-				<%--<c:if test="${not readOnly}">--%>
-					<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
-				<%--</c:if>--%>
+        		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" />
+        		<kul:htmlAttributeHeaderCell attributeEntry="${protocolReferenceAttributes.protocolReferenceTypeCode}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${protocolReferenceAttributes.referenceKey}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${protocolReferenceAttributes.applicationDate}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${protocolReferenceAttributes.approvalDate}" />
+				<kul:htmlAttributeHeaderCell literalLabel="Actions" />
 			</tr>
 			<%-- Header --%>
 			
             <%-- New data --%>
-        	<kra:section permission="modifyProtocol">
-	            <tr>
-				<th class="infoline">
-					<c:out value="Add:" />
-				</th>
-	
-	            <td align="left" valign="middle" class="infoline">
-	               	<div align="center">
-	               		<kul:htmlControlAttribute property="newProtocolReference.protocolReferenceTypeCode" attributeEntry="${protocolReferenceAttributes.protocolReferenceTypeCode}" />
-	            	</div>
-				</td>
-				
-	            <td align="left" valign="middle" class="infoline">
-	               	<div align="center">
-	               		<kul:htmlControlAttribute property="newProtocolReference.referenceKey" attributeEntry="${protocolReferenceAttributes.referenceKey}" />
-	            	</div>
-				</td>
-								
-	            <td align="left" valign="middle" class="infoline">
-	               	<div align="center">
-	               		<kul:htmlControlAttribute property="newProtocolReference.applicationDate" attributeEntry="${protocolReferenceAttributes.applicationDate}" datePicker="true" />
-	            	</div>
-				</td>
+         	<kra:section permission="modifyProtocol">
+                <tr>
+                    <th class="infoline" rowspan="2">add:</th>
+                    <td class="infoline" style="text-align:center;">
+						<kul:htmlControlAttribute property="newProtocolReference.protocolReferenceTypeCode" attributeEntry="${protocolReferenceAttributes.protocolReferenceTypeCode}" />
+                    </td>
+                    <td class="infoline" style="text-align:center;">
+                        <kul:htmlControlAttribute property="newProtocolReference.referenceKey" attributeEntry="${protocolReferenceAttributes.referenceKey}" />
+                    </td>
+                    <td class="infoline" style="text-align:center;">
+						<kul:htmlControlAttribute property="newProtocolReference.applicationDate" attributeEntry="${protocolReferenceAttributes.applicationDate}" datePicker="true" />
+                    </td>
+                    <td class="infoline" style="text-align:center;">
+                        <kul:htmlControlAttribute property="newProtocolReference.approvalDate" attributeEntry="${protocolReferenceAttributes.approvalDate}" datePicker="true" />
+                    </td>
+                    <td class="infoline" rowspan="2" style="text-align:center;">
+                        <div align=center>
+							<html:image property="methodToCall.addProtocolReference.anchor${tabKey}"
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th style="text-align:right;">Comment:</th>
+                    <th colspan="3" style="vertical-align:bottom">
+                    
+                    	<table style="border:none; width:100%;" cellpadding="0" cellspacing="0">
 
-	            <td align="left" valign="middle" class="infoline">
-	               	<div align="center">
-	               		<kul:htmlControlAttribute property="newProtocolReference.approvalDate" attributeEntry="${protocolReferenceAttributes.approvalDate}" datePicker="true" />
-	            	</div>
-				</td>
-	
-				<td align="left" valign="middle" class="infoline">
-					<div align=center>
-						<html:image property="methodToCall.addProtocolReference.anchor${tabKey}"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
-					</div>
-	               </td>
-	            </tr>
+                            <tr>
+                                <td style="border:none; background:none;">
+                                	<kul:htmlControlAttribute property="newProtocolReference.comments" attributeEntry="${protocolReferenceAttributes.comments}" />
+                                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName1}" action="${action}" textAreaLabel="${protocolReferenceAttributes.comments.label}" />
+                                </td>
+                            </tr>
+
+                        </table>
+                    
+                    </th>
+                </tr>	            
+	            
             </kra:section>
-			<%-- New data --%>
+            
+			<%-- End of New data --%>
 			
 			<%-- Existing data --%>
         	<c:forEach var="protocolParticipant" items="${KualiForm.document.protocol.protocolReferences}" varStatus="status">
 	             <tr>
-					<th class="infoline">
+					<th class="infoline" rowspan="2">
 						<c:out value="${status.index+1}" />
 					</th>
 	                <td align="left" valign="middle">
@@ -161,7 +164,7 @@
 	                													readOnly="true"	attributeEntry="${protocolReferenceAttributes.approvalDate}"  /> </div>
 					</td>
 
-					<td>
+					<td rowspan="2">
 						<div align=center>&nbsp;
 							<kra:section permission="modifyProtocol">  
 								<html:image property="methodToCall.deleteProtocolReference.line${status.index}.anchor${currentTabIndex}"
@@ -170,13 +173,37 @@
 						</div>
 	                </td>
 	            </tr>
+	            
+                <tr>
+                    
+                    <th style="text-align:left;">Comment:</th>
+                    <td colspan="3" style="vertical-align:bottom">
+                    		                		
+                    	<table style="border:none; width:100%;" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td style="border:none;">	
+                                                                								
+									<kul:htmlControlAttribute property="document.protocol.protocolReferences[${status.index}].comments" 
+	                											readOnly="true"	attributeEntry="${protocolReferenceAttributes.comments}"  />
+                                </td>
+
+                                <td style="border:none; width:20px; vertical-align:bottom;">              	
+                                	<kra:expandedTextArea textAreaFieldName="document.protocol.protocolReferences[${status.index}].comments" action="${action}" textAreaLabel="${protocolReferenceAttributes.comments.label}" viewOnly="true"/>
+                                </td>
+                            </tr>
+                        </table>	                		
+	                													                    
+                    </td>
+                </tr>	            
+	            
         	</c:forEach>
 			<%-- Existing data --%>
 	        				
         </table>       
         
         <%--End of Other Identifiers --%>
-
+		<br>
+		
 		<%--Area of Research --%>
     	<h3>
     		<span class="subhead-left">Area of Research</span>
@@ -190,7 +217,7 @@
               	<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
              </tr>
             <tr>
-              <th width="10%" class="infoline">Add:</th>
+              <th width="10%" class="infoline">add:</th>
               <td width="70%" class="infoline">${KualiForm.document.protocol.newDescription}
               		<kul:multipleValueLookup boClassName="org.kuali.kra.bo.ResearchArea" 
               		lookedUpCollectionName="protocolResearchAreas"
