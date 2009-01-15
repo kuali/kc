@@ -14,7 +14,7 @@
     	<property name="useWorkflowPessimisticLocking" value="false" />
     	<property name="helpDefinition" >
       	<bean parent="HelpDefinition"
-            p:parameterNamespace="KC-IRB"
+            p:parameterNamespace="KC-CMT"
             p:parameterName="CommitteeDocumentHelp"
             p:parameterDetailType="D" />
     	</property>
@@ -29,7 +29,7 @@
         	<bean parent="HeaderNavigation">
           	<property name="helpDefinition" >
             	<bean parent="HelpDefinition"
-                  p:parameterNamespace="KC-IRB"
+                  p:parameterNamespace="KC-CMT"
                   p:parameterName="CommitteeHelp"
                   p:parameterDetailType="D" />
           	</property>
