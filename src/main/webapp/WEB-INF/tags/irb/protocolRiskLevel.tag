@@ -47,12 +47,11 @@
                 	      ${comments}
                 	  </c:otherwise>
                 	</c:choose>
-					<html:hidden property="document.protocol.protocolRiskLevel[${status.index}].comments" />
+					<html:hidden property="document.protocol.protocolRiskLevels[${status.index}].comments" />
                 </td>
 				<td class="infoline">
 					<div align=center>
-					<c:set var="commentFieldName" value="document.protocol.protocolRiskLevel[${status.index}].comments" />
-                    <kra:expandedTextArea textAreaFieldName="${commentFieldName}" action="${action}" textAreaLabel="Risk Level Comments"  viewOnly="true"/>
+                    <kra:expandedTextArea textAreaFieldName="document.protocol.protocolRiskLevels[${status.index}].comments" action="${action}" textAreaLabel="Risk Level Comments"  viewOnly="true"/>
 					</div>
                 </td>
             </tr>
