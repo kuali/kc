@@ -227,8 +227,17 @@
 							<groupId>javax.resource</groupId>
 							<artifactId>connector</artifactId>
 						</exclusion>
+						<exclusion>
+							<groupId>xml-security</groupId>
+							<artifactId>xmlsec</artifactId>
+						</exclusion>
 					</exclusions>
 				</dependency>
+				<dependency>
+    				<groupId>org.apache.santuario</groupId>
+    				<artifactId>xmlsec</artifactId>
+    				<version>1.4.2</version>
+    			</dependency>
 				<dependency>
 					<groupId>axis</groupId>
 					<artifactId>axis</artifactId>
@@ -397,8 +406,17 @@
 							<groupId>itext</groupId>
 							<artifactId>itext</artifactId>
 						</exclusion>
+						<exclusion>
+							<groupId>xml-security</groupId>
+							<artifactId>xmlsec</artifactId>
+						</exclusion>
 					</exclusions>
 				</dependency>
+				<dependency>
+    				<groupId>org.apache.santuario</groupId>
+    				<artifactId>xmlsec</artifactId>
+    				<version>1.4.2</version>
+    			</dependency>
 				<dependency>
 					<groupId>htmlunit</groupId>
 					<artifactId>htmlunit</artifactId>
@@ -562,6 +580,11 @@
 			<id>codehaus</id>
 			<name>Codehaus</name>
 			<url>http://dist.codehaus.org</url>
+		</repository>
+		<repository>
+			<id>apache</id>
+			<name>apache</name>
+			<url>http://people.apache.org/repo/m2-ibiblio-rsync-repository</url>
 		</repository>
 	</repositories>
 	<reporting>
