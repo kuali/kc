@@ -56,14 +56,18 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
     protected static final String PROTOCOL_REFERENCENUMBER2 = "0010";
     
     protected static final String PROTOCOL_DESCRIPTION_ID =  "document.protocol.description";
-    protected static final String PROTOCOL_DESCRIPTION =  "keyword_to_test1";
-    protected static final String PROTOCOL_DESCRIPTION2 = "test should be done based on feature";
+    protected static final String PROTOCOL_DESCRIPTION_TEXTAREA_ID = "methodToCall.kraUpdateTextArea.((#document.protocol.description:protocolProtocol:Summary/Keywords#))";
+
+    protected static final String PROTOCOL_COMMENT_ID =  "newProtocolReference.comments";
+    protected static final String PROTOCOL_COMMENT_TEXTAREA_ID = "methodToCall.kraUpdateTextArea.((#newProtocolReference.comments:protocolProtocol:Comments:false#))";
+
     
-    protected static final String PROTOCOL_DESCRIPTION_TEXTAREA = "methodToCall.kraUpdateTextArea.((#document.protocol.description:protocolProtocol:Summary/Keywords#))";
-    
+    protected static final String PROTOCOL_TEXTAREA =  "keyword_to_test1";
+    protected static final String PROTOCOL_TEXTAREA2 = "test should be done based on feature";
+        
     private static final String FIRST_ROW_DATA = "01.0508:TaxidermyTaxidermist ";
     
-    private static final String  PROTOCOL_RESEARCHAREA_DELETEMETHOD = "methodToCall.deleteProtocolResearchArea.line0.anchor5";
+    private static final String  PROTOCOL_RESEARCHAREA_DELETEMETHOD = "methodToCall.deleteProtocolResearchArea.line0.anchor3";
     
     private static final String PROTOCOL_REFERENCE_PROTOCOLREFERENCETYPECODE_ID = "newProtocolReference.protocolReferenceTypeCode";
     private static final String PROTOCOL_REFERENCE_PROTOCOLREFERENCETYPECODE = "4";
@@ -72,7 +76,7 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
     private static final String PROTOCOL_REFERENCE_REFERENCEKEY_ID = "newProtocolReference.referenceKey";
     private static final String PROTOCOL_REFERENCE_REFERENCEKEY = "My Test";
     
-    private static final String PROTOCOL_REFERENCE_DELETEMETHOD = "methodToCall.deleteProtocolReference.line0.anchor5";
+    private static final String PROTOCOL_REFERENCE_DELETEMETHOD = "methodToCall.deleteProtocolReference.line0.anchor3";
     private static final String PROTOCOL_REFERENCE_ADDMETHOD ="methodToCall.addProtocolReference.anchor";
     /**
      * This method asserts the form's additional field value persistence. 
@@ -98,7 +102,7 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
         super.setFieldValue(page, PROTOCOL_FDAAPPLICATIONNUMBER_ID, PROTOCOL_FDAAPPLICATIONNUMBER);
         super.setFieldValue(page, PROTOCOL_REFERENCENUMBER1_ID, PROTOCOL_REFERENCENUMBER1);
         super.setFieldValue(page, PROTOCOL_REFERENCENUMBER2_ID, PROTOCOL_REFERENCENUMBER2);
-        super.setFieldValue(page, PROTOCOL_DESCRIPTION_ID, PROTOCOL_DESCRIPTION);
+        super.setFieldValue(page, PROTOCOL_DESCRIPTION_ID, PROTOCOL_TEXTAREA);
         
         //Invoke save method by clicking save button on form
         HtmlPage resultPage = super.saveDoc(page);
@@ -123,7 +127,7 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
         assertEquals(PROTOCOL_FDAAPPLICATIONNUMBER, getProtocolDocument().getProtocol().getFdaApplicationNumber());
         assertEquals(PROTOCOL_REFERENCENUMBER1, getProtocolDocument().getProtocol().getReferenceNumber1());
         assertEquals(PROTOCOL_REFERENCENUMBER2, getProtocolDocument().getProtocol().getReferenceNumber2());
-        assertEquals(PROTOCOL_DESCRIPTION, getProtocolDocument().getProtocol().getDescription());
+        assertEquals(PROTOCOL_TEXTAREA, getProtocolDocument().getProtocol().getDescription());
         
     }
     
@@ -182,16 +186,16 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
     }
    
     /**
-     * This method is used to test Expanded Text Area of summary/keywords field
+     * This method is used to test Expanded Text Area of summary/keywords field in Additional Fields.
      * @throws Exception
      */
     @Test
-    public void testExpandedTextArea() throws Exception {
+    public void testSummaryKeywordExpandedTextArea() throws Exception {
          
         //Click to create new protocol link
         HtmlPage page = clickOn(getPortalPage(), NEW_PROTOCOL,KUALI_PORTAL_INDEX);
         page = getInnerPages(page).get(0);
-        super.checkExpandedTextArea(page, PROTOCOL_DESCRIPTION_ID, PROTOCOL_DESCRIPTION_TEXTAREA, PROTOCOL_DESCRIPTION, PROTOCOL_DESCRIPTION2);
+        super.checkExpandedTextArea(page, PROTOCOL_DESCRIPTION_ID, PROTOCOL_DESCRIPTION_TEXTAREA_ID, PROTOCOL_TEXTAREA, PROTOCOL_TEXTAREA2);
     }
     
     /**
@@ -306,5 +310,17 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
         assertDoesNotContain(saveAfterDeletePage, PROTOCOL_REFERENCE_REFERENCEKEY);
         
     }
-    
+
+    /**
+     * This method is used to test Expanded Text Area of comment field in Other Identifier.
+     * @throws Exception
+     */
+    @Test
+    public void testCommentExpandedTextArea() throws Exception {
+         
+        //Click to create new protocol link
+        HtmlPage page = clickOn(getPortalPage(), NEW_PROTOCOL,KUALI_PORTAL_INDEX);
+        page = getInnerPages(page).get(0);
+        super.checkExpandedTextArea(page, PROTOCOL_COMMENT_ID, PROTOCOL_COMMENT_TEXTAREA_ID, PROTOCOL_TEXTAREA, PROTOCOL_TEXTAREA2);
+    }
 }
