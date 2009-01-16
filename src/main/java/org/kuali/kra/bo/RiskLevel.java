@@ -18,29 +18,16 @@ package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-
-@Entity 
-@Table(name="RISK_LEVEL")
+/**
+ * 
+ * This class is for risk level code maintenance.
+ */
 public class RiskLevel extends KraPersistableBusinessObjectBase { 
 	
-	@Id 
-	@Column(name="RISK_LEVEL_CODE")
 	private Integer riskLevelCode; 
-	@Column(name="DESCRIPTION")
 	private String description; 
 	
 /*
-	@OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-	@JoinColumn(name="RISK_LEVEL_CODE", insertable=false, updatable=false)
 	private ProtocolRiskLevels protocolRiskLevels;
 */	
 	
