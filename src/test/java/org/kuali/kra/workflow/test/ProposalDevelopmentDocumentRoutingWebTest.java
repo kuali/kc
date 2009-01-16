@@ -98,6 +98,12 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
         super.setUp();
         transactionalLifecycle.stop();
         
+        /* Whatever this is trying to do isn't working - all of the tests run after this one
+         * that rely on ProposalDevelopmentDocument/Rules fail.
+         * 
+         * For now I'm just going to re-run the whole KEWXmlDataLoaderLifecycle in tearDown() instead of the 'revert' directory.
+         * There's a Jira to clean this test up - KRACOEUS-2122
+         */
         ClassPathResource routingResource1 = new ClassPathResource("kew/xml/ProposalDevelopmentDocument.xml");
         ClassPathResource routingResource2 = new ClassPathResource("kew/xml/ProposalDevelopmentDocumentRules.xml");
         xmlBackupDir = new File(new ClassPathResource("kew/xml/test").getFile(), "revert");
@@ -125,7 +131,7 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
         
         transactionalLifecycle.stop();
         new SQLDataLoaderLifecycle("classpath:sql/dml/clear_kew_rules.sql", ";").start();
-        customKEWLifecycle = new KraKEWXmlDataLoaderLifecycle("classpath:kew/xml/test/revert");
+        customKEWLifecycle = new KraKEWXmlDataLoaderLifecycle();
         customKEWLifecycle.start();
 
         FileUtils.deleteDirectory(xmlBackupDir);
