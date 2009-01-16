@@ -37,12 +37,12 @@ public class AwardReportTerm extends KraPersistableBusinessObjectBase {
     private Integer awardId; 
     private String awardNumber; 
     private Integer sequenceNumber; 
-    private Integer reportClassCode; 
-    private Integer reportCode; 
-    private Integer frequencyCode; 
-    private Integer frequencyBaseCode; 
-    private Integer ospDistributionCode; 
-    private Integer contactTypeCode; 
+    private String reportClassCode; 
+    private String reportCode; 
+    private String frequencyCode; 
+    private String frequencyBaseCode; 
+    private String ospDistributionCode; 
+    private String contactTypeCode; 
     private Integer rolodexId; 
     private Date dueDate; 
     private Integer numberOfCopies; 
@@ -132,7 +132,7 @@ public class AwardReportTerm extends KraPersistableBusinessObjectBase {
      *
      * @return
      */
-    public Integer getReportClassCode() {
+    public String getReportClassCode() {
         return reportClassCode;
     }
 
@@ -140,7 +140,7 @@ public class AwardReportTerm extends KraPersistableBusinessObjectBase {
      *
      * @param reportClassCode
      */
-    public void setReportClassCode(Integer reportClassCode) {
+    public void setReportClassCode(String reportClassCode) {
         this.reportClassCode = reportClassCode;
     }
 
@@ -148,7 +148,7 @@ public class AwardReportTerm extends KraPersistableBusinessObjectBase {
      *
      * @return
      */
-    public Integer getReportCode() {
+    public String getReportCode() {
         return reportCode;
     }
 
@@ -156,7 +156,7 @@ public class AwardReportTerm extends KraPersistableBusinessObjectBase {
      *
      * @param reportCode
      */
-    public void setReportCode(Integer reportCode) {
+    public void setReportCode(String reportCode) {
         this.reportCode = reportCode;
     }
 
@@ -164,7 +164,7 @@ public class AwardReportTerm extends KraPersistableBusinessObjectBase {
      *
      * @return
      */
-    public Integer getFrequencyCode() {
+    public String getFrequencyCode() {
         return frequencyCode;
     }
 
@@ -172,7 +172,7 @@ public class AwardReportTerm extends KraPersistableBusinessObjectBase {
      *
      * @param frequencyCode
      */
-    public void setFrequencyCode(Integer frequencyCode) {
+    public void setFrequencyCode(String frequencyCode) {
         this.frequencyCode = frequencyCode;
     }
 
@@ -180,7 +180,7 @@ public class AwardReportTerm extends KraPersistableBusinessObjectBase {
      *
      * @return
      */
-    public Integer getFrequencyBaseCode() {
+    public String getFrequencyBaseCode() {
         return frequencyBaseCode;
     }
 
@@ -188,7 +188,7 @@ public class AwardReportTerm extends KraPersistableBusinessObjectBase {
      *
      * @param frequencyBaseCode
      */
-    public void setFrequencyBaseCode(Integer frequencyBaseCode) {
+    public void setFrequencyBaseCode(String frequencyBaseCode) {
         this.frequencyBaseCode = frequencyBaseCode;
     }
 
@@ -196,7 +196,7 @@ public class AwardReportTerm extends KraPersistableBusinessObjectBase {
      *
      * @return
      */
-    public Integer getOspDistributionCode() {
+    public String getOspDistributionCode() {
         return ospDistributionCode;
     }
 
@@ -204,7 +204,7 @@ public class AwardReportTerm extends KraPersistableBusinessObjectBase {
      *
      * @param ospDistributionCode
      */
-    public void setOspDistributionCode(Integer ospDistributionCode) {
+    public void setOspDistributionCode(String ospDistributionCode) {
         this.ospDistributionCode = ospDistributionCode;
     }
 
@@ -212,7 +212,7 @@ public class AwardReportTerm extends KraPersistableBusinessObjectBase {
      *
      * @return
      */
-    public Integer getContactTypeCode() {
+    public String getContactTypeCode() {
         return contactTypeCode;
     }
 
@@ -220,7 +220,7 @@ public class AwardReportTerm extends KraPersistableBusinessObjectBase {
      *
      * @param contactTypeCode
      */
-    public void setContactTypeCode(Integer contactTypeCode) {
+    public void setContactTypeCode(String contactTypeCode) {
         this.contactTypeCode = contactTypeCode;
     }
 

@@ -31,7 +31,7 @@ public class FrequencyBase extends KraPersistableBusinessObjectBase {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 5406416029670950959L;
-    private Integer frequencyBaseCode; 
+    private String frequencyBaseCode; 
     private String description; 
     
     /*private TemplateReportTerms templateReportTerms; 
@@ -51,7 +51,7 @@ public class FrequencyBase extends KraPersistableBusinessObjectBase {
      * This method...
      * @return
      */
-    public Integer getFrequencyBaseCode() {
+    public String getFrequencyBaseCode() {
         return frequencyBaseCode;
     }
 
@@ -59,7 +59,7 @@ public class FrequencyBase extends KraPersistableBusinessObjectBase {
      * 
      * @param frequencyBaseCode
      */
-    public void setFrequencyBaseCode(Integer frequencyBaseCode) {
+    public void setFrequencyBaseCode(String frequencyBaseCode) {
         this.frequencyBaseCode = frequencyBaseCode;
     }
 

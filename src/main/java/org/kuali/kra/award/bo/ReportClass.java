@@ -31,7 +31,7 @@ public class ReportClass extends KraPersistableBusinessObjectBase {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 2641812275218339806L;
-    private Integer reportClassCode; 
+    private String reportClassCode; 
     private String description; 
     private boolean generateReportRequirements; 
     
@@ -51,7 +51,7 @@ public class ReportClass extends KraPersistableBusinessObjectBase {
      * 
      * @return
      */
-    public Integer getReportClassCode() {
+    public String getReportClassCode() {
         return reportClassCode;
     }
 
@@ -59,7 +59,7 @@ public class ReportClass extends KraPersistableBusinessObjectBase {
      * 
      * @param reportClassCode
      */
-    public void setReportClassCode(Integer reportClassCode) {
+    public void setReportClassCode(String reportClassCode) {
         this.reportClassCode = reportClassCode;
     }
 

@@ -23,25 +23,24 @@ import java.util.List;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kra.award.bo.ReportClass;
+import org.kuali.kra.award.bo.Report;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 
 /**
  * 
- * This class is a values finder for <code>ReportClass</code> business object.
+ * This class is a values finder for <code>Report</code> business object.
  */
 @SuppressWarnings("unchecked")
-public class ReportClassValuesFinder extends KeyValuesBase {
-    KeyValueFinderService keyValueFinderService= 
-        (KeyValueFinderService) KraServiceLocator.getService("keyValueFinderService");
+public class ReportCodeAllValuesFinder extends KeyValuesBase {
+    
+    KeyValuesService keyValuesService = 
+        (KeyValuesService) KraServiceLocator.getService("keyValuesService");
     
     /**
-     * Constructs the list of Report Classes.  Each entry
+     * Constructs the list of Reports.  Each entry
      * in the list is a &lt;key, value&gt; pair, where the "key" is the unique
-     * report class code and the "value" is the textual description that is viewed
-     * by a user.  The list is obtained from the AwardDocument if any are defined there. 
-     * Otherwise, it is obtained from a lookup of the REPORT_CLASS database table
+     * report code and the "value" is the textual description that is viewed
+     * by a user.  The list is obtained from a lookup of the REPORT database table
      * via the "KeyValueFinderService".
      * 
      * @return the list of &lt;key, value&gt; pairs of abstract types.  The first entry
@@ -49,16 +48,19 @@ public class ReportClassValuesFinder extends KeyValuesBase {
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List<KeyLabelPair> getKeyValues() {
-        KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
-        Collection reportClasses = keyValuesService.findAll(ReportClass.class);
+        
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         
-        for (Iterator iter = reportClasses.iterator(); iter.hasNext();) {
-            ReportClass reportClass = (ReportClass) iter.next();
-            keyValues.add(new KeyLabelPair(reportClass.getReportClassCode(), reportClass.getDescription()));                            
+        Collection reportCodes = keyValuesService.findAll(Report.class);        
+        
+        Report report = new Report();
+        
+        for (Iterator iter1 = reportCodes.iterator(); iter1.hasNext();) {
+            report = (Report) iter1.next();
+            keyValues.add(new KeyLabelPair(report.getReportCode().toString()
+                        , report.getDescription()));
+                     
         }
-                
         return keyValues;
     }
-   
 }

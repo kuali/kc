@@ -1371,3 +1371,85 @@ function loadOrganizationName(organizationIdFieldName, organizationNameFieldName
 		OrganizationService.getOrganizationName(organizationId,dwrReply);
 	}
 }
+
+function loadFrequencyCode(reportClassCode, reportCodeFieldName,frequencyCodeFieldName) {    
+    var reportCode = DWRUtil.getValue( reportCodeFieldName );
+	if (reportClassCode=='' || reportCode == "") {
+		clearRecipients( frequencyCodeFieldName, "" );
+	} else {
+		var dwrReply = {
+			callback:function(data) {
+				if ( data != null ) {
+					for (var i = 0; i < document.KualiForm.elements.length; i++) {
+	  					var e = document.KualiForm.elements[i];
+	  					if(e.type == 'select-one' && e.name == frequencyCodeFieldName) {
+	  						e.options.length=0;
+							if ( frequencyCodeFieldName != null && frequencyCodeFieldName != "" ) {
+								var option_array=data.split(",");
+								var optionNum=0;
+								var nameLabelPair;
+								while (optionNum < option_array.length)
+								{
+								   nameLabelPair = option_array[optionNum].split(";");
+								   e.options[optionNum]=new Option(nameLabelPair[1], nameLabelPair[0]);
+								   optionNum+=1;
+								}
+							}
+						}
+					}		
+				} else {
+					if ( frequencyCodeFieldName != null && frequencyCodeFieldName != "" ) {
+						setRecipientValue(  frequencyCodeFieldName, wrapError( "not found" ), true );
+					}
+				}
+			},
+			errorHandler:function( errorMessage ) {
+				window.status = errorMessage;
+				setRecipientValue( frequencyCodeFieldName, wrapError( "not found" ), true );
+			}
+		};
+		AwardReportsService.getFrequencyCodes(reportClassCode,reportCode,dwrReply);
+	}
+
+}
+
+function loadFrequencyBaseCode(frequencyCodeFieldName, frequencyBaseCodeFieldName) {    
+    var frequencyCode = DWRUtil.getValue( frequencyCodeFieldName );
+	if (frequencyCode=='') {
+		clearRecipients( frequencyBaseCodeFieldName, "" );
+	} else {
+		var dwrReply = {
+			callback:function(data) {
+				if ( data != null ) {
+					for (var i = 0; i < document.KualiForm.elements.length; i++) {
+	  					var e = document.KualiForm.elements[i];
+	  					if(e.type == 'select-one' && e.name == frequencyBaseCodeFieldName) {
+	  						e.options.length=0;
+							if ( frequencyBaseCodeFieldName != null && frequencyBaseCodeFieldName != "" ) {
+								var option_array=data.split(",");
+								var optionNum=0;
+								var nameLabelPair;
+								while (optionNum < option_array.length)
+								{
+								   nameLabelPair = option_array[optionNum].split(";");
+								   e.options[optionNum]=new Option(nameLabelPair[1], nameLabelPair[0]);
+								   optionNum+=1;
+								}
+							}
+						}
+					}		
+				} else {
+					if ( frequencyBaseCodeFieldName != null && frequencyBaseCodeFieldName != "" ) {
+						setRecipientValue(  frequencyCodeFieldName, wrapError( "not found" ), true );
+					}
+				}
+			},
+			errorHandler:function( errorMessage ) {
+				window.status = errorMessage;
+				setRecipientValue( frequencyBaseCodeFieldName, wrapError( "not found" ), true );
+			}
+		};
+		AwardReportsService.getFrequencyBaseCodes(frequencyCode,dwrReply);
+	}
+
+}

@@ -26,8 +26,10 @@ import org.kuali.kra.award.comparator.AwardReportTermsComparator2;
 import org.kuali.kra.award.comparator.AwardReportTermsComparator3;
 import org.kuali.kra.award.comparator.AwardReportTermsComparator4;
 import org.kuali.kra.award.comparator.AwardReportTermsComparator5;
+import org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder;
+import org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.ReportClassValuesFinder;
-import org.kuali.kra.award.lookup.keyvalue.ReportCodeValuesFinder;
+import org.kuali.kra.award.lookup.keyvalue.ReportCodeAllValuesFinder;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.service.AwardReportsService;
 
@@ -75,13 +77,58 @@ public class AwardReportsServiceImpl implements AwardReportsService {
     }
     
     protected void assignReportCodeToAwardForm(AwardForm awardForm){
-        ReportCodeValuesFinder reportCodeValuesFinder = new ReportCodeValuesFinder();
+        ReportCodeAllValuesFinder reportCodeAllValuesFinder = new ReportCodeAllValuesFinder();
         
-        awardForm.setReportCodes(reportCodeValuesFinder.getKeyValues());        
+        awardForm.setReportCodes(reportCodeAllValuesFinder.getKeyValues());        
         
         for(int i=0;i<awardForm.getAwardDocument().getAward().getAwardReportTerms().size();i++){
             awardForm.getNewAwardReportTermRecipient().add(new AwardReportTerm());
         }
     }
+    
+    public String getFrequencyCodes(String reportClassCode, String reportCode){        
+        FrequencyCodeValuesFinder frequencyCodeValuesFinder = new FrequencyCodeValuesFinder();
+        StringBuffer strBuffer = new StringBuffer();
+        
+        frequencyCodeValuesFinder.setReportClassCode(reportClassCode);
+        frequencyCodeValuesFinder.setReportCode(reportCode);
+        
+        List<KeyLabelPair> frequencyCodes = frequencyCodeValuesFinder.getKeyValues();
+        int i = 1;
+        for(KeyLabelPair keyLabelPair : frequencyCodes){
+            strBuffer.append(keyLabelPair.key);
+            strBuffer.append(";");
+            strBuffer.append(keyLabelPair.label);
+            if(i!=frequencyCodes.size()){
+                strBuffer.append(",");    
+            }
+            i++;
+        }
+        
+        return strBuffer.toString();
+    }
+    
+    public String getFrequencyBaseCodes(String frequencyCode){        
+        FrequencyBaseCodeValuesFinder frequencyBaseCodeValuesFinder = new FrequencyBaseCodeValuesFinder();
+        StringBuffer strBuffer = new StringBuffer();
+        
+        frequencyBaseCodeValuesFinder.setFrequencyCode(frequencyCode);
+        
+        List<KeyLabelPair> frequencyBaseCodes = frequencyBaseCodeValuesFinder.getKeyValues();
+        int i = 1;
+        for(KeyLabelPair keyLabelPair : frequencyBaseCodes){
+            strBuffer.append(keyLabelPair.key);
+            strBuffer.append(";");
+            strBuffer.append(keyLabelPair.label);
+            if(i!=frequencyBaseCodes.size()){
+                strBuffer.append(",");    
+            }
+            i++;
+        }
+        
+        return strBuffer.toString();
+    }
+    
+    
 
 }

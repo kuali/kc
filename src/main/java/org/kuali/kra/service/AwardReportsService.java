@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.service;
 
+import java.util.List;
+
+import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 
 /**
@@ -29,5 +32,9 @@ public interface AwardReportsService {
      * @param awardForm
      */
     public void doPreparations(AwardForm awardForm);
+    
+    public String getFrequencyCodes(String reportClassCode, String reportCode);
+    
+    public String getFrequencyBaseCodes(String frequencyCode);
     
 }

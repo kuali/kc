@@ -108,7 +108,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      * @return
      */
     protected List<AwardReportTerm> addAwardReportTermToAward(
-            Award award, AwardReportTerm newAwardReportTerm, int reportClass){
+            Award award, AwardReportTerm newAwardReportTerm, String reportClass){
         newAwardReportTerm.setReportClassCode(reportClass);
         newAwardReportTerm.setAwardNumber(award.getAwardNumber());
         newAwardReportTerm.setSequenceNumber(award.getSequenceNumber());
@@ -258,7 +258,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      * @param request
      * @return
      */
-    protected int getReportClass(HttpServletRequest request) {
+    protected String getReportClass(HttpServletRequest request) {
         int reportClass = -1;
         String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
@@ -266,7 +266,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
             reportClass = Integer.parseInt(reportClassString);
         }
 
-        return reportClass;
+        return new Integer(reportClass).toString();
     }
     
     /**

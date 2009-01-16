@@ -31,9 +31,9 @@ public class ValidClassReportFrequency extends KraPersistableBusinessObjectBase 
      */
     private static final long serialVersionUID = 369663255546045771L;
     private Integer validClassReportFreqId; 
-    private Integer reportClassCode; 
-    private Integer reportCode; 
-    private Integer frequencyCode; 
+    private String reportClassCode; 
+    private String reportCode; 
+    private String frequencyCode; 
     
     private Frequency frequency; 
     private Report report; 
@@ -67,7 +67,7 @@ public class ValidClassReportFrequency extends KraPersistableBusinessObjectBase 
      *
      * @return
      */
-    public Integer getReportClassCode() {
+    public String getReportClassCode() {
         return reportClassCode;
     }
 
@@ -75,7 +75,7 @@ public class ValidClassReportFrequency extends KraPersistableBusinessObjectBase 
      *
      * @param reportClassCode
      */
-    public void setReportClassCode(Integer reportClassCode) {
+    public void setReportClassCode(String reportClassCode) {
         this.reportClassCode = reportClassCode;
     }
 
@@ -83,7 +83,7 @@ public class ValidClassReportFrequency extends KraPersistableBusinessObjectBase 
      *
      * @return
      */
-    public Integer getReportCode() {
+    public String getReportCode() {
         return reportCode;
     }
 
@@ -91,7 +91,7 @@ public class ValidClassReportFrequency extends KraPersistableBusinessObjectBase 
      *
      * @param reportCode
      */
-    public void setReportCode(Integer reportCode) {
+    public void setReportCode(String reportCode) {
         this.reportCode = reportCode;
     }
 
@@ -99,7 +99,7 @@ public class ValidClassReportFrequency extends KraPersistableBusinessObjectBase 
      * 
      * @return
      */
-    public Integer getFrequencyCode() {
+    public String getFrequencyCode() {
         return frequencyCode;
     }
 
@@ -107,7 +107,7 @@ public class ValidClassReportFrequency extends KraPersistableBusinessObjectBase 
      *
      * @param frequencyCode
      */
-    public void setFrequencyCode(Integer frequencyCode) {
+    public void setFrequencyCode(String frequencyCode) {
         this.frequencyCode = frequencyCode;
     }
 
