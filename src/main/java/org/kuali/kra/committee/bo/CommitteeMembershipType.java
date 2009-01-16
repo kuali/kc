@@ -30,7 +30,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "COMM_MEMBERSHIP_TYPE")
-public class CommMembershipType extends KraPersistableBusinessObjectBase { 
+public class CommitteeMembershipType extends KraPersistableBusinessObjectBase { 
     
     @Id
     @Column(name = "MEMBERSHIP_TYPE_CODE")
@@ -39,7 +39,7 @@ public class CommMembershipType extends KraPersistableBusinessObjectBase {
     @Column(name = "DESCRIPTION")
     private String description; 
     
-    public CommMembershipType() { 
+    public CommitteeMembershipType() { 
 
     } 
     
