@@ -67,8 +67,10 @@
 		<field-descriptor name="methodOfPaymentCode" column="METHOD_OF_PAYMENT_CODE" jdbc-type="INTEGER"/>
 		<field-descriptor name="nonCompetingContProposalDue" column="NON_COMPETING_CONT_PRPSL_DUE" jdbc-type="INTEGER"/>
 		<field-descriptor name="paymentInvoiceFrequencyCode" column="PAYMENT_INVOICE_FREQ_CODE" jdbc-type="INTEGER"/>
-		<field-descriptor name="preAwardAuthorizedAmount" column="PRE_AWARD_AUTHORIZED_AMOUNT" jdbc-type="INTEGER"/>
+		<field-descriptor name="preAwardAuthorizedAmount" column="PRE_AWARD_AUTHORIZED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 		<field-descriptor name="preAwardEffectiveDate" column="PRE_AWARD_EFFECTIVE_DATE" jdbc-type="DATE"/>
+		<field-descriptor name="preAwardInstitutionalAuthorizedAmount" column="PRE_AWARD_IN_AUTHORIZED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="preAwardInstitutionalEffectiveDate" column="PRE_AWARD_INST_EFFECTIVE_DATE" jdbc-type="DATE"/>
 		<field-descriptor name="procurementPriorityCode" column="PROCUREMENT_PRIORITY_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="specialEbRateOffCampus" column="SPECIAL_EB_RATE_OFF_CAMPUS" jdbc-type="INTEGER"/>
