@@ -26,6 +26,7 @@ import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.award.bo.ValidClassReportFrequency;
+import org.kuali.kra.award.bo.ValidFrequencyBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 
@@ -34,13 +35,12 @@ import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
  * This class is a values finder for <code>Frequency</code> business object.
  */
 @SuppressWarnings("unchecked")
-public class FrequencyCodeValuesFinder extends KeyValuesBase {
+public class FrequencyBaseCodeValuesFinder extends KeyValuesBase {
     
     KeyValueFinderService keyValueFinderService= 
         (KeyValueFinderService) KraServiceLocator.getService("keyValueFinderService");
     
-    private String reportClassCode;
-    private String reportCode;
+    private String frequencyCode;
     
     /**
      * Constructs the list of Reports.  Each entry
@@ -58,43 +58,35 @@ public class FrequencyCodeValuesFinder extends KeyValuesBase {
             (KeyValuesService) KraServiceLocator.getService("keyValuesService");
                 List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         
-        Collection validClassReportFrequencies = keyValuesService.findAll(ValidClassReportFrequency.class);
+        Collection validFrequencyBaseCodes = keyValuesService.findAll(ValidFrequencyBase.class);
         
-        HashMap uniqueFrequencyCodes = new HashMap();
-        ValidClassReportFrequency validClassReportFrequency = new ValidClassReportFrequency();
+        HashMap uniqueFrequencyBaseCodes = new HashMap();
+        ValidFrequencyBase validFrequencyBase = new ValidFrequencyBase();
         int key=0;
-        keyValues.add(new KeyLabelPair("","select"));
-        for (Iterator iter1 = validClassReportFrequencies.iterator(); iter1.hasNext();) {
-            validClassReportFrequency = (ValidClassReportFrequency) iter1.next();
-            validClassReportFrequency.refreshReferenceObject("frequency");            
-            if((!uniqueFrequencyCodes.containsValue(validClassReportFrequency.getFrequencyCode()))
-                    && StringUtils.equalsIgnoreCase(validClassReportFrequency.getReportClassCode(),
-                            getReportClassCode())
-                    && StringUtils.equalsIgnoreCase(validClassReportFrequency.getReportCode(),
-                            getReportCode())){                
-                keyValues.add(new KeyLabelPair(validClassReportFrequency.getFrequencyCode().toString()
-                        , validClassReportFrequency.getFrequency().getDescription()));
-                uniqueFrequencyCodes.put(key, validClassReportFrequency.getFrequencyCode());                
+        
+        keyValues.add(new KeyLabelPair("","select"));        
+        for (Iterator iter1 = validFrequencyBaseCodes.iterator(); iter1.hasNext();) {
+            validFrequencyBase = (ValidFrequencyBase) iter1.next();
+            validFrequencyBase.refreshReferenceObject("frequencyBase");            
+            if((!uniqueFrequencyBaseCodes.containsValue(validFrequencyBase.getFrequencyBaseCode()))
+                    && StringUtils.equalsIgnoreCase(
+                            validFrequencyBase.getFrequencyCode().toString(),getFrequencyCode())){
+                
+                keyValues.add(new KeyLabelPair(validFrequencyBase.getFrequencyBaseCode().toString()
+                        , validFrequencyBase.getFrequencyBase().getDescription()));
+                uniqueFrequencyBaseCodes.put(key, validFrequencyBase.getFrequencyBaseCode());                
             }
             key++;     
         }
         return keyValues;
     }
-    
-    public String getReportClassCode() {
-        return reportClassCode;
+
+    public String getFrequencyCode() {
+        return frequencyCode;
     }
 
-    public void setReportClassCode(String reportClassCode) {
-        this.reportClassCode = reportClassCode;
-    }
-
-    public String getReportCode() {
-        return reportCode;
-    }
-
-    public void setReportCode(String reportCode) {
-        this.reportCode = reportCode;
+    public void setFrequencyCode(String frequencyCode) {
+        this.frequencyCode = frequencyCode;
     }
    
 }

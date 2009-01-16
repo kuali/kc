@@ -32,15 +32,15 @@ import org.kuali.kra.award.bo.AwardReportTerm;
  */
 public class AwardPaymentReportsAndTermsActionTest {
     
-    public static final int MOCK_REPORT_CODE1 = 5;
-    public static final int MOCK_REPORT_CODE2 = 10;
-    public static final int MOCK_REPORT_CODE3 = 15;
-    public static final int MOCK_REPORT_CLASS_CODE = 2;
-    public static final int MOCK_FREQUENCY_CODE = 2;
-    public static final int MOCK_FREQUENCY_BASE_CODE = 2;
-    public static final int MOCK_OSP_DISTRIBUTION_CODE = 2;
+    public static final String MOCK_REPORT_CODE1 = "5";
+    public static final String MOCK_REPORT_CODE2 = "10";
+    public static final String MOCK_REPORT_CODE3 = "15";
+    public static final String MOCK_REPORT_CLASS_CODE = "2";
+    public static final String MOCK_FREQUENCY_CODE = "2";
+    public static final String MOCK_FREQUENCY_BASE_CODE = "2";
+    public static final String MOCK_OSP_DISTRIBUTION_CODE = "2";
     public static final String MOCK_DUE_DATE = "1214852613046";
-    public static final int MOCK_CONTACT_TYPE_CODE = 2;
+    public static final String MOCK_CONTACT_TYPE_CODE = "2";
     public static final int MOCK_ROLODEX_ID = 2;
     public static final int MOCK_NUMBER_OF_COPIES = 2;
     public static final int MOCK_EXPECTED_SIZE_OF_AWARD_REPORT_TERM_LIST = 6;
@@ -99,8 +99,8 @@ public class AwardPaymentReportsAndTermsActionTest {
     }
     
     private AwardReportTerm initializeAwardReportTermWithMockValues(AwardReportTerm awardReportTerm, 
-            int reportClassCode, int reportCode,int frequencyCode, int frequencyBaseCode, 
-            int ospDistributionCode, String dueDate){
+            String reportClassCode, String reportCode,String frequencyCode, String frequencyBaseCode, 
+            String ospDistributionCode, String dueDate){
         awardReportTerm.setReportClassCode(reportClassCode);
         awardReportTerm.setReportCode(reportCode);
         awardReportTerm.setFrequencyCode(frequencyCode);
@@ -111,8 +111,8 @@ public class AwardPaymentReportsAndTermsActionTest {
     }
     
     private AwardReportTerm initializeAwardReportTermRecipientWithMockValues(
-            AwardReportTerm awardReportTermRecipient,int reportClassCode, int reportCode,int frequencyCode, 
-            int frequencyBaseCode, int ospDistributionCode, int contactTypeCode, int rolodexId, 
+            AwardReportTerm awardReportTermRecipient,String reportClassCode, String reportCode,String frequencyCode, 
+            String frequencyBaseCode, String ospDistributionCode, String contactTypeCode, int rolodexId, 
             int numberOfCopies, String dueDate){        
         awardReportTermRecipient.setReportClassCode(reportClassCode);
         awardReportTermRecipient.setReportCode(reportCode);

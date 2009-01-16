@@ -31,7 +31,7 @@ public class Distribution extends KraPersistableBusinessObjectBase {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -8638092879516673772L;
-    private Integer ospDistributionCode; 
+    private String ospDistributionCode; 
     private String description; 
     
     /*private TemplateReportTerms templateReportTerms; 
@@ -49,7 +49,7 @@ public class Distribution extends KraPersistableBusinessObjectBase {
      * 
      * @return
      */
-    public Integer getOspDistributionCode() {
+    public String getOspDistributionCode() {
         return ospDistributionCode;
     }
 
@@ -57,7 +57,7 @@ public class Distribution extends KraPersistableBusinessObjectBase {
      * 
      * @param ospDistributionCode
      */
-    public void setOspDistributionCode(Integer ospDistributionCode) {
+    public void setOspDistributionCode(String ospDistributionCode) {
         this.ospDistributionCode = ospDistributionCode;
     }
 

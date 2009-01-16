@@ -1,0 +1,160 @@
+<!--
+ Copyright 2006-2008 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="ValidFrequencyBase" parent="ValidFrequencyBase-parentBean" />
+	<bean id="ValidFrequencyBase-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.award.bo.ValidFrequencyBase" />
+		<property name="inquiryDefinition" >
+			<ref bean="ValidFrequencyBase-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition" >
+			<ref bean="ValidFrequencyBase-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="validFrequencyBaseId" />
+		<property name="attributes" >
+			<list>
+				<ref bean="ValidFrequencyBase-validFrequencyBaseId" />
+				<ref bean="ValidFrequencyBase-frequencyCode" />
+				<ref bean="ValidFrequencyBase-frequencyBaseCode" />
+				<ref bean="ValidFrequencyBase-versionNumber" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+	
+	<bean id="ValidFrequencyBase-validFrequencyBaseId" parent="ValidFrequencyBase-validFrequencyBaseId-parentBean" />
+	<bean id="ValidFrequencyBase-validFrequencyBaseId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="validFrequencyBaseId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Valid Frequency Base Id" />
+		<property name="shortLabel" value="Valid Frequency Base Id" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Valid Frequency Base Id" />
+		<property name="description" value="Valid Frequency Base Id" />
+	</bean>
+
+	<bean id="ValidFrequencyBase-frequencyCode" parent="ValidFrequencyBase-frequencyCode-parentBean" />
+	<bean id="ValidFrequencyBase-frequencyCode-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="frequencyCode" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Frequency Code" />
+		<property name="shortLabel" value="Frequency Code" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Frequency Code" />
+		<property name="description" value="Frequency Code" />
+	</bean>
+
+	<bean id="ValidFrequencyBase-frequencyBaseCode" parent="ValidFrequencyBase-frequencyBaseCode-parentBean" />
+	<bean id="ValidFrequencyBase-frequencyBaseCode-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="frequencyBaseCode" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Frequency Base Code" />
+		<property name="shortLabel" value="Frequency Base Code" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Frequency Base Code" />
+		<property name="description" value="Frequency Base Code" />
+	</bean>
+
+	<bean id="ValidFrequencyBase-versionNumber" parent="ValidFrequencyBase-versionNumber-parentBean" />
+	<bean id="ValidFrequencyBase-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
+	<bean id="ValidFrequencyBase-inquiryDefinition" parent="ValidFrequencyBase-inquiryDefinition-parentBean" />
+	<bean id="ValidFrequencyBase-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Valid Frequency Base Id" />
+		<property name="inquirySections" >
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Valid Frequency Base Id" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields" >
+						<list>
+							<bean parent="FieldDefinition"
+								p:attributeName="validFrequencyBaseId" 
+								p:forceInquiry="true" />
+							<bean parent="FieldDefinition"
+								p:attributeName="frequencyCode" />
+							<bean parent="FieldDefinition"
+								p:attributeName="frequencyBaseCode" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+	<bean id="ValidFrequencyBase-lookupDefinition" parent="ValidFrequencyBase-lookupDefinition-parentBean" />
+	<bean id="ValidFrequencyBase-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Valid Frequency Base Lookup" />
+		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+		<property name="instructions" value="Look up a Valid Frequency Base" />
+		<property name="defaultSort" >
+			<bean parent="SortDefinition" >
+		</bean>
+		</property>
+		<property name="lookupFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					p:attributeName="validFrequencyBaseId" 
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition"
+					p:attributeName="frequencyCode" />
+				<bean parent="FieldDefinition"
+					p:attributeName="frequencyBaseCode" />
+			</list>
+		</property>
+		<property name="resultFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					p:attributeName="validFrequencyBaseId" 
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition"
+					p:attributeName="frequencyCode" />
+				<bean parent="FieldDefinition"
+					p:attributeName="frequencyBaseCode" />
+			</list>
+		</property>
+	</bean>
+</beans>

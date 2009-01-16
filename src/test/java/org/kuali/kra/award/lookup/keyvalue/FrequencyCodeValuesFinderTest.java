@@ -33,6 +33,7 @@ public class FrequencyCodeValuesFinderTest {
     public void setUp() throws Exception {
         frequencyCodeValuesFinder = new FrequencyCodeValuesFinder();
         frequencyCodeValuesFinder.setReportClassCode("1");
+        frequencyCodeValuesFinder.setReportCode("55");
         frequencyCodes = new ArrayList<KeyLabelPair>();
         frequencyCodes = frequencyCodeValuesFinder.getKeyValues();
     }
@@ -45,7 +46,7 @@ public class FrequencyCodeValuesFinderTest {
 
     @Test
     public final void testGetKeyValues() {
-        Assert.assertEquals(30,frequencyCodes.size());
+        Assert.assertEquals(4,frequencyCodes.size());
     }
     
     @Test

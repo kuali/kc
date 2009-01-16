@@ -31,7 +31,7 @@ public class ContactType extends KraPersistableBusinessObjectBase {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 8720276596982712409L;
-    private Integer contactTypeCode; 
+    private String contactTypeCode; 
     private String description; 
     
     /*private SubcontractContact subcontractContact; 
@@ -52,7 +52,7 @@ public class ContactType extends KraPersistableBusinessObjectBase {
      * This method...
      * @return
      */
-    public Integer getContactTypeCode() {
+    public String getContactTypeCode() {
         return contactTypeCode;
     }
 
@@ -60,7 +60,7 @@ public class ContactType extends KraPersistableBusinessObjectBase {
      * 
      * @param contactTypeCode
      */
-    public void setContactTypeCode(Integer contactTypeCode) {
+    public void setContactTypeCode(String contactTypeCode) {
         this.contactTypeCode = contactTypeCode;
     }
 
