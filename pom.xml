@@ -228,8 +228,17 @@
 							<groupId>javax.resource</groupId>
 							<artifactId>connector</artifactId>
 						</exclusion>
+						<exclusion>
+							<groupId>xml-security</groupId>
+							<artifactId>xmlsec</artifactId>
+						</exclusion>
 					</exclusions>
 				</dependency>
+				<dependency>
+    				<groupId>org.apache.santuario</groupId>
+    				<artifactId>xmlsec</artifactId>
+    				<version>1.4.2</version>
+    			</dependency>
 				<dependency>
 					<groupId>axis</groupId>
 					<artifactId>axis</artifactId>
@@ -248,7 +257,7 @@
 				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>
 					<artifactId>kra_s2s</artifactId>
-					<version>1.0.13</version>
+					<version>1.0.14</version>
 				</dependency>
 				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>
@@ -403,8 +412,17 @@
 							<groupId>itext</groupId>
 							<artifactId>itext</artifactId>
 						</exclusion>
+						<exclusion>
+							<groupId>xml-security</groupId>
+							<artifactId>xmlsec</artifactId>
+						</exclusion>
 					</exclusions>
 				</dependency>
+				<dependency>
+    				<groupId>org.apache.santuario</groupId>
+    				<artifactId>xmlsec</artifactId>
+    				<version>1.4.2</version>
+    			</dependency>
 				<dependency>
 					<groupId>htmlunit</groupId>
 					<artifactId>htmlunit</artifactId>
@@ -434,7 +452,7 @@
 				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>
 					<artifactId>kra_s2s</artifactId>
-					<version>1.0.13</version>
+					<version>1.0.14</version>
 				</dependency>
 				<dependency>
 					<groupId>jaxb</groupId>
@@ -559,11 +577,6 @@
 	</profiles>
 	<repositories>
 		<repository>
-			<id>connector</id>
-			<name>Connector</name>
-			<url>http://julien.dubois.free.fr/maven2/</url>
-		</repository>
-		<repository>
 			<id>kuali</id>
 			<name>Kuali Repository</name>
 			<url>https://test.kuali.org/maven</url>
@@ -573,6 +586,11 @@
 			<id>codehaus</id>
 			<name>Codehaus</name>
 			<url>http://dist.codehaus.org</url>
+		</repository>
+		<repository>
+			<id>apache</id>
+			<name>apache</name>
+			<url>http://people.apache.org/repo/m2-ibiblio-rsync-repository</url>
 		</repository>
 	</repositories>
 	<reporting>
