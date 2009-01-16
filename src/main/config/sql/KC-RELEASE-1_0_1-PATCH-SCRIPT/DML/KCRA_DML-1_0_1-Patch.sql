@@ -95,4 +95,8 @@ update sh_parm_t t
    AND T.SH_PARM_DTL_TYP_CD = 'Document'
    and t.sh_parm_nm = 'DEFAULT_CAN_PERFORM_ROUTE_REPORT_IND';
    
+insert into KIM_PERMISSIONS_T (ID, NAMESPACE_ID, NAME, DESCRIPTION) values (14, 2, 'ADD_PROPOSAL_VIEWER', 'Assign User to Proposal Viewer Role');
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID, PERMISSION_ID) values (2, 14);
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID, PERMISSION_ID) values (7, 14);
+
 COMMIT;
