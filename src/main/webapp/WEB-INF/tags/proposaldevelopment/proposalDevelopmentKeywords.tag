@@ -22,7 +22,7 @@
             <tr>
               <th width="10%" class="infoline">Add:</th>
               <td width="70%" class="infoline">${KualiForm.document.newDescription}
-              		<kul:multipleValueLookup boClassName="org.kuali.kra.proposaldevelopment.bo.ScienceKeyword" 
+              		<kul:multipleValueLookup boClassName="org.kuali.kra.bo.ScienceKeyword" 
               		lookedUpCollectionName="propScienceKeywords" 
               		anchor="${tabKey}"/>
 			  </td>
