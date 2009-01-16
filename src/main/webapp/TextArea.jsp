@@ -69,8 +69,10 @@
 	<c:set var="htmlFormAction"
 		value="<%=kraHtmlFormAction%>" />
 </c:if>
+<c:if test="${empty viewOnly}">
 	<c:set var="viewOnly"
 		value="<%=viewOnly%>" />
+</c:if>
 
 <html:form styleId="kualiForm" method="post"
 	action="/${htmlFormAction}.do" enctype=""
@@ -104,22 +106,22 @@
 
 		<tr>
 			<td>
-			<c:choose>
-			<c:when test="${viewOnly == 'true'}">
-			<div id="globalbuttons" class="globalbuttons"><input
-				type="image" name="methodToCall.kraPostTextAreaToParent.anchor${textAreaFieldAnchor}"
-				onclick='javascript:window.close();'
-				src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif"
-				class="globalbuttons" title="return" alt="return"></div>
-			</c:when>
-			<c:otherwise>
-			<div id="globalbuttons" class="globalbuttons"><input
-				type="image" name="methodToCall.kraPostTextAreaToParent.anchor${textAreaFieldAnchor}"
-				onclick='javascript:kraPostValueToParentWindow();return false'
-				src="${ConfigProperties.kra.externalizable.images.url}buttonsmall_return.gif"
-				class="globalbuttons" title="return" alt="return"></div>
-			</c:otherwise>
-			</c:choose>	
+			  <c:choose>
+				<c:when test="${viewOnly == 'true'}">
+				<div id="globalbuttons" class="globalbuttons"><input
+					type="image" name="methodToCall.kraPostTextAreaToParent.anchor${textAreaFieldAnchor}"
+					onclick='javascript:window.close();'
+					src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif"
+					class="globalbuttons" title="return" alt="return"></div>
+				</c:when>
+				<c:otherwise>
+				<div id="globalbuttons" class="globalbuttons"><input
+					type="image" name="methodToCall.kraPostTextAreaToParent.anchor${textAreaFieldAnchor}"
+					onclick='javascript:kraPostValueToParentWindow();return false'
+					src="${ConfigProperties.kra.externalizable.images.url}buttonsmall_return.gif"
+					class="globalbuttons" title="return" alt="return"></div>
+				</c:otherwise>
+			  </c:choose>	
 			</td>
 		</tr>
 	</table>
