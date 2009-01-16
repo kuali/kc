@@ -19,13 +19,13 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <bean id="CommMembershipTypeMaintenanceDocument" parent="CommMembershipTypeMaintenanceDocument-parentBean" />
-    <bean id="CommMembershipTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.committee.bo.CommMembershipType" />
+    <bean id="CommitteeMembershipTypeMaintenanceDocument" parent="CommitteeMembershipTypeMaintenanceDocument-parentBean" />
+    <bean id="CommitteeMembershipTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.committee.bo.CommitteeMembershipType" />
         <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
         <property name="maintainableSections" >
             <list>
-                <ref bean="CommMembershipTypeMaintenanceDocument-EditCommMembershipType" />
+                <ref bean="CommitteeMembershipTypeMaintenanceDocument-EditCommitteeMembershipType" />
             </list>
         </property>
         <property name="lockingKeys" >
@@ -33,17 +33,17 @@
                 <value>membershipTypeCode</value>
             </list>
         </property>
-        <property name="label" value="Comm Membership Type Maintenance Document" />
-        <property name="shortLabel" value="commMembershipTypeMaintDoc" />
+        <property name="label" value="Committee Membership Type Maintenance Document" />
+        <property name="shortLabel" value="CommitteeMembershipTypeMaintDoc" />
         <property name="summary" value="Committee Membership Type Maintenance Document" />
         <property name="description" value="Document used to create or update Committee Membership Type Reference objects" />
         <property name="helpDefinition" >
             <bean parent="HelpDefinition"
                 p:parameterNamespace="KRA-M"
-                p:parameterName="commMembershipTypeMaintenanceHelp"
+                p:parameterName="CommitteeMembershipTypeMaintenanceHelp"
                 p:parameterDetailType="D" />
             </property>
-        <property name="documentTypeName" value="CommMembershipTypeMaintenanceDocument" />
+        <property name="documentTypeName" value="CommitteeMembershipTypeMaintenanceDocument" />
         <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
         <property name="documentTypeCode" value="COMM" />
         <property name="authorizations" >
@@ -62,10 +62,10 @@
 
     <!-- Maintenance Section Definitions -->
     
-    <bean id="CommMembershipTypeMaintenanceDocument-EditCommMembershipType" parent="CommMembershipTypeMaintenanceDocument-EditCommMembershipType-parentBean" />
-    <bean id="CommMembershipTypeMaintenanceDocument-EditCommMembershipType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-        <property name="id" value="Edit Comm Membership Type" />
-        <property name="title" value="Edit Comm Membership Type" />
+    <bean id="CommitteeMembershipTypeMaintenanceDocument-EditCommitteeMembershipType" parent="CommitteeMembershipTypeMaintenanceDocument-EditCommitteeMembershipType-parentBean" />
+    <bean id="CommitteeMembershipTypeMaintenanceDocument-EditCommitteeMembershipType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id" value="Edit Committee Membership Type" />
+        <property name="title" value="Edit Committee Membership Type" />
         <property name="maintainableItems" >
             <list>
                 <bean parent="MaintainableFieldDefinition"
