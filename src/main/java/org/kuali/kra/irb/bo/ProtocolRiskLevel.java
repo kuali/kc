@@ -19,50 +19,28 @@ package org.kuali.kra.irb.bo;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.Type;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.RiskLevel;
 import org.kuali.kra.irb.document.ProtocolDocument;
 
-@Entity 
-@Table(name="PROTOCOL_RISK_LEVELS")
+/**
+ * 
+ * This is BO class of protocol risk levels. 
+ */
 public class ProtocolRiskLevel extends KraPersistableBusinessObjectBase { 
 	
-	@Id 
-	@Column(name="PROTOCOL_RISK_LEVELS_ID")
 	private Integer protocolRiskLevelId; 
-	@Column(name="PROTOCOL_ID")
 	private Long protocolId; 
-	@Column(name="PROTOCOL_NUMBER")
 	private String protocolNumber; 
-	@Column(name="SEQUENCE_NUMBER")
 	private Integer sequenceNumber; 
-	@Column(name="RISK_LEVEL_CODE")
 	private Integer riskLevelCode; 
-	@Column(name="COMMENTS")
 	private String comments; 
-	@Column(name="DATE_ASSIGNED")
 	private Date dateAssigned; 
-	@Column(name="DATE_UPDATED")
 	private Date dateUpdated; 
-	@Column(name="STATUS")
 	private String status; 
 	
-	@ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-	@JoinColumn(name="PROTOCOL_ID", insertable=false, updatable=false)
 	private ProtocolDocument protocol;
 	
-	@ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-	@JoinColumn(name="RISK_LEVEL_CODE", insertable=false, updatable=false)
 	private RiskLevel riskLevel;
 	
 	
