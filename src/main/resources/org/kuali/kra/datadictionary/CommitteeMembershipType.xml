@@ -19,29 +19,29 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <bean id="CommMembershipType" parent="CommMembershipType-parentBean" />
-    <bean id="CommMembershipType-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.committee.bo.CommMembershipType" />
+    <bean id="CommitteeMembershipType" parent="CommitteeMembershipType-parentBean" />
+    <bean id="CommitteeMembershipType-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.committee.bo.CommitteeMembershipType" />
         <property name="inquiryDefinition" >
-            <ref bean="CommMembershipType-inquiryDefinition" />
+            <ref bean="CommitteeMembershipType-inquiryDefinition" />
         </property>
         <property name="lookupDefinition" >
-            <ref bean="CommMembershipType-lookupDefinition" />
+            <ref bean="CommitteeMembershipType-lookupDefinition" />
         </property>
         <property name="titleAttribute" value="membershipTypeCode" />
         <property name="attributes" >
             <list>
-                <ref bean="CommMembershipType-membershipTypeCode" />
-                <ref bean="CommMembershipType-description" />
-                <ref bean="CommMembershipType-versionNumber" />
+                <ref bean="CommitteeMembershipType-membershipTypeCode" />
+                <ref bean="CommitteeMembershipType-description" />
+                <ref bean="CommitteeMembershipType-versionNumber" />
             </list>
         </property>
     </bean>
 
     <!-- Attribute Definitions -->
     
-    <bean id="CommMembershipType-membershipTypeCode" parent="CommMembershipType-membershipTypeCode-parentBean" />
-    <bean id="CommMembershipType-membershipTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="CommitteeMembershipType-membershipTypeCode" parent="CommitteeMembershipType-membershipTypeCode-parentBean" />
+    <bean id="CommitteeMembershipType-membershipTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="membershipTypeCode" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Membership Type Code" />
@@ -58,8 +58,8 @@
         <property name="description" value="Membership Type Code" />
     </bean>
 
-    <bean id="CommMembershipType-description" parent="CommMembershipType-description-parentBean" />
-    <bean id="CommMembershipType-description-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="CommitteeMembershipType-description" parent="CommitteeMembershipType-description-parentBean" />
+    <bean id="CommitteeMembershipType-description-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="description" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Description" />
@@ -78,13 +78,13 @@
         <property name="description" value="Description" />
     </bean>
 
-    <bean id="CommMembershipType-versionNumber" parent="CommMembershipType-versionNumber-parentBean" />
-    <bean id="CommMembershipType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    <bean id="CommitteeMembershipType-versionNumber" parent="CommitteeMembershipType-versionNumber-parentBean" />
+    <bean id="CommitteeMembershipType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
     </bean>
 
     <!-- Business Object Inquiry Definition -->
-    <bean id="CommMembershipType-inquiryDefinition" parent="CommMembershipType-inquiryDefinition-parentBean" />
-    <bean id="CommMembershipType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <bean id="CommitteeMembershipType-inquiryDefinition" parent="CommitteeMembershipType-inquiryDefinition-parentBean" />
+    <bean id="CommitteeMembershipType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Membership Type Code" />
         <property name="inquirySections" >
             <list>
@@ -106,11 +106,11 @@
     </bean>
 
     <!-- Business Object Lookup Definition -->
-    <bean id="CommMembershipType-lookupDefinition" parent="CommMembershipType-lookupDefinition-parentBean" />
-    <bean id="CommMembershipType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Comm Membership Type Lookup" />
+    <bean id="CommitteeMembershipType-lookupDefinition" parent="CommitteeMembershipType-lookupDefinition-parentBean" />
+    <bean id="CommitteeMembershipType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Committee Membership Type Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="instructions" value="Look up a Comm Membership Type" />
+        <property name="instructions" value="Look up a Committee Membership Type" />
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
         </bean>
