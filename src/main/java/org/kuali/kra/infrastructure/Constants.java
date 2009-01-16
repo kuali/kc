@@ -303,6 +303,8 @@ public interface Constants {
     
     public static final Integer COST_SHARE_COMMENT_TYPE_CODE = 9;
     public static final Integer FANDA_RATE_COMMENT_TYPE_CODE = 8;
+    public static final Integer PREAWARD_SPONSOR_AUTHORIZATION_COMMENT_TYPE_CODE = 18;
+    public static final Integer PREAWARD_INSTITUTIONAL_AUTHORIZATION_COMMENT_TYPE_CODE = 18;
     
     public static final String PARAMETER_MODULE_AWARD = "KC-AWARD";
     public static final String AWARD_SPECIALREVIEW_NUMBER = "AWARD_SPECIALREVIEW_NUMBER";

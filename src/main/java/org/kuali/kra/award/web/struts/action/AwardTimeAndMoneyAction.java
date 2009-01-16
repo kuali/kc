@@ -55,14 +55,22 @@ public class AwardTimeAndMoneyAction extends AwardAction {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDocument = awardForm.getAwardDocument();
         AwardCostShare awardCostShare = awardForm.getNewAwardCostShare();
-        //initialize fields not set on form.  Cost Share Type object reference set on BO setAwardCostShareTypeCode().
-        awardCostShare.setAward(awardDocument.getAward());
-        awardCostShare.setAwardNumber(awardDocument.getAward().getAwardNumber());
-        awardCostShare.setSequenceNumber(awardDocument.getAward().getSequenceNumber());
-       
-        awardDocument.getAward().getAwardCostShares().add(awardCostShare);
+        awardDocument.getAward().add(awardCostShare);
         awardForm.setNewAwardCostShare(new AwardCostShare());
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * 
+     * This method is a convenience method for adding an <code>AwardCostShare</code> to
+     * <code>Award</code> business object.This way the add functionality can be tested
+     * independently using a JUnit Test.
+     * @param award
+     * @param awardCostShare
+     * @return
+     */
+    boolean addCostShareToAward(Award award, AwardCostShare awardCostShare){
+        return award.getAwardCostShares().add(awardCostShare);
     }
     
     /**
@@ -80,6 +88,20 @@ public class AwardTimeAndMoneyAction extends AwardAction {
         int delCostShare = getLineToDelete(request);
         return confirm(buildDeleteCostShareConfirmationQuestion(mapping, form, request, response,
                 delCostShare+1), CONFIRM_DELETE_COST_SHARE, "");
+    }
+    
+    /**
+     * 
+     * This method is a convenience method for deleting an <code>AwardFandaRate</code> from
+     * <code>Award</code> business object. This way the delete functionality can be tested
+     * independently using a JUnit Test.
+     * @param award
+     * @param lineToDelete
+     * @return
+     */
+    boolean deleteCostShareFromAward(Award award, int lineToDelete){
+        award.getAwardCostShares().remove(lineToDelete);
+        return true;
     }
     
     /**

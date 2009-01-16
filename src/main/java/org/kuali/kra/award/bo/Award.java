@@ -82,6 +82,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private Integer paymentInvoiceFrequencyCode;
     private KualiDecimal preAwardAuthorizedAmount;
     private Date preAwardEffectiveDate;
+    private KualiDecimal preAwardInstitutionalAuthorizedAmount;
+    private Date preAwardInstitutionalEffectiveDate;
     private String procurementPriorityCode;
     private String proposalNumber;
     private Integer specialEbRateOffCampus;
@@ -940,6 +942,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         hashMap.put("paymentInvoiceFrequencyCode", getPaymentInvoiceFrequencyCode());
         hashMap.put("preAwardAuthorizedAmount", getPreAwardAuthorizedAmount());
         hashMap.put("preAwardEffectiveDate", getPreAwardEffectiveDate());
+        hashMap.put("preAwardInstitutionalAuthorizedAmount", getPreAwardInstitutionalAuthorizedAmount());
+        hashMap.put("preAwardInstitutionalEffectiveDate", getPreAwardInstitutionalEffectiveDate());
         hashMap.put("procurementPriorityCode", getProcurementPriorityCode());
         hashMap.put("proposalNumber", getProposalNumber());        
         hashMap.put("specialEbRateOffCampus", getSpecialEbRateOffCampus());
@@ -992,6 +996,36 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         AwardComment awardComment = getCommentMap().get(Constants.COST_SHARE_COMMENT_TYPE_CODE);
         if(awardComment == null){
             awardComment = awardCommentFactory.createCostShareComment(this);  //if null initialize in factory class
+            awardComments.add(awardComment);  //add the new CostShareComment to the awardComments list.
+            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);  //add to Map
+        }
+        return awardComment;
+    }
+    
+    /**
+    *
+    * Get the award PreAward Sponsor Authorizations comments.  If the comment has not been set...... initialize and return new Comment.
+    */
+    public AwardComment getawardPreAwardSponsorAuthorizationComment(){
+        AwardCommentFactory awardCommentFactory = new AwardCommentFactory();  //create Factory class
+        AwardComment awardComment = getCommentMap().get(Constants.PREAWARD_SPONSOR_AUTHORIZATION_COMMENT_TYPE_CODE);
+        if(awardComment == null){
+            awardComment = awardCommentFactory.createPreAwardSponsorAuthorizationComment(this);  //if null initialize in factory class
+            awardComments.add(awardComment);  //add the new CostShareComment to the awardComments list.
+            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);  //add to Map
+        }
+        return awardComment;
+    }
+    
+    /**
+    *
+    * Get the award PreAward Institutional Authorizations comments.  If the comment has not been set...... initialize and return new Comment.
+    */
+    public AwardComment getawardPreAwardInstitutionalAuthorizationComment(){
+        AwardCommentFactory awardCommentFactory = new AwardCommentFactory();  //create Factory class
+        AwardComment awardComment = getCommentMap().get(Constants.PREAWARD_INSTITUTIONAL_AUTHORIZATION_COMMENT_TYPE_CODE);
+        if(awardComment == null){
+            awardComment = awardCommentFactory.createPreAwardInstitutionalAuthorizationComment(this);  //if null initialize in factory class
             awardComments.add(awardComment);  //add the new CostShareComment to the awardComments list.
             commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);  //add to Map
         }
@@ -1110,5 +1144,26 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      */
     public List<AwardSpecialReview> getSpecialReviews() {
         return specialReviews;
+    }
+
+    public KualiDecimal getPreAwardInstitutionalAuthorizedAmount() {
+        return preAwardInstitutionalAuthorizedAmount;
+    }
+
+    public void setPreAwardInstitutionalAuthorizedAmount(KualiDecimal preAwardInstitutionalAuthorizedAmount) {
+        this.preAwardInstitutionalAuthorizedAmount = preAwardInstitutionalAuthorizedAmount;
+    }
+
+    public Date getPreAwardInstitutionalEffectiveDate() {
+        return preAwardInstitutionalEffectiveDate;
+    }
+
+    public void setPreAwardInstitutionalEffectiveDate(Date preAwardInstitutionalEffectiveDate) {
+        this.preAwardInstitutionalEffectiveDate = preAwardInstitutionalEffectiveDate;
+    }
+    
+    public void add(AwardCostShare awardCostShare) {
+        awardCostShares.add(awardCostShare);
+        awardCostShare.setAward(this);
     }
 }
