@@ -57,12 +57,12 @@ public class ReportCodeValuesFinder extends KeyValuesBase {
             (KeyValuesService) KraServiceLocator.getService("keyValuesService");
                 List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         
-        Collection validClassReportFrequencies = keyValuesService.findAll(ValidClassReportFrequency.class);
+        Collection validClassReportFrequencies = keyValuesService.findAll(ValidClassReportFrequency.class);        
         
         HashMap uniqueReportCodes = new HashMap();
         ValidClassReportFrequency validClassReportFrequency = new ValidClassReportFrequency();
         int key=0;
-        
+        keyValues.add(new KeyLabelPair("","select"));
         for (Iterator iter1 = validClassReportFrequencies.iterator(); iter1.hasNext();) {
             validClassReportFrequency = (ValidClassReportFrequency) iter1.next();
             validClassReportFrequency.refreshReferenceObject("report");            

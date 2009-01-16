@@ -31,7 +31,7 @@ public class Frequency extends KraPersistableBusinessObjectBase {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -8019195552412635447L;
-    private Integer frequencyCode; 
+    private String frequencyCode; 
     private String description; 
     private Integer numberOfDays; 
     private Integer numberOfMonths; 
@@ -58,7 +58,7 @@ public class Frequency extends KraPersistableBusinessObjectBase {
      *
      * @return
      */
-    public Integer getFrequencyCode() {
+    public String getFrequencyCode() {
         return frequencyCode;
     }
 
@@ -66,7 +66,7 @@ public class Frequency extends KraPersistableBusinessObjectBase {
      *
      * @param frequencyCode
      */
-    public void setFrequencyCode(Integer frequencyCode) {
+    public void setFrequencyCode(String frequencyCode) {
         this.frequencyCode = frequencyCode;
     }
 

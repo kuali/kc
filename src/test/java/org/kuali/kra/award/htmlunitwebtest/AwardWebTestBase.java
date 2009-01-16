@@ -70,7 +70,6 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        
         setAwardHomePage(buildAwardDocumentPage());
     }
         

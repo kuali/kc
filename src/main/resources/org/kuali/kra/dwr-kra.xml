@@ -94,6 +94,11 @@
 			<param name="beanName" value="organizationService" />
 			<include method="getOrganizationName" />
 		</create>
+		<create creator="spring" javascript="AwardReportsService">
+			<param name="beanName" value="awardReportsService" />			
+			<include method="getFrequencyCodes" />
+			<include method="getFrequencyBaseCodes" />
+		</create>
 
 		
 	</allow>
