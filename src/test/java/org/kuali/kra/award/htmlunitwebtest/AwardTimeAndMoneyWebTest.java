@@ -275,6 +275,38 @@ public class AwardTimeAndMoneyWebTest extends AwardWebTestBase{
         
     }
     
+    @Test
+    public void testAwardCostShareAddCostShare() throws Exception{
+        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.costSharePercentage", "50");
+        //setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.costShareTypeCode", "1");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.fiscalYear", "2008");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.source", "test source");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.destination", "test destination");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.commitmentAmount", "10000");
+        
+        final HtmlForm form1 = (HtmlForm) awardTimeAndMoneyPage.getForms().get(0);        
+        String completeButtonName1=getImageTagName(awardTimeAndMoneyPage, "methodToCall.addCostShare");        
+        final HtmlImageInput button1 = (HtmlImageInput) form1.getInputByName(completeButtonName1);
+        HtmlPage awardTimeAndMoneyPageAfterAddingCostShare = (HtmlPage) button1.click();
+        
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.costSharePercentage", "50");
+        //setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.costShareTypeCode", "1");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.fiscalYear", "2008");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.source", "test source");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.destination", "test destination");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.commitmentAmount", "10000");
+        
+        final HtmlForm form2 = (HtmlForm) awardTimeAndMoneyPageAfterAddingCostShare.getForms().get(0);        
+        String completeButtonName2=getImageTagName(awardTimeAndMoneyPageAfterAddingCostShare, "methodToCall.addCostShare");        
+        final HtmlImageInput button2 = (HtmlImageInput) form2.getInputByName(completeButtonName2);
+        HtmlPage awardTimeAndMoneyPageAfterAddingTwoCostShares = (HtmlPage) button2.click();
+        
+        HtmlPage awardTimeAndMoneyPageAfterSave = clickOn(awardTimeAndMoneyPageAfterAddingTwoCostShares, "methodToCall.save");
+        assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);        
+        assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERRORS_FOUND_ON_PAGE);
+        assertContains(awardTimeAndMoneyPageAfterSave,SAVE_SUCCESS_MESSAGE);        
+    }
+    
     
 
 }
