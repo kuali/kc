@@ -27,14 +27,49 @@ import java.util.Collection;
 
 public class AwardCommentFactory {
 
+    /**
+     * This method creates a Cost Share Comment
+     * @param award
+     * @return
+     */
     public AwardComment createCostShareComment(Award award) {
         return createAwardComment(award, Constants.COST_SHARE_COMMENT_TYPE_CODE, true);
     }
     
+    /**
+     * This method creates F and A Rate Comment
+     * @param award
+     * @return
+     */
     public AwardComment createFandaRateComment(Award award) {
         return createAwardComment(award, Constants.FANDA_RATE_COMMENT_TYPE_CODE, true);
     }
+    
+    /**
+     * This method creates PreAwardSponsorAuthoriztion comment
+     * @param award
+     * @return
+     */
+    public AwardComment createPreAwardSponsorAuthorizationComment(Award award) {
+        return createAwardComment(award, Constants.PREAWARD_SPONSOR_AUTHORIZATION_COMMENT_TYPE_CODE, false);
+    }
+    
+    /**
+     * This method creates a PreAwardInstitutionalAuthorization Comment
+     * @param award
+     * @return
+     */
+    public AwardComment createPreAwardInstitutionalAuthorizationComment(Award award) {
+        return createAwardComment(award, Constants.PREAWARD_INSTITUTIONAL_AUTHORIZATION_COMMENT_TYPE_CODE, false);
+    }
 
+    /**
+     * This method returns a new AwardComment
+     * @param award
+     * @param commentTypeCode
+     * @param checklistPrintFlag
+     * @return
+     */
     public  AwardComment createAwardComment(Award award, int commentTypeCode, boolean checklistPrintFlag) {
                 AwardComment comment = new AwardComment();
                 comment.setAward(award);
@@ -48,6 +83,11 @@ public class AwardCommentFactory {
                 return comment;
 }
 
+    /**
+     * This method returns corresponding Comment Type
+     * @param commentTypeCode
+     * @return
+     */
     @SuppressWarnings("unchecked")
     public CommentType findCommentType(int commentTypeCode){
         BusinessObjectService costShareCommentType = getBusinessObjectService();
@@ -62,6 +102,10 @@ public class AwardCommentFactory {
         return returnVal;
     }
     
+    /**
+     * This method returns a business object service
+     * @return
+     */
     protected BusinessObjectService getBusinessObjectService() {
         return KNSServiceLocator.getBusinessObjectService();
     }
