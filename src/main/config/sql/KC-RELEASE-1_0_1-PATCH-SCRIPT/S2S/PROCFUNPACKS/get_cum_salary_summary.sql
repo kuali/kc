@@ -7,6 +7,15 @@ BEGIN
 OPEN CUR_SUMMARY FOR
 
 select
+       start_date, end_date, category, person_name,
+       percent_effort, percent_charged,
+       eb_rate,
+       vac_rate,
+       category_code, salary,
+       fringe,
+       PRINCIPAL_INVESTIGATOR,
+       cost_element_desc from ( 
+select
        --proposal_number, version_number, budget_period, line_item_number,
        start_date, end_date, fdesc as category, full_name as person_name,
        percent_effort, percent_charged,
@@ -174,7 +183,9 @@ group by
       fdesc, gdesc, person_number, person_id, full_name, job_code, principal_investigator, percent_charged, percent_effort,
       start_date, end_date
 order by
-      proposal_number, version_number, budget_period, line_item_number, person_number;
-
+      proposal_number, version_number, budget_period, line_item_number, person_number
+       
+) order by category, cost_element_desc, person_name, start_date;  
 END;
+
 /
