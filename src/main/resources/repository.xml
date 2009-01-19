@@ -2908,10 +2908,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 	</class-descriptor>
 	
-	<!-- Award Tables -->
-
-	
-	<!-- Award Tables End -->	
+	<!-- Award Tables - moved to award-repository.xml -->
 
 	<class-descriptor class="org.kuali.kra.bo.AffiliationType" table="AFFILIATION_TYPE">
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
