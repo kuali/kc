@@ -24,7 +24,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.document.Document;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -42,10 +41,6 @@ import org.kuali.kra.irb.service.ProtocolParticipantService;
 import org.kuali.kra.irb.service.ProtocolReferenceService;
 import org.kuali.kra.irb.service.ProtocolResearchAreaService;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
-import org.kuali.rice.KNSServiceLocator;
-import org.kuali.rice.kns.util.KNSConstants;
-
-import edu.iu.uis.eden.clientapp.IDocHandler;
 
 /**
  * The ProtocolProtocolAction corresponds to the Protocol tab (web page).  It is
@@ -91,36 +86,6 @@ public class ProtocolProtocolAction extends ProtocolAction {
             service.addProtocolResearchArea(protocolDocument.getProtocol(), selectedBOs);
         }
     }
-      
-    /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward forward = null;
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        String command = protocolForm.getCommand();
-        
-        if (IDocHandler.ACTIONLIST_INLINE_COMMAND.equals(command)) {
-             String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
-             Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
-             protocolForm.setDocument(retrievedDocument);
-             request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);
-             forward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
-             forward = new ActionForward(forward.getPath()+ "?" + KNSConstants.PARAMETER_DOC_ID + "=" + docIdRequestParameter);  
-        } else {
-             forward = super.docHandler(mapping, form, request, response);
-        }
-
-        if (IDocHandler.INITIATE_COMMAND.equals(protocolForm.getCommand())) {
-            protocolForm.getProtocolDocument().initialize();
-        }else{
-            protocolForm.initialize();
-        }
-        
-        return forward;
-    }    
     
     /**
      * 
