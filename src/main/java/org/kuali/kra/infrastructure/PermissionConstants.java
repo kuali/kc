@@ -33,5 +33,6 @@ public interface PermissionConstants {
     public static final String PRINT_PROPOSAL = "PRINT_PROPOSAL";
     public static final String ALTER_PROPOSAL_DATA = "ALTER_PROPOSAL_DATA";
     public static final String SUBMIT_TO_SPONSOR = "SUBMIT_TO_SPONSOR";
-    public static final String SUBMIT_PROPOSAL = "SUBMIT_PROPOSAL";;
+    public static final String SUBMIT_PROPOSAL = "SUBMIT_PROPOSAL";
+    public static final String ADD_PROPOSAL_VIEWER = "ADD_PROPOSAL_VIEWER";
 }
