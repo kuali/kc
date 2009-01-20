@@ -23,6 +23,14 @@ public class CostShareType extends KraPersistableBusinessObjectBase {
     
     private Integer costShareTypeCode;
     private String description;
+    
+    /**
+     * 
+     * Constructs a CostShareType.java.
+     */
+    public CostShareType() {
+        super();                
+    }
 
     public Integer getCostShareTypeCode() {
         return costShareTypeCode;

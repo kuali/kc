@@ -147,6 +147,7 @@
         	<td class="infoline">
             	 <div align="left">
             	  	 <kul:htmlControlAttribute property="document.awardList[0].awardCostShareComment.comments" attributeEntry="${awardCostShareCommentAttributes.comments}"/>
+            	  	 <kra:expandedTextArea textAreaFieldName="document.awardList[0].awardCostShareComment.comments" action="${action}" textAreaLabel="${awardCostShareCommentAttributes.comments.label}" />
             	 </div>
             </td>
         </table>

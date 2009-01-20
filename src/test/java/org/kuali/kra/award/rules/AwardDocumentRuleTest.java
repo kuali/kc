@@ -75,5 +75,6 @@ public class AwardDocumentRuleTest {
     public final void testIsFandaRateInputInPairs() {
         Assert.assertTrue(awardDocumentRule.isFandaRateInputInPairs(awardFandaRateList));
     }
+   
 
 }
