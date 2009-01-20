@@ -84,6 +84,7 @@ import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.bo.S2sSubmissionHistory;
+import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.PersonService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.kra.web.struts.form.ProposalFormBase;
@@ -1334,6 +1335,10 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         }
 
         return isBudgetVersionsAction;
+    }
+    
+    public boolean isInWorkflow() {
+        return KraServiceLocator.getService(KraWorkflowService.class).isInWorkflow(this.getDocument());
     }
     
 }
