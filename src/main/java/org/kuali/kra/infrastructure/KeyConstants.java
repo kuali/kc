@@ -137,6 +137,7 @@ public class KeyConstants {
     public static final String ERROR_REQUIRE_ONE_NARRATIVE_MODIFY="error.narrative.one.modify";
     public static final String ERROR_NARRATIVE_USER_RIGHT_NO_PERMISSION="error.narrative.no.permission";
     public static final String ERROR_ONE_AGGREGATOR_MODFIY="error.one.aggregator.modify";
+    public static final String ERROR_PERMISSION_VIEWER_ONLY_KEY = "error.viewer.only";
     
     // Authorization
     public static final String AUTHORIZATION_VIOLATION = "error.authorization.violation";
