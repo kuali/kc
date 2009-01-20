@@ -149,4 +149,31 @@ public class ProposalUserRoles {
     public List<String> getRoleLabels() {
         return roleNames;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        ProposalUserRoles theOther = null;
+        try {
+            theOther = (ProposalUserRoles)obj;
+        }
+        catch (ClassCastException e) {
+            return false;
+        }
+        
+        boolean isEqual = true;
+        
+        isEqual &= this.fullname.equals(theOther.fullname);
+        isEqual &= this.unitName.equals(theOther.unitName);
+        isEqual &= this.unitNumber.equals(theOther.unitNumber);
+        isEqual &= this.username.equals(theOther.username);
+        isEqual &= this.roleNames.size() == theOther.roleNames.size();
+           
+        if (isEqual) {
+            for (String roleName : this.roleNames) {
+                isEqual &= theOther.roleNames.contains(roleName);
+            }
+        }
+        
+        return isEqual;
+    }
 }
