@@ -24,22 +24,24 @@ import org.junit.Test;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardFandaRate;
+import org.kuali.kra.award.bo.AwardCostShare;
+import org.kuali.kra.bo.CostShareType;
 
 /**
  * 
  * This class Tests the methods in AwardAction.java
  */
 
-public class AwardTimeAndMoneyActionTest{
-    
-    public static final String MOCK_FORWARD_STRING = "FORWARD_STRING";
-    public static final String MOCK_DOC_ID_REQUEST_PARAMETER = "21";
-    public static final String MOCK_EXPECTED_RESULT_STRING = "FORWARD_STRING?docId=21";
-    public static final int ZERO = 0;
+public class AwardTimeAndMoneyActionTest {
     
     AwardTimeAndMoneyAction awardTimeAndMoneyAction;
     Award award;
     AwardFandaRate awardFandaRate;
+    AwardCostShare awardCostShare;
+    public static final String MOCK_FORWARD_STRING = "FORWARD_STRING";
+    public static final String MOCK_DOC_ID_REQUEST_PARAMETER = "21";
+    public static final String MOCK_EXPECTED_RESULT_STRING = "FORWARD_STRING?docId=21";
+    public static final int ZERO = 0;
     
     /**
      *
@@ -48,15 +50,25 @@ public class AwardTimeAndMoneyActionTest{
     @Before
     public void setUp() throws Exception {
         awardTimeAndMoneyAction = new AwardTimeAndMoneyAction();
-        award = new Award();        
+        award = new Award();    
+        //initialize BO's
         awardFandaRate = new AwardFandaRate();
+        awardCostShare = new AwardCostShare();
+      //initialize awardFandaRate
         awardFandaRate.setApplicableFandaRate(new KualiDecimal(5));
         awardFandaRate.setFiscalYear("2008");
         awardFandaRate.setFandaRateTypeCode(5);
         awardFandaRate.setOnCampusFlag("N");
         awardFandaRate.setUnderrecoveryOfIndirectCost(new KualiDecimal(1000));
         awardFandaRate.setStartDate(new Date(new Long("1183316613046")));        
-        awardFandaRate.setEndDate(new Date(new Long("1214852613046")));  
+        awardFandaRate.setEndDate(new Date(new Long("1214852613046")));
+        //initialize awardCostShare
+        awardCostShare.setCostSharePercentage(new KualiDecimal(55));
+        awardCostShare.setCostShareType(new CostShareType());
+        awardCostShare.setDestination("testAccount1");
+        awardCostShare.setSource("testAccount2");
+        awardCostShare.setFiscalYear("2008");
+        awardCostShare.setCommitmentAmount(new KualiDecimal(34000));
     }
 
     /**
@@ -67,6 +79,7 @@ public class AwardTimeAndMoneyActionTest{
     public void tearDown() throws Exception {
         award = null;
         awardFandaRate = null;
+        awardCostShare = null;
         awardTimeAndMoneyAction = null;
     }
     
@@ -80,6 +93,18 @@ public class AwardTimeAndMoneyActionTest{
         awardTimeAndMoneyAction.addFandaRateToAward(award, awardFandaRate);        
         awardTimeAndMoneyAction.deleteFandaRateFromAward(award, 0);
         Assert.assertEquals(ZERO, award.getAwardFandaRate().size());        
+    }
+    
+    @Test
+    public void testAddCostShare(){
+        Assert.assertTrue(awardTimeAndMoneyAction.addCostShareToAward(award, awardCostShare));
+    }
+    
+    @Test
+    public void testDeleteCostShareFromAward(){        
+        awardTimeAndMoneyAction.addCostShareToAward(award, awardCostShare);        
+        awardTimeAndMoneyAction.deleteCostShareFromAward(award, 0);
+        Assert.assertEquals(ZERO, award.getAwardCostShares().size());        
     }
 
 }

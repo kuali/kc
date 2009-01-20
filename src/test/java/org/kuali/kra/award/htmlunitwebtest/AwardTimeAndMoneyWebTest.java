@@ -20,6 +20,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.kuali.core.util.KualiDecimal;
+
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlImageInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -275,13 +277,19 @@ public class AwardTimeAndMoneyWebTest extends AwardWebTestBase{
         
     }
     
+    /**
+     * 
+     * This method tests the adding of 2 Cost Shares 
+     * and saving them.  
+     * @throws Exception
+     */
     @Test
     public void testAwardCostShareAddCostShare() throws Exception{
         setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.costSharePercentage", "50");
-        //setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.costShareTypeCode", "1");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.costShareTypeCode", "1");
         setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.fiscalYear", "2008");
-        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.source", "test source");
-        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.destination", "test destination");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.source", "12345");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.destination", "54321");
         setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.commitmentAmount", "10000");
         
         final HtmlForm form1 = (HtmlForm) awardTimeAndMoneyPage.getForms().get(0);        
@@ -290,10 +298,10 @@ public class AwardTimeAndMoneyWebTest extends AwardWebTestBase{
         HtmlPage awardTimeAndMoneyPageAfterAddingCostShare = (HtmlPage) button1.click();
         
         setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.costSharePercentage", "50");
-        //setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.costShareTypeCode", "1");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.costShareTypeCode", "1");
         setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.fiscalYear", "2008");
-        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.source", "test source");
-        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.destination", "test destination");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.source", "6789");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.destination", "9876");
         setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.commitmentAmount", "10000");
         
         final HtmlForm form2 = (HtmlForm) awardTimeAndMoneyPageAfterAddingCostShare.getForms().get(0);        
@@ -306,6 +314,233 @@ public class AwardTimeAndMoneyWebTest extends AwardWebTestBase{
         assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERRORS_FOUND_ON_PAGE);
         assertContains(awardTimeAndMoneyPageAfterSave,SAVE_SUCCESS_MESSAGE);        
     }
+    
+    /**
+     * 
+     * This method tests deletion of Cost Share from the Award Time & Money page.
+     * @throws Exception
+     */
+    @Test
+    public void testAwardCostSharePanelDeleteCostShare() throws Exception{
+        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.costSharePercentage", "50");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.costShareTypeCode", "1");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.fiscalYear", "2008");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.source", "12345");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.destination", "54321");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.commitmentAmount", "10000");
+        
+        final HtmlForm form1 = (HtmlForm) awardTimeAndMoneyPage.getForms().get(0);        
+        String completeButtonName1=getImageTagName(awardTimeAndMoneyPage, "methodToCall.addCostShare");        
+        final HtmlImageInput button1 = (HtmlImageInput) form1.getInputByName(completeButtonName1);
+        HtmlPage awardTimeAndMoneyPageAfterAddingCostShare = (HtmlPage) button1.click();
+        
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.costSharePercentage", "50");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.costShareTypeCode", "1");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.fiscalYear", "2008");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.source", "6789");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.destination", "9876");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.commitmentAmount", "10000");
+        
+        final HtmlForm form2 = (HtmlForm) awardTimeAndMoneyPageAfterAddingCostShare.getForms().get(0);        
+        String completeButtonName2=getImageTagName(awardTimeAndMoneyPageAfterAddingCostShare, "methodToCall.addCostShare");        
+        final HtmlImageInput button2 = (HtmlImageInput) form2.getInputByName(completeButtonName2);
+        HtmlPage awardTimeAndMoneyPageAfterAddingTwoCostShares = (HtmlPage) button2.click();
+        
+        HtmlPage awardTimeAndMoneyPageAfterSave = clickOn(awardTimeAndMoneyPageAfterAddingTwoCostShares, "methodToCall.save");
+        assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);        
+        assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERRORS_FOUND_ON_PAGE);
+        assertContains(awardTimeAndMoneyPageAfterSave,SAVE_SUCCESS_MESSAGE);  
+        
+        //simulate clicking yes in confirm page(found correct methodToCall in html source code).
+        HtmlPage awardTimeAndMoneyPageConfirm1 = clickOn(awardTimeAndMoneyPageAfterSave, "methodToCall.deleteCostShare.line1.anchor3");
+        HtmlPage awardTimeAndMoneyPageAfterDelete1 = clickOn(awardTimeAndMoneyPageConfirm1, "methodToCall.processAnswer.button0");
+        //simulate clicking yes in confirm page(found correct methodToCall in html source code).
+        HtmlPage awardTimeAndMoneyPageConfirm2 = clickOn(awardTimeAndMoneyPageAfterDelete1, "methodToCall.deleteCostShare.line0.anchor3");
+        HtmlPage awardTimeAndMoneyPageAfterDelete2 = clickOn(awardTimeAndMoneyPageConfirm2, "methodToCall.processAnswer.button0");
+        
+        HtmlPage awardTimeAndMoneyPageAfterSaveAgain = clickOn(awardTimeAndMoneyPageAfterDelete2, "methodToCall.save");
+        
+        assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);
+        assertDoesNotContain(awardTimeAndMoneyPageAfterSaveAgain, ERRORS_FOUND_ON_PAGE);
+        assertContains(awardTimeAndMoneyPageAfterSaveAgain,SAVE_SUCCESS_MESSAGE);
+                
+    }
+    
+    /**
+     * 
+     * This method tests the recalculate on Award Cost Share Recalculate on Time & Money page.
+     * @throws Exception
+     */
+    @Test
+    public void testAwardCostShareRecalculate() throws Exception{
+        
+        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.costSharePercentage", "50");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.costShareTypeCode", "1");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.fiscalYear", "2008");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.source", "12345");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.destination", "54321");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.commitmentAmount", "10000");
+        
+        final HtmlForm form1 = (HtmlForm) awardTimeAndMoneyPage.getForms().get(0);        
+        String completeButtonName1=getImageTagName(awardTimeAndMoneyPage, "methodToCall.addCostShare");        
+        final HtmlImageInput button1 = (HtmlImageInput) form1.getInputByName(completeButtonName1);
+        HtmlPage awardTimeAndMoneyPageAfterAddingCostShare = (HtmlPage) button1.click();
+        
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.costSharePercentage", "50");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.costShareTypeCode", "1");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.fiscalYear", "2008");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.source", "6789");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.destination", "9876");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.commitmentAmount", "10000");
+        
+        final HtmlForm form2 = (HtmlForm) awardTimeAndMoneyPageAfterAddingCostShare.getForms().get(0);        
+        String completeButtonName2=getImageTagName(awardTimeAndMoneyPageAfterAddingCostShare, "methodToCall.addCostShare");        
+        final HtmlImageInput button2 = (HtmlImageInput) form2.getInputByName(completeButtonName2);
+        HtmlPage awardTimeAndMoneyPageAfterAddingTwoCostShares = (HtmlPage) button2.click();
+        
+        HtmlPage awardTimeAndMoneyPageAfterSave = clickOn(awardTimeAndMoneyPageAfterAddingTwoCostShares, "methodToCall.save");
+        assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);        
+        assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERRORS_FOUND_ON_PAGE);
+        assertContains(awardTimeAndMoneyPageAfterSave,SAVE_SUCCESS_MESSAGE);        
+        
+        setFieldValue(awardTimeAndMoneyPageAfterSave,"document.awardList[0].awardCostShares[0].commitmentAmount","10000");
+        setFieldValue(awardTimeAndMoneyPageAfterSave,"document.awardList[0].awardCostShares[1].commitmentAmount","12345.00");
+        
+        HtmlPage awardTimeAndMoneyPageAfterRecalculate = clickOn(awardTimeAndMoneyPageAfterSave, "methodToCall.recalculateCostShareTotal.anchor");
+        System.out.println(awardTimeAndMoneyPageAfterRecalculate.asText());
+        assertContains(awardTimeAndMoneyPageAfterRecalculate,"22345");
+    }
+    
+    /**
+     * 
+     * This method tests the comments functionality on Award CostShare panel
+     *  
+     * @throws Exception
+     */
+    @Test
+    public void testAwardCostSharePanelComments() throws Exception {
+        
+        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.costSharePercentage", "50");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.costShareTypeCode", "1");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.fiscalYear", "2008");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.source", "12345");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.destination", "54321");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.commitmentAmount", "10000");
+        
+        final HtmlForm form1 = (HtmlForm) awardTimeAndMoneyPage.getForms().get(0);        
+        String completeButtonName1=getImageTagName(awardTimeAndMoneyPage, "methodToCall.addCostShare");        
+        final HtmlImageInput button1 = (HtmlImageInput) form1.getInputByName(completeButtonName1);
+        HtmlPage awardTimeAndMoneyPageAfterAddingCostShare = (HtmlPage) button1.click();
+        
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.costSharePercentage", "50");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.costShareTypeCode", "1");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.fiscalYear", "2008");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.source", "6789");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.destination", "9876");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.commitmentAmount", "10000");
+        
+        final HtmlForm form2 = (HtmlForm) awardTimeAndMoneyPageAfterAddingCostShare.getForms().get(0);        
+        String completeButtonName2=getImageTagName(awardTimeAndMoneyPageAfterAddingCostShare, "methodToCall.addCostShare");        
+        final HtmlImageInput button2 = (HtmlImageInput) form2.getInputByName(completeButtonName2);
+        HtmlPage awardTimeAndMoneyPageAfterAddingTwoCostShares = (HtmlPage) button2.click();
+        
+        HtmlPage awardTimeAndMoneyPageAfterSave = clickOn(awardTimeAndMoneyPageAfterAddingTwoCostShares, "methodToCall.save");
+        assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);        
+        assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERRORS_FOUND_ON_PAGE);
+        assertContains(awardTimeAndMoneyPageAfterSave,SAVE_SUCCESS_MESSAGE);        
+        
+        
+        setFieldValue(awardTimeAndMoneyPageAfterSave, "document.awardList[0].awardCostShareComment.comments", "We are testing Comments");
+        
+        HtmlPage awardTimeAndMoneyPageAfterAnotherSave = clickOn(awardTimeAndMoneyPageAfterSave, "methodToCall.save");
+        assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);
+        assertDoesNotContain(awardTimeAndMoneyPageAfterAnotherSave, ERRORS_FOUND_ON_PAGE);
+        assertContains(awardTimeAndMoneyPageAfterAnotherSave,SAVE_SUCCESS_MESSAGE);
+        HtmlPage awardTimeAndMoneyPageAfterAnotherReload = clickOn(awardTimeAndMoneyPageAfterAnotherSave, "methodToCall.reload");
+        assertContains(awardTimeAndMoneyPageAfterAnotherReload,"We are testing Comments");
+        
+    }
+    
+    /**
+     * 
+     * This method tests Preaward Authorizations Panel.  Adding amounts and effective dates. 
+     * and saving them.  
+     * @throws Exception
+     */
+    @Test
+    public void testPreawardAuthorizationsPanel() throws Exception{
+        
+        setFieldValue(awardTimeAndMoneyPage, "document.awardList[0].preAwardAuthorizedAmount", "10000");
+        setFieldValue(awardTimeAndMoneyPage, "document.awardList[0].preAwardEffectiveDate", "01/18/2009");
+        setFieldValue(awardTimeAndMoneyPage, "document.awardList[0].preAwardInstitutionalAuthorizedAmount", "25000");
+        setFieldValue(awardTimeAndMoneyPage, "document.awardList[0].preAwardInstitutionalEffectiveDate", "01/18/2009");
+        
+        HtmlPage awardTimeAndMoneyPageAfterSave = clickOn(awardTimeAndMoneyPage, "methodToCall.save");
+        assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);
+        assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERRORS_FOUND_ON_PAGE);
+        assertContains(awardTimeAndMoneyPageAfterSave,SAVE_SUCCESS_MESSAGE);
+        
+    }
+    
+    /**
+     * 
+     * This method tests Preaward Sponsor Authorization Comments
+     * @throws Exception
+     */
+    @Test
+    public void testPreawardAuthorizationComments() throws Exception{
+        
+        setFieldValue(awardTimeAndMoneyPage, "document.awardList[0].preAwardAuthorizedAmount", "10000");
+        setFieldValue(awardTimeAndMoneyPage, "document.awardList[0].preAwardEffectiveDate", "01/19/2009");
+        setFieldValue(awardTimeAndMoneyPage, "document.awardList[0].preAwardInstitutionalAuthorizedAmount", "25000");
+        setFieldValue(awardTimeAndMoneyPage, "document.awardList[0].preAwardInstitutionalEffectiveDate", "01/19/2009");
+        
+        HtmlPage awardTimeAndMoneyPageAfterSave = clickOn(awardTimeAndMoneyPage, "methodToCall.save");
+        assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);
+        assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERRORS_FOUND_ON_PAGE);
+        assertContains(awardTimeAndMoneyPageAfterSave,SAVE_SUCCESS_MESSAGE);
+        
+        setFieldValue(awardTimeAndMoneyPageAfterSave, "document.awardList[0].awardPreAwardSponsorAuthorizationComment.comments", "We are testing Sponsor Authorization Comments");
+        
+        HtmlPage awardTimeAndMoneyPageAfterAnotherSave = clickOn(awardTimeAndMoneyPageAfterSave, "methodToCall.save");
+        assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);
+        assertDoesNotContain(awardTimeAndMoneyPageAfterAnotherSave, ERRORS_FOUND_ON_PAGE);
+        assertContains(awardTimeAndMoneyPageAfterAnotherSave,SAVE_SUCCESS_MESSAGE);
+        HtmlPage awardTimeAndMoneyPageAfterAnotherReload = clickOn(awardTimeAndMoneyPageAfterAnotherSave, "methodToCall.reload");
+        assertContains(awardTimeAndMoneyPageAfterAnotherReload,"We are testing Sponsor Authorization Comments");
+        
+    }
+    
+    /**
+     * 
+     * This method tests Preaward Institutional Authorization Comments 
+     * @throws Exception
+     */
+     
+    @Test
+    public void testPreawardInstitutionalAuthorizationComments() throws Exception{
+        
+        setFieldValue(awardTimeAndMoneyPage, "document.awardList[0].preAwardAuthorizedAmount", "10000");
+        setFieldValue(awardTimeAndMoneyPage, "document.awardList[0].preAwardEffectiveDate", "01/20/2009");
+        setFieldValue(awardTimeAndMoneyPage, "document.awardList[0].preAwardInstitutionalAuthorizedAmount", "25000");
+        setFieldValue(awardTimeAndMoneyPage, "document.awardList[0].preAwardInstitutionalEffectiveDate", "01/20/2009");
+        
+        HtmlPage awardTimeAndMoneyPageAfterSave = clickOn(awardTimeAndMoneyPage, "methodToCall.save");
+        assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);
+        assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERRORS_FOUND_ON_PAGE);
+        assertContains(awardTimeAndMoneyPageAfterSave,SAVE_SUCCESS_MESSAGE);
+        
+        setFieldValue(awardTimeAndMoneyPageAfterSave, "document.awardList[0].awardPreAwardInstitutionalAuthorizationComment.comments", "We are testing Institutional Authorization Comments");
+        
+        HtmlPage awardTimeAndMoneyPageAfterAnotherSave = clickOn(awardTimeAndMoneyPageAfterSave, "methodToCall.save");
+        assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);
+        assertDoesNotContain(awardTimeAndMoneyPageAfterAnotherSave, ERRORS_FOUND_ON_PAGE);
+        assertContains(awardTimeAndMoneyPageAfterAnotherSave,SAVE_SUCCESS_MESSAGE);
+        HtmlPage awardTimeAndMoneyPageAfterAnotherReload = clickOn(awardTimeAndMoneyPageAfterAnotherSave, "methodToCall.reload");
+        assertContains(awardTimeAndMoneyPageAfterAnotherReload,"We are testing Institutional Authorization Comments");
+        
+    }
+        
     
     
 

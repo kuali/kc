@@ -17,10 +17,8 @@ package org.kuali.kra.award.bo;
 
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.impl.BusinessObjectServiceImpl;
 import org.kuali.kra.award.bo.AwardComment;
 import org.kuali.kra.bo.CommentType;
-import org.kuali.kra.bo.CostShareType;
 import org.kuali.rice.KNSServiceLocator;
 
 import java.util.Collection;
