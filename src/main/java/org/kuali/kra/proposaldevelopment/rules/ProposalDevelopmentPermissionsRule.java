@@ -18,6 +18,8 @@ package org.kuali.kra.proposaldevelopment.rules;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -29,7 +31,10 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.PermissionsRule;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.PersonService;
+import org.kuali.kra.service.impl.KraWorkflowServiceImpl;
+import org.kuali.rice.KNSServiceLocator;
 
 /**
  * Business Rule to determine the legality of modifying the access
@@ -40,12 +45,14 @@ import org.kuali.kra.service.PersonService;
 public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase implements PermissionsRule {
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentPermissionsRule.class);
-
+    
     /**
      * @see org.kuali.kra.proposaldevelopment.rule.PermissionsRule#processAddProposalUserBusinessRules(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, java.util.List, org.kuali.kra.proposaldevelopment.bo.ProposalUser)
      */
     public boolean processAddProposalUserBusinessRules(ProposalDevelopmentDocument document, List<ProposalUserRoles> proposalUserRolesList, ProposalUser proposalUser) {
         boolean isValid = true;
+        
+        KraWorkflowService kraWorkflowService = KraServiceLocator.getService(KraWorkflowService.class);
        
         // The given username must be valid, i.e. it must correspond
         // to a person in the database.
@@ -65,6 +72,14 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
                              KeyConstants.ERROR_DUPLICATE_PROPOSAL_USER);
         }
         
+        // Once workflowed, only Viewers can be added.
+        else if (kraWorkflowService.isInWorkflow(document)) {
+            if (!isAddingViewerOnly(proposalUser)) {
+                isValid = false;
+                this.reportError(Constants.PERMISSION_USERS_PROPERTY_KEY + ".roleName", KeyConstants.ERROR_PERMISSION_VIEWER_ONLY_KEY);
+            }
+        }
+        
         return isValid;
     }
     
@@ -73,6 +88,7 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
      */
     public boolean processDeleteProposalUserBusinessRules(ProposalDevelopmentDocument document, List<ProposalUserRoles> proposalUserRolesList, int index) {
         boolean isValid = true;
+        KraWorkflowService kraWorkflowService = KraServiceLocator.getService(KraWorkflowService.class);
         
         // The user cannot delete the last Aggregator on a proposal.
             
@@ -83,6 +99,13 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
                              KeyConstants.ERROR_LAST_AGGREGATOR);
         }
         
+        // Can only add viewers after doc is workflowed
+        else if (kraWorkflowService.isInWorkflow(document)) {
+            isValid = false;
+            this.reportError(Constants.EDIT_ROLES_PROPERTY_KEY, 
+                    KeyConstants.ERROR_PERMISSION_VIEWER_ONLY_KEY);
+        }
+        
         return isValid;
     }
     
@@ -91,6 +114,7 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
      */
     public boolean processEditProposalUserRolesBusinessRules(ProposalDevelopmentDocument document, List<ProposalUserRoles> proposalUserRolesList, ProposalUserEditRoles editRoles) {
         boolean isValid = true;
+        KraWorkflowService kraWorkflowService = KraServiceLocator.getService(KraWorkflowService.class);
         
         // The Aggregator encompasses all of the other roles.  Therefore, if the
         // user selects the Aggregator role, don't allow any of the other roles
@@ -108,6 +132,13 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
             isValid = false;
             this.reportError(Constants.EDIT_ROLES_PROPERTY_KEY, 
                              KeyConstants.ERROR_LAST_AGGREGATOR);
+        }
+
+        // Can only add viewers after doc is workflowed
+        else if (kraWorkflowService.isInWorkflow(document)) {
+            isValid = false;
+            this.reportError(Constants.EDIT_ROLES_PROPERTY_KEY, 
+                    KeyConstants.ERROR_PERMISSION_VIEWER_ONLY_KEY);
         }
         
         return isValid;
@@ -196,5 +227,9 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
             }
         }
         return true;
+    }
+    
+    private boolean isAddingViewerOnly(ProposalUser proposalUser) {
+        return StringUtils.equals(proposalUser.getRoleName(), RoleConstants.VIEWER);
     }
 }
