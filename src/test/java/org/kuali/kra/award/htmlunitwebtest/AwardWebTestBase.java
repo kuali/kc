@@ -23,6 +23,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.kuali.kra.KraWebTestBase;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.rice.test.data.PerSuiteUnitTestData;
+import org.kuali.rice.test.data.UnitTestData;
+import org.kuali.rice.test.data.UnitTestFile;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -33,6 +36,10 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * Base class for all htmlunit tests involving the Award Document Pages.
  * 
  */
+
+@PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
+        @UnitTestFile(filename = "classpath:sql/dml/load_COST_SHARE_TYPE.sql", delimiter = ";")}))
+        
 @SuppressWarnings("unchecked")
 public abstract class AwardWebTestBase extends KraWebTestBase {
     

@@ -36,7 +36,7 @@ public class AwardComment extends KraPersistableBusinessObjectBase {
      * Constructs a AwardComment.java.
      */
     public AwardComment() {
-        super();                
+        super();
     }
     
     public Long getAwardCommentId() {

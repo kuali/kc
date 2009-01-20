@@ -25,7 +25,7 @@ import org.junit.Test;
  * This class tests methods in Award.java class
  */
 public class AwardTest { 
-    private static final int AWARD_ATTRIBUTES_COUNT = 45;
+    private static final int AWARD_ATTRIBUTES_COUNT = 47;
     
     private Award awardBo;
     
