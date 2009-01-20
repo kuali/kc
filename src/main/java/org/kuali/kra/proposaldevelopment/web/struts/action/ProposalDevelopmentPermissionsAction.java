@@ -492,4 +492,37 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
     private KualiRuleService getKualiRuleService() {
         return getService(KualiRuleService.class);
     }
+    
+    
+    /**
+     * Saves new viewers to the list of users who can access a proposal.
+     * 
+     * @param mapping the mapping associated with this action.
+     * @param form the Proposal Development form.
+     * @param request the HTTP request
+     * @param response the HTTP response
+     * @return the name of the HTML page to display
+     * @throws Exception
+     */
+    public ActionForward saveViewers(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
+
+        List<ProposalUserRoles> currentProposalUsers = proposalDevelopmentForm.getCurrentProposalUserRoles();
+        List<ProposalUserRoles> newProposalUsers = proposalDevelopmentForm.getProposalUserRoles();
+        OUTER: for (ProposalUserRoles proposalUser : newProposalUsers) {
+            if (!currentProposalUsers.contains(proposalUser)) {
+                for (String roleName : proposalUser.getRoleNames()) {
+                    if (!StringUtils.equals(roleName, RoleConstants.VIEWER)) {
+                        continue OUTER;
+                    }
+                }
+                saveProposalUser(proposalUser, doc);
+            }
+        }
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
 }
