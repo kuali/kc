@@ -28,127 +28,160 @@ import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
 
 public class ModifyProposalPermissionsAuthorizerTest extends MockObjectTestCase {
-    
+
     private Mockery context = new JUnit4Mockery();
 
     private ProposalDevelopmentDocument doc;
     private ProposalTask task;
-    boolean inWorkFlow = false;
-    boolean submittedToSponsor = false;
-    boolean permitted=true;
+    String username = "joeUser";
 
-    
+
     @Test
-    public void testSimpleSuccess() {
-        
+    public void testSuccessFullAuthorization() {
         doc = new ProposalDevelopmentDocument();
-        doc.setSubmitFlag(submittedToSponsor);       
-
+        doc.setSubmitFlag(false);
         task = new ProposalTask(TaskName.MODIFY_PROPOSAL_ROLES, doc);
-        ModifyProposalPermissionsAuthorizer mpa = new ModifyProposalPermissionsAuthorizer();
 
-        final ProposalAuthorizationService authorizationService = context.mock(ProposalAuthorizationService.class);
-        context.checking(new Expectations() {{
-            one(authorizationService).hasPermission(TaskName.MODIFY_PROPOSAL_ROLES, 
-                                                    doc, 
-                                                    PermissionConstants.MAINTAIN_PROPOSAL_ACCESS); 
-            will(returnValue(true));
-        }});
-        mpa.setProposalAuthorizationService(authorizationService);
-        
-        final KraWorkflowService workflowService = context.mock(KraWorkflowService.class);
-        context.checking(new Expectations() {{
-            one(workflowService).isInWorkflow(doc); 
-            will(returnValue(inWorkFlow));
-        }});
-        mpa.setKraWorkflowService(workflowService);
-        
-        assertTrue(mpa.isAuthorized(TaskName.MODIFY_PROPOSAL_ROLES, task));          
+        ModifyProposalPermissionsAuthorizer auth = new ModifyProposalPermissionsAuthorizer();
+        auth.setProposalAuthorizationService(getProposalAuthorizationServiceMock(true, true));
+        auth.setKraWorkflowService(getKraWorkflowServiceMock(false, false, false));
+
+        assertTrue(auth.isAuthorized(username, task));
     }
-    
+
     @Test
-    public void testNegativeSubmittedToSponsor() {
-        submittedToSponsor=true;
+    public void testFailureSubmittedToSponsor() {
         doc = new ProposalDevelopmentDocument();
-        doc.setSubmitFlag(submittedToSponsor);       
-
+        doc.setSubmitFlag(true);
         task = new ProposalTask(TaskName.MODIFY_PROPOSAL_ROLES, doc);
-        ModifyProposalPermissionsAuthorizer mpa = new ModifyProposalPermissionsAuthorizer();
 
-        final ProposalAuthorizationService authorizationService = context.mock(ProposalAuthorizationService.class);
-        context.checking(new Expectations() {{
-            one(authorizationService).hasPermission(TaskName.MODIFY_PROPOSAL_ROLES, 
-                                                    doc, 
-                                                    PermissionConstants.MAINTAIN_PROPOSAL_ACCESS); 
-            will(returnValue(true));
-        }});
-        mpa.setProposalAuthorizationService(authorizationService);
-        
-        final KraWorkflowService workflowService = context.mock(KraWorkflowService.class);
-        context.checking(new Expectations() {{
-            one(workflowService).isInWorkflow(doc); 
-            will(returnValue(inWorkFlow));
-        }});
-        mpa.setKraWorkflowService(workflowService);
-        
-        assertFalse(mpa.isAuthorized(TaskName.MODIFY_PROPOSAL_ROLES, task));        
+        ModifyProposalPermissionsAuthorizer auth = new ModifyProposalPermissionsAuthorizer();
+        auth.setProposalAuthorizationService(getProposalAuthorizationServiceMock(true, true));
+        auth.setKraWorkflowService(getKraWorkflowServiceMock(false, false, false));
+
+        assertFalse(auth.isAuthorized(username, task));
     }
-    
+
     @Test
-    public void testNegativeSubmittedToWorkflow() {
-        inWorkFlow=true; 
+    public void testFailureAllConditions() {
         doc = new ProposalDevelopmentDocument();
-        doc.setSubmitFlag(submittedToSponsor);       
-
+        doc.setSubmitFlag(true);
         task = new ProposalTask(TaskName.MODIFY_PROPOSAL_ROLES, doc);
-        ModifyProposalPermissionsAuthorizer mpa = new ModifyProposalPermissionsAuthorizer();
 
-        final ProposalAuthorizationService authorizationService = context.mock(ProposalAuthorizationService.class);
-        context.checking(new Expectations() {{
-            one(authorizationService).hasPermission(TaskName.MODIFY_PROPOSAL_ROLES, 
-                                                    doc, 
-                                                    PermissionConstants.MAINTAIN_PROPOSAL_ACCESS); 
-            will(returnValue(true));
-        }});
-        mpa.setProposalAuthorizationService(authorizationService);
-        
-        final KraWorkflowService workflowService = context.mock(KraWorkflowService.class);
-        context.checking(new Expectations() {{
-            one(workflowService).isInWorkflow(doc); 
-            will(returnValue(inWorkFlow));
-        }});
-        mpa.setKraWorkflowService(workflowService);
-        
-        assertFalse(mpa.isAuthorized(TaskName.MODIFY_PROPOSAL_ROLES, task));        
-        
+        ModifyProposalPermissionsAuthorizer auth = new ModifyProposalPermissionsAuthorizer();
+        auth.setProposalAuthorizationService(getProposalAuthorizationServiceMock(false, false));
+        auth.setKraWorkflowService(getKraWorkflowServiceMock(false, false, false));
+
+        assertFalse(auth.isAuthorized(username, task));
     }
-    
+
     @Test
-    public void testNegativeNotPermitted() {
-        permitted=false;
+    public void testSuccessHasAddViewerPermissionAndIsEnRoute() {
         doc = new ProposalDevelopmentDocument();
-        doc.setSubmitFlag(submittedToSponsor);       
-
+        doc.setSubmitFlag(false);
         task = new ProposalTask(TaskName.MODIFY_PROPOSAL_ROLES, doc);
-        ModifyProposalPermissionsAuthorizer mpa = new ModifyProposalPermissionsAuthorizer();
 
+        ModifyProposalPermissionsAuthorizer auth = new ModifyProposalPermissionsAuthorizer();
+        auth.setProposalAuthorizationService(getProposalAuthorizationServiceMock(false, true));
+        auth.setKraWorkflowService(getKraWorkflowServiceMock(false, true, false));
+
+        assertTrue(auth.isAuthorized(username, task));
+    }
+
+    @Test
+    public void testSuccessHasAddViewerPermissionAndIsClosed() {
+        doc = new ProposalDevelopmentDocument();
+        doc.setSubmitFlag(false);
+        task = new ProposalTask(TaskName.MODIFY_PROPOSAL_ROLES, doc);
+
+        ModifyProposalPermissionsAuthorizer auth = new ModifyProposalPermissionsAuthorizer();
+        auth.setProposalAuthorizationService(getProposalAuthorizationServiceMock(false, true));
+        auth.setKraWorkflowService(getKraWorkflowServiceMock(false, true, true));
+
+        assertTrue(auth.isAuthorized(username, task));
+    }
+
+    @Test
+    public void testFailureHasAddViewerPermissionAndNotEnRouteOrClosed() {
+        doc = new ProposalDevelopmentDocument();
+        doc.setSubmitFlag(false);
+        task = new ProposalTask(TaskName.MODIFY_PROPOSAL_ROLES, doc);
+
+        ModifyProposalPermissionsAuthorizer auth = new ModifyProposalPermissionsAuthorizer();
+        auth.setProposalAuthorizationService(getProposalAuthorizationServiceMock(false, true));
+        auth.setKraWorkflowService(getKraWorkflowServiceMock(false, false, false));
+
+        assertFalse(auth.isAuthorized(username, task));
+    }
+
+    @Test
+    public void testSuccessIsApproverAndIsEnroute() {
+        doc = new ProposalDevelopmentDocument();
+        doc.setSubmitFlag(false);
+        task = new ProposalTask(TaskName.MODIFY_PROPOSAL_ROLES, doc);
+
+        ModifyProposalPermissionsAuthorizer auth = new ModifyProposalPermissionsAuthorizer();
+        auth.setProposalAuthorizationService(getProposalAuthorizationServiceMock(false, false));
+        auth.setKraWorkflowService(getKraWorkflowServiceMock(true, true, false));
+
+        assertTrue(auth.isAuthorized(username, task));
+    }
+
+    @Test
+    public void testFailureIsApproverAndIsClosed() {
+        doc = new ProposalDevelopmentDocument();
+        doc.setSubmitFlag(false);
+        task = new ProposalTask(TaskName.MODIFY_PROPOSAL_ROLES, doc);
+
+        ModifyProposalPermissionsAuthorizer auth = new ModifyProposalPermissionsAuthorizer();
+        auth.setProposalAuthorizationService(getProposalAuthorizationServiceMock(false, false));
+        auth.setKraWorkflowService(getKraWorkflowServiceMock(true, true, true));
+
+        assertFalse(auth.isAuthorized(username, task));
+    }
+
+    @Test
+    public void testFailureIsApproverAndNotEnRouteOrClosed() {
+        doc = new ProposalDevelopmentDocument();
+        doc.setSubmitFlag(false);
+        task = new ProposalTask(TaskName.MODIFY_PROPOSAL_ROLES, doc);
+
+        ModifyProposalPermissionsAuthorizer auth = new ModifyProposalPermissionsAuthorizer();
+        auth.setProposalAuthorizationService(getProposalAuthorizationServiceMock(false, false));
+        auth.setKraWorkflowService(getKraWorkflowServiceMock(true, false, false));
+
+        assertFalse(auth.isAuthorized(username, task));
+    }
+
+    private ProposalAuthorizationService getProposalAuthorizationServiceMock(final boolean hasMaintainAccess,
+            final boolean hasAddViewerAccess) {
         final ProposalAuthorizationService authorizationService = context.mock(ProposalAuthorizationService.class);
-        context.checking(new Expectations() {{
-            one(authorizationService).hasPermission(TaskName.MODIFY_PROPOSAL_ROLES, 
-                                                    doc, 
-                                                    PermissionConstants.MAINTAIN_PROPOSAL_ACCESS); 
-            will(returnValue(false));
-        }});
-        mpa.setProposalAuthorizationService(authorizationService);
-        
+        context.checking(new Expectations() {
+            {
+                allowing(authorizationService).hasPermission(username, doc, PermissionConstants.ADD_PROPOSAL_VIEWER);
+                will(returnValue(hasAddViewerAccess));
+                allowing(authorizationService).hasPermission(username, doc, PermissionConstants.MAINTAIN_PROPOSAL_ACCESS);
+                will(returnValue(hasMaintainAccess));
+            }
+        });
+        return authorizationService;
+    }
+
+    private KraWorkflowService getKraWorkflowServiceMock(final boolean hasWorkflowPermission, final boolean isInWorkflow,
+            final boolean isClosed) {
         final KraWorkflowService workflowService = context.mock(KraWorkflowService.class);
-        context.checking(new Expectations() {{
-            one(workflowService).isInWorkflow(doc); 
-            will(returnValue(permitted));
-        }});
-        mpa.setKraWorkflowService(workflowService);
-        
-        assertFalse(mpa.isAuthorized(TaskName.MODIFY_PROPOSAL_ROLES, task));        
-        
+        context.checking(new Expectations() {
+            {
+                allowing(workflowService).hasWorkflowPermission(username, doc);
+                will(returnValue(hasWorkflowPermission));
+                allowing(workflowService).isInWorkflow(doc);
+                will(returnValue(isInWorkflow));
+                allowing(workflowService).isEnRoute(doc);
+                will(returnValue(isInWorkflow && !isClosed));
+                allowing(workflowService).isClosed(doc);
+                will(returnValue(isClosed));
+            }
+        });
+        return workflowService;
     }
 }
