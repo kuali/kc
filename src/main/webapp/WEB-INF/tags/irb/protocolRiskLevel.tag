@@ -16,21 +16,22 @@
                 <kul:htmlAttributeHeaderCell attributeEntry="${protocolRiskLevelsAttributes.comments}" />
  				<th>&nbsp</th>
             </tr>
-        	<c:forEach var="riskLevel" items="${KualiForm.document.protocol.protocolRiskLevels}" varStatus="status">
+        	<c:forEach var="protocolRiskLevel" items="${KualiForm.document.protocol.protocolRiskLevels}" varStatus="status">
+        	    <c:set var="protocolRiskLevelPath" value="document.protocol.protocolRiskLevels[${status.index}]" />
         	<tr>
                 <td align="left" valign="middle" width="25%">
-                	<kul:htmlControlAttribute property="document.protocol.protocolRiskLevels[${status.index}].riskLevel.description" attributeEntry="${riskLevelAttributes.description}" readOnly="true" />
+                	<kul:htmlControlAttribute property="${protocolRiskLevelPath}.riskLevel.description" attributeEntry="${riskLevelAttributes.description}" readOnly="true" />
                 </td>
                 <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.protocol.protocolRiskLevels[${status.index}].dateAssigned" attributeEntry="${protocolRiskLevelsAttributes.dateAssigned}" readOnly="true" />
+                	<kul:htmlControlAttribute property="${protocolRiskLevelPath}.dateAssigned" attributeEntry="${protocolRiskLevelsAttributes.dateAssigned}" readOnly="true" />
                 </td>
                 <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.protocol.protocolRiskLevels[${status.index}].dateUpdated" attributeEntry="${protocolRiskLevelsAttributes.dateUpdated}" readOnly="true" />
+                	<kul:htmlControlAttribute property="${protocolRiskLevelPath}.dateUpdated" attributeEntry="${protocolRiskLevelsAttributes.dateUpdated}" readOnly="true" />
                 </td>
                 <td align="left" valign="middle">
                 	<c:choose>
-                	  <c:when test="${KualiForm.document.protocol.protocolRiskLevels[status.index].status == 'A'}" >
-                	     Active
+                	  <c:when test="${protocolRiskLevel.status == 'A'}" >
+                	      Active
                 	  </c:when>
                 	  <c:otherwise>
                 	      Inactive
@@ -38,20 +39,20 @@
                 	</c:choose>
                 </td>
                 <td align="left" valign="middle">
-                	<c:set var="comments" value="${KualiForm.document.protocol.protocolRiskLevels[status.index].comments}" />
+                	<c:set var="comments" value="${protocolRiskLevel.comments}" />
                 	<c:choose>
                 	  <c:when test="${fn:length(comments) > 40}" >
-                	  ${fn:substring(comments,0,39)}...
+                	      ${fn:substring(comments,0,39)}...
                 	  </c:when>
                 	  <c:otherwise>
                 	      ${comments}
                 	  </c:otherwise>
                 	</c:choose>
-					<html:hidden property="document.protocol.protocolRiskLevels[${status.index}].comments" />
+					<html:hidden property="${protocolRiskLevelPath}.comments" />
                 </td>
 				<td class="infoline">
 					<div align=center>
-                    <kra:expandedTextArea textAreaFieldName="document.protocol.protocolRiskLevels[${status.index}].comments" action="${action}" textAreaLabel="Risk Level Comments"  viewOnly="true"/>
+                    <kra:expandedTextArea textAreaFieldName="${protocolRiskLevelPath}.comments" action="${action}" textAreaLabel="Risk Level Comments"  viewOnly="true"/>
 					</div>
                 </td>
             </tr>
