@@ -38,7 +38,7 @@
 		<c:set var="tabKey" value="${tabKey},document.budgetProposalRates[${status.index}]*" />
 	</c:if>
 </c:forEach>
-<c:forEach items="${KualiForm.document.budgetProposalRates}" var="proposalLaRates" varStatus="laStatus">
+<c:forEach items="${KualiForm.document.budgetProposalLaRates}" var="proposalLaRates" varStatus="laStatus">
 	<bean:define id="irateClassType" name="KualiForm" property="document.budgetProposalLaRates[${laStatus.index}].rateClass.rateClassType"/>
 	<bean:define id="displayRow" name="KualiForm" property="document.budgetProposalLaRates[${laStatus.index}].displayLocation"/>
 	<c:if test="${irateClassType == rateClassType && displayRow == 'Yes'}">
