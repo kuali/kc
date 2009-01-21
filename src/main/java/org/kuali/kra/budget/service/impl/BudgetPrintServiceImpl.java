@@ -986,12 +986,20 @@ public class BudgetPrintServiceImpl implements BudgetPrintService {
                                     Equals equalsLiNum = new Equals("lineItemNumber",new Integer(detBean.getLineItemNumber()));
                                     Equals equalsOhType = new Equals("rateClassType",RateClassType.OVERHEAD.getRateClassType());
                                     Equals equalsEbType = new Equals("rateClassType",RateClassType.EMPLOYEE_BENEFITS.getRateClassType());
+                                    
+                                    Equals equalsVacType = new Equals("rateClassType",RateClassType.VACATION.getRateClassType());
+                                    Equals equalsInflType = new Equals("rateClassType",RateClassType.INFLATION.getRateClassType());
+                                    Equals equalsOthType = new Equals("rateClassType",RateClassType.VACATION_ON_LA.getRateClassType());
+                                    
                                     Or ohOrEb = new Or(equalsOhType,equalsEbType);
-                                    And liItemNumAndEbOrOh = new And(ohOrEb, equalsLiNum);
-                                    CoeusVector cvLICalAmounts = cvPeriodCalAmts.filter(liItemNumAndEbOrOh);
+                                    Or ohOrEbOrVac = new Or(ohOrEb,equalsVacType);
+                                    Or ohOrEbOrVacOrInfl = new Or(ohOrEbOrVac,equalsInflType);
+                                    Or ohOrEbOrVacOrInflOrOth = new Or(ohOrEbOrVacOrInfl,equalsOthType);
+                                    
+                                    And liItemNumAndOhOrEbOrVacOrInflOrOth = new And(ohOrEbOrVacOrInflOrOth, equalsLiNum);
+                                    CoeusVector cvLICalAmounts = cvPeriodCalAmts.filter(liItemNumAndOhOrEbOrVacOrInflOrOth);
                                     double ohCost = cvLICalAmounts.sum("calculatedCost");
                                     ohCost = ((double)Math.round(ohCost*Math.pow(10.0, 2) )) / 100;
-    //                                System.out.println("ohcost for costElement =>"+ohCost);
                                     value +=ohCost;
                                 }
 //                            }
