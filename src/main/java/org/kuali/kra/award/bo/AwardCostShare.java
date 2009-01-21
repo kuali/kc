@@ -25,6 +25,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.rice.KNSServiceLocator;
 
 public class AwardCostShare extends KraPersistableBusinessObjectBase {
+    private static final long serialVersionUID = -839007857238262207L;
     
     private Long awardCostShareId;
     private String fiscalYear;
@@ -35,15 +36,23 @@ public class AwardCostShare extends KraPersistableBusinessObjectBase {
     private KualiDecimal commitmentAmount;
     private Award award;
     private CostShareType costShareType;
-    private String awardNumber;//temp
-    private Integer sequenceNumber;//temp
+    private String awardNumber;
+    private Integer sequenceNumber;
     
     
 
+    /**
+     * This method...
+     * @return
+     */
     public String getAwardNumber() {
         return awardNumber;
      }
     
+    /**
+     * This method...
+     * @param awardNumber
+     */
     public void setAwardNumber(String awardNumber) {
         this.awardNumber = awardNumber;
      }
@@ -56,20 +65,43 @@ public class AwardCostShare extends KraPersistableBusinessObjectBase {
         super();                
     }
 
+    /**
+     * This method...
+     * @return
+     */
     public Award getAward() {
         return award;
     }
 
 
+    /**
+     * This method...
+     * @param award
+     */
     public void setAward(Award award) {
         this.award = award;
+        if(award != null) {
+            setSequenceNumber(award.getSequenceNumber());
+            setAwardNumber(award.getAwardNumber());
+        } else {
+            setSequenceNumber(null);
+            setAwardNumber(awardNumber);
+        }
     }
 
 
+    /**
+     * This method...
+     * @return
+     */
     public CostShareType getCostShareType() {
         return costShareType;
     }
     
+    /**
+     * This method...
+     * @param costShareTypeCode
+     */
     @SuppressWarnings("unchecked")
     public void setCostShareTypeCode(Integer costShareTypeCode){
         BusinessObjectService costShareTypeService = getBusinessObjectService();
@@ -82,81 +114,139 @@ public class AwardCostShare extends KraPersistableBusinessObjectBase {
         }
     }
     
+    /**
+     * This method...
+     * @return
+     */
     public Integer getCostShareTypeCode() {
         return costShareType.getCostShareTypeCode();
     }
 
 
+    /**
+     * This method...
+     * @param costShareType
+     */
     public void setCostShareType(CostShareType costShareType) {
         this.costShareType = costShareType;
     }
 
 
+    /**
+     * This method...
+     * @return
+     */
     public int getSequenceNumber() {
         return sequenceNumber;
      }
 
 
+    /**
+     * This method...
+     * @param sequenceNumber
+     */
     public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
+        // do nothing
     }
 
 
+    /**
+     * This method...
+     * @return
+     */
     public String getFiscalYear() {
         return fiscalYear;
     }
 
 
+    /**
+     * This method...
+     * @param fiscalYear
+     */
     public void setFiscalYear(String fiscalYear) {
         this.fiscalYear = fiscalYear;
     }
 
 
+    /**
+     * This method...
+     * @return
+     */
     public KualiDecimal getCostSharePercentage() {
         return costSharePercentage;
     }
 
 
+    /**
+     * This method...
+     * @param costSharePercentage
+     */
     public void setCostSharePercentage(KualiDecimal costSharePercentage) {
         this.costSharePercentage = costSharePercentage;
     }
 
 
+    /**
+     * This method...
+     * @return
+     */
     public String getSource() {
         return source;
     }
 
 
+    /**
+     * This method...
+     * @param source
+     */
     public void setSource(String source) {
         this.source = source;
     }
 
 
+    /**
+     * This method...
+     * @return
+     */
     public String getDestination() {
         return destination;
     }
 
 
+    /**
+     * This method...
+     * @param destination
+     */
     public void setDestination(String destination) {
         this.destination = destination;
     }
 
 
+    /**
+     * This method...
+     * @return
+     */
     public KualiDecimal getCommitmentAmount() {
         return commitmentAmount;
     }
 
 
+    /**
+     * This method...
+     * @param commitmentAmount
+     */
     public void setCommitmentAmount(KualiDecimal commitmentAmount) {
         this.commitmentAmount = commitmentAmount;
     }
     
     
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
     @Override
     protected LinkedHashMap<String,Object> toStringMapper() {        
         LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
         hashMap.put("awardCostShareId", getAwardCostShareId());
-        hashMap.put("costShareTypeCode", getCostShareTypeCode());
         hashMap.put("awardNumber", getAwardNumber());
         hashMap.put("sequenceNumber", getSequenceNumber());
         hashMap.put("fiscalYear", getFiscalYear());
@@ -169,15 +259,27 @@ public class AwardCostShare extends KraPersistableBusinessObjectBase {
 }
 
 
+    /**
+     * This method...
+     * @return
+     */
     public Long getAwardCostShareId() {
         return awardCostShareId;
     }
 
 
+    /**
+     * This method...
+     * @param awardCostShareId
+     */
     public void setAwardCostShareId(Long awardCostShareId) {
         this.awardCostShareId = awardCostShareId;
     }
     
+    /**
+     * This method...
+     * @return
+     */
     protected BusinessObjectService getBusinessObjectService() {
         return KNSServiceLocator.getBusinessObjectService();
     }

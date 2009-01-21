@@ -23,6 +23,10 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 public class AwardApprovedSubaward extends KraPersistableBusinessObjectBase {
     
     
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -5025168632828604306L;
     private Long awardApprovedSubawardId;
     private String organizationName;
     private KualiDecimal amount;
@@ -34,78 +38,136 @@ public class AwardApprovedSubaward extends KraPersistableBusinessObjectBase {
 
 
 
+    /**
+     * This method...
+     * @return
+     */
     public Long getAwardApprovedSubawardId() {
         return awardApprovedSubawardId;
     }
 
 
 
+    /**
+     * This method...
+     * @param awardApprovedSubawardId
+     */
     public void setAwardApprovedSubawardId(Long awardApprovedSubawardId) {
         this.awardApprovedSubawardId = awardApprovedSubawardId;
     }
 
 
 
+    /**
+     * This method...
+     * @return
+     */
     public String getOrganizationName() {
         return organizationName;
     }
 
 
 
+    /**
+     * This method...
+     * @param organizationName
+     */
     public void setOrganizationName(String organizationName) {
         this.organizationName = organizationName;
     }
 
 
 
+    /**
+     * This method...
+     * @return
+     */
     public KualiDecimal getAmount() {
         return amount;
     }
 
 
 
+    /**
+     * This method...
+     * @param amount
+     */
     public void setAmount(KualiDecimal amount) {
         this.amount = amount;
     }
 
 
 
+    /**
+     * This method...
+     * @return
+     */
     public Award getAward() {
         return award;
     }
 
 
 
+    /**
+     * This method...
+     * @param award
+     */
     public void setAward(Award award) {
         this.award = award;
+        if(award != null) {
+            setSequenceNumber(award.getSequenceNumber());
+            setAwardNumber(award.getAwardNumber());
+        } else {
+            setSequenceNumber(null);
+            setAwardNumber(awardNumber);
+        }
     }
 
 
 
+    /**
+     * This method...
+     * @return
+     */
     public String getAwardNumber() {
         return awardNumber;
     }
 
 
 
+    /**
+     * This method...
+     * @param awardNumber
+     */
     public void setAwardNumber(String awardNumber) {
         this.awardNumber = awardNumber;
     }
 
 
 
+    /**
+     * This method...
+     * @return
+     */
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }
 
 
 
+    /**
+     * This method...
+     * @param sequenceNumber
+     */
     public void setSequenceNumber(Integer sequenceNumber) {
         this.sequenceNumber = sequenceNumber;
     }
     
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
     @Override
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap<String,Object> toStringMapper() {
         LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
         hashMap.put("awardApprovedSubawardId", getAwardApprovedSubawardId());
         hashMap.put("organizationName", getOrganizationName());
