@@ -30,6 +30,7 @@ import org.kuali.kra.award.bo.AwardComment;
 import org.kuali.kra.award.bo.AwardCostShare;
 import org.kuali.kra.award.bo.AwardFandaRate;
 import org.kuali.kra.award.bo.AwardReportTerm;
+import org.kuali.kra.award.bo.AwardReportTermRecipient;
 import org.kuali.kra.award.bo.AwardSpecialReview;
 import org.kuali.kra.award.bo.AwardSpecialReviewExemption;
 import org.kuali.kra.award.document.AwardDocument;
@@ -67,7 +68,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase implements Multi
     
     private AwardFandaRate newAwardFandaRate;
     private List<AwardReportTerm> newAwardReportTerm;
-    private List<AwardReportTerm> newAwardReportTermRecipient;
+    private List<AwardReportTermRecipient> newAwardReportTermRecipient;
     private List<KeyLabelPair> reportClasses;
     private List<KeyLabelPair> reportCodes;
     
@@ -107,7 +108,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase implements Multi
         newAwardCostShare = new AwardCostShare();
         newAwardFandaRate = new AwardFandaRate();
         setNewAwardReportTerm(new ArrayList<AwardReportTerm>());
-        setNewAwardReportTermRecipient(new ArrayList<AwardReportTerm>());        
+        setNewAwardReportTermRecipient(new ArrayList<AwardReportTermRecipient>());        
         newAwardSpecialReview = new AwardSpecialReview();
         newSpecialReviewExemptions = new ArrayList<AwardSpecialReviewExemption>();
     }    
@@ -205,11 +206,11 @@ public class AwardForm extends KraTransactionalDocumentFormBase implements Multi
         this.newAwardReportTerm = newAwardReportTerm;
     }
 
-    public List<AwardReportTerm> getNewAwardReportTermRecipient() {
+    public List<AwardReportTermRecipient> getNewAwardReportTermRecipient() {
         return newAwardReportTermRecipient;
     }
 
-    public void setNewAwardReportTermRecipient(List<AwardReportTerm> newAwardReportTermRecipient) {
+    public void setNewAwardReportTermRecipient(List<AwardReportTermRecipient> newAwardReportTermRecipient) {
         this.newAwardReportTermRecipient = newAwardReportTermRecipient;
     }
 

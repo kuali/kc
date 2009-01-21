@@ -17,20 +17,20 @@ package org.kuali.kra.award.rule.event;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kra.award.bo.AwardReportTerm;
+import org.kuali.kra.award.bo.AwardReportTermRecipient;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 
 /**
  * 
- * This class represents the AddAwardReportTermEvent
+ * This class represents the AwardReportTermRecipientEventBase
  */
-public abstract class AwardReportTermEventBase extends KraDocumentEventBase {
+public abstract class AwardReportTermRecipientEventBase extends KraDocumentEventBase {
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AddSpecialReviewEvent.class);
 
-    private AwardReportTerm awardReportTerm;
+    private AwardReportTermRecipient awardReportTermRecipient;
     /**
      * Constructs an AddProposalSpecialReviewEvent with the given errorPathPrefix, document, and proposalSpecialReview.
      * 
@@ -38,10 +38,10 @@ public abstract class AwardReportTermEventBase extends KraDocumentEventBase {
      * @param proposalDevelopmentDocument
      * @param proposalSpecialReview
      */
-    protected AwardReportTermEventBase(String description, String errorPathPrefix, 
-            AwardDocument document, AwardReportTerm awardReportTerm){
+    protected AwardReportTermRecipientEventBase(String description, String errorPathPrefix, 
+            AwardDocument document, AwardReportTermRecipient awardReportTermRecipient){
         super("adding special review to document " + getDocumentId(document), errorPathPrefix, document);
-        this.awardReportTerm = (AwardReportTerm) ObjectUtils.deepCopy(awardReportTerm);
+        this.awardReportTermRecipient = (AwardReportTermRecipient) ObjectUtils.deepCopy(awardReportTermRecipient);
         logEvent();
     }    
     
@@ -50,8 +50,8 @@ public abstract class AwardReportTermEventBase extends KraDocumentEventBase {
      */
     public void validate() {
         super.validate();
-        if (getAwardReportTerm() == null) {
-            throw new IllegalArgumentException("invalid (null) specialreview");
+        if (getAwardReportTermRecipient() == null) {
+            throw new IllegalArgumentException("invalid (null) awardReportTermRecipient");
         }
     }
 
@@ -63,17 +63,17 @@ public abstract class AwardReportTermEventBase extends KraDocumentEventBase {
         logMessage.append(" with ");
 
         // vary logging detail as needed
-        if (getAwardReportTerm() == null) {
-            logMessage.append("null Award Report Terms");
+        if (getAwardReportTermRecipient() == null) {
+            logMessage.append("null Award Report Term Recipient");
         }
         else {
-            logMessage.append(getAwardReportTerm().toString());
+            logMessage.append(getAwardReportTermRecipient().toString());
         }
 
         LOG.debug(logMessage);
     }
 
-    public AwardReportTerm getAwardReportTerm() {
-        return awardReportTerm;
+    public AwardReportTermRecipient getAwardReportTermRecipient() {
+        return awardReportTermRecipient;
     }
 }
