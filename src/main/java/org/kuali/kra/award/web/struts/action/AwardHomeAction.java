@@ -56,12 +56,7 @@ public class AwardHomeAction extends AwardAction {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDocument = awardForm.getAwardDocument();
         AwardApprovedSubaward awardApprovedSubaward = awardForm.getNewAwardApprovedSubaward();
-        //initialize fields not set on form.
-        awardApprovedSubaward.setAward(awardDocument.getAward());
-        awardApprovedSubaward.setAwardNumber(awardDocument.getAward().getAwardNumber());
-        awardApprovedSubaward.setSequenceNumber(awardDocument.getAward().getSequenceNumber());
-       
-        awardDocument.getAward().getAwardApprovedSubawards().add(awardApprovedSubaward);
+        awardDocument.getAward().add(awardApprovedSubaward);
         awardForm.setNewAwardApprovedSubaward(new AwardApprovedSubaward());
         return mapping.findForward(Constants.MAPPING_BASIC);
     }

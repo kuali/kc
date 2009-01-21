@@ -955,34 +955,66 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         return hashMap;
     }    
 
+    /**
+     * This method...
+     * @return
+     */
     public AwardDocument getAwardDocument() {
         return awardDocument;
     }
 
+    /**
+     * This method...
+     * @param awardDocument
+     */
     public void setAwardDocument(AwardDocument awardDocument) {
         this.awardDocument = awardDocument;
     }
 
+    /**
+     * This method...
+     * @return
+     */
     public List<AwardComment> getAwardComments() {
         return awardComments;
     }
 
+    /**
+     * This method...
+     * @param awardComments
+     */
     public void setAwardComments(List<AwardComment> awardComments) {
         this.awardComments = awardComments;
     }
 
+    /**
+     * This method...
+     * @return
+     */
     public List<AwardCostShare> getAwardCostShares() {
         return awardCostShares;
     }
 
+    /**
+     * This method...
+     * @param awardCostShares
+     */
     public void setAwardCostShares(List<AwardCostShare> awardCostShares) {
         this.awardCostShares = awardCostShares;
     }
     
+    /**
+     * This method...
+     * @return
+     */
     public List<AwardApprovedSubaward> getAwardApprovedSubawards() {
         return awardApprovedSubawards;
     }
 
+    /**
+     * This method...
+     * @param awardApprovedSubawards
+     */
     public void setAwardApprovedSubawards(List<AwardApprovedSubaward> awardApprovedSubawards) {
         this.awardApprovedSubawards = awardApprovedSubawards;
     }
@@ -1047,6 +1079,10 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         return awardComment;
     }
     
+    /**
+     * This method...
+     * @return
+     */
     public KualiDecimal getTotalCostShareCommitmentAmount(){
         KualiDecimal returnVal = new KualiDecimal(0);
         for(AwardCostShare awardCostShare : awardCostShares){
@@ -1055,6 +1091,10 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         return returnVal;
     }
     
+    /**
+     * This method...
+     * @return
+     */
     public KualiDecimal getTotalApprovedSubawardAmount(){
         KualiDecimal returnVal = new KualiDecimal(0);
         for(AwardApprovedSubaward awardApprovedSubaward : awardApprovedSubawards){
@@ -1065,18 +1105,34 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     
     
 
+    /**
+     * This method...
+     * @return
+     */
     public List<AwardFandaRate> getAwardFandaRate() {
         return awardFandaRate;
     }
 
+    /**
+     * This method...
+     * @param awardFandaRate
+     */
     public void setAwardFandaRate(List<AwardFandaRate> awardFandaRate) {
         this.awardFandaRate = awardFandaRate;
     }
     
+    /**
+     * This method...
+     * @return
+     */
     public List<AwardReportTerm> getAwardReportTerms() {
         return awardReportTerms;
     }
 
+    /**
+     * This method...
+     * @param awardReportTerms
+     */
     public void setAwardReportTerms(List<AwardReportTerm> awardReportTerms) {
         this.awardReportTerms = awardReportTerms;
     }
@@ -1146,24 +1202,53 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         return specialReviews;
     }
 
+    /**
+     * This method...
+     * @return
+     */
     public KualiDecimal getPreAwardInstitutionalAuthorizedAmount() {
         return preAwardInstitutionalAuthorizedAmount;
     }
 
+    /**
+     * This method...
+     * @param preAwardInstitutionalAuthorizedAmount
+     */
     public void setPreAwardInstitutionalAuthorizedAmount(KualiDecimal preAwardInstitutionalAuthorizedAmount) {
         this.preAwardInstitutionalAuthorizedAmount = preAwardInstitutionalAuthorizedAmount;
     }
 
+    /**
+     * This method...
+     * @return
+     */
     public Date getPreAwardInstitutionalEffectiveDate() {
         return preAwardInstitutionalEffectiveDate;
     }
 
+    /**
+     * This method...
+     * @param preAwardInstitutionalEffectiveDate
+     */
     public void setPreAwardInstitutionalEffectiveDate(Date preAwardInstitutionalEffectiveDate) {
         this.preAwardInstitutionalEffectiveDate = preAwardInstitutionalEffectiveDate;
     }
     
+    /**
+     * This method...
+     * @param awardCostShare
+     */
     public void add(AwardCostShare awardCostShare) {
         awardCostShares.add(awardCostShare);
         awardCostShare.setAward(this);
+    }
+    
+    /**
+     * This method...
+     * @param awardApprovedSubaward
+     */
+    public void add(AwardApprovedSubaward awardApprovedSubaward) {
+        awardApprovedSubawards.add(awardApprovedSubaward);
+        awardApprovedSubaward.setAward(this);
     }
 }
