@@ -16,7 +16,7 @@
 package org.kuali.kra.award.rule.event;
 
 import org.kuali.core.rule.BusinessRule;
-import org.kuali.kra.award.bo.AwardReportTerm;
+import org.kuali.kra.award.bo.AwardReportTermRecipient;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.rule.AddAwardReportTermRecipientRule;
 
@@ -24,7 +24,7 @@ import org.kuali.kra.award.rule.AddAwardReportTermRecipientRule;
  * 
  * This is the base event class for <code>AwardReportTerm</code> business object.
  */
-public class AddAwardReportTermRecipientEvent extends AwardReportTermEventBase {
+public class AddAwardReportTermRecipientEvent extends AwardReportTermRecipientEventBase {
     private static final org.apache.commons.logging.Log LOG = 
         org.apache.commons.logging.LogFactory.getLog(AddAwardReportTermRecipientEvent.class);    
 
@@ -37,8 +37,8 @@ public class AddAwardReportTermRecipientEvent extends AwardReportTermEventBase {
      * @param awardReportTerm
      */
     public AddAwardReportTermRecipientEvent(String errorPathPrefix, 
-            AwardDocument document, AwardReportTerm awardReportTerm) {
-        super("adding Award Report Terms Recipient to Award document ", errorPathPrefix, document, awardReportTerm);
+            AwardDocument document, AwardReportTermRecipient awardReportTermRecipient) {
+        super("adding Award Report Terms Recipient to Award document ", errorPathPrefix, document, awardReportTermRecipient);
         logEvent();
     }
 
