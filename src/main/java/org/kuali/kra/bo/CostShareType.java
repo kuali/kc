@@ -21,6 +21,13 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class CostShareType extends KraPersistableBusinessObjectBase {
     
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -4625330898428160836L;
     private Integer costShareTypeCode;
     private String description;
     
@@ -32,22 +39,41 @@ public class CostShareType extends KraPersistableBusinessObjectBase {
         super();                
     }
 
+    /**
+     * This method...
+     * @return
+     */
     public Integer getCostShareTypeCode() {
         return costShareTypeCode;
     }
 
+    /**
+     * This method...
+     * @param costShareTypeCode
+     */
     public void setCostShareTypeCode(Integer costShareTypeCode) {
         this.costShareTypeCode = costShareTypeCode;
     }
 
+    /**
+     * This method...
+     * @return
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * This method...
+     * @param description
+     */
     public void setDescription(String description) {
         this.description = description;
     }
     
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
     @Override
     protected LinkedHashMap<String,Object> toStringMapper() {        
         LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();

@@ -21,6 +21,10 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class CommentType extends KraPersistableBusinessObjectBase {
     
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 5649376154094364142L;
     private Integer commentTypeCode;
     private String description;
     private Boolean templateFlag;
@@ -35,39 +39,74 @@ public class CommentType extends KraPersistableBusinessObjectBase {
         this.commentTypeCode = commentTypeCode;
     }
 
+    /**
+     * This method...
+     * @return
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * This method...
+     * @param description
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+    /**
+     * This method...
+     * @return
+     */
     public Boolean getTemplateFlag() {
         return templateFlag;
     }
 
+    /**
+     * This method...
+     * @param templateFlag
+     */
     public void setTemplateFlag(Boolean templateFlag) {
         this.templateFlag = templateFlag;
     }
 
+    /**
+     * This method...
+     * @return
+     */
     public Boolean getChecklistFlag() {
         return checklistFlag;
     }
 
+    /**
+     * This method...
+     * @param checklistFlag
+     */
     public void setChecklistFlag(Boolean checklistFlag) {
         this.checklistFlag = checklistFlag;
     }
 
+    /**
+     * This method...
+     * @return
+     */
     public Boolean getAwardCommentScreenFlag() {
         return awardCommentScreenFlag;
     }
 
+    /**
+     * This method...
+     * @param awardCommentScreenFlag
+     */
     public void setAwardCommentScreenFlag(Boolean awardCommentScreenFlag) {
         this.awardCommentScreenFlag = awardCommentScreenFlag;
     }
     
 
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
     @Override
     protected LinkedHashMap<String,Object> toStringMapper() {        
         LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
