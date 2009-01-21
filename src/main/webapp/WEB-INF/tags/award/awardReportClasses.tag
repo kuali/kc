@@ -29,25 +29,18 @@
 
 <c:set var="tabErrorKeyString" value=""  />
 <c:set var="reportCodeForComparison" value=""  />
-<c:forEach var="reportCode" items="${KualiForm.reportCodes}" varStatus="reportCodeIndex">	                                            
-    <c:forEach var="awardReportTerm" items="${KualiForm.document.award.awardReportTerms}" varStatus="status">        		 
-	    <c:if test="${awardReportTerm.reportClassCode == reportClassKey }" >
-	        <c:if test="${reportCode.key == awardReportTerm.reportCode}" >
-	            <c:if test="${reportCodeForComparison != awardReportTerm.reportCode}" >
-	            	<c:choose>
-	            	    <c:when test="${empty tabErrorKeyString}" >	            	
-	                        <c:set var="tabErrorKeyString" value="document.awardList[0].awardReportTerms[${status.index}].reportCode,document.awardList[0].awardReportTerms[${status.index}].frequencyCode,document.awardList[0].awardReportTerms[${status.index}].frequencyBaseCode,document.awardList[0].awardReportTerms[${status.index}].ospDistributionCode,document.awardList[0].awardReportTerms[${status.index}].dueDate"  />
-	                    </c:when>
-	                    <c:otherwise >
-	                        <c:set var="tabErrorKeyString" value="${tabErrorKeyString},document.awardList[0].awardReportTerms[${status.index}].reportCode,document.awardList[0].awardReportTerms[${status.index}].frequencyCode,document.awardList[0].awardReportTerms[${status.index}].frequencyBaseCode,document.awardList[0].awardReportTerms[${status.index}].ospDistributionCode,document.awardList[0].awardReportTerms[${status.index}].dueDate"  />
-	                    </c:otherwise>
-	                </c:choose>    	                    
-	                <c:set var="reportCodeForComparison" value="${awardReportTerm.reportCode}" />
-	            </c:if>
-	        </c:if>
-	    </c:if>
-	</c:forEach>
-</c:forEach>                
+<c:forEach var="awardReportTerm" items="${KualiForm.document.award.awardReportTerms}" varStatus="status">        		 
+    <c:if test="${awardReportTerm.reportClassCode == reportClassKey }" >
+        	<c:choose>
+        	    <c:when test="${empty tabErrorKeyString}" >	            	
+                    <c:set var="tabErrorKeyString" value="document.awardList[0].awardReportTerms[${status.index}].reportCode,document.awardList[0].awardReportTerms[${status.index}].frequencyCode,document.awardList[0].awardReportTerms[${status.index}].frequencyBaseCode,document.awardList[0].awardReportTerms[${status.index}].ospDistributionCode,document.awardList[0].awardReportTerms[${status.index}].dueDate"  />
+                </c:when>
+                <c:otherwise >
+                     <c:set var="tabErrorKeyString" value="${tabErrorKeyString},document.awardList[0].awardReportTerms[${status.index}].reportCode,document.awardList[0].awardReportTerms[${status.index}].frequencyCode,document.awardList[0].awardReportTerms[${status.index}].frequencyBaseCode,document.awardList[0].awardReportTerms[${status.index}].ospDistributionCode,document.awardList[0].awardReportTerms[${status.index}].dueDate"  />
+                 </c:otherwise>
+             </c:choose>
+    </c:if>
+</c:forEach>
 	                        
 <kul:innerTab parentTab="Report Classes" defaultOpen="false" tabTitle="${reportClassLabel}" tabErrorKey="newAwardReportTerm[${index}]*,${tabErrorKeyString}" >
     <table border="0" cellpadding="0" cellspacing="0" summary="">
@@ -60,8 +53,7 @@
           	<th width="5%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardReportTermAttributes.dueDate}" noColon="true" /></div></th>
           	<kul:htmlAttributeHeaderCell literalLabel="Action" scope="col"/>
         </tr>
-        <tr>
-        	<c:set var="filteredFrequencyCodes" value=""  />        	
+        <tr>        	
 		    <th width="6%" class="infoline">
 			    <c:out value="Add:" />
 			</th>
@@ -69,7 +61,7 @@
             
             <div align="center">                        
                 <html:select property="newAwardReportTerm[${index}].reportCode" tabindex="0" 
-                onchange="javascript: loadFrequencyCode('${reportClassKey}', 'newAwardReportTerm[${index}].reportCode','newAwardReportTerm[${index}].frequencyCode');return false" >                              
+                onchange="javascript: loadFrequencyCode('${reportClassKey}', 'newAwardReportTerm[${index}].reportCode','newAwardReportTerm[${index}].frequencyCode');return false" >                                              
                 <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.ReportCodeValuesFinder', paramMap1)}" var="option">
 	                <c:choose>                    	
 	                	<c:when test="${KualiForm.newAwardReportTerm[index].reportCode == option.key}">
@@ -82,9 +74,11 @@
 	                </c:choose>         
 	            </c:forEach>
 	            </html:select>
+	            <html:image property="methodToCall.refreshPulldownOptions" styleClass="tinybutton" 
+	            	src='${ConfigProperties.kra.externalizable.images.url}arrow_refresh.png'/>
             </div>
 			</td>
-			<c:set target="${paramMap3}" property="frequencyCode" value="${KualiForm.newAwardReportTerm[index].reportCode}" />
+			<c:set target="${paramMap2}" property="reportCode" value="${KualiForm.newAwardReportTerm[index].reportCode}" />			
             <td width="5%" valign="middle" class="infoline">
             <div align="center">                
                 <html:select property="newAwardReportTerm[${index}].frequencyCode" tabindex="0" 
@@ -101,6 +95,8 @@
 	                </c:choose>         
 	            </c:forEach>
 	            </html:select>
+	            <html:image property="methodToCall.refreshPulldownOptions" styleClass="tinybutton" 
+	            	src='${ConfigProperties.kra.externalizable.images.url}arrow_refresh.png'/>
             </div>
 			</td>
             <td width="5%" valign="middle" class="infoline">
@@ -137,37 +133,23 @@
 			        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
 			</div>
             </td>
-        </tr>
-        
-        <c:set var="reportCodeForComparison" value=""  />
-        <c:set var="frequencyCodeForComparison" value=""  />
-        <c:set var="frequencyBaseCodeForComparison" value=""  />
-        <c:set var="distributionCodeForComparison" value=""  />
-        <c:set var="dueDateForComparison" value=""  />
-        <c:set var="counterReport" value="0" />        
-        <c:forEach var="reportCode" items="${KualiForm.reportCodes}" varStatus="reportCodeIndex">	                                            
-            <c:forEach var="awardReportTerm" items="${KualiForm.document.award.awardReportTerms}" varStatus="status">
-	            <c:if test="${awardReportTerm.reportClassCode == reportClassKey }" >	            	
-	                <c:if test="${not empty reportCode.key && reportCode.key == awardReportTerm.reportCode}" >	                		                	 
-	                    <c:if test="${reportCodeForComparison != awardReportTerm.reportCode
-	                                   ||  frequencyCodeForComparison != awardReportTerm.frequencyCode
-	                                   ||  frequencyBaseCodeForComparison != awardReportTerm.frequencyBaseCode
-	                                   ||  distributionCodeForComparison != awardReportTerm.ospDistributionCode
-	                                   ||  dueDateForComparison != awardReportTerm.dueDate}" >	                                   
-	                        <c:set var="reportCodeForComparison" value="${awardReportTerm.reportCode}" />
-	                        <c:set var="frequencyCodeForComparison" value="${awardReportTerm.frequencyCode}" />
-	                        <c:set var="frequencyBaseCodeForComparison" value="${awardReportTerm.frequencyBaseCode}" />
-	                        <c:set var="distributionCodeForComparison" value="${awardReportTerm.ospDistributionCode}" />
-	                        <c:set var="dueDateForComparison" value="${awardReportTerm.dueDate}" />
-	                        <c:set var="counterReport" value="${counterReport + 1}" />
+        </tr>        
+        	                                            
+        <c:forEach var="awardReportTerm" items="${KualiForm.document.award.awardReportTerms}" varStatus="status">
+	        <c:if test="${awardReportTerm.reportClassCode == reportClassKey }" >
+	        <c:set var="counterReport" value="${counterReport + 1}" />
 	    <tr>
 		    <th width="5%" class="infoline" rowspan="2">
 			    <c:out value="${counterReport}" />
 			</th>			                
 	        <td width="5%" valign="middle">	        
-			<div align="center">                
-                <html:select property="document.awardList[0].awardReportTerms[${status.index}].reportCode" tabindex="0" 
-                             onchange="javascript: loadFrequencyCode('${reportClassKey}', 'document.awardList[0].awardReportTerms[${status.index}].reportCode','document.awardList[0].awardReportTerms[${status.index}].frequencyCode');return false">                
+			<div align="center">
+				<kul:checkErrors keyMatch="document.awardList[0].awardReportTerms[${status.index}].reportCode" auditMatch="${property}"/>				
+				<c:if test="${hasErrors==true}" >
+    				<c:set var="textStyle" value="background-color:#FFD5D5"/>
+  				</c:if>                
+                <html:select property="document.awardList[0].awardReportTerms[${status.index}].reportCode" tabindex="0" style="${textStyle}" 
+                             onchange="javascript: loadFrequencyCode('${reportClassKey}', 'document.awardList[0].awardReportTerms[${status.index}].reportCode','document.awardList[0].awardReportTerms[${status.index}].frequencyCode');return false">                                             
                 <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.ReportCodeValuesFinder', paramMap1)}" var="option">                	
 	                <c:choose>                    	
 	                	<c:when test="${KualiForm.document.awardList[0].awardReportTerms[status.index].reportCode == option.key}">
@@ -180,12 +162,20 @@
 	                </c:choose>                    
 	            </c:forEach>
 	            </html:select>
+	            <html:image property="methodToCall.refreshPulldownOptions" styleClass="tinybutton" 
+	            	src='${ConfigProperties.kra.externalizable.images.url}arrow_refresh.png'/>
+	            <c:set var="textStyle" value=""/>
 			</div>
 			</td>
 			<c:set target="${paramMap2}" property="reportCode" value="${KualiForm.document.awardList[0].awardReportTerms[status.index].reportCode}" />			
 	        <td width="5%" valign="middle">
 			<div align="center">
-                <html:select property="document.awardList[0].awardReportTerms[${status.index}].frequencyCode" tabindex="0" >                
+				<kul:checkErrors keyMatch="document.awardList[0].awardReportTerms[${status.index}].frequencyCode" auditMatch="${property}"/>				
+				<c:if test="${hasErrors==true}" >
+    				<c:set var="textStyle" value="background-color:#FFD5D5"/>
+  				</c:if> 
+                <html:select property="document.awardList[0].awardReportTerms[${status.index}].frequencyCode" tabindex="0" style="${textStyle}" 
+                	onchange="javascript: loadFrequencyBaseCode('document.awardList[0].awardReportTerms[${status.index}].frequencyCode','document.awardList[0].awardReportTerms[${status.index}].frequencyBaseCode');return false">                
                 <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder', paramMap2)}" var="option">                	
 	                <c:choose>                    	
 	                	<c:when test="${KualiForm.document.awardList[0].awardReportTerms[status.index].frequencyCode == option.key}">
@@ -198,12 +188,19 @@
 	                </c:choose>                    
 	            </c:forEach>
 	            </html:select>
+	            <html:image property="methodToCall.refreshPulldownOptions" styleClass="tinybutton" 
+	            	src='${ConfigProperties.kra.externalizable.images.url}arrow_refresh.png'/>
+	            <c:set var="textStyle" value=""/>
 			</div>
 			</td>
 			<c:set target="${paramMap3}" property="frequencyCode" value="${KualiForm.document.awardList[0].awardReportTerms[status.index].frequencyCode}" />
 	        <td width="5%" valign="middle">
-			<div align="center">                
-                <html:select property="document.awardList[0].awardReportTerms[${status.index}].frequencyBaseCode" tabindex="0" >                
+			<div align="center">
+				<kul:checkErrors keyMatch="document.awardList[0].awardReportTerms[${status.index}].frequencyBaseCode" auditMatch="${property}"/>				
+				<c:if test="${hasErrors==true}" >
+    				<c:set var="textStyle" value="background-color:#FFD5D5"/>
+  				</c:if>                 
+                <html:select property="document.awardList[0].awardReportTerms[${status.index}].frequencyBaseCode" tabindex="0" style="${textStyle}" >                
                 <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder', paramMap3)}" var="option">
 	                <c:choose>                    	
 	                	<c:when test="${KualiForm.document.awardList[0].awardReportTerms[status.index].frequencyBaseCode == option.key}">
@@ -216,6 +213,7 @@
 	                </c:choose>         
 	            </c:forEach>
 	            </html:select>
+	            <c:set var="textStyle" value=""/>
 			</div>
 			</td>
 	        <td width="13%" valign="middle">
@@ -231,23 +229,17 @@
 			</td>
 			<td valign="middle">
 			<div align="center">
-			    <html:image property="methodToCall.deleteawardReportTerm.line${status.index}.anchor${currentTabIndex}"
+			    <html:image property="methodToCall.deleteAwardReportTerm.line${status.index}.anchor${currentTabIndex}"
 			        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 			</div>            
 			</td>
 	    </tr>
 	    <tr>
-	        <td colspan="9">
-	            <kra-a:awardReportRecipients innerTabParent="${reportClassLabel}" index="${status.index}" 
-	                reportClassKey="${reportClassKey}" reportCode="${awardReportTerm.reportCode}" 
-	                frequencyCode="${awardReportTerm.frequencyCode}" frequencyBaseCode="${awardReportTerm.frequencyBaseCode}" 
-	                ospDistributionCode="${awardReportTerm.ospDistributionCode}" dueDate="${awardReportTerm.dueDate}"/>	            	    
+	        <td colspan="6">
+	            <kra-a:awardReportRecipients innerTabParent="${reportClassLabel}" index="${status.index}" />	    
 	        </td>
 	    </tr>
-	                    </c:if>	            
-	                </c:if>
-	            </c:if>
-        	</c:forEach>        	
+	    	</c:if>                   	
 	    </c:forEach> 
     </table>
 </kul:innerTab>	

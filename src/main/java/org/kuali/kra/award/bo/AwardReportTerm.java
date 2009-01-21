@@ -17,10 +17,11 @@
 package org.kuali.kra.award.bo;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.Rolodex;
 
 /**
  * 
@@ -41,27 +42,23 @@ public class AwardReportTerm extends KraPersistableBusinessObjectBase {
     private String reportCode; 
     private String frequencyCode; 
     private String frequencyBaseCode; 
-    private String ospDistributionCode; 
-    private String contactTypeCode; 
-    private Integer rolodexId; 
-    private Date dueDate; 
-    private Integer numberOfCopies; 
-    
-    private ContactType contactType; 
+    private String ospDistributionCode;
+    private Date dueDate;
+
     private Distribution distribution; 
     private Frequency frequency; 
     private FrequencyBase frequencyBase; 
     private Report report; 
-    private ReportClass reportClass; 
-    private Rolodex rolodex; 
+    private ReportClass reportClass;
     private Award award; 
+    private List<AwardReportTermRecipient> awardReportTermRecipients; 
     
     /**
      * 
      * Constructs a AwardReportTerm.java.
      */
-    public AwardReportTerm() { 
-
+    public AwardReportTerm() {
+        awardReportTermRecipients = new ArrayList<AwardReportTermRecipient>();
     } 
     
     /**
@@ -212,38 +209,6 @@ public class AwardReportTerm extends KraPersistableBusinessObjectBase {
      *
      * @return
      */
-    public String getContactTypeCode() {
-        return contactTypeCode;
-    }
-
-    /**
-     *
-     * @param contactTypeCode
-     */
-    public void setContactTypeCode(String contactTypeCode) {
-        this.contactTypeCode = contactTypeCode;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public Integer getRolodexId() {
-        return rolodexId;
-    }
-
-    /**
-     *
-     * @param rolodexId
-     */
-    public void setRolodexId(Integer rolodexId) {
-        this.rolodexId = rolodexId;
-    }
-
-    /**
-     *
-     * @return
-     */
     public Date getDueDate() {
         return dueDate;
     }
@@ -256,22 +221,7 @@ public class AwardReportTerm extends KraPersistableBusinessObjectBase {
         this.dueDate = dueDate;
     }
 
-    /**
-     *
-     * @return
-     */
-    public Integer getNumberOfCopies() {
-        return numberOfCopies;
-    }
 
-    /**
-     *
-     * @param numberOfCopies
-     */
-    public void setNumberOfCopies(Integer numberOfCopies) {
-        this.numberOfCopies = numberOfCopies;
-    }
-    
     /**
      *
      * @return
@@ -287,22 +237,6 @@ public class AwardReportTerm extends KraPersistableBusinessObjectBase {
     public void setAward(Award award) {
         this.award = award;
     }    
-
-    /**
-     *
-     * @return
-     */
-    public ContactType getContactType() {
-        return contactType;
-    }
-
-    /**
-     *
-     * @param contactType
-     */
-    public void setContactType(ContactType contactType) {
-        this.contactType = contactType;
-    }
 
     /**
      *
@@ -384,21 +318,6 @@ public class AwardReportTerm extends KraPersistableBusinessObjectBase {
         this.reportClass = reportClass;
     }
 
-    /**
-     *
-     * @return
-     */
-    public Rolodex getRolodex() {
-        return rolodex;
-    }
-
-    /**
-     *
-     * @param rolodex
-     */
-    public void setRolodex(Rolodex rolodex) {
-        this.rolodex = rolodex;
-    }
     
     /**
      * 
@@ -416,11 +335,16 @@ public class AwardReportTerm extends KraPersistableBusinessObjectBase {
         hashMap.put("frequencyCode", getFrequencyCode());
         hashMap.put("frequencyBaseCode", getFrequencyBaseCode());
         hashMap.put("ospDistributionCode", getOspDistributionCode());
-        hashMap.put("contactTypeCode", getContactTypeCode());
-        hashMap.put("rolodexId", getRolodexId());
         hashMap.put("dueDate", getDueDate());
-        hashMap.put("numberOfCopies", getNumberOfCopies());
         return hashMap;
+    }
+
+    public List<AwardReportTermRecipient> getAwardReportTermRecipients() {
+        return awardReportTermRecipients;
+    }
+
+    public void setAwardReportTermRecipients(List<AwardReportTermRecipient> awardReportTermRecipients) {
+        this.awardReportTermRecipients = awardReportTermRecipients;
     }
     
 }

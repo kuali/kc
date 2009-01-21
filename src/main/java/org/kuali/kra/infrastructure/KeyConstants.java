@@ -279,6 +279,9 @@ public class KeyConstants {
     public static final String MIT_IDC_VALIDATION_ENABLED_VALUE_FOR_COMPARISON = "1";
     //Award Validation Error Messages
     public static final String INDIRECT_COST_RATE_NOT_IN_PAIR = "indirectCostRate.not.in.pair";
+    public static final String INVALID_REPORT_CODE_FOR_REPORT_CLASS = "invalid.type.for.reportClass";
+    public static final String INVALID_FREQUENCY_FOR_REPORT_CLASS_AND_TYPE = "invalid.frequency.for.reportClass.and.type";
+    public static final String INVALID_FREQUENCY_BASE_FOR_FREQUENCY = "invalid.frequencyBase.for.frequency";
     
     // IRB Protocol Participant Types Validation Messages
     public static final String ERROR_PROTOCOL_PARTICIPANT_TYPE_NOT_SELECTED = "error.protocol.participantType.notselected";

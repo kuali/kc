@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.award.bo.AwardReportTerm;
+import org.kuali.kra.award.bo.AwardReportTermRecipient;
 import org.kuali.kra.award.comparator.AwardReportTermsComparator1;
 import org.kuali.kra.award.comparator.AwardReportTermsComparator2;
 import org.kuali.kra.award.comparator.AwardReportTermsComparator3;
@@ -80,9 +81,9 @@ public class AwardReportsServiceImpl implements AwardReportsService {
         ReportCodeAllValuesFinder reportCodeAllValuesFinder = new ReportCodeAllValuesFinder();
         
         awardForm.setReportCodes(reportCodeAllValuesFinder.getKeyValues());        
-        
+                
         for(int i=0;i<awardForm.getAwardDocument().getAward().getAwardReportTerms().size();i++){
-            awardForm.getNewAwardReportTermRecipient().add(new AwardReportTerm());
+            awardForm.getNewAwardReportTermRecipient().add(new AwardReportTermRecipient());
         }
     }
     

@@ -27,6 +27,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardReportTerm;
+import org.kuali.kra.award.bo.AwardReportTermRecipient;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.rule.event.AddAwardReportTermEvent;
 import org.kuali.kra.award.rule.event.AddAwardReportTermRecipientEvent;
@@ -43,6 +44,12 @@ import org.kuali.rice.kns.util.KNSConstants;
  */
 public class AwardPaymentReportsAndTermsAction extends AwardAction {
         
+    public ActionForward refreshPulldownOptions(ActionMapping mapping, ActionForm form, 
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
     /**
      * 
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#reload(
@@ -93,7 +100,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
                     awardDocument.getAward(),newAwardReportTerm, getReportClass(request)));            
             awardForm.getNewAwardReportTerm().set(
                     getReportClassCodeIndex(request),new AwardReportTerm());            
-            awardForm.getNewAwardReportTermRecipient().add(new AwardReportTerm());
+            awardForm.getNewAwardReportTermRecipient().add(new AwardReportTermRecipient());
         }
         
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
@@ -136,56 +143,10 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDocument = awardForm.getAwardDocument();
         
-        AwardReportTerm awardReportTermToBeDeleted = 
-            awardDocument.getAward().getAwardReportTerms().get(getLineToDelete(request));
-        
-        List<AwardReportTerm> awardReportTermRecipientsToBeDeleted = getAwardReportTermRecipientsToBeDeleted(
-                awardDocument.getAward().getAwardReportTerms(), awardReportTermToBeDeleted);
-        
-        for(AwardReportTerm awardReportTerm:awardReportTermRecipientsToBeDeleted){
-            awardDocument.getAward().getAwardReportTerms().remove(awardReportTerm);
-        }
+        awardDocument.getAward().getAwardReportTerms().remove(getLineToDelete(request));
         
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-    
-    /**
-     * 
-     * This method navigates through the list of all AwardReportTerm objects for the current Award
-     * and returns the recipients related with parent AwardReportTerm object.
-     * @param listAwardReportTerm
-     * @param awardReportTermToBeDeleted
-     * @return
-     */
-    protected List<AwardReportTerm> getAwardReportTermRecipientsToBeDeleted(
-            List<AwardReportTerm> awardReportTerms, AwardReportTerm awardReportTermToBeDeleted){
-        
-        ArrayList<AwardReportTerm> awardReportTermRecipientsForDeletion = new ArrayList<AwardReportTerm>();
-        for(AwardReportTerm awardReportTerm: awardReportTerms){
-            if(StringUtils.equalsIgnoreCase(awardReportTermToBeDeleted.getReportClassCode().toString(),
-                    awardReportTerm.getReportClassCode().toString())){
-                if(StringUtils.equalsIgnoreCase(
-                        awardReportTermToBeDeleted.getReportCode().toString(),
-                        awardReportTerm.getReportCode().toString()) 
-                        && StringUtils.equalsIgnoreCase(
-                                awardReportTermToBeDeleted.getFrequencyCode().toString(),
-                                awardReportTerm.getFrequencyCode().toString())
-                        && StringUtils.equalsIgnoreCase(
-                                awardReportTermToBeDeleted.getFrequencyBaseCode().toString(),
-                                awardReportTerm.getFrequencyBaseCode().toString())
-                        && StringUtils.equalsIgnoreCase(
-                                awardReportTermToBeDeleted.getDueDate().toString(),
-                                awardReportTerm.getDueDate().toString())
-                        && StringUtils.equalsIgnoreCase(
-                                awardReportTermToBeDeleted.getOspDistributionCode().toString(),
-                                awardReportTerm.getOspDistributionCode().toString())){
-                    awardReportTermRecipientsForDeletion.add(awardReportTerm);
-                }
-            }            
-        }
-        
-        return awardReportTermRecipientsForDeletion;
-    }    
     
     /**
      * 
@@ -204,18 +165,20 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         
         AwardForm awardForm = (AwardForm) form;
         
-        awardForm.setAwardReportTermPanelNumber(new Integer(getRecipientIndex(request)).toString());
+        awardForm.setAwardReportTermPanelNumber(new Integer(getAwardReportTermIndex(request)).toString());
         
-        AwardReportTerm newAwardReportTerm = awardForm.getNewAwardReportTermRecipient().
-                                                get(getRecipientIndex(request));        
+        AwardReportTermRecipient newAwardReportTermRecipient = awardForm.getNewAwardReportTermRecipient().
+                                                get(getAwardReportTermIndex(request));        
         
         AwardDocument awardDocument = awardForm.getAwardDocument();
         if(getKualiRuleService().applyRules(new AddAwardReportTermRecipientEvent(Constants.EMPTY_STRING,
-                awardDocument, newAwardReportTerm))){
-            
-            awardDocument.getAward().setAwardReportTerms(addAwardReportTermToAward(
-                    awardDocument.getAward(),newAwardReportTerm, getReportClass(request)));          
-        }
+                awardDocument, newAwardReportTermRecipient))){
+            awardDocument.getAward().getAwardReportTerms().get(getAwardReportTermIndex(request)).
+                    getAwardReportTermRecipients().add(newAwardReportTermRecipient);
+            awardForm.getNewAwardReportTermRecipient().set(getAwardReportTermIndex(request), 
+                                                            new AwardReportTermRecipient());
+                      
+       }
         
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
@@ -238,17 +201,8 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDocument = awardForm.getAwardDocument();
-        
-        if(getRecipientSize(request)>1){
-            awardDocument.getAward().getAwardReportTerms().remove(getLineToDelete(request));
-        }else{
-            awardDocument.getAward().getAwardReportTerms().get(
-                    getLineToDelete(request)).setContactTypeCode(null);
-            awardDocument.getAward().getAwardReportTerms().get(
-                    getLineToDelete(request)).setNumberOfCopies(null);
-            awardDocument.getAward().getAwardReportTerms().get(
-                    getLineToDelete(request)).setRolodexId(null);
-        }        
+        awardDocument.getAward().getAwardReportTerms().get(getAwardReportTermIndex(request)).
+            getAwardReportTermRecipients().remove(getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
@@ -267,23 +221,6 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         }
 
         return new Integer(reportClass).toString();
-    }
-    
-    /**
-     * 
-     * This method reads the reportCode from the request.
-     * @param request
-     * @return
-     */
-    protected int getReportCode(HttpServletRequest request) {
-        int reportCode = -1;
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
-        if (StringUtils.isNotBlank(parameterName)) {
-            String reportCodeString = StringUtils.substringBetween(parameterName, ".reportCode", ".");
-            reportCode = Integer.parseInt(reportCodeString);
-        }
-
-        return reportCode;
     }
     
     /**
@@ -314,31 +251,15 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      * @param request
      * @return
      */
-    protected int getRecipientIndex(HttpServletRequest request) {
-        int recipientIndex = -1;
+    protected int getAwardReportTermIndex(HttpServletRequest request) {
+        int awardReportTermIndex = -1;
         String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
-            String recipientIndexString = StringUtils.substringBetween(parameterName, ".recipientIndex", ".");
-            recipientIndex = Integer.parseInt(recipientIndexString);
+            String awardReportTermIndexString = StringUtils.substringBetween(parameterName, ".awardReportTerm", ".");
+            awardReportTermIndex= Integer.parseInt(awardReportTermIndexString);
         }
 
-        return recipientIndex;
-    }
-    
-    /**
-     * 
-     * This method reads the recipient size from the request.
-     * @param request
-     * @return
-     */    
-    protected int getRecipientSize(HttpServletRequest request) {
-        int recipientSize = -1;
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
-        if (StringUtils.isNotBlank(parameterName)) {
-            String recipientSizeString = StringUtils.substringBetween(parameterName, ".recipientSize", ".");
-            recipientSize = Integer.parseInt(recipientSizeString);
-        }        
-        return recipientSize;
+        return awardReportTermIndex;
     }
     
 }
