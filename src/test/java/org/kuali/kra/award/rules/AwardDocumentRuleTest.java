@@ -26,6 +26,8 @@ import org.junit.Test;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kra.award.bo.AwardApprovedSubaward;
+import org.kuali.kra.award.bo.AwardCostShare;
 import org.kuali.kra.award.bo.AwardFandaRate;
 
 /**
@@ -37,6 +39,10 @@ public class AwardDocumentRuleTest {
     AwardFandaRate awardFandaRate1;
     AwardFandaRate awardFandaRate2;
     AwardDocumentRule awardDocumentRule;
+    AwardCostShare awardCostShare;
+    AwardApprovedSubaward awardApprovedSubaward1;
+    AwardApprovedSubaward awardApprovedSubaward2;
+    List<AwardApprovedSubaward> awardApprovedSubawards;
 
     @Before
     public void setUp() throws Exception {
@@ -44,6 +50,11 @@ public class AwardDocumentRuleTest {
         awardDocumentRule = new AwardDocumentRule();
         awardFandaRate1 = new AwardFandaRate();
         awardFandaRate2 = new AwardFandaRate();
+        awardCostShare = new AwardCostShare();
+        awardApprovedSubaward1 = new AwardApprovedSubaward();
+        awardApprovedSubaward2 = new AwardApprovedSubaward();
+        awardApprovedSubawards = new ArrayList<AwardApprovedSubaward>();
+        
         awardFandaRate1.setApplicableFandaRate(new KualiDecimal(5));
         awardFandaRate1.setFiscalYear("2008");
         awardFandaRate1.setFandaRateTypeCode(5);
@@ -60,6 +71,20 @@ public class AwardDocumentRuleTest {
         awardFandaRate2.setEndDate(new Date(new Long("1214852613046")));
         awardFandaRateList.add(awardFandaRate1);
         awardFandaRateList.add(awardFandaRate2);
+        
+        awardCostShare.setCostSharePercentage(new KualiDecimal(50));
+        awardCostShare.setDestination("12345");
+        awardCostShare.setSource("54321");
+        awardCostShare.setCommitmentAmount(new KualiDecimal(25000));
+        awardCostShare.setFiscalYear("2009");
+        
+        awardApprovedSubaward1.setOrganizationName("test organization 1");
+        awardApprovedSubaward1.setAmount(new KualiDecimal(10000));
+        awardApprovedSubaward2.setOrganizationName("test organization 2");
+        awardApprovedSubaward2.setAmount(new KualiDecimal(10000));
+        awardApprovedSubawards.add(awardApprovedSubaward1);
+        awardApprovedSubawards.add(awardApprovedSubaward2);
+        
         GlobalVariables.setErrorMap(new ErrorMap());
     }
 
@@ -69,11 +94,58 @@ public class AwardDocumentRuleTest {
         awardDocumentRule = null;
         awardFandaRate1 = null;
         awardFandaRate2 = null;
+        awardCostShare = null;
     }
 
     @Test
     public final void testIsFandaRateInputInPairs() {
         Assert.assertTrue(awardDocumentRule.isFandaRateInputInPairs(awardFandaRateList));
+    }
+    
+    @Test
+    public final void testTestCostShareSourceAndDestinationForEquality(){
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        Assert.assertTrue(awardDocumentRule.testCostShareSourceAndDestinationForEquality(awardCostShare, errorMap));
+        awardCostShare.setDestination("54321");
+        Assert.assertFalse(awardDocumentRule.testCostShareSourceAndDestinationForEquality(awardCostShare, errorMap));
+        awardCostShare.setDestination("12345");
+        GlobalVariables.setErrorMap(new ErrorMap());
+    }
+    
+    @Test
+    public final void testTestCostShareFiscalYearRange(){
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        Assert.assertTrue(awardDocumentRule.testCostShareFiscalYearRange(awardCostShare, errorMap));
+        awardCostShare.setFiscalYear("1800");
+        Assert.assertFalse(awardDocumentRule.testCostShareFiscalYearRange(awardCostShare, errorMap));
+        awardCostShare.setFiscalYear("2600");
+        Assert.assertFalse(awardDocumentRule.testCostShareFiscalYearRange(awardCostShare, errorMap));
+        awardCostShare.setFiscalYear("2009");
+        GlobalVariables.setErrorMap(new ErrorMap());
+    }
+    
+    @Test
+    public final void testTestApprovedSubawardDuplicateOrganization(){
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        String errorPath = "test errorPath";
+        int currentIndex = 0;
+        Assert.assertTrue(awardDocumentRule.testApprovedSubawardDuplicateOrganization(awardApprovedSubawards, awardApprovedSubaward1, errorMap, currentIndex, errorPath));
+        awardApprovedSubaward1.setOrganizationName("test organization 2");
+        Assert.assertFalse(awardDocumentRule.testApprovedSubawardDuplicateOrganization(awardApprovedSubawards, awardApprovedSubaward1, errorMap, currentIndex, errorPath));
+        awardApprovedSubaward1.setOrganizationName("test organization 1");
+        GlobalVariables.setErrorMap(new ErrorMap());
+    }
+    
+    @Test
+    public final void testTestApprovedSubawardAmount(){
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        Assert.assertTrue(awardDocumentRule.testApprovedSubawardAmount(awardApprovedSubaward1, errorMap));
+        awardApprovedSubaward1.setAmount(new KualiDecimal(0));
+        Assert.assertFalse(awardDocumentRule.testApprovedSubawardAmount(awardApprovedSubaward1, errorMap));
+        awardApprovedSubaward1.setAmount(new KualiDecimal(-100));
+        Assert.assertFalse(awardDocumentRule.testApprovedSubawardAmount(awardApprovedSubaward1, errorMap));
+        awardApprovedSubaward1.setAmount(new KualiDecimal(10000));
+        GlobalVariables.setErrorMap(new ErrorMap());
     }
    
 

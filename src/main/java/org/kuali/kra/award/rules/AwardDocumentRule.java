@@ -54,6 +54,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddFa
     public static final boolean CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME = false;
     private static final String NEW_SPECIAL_REVIEW = "newSpecialReview";
     private static final String NEW_AWARD_FANDA_RATE = "newAwardFandaRate";
+    private static final int ZERO = 0;
     
     
     /**
@@ -100,8 +101,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddFa
     */
     private boolean processCostShareBusinessRules(Document document) {
         boolean valid = true;
-
-        //checkErrors();
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         AwardDocument awardDocument = (AwardDocument) document;
         int i = 0;
@@ -111,18 +110,8 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddFa
         for (AwardCostShare awardCostShare : awardCostShares) {
             String errorPath = "awardCostShares[" + i + "]";
             errorMap.addToErrorPath(errorPath);
-            int fiscalYear = Integer.parseInt(awardCostShare.getFiscalYear());//get the integer value of Fiscal Year.
-            //test for equality of source and destination
-            if(awardCostShare.getSource().equals(awardCostShare.getDestination())) {
-                 valid = false;
-                 errorMap.putError("source", KeyConstants.ERROR_SOURCE_DESTINATION);
-             }
-            //test valid fiscal year range.
-            if(fiscalYear < 1900 || fiscalYear > 2499) {
-                valid = false;
-                System.out.println("errorPath:" + errorMap.getErrorPath());
-                errorMap.putError("fiscalYear", KeyConstants.ERROR_FISCAL_YEAR_RANGE);
-            }
+            valid = testCostShareSourceAndDestinationForEquality(awardCostShare, errorMap);
+            valid = testCostShareFiscalYearRange(awardCostShare, errorMap);
             errorMap.removeFromErrorPath(errorPath);
             i++;
         }
@@ -133,48 +122,98 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddFa
     
     /**
     *
-    * process Cost Share business rules.
+    * Test source and destination for equality in AwardCostShare.
+    * @param AwardCostShare, ErrorMap
+    * @return Boolean
+    */
+    public boolean testCostShareSourceAndDestinationForEquality(AwardCostShare awardCostShare, ErrorMap errorMap){
+        boolean valid = true;
+        if(awardCostShare.getSource().equals(awardCostShare.getDestination())) {
+            valid = false;
+            errorMap.putError("source", KeyConstants.ERROR_SOURCE_DESTINATION);
+        }
+        return valid;
+    }
+    
+    /**
+    *
+    * Test fiscal year for valid range.
+    * @param AwardCostShare, ErrorMap
+    * @return Boolean
+    */
+    public boolean testCostShareFiscalYearRange(AwardCostShare awardCostShare, ErrorMap errorMap){
+        boolean valid = true;
+        int fiscalYear = Integer.parseInt(awardCostShare.getFiscalYear());
+        if(fiscalYear < Constants.MIN_FISCAL_YEAR || fiscalYear > Constants.MAX_FISCAL_YEAR) {
+            valid = false;
+            errorMap.putError("fiscalYear", KeyConstants.ERROR_FISCAL_YEAR_RANGE);
+        }
+        return valid;
+    }
+    
+    /**
+    *
+    * process ApprovedSubaward business rules.
     * @param awardDocument
     * @return
     */
     private boolean processApprovedSubawardBusinessRules(Document document) {
         boolean valid = true;
-
-        //checkErrors();
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         AwardDocument awardDocument = (AwardDocument) document;
         int i = 0;
         List<AwardApprovedSubaward> awardApprovedSubawards = awardDocument.getAward().getAwardApprovedSubawards();
         errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
         errorMap.addToErrorPath(AWARD_ERROR_PATH);
-        loop:
-            for (AwardApprovedSubaward awardApprovedSubaward : awardApprovedSubawards) {
-                String errorPath = "awardApprovedSubawards[" + i + "]";
-                errorMap.addToErrorPath(errorPath);
-                int amount = awardApprovedSubaward.getAmount().intValue();
-                //test for equality of source and destination
-                if(amount <= 0) {
-                    valid = false;
-                    errorMap.putError("amount", KeyConstants.ERROR_AMOUNT_IS_ZERO);
-                }
-                //test for duplicate organizations
-                int j = 0;
-                for (AwardApprovedSubaward loopAwardApprovedSubaward : awardApprovedSubawards) {
-                    if (i != j){
-                        if(awardApprovedSubaward.getOrganizationName().equals(loopAwardApprovedSubaward.getOrganizationName())){
-                            valid = false;
-                            errorMap.putError("organizationName", KeyConstants.ERROR_DUPLICATE_ORGANIZATION_NAME);
-                            errorMap.removeFromErrorPath(errorPath);
-                            break loop;
-                        }
-                    }
-                    j++;
-                }
-                errorMap.removeFromErrorPath(errorPath);
-                i++;
+        for (AwardApprovedSubaward awardApprovedSubaward : awardApprovedSubawards) {
+             String errorPath = "awardApprovedSubawards[" + i + "]";
+             errorMap.addToErrorPath(errorPath);
+             valid = testApprovedSubawardAmount(awardApprovedSubaward, errorMap);
+             valid = testApprovedSubawardDuplicateOrganization(awardApprovedSubawards, awardApprovedSubaward, errorMap, i, errorPath);
+             errorMap.removeFromErrorPath(errorPath);
+             i++;
             }
         errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
+        return valid;
+    }
+    
+    /**
+    *
+    * Test Approved Subawards for duplicate organizations
+    * @param AwardApprovedSubaward, ErrorMap, List<AwardApprovedSubaward>, currentIndex
+    * @return Boolean
+    */
+    public boolean testApprovedSubawardDuplicateOrganization(List<AwardApprovedSubaward> awardApprovedSubawards, AwardApprovedSubaward awardApprovedSubaward, ErrorMap errorMap, int currentIndex, String errorPath){
+        boolean valid = true;
+        int j = 0;
+        for (AwardApprovedSubaward loopAwardApprovedSubaward : awardApprovedSubawards) {
+            if (currentIndex != j){
+                if(awardApprovedSubaward.getOrganizationName().equals(loopAwardApprovedSubaward.getOrganizationName())){
+                    valid = false;
+                    errorMap.putError("organizationName", KeyConstants.ERROR_DUPLICATE_ORGANIZATION_NAME);
+                    errorMap.removeFromErrorPath(errorPath);
+                    break;
+                }
+            }
+            j++;
+          }
+        return valid;
+       }
+    
+    /**
+    *
+    * Test Approved Subaward amount for zero and negative value.
+    * @param AwardApprovedSubaward, ErrorMap
+    * @return Boolean
+    */
+    public boolean testApprovedSubawardAmount(AwardApprovedSubaward awardApprovedSubaward, ErrorMap errorMap){
+        boolean valid = true;
+        int amount = awardApprovedSubaward.getAmount().intValue();
+        if(amount <= ZERO) {
+            valid = false;
+            errorMap.putError("amount", KeyConstants.ERROR_AMOUNT_IS_ZERO);
+        }
         return valid;
     }
 
