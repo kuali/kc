@@ -18,10 +18,8 @@ package org.kuali.kra.award.rules;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.award.bo.AwardReportTerm;
-import org.kuali.kra.award.rule.AddAwardReportTermRecipientRule;
 import org.kuali.kra.award.rule.AddAwardReportTermRule;
 import org.kuali.kra.award.rule.event.AddAwardReportTermEvent;
-import org.kuali.kra.award.rule.event.AddAwardReportTermRecipientEvent;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
@@ -30,10 +28,9 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  * 
  * This class represents the AwardFandaRateRule
  */
-public class AwardReportTermRule extends ResearchDocumentRuleBase implements AddAwardReportTermRule, AddAwardReportTermRecipientRule {
+public class AwardReportTermRule extends ResearchDocumentRuleBase implements AddAwardReportTermRule {
     
     private static final String NEW_AWARD_REPORT_TERM = "newAwardReportTerm";
-    private static final String NEW_AWARD_REPORT_TERM_RECIPIENT = "newAwardReportTermRecipient";
     
     /**
      * 
@@ -54,25 +51,6 @@ public class AwardReportTermRule extends ResearchDocumentRuleBase implements Add
         rulePassed &= evaluateRuleForDueDate(awardReportTerm,awardForm.getAwardReportTermPanelNumber());
 
         return rulePassed;            
-    }    
-    
-    /**
-     * 
-     * @see org.kuali.kra.award.rule.AddAwardReportTermRecipientRule#processAddAwardReportTermRecipientEvent(
-     * org.kuali.kra.award.rule.event.AddAwardReportTermRecipientEvent)
-     */
-    public boolean processAddAwardReportTermRecipientEvent(AddAwardReportTermRecipientEvent addAwardReportTermRecipientEvent) {
-        
-        AwardReportTerm awardReportTerm = 
-            addAwardReportTermRecipientEvent.getAwardReportTerm();
-        AwardForm awardForm = (AwardForm) GlobalVariables.getKualiForm();
-        boolean rulePassed = true;
-        
-        rulePassed &= evaluateRuleForContactType(awardReportTerm,awardForm.getAwardReportTermPanelNumber());
-        rulePassed &= evaluateRuleForRolodex(awardReportTerm,awardForm.getAwardReportTermPanelNumber());
-
-        return rulePassed;        
-        
     }
     
     /**
@@ -159,40 +137,4 @@ public class AwardReportTermRule extends ResearchDocumentRuleBase implements Add
         }
         return rulePassed;
     }
-    
-    /**
-     * 
-     * This is a convenience method for evaluating the rule for distribution field.
-     * @param awardReportTerm
-     * @return
-     */
-    protected boolean evaluateRuleForContactType(AwardReportTerm awardReportTerm, String index){
-        boolean rulePassed = true;
-        if(awardReportTerm.getContactTypeCode() == null 
-                || StringUtils.isBlank(awardReportTerm.getContactTypeCode().toString())){
-            rulePassed = false;
-            reportError(NEW_AWARD_REPORT_TERM_RECIPIENT + "[" + index + "]" + ".contactTypeCode"
-                    , KeyConstants.ERROR_REQUIRED_CONTACT_TYPE);
-        }
-        return rulePassed;
-    }
-    
-    /**
-     * 
-     * This is a convenience method for evaluating the rule for distribution field.
-     * @param awardReportTerm
-     * @return
-     */
-    protected boolean evaluateRuleForRolodex(AwardReportTerm awardReportTerm, String index){
-        boolean rulePassed = true;
-        if(awardReportTerm.getRolodexId() == null 
-                || StringUtils.isBlank(awardReportTerm.getRolodexId().toString())){
-            rulePassed = false;
-            reportError(NEW_AWARD_REPORT_TERM_RECIPIENT + "[" + index + "]" + ".rolodexId"
-                    , KeyConstants.ERROR_REQUIRED_ROLODEX_ID);
-        }
-        return rulePassed;
-    }
-    
-    
 }

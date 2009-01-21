@@ -20,12 +20,12 @@ import org.kuali.kra.award.rule.event.AddAwardReportTermRecipientEvent;
 
 /**
  * 
- * This interface declares the rule method associated with <code>AwardFandaRate</code> Business Object.
+ * This interface declares the rule method associated with <code>AwardReportTermRecipient</code> Business Object.
  */
 public interface AddAwardReportTermRecipientRule extends BusinessRule {
     
     /**
-     * Rule invoked upon adding a indirect cost rate
+     * Rule invoked upon adding a Award Report Term Recipient
      * <code>{@link org.kuali.kra.award.document.AwardDocument}</code>
      *
      * @return boolean

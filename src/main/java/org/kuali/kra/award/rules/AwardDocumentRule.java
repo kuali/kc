@@ -23,10 +23,15 @@ import org.kuali.core.document.Document;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.award.bo.AwardApprovedSubaward;
 import org.kuali.kra.award.bo.AwardCostShare;
 import org.kuali.kra.award.bo.AwardFandaRate;
+import org.kuali.kra.award.bo.AwardReportTerm;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder;
+import org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder;
+import org.kuali.kra.award.lookup.keyvalue.ReportCodeValuesFinder;
 import org.kuali.kra.award.rule.AddAwardReportTermRecipientRule;
 import org.kuali.kra.award.rule.AddAwardReportTermRule;
 import org.kuali.kra.award.rule.AddFandaRateRule;
@@ -53,9 +58,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddFa
     public static final boolean VALIDATION_REQUIRED = true;
     public static final boolean CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME = false;
     private static final String NEW_SPECIAL_REVIEW = "newSpecialReview";
-    private static final String NEW_AWARD_FANDA_RATE = "newAwardFandaRate";
     private static final int ZERO = 0;
-    
     
     /**
      * 
@@ -89,6 +92,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddFa
         retval &= processAwardFandaRateBusinessRules(document);
         retval &= processCostShareBusinessRules(document);
         retval &= processApprovedSubawardBusinessRules(document);
+        retval &= processAwardReportTermBusinessRules(document);
 
         return retval;
     }
@@ -258,6 +262,97 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddFa
         return retval;
     }
     
+    protected boolean processAwardReportTermBusinessRules(Document document) {
+        boolean retval = true;
+        
+        int i=0;
+        
+        GlobalVariables.getErrorMap().addToErrorPath(DOCUMENT_ERROR_PATH);
+        GlobalVariables.getErrorMap().addToErrorPath(AWARD_ERROR_PATH);        
+        
+        AwardDocument awardDocument = (AwardDocument) document;
+        for(AwardReportTerm awardReportTerm: awardDocument.getAward().getAwardReportTerms()){
+            
+            retval = evaluateBusinessRuleForReportCodeField(awardReportTerm, i);
+            retval = evaluateBusinessRuleForFrequencyCodeField(awardReportTerm, i);
+            retval = evaluateBusinessRuleForFrequencyBaseCodeField(awardReportTerm, i);
+            i++;
+        }
+        
+        GlobalVariables.getErrorMap().removeFromErrorPath(AWARD_ERROR_PATH);
+        GlobalVariables.getErrorMap().removeFromErrorPath(DOCUMENT_ERROR_PATH);
+        
+        return retval;
+    }
+    
+    protected boolean evaluateBusinessRuleForReportCodeField(AwardReportTerm awardReportTerm, int index){
+        boolean found = false;
+        boolean retval = true;
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        ReportCodeValuesFinder reportCodeValuesFinder = new ReportCodeValuesFinder();
+        reportCodeValuesFinder.setReportClassCode(awardReportTerm.getReportClassCode());
+        for(KeyLabelPair keyLabelPair:reportCodeValuesFinder.getKeyValues()){
+            if(StringUtils.equalsIgnoreCase(keyLabelPair.getKey().toString(), 
+                    awardReportTerm.getReportCode())) {
+                found = true;                    
+            }
+        }
+        if(!found){
+            retval = false;
+            errorMap.putError("awardReportTerms[" + index + "].reportCode"
+                    , KeyConstants.INVALID_REPORT_CODE_FOR_REPORT_CLASS);
+        }
+        return retval;
+    }
+    
+    protected boolean evaluateBusinessRuleForFrequencyCodeField(AwardReportTerm awardReportTerm, int index){
+        boolean found = false;
+        boolean retval = true;
+        ErrorMap errorMap = GlobalVariables.getErrorMap();        
+        FrequencyCodeValuesFinder frequencyCodeValuesFinder = new FrequencyCodeValuesFinder();
+        
+        frequencyCodeValuesFinder.setReportClassCode(awardReportTerm.getReportClassCode());
+        frequencyCodeValuesFinder.setReportCode(awardReportTerm.getReportCode());
+        
+        for(KeyLabelPair keyLabelPair:frequencyCodeValuesFinder.getKeyValues()){
+            if(StringUtils.equalsIgnoreCase(keyLabelPair.getKey().toString(), 
+                    awardReportTerm.getFrequencyCode())) {
+                found = true;                    
+            }
+        }
+        
+        if(!found){
+            retval = false;
+            errorMap.putError("awardReportTerms[" + index + "].frequencyCode"
+                    , KeyConstants.INVALID_FREQUENCY_FOR_REPORT_CLASS_AND_TYPE);
+        }
+        
+        return retval;
+    }
+    
+    
+    protected boolean evaluateBusinessRuleForFrequencyBaseCodeField(
+            AwardReportTerm awardReportTerm, int index){
+        boolean found = false;
+        boolean retval = true;
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        FrequencyBaseCodeValuesFinder frequencyBaseCodeValuesFinder = new FrequencyBaseCodeValuesFinder();
+        frequencyBaseCodeValuesFinder.setFrequencyCode(awardReportTerm.getFrequencyCode());
+                
+        for(KeyLabelPair keyLabelPair:frequencyBaseCodeValuesFinder.getKeyValues()){
+            if(StringUtils.equalsIgnoreCase(keyLabelPair.getKey().toString(), 
+                    awardReportTerm.getFrequencyBaseCode())) {
+                found = true;                    
+            }
+        }
+        if(!found){
+            retval = false;
+            errorMap.putError("awardReportTerms[" + index + "].frequencyBaseCode"
+                    , KeyConstants.INVALID_FREQUENCY_BASE_FOR_FREQUENCY);
+        }
+        
+        return retval;
+    }
     /**
      * 
      * @see org.kuali.kra.award.rule.AddAwardReportTermRule#processAddAwardReportTermEvent(
@@ -275,7 +370,8 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddFa
      */
     public boolean processAddAwardReportTermRecipientEvent(AddAwardReportTermRecipientEvent 
             addAwardReportTermRecipientEvent) {
-        return new AwardReportTermRule().processAddAwardReportTermRecipientEvent(addAwardReportTermRecipientEvent);        
+        return new AwardReportTermRecipientRule().processAddAwardReportTermRecipientEvent(
+                addAwardReportTermRecipientEvent);        
     }
     
     

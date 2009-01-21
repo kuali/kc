@@ -33,7 +33,7 @@
 		<property name="titleAttribute" value="awardReportTermId" />
 		<property name="attributes" >
 			<list>
-				<ref bean="AwardReportTerm-AwardReportTermId" />
+				<ref bean="AwardReportTerm-awardReportTermId" />
 				<ref bean="AwardReportTerm-awardId" />
 				<ref bean="AwardReportTerm-awardNumber" />
 				<ref bean="AwardReportTerm-sequenceNumber" />
@@ -42,10 +42,7 @@
 				<ref bean="AwardReportTerm-frequencyCode" />
 				<ref bean="AwardReportTerm-frequencyBaseCode" />
 				<ref bean="AwardReportTerm-ospDistributionCode" />
-				<ref bean="AwardReportTerm-contactTypeCode" />
-				<ref bean="AwardReportTerm-rolodexId" />
 				<ref bean="AwardReportTerm-dueDate" />
-				<ref bean="AwardReportTerm-numberOfCopies" />
 				<ref bean="AwardReportTerm-versionNumber" />
 			</list>
 		</property>
@@ -53,9 +50,9 @@
 
 	<!-- Attribute Definitions -->
 	
-	<bean id="AwardReportTerm-AwardReportTermId" parent="AwardReportTerm-AwardReportTermId-parentBean" />
-	<bean id="AwardReportTerm-AwardReportTermId-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="AwardReportTermId" />
+	<bean id="AwardReportTerm-awardReportTermId" parent="AwardReportTerm-awardReportTermId-parentBean" />
+	<bean id="AwardReportTerm-awardReportTermId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="awardReportTermId" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Award Report Terms Id" />
 		<property name="shortLabel" value="Award Report Terms Id" />
@@ -321,7 +318,7 @@
 					<property name="inquiryFields" >
 						<list>
 							<bean parent="FieldDefinition"
-								p:attributeName="AwardReportTermId" 
+								p:attributeName="awardReportTermId" 
 								p:forceInquiry="true" />
 							<bean parent="FieldDefinition"
 								p:attributeName="awardId" />
@@ -340,13 +337,7 @@
 							<bean parent="FieldDefinition"
 								p:attributeName="ospDistributionCode" />
 							<bean parent="FieldDefinition"
-								p:attributeName="contactTypeCode" />
-							<bean parent="FieldDefinition"
-								p:attributeName="rolodexId" />
-							<bean parent="FieldDefinition"
 								p:attributeName="dueDate" />
-							<bean parent="FieldDefinition"
-								p:attributeName="numberOfCopies" />
 						</list>
 					</property>
 				</bean>
@@ -367,7 +358,7 @@
 		<property name="lookupFields" >
 			<list>
 				<bean parent="FieldDefinition"
-					p:attributeName="AwardReportTermId" 
+					p:attributeName="awardReportTermId" 
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
 					p:attributeName="awardId" />
@@ -386,19 +377,13 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="ospDistributionCode" />
 				<bean parent="FieldDefinition"
-					p:attributeName="contactTypeCode" />
-				<bean parent="FieldDefinition"
-					p:attributeName="rolodexId" />
-				<bean parent="FieldDefinition"
 					p:attributeName="dueDate" />
-				<bean parent="FieldDefinition"
-					p:attributeName="numberOfCopies" />
 			</list>
 		</property>
 		<property name="resultFields" >
 			<list>
 				<bean parent="FieldDefinition"
-					p:attributeName="AwardReportTermId" 
+					p:attributeName="awardReportTermId" 
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
 					p:attributeName="awardId" />
@@ -417,13 +402,7 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="ospDistributionCode" />
 				<bean parent="FieldDefinition"
-					p:attributeName="contactTypeCode" />
-				<bean parent="FieldDefinition"
-					p:attributeName="rolodexId" />
-				<bean parent="FieldDefinition"
 					p:attributeName="dueDate" />
-				<bean parent="FieldDefinition"
-					p:attributeName="numberOfCopies" />
 			</list>
 		</property>
 	</bean>
