@@ -36,6 +36,16 @@
           	<property name="headerTabDisplayName" value="Committee" />
           	<property name="headerTabNavigateTo" value="committee" />
         	</bean>
+        	<bean parent="HeaderNavigation">
+	          	<property name="helpDefinition" >
+	            	<bean parent="HelpDefinition"
+	                  p:parameterNamespace="KC-CMT"
+	                  p:parameterName="CommitteeHelp"
+	                  p:parameterDetailType="D" />
+	          	</property>
+	          	<property name="headerTabDisplayName" value="Schedule" />
+	          	<property name="headerTabNavigateTo" value="committeeSchedule" />
+        	</bean>         	
       	</list>
     	</property>
     	<property name="authorizations" >
