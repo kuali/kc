@@ -18,6 +18,7 @@ package org.kuali.kra.irb.bo;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.infrastructure.Constants;
 
 import java.util.LinkedHashMap;
 import java.sql.Date;
@@ -25,27 +26,40 @@ import java.sql.Date;
 public class ProtocolUnit extends KraPersistableBusinessObjectBase { 
 	
 	private Integer protocolUnitsId; 
+    private Integer protocolPersonId; 
 	private Integer protocolInvestigatorsId; 
 	private String protocolNumber; 
 	private Integer sequenceNumber; 
 	private String unitNumber; 
 	private boolean leadUnitFlag; 
 	private String personId; 
+	private String unitName;
 	
 	private ProtocolInvestigator protocolInvestigator; 
 	private Unit unit; 
 	
-	public ProtocolUnit() { 
+    private ProtocolPerson protocolPerson; 
 
+    public ProtocolUnit() { 
+        setLeadUnitFlag(false);
 	} 
 	
 	public Integer getProtocolUnitsId() {
 		return protocolUnitsId;
 	}
 
-	public void setProtocolUnitsId(Integer protocolUnitsId) {
-		this.protocolUnitsId = protocolUnitsId;
-	}
+    public void setProtocolUnitsId(Integer protocolUnitsId) {
+        this.protocolUnitsId = protocolUnitsId;
+    }
+
+    public Integer getProtocolPersonId() {
+        return protocolPersonId;
+    }
+
+    public void setProtocolPersonId(Integer protocolPersonId) {
+        this.protocolPersonId = protocolPersonId;
+    }
+
 
 	public Integer getProtocolInvestigatorsId() {
 		return protocolInvestigatorsId;
@@ -123,5 +137,21 @@ public class ProtocolUnit extends KraPersistableBusinessObjectBase {
 		hashMap.put("personId", getPersonId());
 		return hashMap;
 	}
+
+    public ProtocolPerson getProtocolPerson() {
+        return protocolPerson;
+    }
+
+    public void setProtocolPerson(ProtocolPerson protocolPerson) {
+        this.protocolPerson = protocolPerson;
+    }
+
+    public String getUnitName() {
+        return unitName;
+    }
+
+    public void setUnitName(String unitName) {
+        this.unitName = unitName;
+    }
 	
 }

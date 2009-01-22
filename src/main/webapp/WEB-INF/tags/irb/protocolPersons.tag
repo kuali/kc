@@ -1,0 +1,56 @@
+ <%--
+ Copyright 2006-2008 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+--%>
+<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+
+<c:set var="protocolPersonAttributes" value="${DataDictionary.ProtocolPerson.attributes}" />
+<div id="workarea">
+<c:set var="personIndex" value="0" />
+<c:forEach items="${KualiForm.document.protocol.protocolPersons}" var="person" varStatus="status">
+    <c:set var="protocolPersonProperty" value="document.protocol.protocolPersons[${status.index}]" />
+    <c:set var="transparent" value="false" />
+
+    <c:if test="${status.first}">
+      <c:set var="transparent" value="true" />
+    </c:if> 
+     	<c:set var="descri" value="${person.protocolPersonRole.description}" />
+			<kul:tab tabTitle="${fn:substring(person.personName, 0, 22)}"
+			         tabDescription="${descri}"
+			         leftSideHtmlProperty="${protocolPersonProperty}.delete" 
+			         leftSideHtmlAttribute="${protocolPersonAttributes.delete}" 
+			     	 leftSideHtmlDisabled="false" 
+			         defaultOpen="${hasErrors}" 
+			         transparentBackground="${transparent}"> 
+					 <div class="tab-container" align="center">
+						<div id="workarea">
+							<div class="tab-container" align="center" id="G100">
+						    	<h3>
+						        	<span class="subhead-left"><bean:write name="KualiForm" property="${protocolPersonProperty}.personName"/></span>
+						            <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.Person" altText="help"/></span>
+						        </h3>
+								<kra-irb:personDetailsSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/>
+								<kra-irb:personContactInformationSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/>
+								<kra-irb:personUnitsSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/>
+						  	</div>
+						</div>
+					 </div>
+			</kul:tab>
+ </c:forEach>
+
+<c:if test="${fn:length(KualiForm.document.protocol.protocolPersons) > 0}">
+    <kul:panelFooter />
+</c:if>
+
+</div>
