@@ -92,6 +92,7 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
         retval = getInnerPages(retval).get(0);
         System.out.println(retval.getTitleText());
         assertTrue("Kuali :: Award Document".equals(retval.getTitleText()));
+        setDefaultRequiredFields(retval);
         return retval;
     }
 
@@ -215,9 +216,14 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
      */
     protected HtmlPage getAwardTimeAndMoneyPage() throws Exception {
         HtmlPage awardHomePage = this.getAwardHomePage();
-        this.setDefaultRequiredFields(awardHomePage);
         HtmlPage awardTimeAndMoneyPage = clickOnTab(awardHomePage, TIME_AND_MONEY_LINK_NAME);
         return awardTimeAndMoneyPage;
+    }
+    
+    protected HtmlPage getPaymentReportsAndTermsPage() throws Exception {
+        HtmlPage awardHomePage = this.getAwardHomePage();
+        HtmlPage awardPaymentReportsAndTermsPage = clickOnTab(awardHomePage, PAYMENT_REPORTS_AND_TERMS_LINK_NAME);
+        return awardPaymentReportsAndTermsPage;
     }
     
     /**
@@ -231,7 +237,6 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
      */
     protected HtmlPage getAwardActionsPage() throws Exception {
         HtmlPage awardHomePage = this.getAwardHomePage();
-        this.setDefaultRequiredFields(awardHomePage);
         HtmlPage awardActionsPage = clickOnTab(awardHomePage, AWARD_ACTIONS_LINK_NAME);
         return awardActionsPage;
     }
@@ -252,6 +257,19 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
      */
     protected void verifySavedRequiredFields(AwardDocument doc, String description) throws WorkflowException {
         assertEquals(description, doc.getDocumentHeader().getDocumentDescription());
+    }
+    
+    /**
+     * 
+     * This method...
+     * @param page
+     * @param uniqueNamePrefix
+     * @return
+     */
+    protected String getImageTagName(HtmlPage page, String uniqueNamePrefix) {
+        int idx1 = page.asXml().indexOf(uniqueNamePrefix);        
+        int idx2 = page.asXml().indexOf("\"", idx1);
+        return page.asXml().substring(idx1, idx2).replace("&amp;", "&").replace("((&lt;&gt;))", "((<>))");
     }
 
 }
