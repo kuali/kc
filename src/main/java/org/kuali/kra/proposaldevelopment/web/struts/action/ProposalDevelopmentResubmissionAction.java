@@ -112,9 +112,10 @@ public class ProposalDevelopmentResubmissionAction extends ProposalDevelopmentAc
             copiedDocument.getS2sOpportunity().setS2sSubmissionType(null);
                         
             KualiWorkflowDocument workflowDocument = copiedDocument.getDocumentHeader().getWorkflowDocument();
-            if(!originalWFDoc.stateIsFinal()){
-                originalWFDoc.cancel("");
-            }
+ // Removed cancel of original document until KEW will allow this to happen
+ //           if(!originalWFDoc.stateIsFinal()){
+ //               originalWFDoc.cancel("");
+ //           }
             //Copying the submission history from the previous proposal to new proposal
             //setting id field to null so that OJB can treat this as a new insert
             //just copying the existing history and not adding any new history
