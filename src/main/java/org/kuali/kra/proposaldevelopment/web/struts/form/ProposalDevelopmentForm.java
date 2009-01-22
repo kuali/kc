@@ -1062,9 +1062,11 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         String externalImageURL = "kra.externalizable.images.url";
         KualiWorkflowDocument wfDoc=doc.getDocumentHeader().getWorkflowDocument();
  
-        if (showSubmitButton && (wfDoc.stateIsEnroute() || wfDoc.stateIsFinal())) {
-            String submitToGrantsGovImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_submittosponsor.gif";
-            addExtraButton("methodToCall.submitToSponsor", submitToGrantsGovImage, "Submit To Sponsor");
+        if (showSubmitButton) {
+            if (wfDoc.stateIsEnroute() || wfDoc.stateIsFinal()) {
+                String submitToGrantsGovImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_submittosponsor.gif";
+                addExtraButton("methodToCall.submitToSponsor", submitToGrantsGovImage, "Submit To Sponsor");
+            }
         }else if(showResubmitButton){
             String resubmissionImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_replaceproposal.gif";
             addExtraButton("methodToCall.resubmit", resubmissionImage, "Replace Sponsor");
