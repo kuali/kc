@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,8 +43,45 @@ import org.kuali.rice.kns.util.KNSConstants;
  */
 public class AwardPaymentReportsAndTermsAction extends AwardAction {
         
+    /**
+     * 
+     * This method gets called upon clicking of refresh pulldown menu buttons on the screen
+     * to populate the drop down menus afresh based on other parameters.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward refreshPulldownOptions(ActionMapping mapping, ActionForm form, 
             HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    /**
+     * Upon the return from look up on <code>Rolodex</code> (Organization) field, this method gets
+     * executed; We need to display Organization name on the screen; thus we have to call
+     * OJB's refreshReferenceObject method on every awardReportTermRecipient object.
+     *  
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(
+     * org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, 
+     * javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, 
+            HttpServletRequest request, HttpServletResponse response) throws Exception {        
+        super.refresh(mapping, form, request, response);
+        AwardForm awardForm = (AwardForm) form;
+        AwardDocument awardDocument = (AwardDocument) awardForm.getAwardDocument();
+        for(AwardReportTermRecipient awardReportTermRecipient : awardForm.getNewAwardReportTermRecipient()){
+            awardReportTermRecipient.refreshReferenceObject("rolodex");
+        }
+        for(AwardReportTerm awardReportTerm : awardDocument.getAward().getAwardReportTerms()){
+            for(AwardReportTermRecipient awardReportTermRecipient : awardReportTerm.getAwardReportTermRecipients()){
+                awardReportTermRecipient.refreshReferenceObject("rolodex");
+            }
+        }
         
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }

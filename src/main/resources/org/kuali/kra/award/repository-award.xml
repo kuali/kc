@@ -314,22 +314,22 @@
 		<collection-descriptor name="awardReportTermRecipients" proxy="true" element-class-ref="org.kuali.kra.award.bo.AwardReportTermRecipient" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="awardReportTermId" />
     	</collection-descriptor>		
-		<reference-descriptor name="distribution" class-ref="org.kuali.kra.award.bo.Distribution" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="distribution" class-ref="org.kuali.kra.award.bo.Distribution" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="ospDistributionCode"/>
 		</reference-descriptor>
-		<reference-descriptor name="frequency" class-ref="org.kuali.kra.award.bo.Frequency" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="frequency" class-ref="org.kuali.kra.award.bo.Frequency" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="frequencyCode"/>
 		</reference-descriptor>
-		<reference-descriptor name="frequencyBase" class-ref="org.kuali.kra.award.bo.FrequencyBase" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="frequencyBase" class-ref="org.kuali.kra.award.bo.FrequencyBase" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="frequencyBaseCode"/>
 		</reference-descriptor>
-		<reference-descriptor name="report" class-ref="org.kuali.kra.award.bo.Report" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="report" class-ref="org.kuali.kra.award.bo.Report" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="reportCode"/>
 		</reference-descriptor>
-		<reference-descriptor name="reportClass" class-ref="org.kuali.kra.award.bo.ReportClass" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="reportClass" class-ref="org.kuali.kra.award.bo.ReportClass" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="reportClassCode"/>
 		</reference-descriptor>
-		<reference-descriptor name="award" class-ref="org.kuali.kra.award.bo.Award" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="award" class-ref="org.kuali.kra.award.bo.Award" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="awardId"/>
 		</reference-descriptor>
 	</class-descriptor>
@@ -344,10 +344,10 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<reference-descriptor name="contactType" class-ref="org.kuali.kra.award.bo.ContactType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="contactType" class-ref="org.kuali.kra.award.bo.ContactType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="contactTypeCode"/>
 		</reference-descriptor>
-		<reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="rolodexId"/>
 		</reference-descriptor>	
 	</class-descriptor>
