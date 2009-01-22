@@ -30,7 +30,8 @@ public class AwardCostShare extends KraPersistableBusinessObjectBase {
     private Long awardCostShareId;
     private String fiscalYear;
     private KualiDecimal costSharePercentage;
-    private Integer costShareTypeCode;
+    @SuppressWarnings("unused")
+    private Integer costShareTypeCode;//may not need this when we move to JPA.  OJB cannot handle anonymous access(uni-directional relationship)
     private String source;
     private String destination;
     private KualiDecimal commitmentAmount;
@@ -109,7 +110,6 @@ public class AwardCostShare extends KraPersistableBusinessObjectBase {
         for(CostShareType costShareType : costShareTypes){
             if(costShareType.getCostShareTypeCode().equals(costShareTypeCode)){
                 setCostShareType(costShareType);
-                this.costShareTypeCode = costShareType.getCostShareTypeCode();
             }
         }
     }
@@ -129,6 +129,7 @@ public class AwardCostShare extends KraPersistableBusinessObjectBase {
      */
     public void setCostShareType(CostShareType costShareType) {
         this.costShareType = costShareType;
+        this.costShareTypeCode = costShareType.getCostShareTypeCode();
     }
 
 
