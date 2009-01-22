@@ -116,9 +116,8 @@
 			<bean parent="NumericValidationPattern" />
 		</property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
-		</property>
+      		<bean parent="HiddenControlDefinition" />
+    	</property>
 		<property name="summary" value="Name/Organization" />
 		<property name="description" value="Name/Organization" />
 	</bean>
