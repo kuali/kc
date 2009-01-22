@@ -22,6 +22,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
+import org.kuali.kra.committee.web.struts.form.ScheduleData;
 import org.kuali.kra.infrastructure.Constants;
 
 public class CommitteeScheduleAction extends CommitteeAction {
@@ -30,16 +31,20 @@ public class CommitteeScheduleAction extends CommitteeAction {
     
     public ActionForward addEvent(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-                
+        
+        CommitteeForm committeeForm = (CommitteeForm) form;
+        //Some service to do job goes here
+        committeeForm.getScheduleData().printf();
+        //Reset committee schedule data bean
+        //committeeForm.setScheduleData(new ScheduleData());
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
     
     public ActionForward reload(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         CommitteeForm committeeForm = (CommitteeForm) form;
+        //Changes style class selection, which will trigger selected type of recurrence
         committeeForm.getScheduleData().populateStyleClass();
-        //LOG.info("From action form ScheduleDate : ===================== :" + committeeForm.getScheduleEndDate());
-        
         return mapping.findForward(Constants.MAPPING_BASIC );
     }    
 }
