@@ -45,7 +45,7 @@ public class ReportCodeValuesFinderTest {
 
     @Test
     public final void testGetKeyValues() {
-        Assert.assertEquals(10,reportCodes.size());
+        Assert.assertEquals(11,reportCodes.size());
     }
     
     @Test
