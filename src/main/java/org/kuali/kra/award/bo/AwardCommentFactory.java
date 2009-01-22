@@ -70,9 +70,9 @@ public class AwardCommentFactory {
      */
     public  AwardComment createAwardComment(Award award, int commentTypeCode, boolean checklistPrintFlag) {
                 AwardComment comment = new AwardComment();
-                comment.setAward(award);
-                comment.setAwardNumber(award.getAwardNumber());//temp
-                comment.setSequenceNumber(award.getSequenceNumber());//temp
+                //comment.setAward(award);
+                //comment.setAwardNumber(award.getAwardNumber());//temp
+                //comment.setSequenceNumber(award.getSequenceNumber());//temp
                 CommentType commentType = findCommentType(commentTypeCode);
                 comment.setCommentType(commentType);
                 comment.setCommentTypeCode(commentType.getCommentTypeCode());//should be anonymous access through obj ref.
