@@ -43,7 +43,6 @@ public class AwardHomeWebTest extends AwardWebTestBase {
     public void setUp() throws Exception {
         super.setUp();
         awardHomePage = getAwardHomePage();
-        this.setDefaultRequiredFields(awardHomePage);
     }
 
     /**
@@ -166,20 +165,6 @@ public class AwardHomeWebTest extends AwardWebTestBase {
         System.out.println(awardHomePageAfterRecalculate.asText());
         assertContains(awardHomePageAfterRecalculate,"3945");
     }
-    
-    /**
-     * 
-     * This method...
-     * @param page
-     * @param uniqueNamePrefix
-     * @return
-     */
-    protected String getImageTagName(HtmlPage page, String uniqueNamePrefix) {
-        int idx1 = page.asXml().indexOf(uniqueNamePrefix);        
-        int idx2 = page.asXml().indexOf("\"", idx1);
-        return page.asXml().substring(idx1, idx2).replace("&amp;", "&").replace("((&lt;&gt;))", "((<>))");
-    }
-    
     
     
 }

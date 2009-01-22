@@ -122,18 +122,7 @@ public class AwardTimeAndMoneyWebTest extends AwardWebTestBase{
         
     }
     
-    /**
-     * 
-     * This method...
-     * @param page
-     * @param uniqueNamePrefix
-     * @return
-     */
-    protected String getImageTagName(HtmlPage page, String uniqueNamePrefix) {
-        int idx1 = page.asXml().indexOf(uniqueNamePrefix);        
-        int idx2 = page.asXml().indexOf("\"", idx1);
-        return page.asXml().substring(idx1, idx2).replace("&amp;", "&").replace("((&lt;&gt;))", "((<>))");
-    }
+    
     
     /**
      * 
@@ -540,8 +529,4 @@ public class AwardTimeAndMoneyWebTest extends AwardWebTestBase{
         assertContains(awardTimeAndMoneyPageAfterAnotherReload,"We are testing Institutional Authorization Comments");
         
     }
-        
-    
-    
-
 }
