@@ -78,7 +78,12 @@
         </collection-descriptor>
    		<collection-descriptor name="protocolLocations" element-class-ref="org.kuali.kra.irb.bo.ProtocolLocation"  auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="protocolId" />
+		</collection-descriptor>    
+
+   		<collection-descriptor name="protocolPersons" element-class-ref="org.kuali.kra.irb.bo.ProtocolPerson"  auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="protocolId" />
 		</collection-descriptor>    		
+
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolStatus" table="PROTOCOL_STATUS">
@@ -148,6 +153,7 @@
 	
 	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolUnit" table="PROTOCOL_UNITS">
 		<field-descriptor name="protocolUnitsId" column="PROTOCOL_UNITS_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true"/>
+		<field-descriptor name="protocolPersonId" column="PROTOCOL_PERSON_ID" jdbc-type="INTEGER" />
 		<field-descriptor name="protocolInvestigatorsId" column="PROTOCOL_INVESTIGATORS_ID" jdbc-type="INTEGER" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
@@ -161,7 +167,10 @@
 		<reference-descriptor name="protocolInvestigator" class-ref="org.kuali.kra.irb.bo.ProtocolInvestigator" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protocolInvestigatorsId"/>
 		</reference-descriptor>
-		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="protocolPerson" class-ref="org.kuali.kra.irb.bo.ProtocolPerson" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="protocolPersonId"/>
+		</reference-descriptor>
+		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="unitNumber"/>
 		</reference-descriptor>
 	</class-descriptor>
@@ -298,6 +307,86 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+	</class-descriptor>
+	
+
+	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolPersonRole" table="PROTOCOL_PERSON_ROLES">
+		<field-descriptor name="protocolPersonRoleId" column="PROTOCOL_PERSON_ROLE_ID" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="unitDetailsRequired" column="UNIT_DETAILS_REQUIRED" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolPersonRolodex" table="ROLODEX">
+		<field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER" primarykey="true"/>
+		<field-descriptor name="addressLine1" column="ADDRESS_LINE_1" jdbc-type="VARCHAR"/>
+		<field-descriptor name="addressLine2" column="ADDRESS_LINE_2" jdbc-type="VARCHAR"/>
+		<field-descriptor name="addressLine3" column="ADDRESS_LINE_3" jdbc-type="VARCHAR"/>
+		<field-descriptor name="city" column="CITY" jdbc-type="VARCHAR"/>
+		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR"/>
+		<field-descriptor name="countryCode" column="COUNTRY_CODE" jdbc-type="CHAR"/>
+		<field-descriptor name="county" column="COUNTY" jdbc-type="VARCHAR"/>
+		<field-descriptor name="createUser" column="CREATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="deleteFlag" column="DELETE_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="emailAddress" column="EMAIL_ADDRESS" jdbc-type="VARCHAR"/>
+		<field-descriptor name="faxNumber" column="FAX_NUMBER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="firstName" column="FIRST_NAME" jdbc-type="VARCHAR"/>
+		<field-descriptor name="lastName" column="LAST_NAME" jdbc-type="VARCHAR"/>
+		<field-descriptor name="middleName" column="MIDDLE_NAME" jdbc-type="VARCHAR"/>
+		<field-descriptor name="organization" column="ORGANIZATION" jdbc-type="VARCHAR"/>
+		<field-descriptor name="ownedByUnit" column="OWNED_BY_UNIT" jdbc-type="VARCHAR"/>
+		<field-descriptor name="phoneNumber" column="PHONE_NUMBER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="postalCode" column="POSTAL_CODE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="prefix" column="PREFIX" jdbc-type="VARCHAR"/>
+		<field-descriptor name="sponsorAddressFlag" column="SPONSOR_ADDRESS_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="sponsorCode" column="SPONSOR_CODE" jdbc-type="CHAR"/>
+		<field-descriptor name="state" column="STATE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="suffix" column="SUFFIX" jdbc-type="VARCHAR"/>
+		<field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+        	<foreignkey field-ref="ownedByUnit" />
+    	</reference-descriptor>
+		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none">
+        	<foreignkey field-ref="sponsorCode" />
+    	</reference-descriptor>
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolPerson" table="PROTOCOL_PERSONS">
+		<field-descriptor name="protocolPersonId" column="PROTOCOL_PERSON_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true" />
+		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="personName" column="PERSON_NAME" jdbc-type="VARCHAR" />
+		<field-descriptor name="protocolPersonRoleId" column="PROTOCOL_PERSON_ROLE_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER" />
+		<field-descriptor name="affiliationTypeCode" column="AFFILIATION_TYPE_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="affiliationType" class-ref="org.kuali.kra.bo.AffiliationType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="affiliationTypeCode"/>
+		</reference-descriptor>
+		<reference-descriptor name="protocolPersonRole" class-ref="org.kuali.kra.irb.bo.ProtocolPersonRole" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="protocolPersonRoleId"/>
+		</reference-descriptor>
+		<reference-descriptor name="person" class-ref="org.kuali.kra.bo.Person" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="personId"/>
+		</reference-descriptor>
+		<reference-descriptor name="rolodex" class-ref="org.kuali.kra.irb.bo.ProtocolPersonRolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="rolodexId"/>
+		</reference-descriptor>
+		<collection-descriptor name="protocolUnits" proxy="true" element-class-ref="org.kuali.kra.irb.bo.ProtocolUnit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="protocolPersonId"/>
+		</collection-descriptor>
 	</class-descriptor>
 	
 </descriptor-repository>

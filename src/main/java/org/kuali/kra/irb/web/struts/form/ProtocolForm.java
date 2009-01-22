@@ -19,6 +19,7 @@ package org.kuali.kra.irb.web.struts.form;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -32,12 +33,15 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ActionFormUtilMap;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.bo.ProtocolInvestigator;
 import org.kuali.kra.irb.bo.ProtocolLocation;
 import org.kuali.kra.irb.bo.ProtocolParticipant;
+import org.kuali.kra.irb.bo.ProtocolPerson;
 import org.kuali.kra.irb.bo.ProtocolReference;
+import org.kuali.kra.irb.bo.ProtocolUnit;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 
@@ -59,6 +63,9 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
     private String newPersonId;
     private String leadUnitNumber;
     private String organizationName;
+    
+    ProtocolPerson newProtocolPerson;
+    private List<ProtocolUnit> newProtocolPersonUnits;
 
     
     public String getLeadUnitNumber() {
@@ -89,6 +96,8 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
         setProtocolHelper(new ProtocolHelper(this));
         setNewProtocolReference(new ProtocolReference());
         setNewProtocolLocation(new ProtocolLocation());
+        setNewProtocolPerson(new ProtocolPerson());
+        setNewProtocolPersonUnits(new ArrayList<ProtocolUnit>());
     }
 
     public ProtocolDocument getProtocolDocument() {
@@ -244,6 +253,25 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
 
     public void setOrganizationName(String organizationName) {
         this.organizationName = organizationName;
+    }
+
+    public void setNewProtocolPerson(ProtocolPerson newProtocolPerson) {
+        this.newProtocolPerson = newProtocolPerson;
+    }
+
+    public ProtocolPerson getNewProtocolPerson() {
+        return newProtocolPerson;
+    }
+
+    public List<ProtocolUnit> getNewProtocolPersonUnits() {
+        if (this.getProtocolDocument().getProtocol().getProtocolPersons().size() > this.newProtocolPersonUnits.size()) {
+            this.newProtocolPersonUnits.add(this.newProtocolPersonUnits.size(), new ProtocolUnit());
+        }
+        return newProtocolPersonUnits;
+    }
+
+    public void setNewProtocolPersonUnits(List<ProtocolUnit> newProtocolPersonUnits) {
+        this.newProtocolPersonUnits = newProtocolPersonUnits;
     }
 
 }

@@ -34,6 +34,7 @@
 		<property name="attributes" >
 			<list>
 				<ref bean="ProtocolUnit-protocolUnitsId" />
+				<ref bean="ProtocolUnit-protocolPersonId" />
 				<ref bean="ProtocolUnit-protocolInvestigatorsId" />
 				<ref bean="ProtocolUnit-protocolNumber" />
 				<ref bean="ProtocolUnit-sequenceNumber" />
@@ -81,6 +82,24 @@
 		</property>
 		<property name="summary" value="Protocol Investigators Id" />
 		<property name="description" value="Protocol Investigators Id" />
+	</bean>
+
+	<bean id="ProtocolUnit-protocolPersonId" parent="ProtocolUnit-protocolPersonId-parentBean" />
+	<bean id="ProtocolUnit-protocolPersonId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="protocolPersonId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Protocol Person Id" />
+		<property name="shortLabel" value="Protocol Person Id" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Protocol Person Id" />
+		<property name="description" value="Protocol Person Id" />
 	</bean>
 
 	<bean id="ProtocolUnit-protocolNumber" parent="ProtocolUnit-protocolNumber-parentBean" />
@@ -140,8 +159,8 @@
 	<bean id="ProtocolUnit-leadUnitFlag" parent="ProtocolUnit-leadUnitFlag-parentBean" />
 	<bean id="ProtocolUnit-leadUnitFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
 		<property name="name" value="leadUnitFlag" />
-		<property name="label" value="Lead Unit Flag" />
-		<property name="shortLabel" value="Lead Unit Flag" />
+		<property name="label" value="Lead" />
+		<property name="shortLabel" value="Lead" />
 		<property name="summary" value="Lead Unit Flag" />
 		<property name="description" value="Lead Unit Flag" />
 	</bean>
