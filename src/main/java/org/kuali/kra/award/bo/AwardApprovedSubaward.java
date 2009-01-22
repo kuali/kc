@@ -114,12 +114,12 @@ public class AwardApprovedSubaward extends KraPersistableBusinessObjectBase {
      */
     public void setAward(Award award) {
         this.award = award;
-        if(award != null) {
-            setSequenceNumber(award.getSequenceNumber());
-            setAwardNumber(award.getAwardNumber());
+        if(award == null) {
+            sequenceNumber = null;
+            awardNumber = null;
         } else {
-            setSequenceNumber(null);
-            setAwardNumber(awardNumber);
+            sequenceNumber = (award.getSequenceNumber());
+            awardNumber = (award.getAwardNumber());
         }
     }
 
@@ -140,7 +140,7 @@ public class AwardApprovedSubaward extends KraPersistableBusinessObjectBase {
      * @param awardNumber
      */
     public void setAwardNumber(String awardNumber) {
-        this.awardNumber = awardNumber;
+        //do nothing
     }
 
 
@@ -160,7 +160,7 @@ public class AwardApprovedSubaward extends KraPersistableBusinessObjectBase {
      * @param sequenceNumber
      */
     public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
+        //do nothing
     }
     
     /**
