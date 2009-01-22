@@ -111,7 +111,7 @@
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
 		<field-descriptor name="fiscalYear" column="FISCAL_YEAR" jdbc-type="VARCHAR"/>
 		<field-descriptor name="costSharePercentage" column="COST_SHARE_PERCENTAGE" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-		<field-descriptor name="costShareTypeCode" column="COST_SHARE_TYPE_CODE" jdbc-type="INTEGER"/>
+		<field-descriptor name="costShareTypeCode" column="COST_SHARE_TYPE_CODE" jdbc-type="INTEGER"/><!-- could potentially be anonymous access -->
 		<field-descriptor name="source" column="SOURCE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="destination" column="DESTINATION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="commitmentAmount" column="COMMITMENT_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
@@ -121,9 +121,6 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<reference-descriptor name="costShareType" class-ref="org.kuali.kra.bo.CostShareType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="costShareTypeCode"/> 
-		</reference-descriptor>	
-		<reference-descriptor name="award" class-ref="org.kuali.kra.award.bo.Award" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="awardId"/> 
 		</reference-descriptor>	
 	</class-descriptor>
 	
@@ -153,9 +150,6 @@
 		<reference-descriptor name="commentType" class-ref="org.kuali.kra.bo.CommentType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="commentTypeCode"/> 
 		</reference-descriptor>	
-		<reference-descriptor name="award" class-ref="org.kuali.kra.award.bo.Award" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="awardId"/> 
-		</reference-descriptor>	
 	</class-descriptor>
 	
 	
@@ -182,9 +176,6 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="award" class-ref="org.kuali.kra.award.bo.Award" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="awardId"/> 
-		</reference-descriptor>	
 	</class-descriptor>
 	
 	
