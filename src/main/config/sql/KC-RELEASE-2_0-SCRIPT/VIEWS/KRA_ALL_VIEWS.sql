@@ -197,6 +197,36 @@ FROM AWARD_SCIENCE_KEYWORD A,AWARD B
 	where A.AWARD_ID=B.AWARD_ID
 /
 
+CREATE OR REPLACE VIEW osp$comm_schedule AS SELECT 
+  a.schedule_id schedule_id,
+  b.committee_id committee_id,
+  a.scheduled_date scheduled_date,
+  a.place place,
+  a.time time,
+  a.protocol_sub_deadline protocol_sub_deadline,
+  a.schedule_status_code schedule_status_code,
+  a.meeting_date meeting_date,
+  a.start_time start_time,
+  a.end_time end_time,
+  a.agenda_prod_rev_date agenda_prod_rev_date,
+  a.max_protocols max_protocols,
+  a.comments comments,
+  a.update_timestamp update_timestamp,
+  a.update_user update_user
+FROM comm_schedule a
+INNER JOIN committee b
+ON a.committee_id = b.id
+/
+  
+CREATE OR REPLACE VIEW osp$comm_schedule_frequency AS SELECT 
+  frequency_code,
+  description,
+  no_of_days,
+  update_timestamp,
+  update_user
+FROM comm_schedule_frequency
+/
+
 CREATE OR REPLACE VIEW OSP$COMMENT
 AS
    SELECT
