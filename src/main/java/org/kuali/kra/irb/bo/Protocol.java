@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.service.ProtocolLocationService;
@@ -88,6 +89,7 @@ public class Protocol extends KraPersistableBusinessObjectBase{
     
     private String lookupUnitNumber;
     
+    private List<ProtocolPerson> protocolPersons; 
     /**
      * 
      * Constructs an Protocol BO.
@@ -104,6 +106,7 @@ public class Protocol extends KraPersistableBusinessObjectBase{
         protocolStatus = new ProtocolStatus();
         protocolStatusCode = protocolStatus.getProtocolStatusCode();
         protocolLocations = new ArrayList<ProtocolLocation>(); //ArrayList<ProtocolLocation>();
+        protocolPersons = new ArrayList<ProtocolPerson>(); //ArrayList<ProtocolPerson>();
         initializeProtocolLocation();
     }
 
@@ -621,4 +624,22 @@ public class Protocol extends KraPersistableBusinessObjectBase{
         getProtocolLocationService().addDefaultProtocolLocation(this);
     }
     
+    public List<ProtocolPerson> getProtocolPersons() {
+        return protocolPersons;
+    }
+
+    public void setProtocolPersons(List<ProtocolPerson> protocolPersons) {
+        this.protocolPersons = protocolPersons;
+    }
+
+    /**
+     * Gets index i from the protocol person list.
+     * 
+     * @param index
+     * @return protocol person at index i
+     */
+    public ProtocolPerson getProtocolPerson(int index) {
+        return getProtocolPersons().get(index);
+    }
+
 }

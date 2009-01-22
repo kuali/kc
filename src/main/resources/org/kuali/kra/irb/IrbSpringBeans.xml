@@ -85,5 +85,7 @@
         </property>
     </bean> 
 
+	<bean id="protocolPersonnelService" class="org.kuali.kra.irb.service.impl.ProtocolPersonnelServiceImpl">
+	</bean>	
 
 </beans>
