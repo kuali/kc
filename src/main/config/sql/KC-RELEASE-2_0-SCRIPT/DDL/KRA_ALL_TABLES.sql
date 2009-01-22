@@ -193,6 +193,36 @@ CREATE TABLE AWARD_SPECIAL_REVIEW (
 	UPDATE_TIMESTAMP DATE NOT NULL)
 /
 
+create table comm_schedule (
+  schedule_id            varchar2 (10)  not null PRIMARY KEY ,
+  committee_id           number(12)     not null references committee,
+  scheduled_date         date          not null,
+  place                  varchar2 (200),
+  time                   date,
+  protocol_sub_deadline  date          not null,
+  schedule_status_code   number (3)    not null,
+  meeting_date           date,
+  start_time             date,
+  end_time               date,
+  agenda_prod_rev_date   date,
+  max_protocols          number (4),
+  comments               varchar2 (2000),
+  UPDATE_TIMESTAMP DATE NOT NULL, 
+  UPDATE_USER VARCHAR2(60) NOT NULL,
+  VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL, 
+  OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL)  
+/
+
+create table comm_schedule_frequency (
+  frequency_code    number (3)    not null PRIMARY KEY,
+  description       varchar2 (200)  not null,
+  no_of_days        number (3),
+  UPDATE_TIMESTAMP DATE NOT NULL, 
+  UPDATE_USER VARCHAR2(60) NOT NULL,
+  VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL, 
+  OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL)
+/  
+
 CREATE TABLE COMMENT_TYPE ( 
 	COMMENT_TYPE_CODE			NUMBER(3,0),
 	DESCRIPTION					VARCHAR2(200),
