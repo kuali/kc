@@ -19,7 +19,7 @@
 <div class="body">
   <ul class="chan">
     <li>Account Type</li>
-    <li>Award Status</li>
+	<li><portal:portalLink displayTitle="true" title="Award Status" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.bo.AwardStatus&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
     <li>Award Type</li>
     <li>Basis of Payment</li>
     <li>Calculated Cost Elements</li>
@@ -40,6 +40,8 @@
     <li>Rights to Data</li>
     <li>Sub-Contract Approval</li>
     <li>Travel Restriction</li>
+  	<li><portal:portalLink displayTitle="true" title="Award Template" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.bo.AwardTemplate&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
+  	<li><portal:portalLink displayTitle="true" title="Award Template Contact" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.bo.AwardTemplateContact&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
   </ul>
 </div>
 <channel:portalChannelBottom />
