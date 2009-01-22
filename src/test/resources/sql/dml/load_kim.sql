@@ -14,6 +14,7 @@ insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(10,'PRIN
 insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(11,'CERTIFY','Certify', 2);
 insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(12,'SUBMIT_TO_SPONSOR','Submit a Proposal to Grants.gov', 2);
 insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(13,'SUBMIT_PROPOSAL','Submit a Proposal for approval', 2);
+insert into KIM_PERMISSIONS_T (ID, NAMESPACE_ID, NAME, DESCRIPTION) values (14, 2, 'ADD_PROPOSAL_VIEWER', 'Assign User to Proposal Viewer Role');
 
 insert into KIM_ROLE_TYPE_T (ROLE_TYPE_CODE, DESCRIPTION) values ('P', 'Proposal');
 insert into KIM_ROLE_TYPE_T (ROLE_TYPE_CODE, DESCRIPTION) values ('O', 'OSP');
@@ -62,6 +63,8 @@ insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(5,10);
 insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(8,12);
 insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(7,5);
 insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(7,7);
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID, PERMISSION_ID) values (2, 14);
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID, PERMISSION_ID) values (7, 14);
 
 insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (1, 'quickstart', 'fK69ATFsAydwQuteang+xMva+Tc=');
 insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (2, 'ljoconno', 'fK69ATFsAydwQuteang+xMva+Tc=');
