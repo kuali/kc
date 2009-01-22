@@ -22,6 +22,10 @@ import org.kuali.kra.bo.CommentType;
 
 public class AwardComment extends KraPersistableBusinessObjectBase {
     
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 3611932717292205490L;
     private Long awardCommentId;
     private Integer commentTypeCode;
     private Boolean checklistPrintFlag;
@@ -39,34 +43,59 @@ public class AwardComment extends KraPersistableBusinessObjectBase {
         super();
     }
     
+    /**
+     * This method...
+     * @return
+     */
     public Long getAwardCommentId() {
         return awardCommentId;
     }
 
-
-
-
+    /**
+     * This method...
+     * @param awardCommentId
+     */
     public void setAwardCommentId(Long awardCommentId) {
         this.awardCommentId = awardCommentId;
     }
 
+    /**
+     * This method...
+     * @return
+     */
     public Integer getCommentTypeCode() {
         return commentTypeCode;
     }
 
+    /**
+     * This method...
+     * @param commentTypeCode
+     */
     public void setCommentTypeCode(Integer commentTypeCode) {
         this.commentTypeCode = commentTypeCode;
     }
     
+    /**
+     * This method...
+     * @return
+     */
     public String getAwardNumber() {
-        return awardNumber;//temp
+        return awardNumber;
      }
     
+    /**
+     * This method...
+     * @param awardNumber
+     */
     public void setAwardNumber(String awardNumber) {
-        this.awardNumber = awardNumber;//temp
+        //do nothing
      }
 
 
+    /**
+     * This method...
+     * @return
+     */
     public CommentType getCommentType() {
         return commentType;
     }
@@ -74,25 +103,48 @@ public class AwardComment extends KraPersistableBusinessObjectBase {
 
 
 
+    /**
+     * This method...
+     * @param commentType
+     */
     public void setCommentType(CommentType commentType) {
         this.commentType = commentType;
     }
 
 
 
+    /**
+     * This method...
+     * @return
+     */
     public Award getAward() {
         return award;
     }
     
     
 
+    /**
+     * This method...
+     * @param award
+     */
     public void setAward(Award award) {
         this.award = award;
+        if(award == null) {
+            sequenceNumber = null;
+            awardNumber = null;
+        } else {
+            sequenceNumber = (award.getSequenceNumber());
+            awardNumber = (award.getAwardNumber());
+        }
     }
 
 
 
 
+    /**
+     * This method...
+     * @return
+     */
     public int getSequenceNumber() {
         return sequenceNumber;//temp
      }
@@ -101,13 +153,21 @@ public class AwardComment extends KraPersistableBusinessObjectBase {
 
 
 
+    /**
+     * This method...
+     * @param sequenceNumber
+     */
     public void setSequenceNumber(Integer sequenceNumber) {
-       this.sequenceNumber = sequenceNumber;//temp
+       //do nothing
     }
 
 
 
 
+    /**
+     * This method...
+     * @return
+     */
     public Boolean getChecklistPrintFlag() {
         return checklistPrintFlag;
     }
@@ -115,6 +175,10 @@ public class AwardComment extends KraPersistableBusinessObjectBase {
 
 
 
+    /**
+     * This method...
+     * @param checklistPrintFlag
+     */
     public void setChecklistPrintFlag(Boolean checklistPrintFlag) {
         this.checklistPrintFlag = checklistPrintFlag;
     }
@@ -122,6 +186,10 @@ public class AwardComment extends KraPersistableBusinessObjectBase {
 
 
 
+    /**
+     * This method...
+     * @return
+     */
     public String getComments() {
         return comments;
     }
@@ -129,6 +197,10 @@ public class AwardComment extends KraPersistableBusinessObjectBase {
 
 
 
+    /**
+     * This method...
+     * @param comments
+     */
     public void setComments(String comments) {
         this.comments = comments;
     }
@@ -136,6 +208,9 @@ public class AwardComment extends KraPersistableBusinessObjectBase {
 
 
 
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
     @Override
     protected LinkedHashMap<String,Object> toStringMapper() {        
         LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();

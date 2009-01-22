@@ -54,7 +54,7 @@ public class AwardCostShare extends KraPersistableBusinessObjectBase {
      * @param awardNumber
      */
     public void setAwardNumber(String awardNumber) {
-        this.awardNumber = awardNumber;
+        //do nothing
      }
     
     /**
@@ -80,12 +80,12 @@ public class AwardCostShare extends KraPersistableBusinessObjectBase {
      */
     public void setAward(Award award) {
         this.award = award;
-        if(award != null) {
-            setSequenceNumber(award.getSequenceNumber());
-            setAwardNumber(award.getAwardNumber());
+        if(award == null) {
+            sequenceNumber = null;
+            awardNumber = null;
         } else {
-            setSequenceNumber(null);
-            setAwardNumber(awardNumber);
+            sequenceNumber = (award.getSequenceNumber());
+            awardNumber = (award.getAwardNumber());
         }
     }
 
