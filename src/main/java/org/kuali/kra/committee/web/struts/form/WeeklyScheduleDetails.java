@@ -15,20 +15,34 @@
  */
 package org.kuali.kra.committee.web.struts.form;
 
-public class TimeSlot {
+
+public class WeeklyScheduleDetails extends ScheduleDetails {
     
-    private String time;
+    private int week;
     
-    public TimeSlot(String time) {
-        this.time = time;
+    private String[] daysOfWeek;
+    
+    public WeeklyScheduleDetails() {
+        super();
+        this.setWeek(1);
+        this.setDaysOfWeek(new String[7]);
+        this.getDaysOfWeek()[0] = "MONDAY";
     }
 
-    public String getTime() {
-        return time;
+    public void setWeek(int week) {
+        this.week = week;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public int getWeek() {
+        return week;
     }
-    
+
+    public void setDaysOfWeek(String[] daysOfWeek) {
+        this.daysOfWeek = daysOfWeek;
+    }
+
+    public String[] getDaysOfWeek() {
+        return daysOfWeek;
+    }
+
 }

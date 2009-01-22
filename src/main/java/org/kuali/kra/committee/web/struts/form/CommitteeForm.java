@@ -50,24 +50,23 @@ import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 @SuppressWarnings("serial")
 public class CommitteeForm extends KraTransactionalDocumentFormBase {
     
+    @SuppressWarnings("unused")
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeForm.class);
+    
     // KNS Lookup hooks
     private String lookupResultsSequenceNumber;
     private String lookupResultsBOClassName;
-    
+  
+    private ScheduleData scheduleData;
+  
     /**
      * Constructs a CommitteeForm.
      */
     public CommitteeForm() {
         super();
         this.setDocument(new CommitteeDocument());
-        
-        //TODO --kiltesh
+
         this.setScheduleData(new ScheduleData());
-/*        this.setCommitteeSchedule(new CommitteeSchedule());
-        this.getCommitteeSchedule().setScheduledDate(new Date(new java.util.Date().getTime()));
-        this.setScheduleEndDate(new Date(new java.util.Date().getTime()));
-        this.setTimeSlots(new ArrayList<TimeSlot>());
-        this.populateTime(this.getTimeSlots());*/
         initialize();
     }
 
@@ -188,11 +187,6 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
         return "";
     }
 
-    //TODO Rearrange --by kiltesh
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeForm.class);
-    
-    private ScheduleData scheduleData;
-
     public ScheduleData getScheduleData() {
         return scheduleData;
     }
@@ -201,63 +195,5 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
         this.scheduleData = scheduleData;
     }
     
-/*    private CommitteeSchedule committeeSchedule;
-    
-    private Date scheduleEndDate;
-    
-    private List<TimeSlot> timeSlots;
-    
-    private String place;
-    
-    public String getPlace() {
-        return place;
-    }
-
-    public void setPlace(String place) {
-        this.place = place;
-        LOG.info("Place is  : =============== :" + place);
-    }
-
-    public List<TimeSlot> getTimeSlots() {
-        return timeSlots;
-    }
-
-    public void setTimeSlots(List<TimeSlot> timeSlots) {
-        this.timeSlots = timeSlots;
-    }
-
-    private String startTime;
-    
-    public String getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-        LOG.info("Start time is  : =============== :" + startTime);
-    }
-
-    public Date getScheduleEndDate() {
-        return scheduleEndDate;
-    }
-
-    public void setScheduleEndDate(Date scheduleEndDate) {
-        this.scheduleEndDate = scheduleEndDate;
-        LOG.info("Date is : =============== :" + scheduleEndDate.toString());
-    }
-
-    public void setCommitteeSchedule(CommitteeSchedule committeSchedule) {
-        this.committeeSchedule = committeSchedule;
-    }
-
-    public CommitteeSchedule getCommitteeSchedule() {
-        return committeeSchedule;
-    }
-    
-    private void populateTime(List<TimeSlot> timeSlots) {
-        timeSlots.add(new TimeSlot("Select"));
-        timeSlots.add(new TimeSlot("12:00 PM"));
-        timeSlots.add(new TimeSlot("12:30 PM"));
-    }*/
 }
 

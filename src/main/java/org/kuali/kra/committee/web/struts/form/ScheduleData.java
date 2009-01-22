@@ -17,49 +17,64 @@ package org.kuali.kra.committee.web.struts.form;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.struts.util.LabelValueBean;
+
 public class ScheduleData {
     
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScheduleData.class);
     
     private Date scheduleStartDate;
+       
+    private String startTime;
     
-    private Date scheduleEndDate;
-    
-    private Date scheduleEndDateDaily;
-    
-    private List<TimeSlot> timeSlots;
+    private List<LabelValueBean> timeSlots;
     
     private String place;
     
     private String recurrenceType;
     
-    private Map<StyleKey,String> styleClasses;
+    private Map<String,String> styleClasses;
     
-    public enum StyleKey {NEVER,DAILY,WEEKLY,MONTHLY,YEARLY};
+    public static final String[] stylekey = {"NEVER","DAILY","WEEKLY","MONTHLY","YEARLY"};
+    
+    private DailyScheduleDetails dailySchedule;
+    
+    private WeeklyScheduleDetails weeklySchedule;
+    
+    private MonthlyScheduleDetails monthlySchedule;
+    
+    private YearlyScheduleDetails yearlySchedule;
 
     public ScheduleData() {
         super();
-        //TODO --kiltesh
         this.setScheduleStartDate(new Date(new java.util.Date().getTime()));
-        this.setScheduleEndDateDaily(new Date(new java.util.Date().getTime()));
-        this.setScheduleEndDate(new Date(new java.util.Date().getTime()));
-        this.setTimeSlots(new ArrayList<TimeSlot>());
-        this.populateTime(this.getTimeSlots());
-        this.setRecurrenceType("Never");
-        this.setStyleClasses(new HashMap<StyleKey,String>());
+        
+        this.setTimeSlots(new ArrayList<LabelValueBean>());
+        ScheduleOptionsUtil.populate(timeSlots, ScheduleOptionsUtil.time);
+        
+        this.setRecurrenceType(stylekey[0]);
+        this.setStyleClasses(new HashMap<String,String>());
         populateStyleClass();
+        
+        this.setDailySchedule(new DailyScheduleDetails());
+        this.setWeeklySchedule(new WeeklyScheduleDetails());
+        this.setMonthlySchedule(new MonthlyScheduleDetails());
+        this.setYearlySchedule(new YearlyScheduleDetails());
     }
     
+    @SuppressWarnings("unchecked")
     public Map getStyleClasses() {
         return styleClasses;
     }
     
+    @SuppressWarnings("unchecked")
     public void setStyleClasses(Map styleClasses) {
         this.styleClasses = styleClasses;
     }
@@ -70,7 +85,6 @@ public class ScheduleData {
 
     public void setRecurrenceType(String recurrenceType) {
         this.recurrenceType = recurrenceType;
-        LOG.info("recurrenceType is  : =============== :" + recurrenceType);
     }
 
     public String getPlace() {
@@ -79,18 +93,15 @@ public class ScheduleData {
 
     public void setPlace(String place) {
         this.place = place;
-        LOG.info("Place is  : =============== :" + place);
     }
 
-    public List<TimeSlot> getTimeSlots() {
+    public List<LabelValueBean> getTimeSlots() {
         return timeSlots;
     }
 
-    public void setTimeSlots(List<TimeSlot> timeSlots) {
+    public void setTimeSlots(List<LabelValueBean> timeSlots) {
         this.timeSlots = timeSlots;
     }
-
-    private String startTime;
     
     public String getStartTime() {
         return startTime;
@@ -98,65 +109,98 @@ public class ScheduleData {
 
     public void setStartTime(String startTime) {
         this.startTime = startTime;
-        LOG.info("Start time is  : =============== :" + startTime);
-    }
-
-    public Date getScheduleEndDate() {
-        return scheduleEndDate;
-    }
-
-    public void setScheduleEndDate(Date scheduleEndDate) {
-        this.scheduleEndDate = scheduleEndDate;
-        LOG.info("ScheduleEndDate Date is : =============== :" + scheduleEndDate.toString());
     }
 
     public void setScheduleStartDate(Date scheduleStartDate) {
-        this.scheduleStartDate = scheduleStartDate;
-        LOG.info("ScheduleStartDate Date is : =============== :" + scheduleStartDate.toString());
+        this.scheduleStartDate = scheduleStartDate;       
     }
 
     public Date getScheduleStartDate() {
         return scheduleStartDate;
     }
-    
-    private void populateTime(List<TimeSlot> timeSlots) {
-        timeSlots.add(new TimeSlot("Select"));
-        timeSlots.add(new TimeSlot("12:00 PM"));
-        timeSlots.add(new TimeSlot("12:30 PM"));
+
+    public void setDailySchedule(DailyScheduleDetails dailySchedule) {
+        this.dailySchedule = dailySchedule;
+    }
+
+    public DailyScheduleDetails getDailySchedule() {
+        return dailySchedule;
+    }
+
+    public void setWeeklySchedule(WeeklyScheduleDetails weeklySchedule) {
+        this.weeklySchedule = weeklySchedule;
+    }
+
+    public WeeklyScheduleDetails getWeeklySchedule() {
+        return weeklySchedule;
+    }
+
+    public void setMonthlySchedule(MonthlyScheduleDetails monthlySchedule) {
+        this.monthlySchedule = monthlySchedule;
+    }
+
+    public MonthlyScheduleDetails getMonthlySchedule() {
+        return monthlySchedule;
+    }
+
+    public void setYearlySchedule(YearlyScheduleDetails yearlySchedule) {
+        this.yearlySchedule = yearlySchedule;
+    }
+
+    public YearlyScheduleDetails getYearlySchedule() {
+        return yearlySchedule;
     }
     
+    @SuppressWarnings("unchecked")
     public void populateStyleClass(){
-        this.getStyleClasses().put(StyleKey.NEVER.toString(),    "display: none; background:#f4f4f4; border:solid; border-color:#CCCCCC; border-width:1px; padding:5px");
-        this.getStyleClasses().put(StyleKey.DAILY.toString(),    "display: none; background:#f4f4f4; border:solid; border-color:#CCCCCC; border-width:1px; padding:5px");
-        this.getStyleClasses().put(StyleKey.WEEKLY.toString(),   "display: none; background:#f4f4f4; border:solid; border-color:#CCCCCC; border-width:1px; padding:5px");
-        this.getStyleClasses().put(StyleKey.MONTHLY.toString(),  "display: none; background:#f4f4f4; border:solid; border-color:#CCCCCC; border-width:1px; padding:5px");
-        this.getStyleClasses().put(StyleKey.YEARLY.toString(),   "display: none; background:#f4f4f4; border:solid; border-color:#CCCCCC; border-width:1px; padding:5px");
         
-        if(getRecurrenceType().equalsIgnoreCase(StyleKey.NEVER.toString()))
-            this.getStyleClasses().put(StyleKey.NEVER.toString(),   "display: block; background:#f4f4f4; border:solid; border-color:#CCCCCC; border-width:1px; padding:5px");
-        if(getRecurrenceType().equalsIgnoreCase(StyleKey.DAILY.toString()))
-            this.getStyleClasses().put(StyleKey.DAILY.toString(),   "display: block; background:#f4f4f4; border:solid; border-color:#CCCCCC; border-width:1px; padding:5px");
-        if(getRecurrenceType().equalsIgnoreCase(StyleKey.WEEKLY.toString()))
-            this.getStyleClasses().put(StyleKey.WEEKLY.toString(),   "display: block; background:#f4f4f4; border:solid; border-color:#CCCCCC; border-width:1px; padding:5px");
-        if(getRecurrenceType().equalsIgnoreCase(StyleKey.MONTHLY.toString()))
-            this.getStyleClasses().put(StyleKey.MONTHLY.toString(),   "display: block; background:#f4f4f4; border:solid; border-color:#CCCCCC; border-width:1px; padding:5px");
-        if(getRecurrenceType().equalsIgnoreCase(StyleKey.YEARLY.toString()))
-            this.getStyleClasses().put(StyleKey.YEARLY.toString(),   "display: block; background:#f4f4f4; border:solid; border-color:#CCCCCC; border-width:1px; padding:5px");
-        
+        for(String str: stylekey) {
+            this.getStyleClasses().put(str, "display: none; background:#f4f4f4; border:solid; border-color:#CCCCCC; border-width:1px; padding:5px");
+        }
+        for(String str: stylekey) {
+            if (getRecurrenceType().equalsIgnoreCase(str)) {
+                this.getStyleClasses().put(str, "display: block; background:#f4f4f4; border:solid; border-color:#CCCCCC; border-width:1px; padding:5px");
+                break;
+            }
+        }
+        //TODO take it out
         Set s = this.getStyleClasses().keySet();
         Iterator itr = s.iterator();
         while(itr.hasNext()) {
             String obj = (String)itr.next();
             LOG.info("STYLE : ==== :" + obj.toString() + " ===== :" + getStyleClasses().get(obj));
-        }
+        }        
     }
-
-    public Date getScheduleEndDateDaily() {
-        return scheduleEndDateDaily;
-    }
-
-    public void setScheduleEndDateDaily(Date scheduleEndDateDaily) {
-        this.scheduleEndDateDaily = scheduleEndDateDaily;
-        LOG.info("ScheduleStartDate Date is : =============== :" + scheduleEndDateDaily.toString());
+    
+    public void printf() {
+        LOG.info("=========================================================");
+        LOG.info("ScheduleStartDate Date is :" + scheduleStartDate.toString());
+        LOG.info("Start time is :" + startTime);
+        LOG.info("Place is :" + place);
+        LOG.info("recurrenceType is :" + recurrenceType);
+        LOG.info("=========================================================");
+        LOG.info("Schedule Daily End Date is :" + dailySchedule.getScheduleEndDate());
+        LOG.info("Day is :" + dailySchedule.getDay());
+        LOG.info("Radio Button Option is :" + dailySchedule.getDayOption());
+        LOG.info("=========================================================");
+        LOG.info("Schedule Weekly End Date is :" + weeklySchedule.getScheduleEndDate());
+        LOG.info("Week is :" + weeklySchedule.getWeek());
+        LOG.info("Days is :" + Arrays.toString(weeklySchedule.getDaysOfWeek()));
+        LOG.info("=========================================================");
+        LOG.info("Schedule Monthly End Date is :" + monthlySchedule.getScheduleEndDate());
+        LOG.info("Day is :" + monthlySchedule.getDay());
+        LOG.info("Month is :" + monthlySchedule.getMonth());
+        LOG.info("Radio Button Option is :" + monthlySchedule.getMonthOption());
+        LOG.info("Month's Week is :" + monthlySchedule.getSelectedMonthsWeek());
+        LOG.info("Day Of Week is :" + monthlySchedule.getSelectedDayOfWeek());
+        LOG.info("=========================================================");
+        LOG.info("Schedule Yearly End Date is :" + yearlySchedule.getScheduleEndDate());
+        LOG.info("Day is :" + yearlySchedule.getDay());
+        LOG.info("Year is :" + yearlySchedule.getYear());
+        LOG.info("Radio Button Option is :" + yearlySchedule.getYearOption());
+        LOG.info("Month is :" + yearlySchedule.getSelectedMonth());
+        LOG.info("Month's Week is :" + yearlySchedule.getSelectedMonthsWeek());
+        LOG.info("Day Of Week is :" + yearlySchedule.getSelectedDayOfWeek());
+        LOG.info("=========================================================");
     }
 }
