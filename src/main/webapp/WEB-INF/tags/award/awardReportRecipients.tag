@@ -41,6 +41,7 @@
 	        <td width="5%" valign="middle" class="infoline">
 	        <div align="center">
 	        	<kul:htmlControlAttribute property="newAwardReportTermRecipient[${index}].rolodexId" attributeEntry="${awardReportTermRecipientAttributes.rolodexId}" />
+	        	<c:out value="${KualiForm.newAwardReportTermRecipient[index].rolodex.organization}" />
 	        	<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" fieldConversions="rolodexId:newAwardReportTermRecipient[${index}].rolodexId" anchor="${tabKey}" lookupParameters="newAwardReportTermRecipient[${index}].rolodexId:rolodexId" />
 	        </div>
 	        </td>					                
@@ -60,7 +61,7 @@
 	    <c:forEach var="awardReportTermRecipient" items="${KualiForm.document.award.awardReportTerms[index].awardReportTermRecipients}" varStatus="status">					            
 	    <tr>
 	        <th width="5%" class="infoline" >
-		        <c:out value="${status.index}" />
+		        <c:out value="${status.index+1}" />
 	        </th>
 	        <td width="5%" valign="middle">
 	        <div align="center">
@@ -70,6 +71,8 @@
 	        <td width="5%" valign="middle">
 	        <div align="center">
 	            <kul:htmlControlAttribute property="document.awardList[0].awardReportTerms[${index}].awardReportTermRecipients[${status.index}].rolodexId" attributeEntry="${awardReportTermRecipientAttributes.rolodexId}" />
+	            <c:out value="${KualiForm.document.awardList[0].awardReportTerms[index].awardReportTermRecipients[status.index].rolodex.organization}" />
+	            <kul:lookup boClassName="org.kuali.kra.bo.Rolodex" fieldConversions="rolodexId:document.awardList[0].awardReportTerms[${index}].awardReportTermRecipients[${status.index}].rolodexId" anchor="${tabKey}" lookupParameters="document.awardList[0].awardReportTerms[${index}].awardReportTermRecipients[${status.index}].rolodexId:rolodexId" />
 	        </div>
 	        </td>					                
 	        <td width="5%" valign="middle">
