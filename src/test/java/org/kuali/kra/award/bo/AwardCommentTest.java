@@ -28,6 +28,7 @@ public class AwardCommentTest {
     private static final int AWARD_COMMENT_ATTRIBUTES_COUNT = 6;
     
     private AwardComment awardCommentBo;
+    private Award award = new Award();
     
     /**
      *
@@ -36,7 +37,7 @@ public class AwardCommentTest {
     @Before
     public void setUp() throws Exception {
         awardCommentBo = new AwardComment();
-        awardCommentBo.setSequenceNumber(1);
+        awardCommentBo.setAward(award);
     }
 
     /**
