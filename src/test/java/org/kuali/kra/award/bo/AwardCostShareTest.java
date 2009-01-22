@@ -28,6 +28,7 @@ public class AwardCostShareTest {
     private static final int AWARD_COST_SHARE_ATTRIBUTES_COUNT = 8;
     
     private AwardCostShare awardCostShareBo;
+    private Award award = new Award();
     
     /**
      *
@@ -36,7 +37,7 @@ public class AwardCostShareTest {
     @Before
     public void setUp() throws Exception {
         awardCostShareBo = new AwardCostShare();
-        awardCostShareBo.setSequenceNumber(1);
+        awardCostShareBo.setAward(award);
     }
 
     /**

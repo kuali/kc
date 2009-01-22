@@ -162,7 +162,7 @@ public class AwardHomeWebTest extends AwardWebTestBase {
         setFieldValue(awardHomePageAfterSave,"document.awardList[0].awardApprovedSubawards[0].amount","2000.00");
         setFieldValue(awardHomePageAfterSave,"document.awardList[0].awardApprovedSubawards[1].amount","1945.00");
         
-        HtmlPage awardHomePageAfterRecalculate = clickOn(awardHomePageAfterSave, "methodToCall.recalculateSubawardTotal");
+        HtmlPage awardHomePageAfterRecalculate = clickOn(awardHomePageAfterSave, "methodToCall.recalculateSubawardTotal.anchor");
         System.out.println(awardHomePageAfterRecalculate.asText());
         assertContains(awardHomePageAfterRecalculate,"3945");
     }
