@@ -14,6 +14,31 @@
  limitations under the License.
 -->
 <descriptor-repository version="1.0">
+
+	<class-descriptor class="org.kuali.kra.committee.bo.CommitteeSchedule" table="COMM_SCHEDULE">
+		<field-descriptor name="scheduleId" column="SCHEDULE_ID" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="committeeId" column="COMMITTEE_ID" jdbc-type="INTEGER" />
+		<field-descriptor name="scheduledDate" column="SCHEDULED_DATE" jdbc-type="DATE" />
+		<field-descriptor name="place" column="PLACE" jdbc-type="VARCHAR" />
+		<field-descriptor name="time" column="TIME" jdbc-type="DATE" />
+		<field-descriptor name="protocolSubDeadline" column="PROTOCOL_SUB_DEADLINE" jdbc-type="DATE" />
+		<field-descriptor name="scheduleStatusCode" column="SCHEDULE_STATUS_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="meetingDate" column="MEETING_DATE" jdbc-type="DATE" />
+		<field-descriptor name="startTime" column="START_TIME" jdbc-type="DATE" />
+		<field-descriptor name="endTime" column="END_TIME" jdbc-type="DATE" />
+		<field-descriptor name="agendaProdRevDate" column="AGENDA_PROD_REV_DATE" jdbc-type="DATE" />
+		<field-descriptor name="maxProtocols" column="MAX_PROTOCOLS" jdbc-type="INTEGER" />
+		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		
+		<reference-descriptor name="committee" class-ref="org.kuali.kra.committee.bo.Committee" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="id"/>
+		</reference-descriptor>
+	</class-descriptor>
+
 	<class-descriptor class="org.kuali.kra.committee.bo.CommitteeType" table="COMMITTEE_TYPE">
 		<field-descriptor name="committeeTypeCode" column="COMMITTEE_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
