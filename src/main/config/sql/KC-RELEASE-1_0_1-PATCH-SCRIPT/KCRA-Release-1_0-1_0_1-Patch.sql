@@ -52,7 +52,8 @@ REM @INDEXES/KCRA_INDEXES-1_0_1-Patch
 set term on;
 select '*************************** START LOADING S2S OBJECTS *************************************************' from dual;
 set term off;
-
+@S2S\PROCFUNPACKS\All_ProcFunPacks.sql
+@S2S\VIEWS\All_Views.sql
 exec recompile;
 exec recompile;
 exec recompile;

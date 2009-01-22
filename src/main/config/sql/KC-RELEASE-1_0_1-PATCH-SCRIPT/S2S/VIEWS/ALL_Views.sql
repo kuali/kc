@@ -1,0 +1,7 @@
+@OSP_AWARD_AMOUNT_INFO.sql
+@OSP_AWARD.sql
+@OSP_SPONSOR_FORM_TEMPLATES.sql
+@OSP_SPONSOR_FORMS.sql
+@osp$budget_per_cost_summary.sql
+@osp$BUDGET_PER_DETAILS_FOR_EDI.sql
+@osp$BUDGET_SALARY_SUMMARY.sql
