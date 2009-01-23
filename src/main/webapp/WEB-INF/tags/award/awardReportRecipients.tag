@@ -18,9 +18,8 @@
 <%@ attribute name="index" description="Index" required="true" %>
 
 <c:set var="awardReportTermRecipientAttributes" value="${DataDictionary.AwardReportTermRecipient.attributes}" />
-
     
-<kul:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="Recipients" useCurrentTabIndexAsKey="true" tabErrorKey="newAwardReportTermRecipient[${index}]*,document.awardList[0].awardReportTerms[${index}].awardReportTermRecipients*" >
+<kul:innerTab parentTab="${innerTabParent}" tabItemCount="${fn:length(KualiForm.document.award.awardReportTerms[index].awardReportTermRecipients)}" defaultOpen="false" tabTitle="Recipients" useCurrentTabIndexAsKey="true" tabErrorKey="newAwardReportTermRecipient[${index}]*,document.awardList[0].awardReportTerms[${index}].awardReportTermRecipients*" >
 	<table border="0" cellpadding="0" cellspacing="0" summary="">
 		<tr>			
 			<th width="6%"><div align="center">&nbsp;</div></th>
