@@ -16,7 +16,8 @@
 <descriptor-repository version="1.0">
 
 	<class-descriptor class="org.kuali.kra.committee.bo.CommitteeSchedule" table="COMM_SCHEDULE">
-		<field-descriptor name="scheduleId" column="SCHEDULE_ID" jdbc-type="VARCHAR" primarykey="true" />
+	    <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMM_SCHEDULE_ID" autoincrement="true"/>
+		<field-descriptor name="scheduleId" column="SCHEDULE_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="committeeId" column="COMMITTEE_ID" jdbc-type="INTEGER" />
 		<field-descriptor name="scheduledDate" column="SCHEDULED_DATE" jdbc-type="DATE" />
 		<field-descriptor name="place" column="PLACE" jdbc-type="VARCHAR" />
@@ -113,6 +114,11 @@
          <reference-descriptor name="reviewType" class-ref="org.kuali.kra.irb.bo.ProtocolReviewType" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="reviewTypeCode" />
          </reference-descriptor>
+         
+   		<collection-descriptor name="committeeSchedules" element-class-ref="org.kuali.kra.committee.bo.CommitteeSchedule" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="committeeId" />
+		</collection-descriptor>  
+		         
 	</class-descriptor>	
 
 </descriptor-repository>

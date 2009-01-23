@@ -28,9 +28,10 @@
 		<property name="lookupDefinition" >
 			<ref bean="CommSchedule-lookupDefinition" />
 		</property>
-		<property name="titleAttribute" value="scheduleId" />
+		<property name="titleAttribute" value="id" />
 		<property name="attributes" >
 			<list>
+				<ref bean="CommSchedule-id" />
 				<ref bean="CommSchedule-scheduleId" />
 				<ref bean="CommSchedule-committeeId" />
 				<ref bean="CommSchedule-scheduledDate" />
@@ -51,6 +52,24 @@
 
 	<!-- Attribute Definitions -->
 	
+	<bean id="CommSchedule-id" parent="CommSchedule-id-parentBean" />
+	<bean id="CommSchedule-id-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="id" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Id" />
+		<property name="shortLabel" value="Id" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Id" />
+		<property name="description" value="Id" />
+	</bean>
+
 	<bean id="CommSchedule-scheduleId" parent="CommSchedule-scheduleId-parentBean" />
 	<bean id="CommSchedule-scheduleId-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="scheduleId" />
@@ -229,17 +248,19 @@
 	<!-- Business Object Inquiry Definition -->
 	<bean id="CommSchedule-inquiryDefinition" parent="CommSchedule-inquiryDefinition-parentBean" />
 	<bean id="CommSchedule-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-		<property name="title" value="Schedule Id" />
+		<property name="title" value="Id" />
 		<property name="inquirySections" >
 			<list>
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Schedule Id" />
+					<property name="title" value="Id" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list>
 							<bean parent="FieldDefinition"
-								p:attributeName="scheduleId" 
+								p:attributeName="id" 
 								p:forceInquiry="true" />
+							<bean parent="FieldDefinition"
+								p:attributeName="scheduleId" />
 							<bean parent="FieldDefinition"
 								p:attributeName="committeeId" />
 							<bean parent="FieldDefinition"
@@ -284,8 +305,10 @@
 		<property name="lookupFields" >
 			<list>
 				<bean parent="FieldDefinition"
-					p:attributeName="scheduleId" 
+					p:attributeName="id" 
 					p:forceInquiry="true" />
+				<bean parent="FieldDefinition"
+					p:attributeName="scheduleId" />
 				<bean parent="FieldDefinition"
 					p:attributeName="committeeId" />
 				<bean parent="FieldDefinition"
@@ -315,8 +338,10 @@
 		<property name="resultFields" >
 			<list>
 				<bean parent="FieldDefinition"
-					p:attributeName="scheduleId" 
+					p:attributeName="id" 
 					p:forceInquiry="true" />
+				<bean parent="FieldDefinition"
+					p:attributeName="scheduleId" />
 				<bean parent="FieldDefinition"
 					p:attributeName="committeeId" />
 				<bean parent="FieldDefinition"

@@ -30,8 +30,13 @@ import javax.persistence.JoinColumn;
 @Entity 
 @Table(name="COMM_SCHEDULE")
 public class CommitteeSchedule extends KraPersistableBusinessObjectBase { 
-	
+
+    private static final long serialVersionUID = -360139608123017188L;
+
     @javax.persistence.Id 
+    @Column(name="ID")
+    private Integer id; 
+
     @Column(name="SCHEDULE_ID")
     private String scheduleId; 
     
@@ -78,6 +83,14 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
 	public CommitteeSchedule() { 
 
 	} 
+	
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }	
 	
 	public String getScheduleId() {
 		return scheduleId;
@@ -191,9 +204,11 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
 		this.committee = committee;
 	}
 
-	@Override 
+	@SuppressWarnings("unchecked")
+    @Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
+		hashMap.put("id", getId());
 		hashMap.put("scheduleId", getScheduleId());
 		hashMap.put("committeeId", getCommitteeId());
 		hashMap.put("scheduledDate", getScheduledDate());

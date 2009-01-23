@@ -38,4 +38,7 @@
 	<bean id="committeeService" class="org.kuali.kra.committee.service.impl.CommitteeServiceImpl">
 	    <property name="businessObjectService" ref="businessObjectService" />
 	</bean>
+	
+	<bean id="committeeScheduleService" class="org.kuali.kra.committee.service.impl.CommitteeScheduleServiceImpl">
+	</bean>
 </beans>

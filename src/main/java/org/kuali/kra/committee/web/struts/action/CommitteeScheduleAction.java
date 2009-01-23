@@ -21,9 +21,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.committee.web.struts.form.ScheduleData;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 
 public class CommitteeScheduleAction extends CommitteeAction {
     
@@ -35,6 +37,8 @@ public class CommitteeScheduleAction extends CommitteeAction {
         CommitteeForm committeeForm = (CommitteeForm) form;
         //Some service to do job goes here
         committeeForm.getScheduleData().printf();
+        CommitteeScheduleService service  = (CommitteeScheduleService) KraServiceLocator.getService("committeeScheduleService");
+        service.addSchedule(committeeForm.getScheduleData(), committeeForm.getCommitteeDocument().getCommittee());
         //Reset committee schedule data bean
         //committeeForm.setScheduleData(new ScheduleData());
         return mapping.findForward(Constants.MAPPING_BASIC );
