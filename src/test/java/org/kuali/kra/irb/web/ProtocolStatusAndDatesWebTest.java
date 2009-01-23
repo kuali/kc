@@ -21,7 +21,9 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.irb.web.ProtocolLocationWebTest.ProtocolLocationExistingValues;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.document.ProtocolDocument;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
@@ -57,13 +59,18 @@ public class ProtocolStatusAndDatesWebTest extends ProtocolWebTestBase{
      */
     @Test
     public void testDatesAndStatusPanelInit() throws Exception{
-        Map pageMap = new HashMap();
         assertContains(protocolPage,SAVE_SUCCESS_MESSAGE);        
         String protocolNumber = getFieldValue(protocolPage, "document.protocol.protocolNumber");
         assertContains(protocolPage,"Protocol #: "+ protocolNumber +" Protocol Status: Pending/In Progress ");        
         assertContains(protocolPage,"Initial Approval Date: Last Approval Date: ");        
         assertContains(protocolPage,"Submission Date: Generated on Submission Expiration Date: ");   
         assertContains(protocolPage,"Risk Levels Risk Level Date Assigned Date Updated Status Comments &nbsp Additional Information"); 
+        Map<String, String> qMap = new HashMap<String, String>();
+        qMap.put("documentNumber", getDocNbr(protocolPage));
+        ProtocolDocument protocolDoc = (ProtocolDocument)KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(ProtocolDocument.class, qMap);
+        assertNotNull(protocolDoc);
+        assertEquals(protocolNumber, protocolDoc.getProtocol().getProtocolNumber());
+        
     }
     
 
