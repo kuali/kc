@@ -60,9 +60,8 @@
 		<property name="description" value="Risk Level Code" />
 	</bean>
 
-	<bean id="RiskLevel-description" parent="RiskLevel-description-parentBean" />
-  <bean id="RiskLevel-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
-  </bean>
+  	<bean id="RiskLevel-description" parent="RiskLevel-description-parentBean" />
+  	<bean id="RiskLevel-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description"/>
 
 	<bean id="RiskLevel-versionNumber" parent="RiskLevel-versionNumber-parentBean" />
 	<bean id="RiskLevel-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">

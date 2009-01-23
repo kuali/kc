@@ -26,16 +26,8 @@ public class ProtocolStatus extends KraPersistableBusinessObjectBase {
 	private String description; 
 	
 	public ProtocolStatus() { 
-	    initialize();
 	}
-	
-	private void initialize() {
-	    // set defaults
-	    //TODO make db call for this later
-	    protocolStatusCode = "100";
-	    description = "Pending/In Progress";
-	}
-	
+		
 	public String getProtocolStatusCode() {
 		return protocolStatusCode;
 	}
