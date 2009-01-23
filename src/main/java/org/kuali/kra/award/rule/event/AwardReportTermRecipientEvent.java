@@ -26,7 +26,7 @@ import org.kuali.kra.rule.event.KraDocumentEventBase;
  * 
  * This class represents the AwardReportTermRecipientEventBase
  */
-public abstract class AwardReportTermRecipientEventBase extends KraDocumentEventBase {
+public abstract class AwardReportTermRecipientEvent extends KraDocumentEventBase {
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AddSpecialReviewEvent.class);
 
@@ -38,7 +38,7 @@ public abstract class AwardReportTermRecipientEventBase extends KraDocumentEvent
      * @param proposalDevelopmentDocument
      * @param proposalSpecialReview
      */
-    protected AwardReportTermRecipientEventBase(String description, String errorPathPrefix, 
+    protected AwardReportTermRecipientEvent(String description, String errorPathPrefix, 
             AwardDocument document, AwardReportTermRecipient awardReportTermRecipient){
         super("adding special review to document " + getDocumentId(document), errorPathPrefix, document);
         this.awardReportTermRecipient = (AwardReportTermRecipient) ObjectUtils.deepCopy(awardReportTermRecipient);

@@ -25,7 +25,7 @@ import org.kuali.kra.award.rule.AddFandaRateRule;
  * 
  * This class represents the AddAwardFandaRateEvent
  */
-public class AddAwardFandaRateEvent extends AwardFandaRateEventBase{
+public class AddAwardFandaRateEvent extends AwardFandaRateEvent{
     
     /**
      * Constructs an AddAwardFandaRateEvent with the given errorPathPrefix, 
