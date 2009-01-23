@@ -312,6 +312,15 @@ public abstract class KraWebTestBase extends KraTestBase {
     }
 
     /**
+     * Asserts that the given web page, as XML, contains the given text.
+     * @param page the HTML web page.
+     * @param text the string to look for in the web page.
+     */
+    protected final void assertXmlContains(HtmlPage page, String text) {
+        assertTrue(page.asXml().contains(text));
+    }
+    
+    /**
      * Asserts that the given web page does <b>not</b> contain the given text.
      * @param page the HTML web page.
      * @param text the string to look for in the web page.
