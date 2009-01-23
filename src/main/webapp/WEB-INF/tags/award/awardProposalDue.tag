@@ -15,7 +15,33 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+<c:set var="awardAttributes" value="${DataDictionary.Award.attributes}" />
+<c:set var="action" value="awardPaymentReportsAndTerms" />
+
 
 <kul:tab tabTitle="Proposal Due" defaultOpen="false" tabErrorKey="">
-	Under construction
+	<div class="tab-container" align="center">
+    	<h3>
+    		<span class="subhead-left">Proposals Due For</span>
+        </h3>
+        <table id="Proposals Due" cellpadding="0" cellspacing="0" summary="Proposals Due">
+        	<tr>
+            	<th width="600" align="right" scope="row"><div align="right">Non-Competing Continuation</div></th>
+            	<td>
+            	  	<div align="left">
+            	  	 	<kul:htmlControlAttribute property="document.awardList[0].nonCompetingContProposalDue" attributeEntry="${awardAttributes.nonCompetingContProposalDue}"/>
+            	 	</div>
+            	</td>
+            </tr>
+            <tr>
+            	<th width="600" align="right" scope="row"><div align="right">Competing Renewal</div></th>
+            	<td>
+            	  	<div align="left">
+            	  	 	<kul:htmlControlAttribute property="document.awardList[0].competingRenewalProposalDue" attributeEntry="${awardAttributes.competingRenewalProposalDue}"/>
+            	 	</div>
+            	</td>
+             </tr>
+          </table>
+      </div>
+          
 </kul:tab>
