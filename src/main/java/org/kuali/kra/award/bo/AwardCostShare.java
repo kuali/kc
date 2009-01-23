@@ -24,7 +24,7 @@ import org.kuali.kra.bo.CostShareType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.rice.KNSServiceLocator;
 
-public class AwardCostShare extends KraPersistableBusinessObjectBase {
+public class AwardCostShare extends KraPersistableBusinessObjectBase implements ValuableItem {
     private static final long serialVersionUID = -839007857238262207L;
     
     private Long awardCostShareId;
@@ -283,5 +283,12 @@ public class AwardCostShare extends KraPersistableBusinessObjectBase {
      */
     protected BusinessObjectService getBusinessObjectService() {
         return KNSServiceLocator.getBusinessObjectService();
+    }
+
+    /**
+     * @see org.kuali.kra.award.bo.ValuableItem#getAmount()
+     */
+    public KualiDecimal getAmount() {
+        return getCommitmentAmount();
     }
 }
