@@ -15,7 +15,9 @@
  */
 package org.kuali.kra.committee.bo;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
@@ -71,11 +73,13 @@ public class Committee extends KraPersistableBusinessObjectBase {
     
     private CommitteeDocument committeeDocument;
     
+    private List<CommitteeSchedule> committeeSchedules;
+    
     /**
      * Constructs a Committee.
      */
     public Committee() {
-        
+        setCommitteeSchedules(new ArrayList<CommitteeSchedule>());
     }
     
     public Long getId() {
@@ -193,6 +197,14 @@ public class Committee extends KraPersistableBusinessObjectBase {
     public void setCommitteeDocument(CommitteeDocument committeeDocument) {
         this.committeeDocument = committeeDocument;
     }
+
+    public void setCommitteeSchedules(List<CommitteeSchedule> committeeSchedules) {
+        this.committeeSchedules = committeeSchedules;
+    }
+
+    public List<CommitteeSchedule> getCommitteeSchedules() {
+        return committeeSchedules;
+    }
     
     @SuppressWarnings("unchecked")
     @Override
@@ -210,5 +222,13 @@ public class Committee extends KraPersistableBusinessObjectBase {
         map.put("maxProtocols", getMaxProtocols());
         map.put("advancedSubmissionDaysRequired", getAdvancedSubmissionDaysRequired());
         return map;
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add(this.committeeSchedules);
+        return managedLists;
     }
 }
