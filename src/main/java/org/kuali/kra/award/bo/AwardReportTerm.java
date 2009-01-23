@@ -106,7 +106,7 @@ public class AwardReportTerm extends KraPersistableBusinessObjectBase {
      * @param awardNumber
      */
     public void setAwardNumber(String awardNumber) {
-        this.awardNumber = awardNumber;
+        // do nothing
     }
 
     /**
@@ -122,7 +122,7 @@ public class AwardReportTerm extends KraPersistableBusinessObjectBase {
      * @param sequenceNumber
      */
     public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
+        // do nothing
     }
 
     /**
@@ -236,6 +236,13 @@ public class AwardReportTerm extends KraPersistableBusinessObjectBase {
      */
     public void setAward(Award award) {
         this.award = award;
+        if(award == null) {
+            sequenceNumber = null;
+            awardNumber = null;
+        } else {
+            sequenceNumber = award.getSequenceNumber();
+            awardNumber = award.getAwardNumber();
+        }
     }    
 
     /**
