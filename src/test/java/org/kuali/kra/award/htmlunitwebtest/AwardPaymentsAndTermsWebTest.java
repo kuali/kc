@@ -39,4 +39,12 @@ public class AwardPaymentsAndTermsWebTest extends AwardWebTestBase {
         paymentReportsAndTermsPage = null;
         super.tearDown();
     }
+    
+    /**
+     * @return
+     * 
+     */
+    protected HtmlPage getAwardPaymentReportsAndTermsPage() {
+        return paymentReportsAndTermsPage;
+    }
 }
