@@ -57,7 +57,16 @@
 	<c:set var="tabTitle" value="${tabTitle}/${KualiForm.document.budgetPeriods[budgetPeriod-1].budgetLineItems[budgetLineItemNumber].groupName}" />
 </c:if>
 
-<kul:innerTab parentTab="${innerTabParent}" defaultOpen="${defaultOpen}" tabTitle="${tabTitle}" useCurrentTabIndexAsKey="true" >
+<c:set var="tabErrorKey"                value="document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].budgetPersonnelDetailsList*" />
+<c:set var="tabErrorKey" value="${tabErrorKey},document.budgetPeriod[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetPersonnelDetailsList*" />
+<c:set var="tabErrorKey" value="${tabErrorKey},document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].startDate" />
+<c:set var="tabErrorKey" value="${tabErrorKey},document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].endDate" />
+<c:set var="tabErrorKey" value="${tabErrorKey},document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].lineItemCost" />
+
+
+
+
+<kul:innerTab parentTab="${innerTabParent}" defaultOpen="${defaultOpen}" tabTitle="${tabTitle}" useCurrentTabIndexAsKey="true" tabErrorKey="${tabErrorKey}">
 	<table border="0" cellpadding=0 cellspacing=0 summary="">
 		<tr>
 		    <th width="5%">&nbsp;</th>

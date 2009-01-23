@@ -38,9 +38,17 @@
 <c:if test="${fn:length(KualiForm.document.budgetPeriods[budgetPeriod-1].budgetLineItems[budgetLineItemNumber].budgetPersonnelDetailsList) == 0}" >
 	<c:set var="summaryViewReadOnly" value="false" />
 </c:if>          		
+
+<c:set var="tabErrorKey"                value="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].quantity" />
+<c:set var="tabErrorKey" value="${tabErrorKey},document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].underrecoveryAmount" />
+<c:set var="tabErrorKey" value="${tabErrorKey},document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].costSharingAmount" />
+<c:set var="tabErrorKey" value="${tabErrorKey},document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].applyInRateFlag" />
+<c:set var="tabErrorKey" value="${tabErrorKey},document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].onOffCampusFlag" />
+<c:set var="tabErrorKey" value="${tabErrorKey},document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetJustification" />
+<c:set var="tabErrorKey" value="${tabErrorKey},document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].lineItemDescription" />
+
           		
-          		
-       			<kul:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="${tabTitle} Details" tabErrorKey="document.budgetPeriod[${budgetPeriod-1}].budgetLineItem[${budgetLineItemNumber}].*" useCurrentTabIndexAsKey="true">
+       			<kul:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="${tabTitle} Details" tabErrorKey="${tabErrorKey}" useCurrentTabIndexAsKey="true">
        				<div>
        				<table cellpadding=0 cellspacing=0 summary="" style="width:100%;border:none;">
 			        	<tr>
@@ -85,8 +93,10 @@
 				        </tr>
 			       	</table>
 					
+<c:set var="tabErrorKey"                value="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts*" />
+<c:set var="tabErrorKey" value="${tabErrorKey},document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts*" />
 			        
-			        <kul:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="Rate Classes" useCurrentTabIndexAsKey="true">
+			        <kul:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="Rate Classes" useCurrentTabIndexAsKey="true" tabErrorKey="${tabErrorKey}">
 	     				
      					<table cellpadding=0 cellspacing=0 summary="" width="80%">
       						<tr>
