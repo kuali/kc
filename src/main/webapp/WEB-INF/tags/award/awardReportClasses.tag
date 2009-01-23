@@ -28,9 +28,10 @@
 
 
 <c:set var="tabErrorKeyString" value=""  />
-<c:set var="reportCodeForComparison" value=""  />
+<c:set var="tabItemCount" value="0"  />
 <c:forEach var="awardReportTerm" items="${KualiForm.document.award.awardReportTerms}" varStatus="status">        		 
     <c:if test="${awardReportTerm.reportClassCode == reportClassKey }" >
+    		<c:set var="tabItemCount" value="${tabItemCount+1}"  />
         	<c:choose>
         	    <c:when test="${empty tabErrorKeyString}" >	            	
                     <c:set var="tabErrorKeyString" value="document.awardList[0].awardReportTerms[${status.index}].reportCode,document.awardList[0].awardReportTerms[${status.index}].frequencyCode,document.awardList[0].awardReportTerms[${status.index}].frequencyBaseCode,document.awardList[0].awardReportTerms[${status.index}].ospDistributionCode,document.awardList[0].awardReportTerms[${status.index}].dueDate"  />
@@ -42,7 +43,7 @@
     </c:if>
 </c:forEach>
 	                        
-<kul:innerTab parentTab="Report Classes" defaultOpen="false" tabTitle="${reportClassLabel}" tabErrorKey="newAwardReportTerm[${index}]*,${tabErrorKeyString}" >
+<kul:innerTab parentTab="Report Classes" tabItemCount="${tabItemCount}" defaultOpen="false" tabTitle="${reportClassLabel}" tabErrorKey="newAwardReportTerm[${index}]*,${tabErrorKeyString}" >
     <table border="0" cellpadding="0" cellspacing="0" summary="">
         <tr>
             <th width="6%"><div align="center">&nbsp;</div></th>          		
@@ -78,7 +79,7 @@
 	            	src='${ConfigProperties.kra.externalizable.images.url}arrow_refresh.png'/>
             </div>
 			</td>
-			<c:set target="${paramMap2}" property="reportCode" value="${KualiForm.newAwardReportTerm[index].reportCode}" />			
+			<c:set target="${paramMap2}" property="reportCode" value="${KualiForm.newAwardReportTerm[index].reportCode}" />
             <td width="5%" valign="middle" class="infoline">
             <div align="center">                
                 <html:select property="newAwardReportTerm[${index}].frequencyCode" tabindex="0" 
