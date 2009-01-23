@@ -27,10 +27,6 @@ public class RiskLevel extends KraPersistableBusinessObjectBase {
 	private Integer riskLevelCode; 
 	private String description; 
 	
-/*
-	private ProtocolRiskLevels protocolRiskLevels;
-*/	
-	
 	public RiskLevel() { 
 
 	} 

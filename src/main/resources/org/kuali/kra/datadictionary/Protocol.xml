@@ -87,8 +87,8 @@
 	<bean id="Protocol-protocolNumber-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="protocolNumber" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Protocol#" />
-		<property name="shortLabel" value="Protocol#" />
+		<property name="label" value="Protocol #" />
+		<property name="shortLabel" value="Protocol #" />
 		<property name="maxLength" value="20" />
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
@@ -152,7 +152,6 @@
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
-    	<property name="required" value="true" />
     	<property name="control" >
       		<bean parent="SelectControlDefinition"
             	p:businessObjectClass="org.kuali.kra.irb.bo.ProtocolStatus"
