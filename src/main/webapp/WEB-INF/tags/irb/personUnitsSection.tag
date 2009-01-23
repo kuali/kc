@@ -23,7 +23,6 @@
 	</c:otherwise>
 </c:choose>
 <bean:define id="protocolPersonUnits" name="KualiForm" property="${protocolPerson}.protocolUnits" />
-
 <table cellpadding=0 cellspacing=0 summary="">
  	<tr>
 		<td>
@@ -87,29 +86,29 @@
 									<c:out value="${status.index+1}" />
 								</th>
 			                  <td align="left" valign="middle">
-								<div align="center">
+								<div align="left">
 			                		<kul:htmlControlAttribute property="${protocolPerson}.protocolUnits[${status.index}].unit.unitName" attributeEntry="${unitAttributes.unitName}"  readOnly="true" />
 								</div>
 							  </td>
 			                  <td align="left" valign="middle">
-								<div align="center">
+								<div align="left">
 			                		<kul:htmlControlAttribute property="${protocolPerson}.protocolUnits[${status.index}].unitNumber" attributeEntry="${unitAttributes.unitNumber}"  readOnly="true" />
 								</div>
 							  </td>
 			                  <td align="left" valign="middle">
 								<div align="center">
-									<html:radio property="${protocolPerson}.protocolUnits[${status.index}].leadUnitFlag" value="true" />
+									<html:radio property="${protocolPerson}.protocolUnits[${status.index}].leadUnitFlag" value="true"/>
 								</div>
 							  </td>
 							  <td class="infoline">
 								<div align="center">
-									<html:image property="methodToCall.deleteProtocolUnit.${protocolPerson}.line${status.index}"
+									<html:image property="methodToCall.deleteProtocolPersonUnit.${protocolPerson}.line${status.index}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 								</div>
 			                  </td>
 			
 				            </tr>
-			        	</c:forEach> 
+			        	</c:forEach>
 			            <%-- Existing data --%>
      					</tbody>
 			        </table>

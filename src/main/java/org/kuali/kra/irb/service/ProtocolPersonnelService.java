@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.irb.service;
 
+import java.util.List;
+
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolPerson;
 import org.kuali.kra.irb.bo.ProtocolUnit;
@@ -30,26 +32,27 @@ public interface ProtocolPersonnelService {
     public abstract void addProtocolPerson(Protocol protocol, ProtocolPerson protocolPerson);
     
     /**
-     * This method deletes ProtocolPerson from the List at specified position(lineNumber)
+     * This method deletes ProtocolPerson(s) - those marked as delete
      * @param protocol which contains list of ProtocolPersons
-     * @param lineNumber to be deleted
      */
-    public abstract void deleteProtocolPerson(Protocol protocol, int lineNumber);
+    public abstract void deleteProtocolPerson(Protocol protocol);
     
     /**
      * This method adds ProtocolUnit to the List of selected ProtocolPerson.
-     * @param protocol which contains list of ProtocolPersons.
+     * @param protocolPersonUnits - New list of protocol units for each person
      * @param protocolPerson - Selected protocol person from the list
-     * @param ProtocolUnit object is added to selected ProtocolPerson.
+     * @param selectedPersonIndex - Unit is added to specific person in the list
      */
-    public abstract void addProtocolPersonUnit(Protocol protocol, ProtocolPerson protocolPerson, ProtocolUnit newProtocolPersonUnit);
+    public abstract void addProtocolPersonUnit(List<ProtocolUnit> protocolPersonUnits, ProtocolPerson protocolPerson, int selectedPersonIndex);
     
 
     /**
-     * This method will clear ProtocolPerson address from the List at specified position(lineNumber)
-     * @param protocol which contains list of ProtocolPersons
-     * @param lineNumber to clear location address
+     * This method will delete ProtocolUnit from the List of protocol person units at specified position(selectedPersonIndex)
+     * @param protocolPersonUnits - New list of protocol units for each person
+     * @param protocolPerson - Selected protocol person from the list
+     * @param selectedPersonIndex - Unit is removed from specific person in the list
+     * @param lineNumber - deleted line number
      */
-    //public abstract void clearProtocolPerson(Protocol protocol, int lineNumber);
+    public abstract void deleteProtocolPersonUnit(Protocol protocol, ProtocolPerson protocolPerson, int selectedPersonIndex, int lineNumber);
 
 }

@@ -47,7 +47,7 @@
 
   <c:if test="${not empty viewOnly && ! viewOnly and fn:length(KualiForm.document.protocol.protocolPersons) > 0}">
   	<c:set var="extraButtonSource" value="${ConfigProperties.externalizable.images.url}buttonsmall_deletesel.gif"/>
-  	<c:set var="extraButtonProperty" value="methodToCall.deletePerson"/>
+  	<c:set var="extraButtonProperty" value="methodToCall.deleteProtocolPerson"/>
   	<c:set var="extraButtonAlt" value="Delete a Person"/>
   </c:if>  
   	<p>
