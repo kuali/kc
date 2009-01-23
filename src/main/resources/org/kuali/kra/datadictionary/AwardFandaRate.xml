@@ -35,6 +35,8 @@
 			<list>
 				<ref bean="AwardFandaRate-awardFandaRateId" />				
 				<ref bean="AwardFandaRate-applicableFandaRate" />
+				<ref bean="AwardFandaRate-awardNumber" />
+				<ref bean="AwardFandaRate-sequenceNumber" />
 				<ref bean="AwardFandaRate-fandaRateTypeCode" />
 				<ref bean="AwardFandaRate-fiscalYear" />
 				<ref bean="AwardFandaRate-onCampusFlag" />
@@ -66,6 +68,38 @@
 		</property>
 		<property name="summary" value="Award Idc Rate Id" />
 		<property name="description" value="Award Idc Rate Id" />
+	</bean>
+	
+	<bean id="AwardFandaRate-awardNumber" parent="AwardFandaRate-awardNumber-parentBean" />
+	<bean id="AwardFandaRate-awardNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="awardNumber" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Award Number" />
+		<property name="shortLabel" value="Award Number" />
+		<property name="maxLength" value="10" />
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="required" value="true" />
+		<property name="summary" value="Award Number" />
+		<property name="description" value="Award Number" />
+	</bean>
+	
+	<bean id="AwardFandaRate-sequenceNumber" parent="AwardFandaRate-sequenceNumber-parentBean" />
+	<bean id="AwardFandaRate-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="sequenceNumber" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Sequence Number" />
+		<property name="shortLabel" value="Sequence Number" />
+		<property name="maxLength" value="8" />
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="required" value="true" />
+		<property name="summary" value="Sequence Number" />
+		<property name="description" value="Sequence Number" />
 	</bean>
 
 	<bean id="AwardFandaRate-applicableFandaRate" parent="AwardFandaRate-applicableFandaRate-parentBean" />
@@ -221,7 +255,11 @@
 						<list>
 							<bean parent="FieldDefinition"
 								p:attributeName="awardFandaRateId" 
-								p:forceInquiry="true" />
+								p:forceInquiry="true" />								
+							<bean parent="FieldDefinition"
+								p:attributeName="awardNumber" />
+							<bean parent="FieldDefinition"
+								p:attributeName="sequenceNumber" />		
 							<bean parent="FieldDefinition"
 								p:attributeName="applicableFandaRate" />
 							<bean parent="FieldDefinition"
@@ -265,6 +303,10 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="applicableFandaRate" />
 				<bean parent="FieldDefinition"
+					p:attributeName="awardNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="sequenceNumber" />	
+				<bean parent="FieldDefinition"
 					p:attributeName="fandaRateTypeCode" />
 				<bean parent="FieldDefinition"
 					p:attributeName="fiscalYear" />
@@ -289,6 +331,10 @@
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
 					p:attributeName="applicableFandaRate" />
+				<bean parent="FieldDefinition"
+					p:attributeName="awardNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="sequenceNumber" />	
 				<bean parent="FieldDefinition"
 					p:attributeName="fandaRateTypeCode" />
 				<bean parent="FieldDefinition"

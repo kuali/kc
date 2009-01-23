@@ -33,6 +33,8 @@ public class AwardFandaRate extends KraPersistableBusinessObjectBase {
      */
     private static final long serialVersionUID = 1L;
     private Long awardFandaRateId;
+    private String awardNumber;
+    private Integer sequenceNumber;
     private KualiDecimal applicableFandaRate; 
     private Integer fandaRateTypeCode; 
     private String fiscalYear; 
@@ -268,6 +270,28 @@ public class AwardFandaRate extends KraPersistableBusinessObjectBase {
      */
     public void setAward(Award award) {
         this.award = award;
+        if(award == null) {
+            sequenceNumber = null;
+            awardNumber = null;
+        } else {
+            sequenceNumber = award.getSequenceNumber();
+            awardNumber = award.getAwardNumber();
+        }
     }
-    
+
+    public String getAwardNumber() {
+        return awardNumber;
+    }
+
+    public void setAwardNumber(String awardNumber) {
+        //do nothing
+    }
+
+    public Integer getSequenceNumber() {
+        return sequenceNumber;
+    }
+
+    public void setSequenceNumber(Integer sequenceNumber) {
+        //do nothing
+    }
 }
