@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.award.htmlunitwebtest;
 
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -38,15 +37,11 @@ import edu.iu.uis.eden.exception.WorkflowException;
  */
 
 @PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
-        @UnitTestFile(filename = "classpath:sql/dml/load_COST_SHARE_TYPE.sql", delimiter = ";")}))
-        
-@SuppressWarnings("unchecked")
+        @UnitTestFile(filename = "classpath:sql/dml/load_COST_SHARE_TYPE.sql", delimiter = ";")}))        
 public abstract class AwardWebTestBase extends KraWebTestBase {
-    
     protected static final String CONTACTS_LINK_NAME = "contacts.x";
-    protected static final String TIME_AND_MONEY_LINK_NAME = "timeAndMoney.x";
-    protected static final String PAYMENT_REPORTS_AND_TERMS_LINK_NAME = "paymentReportsAndTerms.x";
     protected static final String SPECIAL_REVIEW_LINK_NAME = "specialReview.x";
+    protected static final String TIME_AND_MONEY_LINK_NAME = "timeAndMoney.x";
     protected static final String CUSTOM_DATA_LINK_NAME = "customData.x";
     protected static final String QUESTIONS_LINK_NAME = "questions.x";
     protected static final String PERMISSIONS_LINK_NAME = "permissions.x";
@@ -65,8 +60,15 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
     protected static final String DEFAULT_DOCUMENT_DESCRIPTION = "Award Development Web Test";    
     
     protected static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
+    protected static final String SOFT_ERRORS_FOUND_ON_PAGE = "Soft Errors found in this Section";
     protected static final String SAVE_SUCCESS_MESSAGE = "Document was successfully saved";
     protected static final String ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST = "table or view does not exist";
+    
+    private static final String ELEMENT_GROUPING = "((<>))";
+    private static final String XML_GROUPING = "((&lt;&gt;))";
+    private static final String AMPERSAND = "&";
+    private static final String XML_AMPERSAND = "&amp;";
+    
     private HtmlPage awardHomePage;    
     
     /**
@@ -220,12 +222,6 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
         return awardTimeAndMoneyPage;
     }
     
-    protected HtmlPage getPaymentReportsAndTermsPage() throws Exception {
-        HtmlPage awardHomePage = this.getAwardHomePage();
-        HtmlPage awardPaymentReportsAndTermsPage = clickOnTab(awardHomePage, PAYMENT_REPORTS_AND_TERMS_LINK_NAME);
-        return awardPaymentReportsAndTermsPage;
-    }
-    
     /**
      * Get the Award Actions Web Page. To do this, we first
      * get the Award Home page and fill in the required
@@ -240,10 +236,32 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
         HtmlPage awardActionsPage = clickOnTab(awardHomePage, AWARD_ACTIONS_LINK_NAME);
         return awardActionsPage;
     }
+    
+    protected HtmlPage getTabPage(String tabPageLinkName) throws Exception {
+        HtmlPage awardHomePage = getAwardHomePage();
+        this.setDefaultRequiredFields(awardHomePage);
+        return clickOnTab(awardHomePage, tabPageLinkName);
+    }
             
     protected HtmlPage clickOnTab(HtmlPage page, String tabName) throws Exception {
         HtmlElement element = getElementByNameEndsWith(page, tabName);
         return clickOn(element);
+    }
+    
+    /**
+     * 
+     * This method finds an element in the specified page where the name starts 
+     * with a unique name prefix
+     * @param page
+     * @param uniqueNamePrefix
+     * @return The decoded String representing the found String 
+     */
+    protected String getImageTagName(HtmlPage page, String uniqueNamePrefix) {
+        String pageAsXml = page.asXml();
+        int idx1 = pageAsXml.indexOf(uniqueNamePrefix);        
+        int idx2 = pageAsXml.indexOf("\"", idx1);
+        String element = pageAsXml.substring(idx1, idx2); 
+        return element.replace(XML_AMPERSAND, AMPERSAND).replace(XML_GROUPING, ELEMENT_GROUPING);
     }
     
     /**
@@ -259,17 +277,4 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
         assertEquals(description, doc.getDocumentHeader().getDocumentDescription());
     }
     
-    /**
-     * 
-     * This method...
-     * @param page
-     * @param uniqueNamePrefix
-     * @return
-     */
-    protected String getImageTagName(HtmlPage page, String uniqueNamePrefix) {
-        int idx1 = page.asXml().indexOf(uniqueNamePrefix);        
-        int idx2 = page.asXml().indexOf("\"", idx1);
-        return page.asXml().substring(idx1, idx2).replace("&amp;", "&").replace("((&lt;&gt;))", "((<>))");
-    }
-
 }
