@@ -20,9 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardReportTerm;
 
@@ -134,40 +132,4 @@ public class AwardPaymentReportsAndTermsActionTest {
         awardReportTermRecipient2 = null;
         awardReportTermRecipient3 = null;
     }
-
-    /*@Test
-    public final void testAddAwardReportTermToAward() {
-        awardPaymentReportsAndTermsAction.addAwardReportTermToAward(
-                award, awardReportTerm1, MOCK_REPORT_CODE1);                
-        awardPaymentReportsAndTermsAction.addAwardReportTermToAward(
-                award, awardReportTermRecipient1, MOCK_REPORT_CODE1);       
-        Assert.assertNull(award.getAwardReportTerms().get(0).getContactTypeCode());
-        Assert.assertNotNull(award.getAwardReportTerms().get(1).getContactTypeCode());                
-    }*/
-    
-    @Test
-    public final void testGetAwardReportTermRecipientsToBeDeleted(){        
-        awardReportTerms = awardPaymentReportsAndTermsAction.addAwardReportTermToAward(
-                award, awardReportTerm1, awardReportTerm1.getReportCode());
-        awardReportTerms = awardPaymentReportsAndTermsAction.addAwardReportTermToAward(
-                award, awardReportTerm2, awardReportTerm2.getReportCode());
-        awardReportTerms = awardPaymentReportsAndTermsAction.addAwardReportTermToAward(
-                award, awardReportTerm3, awardReportTerm3.getReportCode());
-        awardReportTerms = awardPaymentReportsAndTermsAction.addAwardReportTermToAward(
-                award, awardReportTermRecipient1, awardReportTermRecipient1.getReportCode());
-        awardReportTerms = awardPaymentReportsAndTermsAction.addAwardReportTermToAward(
-                award, awardReportTermRecipient2, awardReportTermRecipient2.getReportCode());
-        awardReportTerms = awardPaymentReportsAndTermsAction.addAwardReportTermToAward(
-                award, awardReportTermRecipient3, awardReportTermRecipient3.getReportCode());
-        
-        Assert.assertEquals(MOCK_EXPECTED_SIZE_OF_AWARD_REPORT_TERM_LIST, awardReportTerms.size());
-        
-        /*Assert.assertEquals(MOCK_EXPECTED_SIZE_OF_AWARD_REPORT_TERM_LIST_TO_BE_DELETED,
-                awardPaymentReportsAndTermsAction.getAwardReportTermRecipientsToBeDeleted(
-                awardReportTerms, awardReportTerm1).size());*/
-        
-        
-    }
-  
-
 }
