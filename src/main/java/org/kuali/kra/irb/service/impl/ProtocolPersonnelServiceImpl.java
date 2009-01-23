@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.irb.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolPerson;
@@ -48,16 +51,21 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     /**
      * @see org.kuali.kra.irb.service.ProtocolPersonnelService#deleteProtocolPerson(org.kuali.kra.irb.bo.Protocol, int)
      */
-    public void deleteProtocolPerson(Protocol protocol, int lineNumber) {
-
-        protocol.getProtocolPersons().remove(lineNumber);  
-
+    public void deleteProtocolPerson(Protocol protocol) {
+        List<ProtocolPerson> deletedPersons = new ArrayList<ProtocolPerson>();
+        for(ProtocolPerson protocolPerson : protocol.getProtocolPersons()) {
+            if(protocolPerson.isDelete()) {
+                deletedPersons.add(protocolPerson);
+            }
+        }
+        protocol.getProtocolPersons().removeAll(deletedPersons);
     }
     
     /**
      * @see org.kuali.kra.irb.service.ProtocolPersonnelService#addProtocolPersonUnit(org.kuali.kra.irb.bo.Protocol, org.kuali.kra.irb.bo.ProtocolPerson)
      */
-    public void addProtocolPersonUnit(Protocol protocol, ProtocolPerson protocolPerson, ProtocolUnit newProtocolPersonUnit) {
+    public void addProtocolPersonUnit(List<ProtocolUnit> protocolPersonUnits, ProtocolPerson protocolPerson, int selectedPersonIndex) {
+        ProtocolUnit newProtocolPersonUnit = protocolPersonUnits.get(selectedPersonIndex);
         newProtocolPersonUnit.setProtocolNumber(protocolPerson.getProtocolNumber());
         newProtocolPersonUnit.setProtocolPersonId(protocolPerson.getProtocolPersonId());
 
@@ -67,6 +75,19 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
         
         newProtocolPersonUnit.refreshReferenceObject("unit");
         protocolPerson.addProtocolUnit(newProtocolPersonUnit);
+
+        protocolPersonUnits.remove(selectedPersonIndex);
+        protocolPersonUnits.add(selectedPersonIndex,new ProtocolUnit());
+        
+    }
+    
+    /**
+     * @see org.kuali.kra.irb.service.ProtocolPersonnelService#deleteProtocolPersonUnit(java.util.List, org.kuali.kra.irb.bo.ProtocolPerson, int)
+     */
+    public void deleteProtocolPersonUnit(Protocol protocol, ProtocolPerson protocolPerson, int selectedPersonIndex, int lineNumber) {
+        ProtocolPerson selectedPerson =  protocol.getProtocolPerson(selectedPersonIndex);
+        ProtocolUnit protocolUnit = selectedPerson.getProtocolUnit(lineNumber);
+        selectedPerson.removeProtocolUnit(protocolUnit);
     }
     
 }
