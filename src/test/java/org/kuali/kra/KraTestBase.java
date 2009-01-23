@@ -109,6 +109,7 @@ import org.kuali.rice.test.data.UnitTestFile;
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_REPORT_CLASS.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_DISTRIBUTION.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_VALID_CLASS_REPORT_FREQ.sql", delimiter = ";")
+                ,@UnitTestFile(filename = "classpath:sql/dml/load_VALID_FREQUENCY_BASE.sql", delimiter = ";")
             }
         )
     )
