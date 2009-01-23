@@ -192,6 +192,7 @@ public class AwardTimeAndMoneyAction extends AwardAction {
      * @return
      */
     boolean addFandaRateToAward(Award award, AwardFandaRate awardFandaRate){
+        awardFandaRate.setAward(award);
         return award.getAwardFandaRate().add(awardFandaRate);
     }
     
