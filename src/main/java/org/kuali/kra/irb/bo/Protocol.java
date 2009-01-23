@@ -108,6 +108,9 @@ public class Protocol extends KraPersistableBusinessObjectBase{
         protocolLocations = new ArrayList<ProtocolLocation>(); //ArrayList<ProtocolLocation>();
         protocolPersons = new ArrayList<ProtocolPerson>(); //ArrayList<ProtocolPerson>();
         initializeProtocolLocation();
+        // set statuscode default
+        setProtocolStatusCode("100");
+        this.refreshReferenceObject("protocolStatus");
     }
 
     public Long getProtocolId() {
