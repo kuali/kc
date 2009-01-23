@@ -59,11 +59,11 @@ public class ProtocolStatusAndDatesWebTest extends ProtocolWebTestBase{
     public void testDatesAndStatusPanelInit() throws Exception{
         Map pageMap = new HashMap();
         assertContains(protocolPage,SAVE_SUCCESS_MESSAGE);        
-        assertContains(protocolPage,"* Protocol Status: Pending/In Progress ");        
+        String protocolNumber = getFieldValue(protocolPage, "document.protocol.protocolNumber");
+        assertContains(protocolPage,"Protocol #: "+ protocolNumber +" Protocol Status: Pending/In Progress ");        
         assertContains(protocolPage,"Initial Approval Date: Last Approval Date: ");        
         assertContains(protocolPage,"Submission Date: Generated on Submission Expiration Date: ");   
         assertContains(protocolPage,"Risk Levels Risk Level Date Assigned Date Updated Status Comments &nbsp Additional Information"); 
-        //validatePage(protocolPage, pageMap);
     }
     
 
