@@ -20,8 +20,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.kuali.core.util.KualiDecimal;
-
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlImageInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -30,9 +28,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  * 
  * This is the integration test for Award Reports page. 
  */
-public class AwardReportsWebTest extends AwardWebTestBase{
-    
-    HtmlPage awardPaymentReportsAndTermsPage;
+public class AwardReportsWebTest extends AwardPaymentsAndTermsWebTest {
     
     /**
      * The set up method calls the parent super method and gets the 
@@ -42,7 +38,6 @@ public class AwardReportsWebTest extends AwardWebTestBase{
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        awardPaymentReportsAndTermsPage = getPaymentReportsAndTermsPage();
     }
 
     /**
@@ -51,7 +46,6 @@ public class AwardReportsWebTest extends AwardWebTestBase{
      */
     @After
     public void tearDown() throws Exception {
-        awardPaymentReportsAndTermsPage = null;
         super.tearDown();
     }
     
@@ -63,16 +57,16 @@ public class AwardReportsWebTest extends AwardWebTestBase{
      */
     @Test
     public void testAwardReportsSimpleAdd() throws Exception{
-        setFieldValue(awardPaymentReportsAndTermsPage, "newAwardReportTerm[0].reportCode", "5");
-        awardPaymentReportsAndTermsPage = clickOn(awardPaymentReportsAndTermsPage, "methodToCall.refreshPulldownOptions");        
-        setFieldValue(awardPaymentReportsAndTermsPage, "newAwardReportTerm[0].frequencyCode", "14");        
-        awardPaymentReportsAndTermsPage = clickOn(awardPaymentReportsAndTermsPage, "methodToCall.refreshPulldownOptions");        
-        setFieldValue(awardPaymentReportsAndTermsPage, "newAwardReportTerm[0].frequencyBaseCode", "2");
-        setFieldValue(awardPaymentReportsAndTermsPage, "newAwardReportTerm[0].ospDistributionCode", "1");
-        setFieldValue(awardPaymentReportsAndTermsPage, "newAwardReportTerm[0].dueDate", "06/30/2008");
+        setFieldValue(paymentReportsAndTermsPage, "newAwardReportTerm[0].reportCode", "5");
+        paymentReportsAndTermsPage = clickOn(paymentReportsAndTermsPage, "methodToCall.refreshPulldownOptions");        
+        setFieldValue(paymentReportsAndTermsPage, "newAwardReportTerm[0].frequencyCode", "14");        
+        paymentReportsAndTermsPage = clickOn(paymentReportsAndTermsPage, "methodToCall.refreshPulldownOptions");        
+        setFieldValue(paymentReportsAndTermsPage, "newAwardReportTerm[0].frequencyBaseCode", "2");
+        setFieldValue(paymentReportsAndTermsPage, "newAwardReportTerm[0].ospDistributionCode", "1");
+        setFieldValue(paymentReportsAndTermsPage, "newAwardReportTerm[0].dueDate", "06/30/2008");
         
-        final HtmlForm form1 = (HtmlForm) awardPaymentReportsAndTermsPage.getForms().get(0);        
-        String completeButtonName1=getImageTagName(awardPaymentReportsAndTermsPage, "methodToCall.addAwardReportTerm.reportClass1.reportClassIndex0");        
+        final HtmlForm form1 = (HtmlForm) paymentReportsAndTermsPage.getForms().get(0);        
+        String completeButtonName1=getImageTagName(paymentReportsAndTermsPage, "methodToCall.addAwardReportTerm.reportClass1.reportClassIndex0");        
         final HtmlImageInput button1 = (HtmlImageInput) form1.getInputByName(completeButtonName1);
         HtmlPage awardPaymentReportsAndTermsPageAfterAdd = (HtmlPage) button1.click();
         
