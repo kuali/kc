@@ -18,7 +18,7 @@ package org.kuali.kra.proposaldevelopment.web.bean;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kra.infrastructure.RoleConstants;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * A ProposalUserRoles corresponds to one user with access to a
@@ -162,10 +162,10 @@ public class ProposalUserRoles {
         
         boolean isEqual = true;
         
-        isEqual &= this.fullname.equals(theOther.fullname);
-        isEqual &= this.unitName.equals(theOther.unitName);
-        isEqual &= this.unitNumber.equals(theOther.unitNumber);
-        isEqual &= this.username.equals(theOther.username);
+        isEqual &= StringUtils.equals(this.fullname, theOther.fullname);
+        isEqual &= StringUtils.equals(this.unitName, theOther.unitName);
+        isEqual &= StringUtils.equals(this.unitNumber, theOther.unitNumber);
+        isEqual &= StringUtils.equals(this.username, theOther.username);
         isEqual &= this.roleNames.size() == theOther.roleNames.size();
            
         if (isEqual) {
