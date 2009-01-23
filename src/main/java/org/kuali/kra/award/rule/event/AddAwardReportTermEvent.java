@@ -24,7 +24,7 @@ import org.kuali.kra.award.rule.AddAwardReportTermRule;
  * 
  * This is the base event class for <code>AwardReportTerm</code> business object.
  */
-public class AddAwardReportTermEvent extends AwardReportTermEventBase {
+public class AddAwardReportTermEvent extends AwardReportTermEvent {
     private static final org.apache.commons.logging.Log LOG = 
         org.apache.commons.logging.LogFactory.getLog(AddAwardReportTermEvent.class);    
 
