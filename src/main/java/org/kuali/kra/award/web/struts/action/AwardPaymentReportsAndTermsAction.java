@@ -131,9 +131,9 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         
         if(getKualiRuleService().applyRules(new AddAwardReportTermEvent(Constants.EMPTY_STRING,
                 awardForm.getAwardDocument(), newAwardReportTerm))){
-            
+            newAwardReportTerm.setReportClassCode(getReportClass(request));
             awardDocument.getAward().setAwardReportTerms(addAwardReportTermToAward(
-                    awardDocument.getAward(),newAwardReportTerm, getReportClass(request)));            
+                    awardDocument.getAward(),newAwardReportTerm));            
             awardForm.getNewAwardReportTerm().set(
                     getReportClassCodeIndex(request),new AwardReportTerm());            
             awardForm.getNewAwardReportTermRecipient().add(new AwardReportTermRecipient());
@@ -150,11 +150,8 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      * @param reportClass
      * @return
      */
-    protected List<AwardReportTerm> addAwardReportTermToAward(
-            Award award, AwardReportTerm newAwardReportTerm, String reportClass){
-        newAwardReportTerm.setReportClassCode(reportClass);
-        newAwardReportTerm.setAwardNumber(award.getAwardNumber());
-        newAwardReportTerm.setSequenceNumber(award.getSequenceNumber());
+    protected List<AwardReportTerm> addAwardReportTermToAward(Award award, AwardReportTerm newAwardReportTerm){        
+        newAwardReportTerm.setAward(award);
         award.getAwardReportTerms().add(newAwardReportTerm);
         return award.getAwardReportTerms();
     }
