@@ -55,7 +55,6 @@ public class AwardProposalDueWebTest extends AwardPaymentsAndTermsWebTest {
      */
     @Test
     public void testProposalDuePanel() throws Exception{
-        System.out.println(paymentReportsAndTermsPage.asXml());
         setFieldValue(paymentReportsAndTermsPage, "document.awardList[0].competingRenewalProposalDue", "8");
         setFieldValue(paymentReportsAndTermsPage, "document.awardList[0].nonCompetingContProposalDue", "9");
         
