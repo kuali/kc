@@ -15,17 +15,74 @@
  */
 package org.kuali.kra.award.rule.event;
 
-import org.kuali.core.rule.event.KualiDocumentEvent;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.award.bo.AwardFandaRate;
+import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.rule.event.KraDocumentEventBase;
 
 /**
  * 
- * This class...
+ * This is the base event class for <code>AwardFandaRate</code> business object.
  */
-public interface AwardFandaRateEvent extends KualiDocumentEvent {
-    
+public abstract class AwardFandaRateEvent extends KraDocumentEventBase {
+    private static final org.apache.commons.logging.Log LOG = 
+        org.apache.commons.logging.LogFactory.getLog(AwardFandaRateEvent.class);
+
+    private AwardFandaRate awardFandaRate;
+
     /**
-     * @return <code>{@link AwardFandaRate}</code> that triggered this event.
+     * 
+     * Constructs a AwardFandaRateEventBase.java.
+     * @param description
+     * @param errorPathPrefix
+     * @param document
+     * @param awardFandaRate
      */
-    public AwardFandaRate getAwardFandaRate();
+    protected AwardFandaRateEvent(String description, String errorPathPrefix, 
+            AwardDocument document, AwardFandaRate awardFandaRate) {
+        super(description, errorPathPrefix, document);
+    
+        // by doing a deep copy, we are ensuring that the business rule class can't update
+        // the original object by reference
+        this.awardFandaRate = (AwardFandaRate) ObjectUtils.deepCopy(awardFandaRate);
+        logEvent();
+    }
+
+    /**
+    * @return <code>{@link AwardFandaRate}</code> that triggered this event.
+    */
+    public AwardFandaRate getAwardFandaRate() {
+        return awardFandaRate;
+    }
+
+    /**
+    * @see org.kuali.core.rule.event.KualiDocumentEvent#validate()
+    */
+    public void validate() {
+        super.validate();
+        if (getAwardFandaRate() == null) {
+            throw new IllegalArgumentException("invalid (null) award fandaRate");
+        }
+    }
+
+    /**
+    * Logs the event type and some information about the associated special review
+    */
+    protected void logEvent() {
+        StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(
+                this.getClass().getName(), "."));
+        logMessage.append(" with ");
+        
+        // vary logging detail as needed
+        if (getAwardFandaRate() == null) {
+            logMessage.append("null proposalSpecialReview");
+        }
+        else {
+            logMessage.append(getAwardFandaRate().toString());
+        }
+        
+        LOG.debug(logMessage);
+    }
+    
 }
