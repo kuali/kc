@@ -29,7 +29,6 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.bo.ProtocolPerson;
-import org.kuali.kra.irb.bo.ProtocolUnit;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.service.ProtocolPersonnelService;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
@@ -88,6 +87,23 @@ public class ProtocolPersonnelAction extends ProtocolAction {
     }
 
     /**
+     * This method is linked to ProtocolPersonnelService to perform the action - Delete Protocol Person.
+     * Method is called in ProtocolPersonnel.jsp
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteProtocolPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
+        getProtocolPersonnelService().deleteProtocolPerson(protocolDocument.getProtocol());
+        return mapping.findForward(Constants.MAPPING_BASIC );
+    }
+
+    /**
      * This method is to clear existing protocol person.
      * Method is called in protocolAddPersonnelSection.tag
      * @param mapping
@@ -105,7 +121,8 @@ public class ProtocolPersonnelAction extends ProtocolAction {
     
     
     /**
-     * This method is linked to ProtocolPersonnelService to perform the action - Add ProtocolUnit to Person.
+     * This method is linked to ProtocolPersonnelService to perform the action
+     * Add ProtocolUnit to Person.
      * Method is called in personUnitsSection.tag
      * @param mapping
      * @param form
@@ -118,7 +135,7 @@ public class ProtocolPersonnelAction extends ProtocolAction {
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
         int selectedPersonIndex = getSelectedPersonIndex(request, protocolDocument);
-        ProtocolUnit newProtocolPersonUnit = protocolForm.getNewProtocolPersonUnits().get(selectedPersonIndex);
+        //ProtocolUnit newProtocolPersonUnit = protocolForm.getNewProtocolPersonUnits().get(selectedPersonIndex);
 
         ProtocolPerson protocolPerson = protocolDocument.getProtocol().getProtocolPerson(selectedPersonIndex);
         
@@ -127,10 +144,31 @@ public class ProtocolPersonnelAction extends ProtocolAction {
         boolean rulePassed = true;
 
         if (rulePassed) {
-            getProtocolPersonnelService().addProtocolPersonUnit(protocolDocument.getProtocol(), protocolPerson, newProtocolPersonUnit);
-            protocolForm.getNewProtocolPersonUnits().remove(selectedPersonIndex);
-            protocolForm.getNewProtocolPersonUnits().add(selectedPersonIndex,new ProtocolUnit());
+            getProtocolPersonnelService().addProtocolPersonUnit(protocolForm.getNewProtocolPersonUnits(), protocolPerson, selectedPersonIndex);
+            //protocolForm.getNewProtocolPersonUnits().remove(selectedPersonIndex);
+            //protocolForm.getNewProtocolPersonUnits().add(selectedPersonIndex,new ProtocolUnit());
         }
+
+        return mapping.findForward(MAPPING_BASIC);
+    }
+    
+    /**
+     * This method is linked to ProtocolPersonnelService to perform the action.
+     * Delete ProtocolUnit from Person unit list.
+     * Method is called in personUnitsSection.tag
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteProtocolPersonUnit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
+        int selectedPersonIndex = getSelectedPersonIndex(request, protocolDocument);
+        ProtocolPerson protocolPerson = protocolDocument.getProtocol().getProtocolPerson(selectedPersonIndex);
+        getProtocolPersonnelService().deleteProtocolPersonUnit(protocolDocument.getProtocol(), protocolPerson, selectedPersonIndex, getSelectedLine(request));
 
         return mapping.findForward(MAPPING_BASIC);
     }

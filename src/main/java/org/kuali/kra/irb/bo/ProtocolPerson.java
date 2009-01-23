@@ -204,4 +204,22 @@ public class ProtocolPerson extends KraPersistableBusinessObjectBase {
         getProtocolUnits().add(protocolUnit);
     }
     
+    /**
+     * This method deletes an existing unit from the collection of person units
+     * @param protocolUnit
+     */
+    public void removeProtocolUnit(ProtocolUnit protocolUnit) {
+        getProtocolUnits().remove(protocolUnit);
+    }
+
+    /**
+     * Gets index i from the protocol units list.
+     * 
+     * @param index
+     * @return protocol unit at index i
+     */
+    public ProtocolUnit getProtocolUnit(int index) {
+        return getProtocolUnits().get(index);
+    }
+    
 }
