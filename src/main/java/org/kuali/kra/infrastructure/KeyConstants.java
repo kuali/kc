@@ -15,7 +15,11 @@
  */
 package org.kuali.kra.infrastructure;
 
-public class KeyConstants {
+
+/**
+ * This class contains constants
+ */
+public final class KeyConstants {
     
     //Error messages for Protocol Document
     public static final String ERROR_PROTOCOLREFERENCE_PROTOCOLREFERENCETYPECODE = "error.required.for.protocolReference.protocolReferenceTypeCode";
@@ -247,6 +251,12 @@ public class KeyConstants {
     // Budget Version
     public static final String BUDGET_VERSION_EXISTS = "error.budgetVersion.exists";
     
+    // Award Approved Equipment
+    public static final String ERROR_AWARD_APPROVED_EQUIPMENT_AMOUNT_REQUIRED = "error.required";
+    public static final String ERROR_AWARD_APPROVED_EQUIPMENT_ITEM_REQUIRED = ERROR_AWARD_APPROVED_EQUIPMENT_AMOUNT_REQUIRED;
+    public static final String ERROR_AWARD_APPROVED_EQUIPMENT_AMOUNT_VALID = "error.awardApprovedEquipment.amount.invalid";
+    public static final String ERROR_AWARD_APPROVED_EQUIPMENT_ITEM_NOT_UNIQUE = "error.awardApprovedEquipment.notunique";
+    
     //Award Cost Share
     public static final String ERROR_FISCAL_YEAR_RANGE = "error.awardCostShare.fiscalYear.range";
     public static final String ERROR_SOURCE_DESTINATION = "error.awardCostShare.source.destination";
@@ -306,4 +316,8 @@ public class KeyConstants {
 
     //  Committee Messages
     public static final String ERROR_COMMITTEE_DUPLICATE_ID = "error.committee.duplicateId";
+    
+    public static final String SOFT_ERRORS_KEY = "SOFT_ERRORS_KEY";
+    
+    private KeyConstants() {}
 }
