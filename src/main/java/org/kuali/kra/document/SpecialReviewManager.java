@@ -17,11 +17,30 @@ package org.kuali.kra.document;
 
 import java.util.List;
 
+import org.kuali.kra.bo.AbstractSpecialReview;
+
 /**
- * This class...
+ * This interface declares all methods required to process SpecialReview.
+ * T represents type of concrete class of SpecialReview
  */
-public interface SpecialReviewManager<T> {
+public interface SpecialReviewManager<T extends AbstractSpecialReview> {
+    /**
+     * 
+     * This method is for adding special review
+     * @param specialReview
+     */
     public void addSpecialReview(T specialReview);
+    /**
+     * 
+     * Gets the list of SpecialReview BO objects
+     * @return
+     */
     public List<T> getSpecialReviews();
+    /**
+     * 
+     * Gets the SpecialReview BO at the selected index from the list
+     * @param index
+     * @return SpecialReview
+     */
     public T getSpecialReview(int index);
 }
