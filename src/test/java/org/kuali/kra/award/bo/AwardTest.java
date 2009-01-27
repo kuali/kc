@@ -15,10 +15,14 @@
  */
 package org.kuali.kra.award.bo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.core.util.KualiDecimal;
 
 /**
  * 
@@ -57,4 +61,23 @@ public class AwardTest {
         Assert.assertEquals(AWARD_ATTRIBUTES_COUNT, awardBo.toStringMapper().size());
     }
     
+    @Test
+    public void testCalculatingvaluableItemTotal() {
+        final double AMOUNT1 = 100.00;
+        final double AMOUNT2 = 200.00;
+        final double AMOUNT3 = 300.00;
+        Award award = new Award();
+        List<AwardApprovedEquipment> items = new ArrayList<AwardApprovedEquipment>();
+        items.add(createValuableItem(AMOUNT1));
+        items.add(createValuableItem(AMOUNT2));
+        items.add(createValuableItem(AMOUNT3));
+        award.setApprovedEquipmentItems(items);
+        Assert.assertEquals(AMOUNT1 + AMOUNT2 + AMOUNT3, award.getTotalAmount(items).doubleValue(), 0.001);
+    }
+    
+    private AwardApprovedEquipment createValuableItem(double amount) {
+        AwardApprovedEquipment item = new AwardApprovedEquipment();
+        item.setAmount(new KualiDecimal(amount));
+        return item;
+    }
 }

@@ -238,11 +238,23 @@ INSERT INTO sh_parm_nmspc_t
 (SH_PARM_NMSPC_CD,SH_PARM_NMSPC_NM,ACTIVE_IND, OBJ_ID, VER_NBR)
 values('KC-AWARD', 'Award','Y',sys_guid(),'1');
 
+-- Award Parms
 INSERT into SH_PARM_T 
-( SH_PARM_NMSPC_CD, SH_PARM_DTL_TYP_CD, SH_PARM_NM,  SH_PARM_TYP_CD, SH_PARM_TXT, SH_PARM_DESC, SH_PARM_CONS_CD, WRKGRP_NM, ACTIVE_IND, OBJ_ID, VER_NBR)
-Values 
-('KC-AWARD','D','mit.idc.validation.enabled','CONFG','1','MitIdcValidationEnabled is configurable at impl time','A','WorkflowAdmin','Y',sys_guid(),'1');
+	(SH_PARM_NMSPC_CD, SH_PARM_DTL_TYP_CD, SH_PARM_NM,  SH_PARM_TYP_CD, SH_PARM_TXT, SH_PARM_DESC, SH_PARM_CONS_CD, WRKGRP_NM, ACTIVE_IND, OBJ_ID, VER_NBR)
+	Values 
+	('KC-AWARD','D','mit.idc.validation.enabled','CONFG','1','MitIdcValidationEnabled is configurable at impl time','A','WorkflowAdmin','Y',sys_guid(),'1');
 
+INSERT INTO SH_PARM_T 
+	(SH_PARM_NMSPC_CD,SH_PARM_DTL_TYP_CD,SH_PARM_NM,OBJ_ID,VER_NBR,SH_PARM_TYP_CD,SH_PARM_TXT,SH_PARM_DESC,SH_PARM_CONS_CD,WRKGRP_NM,ACTIVE_IND) 
+	VALUES 
+	('KC-AWARD','D','federalCapitalizationMinimum',sys_guid(),1,'CONFG','100.00','Federal Capitalization Minimum','A','WorkflowAdmin','Y');
+  
+INSERT INTO SH_PARM_T 
+	(SH_PARM_NMSPC_CD,SH_PARM_DTL_TYP_CD,SH_PARM_NM,OBJ_ID,VER_NBR,SH_PARM_TYP_CD,SH_PARM_TXT,SH_PARM_DESC,SH_PARM_CONS_CD,WRKGRP_NM,ACTIVE_IND) 
+	VALUES 
+	('KC-AWARD','D','institutionCapitalizationMinimum',sys_guid(),1,'CONFG','50.00','Institution Capitalization Minimum','A','WorkflowAdmin','Y');
+
+-- Protocol Parms
 Insert into SH_PARM_NMSPC_T
 ( SH_PARM_NMSPC_CD, OBJ_ID, VER_NBR, SH_PARM_NMSPC_NM, ACTIVE_IND)
 Values 
