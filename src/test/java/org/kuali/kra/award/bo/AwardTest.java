@@ -29,6 +29,8 @@ import org.kuali.core.util.KualiDecimal;
  * This class tests methods in Award.java class
  */
 public class AwardTest { 
+    private static final double DELTA = 0.001;
+
     private static final int AWARD_ATTRIBUTES_COUNT = 47;
     
     private Award awardBo;
@@ -72,7 +74,7 @@ public class AwardTest {
         items.add(createValuableItem(AMOUNT2));
         items.add(createValuableItem(AMOUNT3));
         award.setApprovedEquipmentItems(items);
-        Assert.assertEquals(AMOUNT1 + AMOUNT2 + AMOUNT3, award.getTotalAmount(items).doubleValue(), 0.001);
+        Assert.assertEquals(AMOUNT1 + AMOUNT2 + AMOUNT3, award.getTotalAmount(items).doubleValue(), DELTA);
     }
     
     private AwardApprovedEquipment createValuableItem(double amount) {
