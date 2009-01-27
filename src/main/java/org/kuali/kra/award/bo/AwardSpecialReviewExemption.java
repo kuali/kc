@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 import org.kuali.kra.bo.AbstractSpecialReviewExemption;
 
 /**
- * This class...
+ * This class represents AwardSpecialReviewExemption
  */
 public class AwardSpecialReviewExemption extends AbstractSpecialReviewExemption {
     /**

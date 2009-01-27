@@ -15,13 +15,15 @@
  */
 package org.kuali.kra.service;
 
+import org.kuali.kra.bo.AbstractSpecialReview;
+import org.kuali.kra.bo.AbstractSpecialReviewExemption;
 import org.kuali.kra.document.SpecialReviewManager;
 import org.kuali.kra.web.struts.form.SpecialReviewFormBase;
 
 /**
  * This interface should take care of all tasks needed for Special Review functionality for different module 
  */
-public interface SpecialReviewService<T,E> {
+public interface SpecialReviewService<T extends AbstractSpecialReview,E extends AbstractSpecialReviewExemption> {
     /**
      * 
      * This method is for adding SpecialReview BO
