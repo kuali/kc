@@ -37,12 +37,12 @@ import org.kuali.kra.infrastructure.Constants;
  */
 public class Award extends KraPersistableBusinessObjectBase implements KeywordsManager<AwardScienceKeyword>,SpecialReviewManager<AwardSpecialReview>{
     
+    public static final String AWARD_NAMESPACE_CODE = "KC-AWARD";
+    
     private static final String ONE = "1";
     private static final String AWARD_TITLE = "Award";
     private static final String YES_FLAG = "Y";
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
+    
     private static final long serialVersionUID = 3797220122448310165L;
     private Long awardId;
     private AwardDocument awardDocument;
@@ -96,12 +96,12 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private List<AwardCostShare> awardCostShares;
     private List<AwardFandaRate> awardFandaRate;
     private List<AwardReportTerm> awardReportTerms;
-       
 
     private List<AwardApprovedSubaward> awardApprovedSubawards;
     
     private List<AwardScienceKeyword> keywords;
     private List<AwardSpecialReview> specialReviews;
+    private List<AwardApprovedEquipment> approvedEquipmentItems;
 
     /**
      * 
@@ -110,13 +110,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public Award() {
         super();
         initializeAwardWithDefaultValues();       
-        setAwardCostShares(new ArrayList<AwardCostShare>());
-        setAwardComments(new ArrayList<AwardComment>());
-        awardApprovedSubawards = (new ArrayList<AwardApprovedSubaward>());
-        setAwardFandaRate(new ArrayList<AwardFandaRate>());
-        setAwardReportTerms(new ArrayList<AwardReportTerm>());
-        keywords = new ArrayList<AwardScienceKeyword>();
-        specialReviews = new ArrayList<AwardSpecialReview>();
+        initializeCollections();        
     }
     
     /**
@@ -278,6 +272,20 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         this.accountNumber = accountNumber;
     }
 
+    /**
+     * 
+     * @return
+     */
+    public List<AwardApprovedEquipment> getApprovedEquipmentItems() {
+        return approvedEquipmentItems;
+    }
+    
+    /**
+     * 
+     */
+    public void setApprovedEquipmentItems(List<AwardApprovedEquipment> awardApprovedEquipmentItems) {
+       this.approvedEquipmentItems = awardApprovedEquipmentItems;
+    }
 
     /**
      *
@@ -1079,16 +1087,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         return awardComment;
     }
     
-    /**
-     * This method...
-     * @return
-     */
-    public KualiDecimal getTotalCostShareCommitmentAmount(){
-        KualiDecimal returnVal = new KualiDecimal(0);
-        for(AwardCostShare awardCostShare : awardCostShares){
-            returnVal = returnVal.add(awardCostShare.getCommitmentAmount());
-        }
-        return returnVal;
+    public KualiDecimal getTotalCostShareCommitmentAmount() {
+        return getTotalAmount(awardCostShares);
     }
     
     /**
@@ -1096,15 +1096,13 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * @return
      */
     public KualiDecimal getTotalApprovedSubawardAmount(){
-        KualiDecimal returnVal = new KualiDecimal(0);
-        for(AwardApprovedSubaward awardApprovedSubaward : awardApprovedSubawards){
-            returnVal = returnVal.add(awardApprovedSubaward.getAmount());
-        }
-        return returnVal;
+        return getTotalAmount(awardApprovedSubawards);
     }
     
+    public KualiDecimal getTotalApprovedEquipmentAmount(){
+        return getTotalAmount(approvedEquipmentItems);
+    }
     
-
     /**
      * This method...
      * @return
@@ -1203,6 +1201,26 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
 
     /**
+     * Add an
+     * @param newAwardApprovedEquipment
+     */
+    public void add(AwardApprovedEquipment approvedEquipmentItem) {
+        approvedEquipmentItems.add(0, approvedEquipmentItem);
+        approvedEquipmentItem.setAward(this);
+    }
+    
+    protected void initializeCollections() {
+        setAwardCostShares(new ArrayList<AwardCostShare>());
+        setAwardComments(new ArrayList<AwardComment>());
+        awardApprovedSubawards = new ArrayList<AwardApprovedSubaward>();
+        setAwardFandaRate(new ArrayList<AwardFandaRate>());
+        setAwardReportTerms(new ArrayList<AwardReportTerm>());
+        keywords = new ArrayList<AwardScienceKeyword>();
+        specialReviews = new ArrayList<AwardSpecialReview>();
+        approvedEquipmentItems = new ArrayList<AwardApprovedEquipment>();
+    }
+
+    /**
      * This method...
      * @return
      */
@@ -1259,5 +1277,15 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public void add(AwardComment awardComment) {
         awardComments.add(awardComment);
         awardComment.setAward(this);
+    }
+    
+    @SuppressWarnings("unchecked")
+    KualiDecimal getTotalAmount(List valuableItems){
+        KualiDecimal returnVal = new KualiDecimal(0);
+        for(ValuableItem item : (List<ValuableItem>) valuableItems) {
+            KualiDecimal amount = item.getAmount() != null ? item.getAmount() : new KualiDecimal(0.00);
+            returnVal = returnVal.add(amount);
+        }
+        return returnVal;
     }
 }

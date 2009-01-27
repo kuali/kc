@@ -24,6 +24,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardApprovedSubaward;
 import org.kuali.kra.award.bo.AwardCostShare;
 import org.kuali.kra.award.bo.AwardFandaRate;
@@ -35,9 +36,11 @@ import org.kuali.kra.award.lookup.keyvalue.ReportCodeValuesFinder;
 import org.kuali.kra.award.rule.AddAwardReportTermRecipientRule;
 import org.kuali.kra.award.rule.AddAwardReportTermRule;
 import org.kuali.kra.award.rule.AddFandaRateRule;
+import org.kuali.kra.award.rule.AwardApprovedEquipmentRule;
 import org.kuali.kra.award.rule.event.AddAwardFandaRateEvent;
 import org.kuali.kra.award.rule.event.AddAwardReportTermEvent;
 import org.kuali.kra.award.rule.event.AddAwardReportTermRecipientEvent;
+import org.kuali.kra.award.rule.event.AwardApprovedEquipmentRuleEvent;
 import org.kuali.kra.bo.AbstractSpecialReview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -51,7 +54,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  * Responsible for delegating rules to independent rule classes.
  *
  */
-public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddFandaRateRule,SpecialReviewRule,AddAwardReportTermRule, AddAwardReportTermRecipientRule {
+public class AwardDocumentRule extends ResearchDocumentRuleBase implements AwardApprovedEquipmentRule, AddFandaRateRule,SpecialReviewRule,AddAwardReportTermRule, AddAwardReportTermRecipientRule {
     
     public static final String DOCUMENT_ERROR_PATH = "document";
     public static final String AWARD_ERROR_PATH = "awardList[0]";
@@ -89,14 +92,40 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddFa
                 VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
         
+        AwardDocument awardDocument = (AwardDocument) document;
+        
         retval &= processAwardFandaRateBusinessRules(document);
         retval &= processCostShareBusinessRules(document);
         retval &= processApprovedSubawardBusinessRules(document);
+        retval &= processApprovedEquipmentBusinessRules(errorMap, awardDocument);
         retval &= processAwardReportTermBusinessRules(document);
 
         return retval;
     }
     
+    private boolean processApprovedEquipmentBusinessRules(ErrorMap errorMap, AwardDocument awardDocument) {
+        boolean success = true;
+        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+        errorMap.addToErrorPath(AWARD_ERROR_PATH);
+        Award award = awardDocument.getAward();
+        EquipmentCapitalizationMinimumLoader helper = new EquipmentCapitalizationMinimumLoader();
+        int count = award.getApprovedEquipmentItems().size();
+        for (int i = 0; i < count; i++) {
+            String errorPath = String.format("approvedEquipmentItems[%d]", i);
+            errorMap.addToErrorPath(errorPath);
+            String errorKey = "document.awardList[0]." + errorPath;
+            AwardApprovedEquipmentRuleEvent event = new AwardApprovedEquipmentRuleEvent(errorKey, awardDocument, 
+                                                                                        award.getApprovedEquipmentItems().get(i),
+                                                                                        helper.getMinimumCapitalization());
+            success &= new AwardApprovedEquipmentRuleImpl().processAwardApprovedEquipmentBusinessRules(event);
+            errorMap.removeFromErrorPath(errorPath);
+        }
+        errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
+        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
+        
+        return success;
+    }
+
     /**
     *
     * process Cost Share business rules.
@@ -454,5 +483,9 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements AddFa
         }
 
         return rulePassed;
+    }
+
+    public boolean processAwardApprovedEquipmentBusinessRules(AwardApprovedEquipmentRuleEvent awardApprovedEquipmentRuleEvent) {
+        return new AwardApprovedEquipmentRuleImpl().processAwardApprovedEquipmentBusinessRules(awardApprovedEquipmentRuleEvent);
     }
 }
