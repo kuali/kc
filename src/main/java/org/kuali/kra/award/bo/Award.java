@@ -1293,10 +1293,9 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * @param valuableItems
      * @return The total value
      */
-    @SuppressWarnings("unchecked")
-    KualiDecimal getTotalAmount(List valuableItems){
+    KualiDecimal getTotalAmount(List<? extends ValuableItem> valuableItems){
         KualiDecimal returnVal = new KualiDecimal(0);
-        for(ValuableItem item : (List<ValuableItem>) valuableItems) {
+        for(ValuableItem item : valuableItems) {
             KualiDecimal amount = item.getAmount() != null ? item.getAmount() : new KualiDecimal(0.00);
             returnVal = returnVal.add(amount);
         }
