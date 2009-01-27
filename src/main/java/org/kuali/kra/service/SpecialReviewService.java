@@ -15,15 +15,31 @@
  */
 package org.kuali.kra.service;
 
-import org.kuali.kra.bo.AbstractSpecialReview;
 import org.kuali.kra.document.SpecialReviewManager;
 import org.kuali.kra.web.struts.form.SpecialReviewFormBase;
 
 /**
- * This class...
+ * This interface should take care of all tasks needed for Special Review functionality for different module 
  */
 public interface SpecialReviewService<T,E> {
+    /**
+     * 
+     * This method is for adding SpecialReview BO
+     * @param processSpecialReview
+     * @param specialReviewForm
+     */
     public void addSpecialReview(SpecialReviewManager<T> processSpecialReview,SpecialReviewFormBase<E> specialReviewForm);
+    /**
+     * 
+     * This method is for deleting special review from SpecialReview list
+     * @param processSpecialReview
+     * @param selectedIndex
+     */
     public void deleteSpecialReview(SpecialReviewManager<T> processSpecialReview,int selectedIndex);
+    /**
+     * 
+     * This method process all required validations and actions needed before saving the special review
+     * @param processSpecialReview
+     */
     public void processBeforeSaveSpecialReview(SpecialReviewManager<T> processSpecialReview);
 }

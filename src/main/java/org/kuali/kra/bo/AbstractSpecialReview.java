@@ -21,11 +21,15 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.core.service.KeyValuesService;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.SpecialReview;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.ValidSpecialReviewApproval;
 import org.kuali.kra.bo.AbstractSpecialReviewExemption;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
+import org.kuali.rice.KNSServiceLocator;
 
 /**
  * This class...
@@ -49,10 +53,12 @@ public abstract class AbstractSpecialReview<T> extends KraPersistableBusinessObj
     private ValidSpecialReviewApproval validSpecialReviewApproval;
     private List<T> specialReviewExemptions;
     private String[] exemptionTypeCodes;
+    private List<ExemptionType> exemptionTypes;
     
     public AbstractSpecialReview() {
         super();
         specialReviewExemptions = new ArrayList<T>();
+        exemptionTypes = new ArrayList<ExemptionType>();
     }
 
     public Integer getSpecialReviewNumber() {
@@ -206,6 +212,30 @@ public abstract class AbstractSpecialReview<T> extends KraPersistableBusinessObj
      */
     public void setExemptionTypeCodes(String... exemptionTypeCodes) {
         this.exemptionTypeCodes = exemptionTypeCodes;
+    }
+
+    /**
+     * Gets the exemptionTypes attribute. 
+     * @return Returns the exemptionTypes.
+     */
+    public List<ExemptionType> getExemptionTypes() {
+        if(exemptionTypes.isEmpty()){
+            populateExemptionTypes();
+        }
+        return exemptionTypes;
+    }
+
+    private void populateExemptionTypes() {
+        KeyValuesService keyValueService = KNSServiceLocator.getKeyValuesService();
+        exemptionTypes = (List)keyValueService.findAll(ExemptionType.class);
+    }
+
+    /**
+     * Sets the exemptionTypes attribute value.
+     * @param exemptionTypes The exemptionTypes to set.
+     */
+    public void setExemptionTypes(List<ExemptionType> exemptionTypes) {
+        this.exemptionTypes = exemptionTypes;
     }
 
 }
