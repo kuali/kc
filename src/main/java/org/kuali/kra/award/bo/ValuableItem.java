@@ -17,6 +17,13 @@ package org.kuali.kra.award.bo;
 
 import org.kuali.core.util.KualiDecimal;
 
+/**
+ * This interface defines a simple behavior for valuable items
+ */
 public interface ValuableItem {
+    /**
+     * This method returns the value (amount) of the valuable item
+     * @return
+     */
     public KualiDecimal getAmount();
 }
