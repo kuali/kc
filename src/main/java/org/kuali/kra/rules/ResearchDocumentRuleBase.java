@@ -17,12 +17,17 @@ package org.kuali.kra.rules;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Map.Entry;
 
 import org.apache.commons.collections.keyvalue.DefaultMapEntry;
+import org.kuali.core.UserSession;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.DocumentAuditRule;
@@ -65,6 +70,25 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
     }
     
     
+    protected void reportSoftError(String errorKey, String... errorParams) {
+        addSoftError(errorKey, errorParams);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("rule failure at " + ExceptionUtils.describeStackLevels(1, 2));
+        }
+    }
+
+
+    @SuppressWarnings("unchecked")
+    public Collection<SoftError> getSoftErrors() {
+        UserSession session = GlobalVariables.getUserSession();
+        List<SoftError> softErrors = (List<SoftError>) session.retrieveObject(KeyConstants.SOFT_ERRORS_KEY);
+        if(softErrors == null) {
+            softErrors = new ArrayList<SoftError>();
+            session.addObject(KeyConstants.SOFT_ERRORS_KEY, softErrors);            
+        }
+        return softErrors;
+    }
+
     public boolean processRunAuditBusinessRules(Document document) {
         boolean retval = true;
         
@@ -230,5 +254,15 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
      */
     protected final BusinessObjectService getBusinessObjectService() {
         return getService(BusinessObjectService.class);
+    }
+    
+    /**
+     * This method adds a soft error to the collection of soft errors
+     * @param errorKey
+     * @param errorParams
+     */
+    private void addSoftError(String errorKey, String[] errorParams) {
+        Collection<SoftError> softErrors = getSoftErrors();
+        softErrors.add(new SoftError(errorKey, errorParams));
     }
 }
