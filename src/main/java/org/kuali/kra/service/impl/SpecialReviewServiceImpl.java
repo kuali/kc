@@ -35,7 +35,10 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
 
     private KualiRuleService kualiRuleService;
     /**
-     * @see org.kuali.kra.service.SpecialReviewService#addSpecialReview(org.kuali.kra.document.SpecialReviewManager, org.kuali.kra.bo.AbstractSpecialReview)
+     * Invoke all related rules associated with the Add Special Review Action and 
+     * add the BO to the list which is a part of SpecialReviewManager
+     * @see org.kuali.kra.service.SpecialReviewService#addSpecialReview(org.kuali.kra.document.SpecialReviewManager, 
+     * org.kuali.kra.bo.AbstractSpecialReview)
      */
     public void addSpecialReview(SpecialReviewManager specialReviewManager, SpecialReviewFormBase specialReviewForm) {
         AbstractSpecialReview newSpecialReview = specialReviewForm.getNewSpecialReview();
@@ -46,8 +49,10 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
             }
             newSpecialReview.setExemptionTypeCodes(exemptionTypeCodes);
         }
-        if(getKualiRuleService().applyRules(new AddSpecialReviewEvent(Constants.EMPTY_STRING, specialReviewForm.getResearchDocument(), newSpecialReview))){
-            newSpecialReview.setSpecialReviewNumber(specialReviewForm.getResearchDocument().getDocumentNextValue(Constants.AWARD_SPECIALREVIEW_NUMBER));
+        if(getKualiRuleService().applyRules(new AddSpecialReviewEvent(Constants.EMPTY_STRING, 
+                specialReviewForm.getResearchDocument(), newSpecialReview))){
+            newSpecialReview.setSpecialReviewNumber(specialReviewForm.getResearchDocument().getDocumentNextValue(
+                    Constants.AWARD_SPECIALREVIEW_NUMBER));
             specialReviewManager.addSpecialReview(newSpecialReview);
         }
     }
@@ -84,7 +89,8 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
 //            abstractSpecialReview.getSpecialReviewExemptions().clear();
             String[] exemptionCodes = abstractSpecialReview.getExemptionTypeCodes();
             for (String exemptionTypeCode : exemptionCodes) {
-                AbstractSpecialReviewExemption specialReviewExemption = getSpecialReviewExemptionType(abstractSpecialReview,exemptionTypeCode);
+                AbstractSpecialReviewExemption specialReviewExemption = 
+                        getSpecialReviewExemptionType(abstractSpecialReview,exemptionTypeCode);
                 if(specialReviewExemption==null){
                     abstractSpecialReview.addSpecialReviewExemption(exemptionTypeCode);
                 }
@@ -94,6 +100,12 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
     }
 
 
+    /**
+     * 
+     * Helper method to remove all unselected special review BOs
+     * @param abstractSpecialReview
+     * @param exemptionCodes
+     */
     private void removeUnselectedExemptions(AbstractSpecialReview abstractSpecialReview, String[] exemptionCodes) {
         List<AbstractSpecialReviewExemption> specialReviewExemptions = abstractSpecialReview.getSpecialReviewExemptions();
         for (int index = specialReviewExemptions.size()-1; index>=0 ; index--) {
@@ -109,7 +121,13 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
         
     }
 
-
+    /**
+     * 
+     * This method is to fetch the SpeciReviewExemptionType for the exemptionTypeCode
+     * @param specialReview
+     * @param exemptionTypeCode
+     * @return AbstractSpecialReviewExemption
+     */
     private AbstractSpecialReviewExemption getSpecialReviewExemptionType(AbstractSpecialReview specialReview,
             String exemptionTypeCode) {
         AbstractSpecialReviewExemption selectedExemption = null;
