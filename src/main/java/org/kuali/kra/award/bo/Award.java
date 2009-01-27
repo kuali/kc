@@ -36,9 +36,6 @@ import org.kuali.kra.infrastructure.Constants;
  * It implements ProcessKeywords to process all operations related to AwardScenceKeywords.
  */
 public class Award extends KraPersistableBusinessObjectBase implements KeywordsManager<AwardScienceKeyword>,SpecialReviewManager<AwardSpecialReview>{
-    
-    private static final KualiDecimal ZERO_VALUE = new KualiDecimal(0.00);
-
     public static final String AWARD_NAMESPACE_CODE = "KC-AWARD";
     
     private static final String ONE = "1";
@@ -1296,9 +1293,9 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * @return The total value
      */
     KualiDecimal getTotalAmount(List<? extends ValuableItem> valuableItems) {
-        KualiDecimal returnVal = ZERO_VALUE;
+        KualiDecimal returnVal = new KualiDecimal(0.00);
         for(ValuableItem item : valuableItems) {
-            KualiDecimal amount = item.getAmount() != null ? item.getAmount() : ZERO_VALUE;
+            KualiDecimal amount = item.getAmount() != null ? item.getAmount() : new KualiDecimal(0.00);
             returnVal = returnVal.add(amount);
         }
         return returnVal;
