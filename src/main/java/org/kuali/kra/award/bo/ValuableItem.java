@@ -22,8 +22,7 @@ import org.kuali.core.util.KualiDecimal;
  */
 public interface ValuableItem {
     /**
-     * This method returns the value (amount) of the valuable item
-     * @return
+     * @return This method returns the value (amount) of the valuable item
      */
     public KualiDecimal getAmount();
 }
