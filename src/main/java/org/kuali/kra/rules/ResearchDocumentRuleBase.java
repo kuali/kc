@@ -22,8 +22,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.AbstractMap.SimpleEntry;
-import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Map.Entry;
 
 import org.apache.commons.collections.keyvalue.DefaultMapEntry;
@@ -43,6 +41,9 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
+
+import edu.emory.mathcs.backport.java.util.AbstractMap.SimpleEntry;
+import edu.emory.mathcs.backport.java.util.AbstractMap.SimpleImmutableEntry;
 
 /**
  * Base implementation class for KRA document business rules
