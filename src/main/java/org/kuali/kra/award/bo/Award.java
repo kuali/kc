@@ -1087,19 +1087,28 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         return awardComment;
     }
     
+    /**
+     * This method totals CoshShareCommitements
+     * @return
+     */
     public KualiDecimal getTotalCostShareCommitmentAmount() {
         return getTotalAmount(awardCostShares);
     }
     
     /**
-     * This method...
+     * This method totals Approved SubAward amounts
      * @return
      */
-    public KualiDecimal getTotalApprovedSubawardAmount(){
+    public KualiDecimal getTotalApprovedSubawardAmount() {
         return getTotalAmount(awardApprovedSubawards);
     }
     
-    public KualiDecimal getTotalApprovedEquipmentAmount(){
+    
+    /**
+     * This method totals Approved Equipment amounts
+     * @return
+     */
+    public KualiDecimal getTotalApprovedEquipmentAmount() {
         return getTotalAmount(approvedEquipmentItems);
     }
     
@@ -1279,6 +1288,11 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         awardComment.setAward(this);
     }
     
+    /**
+     * This method calculates the total value of a list of ValuableItems
+     * @param valuableItems
+     * @return The total value
+     */
     @SuppressWarnings("unchecked")
     KualiDecimal getTotalAmount(List valuableItems){
         KualiDecimal returnVal = new KualiDecimal(0);
