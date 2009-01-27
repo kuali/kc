@@ -42,7 +42,21 @@ import org.kuali.rice.kns.util.KNSConstants;
  * Reports & Terms page(AwardPaymentsReportsAndTerms.jsp)
  */
 public class AwardPaymentReportsAndTermsAction extends AwardAction {
-        
+    private static final String ROLODEX = "rolodex";
+    private static final String PERIOD = ".";
+    private ApprovedEquipmentActionHelper approvedEquipmentActionHelper;
+    
+    public AwardPaymentReportsAndTermsAction() {
+        init();
+    }
+    
+    public ActionForward addApprovedEquipmentItem(ActionMapping mapping, ActionForm form, 
+                                                    HttpServletRequest request, HttpServletResponse response) 
+                                                    throws Exception {
+        approvedEquipmentActionHelper.addApprovedEquipmentItem(((AwardForm)form).getApprovedEquipmentFormHelper());
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+           
     /**
      * 
      * This method gets called upon clicking of refresh pulldown menu buttons on the screen
@@ -75,11 +89,11 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDocument = (AwardDocument) awardForm.getAwardDocument();
         for(AwardReportTermRecipient awardReportTermRecipient : awardForm.getNewAwardReportTermRecipient()){
-            awardReportTermRecipient.refreshReferenceObject("rolodex");
+            awardReportTermRecipient.refreshReferenceObject(ROLODEX);
         }
         for(AwardReportTerm awardReportTerm : awardDocument.getAward().getAwardReportTerms()){
             for(AwardReportTermRecipient awardReportTermRecipient : awardReportTerm.getAwardReportTermRecipients()){
-                awardReportTermRecipient.refreshReferenceObject("rolodex");
+                awardReportTermRecipient.refreshReferenceObject(ROLODEX);
             }
         }
         
@@ -249,7 +263,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         int reportClass = -1;
         String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
-            String reportClassString = StringUtils.substringBetween(parameterName, ".reportClass", ".");
+            String reportClassString = StringUtils.substringBetween(parameterName, ".reportClass", PERIOD);
             reportClass = Integer.parseInt(reportClassString);
         }
 
@@ -269,7 +283,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
             String reportClassIndexString = StringUtils.substringBetween(
-                    parameterName, ".reportClassIndex", ".");
+                    parameterName, ".reportClassIndex", PERIOD);
             reportClassIndex = Integer.parseInt(reportClassIndexString);
         }
 
@@ -288,11 +302,32 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         int awardReportTermIndex = -1;
         String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
-            String awardReportTermIndexString = StringUtils.substringBetween(parameterName, ".awardReportTerm", ".");
+            String awardReportTermIndexString = StringUtils.substringBetween(parameterName, 
+                                                                                ".awardReportTerm", PERIOD);
             awardReportTermIndex= Integer.parseInt(awardReportTermIndexString);
         }
 
         return awardReportTermIndex;
     }
     
+    /**
+     * 
+     * This method reads the recipient size from the request.
+     * @param request
+     * @return
+     */    
+    protected int getRecipientSize(HttpServletRequest request) {
+        int recipientSize = -1;
+        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        if (StringUtils.isNotBlank(parameterName)) {
+            String recipientSizeString = StringUtils.substringBetween(parameterName, 
+                                                                        ".recipientSize", PERIOD);
+            recipientSize = Integer.parseInt(recipientSizeString);
+        }        
+        return recipientSize;
+    }
+
+    protected void init() {
+        approvedEquipmentActionHelper = new ApprovedEquipmentActionHelper(this);
+    }
 }

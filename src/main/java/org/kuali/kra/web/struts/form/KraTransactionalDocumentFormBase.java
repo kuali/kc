@@ -15,13 +15,17 @@
  */
 package org.kuali.kra.web.struts.form;
 
+import java.util.Collection;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.UserSession;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
@@ -32,14 +36,23 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.rules.SoftError;
 import org.kuali.rice.KNSServiceLocator;
   
+/**
+ * This class isbase class for KC Transactional Documents ...
+ */
 public abstract class KraTransactionalDocumentFormBase extends KualiTransactionalDocumentFormBase {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
-            .getLog(KraTransactionalDocumentFormBase.class);
+    private static final String CHECKBOX_TO_RESET = "checkboxToReset";
+
+    private static final long serialVersionUID = 1161569719154606103L;
+
+    private static final Log LOG = LogFactory.getLog(KraTransactionalDocumentFormBase.class);
 
     protected String actionName;
-
+    protected String navigateTo;
+    
     public String getActionName() {
         return actionName;
     }
@@ -47,8 +60,6 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
     public void setActionName(String actionName) {
         this.actionName = actionName;
     }
-
-    protected String navigateTo;
     
     public String getNavigateTo() {
         return navigateTo;
@@ -59,13 +70,29 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
     }
     
     /**
+     * Consume SoftErrors (if any) and return the collection
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public Collection<SoftError> getSoftErrors() {
+        UserSession session = GlobalVariables.getUserSession();
+        Object softErrors = session.retrieveObject(KeyConstants.SOFT_ERRORS_KEY);
+        Collection<SoftError> errors = (Collection<SoftError>) softErrors; 
+        if(errors != null) {
+            session.removeObject(KeyConstants.SOFT_ERRORS_KEY);
+        }
+        
+        return errors;
+    }
+    
+    /**
      * Override reset to reset checkboxes if they are present on the requesting page
      * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#reset(org.apache.struts.action.ActionMapping, javax.servlet.http.HttpServletRequest)
      */
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         super.reset(mapping, request);
-        if (request.getParameter("checkboxToReset") != null) {
-            String[] checkboxesToReset = request.getParameterValues("checkboxToReset");
+        if (request.getParameter(CHECKBOX_TO_RESET) != null) {
+            String[] checkboxesToReset = request.getParameterValues(CHECKBOX_TO_RESET);
             if(checkboxesToReset != null && checkboxesToReset.length > 0) {
                 for (int i = 0; i < checkboxesToReset.length; i++) {
                     String propertyName = (String) checkboxesToReset[i];

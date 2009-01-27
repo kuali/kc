@@ -72,6 +72,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase implements Multi
     private List<KeyLabelPair> reportClasses;
     private List<KeyLabelPair> reportCodes;
     
+    private ApprovedEquipmentFormHelper approvedEquipmentFormHelper;
     
     public List<KeyLabelPair> getReportClasses() {
         return reportClasses;
@@ -111,6 +112,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase implements Multi
         setNewAwardReportTermRecipient(new ArrayList<AwardReportTermRecipient>());        
         newAwardSpecialReview = new AwardSpecialReview();
         newSpecialReviewExemptions = new ArrayList<AwardSpecialReviewExemption>();
+        approvedEquipmentFormHelper = new ApprovedEquipmentFormHelper(this);
     }    
     
     /**
@@ -131,6 +133,13 @@ public class AwardForm extends KraTransactionalDocumentFormBase implements Multi
      */
     public AwardDocument getAwardDocument() {
         return (AwardDocument) super.getDocument();
+    }
+    
+    /**
+     * @return
+     */
+    public ApprovedEquipmentFormHelper getApprovedEquipmentFormHelper() {
+        return approvedEquipmentFormHelper;
     }
     
     /**
