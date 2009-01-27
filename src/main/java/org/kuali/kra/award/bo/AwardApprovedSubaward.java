@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class AwardApprovedSubaward extends KraPersistableBusinessObjectBase {
+public class AwardApprovedSubaward extends KraPersistableBusinessObjectBase implements ValuableItem {
     
     
     /**
