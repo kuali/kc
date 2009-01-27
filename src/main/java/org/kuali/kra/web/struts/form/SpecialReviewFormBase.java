@@ -18,14 +18,38 @@ package org.kuali.kra.web.struts.form;
 import java.util.List;
 
 import org.kuali.kra.bo.AbstractSpecialReview;
+import org.kuali.kra.bo.AbstractSpecialReviewExemption;
 import org.kuali.kra.document.ResearchDocumentBase;
 
 /**
- * This class...
+ * This interface is a base class for SpecialReviewForm. 
+ * KualiForm which implements special review should implement this interface.
+ * It handles all required operations to maintain new SpecialReview BO
  */
-public interface SpecialReviewFormBase<E> {
+public interface SpecialReviewFormBase<E extends AbstractSpecialReviewExemption> {
+    /**
+     * 
+     * Get the new SpcialReview BO
+     * @return SpecialReview
+     */
     public AbstractSpecialReview<E> getNewSpecialReview();
+    /**
+     * 
+     * Get the list of new SpecialReviewExemptions
+     * @return
+     */
     public List<E> getNewSpecialReviewExemptions();
+    /**
+     * 
+     * Get the Document associated with the form
+     * @return ResearchDocument
+     */
     public ResearchDocumentBase getResearchDocument();
+    
+    /**
+     * 
+     * Get the list of ExemptionTypeCodes
+     * @return
+     */
     public String[] getNewExemptionTypeCodes();
 }

@@ -19,7 +19,10 @@ package org.kuali.kra.award.bo;
 import org.kuali.kra.bo.AbstractSpecialReview;
 
 import java.util.LinkedHashMap;
-
+/**
+ * 
+ * This class represents AwardSpecialReview BO
+ */
 public class AwardSpecialReview extends AbstractSpecialReview<AwardSpecialReviewExemption> { 
 	
 	/**
@@ -64,6 +67,10 @@ public class AwardSpecialReview extends AbstractSpecialReview<AwardSpecialReview
         this.awardSpecialReviewId = awardSpecialReviewId;
     }
 
+    /**
+     * It creates new AwardSpecialReviewExemption instance
+     * @see org.kuali.kra.bo.AbstractSpecialReview#newSpecialReviewExemption(java.lang.String)
+     */
     @Override
     public AwardSpecialReviewExemption newSpecialReviewExemption(String exemptionTypeCode) {
         AwardSpecialReviewExemption awardSpecialReviewExemption = new AwardSpecialReviewExemption();
