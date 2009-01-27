@@ -25,6 +25,7 @@ import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardSpecialReview;
 import org.kuali.kra.award.bo.AwardSpecialReviewExemption;
 import org.kuali.kra.award.web.struts.form.AwardForm;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.SpecialReviewService;
 
@@ -32,22 +33,43 @@ import org.kuali.kra.service.SpecialReviewService;
  * 
  * This class represents the Struts Action for Special Review page(AwardSpecialReview.jsp)
  */
-public class AwardSpecialReviewAction extends AwardAction {    
+public class AwardSpecialReviewAction extends AwardAction {   
+    /**
+     * 
+     * This method is for adding AwardSpecialReview
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
     public ActionForward addSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm)form;
         Award award = awardForm.getAwardDocument().getAward();
         getSpecialReviewService().addSpecialReview(award,awardForm);
-        return mapping.findForward("basic");
+        awardForm.setNewSpecialReview(new AwardSpecialReview());
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     private SpecialReviewService<AwardSpecialReview,AwardSpecialReviewExemption> getSpecialReviewService() {
         return KraServiceLocator.getService(SpecialReviewService.class);
     }
+    /**
+     * 
+     * This method deletes the SpecialReview from the list
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward deleteSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm)form;
         Award award = awardForm.getAwardDocument().getAward();
         getSpecialReviewService().deleteSpecialReview(award,getLineToDelete(request));
 
-        return mapping.findForward("basic");
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
