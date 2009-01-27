@@ -37,6 +37,8 @@ import org.kuali.kra.infrastructure.Constants;
  */
 public class Award extends KraPersistableBusinessObjectBase implements KeywordsManager<AwardScienceKeyword>,SpecialReviewManager<AwardSpecialReview>{
     
+    private static final KualiDecimal ZERO_VALUE = new KualiDecimal(0.00);
+
     public static final String AWARD_NAMESPACE_CODE = "KC-AWARD";
     
     private static final String ONE = "1";
@@ -1293,10 +1295,10 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * @param valuableItems
      * @return The total value
      */
-    KualiDecimal getTotalAmount(List<? extends ValuableItem> valuableItems){
-        KualiDecimal returnVal = new KualiDecimal(0);
+    KualiDecimal getTotalAmount(List<? extends ValuableItem> valuableItems) {
+        KualiDecimal returnVal = ZERO_VALUE;
         for(ValuableItem item : valuableItems) {
-            KualiDecimal amount = item.getAmount() != null ? item.getAmount() : new KualiDecimal(0.00);
+            KualiDecimal amount = item.getAmount() != null ? item.getAmount() : ZERO_VALUE;
             returnVal = returnVal.add(amount);
         }
         return returnVal;
