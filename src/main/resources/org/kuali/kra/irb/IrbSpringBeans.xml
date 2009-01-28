@@ -86,6 +86,9 @@
     </bean> 
 
 	<bean id="protocolPersonnelService" class="org.kuali.kra.irb.service.impl.ProtocolPersonnelServiceImpl">
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
 	</bean>	
 
 </beans>

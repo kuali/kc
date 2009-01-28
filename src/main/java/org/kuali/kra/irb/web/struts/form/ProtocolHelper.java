@@ -39,6 +39,7 @@ public class ProtocolHelper {
     
     private String referenceId1Label;
     private String referenceId2Label;
+    private boolean personTrainingSectionRequired;
 
     private boolean billableReadOnly = false;
 
@@ -52,6 +53,8 @@ public class ProtocolHelper {
         setReferenceId1Label((configService.getParameter(Constants.PARAMETER_MODULE_PROTOCOL, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PARAMETER_MODULE_PROTOCOL_REFERENCEID1)).getParameterValue());
         setReferenceId2Label((configService.getParameter(Constants.PARAMETER_MODULE_PROTOCOL, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PARAMETER_MODULE_PROTOCOL_REFERENCEID2)).getParameterValue());
 
+        setPersonTrainingSectionRequired(Boolean.parseBoolean(getParameterValue(Constants.PARAMETER_PROTOCOL_PERSON_TRAINING_SECTION)));
+        
         // call services...
         // set attributes needed by the view
         ProtocolDocument document = (ProtocolDocument)((ProtocolForm)form).getDocument();
@@ -61,6 +64,15 @@ public class ProtocolHelper {
         document.getProtocol().resolvePrincipalInvestigator();        
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_BILLABLE, document.getProtocol());
         billableReadOnly = !getTaskAuthorizationService().isAuthorized(getUsername(), task);
+    }
+    
+    /**
+     * This method is to get parameter value
+     * @return parameter value
+     */
+    private String getParameterValue(String parameterName) {
+        KualiConfigurationService configService = getService(KualiConfigurationService.class);
+        return (configService.getParameter(Constants.PARAMETER_MODULE_PROTOCOL, Constants.PARAMETER_COMPONENT_DOCUMENT, parameterName)).getParameterValue();        
     }
 
 
@@ -98,6 +110,14 @@ public class ProtocolHelper {
     private String getUsername() {
          UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
          return user.getPersonUserIdentifier();
+    }
+
+    public boolean isPersonTrainingSectionRequired() {
+        return personTrainingSectionRequired;
+    }
+
+    public void setPersonTrainingSectionRequired(boolean personTrainingSectionRequired) {
+        this.personTrainingSectionRequired = personTrainingSectionRequired;
     }
     
 }
