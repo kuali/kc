@@ -26,15 +26,17 @@ import org.junit.Test;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.award.bo.AwardApprovedSubaward;
 import org.kuali.kra.award.bo.AwardCostShare;
 import org.kuali.kra.award.bo.AwardFandaRate;
+import org.kuali.kra.award.bo.AwardReportTerm;
 
 /**
  * 
  * This class tests the <code>AwardDocumentRule</code> class
  */
-public class AwardDocumentRuleTest {
+public class AwardDocumentRuleTest extends AwardDocumentRule{
     List<AwardFandaRate> awardFandaRateList;
     AwardFandaRate awardFandaRate1;
     AwardFandaRate awardFandaRate2;
@@ -43,6 +45,7 @@ public class AwardDocumentRuleTest {
     AwardApprovedSubaward awardApprovedSubaward1;
     AwardApprovedSubaward awardApprovedSubaward2;
     List<AwardApprovedSubaward> awardApprovedSubawards;
+    AwardReportTerm awardReportTerm;
 
     @Before
     public void setUp() throws Exception {
@@ -53,6 +56,7 @@ public class AwardDocumentRuleTest {
         awardCostShare = new AwardCostShare();
         awardApprovedSubaward1 = new AwardApprovedSubaward();
         awardApprovedSubaward2 = new AwardApprovedSubaward();
+        awardReportTerm = new AwardReportTerm();
         awardApprovedSubawards = new ArrayList<AwardApprovedSubaward>();
         
         awardFandaRate1.setApplicableFandaRate(new KualiDecimal(5));
@@ -146,6 +150,44 @@ public class AwardDocumentRuleTest {
         Assert.assertFalse(awardDocumentRule.testApprovedSubawardAmount(awardApprovedSubaward1, errorMap));
         awardApprovedSubaward1.setAmount(new KualiDecimal(10000));
         GlobalVariables.setErrorMap(new ErrorMap());
+    }
+    
+    @Test
+    public final void testEvaluateBusinessRuleForReportCodeField(){
+        int i=0;
+        awardReportTerm.setReportClassCode("1");
+        awardReportTerm.setReportCode("5");        
+        Assert.assertTrue(awardDocumentRule.isValidReportCode(awardReportTerm, getReportCodes("1")));
+        
+        awardReportTerm.setReportClassCode("1");
+        awardReportTerm.setReportCode("36");
+        Assert.assertFalse(awardDocumentRule.isValidReportCode(awardReportTerm, getReportCodes("1")));
+    }
+    
+    @Test
+    public final void testIsValidFrequencyBase(){
+        awardReportTerm.setFrequencyBaseCode("5");
+        Assert.assertTrue(awardDocumentRule.isValidFrequencyBase(awardReportTerm, getFrequencyBaseCodes("5")));
+        awardReportTerm.setFrequencyBaseCode("6");
+        Assert.assertFalse(awardDocumentRule.isValidFrequencyBase(awardReportTerm, getFrequencyBaseCodes("5")));
+    }
+    
+    protected List<KeyLabelPair> getReportCodes(String reportClassCode){        
+        List<KeyLabelPair> reportCodes = new ArrayList<KeyLabelPair>();
+        reportCodes.add(new KeyLabelPair("5", "Final"));
+        return reportCodes;
+    }
+    
+    protected List<KeyLabelPair> getFrequencyCodes(String reportClassCode, String reportCode){        
+        List<KeyLabelPair> frequencyCodes = new ArrayList<KeyLabelPair>();
+        frequencyCodes.add(new KeyLabelPair("5", "Final"));
+        return frequencyCodes;
+    }
+    
+    protected List<KeyLabelPair> getFrequencyBaseCodes(String frequencyCode){        
+        List<KeyLabelPair> frequencyBaseCodes = new ArrayList<KeyLabelPair>();
+        frequencyBaseCodes.add(new KeyLabelPair("5", "Final"));
+        return frequencyBaseCodes;
     }
    
 

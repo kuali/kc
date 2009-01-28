@@ -301,7 +301,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         
         AwardDocument awardDocument = (AwardDocument) document;
         for(AwardReportTerm awardReportTerm: awardDocument.getAward().getAwardReportTerms()){
-            
             retval = evaluateBusinessRuleForReportCodeField(awardReportTerm, i);
             retval = evaluateBusinessRuleForFrequencyCodeField(awardReportTerm, i);
             retval = evaluateBusinessRuleForFrequencyBaseCodeField(awardReportTerm, i);
@@ -315,73 +314,87 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     }
     
     protected boolean evaluateBusinessRuleForReportCodeField(AwardReportTerm awardReportTerm, int index){
-        boolean found = false;
-        boolean retval = true;
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-        ReportCodeValuesFinder reportCodeValuesFinder = new ReportCodeValuesFinder();
-        reportCodeValuesFinder.setReportClassCode(awardReportTerm.getReportClassCode());
-        for(KeyLabelPair keyLabelPair:reportCodeValuesFinder.getKeyValues()){
+        boolean retval = isValidReportCode(awardReportTerm, getReportCodes(awardReportTerm.getReportCode()));
+        if(!retval){            
+            GlobalVariables.getErrorMap().putError("awardReportTerms[" + index + "].reportCode"
+                    , KeyConstants.INVALID_REPORT_CODE_FOR_REPORT_CLASS);            
+        }
+        return retval;        
+    }
+    
+    protected boolean isValidReportCode(AwardReportTerm awardReportTerm, List<KeyLabelPair> reportCodes){
+        boolean isValid = false;
+        for(KeyLabelPair keyLabelPair:reportCodes){
             if(StringUtils.equalsIgnoreCase(keyLabelPair.getKey().toString(), 
                     awardReportTerm.getReportCode())) {
-                found = true;                    
+                isValid = true;                    
             }
-        }
-        if(!found){
-            retval = false;
-            errorMap.putError("awardReportTerms[" + index + "].reportCode"
-                    , KeyConstants.INVALID_REPORT_CODE_FOR_REPORT_CLASS);
-        }
-        return retval;
+        }        
+        return isValid;    
     }
     
     protected boolean evaluateBusinessRuleForFrequencyCodeField(AwardReportTerm awardReportTerm, int index){
-        boolean found = false;
-        boolean retval = true;
-        ErrorMap errorMap = GlobalVariables.getErrorMap();        
-        FrequencyCodeValuesFinder frequencyCodeValuesFinder = new FrequencyCodeValuesFinder();
-        
-        frequencyCodeValuesFinder.setReportClassCode(awardReportTerm.getReportClassCode());
-        frequencyCodeValuesFinder.setReportCode(awardReportTerm.getReportCode());
-        
-        for(KeyLabelPair keyLabelPair:frequencyCodeValuesFinder.getKeyValues()){
-            if(StringUtils.equalsIgnoreCase(keyLabelPair.getKey().toString(), 
-                    awardReportTerm.getFrequencyCode())) {
-                found = true;                    
-            }
-        }
-        
-        if(!found){
-            retval = false;
-            errorMap.putError("awardReportTerms[" + index + "].frequencyCode"
+        boolean retval = isValidFrequency(awardReportTerm,getFrequencyCodes(awardReportTerm.getReportClassCode(),awardReportTerm.getReportCode()));
+        if(!retval){
+            GlobalVariables.getErrorMap().putError("awardReportTerms[" + index + "].frequencyCode"
                     , KeyConstants.INVALID_FREQUENCY_FOR_REPORT_CLASS_AND_TYPE);
         }
-        
         return retval;
     }
     
-    
-    protected boolean evaluateBusinessRuleForFrequencyBaseCodeField(
-            AwardReportTerm awardReportTerm, int index){
-        boolean found = false;
-        boolean retval = true;
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-        FrequencyBaseCodeValuesFinder frequencyBaseCodeValuesFinder = new FrequencyBaseCodeValuesFinder();
-        frequencyBaseCodeValuesFinder.setFrequencyCode(awardReportTerm.getFrequencyCode());
-                
-        for(KeyLabelPair keyLabelPair:frequencyBaseCodeValuesFinder.getKeyValues()){
+    protected boolean isValidFrequency(
+            AwardReportTerm awardReportTerm, List<KeyLabelPair> frequencyCodes){
+        boolean isValid = false;
+        for(KeyLabelPair keyLabelPair:frequencyCodes){
             if(StringUtils.equalsIgnoreCase(keyLabelPair.getKey().toString(), 
-                    awardReportTerm.getFrequencyBaseCode())) {
-                found = true;                    
+                    awardReportTerm.getFrequencyCode())) {
+                isValid = true;                    
             }
         }
-        if(!found){
-            retval = false;
-            errorMap.putError("awardReportTerms[" + index + "].frequencyBaseCode"
-                    , KeyConstants.INVALID_FREQUENCY_BASE_FOR_FREQUENCY);
+        return isValid;
+    }
+    
+    protected boolean evaluateBusinessRuleForFrequencyBaseCodeField(AwardReportTerm awardReportTerm, int index){
+        boolean retval = isValidFrequencyBase(awardReportTerm, getFrequencyBaseCodes(awardReportTerm.getFrequencyCode()));
+        if(!retval){            
+            GlobalVariables.getErrorMap().putError("awardReportTerms[" + index + "].frequencyBaseCode"
+                    , KeyConstants.INVALID_FREQUENCY_BASE_FOR_FREQUENCY);            
         }
-        
         return retval;
     }
+    
+    protected boolean isValidFrequencyBase(
+            AwardReportTerm awardReportTerm, List<KeyLabelPair> frequencyBaseCodes){
+        boolean isValid = false;
+        
+        for(KeyLabelPair keyLabelPair:frequencyBaseCodes){
+            if(StringUtils.equalsIgnoreCase(keyLabelPair.getKey().toString(), 
+                    awardReportTerm.getFrequencyBaseCode())) {
+                isValid = true;                    
+            }
+        }
+        return isValid;
+    }
+    
+    protected List<KeyLabelPair> getReportCodes(String reportClassCode){
+        ReportCodeValuesFinder reportCodeValuesFinder = new ReportCodeValuesFinder();
+        reportCodeValuesFinder.setReportClassCode(reportClassCode);
+        return reportCodeValuesFinder.getKeyValues();
+    }
+    
+    protected List<KeyLabelPair> getFrequencyCodes(String reportClassCode, String reportCode){
+        FrequencyCodeValuesFinder frequencyCodeValuesFinder = new FrequencyCodeValuesFinder();        
+        frequencyCodeValuesFinder.setReportClassCode(reportClassCode);
+        frequencyCodeValuesFinder.setReportCode(reportCode);
+        return frequencyCodeValuesFinder.getKeyValues();
+    }
+    
+    protected List<KeyLabelPair> getFrequencyBaseCodes(String frequencyCode){
+        FrequencyBaseCodeValuesFinder frequencyBaseCodeValuesFinder = new FrequencyBaseCodeValuesFinder();        
+        frequencyBaseCodeValuesFinder.setFrequencyCode(frequencyCode);        
+        return frequencyBaseCodeValuesFinder.getKeyValues();
+    }
+    
     /**
      * 
      * @see org.kuali.kra.award.rule.AddAwardReportTermRule#processAddAwardReportTermEvent(
