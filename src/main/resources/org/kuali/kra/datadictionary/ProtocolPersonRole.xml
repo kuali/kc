@@ -33,6 +33,7 @@
 			<list>
 				<ref bean="ProtocolPersonRole-protocolPersonRoleId" />
 				<ref bean="ProtocolPersonRole-description" />
+				<ref bean="ProtocolPersonRole-unitDetailsRequired" />
 				<ref bean="ProtocolPersonRole-versionNumber" />
 			</list>
 		</property>
@@ -75,6 +76,11 @@
 		<property name="summary" value="Description" />
 		<property name="description" value="Description" />
 	</bean>
+
+  	<bean id="ProtocolPersonRole-unitDetailsRequired" parent="ProtocolPersonRole-unitDetailsRequired-parentBean" />
+  	<bean id="ProtocolPersonRole-unitDetailsRequired-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    	<property name="name" value="unitDetailsRequired" />
+  	</bean>
 
 	<bean id="ProtocolPersonRole-versionNumber" parent="ProtocolPersonRole-versionNumber-parentBean" />
 	<bean id="ProtocolPersonRole-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">

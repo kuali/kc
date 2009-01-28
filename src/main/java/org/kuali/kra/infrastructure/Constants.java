@@ -317,6 +317,7 @@ public interface Constants {
     public static final String DEFAULT_PROTOCOL_ORGANIZATION_ID = "000001";
     public static final String DEFAULT_PROTOCOL_STATUS_CODE = "100";
     public static final String PROPERTY_PROTOCOL_STATUS = "protocolStatus";
+    public static final String PARAMETER_PROTOCOL_PERSON_TRAINING_SECTION = "protocolPersonTrainingSectionRequired";
 
     public static final String VIEW_ONLY = "viewOnly";
 

@@ -22,6 +22,12 @@ import java.util.List;
 import org.kuali.kra.bo.AffiliationType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.service.ProtocolPersonnelService;
+import org.kuali.kra.service.PersonService;
+import org.kuali.kra.service.RolodexService;
+import org.springframework.util.StringUtils;
 
 public class ProtocolPerson extends KraPersistableBusinessObjectBase { 
     /**
@@ -180,8 +186,21 @@ public class ProtocolPerson extends KraPersistableBusinessObjectBase {
         this.delete = delete;
     }
 
+    /**
+     * This method is linked to personnel service to check whether person has attended 
+     * any training session.
+     * @return boolean
+     */
     public boolean isTrained() {
-        return trained;
+        return getProtocolPersonnelService().isPersonTrained(getPersonId());
+    }
+
+    /**
+     * This method is to check whether protocol units is required 
+     * @return boolean
+     */
+    public boolean isUnitRequired() {
+        return getProtocolPersonRole().isUnitDetailsRequired();
     }
 
     public void setTrained(boolean trained) {
@@ -222,4 +241,64 @@ public class ProtocolPerson extends KraPersistableBusinessObjectBase {
         return getProtocolUnits().get(index);
     }
     
+    /**
+     * This method is to get protocol personnel service
+     * @return ProtocolPersonnelService
+     */
+    private ProtocolPersonnelService getProtocolPersonnelService() {
+        return (ProtocolPersonnelService)KraServiceLocator.getService("protocolPersonnelService");
+    }
+
+    
+
+    
+    
+    public String getPersonNameFromId(String personId, boolean nonEmployee) {
+        String ret = null;
+        if(nonEmployee) {
+            Rolodex theRolodex = getRolodexFromId(personId);
+            if (theRolodex != null ) {
+                    ret = theRolodex.getFullName();
+            }
+        } else {
+            Person thePerson = getPersonFromId(personId);
+            if (thePerson != null ) {
+                    ret = thePerson.getFullName();
+            }
+        }
+        return ret;
+    }
+    
+    private Person getPersonFromId(String personId) {
+        Person ret =null;
+        if (StringUtils.hasText(personId) ) { 
+            PersonService personService = KraServiceLocator.getService(PersonService.class);
+            ret = personService.getPerson(personId);
+        }
+        return ret;
+    }
+    
+    private Rolodex getRolodexFromId(String rolodexId) {
+        Rolodex ret = null;
+        if (StringUtils.hasText(rolodexId) ) { 
+            Integer rolodexIntId = Integer.parseInt(rolodexId);
+            RolodexService rolodexService = KraServiceLocator.getService(RolodexService.class);
+            ret = rolodexService.getRolodex(rolodexIntId.intValue());
+        }
+        return ret;
+    }
+    
+    public ProtocolUnit getLeadUnit() {
+        ProtocolUnit leadUnit = null;
+        for ( ProtocolUnit unit : getProtocolUnits() ) {
+            if (unit.getLeadUnitFlag()) {
+                leadUnit = unit;
+            }
+        }
+        return leadUnit;
+    }
+    
+    public void setPersonNameFromId(String personId, boolean nonEmpFlag) {       
+        this.personName = getPersonNameFromId(personId, nonEmpFlag);
+    }
 }
