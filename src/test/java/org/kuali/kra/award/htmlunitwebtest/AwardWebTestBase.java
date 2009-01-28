@@ -36,12 +36,9 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * 
  */
 
-@PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
-        @UnitTestFile(filename = "classpath:sql/dml/load_COST_SHARE_TYPE.sql", delimiter = ";")}))        
 public abstract class AwardWebTestBase extends KraWebTestBase {
     protected static final String CONTACTS_LINK_NAME = "contacts.x";
     protected static final String SPECIAL_REVIEW_LINK_NAME = "specialReview.x";
-    protected static final String TIME_AND_MONEY_LINK_NAME = "timeAndMoney.x";
     protected static final String CUSTOM_DATA_LINK_NAME = "customData.x";
     protected static final String QUESTIONS_LINK_NAME = "questions.x";
     protected static final String PERMISSIONS_LINK_NAME = "permissions.x";
@@ -216,11 +213,11 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
      * @return
      * @throws Exception
      */
-    protected HtmlPage getAwardTimeAndMoneyPage() throws Exception {
-        HtmlPage awardHomePage = this.getAwardHomePage();
-        HtmlPage awardTimeAndMoneyPage = clickOnTab(awardHomePage, TIME_AND_MONEY_LINK_NAME);
-        return awardTimeAndMoneyPage;
-    }
+    //protected HtmlPage getAwardTimeAndMoneyPage() throws Exception {
+      //  HtmlPage awardHomePage = this.getAwardHomePage();
+       // HtmlPage awardTimeAndMoneyPage = clickOnTab(awardHomePage, TIME_AND_MONEY_LINK_NAME);
+       // return awardTimeAndMoneyPage;
+   // }
     
     /**
      * Get the Award Actions Web Page. To do this, we first
