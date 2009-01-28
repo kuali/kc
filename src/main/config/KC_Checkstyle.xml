@@ -54,9 +54,7 @@
         </module>
         <module name="NoWhitespaceBefore"/>
         <module name="OperatorWrap"/>
-        <module name="TabCharacter">
-            <property name="severity" value="info"/>
-        </module>
+        <module name="TabCharacter"/>
         <module name="WhitespaceAfter">
             <property name="severity" value="info"/>
             <property name="tokens" value="TYPECAST"/>
@@ -182,10 +180,6 @@
         </module>
         <module name="EmptyForInitializerPad">
             <property name="severity" value="info"/>
-        </module>
-        <module name="NoWhitespaceAfter"/>
-        <module name="NoWhitespaceBefore">
-            <property name="tokens" value="SEMI,DOT,POST_DEC,POST_INC"/>
         </module>
         <module name="OperatorWrap"/>
         <module name="OperatorWrap">
