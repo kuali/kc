@@ -24,6 +24,8 @@
         <ref bean="Award-sequenceNumber" />
         <ref bean="Award-nonCompetingContProposalDue" />
         <ref bean="Award-competingRenewalProposalDue" />
+        <ref bean="Award-subPlanFlag" />
+        <ref bean="Award-procurementPriorityCode" />
       </list>
     </property>
   </bean>
@@ -162,6 +164,46 @@
     </property>
     <property name="summary" value="Competing Renewal" />
     <property name="description" value="Competing Renewal" />
+  </bean>
+  
+  <bean id="Award-procurementPriorityCode" parent="Award-procurementPriorityCode-parentBean" />
+
+  <bean id="Award-procurementPriorityCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="procurementPriorityCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Procurement Priority Code" />
+    <property name="shortLabel" value="Type" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+    <property name="summary" value="Competing Renewal" />
+    <property name="description" value="Competing Renewal" />
+  </bean>
+  
+  <bean id="Award-subPlanFlag" parent="Award-subPlanFlag-parentBean" />
+  
+  <bean id="Award-subPlanFlag-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="subPlanFlag" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Small Business Subcontracting Plan" />
+    <property name="shortLabel" value="Small Business Subcontracting Plan" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.award.lookup.keyvalue.SubPlanFlagValuesFinder" />
+    </property>
+    <property name="summary" value="Small Business Subcontracting Plan" />
+    <property name="description" value="Small Business Subcontracting Plan" />
   </bean>
   
   </beans>
