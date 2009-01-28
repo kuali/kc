@@ -207,7 +207,8 @@ public class ResearchDocumentBase extends TransactionalDocumentBase {
         DocumentInitiator initiatior = new DocumentInitiator();
         String initiatorNetworkId = getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
         try {
-            UniversalUser initiatorUser = KNSServiceLocator.getUniversalUserService().getUniversalUser(new AuthenticationUserId(initiatorNetworkId));
+            UniversalUser initiatorUser = 
+                KNSServiceLocator.getUniversalUserService().getUniversalUser(new AuthenticationUserId(initiatorNetworkId));
             initiatorUser.getModuleUsers(); // init the module users map for serialization
             initiatior.setUniversalUser(initiatorUser);
         }
@@ -215,8 +216,8 @@ public class ResearchDocumentBase extends TransactionalDocumentBase {
             throw new RuntimeException(e);
         }
         transInfo.setDocumentInitiator(initiatior);
+        
         KraDocumentXMLMaterializer xmlWrapper = new KraDocumentXMLMaterializer(); 
-        //KualiDocumentXmlMaterializer xmlWrapper = new KualiDocumentXmlMaterializer(); 
         xmlWrapper.setDocument(this); 
         xmlWrapper.setKualiTransactionalDocumentInformation(transInfo); 
         xmlWrapper.setRolepersons(getAllRolePersons()); 

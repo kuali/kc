@@ -116,8 +116,10 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
     /**
      * @see org.kuali.kra.document.ResearchDocumentBase#getAllRolePersons()
      */
+    @Override
     protected List<RolePersons> getAllRolePersons() {
-        ProtocolAuthorizationService protocolAuthService = (ProtocolAuthorizationService) KraServiceLocator.getService(ProtocolAuthorizationService.class); 
+        ProtocolAuthorizationService protocolAuthService = 
+               (ProtocolAuthorizationService) KraServiceLocator.getService(ProtocolAuthorizationService.class); 
         return protocolAuthService.getAllRolePersons(getProtocol());
     }
 }
