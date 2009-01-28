@@ -39,6 +39,7 @@
 							</th>
                   				<td colspan="3">
               						<kul:htmlControlAttribute property="${protocolPerson}.protocolPersonRoleId" attributeEntry="${protocolPersonAttributes.protocolPersonRoleId}" />
+            						<html:image property="methodToCall.updateProtocolPersonView.${protocolPerson}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-updateview.gif" title="Update View" alt="Update View" styleClass="tinybutton"/>
                    				</td>
                 					</tr>              
                 					<tr>
@@ -50,17 +51,20 @@
                   				<td colspan="3">
               						<kul:htmlControlAttribute property="${protocolPerson}.affiliationTypeCode" attributeEntry="${protocolPersonAttributes.affiliationTypeCode}" />
                    				</td>
-                					</tr>              
-                					<tr>
-                  				<th align="left" nowrap="nowrap"> 
-								<div align="right">
-									<kul:htmlAttributeLabel attributeEntry="${protocolPersonAttributes.trained}" />
-								</div>
-							</th>
-                  				<td colspan="3">
-              						<kul:htmlControlAttribute property="${protocolPerson}.trained" attributeEntry="${protocolPersonAttributes.trained}" readOnly="true"/>
-                   				</td>
-                					</tr>              
+                					</tr>
+
+    							<c:if test="${KualiForm.protocolHelper.personTrainingSectionRequired}">
+	                				<tr>
+	                  					<th align="left" nowrap="nowrap"> 
+											<div align="right">
+												<kul:htmlAttributeLabel attributeEntry="${protocolPersonAttributes.trained}" />
+											</div>
+										</th>
+	                  					<td colspan="3">
+	              							<kul:htmlControlAttribute property="${protocolPerson}.trained" attributeEntry="${protocolPersonAttributes.trained}" readOnly="true"/>
+	                   					</td>
+	                				</tr>              
+    							</c:if> 
      							</tbody>
 					</table>
 				</div>

@@ -55,4 +55,12 @@ public interface ProtocolPersonnelService {
      */
     public abstract void deleteProtocolPersonUnit(Protocol protocol, ProtocolPerson protocolPerson, int selectedPersonIndex, int lineNumber);
 
+    /**
+     * This method is to check whether person has attended any training session.
+     * Refer to person training object and return boolean.
+     * Hook this service method to external / other training session as required. 
+     * @param personId
+     * @return true / false
+     */
+    public boolean isPersonTrained(String personId);
 }
