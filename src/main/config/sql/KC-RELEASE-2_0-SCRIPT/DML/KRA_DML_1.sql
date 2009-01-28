@@ -15018,3 +15018,18 @@ INSERT INTO FP_DOC_TYPE_T (FDOC_TYP_CD,FDOC_NM,FDOC_TYP_ACTIVE_CD)
 /
 commit; 
 
+INSERT INTO SH_PARM_T 
+	(SH_PARM_NMSPC_CD,SH_PARM_DTL_TYP_CD,SH_PARM_NM,OBJ_ID,VER_NBR,SH_PARM_TYP_CD,SH_PARM_TXT,SH_PARM_DESC,SH_PARM_CONS_CD,WRKGRP_NM,ACTIVE_IND) 
+	VALUES 
+	('KC-AWARD','D','federalCapitalizationMinimum',sys_guid(),1,'CONFG','0.00','Federal Capitalization Minimum','A','WorkflowAdmin','Y')
+/
+  
+INSERT INTO SH_PARM_T 
+	(SH_PARM_NMSPC_CD,SH_PARM_DTL_TYP_CD,SH_PARM_NM,OBJ_ID,VER_NBR,SH_PARM_TYP_CD,SH_PARM_TXT,SH_PARM_DESC,SH_PARM_CONS_CD,WRKGRP_NM,ACTIVE_IND) 
+	VALUES 
+	('KC-AWARD','D','institutionCapitalizationMinimum',sys_guid(),1,'CONFG','0.00','Institution Capitalization Minimum','A','WorkflowAdmin','Y')
+/
+
+commit
+/
+
