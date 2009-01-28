@@ -40,7 +40,7 @@
     <li>Protocol Correspondence Recipients</li>
     <li>Protocol Follow-up Actions</li>
     <li>Protocol Organization Type</li>
-    <li>Protocol Review Type</li>
+    <li><portal:portalLink displayTitle="true" title="Protocol Review Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.irb.bo.ProtocolReviewType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li>Protocol Reviewer Type</li>
     <li>Protocol Status</li>
     <li>Protocol Type</li>
