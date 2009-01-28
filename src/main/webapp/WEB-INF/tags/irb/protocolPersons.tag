@@ -20,6 +20,7 @@
 <c:set var="personIndex" value="0" />
 <c:forEach items="${KualiForm.document.protocol.protocolPersons}" var="person" varStatus="status">
     <c:set var="protocolPersonProperty" value="document.protocol.protocolPersons[${status.index}]" />
+    <c:set var="personUnitRequired" value="${person.protocolPersonRole.unitDetailsRequired}" />
     <c:set var="transparent" value="false" />
 
     <c:if test="${status.first}">
@@ -42,7 +43,9 @@
 						        </h3>
 								<kra-irb:personDetailsSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/>
 								<kra-irb:personContactInformationSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/>
-								<kra-irb:personUnitsSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/>
+    							<c:if test="${personUnitRequired}">
+									<kra-irb:personUnitsSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/>
+    							</c:if> 
 						  	</div>
 						</div>
 					 </div>

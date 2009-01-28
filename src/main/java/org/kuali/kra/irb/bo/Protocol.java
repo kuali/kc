@@ -433,7 +433,21 @@ public class Protocol extends KraPersistableBusinessObjectBase{
         this.protocolInvestigators = protocolInvestigators;
     }
 
-    public ProtocolInvestigator getPrincipalInvestigator() {
+    /**
+     * This method is to find Principal Investigator from ProtocolPerson list
+     * @return ProtocolPerson
+     */
+    public ProtocolPerson getPrincipalInvestigator() {
+        ProtocolPerson principalInvestigator = null;
+        for ( ProtocolPerson investigator : getProtocolPersons() ) {
+            if (investigator.getProtocolPersonRoleId().equalsIgnoreCase(Constants.PRINCIPAL_INVESTIGATOR_ROLE)) {
+                principalInvestigator = investigator;
+            }
+        }
+        return principalInvestigator;
+    }
+    
+    public ProtocolInvestigator getPI() {
         ProtocolInvestigator principalInvestigator = null;
         for ( ProtocolInvestigator investigator : getProtocolInvestigators() ) {
             if (investigator.getPrincipalInvestigatorFlag()) {
@@ -481,7 +495,8 @@ public class Protocol extends KraPersistableBusinessObjectBase{
     
     private void updateLeadUnitInPI(String leadUnitNumber)  {
         if (StringUtils.hasText(leadUnitNumber)) {
-            ProtocolInvestigator principal = getPrincipalInvestigator();
+            //ProtocolInvestigator principal = getPrincipalInvestigator();
+            ProtocolPerson principal = getPrincipalInvestigator();
             if (principal != null) {
                 if (principal.getLeadUnit() != null) {
                     principal.getLeadUnit().setUnitNumber(leadUnitNumber); 
@@ -537,22 +552,28 @@ public class Protocol extends KraPersistableBusinessObjectBase{
    
     
     private void updatePrincipalInvestigator(String principalInvestigatorId) {
-        ProtocolInvestigator pi = getPrincipalInvestigator();
+        //ProtocolInvestigator pi = getPrincipalInvestigator();
+        ProtocolPerson pi = getPrincipalInvestigator();
         if (pi !=null ) {
             pi.setPersonId(principalInvestigatorId);
             pi.setPersonNameFromId(principalInvestigatorId, nonEmployeeFlag);
             updateLeadUnitInPI(getLeadUnitNumber());
-            pi.setNonEmployeeFlag(this.nonEmployeeFlag);
+            //pi.setNonEmployeeFlag(this.nonEmployeeFlag);
 
         } else {
             if (principalInvestigatorId != null) {
-                pi = new ProtocolInvestigator();
+                //pi = new ProtocolInvestigator();
+                pi = new ProtocolPerson();
                 pi.setPersonId(principalInvestigatorId);
                 pi.setPersonNameFromId(principalInvestigatorId, nonEmployeeFlag);
-                pi.setPrincipalInvestigatorFlag(true);
+                pi.setProtocolPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
+                pi.setProtocolNumber("0");
+                pi.setSequenceNumber(0);
+                //pi.setPrincipalInvestigatorFlag(true);
                 updateLeadUnitInPI(getLeadUnitNumber());
-                pi.setNonEmployeeFlag(this.nonEmployeeFlag);
-                protocolInvestigators.add(pi);
+                //pi.setNonEmployeeFlag(this.nonEmployeeFlag);
+                //protocolInvestigators.add(pi);
+                getProtocolPersons().add(pi);
             }
         }
         setPrincipalInvestigatorName( pi.getPersonName());
@@ -560,9 +581,11 @@ public class Protocol extends KraPersistableBusinessObjectBase{
     }
     
     public void resolvePrincipalInvestigator() {
-        ProtocolInvestigator principal = getPrincipalInvestigator();
+        //ProtocolInvestigator principal = getPrincipalInvestigator();
+        ProtocolPerson principal = getPrincipalInvestigator();
         if (principal != null ) {
-            this.nonEmployeeFlag = principal.getNonEmployeeFlag();
+            //this.nonEmployeeFlag = principal.getNonEmployeeFlag();
+            this.nonEmployeeFlag = principal.getPersonId() == null ? true : false;
             setPrincipalInvestigatorId(principal.getPersonId());
             setPrincipalInvestigatorName(principal.getPersonName());
 

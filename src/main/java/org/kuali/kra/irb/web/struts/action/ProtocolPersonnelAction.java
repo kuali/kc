@@ -135,18 +135,14 @@ public class ProtocolPersonnelAction extends ProtocolAction {
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
         int selectedPersonIndex = getSelectedPersonIndex(request, protocolDocument);
-        //ProtocolUnit newProtocolPersonUnit = protocolForm.getNewProtocolPersonUnits().get(selectedPersonIndex);
 
         ProtocolPerson protocolPerson = protocolDocument.getProtocol().getProtocolPerson(selectedPersonIndex);
-        
         
         // check any business rules
         boolean rulePassed = true;
 
         if (rulePassed) {
             getProtocolPersonnelService().addProtocolPersonUnit(protocolForm.getNewProtocolPersonUnits(), protocolPerson, selectedPersonIndex);
-            //protocolForm.getNewProtocolPersonUnits().remove(selectedPersonIndex);
-            //protocolForm.getNewProtocolPersonUnits().add(selectedPersonIndex,new ProtocolUnit());
         }
 
         return mapping.findForward(MAPPING_BASIC);
@@ -174,12 +170,29 @@ public class ProtocolPersonnelAction extends ProtocolAction {
     }
     
     /**
+     * This method is to update protocol person details view based on modified person role. 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward updateProtocolPersonView(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
+        int selectedPersonIndex = getSelectedPersonIndex(request, protocolDocument);
+        ProtocolPerson protocolPerson = protocolDocument.getProtocol().getProtocolPerson(selectedPersonIndex);
+        protocolPerson.refreshReferenceObject("protocolPersonRole");
+        return mapping.findForward(MAPPING_BASIC);
+    }
+
+    /**
      * This method is to get protocol personnel service
      * @return ProtocolPersonnelService
      */
     private ProtocolPersonnelService getProtocolPersonnelService() {
-        ProtocolPersonnelService protocolPersonnelService = (ProtocolPersonnelService)KraServiceLocator.getService("protocolPersonnelService");
-        return protocolPersonnelService;
+        return (ProtocolPersonnelService)KraServiceLocator.getService("protocolPersonnelService");
     }
 
     protected int getSelectedPersonIndex(HttpServletRequest request, ProtocolDocument document) {
