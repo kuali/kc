@@ -23,7 +23,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 /**
  * 
- * This is the integration test for Award Payment Reports And Terms Page. 
+ * This is the integration test for Award Proposal Due Tab. 
  */
 
 public class AwardProposalDueWebTest extends AwardPaymentsAndTermsWebTest {
