@@ -26,5 +26,8 @@
         <c:forEach var="reportClass" items="${KualiForm.reportClasses}" varStatus="reportClassIndex">        	        	
 			<kra-a:awardReportClasses index="${reportClassIndex.index}" reportClassKey="${reportClass.key}" reportClassLabel="${reportClass.label}" />
 		</c:forEach>
+		</br>
+		</br>
+		<kra-a:awardReportsMiscellaneousProcurementPurchasing />
     </div>    
 </kul:tab>
