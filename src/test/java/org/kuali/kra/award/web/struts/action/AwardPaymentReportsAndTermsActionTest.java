@@ -20,7 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardReportTerm;
 
@@ -131,5 +133,13 @@ public class AwardPaymentReportsAndTermsActionTest {
         awardReportTermRecipient1 = null;
         awardReportTermRecipient2 = null;
         awardReportTermRecipient3 = null;
+    }
+    
+    @Test
+    public void testAddAwardReportTermToAward(){
+        awardPaymentReportsAndTermsAction.addAwardReportTermToAward(award, awardReportTerm1);
+        awardPaymentReportsAndTermsAction.addAwardReportTermToAward(award, awardReportTerm2);
+        awardPaymentReportsAndTermsAction.addAwardReportTermToAward(award, awardReportTerm3);
+        Assert.assertEquals(3, award.getAwardReportTerms().size());
     }
 }
