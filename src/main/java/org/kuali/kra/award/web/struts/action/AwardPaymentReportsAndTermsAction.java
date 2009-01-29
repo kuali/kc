@@ -211,13 +211,13 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         AwardForm awardForm = (AwardForm) form;
+        AwardDocument awardDocument = awardForm.getAwardDocument();
         
         awardForm.setAwardReportTermPanelNumber(new Integer(getAwardReportTermIndex(request)).toString());
         
         AwardReportTermRecipient newAwardReportTermRecipient = awardForm.getNewAwardReportTermRecipient().
-                                                get(getAwardReportTermIndex(request));        
+                                                get(getAwardReportTermIndex(request));
         
-        AwardDocument awardDocument = awardForm.getAwardDocument();
         if(getKualiRuleService().applyRules(new AddAwardReportTermRecipientEvent(Constants.EMPTY_STRING,
                 awardDocument, newAwardReportTermRecipient))){
             awardDocument.getAward().getAwardReportTerms().get(getAwardReportTermIndex(request)).

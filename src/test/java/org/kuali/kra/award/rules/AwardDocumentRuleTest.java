@@ -175,6 +175,7 @@ public class AwardDocumentRuleTest extends AwardDocumentRule{
     protected List<KeyLabelPair> getReportCodes(String reportClassCode){        
         List<KeyLabelPair> reportCodes = new ArrayList<KeyLabelPair>();
         reportCodes.add(new KeyLabelPair("5", "Final"));
+        reportCodes.add(new KeyLabelPair("39", "SF Something"));
         return reportCodes;
     }
     
