@@ -314,7 +314,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     }
     
     protected boolean evaluateBusinessRuleForReportCodeField(AwardReportTerm awardReportTerm, int index){
-        boolean retval = isValidReportCode(awardReportTerm, getReportCodes(awardReportTerm.getReportCode()));
+        boolean retval = isValidReportCode(awardReportTerm, getReportCodes(awardReportTerm.getReportClassCode()));
         if(!retval){            
             GlobalVariables.getErrorMap().putError("awardReportTerms[" + index + "].reportCode"
                     , KeyConstants.INVALID_REPORT_CODE_FOR_REPORT_CLASS);            
