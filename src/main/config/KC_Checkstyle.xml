@@ -119,6 +119,7 @@
         </module>
         <module name="IllegalCatch">
             <property name="severity" value="info"/>
+            <property name="illegalClassNames" value="ava.lang.Throwable, java.lang.RuntimeException"/>
         </module>
         <module name="DeclarationOrder"/>
         <module name="ExplicitInitialization"/>
