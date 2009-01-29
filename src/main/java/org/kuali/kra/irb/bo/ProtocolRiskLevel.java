@@ -150,5 +150,66 @@ public class ProtocolRiskLevel extends KraPersistableBusinessObjectBase {
 		hashMap.put("status", getStatus());
 		return hashMap;
 	}
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((comments == null) ? 0 : comments.hashCode());
+        result = prime * result + ((dateAssigned == null) ? 0 : dateAssigned.hashCode());
+        result = prime * result + ((dateUpdated == null) ? 0 : dateUpdated.hashCode());
+        result = prime * result + ((protocol == null) ? 0 : protocol.hashCode());
+        result = prime * result + ((protocolId == null) ? 0 : protocolId.hashCode());
+        result = prime * result + ((protocolNumber == null) ? 0 : protocolNumber.hashCode());
+        result = prime * result + ((protocolRiskLevelId == null) ? 0 : protocolRiskLevelId.hashCode());
+        result = prime * result + ((riskLevel == null) ? 0 : riskLevel.hashCode());
+        result = prime * result + ((riskLevelCode == null) ? 0 : riskLevelCode.hashCode());
+        result = prime * result + ((sequenceNumber == null) ? 0 : sequenceNumber.hashCode());
+        result = prime * result + ((status == null) ? 0 : status.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final ProtocolRiskLevel other = (ProtocolRiskLevel) obj;
+        if (protocolId == null) {
+            if (other.protocolId != null)
+                return false;
+        }
+        else if (!protocolId.equals(other.protocolId))
+            return false;
+        if (protocolNumber == null) {
+            if (other.protocolNumber != null)
+                return false;
+        }
+        else if (!protocolNumber.equals(other.protocolNumber))
+            return false;
+        if (protocolRiskLevelId == null) {
+            if (other.protocolRiskLevelId != null)
+                return false;
+        }
+        else if (!protocolRiskLevelId.equals(other.protocolRiskLevelId))
+            return false;
+        if (riskLevelCode == null) {
+            if (other.riskLevelCode != null)
+                return false;
+        }
+        else if (!riskLevelCode.equals(other.riskLevelCode))
+            return false;
+        if (sequenceNumber == null) {
+            if (other.sequenceNumber != null)
+                return false;
+        }
+        else if (!sequenceNumber.equals(other.sequenceNumber))
+            return false;
+
+        return true;
+    }
 	
 }
