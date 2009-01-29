@@ -75,7 +75,7 @@ public class AwardCostShareWebTest extends AwardTimeAndMoneyWebTest {
         setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.fiscalYear", "2008");
         setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.source", "6789");
         setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.destination", "9876");
-        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.commitmentAmount", "10000");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.commitmentAmount", "20000");
         
         final HtmlForm form2 = (HtmlForm) awardTimeAndMoneyPageAfterAddingCostShare.getForms().get(0);        
         String completeButtonName2=getImageTagName(awardTimeAndMoneyPageAfterAddingCostShare, "methodToCall.addCostShare");        
@@ -98,9 +98,9 @@ public class AwardCostShareWebTest extends AwardTimeAndMoneyWebTest {
         setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.costSharePercentage", "50");
         setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.costShareTypeCode", "1");
         setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.fiscalYear", "2008");
-        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.source", "12345");
-        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.destination", "54321");
-        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.commitmentAmount", "10000");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.source", "2468");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.destination", "8642");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.commitmentAmount", "30000");
         
         final HtmlForm form1 = (HtmlForm) awardTimeAndMoneyPage.getForms().get(0);        
         String completeButtonName1=getImageTagName(awardTimeAndMoneyPage, "methodToCall.addCostShare");        
@@ -110,9 +110,9 @@ public class AwardCostShareWebTest extends AwardTimeAndMoneyWebTest {
         setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.costSharePercentage", "50");
         setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.costShareTypeCode", "1");
         setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.fiscalYear", "2008");
-        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.source", "6789");
-        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.destination", "9876");
-        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.commitmentAmount", "10000");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.source", "57347");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.destination", "4621");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.commitmentAmount", "40000");
         
         final HtmlForm form2 = (HtmlForm) awardTimeAndMoneyPageAfterAddingCostShare.getForms().get(0);        
         String completeButtonName2=getImageTagName(awardTimeAndMoneyPageAfterAddingCostShare, "methodToCall.addCostShare");        
@@ -150,9 +150,9 @@ public class AwardCostShareWebTest extends AwardTimeAndMoneyWebTest {
         setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.costSharePercentage", "50");
         setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.costShareTypeCode", "1");
         setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.fiscalYear", "2008");
-        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.source", "12345");
-        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.destination", "54321");
-        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.commitmentAmount", "10000");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.source", "879678");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.destination", "123412");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.commitmentAmount", "50000");
         
         final HtmlForm form1 = (HtmlForm) awardTimeAndMoneyPage.getForms().get(0);        
         String completeButtonName1=getImageTagName(awardTimeAndMoneyPage, "methodToCall.addCostShare");        
@@ -162,9 +162,9 @@ public class AwardCostShareWebTest extends AwardTimeAndMoneyWebTest {
         setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.costSharePercentage", "50");
         setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.costShareTypeCode", "1");
         setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.fiscalYear", "2008");
-        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.source", "6789");
-        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.destination", "9876");
-        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.commitmentAmount", "10000");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.source", "89768");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.destination", "3421341");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.commitmentAmount", "60000");
         
         final HtmlForm form2 = (HtmlForm) awardTimeAndMoneyPageAfterAddingCostShare.getForms().get(0);        
         String completeButtonName2=getImageTagName(awardTimeAndMoneyPageAfterAddingCostShare, "methodToCall.addCostShare");        
@@ -196,9 +196,9 @@ public class AwardCostShareWebTest extends AwardTimeAndMoneyWebTest {
         setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.costSharePercentage", "50");
         setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.costShareTypeCode", "1");
         setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.fiscalYear", "2008");
-        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.source", "12345");
-        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.destination", "54321");
-        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.commitmentAmount", "10000");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.source", "7568657");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.destination", "576434");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardCostShare.commitmentAmount", "70000");
         
         final HtmlForm form1 = (HtmlForm) awardTimeAndMoneyPage.getForms().get(0);        
         String completeButtonName1=getImageTagName(awardTimeAndMoneyPage, "methodToCall.addCostShare");        
@@ -208,9 +208,9 @@ public class AwardCostShareWebTest extends AwardTimeAndMoneyWebTest {
         setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.costSharePercentage", "50");
         setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.costShareTypeCode", "1");
         setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.fiscalYear", "2008");
-        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.source", "6789");
-        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.destination", "9876");
-        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.commitmentAmount", "10000");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.source", "555555");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.destination", "777777");
+        setFieldValue(awardTimeAndMoneyPageAfterAddingCostShare, "newAwardCostShare.commitmentAmount", "80000");
         
         final HtmlForm form2 = (HtmlForm) awardTimeAndMoneyPageAfterAddingCostShare.getForms().get(0);        
         String completeButtonName2=getImageTagName(awardTimeAndMoneyPageAfterAddingCostShare, "methodToCall.addCostShare");        
