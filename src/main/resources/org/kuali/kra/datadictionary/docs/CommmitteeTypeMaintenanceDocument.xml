@@ -45,7 +45,7 @@
             </property>
         <property name="documentTypeName" value="CommitteeTypeMaintenanceDocument" />
         <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
-        <property name="documentTypeCode" value="COMM" />
+        <property name="documentTypeCode" value="CTYP" />
         <property name="authorizations" >
             <list>
                 <bean parent="AuthorizationDefinition" >
