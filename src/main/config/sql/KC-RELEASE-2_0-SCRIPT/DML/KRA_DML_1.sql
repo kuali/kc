@@ -13250,7 +13250,7 @@ insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(19,'CREA
 insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(20,'CREATE_RENEWAL','Create a new renewal for a protocol', 2);
 insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(21,'MAINTAIN_PROTOCOL_RELATED_PROJ','Maintain protocol links to awards and proposals', 2);
 insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(22,'EDIT_PROTOCOL_BILLABLE','Edit Billable field', 2);
-insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(23,'ADD_COMMITTE','Add new committees in a unit', 2);
+insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(23,'ADD_COMMITTEE','Add new committees in a unit', 2);
 insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(24,'ADMINSTRATIVE_CORRECTION','Perform Administrative Corrections on Protocols', 2);
 insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(25,'GENERATE_AGENDA','Generate Agenda', 2);
 insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(26,'GENERATE_MINUTES','Generate Minutes', 2);
@@ -13267,7 +13267,7 @@ insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(36,'VIEW
 
 insert into KIM_ROLE_TYPE_T (ROLE_TYPE_CODE, DESCRIPTION) values ('R', 'Protocol');
 
-insert into KIM_ROLES_T (ID,NAME,DESCRIPTION, ROLE_TYPE_CODE, DESCEND_FLAG) values(9,'Protocol Creator','Protocol Creator', 'D', 'N');
+insert into KIM_ROLES_T (ID,NAME,DESCRIPTION, ROLE_TYPE_CODE, DESCEND_FLAG) values(9,'Protocol Creator','Protocol Creator', 'D', 'Y');
 insert into KIM_ROLES_T (ID,NAME,DESCRIPTION, ROLE_TYPE_CODE, DESCEND_FLAG) values(10,'Protocol Aggregator','Protocol Aggregator', 'R', 'N');
 insert into KIM_ROLES_T (ID,NAME,DESCRIPTION, ROLE_TYPE_CODE, DESCEND_FLAG) values(11,'Protocol Viewer','Protocol Viewer', 'R', 'N');
 insert into KIM_ROLES_T (ID,NAME,DESCRIPTION, ROLE_TYPE_CODE, DESCEND_FLAG) values(12,'IRB Administrator','IRB Administrator', 'D', 'Y');
