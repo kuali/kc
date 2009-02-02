@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.service;
 
-import java.util.List;
-
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 
 /**
@@ -29,12 +26,30 @@ public interface AwardReportsService {
     /**
      * 
      * This method prepares the AwardReportTerm and related objects for the display of UI.
+     * This should get called everytime Payment, Reports and Terms page is loaded.
+     * 
      * @param awardForm
      */
-    public void doPreparations(AwardForm awardForm);
+    void doPreparations(AwardForm awardForm);
     
-    public String getFrequencyCodes(String reportClassCode, String reportCode);
+    /**
+     * 
+     * This method gets called from the dwr script to populate to update frequency based on
+     * Report Class and Type.
+     * 
+     * @param reportClassCode
+     * @param reportCode
+     * @return
+     */
+    String getFrequencyCodes(String reportClassCode, String reportCode);
     
-    public String getFrequencyBaseCodes(String frequencyCode);
-    
+    /**
+     * 
+     * This method gets called from the dwr script to populate Frequency Base based on
+     * Frequency
+     * 
+     * @param frequencyCode
+     * @return
+     */
+    String getFrequencyBaseCodes(String frequencyCode);    
 }
