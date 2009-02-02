@@ -24,7 +24,6 @@ import org.kuali.kra.award.bo.AwardReportTermRecipient;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.ReportClassValuesFinder;
-import org.kuali.kra.award.lookup.keyvalue.ReportCodeAllValuesFinder;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.service.AwardReportsService;
 
@@ -44,27 +43,48 @@ public class AwardReportsServiceImpl implements AwardReportsService {
      */
     public void doPreparations(AwardForm awardForm){
         
-        assignReportClassesToAwardForPanelHeaderDisplay(awardForm);        
-        assignReportCodesToAwardFormForPanelHeaderDisplay(awardForm);
+        assignReportClassesToAwardFormForPanelHeaderDisplay(awardForm);        
+        addEmptyNewAwardReportTermRecipients(awardForm);
     }
     
-    protected void assignReportClassesToAwardForPanelHeaderDisplay(AwardForm awardForm){
+    /**
+     * 
+     * This method adds an empty AwardReportTerm object to awardForm.newAwardReportTerm
+     * list for every report class.
+     * 
+     * @param awardForm
+     */
+    protected void assignReportClassesToAwardFormForPanelHeaderDisplay(AwardForm awardForm){
         ReportClassValuesFinder reportClassValuesFinder = new ReportClassValuesFinder();
         List<KeyLabelPair> reportClasses = new ArrayList<KeyLabelPair>();
         
         reportClasses = reportClassValuesFinder.getKeyValues();
         awardForm.setReportClasses(reportClasses);
         
-        for(int i=0;i<reportClasses.size();i++){
-            awardForm.getNewAwardReportTerm().add(new AwardReportTerm());
-        }        
+        addEmptyNewAwardReportTerms(awardForm, reportClasses);                
     }
     
-    protected void assignReportCodesToAwardFormForPanelHeaderDisplay(AwardForm awardForm){
-        ReportCodeAllValuesFinder reportCodeAllValuesFinder = new ReportCodeAllValuesFinder();
-        
-        awardForm.setReportCodes(reportCodeAllValuesFinder.getKeyValues());        
-                
+    /**
+     * 
+     * This method is a helper method for assignReportClassesToAwardFormForPanelHeaderDisplay
+     * 
+     * @param awardForm
+     * @param reportClasses
+     */
+    protected void addEmptyNewAwardReportTerms(AwardForm awardForm, List<KeyLabelPair> reportClasses){
+        for(int i=0;i<reportClasses.size();i++){
+            awardForm.getNewAwardReportTerm().add(new AwardReportTerm());
+        }
+    }
+    
+    /**
+     * 
+     * This method adds an empty AwardReportTermRecipient object to 
+     * AwardForm.newAwardReportTermRecipient list for every AwardReportTerm object present
+     * in Award.
+     * @param awardForm
+     */
+    protected void addEmptyNewAwardReportTermRecipients(AwardForm awardForm){                
         for(int i=0;i<awardForm.getAwardDocument().getAward().getAwardReportTerms().size();i++){
             awardForm.getNewAwardReportTermRecipient().add(new AwardReportTermRecipient());
         }
@@ -76,47 +96,53 @@ public class AwardReportsServiceImpl implements AwardReportsService {
      */
     public String getFrequencyCodes(String reportClassCode, String reportCode){        
         FrequencyCodeValuesFinder frequencyCodeValuesFinder = new FrequencyCodeValuesFinder();
-        StringBuffer strBuffer = new StringBuffer();
-        
+                
         frequencyCodeValuesFinder.setReportClassCode(reportClassCode);
         frequencyCodeValuesFinder.setReportCode(reportCode);
         
         List<KeyLabelPair> frequencyCodes = frequencyCodeValuesFinder.getKeyValues();
+                
+        return processKeyLabelPairList(frequencyCodes);
+    }
+    
+    /**
+     * 
+     * This method processes a list of KeyLabelPair and converts them to a string separated
+     * by semi-colons and comas.
+     * This is used in both getFrequencyCodes and getFrequencyBaseCodes services.
+     *  
+     * @param keyLabelPairList
+     * @return
+     */
+    public String processKeyLabelPairList(List<KeyLabelPair> keyLabelPairList){
         int i = 1;
-        for(KeyLabelPair keyLabelPair : frequencyCodes){
+        StringBuffer strBuffer = new StringBuffer();
+        for(KeyLabelPair keyLabelPair : keyLabelPairList){
             strBuffer.append(keyLabelPair.key);
             strBuffer.append(SEMICOLON_AS_DELIMITOR);
             strBuffer.append(keyLabelPair.label);
-            if(i!=frequencyCodes.size()){
+            if(i!=keyLabelPairList.size()){
                 strBuffer.append(COMA_AS_DELIMITOR);    
             }
             i++;
         }
-        
         return strBuffer.toString();
     }
     
+    
+    /**
+     * 
+     * @see org.kuali.kra.service.AwardReportsService#getFrequencyBaseCodes(java.lang.String)
+     */
     public String getFrequencyBaseCodes(String frequencyCode){        
-        FrequencyBaseCodeValuesFinder frequencyBaseCodeValuesFinder = new FrequencyBaseCodeValuesFinder();
-        StringBuffer strBuffer = new StringBuffer();
+        FrequencyBaseCodeValuesFinder frequencyBaseCodeValuesFinder 
+            = new FrequencyBaseCodeValuesFinder();        
         
         frequencyBaseCodeValuesFinder.setFrequencyCode(frequencyCode);
         
         List<KeyLabelPair> frequencyBaseCodes = frequencyBaseCodeValuesFinder.getKeyValues();
-        int i = 1;
-        for(KeyLabelPair keyLabelPair : frequencyBaseCodes){
-            strBuffer.append(keyLabelPair.key);
-            strBuffer.append(SEMICOLON_AS_DELIMITOR);
-            strBuffer.append(keyLabelPair.label);
-            if(i!=frequencyBaseCodes.size()){
-                strBuffer.append(COMA_AS_DELIMITOR);    
-            }
-            i++;
-        }
+        return processKeyLabelPairList(frequencyBaseCodes);
         
-        return strBuffer.toString();
     }
-    
-    
 
 }
