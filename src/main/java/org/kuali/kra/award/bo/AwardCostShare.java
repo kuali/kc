@@ -22,8 +22,11 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.bo.CostShareType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 
+/**
+ * This class...
+ */
 public class AwardCostShare extends KraPersistableBusinessObjectBase implements ValuableItem {
     private static final long serialVersionUID = -839007857238262207L;
     
@@ -31,7 +34,7 @@ public class AwardCostShare extends KraPersistableBusinessObjectBase implements 
     private String fiscalYear;
     private KualiDecimal costSharePercentage;
     @SuppressWarnings("unused")
-    private Integer costShareTypeCode;//may not need this when we move to JPA.  OJB cannot handle anonymous access(uni-directional relationship)
+    private Integer costShareTypeCode;
     private String source;
     private String destination;
     private KualiDecimal commitmentAmount;
@@ -40,7 +43,13 @@ public class AwardCostShare extends KraPersistableBusinessObjectBase implements 
     private String awardNumber;
     private Integer sequenceNumber;
     
-    
+    /**
+     * 
+     * Constructs a AwardCostShare.java.
+     */
+    public AwardCostShare() {
+        super();                
+    }
 
     /**
      * This method...
@@ -58,13 +67,6 @@ public class AwardCostShare extends KraPersistableBusinessObjectBase implements 
         //do nothing
      }
     
-    /**
-     * 
-     * Constructs a AwardCostShare.java.
-     */
-    public AwardCostShare() {
-        super();                
-    }
 
     /**
      * This method...
@@ -85,8 +87,8 @@ public class AwardCostShare extends KraPersistableBusinessObjectBase implements 
             sequenceNumber = null;
             awardNumber = null;
         } else {
-            sequenceNumber = (award.getSequenceNumber());
-            awardNumber = (award.getAwardNumber());
+            sequenceNumber = award.getSequenceNumber();
+            awardNumber = award.getAwardNumber();
         }
     }
 
@@ -106,7 +108,8 @@ public class AwardCostShare extends KraPersistableBusinessObjectBase implements 
     @SuppressWarnings("unchecked")
     public void setCostShareTypeCode(Integer costShareTypeCode){
         BusinessObjectService costShareTypeService = getBusinessObjectService();
-        Collection<CostShareType> costShareTypes = (Collection<CostShareType>) costShareTypeService.findAll(CostShareType.class);
+        Collection<CostShareType> costShareTypes = 
+            (Collection<CostShareType>) costShareTypeService.findAll(CostShareType.class);
         for(CostShareType costShareType : costShareTypes){
             if(costShareType.getCostShareTypeCode().equals(costShareTypeCode)){
                 setCostShareType(costShareType);
@@ -282,7 +285,7 @@ public class AwardCostShare extends KraPersistableBusinessObjectBase implements 
      * @return
      */
     protected BusinessObjectService getBusinessObjectService() {
-        return KNSServiceLocator.getBusinessObjectService();
+        return (BusinessObjectService) KraServiceLocator.getService("businessObjectService");
     }
 
     /**
