@@ -50,28 +50,27 @@ public class ProtocolProtocolAction extends ProtocolAction {
     
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolProtocolAction.class);
     
+    /**
+     * @see org.kuali.kra.irb.web.struts.action.ProtocolAction#isValidSave(org.kuali.kra.irb.web.struts.form.ProtocolForm)
+     */
     @Override
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {      
-
+    protected boolean isValidSave(ProtocolForm protocolForm) {    
         boolean rulePassed = true;
-        // check any business rules
-        ProtocolForm protocolForm = (ProtocolForm) form;
         rulePassed &= applyRules(new SaveProtocolLocationEvent(Constants.EMPTY_STRING,protocolForm.getProtocolDocument()));
         rulePassed &= applyRules(new SaveProtocolRequiredFieldsEvent(protocolForm.getProtocolDocument()));
-        if (!rulePassed){
-            mapping.findForward(Constants.MAPPING_BASIC);
-        }
-        return super.save(mapping, form, request, response);
+        return rulePassed;
     }
 
+    /**
+     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
         
-        //Call to prepareView sets Labels Values from configuration service
         ((ProtocolForm)form).getProtocolHelper().prepareView();
+        ((ProtocolForm)form).getPersonnelHelper().prepareView();
         
         return actionForward;
     }

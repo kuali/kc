@@ -644,7 +644,7 @@
     
     <!-- ************* TASK AUTHORIZATION BEGIN **************** -->
 
-    <bean id="parentProposalAuthorizer" abstract="true" class="org.kuali.kra.authorization.TaskAuthorizerImpl">
+    <bean id="parentProposalAuthorizer" abstract="true">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
         <property name="proposalAuthorizationService" ref="proposalAuthorizationService" />
         <property name="kraWorkflowService" ref="kraWorkflowService" />
@@ -664,6 +664,9 @@
             <list>
                 <bean class="org.kuali.kra.authorizer.CreateProposalAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="createProposal" />
+                </bean>
+                <bean class="org.kuali.kra.authorizer.CreateProtocolAuthorizer" parent="parentAuthorizer">
+                    <property name="taskName" value="createProtocol" />
                 </bean>
             </list>
         </property>

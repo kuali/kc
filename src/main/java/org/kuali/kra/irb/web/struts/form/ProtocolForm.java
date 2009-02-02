@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.web.struts.form;
 
-
-
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.ArrayList;
@@ -33,7 +31,6 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ActionFormUtilMap;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.bo.ProtocolInvestigator;
@@ -54,6 +51,8 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
     private static final long serialVersionUID = -7633960906991275328L;
     
     private ProtocolHelper protocolHelper;
+    private PersonnelHelper personnelHelper;
+    
     private ProtocolParticipant newProtocolParticipant;
     private ProtocolReference newProtocolReference;
     private ProtocolLocation newProtocolLocation;
@@ -94,11 +93,14 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
         initializeHeaderNavigationTabs(); 
         setNewProtocolParticipant(new ProtocolParticipant());
         setProtocolHelper(new ProtocolHelper(this));
+        setPersonnelHelper(new PersonnelHelper(this));
         setNewProtocolReference(new ProtocolReference());
         setNewProtocolLocation(new ProtocolLocation());
         setNewProtocolPerson(new ProtocolPerson());
         setNewProtocolPersonUnits(new ArrayList<ProtocolUnit>());
     }
+
+    
 
     public ProtocolDocument getProtocolDocument() {
         return (ProtocolDocument) this.getDocument();
@@ -222,7 +224,15 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
     public ProtocolHelper getProtocolHelper() {
         return protocolHelper;
     }
-
+    
+    private void setPersonnelHelper(PersonnelHelper personnelHelper) {
+        this.personnelHelper = personnelHelper;
+    }
+    
+    public PersonnelHelper getPersonnelHelper() {
+        return personnelHelper;
+    }
+    
     public void setNewProtocolReference(ProtocolReference newProtocolReference) {
         this.newProtocolReference = newProtocolReference;
     }
@@ -232,7 +242,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
     }
     
     protected void setSaveDocumentControl(DocumentActionFlags tempDocumentActionFlags, Map editMode) {
-        tempDocumentActionFlags.setCanSave(true);
+      
     }
     
     protected String getLockRegion() {

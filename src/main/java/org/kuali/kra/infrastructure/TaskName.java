@@ -24,6 +24,7 @@ public interface TaskName {
      * Application Tasks.
      */
     public static final String CREATE_PROPOSAL = "createProposal";
+    public static final String CREATE_PROTOCOL = "createProtocol";
     
     /*
      * Proposal Tasks.

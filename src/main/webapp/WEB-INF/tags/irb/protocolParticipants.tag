@@ -40,7 +40,7 @@
 			<%-- Header --%>
 			
             <%-- New data --%>
-        	<kra:section permission="modifyProtocol">
+        	<kra:permission value="${KualiForm.protocolHelper.modifyProtocol}">
 	            <tr>
 				<th class="infoline">
 					<c:out value="Add:" />
@@ -66,7 +66,7 @@
 					</div>
 	               </td>
 	            </tr>
-            </kra:section>
+            </kra:permission>
 			<%-- New data --%>
 			
 			<%-- Existing data --%>
@@ -84,10 +84,10 @@
 
 					<td>
 						<div align=center>&nbsp;
-							<kra:section permission="modifyProtocol">  
+							<kra:permission value="${KualiForm.protocolHelper.modifyProtocol}">  
 								<html:image property="methodToCall.deleteProtocolParticipant.line${status.index}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
-							</kra:section>  
+							</kra:permission>  
 						</div>
 	                </td>
 	            </tr>
