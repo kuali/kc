@@ -19,9 +19,9 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
@@ -30,17 +30,17 @@ import org.kuali.kra.service.TaskAuthorizationService;
 
 public class ProtocolHelper {
     
-
     /**
      * Each Helper must contain a reference to its document form
      * so that it can access the actual document.
      */
-    private KualiForm form;
+    private ProtocolForm form;
     
     private String referenceId1Label;
     private String referenceId2Label;
     private boolean personTrainingSectionRequired;
 
+    private boolean modifyProtocol = false;
     private boolean billableReadOnly = false;
 
     public ProtocolHelper(ProtocolForm form) {
@@ -48,24 +48,45 @@ public class ProtocolHelper {
     }    
     
     public void prepareView() {
-        // setup any Protocol System Parameters that will be needed
-        KualiConfigurationService configService = getService(KualiConfigurationService.class);
-        setReferenceId1Label((configService.getParameter(Constants.PARAMETER_MODULE_PROTOCOL, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PARAMETER_MODULE_PROTOCOL_REFERENCEID1)).getParameterValue());
-        setReferenceId2Label((configService.getParameter(Constants.PARAMETER_MODULE_PROTOCOL, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PARAMETER_MODULE_PROTOCOL_REFERENCEID2)).getParameterValue());
-
-        setPersonTrainingSectionRequired(Boolean.parseBoolean(getParameterValue(Constants.PARAMETER_PROTOCOL_PERSON_TRAINING_SECTION)));
-        
-        // call services...
-        // set attributes needed by the view
-        ProtocolDocument document = (ProtocolDocument)((ProtocolForm)form).getDocument();
+        initializeReferenceLabels();
+        initializeTrainingSection();
+        getProtocol().resolvePrincipalInvestigator(); 
+        initializePermissions(getProtocol());    
+    }
+    
+    private Protocol getProtocol() {
+        ProtocolDocument document = form.getProtocolDocument();
         if (document == null || document.getProtocol() == null) {
             throw new IllegalArgumentException("invalid (null) ProtocolDocument in ProtocolForm");
         }
-        document.getProtocol().resolvePrincipalInvestigator();        
-        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_BILLABLE, document.getProtocol());
-        billableReadOnly = !getTaskAuthorizationService().isAuthorized(getUsername(), task);
+        return document.getProtocol();
     }
     
+    private void initializeReferenceLabels() {
+        KualiConfigurationService configService = getService(KualiConfigurationService.class);
+        setReferenceId1Label((configService.getParameter(Constants.PARAMETER_MODULE_PROTOCOL, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PARAMETER_MODULE_PROTOCOL_REFERENCEID1)).getParameterValue());
+        setReferenceId2Label((configService.getParameter(Constants.PARAMETER_MODULE_PROTOCOL, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PARAMETER_MODULE_PROTOCOL_REFERENCEID2)).getParameterValue());
+    }
+    
+    private void initializeTrainingSection() {
+        setPersonTrainingSectionRequired(Boolean.parseBoolean(getParameterValue(Constants.PARAMETER_PROTOCOL_PERSON_TRAINING_SECTION)));
+    }
+    
+    private void initializePermissions(Protocol protocol) {
+        initializeModifyProtocolPermission(protocol);
+        initializeBillablePermission(protocol);   
+    }
+
+    private void initializeModifyProtocolPermission(Protocol protocol) {
+        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL, protocol);
+        modifyProtocol = getTaskAuthorizationService().isAuthorized(getUsername(), task);     
+    }
+
+    private void initializeBillablePermission(Protocol protocol) {
+        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_BILLABLE, protocol);
+        billableReadOnly = !getTaskAuthorizationService().isAuthorized(getUsername(), task);
+    }
+
     /**
      * This method is to get parameter value
      * @return parameter value
@@ -73,14 +94,6 @@ public class ProtocolHelper {
     private String getParameterValue(String parameterName) {
         KualiConfigurationService configService = getService(KualiConfigurationService.class);
         return (configService.getParameter(Constants.PARAMETER_MODULE_PROTOCOL, Constants.PARAMETER_COMPONENT_DOCUMENT, parameterName)).getParameterValue();        
-    }
-
-
-    /**
-     * Constructor.
-     */
-    public ProtocolHelper(KualiForm form) {
-        this.form = form;
     }
 
     public void setReferenceId1Label(String referenceId1Label) {
@@ -97,6 +110,10 @@ public class ProtocolHelper {
 
     public String getReferenceId2Label() {
         return referenceId2Label;
+    }
+    
+    public boolean getModifyProtocol() {
+        return modifyProtocol;
     }
 
     public boolean getBillableReadOnly() {
@@ -118,6 +135,5 @@ public class ProtocolHelper {
 
     public void setPersonTrainingSectionRequired(boolean personTrainingSectionRequired) {
         this.personTrainingSectionRequired = personTrainingSectionRequired;
-    }
-    
+    }   
 }

@@ -42,7 +42,7 @@
           	<%-- Header --%>
           	
              <%-- New data --%>
-        	<kra:section permission="modifyProtocol">
+        	<kra:permission value="${KualiForm.protocolHelper.modifyProtocol}">
 	             <tr>
 					<th class="infoline">
 						<c:out value="Add:" />
@@ -82,7 +82,7 @@
 						</div>
 	                </td>
 	            </tr>
-            </kra:section>
+            </kra:permission>
             <%-- New data --%>
             
             <%-- Existing data --%>
@@ -121,10 +121,10 @@
 				            <c:out value="${KualiForm.document.protocol.protocolLocations[status.index].rolodex.state}" />&nbsp
 				            <c:out value="${KualiForm.document.protocol.protocolLocations[status.index].rolodex.postalCode}" />
 						</c:if>
-						<kra:section permission="modifyProtocol">  
+						<kra:permission value="${KualiForm.protocolHelper.modifyProtocol}">  
 	                    	<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" 
 	                    		fieldConversions="rolodexId:document.protocol.protocolLocations[${status.index}].rolodexId,firstName:document.protocol.protocolLocations[${status.index}].rolodex.firstName,lastName:document.protocol.protocolLocations[${status.index}].rolodex.lastName,postalCode:document.protocol.protocolLocations[${status.index}].rolodex.postalCode,addressLine1:document.protocol.protocolLocations[${status.index}].rolodex.addressLine1,addressLine2:document.protocol.protocolLocations[${status.index}].rolodex.addressLine2,addressLine3:document.protocol.protocolLocations[${status.index}].rolodex.addressLine3,city:document.protocol.protocolLocations[${status.index}].rolodex.city,state:document.protocol.protocolLocations[${status.index}].rolodex.state"	anchor="${currentTabIndex}"/> 
-						</kra:section>  
+						</kra:permission>  
                     	<kul:directInquiry boClassName="org.kuali.kra.bo.Rolodex" inquiryParameters="document.protocol.protocolLocations[${status.index}].rolodexId:rolodexId" anchor="${currentTabIndex}"/>
 					</div>
 				  </td>
@@ -135,12 +135,12 @@
 				  </td>
 				  <td>
 					<div align=center>&nbsp;
-						<kra:section permission="modifyProtocol">  
+						<kra:permission value="${KualiForm.protocolHelper.modifyProtocol}">  
 							<html:image property="methodToCall.clearProtocolLocationAddress.line${status.index}.anchor${currentTabIndex}"
 								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-clraddress.gif' styleClass="tinybutton"/>
 							<html:image property="methodToCall.deleteProtocolLocation.line${status.index}.anchor${currentTabIndex}"
 								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
-						</kra:section>  
+						</kra:permission>  
 					</div>
 	              </td>
 	            </tr>
