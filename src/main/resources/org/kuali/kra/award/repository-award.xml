@@ -73,8 +73,8 @@
 		<field-descriptor name="preAwardInstitutionalEffectiveDate" column="PRE_AWARD_INST_EFFECTIVE_DATE" jdbc-type="DATE"/>
 		<field-descriptor name="procurementPriorityCode" column="PROCUREMENT_PRIORITY_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR"/>
-		<field-descriptor name="specialEbRateOffCampus" column="SPECIAL_EB_RATE_OFF_CAMPUS" jdbc-type="INTEGER"/>
-		<field-descriptor name="specialEbRateOnCampus" column="SPECIAL_EB_RATE_ON_CAMPUS" jdbc-type="INTEGER"/>
+		<field-descriptor name="specialEbRateOffCampus" column="SPECIAL_EB_RATE_OFF_CAMPUS" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="specialEbRateOnCampus" column="SPECIAL_EB_RATE_ON_CAMPUS" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 		<field-descriptor name="subPlanFlag" column="SUB_PLAN_FLAG" jdbc-type="VARCHAR"/>
 		<field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>		

@@ -18,8 +18,10 @@
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+<c:set var="awardAttributes" value="${DataDictionary.Award.attributes}" />
 <c:set var="awardFandaRateAttributes" value="${DataDictionary.AwardFandaRate.attributes}" />
 <c:set var="awardFandaRateCommentAttributes" value="${DataDictionary.AwardComment.attributes}" />
+<c:set var="awardBenefitsRateCommentAttributes" value="${DataDictionary.AwardComment.attributes}" />
 <c:set var="action" value="awardTimeAndMoney" />
 <kul:tab tabTitle="Rates" defaultOpen="false" tabErrorKey="newAwardFandaRate.*,document.awardList[0].awardFandaRate*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="right">
@@ -204,6 +206,41 @@
         		</tr>
         </table>
         <BR><BR>
-
     </div>
+    <div class="tab-container" align="right">
+    	<h3>
+    		<span class="subhead-left"> Benefits Rates</span>
+    		<span class="subhead-right">
+    			<kul:help businessObjectClassName="org.kuali.kra.award.bo.Award" altText="help"/>						
+				<kul:lookup boClassName="org.kuali.kra.award.bo.ValidRates" fieldConversions="onCampusRate:document.awardList[0].specialEbRateOnCampus,offCampusRate:document.awardList[0].specialEbRateOffCampus" anchor="${tabKey}" />		
+			</span>
+        </h3>
+        <table id="Benefits Rates" cellpadding="0" cellspacing="0" summary="Benefits Rates">
+        	<tr>
+            	<th width="100" align="right" scope="row"><div align="right">On Campus</div></th>
+            	<td>
+            	  	<div align="left">
+            	  	 	<kul:htmlControlAttribute property="document.awardList[0].specialEbRateOnCampus" attributeEntry="${awardAttributes.specialEbRateOnCampus}"/>&nbsp;%
+            	 	</div>
+            	</td>
+            </tr>
+            <tr>
+            	<th width="100" align="right" scope="row"><div align="right">Off Campus</div></th>
+            	<td>
+            	  	<div align="left">
+            	  	 	<kul:htmlControlAttribute property="document.awardList[0].specialEbRateOffCampus" attributeEntry="${awardAttributes.specialEbRateOffCampus}"/>&nbsp;%
+            	 	</div>
+            	</td>
+             </tr>
+             <tr>
+        		<th width="100" align="right" scope="row"><div align="center">Comments:</div></th>
+        		<td class="infoline" colspan="10">
+            	 	<div align="left">
+            	  	 	<kul:htmlControlAttribute property="document.awardList[0].awardBenefitsRateComment.comments" attributeEntry="${awardBenefitsRateCommentAttributes.comments}"/>
+            	  	 	<kra:expandedTextArea textAreaFieldName="document.awardList[0].awardBenefitsRateComment.comments" action="${action}" textAreaLabel="${awardBenefitsRateCommentAttributes.comments.label}" />
+            	 	</div>
+            	</td>            
+        	</tr>
+          </table>
+      </div>
 </kul:tab>
