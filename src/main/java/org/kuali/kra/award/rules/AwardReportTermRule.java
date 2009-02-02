@@ -62,6 +62,7 @@ public class AwardReportTermRule extends ResearchDocumentRuleBase implements Add
      */
     protected boolean evaluateRuleForReportCode(AwardReportTerm awardReportTerm, String index){
         boolean rulePassed = true;
+        
         if(awardReportTerm.getReportCode() == null 
                 || StringUtils.isBlank(awardReportTerm.getReportCode().toString())){
             rulePassed = false;
@@ -69,6 +70,7 @@ public class AwardReportTermRule extends ResearchDocumentRuleBase implements Add
                     + Constants.RIGHT_SQUARE_BRACKET + ".reportCode"
                     , KeyConstants.ERROR_REQUIRED_REPORT_CODE);
         }
+        
         return rulePassed;
     }
     
@@ -80,6 +82,7 @@ public class AwardReportTermRule extends ResearchDocumentRuleBase implements Add
      */
     protected boolean evaluateRuleForFrequency(AwardReportTerm awardReportTerm, String index){
         boolean rulePassed = true;
+        
         if(awardReportTerm.getFrequencyCode() == null 
                 || StringUtils.isBlank(awardReportTerm.getFrequencyCode().toString())){
             rulePassed = false;
@@ -87,6 +90,7 @@ public class AwardReportTermRule extends ResearchDocumentRuleBase implements Add
                     + Constants.RIGHT_SQUARE_BRACKET + ".frequencyCode"
                     , KeyConstants.ERROR_REQUIRED_FREQUENCY_CODE);
         }
+        
         return rulePassed;
     }
     
@@ -97,14 +101,15 @@ public class AwardReportTermRule extends ResearchDocumentRuleBase implements Add
      * @return
      */
     protected boolean evaluateRuleForFrequencyBase(AwardReportTerm awardReportTerm, String index){
-        boolean rulePassed = true;
-        if(awardReportTerm.getFrequencyBaseCode() == null 
-                || StringUtils.isBlank(awardReportTerm.getFrequencyBaseCode().toString())){
-            rulePassed = false;
+        boolean rulePassed = !(awardReportTerm.getFrequencyBaseCode() == null 
+                || StringUtils.isBlank(awardReportTerm.getFrequencyBaseCode().toString()));
+        
+        if(!rulePassed){            
             reportError(NEW_AWARD_REPORT_TERM + Constants.LEFT_SQUARE_BRACKET + index 
                     + Constants.RIGHT_SQUARE_BRACKET + ".frequencyBaseCode"
                     , KeyConstants.ERROR_REQUIRED_FREQUENCY_BASE_CODE);
         }
+        
         return rulePassed;
     }
     
@@ -115,14 +120,15 @@ public class AwardReportTermRule extends ResearchDocumentRuleBase implements Add
      * @return
      */
     protected boolean evaluateRuleForDistribution(AwardReportTerm awardReportTerm, String index){
-        boolean rulePassed = true;
-        if(awardReportTerm.getOspDistributionCode() == null 
-                || StringUtils.isBlank(awardReportTerm.getOspDistributionCode().toString())){
-            rulePassed = false;
+        boolean rulePassed = !(awardReportTerm.getOspDistributionCode() == null 
+                || StringUtils.isBlank(awardReportTerm.getOspDistributionCode().toString()));
+        
+        if(!rulePassed){            
             reportError(NEW_AWARD_REPORT_TERM + Constants.LEFT_SQUARE_BRACKET + index 
                     + Constants.RIGHT_SQUARE_BRACKET + ".ospDistributionCode"
                     , KeyConstants.ERROR_REQUIRED_DISTRIBUTION_CODE);
         }
+        
         return rulePassed;
     }
     
@@ -133,14 +139,15 @@ public class AwardReportTermRule extends ResearchDocumentRuleBase implements Add
      * @return
      */
     protected boolean evaluateRuleForDueDate(AwardReportTerm awardReportTerm, String index){
-        boolean rulePassed = true;
-        if(awardReportTerm.getDueDate() == null 
-                || StringUtils.isBlank(awardReportTerm.getDueDate().toString())){
-            rulePassed = false;
+        boolean rulePassed = !(awardReportTerm.getDueDate() == null 
+                || StringUtils.isBlank(awardReportTerm.getDueDate().toString()));
+        
+        if(!rulePassed){            
             reportError(NEW_AWARD_REPORT_TERM + Constants.LEFT_SQUARE_BRACKET + index 
                     + Constants.RIGHT_SQUARE_BRACKET + ".dueDate"
                     , KeyConstants.ERROR_REQUIRED_DUE_DATE);
         }
+        
         return rulePassed;
     }
 }

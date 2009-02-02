@@ -64,8 +64,8 @@ public class AwardReportTermRecipientRule extends ResearchDocumentRuleBase
      */
     protected boolean evaluateRuleForContactType(
             AwardReportTermRecipient awardReportTermRecipient, String index){
-        boolean rulePassed = awardReportTermRecipient.getContactTypeCode() == null 
-            || StringUtils.isBlank(awardReportTermRecipient.getContactTypeCode().toString());
+        boolean rulePassed = !(awardReportTermRecipient.getContactTypeCode() == null 
+            || StringUtils.isBlank(awardReportTermRecipient.getContactTypeCode().toString()));
         if(!rulePassed){
             reportError(NEW_AWARD_REPORT_TERM_RECIPIENT + Constants.LEFT_SQUARE_BRACKET + index 
                     + Constants.RIGHT_SQUARE_BRACKET + DOT_CONTACT_TYPE_CODE, 
@@ -81,8 +81,8 @@ public class AwardReportTermRecipientRule extends ResearchDocumentRuleBase
      * @return
      */
     protected boolean evaluateRuleForRolodex(AwardReportTermRecipient awardReportTermRecipient, String index){
-        boolean rulePassed = awardReportTermRecipient.getRolodexId() == null 
-            || StringUtils.isBlank(awardReportTermRecipient.getRolodexId().toString());
+        boolean rulePassed = !(awardReportTermRecipient.getRolodexId() == null 
+            || StringUtils.isBlank(awardReportTermRecipient.getRolodexId().toString()));
         if(!rulePassed){
             reportError(NEW_AWARD_REPORT_TERM_RECIPIENT + Constants.LEFT_SQUARE_BRACKET + index 
                     + Constants.RIGHT_SQUARE_BRACKET + DOT_ROLODEX_ID, 
