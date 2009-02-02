@@ -17,8 +17,6 @@ package org.kuali.kra.proposaldevelopment.rules;
 
 import static org.kuali.kra.logging.BufferedLogger.info;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,7 +35,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
-import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
@@ -76,8 +73,6 @@ import org.kuali.kra.rule.CustomAttributeRule;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.kra.rules.KraCustomAttributeRule;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-
-import static org.kuali.kra.logging.BufferedLogger.*;
 
 /**
  * Main Business Rule class for <code>{@link ProposalDevelopmentDocument}</code>. Responsible for delegating rules to independent rule classes.
@@ -122,7 +117,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         valid &= processOrganizationLocationBusinessRule(proposalDevelopmentDocument);
         valid &= processSpecialReviewBusinessRule(proposalDevelopmentDocument);
         valid &= processProposalYNQBusinessRule(proposalDevelopmentDocument, false);
-        valid &= processBudgetVersionsBusinessRule(proposalDevelopmentDocument.getBudgetVersionOverviews(), false);
+        valid &= processBudgetVersionsBusinessRule(proposalDevelopmentDocument, false);
         valid &= processProposalGrantsGovBusinessRule(proposalDevelopmentDocument);
         valid &= processSponsorProgramBusinessRule(proposalDevelopmentDocument);
         GlobalVariables.getErrorMap().removeFromErrorPath("document");
@@ -315,7 +310,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     private HashMap getQuestionSerialNumberBasedOnGroup(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         HashMap ynqGroupSerial = new HashMap();
         for (YnqGroupName ynqGroupName : proposalDevelopmentDocument.getYnqGroupNames()) {
-            Integer serialNumber = 1;
+            Integer serialNumber = Integer.valueOf(1);
             for (ProposalYnq proposalYnq : proposalDevelopmentDocument.getProposalYnqs()) {
                 if(ynqGroupName.getGroupName().equalsIgnoreCase(proposalYnq.getYnq().getGroupName())) {
                     ynqGroupSerial.put(proposalYnq.getQuestionId(), serialNumber);
@@ -363,7 +358,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
      * Validates business rules pertaining to the Proposal Type.  The rules are:
      * 
      * <ol>
-     * <li>If the Proposal Type is Renewal, Revision, or Continuation, then the 
+     * <li>If the Proposal Type is Renewal, Revision, or Continuation, then the
      * Sponsor Proposal Id field must be assigned a value.</li>
      * </ol>
      * 
@@ -394,7 +389,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
      * @param proposalTypeCode proposal type code
      * @return true or false
      */
-    private boolean isProposalTypeRenewalRevisionContinuation(String proposalTypeCode) {        
+    private boolean isProposalTypeRenewalRevisionContinuation(String proposalTypeCode) {
         String proposalTypeCodeRenewal = getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL).getParameterValue();
         String proposalTypeCodeRevision = getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION).getParameterValue();
         String proposalTypeCodeContinuation = getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION).getParameterValue();
@@ -415,7 +410,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         boolean valid = true;
 
         if (proposalDevelopmentDocument.getOrganizationId()!=null && (proposalDevelopmentDocument.getProposalLocations().size()==0 ||
-                (proposalDevelopmentDocument.getProposalLocations().size()==1 && ((ProposalLocation)(proposalDevelopmentDocument.getProposalLocations().get(0))).getLocationSequenceNumber()==null))) {
+                (proposalDevelopmentDocument.getProposalLocations().size()==1 && ((proposalDevelopmentDocument.getProposalLocations().get(0))).getLocationSequenceNumber()==null))) {
             GlobalVariables.getErrorMap().removeFromErrorPath("document");
             reportError("newPropLocation.location", KeyConstants.ERROR_REQUIRED_FOR_PROPLOCATION);
             GlobalVariables.getErrorMap().addToErrorPath("document");
@@ -478,6 +473,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     /**
      * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.core.document.Document)
      */
+    @Override
     public boolean processRunAuditBusinessRules(Document document){
         boolean retval = true;
         
@@ -554,7 +550,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
      * @see org.kuali.kra.proposaldevelopment.rule.AddPersonnelAttachmentsRule#processAddPersonnelAttachmentsBusinessRules(org.kuali.kra.proposaldevelopment.rule.event.AddPersonnelAttachmentsEvent)
      */
     public boolean processSavePersonnelAttachmentBusinessRules(SavePersonnelAttachmentEvent savePersonnelAttachmentEvent) {
-        return new ProposalDevelopmentPersonnelAttachmentRule().processSavePersonnelAttachmentBusinessRules(savePersonnelAttachmentEvent);    
+        return new ProposalDevelopmentPersonnelAttachmentRule().processSavePersonnelAttachmentBusinessRules(savePersonnelAttachmentEvent);
     }
 
     /**
@@ -625,7 +621,8 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     public boolean processCustomAttributeRules(SaveCustomAttributeEvent saveCustomAttributeEvent) {
         return new KraCustomAttributeRule().processCustomAttributeRules(saveCustomAttributeEvent);    
     }
-    
+
+    @Override
     protected KualiConfigurationService getKualiConfigurationService(){
         return KraServiceLocator.getService(KualiConfigurationService.class);
     }

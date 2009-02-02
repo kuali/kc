@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
-import static org.apache.commons.lang.StringUtils.isNotBlank;
-import static org.kuali.RiceConstants.QUESTION_CLICKED_BUTTON;
-import static org.kuali.RiceConstants.QUESTION_INST_ATTRIBUTE_NAME;
-import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,35 +25,28 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.document.authorization.PessimisticLock;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.bo.RateClass;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetRatesService;
 import org.kuali.kra.budget.service.BudgetService;
+import org.kuali.kra.budget.web.struts.action.BudgetTDCValidator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.logging.BufferedLogger;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.rule.event.AddBudgetVersionEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.question.CopyPeriodsQuestion;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
-import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.exception.WorkflowException;
-
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-import static org.kuali.kra.logging.BufferedLogger.*;
 
 /**
  * Struts Action class for the Propsoal Development Budget Versions page
@@ -79,6 +66,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
      * @param request {@link HttpServletRequest} instance
      * @param response {@link HttpServletResponse} instance 
      */
+    @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         request.setAttribute("rateClassMap", getBudgetRatesService().getBudgetRateClassMap("O"));
         return super.execute(mapping, form, request, response);
@@ -120,11 +108,11 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         }
         ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
         BudgetVersionOverview budgetToOpen = pdDoc.getBudgetVersionOverview(getSelectedLine(request));
-        if (getService(BudgetService.class).checkActivityTypeChange(pdDoc,budgetToOpen.getBudgetVersionNumber().toString())) {
+        if (KraServiceLocator.getService(BudgetService.class).checkActivityTypeChange(pdDoc,budgetToOpen.getBudgetVersionNumber().toString())) {
             return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
                     KeyConstants.QUESTION_SYNCH_BUDGET_RATE), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
         } else {
-            DocumentService documentService = getService(DocumentService.class);
+            DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
             BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
             Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
             if (!budgetDocument.getActivityTypeCode().equals(budgetDocument.getProposal().getActivityTypeCode())) {
@@ -151,7 +139,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
         BudgetVersionOverview budgetToOpen = pdDoc.getBudgetVersionOverview(getSelectedLine(request));
-        DocumentService documentService = getService(DocumentService.class);
+        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
         Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
         String forward = buildForwardUrl(routeHeaderId);
@@ -178,8 +166,8 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
     public ActionForward copyBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         BudgetVersionOverview versionToCopy = getSelectedVersion(pdForm, request);
-        if (isNotBlank(request.getParameter(QUESTION_INST_ATTRIBUTE_NAME))) {
-            Object buttonClicked = request.getParameter(QUESTION_CLICKED_BUTTON);
+        if (StringUtils.isNotBlank(request.getParameter(org.kuali.RiceConstants.QUESTION_INST_ATTRIBUTE_NAME))) {
+            Object buttonClicked = request.getParameter(org.kuali.RiceConstants.QUESTION_CLICKED_BUTTON);
             if (CopyPeriodsQuestion.ONE.equals(buttonClicked)) {
                 return copyBudgetPeriodOne(mapping, form, request, response);
             }
@@ -194,47 +182,55 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         pdForm.setSaveAfterCopy(true);
         return performQuestionWithoutInput(mapping, form, request, response, COPY_BUDGET_PERIOD_QUESTION, QUESTION_TEXT + versionToCopy.getBudgetVersionNumber() + ".", QUESTION_TYPE, pdForm.getMethodToCall(), "");
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
+    public ActionForward save(ActionMapping mapping,
+        ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        final ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         // check audit rules.  If there is error, then budget can't have complete status
         boolean valid = true;
-        
+
         if (pdForm.isSaveAfterCopy()) {
-            List<BudgetVersionOverview> overviews = pdForm.getProposalDevelopmentDocument().getBudgetVersionOverviews();
-            BudgetVersionOverview copiedOverview = overviews.get(overviews.size() - 1);
-            String copiedName = copiedOverview.getDocumentDescription();
+            final List<BudgetVersionOverview> overviews
+                = pdForm.getProposalDevelopmentDocument().getBudgetVersionOverviews();
+            final BudgetVersionOverview copiedOverview = overviews.get(overviews.size() - 1);
+            final String copiedName = copiedOverview.getDocumentDescription();
             copiedOverview.setDocumentDescription("copied placeholder");
-            debug("validating ", copiedName);
-            valid = getProposalDevelopmentService().isBudgetVersionNameValid(pdForm.getProposalDevelopmentDocument(), copiedName);
+            BufferedLogger.debug("validating ", copiedName);
+            valid = this.getProposalDevelopmentService().isBudgetVersionNameValid(
+                pdForm.getProposalDevelopmentDocument(), copiedName);
             copiedOverview.setDocumentDescription(copiedName);
             pdForm.setSaveAfterCopy(!valid);
         }
 
-        try {
-            valid &= getProposalDevelopmentService().validateBudgetAuditRuleBeforeSaveBudgetVersion(pdForm.getProposalDevelopmentDocument());
-        } catch (Exception ex) {
-            info("Audit rule check failed ",  ex.getStackTrace());
-        }
+        valid &= this.getProposalDevelopmentService().validateBudgetAuditRuleBeforeSaveBudgetVersion(
+            pdForm.getProposalDevelopmentDocument());
+
         if (!valid) {
             // set up error message to go to validate panel
-            int errorBudgetVersion = getTentativeFinalBudgetVersion(pdForm);
-            if(errorBudgetVersion != -1) {
-                GlobalVariables.getErrorMap().putError("document.budgetVersionOverview["+ (errorBudgetVersion-1) +"].budgetStatus", KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
+            final int errorBudgetVersion = this.getTentativeFinalBudgetVersion(pdForm);
+            if (errorBudgetVersion != -1) {
+                GlobalVariables.getErrorMap().putError("document.budgetVersionOverview["
+                    + (errorBudgetVersion-1) +"].budgetStatus",
+                    KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
             }
             return mapping.findForward(Constants.MAPPING_BASIC);
-        } else {
-            setProposalStatus(pdForm.getProposalDevelopmentDocument());
-            ActionForward forward = super.save(mapping, form, request, response);
-            
-            //Need to facilitate releasing the Budget locks if user is redirected to Actions page
-            if(forward != null && forward.getName().equalsIgnoreCase("actions")) {
-                pdForm.setMethodToCall("actions");
-            }
-            
-            return forward;
         }
+
+        this.setProposalStatus(pdForm.getProposalDevelopmentDocument());
+        //this.setBudgetStatuses(pdForm.getProposalDevelopmentDocument());
+        final ActionForward forward = super.save(mapping, form, request, response);
+
+        //Need to facilitate releasing the Budget locks if user is redirected to Actions page
+        if(forward != null && forward.getName().equalsIgnoreCase("actions")) {
+            pdForm.setMethodToCall("actions");
+        }
+
+        return forward;
     }
     
     private int getTentativeFinalBudgetVersion(ProposalDevelopmentForm pdForm) {
@@ -246,7 +242,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         if(document != null && CollectionUtils.isNotEmpty(document.getBudgetVersionOverviews())) {
             for(BudgetVersionOverview budget : document.getBudgetVersionOverviews()) {
                 if(budget.isFinalVersionFlag()) {
-                    return budget.getBudgetVersionNumber();
+                    return budget.getBudgetVersionNumber().intValue();
                 }
             }
         }
@@ -256,13 +252,13 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
     
     @Override 
     protected void updateProposalDocument(ProposalDevelopmentForm pdForm) {
-        BusinessObjectService boService = getService(BusinessObjectService.class);
+        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
         ProposalDevelopmentDocument pdDocument = pdForm.getProposalDevelopmentDocument();
         DocumentHeader currentDocumentHeader = pdDocument.getDocumentHeader();
         KualiWorkflowDocument workflowDoc = currentDocumentHeader.getWorkflowDocument();
         ProposalDevelopmentDocument updatedDocCopy = getProposalDoc(pdDocument.getDocumentNumber());
 
-        if(updatedDocCopy != null && updatedDocCopy.getVersionNumber() > pdDocument.getVersionNumber()) {
+        if(updatedDocCopy != null && updatedDocCopy.getVersionNumber().longValue() > pdDocument.getVersionNumber().longValue()) {
               //refresh the reference
             updatedDocCopy.setBudgetVersionOverviews(pdDocument.getBudgetVersionOverviews());
             updatedDocCopy.getDocumentHeader().setWorkflowDocument(workflowDoc);
@@ -270,35 +266,41 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         }
         
         boService.save(pdDocument.getBudgetVersionOverviews());
-    }    
-    
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward forward = super.reload(mapping, form, request, response);
-        ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
+        final ActionForward forward = super.reload(mapping, form, request, response);
+        final ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         pdForm.setFinalBudgetVersion(getFinalBudgetVersion(pdForm.getProposalDevelopmentDocument().getBudgetVersionOverviews()));
         setBudgetStatuses(pdForm.getProposalDevelopmentDocument());
+
+        final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
+        tdcValidator.validateGeneratingWarnings(pdForm.getProposalDevelopmentDocument());
         return forward;
     }
-    
+
     public ActionForward copyBudgetPeriodOne(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
+        Object question = request.getParameter(org.kuali.RiceConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (COPY_BUDGET_PERIOD_QUESTION.equals(question)) {
             copyBudget(form, request, true);
         }
-        
-        return mapping.findForward(MAPPING_BASIC);
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     public ActionForward copyBudgetAllPeriods(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
+        Object question = request.getParameter(org.kuali.RiceConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (COPY_BUDGET_PERIOD_QUESTION.equals(question)) {
             copyBudget(form, request, false);
         }
-        
-        return mapping.findForward(MAPPING_BASIC);
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     private BudgetVersionOverview getSelectedVersion(ProposalDevelopmentForm proposalDevelopmentForm, HttpServletRequest request) {
@@ -319,7 +321,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
     }    
 
     private BudgetRatesService getBudgetRatesService() {
-        return getService(BudgetRatesService.class);
+        return KraServiceLocator.getService(BudgetRatesService.class);
     }
 
     /**
@@ -328,7 +330,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
      * @return ProposalDevelopmentService
      */
     private ProposalDevelopmentService getProposalDevelopmentService() {
-        return getService(ProposalDevelopmentService.class);
+        return KraServiceLocator.getService(ProposalDevelopmentService.class);
     }
 
 }

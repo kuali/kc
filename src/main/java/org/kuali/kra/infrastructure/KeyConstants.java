@@ -48,7 +48,7 @@ public class KeyConstants {
     public static final String ERROR_MISSING_PERSON_ROLE = "error.missingPersonRole";
     public static final String ERROR_PROPOSAL_PERSON_EXISTS = "error.proposalPersonExists";
     public static final String ERROR_TOTAL_CREDIT_SPLIT_UPBOUND = "error.totalCreditSplit.upbound";
-   public static final String ERROR_CREDIT_SPLIT_LOWBOUND = "error.creditSplit.lowbound";
+    public static final String ERROR_CREDIT_SPLIT_LOWBOUND = "error.creditSplit.lowbound";
     public static final String ERROR_CREDIT_SPLIT_UPBOUND = "error.creditSplit.upbound";
     public static final String ERROR_DELETE_LEAD_UNIT = "error.deleteLeadUnit";
     public static final String ERROR_ADD_EXISTING_UNIT = "error.addExistingUnit";
@@ -109,7 +109,10 @@ public class KeyConstants {
     public static final String ERROR_MULTIPLE_FINAL_BUDGETS = "error.final.multiple";
     public static final String AUDIT_ERROR_NO_BUDGETVERSION_COMPLETE_AND_FINAL = "error.no.budgetVersion.completeAndFinal";
     public static final String ERROR_BUDGET_STATUS_COMPLETE_WHEN_NOT_MODULER = "error.budgetVersion.budgetStatusCompleteWhenNotModuler";
-    
+
+    //Budget Version warnings
+    public static final String WARNING_BUDGET_VERSION_MODULAR_INVALID_TDC = "warning.budgetVersion.Modular.InvalidTotalDirectCost";
+
     // Budget Personnel constants
     public static final String ERROR_DUPLICATE_BUDGET_PERSON = "error.budgetPerson.duplicate";
     public static final String QUESTION_DELETE_PERSON = "document.question.deletePerson.text";

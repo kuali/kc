@@ -15,32 +15,31 @@
  */
 package org.kuali.kra.rules;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.collections.keyvalue.DefaultMapEntry;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.DocumentAuditRule;
 import org.kuali.core.rules.DocumentRuleBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DictionaryValidationService;
-import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.ExceptionUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
-import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
-import edu.iu.uis.eden.exception.WorkflowException;
+
+import edu.emory.mathcs.backport.java.util.AbstractMap.SimpleEntry;
+import edu.emory.mathcs.backport.java.util.AbstractMap.SimpleImmutableEntry;
 
 /**
  * Base implementation class for KRA document business rules
@@ -49,7 +48,8 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * @version $Revision: 1.13 $
  */
 public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implements DocumentAuditRule {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ResearchDocumentRuleBase.class);
+
+    private static final Log LOG = LogFactory.getLog(ResearchDocumentRuleBase.class);
 
     /**
      * Wrapper around global errorMap.put call, to allow better logging
@@ -69,33 +69,34 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
     
     
     public boolean processRunAuditBusinessRules(Document document) {
-        boolean retval = true;
-        
         return new ResearchDocumentBaseAuditRule().processRunAuditBusinessRules(document);
-        
     }
 
     /**
-     * 
-     * This method checks budget versions business rules
-     * @param proposalDevelopmentDocument
+     *
+     * This method checks budget versions business rules.
+     *
+     * @param proposalDevelopmentDocument the document
      * @param runDatactionaryValidation if dd validation should be run
-     * @return
+     * @return true if valid false if not
+     * @throws NullPointerException if the proposalDevelopmentDocument is null
      */
-    protected boolean processBudgetVersionsBusinessRule(List<BudgetVersionOverview> budgetVersionOverviews, boolean runDatactionaryValidation) {
-        
+    protected boolean processBudgetVersionsBusinessRule(
+        final ProposalDevelopmentDocument proposalDevelopmentDocument,
+        final boolean runDatactionaryValidation) {
+        if (proposalDevelopmentDocument == null) {
+            throw new NullPointerException("the proposalDevelopmentDocument is null.");
+        }
+
         boolean valid = true;
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        final ErrorMap errorMap = GlobalVariables.getErrorMap();
         boolean finalVersionFound = false;
-        DictionaryValidationService dictionaryValidationService = getDictionaryValidationService();
-        
-        DocumentService documentService = getService(DocumentService.class);        
-        
-        String budgetStatusCompleteCode = getKualiConfigurationService().getParameter(
-                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_COMPLETE_CODE).getParameterValue();
-        
+
+        final DictionaryValidationService dictionaryValidationService
+            = this.getDictionaryValidationService();
+
         int index = 0;
-        for (BudgetVersionOverview budgetVersion: budgetVersionOverviews) {
+        for (BudgetVersionOverview budgetVersion: proposalDevelopmentDocument.getBudgetVersionOverviews()) {
             if (runDatactionaryValidation) {
                 dictionaryValidationService.validateBusinessObject(budgetVersion, true);
             }
@@ -106,31 +107,24 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
                     finalVersionFound = true;
                 }
             }
-            if (budgetVersion.getBudgetStatus()!= null 
-                    && budgetVersion.getBudgetStatus().equals(budgetStatusCompleteCode) 
-                    && !budgetVersion.isFinalVersionFlag()) {
-                errorMap.putError("budgetVersionOverview[" + index + "].budgetStatus", KeyConstants.ERROR_NO_FINAL_BUDGET);
-                valid = false;
-            }
-            try{
-                BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetVersion.getDocumentNumber());
-                if(budgetVersion.getBudgetStatus()!= null 
-                      && budgetVersion.getBudgetStatus().equalsIgnoreCase(budgetStatusCompleteCode) 
-                      && !budgetDocument.getModularBudgetFlag()){
-                    errorMap.putError("budgetVersionOverview[" + index + "].budgetStatus", KeyConstants.ERROR_BUDGET_STATUS_COMPLETE_WHEN_NOT_MODULER);
+
+            final String budgetStatusCompleteCode = getKualiConfigurationService().getParameter(
+                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT,
+                Constants.BUDGET_STATUS_COMPLETE_CODE).getParameterValue();
+
+            if (budgetStatusCompleteCode.equalsIgnoreCase(budgetVersion.getBudgetStatus())) {
+                if (!budgetVersion.isFinalVersionFlag()) {
+                    errorMap.putError("budgetVersionOverview[" + index + "].budgetStatus",
+                        KeyConstants.ERROR_NO_FINAL_BUDGET);
                     valid = false;
                 }
-            }catch(WorkflowException e){
-                System.out.println("Workflow Exception Caught is :" + e);
             }
-            
-
             index++;
         }
-        
+
         return valid;
     }
-    
+
     /**
      * Does the current user have the given permission for the proposal?
      * @param doc the Proposal Development Document
@@ -189,10 +183,12 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
      * @return SimpleImmutableEntry
      */
     protected Entry<String, String> keyValue(String key, Object value) {
-        if (value == null) {
-            return new DefaultMapEntry(key, "");            
-        }
-        return new DefaultMapEntry(key, value.toString());
+
+        @SuppressWarnings("unchecked") //Commons Collections does not support Generics
+        final Entry<String, String> entry
+            = (value == null) ? new DefaultMapEntry(key, "") :  new DefaultMapEntry(key, value.toString());
+
+        return entry;
     }
     /**
      * The opposite of <code>{@link #isValid(Class, SimpleEntry...)}</code>
@@ -246,6 +242,6 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
      * @return BusinessObjectService
      */
     protected final BusinessObjectService getBusinessObjectService() {
-        return getService(BusinessObjectService.class);
+        return KraServiceLocator.getService(BusinessObjectService.class);
     }
 }

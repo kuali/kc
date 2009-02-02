@@ -171,7 +171,8 @@ public class BudgetForm extends ProposalFormBase {
     public BudgetDocument getBudgetDocument() {
         return (BudgetDocument) this.getDocument();
     }
-    
+
+    @Override
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         super.reset(mapping, request);
         // if there are more ...
@@ -198,10 +199,9 @@ public class BudgetForm extends ProposalFormBase {
         // clear out the extra buttons array
         extraButtons.clear();
         String externalImageURL = KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
-        String generatePeriodImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_generatePeriods.gif"; 
-        String calculatePeriodImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_calculatePeriods.gif"; 
-        String defaultImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_defaultPeriods.gif"; 
-        String appExternalImageURL = "ConfigProperties.kra.externalizable.images.url"; 
+        String generatePeriodImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_generatePeriods.gif";
+        String calculatePeriodImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_calculatePeriods.gif";
+        String defaultImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_defaultPeriods.gif";
         addExtraButton("methodToCall.generateAllPeriods", generatePeriodImage, "Generate All Periods");
         addExtraButton("methodToCall.questionCalculateAllPeriods",calculatePeriodImage, "Calculate All Periods");
         addExtraButton("methodToCall.defaultPeriods",defaultImage, "Default Periods");
@@ -470,7 +470,8 @@ public class BudgetForm extends ProposalFormBase {
     public void setViewBudgetView(Integer viewBudgetView) {
         this.viewBudgetView = viewBudgetView;
     }
-        
+
+    @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
         
@@ -735,15 +736,34 @@ public class BudgetForm extends ProposalFormBase {
     public void setNewGroupName(String newGroupName) {
         this.newGroupName = newGroupName;
     }
-    
-    protected void setSaveDocumentControl(DocumentActionFlags tempDocumentActionFlags, Map editMode) {
+
+    /**
+     * {@inheritDocs}
+     */
+    @Override
+    protected void setSaveDocumentControl(DocumentActionFlags tempDocumentActionFlags, @SuppressWarnings("unchecked") Map editMode) {
         tempDocumentActionFlags.setCanSave(false);
 
-        if (hasModifyBudgetPermission(editMode)) {
+        if (this.hasModifyBudgetPermission(editMode)
+            || (this.hasModifyCompletedBudgetPermission(editMode)
+            && this.toBudgetVersionsPage())) {
             tempDocumentActionFlags.setCanSave(true);
         }
     }
-    
+
+    /**
+     * This method checks if destination is the BudgetVersions page.
+     * This method works only if called after form properties are updated
+     * (ex: navigateTo).
+     *
+     * @return true if headed to the versions page.
+     */
+    public boolean toBudgetVersionsPage() {
+        return "versions".equals(this.navigateTo)
+        || "BudgetVersionsAction".equals(this.actionName);
+    }
+
+    @Override
     protected String getLockRegion() {
         return KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET;
     }
