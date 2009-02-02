@@ -77,8 +77,7 @@ public abstract class AwardFandaRateEvent extends KraDocumentEventBase {
         // vary logging detail as needed
         if (getAwardFandaRate() == null) {
             logMessage.append("null proposalSpecialReview");
-        }
-        else {
+        }else {
             logMessage.append(getAwardFandaRate().toString());
         }
         

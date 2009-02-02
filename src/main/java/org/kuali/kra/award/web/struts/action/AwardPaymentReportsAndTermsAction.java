@@ -164,7 +164,8 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      * @param reportClass
      * @return
      */
-    protected List<AwardReportTerm> addAwardReportTermToAward(Award award, AwardReportTerm newAwardReportTerm){        
+    protected List<AwardReportTerm> addAwardReportTermToAward(
+            Award award, AwardReportTerm newAwardReportTerm){        
         newAwardReportTerm.setAward(award);
         award.getAwardReportTerms().add(newAwardReportTerm);
         return award.getAwardReportTerms();
