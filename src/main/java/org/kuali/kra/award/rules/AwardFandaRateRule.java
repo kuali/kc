@@ -56,11 +56,10 @@ public class AwardFandaRateRule  extends ResearchDocumentRuleBase implements Add
      * @param awardFandaRate
      * @return
      */
-    protected boolean evaluateRuleForApplicableFandaRate(AwardFandaRate awardFandaRate){
-        boolean rulePassed = true;
-        if(awardFandaRate.getApplicableFandaRate()==null 
-                || StringUtils.isBlank(awardFandaRate.getApplicableFandaRate().toString())){
-            rulePassed = false;
+    protected boolean evaluateRuleForApplicableFandaRate(AwardFandaRate awardFandaRate){        
+        boolean rulePassed = !(awardFandaRate.getApplicableFandaRate()==null 
+                || StringUtils.isBlank(awardFandaRate.getApplicableFandaRate().toString()));
+        if(!rulePassed){            
             reportError(NEW_AWARD_FANDA_RATE+".applicableFandaRate"
                     , KeyConstants.ERROR_REQUIRED_APPLICABLE_INDIRECT_COST_RATE);
         }
@@ -74,10 +73,9 @@ public class AwardFandaRateRule  extends ResearchDocumentRuleBase implements Add
      * @return
      */
     protected boolean evaluateRuleForFandaRateTypeCode(AwardFandaRate awardFandaRate){
-        boolean rulePassed = true;
-        if(awardFandaRate.getFandaRateTypeCode()==null 
-                || StringUtils.isBlank(awardFandaRate.getFandaRateTypeCode().toString())){
-            rulePassed = false;
+        boolean rulePassed = !(awardFandaRate.getFandaRateTypeCode()==null 
+                || StringUtils.isBlank(awardFandaRate.getFandaRateTypeCode().toString()));
+        if(!rulePassed){            
             reportError(NEW_AWARD_FANDA_RATE+".fandaRateTypeCode"
                     , KeyConstants.ERROR_REQUIRED_INDIRECT_RATE_TYPE_CODE);
         }        
@@ -120,22 +118,21 @@ public class AwardFandaRateRule  extends ResearchDocumentRuleBase implements Add
      * @return
      */
     protected boolean evaluateRuleForStartAndEndDates(AwardFandaRate awardFandaRate){
-        boolean rulePassed = true;
+        boolean rule1Passed = !(awardFandaRate.getStartDate()==null 
+                || StringUtils.isBlank(awardFandaRate.getStartDate().toString()));
         final String[] DATE_PARAMS = {"End Date","Start Date"};
         
-        if(awardFandaRate.getStartDate()==null 
-                || StringUtils.isBlank(awardFandaRate.getStartDate().toString())){
-            rulePassed = false;
+        if(!rule1Passed){            
             reportError(NEW_AWARD_FANDA_RATE+".startDate", KeyConstants.ERROR_REQUIRED_START_DATE);
-        }        
-        if (awardFandaRate.getEndDate() !=null 
+        }
+        boolean rule2Passed =  !(awardFandaRate.getEndDate() !=null 
                 && awardFandaRate.getStartDate() != null 
-                && awardFandaRate.getEndDate().before(awardFandaRate.getStartDate())) {
-            rulePassed = false;
+                && awardFandaRate.getEndDate().before(awardFandaRate.getStartDate()));
+        if (!rule2Passed) {            
             reportError(NEW_AWARD_FANDA_RATE+".endDate"
                     , KeyConstants.ERROR_END_DATE_BEFORE_START_DATE_INDIRECT_COST_RATE,DATE_PARAMS);
         }
-        return rulePassed;
+        return rule1Passed && rule2Passed;
     }
     
 }
