@@ -70,7 +70,6 @@ public class AwardForm extends KraTransactionalDocumentFormBase implements Multi
     private List<AwardReportTerm> newAwardReportTerm;
     private List<AwardReportTermRecipient> newAwardReportTermRecipient;
     private List<KeyLabelPair> reportClasses;
-    private List<KeyLabelPair> reportCodes;
     
     private ApprovedEquipmentFormHelper approvedEquipmentFormHelper;
 
@@ -322,13 +321,4 @@ public class AwardForm extends KraTransactionalDocumentFormBase implements Multi
     public void setReportClasses(List<KeyLabelPair> reportClasses) {
         this.reportClasses = reportClasses;
     }
-
-    public List<KeyLabelPair> getReportCodes() {
-        return reportCodes;
-    }
-
-    public void setReportCodes(List<KeyLabelPair> reportCodes) {
-        this.reportCodes = reportCodes;
-    }
-
 }
