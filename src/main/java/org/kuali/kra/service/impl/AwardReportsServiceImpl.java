@@ -16,17 +16,11 @@
 package org.kuali.kra.service.impl;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.award.bo.AwardReportTerm;
 import org.kuali.kra.award.bo.AwardReportTermRecipient;
-import org.kuali.kra.award.comparator.AwardReportTermsComparator1;
-import org.kuali.kra.award.comparator.AwardReportTermsComparator2;
-import org.kuali.kra.award.comparator.AwardReportTermsComparator3;
-import org.kuali.kra.award.comparator.AwardReportTermsComparator4;
-import org.kuali.kra.award.comparator.AwardReportTermsComparator5;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.ReportClassValuesFinder;
@@ -40,6 +34,9 @@ import org.kuali.kra.service.AwardReportsService;
  */
 public class AwardReportsServiceImpl implements AwardReportsService {
     
+    private static final String SEMICOLON_AS_DELIMITOR = ";";
+    private static final String COMA_AS_DELIMITOR = ",";
+    
     /**
      * 
      * @see org.kuali.kra.service.AwardReportsService#doPreparations(
@@ -47,25 +44,11 @@ public class AwardReportsServiceImpl implements AwardReportsService {
      */
     public void doPreparations(AwardForm awardForm){
         
-        assignReportClassToAwardForm(awardForm);        
-        assignReportCodeToAwardForm(awardForm);        
-        sortAwardReportTerms(awardForm.getAwardDocument().getAward().getAwardReportTerms());
+        assignReportClassesToAwardForPanelHeaderDisplay(awardForm);        
+        assignReportCodesToAwardFormForPanelHeaderDisplay(awardForm);
     }
     
-    /**
-     * 
-     * This method sorts the list of AwardReportTerm objects using different comparator classes.
-     * @param awardReportTerms
-     */
-    protected void sortAwardReportTerms(List<AwardReportTerm> awardReportTerms){
-        Collections.sort(awardReportTerms, new AwardReportTermsComparator5());
-        Collections.sort(awardReportTerms, new AwardReportTermsComparator4());
-        Collections.sort(awardReportTerms, new AwardReportTermsComparator3());
-        Collections.sort(awardReportTerms, new AwardReportTermsComparator2());
-        Collections.sort(awardReportTerms, new AwardReportTermsComparator1());
-    }
-    
-    protected void assignReportClassToAwardForm(AwardForm awardForm){
+    protected void assignReportClassesToAwardForPanelHeaderDisplay(AwardForm awardForm){
         ReportClassValuesFinder reportClassValuesFinder = new ReportClassValuesFinder();
         List<KeyLabelPair> reportClasses = new ArrayList<KeyLabelPair>();
         
@@ -77,7 +60,7 @@ public class AwardReportsServiceImpl implements AwardReportsService {
         }        
     }
     
-    protected void assignReportCodeToAwardForm(AwardForm awardForm){
+    protected void assignReportCodesToAwardFormForPanelHeaderDisplay(AwardForm awardForm){
         ReportCodeAllValuesFinder reportCodeAllValuesFinder = new ReportCodeAllValuesFinder();
         
         awardForm.setReportCodes(reportCodeAllValuesFinder.getKeyValues());        
@@ -87,6 +70,10 @@ public class AwardReportsServiceImpl implements AwardReportsService {
         }
     }
     
+    /**
+     * 
+     * @see org.kuali.kra.service.AwardReportsService#getFrequencyCodes(java.lang.String, java.lang.String)
+     */
     public String getFrequencyCodes(String reportClassCode, String reportCode){        
         FrequencyCodeValuesFinder frequencyCodeValuesFinder = new FrequencyCodeValuesFinder();
         StringBuffer strBuffer = new StringBuffer();
@@ -98,10 +85,10 @@ public class AwardReportsServiceImpl implements AwardReportsService {
         int i = 1;
         for(KeyLabelPair keyLabelPair : frequencyCodes){
             strBuffer.append(keyLabelPair.key);
-            strBuffer.append(";");
+            strBuffer.append(SEMICOLON_AS_DELIMITOR);
             strBuffer.append(keyLabelPair.label);
             if(i!=frequencyCodes.size()){
-                strBuffer.append(",");    
+                strBuffer.append(COMA_AS_DELIMITOR);    
             }
             i++;
         }
@@ -119,10 +106,10 @@ public class AwardReportsServiceImpl implements AwardReportsService {
         int i = 1;
         for(KeyLabelPair keyLabelPair : frequencyBaseCodes){
             strBuffer.append(keyLabelPair.key);
-            strBuffer.append(";");
+            strBuffer.append(SEMICOLON_AS_DELIMITOR);
             strBuffer.append(keyLabelPair.label);
             if(i!=frequencyBaseCodes.size()){
-                strBuffer.append(",");    
+                strBuffer.append(COMA_AS_DELIMITOR);    
             }
             i++;
         }
