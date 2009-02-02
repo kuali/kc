@@ -20,7 +20,7 @@
 <c:set var="protocolPersonAttributes" value="${DataDictionary.ProtocolPerson.attributes}" />
 <c:set var="proposalPersonAttributes" value="${DataDictionary.ProposalPerson.attributes}" />
 <c:set var="personAttributes" value="${DataDictionary.Person.attributes}" />
-<c:set var="readOnly" value="${not KualiForm.editingMode['modifyProtocol']}" scope="request" />
+<c:set var="readOnly" value="${not KualiForm.personnelHelper.modifyProtocol}" scope="request" />
 
 <jsp:useBean id="newMap" class="java.util.HashMap" scope="request" />
 
@@ -36,7 +36,7 @@
   	
   	<div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="Personnel" /></div>
 
-	<c:set var="viewOnly" value="${not KualiForm.editingMode['modifyProtocol']}" />
+	<c:set var="viewOnly" value="${not KualiForm.personnelHelper.modifyProtocol}" />
 	<kra-irb:protocolAddPersonnelSection/>
 	<kra-irb:protocolPersons/>
 

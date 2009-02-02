@@ -27,6 +27,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.lookup.LookupResultsService;
 import org.kuali.core.rule.event.KualiDocumentEvent;
@@ -34,7 +35,11 @@ import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.kra.irb.document.authorization.ProtocolTask;
+import org.kuali.kra.irb.service.ProtocolAuthorizationService;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.KNSServiceLocator;
@@ -59,10 +64,74 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         return mapping.findForward("personnel");
     }
 
+    /**
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     @Override
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {      
-        return super.save(mapping, form, request, response);
+    public final ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {    
+        
+        ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument doc = protocolForm.getProtocolDocument();
+        
+        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL, doc.getProtocol());
+        if (isAuthorized(task)) {
+            if (isValidSave(protocolForm)) {
+                String originalStatus = getDocumentStatus(doc);
+                actionForward = super.save(mapping, form, request, response);
+                if (isInitialSave(originalStatus)) {
+                    initializeProtocolUsers(doc); 
+                }
+            }
+        }
+
+        return actionForward;
+    }
+    
+    /**
+     * Can the protocol be saved?  This method is normally overridden by
+     * a subclass in order to invoke business rules to verify that the
+     * protocol can be saved.
+     * @param protocolForm the Protocol Form
+     * @return true if the protocol can be saved; otherwise false
+     */
+    protected boolean isValidSave(ProtocolForm protocolForm) {
+        return true;
+    }
+
+    /**
+     * Get the current status of the document.  
+     * @param doc the Protocol Document
+     * @return the status (INITIATED, SAVED, etc.)
+     */
+    private String getDocumentStatus(ProtocolDocument doc) {
+        return doc.getDocumentHeader().getWorkflowDocument().getStatusDisplayValue();
+    }
+    
+    /**
+     * Is this the initial save of the document?  If there are errors
+     * in the document, it won't be saved and thus it cannot be initial
+     * successful save.
+     * @param status the original status before the save operation
+     * @return true if the initial save; otherwise false
+     */
+    private boolean isInitialSave(String status) {
+        return GlobalVariables.getErrorMap().isEmpty() &&
+               StringUtils.equals("INITIATED", status);
+    }
+    
+    /**
+     * Create the original set of Protocol Users for a new Protocol Document.
+     * The creator the protocol is assigned to the PROTOCOL_AGGREGATOR role.
+     * @param doc the Protocol Document
+     */
+    protected void initializeProtocolUsers(ProtocolDocument doc) {
+        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        String username = user.getPersonUserIdentifier();
+        ProtocolAuthorizationService protocolAuthService = KraServiceLocator.getService(ProtocolAuthorizationService.class);
+        protocolAuthService.addRole(username, RoleConstants.PROTOCOL_AGGREGATOR, doc.getProtocol());
     }
 
     @Override

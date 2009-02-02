@@ -40,24 +40,14 @@ import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 public class ProtocolPersonnelAction extends ProtocolAction {
     
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolPersonnelAction.class);
-    
-    @Override
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {      
-
-        boolean rulePassed = true;
-        // check any business rules
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        return super.save(mapping, form, request, response);
-    }
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
         
-        //Call to prepareView sets Labels Values from configuration service
         ((ProtocolForm)form).getProtocolHelper().prepareView();
+        ((ProtocolForm)form).getPersonnelHelper().prepareView();
         
         return actionForward;
     }

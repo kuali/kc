@@ -56,7 +56,7 @@ insert into KIM_ROLES_T (ID,NAME,DESCRIPTION, ROLE_TYPE_CODE, DESCEND_FLAG) valu
 insert into KIM_ROLES_T (ID,NAME,DESCRIPTION, ROLE_TYPE_CODE, DESCEND_FLAG) values(6,'unassigned','Unassigned - no permissions', 'P', 'N');
 insert into KIM_ROLES_T (ID,NAME,DESCRIPTION, ROLE_TYPE_CODE, DESCEND_FLAG) values(7,'OSP Administrator','OSP Administrator', 'O', 'Y');
 insert into KIM_ROLES_T (ID,NAME,DESCRIPTION, ROLE_TYPE_CODE, DESCEND_FLAG) values(8,'Proposal Submission','Proposal Submission', 'O', 'Y');
-insert into KIM_ROLES_T (ID,NAME,DESCRIPTION, ROLE_TYPE_CODE, DESCEND_FLAG) values(9,'Protocol Creator','Protocol Creator', 'D', 'N');
+insert into KIM_ROLES_T (ID,NAME,DESCRIPTION, ROLE_TYPE_CODE, DESCEND_FLAG) values(9,'Protocol Creator','Protocol Creator', 'D', 'Y');
 insert into KIM_ROLES_T (ID,NAME,DESCRIPTION, ROLE_TYPE_CODE, DESCEND_FLAG) values(10,'Protocol Aggregator','Protocol Aggregator', 'R', 'N');
 insert into KIM_ROLES_T (ID,NAME,DESCRIPTION, ROLE_TYPE_CODE, DESCEND_FLAG) values(11,'Protocol Viewer','Protocol Viewer', 'R', 'N');
 insert into KIM_ROLES_T (ID,NAME,DESCRIPTION, ROLE_TYPE_CODE, DESCEND_FLAG) values(12,'IRB Administrator','IRB Administrator', 'D', 'Y');
