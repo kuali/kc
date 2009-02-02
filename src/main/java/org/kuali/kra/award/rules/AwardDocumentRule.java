@@ -41,6 +41,7 @@ import org.kuali.kra.award.rule.event.AddAwardFandaRateEvent;
 import org.kuali.kra.award.rule.event.AddAwardReportTermEvent;
 import org.kuali.kra.award.rule.event.AddAwardReportTermRecipientEvent;
 import org.kuali.kra.award.rule.event.AwardApprovedEquipmentRuleEvent;
+import org.kuali.kra.award.rule.event.AwardCostShareRuleEvent;
 import org.kuali.kra.bo.AbstractSpecialReview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -144,8 +145,10 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         for (AwardCostShare awardCostShare : awardCostShares) {
             String errorPath = "awardCostShares[" + i + "]";
             errorMap.addToErrorPath(errorPath);
-            valid = testCostShareSourceAndDestinationForEquality(awardCostShare, errorMap);
-            valid = testCostShareFiscalYearRange(awardCostShare, errorMap);
+            AwardCostShareRuleEvent event = new AwardCostShareRuleEvent(errorPath, 
+                                                                        awardDocument, 
+                                                                        awardCostShare);
+            valid &= new AwardCostShareRuleImpl().processCostShareBusinessRules(event);
             errorMap.removeFromErrorPath(errorPath);
             i++;
         }
@@ -154,36 +157,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         return valid;
     }
     
-    /**
-    *
-    * Test source and destination for equality in AwardCostShare.
-    * @param AwardCostShare, ErrorMap
-    * @return Boolean
-    */
-    public boolean testCostShareSourceAndDestinationForEquality(AwardCostShare awardCostShare, ErrorMap errorMap){
-        boolean valid = true;
-        if(awardCostShare.getSource().equals(awardCostShare.getDestination())) {
-            valid = false;
-            errorMap.putError("source", KeyConstants.ERROR_SOURCE_DESTINATION);
-        }
-        return valid;
-    }
-    
-    /**
-    *
-    * Test fiscal year for valid range.
-    * @param AwardCostShare, ErrorMap
-    * @return Boolean
-    */
-    public boolean testCostShareFiscalYearRange(AwardCostShare awardCostShare, ErrorMap errorMap){
-        boolean valid = true;
-        int fiscalYear = Integer.parseInt(awardCostShare.getFiscalYear());
-        if(fiscalYear < Constants.MIN_FISCAL_YEAR || fiscalYear > Constants.MAX_FISCAL_YEAR) {
-            valid = false;
-            errorMap.putError("fiscalYear", KeyConstants.ERROR_FISCAL_YEAR_RANGE);
-        }
-        return valid;
-    }
     
     /**
     *
