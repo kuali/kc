@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="protocolPersonAttributes" value="${DataDictionary.ProtocolPerson.attributes}" />
 
-	<kra:section permission="modifyProtocol">
+	<kra:permission value="${KualiForm.personnelHelper.modifyProtocol}">
     	<kul:uncollapsable tabTitle="Add Personnel" tabErrorKey="newProtocolPerson.*" auditCluster="PersonnelAuditErrors" tabAuditKey="newProtocolPerson*">
           <div align="center">
             <table  cellpadding="0" cellspacing="0" class="grid" summary="">
@@ -40,5 +40,5 @@
             <html:image property="methodToCall.addProtocolPerson" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-addpers.gif" title="Add Protocol Person" alt="Add Protocol Person" styleClass="tinybutton"/>
           </div>
     	</kul:uncollapsable>
-	</kra:section>
+	</kra:permission>
     <br/>

@@ -90,7 +90,7 @@
 			<%-- Header --%>
 			
             <%-- New data --%>
-         	<kra:section permission="modifyProtocol">
+         	<kra:permission value="${KualiForm.protocolHelper.modifyProtocol}">
                 <tr>
                     <th class="infoline" rowspan="2">add:</th>
                     <td class="infoline" style="text-align:center;">
@@ -130,7 +130,7 @@
                     </th>
                 </tr>	            
 	            
-            </kra:section>
+            </kra:permission>
             
 			<%-- End of New data --%>
 			
@@ -166,10 +166,10 @@
 
 					<td rowspan="2">
 						<div align=center>&nbsp;
-							<kra:section permission="modifyProtocol">  
+							<kra:permission value="${KualiForm.protocolHelper.modifyProtocol}">  
 								<html:image property="methodToCall.deleteProtocolReference.line${status.index}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
-							</kra:section>  
+							</kra:permission>  
 						</div>
 	                </td>
 	            </tr>
@@ -238,10 +238,10 @@
                 	${KualiForm.document.protocol.protocolResearchAreas[ctr].researchAreas.researchAreaCode}:${KualiForm.document.protocol.protocolResearchAreas[ctr].researchAreas.description}
                 </td>
                 <td><div align="center">
-							<kra:section permission="modifyProtocol">  
+							<kra:permission value="${KualiForm.protocolHelper.modifyProtocol}">  
 								<html:image property="methodToCall.deleteProtocolResearchArea.line${ctr}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
-							</kra:section>                    
+							</kra:permission>                    
                 </div></td>           
               </tr>
             </logic:iterate>

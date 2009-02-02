@@ -21,10 +21,21 @@ import java.util.Map;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
+import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
+import org.kuali.core.exceptions.DocumentInitiationAuthorizationException;
+import org.kuali.kra.authorization.ApplicationTask;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.kra.service.TaskAuthorizationService;
 
-
+/**
+ * The Protocol Document Authorizer controls creation and access to protocol documents.
+ */
 public class ProtocolDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
+    
     private static final String TRUE = "TRUE";
     private static final String FALSE = "FALSE";
     
@@ -36,9 +47,114 @@ public class ProtocolDocumentAuthorizer extends TransactionalDocumentAuthorizerB
     public Map getEditMode(Document doc, UniversalUser user) {
                  
         Map editModeMap = new HashMap();
-        editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, TRUE);
-        editModeMap.put("modifyProtocol", editModeMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) ? TRUE : FALSE);
-    
+        
+        ProtocolDocument protocolDocument = (ProtocolDocument) doc;
+        
+        String username = user.getPersonUserIdentifier();
+        if (protocolDocument.getProtocol().getProtocolId() == null) {
+            if (canCreateProtocol(user)) {
+                editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, TRUE);
+            } 
+            else {
+                editModeMap.put(AuthorizationConstants.EditMode.UNVIEWABLE, TRUE);
+            }
+        } 
+        else {
+            if (canExecuteProtocolTask(username, protocolDocument, TaskName.MODIFY_PROTOCOL)) {  
+                editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, TRUE);
+            }
+            else if (canExecuteProtocolTask(username, protocolDocument, TaskName.VIEW_PROTOCOL)) {
+                editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, TRUE);
+            }
+            else {
+                editModeMap.put(AuthorizationConstants.EditMode.UNVIEWABLE, TRUE);
+            }
+        }
+        
         return editModeMap;
+    }
+    
+    /**
+     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String,
+     *      org.kuali.core.bo.user.UniversalUser)
+     */
+    @Override
+    public void canInitiate(String documentTypeName, UniversalUser user) {
+        super.canInitiate(documentTypeName, user);
+        if (!canCreateProtocol(user)) {
+            throw new DocumentInitiationAuthorizationException(KeyConstants.ERROR_AUTHORIZATION_DOCUMENT_INITIATION, 
+                                                               new String[] { user.getPersonUserIdentifier(), documentTypeName });
+        }
+    }
+    
+    /**
+     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     */
+    @Override
+    public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
+   
+        ProtocolDocument protocolDocument = (ProtocolDocument) document;
+        
+        boolean permission;
+        if (protocolDocument.getProtocol().getProtocolId() == null) {
+            permission = canCreateProtocol(user);
+        }
+        else {
+            String username = user.getPersonUserIdentifier();
+            permission = canExecuteProtocolTask(username, protocolDocument, TaskName.MODIFY_PROTOCOL);
+        }
+        return permission;
+    }
+   
+    /**
+     * @see org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     */
+    @Override
+    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+       
+        // no copy button
+        DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
+        flags.setCanCopy(false);
+       
+        // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
+        this.setAnnotateFlag(flags);
+       
+        // Any user who has the Initiate Authorization can save and cancel.
+       
+        if (this.hasInitiateAuthorization(document, user)) {
+            flags.setCanSave(true);
+            flags.setCanCancel(true);
+        }
+        else {
+            flags.setCanSave(false);
+            flags.setCanCancel(false);
+        }
+        
+        return flags;
+    }
+    
+    /**
+     * Does the user have permission to create a protocol?
+     * @param user the user
+     * @return true if the user can create a protocol; otherwise false
+     */
+    private boolean canCreateProtocol(UniversalUser user) {
+        String username = user.getPersonUserIdentifier();
+        ApplicationTask task = new ApplicationTask(TaskName.CREATE_PROTOCOL);       
+        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        return taskAuthenticationService.isAuthorized(username, task);
+    }
+    
+    /**
+     * Does the user have permission to execute the given task for a protocol?
+     * @param username the user's username
+     * @param doc the protocol document
+     * @param taskName the name of the task
+     * @return true if has permission; otherwise false
+     */
+    private boolean canExecuteProtocolTask(String username, ProtocolDocument doc, String taskName) {
+        ProtocolTask task = new ProtocolTask(taskName, doc.getProtocol());       
+        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        return taskAuthenticationService.isAuthorized(username, task);
     }
 }
