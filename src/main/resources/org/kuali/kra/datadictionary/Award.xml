@@ -24,6 +24,8 @@
         <ref bean="Award-sequenceNumber" />
         <ref bean="Award-nonCompetingContProposalDue" />
         <ref bean="Award-competingRenewalProposalDue" />
+        <ref bean="Award-specialEbRateOnCampus" />
+        <ref bean="Award-specialEbRateOffCampus" />
         <ref bean="Award-subPlanFlag" />
         <ref bean="Award-procurementPriorityCode" />
       </list>
@@ -164,6 +166,40 @@
     </property>
     <property name="summary" value="Competing Renewal" />
     <property name="description" value="Competing Renewal" />
+  </bean>
+  
+  <bean id="Award-specialEbRateOnCampus" parent="Award-specialEbRateOnCampus-parentBean" />
+
+  <bean id="Award-specialEbRateOnCampus-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="specialEbRateOnCampus" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Special EB Rate On Campus" />
+    <property name="shortLabel" value="Percentage" />
+    <property name="maxLength" value="10" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Special EB Rate On Campus" />
+    <property name="description" value="Special EB Rate On Campus" />
+  </bean>
+  
+  <bean id="Award-specialEbRateOffCampus" parent="Award-specialEbRateOffCampus-parentBean" />
+
+  <bean id="Award-specialEbRateOffCampus-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="specialEbRateOffCampus" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Special EB Rate Off Campus" />
+    <property name="shortLabel" value="Percentage" />
+    <property name="maxLength" value="10" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="Special EB Rate Off Campus" />
+    <property name="description" value="Special EB Rate Off Campus" />
   </bean>
   
   <bean id="Award-procurementPriorityCode" parent="Award-procurementPriorityCode-parentBean" />

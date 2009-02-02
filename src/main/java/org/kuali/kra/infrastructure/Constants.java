@@ -305,6 +305,7 @@ public interface Constants {
     public static final Integer FANDA_RATE_COMMENT_TYPE_CODE = 8;
     public static final Integer PREAWARD_SPONSOR_AUTHORIZATION_COMMENT_TYPE_CODE = 18;
     public static final Integer PREAWARD_INSTITUTIONAL_AUTHORIZATION_COMMENT_TYPE_CODE = 19;
+    public static final Integer BENEFITS_RATES_COMMENT_TYPE_CODE = 20;
     public static final Integer MIN_FISCAL_YEAR = 1900;
     public static final Integer MAX_FISCAL_YEAR = 2499;
     

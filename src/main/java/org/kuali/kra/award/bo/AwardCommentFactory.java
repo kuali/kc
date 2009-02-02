@@ -44,6 +44,15 @@ public class AwardCommentFactory {
     }
     
     /**
+     * This method creates Benefits Rate Comment
+     * @param award
+     * @return
+     */
+    public AwardComment createBenefitsRateComment(Award award) {
+        return createAwardComment(award, Constants.BENEFITS_RATES_COMMENT_TYPE_CODE, true);
+    }
+    
+    /**
      * This method creates PreAwardSponsorAuthoriztion comment
      * @param award
      * @return
@@ -70,9 +79,6 @@ public class AwardCommentFactory {
      */
     public  AwardComment createAwardComment(Award award, int commentTypeCode, boolean checklistPrintFlag) {
                 AwardComment comment = new AwardComment();
-                //comment.setAward(award);
-                //comment.setAwardNumber(award.getAwardNumber());//temp
-                //comment.setSequenceNumber(award.getSequenceNumber());//temp
                 CommentType commentType = findCommentType(commentTypeCode);
                 comment.setCommentType(commentType);
                 comment.setCommentTypeCode(commentType.getCommentTypeCode());//should be anonymous access through obj ref.
