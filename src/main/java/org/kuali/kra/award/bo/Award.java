@@ -85,8 +85,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private Date preAwardInstitutionalEffectiveDate;
     private String procurementPriorityCode;
     private String proposalNumber;
-    private Integer specialEbRateOffCampus;
-    private Integer specialEbRateOnCampus;
+    private KualiDecimal specialEbRateOffCampus;
+    private KualiDecimal specialEbRateOnCampus;
     private String subPlanFlag;
     private String title;
     
@@ -841,7 +841,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      *
      * @return
      */
-    public Integer getSpecialEbRateOffCampus() {
+    public KualiDecimal getSpecialEbRateOffCampus() {
         return specialEbRateOffCampus;
     }
 
@@ -849,7 +849,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      *
      * @param specialEbRateOffCampus
      */
-    public void setSpecialEbRateOffCampus(Integer specialEbRateOffCampus) {
+    public void setSpecialEbRateOffCampus(KualiDecimal specialEbRateOffCampus) {
         this.specialEbRateOffCampus = specialEbRateOffCampus;
     }
 
@@ -858,7 +858,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      *
      * @return
      */
-    public Integer getSpecialEbRateOnCampus() {
+    public KualiDecimal getSpecialEbRateOnCampus() {
         return specialEbRateOnCampus;
     }
 
@@ -866,7 +866,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      *
      * @param specialEbRateOnCampus
      */
-    public void setSpecialEbRateOnCampus(Integer specialEbRateOnCampus) {
+    public void setSpecialEbRateOnCampus(KualiDecimal specialEbRateOnCampus) {
         this.specialEbRateOnCampus = specialEbRateOnCampus;
     }
 
@@ -1087,10 +1087,25 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
     
     /**
-     * This method totals CoshShareCommitements
+    *
+    * Get the award Benefits Rate comments.  If the comment has not been set...... initialize and return new Comment.
+    */
+    public AwardComment getAwardBenefitsRateComment(){
+        AwardCommentFactory awardCommentFactory = new AwardCommentFactory();  //create Factory class
+        AwardComment awardComment = getCommentMap().get(Constants.BENEFITS_RATES_COMMENT_TYPE_CODE);
+        if(awardComment == null){
+            awardComment = awardCommentFactory.createBenefitsRateComment(this);  //if null initialize in factory class
+            add(awardComment);
+            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);  //add to Map
+        }
+        return awardComment;
+    }
+    
+    /**
+     * This method...
      * @return
      */
-    public KualiDecimal getTotalCostShareCommitmentAmount() {
+     public KualiDecimal getTotalCostShareCommitmentAmount() {
         return getTotalAmount(awardCostShares);
     }
     
@@ -1102,12 +1117,11 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         return getTotalAmount(awardApprovedSubawards);
     }
     
-    
-    /**
+     /**
      * This method totals Approved Equipment amounts
      * @return
      */
-    public KualiDecimal getTotalApprovedEquipmentAmount() {
+    public KualiDecimal getTotalApprovedEquipmentAmount(){
         return getTotalAmount(approvedEquipmentItems);
     }
     
