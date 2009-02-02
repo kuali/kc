@@ -33,7 +33,6 @@ import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
  * 
  * This class is a values finder for <code>Report</code> business object.
  */
-@SuppressWarnings("unchecked")
 public class ReportCodeValuesFinder extends KeyValuesBase {
     
     KeyValueFinderService keyValueFinderService= 
@@ -46,18 +45,19 @@ public class ReportCodeValuesFinder extends KeyValuesBase {
      * in the list is a &lt;key, value&gt; pair, where the "key" is the unique
      * report code and the "value" is the textual description that is viewed
      * by a user.  The list is obtained from a lookup of the REPORT database table
-     * via the "KeyValueFinderService".
      * 
      * @return the list of &lt;key, value&gt; pairs of abstract types.  The first entry
      * is always &lt;"", "select:"&gt;.
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @SuppressWarnings("unchecked")
     public List<KeyLabelPair> getKeyValues() {
         KeyValuesService keyValuesService = 
             (KeyValuesService) KraServiceLocator.getService("keyValuesService");
                 List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         
-        Collection validClassReportFrequencies = keyValuesService.findAll(ValidClassReportFrequency.class);        
+        Collection validClassReportFrequencies = 
+            keyValuesService.findAll(ValidClassReportFrequency.class);        
         
         HashMap uniqueReportCodes = new HashMap();
         ValidClassReportFrequency validClassReportFrequency = new ValidClassReportFrequency();

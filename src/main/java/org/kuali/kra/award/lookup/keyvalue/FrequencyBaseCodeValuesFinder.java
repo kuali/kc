@@ -25,34 +25,29 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kra.award.bo.ValidClassReportFrequency;
 import org.kuali.kra.award.bo.ValidFrequencyBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 
 /**
  * 
  * This class is a values finder for <code>Frequency</code> business object.
  */
-@SuppressWarnings("unchecked")
 public class FrequencyBaseCodeValuesFinder extends KeyValuesBase {
-    
-    KeyValueFinderService keyValueFinderService= 
-        (KeyValueFinderService) KraServiceLocator.getService("keyValueFinderService");
     
     private String frequencyCode;
     
     /**
-     * Constructs the list of Reports.  Each entry
+     * Constructs the list of Frequency Bases.  Each entry
      * in the list is a &lt;key, value&gt; pair, where the "key" is the unique
-     * report code and the "value" is the textual description that is viewed
-     * by a user.  The list is obtained from a lookup of the REPORT database table
-     * via the "KeyValueFinderService".
+     * frequency base code and the "value" is the textual description that is viewed
+     * by a user.  The list is obtained from a lookup of the FREQUENCY_BASE database table
+     * via the "KeyValueService".
      * 
      * @return the list of &lt;key, value&gt; pairs of abstract types.  The first entry
      * is always &lt;"", "select:"&gt;.
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @SuppressWarnings("unchecked")
     public List<KeyLabelPair> getKeyValues() {
         KeyValuesService keyValuesService = 
             (KeyValuesService) KraServiceLocator.getService("keyValuesService");
@@ -60,7 +55,7 @@ public class FrequencyBaseCodeValuesFinder extends KeyValuesBase {
         
         Collection validFrequencyBaseCodes = keyValuesService.findAll(ValidFrequencyBase.class);
         
-        HashMap uniqueFrequencyBaseCodes = new HashMap();
+        HashMap<Object, Object> uniqueFrequencyBaseCodes = new HashMap<Object, Object>();
         ValidFrequencyBase validFrequencyBase = new ValidFrequencyBase();
         int key=0;
         
