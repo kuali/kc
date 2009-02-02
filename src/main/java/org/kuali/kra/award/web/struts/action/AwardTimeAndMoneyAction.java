@@ -40,6 +40,12 @@ public class AwardTimeAndMoneyAction extends AwardAction {
     private static final String CONFIRM_DELETE_COST_SHARE = "confirmDeleteCostShare";
     private static final String CONFIRM_DELETE_COST_SHARE_KEY = "confirmDeleteCostShareKey";
     
+    private CostShareActionHelper costShareActionHelper;
+    
+    public AwardTimeAndMoneyAction(){
+        costShareActionHelper = new CostShareActionHelper();
+    }
+    
     /**
      * This method is used to add a new Award Cost Share
      * 
@@ -52,11 +58,7 @@ public class AwardTimeAndMoneyAction extends AwardAction {
      */
     public ActionForward addCostShare(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        AwardForm awardForm = (AwardForm) form;
-        AwardDocument awardDocument = awardForm.getAwardDocument();
-        AwardCostShare awardCostShare = awardForm.getNewAwardCostShare();
-        awardDocument.getAward().add(awardCostShare);
-        awardForm.setNewAwardCostShare(new AwardCostShare());
+        costShareActionHelper.addCostShare(((AwardForm)form).getCostShareFormHelper());
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     

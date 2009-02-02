@@ -62,7 +62,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase implements Multi
     private AwardSpecialReview newAwardSpecialReview;
     private List<AwardSpecialReviewExemption> newSpecialReviewExemptions;
     private String[] newExemptionTypeCodes;
-    private AwardCostShare newAwardCostShare;
+    //private AwardCostShare newAwardCostShare;
     private AwardComment newAwardCostShareComment;
     private AwardApprovedSubaward newAwardApprovedSubaward;
     
@@ -72,7 +72,8 @@ public class AwardForm extends KraTransactionalDocumentFormBase implements Multi
     private List<KeyLabelPair> reportClasses;
     
     private ApprovedEquipmentFormHelper approvedEquipmentFormHelper;
-
+    private CostShareFormHelper costShareFormHelper;
+    
     /**
      * 
      * Constructs a AwardForm.
@@ -82,6 +83,8 @@ public class AwardForm extends KraTransactionalDocumentFormBase implements Multi
         this.setDocument(new AwardDocument());
         initialize();        
     }
+ 
+
     
     /**
      * 
@@ -89,13 +92,14 @@ public class AwardForm extends KraTransactionalDocumentFormBase implements Multi
      */
     public void initialize() {
         initializeHeaderNavigationTabs();
-        newAwardCostShare = new AwardCostShare();
+        //newAwardCostShare = new AwardCostShare();
         newAwardFandaRate = new AwardFandaRate();
         setNewAwardReportTerm(new ArrayList<AwardReportTerm>());
         setNewAwardReportTermRecipient(new ArrayList<AwardReportTermRecipient>());        
         newAwardSpecialReview = new AwardSpecialReview();
         newSpecialReviewExemptions = new ArrayList<AwardSpecialReviewExemption>();
         approvedEquipmentFormHelper = new ApprovedEquipmentFormHelper(this);
+        costShareFormHelper = new CostShareFormHelper(this);
     }    
     
     /**
@@ -123,6 +127,13 @@ public class AwardForm extends KraTransactionalDocumentFormBase implements Multi
      */
     public ApprovedEquipmentFormHelper getApprovedEquipmentFormHelper() {
         return approvedEquipmentFormHelper;
+    }
+    
+    /**
+     * @return
+     */
+    public CostShareFormHelper getCostShareFormHelper() {
+        return costShareFormHelper;
     }
     
     /**
@@ -214,13 +225,13 @@ public class AwardForm extends KraTransactionalDocumentFormBase implements Multi
         this.newAwardApprovedSubaward = newAwardApprovedSubaward;
     }
     
-    public AwardCostShare getNewAwardCostShare() {
-        return newAwardCostShare;
-    }
+    //public AwardCostShare getNewAwardCostShare() {
+        //return newAwardCostShare;
+    //}
 
-    public void setNewAwardCostShare(AwardCostShare newAwardCostShare) {
-        this.newAwardCostShare = newAwardCostShare;
-    }
+    //public void setNewAwardCostShare(AwardCostShare newAwardCostShare) {
+        //this.newAwardCostShare = newAwardCostShare;
+    //}
 
     /**
      * Gets the lookupResultsBOClassName attribute. 
