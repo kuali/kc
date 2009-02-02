@@ -32,7 +32,15 @@
   <c:set var="readonly" value="false"/>
  </kra:section> 
 <kul:tabTop tabTitle="Budget Versions (${KualiForm.formattedStartDate} - ${KualiForm.formattedEndDate})" defaultOpen="true" tabErrorKey="document.proposal.budgetVersion*,${Constants.DOCUMENT_ERRORS},${errorKey}" auditCluster="budgetVersionErrors" tabAuditKey="document.budgetVersionOverview">
+
 	<div class="tab-container" align="center">
+
+		<c:forEach var="warning" items="${budgetModularWarnings}">
+			<ul class="warnings">
+				<li class="warnings"><c:out value="${warning}"/></li>
+			</ul>
+		</c:forEach>
+
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Budget Versions</h2></span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.BudgetStatus" altText="help"/></span>
@@ -134,7 +142,7 @@
 	           		</kra:section>
          		</tr>
          		<tbody style="${displayStyle}">
-         		<tr>
+	         		<tr>
             		<th align="right" scope="row">&nbsp;</th>
             		<td colspan="8" style="padding:0px; border-left:none">
             			<table cellpadding="0" cellspacing="0" summary="" style="width:100%;">

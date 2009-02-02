@@ -68,21 +68,29 @@ public class BudgetVersionsAction extends BudgetAction {
      * @param request {@link HttpServletRequest} instance
      * @param response {@link HttpServletResponse} instance 
      */
+    @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         request.setAttribute("rateClassMap", getBudgetRatesService().getBudgetRateClassMap("O"));
         return super.execute(mapping, form, request, response);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        ActionForward forward = super.docHandler(mapping, form, request, response);
-        BudgetForm budgetForm = (BudgetForm) form;
+        final ActionForward forward = super.docHandler(mapping, form, request, response);
+        final BudgetForm budgetForm = (BudgetForm) form;
         budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(budgetForm.getBudgetDocument().getProposal().getBudgetVersionOverviews()));
         setBudgetStatuses(budgetForm.getBudgetDocument().getProposal());
-        
+
+        final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
+        tdcValidator.validateGeneratingWarnings(budgetForm.getBudgetDocument().getProposal());
+
         return forward;
     }
-    
+
     /* There is a certain amount of shared logic in the below methods. If you find yourself maintaining/refactoring this, consider consolidation. */
 
     /**
@@ -213,12 +221,12 @@ public class BudgetVersionsAction extends BudgetAction {
             
             Integer budgetVersionNumber = budgetForm.getFinalBudgetVersion();
             // ask form for final version number... if it is null, ask current budget document its version number
-            if (budgetVersionNumber == null || budgetVersionNumber == -1) {
+            if (budgetVersionNumber == null || budgetVersionNumber.intValue() == -1) {
                 budgetVersionNumber = budgetDocument.getBudgetVersionNumber();
             }
             GlobalVariables
                 .getErrorMap()
-                    .putError("document.proposal.budgetVersionOverview["+(budgetVersionNumber-1)+"].budgetStatus", 
+                    .putError("document.proposal.budgetVersionOverview["+(budgetVersionNumber.intValue() - 1)+"].budgetStatus",
                                 KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
         } 
         
@@ -242,16 +250,6 @@ public class BudgetVersionsAction extends BudgetAction {
         return super.save(mapping, form, request, response);
     }
 
-    @Override
-    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward forward = super.reload(mapping, form, request, response);
-        BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDoc = budgetForm.getBudgetDocument();
-        budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(budgetDoc.getProposal().getBudgetVersionOverviews()));
-        setBudgetStatuses(budgetDoc.getProposal());
-        return forward;
-    }
-    
     public ActionForward copyBudgetPeriodOne(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
@@ -275,7 +273,7 @@ public class BudgetVersionsAction extends BudgetAction {
     private void updateThisBudget(BudgetDocument budgetDocument) {
         for (BudgetVersionOverview version: budgetDocument.getProposal().getBudgetVersionOverviews()) {
             if (budgetDocument.getBudgetVersionNumber().equals(version.getBudgetVersionNumber())) {
-                budgetDocument.setFinalVersionFlag(version.isFinalVersionFlag());
+                budgetDocument.setFinalVersionFlag(Boolean.valueOf(version.isFinalVersionFlag()));
                 budgetDocument.setBudgetStatus(version.getBudgetStatus());
             }
         }

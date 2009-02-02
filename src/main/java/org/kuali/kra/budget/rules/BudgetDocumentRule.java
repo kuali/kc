@@ -15,16 +15,10 @@
  */
 package org.kuali.kra.budget.rules;
 
-import static org.kuali.core.util.GlobalVariables.getAuditErrorMap;
-import static org.kuali.kra.infrastructure.Constants.AUDIT_ERRORS;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.DocumentAuditRule;
-import org.kuali.core.util.AuditCluster;
-import org.kuali.core.util.AuditError;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
@@ -108,7 +102,7 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
             budgetDocument.refreshReferenceObject("proposal");
         }
         
-        valid &= processBudgetVersionsBusinessRule(budgetDocument.getProposal().getBudgetVersionOverviews(), true);
+        valid &= processBudgetVersionsBusinessRule(budgetDocument.getProposal(), true);
         GlobalVariables.getErrorMap().removeFromErrorPath("proposal");
         
         valid &= processBudgetPersonnelBusinessRules(budgetDocument);
@@ -268,9 +262,9 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         
         List<BudgetPerson> budgetPersons = budgetDocument.getBudgetPersons();
         for (int i = 0; i < budgetPersons.size(); i++) {
-            BudgetPerson budgetPerson = (BudgetPerson) budgetPersons.get(i);
+            BudgetPerson budgetPerson = budgetPersons.get(i);
             for (int j = i + 1; j < budgetPersons.size(); j++) {
-                BudgetPerson budgetPersonCompare = (BudgetPerson) budgetPersons.get(j);
+                BudgetPerson budgetPersonCompare = budgetPersons.get(j);
                 if (budgetPerson.isDuplicatePerson(budgetPersonCompare)) {
                     errorMap.putError("budgetPersons[" + j + "].personName", KeyConstants.ERROR_DUPLICATE_BUDGET_PERSON, budgetPerson.getPersonName());
                     valid = false;
@@ -295,12 +289,11 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
-        List<BudgetLineItem> budgetLineItems = new ArrayList<BudgetLineItem>();
         int i=0;
         int j=0;
         for(BudgetPeriod budgetPeriod: budgetPeriods){
             j=0;
-            budgetLineItems = budgetPeriod.getBudgetLineItems();
+            List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
             for(BudgetLineItem budgetLineItem: budgetLineItems){
                 if(budgetLineItem!=null && budgetLineItem.getStartDate()!=null && budgetLineItem.getStartDate().before(budgetPeriod.getStartDate())){
                     errorMap.putError("budgetCategoryTypes[" + budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode() + "].budgetPeriods[" + i +"].budgetLineItems[" + j + "].startDate",KeyConstants.ERROR_LINEITEM_STARTDATE_BEFORE_PERIOD_STARTDATE);
@@ -334,13 +327,12 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
-        List<BudgetLineItem> budgetLineItems = new ArrayList<BudgetLineItem>();
         int i=0;
         int j=0;
         int k=0;
         for(BudgetPeriod budgetPeriod: budgetPeriods){
             j=0;
-            budgetLineItems = budgetPeriod.getBudgetLineItems();
+            List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
             k=0;
             for(BudgetLineItem budgetLineItem: budgetLineItems){
                 for(BudgetPersonnelDetails budgetPersonnelDetails: budgetLineItem.getBudgetPersonnelDetailsList()){
@@ -375,6 +367,7 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
     /**
      * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.core.document.Document)
      */
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         boolean retval = true;
         
@@ -428,25 +421,6 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         GlobalVariables.getErrorMap().removeFromErrorPath("document");
         
         return valid;
-    }
-
-    /**
-     * This method should only be called if an audit error is intending to be added because it will actually add a <code>{@link List<AuditError>}</code>
-     * to the auditErrorMap.
-     * 
-     * @return List of AuditError instances
-     */
-    private List<AuditError> getAuditErrors() {
-        List<AuditError> auditErrors = auditErrors = new ArrayList<AuditError>();
-        
-        if (!getAuditErrorMap().containsKey("budgetPersonnelAuditErrors")) {
-            getAuditErrorMap().put("budgetPersonnelAuditErrors", new AuditCluster("Budget Personnel Information", auditErrors, AUDIT_ERRORS));
-        }
-        else {
-            auditErrors = ((AuditCluster) getAuditErrorMap().get("budgetPersonnelAuditErrors")).getAuditErrorList();
-        }
-        
-        return auditErrors;
     }
 
 }
