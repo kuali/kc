@@ -121,7 +121,7 @@ public class AwardFandaRateRule  extends ResearchDocumentRuleBase implements Add
      */
     protected boolean evaluateRuleForStartAndEndDates(AwardFandaRate awardFandaRate){
         boolean rulePassed = true;
-        final String[] dateParams = {"End Date","Start Date"};
+        final String[] DATE_PARAMS = {"End Date","Start Date"};
         
         if(awardFandaRate.getStartDate()==null 
                 || StringUtils.isBlank(awardFandaRate.getStartDate().toString())){
@@ -133,7 +133,7 @@ public class AwardFandaRateRule  extends ResearchDocumentRuleBase implements Add
                 && awardFandaRate.getEndDate().before(awardFandaRate.getStartDate())) {
             rulePassed = false;
             reportError(NEW_AWARD_FANDA_RATE+".endDate"
-                    , KeyConstants.ERROR_END_DATE_BEFORE_START_DATE_INDIRECT_COST_RATE,dateParams);
+                    , KeyConstants.ERROR_END_DATE_BEFORE_START_DATE_INDIRECT_COST_RATE,DATE_PARAMS);
         }
         return rulePassed;
     }

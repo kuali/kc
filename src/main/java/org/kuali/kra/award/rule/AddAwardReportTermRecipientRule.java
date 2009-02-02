@@ -20,7 +20,8 @@ import org.kuali.kra.award.rule.event.AddAwardReportTermRecipientEvent;
 
 /**
  * 
- * This interface declares the rule method associated with <code>AwardReportTermRecipient</code> Business Object.
+ * This interface declares the rule method associated with <code>AwardReportTermRecipient</code> 
+ * Business Object.
  */
 public interface AddAwardReportTermRecipientRule extends BusinessRule {
     
@@ -30,6 +31,7 @@ public interface AddAwardReportTermRecipientRule extends BusinessRule {
      *
      * @return boolean
      */
-    public boolean processAddAwardReportTermRecipientEvent(AddAwardReportTermRecipientEvent addAwardReportTermRecipientEvent);
+    boolean processAddAwardReportTermRecipientEvent(AddAwardReportTermRecipientEvent 
+                                                        addAwardReportTermRecipientEvent);
 
 }
