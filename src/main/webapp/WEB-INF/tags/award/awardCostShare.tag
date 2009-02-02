@@ -21,7 +21,7 @@
 <c:set var="action" value="awardTimeAndMoney" />
 
 
-<kul:tab tabTitle="Cost Share" defaultOpen="false" tabErrorKey="document.awardList[0].awardCostShares*">
+<kul:tab tabTitle="Cost Share" defaultOpen="false" tabErrorKey="newAwardCostShare.*,document.awardList[0].awardCostShares*">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Cost Share</span>
@@ -42,32 +42,32 @@
             	<th width="50" align="center" scope="row"><div align="right">Add:</div></th>
             	<td class="infoline">
             	  	<div align="center">
-            	  	 	<kul:htmlControlAttribute property="newAwardCostShare.costSharePercentage" attributeEntry="${awardCostShareAttributes.costSharePercentage}"/>
+            	  	 	<kul:htmlControlAttribute property="costShareFormHelper.newAwardCostShare.costSharePercentage" attributeEntry="${awardCostShareAttributes.costSharePercentage}"/>
             	 	</div>
             	</td>
 	            <td class="infoline">
 	              	<div align="center">
-	            		<kul:htmlControlAttribute property="newAwardCostShare.costShareTypeCode" attributeEntry="${awardCostShareAttributes.costShareTypeCode}" />
+	            		<kul:htmlControlAttribute property="costShareFormHelper.newAwardCostShare.costShareTypeCode" attributeEntry="${awardCostShareAttributes.costShareTypeCode}" />
 	              	</div>
 	            </td>
 	            <td class="infoline">
 	            	<div align="center">
-            	    	<kul:htmlControlAttribute property="newAwardCostShare.fiscalYear" attributeEntry="${awardCostShareAttributes.fiscalYear}"/>
+            	    	<kul:htmlControlAttribute property="costShareFormHelper.newAwardCostShare.fiscalYear" attributeEntry="${awardCostShareAttributes.fiscalYear}"/>
             	  	</div>
 	            </td>
 	            <td class="infoline">
 	            	<div align="center">
-            	    	<kul:htmlControlAttribute property="newAwardCostShare.source" attributeEntry="${awardCostShareAttributes.source}"/>
+            	    	<kul:htmlControlAttribute property="costShareFormHelper.newAwardCostShare.source" attributeEntry="${awardCostShareAttributes.source}"/>
             	  	</div>
 	            </td>
 	            <td class="infoline">
 	            	<div align="center">
-            	   	 	<kul:htmlControlAttribute property="newAwardCostShare.destination" attributeEntry="${awardCostShareAttributes.destination}"/>
+            	   	 	<kul:htmlControlAttribute property="costShareFormHelper.newAwardCostShare.destination" attributeEntry="${awardCostShareAttributes.destination}"/>
             	  	</div>
 	            </td>
 	            <td class="infoline">
 	            	<div align="center">
-            	    	<kul:htmlControlAttribute property="newAwardCostShare.commitmentAmount" attributeEntry="${awardCostShareAttributes.commitmentAmount}"/>
+            	    	<kul:htmlControlAttribute property="costShareFormHelper.newAwardCostShare.commitmentAmount" attributeEntry="${awardCostShareAttributes.commitmentAmount}"/>
             	  	</div>
 	            </td>
 	            <td class="infoline">
