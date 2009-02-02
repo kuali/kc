@@ -908,7 +908,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     /**
      * 
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-     */    
+     */
     @Override    
     protected LinkedHashMap<String,Object> toStringMapper() {        
         LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();        

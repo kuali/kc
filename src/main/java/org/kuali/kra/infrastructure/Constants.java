@@ -310,6 +310,8 @@ public interface Constants {
     
     public static final String PARAMETER_MODULE_AWARD = "KC-AWARD";
     public static final String AWARD_SPECIALREVIEW_NUMBER = "AWARD_SPECIALREVIEW_NUMBER";
+    public static final String LEFT_SQUARE_BRACKET = "[";
+    public static final String RIGHT_SQUARE_BRACKET = "]";
 
     // IRB
     public static final String PARTICIPANTS_PROPERTY_KEY = "newProtocolParticipant";

@@ -62,6 +62,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     public static final boolean CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME = false;
     private static final String NEW_SPECIAL_REVIEW = "newSpecialReview";
     private static final int ZERO = 0;
+    private static final String AWARD_REPORT_TERMS = "awardReportTerms";
     
     /**
      * 
@@ -316,7 +317,8 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     protected boolean evaluateBusinessRuleForReportCodeField(AwardReportTerm awardReportTerm, int index){
         boolean retval = isValidReportCode(awardReportTerm, getReportCodes(awardReportTerm.getReportClassCode()));
         if(!retval){            
-            GlobalVariables.getErrorMap().putError("awardReportTerms[" + index + "].reportCode"
+            GlobalVariables.getErrorMap().putError(AWARD_REPORT_TERMS + Constants.LEFT_SQUARE_BRACKET + index
+                    + Constants.RIGHT_SQUARE_BRACKET + ".reportCode"
                     , KeyConstants.INVALID_REPORT_CODE_FOR_REPORT_CLASS);            
         }
         return retval;        
@@ -334,10 +336,12 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     }
     
     protected boolean evaluateBusinessRuleForFrequencyCodeField(AwardReportTerm awardReportTerm, int index){
-        boolean retval = isValidFrequency(awardReportTerm,getFrequencyCodes(awardReportTerm.getReportClassCode(),awardReportTerm.getReportCode()));
+        boolean retval = isValidFrequency(awardReportTerm,getFrequencyCodes(
+                awardReportTerm.getReportClassCode(),awardReportTerm.getReportCode()));
         if(!retval){
-            GlobalVariables.getErrorMap().putError("awardReportTerms[" + index + "].frequencyCode"
-                    , KeyConstants.INVALID_FREQUENCY_FOR_REPORT_CLASS_AND_TYPE);
+            GlobalVariables.getErrorMap().putError(AWARD_REPORT_TERMS + Constants.LEFT_SQUARE_BRACKET + index
+                    + Constants.RIGHT_SQUARE_BRACKET + ".frequencyCode"
+                    , KeyConstants.INVALID_FREQUENCY_FOR_REPORT_CLASS_AND_TYPE);            
         }
         return retval;
     }
@@ -354,11 +358,14 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         return isValid;
     }
     
-    protected boolean evaluateBusinessRuleForFrequencyBaseCodeField(AwardReportTerm awardReportTerm, int index){
-        boolean retval = isValidFrequencyBase(awardReportTerm, getFrequencyBaseCodes(awardReportTerm.getFrequencyCode()));
-        if(!retval){            
-            GlobalVariables.getErrorMap().putError("awardReportTerms[" + index + "].frequencyBaseCode"
-                    , KeyConstants.INVALID_FREQUENCY_BASE_FOR_FREQUENCY);            
+    protected boolean evaluateBusinessRuleForFrequencyBaseCodeField(
+            AwardReportTerm awardReportTerm, int index){
+        boolean retval = isValidFrequencyBase(awardReportTerm, getFrequencyBaseCodes(
+                awardReportTerm.getFrequencyCode()));
+        if(!retval){
+            GlobalVariables.getErrorMap().putError(AWARD_REPORT_TERMS + Constants.LEFT_SQUARE_BRACKET + index
+                    + Constants.RIGHT_SQUARE_BRACKET + ".frequencyBaseCode"
+                    , KeyConstants.INVALID_FREQUENCY_BASE_FOR_FREQUENCY);                        
         }
         return retval;
     }
@@ -390,7 +397,8 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     }
     
     protected List<KeyLabelPair> getFrequencyBaseCodes(String frequencyCode){
-        FrequencyBaseCodeValuesFinder frequencyBaseCodeValuesFinder = new FrequencyBaseCodeValuesFinder();        
+        FrequencyBaseCodeValuesFinder frequencyBaseCodeValuesFinder
+            = new FrequencyBaseCodeValuesFinder();        
         frequencyBaseCodeValuesFinder.setFrequencyCode(frequencyCode);        
         return frequencyBaseCodeValuesFinder.getKeyValues();
     }
@@ -435,14 +443,24 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      * @return
      */
     protected boolean isFandaRateInputInPairs(List<AwardFandaRate> awardFandaRateList){
-        boolean valid = true;
-        HashMap<Integer,String> a1 = new HashMap<Integer,String>();
-        HashMap<Integer,String> b1 = new HashMap<Integer,String>();        
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-        int i=0;
         
-        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
-        errorMap.addToErrorPath(AWARD_ERROR_PATH);
+        HashMap<Integer,String> a1 = new HashMap<Integer,String>();
+        HashMap<Integer,String> b1 = new HashMap<Integer,String>();
+        
+        createHashMapsForRuleEvaluation(awardFandaRateList,a1,b1);
+        return evaluateRuleAndReportErrorIfAny(awardFandaRateList,a1,b1);                
+    }
+    
+    /**
+     * 
+     * This method iterates through the awardFandaRateList and creates two hashmaps;
+     * one with on campus values and other with off campus values in it.
+     * @param awardFandaRateList
+     * @param a1
+     * @param b1
+     */
+    protected void createHashMapsForRuleEvaluation(List<AwardFandaRate> awardFandaRateList,
+            HashMap<Integer,String> a1, HashMap<Integer,String> b1){
         
         for(AwardFandaRate awardFandaRate : awardFandaRateList){
             if(StringUtils.equalsIgnoreCase(awardFandaRate.getOnCampusFlag(),"N")){
@@ -451,6 +469,18 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
                 b1.put(awardFandaRate.getFandaRateTypeCode(), awardFandaRate.getOnCampusFlag());
             }
         }
+        
+    }
+    
+    protected boolean evaluateRuleAndReportErrorIfAny(List<AwardFandaRate> awardFandaRateList,
+            HashMap<Integer,String> a1, HashMap<Integer,String> b1){
+        int i=0;
+        boolean valid = true;
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        
+        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+        errorMap.addToErrorPath(AWARD_ERROR_PATH);
+        
         for(AwardFandaRate awardFandaRate : awardFandaRateList){            
             if((a1.containsKey(awardFandaRate.getFandaRateTypeCode()) 
                     && !b1.containsKey(awardFandaRate.getFandaRateTypeCode()))
@@ -462,9 +492,10 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
             }
             i++;
         }
+        
         errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
-        return valid;        
+        return valid;
     }
 
     /**

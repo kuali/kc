@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -28,10 +24,6 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kra.award.bo.AwardReportTerm;
-import org.kuali.kra.award.lookup.keyvalue.ReportClassValuesFinder;
-import org.kuali.kra.award.lookup.keyvalue.ReportCodeValuesFinder;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;

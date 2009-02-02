@@ -19,7 +19,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.award.bo.AwardReportTermRecipient;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 
 /**
@@ -28,20 +27,25 @@ import org.kuali.kra.rule.event.KraDocumentEventBase;
  */
 public abstract class AwardReportTermRecipientEvent extends KraDocumentEventBase {
     
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AddSpecialReviewEvent.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(
+            AwardReportTermRecipientEvent.class);
 
     private AwardReportTermRecipient awardReportTermRecipient;
+    
     /**
-     * Constructs an AddProposalSpecialReviewEvent with the given errorPathPrefix, document, and proposalSpecialReview.
      * 
+     * Constructs a AwardReportTermRecipientEvent.java.
+     * @param description
      * @param errorPathPrefix
-     * @param proposalDevelopmentDocument
-     * @param proposalSpecialReview
+     * @param document
+     * @param awardReportTermRecipient
      */
     protected AwardReportTermRecipientEvent(String description, String errorPathPrefix, 
             AwardDocument document, AwardReportTermRecipient awardReportTermRecipient){
-        super("adding special review to document " + getDocumentId(document), errorPathPrefix, document);
-        this.awardReportTermRecipient = (AwardReportTermRecipient) ObjectUtils.deepCopy(awardReportTermRecipient);
+        super("Constructing an AwardReportTermRecipientEvent" + getDocumentId(document), errorPathPrefix, 
+                document);
+        this.awardReportTermRecipient = (AwardReportTermRecipient) ObjectUtils.deepCopy(
+                                                                       awardReportTermRecipient);
         logEvent();
     }    
     
@@ -59,20 +63,24 @@ public abstract class AwardReportTermRecipientEvent extends KraDocumentEventBase
      * Logs the event type and some information about the associated special review
      */
     protected void logEvent() {
-        StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
+        StringBuffer logMessage = new StringBuffer(
+                StringUtils.substringAfterLast(this.getClass().getName(), "."));
         logMessage.append(" with ");
 
-        // vary logging detail as needed
         if (getAwardReportTermRecipient() == null) {
             logMessage.append("null Award Report Term Recipient");
-        }
-        else {
+        }else {
             logMessage.append(getAwardReportTermRecipient().toString());
         }
 
         LOG.debug(logMessage);
     }
 
+    /**
+     * 
+     * This method returns the AwardReportTermRecipient BO
+     * @return
+     */
     public AwardReportTermRecipient getAwardReportTermRecipient() {
         return awardReportTermRecipient;
     }

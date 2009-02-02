@@ -30,15 +30,14 @@ public class AddAwardReportTermRecipientEvent extends AwardReportTermRecipientEv
 
     /**
      * 
-     * Constructs a AwardReportTermEventBase.java.
-     * @param description
+     * Constructs a AddAwardReportTermRecipientEvent.java.
      * @param errorPathPrefix
      * @param document
-     * @param awardReportTerm
+     * @param awardReportTermRecipient
      */
     public AddAwardReportTermRecipientEvent(String errorPathPrefix, 
             AwardDocument document, AwardReportTermRecipient awardReportTermRecipient) {
-        super("adding Award Report Terms Recipient to Award document ", errorPathPrefix, document, awardReportTermRecipient);
+        super("adding Award Report Terms Recipient ", errorPathPrefix, document, awardReportTermRecipient);
         logEvent();
     }
 
@@ -52,7 +51,7 @@ public class AddAwardReportTermRecipientEvent extends AwardReportTermRecipientEv
     /**
      * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
-    public Class getRuleInterfaceClass() {
+    public Class<AddAwardReportTermRecipientRule> getRuleInterfaceClass() {
         return AddAwardReportTermRecipientRule.class;
     }
 }

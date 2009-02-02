@@ -25,16 +25,12 @@ import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.award.bo.ReportClass;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 
 /**
  * 
  * This class is a values finder for <code>ReportClass</code> business object.
  */
-@SuppressWarnings("unchecked")
 public class ReportClassValuesFinder extends KeyValuesBase {
-    KeyValueFinderService keyValueFinderService= 
-        (KeyValueFinderService) KraServiceLocator.getService("keyValueFinderService");
     
     /**
      * Constructs the list of Report Classes.  Each entry
@@ -42,20 +38,23 @@ public class ReportClassValuesFinder extends KeyValuesBase {
      * report class code and the "value" is the textual description that is viewed
      * by a user.  The list is obtained from the AwardDocument if any are defined there. 
      * Otherwise, it is obtained from a lookup of the REPORT_CLASS database table
-     * via the "KeyValueFinderService".
      * 
      * @return the list of &lt;key, value&gt; pairs of abstract types.  The first entry
      * is always &lt;"", "select:"&gt;.
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @SuppressWarnings("unchecked")
     public List<KeyLabelPair> getKeyValues() {
-        KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
+        KeyValuesService keyValuesService = 
+            (KeyValuesService) KraServiceLocator.getService("keyValuesService");
+        
         Collection reportClasses = keyValuesService.findAll(ReportClass.class);
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         
         for (Iterator iter = reportClasses.iterator(); iter.hasNext();) {
             ReportClass reportClass = (ReportClass) iter.next();
-            keyValues.add(new KeyLabelPair(reportClass.getReportClassCode(), reportClass.getDescription()));                            
+            keyValues.add(new KeyLabelPair(reportClass.getReportClassCode(),
+                    reportClass.getDescription()));                            
         }
                 
         return keyValues;

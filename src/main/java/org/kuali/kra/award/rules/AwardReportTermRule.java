@@ -21,6 +21,7 @@ import org.kuali.kra.award.bo.AwardReportTerm;
 import org.kuali.kra.award.rule.AddAwardReportTermRule;
 import org.kuali.kra.award.rule.event.AddAwardReportTermEvent;
 import org.kuali.kra.award.web.struts.form.AwardForm;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
@@ -64,7 +65,8 @@ public class AwardReportTermRule extends ResearchDocumentRuleBase implements Add
         if(awardReportTerm.getReportCode() == null 
                 || StringUtils.isBlank(awardReportTerm.getReportCode().toString())){
             rulePassed = false;
-            reportError(NEW_AWARD_REPORT_TERM + "[" + index + "]" + ".reportCode"
+            reportError(NEW_AWARD_REPORT_TERM + Constants.LEFT_SQUARE_BRACKET + index 
+                    + Constants.RIGHT_SQUARE_BRACKET + ".reportCode"
                     , KeyConstants.ERROR_REQUIRED_REPORT_CODE);
         }
         return rulePassed;
@@ -81,7 +83,8 @@ public class AwardReportTermRule extends ResearchDocumentRuleBase implements Add
         if(awardReportTerm.getFrequencyCode() == null 
                 || StringUtils.isBlank(awardReportTerm.getFrequencyCode().toString())){
             rulePassed = false;
-            reportError(NEW_AWARD_REPORT_TERM + "[" + index + "]" + ".frequencyCode"
+            reportError(NEW_AWARD_REPORT_TERM + Constants.LEFT_SQUARE_BRACKET + index 
+                    + Constants.RIGHT_SQUARE_BRACKET + ".frequencyCode"
                     , KeyConstants.ERROR_REQUIRED_FREQUENCY_CODE);
         }
         return rulePassed;
@@ -98,7 +101,8 @@ public class AwardReportTermRule extends ResearchDocumentRuleBase implements Add
         if(awardReportTerm.getFrequencyBaseCode() == null 
                 || StringUtils.isBlank(awardReportTerm.getFrequencyBaseCode().toString())){
             rulePassed = false;
-            reportError(NEW_AWARD_REPORT_TERM + "[" + index + "]" + ".frequencyBaseCode"
+            reportError(NEW_AWARD_REPORT_TERM + Constants.LEFT_SQUARE_BRACKET + index 
+                    + Constants.RIGHT_SQUARE_BRACKET + ".frequencyBaseCode"
                     , KeyConstants.ERROR_REQUIRED_FREQUENCY_BASE_CODE);
         }
         return rulePassed;
@@ -115,7 +119,8 @@ public class AwardReportTermRule extends ResearchDocumentRuleBase implements Add
         if(awardReportTerm.getOspDistributionCode() == null 
                 || StringUtils.isBlank(awardReportTerm.getOspDistributionCode().toString())){
             rulePassed = false;
-            reportError(NEW_AWARD_REPORT_TERM + "[" + index + "]" + ".ospDistributionCode"
+            reportError(NEW_AWARD_REPORT_TERM + Constants.LEFT_SQUARE_BRACKET + index 
+                    + Constants.RIGHT_SQUARE_BRACKET + ".ospDistributionCode"
                     , KeyConstants.ERROR_REQUIRED_DISTRIBUTION_CODE);
         }
         return rulePassed;
@@ -132,7 +137,8 @@ public class AwardReportTermRule extends ResearchDocumentRuleBase implements Add
         if(awardReportTerm.getDueDate() == null 
                 || StringUtils.isBlank(awardReportTerm.getDueDate().toString())){
             rulePassed = false;
-            reportError(NEW_AWARD_REPORT_TERM + "[" + index + "]" + ".dueDate"
+            reportError(NEW_AWARD_REPORT_TERM + Constants.LEFT_SQUARE_BRACKET + index 
+                    + Constants.RIGHT_SQUARE_BRACKET + ".dueDate"
                     , KeyConstants.ERROR_REQUIRED_DUE_DATE);
         }
         return rulePassed;
