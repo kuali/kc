@@ -17,9 +17,7 @@ package org.kuali.kra.proposaldevelopment.rules;
 
 import java.sql.Date;
 import java.text.DateFormat;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
@@ -33,7 +31,6 @@ import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.AddProposalSpecialReviewEvent;
@@ -179,7 +176,40 @@ public class ProposalDevelopmentProposalSpecialReviewRuleTest extends ProposalDe
         assertTrue(errors.size() == 1);
 
         ErrorMessage message = (ErrorMessage) errors.get(0);
-        assertEquals(message.getErrorKey(), KeyConstants.ERROR_APPROVAL_DATE_BEFORE_APPLICATION_DATE_SPECIALREVIEW);
+        assertEquals(message.getErrorKey(), KeyConstants.ERROR_SPECIAL_REVIEW_DATE_ORDERING);
+        assertEquals(message.getMessageParameters()[0], "Approval Date");
+        assertEquals(message.getMessageParameters()[1], "Application Date");
+        
+    }
+
+    /**
+     * Test adding an proposal special with approval data before application date. 
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testExpirationDateBeforeApplicationDate() throws Exception {
+        ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
+
+        ProposalSpecialReview newProposalSpecialReview = new ProposalSpecialReview();
+        newProposalSpecialReview.setApprovalTypeCode(approvalTypeCodes.get(1).getApprovalTypeCode());
+        newProposalSpecialReview.setSpecialReviewCode(specialReviewCodes.get(0).getSpecialReviewCode());
+        // 08/01/2008 > 08/01/2007
+        newProposalSpecialReview.setApplicationDate(new Date(dateFormat.parse("Aug 1, 2008").getTime()));
+        newProposalSpecialReview.setExpirationDate(new Date(dateFormat.parse("Aug 21, 2007").getTime()));
+        newProposalSpecialReview.setProtocolNumber("123");
+        AddProposalSpecialReviewEvent addProposalSpecialReviewEvent = new AddProposalSpecialReviewEvent(Constants.EMPTY_STRING, document,
+            newProposalSpecialReview);
+        assertFalse(rule.processAddProposalSpecialReviewBusinessRules(addProposalSpecialReviewEvent));
+
+        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_PROPOSAL_SPECIAL_REVIEW + ".expirationDate");
+        assertTrue(errors.size() == 1);
+
+        ErrorMessage message = (ErrorMessage) errors.get(0);
+        assertEquals(message.getErrorKey(), KeyConstants.ERROR_SPECIAL_REVIEW_DATE_ORDERING);
+        assertEquals(message.getMessageParameters()[0], "Expiration Date");
+        assertEquals(message.getMessageParameters()[1], "Application Date");
+        
     }
 
     /**
