@@ -57,7 +57,7 @@
 					<td colspan="2" class="infoline">
 						<div align="center">
 						<html:image property="methodToCall.printBudgetForm"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-printsel.gif' styleClass="tinybutton"/>
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-printsel.gif' styleClass="tinybutton" alt="Print Selected Forms" onclick="excludeSubmitRestriction=true"/>
 						</div>
 					</td>
 					<td>
