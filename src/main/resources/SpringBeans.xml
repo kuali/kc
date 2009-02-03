@@ -55,7 +55,7 @@
 
   <bean id="dbPlatform" factory-bean="dbPlatformFactory" factory-method="getPlatform" />
   
-  <bean id="platformAwareDaoJdbc" abstract="true" class="org.kuali.core.dao.jdbc.PlatformAwareDaoBasejDBC">
+  <bean id="platformAwareDaoJdbc" abstract="true" class="org.kuali.core.dao.jdbc.PlatformAwareDaoBaseJdbc">
     <property name="dataSource" ref="dataSource" />
     <property name="dbPlatform" ref="dbPlatform" />
   </bean>
@@ -794,7 +794,7 @@
                         <property name="taskName" value="replaceNarrative" />
                     </bean>
                 </entry>
-                
+
                 <entry key="save">
                     <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.NarrtivesCommonTaskFactory" parent="parentTaskFactory">
                         <property name="taskName" value="modifyNarratives" />
