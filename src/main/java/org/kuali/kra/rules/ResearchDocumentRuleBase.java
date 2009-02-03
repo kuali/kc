@@ -67,6 +67,21 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
         }
     }
     
+    /**
+     * Wrapper around global errorMap.put call, to allow better logging
+     * 
+     * @param propertyName
+     * @param errorKey
+     * @param errorParams
+     */
+    protected void reportErrorWithoutFullErrorPath(String propertyName, String errorKey, String... errorParams) {
+        LOG.debug("reportErrorWithoutFullErrorPath(String, String, String) - start");
+
+        GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(propertyName, errorKey, errorParams);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("rule failure at " + ExceptionUtils.describeStackLevels(1, 2));
+        }
+    }
     
     public boolean processRunAuditBusinessRules(Document document) {
         return new ResearchDocumentBaseAuditRule().processRunAuditBusinessRules(document);
