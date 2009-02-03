@@ -19,7 +19,7 @@
 <c:set var="proSpecialAttriburesAttributes" value="${DataDictionary.ProposalSpecialReview.attributes}" />
 <c:set var="action" value="proposalDevelopmentSpecialReview" />
 <div id="workarea">
-<kul:tab tabTitle="Special Review" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="document.propSpecialReview*,newPropSpecialReview*,documentExemptNumber*" auditCluster="specialReviewAuditWarnings"  tabAuditKey="document.propSpecialReview*" useRiceAuditMode="true">
+<kul:tab tabTitle="Special Review" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="document.propSpecialReview*,newPropSpecialReview*,documentExemptNumber*,newExemptNumber*" auditCluster="specialReviewAuditWarnings"  tabAuditKey="document.propSpecialReview*" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Special Review</h2></span>
