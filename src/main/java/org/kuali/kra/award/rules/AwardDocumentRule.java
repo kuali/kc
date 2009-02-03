@@ -41,6 +41,7 @@ import org.kuali.kra.award.rule.event.AddAwardFandaRateEvent;
 import org.kuali.kra.award.rule.event.AddAwardReportTermEvent;
 import org.kuali.kra.award.rule.event.AddAwardReportTermRecipientEvent;
 import org.kuali.kra.award.rule.event.AwardApprovedEquipmentRuleEvent;
+import org.kuali.kra.award.rule.event.AwardBenefitsRatesRuleEvent;
 import org.kuali.kra.award.rule.event.AwardCostShareRuleEvent;
 import org.kuali.kra.bo.AbstractSpecialReview;
 import org.kuali.kra.infrastructure.Constants;
@@ -98,6 +99,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         
         retval &= processAwardFandaRateBusinessRules(document);
         retval &= processCostShareBusinessRules(document);
+        retval &= processBenefitsRatesBusinessRules(document);
         retval &= processApprovedSubawardBusinessRules(document);
         retval &= processApprovedEquipmentBusinessRules(errorMap, awardDocument);
         retval &= processAwardReportTermBusinessRules(document);
@@ -143,7 +145,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
         errorMap.addToErrorPath(AWARD_ERROR_PATH);
         for (AwardCostShare awardCostShare : awardCostShares) {
-            String errorPath = "awardCostShares[" + i + "]";
+            String errorPath = "awardCostShares[" + i + Constants.RIGHT_SQUARE_BRACKET;
             errorMap.addToErrorPath(errorPath);
             AwardCostShareRuleEvent event = new AwardCostShareRuleEvent(errorPath, 
                                                                         awardDocument, 
@@ -152,6 +154,29 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
             errorMap.removeFromErrorPath(errorPath);
             i++;
         }
+        errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
+        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
+        return valid;
+    }
+    
+    private boolean processBenefitsRatesBusinessRules(Document document) {
+        boolean valid = true;
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        AwardDocument awardDocument = (AwardDocument) document;
+        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+        errorMap.addToErrorPath(AWARD_ERROR_PATH);
+        if(StringUtils.equalsIgnoreCase(
+                getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_AWARD, 
+                        Constants.PARAMETER_COMPONENT_DOCUMENT,
+                        KeyConstants.MIT_IDC_VALIDATION_ENABLED).getParameterValue(),
+                        KeyConstants.MIT_IDC_VALIDATION_ENABLED_VALUE_FOR_COMPARISON)){
+            String errorPath = "benefitsRates.rates";
+            errorMap.addToErrorPath(errorPath);
+            AwardBenefitsRatesRuleEvent event = new AwardBenefitsRatesRuleEvent(errorPath, awardDocument); 
+            valid &= new AwardBenefitsRatesRuleImpl().processBenefitsRatesBusinessRules(event);
+            errorMap.removeFromErrorPath(errorPath);
+        }        
+        
         errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
         return valid;
