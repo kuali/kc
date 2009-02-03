@@ -44,6 +44,7 @@ import org.kuali.rice.kns.util.KNSConstants;
 public class AwardPaymentReportsAndTermsAction extends AwardAction {
     private static final String ROLODEX = "rolodex";
     private static final String PERIOD = ".";
+    private static final int HARDCODED_ROLODEX_ID = 20083;
     private ApprovedEquipmentActionHelper approvedEquipmentActionHelper;
     
     public AwardPaymentReportsAndTermsAction() {
@@ -219,16 +220,57 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         AwardReportTermRecipient newAwardReportTermRecipient = awardForm.getNewAwardReportTermRecipient().
                                                 get(getAwardReportTermIndex(request));
         
+        if(newAwardReportTermRecipient.getContactId()!=null){
+            populateContactTypeAndRolodex(newAwardReportTermRecipient);
+        }else if(newAwardReportTermRecipient.getRolodexId()!=null){
+            newAwardReportTermRecipient.setContactTypeCode(Constants.CONTACT_TYPE_OTHER);
+        }
+        
         if(getKualiRuleService().applyRules(new AddAwardReportTermRecipientEvent(Constants.EMPTY_STRING,
                 awardDocument, newAwardReportTermRecipient))){
             awardDocument.getAward().getAwardReportTerms().get(getAwardReportTermIndex(request)).
                     getAwardReportTermRecipients().add(newAwardReportTermRecipient);
             awardForm.getNewAwardReportTermRecipient().set(getAwardReportTermIndex(request), 
                                                             new AwardReportTermRecipient());
-                      
-       }
+        }
         
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    /**
+     * Currently this method sets the rolodex id to a constant value 
+     * and sets the contactTypeCode to 1 of the 6 values listed in the switch case.
+     * These values correspond to the hard coded values finder - ContactTypeValuesFinder.
+     * 
+     * @param newAwardReportTermRecipient
+     */
+    //TODO: this method should be refactored once the contact functionality is complete
+    protected void populateContactTypeAndRolodex(
+            AwardReportTermRecipient newAwardReportTermRecipient){
+        
+        newAwardReportTermRecipient.setRolodexId(HARDCODED_ROLODEX_ID);
+        switch(newAwardReportTermRecipient.getContactId().intValue()){
+            case 1:
+                newAwardReportTermRecipient.setContactTypeCode("6");
+                break;
+            case 2:
+                newAwardReportTermRecipient.setContactTypeCode("5");
+                break;
+            case 3:
+                newAwardReportTermRecipient.setContactTypeCode("4");
+                break;
+            case 4:
+                newAwardReportTermRecipient.setContactTypeCode("3");
+                break;
+            case 5:
+                newAwardReportTermRecipient.setContactTypeCode("2");
+                break;
+            case 6:
+                newAwardReportTermRecipient.setContactTypeCode("9");
+                break;
+            default:                
+                break;
+        }
     }
     
     /**

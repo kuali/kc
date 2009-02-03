@@ -346,6 +346,7 @@
 	<class-descriptor class="org.kuali.kra.award.bo.AwardReportTermRecipient" table="AWARD_REP_TERMS_RECNT">
 	    <field-descriptor name="awardReportTermRecipientId" column="AWARD_REP_TERMS_RECNT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_AWARD_REP_TERMS_RECNT_ID"/>
 	    <field-descriptor name="awardReportTermId" column="AWARD_REPORT_TERMS_ID" jdbc-type="INTEGER" access="anonymous" />
+	    <field-descriptor name="contactId" column="CONTACT_ID" jdbc-type="BIGINT" />
 	    <field-descriptor name="contactTypeCode" column="CONTACT_TYPE_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER" />
 		<field-descriptor name="numberOfCopies" column="NUMBER_OF_COPIES" jdbc-type="INTEGER" />
