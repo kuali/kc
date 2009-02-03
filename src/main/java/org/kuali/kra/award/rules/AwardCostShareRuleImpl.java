@@ -49,8 +49,8 @@ public class AwardCostShareRuleImpl extends ResearchDocumentRuleBase implements 
      */
     private boolean processCommonValidations(AwardCostShareRuleEvent event) {
         AwardCostShare awardCostShare = event.getCostShareForValidation();
-        boolean validSourceAndDestination = testCostShareSourceAndDestinationForEquality(awardCostShare);
-        boolean validFiscalYearRange = testCostShareFiscalYearRange(awardCostShare);
+        boolean validSourceAndDestination = validateCostShareSourceAndDestinationForEquality(awardCostShare);
+        boolean validFiscalYearRange = validateCostShareFiscalYearRange(awardCostShare);
         
         return validSourceAndDestination && validFiscalYearRange;
     }
@@ -61,7 +61,7 @@ public class AwardCostShareRuleImpl extends ResearchDocumentRuleBase implements 
     * @param AwardCostShare, ErrorMap
     * @return Boolean
     */
-    public boolean testCostShareSourceAndDestinationForEquality(AwardCostShare awardCostShare){
+    public boolean validateCostShareSourceAndDestinationForEquality(AwardCostShare awardCostShare){
         boolean valid = true;
         if(awardCostShare.getSource().equals(awardCostShare.getDestination())) {
             valid = false;
@@ -77,7 +77,7 @@ public class AwardCostShareRuleImpl extends ResearchDocumentRuleBase implements 
     * @param AwardCostShare, ErrorMap
     * @return Boolean
     */
-    public boolean testCostShareFiscalYearRange(AwardCostShare awardCostShare){
+    public boolean validateCostShareFiscalYearRange(AwardCostShare awardCostShare){
         boolean valid = true;
         int fiscalYear = Integer.parseInt(awardCostShare.getFiscalYear());
         if(fiscalYear < Constants.MIN_FISCAL_YEAR || fiscalYear > Constants.MAX_FISCAL_YEAR) {
