@@ -58,8 +58,6 @@ public class BudgetForm extends ProposalFormBase {
     private static final String KRA_EXTERNALIZABLE_IMAGES_URI_KEY = "kra.externalizable.images.url";
     private static final String KR_EXTERNALIZABLE_IMAGES_URI_KEY = "kr.externalizable.images.url";
     private static final String RETURN_TO_PROPOSAL_METHOD_TO_CALL = "methodToCall.returnToProposal";
-
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetForm.class);
     
     private String newBudgetPersons;
     private String newBudgetRolodexes;
@@ -760,7 +758,8 @@ public class BudgetForm extends ProposalFormBase {
      */
     public boolean toBudgetVersionsPage() {
         return "versions".equals(this.navigateTo)
-        || "BudgetVersionsAction".equals(this.actionName);
+        || ("BudgetVersionsAction".equals(this.actionName)
+            && this.navigateTo == null);
     }
 
     @Override
