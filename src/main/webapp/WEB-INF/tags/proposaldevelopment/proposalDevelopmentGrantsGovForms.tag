@@ -100,7 +100,7 @@
                         <tr>
                             <td colspan="5">
                                 <div align="right">
-                                    <html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-printsel.gif" styleClass="globalbuttons" property="methodToCall.printForms" alt="Print Selected Forms"/>
+                                    <html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-printsel.gif" styleClass="globalbuttons" property="methodToCall.printForms" alt="Print Selected Forms" onclick="excludeSubmitRestriction=true"/>
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 </div>
                             </td>
