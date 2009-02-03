@@ -97,7 +97,7 @@
 							  </td>
 			                  <td align="left" valign="middle">
 								<div align="center">
-									<html:radio property="${protocolPerson}.protocolUnits[${status.index}].leadUnitFlag" value="true"/>
+									<html:radio property="${protocolPerson}.selectedUnit" value="${status.index}"/>
 								</div>
 							  </td>
 							  <td class="infoline">

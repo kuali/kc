@@ -20,6 +20,8 @@ import static org.apache.commons.lang.StringUtils.substringBetween;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.rice.kns.util.KNSConstants.METHOD_TO_CALL_ATTRIBUTE;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -34,17 +36,28 @@ import org.kuali.kra.irb.service.ProtocolPersonnelService;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 
 /**
- * The ProtocolProtocolAction corresponds to the Protocol tab (web page).  It is
+ * The ProtocolPersonnelAction corresponds to the Personnel tab (web page).  It is
  * responsible for handling all user requests from that tab (web page).
  */
 public class ProtocolPersonnelAction extends ProtocolAction {
     
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolPersonnelAction.class);
 
+    /**
+     * @see org.kuali.kra.irb.web.struts.action.ProtocolAction#isValidSave(org.kuali.kra.irb.web.struts.form.ProtocolForm)
+     */
+    @Override
+    protected boolean isValidSave(ProtocolForm protocolForm) {    
+        boolean rulePassed = true;
+        getProtocolPersonnelService().updateProtocolUnit(getProtocolPersons(protocolForm));
+        return rulePassed;
+    }
+    
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
+        getProtocolPersonnelService().selectProtocolUnit(getProtocolPersons(form));
         
         ((ProtocolForm)form).getProtocolHelper().prepareView();
         ((ProtocolForm)form).getPersonnelHelper().prepareView();
@@ -185,6 +198,14 @@ public class ProtocolPersonnelAction extends ProtocolAction {
         return (ProtocolPersonnelService)KraServiceLocator.getService("protocolPersonnelService");
     }
 
+    /**
+     * This method is to get selected person index.
+     * Each person data is displayed in individual panel.
+     * Person index is required to identify the person to perform an action.
+     * @param request
+     * @param document
+     * @return
+     */
     protected int getSelectedPersonIndex(HttpServletRequest request, ProtocolDocument document) {
         int selectedPersonIndex = -1;
         String parameterName = (String) request.getAttribute(METHOD_TO_CALL_ATTRIBUTE);
@@ -194,4 +215,13 @@ public class ProtocolPersonnelAction extends ProtocolAction {
         return selectedPersonIndex;
     }
     
+    /**
+     * This method is to get list of protocol persons
+     * @param form
+     * @return
+     */
+    private List<ProtocolPerson> getProtocolPersons(ActionForm form) {
+        return ((ProtocolForm) form).getProtocolDocument().getProtocol().getProtocolPersons();
+    }
+
 }
