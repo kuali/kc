@@ -117,27 +117,6 @@ public class AwardDocumentRuleTest extends AwardDocumentRule{
         Assert.assertFalse(awardDocumentRule.isFandaRateInputInPairs(awardFandaRateList));
     }
     
-    @Test
-    public final void testTestCostShareSourceAndDestinationForEquality(){
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-        Assert.assertTrue(awardDocumentRule.testCostShareSourceAndDestinationForEquality(awardCostShare, errorMap));
-        awardCostShare.setDestination("54321");
-        Assert.assertFalse(awardDocumentRule.testCostShareSourceAndDestinationForEquality(awardCostShare, errorMap));
-        awardCostShare.setDestination("12345");
-        GlobalVariables.setErrorMap(new ErrorMap());
-    }
-    
-    @Test
-    public final void testTestCostShareFiscalYearRange(){
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-        Assert.assertTrue(awardDocumentRule.testCostShareFiscalYearRange(awardCostShare, errorMap));
-        awardCostShare.setFiscalYear("1800");
-        Assert.assertFalse(awardDocumentRule.testCostShareFiscalYearRange(awardCostShare, errorMap));
-        awardCostShare.setFiscalYear("2600");
-        Assert.assertFalse(awardDocumentRule.testCostShareFiscalYearRange(awardCostShare, errorMap));
-        awardCostShare.setFiscalYear("2009");
-        GlobalVariables.setErrorMap(new ErrorMap());
-    }
     
     @Test
     public final void testTestApprovedSubawardDuplicateOrganization(){
