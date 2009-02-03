@@ -18,13 +18,12 @@ package org.kuali.kra.proposaldevelopment.web.bean;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * A ProposalUserRoles corresponds to one user with access to a
- * proposal.  That user can have one or more assigned roles.  This
- * class is only used by the GUI for displaying the proposal users
- * on a web page. 
+ * A ProposalUserRoles corresponds to one user with access to a proposal. That user can have one or more assigned roles. This class
+ * is only used by the GUI for displaying the proposal users on a web page.
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
@@ -132,9 +131,10 @@ public class ProposalUserRoles {
     public void setRoleNames(List<String> roleNames) {
         this.roleNames = roleNames;
     }
-    
+
     /**
      * Add a role name.
+     * 
      * @param roleName the role name
      */
     public void addRoleName(String roleName) {
@@ -152,28 +152,44 @@ public class ProposalUserRoles {
 
     @Override
     public boolean equals(Object obj) {
-        ProposalUserRoles theOther = null;
-        try {
-            theOther = (ProposalUserRoles)obj;
-        }
-        catch (ClassCastException e) {
+        if (this == obj)
+            return true;
+        if ((obj == null) || (obj.getClass() != this.getClass()))
             return false;
-        }
-        
+
+        ProposalUserRoles theOther = (ProposalUserRoles) obj;
+
         boolean isEqual = true;
-        
+
         isEqual &= StringUtils.equals(this.fullname, theOther.fullname);
         isEqual &= StringUtils.equals(this.unitName, theOther.unitName);
         isEqual &= StringUtils.equals(this.unitNumber, theOther.unitNumber);
         isEqual &= StringUtils.equals(this.username, theOther.username);
         isEqual &= this.roleNames.size() == theOther.roleNames.size();
-           
+
         if (isEqual) {
+            int i = 0;
             for (String roleName : this.roleNames) {
-                isEqual &= theOther.roleNames.contains(roleName);
+                isEqual &= StringUtils.equals(roleName, theOther.roleNames.get(i));
+                i++;
             }
         }
-        
+
         return isEqual;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * hash + ObjectUtils.hashCode(fullname);
+        hash = 31 * hash + ObjectUtils.hashCode(unitName);
+        hash = 31 * hash + ObjectUtils.hashCode(unitNumber);
+        hash = 31 * hash + ObjectUtils.hashCode(username);
+        for (String roleName : roleNames) {
+            hash = 31 * hash + ObjectUtils.hashCode(roleName);
+        }
+        return hash;
+    }
+
+
 }
