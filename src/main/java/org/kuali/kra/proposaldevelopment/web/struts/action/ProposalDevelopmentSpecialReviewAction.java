@@ -38,11 +38,16 @@ import org.kuali.kra.proposaldevelopment.rule.event.AddProposalSpecialReviewEven
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
+import java.util.Arrays;
+
 public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentSpecialReviewAction.class);
     public ActionForward addSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalSpecialReview newProposalSpecialReview = proposalDevelopmentForm.getNewPropSpecialReview();
+        if (proposalDevelopmentForm.getNewExemptNumbers() != null) {
+            newProposalSpecialReview.setProposalExemptNumbers(Arrays.asList(proposalDevelopmentForm.getNewExemptNumbers()));
+        }
         if(getKualiRuleService().applyRules(new AddProposalSpecialReviewEvent(Constants.EMPTY_STRING, proposalDevelopmentForm.getProposalDevelopmentDocument(), newProposalSpecialReview))){
             newProposalSpecialReview.setSpecialReviewNumber(proposalDevelopmentForm.getProposalDevelopmentDocument().getDocumentNextValue(Constants.PROPOSAL_SPECIALREVIEW_NUMBER));
             proposalDevelopmentForm.getProposalDevelopmentDocument().getPropSpecialReviews().add(newProposalSpecialReview);
