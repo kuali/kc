@@ -149,12 +149,6 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
-		<!-- 
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
-		</property>
-		 -->
 		<property name="control" >
             <bean parent="SelectControlDefinition"
                 p:businessObjectClass="org.kuali.kra.irb.bo.ProtocolReferenceType"
@@ -162,7 +156,8 @@
                 p:includeKeyInLabel="false"
                 p:keyAttribute="protocolReferenceTypeCode"
                 p:labelAttribute="description" />
-        </property>		 
+        </property>	
+        <property name="required" value="true" />	 
 		<property name="summary" value="Protocol Reference Type Code" />
 		<property name="description" value="Protocol Reference Type Code" />
 	</bean>
@@ -181,6 +176,7 @@
 			<bean parent="TextControlDefinition"
 				p:size="10" />
 		</property>
+		<property name="required" value="true" />
 		<property name="summary" value="Reference Key" />
 		<property name="description" value="Reference Key" />
 	</bean>
