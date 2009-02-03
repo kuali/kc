@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.rules;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.rule.AddProtocolReferenceRule;
 import org.kuali.kra.irb.rule.event.AddProtocolReferenceEvent;
@@ -37,7 +38,7 @@ public class ProtocolReferenceRule extends ProtocolDocumentRule implements AddPr
             reportError("newProtocolReference"+".protocolReferenceTypeCode", KeyConstants.ERROR_PROTOCOLREFERENCE_PROTOCOLREFERENCETYPECODE, "Type");
         }
          
-        if(null == addProtocolReferenceEvent.getProtocolReference().getReferenceKey() || addProtocolReferenceEvent.getProtocolReference().getReferenceKey().trim() == "") {
+        if(StringUtils.isBlank(addProtocolReferenceEvent.getProtocolReference().getReferenceKey())) {
             rulePassed = false;
             reportError("newProtocolReference"+".referenceKey", KeyConstants.ERROR_PROTOCOLREFERENCE_PROTOCOLREFERENCEKEY, "Other Identifier");
         }
