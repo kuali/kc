@@ -135,7 +135,7 @@
 			<%-- End of New data --%>
 			
 			<%-- Existing data --%>
-        	<c:forEach var="protocolParticipant" items="${KualiForm.document.protocol.protocolReferences}" varStatus="status">
+        	<c:forEach var="protocolReference" items="${KualiForm.document.protocol.protocolReferences}" varStatus="status">
 	             <tr>
 					<th class="infoline" rowspan="2">
 						<c:out value="${status.index+1}" />
