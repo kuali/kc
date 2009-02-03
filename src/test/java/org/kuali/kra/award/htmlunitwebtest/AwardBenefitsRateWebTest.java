@@ -28,6 +28,14 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class AwardBenefitsRateWebTest extends AwardTimeAndMoneyWebTest {
     
+    private static final String DOCUMENT_AWARD_OFFCAMPUS = "document.awardList[0].specialEbRateOffCampus";
+    private static final String DOCUMENT_AWARD_ONCAMPUS = "document.awardList[0].specialEbRateOnCampus";
+    private static final String SAVE_COST_SHARE_METHOD = "methodToCall.save";
+    private static final String RELOAD_METHOD = "methodToCall.reload";
+    private static final String TEST_COMMENTS = "we are testing comments.";
+    private static final String ZERO = "0";
+
+    
     /**
      * The set up method calls the parent super method and gets the 
      * award Payment Reports And Terms page after that.
@@ -57,10 +65,10 @@ public class AwardBenefitsRateWebTest extends AwardTimeAndMoneyWebTest {
     @Test
     public void testBenefitsRatePanel() throws Exception{
         
-        setFieldValue(awardTimeAndMoneyPage, "document.awardList[0].specialEbRateOffCampus", "50");
-        setFieldValue(awardTimeAndMoneyPage, "document.awardList[0].specialEbRateOnCampus", "60");
+        setFieldValue(awardTimeAndMoneyPage, DOCUMENT_AWARD_OFFCAMPUS, ZERO);
+        setFieldValue(awardTimeAndMoneyPage, DOCUMENT_AWARD_ONCAMPUS, ZERO);
         
-        HtmlPage awardTimeAndMoneyPageAfterSave = clickOn(awardTimeAndMoneyPage, "methodToCall.save");
+        HtmlPage awardTimeAndMoneyPageAfterSave = clickOn(awardTimeAndMoneyPage, SAVE_COST_SHARE_METHOD);
         assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);
         assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERRORS_FOUND_ON_PAGE);
         assertContains(awardTimeAndMoneyPageAfterSave,SAVE_SUCCESS_MESSAGE);
@@ -75,22 +83,26 @@ public class AwardBenefitsRateWebTest extends AwardTimeAndMoneyWebTest {
     @Test
     public void testBenefitsRateComments() throws Exception{
         
-        setFieldValue(awardTimeAndMoneyPage, "document.awardList[0].specialEbRateOffCampus", "30");
-        setFieldValue(awardTimeAndMoneyPage, "document.awardList[0].specialEbRateOnCampus", "40");
+        setFieldValue(awardTimeAndMoneyPage, DOCUMENT_AWARD_OFFCAMPUS, ZERO);
+        setFieldValue(awardTimeAndMoneyPage, DOCUMENT_AWARD_ONCAMPUS, "999");
         
-        HtmlPage awardTimeAndMoneyPageAfterSave = clickOn(awardTimeAndMoneyPage, "methodToCall.save");
+        HtmlPage awardTimeAndMoneyPageAfterSave = clickOn(awardTimeAndMoneyPage, SAVE_COST_SHARE_METHOD);
         assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);
         assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERRORS_FOUND_ON_PAGE);
         assertContains(awardTimeAndMoneyPageAfterSave,SAVE_SUCCESS_MESSAGE);
         
-        setFieldValue(awardTimeAndMoneyPageAfterSave, "document.awardList[0].awardBenefitsRateComment.comments", "We are testing Benefits Rate Comments");
+        setFieldValue(awardTimeAndMoneyPageAfterSave, 
+                        "document.awardList[0].awardBenefitsRateComment.comments", 
+                         TEST_COMMENTS);
         
-        HtmlPage awardTimeAndMoneyPageAfterAnotherSave = clickOn(awardTimeAndMoneyPageAfterSave, "methodToCall.save");
+        HtmlPage awardTimeAndMoneyPageAfterAnotherSave = clickOn(awardTimeAndMoneyPageAfterSave,
+                SAVE_COST_SHARE_METHOD);
         assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);
         assertDoesNotContain(awardTimeAndMoneyPageAfterAnotherSave, ERRORS_FOUND_ON_PAGE);
         assertContains(awardTimeAndMoneyPageAfterAnotherSave,SAVE_SUCCESS_MESSAGE);
-        HtmlPage awardTimeAndMoneyPageAfterAnotherReload = clickOn(awardTimeAndMoneyPageAfterAnotherSave, "methodToCall.reload");
-        assertContains(awardTimeAndMoneyPageAfterAnotherReload,"We are testing Benefits Rate Comments");
+        HtmlPage awardTimeAndMoneyPageAfterAnotherReload = clickOn(awardTimeAndMoneyPageAfterAnotherSave, 
+                                                                    RELOAD_METHOD);
+        assertContains(awardTimeAndMoneyPageAfterAnotherReload,TEST_COMMENTS);
         
     }
 
