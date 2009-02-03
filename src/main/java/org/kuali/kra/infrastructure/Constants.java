@@ -313,6 +313,7 @@ public interface Constants {
     public static final String AWARD_SPECIALREVIEW_NUMBER = "AWARD_SPECIALREVIEW_NUMBER";
     public static final String LEFT_SQUARE_BRACKET = "[";
     public static final String RIGHT_SQUARE_BRACKET = "]";
+    public static final String CONTACT_TYPE_OTHER = "8";
 
     // IRB
     public static final String PARTICIPANTS_PROPERTY_KEY = "newProtocolParticipant";

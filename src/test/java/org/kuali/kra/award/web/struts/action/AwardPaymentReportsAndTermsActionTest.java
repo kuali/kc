@@ -25,6 +25,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardReportTerm;
+import org.kuali.kra.award.bo.AwardReportTermRecipient;
 
 /**
  * 
@@ -45,15 +46,16 @@ public class AwardPaymentReportsAndTermsActionTest {
     public static final int MOCK_NUMBER_OF_COPIES = 2;
     public static final int MOCK_EXPECTED_SIZE_OF_AWARD_REPORT_TERM_LIST = 6;
     public static final int MOCK_EXPECTED_SIZE_OF_AWARD_REPORT_TERM_LIST_TO_BE_DELETED = 4;
+    public static final Integer MOCK_ROLODEX_ID_FOR_CONTACT = 20083;
     
     AwardPaymentReportsAndTermsAction awardPaymentReportsAndTermsAction;
     Award award;
     AwardReportTerm awardReportTerm1;
     AwardReportTerm awardReportTerm2;
     AwardReportTerm awardReportTerm3;
-    AwardReportTerm awardReportTermRecipient1;
-    AwardReportTerm awardReportTermRecipient2;
-    AwardReportTerm awardReportTermRecipient3;
+    AwardReportTermRecipient awardReportTermRecipient1;
+    AwardReportTermRecipient awardReportTermRecipient2;
+    AwardReportTermRecipient awardReportTermRecipient3;
     List<AwardReportTerm> awardReportTerms;
     
     @Before
@@ -64,9 +66,9 @@ public class AwardPaymentReportsAndTermsActionTest {
         awardReportTerm1 = new AwardReportTerm();
         awardReportTerm2 = new AwardReportTerm();
         awardReportTerm3 = new AwardReportTerm();
-        awardReportTermRecipient1 = new AwardReportTerm();
-        awardReportTermRecipient2 = new AwardReportTerm();
-        awardReportTermRecipient3 = new AwardReportTerm();
+        awardReportTermRecipient1 = new AwardReportTermRecipient();
+        awardReportTermRecipient2 = new AwardReportTermRecipient();
+        awardReportTermRecipient3 = new AwardReportTermRecipient();
         
         awardReportTerm1 = 
             initializeAwardReportTermWithMockValues(awardReportTerm1, MOCK_REPORT_CLASS_CODE, 
@@ -80,22 +82,6 @@ public class AwardPaymentReportsAndTermsActionTest {
             initializeAwardReportTermWithMockValues(awardReportTerm3, MOCK_REPORT_CLASS_CODE, 
                     MOCK_REPORT_CODE3, MOCK_FREQUENCY_CODE, MOCK_FREQUENCY_BASE_CODE, 
                     MOCK_OSP_DISTRIBUTION_CODE, MOCK_DUE_DATE);
-        
-        awardReportTermRecipient1 = 
-            initializeAwardReportTermRecipientWithMockValues(awardReportTermRecipient1, 
-                    MOCK_REPORT_CLASS_CODE, MOCK_REPORT_CODE1, MOCK_FREQUENCY_CODE, MOCK_FREQUENCY_BASE_CODE, 
-                    MOCK_OSP_DISTRIBUTION_CODE, MOCK_CONTACT_TYPE_CODE, MOCK_ROLODEX_ID, 
-                    MOCK_NUMBER_OF_COPIES, MOCK_DUE_DATE);
-        awardReportTermRecipient2 = 
-            initializeAwardReportTermRecipientWithMockValues(awardReportTermRecipient2, 
-                    MOCK_REPORT_CLASS_CODE, MOCK_REPORT_CODE1, MOCK_FREQUENCY_CODE, MOCK_FREQUENCY_BASE_CODE, 
-                    MOCK_OSP_DISTRIBUTION_CODE, MOCK_CONTACT_TYPE_CODE, MOCK_ROLODEX_ID, 
-                    MOCK_NUMBER_OF_COPIES, MOCK_DUE_DATE);
-        awardReportTermRecipient3 = 
-            initializeAwardReportTermRecipientWithMockValues(awardReportTermRecipient3, 
-                    MOCK_REPORT_CLASS_CODE, MOCK_REPORT_CODE1, MOCK_FREQUENCY_CODE, 
-                    MOCK_FREQUENCY_BASE_CODE, MOCK_OSP_DISTRIBUTION_CODE,MOCK_CONTACT_TYPE_CODE, 
-                    MOCK_ROLODEX_ID, MOCK_NUMBER_OF_COPIES, MOCK_DUE_DATE);        
     }
     
     private AwardReportTerm initializeAwardReportTermWithMockValues(AwardReportTerm awardReportTerm, 
@@ -108,19 +94,6 @@ public class AwardPaymentReportsAndTermsActionTest {
         awardReportTerm.setOspDistributionCode(ospDistributionCode);
         awardReportTerm.setDueDate(new Date(new Long(dueDate)));
         return awardReportTerm;
-    }
-    
-    private AwardReportTerm initializeAwardReportTermRecipientWithMockValues(
-            AwardReportTerm awardReportTermRecipient,String reportClassCode, String reportCode,String frequencyCode, 
-            String frequencyBaseCode, String ospDistributionCode, String contactTypeCode, int rolodexId, 
-            int numberOfCopies, String dueDate){        
-        awardReportTermRecipient.setReportClassCode(reportClassCode);
-        awardReportTermRecipient.setReportCode(reportCode);
-        awardReportTermRecipient.setFrequencyCode(frequencyCode);
-        awardReportTermRecipient.setFrequencyBaseCode(frequencyBaseCode);
-        awardReportTermRecipient.setOspDistributionCode(ospDistributionCode);
-        awardReportTermRecipient.setDueDate(new Date(new Long(dueDate)));        
-        return awardReportTermRecipient;
     }
 
     @After
@@ -141,5 +114,28 @@ public class AwardPaymentReportsAndTermsActionTest {
         awardPaymentReportsAndTermsAction.addAwardReportTermToAward(award, awardReportTerm2);
         awardPaymentReportsAndTermsAction.addAwardReportTermToAward(award, awardReportTerm3);
         Assert.assertEquals(3, award.getAwardReportTerms().size());
+    }
+    
+    @Test
+    public void testPopulateContactTypeAndRolodex(){
+        awardReportTermRecipient1.setContactId(new Long(1));
+        awardPaymentReportsAndTermsAction.populateContactTypeAndRolodex(awardReportTermRecipient1);
+        Assert.assertEquals("6", awardReportTermRecipient1.getContactTypeCode());
+        Assert.assertEquals(MOCK_ROLODEX_ID_FOR_CONTACT, awardReportTermRecipient1.getRolodexId());
+        awardReportTermRecipient1.setContactId(new Long(2));
+        awardPaymentReportsAndTermsAction.populateContactTypeAndRolodex(awardReportTermRecipient1);
+        Assert.assertEquals("5", awardReportTermRecipient1.getContactTypeCode());
+        awardReportTermRecipient1.setContactId(new Long(3));
+        awardPaymentReportsAndTermsAction.populateContactTypeAndRolodex(awardReportTermRecipient1);
+        Assert.assertEquals("4", awardReportTermRecipient1.getContactTypeCode());
+        awardReportTermRecipient1.setContactId(new Long(4));
+        awardPaymentReportsAndTermsAction.populateContactTypeAndRolodex(awardReportTermRecipient1);
+        Assert.assertEquals("3", awardReportTermRecipient1.getContactTypeCode());
+        awardReportTermRecipient1.setContactId(new Long(5));
+        awardPaymentReportsAndTermsAction.populateContactTypeAndRolodex(awardReportTermRecipient1);
+        Assert.assertEquals("2", awardReportTermRecipient1.getContactTypeCode());
+        awardReportTermRecipient1.setContactId(new Long(6));
+        awardPaymentReportsAndTermsAction.populateContactTypeAndRolodex(awardReportTermRecipient1);
+        Assert.assertEquals("9", awardReportTermRecipient1.getContactTypeCode());        
     }
 }

@@ -23,7 +23,7 @@
 	<table border="0" cellpadding="0" cellspacing="0" summary="">
 		<tr>			
 			<th width="6%"><div align="center">&nbsp;</div></th>
-			<th width="45%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardReportTermRecipientAttributes.contactTypeCode}" noColon="true" /></div></th>
+			<th width="45%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardReportTermRecipientAttributes.contactId}" noColon="true" /></div></th>			
 			<th width="23%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardReportTermRecipientAttributes.rolodexId}" noColon="true" /></div></th>					          		
 			<th width="18%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardReportTermRecipientAttributes.numberOfCopies}" noColon="true" /></div></th>
 	       	<kul:htmlAttributeHeaderCell literalLabel="Action" scope="col" />
@@ -31,12 +31,12 @@
 	    <tr>
 		    <th width="5%" class="infoline">
 			    <c:out value="Add:" />
-		    </th>    
-	        <td width="5%" valign="middle" class="infoline">
-	        <div align="center">
-	            <kul:htmlControlAttribute property="newAwardReportTermRecipient[${index}].contactTypeCode" attributeEntry="${awardReportTermRecipientAttributes.contactTypeCode}" />
-	        </div>
-	        </td>
+		    </th>
+		    <td width="5%" valign="middle" class="infoline">
+		    <div align="center">
+	            <kul:htmlControlAttribute property="newAwardReportTermRecipient[${index}].contactId" attributeEntry="${awardReportTermRecipientAttributes.contactId}" />
+	        </div>    
+	        </td>	        
 	        <td width="5%" valign="middle" class="infoline">
 	        <div align="center">
 	        	<kul:htmlControlAttribute property="newAwardReportTermRecipient[${index}].rolodexId" attributeEntry="${awardReportTermRecipientAttributes.rolodexId}" />
@@ -64,9 +64,9 @@
 	        </th>
 	        <td width="5%" valign="middle">
 	        <div align="center">
-	            <kul:htmlControlAttribute property="document.awardList[0].awardReportTerms[${index}].awardReportTermRecipients[${status.index}].contactTypeCode" attributeEntry="${awardReportTermRecipientAttributes.contactTypeCode}" />
+	            <kul:htmlControlAttribute property="document.awardList[0].awardReportTerms[${index}].awardReportTermRecipients[${status.index}].contactId" attributeEntry="${awardReportTermRecipientAttributes.contactId}" readOnly="true" />	            
 	        </div>
-	        </td>
+	        </td>	        
 	        <td width="5%" valign="middle">
 	        <div align="center">
 	            <kul:htmlControlAttribute property="document.awardList[0].awardReportTerms[${index}].awardReportTermRecipients[${status.index}].rolodexId" attributeEntry="${awardReportTermRecipientAttributes.rolodexId}" />
