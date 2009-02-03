@@ -113,6 +113,33 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     }
     
     /**
+     * @see org.kuali.kra.irb.service.ProtocolPersonnelService#updateProtocolUnit(java.util.List)
+     */
+    public void updateProtocolUnit(List<ProtocolPerson> protocolPersons) {
+        for(ProtocolPerson protocolPerson : protocolPersons) {
+            protocolPerson.resetAllProtocolLeadUnits();
+            protocolPerson.getProtocolUnit(protocolPerson.getSelectedUnit()).setLeadUnitFlag(true);
+        }
+    }
+    
+    /**
+     * @see org.kuali.kra.irb.service.ProtocolPersonnelService#selectProtocolUnit(java.util.List)
+     */
+    public void selectProtocolUnit(List<ProtocolPerson> protocolPersons) {
+        for(ProtocolPerson protocolPerson : protocolPersons) {
+            int selectedUnit = 0;
+            for(ProtocolUnit protocolUnit : protocolPerson.getProtocolUnits()) {
+                if(protocolUnit.getLeadUnitFlag()) {
+                    protocolPerson.setSelectedUnit(selectedUnit);
+                    break;
+                }
+                selectedUnit++;
+            }
+            
+        }
+    }
+    
+    /**
      * Gets the businessObjectService attribute.
      * 
      * @return Returns the businessObjectService.

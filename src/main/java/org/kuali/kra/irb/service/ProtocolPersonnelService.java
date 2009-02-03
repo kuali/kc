@@ -63,4 +63,20 @@ public interface ProtocolPersonnelService {
      * @return true / false
      */
     public boolean isPersonTrained(String personId);
+
+    /**
+     * This method is used to update selected protocol lead unit in the list.
+     * Each Protocol Person has index of selected lead unit
+     * UI display is handled through selectedUnit index to group lead unit radio.
+     * @param protocolPersons
+     */
+    public void updateProtocolUnit(List<ProtocolPerson> protocolPersons);
+
+    /**
+     * This method is to select protocol lead unit for each person.
+     * UI display is handled through selectedUnit index to group lead unit radio.
+     * @param protocolPersons
+     */
+    public void selectProtocolUnit(List<ProtocolPerson> protocolPersons);
+    
 }
