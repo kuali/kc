@@ -37,7 +37,7 @@ import org.kuali.rice.test.data.UnitTestFile;
 
 @PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
         @UnitTestFile(filename = "classpath:sql/dml/load_protocol_reference_type.sql", delimiter = ";")}))
-public class ProtocolRuleTest extends ProtocolRuleTestBase {
+public class ProtocolReferenceRuleTest extends ProtocolRuleTestBase {
 
     private static final String NEW_PROTOCOLREFERENCE= "newProtocolReference";
     private ProtocolReferenceRule rule = null;
