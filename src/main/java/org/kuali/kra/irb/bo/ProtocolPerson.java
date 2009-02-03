@@ -54,6 +54,8 @@ public class ProtocolPerson extends KraPersistableBusinessObjectBase {
     private boolean trained;
     
     private List<ProtocolUnit> protocolUnits;
+    
+    private int selectedUnit;
 
 	public ProtocolPerson() { 
 	    protocolUnits = new ArrayList<ProtocolUnit>();
@@ -301,4 +303,22 @@ public class ProtocolPerson extends KraPersistableBusinessObjectBase {
     public void setPersonNameFromId(String personId, boolean nonEmpFlag) {       
         this.personName = getPersonNameFromId(personId, nonEmpFlag);
     }
+
+    public int getSelectedUnit() {
+        return selectedUnit;
+    }
+
+    public void setSelectedUnit(int selectedUnit) {
+        this.selectedUnit = selectedUnit;
+    }
+    
+    /**
+     * This method is to reset all lead unit flag in protocol unit.
+     */
+    public void resetAllProtocolLeadUnits() {
+        for(ProtocolUnit protocolUnit : getProtocolUnits()) {
+            protocolUnit.setLeadUnitFlag(false);
+        }
+    }
+
 }
