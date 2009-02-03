@@ -182,7 +182,9 @@
 	                	<c:if test="${periodDisplay}">
 	                		<td class="infoline">
 	                			<div align=center>
-	                				<html:image property="methodToCall.add" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+	                				<kra:section permission="modifyBudgets">
+	                					<html:image property="methodToCall.add" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+	                				</kra:section>
 	                			</div>
 	                		</td>
 	                	</c:if>
@@ -218,7 +220,9 @@
 						                </td>
 						                <td class="infoline">
 						                	<div align=center>
-						                		<html:image property="methodToCall.delete.line${idcStatus.index}.x" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+						                		<kra:section permission="modifyBudgets">
+						                			<html:image property="methodToCall.delete.line${idcStatus.index}.x" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+						                		</kra:section>
 						                	</div>
 						                </td>
 				             		</tr>
@@ -272,7 +276,9 @@
               		<c:if test="${periodDisplay}">
 						<td class="infoline">
               				<div align="center">
-              					<html:image property="methodToCall.recalculate" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' styleClass="tinybutton"/>
+              					<kra:section permission="modifyBudgets">
+              						<html:image property="methodToCall.recalculate" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' styleClass="tinybutton"/>
+              					</kra:section>
               				</div>
               			</td>
               		</c:if>
