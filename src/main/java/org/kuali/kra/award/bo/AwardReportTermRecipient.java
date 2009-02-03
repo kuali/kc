@@ -28,8 +28,13 @@ import org.kuali.kra.bo.Rolodex;
  */
 public class AwardReportTermRecipient extends KraPersistableBusinessObjectBase {
     
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -3941499915900100395L;
     private Long awardReportTermRecipientId;
     private Integer awardReportTermId;
+    private Long contactId;
     private String contactTypeCode; 
     private Integer rolodexId;
     private Integer numberOfCopies; 
@@ -150,27 +155,60 @@ public class AwardReportTermRecipient extends KraPersistableBusinessObjectBase {
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
         hashMap.put("awardReportTermRecipientId", getAwardReportTermRecipientId());
-        hashMap.put("awardReportTermId", getAwardReportTermId());        
+        hashMap.put("awardReportTermId", getAwardReportTermId());
+        hashMap.put("contactId", getContactId());
         hashMap.put("contactTypeCode", getContactTypeCode());
         hashMap.put("rolodexId", getRolodexId());
         hashMap.put("numberOfCopies", getNumberOfCopies());
         return hashMap;
     }
 
+    /**
+     *
+     * @return
+     */
     public Long getAwardReportTermRecipientId() {
         return awardReportTermRecipientId;
     }
 
+    /**
+     *
+     * @param awardReportTermRecipientId
+     */
     public void setAwardReportTermRecipientId(Long awardReportTermRecipientId) {
         this.awardReportTermRecipientId = awardReportTermRecipientId;
     }
 
+    /**
+     *
+     * @return
+     */
     public AwardReportTerm getAwardReportTerm() {
         return awardReportTerm;
     }
 
+    /**
+     *
+     * @param awardReportTerm
+     */
     public void setAwardReportTerm(AwardReportTerm awardReportTerm) {
         this.awardReportTerm = awardReportTerm;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Long getContactId() {
+        return contactId;
+    }
+
+    /**
+     *
+     * @param contactId
+     */
+    public void setContactId(Long contactId) {
+        this.contactId = contactId;
     }
     
 }

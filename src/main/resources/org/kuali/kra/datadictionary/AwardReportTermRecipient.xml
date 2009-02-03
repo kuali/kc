@@ -35,10 +35,11 @@
 			<list>
 				<ref bean="AwardReportTermRecipient-awardReportTermRecipientId" />
 				<ref bean="AwardReportTermRecipient-awardReportTermId" />
+				<ref bean="AwardReportTermRecipient-contactId" />
 				<ref bean="AwardReportTermRecipient-contactTypeCode" />
 				<ref bean="AwardReportTermRecipient-rolodexId" />
 				<ref bean="AwardReportTermRecipient-numberOfCopies" />
-				<ref bean="AwardReportTermRecipient-versionNumber" />
+				<ref bean="AwardReportTermRecipient-versionNumber" />				
 			</list>
 		</property>
 	</bean>
@@ -79,6 +80,25 @@
 		</property>
 		<property name="summary" value="Award Report Terms Id" />
 		<property name="description" value="Award Report Terms Id" />
+	</bean>
+	
+	<bean id="AwardReportTermRecipient-contactId" parent="AwardReportTermRecipient-contactId-parentBean" />
+	<bean id="AwardReportTermRecipient-contactId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="contactId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Contact" />
+		<property name="shortLabel" value="Contact" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >			
+	        <bean parent="SelectControlDefinition"
+            	p:valuesFinderClass="org.kuali.kra.award.lookup.keyvalue.ContactsValuesFinder"
+            	p:includeKeyInLabel="false" />    
+		</property>
+		<property name="summary" value="Contact" />
+		<property name="description" value="Contact" />
 	</bean>
 	
 	<bean id="AwardReportTermRecipient-contactTypeCode" parent="AwardReportTermRecipient-contactTypeCode-parentBean" />
@@ -162,6 +182,9 @@
 								p:attributeName="awardReportTermId" 
 								p:forceInquiry="true" />
 							<bean parent="FieldDefinition"
+								p:attributeName="contactId" 
+								p:forceInquiry="true" />	
+							<bean parent="FieldDefinition"
 								p:attributeName="contactTypeCode" />
 							<bean parent="FieldDefinition"
 								p:attributeName="rolodexId" />
@@ -193,6 +216,9 @@
 					p:attributeName="awardReportTermId" 
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
+					p:attributeName="contactId" 
+					p:forceInquiry="true" />	
+				<bean parent="FieldDefinition"
 					p:attributeName="contactTypeCode" />
 				<bean parent="FieldDefinition"
 					p:attributeName="rolodexId" />
@@ -207,6 +233,9 @@
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
 					p:attributeName="awardReportTermId" 
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition"
+					p:attributeName="contactId" 
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
 					p:attributeName="contactTypeCode" />
