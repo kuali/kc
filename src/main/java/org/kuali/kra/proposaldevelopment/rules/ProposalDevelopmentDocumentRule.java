@@ -142,73 +142,13 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         
         for (ProposalSpecialReview propSpecialReview : proposalDevelopmentDocument.getPropSpecialReviews()) {
             errorMap.addToErrorPath("propSpecialReview[" + i + "]");
-            propSpecialReview.refreshReferenceObject("validSpecialReviewApproval");
-            if (StringUtils.isNotBlank(propSpecialReview.getApprovalTypeCode()) && StringUtils.isNotBlank(propSpecialReview.getSpecialReviewCode())) {
-                ValidSpecialReviewApproval validSpRevApproval = propSpecialReview.getValidSpecialReviewApproval();
-                if (validSpRevApproval != null) {
-                    if (validSpRevApproval.isProtocolNumberFlag() && StringUtils.isBlank(propSpecialReview.getProtocolNumber())) {
-                        valid = false;
-                        errorMap.putError("protocolNumber", KeyConstants.ERROR_REQUIRED_FOR_VALID_SPECIALREVIEW, "Protocol Number",
-                                validSpRevApproval.getSpecialReview().getDescription() + "/"
-                                        + validSpRevApproval.getSpecialReviewApprovalType().getDescription());
-                    }
-                    if (validSpRevApproval.isApplicationDateFlag() && propSpecialReview.getApplicationDate() == null) {
-                        valid = false;
-                        errorMap.putError("applicationDate", KeyConstants.ERROR_REQUIRED_FOR_VALID_SPECIALREVIEW,
-                                "Protocol Number", validSpRevApproval.getSpecialReview().getDescription() + "/"
-                                        + validSpRevApproval.getSpecialReviewApprovalType().getDescription());
-                    }
-                    if (validSpRevApproval.isApprovalDateFlag() && propSpecialReview.getApprovalDate() == null) {
-                        valid = false;
-                        errorMap.putError("approvalDate", KeyConstants.ERROR_REQUIRED_FOR_VALID_SPECIALREVIEW, "Protocol Number",
-                                validSpRevApproval.getSpecialReview().getDescription() + "/"
-                                        + validSpRevApproval.getSpecialReviewApprovalType().getDescription());
-                    }
-                    if (validSpRevApproval.isExemptNumberFlag() && (propSpecialReview.getProposalExemptNumbers() == null || propSpecialReview.getProposalExemptNumbers().size() < 1)) {
-                        valid = false;
-                        errorMap.removeFromErrorPath("propSpecialReview[" + i + "]");
-                        errorMap.removeFromErrorPath("document");
-                        errorMap.putError("documentExemptNumbers[" + i + "]", KeyConstants.ERROR_REQUIRED_FOR_VALID_SPECIALREVIEW, "Exempt Number",
-                                validSpRevApproval.getSpecialReview().getDescription() + "/"
-                                        + validSpRevApproval.getSpecialReviewApprovalType().getDescription());
-                        errorMap.addToErrorPath("document");
-                        errorMap.addToErrorPath("propSpecialReview[" + i + "]");
-                    }
-                    if (!validSpRevApproval.isExemptNumberFlag() && propSpecialReview.getProposalExemptNumbers() != null && propSpecialReview.getProposalExemptNumbers().size() > 0) {
-                        valid = false;
-                        errorMap.removeFromErrorPath("propSpecialReview[" + i + "]");
-                        errorMap.removeFromErrorPath("document");
-                        errorMap.putError("documentExemptNumbers[" + i + "]", KeyConstants.ERROR_EXEMPT_NUMBER_SELECTED,
-                                validSpRevApproval.getSpecialReview().getDescription() + "/"
-                                        + validSpRevApproval.getSpecialReviewApprovalType().getDescription());
-                        errorMap.addToErrorPath("document");
-                        errorMap.addToErrorPath("propSpecialReview[" + i + "]");
-                    }
-
-
-                } else {
-                    // TODO : not sure if no valid sp set, and exempt# is selected, should this be an error ?
-//                    if (propSpecialReview.getProposalExemptNumbers() != null && propSpecialReview.getProposalExemptNumbers().size() > 0) {
-//                        valid = false;
-//                        errorMap.removeFromErrorPath("propSpecialReview[" + i + "]");
-//                        errorMap.removeFromErrorPath("document");
-//                        propSpecialReview.refreshReferenceObject("specialReview");
-//                        propSpecialReview.refreshReferenceObject("specialReviewApprovalType");
-//                        errorMap.putError("documentExemptNumbers[" + i + "]", KeyConstants.ERROR_EXEMPT_NUMBER_SELECTED,
-//                                propSpecialReview.getSpecialReview().getDescription() + "/"
-//                                        + propSpecialReview.getSpecialReviewApprovalType().getDescription());
-//                        errorMap.addToErrorPath("document");
-//                        errorMap.addToErrorPath("propSpecialReview[" + i + "]");
-//                    }
-                }
-
-            }
-            if (propSpecialReview.getApplicationDate() !=null && propSpecialReview.getApprovalDate() != null && propSpecialReview.getApprovalDate().before(propSpecialReview.getApplicationDate())) {
-                errorMap.putError("approvalDate", KeyConstants.ERROR_APPROVAL_DATE_BEFORE_APPLICATION_DATE_SPECIALREVIEW,
-                        "Approval Date","Application Date"); 
-            }
-
-            errorMap.removeFromErrorPath("propSpecialReview[" + i++ + "]");
+            
+            ProposalDevelopmentProposalSpecialReviewRule specialReviewRule = new ProposalDevelopmentProposalSpecialReviewRule();
+            valid &= specialReviewRule.processValidSpecialReviewBusinessRules(propSpecialReview, "documentExemptNumbers[" + i + "]");
+            valid &= specialReviewRule.processProposalSpecialReviewBusinessRules(propSpecialReview);
+            
+            errorMap.removeFromErrorPath("propSpecialReview[" + i + "]");
+            i++;
         }
         return valid;
     }
