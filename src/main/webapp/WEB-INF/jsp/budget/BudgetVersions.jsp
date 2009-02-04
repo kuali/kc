@@ -14,6 +14,11 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}" scope="request" />
+
+<c:if test="${KualiForm.editingMode['modifyCompletedBudgets']}">
+	<c:set target="${KualiForm.documentActionFlags}" property="canSave" value="true"/>
+</c:if>
 
 <kul:documentPage
 	showDocumentInfo="true"
@@ -40,7 +45,7 @@
 		extraButtonSource="${extraButtonSource}"
 		extraButtonProperty="${extraButtonProperty}"
 		extraButtonAlt="${extraButtonAlt}"
-		viewOnly="${KualiForm.editingMode['viewOnly']}"
+		viewOnly="${viewOnly}"
 		/>
 
 </kul:documentPage>

@@ -52,6 +52,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * Struts Action class for the Propsoal Development Budget Versions page
  */
 public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopmentAction {
+    private static final String TOGGLE_TAB = "toggleTab";
     private static final String CONFIRM_SYNCH_BUDGET_RATE = "confirmSynchBudgetRate";
     private static final String NO_SYNCH_BUDGET_RATE = "noSynchBudgetRate";
 
@@ -69,6 +70,15 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         request.setAttribute("rateClassMap", getBudgetRatesService().getBudgetRateClassMap("O"));
+        
+        final ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
+        final ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
+        
+        if (TOGGLE_TAB.equals(pdForm.getMethodToCall())) {
+            final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
+            tdcValidator.validateGeneratingWarnings(pdDoc);
+        }
+        
         return super.execute(mapping, form, request, response);
     }
 
