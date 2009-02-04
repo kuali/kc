@@ -17,9 +17,8 @@ package org.kuali.kra;
 
 import java.io.Serializable;
 
-
 /**
- * This interface defines versionable behavior
+ * This interface defines a class with sequence information
  */
 public interface Sequenceable extends Serializable {
     /**
@@ -27,10 +26,4 @@ public interface Sequenceable extends Serializable {
      * @return
      */
     Integer getSequenceNumber();
-    
-    /**
-     * This sequences the object
-     * @param owner
-     */
-    void setSequenceOwner(Sequenceable owner);
 }
