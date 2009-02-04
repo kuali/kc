@@ -86,6 +86,10 @@ public class Committee extends KraPersistableBusinessObjectBase {
         return id;
     }
     
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
     public String getCommitteeId() {
         return committeeId;
     }

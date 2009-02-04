@@ -177,7 +177,7 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
      */
     @SuppressWarnings("unchecked")
     protected void setSaveDocumentControl(DocumentActionFlags tempDocumentActionFlags, Map editMode) {
-        tempDocumentActionFlags.setCanSave(true);
+       
     }
     
     /**
@@ -194,6 +194,5 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
     public void setScheduleData(ScheduleData scheduleData) {
         this.scheduleData = scheduleData;
     }
-    
 }
 
