@@ -6,6 +6,7 @@
 <c:set var="action" value="protocol" />
 <c:set var="nonEmpFlag" value="false" />
 <c:set var="className" value="org.kuali.kra.protocol.document.ProtocolDocument" />
+<c:set var="readOnly" value="${!KualiForm.protocolHelper.modifyProtocol}" />
 
 <kul:tab tabTitle="Required Fields for Saving Document" defaultOpen="true" tabErrorKey="document.protocol.protocolTypeCode*,principalInvestigator*,document.protocol.principalInvestigatorName*,document.protocol.title*,document.protocol.principalInvestigatorId*,document.protocol.leadUnitNumber*, document.currentAwardNumber*,document.continuedFrom,document.sponsorCode*,document.ProtocolTypeCode*,document.requestedStartDateInitial*,document.ownedByUnit*,document.requestedEndDateInitial*,document.activityTypeCode*,document.title" auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.title" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
@@ -18,7 +19,7 @@
             <tr>
             	<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.protocolTypeCode}" /></div></th>
                 <td align="left" valign="top">
-                      <kra:kraControlAttribute property="document.protocol.protocolTypeCode" readOnly="${readOnly}" attributeEntry="${protocolAttributes.protocolTypeCode}" />
+                    <kra:kraControlAttribute property="document.protocol.protocolTypeCode" readOnly="${readOnly}" attributeEntry="${protocolAttributes.protocolTypeCode}" />
                 </td>
 				
 				<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.principalInvestigatorId}" /></div></th>
@@ -74,8 +75,10 @@
             <tr>
                 <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.title}" /></div></th>
                 <td align="left" valign="top">
-                	<kul:htmlControlAttribute property="document.protocol.title" attributeEntry="${protocolAttributes.title}" />
-                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${protocolAttributes.title.label}" />
+                	<kul:htmlControlAttribute property="document.protocol.title" attributeEntry="${protocolAttributes.title}" readOnly="${readOnly}" />
+                    <c:if test="${!readOnly}">
+                        <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${protocolAttributes.title.label}" />
+                    </c:if>
                 </td>
                 
                 <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.leadUnitNumber}" /></div></th>            
