@@ -43,6 +43,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
         @UnitTestFile(filename = "classpath:sql/dml/load_system_params.sql", delimiter = ";"),
         @UnitTestFile(filename = "classpath:sql/dml/load_protocol_status.sql", delimiter = ";"),
         @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ORG_TYPE.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_PERSON_ROLES.sql", delimiter = ";"),
         @UnitTestFile(filename = "classpath:sql/dml/load_protocol_type.sql", delimiter = ";") }))
 public abstract class ProtocolWebTestBase extends KraWebTestBase {
     
