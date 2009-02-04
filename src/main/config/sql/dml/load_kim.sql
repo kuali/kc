@@ -23,7 +23,7 @@ insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(19,'CREA
 insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(20,'CREATE_RENEWAL','Create a new renewal for a protocol', 2);
 insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(21,'MAINTAIN_PROTOCOL_RELATED_PROJ','Maintain protocol links to awards and proposals', 2);
 insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(22,'EDIT_PROTOCOL_BILLABLE','Edit Billable field', 2);
-insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(23,'ADD_COMMITTE','Add new committees in a unit', 2);
+insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(23,'ADD_COMMITTEE','Add new committees in a unit', 2);
 insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(24,'ADMINSTRATIVE_CORRECTION','Perform Administrative Corrections on Protocols', 2);
 insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(25,'GENERATE_AGENDA','Generate Agenda', 2);
 insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(26,'GENERATE_MINUTES','Generate Minutes', 2);

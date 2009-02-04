@@ -668,6 +668,9 @@
                 <bean class="org.kuali.kra.authorizer.CreateProtocolAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="createProtocol" />
                 </bean>
+                 <bean class="org.kuali.kra.authorizer.CreateCommitteeAuthorizer" parent="parentAuthorizer">
+                    <property name="taskName" value="addCommittee" />
+                </bean>
             </list>
         </property>
     </bean>
@@ -781,6 +784,7 @@
                 <ref bean="narrativeTaskAuthorizers" />
                 <ref bean="budgetTaskAuthorizers" />
                 <ref bean="protocolTaskAuthorizers" />
+                <ref bean="committeeTaskAuthorizers" />
             </list>
         </property>
     </bean>

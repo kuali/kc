@@ -21,7 +21,15 @@ import java.util.Map;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
+import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
+import org.kuali.core.exceptions.DocumentInitiationAuthorizationException;
+import org.kuali.kra.authorization.ApplicationTask;
+import org.kuali.kra.committee.document.CommitteeDocument;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.service.TaskAuthorizationService;
 
 /**
  * The document authorizer controls access to the Committee as well as
@@ -37,14 +45,116 @@ public class CommitteeDocumentAuthorizer extends TransactionalDocumentAuthorizer
      */
     @SuppressWarnings("unchecked")
     public Map getEditMode(Document doc, UniversalUser user) {
-        
-        /*
-         * NOTE: Currently full access is allowed for the initial development work.
-         * This will need to be changed when authorization is added.
-         */
+                 
         Map editModeMap = new HashMap();
-        editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, TRUE);
-    
+        
+        CommitteeDocument committeeDocument = (CommitteeDocument) doc;
+        
+        String username = user.getPersonUserIdentifier();
+        if (committeeDocument.getCommittee().getCommitteeId() == null) {
+            if (canCreateCommittee(user)) {
+                editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, TRUE);
+            } 
+            else {
+                editModeMap.put(AuthorizationConstants.EditMode.UNVIEWABLE, TRUE);
+            }
+        } 
+        else {
+            if (canExecuteCommitteeTask(username, committeeDocument, TaskName.MODIFY_COMMITTEE)) {  
+                editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, TRUE);
+            }
+            else if (canExecuteCommitteeTask(username, committeeDocument, TaskName.VIEW_COMMITTEE)) {
+                editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, TRUE);
+            }
+            else {
+                editModeMap.put(AuthorizationConstants.EditMode.UNVIEWABLE, TRUE);
+            }
+        }
+        
         return editModeMap;
+    }
+    
+    /**
+     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String,
+     *      org.kuali.core.bo.user.UniversalUser)
+     */
+    @Override
+    public void canInitiate(String documentTypeName, UniversalUser user) {
+        super.canInitiate(documentTypeName, user);
+        if (!canCreateCommittee(user)) {
+            throw new DocumentInitiationAuthorizationException(KeyConstants.ERROR_AUTHORIZATION_DOCUMENT_INITIATION, 
+                                                               new String[] { user.getPersonUserIdentifier(), documentTypeName });
+        }
+    }
+    
+    /**
+     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     */
+    @Override
+    public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
+   
+        CommitteeDocument committeeDocument = (CommitteeDocument) document;
+        
+        boolean permission;
+        if (committeeDocument.getCommittee().getCommitteeId() == null) {
+            permission = canCreateCommittee(user);
+        }
+        else {
+            String username = user.getPersonUserIdentifier();
+            permission = canExecuteCommitteeTask(username, committeeDocument, TaskName.MODIFY_COMMITTEE);
+        }
+        return permission;
+    }
+   
+    /**
+     * @see org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     */
+    @Override
+    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+       
+        // no copy button
+        DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
+        flags.setCanCopy(false);
+       
+        // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
+        this.setAnnotateFlag(flags);
+       
+        // Any user who has the Initiate Authorization can save and cancel.
+       
+        if (this.hasInitiateAuthorization(document, user)) {
+            flags.setCanSave(true);
+            flags.setCanCancel(true);
+        }
+        else {
+            flags.setCanSave(false);
+            flags.setCanCancel(false);
+        }
+        
+        return flags;
+    }
+    
+    /**
+     * Does the user have permission to create a committee?
+     * @param user the user
+     * @return true if the user can create a committee; otherwise false
+     */
+    private boolean canCreateCommittee(UniversalUser user) {
+        String username = user.getPersonUserIdentifier();
+        ApplicationTask task = new ApplicationTask(TaskName.ADD_COMMITTEE);       
+        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        return taskAuthenticationService.isAuthorized(username, task);
+    }
+    
+    /**
+     * Does the user have permission to execute the given task for a committee?
+     * @param username the user's username
+     * @param doc the committee document
+     * @param taskName the name of the task
+     * @return true if has permission; otherwise false
+     */
+    private boolean canExecuteCommitteeTask(String username, CommitteeDocument doc, String taskName) {
+        CommitteeTask task = new CommitteeTask(taskName, doc.getCommittee());       
+        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        return taskAuthenticationService.isAuthorized(username, task);
     }
 }
