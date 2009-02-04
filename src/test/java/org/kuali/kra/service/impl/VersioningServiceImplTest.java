@@ -15,161 +15,91 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.kra.Sequenceable;
+import org.kuali.kra.SequenceAssociate;
+import org.kuali.kra.service.VersioningService;
+import org.kuali.kra.service.impl.versioningartifacts.SequenceAssociateChild;
+import org.kuali.kra.service.impl.versioningartifacts.SequenceAssociateGrandChild;
+import org.kuali.kra.service.impl.versioningartifacts.SequenceOwnerImpl;
+import org.kuali.kra.service.impl.versioningartifacts.SimpleAssociate;
 
 /**
- * This lass tests the versioning service
+ * This tests the versioning service
  */
 public class VersioningServiceImplTest {
     
-    public class Foo implements Serializable {
-        private static final long serialVersionUID = -593740365386885990L;
-        private String name;
-        private Bar bar;
-        public String getName() {
-            return name;
-        }
-        public void setName(String name) {
-            this.name = name;
-        }
-        public Bar getBar() {
-            return bar;
-        }
-        public void setBar(Bar bar) {
-            this.bar = bar;
-        }
-        
+    private static final int NUMBER_OF_GRANDCHILD_ASSOCIATES = 5;
+    private static final int NUMBER_OF_CHILD_ASSOCIATES = 3;
+    private VersioningService service;
+    private SequenceOwnerImpl originalVersion;
+
+    @Before
+    public void setUp() {
+        service = new VersioningServiceImpl();
+        originalVersion = populateSequenceableArtifacts();
     }
     
-    public class Bar implements Serializable {
-        private static final long serialVersionUID = 6283947599624347760L;
-        private String name;
-        private Foo foo;
-        
-        public String getName() {
-            return name;
-        }
-        public void setName(String name) {
-            this.name = name;
-        }
-        public Foo getFoo() {
-            return foo;
-        }
-        public void setFoo(Foo foo) {
-            this.foo = foo;
-        }
-        
+    @After
+    public void tearDown() {
+        service = null;
+        originalVersion = null;
     }
     
     @Test
-    public void deepCopyTest() throws Exception {
-        Foo foo = new Foo();
-        foo.setName("Foo1");
-        Bar bar = new Bar();
-        bar.setName("Bar1");
-        foo.setBar(bar);
-        bar.setFoo(foo);
-        //Foo newFoo = (Foo) ObjectUtils.deepCopy(foo);
+    public void testVersioning_Owner() throws Exception {
+        SequenceOwnerImpl newVersion = (SequenceOwnerImpl) service.createNewVersion(originalVersion);
+        Assert.assertEquals(originalVersion.getSequenceNumber() + 1, newVersion.getSequenceNumber().intValue());
     }
     
-//    @Test
-//    public void testVersioning() throws Exception {
-//        VersioningService service = new VersioningServiceImpl();
-//        Owner original = new Owner();
-//        original.add(new Child("Child1"));
-//        original.add(new Child("Child2"));
-//        original.add(new Child("Child3"));
-//        
-//        Owner newVersion = (Owner) service.createNewVersion(original);
-//        Assert.assertEquals(original.getSequenceNumber() + 1, newVersion.getSequenceNumber().intValue());
-//        
-//    }
-    
-    /**
-     * This test artifact represents a top level owner; i.e. Award
-     */
-    public class Owner implements Sequenceable {
-        private static final long serialVersionUID = 3354366183120742932L;
+    @Test
+    public void testVersioning_1toM_Association() throws Exception {
+        SequenceOwnerImpl newVersion = (SequenceOwnerImpl) service.createNewVersion(originalVersion);
         
-        private String name;
-        private Integer sequenceNumber;
-        private List<Child> children;
-        
-        public Owner() {
-            this.name = "Owner";
-            sequenceNumber = 1;
-            children = new ArrayList<Child>();
-        }
-        
-        public void add(Child child) {
-            children.add(child);
-            child.setOwner(this);
-        }
-        
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public Integer getSequenceNumber() {
-            return sequenceNumber;
-        }
-
-        public void setSequenceOwner(Sequenceable owner) {
-            sequenceNumber++;
+        for(SequenceAssociateChild child: newVersion.getChildren()) {
+            Assert.assertEquals(newVersion, child.getOwner());
+            Assert.assertEquals(newVersion.getSequenceNumber(), child.getSequenceNumber());
+            for(SequenceAssociateGrandChild grandChild: child.getChildren()) {
+                Assert.assertEquals(newVersion, grandChild.getOwner());
+                Assert.assertEquals(newVersion.getSequenceNumber(), grandChild.getSequenceNumber());
+            }
         }
     }
+
+    @Test
+    public void testVersioning_1to1_Association() throws Exception {
+        SequenceOwnerImpl newVersion = (SequenceOwnerImpl) service.createNewVersion(originalVersion);
+        SequenceAssociate associate = newVersion.getAssociate();
+        Assert.assertEquals(newVersion, associate.getSequenceOwner());
+        Assert.assertEquals(newVersion.getSequenceNumber(), associate.getSequenceNumber());
+        
+    }
     
-    /**
-     * This test artifact represents a top level owner; i.e. Award
-     */
-    public class Child implements Sequenceable {
-        private static final long serialVersionUID = 3354366183120742932L;
-        
-        private String name;
-        private Owner owner;
-        private Integer sequenceNumber;
-        
-        public Child(String name) {
-            this.name = name;
-        }
+    private SequenceOwnerImpl populateSequenceableArtifacts() {
+        SequenceOwnerImpl owner = new SequenceOwnerImpl();
+        addAssociate(owner);
+        addCollectionOfAssociates(owner);
+        return owner;
+    }
 
-        public String getName() {
-            return name;
+    private void addCollectionOfAssociates(SequenceOwnerImpl owner) {
+        for(int i = 1; i <= NUMBER_OF_CHILD_ASSOCIATES; i++) {
+            SequenceAssociateChild child = new SequenceAssociateChild(String.format("Child %d", i));
+            owner.add(child);
+            for(int j = 1; j <= NUMBER_OF_GRANDCHILD_ASSOCIATES; j++) {
+                String name = String.format("GrandChild %d.%d", i, j);
+                SequenceAssociateGrandChild grandChild = new SequenceAssociateGrandChild(name);
+                grandChild.setOwner(owner);
+                child.add(grandChild);
+            }
         }
+    }
 
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public Owner getOwner() {
-            return owner;
-        }
-
-        public void setOwner(Owner owner) {
-            this.owner = owner;
-            this.sequenceNumber = owner.getSequenceNumber();
-        }
-
-        public Integer getSequenceNumber() {
-            return sequenceNumber;
-        }
-
-        public void setSequenceNumber(Integer sequenceNumber) {
-            // do nothing here
-        }
-
-        public void setSequenceOwner(Sequenceable owner) {
-            setOwner((Owner)owner);
-        }
+    private void addAssociate(SequenceOwnerImpl owner) {
+        SimpleAssociate associate = new SimpleAssociate("Associate1");
+        owner.setAssociate(associate);
+        associate.setOwner(owner);
     }
 }

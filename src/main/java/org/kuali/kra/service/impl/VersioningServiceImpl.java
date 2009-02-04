@@ -17,6 +17,7 @@ package org.kuali.kra.service.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.Sequenceable;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
@@ -30,8 +31,8 @@ public class VersioningServiceImpl implements VersioningService {
     /**
      * @see org.kuali.kra.service.VersioningService#version(org.kuali.kra.Sequenceable)
      */
-    public Sequenceable createNewVersion(Sequenceable oldVersion) throws VersionException {
-        Sequenceable newVersion = new SequenceUtils().deepCopy(oldVersion);        
+    public SequenceOwner createNewVersion(SequenceOwner oldVersion) throws VersionException {
+        SequenceOwner newVersion = new SequenceUtils().sequence(oldVersion);
         logVersionOperation(oldVersion, newVersion);
         
         return newVersion;
@@ -41,7 +42,7 @@ public class VersioningServiceImpl implements VersioningService {
         if(LOGGER.isInfoEnabled()) {
             String className = oldVersion.getClass().getName();
             String versionLoggingMessage = new StringBuilder()
-                                            .append(className.substring(className.lastIndexOf(".")))
+                                            .append(className.substring(className.lastIndexOf(".") + 1))
                                             .append(" versioned from ")
                                             .append(oldVersion.getSequenceNumber())
                                             .append(" to ")
