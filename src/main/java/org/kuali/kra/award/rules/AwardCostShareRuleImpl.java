@@ -29,17 +29,20 @@ public class AwardCostShareRuleImpl extends ResearchDocumentRuleBase implements 
 
     
     private static final String NEW_AWARD_COST_SHARE = "newAwardCostShare";
+    AwardCostShare awardCostShare;
     
     /**
      * @see org.kuali.kra.award.rule.AwardCostShareRule#processCostShareBusinessRules
      * (org.kuali.kra.award.rule.event.AwardCostShareRuleEvent)
      */
     public boolean processCostShareBusinessRules(AwardCostShareRuleEvent awardCostShareRuleEvent) {
-        return processCommonValidations(awardCostShareRuleEvent);
+        this.awardCostShare = awardCostShareRuleEvent.getCostShareForValidation();
+        return processCommonValidations(awardCostShare);
     }
     
     public boolean processAddCostShareBusinessRules(AwardCostShareRuleEvent awardCostShareRuleEvent) {
-        return processCommonValidations(awardCostShareRuleEvent);
+        this.awardCostShare = awardCostShareRuleEvent.getCostShareForValidation();
+        return processCommonValidations(awardCostShare);
     }
     
     /**
@@ -47,8 +50,7 @@ public class AwardCostShareRuleImpl extends ResearchDocumentRuleBase implements 
      * @param event
      * @return
      */
-    private boolean processCommonValidations(AwardCostShareRuleEvent event) {
-        AwardCostShare awardCostShare = event.getCostShareForValidation();
+    public boolean processCommonValidations(AwardCostShare awardCostShare) {
         boolean validSourceAndDestination = validateCostShareSourceAndDestinationForEquality(awardCostShare);
         boolean validFiscalYearRange = validateCostShareFiscalYearRange(awardCostShare);
         

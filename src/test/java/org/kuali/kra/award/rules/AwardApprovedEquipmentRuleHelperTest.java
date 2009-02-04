@@ -22,7 +22,7 @@ import org.junit.Test;
 import org.kuali.rice.config.ConfigurationException;
 
 /**
- * This class tests ApprovedEquipmentActionHelper 
+ * This class tests ApprovedEquipmentActionHelper
  */
 public class AwardApprovedEquipmentRuleHelperTest {
     private static final String INVALID_NUMBER_FORMAT = "$1,234.56";
