@@ -37,9 +37,9 @@ public class ProtocolLocationWebTest extends ProtocolWebTestBase{
     protected static final String NEW_ORGANIZATION_VALUE =  "000001";
     protected static final String ADDRESS_LINE_1 =  "Address Line 1";
 
-    protected static final String DELETE_LOCATION = "methodToCall.deleteProtocolLocation.line0.anchor6";
+    protected static final String DELETE_LOCATION = "methodToCall.deleteProtocolLocation.line0.anchor4";
     protected static final String ADD_LOCATION = "methodToCall.addProtocolLocation.anchor";
-    protected static final String CLEAR_ADDRESS = "methodToCall.clearProtocolLocationAddress.line0.anchor6";
+    protected static final String CLEAR_ADDRESS = "methodToCall.clearProtocolLocationAddress.line0.anchor4";
     
 
     /**
