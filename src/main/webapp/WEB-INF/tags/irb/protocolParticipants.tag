@@ -27,7 +27,7 @@
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.bo.ProtocolType" altText="help"/></span>
         </h3>
         
-        <table cellpadding=0 cellspacing=0 class="datatable" summary="View/edit protocol participants">
+        <table id="participants-table" cellpadding=0 cellspacing=0 class="datatable" summary="View/edit protocol participants">
         
         	<%-- Header --%>
         	<tr>
