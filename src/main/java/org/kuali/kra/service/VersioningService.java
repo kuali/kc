@@ -15,17 +15,17 @@
  */
 package org.kuali.kra.service;
 
-import org.kuali.kra.Sequenceable;
+import org.kuali.kra.SequenceOwner;
 
 /**
  * This interface defines generic versioning behavior
  */
 public interface VersioningService {
     /**
-     * Cause old version of Versionable object to be versioned to new version
+     * Cause old version of SequenceOwner object to be versioned to new version
      * 
      * @param oldVersion
-     * @return
+     * @return The newly sequenced version
      */
-    Sequenceable createNewVersion(Sequenceable oldVersion) throws VersionException;
+    SequenceOwner createNewVersion(SequenceOwner oldVersion) throws VersionException;
 }
