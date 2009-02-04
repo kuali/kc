@@ -15,7 +15,15 @@
  */
 package org.kuali.kra.service.impl;
 
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.service.AwardFandaRateService;
 
 /**
@@ -25,28 +33,55 @@ import org.kuali.kra.service.AwardFandaRateService;
 public class AwardFandaRateServiceImpl implements AwardFandaRateService {
     
     public static final int FISCAL_YEAR_LENGTH = 4;
+    public static final long MILLIS_IN_LEAP_YEAR = new Long("31557600000");//366 * 24 * 60 * 60 * 1000
+    public static final long MILLIS_IN_NON_LEAP_YEAR = new Long("31471200000");//365 * 24 * 60 * 60 * 1000
+        
+    private KualiConfigurationService kualiConfigurationService;
 
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
+    }
+    
     /**
      * 
      * @see org.kuali.kra.service.AwardFandaRateService#getStartAndEndDatesBasedOnFiscalYear(java.lang.String)
      */
     public String getStartAndEndDatesBasedOnFiscalYear(String fiscalYear){
         StringBuilder dates = new StringBuilder();
-        String startDateYear = null;
+        
+        if (StringUtils.isNotEmpty(fiscalYear) && fiscalYear.length()==FISCAL_YEAR_LENGTH) {            
+            String budgetFiscalYearStart
+                = kualiConfigurationService.getParameterValue(Constants.PARAMETER_MODULE_BUDGET
+                        , Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_CURRENT_FISCAL_YEAR);
+            
+            Date startDate = getFiscalYearStartDate(fiscalYear, budgetFiscalYearStart.split("/"));      
+            
+            dates.append(getFormattedDate(startDate));            
+            dates.append(",");
+            if(new GregorianCalendar().isLeapYear(Integer.valueOf(fiscalYear))){
+                dates.append(getFormattedDate(new Date(startDate.getTime() + MILLIS_IN_LEAP_YEAR)));    
+            }else{
+                dates.append(getFormattedDate(new Date(startDate.getTime() + MILLIS_IN_NON_LEAP_YEAR)));
+            }            
+        }
+        return dates.toString();
+    }
+    
+    public Date getFiscalYearStartDate(String fiscalYear, String[] dateParts){
+        Calendar calendar = GregorianCalendar.getInstance();
+        
         try{
-            startDateYear = new Integer(Integer.parseInt(fiscalYear) - 1).toString();            
+            calendar.set(Integer.valueOf(fiscalYear)-1, Integer.valueOf(dateParts[0]) - 1
+                    , Integer.valueOf(dateParts[1]));    
         }catch(NumberFormatException e){
             throw e;
         }
         
-        if (StringUtils.isNotEmpty(fiscalYear) && fiscalYear.length()==FISCAL_YEAR_LENGTH) {
-            dates.append("07/01/");
-            dates.append(startDateYear);
-            dates.append(",");
-            dates.append("06/30/");
-            dates.append(fiscalYear);            
-        }
-        return dates.toString();
+        return new Date(calendar.getTimeInMillis()); 
     }
-
+    
+    public String getFormattedDate(Date date){
+        DateFormat dateFormat = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN);
+        return dateFormat.format(date);
+    }
 }
