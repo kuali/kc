@@ -66,7 +66,7 @@ public class BudgetForm extends ProposalFormBase {
     private BudgetPeriod newBudgetPeriod;
     private List<BudgetLineItem> newBudgetLineItems;   
     private BudgetLineItem newPersonnelLineItem;   
-    private Integer newBudgetPeriodNumber = 0;    
+    private Integer newBudgetPeriodNumber = Integer.valueOf(0);    
     
 	private BudgetCostShare newBudgetCostShare;
 	private BudgetProjectIncome newBudgetProjectIncome;
@@ -742,9 +742,7 @@ public class BudgetForm extends ProposalFormBase {
     protected void setSaveDocumentControl(DocumentActionFlags tempDocumentActionFlags, @SuppressWarnings("unchecked") Map editMode) {
         tempDocumentActionFlags.setCanSave(false);
 
-        if (this.hasModifyBudgetPermission(editMode)
-            || (this.hasModifyCompletedBudgetPermission(editMode)
-            && this.toBudgetVersionsPage())) {
+        if (this.hasModifyBudgetPermission(editMode)) {
             tempDocumentActionFlags.setCanSave(true);
         }
     }
@@ -752,14 +750,16 @@ public class BudgetForm extends ProposalFormBase {
     /**
      * This method checks if destination is the BudgetVersions page.
      * This method works only if called after form properties are updated
-     * (ex: navigateTo).
+     * (ex: navigateTo).  Just because this method returns true does not
+     * mean that the request will actually end up at the budget versions
+     * page.  (ex: if on another page and a hard error occurs while trying
+     * to get to the budget versions page).
      *
      * @return true if headed to the versions page.
      */
     public boolean toBudgetVersionsPage() {
         return "versions".equals(this.navigateTo)
-        || ("BudgetVersionsAction".equals(this.actionName)
-            && this.navigateTo == null);
+        || ("BudgetVersionsAction".equals(this.actionName));
     }
 
     @Override
