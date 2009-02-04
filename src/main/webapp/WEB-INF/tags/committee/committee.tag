@@ -3,6 +3,7 @@
 <c:set var="committeeAttributes" value="${DataDictionary.Committee.attributes}" />
 <c:set var="action" value="committeeCommittee" />
 <c:set var="className" value="org.kuali.kra.committee.document.CommitteeDocument" />
+<c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
 
 <kul:tab tabTitle="Committee" defaultOpen="true" tabErrorKey="document.committee*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.title" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
@@ -19,7 +20,7 @@
                 </td>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.committeeName}" /></div></th>
                 <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.committeeList[0].committeeName" attributeEntry="${committeeAttributes.committeeName}" />
+                	<kul:htmlControlAttribute property="document.committeeList[0].committeeName" attributeEntry="${committeeAttributes.committeeName}" readOnly="${readOnly}"/>
                 </td>
             </tr>
             
@@ -27,13 +28,19 @@
 		        <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.homeUnitNumber}" /></div></th>
                 <td>
                     <kul:htmlControlAttribute property="document.committeeList[0].homeUnitNumber" readOnly="${readOnly}" attributeEntry="${committeeAttributes.homeUnitNumber}" onblur="loadUnitNameTo('document.committeeList[0].homeUnitNumber','document.committee.homeUnitName');" />
-                    <kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:document.committeeList[0].homeUnitNumber" />
-                    
+                    <c:if test="${!readOnly}">
+                        <kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:document.committeeList[0].homeUnitNumber" />
+                    </c:if>
                     <div id="document.committee.homeUnitName.div" align="left" />
                 </td>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.committeeTypeCode}" /></div></th>
                 <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.committeeList[0].committeeTypeCode" attributeEntry="${committeeAttributes.committeeTypeCode}" />
+                    <c:if test="${readOnly}">
+                	    ${KualiForm.document.committeeList[0].committeeType.description}
+                    </c:if>
+                    <c:if test="${!readOnly}">
+                	    <kul:htmlControlAttribute property="document.committeeList[0].committeeTypeCode" attributeEntry="${committeeAttributes.committeeTypeCode}" />
+                    </c:if>
                 </td>
             </tr>
             
@@ -41,12 +48,16 @@
 		        <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.committeeDescription}" /></div></th>
                 <td>
                     <kra:kraControlAttribute property="document.committeeList[0].committeeDescription" readOnly="${readOnly}" attributeEntry="${committeeAttributes.committeeDescription}" />
-                    <kra:expandedTextArea textAreaFieldName="document.committeeList[0].committeeDescription" action="${action}" textAreaLabel="${committeeAttributes.committeeDescription.label}" />
+                    <c:if test="${!readOnly}">
+                        <kra:expandedTextArea textAreaFieldName="document.committeeList[0].committeeDescription" action="${action}" textAreaLabel="${committeeAttributes.committeeDescription.label}" />
+                    </c:if>
                 </td>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.scheduleDescription}" /></div></th>
                 <td align="left" valign="middle">
                 	<kra:kraControlAttribute property="document.committeeList[0].scheduleDescription" readOnly="${readOnly}" attributeEntry="${committeeAttributes.scheduleDescription}" />
-                    <kra:expandedTextArea textAreaFieldName="document.committeeList[0].scheduleDescription" action="${action}" textAreaLabel="${committeeAttributes.scheduleDescription.label}" />
+                    <c:if test="${!readOnly}">
+                        <kra:expandedTextArea textAreaFieldName="document.committeeList[0].scheduleDescription" action="${action}" textAreaLabel="${committeeAttributes.scheduleDescription.label}" />
+                    </c:if>
                 </td>
             </tr>
             
@@ -58,7 +69,12 @@
                 
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.reviewTypeCode}" /></div></th>
                 <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.committeeList[0].reviewTypeCode" attributeEntry="${committeeAttributes.reviewTypeCode}" />
+                    <c:if test="${readOnly}">
+                	    ${KualiForm.document.committeeList[0].reviewType.description}
+                    </c:if>
+                    <c:if test="${!readOnly}">
+                	    <kul:htmlControlAttribute property="document.committeeList[0].reviewTypeCode" attributeEntry="${committeeAttributes.reviewTypeCode}" />
+                    </c:if>
                 </td>
             </tr>
             

@@ -33,9 +33,11 @@ import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.committee.document.CommitteeDocument;
+import org.kuali.kra.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -52,6 +54,39 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
     @SuppressWarnings("unused")
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeAction.class);
 
+    /**
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public final ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {    
+        
+        ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
+        
+        CommitteeForm committeeForm = (CommitteeForm) form;
+        CommitteeDocument doc = committeeForm.getCommitteeDocument();
+        
+        CommitteeTask task = new CommitteeTask(TaskName.MODIFY_COMMITTEE, doc.getCommittee());
+        if (isAuthorized(task)) {
+            if (isValidSave(committeeForm)) {
+                actionForward = super.save(mapping, form, request, response);
+            }
+        }
+
+        return actionForward;
+    }
+    
+    /**
+     * Can the committee be saved?  This method is normally overridden by
+     * a subclass in order to invoke business rules to verify that the
+     * committee can be saved.
+     * @param committeeForm the Committee Form
+     * @return true if the committee can be saved; otherwise false
+     */
+    protected boolean isValidSave(CommitteeForm committeeForm) {
+        return true;
+    }
+    
     /**
      * We override this method to add in support for multi-lookups.
      * 
