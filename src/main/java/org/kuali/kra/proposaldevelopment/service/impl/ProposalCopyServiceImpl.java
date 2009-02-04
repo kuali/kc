@@ -271,10 +271,18 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @throws Exception if the copy fails for any reason.
      */
     private void copyProposalProperties(ProposalDevelopmentDocument src, ProposalDevelopmentDocument dest)  throws Exception {
-        // List<DocProperty> properties = getCopyableProperties(new CopyFilter(...));
         List<DocProperty> properties = getCopyableProperties();
+        
+        //We need to copy DocumentNextValues to properly handle copied collections
+        String capitalizedPropertyName = StringUtils.capitalize(forceCopyProperty);
+        Method getDocumentNextValues = getGetter(capitalizedPropertyName, ProposalDevelopmentDocument.class.getSuperclass().getDeclaredMethods());
+        Method setDocumentNextValues = getSetter(capitalizedPropertyName, ProposalDevelopmentDocument.class.getSuperclass().getDeclaredMethods());
+        DocProperty documentNextValues = new DocProperty(getDocumentNextValues, setDocumentNextValues);
+        properties.add(documentNextValues);
+        
         copyProperties(src, dest, properties);
     }
+
     
     //Or I could use an anonymous filter class???
             
