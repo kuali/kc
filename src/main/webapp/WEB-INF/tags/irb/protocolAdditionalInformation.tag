@@ -10,7 +10,7 @@
 <c:set var="className" value="org.kuali.kra.irb.document.ProtocolDocument" />
 
 <c:set var="researchAreasAttributes" value="${DataDictionary.ResearchAreas.attributes}" />
-
+<c:set var="readOnly" value="${!KualiForm.protocolHelper.modifyProtocol}" />
 
 <kul:tab tabTitle="Additional Information" defaultOpen="false" tabErrorKey="newProtocolReference*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
@@ -26,7 +26,7 @@
                     <kul:htmlAttributeLabel attributeEntry="${protocolAttributes.fdaApplicationNumber}" />
                   </div></th>
                 <td width="26%">
-                	<kul:htmlControlAttribute property="document.protocol.fdaApplicationNumber" attributeEntry="${protocolAttributes.fdaApplicationNumber}" />
+                	<kul:htmlControlAttribute property="document.protocol.fdaApplicationNumber" attributeEntry="${protocolAttributes.fdaApplicationNumber}" readOnly="${readOnly}" />
                 </td>
                 <th width="23%"><div align="right">
 					<kul:htmlAttributeLabel attributeEntry="${protocolAttributes.billable}" />
@@ -40,13 +40,13 @@
                     ${KualiForm.protocolHelper.referenceId1Label}:
                   </div></th>
                 <td align=left valign=middle><span> <span>
-                  	<kul:htmlControlAttribute property="document.protocol.referenceNumber1" attributeEntry="${protocolAttributes.referenceNumber1}" />
+                  	<kul:htmlControlAttribute property="document.protocol.referenceNumber1" attributeEntry="${protocolAttributes.referenceNumber1}" readOnly="${readOnly}" />
                  </span></span></td>
                 <th><div align="right">
                     ${KualiForm.protocolHelper.referenceId2Label}:
                   </div></th>
                 <td align=left valign=middle><span>
-                  <kul:htmlControlAttribute property="document.protocol.referenceNumber2" attributeEntry="${protocolAttributes.referenceNumber2}" />
+                  <kul:htmlControlAttribute property="document.protocol.referenceNumber2" attributeEntry="${protocolAttributes.referenceNumber2}" readOnly="${readOnly}" />
                  </span></td>
               </tr>
               <tr>
@@ -59,8 +59,10 @@
                         <tr>
                             <td style="border:none;">
 
-								<kul:htmlControlAttribute property="document.protocol.description" attributeEntry="${protocolAttributes.description}" />
-                                <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${protocolAttributes.description.label}" />
+								<kul:htmlControlAttribute property="document.protocol.description" attributeEntry="${protocolAttributes.description}" readOnly="${readOnly}" />
+                                <c:if test="${!readOnly}">
+                                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${protocolAttributes.description.label}" />
+                                </c:if>
                             </td>
                         </tr>
                     </table>
@@ -85,7 +87,9 @@
 				<kul:htmlAttributeHeaderCell attributeEntry="${protocolReferenceAttributes.referenceKey}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${protocolReferenceAttributes.applicationDate}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${protocolReferenceAttributes.approvalDate}" />
-				<kul:htmlAttributeHeaderCell literalLabel="Actions" />
+				<c:if test="${!readOnly}">
+				    <kul:htmlAttributeHeaderCell literalLabel="Actions" />
+				</c:if>
 			</tr>
 			<%-- Header --%>
 			
@@ -163,15 +167,17 @@
 	                	<kul:htmlControlAttribute property="document.protocol.protocolReferences[${status.index}].approvalDate" 
 	                													readOnly="true"	attributeEntry="${protocolReferenceAttributes.approvalDate}"  /> </div>
 					</td>
-
-					<td rowspan="2">
-						<div align=center>&nbsp;
-							<kra:permission value="${KualiForm.protocolHelper.modifyProtocol}">  
-								<html:image property="methodToCall.deleteProtocolReference.line${status.index}.anchor${currentTabIndex}"
-									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
-							</kra:permission>  
-						</div>
-	                </td>
+					
+                    <c:if test="${!readOnly}">
+						<td rowspan="2">
+							<div align=center>&nbsp;
+								<kra:permission value="${KualiForm.protocolHelper.modifyProtocol}">  
+									<html:image property="methodToCall.deleteProtocolReference.line${status.index}.anchor${currentTabIndex}"
+										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+								</kra:permission>  
+							</div>
+		                </td>
+	                </c:if>
 	            </tr>
 	            
                 <tr>
@@ -214,20 +220,25 @@
              <tr>
               	<th><div align="left">&nbsp</div></th>  
 				<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${researchAreasAttributes.description}" noColon="true" /></div></th>
-              	<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
+              	<c:if test="${!readOnly}">
+              	    <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
+              	</c:if>
              </tr>
-            <tr>
-              <th width="10%" class="infoline">add:</th>
-              <td width="70%" class="infoline">${KualiForm.document.protocol.newDescription}
-              		<kul:multipleValueLookup boClassName="org.kuali.kra.bo.ResearchArea" 
-              		lookedUpCollectionName="protocolResearchAreas"
-              		anchor="${tabKey}"/>
-			  </td>
-
-              <td width="20%" class="infoline"><div align="center">
-              &nbsp;
-              </div></td>
-            </tr>
+             
+             <c:if test="${!readOnly}">
+	            <tr>
+	              <th width="10%" class="infoline">add:</th>
+	              <td width="70%" class="infoline">${KualiForm.document.protocol.newDescription}
+	              		<kul:multipleValueLookup boClassName="org.kuali.kra.bo.ResearchArea" 
+	              		lookedUpCollectionName="protocolResearchAreas"
+	              		anchor="${tabKey}"/>
+				  </td>
+	
+	              <td width="20%" class="infoline"><div align="center">
+	              &nbsp;
+	              </div></td>
+	            </tr>
+	        </c:if>
 
             <logic:iterate name="KualiForm" id="protocolResearchAreas" property="document.protocol.protocolResearchAreas" indexId="ctr" >
               <tr>
@@ -237,12 +248,12 @@
                 <td>
                 	${KualiForm.document.protocol.protocolResearchAreas[ctr].researchAreas.researchAreaCode}:${KualiForm.document.protocol.protocolResearchAreas[ctr].researchAreas.description}
                 </td>
-                <td><div align="center">
-							<kra:permission value="${KualiForm.protocolHelper.modifyProtocol}">  
-								<html:image property="methodToCall.deleteProtocolResearchArea.line${ctr}.anchor${currentTabIndex}"
-									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
-							</kra:permission>                    
-                </div></td>           
+                <c:if test="${!readOnly}">
+	                <td><div align="center">
+						<html:image property="methodToCall.deleteProtocolResearchArea.line${ctr}.anchor${currentTabIndex}"
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>   
+	                </div></td>
+	            </c:if>        
               </tr>
             </logic:iterate>
             

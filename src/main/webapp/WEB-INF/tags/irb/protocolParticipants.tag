@@ -18,6 +18,7 @@
 
 <c:set var="protocolParticipantAttributes" value="${DataDictionary.ProtocolParticipant.attributes}" />
 <c:set var="action" value="protocolParticipant" />
+<c:set var="readOnly" value="${!KualiForm.protocolHelper.modifyProtocol}" />
 
 <kul:tab tabTitle="Participant Types" defaultOpen="false" tabErrorKey="newProtocolParticipant.*,document.protocol.protocolParticipants*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
@@ -33,7 +34,7 @@
         		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" />
         		<kul:htmlAttributeHeaderCell attributeEntry="${protocolParticipantAttributes.participantTypeCode}" scope="col" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${protocolParticipantAttributes.participantCount}" scope="col" />
-				<c:if test="${not readOnly}">
+				<c:if test="${!readOnly}">
 					<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
 				</c:if>
 			</tr>
@@ -79,17 +80,17 @@
 	                    <div align="center"> ${protocolParticipant.participantType.description} </div>
 					</td>
 	                <td align="left" valign="middle">
-	                	<div align="center"> <kul:htmlControlAttribute property="document.protocol.protocolParticipants[${status.index}].participantCount" attributeEntry="${protocolParticipantAttributes.participantCount}" /> </div>
+	                	<div align="center"> <kul:htmlControlAttribute property="document.protocol.protocolParticipants[${status.index}].participantCount" attributeEntry="${protocolParticipantAttributes.participantCount}" readOnly="${readOnly}" /> </div>
 	                </td>
 
-					<td>
-						<div align=center>&nbsp;
-							<kra:permission value="${KualiForm.protocolHelper.modifyProtocol}">  
+                   <c:if test="${!readOnly}">
+						<td>
+							<div align=center>&nbsp;					
 								<html:image property="methodToCall.deleteProtocolParticipant.line${status.index}.anchor${currentTabIndex}"
-									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
-							</kra:permission>  
-						</div>
-	                </td>
+										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+							</div>
+		                </td>
+		            </c:if>
 	            </tr>
         	</c:forEach>
 			<%-- Existing data --%>

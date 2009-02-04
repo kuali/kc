@@ -79,7 +79,7 @@ public class ProtocolHelper {
 
     private void initializeModifyProtocolPermission(Protocol protocol) {
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL, protocol);
-        modifyProtocol = getTaskAuthorizationService().isAuthorized(getUsername(), task);     
+        modifyProtocol = getTaskAuthorizationService().isAuthorized(getUsername(), task);   
     }
 
     private void initializeBillablePermission(Protocol protocol) {
