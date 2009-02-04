@@ -265,15 +265,13 @@ REFERENCES PROTOCOL_PERSON_ROLES (PROTOCOL_PERSON_ROLE_ID)
 alter table protocol_references
   add constraint fk_protocol_ref_type_code
   foreign key (protocol_reference_type_code)
-  references protocol_reference_type(protocol_reference_type_code)
-/
+  references protocol_reference_type(protocol_reference_type_code);
 
 alter table protocol_references
   add constraint fk_protocol_id
   foreign key (protocol_id)
-  references protocol(protocol_id)
-/
-
+  references protocol(protocol_id);
+  
 ALTER TABLE PROTOCOL_RESEARCH_AREAS 
 ADD CONSTRAINT FK_PROTOCOL_RESEARCH_AREAS 
 FOREIGN KEY (PROTOCOL_ID) 

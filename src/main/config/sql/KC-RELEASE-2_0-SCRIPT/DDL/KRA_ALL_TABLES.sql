@@ -187,6 +187,7 @@ CREATE TABLE AWARD_REP_TERMS_RECNT (
     AWARD_REP_TERMS_RECNT_ID NUMBER(12,0) NOT NULL,
 	AWARD_REPORT_TERMS_ID NUMBER(12,0) NOT NULL,	 
 	CONTACT_TYPE_CODE VARCHAR2(3) NOT NULL, 
+	CONTACT_ID NUMBER(12,0),
 	ROLODEX_ID NUMBER(6,0) NOT NULL,
 	NUMBER_OF_COPIES NUMBER(2,0),
 	VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL, 
@@ -615,17 +616,16 @@ create table protocol_references (
   protocol_id 					number (12) 	not null,
   protocol_number               varchar2 (20)  	not null,
   sequence_number               number (4)    	not null,
-  protocol_reference_number     number (3)    	not null,
+  protocol_reference_number     number (4)    	not null,
   protocol_reference_type_code  number (3)    	not null,
   reference_key                 varchar2 (50)  	not null,
   application_date              date,
   approval_date                 date,
-  comments                      clob,
+  comments                      long,
   update_timestamp              date          	not null,
   update_user                   varchar2 (60)  	not null,
   ver_nbr 						number(8) default 1 not null,
-  obj_id						varchar2 (36) default sys_guid() not null)
-/
+  obj_id						varchar2 (36) default sys_guid() not null);
 
 CREATE TABLE PROTOCOL_RESEARCH_AREAS (
   PROTOCOL_ID NUMBER(12,0) NOT NULL,
