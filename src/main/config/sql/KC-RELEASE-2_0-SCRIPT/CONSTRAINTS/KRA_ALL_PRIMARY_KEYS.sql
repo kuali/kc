@@ -193,8 +193,7 @@ alter table protocol_reference_type
 
 alter table protocol_references
   add constraint pk_protocol_reference_id
-  primary key ( protocol_reference_id ) 
-/
+  primary key ( protocol_reference_id );
 
 ALTER TABLE PROTOCOL_RESEARCH_AREAS 
 ADD CONSTRAINT PK_PROTOCOL_RESEARCH_AREAS 
