@@ -625,7 +625,7 @@
 	    <id>wsa131</id>
 	    <name>CI and Site deployment Server</name>
 	    <!--<url>scp://wsa129.uits.indiana.edu/tmp/site</url>-->
-	    <url>file:///opt/kra/site</url>
+	    <url>file:///opt/kra/2.0</url>
 	  </site>
 	</distributionManagement>
   	
