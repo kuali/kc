@@ -21,6 +21,7 @@
 <c:set var="protocolOrganizationTypeAttributes" value="${DataDictionary.ProtocolOrganizationType.attributes}" />
 <c:set var="rolodexAttributes" value="${DataDictionary.Rolodex.attributes}" />
 <c:set var="action" value="protocolLocation" />
+<c:set var="readOnly" value="${!KualiForm.protocolHelper.modifyProtocol}" />
 
 <kul:tab tabTitle="Organizations" defaultOpen="true" tabErrorKey="newProtocolLocation*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
@@ -37,7 +38,9 @@
           		<kul:htmlAttributeHeaderCell attributeEntry="${protocolLocationAttributes.protocolOrganizationTypeCode}" scope="col" /></div></th>
           		<kul:htmlAttributeHeaderCell attributeEntry="${protocolLocationAttributes.rolodexId}" scope="col" /></div></th>
           		<kul:htmlAttributeHeaderCell attributeEntry="${organizationAttributes.humanSubAssurance}" scope="col" /></div></th>
-          		<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
+          		<c:if test="${!readOnly}">
+          		    <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
+          		</c:if>
           	</tr> 
           	<%-- Header --%>
           	
@@ -133,16 +136,18 @@
                 		<kul:htmlControlAttribute property="document.protocol.protocolLocations[${status.index}].organization.humanSubAssurance" readOnly="true" attributeEntry="${protocolLocationAttributes.sequenceNumber}" />
 					</div>
 				  </td>
-				  <td>
-					<div align=center>&nbsp;
-						<kra:permission value="${KualiForm.protocolHelper.modifyProtocol}">  
-							<html:image property="methodToCall.clearProtocolLocationAddress.line${status.index}.anchor${currentTabIndex}"
-								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-clraddress.gif' styleClass="tinybutton"/>
-							<html:image property="methodToCall.deleteProtocolLocation.line${status.index}.anchor${currentTabIndex}"
-								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
-						</kra:permission>  
-					</div>
-	              </td>
+				  <c:if test="${!readOnly}">
+					  <td>
+						<div align=center>&nbsp;
+							<kra:permission value="${KualiForm.protocolHelper.modifyProtocol}">  
+								<html:image property="methodToCall.clearProtocolLocationAddress.line${status.index}.anchor${currentTabIndex}"
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-clraddress.gif' styleClass="tinybutton"/>
+								<html:image property="methodToCall.deleteProtocolLocation.line${status.index}.anchor${currentTabIndex}"
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+							</kra:permission>  
+						</div>
+		              </td>
+		           </c:if>
 	            </tr>
 				<input type="hidden" name="document.protocol.protocolLocations[${status.index}].rolodexId" value="${KualiForm.document.protocol.protocolLocations[status.index].rolodexId}">
 
