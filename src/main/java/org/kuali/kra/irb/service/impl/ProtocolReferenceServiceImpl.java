@@ -44,16 +44,15 @@ public class ProtocolReferenceServiceImpl implements ProtocolReferenceService {
      * @see org.kuali.kra.irb.service.ProtocolReferenceService#addProtocolReference(org.kuali.kra.irb.document.ProtocolDocument, org.kuali.kra.irb.bo.ProtocolReference)
      */
     public void addProtocolReference(Protocol protocol, ProtocolReference protocolReference) {
-        Map keyMap = new HashMap();
-        keyMap.put("protocolReferenceTypeCode", protocolReference.getProtocolReferenceTypeCode());
         
-        ProtocolReferenceType potocolReferenceType = (ProtocolReferenceType) businessObjectService.findByPrimaryKey(ProtocolReferenceType.class, keyMap);
-        
+        Map<String, Integer> keyMap = new HashMap<String, Integer>();
+        keyMap.put("protocolReferenceTypeCode", protocolReference.getProtocolReferenceTypeCode());        
+        ProtocolReferenceType potocolReferenceType = (ProtocolReferenceType) businessObjectService.findByPrimaryKey(ProtocolReferenceType.class, keyMap);        
         protocolReference.setProtocolReferenceType(potocolReferenceType);
-        //TODO Framework problem of 2 saves
+        
+        //TODO Framework problem of 2 saves, protocolNumber & SequenceNumber are not null fields and they are only available after one saves new protocol.
         protocolReference.setProtocolNumber("0");
         protocolReference.setSequenceNumber(0);
-        protocolReference.setProtocolReferenceNumber(0);
         
         protocol.getProtocolReferences().add(protocolReference);
     }
