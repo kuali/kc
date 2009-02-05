@@ -19,31 +19,31 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="AwardStatusMaintenanceDocument" parent="AwardStatusMaintenanceDocument-parentBean" />
-	<bean id="AwardStatusMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.award.bo.AwardStatus" />
+	<bean id="AwardSponsorTermsMaintenanceDocument" parent="AwardSponsorTermsMaintenanceDocument-parentBean" />
+	<bean id="AwardSponsorTermsMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.award.bo.AwardSponsorTerms" />
 		<property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
 		<property name="maintainableSections" >
 			<list>
-				<ref bean="AwardStatusMaintenanceDocument-EditAwardStatus" />
+				<ref bean="AwardSponsorTermsMaintenanceDocument-EditAwardSponsorTerms" />
 			</list>
 		</property>
 		<property name="lockingKeys" >
 			<list>
-				<value>statusCode</value>
+				<value>awardSponsorTermsId</value>
 			</list>
 		</property>
-		<property name="label" value="Award Status Maintenance Document" />
-		<property name="shortLabel" value="awardStatusMaintDoc" />
-		<property name="summary" value="Award Status Maintenance Document" />
-		<property name="description" value="Document used to create or update Award Status Reference objects" />
+		<property name="label" value="Award Sponsor Terms Maintenance Document" />
+		<property name="shortLabel" value="awardSponsorTermsMaintDoc" />
+		<property name="summary" value="Award Sponsor Terms Maintenance Document" />
+		<property name="description" value="Document used to create or update Award Sponsor Terms Reference objects" />
 		<property name="helpDefinition" >
 			<bean parent="HelpDefinition"
 				p:parameterNamespace="KRA-M"
-				p:parameterName="awardStatusMaintenanceHelp"
+				p:parameterName="awardSponsorTermsMaintenanceHelp"
 				p:parameterDetailType="D" />
 			</property>
-		<property name="documentTypeName" value="Award Status Maintenance Document" />
+		<property name="documentTypeName" value="Award Sponsor Terms Maintenance Document" />
 		<property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
 		<property name="documentTypeCode" value="AWAR" />
 		<property name="authorizations" >
@@ -62,14 +62,20 @@
 
 	<!-- Maintenance Section Definitions -->
 	
-	<bean id="AwardStatusMaintenanceDocument-EditAwardStatus" parent="AwardStatusMaintenanceDocument-EditAwardStatus-parentBean" />
-	<bean id="AwardStatusMaintenanceDocument-EditAwardStatus-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="Edit Award Status" />
-		<property name="title" value="Edit Award Status" />
+	<bean id="AwardSponsorTermsMaintenanceDocument-EditAwardSponsorTerms" parent="AwardSponsorTermsMaintenanceDocument-EditAwardSponsorTerms-parentBean" />
+	<bean id="AwardSponsorTermsMaintenanceDocument-EditAwardSponsorTerms-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="Edit Award Sponsor Terms" />
+		<property name="title" value="Edit Award Sponsor Terms" />
 		<property name="maintainableItems" >
 			<list>
 				<bean parent="MaintainableFieldDefinition"
-					p:name="statusCode"
+					p:name="awardSponsorTermsId"
+					p:required="true" />
+				<bean parent="MaintainableFieldDefinition"
+					p:name="awardSponsorTermsCode"
+					p:required="true" />
+				<bean parent="MaintainableFieldDefinition"
+					p:name="awardSponsorTermsTypeCode"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition"
 					p:name="description"

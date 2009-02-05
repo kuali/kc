@@ -26,36 +26,37 @@ import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.award.bo.Frequency;
+import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 
 /**
  * This class is used to get the Frequency BO for AwardProposalDue control
  */
-public class AwardProposalDueValueFinder  extends KeyValuesBase {
+public class AwardTemplateCommentTypeValueFinder  extends KeyValuesBase {
     KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
     
     /**
-     * Constructs the list of Frequency BOs.  Each entry
+     * Constructs the list of Comment BOs.  Each entry
      * in the list is a &lt;key, value&gt; pair, where the "key" is the unique
      * report class code and the "value" is the textual description that is viewed
      * by a user.  The list is obtained from the AwardDocument if any are defined there. 
-     * Otherwise, it is obtained from a lookup of the FREQUENCY database table
+     * Otherwise, it is obtained from a lookup of the COMMENT_TYPE database table
      * via the "KeyValueFinderService".
      * 
-     * @return the list of &lt;key, value&gt; pairs of abstract types.  The first entry
+     * @return the list of &lt;key, value&gt; pairs of comment types.  The first entry
      * is always &lt;"", "select:"&gt;.
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List<KeyLabelPair> getKeyValues() {
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
         Map<String,Boolean> fieldValues = new HashMap<String,Boolean>();
-        fieldValues.put("proposalDueFlag", Boolean.TRUE);
-        Collection reportClasses = keyValuesService.findMatching(Frequency.class, fieldValues);
+        fieldValues.put("templateFlag", Boolean.TRUE);
+        Collection reportClasses = keyValuesService.findMatching(CommentType.class, fieldValues);
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         for (Iterator iter = reportClasses.iterator(); iter.hasNext();) {
-            Frequency frequency = (Frequency) iter.next();
-            keyValues.add(new KeyLabelPair(frequency.getFrequencyCode(), frequency.getDescription()));                            
+            CommentType comment = (CommentType) iter.next();
+            keyValues.add(new KeyLabelPair(comment.getCommentTypeCode(), comment.getDescription()));                            
         }
                 
         return keyValues;
