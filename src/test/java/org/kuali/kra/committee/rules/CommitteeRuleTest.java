@@ -133,7 +133,7 @@ public class CommitteeRuleTest extends KraTestBase {
     private void setCommitteeProperties(CommitteeDocument document) {
         Committee committee = document.getCommittee();
         document.getDocumentHeader().setDocumentDescription("test");
-        committee.setCommitteeId("999");
+        committee.setCommitteeId("888");
         committee.setCommitteeName("test");
         committee.setCommitteeTypeCode("1");
         committee.setHomeUnitNumber("000001");
