@@ -19,7 +19,6 @@ import java.lang.reflect.Field;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
@@ -28,11 +27,9 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.UserSession;
 import org.kuali.core.bo.Parameter;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
@@ -40,7 +37,6 @@ import org.kuali.core.service.impl.DocumentServiceImpl;
 import org.kuali.core.service.impl.KualiConfigurationServiceImpl;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetModular;
 import org.kuali.kra.budget.bo.BudgetPeriod;
@@ -49,13 +45,11 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.test.fixtures.ProposalDevelopmentDocumentFixture;
-import org.kuali.rice.KNSServiceLocator;
 
 /**
  * Tests for the {@link BudgetModularTotalDirectCostRule BudgetModularTotalDirectCostRule} class.
  */
-public class BudgetModularTotalDirectCostRuleTest extends KraTestBase {
+public class BudgetModularTotalDirectCostRuleTest {
 
     private static final List<BudgetVersionOverview> ONE_COMPLETE = new ArrayList<BudgetVersionOverview>();
     private static final List<BudgetVersionOverview> TWO_COMPLETE = new ArrayList<BudgetVersionOverview>();
@@ -64,15 +58,20 @@ public class BudgetModularTotalDirectCostRuleTest extends KraTestBase {
     static {
         final BudgetVersionOverview overview1 = new BudgetVersionOverview();
         overview1.setBudgetStatus("1");
-
+        overview1.setDocumentNumber("1234");
+        
         final BudgetVersionOverview overview2 = new BudgetVersionOverview();
         overview2.setBudgetStatus("1");
-
+        overview2.setDocumentNumber("1234");
+        
+        
         final BudgetVersionOverview overview3 = new BudgetVersionOverview();
         overview3.setBudgetStatus("2");
+        overview3.setDocumentNumber("1234");
 
         final BudgetVersionOverview overview4 = new BudgetVersionOverview();
         overview4.setBudgetStatus("2");
+        overview4.setDocumentNumber("1234");
 
         BudgetModularTotalDirectCostRuleTest.ONE_COMPLETE.add(overview1);
 
@@ -145,11 +144,8 @@ public class BudgetModularTotalDirectCostRuleTest extends KraTestBase {
     }
     };
 
-    @Override
     @Before
     public void setUp() throws Exception {
-        //super.setUp();
-        //GlobalVariables.setUserSession(new UserSession("quickstart"));
         GlobalVariables.setErrorMap(new ErrorMap());
         this.pdDocument = new ProposalDevelopmentDocument();
 
@@ -161,14 +157,6 @@ public class BudgetModularTotalDirectCostRuleTest extends KraTestBase {
         this.pdDocument.setActivityTypeCode("1");
         this.pdDocument.setProposalTypeCode("1");
         this.pdDocument.setOwnedByUnitNumber("000001");
-        
-    }
-
-    @Override
-    @After
-    public void tearDown() throws Exception {
-        //GlobalVariables.setUserSession(null);
-        //super.tearDown();
     }
     
     private String getWarning(final BudgetModularTotalDirectCostRule rule) {
@@ -191,20 +179,55 @@ public class BudgetModularTotalDirectCostRuleTest extends KraTestBase {
     }
 
     /**
-     * Test rule creation with null doc service.
+     * Test rule creation with null config service.
      */
     @Test(expected = NullPointerException.class)
-    public void testNullDoc() {
+    public void testNullConfigService() {
         new BudgetModularTotalDirectCostRule(new KualiConfigurationServiceImpl(), null);
     }
 
     /**
-     * Test rule creation with null config service.
+     * Test rule creation with null doc service.
      */
     @Test(expected = NullPointerException.class)
-    public void testNullConfig() {
+    public void testNullDocu() {
         new BudgetModularTotalDirectCostRule(null, new DocumentServiceImpl());
     }
+    
+    
+    /**
+     * Test rule creation with null document.
+     */
+    @Test(expected = NullPointerException.class)
+    public void testNullDocument() {
+        final DocumentService service = new DocumentServiceImpl() {
+            @Override
+            public BudgetDocument getByDocumentHeaderId(final String documentHeaderId) {
+                return new BudgetDocument();
+            }
+        };
+        
+        BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(this.configService, service);
+        rule.validateTotalDirectCost(null, true, new HashSet<String>());
+    }
+
+    /**
+     * Test rule creation with null warnings container.
+     */
+    @Test(expected = NullPointerException.class)
+    public void testNullWarnings() {
+        final DocumentService service = new DocumentServiceImpl() {
+            @Override
+            public BudgetDocument getByDocumentHeaderId(final String documentHeaderId) {
+                return new BudgetDocument();
+            }
+        };
+        
+        BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(this.configService, service);
+        rule.validateTotalDirectCost(this.pdDocument, true, null);
+    }
+    
+    
 
     private void testNoErrors(final DocumentService service) {
         this.pdDocument.setBudgetVersionOverviews(BudgetModularTotalDirectCostRuleTest.ONE_COMPLETE);
