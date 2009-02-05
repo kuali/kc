@@ -297,7 +297,8 @@
 			<label>Quantity </label>
 			<shortLabel>Quantity </shortLabel>
 			<maxLength>4</maxLength>
-			<validationPattern><numeric /></validationPattern>
+			<!--  removed to eliminate generic error messages on save -->
+			<!--  validationPattern><numeric /></validationPattern -->
 			<control>
 				<text size="4" />
 			</control>
