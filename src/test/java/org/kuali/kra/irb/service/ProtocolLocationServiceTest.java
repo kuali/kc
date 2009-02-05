@@ -17,39 +17,55 @@ package org.kuali.kra.irb.service;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
-
 import org.junit.Test;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolLocation;
 import org.kuali.kra.irb.service.impl.ProtocolLocationServiceImpl;
 
 public class ProtocolLocationServiceTest {
-    protected static final String NEW_ORGANIZATION_VALUE =  "000001";
+    protected static final String NEW_ORGANIZATION_VALUE =  "000004";
     
+    /**
+     * This method is to add a new protocol location
+     * @throws Exception
+     */
     @Test
     public void testAddProtocolLocation() throws Exception {
         
         ProtocolLocationService service  = new ProtocolLocationServiceImpl();
         
         Protocol protocol = new Protocol();
-        protocol.setProtocolLocations(new ArrayList<ProtocolLocation>());
         
-        ProtocolLocation protocolLocation = new ProtocolLocation();
-        protocolLocation.setOrganizationId(NEW_ORGANIZATION_VALUE);
-        
-        service.addProtocolLocation(protocol, protocolLocation );
+        service.addProtocolLocation(protocol, getNewProtocolLocation() );
 
         assertEquals(2, protocol.getProtocolLocations().size());
         
     }
 
+    /**
+     * This method is to test delete protocol location
+     * Method will add a new protocol location and remove an existing location
+     * @throws Exception
+     */
     @Test
     public void testDeleteProtocolLocation() throws Exception {
         ProtocolLocationService service  = new ProtocolLocationServiceImpl();
         Protocol protocol = new Protocol();
+        service.addProtocolLocation(protocol, getNewProtocolLocation() );
+        assertEquals(2, protocol.getProtocolLocations().size());
         service.deleteProtocolLocation(protocol, 1);
         assertEquals(1, protocol.getProtocolLocations().size());
+        
+    }
+    
+    /**
+     * This method is to get a new protocol location data
+     * @return ProtocolLocation
+     */
+    private ProtocolLocation getNewProtocolLocation() {
+        ProtocolLocation protocolLocation = new ProtocolLocation();
+        protocolLocation.setOrganizationId(NEW_ORGANIZATION_VALUE);
+        return protocolLocation;
         
     }
 
