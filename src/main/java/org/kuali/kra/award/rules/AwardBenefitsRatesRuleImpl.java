@@ -16,6 +16,8 @@
 package org.kuali.kra.award.rules;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.award.bo.Award;
@@ -33,15 +35,17 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 public class AwardBenefitsRatesRuleImpl extends ResearchDocumentRuleBase implements AwardBenefitsRatesRule {
 
     private static final String BENEFITS_RATES = "benefitsRates";
+    BusinessObjectService businessObjectService;
     
     /**
      * @see org.kuali.kra.award.rule.AwardBenefitsRatesRule#processBenefitsRatesBusinessRules
      * (org.kuali.kra.award.rule.event.AwardBenefitsRatesRuleEvent)
      */
-    public boolean processBenefitsRatesBusinessRules
-                       (AwardBenefitsRatesRuleEvent awardBenefitsRatesRuleEvent) {
+    public boolean processBenefitsRatesBusinessRules(AwardBenefitsRatesRuleEvent event) {
+        AwardDocument awardDocument = event.getAwardDocument();
+        Award award = awardDocument.getAward();
         boolean valid = true;
-        valid &= validateBenefitsRatesInValidRatesTable(awardBenefitsRatesRuleEvent);
+        valid &= validateBenefitsRatesInValidRatesTable(award);
         return valid;
     }
     
@@ -51,12 +55,10 @@ public class AwardBenefitsRatesRuleImpl extends ResearchDocumentRuleBase impleme
      * @param event
      * @return
      */
-    private boolean validateBenefitsRatesInValidRatesTable(AwardBenefitsRatesRuleEvent event) {
+    private boolean validateBenefitsRatesInValidRatesTable(Award award) {
         @SuppressWarnings("unused")
         boolean valid = true;
-        AwardDocument awardDocument = event.getAwardDocument();
-        Award award = awardDocument.getAward();
-        valid &= checkValidRateInValidRatesTable(award, event);
+        valid &= checkValidRateInValidRatesTable(award);
         if(!valid){
             reportError(BENEFITS_RATES, 
                     KeyConstants.ERROR_BENEFITS_RATES);
@@ -65,22 +67,18 @@ public class AwardBenefitsRatesRuleImpl extends ResearchDocumentRuleBase impleme
         return valid;
     }
     
-    protected boolean checkValidRateInValidRatesTable(Award award, AwardBenefitsRatesRuleEvent event){
+    protected boolean checkValidRateInValidRatesTable(Award award){
         boolean valid = true;
-        Collection<ValidRates> validRates = getValidRates();
+        Collection<ValidRates> validRates = getValidRates(award);
         if(award.getSpecialEbRateOffCampus()!=null
                 || award.getSpecialEbRateOnCampus()!=null){
-                    for (ValidRates validRate : validRates){
-                        if(award.getSpecialEbRateOffCampus().intValue()==validRate.getOffCampusRate().intValue() 
-                                && award.getSpecialEbRateOnCampus().intValue()==validRate.getOnCampusRate().intValue()) {
-                            valid=true;
-                            break; 
-                        }
-                        else{
-                            valid=false;
-                        }
-                    }
+            if(validRates.size() == 0){
+                valid=false;
+                }
+            else{
+                valid=true;
             }
+           }
         return valid;
     }
     
@@ -90,10 +88,22 @@ public class AwardBenefitsRatesRuleImpl extends ResearchDocumentRuleBase impleme
      * @return
      */
     @SuppressWarnings("unchecked")
-    protected Collection<ValidRates> getValidRates(){
+    protected Collection<ValidRates> getValidRates(Award award){
+        Map<String, Object> rateValues = new HashMap<String, Object>();
+        rateValues.put("onCampusRate", award.getSpecialEbRateOnCampus());
+        rateValues.put("offCampusRate", award.getSpecialEbRateOffCampus());
+        
         Collection<ValidRates> validRates =
-            (Collection<ValidRates>) getKraBusinessObjectService().findAll(ValidRates.class);
+            (Collection<ValidRates>) getKraBusinessObjectService().findMatching(ValidRates.class, rateValues);
         return validRates;
+    }
+    
+    /**
+     * This is a convenience method to use jmock to set the businessObjectService for unit testing.
+     * @param businessObjectService
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService){
+        this.businessObjectService = businessObjectService;
     }
     
     /**
@@ -101,7 +111,11 @@ public class AwardBenefitsRatesRuleImpl extends ResearchDocumentRuleBase impleme
      * @return
      */
     protected BusinessObjectService getKraBusinessObjectService() {
-        return (BusinessObjectService) KraServiceLocator.getService("businessObjectService");
+        if(businessObjectService == null){
+            businessObjectService = 
+                (BusinessObjectService) KraServiceLocator.getService("businessObjectService");
+        }
+        return businessObjectService;
     }
     
     
