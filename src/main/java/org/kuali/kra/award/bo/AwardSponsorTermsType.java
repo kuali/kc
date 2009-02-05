@@ -17,30 +17,25 @@ package org.kuali.kra.award.bo;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import java.util.LinkedHashMap;
+import java.sql.Date;
 
-/**
- * 
- * This class represents AwardStatus BO
- */
-public class AwardStatus extends KraPersistableBusinessObjectBase { 
+public class AwardSponsorTermsType extends KraPersistableBusinessObjectBase { 
 	
-	/**
-     * Comment for <code>serialVersionUID</code>
-     */
-    private static final long serialVersionUID = 7554440681643595144L;
-    private String statusCode; 
+	private String awardSponsorTermsTypeCode; 
 	private String description; 
 	
-	public AwardStatus() { 
+//	private AwardSponsorTerms awardSponsorTerms; 
+	
+	public AwardSponsorTermsType() { 
 
 	} 
 	
-	public String getStatusCode() {
-		return statusCode;
+	public String getAwardSponsorTermsTypeCode() {
+		return awardSponsorTermsTypeCode;
 	}
 
-	public void setStatusCode(String statusCode) {
-		this.statusCode = statusCode;
+	public void setAwardSponsorTermsTypeCode(String awardSponsorTermsTypeCode) {
+		this.awardSponsorTermsTypeCode = awardSponsorTermsTypeCode;
 	}
 
 	public String getDescription() {
@@ -51,11 +46,18 @@ public class AwardStatus extends KraPersistableBusinessObjectBase {
 		this.description = description;
 	}
 
-	@SuppressWarnings("unchecked")
-    @Override 
+//	public AwardSponsorTerms getAwardSponsorTerms() {
+//		return awardSponsorTerms;
+//	}
+//
+//	public void setAwardSponsorTerms(AwardSponsorTerms awardSponsorTerms) {
+//		this.awardSponsorTerms = awardSponsorTerms;
+//	}
+
+	@Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("statusCode", getStatusCode());
+		hashMap.put("awardSponsorTermsTypeCode", getAwardSponsorTermsTypeCode());
 		hashMap.put("description", getDescription());
 		return hashMap;
 	}
