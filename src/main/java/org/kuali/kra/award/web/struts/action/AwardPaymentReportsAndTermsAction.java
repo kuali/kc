@@ -298,6 +298,52 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
     
     /**
      * 
+     * This method clears the rolodex (Organization/Name) selection.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward clearRolodex(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        AwardDocument awardDocument = awardForm.getAwardDocument();
+        
+        if(clearRolodexRequestIsNotForAddLine(getLineToDelete(request))){
+            clearRolodexIdField(awardDocument.getAward().getAwardReportTerms().get(getAwardReportTermIndex(
+                    request)).getAwardReportTermRecipients().get(getLineToDelete(request)));
+        }else{
+            clearRolodexIdField(awardForm.getNewAwardReportTermRecipient().get(getAwardReportTermIndex(
+                    request)));
+        }
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    /**
+     * 
+     * This is a helper method to determine whether the clearRolodex request is coming from a
+     * add line or already added line.
+     * @param lineToDelete
+     * @return
+     */
+    protected boolean clearRolodexRequestIsNotForAddLine(int lineToDelete){
+        return lineToDelete!=-1;
+    }
+    
+    /**
+     * 
+     * This method sets the rolodexId field to null in AwardReportTermRecipient BO
+     * 
+     * @param awardReportTermRecipient
+     */
+    protected void clearRolodexIdField(AwardReportTermRecipient awardReportTermRecipient){
+        awardReportTermRecipient.setRolodexId(null);
+    }
+    /**
+     * 
      * This method reads the reportClass from the request.
      * @param request
      * @return
