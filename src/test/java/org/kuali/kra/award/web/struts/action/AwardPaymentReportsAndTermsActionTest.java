@@ -138,4 +138,16 @@ public class AwardPaymentReportsAndTermsActionTest {
         awardPaymentReportsAndTermsAction.populateContactTypeAndRolodex(awardReportTermRecipient1);
         Assert.assertEquals("9", awardReportTermRecipient1.getContactTypeCode());        
     }
+    
+    @Test
+    public void testClearRolodexIdField(){        
+        awardPaymentReportsAndTermsAction.clearRolodexIdField(awardReportTermRecipient1);
+        Assert.assertNull(awardReportTermRecipient1.getRolodexId());
+    }
+    
+    @Test
+    public void testClearRolodexRequestIsNotForAddLine(){
+        Assert.assertTrue(awardPaymentReportsAndTermsAction.clearRolodexRequestIsNotForAddLine(5));
+        Assert.assertFalse(awardPaymentReportsAndTermsAction.clearRolodexRequestIsNotForAddLine(-1));
+    }
 }
