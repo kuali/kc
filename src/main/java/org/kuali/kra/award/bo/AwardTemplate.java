@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.bo;
 
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Sponsor;
 
@@ -28,7 +29,7 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -3038831932003349194L;
-    private String templateCode; 
+    private Integer templateCode; 
 	private String description; 
 	private String statusCode; 
 	private String primeSponsorCode; 
@@ -48,28 +49,23 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase {
     private Frequency competingRenewalPrpslDue;
     private Frequency paymentInvoiceFrequency;
 //	private TemplateReportTerms templateReportTerms; 
-//	private TemplateComments templateComments; 
+	private List<AwardTemplateComment> templateComments; 
 	private List<AwardTemplateContact> templateContacts; 
-//	private TemplateDocumentTerms templateDocumentTerms; 
-//	private TemplateEquipmentTerms templateEquipmentTerms; 
-//	private TemplateInventionTerms templateInventionTerms; 
-//	private TemplatePriorTerms templatePriorTerms; 
-//	private TemplatePropertyTerms templatePropertyTerms; 
-//	private TemplatePublicationTerms templatePublicationTerms; 
-//	private TemplateRightsTerms templateRightsTerms; 
-//	private TemplateSubcontractTerms templateSubcontractTerms; 
-//	private TemplateTravelTerms templateTravelTerms; 
+    private List<AwardTemplateTerms> templateTerms; 
 //	private Award award; 
 	
-	public AwardTemplate() { 
-	    templateContacts = new ArrayList<AwardTemplateContact>();
+	@SuppressWarnings("unchecked")
+    public AwardTemplate() { 
+	    templateContacts = new TypedArrayList(AwardTemplateContact.class);
+	    templateComments = new TypedArrayList(AwardTemplateComment.class);
+	    templateTerms = new TypedArrayList(AwardTemplateTerms.class);
 	} 
 	
-	public String getTemplateCode() {
+	public Integer getTemplateCode() {
 		return templateCode;
 	}
 
-	public void setTemplateCode(String templateCode) {
+	public void setTemplateCode(Integer templateCode) {
 		this.templateCode = templateCode;
 	}
 
@@ -161,13 +157,6 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase {
 //		this.templateReportTerms = templateReportTerms;
 //	}
 //
-//	public TemplateComments getTemplateComments() {
-//		return templateComments;
-//	}
-//
-//	public void setTemplateComments(TemplateComments templateComments) {
-//		this.templateComments = templateComments;
-//	}
 
 	public List<AwardTemplateContact> getTemplateContacts() {
 		return templateContacts;
@@ -177,98 +166,15 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase {
 		this.templateContacts = templateContacts;
 	}
 
-	public AwardTemplateContact getTemplateContact(int index) {
-        return templateContacts.isEmpty()?new AwardTemplateContact():templateContacts.get(index);
-    }
 
-
-//	public TemplateDocumentTerms getTemplateDocumentTerms() {
-//		return templateDocumentTerms;
-//	}
-//
-//	public void setTemplateDocumentTerms(TemplateDocumentTerms templateDocumentTerms) {
-//		this.templateDocumentTerms = templateDocumentTerms;
-//	}
-//
-//	public TemplateEquipmentTerms getTemplateEquipmentTerms() {
-//		return templateEquipmentTerms;
-//	}
-//
-//	public void setTemplateEquipmentTerms(TemplateEquipmentTerms templateEquipmentTerms) {
-//		this.templateEquipmentTerms = templateEquipmentTerms;
-//	}
-//
-//	public TemplateInventionTerms getTemplateInventionTerms() {
-//		return templateInventionTerms;
-//	}
-//
-//	public void setTemplateInventionTerms(TemplateInventionTerms templateInventionTerms) {
-//		this.templateInventionTerms = templateInventionTerms;
-//	}
-//
-//	public TemplatePriorTerms getTemplatePriorTerms() {
-//		return templatePriorTerms;
-//	}
-//
-//	public void setTemplatePriorTerms(TemplatePriorTerms templatePriorTerms) {
-//		this.templatePriorTerms = templatePriorTerms;
-//	}
-//
-//	public TemplatePropertyTerms getTemplatePropertyTerms() {
-//		return templatePropertyTerms;
-//	}
-//
-//	public void setTemplatePropertyTerms(TemplatePropertyTerms templatePropertyTerms) {
-//		this.templatePropertyTerms = templatePropertyTerms;
-//	}
-//
-//	public TemplatePublicationTerms getTemplatePublicationTerms() {
-//		return templatePublicationTerms;
-//	}
-//
-//	public void setTemplatePublicationTerms(TemplatePublicationTerms templatePublicationTerms) {
-//		this.templatePublicationTerms = templatePublicationTerms;
-//	}
-//
-//	public TemplateRightsTerms getTemplateRightsTerms() {
-//		return templateRightsTerms;
-//	}
-//
-//	public void setTemplateRightsTerms(TemplateRightsTerms templateRightsTerms) {
-//		this.templateRightsTerms = templateRightsTerms;
-//	}
-//
-//	public TemplateSubcontractTerms getTemplateSubcontractTerms() {
-//		return templateSubcontractTerms;
-//	}
-//
-//	public void setTemplateSubcontractTerms(TemplateSubcontractTerms templateSubcontractTerms) {
-//		this.templateSubcontractTerms = templateSubcontractTerms;
-//	}
-//
-//	public TemplateTravelTerms getTemplateTravelTerms() {
-//		return templateTravelTerms;
-//	}
-//
-//	public void setTemplateTravelTerms(TemplateTravelTerms templateTravelTerms) {
-//		this.templateTravelTerms = templateTravelTerms;
-//	}
-
-//	public Award getAward() {
-//		return award;
-//	}
-//
-//	public void setAward(Award award) {
-//		this.award = award;
-//	}
-
-	@Override 
+	@SuppressWarnings("unchecked")
+    @Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
 		hashMap.put("templateCode", getTemplateCode());
 		hashMap.put("description", getDescription());
-//		hashMap.put("statusCode", getStatusCode());
-//		hashMap.put("primeSponsorCode", getPrimeSponsorCode());
+		hashMap.put("statusCode", getStatusCode());
+		hashMap.put("primeSponsorCode", getPrimeSponsorCode());
 		hashMap.put("nonCompetingContPrpslDue", getNonCompetingContPrpslDueCode());
 		hashMap.put("competingRenewalPrpslDue", getCompetingRenewalPrpslDueCode());
 		hashMap.put("basisOfPaymentCode", getBasisOfPaymentCode());
@@ -389,6 +295,38 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase {
      */
     public void setPaymentInvoiceFrequency(Frequency paymentInvoiceFrequency) {
         this.paymentInvoiceFrequency = paymentInvoiceFrequency;
+    }
+
+    /**
+     * Gets the templateComments attribute. 
+     * @return Returns the templateComments.
+     */
+    public List<AwardTemplateComment> getTemplateComments() {
+        return templateComments;
+    }
+
+    /**
+     * Sets the templateComments attribute value.
+     * @param templateComments The templateComments to set.
+     */
+    public void setTemplateComments(List<AwardTemplateComment> templateComments) {
+        this.templateComments = templateComments;
+    }
+
+    /**
+     * Gets the templateTerms attribute. 
+     * @return Returns the templateTerms.
+     */
+    public List<AwardTemplateTerms> getTemplateTerms() {
+        return templateTerms;
+    }
+
+    /**
+     * Sets the templateTerms attribute value.
+     * @param templateTerms The templateTerms to set.
+     */
+    public void setTemplateTerms(List<AwardTemplateTerms> templateTerms) {
+        this.templateTerms = templateTerms;
     }
 	
 }

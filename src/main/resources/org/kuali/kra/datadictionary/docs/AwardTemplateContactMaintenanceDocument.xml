@@ -97,7 +97,7 @@
 					<property name="businessObjectClass"
 						value="org.kuali.kra.award.bo.AwardTemplateContact" />
 					<property name="name" value="templateContacts" />
-					<property name="sourceClassName" value="org.kuali.kra.award.bo.AwardTemplate" />
+					<property name="sourceClassName" value="org.kuali.kra.award.bo.AwardTemplateContact" />
 					<!--
 						<property name="collection" value="true" />
 					-->
@@ -127,8 +127,8 @@
 					</property>
 					<property name="maintainableFields">
 						<list>
-							<bean parent="MaintainableFieldDefinition" p:name="templateContactId"
-								p:required="true" />
+							<!--<bean parent="MaintainableFieldDefinition" p:name="templateContactId"
+								p:required="true" />-->
 							<!--<bean parent="MaintainableFieldDefinition" p:name="templateCode"
 								p:required="true" />-->
 							<bean parent="MaintainableFieldDefinition" p:name="contactTypeCode"

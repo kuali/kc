@@ -27,8 +27,18 @@
 			<list>
 				<ref bean="AwardTemplateMaintenanceDocument-EditAwardTemplate" />
 				<ref bean="AwardTemplateContactMaintenanceDocument-EditListAwardTemplateContact" />
-				<!--<ref bean="AwardTemplateContactMaintenanceDocument" />-->
-			</list>
+				<ref bean="AwardTemplateTermsMaintenanceDocument-EditListAwardTemplateTerms" />
+				<!--<ref bean="AwardTemplateCommentMaintenanceDocument-EditListAwardTemplateComment" />--><!--
+				<ref bean="AwardTemplateDocumentTermsMaintenanceDocument-EditAwardTemplateDocumentTerms" />
+				<ref bean="AwardTemplateEquipmentTermsMaintenanceDocument-EditAwardTemplateEquipmentTerms" />
+				<ref bean="AwardTemplateInventionTermsMaintenanceDocument-EditAwardTemplateInventionTerms" />
+				<ref bean="AwardTemplatePriorTermsMaintenanceDocument-EditAwardTemplatePriorTerms" />
+				<ref bean="AwardTemplatePropertyTermsMaintenanceDocument-EditAwardTemplatePropertyTerms" />
+				<ref bean="AwardTemplatePublicationTermsMaintenanceDocument-EditAwardTemplatePublicationTerms" />
+				<ref bean="AwardTemplateRightsTermsMaintenanceDocument-EditAwardTemplateRightsTerms" />
+				<ref bean="AwardTemplateSubcontractTermsMaintenanceDocument-EditAwardTemplateSubcontractTerms" />
+				<ref bean="AwardTemplateTravelTermsMaintenanceDocument-EditAwardTemplateTravelTerms" />
+			--></list>
 		</property>
 		<property name="lockingKeys" >
 			<list>

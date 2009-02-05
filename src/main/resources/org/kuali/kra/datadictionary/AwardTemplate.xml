@@ -96,7 +96,7 @@
 		<property name="shortLabel" value="Status Code" />
 		<property name="maxLength" value="22" />
 		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
+			<bean parent="AlphaNumericValidationPattern" />
 		</property>
 	    <property name="control" >
 	      <bean parent="SelectControlDefinition"
@@ -136,7 +136,7 @@
 		<property name="shortLabel" value="Non Competing Cont Prpsl Due" />
 		<property name="maxLength" value="22" />
 		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
+			<bean parent="AlphaNumericValidationPattern" />
 		</property>
 	    <property name="control" >
 	      <bean parent="SelectControlDefinition"
@@ -158,7 +158,7 @@
 		<property name="shortLabel" value="Competing Renewal Prpsl Due" />
 		<property name="maxLength" value="22" />
 		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
+			<bean parent="AlphaNumericValidationPattern" />
 		</property>
 	    <property name="control" >
 	      <bean parent="SelectControlDefinition"
@@ -180,7 +180,7 @@
 		<property name="shortLabel" value="Basis Of Payment Code" />
 		<property name="maxLength" value="22" />
 		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
+			<bean parent="AlphaNumericValidationPattern" />
 		</property>
 	    <property name="control" >
 	      <bean parent="SelectControlDefinition"
@@ -202,7 +202,7 @@
 		<property name="shortLabel" value="Method Of Payment Code" />
 		<property name="maxLength" value="22" />
 		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
+			<bean parent="AlphaNumericValidationPattern" />
 		</property>
 	    <property name="control" >
 	      <bean parent="SelectControlDefinition"
@@ -224,7 +224,7 @@
 		<property name="shortLabel" value="Payment Invoice Freq Code" />
 		<property name="maxLength" value="22" />
 		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
+			<bean parent="AlphaNumericValidationPattern" />
 		</property>
 	    <property name="control" >
 	      <bean parent="SelectControlDefinition"

@@ -229,6 +229,9 @@
 	<bean id="dataDictionaryService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
 		<property name="serviceName" value="dataDictionaryService" />
 	</bean>
+	<bean id="kualiRuleService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="kualiRuleService" />
+	</bean>
 	
     <bean id="dateTimeService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="dateTimeService" />
