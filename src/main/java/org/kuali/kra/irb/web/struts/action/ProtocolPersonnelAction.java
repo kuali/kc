@@ -32,6 +32,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.bo.ProtocolPerson;
 import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.kra.irb.rule.event.AddProtocolPersonnelEvent;
 import org.kuali.kra.irb.service.ProtocolPersonnelService;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 
@@ -80,7 +81,7 @@ public class ProtocolPersonnelAction extends ProtocolAction {
         ProtocolPerson newProtocolPerson = protocolForm.getNewProtocolPerson();
         
         // check any business rules
-        boolean rulePassed = true;
+        boolean rulePassed = applyRules(new AddProtocolPersonnelEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument(), protocolForm.getNewProtocolPerson()));
         if (rulePassed) {
             getProtocolPersonnelService().addProtocolPerson(protocolForm.getProtocolDocument().getProtocol(), newProtocolPerson);
             protocolForm.setNewProtocolPerson(new ProtocolPerson());

@@ -504,7 +504,8 @@ public class Protocol extends KraPersistableBusinessObjectBase{
                 } else {
                     ProtocolUnit leadUnit = new ProtocolUnit();
                     leadUnit.setUnitNumber(leadUnitNumber);
-                    leadUnit.setPersonId(getPrincipalInvestigator().getPersonId());  
+                    leadUnit.setPersonId(getPrincipalInvestigator().getPersonId());
+                    leadUnit.refreshReferenceObject("unit");
                     leadUnit.setLeadUnitFlag(true); 
                     getPrincipalInvestigator().getProtocolUnits().add(leadUnit);
                     
@@ -569,6 +570,12 @@ public class Protocol extends KraPersistableBusinessObjectBase{
                 pi.setProtocolPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
                 pi.setProtocolNumber("0");
                 pi.setSequenceNumber(0);
+                pi.refreshReferenceObject("protocolPersonRole");
+                if(nonEmployeeFlag) {
+                    pi.refreshReferenceObject("rolodex");
+                }else {
+                    pi.refreshReferenceObject("person");
+                }
                 //pi.setPrincipalInvestigatorFlag(true);
                 updateLeadUnitInPI(getLeadUnitNumber());
                 //pi.setNonEmployeeFlag(this.nonEmployeeFlag);

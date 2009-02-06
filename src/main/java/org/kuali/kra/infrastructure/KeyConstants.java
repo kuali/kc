@@ -321,6 +321,11 @@ public final class KeyConstants {
     public static final String ERROR_COMMITTEE_DUPLICATE_ID = "error.committee.duplicateId";
     
     public static final String SOFT_ERRORS_KEY = "SOFT_ERRORS_KEY";
+
+    // IRB Protocol Personnel Validation Messages
+    public static final String ERROR_PROTOCOL_PERSONNEL_MULTIPLE_PI = "error.protocolPersonnel.pi.already.exists";
+    public static final String ERROR_PROTOCOL_PERSONNEL_ROLE_MANDATORY = "error.protocolPersonnel.role.mandatory";
+    public static final String ERROR_DUPLICATE_PROTOCOL_PERSONNEL = "error.duplicate.protocolPersonnel";
     
     private KeyConstants() {}
 }
