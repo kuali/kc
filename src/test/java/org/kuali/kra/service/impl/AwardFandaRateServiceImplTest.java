@@ -34,30 +34,22 @@ import org.kuali.kra.infrastructure.Constants;
 @RunWith(JMock.class)
 public class AwardFandaRateServiceImplTest {
     
-    //AwardFandaRateService awardFandaRateService;
-    private Mockery context = new JUnit4Mockery();
-    
     private static final String FISCAL_LEAP_YEAR_STRING = "2008";
     private static final String FISCAL_NON_LEAP_YEAR_STRING = "2010";
     private static final String MOCK_EXPECTED_DATE_STRING_LEAP_YEAR = "07/01/2007,06/30/2008";
     private static final String MOCK_EXPECTED_DATE_STRING_NON_LEAP_YEAR = "07/01/2009,06/30/2010";
 
+    private Mockery context = new JUnit4Mockery();
+    
     @Before
     public void setUp() throws Exception {
-//        awardFandaRateService = new AwardFandaRateServiceImpl();
+    
     }
 
     @After
     public void tearDown() throws Exception {
-  //      awardFandaRateService = null;
-    }
-
-    /*@Test
-    public final void testGetStartAndEndDatesBasedOnFiscalYear() {
-        
-        String dates = awardFandaRateService.getStartAndEndDatesBasedOnFiscalYear(FISCAL_YEAR_STRING);
-        Assert.assertEquals(MOCK_EXPECTED_DATE_STRING,dates);        
-    }*/
+    
+    }    
     
     @Test
     public final void testGetStartAndEndDatesWhenValidFiscalLeapYearPassed(){
@@ -66,7 +58,8 @@ public class AwardFandaRateServiceImplTest {
         final KualiConfigurationService kualiConfigurationService
             = context.mock(KualiConfigurationService.class);
         context.checking(new Expectations() {{
-            one(kualiConfigurationService).getParameterValue("KRA-B", "D", Constants.BUDGET_CURRENT_FISCAL_YEAR); will(returnValue("07/01/2000"));
+            one(kualiConfigurationService).getParameterValue(Constants.PARAMETER_MODULE_BUDGET
+                    , Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_CURRENT_FISCAL_YEAR); will(returnValue("07/01/2000"));
         }});
 
         awardFandaRateService.setKualiConfigurationService(kualiConfigurationService);
@@ -82,7 +75,8 @@ public class AwardFandaRateServiceImplTest {
         final KualiConfigurationService kualiConfigurationService
             = context.mock(KualiConfigurationService.class);
         context.checking(new Expectations() {{
-            one(kualiConfigurationService).getParameterValue("KRA-B", "D", Constants.BUDGET_CURRENT_FISCAL_YEAR); will(returnValue("07/01/2000"));
+            one(kualiConfigurationService).getParameterValue(Constants.PARAMETER_MODULE_BUDGET
+                    , Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_CURRENT_FISCAL_YEAR); will(returnValue("07/01/2000"));
         }});
 
         awardFandaRateService.setKualiConfigurationService(kualiConfigurationService);
