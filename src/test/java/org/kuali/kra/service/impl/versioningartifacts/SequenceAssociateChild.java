@@ -17,6 +17,7 @@ package org.kuali.kra.service.impl.versioningartifacts;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SequenceOwner;
@@ -26,13 +27,15 @@ import org.kuali.kra.SequenceOwner;
  */
 public class SequenceAssociateChild implements SequenceAssociate {
     private static final long serialVersionUID = 3354366183120742932L;
-    
+
+    private Long childId;
     private String name;
     private SequenceOwnerImpl owner;
     private Integer sequenceNumber;
     private List<SequenceAssociateGrandChild> children;
     
     public SequenceAssociateChild() {
+        setChildId(new Random().nextLong());
         children = new ArrayList<SequenceAssociateGrandChild>();
     }
     
@@ -46,18 +49,10 @@ public class SequenceAssociateChild implements SequenceAssociate {
         grandChild.setParent(this);
     }
     
-    /**
-     * Gets the children attribute. 
-     * @return Returns the children.
-     */
     public List<SequenceAssociateGrandChild> getChildren() {
         return children;
     }
 
-    /**
-     * Sets the children attribute value.
-     * @param children The children to set.
-     */
     public void setChildren(List<SequenceAssociateGrandChild> children) {
         this.children = children;
     }
@@ -94,10 +89,29 @@ public class SequenceAssociateChild implements SequenceAssociate {
     }
     
     /**
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    public void resetPersistenceState() {
+        setChildId(null);
+    }
+    
+    /**
      * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
      */
     public void setSequenceOwner(SequenceOwner newOwner) {
         setOwner((SequenceOwnerImpl)newOwner);
+    }
+
+    public Long getChildId() {
+        return childId;
+    }
+
+    public void setChildId(Long childId) {
+        this.childId = childId;
+    }
+
+    public void setSequenceNumber(Integer sequenceNumber) {
+        // do nothing
     }
 
     /**
