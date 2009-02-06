@@ -83,26 +83,18 @@ public class AwardBenefitsRateWebTest extends AwardTimeAndMoneyWebTest {
     @Test
     public void testBenefitsRateComments() throws Exception{
         
-        setFieldValue(awardTimeAndMoneyPage, DOCUMENT_AWARD_OFFCAMPUS, ZERO);
-        setFieldValue(awardTimeAndMoneyPage, DOCUMENT_AWARD_ONCAMPUS, "999");
-        
-        HtmlPage awardTimeAndMoneyPageAfterSave = clickOn(awardTimeAndMoneyPage, SAVE_COST_SHARE_METHOD);
-        assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);
-        assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERRORS_FOUND_ON_PAGE);
-        assertContains(awardTimeAndMoneyPageAfterSave,SAVE_SUCCESS_MESSAGE);
-        
-        setFieldValue(awardTimeAndMoneyPageAfterSave, 
+        setFieldValue(awardTimeAndMoneyPage, 
                         "document.awardList[0].awardBenefitsRateComment.comments", 
                          TEST_COMMENTS);
         
-        HtmlPage awardTimeAndMoneyPageAfterAnotherSave = clickOn(awardTimeAndMoneyPageAfterSave,
+        HtmlPage awardTimeAndMoneyPageAfterSave = clickOn(awardTimeAndMoneyPage,
                 SAVE_COST_SHARE_METHOD);
         assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);
-        assertDoesNotContain(awardTimeAndMoneyPageAfterAnotherSave, ERRORS_FOUND_ON_PAGE);
-        assertContains(awardTimeAndMoneyPageAfterAnotherSave,SAVE_SUCCESS_MESSAGE);
-        HtmlPage awardTimeAndMoneyPageAfterAnotherReload = clickOn(awardTimeAndMoneyPageAfterAnotherSave, 
+        assertDoesNotContain(awardTimeAndMoneyPageAfterSave, ERRORS_FOUND_ON_PAGE);
+        assertContains(awardTimeAndMoneyPageAfterSave,SAVE_SUCCESS_MESSAGE);
+        HtmlPage awardTimeAndMoneyPageAfterReload = clickOn(awardTimeAndMoneyPageAfterSave, 
                                                                     RELOAD_METHOD);
-        assertContains(awardTimeAndMoneyPageAfterAnotherReload,TEST_COMMENTS);
+        assertContains(awardTimeAndMoneyPageAfterReload,TEST_COMMENTS);
         
     }
 
