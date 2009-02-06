@@ -40,13 +40,15 @@ public class ProtocolRequiredFieldsRule extends ProtocolDocumentRule implements 
             isValid = false;
             reportError("document.protocol.title",   KeyConstants.ERROR_PROTOCOL_TITLE_NOT_FOUND);
         } 
-        if   (StringUtils.isBlank(document.getProtocol().getPrincipalInvestigatorId()) || 
-              StringUtils.isBlank(document.getProtocol().getPrincipalInvestigatorName())) {
+        if   (document.getProtocol().getPrincipalInvestigator()== null ||
+              StringUtils.isBlank(document.getProtocol().getPrincipalInvestigator().getPersonName()) || 
+              StringUtils.isBlank(document.getProtocol().getPrincipalInvestigator().getPersonId())) {
             isValid = false;
             reportError("principalInvestigator", KeyConstants.ERROR_PROTOCOL_PRINCIPAL_INVESTIGATOR_NAME_NOT_FOUND);
         } 
-        if   (StringUtils.isBlank(document.getProtocol().getLeadUnitNumber()) || 
-                StringUtils.isBlank(document.getProtocol().getLeadUnitName())) {
+        if   (document.getProtocol().getLeadUnit()== null ||
+                StringUtils.isBlank(document.getProtocol().getLeadUnit().getUnitName()) || 
+                StringUtils.isBlank(document.getProtocol().getLeadUnit().getUnitNumber())) {
               isValid = false;
               reportError("document.protocol.leadUnitNumber", KeyConstants.ERROR_PROTOCOL_LEAD_UNIT_NAME_NOT_FOUND);
         }

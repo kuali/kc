@@ -16,6 +16,7 @@
 
 package org.kuali.kra.irb.bo;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
@@ -146,7 +147,15 @@ public class ProtocolUnit extends KraPersistableBusinessObjectBase {
         this.protocolPerson = protocolPerson;
     }
 
+    // Note this field isn't persisted in protocolUnit so
+    // we've got do pull from the Unit reference.
     public String getUnitName() {
+        if (StringUtils.isEmpty(unitName) && StringUtils.isNotEmpty(unitNumber)) {
+                this.refreshReferenceObject("unit");
+                if (unit != null) {
+                    setUnitName(unit.getUnitName());            
+                }
+        }
         return unitName;
     }
 
