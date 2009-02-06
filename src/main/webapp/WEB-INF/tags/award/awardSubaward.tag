@@ -20,7 +20,7 @@
 <c:set var="action" value="awardTimeAndMoney" />
 
 
-<kul:tab tabTitle="Subaward" defaultOpen="false" tabErrorKey="document.awardList[0].awardApprovedSubawards*">
+<kul:tab tabTitle="Subaward" defaultOpen="false" tabErrorKey="newAwardApprovedSubaward.*,document.awardList[0].awardApprovedSubawards*">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Approved Subawards</span>
@@ -37,13 +37,13 @@
             	<th width="50" align="center" scope="row"><div align="center">Add:</div></th>
             	<td class="infoline">
             	  	<div align="center">
-            	  	 	<kul:htmlControlAttribute property="newAwardApprovedSubaward.organizationName" attributeEntry="${awardApprovedSubawardAttributes.organizationName}"/>
-            	  	 	<kul:lookup boClassName="org.kuali.kra.bo.Organization" fieldConversions="organizationName:newAwardApprovedSubaward.organizationName" anchor="${tabKey}" />
+            	  	 	<kul:htmlControlAttribute property="approvedSubawardFormHelper.newAwardApprovedSubaward.organizationName" attributeEntry="${awardApprovedSubawardAttributes.organizationName}"/>
+            	  	 	<kul:lookup boClassName="org.kuali.kra.bo.Organization" fieldConversions="organizationName:approvedSubawardFormHelper.newAwardApprovedSubaward.organizationName" anchor="${tabKey}" />
             	 	</div>
             	</td>
 	            <td class="infoline">
 	              	<div align="center">
-	            		<kul:htmlControlAttribute property="newAwardApprovedSubaward.amount" attributeEntry="${awardApprovedSubawardAttributes.amount}" />
+	            		<kul:htmlControlAttribute property="approvedSubawardFormHelper.newAwardApprovedSubaward.amount" attributeEntry="${awardApprovedSubawardAttributes.amount}" />
 	              	</div>
 	            </td>
 	            <td class="infoline">

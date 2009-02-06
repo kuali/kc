@@ -41,6 +41,7 @@ import org.kuali.kra.award.rule.event.AddAwardFandaRateEvent;
 import org.kuali.kra.award.rule.event.AddAwardReportTermEvent;
 import org.kuali.kra.award.rule.event.AddAwardReportTermRecipientEvent;
 import org.kuali.kra.award.rule.event.AwardApprovedEquipmentRuleEvent;
+import org.kuali.kra.award.rule.event.AwardApprovedSubawardRuleEvent;
 import org.kuali.kra.award.rule.event.AwardBenefitsRatesRuleEvent;
 import org.kuali.kra.award.rule.event.AwardCostShareRuleEvent;
 import org.kuali.kra.bo.AbstractSpecialReview;
@@ -194,58 +195,23 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         AwardDocument awardDocument = (AwardDocument) document;
         int i = 0;
-        List<AwardApprovedSubaward> awardApprovedSubawards = awardDocument.getAward().getAwardApprovedSubawards();
+        List<AwardApprovedSubaward> awardApprovedSubawards = 
+                            awardDocument.getAward().getAwardApprovedSubawards();
         errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
         errorMap.addToErrorPath(AWARD_ERROR_PATH);
         for (AwardApprovedSubaward awardApprovedSubaward : awardApprovedSubawards) {
-             String errorPath = "awardApprovedSubawards[" + i + "]";
-             errorMap.addToErrorPath(errorPath);
-             valid = testApprovedSubawardAmount(awardApprovedSubaward, errorMap);
-             valid = testApprovedSubawardDuplicateOrganization(awardApprovedSubawards, awardApprovedSubaward, errorMap, i, errorPath);
-             errorMap.removeFromErrorPath(errorPath);
-             i++;
-            }
+            String errorPath = "awardApprovedSubawards[" + i + Constants.RIGHT_SQUARE_BRACKET;
+            errorMap.addToErrorPath(errorPath);
+            AwardApprovedSubawardRuleEvent event = new AwardApprovedSubawardRuleEvent(errorPath, 
+                                                                                      awardDocument, 
+                                                                                      awardApprovedSubaward,
+                                                                                      awardApprovedSubawards);
+            valid &= new AwardApprovedSubawardRuleImpl().processApprovedSubawardBusinessRules(event);
+            errorMap.removeFromErrorPath(errorPath);
+            i++;
+        }
         errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
-        return valid;
-    }
-    
-    /**
-    *
-    * Test Approved Subawards for duplicate organizations
-    * @param AwardApprovedSubaward, ErrorMap, List<AwardApprovedSubaward>, currentIndex
-    * @return Boolean
-    */
-    public boolean testApprovedSubawardDuplicateOrganization(List<AwardApprovedSubaward> awardApprovedSubawards, AwardApprovedSubaward awardApprovedSubaward, ErrorMap errorMap, int currentIndex, String errorPath){
-        boolean valid = true;
-        int j = 0;
-        for (AwardApprovedSubaward loopAwardApprovedSubaward : awardApprovedSubawards) {
-            if (currentIndex != j){
-                if(awardApprovedSubaward.getOrganizationName().equals(loopAwardApprovedSubaward.getOrganizationName())){
-                    valid = false;
-                    errorMap.putError("organizationName", KeyConstants.ERROR_DUPLICATE_ORGANIZATION_NAME);
-                    errorMap.removeFromErrorPath(errorPath);
-                    break;
-                }
-            }
-            j++;
-          }
-        return valid;
-       }
-    
-    /**
-    *
-    * Test Approved Subaward amount for zero and negative value.
-    * @param AwardApprovedSubaward, ErrorMap
-    * @return Boolean
-    */
-    public boolean testApprovedSubawardAmount(AwardApprovedSubaward awardApprovedSubaward, ErrorMap errorMap){
-        boolean valid = true;
-        int amount = awardApprovedSubaward.getAmount().intValue();
-        if(amount <= ZERO) {
-            valid = false;
-            errorMap.putError("amount", KeyConstants.ERROR_AMOUNT_IS_ZERO);
-        }
         return valid;
     }
 
