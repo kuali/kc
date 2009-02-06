@@ -34,6 +34,7 @@
 <kra-irb:protocolStatusDateAndRiskLevel />
 <kra-irb:protocolAdditionalInformation />
 <kra-irb:protocolLocations />
+<%-- <kra-irb:protocolFundingSources /> --%>
 <kra-irb:protocolParticipants />
 
 <kul:panelFooter />
@@ -52,5 +53,5 @@ var kualiElements = kualiForm.elements;
 </SCRIPT>
 <script language="javascript" src="scripts/kuali_application.js"></script>
 <script language="javascript" src="dwr/interface/UnitService.js"></script>
-
+<!-- <script language="javascript" src="dwr/interface/ProtocolFundingSourceService.js"></script> -->
 </kul:documentPage>
