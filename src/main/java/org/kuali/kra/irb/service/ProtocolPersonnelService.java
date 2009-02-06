@@ -79,4 +79,31 @@ public interface ProtocolPersonnelService {
      */
     public void selectProtocolUnit(List<ProtocolPerson> protocolPersons);
     
+    /**
+     * This method is to check if Principal Investigator already exists.
+     * Only one Principal Investigator may be assigned to each protocol
+     * @param protocolPersons
+     * @return true / false
+     */
+    public boolean isPIExists(List<ProtocolPerson> protocolPersons);
+    
+    /**
+     * This method is to check for duplicate person.
+     * Same person can be listed in multiple roles. Validate with person and role
+     * @param protocolPersons
+     * @param newProtocolPerson
+     * @return true / false
+     */
+    public boolean isDuplicatePerson(List<ProtocolPerson> protocolPersons, ProtocolPerson newProtocolPerson);
+
+    /**
+     * This method is triggered when user change a protocol role for a person.
+     * A role can be changed only to specific other roles defined.
+     * It is to check whether role change is permitted for the action performed
+     * Verify protocol role mapping to figure out whether that change is valid
+     * @param protocol
+     * @param selectedPersonIndex
+     * @return true / false
+     */
+    public boolean isRoleChangePermitted(Protocol protocol, int selectedPersonIndex);
 }

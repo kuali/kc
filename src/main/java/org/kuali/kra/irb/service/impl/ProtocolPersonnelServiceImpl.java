@@ -24,8 +24,10 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.bo.PersonTraining;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolPerson;
+import org.kuali.kra.irb.bo.ProtocolPersonRoleMapping;
 import org.kuali.kra.irb.bo.ProtocolUnit;
 import org.kuali.kra.irb.service.ProtocolPersonnelService;
 
@@ -113,6 +115,43 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     }
     
     /**
+     * @see org.kuali.kra.irb.service.ProtocolPersonnelService#isRoleChangePermitted(org.kuali.kra.irb.bo.Protocol, int)
+     */
+    public boolean isRoleChangePermitted(Protocol protocol, int selectedPersonIndex) {
+        boolean isRolePermitted = true;
+        List<ProtocolPersonRoleMapping> personRoleMappings = new ArrayList<ProtocolPersonRoleMapping>();
+        for(ProtocolPerson protocolPerson : protocol.getProtocolPersons()) {
+            personRoleMappings.addAll(getPersonRoleMapping(protocolPerson.getPreviousPersonRoleId()));
+            if(!isRolePermitted(personRoleMappings, protocolPerson)) {
+                isRolePermitted = false;
+                break;
+            }
+        }
+        return isRolePermitted;
+    }
+    
+    private boolean isRolePermitted(List<ProtocolPersonRoleMapping> personRoleMappings, ProtocolPerson selectedProtocolPerson) {
+        boolean rolePermitted = false;
+        for(ProtocolPersonRoleMapping personRoleMapping : personRoleMappings) {
+            if(personRoleMapping.getTargetRoleId().equalsIgnoreCase(selectedProtocolPerson.getProtocolPersonRoleId())) {
+                rolePermitted = true;
+                break;
+            }
+        }
+        return rolePermitted;
+    }
+    /**
+     * This method is to fetch person role mapping data based on source role id
+     * @param sourceRoleId
+     * @return Collection<PersonTraining>
+     */
+    private Collection<ProtocolPersonRoleMapping> getPersonRoleMapping(String sourceRoleId) {
+        Map<String, Object> matchingKeys = new HashMap<String, Object>();
+        matchingKeys.put("sourceRoldId", sourceRoleId);
+        return businessObjectService.findMatching(ProtocolPersonRoleMapping.class, matchingKeys);
+    }
+
+    /**
      * @see org.kuali.kra.irb.service.ProtocolPersonnelService#updateProtocolUnit(java.util.List)
      */
     public void updateProtocolUnit(List<ProtocolPerson> protocolPersons) {
@@ -140,6 +179,33 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     }
     
     /**
+     * @see org.kuali.kra.irb.service.ProtocolPersonnelService#isPIExists()
+     */
+    public boolean isPIExists(List<ProtocolPerson> protocolPersons) {
+        boolean investigatorExists = false;
+        for(ProtocolPerson protocolPerson : protocolPersons) {
+            if(protocolPerson.getProtocolPersonRoleId().equalsIgnoreCase(Constants.PRINCIPAL_INVESTIGATOR_ROLE)){
+                investigatorExists = true;
+                break;
+            }
+        }
+        return investigatorExists;
+    }
+    
+    /**
+     * @see org.kuali.kra.irb.service.ProtocolPersonnelService#isDuplicatePerson(java.util.List, org.kuali.kra.irb.bo.ProtocolPerson)
+     */
+    public boolean isDuplicatePerson(List<ProtocolPerson> protocolPersons, ProtocolPerson newProtocolPerson) {
+        boolean duplicatePerson = false;
+        for(ProtocolPerson protocolPerson : protocolPersons) {
+            if(protocolPerson.getPersonUniqueKey().equalsIgnoreCase(newProtocolPerson.getPersonUniqueKey())) {
+                duplicatePerson = true;
+            }
+        }
+        return duplicatePerson;
+    }
+
+    /**
      * Gets the businessObjectService attribute.
      * 
      * @return Returns the businessObjectService.
@@ -156,5 +222,5 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-
+    
 }
