@@ -56,6 +56,7 @@ public class ProtocolPerson extends KraPersistableBusinessObjectBase {
     private List<ProtocolUnit> protocolUnits;
     
     private int selectedUnit;
+    private String previousPersonRoleId; 
 
 	public ProtocolPerson() { 
 	    protocolUnits = new ArrayList<ProtocolUnit>();
@@ -115,6 +116,7 @@ public class ProtocolPerson extends KraPersistableBusinessObjectBase {
 
 	public void setProtocolPersonRoleId(String protocolPersonRoleId) {
 		this.protocolPersonRoleId = protocolPersonRoleId;
+		setPreviousPersonRoleId(protocolPersonRoleId);
 	}
 
 	public Integer getRolodexId() {
@@ -319,6 +321,24 @@ public class ProtocolPerson extends KraPersistableBusinessObjectBase {
         for(ProtocolUnit protocolUnit : getProtocolUnits()) {
             protocolUnit.setLeadUnitFlag(false);
         }
+    }
+    
+    /**
+     * This method is to build and return a unique key for protocol person
+     * @return String
+     */
+    public String getPersonUniqueKey() {
+        return new StringBuilder(getPersonId() == null ? getRolodexId().toString() : getPersonId())
+        .append(getProtocolPersonRoleId())
+        .toString();
+    }
+
+    public String getPreviousPersonRoleId() {
+        return previousPersonRoleId;
+    }
+
+    public void setPreviousPersonRoleId(String previousPersonRoleId) {
+        this.previousPersonRoleId = previousPersonRoleId;
     }
 
 }
