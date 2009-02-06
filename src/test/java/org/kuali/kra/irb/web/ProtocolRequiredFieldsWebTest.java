@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.web;
 
 import org.junit.Test;
+import org.kuali.kra.infrastructure.KeyConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
@@ -39,19 +40,81 @@ public class ProtocolRequiredFieldsWebTest extends ProtocolWebTestBase {
         setProtocolRequiredFields(page);
         HtmlPage resultPage = savePage(page);
         validateSavedPage(resultPage); 
-        //getProtocolSavedRequiredFieldsPage();
-        
-        //Invoke save method by clicking save button on form
-       // HtmlPage resultPage = super.saveDoc(page);
         
         assertNotNull(resultPage);
         assertEquals("Kuali :: Protocol Document", resultPage.getTitleText()); 
-
-        setProtocolDocument(null,resultPage); 
+        setProtocolDocument(null,resultPage);    
         
         //Assert Required Fields
-        verifySavedRequiredFields();        
-        
+        verifySavedRequiredFields();                
+    }
+    
+    /**
+     * This method asserts the form's additional field value persistence. 
+     * @throws Exception
+     */
+    @Test
+    public  void testRequiredFieldsNegativeInvestigatorId() throws Exception {        
+        //Click to create new protocol link
+        HtmlPage portalPage = getPortalPage();
+        HtmlPage page = clickOn(portalPage, "Create Protocol", "Kuali Portal Index");
+        page = getInnerPages(page).get(0);
+        setProtocolRequiredFields(page);
+        setFieldValue(page, ProtocolRequiredFields.PROTOCOL_PI_ID.getCode(), "");        
+        HtmlPage resultPage = savePage(page);
+        //assertContains(resultPage,ERRORS_FOUND_ON_PAGE);   
+        assertContains(resultPage,"Principal Investigator must be supplied");                         
+    }
+
+    /**
+     * This method asserts the form's additional field value persistence. 
+     * @throws Exception
+     */
+    @Test
+    public  void testRequiredFieldsNegativeTypeCode() throws Exception {
+        //Click to create new protocol link
+        HtmlPage portalPage = getPortalPage();
+        HtmlPage page = clickOn(portalPage, "Create Protocol", "Kuali Portal Index");
+        page = getInnerPages(page).get(0);       
+        setProtocolRequiredFields(page);
+        setFieldValue(page, ProtocolRequiredFields.PROTOCOL_TYPE_CODE.getCode(), "");        
+        HtmlPage resultPage = savePage(page);
+        //assertContains(resultPage,ERRORS_FOUND_ON_PAGE);   
+        assertContains(resultPage,"Protocol Type must be supplied");                         
+    }    
+    
+    /**
+     * This method asserts the form's additional field value persistence. 
+     * @throws Exception
+     */
+    @Test
+    public  void testRequiredFieldsNegativeTitle() throws Exception {
+        //Click to create new protocol link
+        HtmlPage portalPage = getPortalPage();
+        HtmlPage page = clickOn(portalPage, "Create Protocol", "Kuali Portal Index");
+        page = getInnerPages(page).get(0);       
+        setProtocolRequiredFields(page);
+        setFieldValue(page, ProtocolRequiredFields.PROTOCOL_TITLE.getCode(), "");        
+        HtmlPage resultPage = savePage(page);
+        //assertContains(resultPage,ERRORS_FOUND_ON_PAGE);   
+        assertContains(resultPage,"Protocol Title must be supplied");                         
+    }
+    
+    /**
+     * This method asserts the form's additional field value persistence. 
+     * @throws Exception
+     */
+    @Test
+    public  void testRequiredFieldsNegativeLeadUnit() throws Exception {
+        //Click to create new protocol link
+        HtmlPage portalPage = getPortalPage();
+        HtmlPage page = clickOn(portalPage, "Create Protocol", "Kuali Portal Index");
+        page = getInnerPages(page).get(0);       
+        setProtocolRequiredFields(page);
+        setFieldValue(page, ProtocolRequiredFields.PROTOCOL_LEAD_UNIT_NUM.getCode(), "");        
+        HtmlPage resultPage = savePage(page);
+        //assertContains(resultPage,ERRORS_FOUND_ON_PAGE);   
+        assertContains(resultPage,"Lead Unit must be supplied");                         
     }
     
 }
