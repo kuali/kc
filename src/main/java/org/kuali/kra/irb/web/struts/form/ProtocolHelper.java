@@ -17,16 +17,20 @@ package org.kuali.kra.irb.web.struts.form;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.bo.Protocol;
+import org.kuali.kra.irb.bo.ProtocolInvestigator;
+import org.kuali.kra.irb.bo.ProtocolUnit;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.document.authorization.ProtocolTask;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.kra.service.UnitService;
 
 public class ProtocolHelper {
     
@@ -36,6 +40,21 @@ public class ProtocolHelper {
      */
     private ProtocolForm form;
     
+    private ProtocolInvestigator newPrincipalInvestgator;
+    private String principalInvestigatorId;
+    private String principalInvestigatorName;
+    private String personId;
+    private String rolodexId;
+    
+    private ProtocolUnit newProtocolUnit;
+    private String lookupUnitNumber;
+    private String lookupUnitName;
+
+
+    private String leadUnitNumber;
+    private String leadUnitName;
+    private boolean nonEmployeeFlag;
+
     private String referenceId1Label;
     private String referenceId2Label;
     private boolean personTrainingSectionRequired;
@@ -48,9 +67,9 @@ public class ProtocolHelper {
     }    
     
     public void prepareView() {
+        prepareRequiredFields();
         initializeReferenceLabels();
         initializeTrainingSection();
-        getProtocol().resolvePrincipalInvestigator(); 
         initializePermissions(getProtocol());    
     }
     
@@ -136,4 +155,207 @@ public class ProtocolHelper {
     public void setPersonTrainingSectionRequired(boolean personTrainingSectionRequired) {
         this.personTrainingSectionRequired = personTrainingSectionRequired;
     }   
+
+
+    public ProtocolInvestigator getNewPrincipalInvestgator() {
+        return newPrincipalInvestgator;
+    }
+
+    public void setNewPrincipalInvestgator(ProtocolInvestigator newPrincipalInvestgator) {
+        this.newPrincipalInvestgator = newPrincipalInvestgator;
+    }
+
+    public String getPrincipalInvestigatorId() {
+        return principalInvestigatorId;
+    }
+
+    public void setPrincipalInvestigatorId(String principalInvestigatorId) {
+        this.principalInvestigatorId = principalInvestigatorId;
+    }
+
+    public String getPrincipalInvestigatorName() {
+        return principalInvestigatorName;
+    }
+
+    public void setPrincipalInvestigatorName(String principalInvestigatorName) {
+        this.principalInvestigatorName = principalInvestigatorName;
+    }
+
+    public String getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(String personId) {
+        this.personId = personId;
+    }
+
+    public String getRolodexId() {
+        return rolodexId;
+    }
+
+    public void setRolodexId(String rolodexId) {
+        this.rolodexId = rolodexId;
+    }
+
+    public String getLeadUnitNumber() {
+        return leadUnitNumber;
+    }
+
+    public void setLeadUnitNumber(String leadUnitNumber) {
+        this.leadUnitNumber = leadUnitNumber;
+    }
+
+    public String getLeadUnitName() {
+        return leadUnitName;
+    }
+
+    public void setLeadUnitName(String leadUnitName) {
+        this.leadUnitName = leadUnitName;
+    }
+
+    public boolean isNonEmployeeFlag() {
+        return nonEmployeeFlag;
+    }
+
+    public void setNonEmployeeFlag(boolean nonEmployeeFlag) {
+        this.nonEmployeeFlag = nonEmployeeFlag;
+    }
+
+    public ProtocolUnit getNewProtocolUnit() {
+        return newProtocolUnit;
+    }
+
+    public void setNewProtocolUnit(ProtocolUnit newProtocolUnit) {
+        this.newProtocolUnit = newProtocolUnit;
+    }
+        
+    public String getLookupUnitName() {
+        return lookupUnitName;
+    }
+
+    public void setLookupUnitName(String lookupUnitName) {
+        this.lookupUnitName = lookupUnitName;
+    }
+
+    public String getLookupUnitNumber() {
+        return lookupUnitNumber;
+    }
+
+    public void setLookupUnitNumber(String lookupUnitNumber) {
+        this.lookupUnitNumber = lookupUnitNumber;
+    }
+    
+    
+    private void prepareRequiredFields() {
+        Protocol theProtocol = getProtocol();
+        if (theProtocol.getPrincipalInvestigator() == null) {
+            findPrinciapalInvestigatorIdFromFields();
+            findAndSetLeadUnitFromFields();
+        } else {
+            resolveRequiredFieldsFromBO();
+        }
+    }
+    
+    /**
+     * This method is a form helper for protocol. It is needed to push the
+     * transient form fields into principal investigator /lead unit.
+     * Due to table structure, these are stored as lists in protocol and 
+     * protocol investigator respectively, but aren't provided (by design) an explicit
+     * "add" element in the required fields panel view like most growing lists
+     */
+    public void prepareRequiredFieldsForSave() {
+        // create principal investigator from fields
+
+            findPrinciapalInvestigatorIdFromFields();
+    
+            if (StringUtils.isNotEmpty(getPrincipalInvestigatorId())) {
+                findAndSetLeadUnitFromFields();
+                
+                ProtocolInvestigator investigator = createPrincipalInvestigator();
+                if (investigator != null) {
+                    getProtocol().getProtocolInvestigators().add(investigator);
+                }
+            }
+
+    }
+    
+    /**
+     * This is used to calculate princiapal investigator ID from fields
+     * it's the values set rolodex id or person id depening on 
+     * the lookup type
+     */
+    private void findPrinciapalInvestigatorIdFromFields() {
+        if (StringUtils.isNotEmpty(getPersonId())) {
+            setPrincipalInvestigatorId(getPersonId());
+            setNonEmployeeFlag(false);
+        } else if (StringUtils.isNotEmpty(getRolodexId())) {
+            setPrincipalInvestigatorId(getRolodexId());
+            setNonEmployeeFlag(true);
+        }
+    }
+    
+     /**
+      * This is used to calculate lead unit info from fields
+      * it's the values set into form or (if unset during lookup)
+      * from the lookup values returned for PI's home unit
+      */
+    private void findAndSetLeadUnitFromFields() {
+        if (StringUtils.isNotEmpty(getLeadUnitNumber())) {
+            setLeadUnitName(getUnitService().getUnitName(getLeadUnitNumber()));
+        } else if (StringUtils.isEmpty(getLeadUnitName()) 
+            && StringUtils.isEmpty(getLeadUnitNumber())
+            && StringUtils.isNotEmpty(getLookupUnitNumber())
+            && StringUtils.isNotEmpty(getLookupUnitName())) {
+            setLeadUnitNumber(getLookupUnitNumber());
+            setLeadUnitName(getLookupUnitName());
+        }
+    }
+    private ProtocolUnit createLeadUnit() {
+        ProtocolUnit ret = null;
+        if ( StringUtils.isNotEmpty(getLeadUnitNumber())
+            && StringUtils.isNotEmpty(getLeadUnitName())) {            
+            ret = new ProtocolUnit();
+            ret.setLeadUnitFlag(true);
+            ret.setUnitNumber(getLeadUnitNumber());
+            ret.setUnitName(getLeadUnitName());
+        }        
+        return ret;
+    }
+    
+    private ProtocolInvestigator createPrincipalInvestigator() {
+        ProtocolInvestigator ret = null;
+        if ( StringUtils.isNotEmpty(getLeadUnitNumber())
+                && StringUtils.isNotEmpty(getLeadUnitName())) {            
+                ret = new ProtocolInvestigator();
+                ret.setPrincipalInvestigatorFlag(true);
+                ret.setPersonId(getPrincipalInvestigatorId());
+                ret.setPersonName(getPrincipalInvestigatorName());
+                ret.setNonEmployeeFlag(isNonEmployeeFlag());
+                ProtocolUnit unit = createLeadUnit();
+                if (unit != null) {
+                    unit.setPersonId(ret.getPersonId());
+                }
+                ret.getProtocolUnits().add(unit);  
+
+            }  
+        return ret;
+    }
+    
+    private void resolveRequiredFieldsFromBO() {
+        ProtocolInvestigator pi = getProtocol().getPrincipalInvestigator();
+        if (pi !=null){
+            setPrincipalInvestigatorName(pi.getPersonName());
+            setPrincipalInvestigatorId(pi.getPersonId());
+            setNonEmployeeFlag(pi.getNonEmployeeFlag());
+            if (pi.getLeadUnit()!=null) {
+                setLeadUnitNumber(pi.getLeadUnit().getUnitNumber());
+                setLeadUnitName(pi.getLeadUnit().getUnitName());
+            }
+        }
+    }
+    
+    private UnitService getUnitService() {
+        return KraServiceLocator.getService(UnitService.class);
+    }
+    
 }
