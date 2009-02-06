@@ -433,21 +433,7 @@ public class Protocol extends KraPersistableBusinessObjectBase{
         this.protocolInvestigators = protocolInvestigators;
     }
 
-    /**
-     * This method is to find Principal Investigator from ProtocolPerson list
-     * @return ProtocolPerson
-     */
-    public ProtocolPerson getPrincipalInvestigator() {
-        ProtocolPerson principalInvestigator = null;
-        for ( ProtocolPerson investigator : getProtocolPersons() ) {
-            if (investigator.getProtocolPersonRoleId().equalsIgnoreCase(Constants.PRINCIPAL_INVESTIGATOR_ROLE)) {
-                principalInvestigator = investigator;
-            }
-        }
-        return principalInvestigator;
-    }
-    
-    public ProtocolInvestigator getPI() {
+    public ProtocolInvestigator getPrincipalInvestigator() {
         ProtocolInvestigator principalInvestigator = null;
         for ( ProtocolInvestigator investigator : getProtocolInvestigators() ) {
             if (investigator.getPrincipalInvestigatorFlag()) {
@@ -483,38 +469,8 @@ public class Protocol extends KraPersistableBusinessObjectBase{
     }
 
     public void setLeadUnitNumber(String leadUnitNumber) {
-        this.leadUnitNumber = leadUnitNumber;
-
-        refreshLeadUnitName(leadUnitNumber);
-        updateLeadUnitInPI(leadUnitNumber);    
+        this.leadUnitNumber = leadUnitNumber; 
     }
-    
-    private void refreshLeadUnitName(String leadUnitNumber) {        
-        setLeadUnitName(KraServiceLocator.getService(UnitService.class).getUnitName(leadUnitNumber));
-    }
-    
-    private void updateLeadUnitInPI(String leadUnitNumber)  {
-        if (StringUtils.hasText(leadUnitNumber)) {
-            //ProtocolInvestigator principal = getPrincipalInvestigator();
-            ProtocolPerson principal = getPrincipalInvestigator();
-            if (principal != null) {
-                if (principal.getLeadUnit() != null) {
-                    principal.getLeadUnit().setUnitNumber(leadUnitNumber); 
-                    principal.getLeadUnit().setPersonId(getPrincipalInvestigator().getPersonId());
-                } else {
-                    ProtocolUnit leadUnit = new ProtocolUnit();
-                    leadUnit.setUnitNumber(leadUnitNumber);
-                    leadUnit.setPersonId(getPrincipalInvestigator().getPersonId());
-                    leadUnit.refreshReferenceObject("unit");
-                    leadUnit.setLeadUnitFlag(true); 
-                    getPrincipalInvestigator().getProtocolUnits().add(leadUnit);
-                    
-                }
-            }
-        }
-    }
-
-
 
     public String getPrincipalInvestigatorId() {       
         return principalInvestigatorId;
@@ -522,7 +478,6 @@ public class Protocol extends KraPersistableBusinessObjectBase{
 
     public void setPrincipalInvestigatorId(String principalInvestigatorId) {
         this.principalInvestigatorId = principalInvestigatorId;
-        updatePrincipalInvestigator(principalInvestigatorId);
     }
     
     public String getPrincipalInvestigatorName() {
@@ -534,110 +489,11 @@ public class Protocol extends KraPersistableBusinessObjectBase{
     }
 
     public boolean isNonEmployeeFlag() {
- /*       //refresh nonEmpFrom PI
-        if (getPrincipalInvestigator() != null) {
-            this.nonEmployeeFlag = getPrincipalInvestigator().getNonEmployeeFlag();
-        }*/
         return this.nonEmployeeFlag;
     }
 
     public void setNonEmployeeFlag(boolean nonEmployeeFlag) {
-      //  boolean changed = this.nonEmployeeFlag != nonEmployeeFlag;
-        this.nonEmployeeFlag = nonEmployeeFlag;
-        
-/*        // If this flag changes, we have to update the PI name as we're dealing w/ rolodex versus person
-        if (changed) {
-            setPrincipalInvestigatorId(this.principalInvestigatorId);
-        }   */     
-    }
-   
-    
-    private void updatePrincipalInvestigator(String principalInvestigatorId) {
-        //ProtocolInvestigator pi = getPrincipalInvestigator();
-        ProtocolPerson pi = getPrincipalInvestigator();
-        if (pi !=null ) {
-            pi.setPersonId(principalInvestigatorId);
-            pi.setPersonNameFromId(principalInvestigatorId, nonEmployeeFlag);
-            updateLeadUnitInPI(getLeadUnitNumber());
-            //pi.setNonEmployeeFlag(this.nonEmployeeFlag);
-
-        } else {
-            if (principalInvestigatorId != null) {
-                //pi = new ProtocolInvestigator();
-                pi = new ProtocolPerson();
-                pi.setPersonId(principalInvestigatorId);
-                pi.setPersonNameFromId(principalInvestigatorId, nonEmployeeFlag);
-                pi.setProtocolPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
-                pi.setProtocolNumber("0");
-                pi.setSequenceNumber(0);
-                pi.refreshReferenceObject("protocolPersonRole");
-                if(nonEmployeeFlag) {
-                    pi.refreshReferenceObject("rolodex");
-                }else {
-                    pi.refreshReferenceObject("person");
-                }
-                //pi.setPrincipalInvestigatorFlag(true);
-                updateLeadUnitInPI(getLeadUnitNumber());
-                //pi.setNonEmployeeFlag(this.nonEmployeeFlag);
-                //protocolInvestigators.add(pi);
-                getProtocolPersons().add(pi);
-            }
-        }
-        setPrincipalInvestigatorName( pi.getPersonName());
-
-    }
-    
-    public void resolvePrincipalInvestigator() {
-        //ProtocolInvestigator principal = getPrincipalInvestigator();
-        ProtocolPerson principal = getPrincipalInvestigator();
-        if (principal != null ) {
-            //this.nonEmployeeFlag = principal.getNonEmployeeFlag();
-            this.nonEmployeeFlag = principal.getPersonId() == null ? true : false;
-            setPrincipalInvestigatorId(principal.getPersonId());
-            setPrincipalInvestigatorName(principal.getPersonName());
-
-            if (principal.getLeadUnit() != null) {
-                setLeadUnitNumber(principal.getLeadUnit().getUnitNumber()); 
-            }
-        }
-    }
-
-    public String getPersonId() {
-        return personId;
-    }
-
-    public void setPersonId(String personId) {
-        this.personId = personId;
-        if (StringUtils.hasText(personId)) {
-            setNonEmployeeFlag(false);
-            setRolodexId(null);
-            setPrincipalInvestigatorId(personId);
-        }
-    }
-
-    public String getRolodexId() {
-        return rolodexId;
-    }
-
-    public void setRolodexId(String rolodexId) {
-        this.rolodexId = rolodexId;
-        if (StringUtils.hasText(rolodexId)) {
-            setNonEmployeeFlag(true);
-            setPersonId(null);
-            setPrincipalInvestigatorId(rolodexId);
-
-        }
-    }
-
-    public String getLookupUnitNumber() {
-        return lookupUnitNumber;
-    }
-
-    public void setLookupUnitNumber(String lookupUnitNumber) {
-        this.lookupUnitNumber = lookupUnitNumber;
-        if (lookupUnitNumber != null && !StringUtils.hasText(leadUnitNumber)) {
-            leadUnitNumber = lookupUnitNumber;
-        }
+        this.nonEmployeeFlag = nonEmployeeFlag;   
     }
 
     /**

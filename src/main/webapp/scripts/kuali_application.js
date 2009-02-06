@@ -346,6 +346,47 @@ function loadSponsorName(sponsorCodeFieldName, sponsorNameFieldName ) {
 	}
 }
 
+
+/*
+ * Load the Funding Source Name field based on the id and type passed in.
+
+function loadFundingSourceNameTitle(fundingTypeCodeFieldName, fundingIdFieldName, fundingNameFieldName, fundingTitleFieldName ) {
+	var fundingTypeCode = DWRUtil.getValue( fundingTypeCodeFieldName );
+	var fundingId = DWRUtil.getValue( fundingIdFieldName );
+
+	if (fundingTypeCode=='') {
+		clearRecipients( fundingNameFieldName, "" );
+		clearRecipients( fundingTitleFieldName, "" );
+	} else {
+		var dwrReply = {
+			callback:function(data) {
+				if ( data != null ) {
+					if ( fundingNameFieldName != null && fundingNameFieldName != "" ) {
+						setRecipientValue( fundingNameFieldName, data.fundingSourceName );
+					}
+					if ( fundingTitleFieldName != null && fundingTitleFieldName != "" ) {
+						setRecipientValue( fundingTitleFieldName, data.fundingSourceTitle );
+					}
+				} else {
+					if ( fundingNameFieldName != null && fundingNameFieldName != "" ) {
+						setRecipientValue( fundingNameFieldName,  wrapError( "not found" ), true );
+					}
+					if ( fundingTitleFieldName != null && fundingTitleFieldName != "" ) {
+						setRecipientValue( fundingTitleFieldName,  wrapError( "not found" ), true );
+					}
+				}
+			},
+			errorHandler:function( errorMessage ) {
+				window.status = errorMessage;
+				setRecipientValue( fundingNameFieldName,  wrapError( "not found" ), true );
+				setRecipientValue( fundingTitleFieldName,  wrapError( "not found" ), true );
+			}
+		};
+		ProtocolFundingSourceService.getNameAndTitle(fundingTypeCode, fundingId, dwrReply);
+	}
+}
+ */
+
 /*
  * Load the Budget Category Code based on Object Code(Cost Element)
  */ 
