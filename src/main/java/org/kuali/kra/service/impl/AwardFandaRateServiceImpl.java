@@ -33,8 +33,8 @@ import org.kuali.kra.service.AwardFandaRateService;
 public class AwardFandaRateServiceImpl implements AwardFandaRateService {
     
     public static final int FISCAL_YEAR_LENGTH = 4;
-    public static final long MILLIS_IN_LEAP_YEAR = new Long("31557600000");//366 * 24 * 60 * 60 * 1000
-    public static final long MILLIS_IN_NON_LEAP_YEAR = new Long("31471200000");//365 * 24 * 60 * 60 * 1000
+    public static final long MILLIS_IN_LEAP_YEAR = new Long("31536000000");//365 * 24 * 60 * 60 * 1000
+    public static final long MILLIS_IN_NON_LEAP_YEAR = new Long("31449600000");//364 * 24 * 60 * 60 * 1000
         
     private KualiConfigurationService kualiConfigurationService;
 
