@@ -109,7 +109,7 @@
 							</c:choose>                        
                         </c:if>
 					</div>
-					<c:if test="${!empty KualiForm.document.protocol.protocolId && !empty KualiForm.protocolHelper.lookupUnitNumber}">
+					<c:if test="${!empty KualiForm.document.protocol.protocolId && !empty KualiForm.protocolHelper.leadUnitNumber}">
                        - ${KualiForm.document.protocol.leadUnit.unitNumber}
                     </c:if>
 				</td>

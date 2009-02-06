@@ -80,14 +80,8 @@ public class Protocol extends KraPersistableBusinessObjectBase{
     private boolean nonEmployeeFlag;
 
     private List<ProtocolInvestigator> protocolInvestigators; 
-    private String principalInvestigatorId;
-    private String principalInvestigatorName;
-    private String personId;
-    private String rolodexId;
     private String leadUnitNumber;
-    private String leadUnitName;
-    
-    private String lookupUnitNumber;
+    private String principalInvestigatorId;
     
     private List<ProtocolPerson> protocolPersons; 
     /**
@@ -455,14 +449,6 @@ public class Protocol extends KraPersistableBusinessObjectBase{
         }
         return leadUnit;
     }    
-
-    public String getLeadUnitName() {
-        return leadUnitName;
-    }
-
-    public void setLeadUnitName(String leadUnitName) {
-        this.leadUnitName = leadUnitName;
-    }
     
     public String getLeadUnitNumber() {
         return leadUnitNumber;
@@ -479,14 +465,7 @@ public class Protocol extends KraPersistableBusinessObjectBase{
     public void setPrincipalInvestigatorId(String principalInvestigatorId) {
         this.principalInvestigatorId = principalInvestigatorId;
     }
-    
-    public String getPrincipalInvestigatorName() {
-        return principalInvestigatorName;
-    }
 
-    public void setPrincipalInvestigatorName(String principalInvestigatorName) {
-        this.principalInvestigatorName = principalInvestigatorName;
-    }
 
     public boolean isNonEmployeeFlag() {
         return this.nonEmployeeFlag;
