@@ -52,35 +52,17 @@
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="3" />
         </property>
         <property name="summary" value="Membership Type Code" />
         <property name="description" value="Membership Type Code" />
     </bean>
 
     <bean id="CommitteeMembershipType-description" parent="CommitteeMembershipType-description-parentBean" />
-    <bean id="CommitteeMembershipType-description-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="description" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Description" />
-        <property name="shortLabel" value="Description" />
-        <property name="maxLength" value="200" />
-        <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern" 
-                  p:allowWhitespace="true" />
-        </property>
-        <property name="control" >
-            <bean parent="TextareaControlDefinition"
-                  p:rows="5"
-                  p:cols="40" />
-        </property>
-        <property name="summary" value="Description" />
-        <property name="description" value="Description" />
-    </bean>
+    <bean id="CommitteeMembershipType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description" />
 
     <bean id="CommitteeMembershipType-versionNumber" parent="CommitteeMembershipType-versionNumber-parentBean" />
-    <bean id="CommitteeMembershipType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
-    </bean>
+    <bean id="CommitteeMembershipType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
 
     <!-- Business Object Inquiry Definition -->
     <bean id="CommitteeMembershipType-inquiryDefinition" parent="CommitteeMembershipType-inquiryDefinition-parentBean" />
