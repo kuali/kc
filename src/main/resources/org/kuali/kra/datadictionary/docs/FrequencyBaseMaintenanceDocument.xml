@@ -45,7 +45,7 @@
 				p:parameterName="frequencyBaseMaintenanceHelp"
 				p:parameterDetailType="D" />
 			</property>
-		<property name="documentTypeName" value="Frequency Base Maintenance Document" />
+		<property name="documentTypeName" value="FrequencyBaseMaintenanceDocument" />
 		<property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
 		<property name="documentTypeCode" value="FREQ" />
 		<property name="authorizations" >

@@ -45,7 +45,7 @@
 				p:parameterName="contactTypeMaintenanceHelp"
 				p:parameterDetailType="D" />
 			</property>
-		<property name="documentTypeName" value="Contact Type Maintenance Document" />
+		<property name="documentTypeName" value="ContactTypeMaintenanceDocument" />
 		<property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
 		<property name="documentTypeCode" value="CONT" />
 		<property name="authorizations" >
