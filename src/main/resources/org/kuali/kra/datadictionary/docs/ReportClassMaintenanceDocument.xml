@@ -45,7 +45,7 @@
 				p:parameterName="reportClassMaintenanceHelp"
 				p:parameterDetailType="D" />
 			</property>
-		<property name="documentTypeName" value="Report Class Maintenance Document" />
+		<property name="documentTypeName" value="ReportClassMaintenanceDocument" />
 		<property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
 		<property name="documentTypeCode" value="REPO" />
 		<property name="authorizations" >
