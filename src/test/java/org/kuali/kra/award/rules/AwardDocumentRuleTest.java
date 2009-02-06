@@ -27,8 +27,6 @@ import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kra.award.bo.AwardApprovedSubaward;
-import org.kuali.kra.award.bo.AwardCostShare;
 import org.kuali.kra.award.bo.AwardFandaRate;
 import org.kuali.kra.award.bo.AwardReportTerm;
 
@@ -41,10 +39,6 @@ public class AwardDocumentRuleTest extends AwardDocumentRule{
     AwardFandaRate awardFandaRate1;
     AwardFandaRate awardFandaRate2;
     AwardDocumentRule awardDocumentRule;
-    AwardCostShare awardCostShare;
-    AwardApprovedSubaward awardApprovedSubaward1;
-    AwardApprovedSubaward awardApprovedSubaward2;
-    List<AwardApprovedSubaward> awardApprovedSubawards;
     AwardReportTerm awardReportTerm;
 
     @Before
@@ -53,11 +47,7 @@ public class AwardDocumentRuleTest extends AwardDocumentRule{
         awardDocumentRule = new AwardDocumentRule();
         awardFandaRate1 = new AwardFandaRate();
         awardFandaRate2 = new AwardFandaRate();
-        awardCostShare = new AwardCostShare();
-        awardApprovedSubaward1 = new AwardApprovedSubaward();
-        awardApprovedSubaward2 = new AwardApprovedSubaward();
         awardReportTerm = new AwardReportTerm();
-        awardApprovedSubawards = new ArrayList<AwardApprovedSubaward>();
         
         awardFandaRate1.setApplicableFandaRate(new KualiDecimal(5));
         awardFandaRate1.setFiscalYear("2008");
@@ -76,18 +66,6 @@ public class AwardDocumentRuleTest extends AwardDocumentRule{
         awardFandaRateList.add(awardFandaRate1);
         awardFandaRateList.add(awardFandaRate2);
         
-        awardCostShare.setCostSharePercentage(new KualiDecimal(50));
-        awardCostShare.setDestination("12345");
-        awardCostShare.setSource("54321");
-        awardCostShare.setCommitmentAmount(new KualiDecimal(25000));
-        awardCostShare.setFiscalYear("2009");
-        
-        awardApprovedSubaward1.setOrganizationName("test organization 1");
-        awardApprovedSubaward1.setAmount(new KualiDecimal(10000));
-        awardApprovedSubaward2.setOrganizationName("test organization 2");
-        awardApprovedSubaward2.setAmount(new KualiDecimal(10000));
-        awardApprovedSubawards.add(awardApprovedSubaward1);
-        awardApprovedSubawards.add(awardApprovedSubaward2);
         
         GlobalVariables.setErrorMap(new ErrorMap());
     }
@@ -98,7 +76,6 @@ public class AwardDocumentRuleTest extends AwardDocumentRule{
         awardDocumentRule = null;
         awardFandaRate1 = null;
         awardFandaRate2 = null;
-        awardCostShare = null;
     }
 
     @Test
@@ -117,30 +94,6 @@ public class AwardDocumentRuleTest extends AwardDocumentRule{
         Assert.assertFalse(awardDocumentRule.isFandaRateInputInPairs(awardFandaRateList));
     }
     
-    
-    @Test
-    public final void testTestApprovedSubawardDuplicateOrganization(){
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-        String errorPath = "test errorPath";
-        int currentIndex = 0;
-        Assert.assertTrue(awardDocumentRule.testApprovedSubawardDuplicateOrganization(awardApprovedSubawards, awardApprovedSubaward1, errorMap, currentIndex, errorPath));
-        awardApprovedSubaward1.setOrganizationName("test organization 2");
-        Assert.assertFalse(awardDocumentRule.testApprovedSubawardDuplicateOrganization(awardApprovedSubawards, awardApprovedSubaward1, errorMap, currentIndex, errorPath));
-        awardApprovedSubaward1.setOrganizationName("test organization 1");
-        GlobalVariables.setErrorMap(new ErrorMap());
-    }
-    
-    @Test
-    public final void testTestApprovedSubawardAmount(){
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-        Assert.assertTrue(awardDocumentRule.testApprovedSubawardAmount(awardApprovedSubaward1, errorMap));
-        awardApprovedSubaward1.setAmount(new KualiDecimal(0));
-        Assert.assertFalse(awardDocumentRule.testApprovedSubawardAmount(awardApprovedSubaward1, errorMap));
-        awardApprovedSubaward1.setAmount(new KualiDecimal(-100));
-        Assert.assertFalse(awardDocumentRule.testApprovedSubawardAmount(awardApprovedSubaward1, errorMap));
-        awardApprovedSubaward1.setAmount(new KualiDecimal(10000));
-        GlobalVariables.setErrorMap(new ErrorMap());
-    }
     
     @Test
     public final void testEvaluateBusinessRuleForReportCodeField(){

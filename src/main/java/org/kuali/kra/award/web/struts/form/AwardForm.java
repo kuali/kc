@@ -64,7 +64,6 @@ public class AwardForm extends KraTransactionalDocumentFormBase implements Multi
     private String[] newExemptionTypeCodes;
     //private AwardCostShare newAwardCostShare;
     private AwardComment newAwardCostShareComment;
-    private AwardApprovedSubaward newAwardApprovedSubaward;
     
     private AwardFandaRate newAwardFandaRate;
     private List<AwardReportTerm> newAwardReportTerm;
@@ -73,6 +72,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase implements Multi
     
     private ApprovedEquipmentFormHelper approvedEquipmentFormHelper;
     private CostShareFormHelper costShareFormHelper;
+    private ApprovedSubawardFormHelper approvedSubawardFormHelper;
     
     /**
      * 
@@ -100,6 +100,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase implements Multi
         newSpecialReviewExemptions = new ArrayList<AwardSpecialReviewExemption>();
         approvedEquipmentFormHelper = new ApprovedEquipmentFormHelper(this);
         costShareFormHelper = new CostShareFormHelper(this);
+        approvedSubawardFormHelper = new ApprovedSubawardFormHelper(this);
     }    
     
     /**
@@ -217,22 +218,6 @@ public class AwardForm extends KraTransactionalDocumentFormBase implements Multi
         this.newAwardReportTermRecipient = newAwardReportTermRecipient;
     }
 
-    public AwardApprovedSubaward getNewAwardApprovedSubaward() {
-        return newAwardApprovedSubaward;
-    }
-
-    public void setNewAwardApprovedSubaward(AwardApprovedSubaward newAwardApprovedSubaward) {
-        this.newAwardApprovedSubaward = newAwardApprovedSubaward;
-    }
-    
-    //public AwardCostShare getNewAwardCostShare() {
-        //return newAwardCostShare;
-    //}
-
-    //public void setNewAwardCostShare(AwardCostShare newAwardCostShare) {
-        //this.newAwardCostShare = newAwardCostShare;
-    //}
-
     /**
      * Gets the lookupResultsBOClassName attribute. 
      * @return Returns the lookupResultsBOClassName.
@@ -331,5 +316,25 @@ public class AwardForm extends KraTransactionalDocumentFormBase implements Multi
 
     public void setReportClasses(List<KeyLabelPair> reportClasses) {
         this.reportClasses = reportClasses;
+    }
+
+
+
+    /**
+     * Gets the approvedSubawardFormHelper attribute. 
+     * @return Returns the approvedSubawardFormHelper.
+     */
+    public ApprovedSubawardFormHelper getApprovedSubawardFormHelper() {
+        return approvedSubawardFormHelper;
+    }
+
+
+
+    /**
+     * Sets the approvedSubawardFormHelper attribute value.
+     * @param approvedSubawardFormHelper The approvedSubawardFormHelper to set.
+     */
+    public void setApprovedSubawardFormHelper(ApprovedSubawardFormHelper approvedSubawardFormHelper) {
+        this.approvedSubawardFormHelper = approvedSubawardFormHelper;
     }
 }
