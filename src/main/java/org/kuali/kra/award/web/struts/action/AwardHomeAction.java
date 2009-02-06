@@ -40,6 +40,12 @@ import org.kuali.kra.service.KeywordsService;
  * This class represents the Struts Action for Award page(AwardHome.jsp) 
  */
 public class AwardHomeAction extends AwardAction { 
+    
+    private ApprovedSubawardActionHelper approvedSubawardActionHelper;
+    
+    public AwardHomeAction(){
+        approvedSubawardActionHelper = new ApprovedSubawardActionHelper();
+    }
 
     /**
      * This method is used to add a new Award Cost Share
@@ -51,13 +57,10 @@ public class AwardHomeAction extends AwardAction {
      * @return mapping forward
      * @throws Exception
      */
-    public ActionForward addApprovedSubaward(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        AwardForm awardForm = (AwardForm) form;
-        AwardDocument awardDocument = awardForm.getAwardDocument();
-        AwardApprovedSubaward awardApprovedSubaward = awardForm.getNewAwardApprovedSubaward();
-        awardDocument.getAward().add(awardApprovedSubaward);
-        awardForm.setNewAwardApprovedSubaward(new AwardApprovedSubaward());
+    public ActionForward addApprovedSubaward(ActionMapping mapping, ActionForm form, 
+                                                HttpServletRequest request,
+                                                    HttpServletResponse response) throws Exception {
+        approvedSubawardActionHelper.addApprovedSubaward(((AwardForm) form).getApprovedSubawardFormHelper());
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -84,8 +87,9 @@ public class AwardHomeAction extends AwardAction {
      * @return mapping forward
      * @throws Exception
      */
-    public ActionForward deleteApprovedSubaward(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    public ActionForward deleteApprovedSubaward(ActionMapping mapping, ActionForm form, 
+                                                    HttpServletRequest request,
+                                                         HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDocument = awardForm.getAwardDocument();
         int delApprovedSubaward = getLineToDelete(request);
