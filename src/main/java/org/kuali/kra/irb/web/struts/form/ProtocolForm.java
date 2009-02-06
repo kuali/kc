@@ -56,24 +56,11 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
     private ProtocolParticipant newProtocolParticipant;
     private ProtocolReference newProtocolReference;
     private ProtocolLocation newProtocolLocation;
-    
-    private ProtocolInvestigator newPrincipalInvestigator;
-    private String newRolodexId;
-    private String newPersonId;
-    private String leadUnitNumber;
+
     private String organizationName;
     
     ProtocolPerson newProtocolPerson;
     private List<ProtocolUnit> newProtocolPersonUnits;
-
-    
-    public String getLeadUnitNumber() {
-        return leadUnitNumber;
-    }
-
-    public void setLeadUnitNumber(String leadUnitNumber) {
-        this.leadUnitNumber = leadUnitNumber;
-    }
 
     //KNS Lookup hooks
     private String lookupResultsSequenceNumber;
@@ -175,30 +162,6 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
 
     public KualiConfigurationService getConfigurationService() {
         return getService(KualiConfigurationService.class);
-    }
-
-    public ProtocolInvestigator getNewPrincipalInvestigator() {
-        return newPrincipalInvestigator;
-    }
-
-    public void setNewPrincipalInvestigator(ProtocolInvestigator newPrincipalInvestigator) {
-        this.newPrincipalInvestigator = newPrincipalInvestigator;
-    }
-
-    public String getNewRolodexId() {
-        return newRolodexId;
-    }
-
-    public void setNewRolodexId(String newRolodexId) {
-        this.newRolodexId = newRolodexId;
-    }
-
-    public String getNewPersonId() {
-        return newPersonId;
-    }
-
-    public void setNewPersonId(String newPersonId) {
-        this.newPersonId = newPersonId;
     }
     
     public String getLookupResultsSequenceNumber() {

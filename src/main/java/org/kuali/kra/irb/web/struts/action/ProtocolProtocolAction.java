@@ -27,6 +27,7 @@ import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolLocation;
 import org.kuali.kra.irb.bo.ProtocolParticipant;
 import org.kuali.kra.irb.bo.ProtocolReference;
@@ -56,6 +57,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
     @Override
     protected boolean isValidSave(ProtocolForm protocolForm) {    
         boolean rulePassed = true;
+        protocolForm.getProtocolHelper().prepareRequiredFieldsForSave();
         rulePassed &= applyRules(new SaveProtocolLocationEvent(Constants.EMPTY_STRING,protocolForm.getProtocolDocument()));
         rulePassed &= applyRules(new SaveProtocolRequiredFieldsEvent(protocolForm.getProtocolDocument()));
         return rulePassed;
@@ -264,4 +266,5 @@ public class ProtocolProtocolAction extends ProtocolAction {
         return protocolLocationService;
     }
 
+    
 }
