@@ -24,6 +24,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.kuali.core.service.DocumentService;
 import org.kuali.kra.KraWebTestBase;
+import org.kuali.kra.irb.bo.Protocol;
+import org.kuali.kra.irb.bo.ProtocolInvestigator;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
@@ -47,7 +49,6 @@ import edu.iu.uis.eden.exception.WorkflowException;
         @UnitTestFile(filename = "classpath:sql/dml/load_protocol_type.sql", delimiter = ";") }))
 public abstract class ProtocolWebTestBase extends KraWebTestBase {
     
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolWebTestBase.class);
 
     /* check for save success - any errors found in the page */
     protected static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
@@ -56,7 +57,13 @@ public abstract class ProtocolWebTestBase extends KraWebTestBase {
     // KEW Struts Constants
     protected static final String KUALI_FORM_NAME = "KualiForm";
     protected static final String KUALI_DOCUMENT_NUMBER = "document.documentHeader.documentNumber";
-    protected static final String SAVE_PAGE = "methodToCall.save";
+    protected static final String SAVE_PAGE = "methodToCall.save";    
+    protected static final String DEFAULT_DOCUMENT_DESCRIPTION = "Protocol Document";
+    protected static final String PROTOCOL_STATUS_STR = "100"; //test of option "Pending/In Progress";
+    protected static final String PROTOCOL_TYPE_CODE_STR = "1";//test of option "Standard";
+    protected static final String PROTOCOL_TITLE_STR = "New protocol test";
+
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolWebTestBase.class);
 
     // Services
     private DocumentService documentService;
@@ -68,12 +75,13 @@ public abstract class ProtocolWebTestBase extends KraWebTestBase {
      * protocol required fields
      */
     protected enum ProtocolRequiredFields {       
-        DOCUMENT_DESCRIPTION("document.documentHeader.documentDescription", "Protocol Document"),
-        PROTOCOL_TYPE_CODE("document.protocol.protocolTypeCode", "1"),
-        PROTOCOL_TITLE("document.protocol.title", "New protocol test"),
+        DOCUMENT_DESCRIPTION("document.documentHeader.documentDescription", DEFAULT_DOCUMENT_DESCRIPTION),
+        PROTOCOL_TYPE_CODE("document.protocol.protocolTypeCode", PROTOCOL_TYPE_CODE_STR),
+        PROTOCOL_TITLE("document.protocol.title", PROTOCOL_TITLE_STR),
      //   PROTOCOL_STATUS_ID("document.protocol.protocolStatusCode"),
-        PROTOCOL_PI_ID("document.protocol.personId", "000000001"),
-        PROTOCOL_LEAD_UNIT_NUM("document.protocol.leadUnitNumber", "BL-BL");
+        PROTOCOL_PI_ID("protocolHelper.personId", "000000001"),
+        PROTOCOL_PI_NAME("protocolHelper.principalInvestigatorName", "Terry Durkin"),
+        PROTOCOL_LEAD_UNIT_NUM("protocolHelper.leadUnitNumber", "BL-BL");
                 
         private final String code;   
         private final String value;
@@ -93,31 +101,8 @@ public abstract class ProtocolWebTestBase extends KraWebTestBase {
 
     }
     
-    
-    protected static final String DEFAULT_DOCUMENT_DESCRIPTION = "Protocol Document";
 
-    protected static final String PROTOCOL_STATUS = "100"; //test of option "Pending/In Progress";
 
-    protected static final String PROTOCOL_TYPE_CODE = "1";//test of option "Standard";
-
-    protected static final String PROTOCOL_TITLE = "New protocol test";
-    protected static final String PROTOCOL_APPLICATION_DATE = "11/12/2008";
-    protected static final String PROTOCOL_APPLICATION_DATE_RESULT = "2008-11-12"; // TODO if required
-    
-    protected static final String PROTOCOL_PI_ID_FIELD = "document.principalInvestigatorId";
-    protected static final String PROTOCOL_PI_ID = "000000008";
-    
-    protected static final String PROTOCOL_PI_NAME_FIELD = "document.principalInvestigatorName";
-    protected static final String PROTOCOL_PI_NAME = "Joe Tester";
-    
-    protected static final String PROTOCOL_PI_LEAD_UNIT_NUM_FIELD = "document.leadUnitNumber";
-    protected static final String PROTOCOL_PI_LEAD_UNIT_NUM= "BL-BL";
-    
-    protected static final String PROTOCOL_PI_LEAD_UNIT_NAME_FIELD = "document.leadUnitName";
-    protected static final String PROTOCOL_PI_LEAD_UNIT_NAME = "Bloomington Campus";    
-
-    protected static final String PROTOCOL_PI_NON_EMP_FIELD = "document.nonEmployeeFlag";
-    protected static final String PROTOCOL_PI_NON_EMP = "true";    
     
     private HtmlPage protocolHomePage;    
 
@@ -340,83 +325,16 @@ public abstract class ProtocolWebTestBase extends KraWebTestBase {
      * This method asserts whether required fields where saved
      */
     protected void verifySavedRequiredFields() {
-        // TODO check with Bryan or Don
-        // assertEquals(DEFAULT_DOCUMENT_DESCRIPTION, doc.getDocumentHeader().getDocumentDescription()); //Not persisted BUG??
-
-/*        assertEquals(PROTOCOL_STATUS, getProtocolDocument().getProtocolStatus().getDescription());
-        assertEquals(PROTOCOL_TYPE_CODE, getProtocolDocument().getProtocolType().getDescription());
-        assertEquals(PROTOCOL_TITLE, getProtocolDocument().getTitle());
-        assertEquals(PROTOCOL_PI_ID, getProtocolDocument().getPrincipalInvestigatorId());
-        assertEquals(PROTOCOL_PI_NAME, getProtocolDocument().getPrincipalInvestigatorId());
-        assertEquals(PROTOCOL_PI_LEAD_UNIT_NUM, getProtocolDocument().getLeadUnitNumber());
-        assertEquals(PROTOCOL_PI_LEAD_UNIT_NAME, getProtocolDocument().getLeadUnitName());
-
-        assertEquals(PROTOCOL_APPLICATION_DATE_RESULT, getProtocolDocument().getApplicationDate().toString());*/
-        assertEquals(DEFAULT_DOCUMENT_DESCRIPTION, getProtocolDocument().getDocumentHeader().getDocumentDescription()); //Not persisted BUG??
-        assertEquals(PROTOCOL_STATUS, getProtocolDocument().getProtocol().getProtocolStatus().getProtocolStatusCode());
-        assertEquals(PROTOCOL_TYPE_CODE, getProtocolDocument().getProtocol().getProtocolType().getProtocolTypeCode());
-        assertEquals(PROTOCOL_TITLE, getProtocolDocument().getProtocol().getTitle());
-        //assertEquals(PROTOCOL_APPLICATION_DATE_RESULT, getProtocolDocument().getProtocol().getApplicationDate().toString());
+        assertEquals(DEFAULT_DOCUMENT_DESCRIPTION, getProtocolDocument().getDocumentHeader().getDocumentDescription()); 
+        Protocol theProtocol = getProtocolDocument().getProtocol();
+        assertEquals(PROTOCOL_STATUS_STR, theProtocol.getProtocolStatus().getProtocolStatusCode());
+        assertEquals(PROTOCOL_TYPE_CODE_STR, theProtocol.getProtocolType().getProtocolTypeCode());
+        assertEquals(PROTOCOL_TITLE_STR, theProtocol.getTitle());
+        ProtocolInvestigator thePi = theProtocol.getPrincipalInvestigator();
+        assertTrue(ProtocolRequiredFields.PROTOCOL_PI_NAME.value.compareTo(thePi.getPersonName())==0);
+        assertTrue(ProtocolRequiredFields.PROTOCOL_PI_ID.value.compareTo( thePi.getPersonId())==0);        
     }
     
     private void removedCode() {
-        /*
-        // Begin Required Fields
-        protected enum UiLookupKey {       
-            DOCUMENT_DESCRIPTION_ID("document.documentHeader.documentDescription"),
-            PROTOCOL_STATUS_ID("document.protocol.protocolStatusCode"),
-            PROTOCOL_TYPE_CODE_ID("document.protocol.protocolTypeCode"),
-            PROTOCOL_TITLE_ID("document.protocol.title"),
-            PROTOCOL_APPLICATION_DATE_ID("document.protocol.applicationDate");
-            
-            private String value;
-
-            public String getValue() {
-                return value;
-            }
-            UiLookupKey(String value){
-                this.value = value;          
-            }
-        }
-        */
-
-        
-        /*
-            protected void setRequiredFields() {
-        /*        setFieldValue(HTML_TEXT_INPUT, DOCUMENT_DESCRIPTION_ID, DEFAULT_DOCUMENT_DESCRIPTION, -1);
-                setFieldValue(HTML_SELECTED_INPUT, PROTOCOL_TYPE_CODE_ID, PROTOCOL_TYPE_CODE, -1);
-                setFieldValue(HTML_TEXT_AREA, PROTOCOL_TITLE_ID, PROTOCOL_TITLE, -1);
-                setFieldValue(HTML_TEXT_INPUT, PROTOCOL_PI_ID_FIELD, PROTOCOL_PI_ID, -1);
-        //        setFieldValue(HTML_TEXT_INPUT, PROTOCOL_APPLICATION_DATE_ID, PROTOCOL_APPLICATION_DATE, -1);
-                setFieldValue(HTML_TEXT_INPUT, PROTOCOL_PI_LEAD_UNIT_NUM_FIELD, PROTOCOL_PI_LEAD_UNIT_NUM, -1);       
-            }
-            
-            protected void setRequiredFields(HtmlPage page){ 
-                setRequiredFields(page, buildDefaultMap()); 
-            }
-            
-            private Map<UiLookupKey, String> buildDefaultMap() {
-                Map<UiLookupKey, String> params = new HashMap<UiLookupKey, String>();
-                params.put(UiLookupKey.DOCUMENT_DESCRIPTION_ID, DEFAULT_DOCUMENT_DESCRIPTION);
-                params.put(UiLookupKey.PROTOCOL_STATUS_ID, PROTOCOL_STATUS);
-                params.put(UiLookupKey.PROTOCOL_TYPE_CODE_ID, PROTOCOL_TYPE_CODE);
-                params.put(UiLookupKey.PROTOCOL_TITLE_ID, PROTOCOL_TITLE);
-                params.put(UiLookupKey.PROTOCOL_APPLICATION_DATE_ID, PROTOCOL_APPLICATION_DATE);
-                return params;
-            }
-            
-            /**
-             * Helper method for sub-classes to set required fields for saving form.
-            protected void setRequiredFields(HtmlPage page, Map<UiLookupKey, String> params) {
-                super.setFieldValue(page, UiLookupKey.DOCUMENT_DESCRIPTION_ID.getValue(), params.get(UiLookupKey.DOCUMENT_DESCRIPTION_ID)); 
-                super.setFieldValue(page, UiLookupKey.PROTOCOL_STATUS_ID.getValue(), params.get(UiLookupKey.PROTOCOL_STATUS_ID));
-                super.setFieldValue(page, UiLookupKey.PROTOCOL_TYPE_CODE_ID.getValue(), params.get(UiLookupKey.PROTOCOL_TYPE_CODE_ID));; 
-                super.setFieldValue(page, UiLookupKey.PROTOCOL_TITLE_ID.getValue(), params.get(UiLookupKey.PROTOCOL_TITLE_ID)); 
-                super.setFieldValue(page, UiLookupKey.PROTOCOL_APPLICATION_DATE_ID.getValue(), params.get(UiLookupKey.PROTOCOL_APPLICATION_DATE_ID));
-            }
-        
-        
-         *
-         */
     }
 }
