@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.service.impl.versioningartifacts;
 
+import java.util.Random;
+
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SequenceOwner;
 
@@ -24,6 +26,7 @@ import org.kuali.kra.SequenceOwner;
 public class SimpleAssociate implements SequenceAssociate {
     private static final long serialVersionUID = 5671666754979103402L;
     
+    private Long simpleAssociateId;
     private String name;
     private SequenceOwnerImpl owner;
     private Integer sequenceNumber;
@@ -34,6 +37,7 @@ public class SimpleAssociate implements SequenceAssociate {
     
     public void setOwner(SequenceOwnerImpl owner) {
         this.owner = owner;
+        setSimpleAssociateId(new Random().nextLong());
         this.sequenceNumber = owner != null ? owner.getSequenceNumber() : null;
     }
     
@@ -80,15 +84,23 @@ public class SimpleAssociate implements SequenceAssociate {
         return owner;
     }
 
+    public Long getSimpleAssociateId() {
+        return simpleAssociateId;
+    }
+
+    public void setSimpleAssociateId(Long simpleAssociateId) {
+        this.simpleAssociateId = simpleAssociateId;
+    }
+
     /**
      * @see java.lang.Object#hashCode()
      */
     @Override
     public int hashCode() {
-        final int prime = 31;
+        final int PRIME = 31;
         int result = 1;
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((sequenceNumber == null) ? 0 : sequenceNumber.hashCode());
+        result = PRIME * result + ((name == null) ? 0 : name.hashCode());
+        result = PRIME * result + ((sequenceNumber == null) ? 0 : sequenceNumber.hashCode());
         return result;
     }
 
@@ -97,25 +109,37 @@ public class SimpleAssociate implements SequenceAssociate {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (!(obj instanceof SimpleAssociate))
+        }
+        if (!(obj instanceof SimpleAssociate)) {
             return false;
+        }
         SimpleAssociate other = (SimpleAssociate) obj;
         if (name == null) {
-            if (other.name != null)
+            if (other.name != null) {
                 return false;
-        }
-        else if (!name.equals(other.name))
+            }
+        } else if (!name.equals(other.name)) {
             return false;
+        }
         if (sequenceNumber == null) {
-            if (other.sequenceNumber != null)
+            if (other.sequenceNumber != null) {
                 return false;
-        }
-        else if (!sequenceNumber.equals(other.sequenceNumber))
+            }
+        } else if (!sequenceNumber.equals(other.sequenceNumber)) {
             return false;
+        }
         return true;
+    }
+
+    /**
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    public void resetPersistenceState() {
+       setSimpleAssociateId(null); 
     }
 }

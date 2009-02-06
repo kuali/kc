@@ -56,7 +56,6 @@ public class AwardBenefitsRatesRuleImpl extends ResearchDocumentRuleBase impleme
      * @return
      */
     private boolean validateBenefitsRatesInValidRatesTable(Award award) {
-        @SuppressWarnings("unused")
         boolean valid = true;
         valid &= checkValidRateInValidRatesTable(award);
         if(!valid){

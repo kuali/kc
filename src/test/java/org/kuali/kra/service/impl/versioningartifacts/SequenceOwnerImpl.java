@@ -17,6 +17,7 @@ package org.kuali.kra.service.impl.versioningartifacts;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.kuali.kra.SequenceOwner;
 
@@ -26,20 +27,29 @@ import org.kuali.kra.SequenceOwner;
 public class SequenceOwnerImpl implements SequenceOwner {
     private static final long serialVersionUID = 3354366183120742932L;
     
+    private Long sequenceOwnerId;
     private String name;
     private Integer sequenceNumber;
     private SimpleAssociate associate;
     private List<SequenceAssociateChild> children;
+    private List<SequenceAssociateAttachmentBO> attachments;
     
     public SequenceOwnerImpl() {
         this.name = "SequenceOwner";
         sequenceNumber = 1;
+        setSequenceOwnerId(new Random().nextLong());
         children = new ArrayList<SequenceAssociateChild>();
+        attachments = new ArrayList<SequenceAssociateAttachmentBO>();
     }
     
     public void add(SequenceAssociateChild sequenceAssociateChild) {
         children.add(sequenceAssociateChild);
         sequenceAssociateChild.setOwner(this);
+    }
+    
+    public void add(SequenceAssociateAttachmentBO attachmentBO) {
+        attachments.add(attachmentBO);
+        attachmentBO.add(this);
     }
     
     public List<SequenceAssociateChild> getChildren() {
@@ -60,6 +70,22 @@ public class SequenceOwnerImpl implements SequenceOwner {
 
     public void setName(String name) {
         this.name = name;
+    }
+    
+    public List<SequenceAssociateAttachmentBO> getAttachments() {
+        return attachments;
+    }
+
+    public void setSequenceNumber(Integer sequenceNumber) {
+        this.sequenceNumber = sequenceNumber;
+    }
+
+    public void setChildren(List<SequenceAssociateChild> children) {
+        this.children = children;
+    }
+
+    public void setAttachments(List<SequenceAssociateAttachmentBO> attachments) {
+        this.attachments = attachments;
     }
 
     /**
@@ -102,6 +128,14 @@ public class SequenceOwnerImpl implements SequenceOwner {
         return result;
     }
 
+    public Long getSequenceOwnerId() {
+        return sequenceOwnerId;
+    }
+
+    public void setSequenceOwnerId(Long sequenceOwnerId) {
+        this.sequenceOwnerId = sequenceOwnerId;
+    }
+
     /**
      * @see java.lang.Object#equals(java.lang.Object)
      */
@@ -132,5 +166,12 @@ public class SequenceOwnerImpl implements SequenceOwner {
             return false;
         }
         return true;
+    }
+
+    /**
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    public void resetPersistenceState() {
+       setSequenceOwnerId(null); 
     }
 }
