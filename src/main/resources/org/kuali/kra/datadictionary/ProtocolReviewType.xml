@@ -57,24 +57,9 @@
 		<property name="summary" value="Protocol Review Type Code" />
 		<property name="description" value="Protocol Review Type Code" />
 	</bean>
-
-	<bean id="ProtocolReviewType-description" parent="ProtocolReviewType-description-parentBean" />
-	<bean id="ProtocolReviewType-description-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="description" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Description" />
-		<property name="shortLabel" value="Description" />
-		<property name="maxLength" value="200" />
-		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
-		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
-		</property>
-		<property name="summary" value="Description" />
-		<property name="description" value="Description" />
-	</bean>
+	
+    <bean id="ProtocolReviewType-description" parent="ProtocolReviewType-description-parentBean" />
+    <bean id="ProtocolReviewType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description" />
 
 	<bean id="ProtocolReviewType-versionNumber" parent="ProtocolReviewType-versionNumber-parentBean" />
 	<bean id="ProtocolReviewType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
