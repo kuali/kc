@@ -389,4 +389,14 @@
 		</collection-descriptor>
 	</class-descriptor>
 	
+	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolPersonRoleMapping" table="PROTOCOL_PERSON_ROLE_MAPPING">
+		<field-descriptor name="roleMappingId" column="ROLE_MAPPING_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
+		<field-descriptor name="sourceRoleId" column="SOURCE_ROLE_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="targetRoleId" column="TARGET_ROLE_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>
+	
 </descriptor-repository>
