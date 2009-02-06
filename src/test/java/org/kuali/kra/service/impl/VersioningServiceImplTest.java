@@ -15,12 +15,18 @@
  */
 package org.kuali.kra.service.impl;
 
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.SeparatelySequenceableAssociate;
 import org.kuali.kra.SequenceAssociate;
+import org.kuali.kra.SequenceAssociateCallbackAdapter;
+import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.service.VersioningService;
+import org.kuali.kra.service.impl.versioningartifacts.SequenceAssociateAttachmentBO;
 import org.kuali.kra.service.impl.versioningartifacts.SequenceAssociateChild;
 import org.kuali.kra.service.impl.versioningartifacts.SequenceAssociateGrandChild;
 import org.kuali.kra.service.impl.versioningartifacts.SequenceOwnerImpl;
@@ -33,6 +39,7 @@ public class VersioningServiceImplTest {
     
     private static final int NUMBER_OF_GRANDCHILD_ASSOCIATES = 5;
     private static final int NUMBER_OF_CHILD_ASSOCIATES = 3;
+    private static final int NUMBER_OF_CHILD_ATTACHMENT_ASSOCIATES = 4;
     private VersioningService service;
     private SequenceOwnerImpl originalVersion;
 
@@ -52,6 +59,16 @@ public class VersioningServiceImplTest {
     public void testVersioning_Owner() throws Exception {
         SequenceOwnerImpl newVersion = (SequenceOwnerImpl) service.createNewVersion(originalVersion);
         Assert.assertEquals(originalVersion.getSequenceNumber() + 1, newVersion.getSequenceNumber().intValue());
+        Assert.assertNull(newVersion.getSequenceOwnerId());
+    }
+    
+    @Test
+    public void testVersioning_1to1_Association() throws Exception {
+        SequenceOwnerImpl newVersion = (SequenceOwnerImpl) service.createNewVersion(originalVersion);
+        SequenceAssociate associate = newVersion.getAssociate();
+        Assert.assertEquals(newVersion, associate.getSequenceOwner());
+        Assert.assertEquals(newVersion.getSequenceNumber(), associate.getSequenceNumber());
+        Assert.assertNull(newVersion.getAssociate().getSimpleAssociateId());
     }
     
     @Test
@@ -61,30 +78,82 @@ public class VersioningServiceImplTest {
         for(SequenceAssociateChild child: newVersion.getChildren()) {
             Assert.assertEquals(newVersion, child.getOwner());
             Assert.assertEquals(newVersion.getSequenceNumber(), child.getSequenceNumber());
+            Assert.assertNull(child.getChildId());
             for(SequenceAssociateGrandChild grandChild: child.getChildren()) {
                 Assert.assertEquals(newVersion, grandChild.getOwner());
                 Assert.assertEquals(newVersion.getSequenceNumber(), grandChild.getSequenceNumber());
+                Assert.assertNull(grandChild.getGrandChildId());
             }
         }
     }
-
+    
     @Test
-    public void testVersioning_1to1_Association() throws Exception {
-        SequenceOwnerImpl newVersion = (SequenceOwnerImpl) service.createNewVersion(originalVersion);
-        SequenceAssociate associate = newVersion.getAssociate();
-        Assert.assertEquals(newVersion, associate.getSequenceOwner());
-        Assert.assertEquals(newVersion.getSequenceNumber(), associate.getSequenceNumber());
-        
+    public void testVersioning_MtoN_Association_SingleAssociateUpdated() throws Exception {
+        SequenceAssociateAttachmentBO attachment = originalVersion.getAttachments().get(0);
+        SequenceAssociateCallbackAdapter callback = new SequenceAssociateCallbackAdapter() {
+                                @Override
+                                public void assign(SequenceOwner newOwner, SeparatelySequenceableAssociate newAssociate) {
+                                    ((SequenceOwnerImpl)newOwner).add((SequenceAssociateAttachmentBO) newAssociate);
+                                }                                                                
+                           };
+                           
+        SequenceOwnerImpl newVersion = (SequenceOwnerImpl) service.createNewVersion(originalVersion, attachment, callback); 
+                                                    
+        checkAttachmentCollectionSizeAfterVersioning(newVersion, 1);
+        checkIdentifierResetOnNewAttachments(newVersion, 1);
+        checkIdentifierNotResetOnOldAttachmentVersions(newVersion, 1);
+    }
+    
+    @Test
+    public void testVersioning_MtoN_Association_MultipleAssociatesUpdated() throws Exception {
+        SequenceAssociateCallbackAdapter callback = new SequenceAssociateCallbackAdapter() {
+                                @Override
+                                public void assign(SequenceOwner newOwner, List<SeparatelySequenceableAssociate> newAssociates) {
+                                    SequenceOwnerImpl versionedOwner = (SequenceOwnerImpl) newOwner;
+                                    for(SeparatelySequenceableAssociate newAssociate: newAssociates) {
+                                        versionedOwner.add((SequenceAssociateAttachmentBO) newAssociate);
+                                    }
+                                }                                                                
+                           };
+                           
+        SequenceOwnerImpl newVersion = (SequenceOwnerImpl) service.createNewVersion(originalVersion, originalVersion.getAttachments(), callback); 
+                                            
+        int numberOfAttachgmentsVersioned = originalVersion.getAttachments().size();
+        checkAttachmentCollectionSizeAfterVersioning(newVersion, numberOfAttachgmentsVersioned);
+        checkIdentifierResetOnNewAttachments(newVersion, numberOfAttachgmentsVersioned);
+        checkIdentifierNotResetOnOldAttachmentVersions(newVersion, numberOfAttachgmentsVersioned);
+    }
+
+    private void checkIdentifierResetOnNewAttachments(SequenceOwnerImpl newVersion, int numberOfAttachmentsVersioned) {
+        int lastIndex = newVersion.getAttachments().size() - numberOfAttachmentsVersioned;
+        for(int i = 0; i < numberOfAttachmentsVersioned; i++) {
+            Assert.assertNull(newVersion.getAttachments().get(lastIndex + i).getAttachmentId());
+        }
+    }
+    
+    private void checkIdentifierNotResetOnOldAttachmentVersions(SequenceOwnerImpl newVersion, int numberOfAttachmentsVersioned) {
+        List<SequenceAssociateAttachmentBO> attachments = newVersion.getAttachments();
+        int lastIndex = attachments.size() - numberOfAttachmentsVersioned;
+        for(int i = 0; i < lastIndex; i++) {
+            Assert.assertNotNull(attachments.get(i).getAttachmentId());
+        }
+    }
+    
+    private void checkAttachmentCollectionSizeAfterVersioning(SequenceOwnerImpl newVersion, int numberOfAttachmentsVersioned) {
+        int actualSize = newVersion.getAttachments().size();
+        int expectedNewSize = originalVersion.getAttachments().size() + numberOfAttachmentsVersioned;
+        Assert.assertEquals(expectedNewSize, actualSize);
     }
     
     private SequenceOwnerImpl populateSequenceableArtifacts() {
         SequenceOwnerImpl owner = new SequenceOwnerImpl();
         addAssociate(owner);
-        addCollectionOfAssociates(owner);
+        addCollectionOfOneToManyAssociates(owner);
+        addCollectionOfManyToManyAssociates(owner);
         return owner;
     }
 
-    private void addCollectionOfAssociates(SequenceOwnerImpl owner) {
+    private void addCollectionOfOneToManyAssociates(SequenceOwnerImpl owner) {
         for(int i = 1; i <= NUMBER_OF_CHILD_ASSOCIATES; i++) {
             SequenceAssociateChild child = new SequenceAssociateChild(String.format("Child %d", i));
             owner.add(child);
@@ -94,6 +163,13 @@ public class VersioningServiceImplTest {
                 grandChild.setOwner(owner);
                 child.add(grandChild);
             }
+        }
+    }
+    
+    private void addCollectionOfManyToManyAssociates(SequenceOwnerImpl owner) {
+        for(int i = 1; i <= NUMBER_OF_CHILD_ATTACHMENT_ASSOCIATES; i++) {
+            SequenceAssociateAttachmentBO attch = new SequenceAssociateAttachmentBO(String.format("Attachment %d", i));
+            owner.add(attch);
         }
     }
 

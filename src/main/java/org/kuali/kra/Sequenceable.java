@@ -26,4 +26,22 @@ public interface Sequenceable extends Serializable {
      * @return
      */
     Integer getSequenceNumber();
+    
+    /**
+     * This method resets the persistence state used to establish 
+     * whether this is a new entity or an already-persisted entity.
+     * 
+     * During sequencing, the VersioningService needs to be able to
+     * signal that a Sequenceable has changed state from an persisted
+     * entity to a new, unpersisted one. Otherwise, versioning 
+     * operations would result earlier SequenceOwners losing the 
+     * association with older versions of associates.
+     * 
+     * This behavior comes into play whenever an associated object
+     * is versioned. In Many:Many relationships, unless the the original 
+     * 
+     * Typically, implementers will set primary key fields to null 
+     * to trigger an INSERT during save.
+     */
+    void resetPersistenceState();
 }

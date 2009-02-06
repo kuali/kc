@@ -15,17 +15,79 @@
  */
 package org.kuali.kra.service;
 
+import java.util.List;
+
+import org.kuali.kra.SeparatelySequenceableAssociate;
+import org.kuali.kra.SeparatelySequenceableAssociateAssignmentCallback;
 import org.kuali.kra.SequenceOwner;
 
 /**
- * This interface defines generic versioning behavior
+ * This interface defines generic versioning behavior. Versioning always implies that 
+ * a new SequenceOwner object is created from the original and its identifier is set 
+ * to null.
+ *  
+ * All 1:1 and 1:M associations are copied and the new copies are assigned with the 
+ * new SequenceOwner and their identifers are set to null. Many:Many associations are 
+ * handled differently.
+ * 
+ * They are also copied as part of the deep copy process. Making them transient would 
+ * avoid serialization in the deep copy, but could also prevent persistence using JPA 
+ * or OJB. So we eat the memory consumption during the deep copy where both the new 
+ * and old sequence owner simultaneously have the same collections of M:N associates. 
+ * As soon as the old sequence owner reference is not needed (i.e. just after versioning), 
+ * it should set to null to allow garbage collection of its associated references.
+ * 
+ * In a simple versioning not involving the update of a M:N associate, the M:N 
+ * associates' identifiers are NOT set to null, but the new SequenceOwner 
+ * is added to the collection of sequenceOwners in the newly copied M:N collection. When 
+ * the new SequenceOwner (the bi-directional relationship owner) is saved, a new join 
+ * table record will be added linking the new SequenceOwner to the existing M:N associate.
+ * 
+ * In a versioning involving the update of one or more M:N associates, the M:N 
+ * associates' identifiers are set to null (thus making them new versions) and the new 
+ * SequenceOwner reference is added to the collection of sequenceOwners in the newly 
+ * copied collection. When the new SequenceOwner is saved, the new M:N associate will also 
+ * be saved, and a new join table record will be automatically added linking the new 
+ * SequenceOwner to the new M:N associate.
  */
 public interface VersioningService {
     /**
      * Cause old version of SequenceOwner object to be versioned to new version
+     * Attachment BOs are also copied, but their identifiers are left as is
+     * while their sequence owners are updated
      * 
      * @param oldVersion
-     * @return The newly sequenced version
+     * @return The newly sequenced version of the SequenceOwner
      */
     SequenceOwner createNewVersion(SequenceOwner oldVersion) throws VersionException;
+    
+    /**
+     * Cause new version of SequenceOwner object to be associated to new versionof specified 
+     * attachment BO is copied
+     * 
+     * @param newVersion
+     * @param oldAssociate
+     * @param callback
+     * @return
+     * @throws VersionException
+     */
+    SequenceOwner createNewVersion(SequenceOwner newVersion, 
+                                    SeparatelySequenceableAssociate oldAssociate,
+                                    SeparatelySequenceableAssociateAssignmentCallback callback) 
+                                    throws VersionException;
+    
+    /**
+     * Cause new version of SequenceOwner object to be associated to new versions of
+     * the specified SeparatelySequenceableAssociates
+     * 
+     * @param newVersion
+     * @param oldAssociates
+     * @param callback
+     * @return
+     * @throws VersionException
+     */
+    SequenceOwner createNewVersion(SequenceOwner newVersion, 
+                                    List<? extends SeparatelySequenceableAssociate> oldAssociates,
+                                    SeparatelySequenceableAssociateAssignmentCallback callback) 
+                                    throws VersionException;
 }

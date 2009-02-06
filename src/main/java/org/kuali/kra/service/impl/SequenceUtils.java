@@ -21,14 +21,18 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kra.SeparatelySequenceableAssociate;
+import org.kuali.kra.SeparatelySequenceableAssociateAssignmentCallback;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.Sequenceable;
@@ -37,20 +41,23 @@ import org.kuali.kra.service.VersionException;
 import edu.emory.mathcs.backport.java.util.Collections;
 
 /**
- * This class provides Seqjuence support
+ * This class provides Sequence support
+ * 
+ * Fan-out complexity exceeds 20 because reflection introduces so many exception and meta-data types
  */
 public class SequenceUtils {
     private static final Log LOGGER = LogFactory.getLog(SequenceUtils.class);
 
-    private Set<SequenceAssociate> sequencedAssociates;
-    
+    private Set<SequenceAssociate> alreadySequencedAssociates;
+
     @SuppressWarnings("unchecked")
     public SequenceUtils() {
-        sequencedAssociates = (Set<SequenceAssociate>) Collections.synchronizedSet(new HashSet<SequenceAssociate>());
+        alreadySequencedAssociates = (Set<SequenceAssociate>) Collections.synchronizedSet(new HashSet<SequenceAssociate>());
     }
-    
+
     /**
      * This method sequences a SequenceOwner to a new version
+     * 
      * @param oldVersion
      * @return
      * @throws VersionException
@@ -60,95 +67,144 @@ public class SequenceUtils {
         try {
             newVersion = (SequenceOwner) ObjectUtils.deepCopy(oldVersion);
             newVersion.incrementSequenceNumber();
+            newVersion.resetPersistenceState();
             sequenceAssociations(newVersion);
-        } catch(Exception e) {
+        } catch (Exception e) {
             LOGGER.error(e);
             throw new VersionException(e);
         }
         return newVersion;
-    } 
-    
+    }
+
+    /**
+     * This method sequences a SequenceOwner and SeparatelySequenceableAssociate a new version
+     * 
+     * @param newOwner
+     * @param oldAssociate
+     * @param callback
+     * @throws VersionException
+     */
+    public void sequence(SequenceOwner newOwner, SeparatelySequenceableAssociate oldAssociate,
+            SeparatelySequenceableAssociateAssignmentCallback callback) throws VersionException {
+        try {
+            SeparatelySequenceableAssociate newAssociate = (SeparatelySequenceableAssociate) ObjectUtils.deepCopy(oldAssociate);
+            newAssociate.resetPersistenceState();
+            callback.assign(newOwner, newAssociate);
+        } catch (Exception e) {
+            LOGGER.error(e);
+            throw new VersionException(e);
+        }
+    }
+
+    /**
+     * This method sequences a SequenceOwner and a of SeparatelySequenceableAssociates to a new version
+     * 
+     * @param oldVersion
+     * @param oldAssociates
+     * @param callback
+     * @throws VersionException
+     */
+    public void sequence(SequenceOwner newOwner, List<? extends SeparatelySequenceableAssociate> oldAssociates,
+            SeparatelySequenceableAssociateAssignmentCallback callback) throws VersionException {
+        try {
+            List<SeparatelySequenceableAssociate> newAssociates = new ArrayList<SeparatelySequenceableAssociate>();
+            for (SeparatelySequenceableAssociate oldAssociate : oldAssociates) {
+                SeparatelySequenceableAssociate newAssociate = (SeparatelySequenceableAssociate) ObjectUtils.deepCopy(oldAssociate);
+                newAssociate.resetPersistenceState();
+                newAssociates.add(newAssociate);
+            }
+            callback.assign(newOwner, newAssociates);
+        } catch (Exception e) {
+            LOGGER.error(e);
+            throw new VersionException(e);
+        }
+    }
+
     @SuppressWarnings("unchecked")
     private Collection<SequenceAssociate> getSequenceAssociateCollection(Sequenceable parent, Method getter)
-                                                                                throws IllegalAccessException, 
-                                                                                       InvocationTargetException {
+            throws IllegalAccessException, InvocationTargetException {
         Object value = getter.invoke(parent, (Object[]) null);
         return (Collection<SequenceAssociate>) value;
     }
-    
+
     @SuppressWarnings("unchecked")
     private boolean isCollectionElementASequenceAssociate(Type returnType) {
-        boolean isSequenceAssociate = returnType instanceof ParameterizedType; 
-        if(isSequenceAssociate){
+        boolean isSequenceAssociate = returnType instanceof ParameterizedType;
+        if (isSequenceAssociate) {
             ParameterizedType type = (ParameterizedType) returnType;
             Type[] typeArguments = type.getActualTypeArguments();
-            isSequenceAssociate = typeArguments.length == 1 
-                                && SequenceAssociate.class.isAssignableFrom((Class) typeArguments[0]);
+            isSequenceAssociate = typeArguments.length == 1 && SequenceAssociate.class.isAssignableFrom((Class) typeArguments[0]);
         }
         return isSequenceAssociate;
     }
 
     private Method findReadMethod(Object parent, Field field) throws IllegalAccessException, InvocationTargetException,
-                                                                            NoSuchMethodException {
+            NoSuchMethodException {
         PropertyDescriptor pd = PropertyUtils.getPropertyDescriptor(parent, field.getName());
         Method getter = PropertyUtils.getReadMethod(pd);
         return getter;
     }
-    
 
-    private void sequenceOneToOneAssociations(SequenceAssociate parent) throws IllegalAccessException, 
-                                                                               InvocationTargetException, 
-                                                                               NoSuchMethodException {
-        Field[] fields = parent.getClass().getDeclaredFields();
-        for(Field field : fields) {
-            Class fieldType = field.getType();
-            boolean isAssociate = SequenceAssociate.class.isAssignableFrom(fieldType); 
-            if(isAssociate) {
-                Method getter = findReadMethod(parent, field);
-                if(getter != null) {
-                    SequenceAssociate associate = (SequenceAssociate) getter.invoke(parent, (Object[]) null);
-                    if(!sequencedAssociates.contains(associate)) {
-                        associate.setSequenceOwner(parent.getSequenceOwner());
-                        sequenceAssociations(associate);
-                    }
-                }
-            }        
-        }
-    }
-    
     private void sequenceAssociations(SequenceAssociate associate) throws IllegalAccessException, InvocationTargetException,
-                                                                            NoSuchMethodException {
-        sequencedAssociates.add(associate);
+            NoSuchMethodException {
+        alreadySequencedAssociates.add(associate);
         sequenceOneToOneAssociations(associate);
         sequenceCollections(associate);
     }
 
-/**
-* Recursively sequences collection(s) of SequenceAssociates represented in the Fields array
-* @param newVersion
-* @param parent
-* @throws IllegalAccessException
-* @throws InvocationTargetException
-* @throws NoSuchMethodException
-*/
-@SuppressWarnings("unchecked")
-    private void sequenceCollections(SequenceAssociate parent) throws IllegalAccessException, InvocationTargetException,
-                                                                        NoSuchMethodException {
-        Field[] fields = parent.getClass().getDeclaredFields();
-        for (Field field : fields) {
-            Class fieldType = field.getType();
-            boolean isCollection = Collection.class.isAssignableFrom(fieldType);
-            if (isCollection) {
+
+    private void sequenceOneToOneAssociations(SequenceAssociate parent) throws IllegalAccessException, InvocationTargetException,
+            NoSuchMethodException {
+        for (Field field : parent.getClass().getDeclaredFields()) {
+            if (isFieldASequenceAssociate(field)) {
                 Method getter = findReadMethod(parent, field);
-                boolean isSequenceAssociate = isCollectionElementASequenceAssociate(getter.getGenericReturnType());
-                if (isSequenceAssociate) {
-                    Collection<SequenceAssociate> associates = getSequenceAssociateCollection(parent, getter);
-                    for (SequenceAssociate associate : associates) {
+                if (getter != null) {
+                    SequenceAssociate associate = getSequenceAssociateReference(parent, getter);
+                    if (!alreadySequencedAssociates.contains(associate)) {
                         associate.setSequenceOwner(parent.getSequenceOwner());
+                        associate.resetPersistenceState();
                         sequenceAssociations(associate);
                     }
                 }
             }
         }
+    }
+
+    /**
+     * Recursively sequences collection(s) of SequenceAssociates represented in the Fields array
+     * 
+     * @param newVersion
+     * @param parent
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     * @throws NoSuchMethodException
+     */
+    private void sequenceCollections(SequenceAssociate parent) throws IllegalAccessException, InvocationTargetException,
+            NoSuchMethodException {
+        for (Field field : parent.getClass().getDeclaredFields()) {
+            if (isFieldACollection(field)) {
+                Method getter = findReadMethod(parent, field);
+                if (isCollectionElementASequenceAssociate(getter.getGenericReturnType())) {
+                    for (SequenceAssociate associate : getSequenceAssociateCollection(parent, getter)) {
+                        associate.setSequenceOwner(parent.getSequenceOwner());
+                        associate.resetPersistenceState();
+                        sequenceAssociations(associate);
+                    }
+                }
+            }
+        }
+    }
+
+    private SequenceAssociate getSequenceAssociateReference(SequenceAssociate parent, Method getter) throws IllegalAccessException,
+            InvocationTargetException {
+        return (SequenceAssociate) getter.invoke(parent, (Object[]) null);
+    }
+
+    private boolean isFieldASequenceAssociate(Field field) {
+        return SequenceAssociate.class.isAssignableFrom(field.getType());
+    }
+
+    private boolean isFieldACollection(Field field) {
+        return Collection.class.isAssignableFrom(field.getType());
     }
 }

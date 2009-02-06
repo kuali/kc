@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.service.impl.versioningartifacts;
 
+import java.util.Random;
+
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SequenceOwner;
 
@@ -24,6 +26,7 @@ import org.kuali.kra.SequenceOwner;
 public class SequenceAssociateGrandChild implements SequenceAssociate {
     private static final long serialVersionUID = -7334498072241996364L;
     
+    private Long grandChildId;
     private SequenceOwnerImpl owner;
     private SequenceAssociateChild parent;
     private String name;
@@ -31,6 +34,7 @@ public class SequenceAssociateGrandChild implements SequenceAssociate {
         
     public SequenceAssociateGrandChild(String name) {
         this.name = name;
+        setGrandChildId(new Random().nextLong());
     }
     
     /**
@@ -123,6 +127,14 @@ public class SequenceAssociateGrandChild implements SequenceAssociate {
         return result;
     }
 
+    public Long getGrandChildId() {
+        return grandChildId;
+    }
+
+    public void setGrandChildId(Long grandChildId) {
+        this.grandChildId = grandChildId;
+    }
+
     /**
      * @see java.lang.Object#equals(java.lang.Object)
      */
@@ -158,5 +170,9 @@ public class SequenceAssociateGrandChild implements SequenceAssociate {
     @Override
     public String toString() {
         return name;
+    }
+
+    public void resetPersistenceState() {
+        setGrandChildId(null);
     }
 }
