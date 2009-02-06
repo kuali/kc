@@ -45,7 +45,7 @@
 				p:parameterName="distributionMaintenanceHelp"
 				p:parameterDetailType="D" />
 			</property>
-		<property name="documentTypeName" value="Distribution Maintenance Document" />
+		<property name="documentTypeName" value="DistributionMaintenanceDocument" />
 		<property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
 		<property name="documentTypeCode" value="DIST" />
 		<property name="authorizations" >
