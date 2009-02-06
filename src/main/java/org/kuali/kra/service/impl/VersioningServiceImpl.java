@@ -15,8 +15,12 @@
  */
 package org.kuali.kra.service.impl;
 
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.SeparatelySequenceableAssociate;
+import org.kuali.kra.SeparatelySequenceableAssociateAssignmentCallback;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.Sequenceable;
 import org.kuali.kra.service.VersionException;
@@ -27,31 +31,91 @@ import org.kuali.kra.service.VersioningService;
  */
 public class VersioningServiceImpl implements VersioningService {
     private static final Log LOGGER = LogFactory.getLog(VersioningServiceImpl.class);
-    
+
     /**
      * @see org.kuali.kra.service.VersioningService#version(org.kuali.kra.Sequenceable)
      */
     public SequenceOwner createNewVersion(SequenceOwner oldVersion) throws VersionException {
         SequenceOwner newVersion = new SequenceUtils().sequence(oldVersion);
         logVersionOperation(oldVersion, newVersion);
-        
+
+        return newVersion;
+    }
+
+    /**
+     * @see org.kuali.kra.service.VersioningService#createNewVersion(org.kuali.kra.SequenceOwner, org.kuali.kra.SeparatelySequenceableAssociate)
+     */
+    public SequenceOwner createNewVersion(SequenceOwner oldVersion, 
+                                            SeparatelySequenceableAssociate oldAssociate,
+                                            SeparatelySequenceableAssociateAssignmentCallback callback) 
+                                            throws VersionException {
+        SequenceUtils sequenceUtils = new SequenceUtils();
+        SequenceOwner newVersion = sequenceUtils.sequence(oldVersion);
+        sequenceUtils.sequence(newVersion, oldAssociate, callback);
+        logVersionOperation(oldVersion, newVersion, oldAssociate);
+        return newVersion;
+    }
+
+    /**
+     * @see org.kuali.kra.service.VersioningService#createNewVersion(org.kuali.kra.SequenceOwner, java.util.List)
+     */
+    public SequenceOwner createNewVersion(SequenceOwner oldVersion, 
+                                            List<? extends SeparatelySequenceableAssociate> oldAssociates,
+                                            SeparatelySequenceableAssociateAssignmentCallback callback)
+                                            throws VersionException {
+        SequenceUtils sequenceUtils = new SequenceUtils();
+        SequenceOwner newVersion = sequenceUtils.sequence(oldVersion);
+        sequenceUtils.sequence(newVersion, oldAssociates, callback);
+        logVersionOperation(oldVersion, newVersion, oldAssociates);
         return newVersion;
     }
 
     private void logVersionOperation(Sequenceable oldVersion, Sequenceable newVersion) {
-        if(LOGGER.isInfoEnabled()) {
+        if (LOGGER.isInfoEnabled()) {
             String className = oldVersion.getClass().getName();
             String versionLoggingMessage = new StringBuilder()
-                                            .append(className.substring(className.lastIndexOf(".") + 1))
-                                            .append(" versioned from ")
-                                            .append(oldVersion.getSequenceNumber())
-                                            .append(" to ")
-                                            .append(newVersion.getSequenceNumber())
-                                            .toString();
+                                                    .append(className.substring(className.lastIndexOf(".") + 1))
+                                                    .append(" versioned from ")
+                                                    .append(oldVersion.getSequenceNumber())
+                                                    .append(" to ")
+                                                    .append(newVersion.getSequenceNumber())
+                                                    .toString();
             LOGGER.info(versionLoggingMessage);
         }
     }
     
+    private void logVersionOperation(Sequenceable oldVersion, Sequenceable newVersion, SeparatelySequenceableAssociate oldAssociate) {
+        if (LOGGER.isInfoEnabled()) {
+            String className = oldVersion.getClass().getName();
+            String versionLoggingMessage = new StringBuilder()
+                                                    .append(className.substring(className.lastIndexOf(".") + 1))
+                                                    .append(" versioned from ")
+                                                    .append(oldVersion.getSequenceNumber())
+                                                    .append(" to ")
+                                                    .append(newVersion.getSequenceNumber())
+                                                    .append(" for old attachment: ")
+                                                    .append(oldAssociate)
+                                                    .toString();
+            LOGGER.info(versionLoggingMessage);
+        }
+    }
     
-
+    private void logVersionOperation(Sequenceable oldVersion, Sequenceable newVersion, 
+                                        List<? extends SeparatelySequenceableAssociate> associates) {
+        if (LOGGER.isInfoEnabled()) {
+            String className = oldVersion.getClass().getName();
+            StringBuilder sb = new StringBuilder()
+                                                    .append(className.substring(className.lastIndexOf(".") + 1))
+                                                    .append(" versioned from ")
+                                                    .append(oldVersion.getSequenceNumber())
+                                                    .append(" to ")
+                                                    .append(newVersion.getSequenceNumber())
+                                                    .append(" for old attachments: ");
+            for(SeparatelySequenceableAssociate associate: associates) {
+                sb.append(associate);
+                sb.append("; ");
+            }
+            LOGGER.info(sb.toString());
+        }
+    }
 }
