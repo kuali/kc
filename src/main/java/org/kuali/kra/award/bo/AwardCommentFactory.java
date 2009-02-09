@@ -15,16 +15,20 @@
  */
 package org.kuali.kra.award.bo;
 
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kra.award.bo.AwardComment;
-import org.kuali.kra.bo.CommentType;
-import org.kuali.rice.KNSServiceLocator;
-
 import java.util.Collection;
 
-public class AwardCommentFactory {
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kra.bo.CommentType;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
+
+public class AwardCommentFactory extends ResearchDocumentRuleBase{
+    
+    private static final String AWARD_COMMENT_TYPE_CODE_ERROR = "awardCommentTypeCodeError";
+    
     /**
      * This method creates a Cost Share Comment
      * @param award
@@ -80,8 +84,11 @@ public class AwardCommentFactory {
     public  AwardComment createAwardComment(Award award, int commentTypeCode, boolean checklistPrintFlag) {
                 AwardComment comment = new AwardComment();
                 CommentType commentType = findCommentType(commentTypeCode);
+                if (commentType == null){
+                    showError(commentTypeCode);
+                }
                 comment.setCommentType(commentType);
-                comment.setCommentTypeCode(commentType.getCommentTypeCode());//should be anonymous access through obj ref.
+                comment.setCommentTypeCode(commentType.getCommentTypeCode());
                 comment.setChecklistPrintFlag(checklistPrintFlag);
                 comment.setComments("");
                 return comment;
@@ -94,8 +101,9 @@ public class AwardCommentFactory {
      */
     @SuppressWarnings("unchecked")
     public CommentType findCommentType(int commentTypeCode){
-        BusinessObjectService costShareCommentType = getBusinessObjectService();
-        Collection<CommentType> costShareCommentTypes = (Collection<CommentType>)costShareCommentType.findAll(CommentType.class);
+        BusinessObjectService costShareCommentType = getKraBusinessObjectService();
+        Collection<CommentType> costShareCommentTypes = 
+            (Collection<CommentType>) costShareCommentType.findAll(CommentType.class);
         CommentType returnVal = null;
         for(CommentType commentType : costShareCommentTypes){
             if (commentType.getCommentTypeCode().equals(commentTypeCode)){
@@ -110,8 +118,15 @@ public class AwardCommentFactory {
      * This method returns a business object service
      * @return
      */
-    protected BusinessObjectService getBusinessObjectService() {
-        return KNSServiceLocator.getBusinessObjectService();
+    protected BusinessObjectService getKraBusinessObjectService() {
+        return (BusinessObjectService) KraServiceLocator.getService("businessObjectService");
+    }
+    
+    private void showError(int commentTypeCode){
+        String commentTypeCodeToString = Integer.toString(commentTypeCode);
+        reportError(AWARD_COMMENT_TYPE_CODE_ERROR +"(" + commentTypeCodeToString +")", 
+                        KeyConstants.ERROR_AWARD_COMMENTS_TYPE_CODE_MISSING,
+                            commentTypeCodeToString);
     }
     
 }
