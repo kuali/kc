@@ -20,7 +20,6 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.SeparatelySequenceableAssociate;
-import org.kuali.kra.SeparatelySequenceableAssociateAssignmentCallback;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.Sequenceable;
 import org.kuali.kra.service.VersionException;
@@ -31,7 +30,7 @@ import org.kuali.kra.service.VersioningService;
  */
 public class VersioningServiceImpl implements VersioningService {
     private static final Log LOGGER = LogFactory.getLog(VersioningServiceImpl.class);
-
+    
     /**
      * @see org.kuali.kra.service.VersioningService#version(org.kuali.kra.Sequenceable)
      */
@@ -43,31 +42,29 @@ public class VersioningServiceImpl implements VersioningService {
     }
 
     /**
-     * @see org.kuali.kra.service.VersioningService#createNewVersion(org.kuali.kra.SequenceOwner, org.kuali.kra.SeparatelySequenceableAssociate)
+     * @see org.kuali.kra.service.VersioningService#versionAssociate(org.kuali.kra.SequenceOwner, org.kuali.kra.SeparatelySequenceableAssociate)
      */
-    public SequenceOwner createNewVersion(SequenceOwner oldVersion, 
-                                            SeparatelySequenceableAssociate oldAssociate,
-                                            SeparatelySequenceableAssociateAssignmentCallback callback) 
+    public SeparatelySequenceableAssociate versionAssociate(SequenceOwner oldVersion, 
+                                            SeparatelySequenceableAssociate oldAssociate) 
                                             throws VersionException {
         SequenceUtils sequenceUtils = new SequenceUtils();
         SequenceOwner newVersion = sequenceUtils.sequence(oldVersion);
-        sequenceUtils.sequence(newVersion, oldAssociate, callback);
+        SeparatelySequenceableAssociate newAssociate = sequenceUtils.sequence(newVersion, oldAssociate);
         logVersionOperation(oldVersion, newVersion, oldAssociate);
-        return newVersion;
+        return newAssociate;
     }
 
     /**
-     * @see org.kuali.kra.service.VersioningService#createNewVersion(org.kuali.kra.SequenceOwner, java.util.List)
+     * @see org.kuali.kra.service.VersioningService#versionAssociates(org.kuali.kra.SequenceOwner, java.util.List)
      */
-    public SequenceOwner createNewVersion(SequenceOwner oldVersion, 
-                                            List<? extends SeparatelySequenceableAssociate> oldAssociates,
-                                            SeparatelySequenceableAssociateAssignmentCallback callback)
+    public List<? extends SeparatelySequenceableAssociate> versionAssociates(SequenceOwner oldVersion, 
+                                            List<? extends SeparatelySequenceableAssociate> oldAssociates)
                                             throws VersionException {
         SequenceUtils sequenceUtils = new SequenceUtils();
         SequenceOwner newVersion = sequenceUtils.sequence(oldVersion);
-        sequenceUtils.sequence(newVersion, oldAssociates, callback);
+        List<? extends SeparatelySequenceableAssociate> newAssociates = sequenceUtils.sequence(newVersion, oldAssociates);
         logVersionOperation(oldVersion, newVersion, oldAssociates);
-        return newVersion;
+        return newAssociates;
     }
 
     private void logVersionOperation(Sequenceable oldVersion, Sequenceable newVersion) {
