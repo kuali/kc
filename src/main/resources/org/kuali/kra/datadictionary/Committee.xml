@@ -128,7 +128,7 @@
 		<property name="label" value="Committee Description" />
 		<property name="shortLabel" value="Committee Description" />
 		<property name="maxLength" value="2000" />
-		<property name="required" value="true" />
+		<property name="required" value="false" />
 		<property name="control" >
 			<bean parent="TextareaControlDefinition"
 				  p:rows="3"
