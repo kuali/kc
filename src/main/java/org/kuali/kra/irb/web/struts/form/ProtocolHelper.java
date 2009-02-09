@@ -24,6 +24,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolInvestigator;
+import org.kuali.kra.irb.bo.ProtocolPerson;
 import org.kuali.kra.irb.bo.ProtocolUnit;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -265,15 +266,15 @@ public class ProtocolHelper {
      */
     public void prepareRequiredFieldsForSave() {
         // create principal investigator from fields
-
-            findPrinciapalInvestigatorIdFromFields();
-    
-            if (StringUtils.isNotEmpty(getPrincipalInvestigatorId())) {
+            if (getProtocol().getPrincipalInvestigator() == null 
+                    && StringUtils.isNotEmpty(getPrincipalInvestigatorId())) {
+                
+                findPrinciapalInvestigatorIdFromFields();
                 findAndSetLeadUnitFromFields();
                 
-                ProtocolInvestigator investigator = createPrincipalInvestigator();
+                ProtocolPerson investigator = createPrincipalInvestigator();
                 if (investigator != null) {
-                    getProtocol().getProtocolInvestigators().add(investigator);
+                    getProtocol().getProtocolPersons().add(investigator);
                 }
             }
 
@@ -322,31 +323,40 @@ public class ProtocolHelper {
         return ret;
     }
     
-    private ProtocolInvestigator createPrincipalInvestigator() {
-        ProtocolInvestigator ret = null;
+    private ProtocolPerson createPrincipalInvestigator() {
+        ProtocolPerson pi = null;
         if ( StringUtils.isNotEmpty(getLeadUnitNumber())
                 && StringUtils.isNotEmpty(getLeadUnitName())) {            
-                ret = new ProtocolInvestigator();
-                ret.setPrincipalInvestigatorFlag(true);
-                ret.setPersonId(getPrincipalInvestigatorId());
-                ret.setPersonName(getPrincipalInvestigatorName());
-                ret.setNonEmployeeFlag(isNonEmployeeFlag());
+                pi = new ProtocolPerson();
+                pi.setPersonId(principalInvestigatorId);
+                pi.setPersonNameFromId(principalInvestigatorId, nonEmployeeFlag);
+                pi.setProtocolPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
+                pi.setProtocolNumber("0");
+                pi.setSequenceNumber(0);
+                pi.refreshReferenceObject("protocolPersonRole");
+                if(isNonEmployeeFlag()) {
+                    pi.refreshReferenceObject("rolodex");
+                }else {
+                    pi.refreshReferenceObject("person");
+                }
+                pi.setPersonId(getPrincipalInvestigatorId());
+                pi.setPersonName(getPrincipalInvestigatorName());
                 ProtocolUnit unit = createLeadUnit();
                 if (unit != null) {
-                    unit.setPersonId(ret.getPersonId());
+                    unit.setPersonId(pi.getPersonId());
                 }
-                ret.getProtocolUnits().add(unit);  
+                pi.getProtocolUnits().add(unit);  
 
             }  
-        return ret;
+        return pi;
     }
     
     private void resolveRequiredFieldsFromBO() {
-        ProtocolInvestigator pi = getProtocol().getPrincipalInvestigator();
+        ProtocolPerson pi = getProtocol().getPrincipalInvestigator();
         if (pi !=null){
             setPrincipalInvestigatorName(pi.getPersonName());
             setPrincipalInvestigatorId(pi.getPersonId());
-            setNonEmployeeFlag(pi.getNonEmployeeFlag());
+            setNonEmployeeFlag(pi.isNonEmployee());
             if (pi.getLeadUnit()!=null) {
                 setLeadUnitNumber(pi.getLeadUnit().getUnitNumber());
                 setLeadUnitName(pi.getLeadUnit().getUnitName());
