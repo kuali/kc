@@ -17,8 +17,6 @@ package org.kuali.kra;
 
 import java.util.List;
 
-import org.kuali.kra.service.impl.versioningartifacts.SequenceOwnerImpl;
-
 /**
  * This interface defines callback methods for assigning newly versioned 
  * SeparatelySequenceableAssociate reference(s) back to the owner
