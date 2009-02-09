@@ -26,6 +26,7 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.kra.KraWebTestBase;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolInvestigator;
+import org.kuali.kra.irb.bo.ProtocolPerson;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
@@ -330,7 +331,7 @@ public abstract class ProtocolWebTestBase extends KraWebTestBase {
         assertEquals(PROTOCOL_STATUS_STR, theProtocol.getProtocolStatus().getProtocolStatusCode());
         assertEquals(PROTOCOL_TYPE_CODE_STR, theProtocol.getProtocolType().getProtocolTypeCode());
         assertEquals(PROTOCOL_TITLE_STR, theProtocol.getTitle());
-        ProtocolInvestigator thePi = theProtocol.getPrincipalInvestigator();
+        ProtocolPerson thePi = theProtocol.getPrincipalInvestigator();
         assertTrue(ProtocolRequiredFields.PROTOCOL_PI_NAME.value.compareTo(thePi.getPersonName())==0);
         assertTrue(ProtocolRequiredFields.PROTOCOL_PI_ID.value.compareTo( thePi.getPersonId())==0);        
     }

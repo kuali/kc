@@ -340,5 +340,9 @@ public class ProtocolPerson extends KraPersistableBusinessObjectBase {
     public void setPreviousPersonRoleId(String previousPersonRoleId) {
         this.previousPersonRoleId = previousPersonRoleId;
     }
+    
+    public boolean isNonEmployee() {
+        return rolodex==null;
+    }
 
 }
