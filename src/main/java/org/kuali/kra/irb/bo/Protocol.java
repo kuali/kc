@@ -427,7 +427,21 @@ public class Protocol extends KraPersistableBusinessObjectBase{
         this.protocolInvestigators = protocolInvestigators;
     }
 
-    public ProtocolInvestigator getPrincipalInvestigator() {
+    /**
+     * This method is to find Principal Investigator from ProtocolPerson list
+     * @return ProtocolPerson
+     */
+    public ProtocolPerson getPrincipalInvestigator() {
+        ProtocolPerson principalInvestigator = null;
+        for ( ProtocolPerson investigator : getProtocolPersons() ) {
+            if (investigator.getProtocolPersonRoleId().equalsIgnoreCase(Constants.PRINCIPAL_INVESTIGATOR_ROLE)) {
+                principalInvestigator = investigator;
+            }
+        }
+        return principalInvestigator;
+    }
+    
+    public ProtocolInvestigator getPI() {
         ProtocolInvestigator principalInvestigator = null;
         for ( ProtocolInvestigator investigator : getProtocolInvestigators() ) {
             if (investigator.getPrincipalInvestigatorFlag()) {
