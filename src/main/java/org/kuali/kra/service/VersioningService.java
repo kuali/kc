@@ -18,7 +18,6 @@ package org.kuali.kra.service;
 import java.util.List;
 
 import org.kuali.kra.SeparatelySequenceableAssociate;
-import org.kuali.kra.SeparatelySequenceableAssociateAssignmentCallback;
 import org.kuali.kra.SequenceOwner;
 
 /**
@@ -60,20 +59,18 @@ public interface VersioningService {
      * @return The newly sequenced version of the SequenceOwner
      */
     SequenceOwner createNewVersion(SequenceOwner oldVersion) throws VersionException;
-    
+
     /**
      * Cause new version of SequenceOwner object to be associated to new versionof specified 
      * attachment BO is copied
      * 
      * @param newVersion
      * @param oldAssociate
-     * @param callback
-     * @return
+     * @return The newly versioned associate
      * @throws VersionException
      */
-    SequenceOwner createNewVersion(SequenceOwner newVersion, 
-                                    SeparatelySequenceableAssociate oldAssociate,
-                                    SeparatelySequenceableAssociateAssignmentCallback callback) 
+    SeparatelySequenceableAssociate versionAssociate(SequenceOwner newVersion, 
+                                    SeparatelySequenceableAssociate oldAssociate) 
                                     throws VersionException;
     
     /**
@@ -82,12 +79,10 @@ public interface VersioningService {
      * 
      * @param newVersion
      * @param oldAssociates
-     * @param callback
-     * @return
+     * @return The list of newly versioned associates
      * @throws VersionException
      */
-    SequenceOwner createNewVersion(SequenceOwner newVersion, 
-                                    List<? extends SeparatelySequenceableAssociate> oldAssociates,
-                                    SeparatelySequenceableAssociateAssignmentCallback callback) 
+    List<? extends SeparatelySequenceableAssociate> versionAssociates(SequenceOwner newVersion, 
+                                    List<? extends SeparatelySequenceableAssociate> oldAssociates) 
                                     throws VersionException;
 }

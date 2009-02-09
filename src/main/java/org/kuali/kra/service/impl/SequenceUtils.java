@@ -32,7 +32,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.SeparatelySequenceableAssociate;
-import org.kuali.kra.SeparatelySequenceableAssociateAssignmentCallback;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.Sequenceable;
@@ -81,31 +80,31 @@ public class SequenceUtils {
      * 
      * @param newOwner
      * @param oldAssociate
-     * @param callback
+     * @retrun The newly versioned associate 
      * @throws VersionException
      */
-    public void sequence(SequenceOwner newOwner, SeparatelySequenceableAssociate oldAssociate,
-            SeparatelySequenceableAssociateAssignmentCallback callback) throws VersionException {
+    public SeparatelySequenceableAssociate sequence(SequenceOwner newOwner, SeparatelySequenceableAssociate oldAssociate) throws VersionException {
         try {
             SeparatelySequenceableAssociate newAssociate = (SeparatelySequenceableAssociate) ObjectUtils.deepCopy(oldAssociate);
             newAssociate.resetPersistenceState();
-            callback.assign(newOwner, newAssociate);
+            return newAssociate;
         } catch (Exception e) {
             LOGGER.error(e);
             throw new VersionException(e);
         }
     }
-
+    
     /**
      * This method sequences a SequenceOwner and a of SeparatelySequenceableAssociates to a new version
      * 
      * @param oldVersion
      * @param oldAssociates
      * @param callback
+     * @retrun a List of new Associates
      * @throws VersionException
      */
-    public void sequence(SequenceOwner newOwner, List<? extends SeparatelySequenceableAssociate> oldAssociates,
-            SeparatelySequenceableAssociateAssignmentCallback callback) throws VersionException {
+    public List<? extends SeparatelySequenceableAssociate> sequence(SequenceOwner newOwner, List<? extends SeparatelySequenceableAssociate> oldAssociates) 
+                                                                                        throws VersionException {
         try {
             List<SeparatelySequenceableAssociate> newAssociates = new ArrayList<SeparatelySequenceableAssociate>();
             for (SeparatelySequenceableAssociate oldAssociate : oldAssociates) {
@@ -113,7 +112,7 @@ public class SequenceUtils {
                 newAssociate.resetPersistenceState();
                 newAssociates.add(newAssociate);
             }
-            callback.assign(newOwner, newAssociates);
+            return newAssociates;
         } catch (Exception e) {
             LOGGER.error(e);
             throw new VersionException(e);
