@@ -23,14 +23,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.SeparatelySequenceableAssociate;
 import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.SequenceAssociateCallbackAdapter;
-import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.service.impl.versioningartifacts.SequenceAssociateAttachmentBO;
 import org.kuali.kra.service.impl.versioningartifacts.SequenceAssociateChild;
 import org.kuali.kra.service.impl.versioningartifacts.SequenceAssociateGrandChild;
 import org.kuali.kra.service.impl.versioningartifacts.SequenceOwnerImpl;
 import org.kuali.kra.service.impl.versioningartifacts.SimpleAssociate;
+
 
 /**
  * This tests the versioning service
@@ -90,15 +89,10 @@ public class VersioningServiceImplTest {
     @Test
     public void testVersioning_MtoN_Association_SingleAssociateUpdated() throws Exception {
         SequenceAssociateAttachmentBO attachment = originalVersion.getAttachments().get(0);
-        SequenceAssociateCallbackAdapter callback = new SequenceAssociateCallbackAdapter() {
-                                @Override
-                                public void assign(SequenceOwner newOwner, SeparatelySequenceableAssociate newAssociate) {
-                                    ((SequenceOwnerImpl)newOwner).add((SequenceAssociateAttachmentBO) newAssociate);
-                                }                                                                
-                           };
-                           
-        SequenceOwnerImpl newVersion = (SequenceOwnerImpl) service.createNewVersion(originalVersion, attachment, callback); 
-                                                    
+        SequenceOwnerImpl newVersion = (SequenceOwnerImpl) service.createNewVersion(originalVersion); 
+        SequenceAssociateAttachmentBO newAttachmentVersion = (SequenceAssociateAttachmentBO) service.versionAssociate(newVersion, attachment);                                            
+        newVersion.add(newAttachmentVersion);
+        
         checkAttachmentCollectionSizeAfterVersioning(newVersion, 1);
         checkIdentifierResetOnNewAttachments(newVersion, 1);
         checkIdentifierNotResetOnOldAttachmentVersions(newVersion, 1);
@@ -106,18 +100,12 @@ public class VersioningServiceImplTest {
     
     @Test
     public void testVersioning_MtoN_Association_MultipleAssociatesUpdated() throws Exception {
-        SequenceAssociateCallbackAdapter callback = new SequenceAssociateCallbackAdapter() {
-                                @Override
-                                public void assign(SequenceOwner newOwner, List<SeparatelySequenceableAssociate> newAssociates) {
-                                    SequenceOwnerImpl versionedOwner = (SequenceOwnerImpl) newOwner;
-                                    for(SeparatelySequenceableAssociate newAssociate: newAssociates) {
-                                        versionedOwner.add((SequenceAssociateAttachmentBO) newAssociate);
-                                    }
-                                }                                                                
-                           };
-                           
-        SequenceOwnerImpl newVersion = (SequenceOwnerImpl) service.createNewVersion(originalVersion, originalVersion.getAttachments(), callback); 
-                                            
+        SequenceOwnerImpl newVersion = (SequenceOwnerImpl) service.createNewVersion(originalVersion); 
+        List<? extends SeparatelySequenceableAssociate> newAssociates = service.versionAssociates(newVersion, originalVersion.getAttachments());
+        for(SeparatelySequenceableAssociate newAssociate: newAssociates) {
+            newVersion.add((SequenceAssociateAttachmentBO) newAssociate);
+        }
+        
         int numberOfAttachgmentsVersioned = originalVersion.getAttachments().size();
         checkAttachmentCollectionSizeAfterVersioning(newVersion, numberOfAttachgmentsVersioned);
         checkIdentifierResetOnNewAttachments(newVersion, numberOfAttachgmentsVersioned);
