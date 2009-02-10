@@ -30,9 +30,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.ErrorMap;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.ValidRates;
+import org.kuali.kra.award.rule.event.AwardBenefitsRatesRuleEvent;
 
 /**
  * This class tests Award Benefits Rates business rules.
@@ -42,6 +45,7 @@ public class AwardBenefitsRatesRuleTest {
     
     private static final String ON_CAMPUS_RATE = "onCampusRate";
     private static final String OFF_CAMPUS_RATE = "offCampusRate";
+    private static final String ERROR_PATH_KEY = "test error";
     
     final Map<String, Object> FIELD_VALUES = new HashMap<String, Object>();
     final Collection<ValidRates> NULL_VALID_RATES = new ArrayList<ValidRates>();
@@ -49,6 +53,7 @@ public class AwardBenefitsRatesRuleTest {
     
     Award award;
     AwardBenefitsRatesRuleImpl awardBenefitsRatesRule;
+    AwardBenefitsRatesRuleEvent awardBenefitsRatesRuleEvent;
     
     private Mockery context = new JUnit4Mockery();
     
@@ -65,6 +70,8 @@ public class AwardBenefitsRatesRuleTest {
         FIELD_VALUES.put(OFF_CAMPUS_RATE, award.getSpecialEbRateOffCampus());
         ValidRates validRate = new ValidRates();
         INITIALIZED_VALID_RATES.add(validRate);
+        awardBenefitsRatesRuleEvent = new AwardBenefitsRatesRuleEvent(ERROR_PATH_KEY, award, null);
+        GlobalVariables.setErrorMap(new ErrorMap());
     }
     
     /**
@@ -97,61 +104,49 @@ public class AwardBenefitsRatesRuleTest {
     }
     
     /**
-     * Verify that businessObjectService is returning values.
+     * Test rule returns true when given valid rates.
      */
     @Test
-    public void testGetValidRatesNotNull() {
+    public void testProcessBenefitsRatesBusinessRulesWithValidRate() {
         awardBenefitsRatesRule = new AwardBenefitsRatesRuleImpl();
       
         final BusinessObjectService MOCKED_BUSINESS_OBJECT_SERVICE = 
                                             getMockedBusinessObjectService(INITIALIZED_VALID_RATES);
         awardBenefitsRatesRule.setBusinessObjectService(MOCKED_BUSINESS_OBJECT_SERVICE);
         
-        Assert.assertFalse(awardBenefitsRatesRule.getValidRates(this.award) == null);
+        Assert.assertTrue
+            (awardBenefitsRatesRule.processBenefitsRatesBusinessRules(awardBenefitsRatesRuleEvent));
     }
     
     /**
-     * This tests for valid rates in Valid Rates Table
+     * Test rule returns false when the rates ar invalid.
      */
     @Test
-    public void testGetValidRates(){
-        awardBenefitsRatesRule = new AwardBenefitsRatesRuleImpl();
-        
-        final BusinessObjectService MOCKED_BUSINESS_OBJECT_SERVICE = 
-                                        getMockedBusinessObjectService(INITIALIZED_VALID_RATES);
-        awardBenefitsRatesRule.setBusinessObjectService(MOCKED_BUSINESS_OBJECT_SERVICE);
-        
-        Assert.assertEquals(INITIALIZED_VALID_RATES, awardBenefitsRatesRule.getValidRates(award));
-        
-    }
-    
-    /**
-     * This tests for failure of method getValidRates()
-     */
-    @Test
-    public void testGetValidRatesFails(){
+    public void testProcessBenefitsRatesBusinessRulesWithInvalidRates(){
         awardBenefitsRatesRule = new AwardBenefitsRatesRuleImpl();
         
         final BusinessObjectService MOCKED_BUSINESS_OBJECT_SERVICE = 
                                         getMockedBusinessObjectService(NULL_VALID_RATES);
         awardBenefitsRatesRule.setBusinessObjectService(MOCKED_BUSINESS_OBJECT_SERVICE);
-        
-        Assert.assertTrue(awardBenefitsRatesRule.getValidRates(award).size() == 0);
-        
+        Assert.assertFalse
+            (awardBenefitsRatesRule.processBenefitsRatesBusinessRules(awardBenefitsRatesRuleEvent));   
     }
+    
     
     /**
      * This tests for valid rates in Valid Rates Table
      */
     @Test
-    public void testCheckValidRateInValidRatesTable(){
+    public void testProcessBenefitsRatesBusinessRulesReportsError(){
         awardBenefitsRatesRule = new AwardBenefitsRatesRuleImpl();
+        GlobalVariables.setErrorMap(new ErrorMap());
         
         final BusinessObjectService MOCKED_BUSINESS_OBJECT_SERVICE = 
-                                            getMockedBusinessObjectService(INITIALIZED_VALID_RATES);
+                                            getMockedBusinessObjectService(NULL_VALID_RATES);
         awardBenefitsRatesRule.setBusinessObjectService(MOCKED_BUSINESS_OBJECT_SERVICE);
         
-        Assert.assertTrue(awardBenefitsRatesRule.checkValidRateInValidRatesTable(this.award));
+        awardBenefitsRatesRule.processBenefitsRatesBusinessRules(awardBenefitsRatesRuleEvent);
+        Assert.assertFalse(GlobalVariables.getErrorMap().isEmpty());
     }
     
    

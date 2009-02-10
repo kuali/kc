@@ -58,7 +58,7 @@ public class AwardBenefitsRateWebTest extends AwardTimeAndMoneyWebTest {
 
     /**
      * 
-     * This method tests Preaward Authorizations Panel.  Adding amounts and effective dates. 
+     * This method tests Benefits Rates Panel.  Adding pn and off campus rates. 
      * and saving them.  
      * @throws Exception
      */
@@ -77,7 +77,7 @@ public class AwardBenefitsRateWebTest extends AwardTimeAndMoneyWebTest {
     
     /**
      * 
-     * This method tests Preaward Sponsor Authorization Comments
+     * This method tests Benefits Rates Comments
      * @throws Exception
      */
     @Test
