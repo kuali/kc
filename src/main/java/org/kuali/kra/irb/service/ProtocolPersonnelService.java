@@ -105,5 +105,21 @@ public interface ProtocolPersonnelService {
      * @param selectedPersonIndex
      * @return true / false
      */
-    public boolean isRoleChangePermitted(Protocol protocol, int selectedPersonIndex);
+    public boolean isRoleChangePermitted(ProtocolPerson protocolPerson);
+    
+    /**
+     * This method is to get principal investigator person
+     * This method also helps to check whether at least one investigator exists in person list
+     * Return first found investigator so that we can check for duplicate if any
+     * @param protocolPersons
+     * @return null if no investigator else ProtocolPerson as investigator
+     */
+    public ProtocolPerson getPrincipalInvestigator(List<ProtocolPerson> protocolPersons);
+    
+    /**
+     * This method is to check whether a person has role of Principal Investigator
+     * @param protocolPerson
+     * @return
+     */
+    public boolean isPrincipalInvestigator(ProtocolPerson protocolPerson);
 }

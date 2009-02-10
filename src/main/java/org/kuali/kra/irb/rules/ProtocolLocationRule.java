@@ -18,6 +18,7 @@ package org.kuali.kra.irb.rules;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.Organization;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.bo.ProtocolLocation;
@@ -79,8 +80,8 @@ public class ProtocolLocationRule extends ProtocolDocumentRule implements AddPro
     private boolean isInvalidOrganizationId(String organizationId) {
         boolean organizationIdInvalid = false;
         OrganizationService organizationService = KraServiceLocator.getService(OrganizationService.class);
-        String organizationName = organizationService.getOrganizationName(organizationId);
-        if (StringUtils.isBlank(organizationName)) {
+        Organization organization = organizationService.getOrganization(organizationId);
+        if(organization == null) {
             organizationIdInvalid = true;
         }
         return organizationIdInvalid;
@@ -94,15 +95,12 @@ public class ProtocolLocationRule extends ProtocolDocumentRule implements AddPro
      * @return true if it is a duplicate; otherwise false
      */
     private boolean isDuplicate(ProtocolDocument document, String organizationId) {
-        boolean isDuplicateOrganizationId = false;
-        List<ProtocolLocation> protocolLocations = document.getProtocol().getProtocolLocations();
-        for (ProtocolLocation protocolLocation : protocolLocations) {
-            if (protocolLocation.getOrganizationId().equalsIgnoreCase(organizationId)) {
-                isDuplicateOrganizationId = true;
-                break;
+        for (ProtocolLocation protocolLocation : document.getProtocol().getProtocolLocations()) {
+            if (StringUtils.equalsIgnoreCase(protocolLocation.getOrganizationId(), organizationId)) {
+                return true;
             }
         }
-        return isDuplicateOrganizationId;        
+        return false;        
     }
 
     /**

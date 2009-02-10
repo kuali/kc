@@ -33,6 +33,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.bo.ProtocolPerson;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.rule.event.AddProtocolPersonnelEvent;
+import org.kuali.kra.irb.rule.event.SaveProtocolPersonnelEvent;
 import org.kuali.kra.irb.service.ProtocolPersonnelService;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 
@@ -49,8 +50,10 @@ public class ProtocolPersonnelAction extends ProtocolAction {
      */
     @Override
     protected boolean isValidSave(ProtocolForm protocolForm) {    
-        boolean rulePassed = true;
-        getProtocolPersonnelService().updateProtocolUnit(getProtocolPersons(protocolForm));
+        boolean rulePassed = applyRules(new SaveProtocolPersonnelEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument()));
+        if(rulePassed) {
+            getProtocolPersonnelService().updateProtocolUnit(getProtocolPersons(protocolForm));
+        }
         return rulePassed;
     }
     
