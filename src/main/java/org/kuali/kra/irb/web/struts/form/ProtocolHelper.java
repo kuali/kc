@@ -269,10 +269,11 @@ public class ProtocolHelper {
      */
     public void prepareRequiredFieldsForSave() {
         // create principal investigator from fields
-            if (getProtocol().getPrincipalInvestigator() == null 
+        findPrinciapalInvestigatorIdFromFields();
+
+        if (getProtocol().getPrincipalInvestigator() == null 
                     && StringUtils.isNotEmpty(getPrincipalInvestigatorId())) {
                 
-                findPrinciapalInvestigatorIdFromFields();
                 findAndSetLeadUnitFromFields();
                 
                 ProtocolPerson investigator = createPrincipalInvestigator();
