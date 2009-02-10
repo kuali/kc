@@ -25,14 +25,13 @@ import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.award.bo.AwardApprovedSubaward;
 import org.kuali.kra.award.bo.AwardComment;
-import org.kuali.kra.award.bo.AwardCostShare;
 import org.kuali.kra.award.bo.AwardFandaRate;
 import org.kuali.kra.award.bo.AwardReportTerm;
 import org.kuali.kra.award.bo.AwardReportTermRecipient;
 import org.kuali.kra.award.bo.AwardSpecialReview;
 import org.kuali.kra.award.bo.AwardSpecialReviewExemption;
+import org.kuali.kra.award.bo.ReportClass;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
@@ -73,6 +72,8 @@ public class AwardForm extends KraTransactionalDocumentFormBase implements Multi
     private ApprovedEquipmentFormHelper approvedEquipmentFormHelper;
     private CostShareFormHelper costShareFormHelper;
     private ApprovedSubawardFormHelper approvedSubawardFormHelper;
+    
+    private ReportClass reportClassForPaymentsAndInvoices;
     
     /**
      * 
@@ -337,4 +338,16 @@ public class AwardForm extends KraTransactionalDocumentFormBase implements Multi
     public void setApprovedSubawardFormHelper(ApprovedSubawardFormHelper approvedSubawardFormHelper) {
         this.approvedSubawardFormHelper = approvedSubawardFormHelper;
     }
+
+
+
+    public ReportClass getReportClassForPaymentsAndInvoices() {
+        return reportClassForPaymentsAndInvoices;
+    }
+
+
+
+    public void setReportClassForPaymentsAndInvoices(ReportClass reportClassForPaymentsAndInvoices) {
+        this.reportClassForPaymentsAndInvoices = reportClassForPaymentsAndInvoices;
+    }    
 }

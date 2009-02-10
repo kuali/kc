@@ -42,6 +42,12 @@
 	</bean>
 	
 	<bean id="awardReportsService" class="org.kuali.kra.service.impl.AwardReportsServiceImpl">
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>		
 	</bean>
 
 </beans>
