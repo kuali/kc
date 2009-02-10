@@ -76,7 +76,9 @@
 	</bean>	
 	
 	<bean id="protocolLocationService" class="org.kuali.kra.irb.service.impl.ProtocolLocationServiceImpl">
-	</bean>	
+        <property name="organizationService" ref="organizationService" />
+	</bean>
+		
     <bean id="protocolParticipantTypeService" class="org.kuali.kra.irb.service.impl.ProtocolParticipantServiceImpl">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
