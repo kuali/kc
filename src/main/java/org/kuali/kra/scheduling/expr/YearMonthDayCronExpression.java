@@ -20,37 +20,36 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class MonthlyWeekDayCronExpression extends CronExpression {
+public class YearMonthDayCronExpression extends CronExpression {
     
-    private Integer frequencyInMonth;
+    private CronSpecialChars month;
     
-    private CronSpecialChars dayOfWeek;
+    private Integer day;
     
-    private CronSpecialChars weekOfMonth;
+    private Integer frequencyInYear;
     
-    public MonthlyWeekDayCronExpression(Date startDate, String time, CronSpecialChars dayOfWeek, CronSpecialChars weekOfMonth, Integer frequencyInMonth) throws ParseException {
+    public YearMonthDayCronExpression(Date startDate, String time, CronSpecialChars month, Integer day, Integer frequencyInYear) throws ParseException {
         super(startDate, time);
-        this.frequencyInMonth = frequencyInMonth;
-        this.dayOfWeek = dayOfWeek;
-        this.weekOfMonth = weekOfMonth;            
+        this.month = month;
+        this.day = day;
+        this.frequencyInYear = frequencyInYear;
     }
 
     @Override
     public String getExpression() {
-        
+                
         Calendar stDt = new GregorianCalendar();
         stDt.setTime(getStartDate());
+        int stDt_year = stDt.get(Calendar.YEAR);
         
         StringBuilder exp = new StringBuilder();
         exp.append(SECONDS).append(CronSpecialChars.SPACE);
         exp.append(getMinutes()).append(CronSpecialChars.SPACE);
         exp.append(getHours()).append(CronSpecialChars.SPACE);        
+        exp.append(day).append(CronSpecialChars.SPACE);
+        exp.append(month).append(CronSpecialChars.SPACE);
         exp.append(CronSpecialChars.QUESTION).append(CronSpecialChars.SPACE);
-        exp.append(stDt.get(Calendar.MONTH)+1).append(CronSpecialChars.SLASH).append(frequencyInMonth).append(CronSpecialChars.SPACE);
-        if(!(weekOfMonth == CronSpecialChars.FIFTH))
-            exp.append(dayOfWeek).append(CronSpecialChars.HASH).append(weekOfMonth);
-        else
-            exp.append(dayOfWeek).append(CronSpecialChars.LAST);
+        exp.append(stDt_year).append(CronSpecialChars.SLASH).append(frequencyInYear);
         return exp.toString();
     }
 
