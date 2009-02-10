@@ -257,7 +257,9 @@ public abstract class ProtocolWebTestBase extends KraWebTestBase {
      * @param page
      * @param keyValues
      */
-    protected void validatePage(HtmlPage page, Map<String, String> keyValues) {
+    protected void validatePage(HtmlPage page, Map<String, String> keyValues) throws Exception{
+        String docNbr = this.getDocNbr(page);
+        page = docSearch(docNbr);
         Iterator<String> it = keyValues.keySet().iterator();
         while (it.hasNext()) {
             String key = (String) it.next();

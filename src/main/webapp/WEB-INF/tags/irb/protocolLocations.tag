@@ -52,9 +52,9 @@
 					</th>
 	
 	                <td align="left" valign="middle"  class="infoline">
-	                	<kul:htmlControlAttribute property="newProtocolLocation.organizationId" attributeEntry="${protocolLocationAttributes.organizationId}" onblur="loadOrganizationName('newProtocolLocation.organizationId', 'organizationName');" />
+	                	<kul:htmlControlAttribute property="protocolHelper.newProtocolLocation.organizationId" attributeEntry="${protocolLocationAttributes.organizationId}" onblur="loadOrganizationName('protocolHelper.newProtocolLocation.organizationId', 'organizationName');" />
 	                    <kul:lookup boClassName="org.kuali.kra.bo.Organization" 
-	                    fieldConversions="organizationId:newProtocolLocation.organizationId,contactAddressId:newProtocolLocation.rolodexId,humanSubAssurance:newProtocolLocation.organization.humanSubAssurance,organizationName:newProtocolLocation.organization.organizationName,rolodex.firstName:newProtocolLocation.organization.rolodex.firstName,rolodex.lastName:newProtocolLocation.organization.rolodex.lastName,rolodex.addressLine1:newProtocolLocation.organization.rolodex.addressLine1,rolodex.addressLine2:newProtocolLocation.organization.rolodex.addressLine2,rolodex.addressLine3:newProtocolLocation.organization.rolodex.addressLine3,rolodex.city:newProtocolLocation.organization.rolodex.city,rolodex.state:newProtocolLocation.organization.rolodex.state" anchor="${currentTabIndex}"/> 
+	                    fieldConversions="organizationId:protocolHelper.newProtocolLocation.organizationId,contactAddressId:protocolHelper.newProtocolLocation.rolodexId,humanSubAssurance:protocolHelper.newProtocolLocation.organization.humanSubAssurance,organizationName:protocolHelper.newProtocolLocation.organization.organizationName,rolodex.firstName:protocolHelper.newProtocolLocation.organization.rolodex.firstName,rolodex.lastName:protocolHelper.newProtocolLocation.organization.rolodex.lastName,rolodex.addressLine1:protocolHelper.newProtocolLocation.organization.rolodex.addressLine1,rolodex.addressLine2:protocolHelper.newProtocolLocation.organization.rolodex.addressLine2,rolodex.addressLine3:protocolHelper.newProtocolLocation.organization.rolodex.addressLine3,rolodex.city:protocolHelper.newProtocolLocation.organization.rolodex.city,rolodex.state:protocolHelper.newProtocolLocation.organization.rolodex.state" anchor="${currentTabIndex}"/> 
 	                    <kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="newProtocolLocation.organizationId:organizationId" anchor="${currentTabIndex}"/>
                 		<br />
                 		<div id="organizationName.div" class="fineprint">
@@ -63,14 +63,12 @@
 	                </td>
 	                <td align="left" valign="middle" class="infoline">
 	                	<div align="center">
-	                	<kul:htmlControlAttribute property="newProtocolLocation.protocolOrganizationTypeCode" attributeEntry="${protocolLocationAttributes.protocolOrganizationTypeCode}" />
+	                	<kul:htmlControlAttribute property="protocolHelper.newProtocolLocation.protocolOrganizationTypeCode" attributeEntry="${protocolLocationAttributes.protocolOrganizationTypeCode}" />
 	                	</div>
 					</td>
 	                <td align="left" valign="middle" class="infoline">
 	                	<div align="center">
 							&nbsp;
-	
-	                	<!-- <kul:htmlControlAttribute property="newProtocolLocation.rolodexId" attributeEntry="${protocolLocationAttributes.rolodexId}" /> -->
 	                	</div>
 					</td>
 	                <td align="left" valign="middle" class="infoline">
@@ -109,20 +107,20 @@
                   <td align="left" valign="middle">
 					<div align="left">
 						<c:if test="${!empty KualiForm.document.protocol.protocolLocations[status.index].rolodex.lastName}">
-							<c:out value="${KualiForm.document.protocol.protocolLocations[status.index].rolodex.lastName}, " />
+							${KualiForm.document.protocol.protocolLocations[status.index].rolodex.lastName}, 
 						</c:if>
 						<c:if test="${!empty KualiForm.document.protocol.protocolLocations[status.index].rolodex.firstName}">
-							<c:out value="${KualiForm.document.protocol.protocolLocations[status.index].rolodex.firstName}: " />
+							${KualiForm.document.protocol.protocolLocations[status.index].rolodex.firstName}: 
 						</c:if>
 						<c:if test="${!empty KualiForm.document.protocol.protocolLocations[status.index].rolodex.addressLine1 || !empty KualiForm.document.protocol.protocolLocations[status.index].rolodex.addressLine2 || !empty KualiForm.document.protocol.protocolLocations[status.index].rolodex.addressLine3}">
-							<c:out value="${KualiForm.document.protocol.protocolLocations[status.index].rolodex.addressLine1}" />
-				            <c:out value="${KualiForm.document.protocol.protocolLocations[status.index].rolodex.addressLine2}" />
-				            <c:out value="${KualiForm.document.protocol.protocolLocations[status.index].rolodex.addressLine3}," />
+							${KualiForm.document.protocol.protocolLocations[status.index].rolodex.addressLine1}
+				            ${KualiForm.document.protocol.protocolLocations[status.index].rolodex.addressLine2}
+				            ${KualiForm.document.protocol.protocolLocations[status.index].rolodex.addressLine3},
 						</c:if>
 						<c:if test="${!empty KualiForm.document.protocol.protocolLocations[status.index].rolodex.city || !empty KualiForm.document.protocol.protocolLocations[status.index].rolodex.state || !empty KualiForm.document.protocol.protocolLocations[status.index].rolodex.postalCode}">
-							<c:out value="${KualiForm.document.protocol.protocolLocations[status.index].rolodex.city}," />&nbsp
-				            <c:out value="${KualiForm.document.protocol.protocolLocations[status.index].rolodex.state}" />&nbsp
-				            <c:out value="${KualiForm.document.protocol.protocolLocations[status.index].rolodex.postalCode}" />
+							${KualiForm.document.protocol.protocolLocations[status.index].rolodex.city}, &nbsp
+				            ${KualiForm.document.protocol.protocolLocations[status.index].rolodex.state} &nbsp
+				            ${KualiForm.document.protocol.protocolLocations[status.index].rolodex.postalCode}
 						</c:if>
 						<kra:permission value="${KualiForm.protocolHelper.modifyProtocol}">  
 	                    	<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" 

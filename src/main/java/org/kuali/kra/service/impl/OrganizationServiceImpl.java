@@ -19,64 +19,42 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.Organization;
-import org.kuali.kra.bo.Person;
-import org.kuali.kra.bo.Unit;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.OrganizationService;
-import org.kuali.kra.service.PersonService;
-import org.kuali.kra.service.UnitService;
 
 /**
- * This class...
+ * This class provides the implementation of the OrganizationService.
+ * It provides service methods related to organization object.
  */
 public class OrganizationServiceImpl implements OrganizationService {
     private BusinessObjectService businessObjectService;
+    private static final String ORGANIZATION_ID = "organizationId";
 
+    /**
+     * @see org.kuali.kra.service.OrganizationService#getOrganizationName(java.lang.String)
+     */
     public String getOrganizationName(String organizationId) {
         String organizationName = null;
-
-        Map<String, String> primaryKeys = new HashMap<String, String>();
-        if (StringUtils.isNotEmpty(organizationId)) {
-            primaryKeys.put("organizationId", organizationId);
-            Organization organization = (Organization) businessObjectService.findByPrimaryKey(Organization.class, primaryKeys);
-            if (organization != null) {
-                organizationName = organization.getOrganizationName();
-            }
+        Organization organization = getOrganization(organizationId);
+        if(organization != null) {
+            organizationName = organization.getOrganizationName();
         }
-
-        System.out.println(organizationName);
         return organizationName;
     }
 
     /**
-     * This method is to get Organization for a given organization id
-     * @param organizationId
-     * @return Organization
+     * @see org.kuali.kra.service.OrganizationService#getOrganization(java.lang.String)
      */
     public Organization getOrganization(String organizationId) {
         Organization organization = null;
-
         if (StringUtils.isNotEmpty(organizationId)) {
             Map<String, Object> primaryKeys = new HashMap<String, Object>();
-            primaryKeys.put("organizationId", organizationId);
+            primaryKeys.put(ORGANIZATION_ID, organizationId);
             organization = (Organization) businessObjectService.findByPrimaryKey(Organization.class, primaryKeys);
         }
 
         return organization;
-    }
-
-    /**
-     * Gets the businessObjectService attribute.
-     * 
-     * @return Returns the businessObjectService.
-     */
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
     }
 
     /**

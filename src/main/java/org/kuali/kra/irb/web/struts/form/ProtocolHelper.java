@@ -22,13 +22,14 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolInvestigator;
+import org.kuali.kra.irb.bo.ProtocolLocation;
 import org.kuali.kra.irb.bo.ProtocolPerson;
 import org.kuali.kra.irb.bo.ProtocolUnit;
 import org.kuali.kra.irb.document.ProtocolDocument;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.document.authorization.ProtocolTask;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.service.UnitService;
@@ -62,9 +63,11 @@ public class ProtocolHelper {
 
     private boolean modifyProtocol = false;
     private boolean billableReadOnly = false;
+    private ProtocolLocation newProtocolLocation;
 
     public ProtocolHelper(ProtocolForm form) {
         this.form = form;
+        setNewProtocolLocation(new ProtocolLocation());
     }    
     
     public void prepareView() {
@@ -366,6 +369,14 @@ public class ProtocolHelper {
     
     private UnitService getUnitService() {
         return KraServiceLocator.getService(UnitService.class);
+    }
+
+    public ProtocolLocation getNewProtocolLocation() {
+        return newProtocolLocation;
+    }
+
+    public void setNewProtocolLocation(ProtocolLocation newProtocolLocation) {
+        this.newProtocolLocation = newProtocolLocation;
     }
     
 }
