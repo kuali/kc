@@ -74,7 +74,7 @@ public class ParticipantTypeValuesFinder extends KeyValuesBase {
     }
     
     /**
-     * Get the Proposal Development Document for the current session.  The
+     * Get the Protocol Document for the current session.  The
      * document is within the current form.
      * 
      * @return the current document or null if not found
