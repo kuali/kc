@@ -153,6 +153,16 @@ ADD CONSTRAINT FK_COMMITTEE_DOCUMENT
 FOREIGN KEY (DOCUMENT_NUMBER) 
 REFERENCES COMMITTEE_DOCUMENT (DOCUMENT_NUMBER);
 
+alter table comm_schedule
+  add constraint fk_committee_id
+  foreign key (committee_id)
+  references committee(id);
+  
+alter table comm_schedule
+  add constraint fk_schedule_status_code
+  foreign key (schedule_status_code)
+  references schedule_status(schedule_status_code);  
+  
 ALTER TABLE PROTOCOL
 ADD CONSTRAINT FK_PROTOCOL_DOCUMENT 
 FOREIGN KEY (DOCUMENT_NUMBER) 

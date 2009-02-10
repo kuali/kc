@@ -259,9 +259,9 @@ CREATE TABLE AWARD_TEMPLATE_CONTACT (
 	OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL);
 
 create table comm_schedule (
-  id					 number(12)     not null PRIMARY KEY,
+  id					 number(12)     not null,
   schedule_id            varchar2 (10)  not null,
-  committee_id           number(12)     not null references committee,
+  committee_id           number(12)     not null,
   scheduled_date         date           not null,
   place                  varchar2 (200),
   time                   date,
@@ -702,6 +702,14 @@ CREATE TABLE RISK_LEVEL (
 	DESCRIPTION VARCHAR2(200), 
 	UPDATE_TIMESTAMP DATE, 
 	UPDATE_USER VARCHAR2(60));
+
+create table schedule_status (
+  schedule_status_code  number (3)    not null,
+  description           varchar2 (200)  not null,
+  UPDATE_TIMESTAMP DATE NOT NULL, 
+  UPDATE_USER VARCHAR2(60) NOT NULL,
+  VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL, 
+  OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL);
 
 CREATE TABLE VALID_CLASS_REPORT_FREQ ( 
 	VALID_CLASS_REPORT_FREQ_ID NUMBER(12,0) NOT NULL, 
