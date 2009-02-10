@@ -215,11 +215,11 @@ public class ProtocolProtocolAction extends ProtocolAction {
      */
     public ActionForward addProtocolLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolLocation newProtocolLocation = protocolForm.getNewProtocolLocation();
+        ProtocolLocation newProtocolLocation = protocolForm.getProtocolHelper().getNewProtocolLocation();
         
         if(applyRules(new AddProtocolLocationEvent(Constants.EMPTY_STRING,protocolForm.getProtocolDocument(),newProtocolLocation))) {
             getProtocolLocationService().addProtocolLocation(protocolForm.getProtocolDocument().getProtocol(), newProtocolLocation);
-            protocolForm.setNewProtocolLocation(new ProtocolLocation());
+            protocolForm.getProtocolHelper().setNewProtocolLocation(new ProtocolLocation());
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC );
@@ -262,8 +262,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
      * @return ProtocolLocationService
      */
     private ProtocolLocationService getProtocolLocationService() {
-        ProtocolLocationService protocolLocationService = (ProtocolLocationService)KraServiceLocator.getService("protocolLocationService");
-        return protocolLocationService;
+        return (ProtocolLocationService)KraServiceLocator.getService("protocolLocationService");
     }
 
     

@@ -33,14 +33,14 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class ProtocolLocationWebTest extends ProtocolWebTestBase{
     
     HtmlPage protocolPage;
-    protected static final String NEW_ORGANIZATION_ID =  "newProtocolLocation.organizationId";
+    protected static final String NEW_ORGANIZATION_ID =  "protocolHelper.newProtocolLocation.organizationId";
     protected static final String NEW_ORGANIZATION_VALUE =  "000001";
     protected static final String ADDRESS_LINE_1 =  "Address Line 1";
 
     protected static final String DELETE_LOCATION = "methodToCall.deleteProtocolLocation.line0.anchor4";
     protected static final String ADD_LOCATION = "methodToCall.addProtocolLocation.anchor";
     protected static final String CLEAR_ADDRESS = "methodToCall.clearProtocolLocationAddress.line0.anchor4";
-    
+    protected static final String ERROR_PROTOCOL_WITHOUT_ORGANIZATION = "At least one organization must be entered.";
 
     /**
      * protocol location existing field / values
@@ -77,6 +77,7 @@ public class ProtocolLocationWebTest extends ProtocolWebTestBase{
     public void setUp() throws Exception {
         super.setUp();
         protocolPage = getProtocolSavedRequiredFieldsPage();
+        
     }
 
     /**
@@ -110,10 +111,7 @@ public class ProtocolLocationWebTest extends ProtocolWebTestBase{
      */
     @Test
     public void testDeleteAndAddLocation() throws Exception{
-        assertContains(protocolPage, ProtocolLocationExistingValues.ORGANIZATION_ID.getValue());
-        //delete existing location
-        HtmlPage pageAfterDeleteLocation = clickOn(protocolPage, DELETE_LOCATION);
-        assertDoesNotContain(pageAfterDeleteLocation, ProtocolLocationExistingValues.ORGANIZATION_ID.getValue());
+        HtmlPage pageAfterDeleteLocation = deleteDefaultLocation();
         //add new location
         assertDoesNotContain(pageAfterDeleteLocation, NEW_ORGANIZATION_VALUE);
         setFieldValues(pageAfterDeleteLocation, getProtocolLocationNewFieldsMap());
@@ -121,6 +119,31 @@ public class ProtocolLocationWebTest extends ProtocolWebTestBase{
         assertContains(pageAfterAddLocation, NEW_ORGANIZATION_VALUE);
     }
 
+    /**
+     * This method will remove existing default location and save the page
+     * Save should throw and error.
+     * @throws Exception
+     */
+    @Test
+    public void testDeleteLocationAndSave() throws Exception{
+        HtmlPage pageAfterDeleteLocation = deleteDefaultLocation();
+        pageAfterDeleteLocation = this.saveDoc(pageAfterDeleteLocation);
+        assertContains(pageAfterDeleteLocation,ERROR_PROTOCOL_WITHOUT_ORGANIZATION);                         
+    }
+    
+    /**
+     * This method is to delete default protocol location
+     * @return
+     * @throws Exception
+     */
+    private HtmlPage deleteDefaultLocation() throws Exception{
+        assertContains(protocolPage, ProtocolLocationExistingValues.ORGANIZATION_ID.getValue());
+        //delete existing location
+        HtmlPage pageAfterDeleteLocation = clickOn(protocolPage, DELETE_LOCATION);
+        assertDoesNotContain(pageAfterDeleteLocation, ProtocolLocationExistingValues.ORGANIZATION_ID.getValue());
+        return pageAfterDeleteLocation;
+    }
+    
     /**
      * 
      * This method is to test clear address functionality.
