@@ -17,6 +17,8 @@
 <%@ attribute name="index" description="Index" required="true" %>
 <%@ attribute name="reportClassKey" description="Report Class Key" required="true" %>
 <%@ attribute name="reportClassLabel" description="Report Class Key" required="true" %>
+<%@ attribute name="defaultOpenForTab" description="Default Open For Tab" required="false" %>
+<%@ attribute name="noShowHideButton" description="Do not show show hide button in the following inner tab" required="false" %>
 
 <c:set var="awardReportTermAttributes" value="${DataDictionary.AwardReportTerm.attributes}" />
 
@@ -42,8 +44,16 @@
              </c:choose>
     </c:if>
 </c:forEach>
+
+<c:if test="${empty defaultOpenForTab}">
+	<c:set var="defaultOpenForTab" value="false" />
+</c:if>
+
+<c:if test="${empty noShowHideButton}">
+	<c:set var="noShowHideButton" value="false" />
+</c:if>
 	                        
-<kul:innerTab parentTab="Report Classes" tabItemCount="${tabItemCount}" defaultOpen="false" tabTitle="${reportClassLabel}" tabErrorKey="newAwardReportTerm[${index}]*,${tabErrorKeyString}" >
+<kul:innerTab parentTab="Report Classes" tabItemCount="${tabItemCount}" defaultOpen="${defaultOpenForTab}" tabTitle="${reportClassLabel}" tabErrorKey="newAwardReportTerm[${index}]*,${tabErrorKeyString}" noShowHideButton="${noShowHideButton}" >
     <table border="0" cellpadding="0" cellspacing="0" summary="">
         <tr>
             <th width="6%"><div align="center">&nbsp;</div></th>          		
