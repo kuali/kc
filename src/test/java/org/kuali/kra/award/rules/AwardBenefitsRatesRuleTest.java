@@ -43,6 +43,10 @@ public class AwardBenefitsRatesRuleTest {
     private static final String ON_CAMPUS_RATE = "onCampusRate";
     private static final String OFF_CAMPUS_RATE = "offCampusRate";
     
+    final Map<String, Object> FIELD_VALUES = new HashMap<String, Object>();
+    final Collection<ValidRates> NULL_VALID_RATES = new ArrayList<ValidRates>();
+    final Collection<ValidRates> INITIALIZED_VALID_RATES = new ArrayList<ValidRates>();
+    
     Award award;
     AwardBenefitsRatesRuleImpl awardBenefitsRatesRule;
     
@@ -56,10 +60,11 @@ public class AwardBenefitsRatesRuleTest {
     @Before
     public void setUp() throws Exception {
         award = new Award();
-        //set award on and off campus Benefits Rates to known record in Valid Rates Table.
-        award.setSpecialEbRateOffCampus(new KualiDecimal(0.00));
-        award.setSpecialEbRateOnCampus(new KualiDecimal(0.00));
-        
+        setKnownBenefitsRates();
+        FIELD_VALUES.put(ON_CAMPUS_RATE, award.getSpecialEbRateOnCampus());
+        FIELD_VALUES.put(OFF_CAMPUS_RATE, award.getSpecialEbRateOffCampus());
+        ValidRates validRate = new ValidRates();
+        INITIALIZED_VALID_RATES.add(validRate);
     }
     
     /**
@@ -73,26 +78,34 @@ public class AwardBenefitsRatesRuleTest {
     }
     
     /**
+     * This method sets award on and off campus Benefits Rates to known record in Valid Rates Table.
+     */
+    public void setKnownBenefitsRates() {
+        award.setSpecialEbRateOffCampus(new KualiDecimal(0.00));
+        award.setSpecialEbRateOnCampus(new KualiDecimal(0.00));
+    }
+    
+    public BusinessObjectService getMockedBusinessObjectService(Collection<ValidRates> validRates) {
+        final BusinessObjectService MOCKED_BUSINESS_OBJECT_SERVICE;
+        final Collection<ValidRates> VALID_RATES = validRates;
+        MOCKED_BUSINESS_OBJECT_SERVICE = context.mock(BusinessObjectService.class);
+        context.checking(new Expectations() {{
+            one(MOCKED_BUSINESS_OBJECT_SERVICE).findMatching(ValidRates.class, FIELD_VALUES); 
+            will(returnValue(VALID_RATES));
+        }});
+        return MOCKED_BUSINESS_OBJECT_SERVICE;
+    }
+    
+    /**
      * Verify that businessObjectService is returning values.
      */
     @Test
     public void testGetValidRatesNotNull() {
         awardBenefitsRatesRule = new AwardBenefitsRatesRuleImpl();
-        
-        final Map<String, Object> FIELDVALUES = new HashMap<String, Object>();
-        FIELDVALUES.put(ON_CAMPUS_RATE, award.getSpecialEbRateOnCampus());
-        FIELDVALUES.put(OFF_CAMPUS_RATE, award.getSpecialEbRateOffCampus());
-        
-        final Collection<ValidRates> VALIDRATES = new ArrayList<ValidRates>();
-        ValidRates validRate = new ValidRates();
-        VALIDRATES.add(validRate);
-        
-        final BusinessObjectService MOCKEDBUSINESSOBJECTSERVICE = context.mock(BusinessObjectService.class);
-        context.checking(new Expectations() {{
-            one(MOCKEDBUSINESSOBJECTSERVICE).findMatching(ValidRates.class, FIELDVALUES); 
-            will(returnValue(VALIDRATES));
-        }});
-        awardBenefitsRatesRule.setBusinessObjectService(MOCKEDBUSINESSOBJECTSERVICE);
+      
+        final BusinessObjectService MOCKED_BUSINESS_OBJECT_SERVICE = 
+                                            getMockedBusinessObjectService(INITIALIZED_VALID_RATES);
+        awardBenefitsRatesRule.setBusinessObjectService(MOCKED_BUSINESS_OBJECT_SERVICE);
         
         Assert.assertFalse(awardBenefitsRatesRule.getValidRates(this.award) == null);
     }
@@ -104,22 +117,11 @@ public class AwardBenefitsRatesRuleTest {
     public void testGetValidRates(){
         awardBenefitsRatesRule = new AwardBenefitsRatesRuleImpl();
         
-        final Map<String, Object> FIELDVALUES = new HashMap<String, Object>();
-        FIELDVALUES.put(ON_CAMPUS_RATE, award.getSpecialEbRateOnCampus());
-        FIELDVALUES.put(OFF_CAMPUS_RATE, award.getSpecialEbRateOffCampus());
+        final BusinessObjectService MOCKED_BUSINESS_OBJECT_SERVICE = 
+                                        getMockedBusinessObjectService(INITIALIZED_VALID_RATES);
+        awardBenefitsRatesRule.setBusinessObjectService(MOCKED_BUSINESS_OBJECT_SERVICE);
         
-        final Collection<ValidRates> VALIDRATES = new ArrayList<ValidRates>();
-        ValidRates validRate = new ValidRates();
-        VALIDRATES.add(validRate);
-        
-        final BusinessObjectService MOCKEDBUSINESSOBJECTSERVICE = context.mock(BusinessObjectService.class);
-        context.checking(new Expectations() {{
-            one(MOCKEDBUSINESSOBJECTSERVICE).findMatching(ValidRates.class, FIELDVALUES); 
-            will(returnValue(VALIDRATES));
-        }});
-        awardBenefitsRatesRule.setBusinessObjectService(MOCKEDBUSINESSOBJECTSERVICE);
-        
-        Assert.assertEquals(VALIDRATES, awardBenefitsRatesRule.getValidRates(award));
+        Assert.assertEquals(INITIALIZED_VALID_RATES, awardBenefitsRatesRule.getValidRates(award));
         
     }
     
@@ -130,18 +132,9 @@ public class AwardBenefitsRatesRuleTest {
     public void testGetValidRatesFails(){
         awardBenefitsRatesRule = new AwardBenefitsRatesRuleImpl();
         
-        final Map<String, Object> FIELDVALUES = new HashMap<String, Object>();
-        FIELDVALUES.put(ON_CAMPUS_RATE, award.getSpecialEbRateOnCampus());
-        FIELDVALUES.put(OFF_CAMPUS_RATE, award.getSpecialEbRateOffCampus());  
-        
-        final Collection<ValidRates> VALIDRATES = new ArrayList<ValidRates>();
-        
-        final BusinessObjectService MOCKEDBUSINESSOBJECTSERVICE = context.mock(BusinessObjectService.class);
-        context.checking(new Expectations() {{
-            one(MOCKEDBUSINESSOBJECTSERVICE).findMatching(ValidRates.class, FIELDVALUES); 
-            will(returnValue(VALIDRATES));
-        }});
-        awardBenefitsRatesRule.setBusinessObjectService(MOCKEDBUSINESSOBJECTSERVICE);
+        final BusinessObjectService MOCKED_BUSINESS_OBJECT_SERVICE = 
+                                        getMockedBusinessObjectService(NULL_VALID_RATES);
+        awardBenefitsRatesRule.setBusinessObjectService(MOCKED_BUSINESS_OBJECT_SERVICE);
         
         Assert.assertTrue(awardBenefitsRatesRule.getValidRates(award).size() == 0);
         
@@ -154,20 +147,9 @@ public class AwardBenefitsRatesRuleTest {
     public void testCheckValidRateInValidRatesTable(){
         awardBenefitsRatesRule = new AwardBenefitsRatesRuleImpl();
         
-        final Map<String, Object> FIELDVALUES = new HashMap<String, Object>();
-        FIELDVALUES.put(ON_CAMPUS_RATE, award.getSpecialEbRateOnCampus());
-        FIELDVALUES.put(OFF_CAMPUS_RATE, award.getSpecialEbRateOffCampus());
-        
-        final Collection<ValidRates> VALIDRATES = new ArrayList<ValidRates>();
-        ValidRates validRate = new ValidRates();
-        VALIDRATES.add(validRate);
-        
-        final BusinessObjectService MOCKEDBUSINESSOBJECTSERVICE = context.mock(BusinessObjectService.class);
-        context.checking(new Expectations() {{
-            one(MOCKEDBUSINESSOBJECTSERVICE).findMatching(ValidRates.class, FIELDVALUES); 
-            will(returnValue(VALIDRATES));
-        }});
-        awardBenefitsRatesRule.setBusinessObjectService(MOCKEDBUSINESSOBJECTSERVICE);
+        final BusinessObjectService MOCKED_BUSINESS_OBJECT_SERVICE = 
+                                            getMockedBusinessObjectService(INITIALIZED_VALID_RATES);
+        awardBenefitsRatesRule.setBusinessObjectService(MOCKED_BUSINESS_OBJECT_SERVICE);
         
         Assert.assertTrue(awardBenefitsRatesRule.checkValidRateInValidRatesTable(this.award));
     }
