@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.committee.web.struts.form;
 
+import java.text.ParseException;
 import java.util.List;
 
 import org.apache.struts.util.LabelValueBean;
@@ -26,7 +27,7 @@ public class ScheduleOptionsUtil {
     
     public static final String[] mthsweek = {"first", "second", "third", "fourth", "last"};
     
-    public static final String[] dyofweek = {"day", "weekday", "weekend day", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Staurday" };
+    public static final String[] dyofweek = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Staurday" };
     
     public static final String[] mths = {"JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"};
     
@@ -37,9 +38,39 @@ public class ScheduleOptionsUtil {
                                         "4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM", "6:30 PM", "7:00 PM", "8:00 PM", "8:30 PM", 
                                         "9:00 PM", "9:30 PM", "10:00 PM", "10:30 PM","11:00 PM", "11:30 PM",};
     
-    static void populate(List<LabelValueBean> list, String [] values) {        
+    public static void populate(List<LabelValueBean> list, String [] values) {        
         for(String value: values) {
             list.add(new LabelValueBean(value, value));
         }
+    }
+    
+    public static int findMinutes(String time, String meridiem) {        
+        
+        String[] result = time.split(":");
+        int hrs = new Integer(result[0]);
+        int min = new Integer(result[1]);
+                
+        boolean am_pm = false;
+        if(meridiem.equalsIgnoreCase("AM"))
+            am_pm = true;
+          
+        LOG.info("DATE hrs:" + hrs + " :min: " + min + " :AM: " + am_pm);
+        
+        if(hrs == 12) {
+            return 0 + min + (am_pm?0:12*60); 
+        }
+        return (hrs * 60)  + min + (am_pm?0:12*60);
+    }
+
+    public static String convert24HourFmt(String time, String meridiem) {        
+        
+        String[] result = time.split(":");
+        int hrs = new Integer(result[0]);
+        if(meridiem.equalsIgnoreCase("PM") && hrs != 12) {
+            hrs = hrs + 12;
+            result[0] = new Integer(hrs).toString();
+        }
+        StringBuilder sb = new StringBuilder();
+        return sb.append(result[0]).append(":").append(result[1]).toString();
     }
 }

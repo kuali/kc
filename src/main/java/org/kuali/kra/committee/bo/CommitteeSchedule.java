@@ -15,17 +15,19 @@
  */
 package org.kuali.kra.committee.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import java.util.LinkedHashMap;
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.LinkedHashMap;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Table;
-import javax.persistence.Entity;
 import javax.persistence.Column;
-import javax.persistence.ManyToOne;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 @Entity 
 @Table(name="COMM_SCHEDULE")
@@ -35,13 +37,13 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
 
     @javax.persistence.Id 
     @Column(name="ID")
-    private Integer id; 
+    private Long id; 
 
     @Column(name="SCHEDULE_ID")
     private String scheduleId; 
     
     @Column(name="COMMITTEE_ID")
-    private Integer committeeId;
+    private Long committeeId;
     
     @Column(name="SCHEDULED_DATE")
     private Date scheduledDate;
@@ -50,7 +52,7 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
     private String place;
     
     @Column(name="TIME")
-    private Date time;
+    private Timestamp time;
     
     @Column(name="PROTOCOL_SUB_DEADLINE")
     private Date protocolSubDeadline;
@@ -80,15 +82,19 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
     @JoinColumn(name="COMMITTEE_ID", insertable=false, updatable=false)
 	private Committee committee; 
 	
+    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name="SCHEDULE_STATUS_CODE", insertable=false, updatable=false)
+    private ScheduleStatus scheduleStatus;
+    
 	public CommitteeSchedule() { 
 
 	} 
 	
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }	
 	
@@ -100,11 +106,11 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
 		this.scheduleId = scheduleId;
 	}
 
-	public Integer getCommitteeId() {
+	public Long getCommitteeId() {
 		return committeeId;
 	}
 
-	public void setCommitteeId(Integer committeeId) {
+	public void setCommitteeId(Long committeeId) {
 		this.committeeId = committeeId;
 	}
 
@@ -124,11 +130,11 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
 		this.place = place;
 	}
 
-	public Date getTime() {
+	public Timestamp getTime() {
 		return time;
 	}
 
-	public void setTime(Date time) {
+	public void setTime(Timestamp time) {
 		this.time = time;
 	}
 
@@ -204,6 +210,14 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
 		this.committee = committee;
 	}
 
+    public ScheduleStatus getScheduleStatus() {
+        return scheduleStatus;
+    }
+
+    public void setScheduleStatus(ScheduleStatus scheduleStatus) {
+        this.scheduleStatus = scheduleStatus;
+    }	
+	
 	@SuppressWarnings("unchecked")
     @Override 
 	protected LinkedHashMap toStringMapper() {
