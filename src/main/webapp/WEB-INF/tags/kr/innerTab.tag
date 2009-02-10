@@ -19,6 +19,8 @@
 <%@ attribute name="tabItemCount" required="false" %>
 <%@ attribute name="tabDescription" required="false" %>
 <%@ attribute name="defaultOpen" required="true" %>
+<%@ attribute name="noShowHideButton" required="false"
+              description="Boolean to hide the show/hide button (but the row is displayed anyway)." %>
 <%@ attribute name="tabErrorKey" required="false" %>
 <%@ attribute name="auditCluster" required="false" %>
 <%@ attribute name="tabAuditKey" required="false" %>
@@ -62,14 +64,19 @@
 <c:if test="${! empty tabItemCount}">
   <c:set var="tabTitle" value="${tabTitle} (${tabItemCount})" />
 </c:if>
-              <div class="innerTab-head">
-               <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
-                 <html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" title="close ${tabTitle}" alt="close ${tabTitle}" styleClass="tinybutton"  styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " align="absmiddle" />&nbsp;${tabTitle}
-               </c:if>
-               <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
-                 <html:image  property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" title="open ${tabTitle}" alt="open ${tabTitle}" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " align="absmiddle"/>&nbsp;${tabTitle}
-               </c:if>
-              </div>
+              
+	              <div class="innerTab-head">
+	              <c:if test="${!noShowHideButton}" >
+	               <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
+	                 <html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" title="close ${tabTitle}" alt="close ${tabTitle}" styleClass="tinybutton"  styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " align="absmiddle" />&nbsp;
+	               </c:if>
+	               <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
+	                 <html:image  property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" title="open ${tabTitle}" alt="open ${tabTitle}" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " align="absmiddle"/>&nbsp;
+	               </c:if>
+	               </c:if>
+	               ${tabTitle}
+	              </div>
+              
 
 <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
 <div style="display: block;" id="tab-${tabKey}-div">
