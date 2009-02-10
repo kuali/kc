@@ -70,6 +70,10 @@ ALTER TABLE COMM_MEMBERSHIP_TYPE
 ADD CONSTRAINT PK_COMM_MEMBERSHIP_TYPE 
 PRIMARY KEY (MEMBERSHIP_TYPE_CODE);
 
+alter table comm_schedule
+  add constraint pk_comm_schedule_id
+  primary key ( id );  
+
 alter table COMMENT_TYPE 
 ADD CONSTRAINT PK_COMMENT_TYPE 
 PRIMARY KEY(COMMENT_TYPE_CODE) ENABLE;
@@ -209,6 +213,10 @@ PRIMARY KEY (REPORT_CLASS_CODE);
 ALTER TABLE RISK_LEVEL 
 ADD CONSTRAINT PK_RISK_LEVEL 
 PRIMARY KEY (RISK_LEVEL_CODE);
+
+alter table schedule_status
+  add constraint pk_schedule_status_code
+  primary key ( schedule_status_code );
 
 ALTER TABLE VALID_CLASS_REPORT_FREQ 
 ADD CONSTRAINT PK_VALID_CLASS_REPORT_FREQ 
