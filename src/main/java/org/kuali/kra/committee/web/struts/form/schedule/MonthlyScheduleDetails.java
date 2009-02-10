@@ -13,18 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.committee.web.struts.form;
+package org.kuali.kra.committee.web.struts.form.schedule;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.struts.util.LabelValueBean;
+import org.kuali.kra.committee.web.struts.form.schedule.util.ScheduleOptionsUtil;
 
 public class MonthlyScheduleDetails extends ScheduleDetails {
     
     private int day;
     
-    private int month;
+    private int option1Month;
+    
+    private int option2Month;
     
     private String monthOption;
     
@@ -42,7 +45,8 @@ public class MonthlyScheduleDetails extends ScheduleDetails {
         super();
         this.monthOption = optionValues[0];
         this.setDay(6);
-        this.setMonth(1);
+        this.setOption1Month(1);
+        this.setOption2Month(1);
         
         this.setMonthsweek(new ArrayList<LabelValueBean>());
         ScheduleOptionsUtil.populate(monthsweek, ScheduleOptionsUtil.mthsweek);
@@ -61,12 +65,20 @@ public class MonthlyScheduleDetails extends ScheduleDetails {
         return day;
     }
 
-    public void setMonth(int month) {
-        this.month = month;
+    public void setOption1Month(int option1Month) {
+        this.option1Month = option1Month;
     }
 
-    public int getMonth() {
-        return month;
+    public int getOption1Month() {
+        return option1Month;
+    }
+
+    public void setOption2Month(int option2Month) {
+        this.option2Month = option2Month;
+    }
+
+    public int getOption2Month() {
+        return option2Month;
     }
 
     public void setMonthOption(String monthOption) {

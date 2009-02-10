@@ -13,25 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.committee.web.struts.form;
+package org.kuali.kra.committee.web.struts.form.schedule;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.struts.util.LabelValueBean;
+import org.kuali.kra.committee.web.struts.form.schedule.util.ScheduleOptionsUtil;
 
 public class YearlyScheduleDetails extends ScheduleDetails {
     
     private int day;
     
-    private int year;
+    private int option1Year;
+    
+    private int option2Year;
     
     private String yearOption;
     
+    public static String[] yearOptionValues = {"XDAY","CMPLX"};
+    
     private List<LabelValueBean> months;
     
-    private String selectedMonth;
+    private String selectedOption1Month;
     
+    private String selectedOption2Month;
+   
     private List<LabelValueBean> monthsweek;
     
     private String selectedMonthsWeek;
@@ -42,12 +49,16 @@ public class YearlyScheduleDetails extends ScheduleDetails {
     
     public YearlyScheduleDetails() {
         super();
+        this.setYearOption(yearOptionValues[0]);
+        
         this.setDay(6);
-        this.setYear(1);
+        this.setOption1Year(1);
+        this.setOption2Year(1);
         
         this.setMonths(new ArrayList<LabelValueBean>());
         ScheduleOptionsUtil.populate(months, ScheduleOptionsUtil.mths);
-        this.setSelectedMonth(ScheduleOptionsUtil.mths[0]);
+        this.setSelectedOption1Month(ScheduleOptionsUtil.mths[0]);
+        this.setSelectedOption2Month(ScheduleOptionsUtil.mths[0]);
         
         this.setMonthsweek(new ArrayList<LabelValueBean>());
         ScheduleOptionsUtil.populate(monthsweek, ScheduleOptionsUtil.mthsweek);
@@ -66,14 +77,22 @@ public class YearlyScheduleDetails extends ScheduleDetails {
         this.day = day;
     }
     
-    public int getYear() {
-        return year;
+    public int getOption1Year() {
+        return option1Year;
     }
 
-    public void setYear(int year) {
-        this.year = year;
+    public void setOption1Year(int option1Year) {
+        this.option1Year = option1Year;
     }
 
+    public void setOption2Year(int option2Year) {
+        this.option2Year = option2Year;
+    }
+
+    public int getOption2Year() {
+        return option2Year;
+    }
+    
     public String getYearOption() {
         return yearOption;
     }
@@ -89,15 +108,24 @@ public class YearlyScheduleDetails extends ScheduleDetails {
     public void setMonths(List<LabelValueBean> months) {
         this.months = months;
     }
-
-    public String getSelectedMonth() {
-        return selectedMonth;
+    
+    public String getSelectedOption1Month() {
+        return selectedOption1Month;
     }
 
-    public void setSelectedMonth(String selectedMonth) {
-        this.selectedMonth = selectedMonth;
+    public void setSelectedOption1Month(String selectedOption1Month) {
+        this.selectedOption1Month = selectedOption1Month;
     }
 
+
+    public void setSelectedOption2Month(String selectedOption2Month) {
+        this.selectedOption2Month = selectedOption2Month;
+    }
+
+    public String getSelectedOption2Month() {
+        return selectedOption2Month;
+    }
+    
     public List<LabelValueBean> getMonthsweek() {
         return monthsweek;
     }
@@ -129,4 +157,5 @@ public class YearlyScheduleDetails extends ScheduleDetails {
     public void setSelectedDayOfWeek(String selectedDayOfWeek) {
         this.selectedDayOfWeek = selectedDayOfWeek;
     }
+
 }
