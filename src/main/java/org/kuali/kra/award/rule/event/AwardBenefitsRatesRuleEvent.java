@@ -17,6 +17,7 @@ package org.kuali.kra.award.rule.event;
 
 import org.apache.log4j.Logger;
 import org.kuali.core.rule.BusinessRule;
+import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.rule.AwardBenefitsRatesRule;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
@@ -27,10 +28,13 @@ import org.kuali.kra.rule.event.KraDocumentEventBase;
 public class AwardBenefitsRatesRuleEvent extends KraDocumentEventBase {
 
     private static final Logger LOG = Logger.getLogger(AwardBenefitsRatesRuleEvent.class);
+    private Award award;
     
     public AwardBenefitsRatesRuleEvent(String errorPathPrefix, 
+                                        Award award,
                                         AwardDocument awardDocument) {
         super("Benefits Rates", errorPathPrefix, awardDocument);
+        this.award = award;
     }
     
     /**
@@ -63,6 +67,14 @@ public class AwardBenefitsRatesRuleEvent extends KraDocumentEventBase {
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((AwardBenefitsRatesRule)rule).processBenefitsRatesBusinessRules(this);
+    }
+
+    /**
+     * Gets the award attribute. 
+     * @return Returns the award.
+     */
+    public Award getAward() {
+        return award;
     }
 
 }
