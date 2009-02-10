@@ -18,6 +18,8 @@
 <c:set var="action" value="committeeSchedule" />
 <c:set var="className" value="org.kuali.kra.committee.document.CommitteeDocument" />
 <c:set var="styleClass" value="${KualiForm.scheduleData.styleClasses}" />
+<c:set var="committeeScheduleAttributes" value="${DataDictionary.CommitteeSchedule.attributes}" />
+
 <div id="workarea">
 <kul:tab tabTitle="Schedule" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="" auditCluster=""  tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
@@ -36,10 +38,12 @@
 
               <tr>
                 <th><div align="right"><span class="labelText">Start Time:</span></div></th>
-				<td>
-					<html:select property="scheduleData.startTime">
-						<html:optionsCollection property="scheduleData.timeSlots" label="label" value="value"/>
-					</html:select>
+				<td nobr>
+					<html:text property="scheduleData.startTime" size="6" maxlength="6" /> 
+					<html:radio property="scheduleData.meridiem" value="AM" styleClass="radio">
+ 						AM&nbsp;</html:radio>
+ 					<html:radio property="scheduleData.meridiem" value="PM" styleClass="radio">
+ 						PM&nbsp;</html:radio>	
 				</td>
               </tr>
               <tr>
@@ -105,6 +109,105 @@
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-addevent.gif' styleClass="tinybutton"/>
 	  </p>	
 
-        
+		<%--Schedule Sub Panel Display --%>
+
+    	<h3>
+    		<span class="subhead-left">Schedule</span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.committee.document.CommitteeDocument" altText="help"/></span>
+        </h3>
+            <table cellpadding=0 cellspacing="0"  summary="">
+              <tr>
+                <td colspan="8"><br>
+                  <div align="center">
+                    <table border="0" class="nobord" align="center" cellpadding="3" cellspacing="3" style="width:auto">
+                      <tr>
+                        <td valign="middle" class="nobord" style="background-color:none"><div align="right"><strong>View Date Range:&nbsp;&nbsp;</strong></div></td>
+
+                        <td valign="middle" class="nobord" style="background-color:none">Before<br>
+                          <input name="startDate3" type=text onchange="dataChanged()" size=12 />
+                          <a href="#" onClick="cal.select(document.forms['example'].date1,'anchor1','MM/dd/yyyy'); return false;" name="anchor1" id="anchor9"><img src="../images/cal.gif" alt="select date" width=16 height=16 align=absmiddle></a></td>
+                        <td valign="middle" class="nobord" style="background-color:none">After</span><br>
+                          <input name="startDate3" type=text onchange="dataChanged()" size=12 />
+                          <a href="#" onClick="cal.select(document.forms['example'].date1,'anchor1','MM/dd/yyyy'); return false;" name="anchor1" id="anchor7"><img src="../images/cal.gif" alt="select date" width=16 height=16 align=absmiddle></a></td>
+                        <td valign="middle" class="nobord" style="background-color:none">
+                        	<html:image property="methodToCall.filterDates.anchor${tabKey}"
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-filter.gif' styleClass="tinybutton"/>
+                        </td>
+                      </tr>
+
+                    </table>
+                    <br>
+                    <a href="#"></a></div></td>
+              </tr>
+              <tr>
+                <th>&nbsp;</th>
+                <th><label for ="person">Schedule Date</label></th>
+                <th>Day of Week</th>
+
+                <th>Deadline</th>
+                <th>Status</th>
+                <th><label for="role">Place </label></th>
+                <th>Time</th>
+                <th>Actions</th>
+              </tr>
+
+
+        	<c:forEach var="protocolParticipant" items="${KualiForm.document.committee.committeeSchedules}" varStatus="status">
+	             <tr>
+					<th class="infoline">
+						<c:out value="${status.index+1}" />
+					</th>
+	                <td align="left" valign="middle">
+	                	<div align="center"> 
+	                	<kul:htmlControlAttribute property="document.committee.committeeSchedules[${status.index}].scheduledDate" 
+	                								datePicker="true"	attributeEntry="${committeeScheduleAttributes.scheduledDate}"  /> </div>
+					</td>
+
+	                <td align="left" valign="middle">
+	                	<div align="center"> 
+	                	Day Of Week </div>
+					</td>
+
+	                <td align="left" valign="middle">
+	                	<div align="center"> 
+	                	<kul:htmlControlAttribute property="document.committee.committeeSchedules[${status.index}].protocolSubDeadline" 
+	                									datePicker="true"	attributeEntry="${committeeScheduleAttributes.protocolSubDeadline}"  /> </div>
+					</td>
+
+	                <td align="left" valign="middle">
+	                	<div align="center"> 
+	                	<kul:htmlControlAttribute property="document.committee.committeeSchedules[${status.index}].scheduleStatusCode" 
+	                								attributeEntry="${committeeScheduleAttributes.scheduleStatusCode}" /> </div>
+					</td>
+
+	                <td align="left" valign="middle">
+	                	<div align="center"> 
+	                	<kul:htmlControlAttribute property="document.committee.committeeSchedules[${status.index}].place" 
+	                								attributeEntry="${committeeScheduleAttributes.place}" /> </div>
+					</td>
+
+	                <td nowrap><div align="center">
+	
+	                    <select name="pickUpDropOffDetailForm.pickupTime" onfocus="showPUTime()" id="puTime">
+	                      <option value="12:00 AM" selected>select</option>
+	                      <option value="12:30 AM">12:00 AM</option>
+	                      <option value="12:30 AM">12:30 AM</option>
+	                      <option value="1:00 AM">1:00 AM</option>
+	                      <option value="1:30 AM">1:30 AM</option>
+	                    </select>
+	                  </div></td>
+
+
+					<td>
+						<div align=center>&nbsp;
+								<html:image property="methodToCall.deleteProtocolReference.line${status.index}.anchor${currentTabIndex}"
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>  
+						</div>
+	                </td>
+	            </tr>            
+	            
+        	</c:forEach>
+           </table>
+            <!-- <img src="images/schedule.png" width="763" height="408">-->
     </div> 
 </kul:tab>

@@ -28,6 +28,8 @@ public class MonthlyScheduleDetails extends ScheduleDetails {
     
     private String monthOption;
     
+    public static String[] optionValues = {"XDAYANDXMONTH","XDAYOFWEEKANDXMONTH"};
+    
     private List<LabelValueBean> monthsweek;
     
     private String selectedMonthsWeek;
@@ -38,6 +40,7 @@ public class MonthlyScheduleDetails extends ScheduleDetails {
     
     public MonthlyScheduleDetails() {
         super();
+        this.monthOption = optionValues[0];
         this.setDay(6);
         this.setMonth(1);
         

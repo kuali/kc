@@ -15,12 +15,14 @@
  */
 package org.kuali.kra.committee.service;
 
+import java.text.ParseException;
+
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.web.struts.form.ScheduleData;
 
 
 public interface CommitteeScheduleService {
 
-    public void addSchedule(ScheduleData scheduleData, Committee committee);
+    public void addSchedule(ScheduleData scheduleData, Committee committee) throws ParseException;
 
 }
