@@ -18,7 +18,6 @@ package org.kuali.kra.irb.service.impl;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolLocation;
 import org.kuali.kra.irb.service.ProtocolLocationService;
@@ -28,6 +27,13 @@ import org.kuali.kra.service.OrganizationService;
 public class ProtocolLocationServiceImpl implements ProtocolLocationService {
     
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolLocationServiceImpl.class);
+    private OrganizationService organizationService;
+    private static final String REFERENCE_PROTOCOL_ORGANIZATION_TYPE = "protocolOrganizationType";
+    private static final String REFERENCE_ORGANIZATION = "organization";
+    private static final String REFERENCE_ROLODEX = "rolodex";
+    private static final String PROTOCOL_NUMBER = "0";
+    private static final Integer SEQUENCE_NUMBER = 0;
+    
     
     /**
      * @see org.kuali.kra.irb.service.ProtocolLocationService#addProtocolLocation(org.kuali.kra.irb.bo.Protocol, org.kuali.kra.irb.bo.ProtocolLocation)
@@ -35,12 +41,12 @@ public class ProtocolLocationServiceImpl implements ProtocolLocationService {
     public void addProtocolLocation(Protocol protocol, ProtocolLocation protocolLocation) {
         
         //TODO Framework problem of 2 saves
-        protocolLocation.setProtocolNumber("0");
-        protocolLocation.setSequenceNumber(0);
-        protocolLocation.refreshReferenceObject("protocolOrganizationType");
-        protocolLocation.refreshReferenceObject("organization");
+        protocolLocation.setProtocolNumber(PROTOCOL_NUMBER);
+        protocolLocation.setSequenceNumber(SEQUENCE_NUMBER);
+        protocolLocation.refreshReferenceObject(REFERENCE_PROTOCOL_ORGANIZATION_TYPE);
+        protocolLocation.refreshReferenceObject(REFERENCE_ORGANIZATION);
         protocolLocation.setRolodexId(protocolLocation.getOrganization().getContactAddressId());
-        protocolLocation.refreshReferenceObject("rolodex");
+        protocolLocation.refreshReferenceObject(REFERENCE_ROLODEX);
         protocol.getProtocolLocations().add(protocolLocation);
     }
 
@@ -50,15 +56,15 @@ public class ProtocolLocationServiceImpl implements ProtocolLocationService {
     public void addDefaultProtocolLocation(Protocol protocol) {
         if(protocol.getProtocolLocations().size() == 0) {
             ProtocolLocation protocolLocation = new ProtocolLocation();
-            protocolLocation.setProtocolNumber("0");
-            protocolLocation.setSequenceNumber(0);
+            protocolLocation.setProtocolNumber(PROTOCOL_NUMBER);
+            protocolLocation.setSequenceNumber(SEQUENCE_NUMBER);
             Organization organization = getOrganization(Constants.DEFAULT_PROTOCOL_ORGANIZATION_ID);
             protocolLocation.setOrganization(organization);
             protocolLocation.setOrganizationId(organization.getOrganizationId());
             protocolLocation.setRolodexId(organization.getContactAddressId());
             protocolLocation.setProtocolOrganizationTypeCode(Constants.DEFAULT_PROTOCOL_ORGANIZATION_TYPE_CODE);
-            protocolLocation.refreshReferenceObject("protocolOrganizationType");
-            protocolLocation.refreshReferenceObject("rolodex");
+            protocolLocation.refreshReferenceObject(REFERENCE_PROTOCOL_ORGANIZATION_TYPE);
+            protocolLocation.refreshReferenceObject(REFERENCE_ROLODEX);
             protocol.getProtocolLocations().add(protocolLocation);
         }
     }
@@ -88,8 +94,16 @@ public class ProtocolLocationServiceImpl implements ProtocolLocationService {
      * @return Organization
      */
     private Organization getOrganization(String organizationId) {
-        OrganizationService organizationService = KraServiceLocator.getService(OrganizationService.class);
         return organizationService.getOrganization(organizationId);
     }
     
+    /**
+     * Sets the businessObjectService attribute value.
+     * 
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setOrganizationService(OrganizationService organizationService) {
+        this.organizationService = organizationService;
+    }
+
 }

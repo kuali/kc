@@ -22,7 +22,8 @@ public interface OrganizationService {
     /**
      * This method returns the organization name for a given organization id.
      * @param organizationId identifier for the organization
-     * @return The name of the organization identified by this id.
+     * @return The name of the organization identified by this id. 
+     * null value is returned if organization not found
      */
     public String getOrganizationName(String organizationId);
     
@@ -31,6 +32,7 @@ public interface OrganizationService {
      * Organization data is retrieved based on above organization id.
      * @param organizationId identifier for the organization
      * @return organization
+     * null value is returned if organization not found
      */
     public Organization getOrganization(String organizationId);
 }

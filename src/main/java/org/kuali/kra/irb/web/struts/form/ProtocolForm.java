@@ -55,9 +55,6 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
     
     private ProtocolParticipant newProtocolParticipant;
     private ProtocolReference newProtocolReference;
-    private ProtocolLocation newProtocolLocation;
-
-    private String organizationName;
     
     ProtocolPerson newProtocolPerson;
     private List<ProtocolUnit> newProtocolPersonUnits;
@@ -65,6 +62,8 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
     //KNS Lookup hooks
     private String lookupResultsSequenceNumber;
     private String lookupResultsBOClassName;
+    
+    private String organizationName;
     
     public ProtocolForm() {
         super();
@@ -82,7 +81,6 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
         setProtocolHelper(new ProtocolHelper(this));
         setPersonnelHelper(new PersonnelHelper(this));
         setNewProtocolReference(new ProtocolReference());
-        setNewProtocolLocation(new ProtocolLocation());
         setNewProtocolPerson(new ProtocolPerson());
         setNewProtocolPersonUnits(new ArrayList<ProtocolUnit>());
     }
@@ -212,22 +210,6 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
         return "";
     }
 
-    public void setNewProtocolLocation(ProtocolLocation newProtocolLocation) {
-        this.newProtocolLocation = newProtocolLocation;
-    }
-
-    public ProtocolLocation getNewProtocolLocation() {
-        return newProtocolLocation;
-    }
-
-    public String getOrganizationName() {
-        return organizationName;
-    }
-
-    public void setOrganizationName(String organizationName) {
-        this.organizationName = organizationName;
-    }
-
     public void setNewProtocolPerson(ProtocolPerson newProtocolPerson) {
         this.newProtocolPerson = newProtocolPerson;
     }
@@ -245,6 +227,14 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
 
     public void setNewProtocolPersonUnits(List<ProtocolUnit> newProtocolPersonUnits) {
         this.newProtocolPersonUnits = newProtocolPersonUnits;
+    }
+
+    public String getOrganizationName() {
+        return organizationName;
+    }
+
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
     }
 
 }
