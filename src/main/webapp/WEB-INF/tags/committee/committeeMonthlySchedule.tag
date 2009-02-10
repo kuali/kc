@@ -24,7 +24,7 @@
 	  		<html:text property="scheduleData.monthlySchedule.day" size="2" maxlength="2" />	                         
                      
             &nbsp;of every&nbsp;
-            <html:text property="scheduleData.monthlySchedule.month" size="2" maxlength="2" />                          
+            <html:text property="scheduleData.monthlySchedule.option1Month" size="2" maxlength="2" />                          
             &nbsp;month(s)
             <hr size="1" noshade>
                   
@@ -40,7 +40,7 @@
 			</html:select>
 
 			&nbsp;of every&nbsp;
-            <html:text property="scheduleData.monthlySchedule.month" size="2" maxlength="2" />
+            <html:text property="scheduleData.monthlySchedule.option2Month" size="2" maxlength="2" />
             &nbsp;month(s)
             <hr size="1" noshade>
             Ending on

@@ -18,7 +18,7 @@ package org.kuali.kra.committee.service;
 import java.text.ParseException;
 
 import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.committee.web.struts.form.ScheduleData;
+import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 
 
 public interface CommitteeScheduleService {

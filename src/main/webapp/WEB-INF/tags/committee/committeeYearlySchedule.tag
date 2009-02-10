@@ -21,14 +21,14 @@
 	<html:radio property="scheduleData.yearlySchedule.yearOption" value="XDAY" styleClass="radio"></html:radio>
 	&nbsp;Every&nbsp;
 	
-	<html:select property="scheduleData.yearlySchedule.selectedMonth">
+	<html:select property="scheduleData.yearlySchedule.selectedOption1Month">
 		<html:optionsCollection property="scheduleData.yearlySchedule.months"
 			label="label" value="value" />
 	</html:select>
 	
 	<html:text property="scheduleData.yearlySchedule.day" size="2" maxlength="2" />
 	&nbsp;of every&nbsp;
-	<html:text property="scheduleData.yearlySchedule.year" size="2" maxlength="2" />
+	<html:text property="scheduleData.yearlySchedule.option1Year" size="2" maxlength="2" />
 	&nbsp;year(s)
 	<hr size="1" noshade>
 	
@@ -48,13 +48,13 @@
 	</html:select>
 	
 	&nbsp;of&nbsp;
-	<html:select property="scheduleData.yearlySchedule.selectedMonth">
+	<html:select property="scheduleData.yearlySchedule.selectedOption2Month">
 		<html:optionsCollection property="scheduleData.yearlySchedule.months"
 			label="label" value="value" />
 	</html:select>
 	
 	&nbsp;of every&nbsp;
-	<html:text property="scheduleData.yearlySchedule.year" size="2" maxlength="2" />
+	<html:text property="scheduleData.yearlySchedule.option2Year" size="2" maxlength="2" />
 	&nbsp;year(s)
 	
 	<hr size="1" noshade>

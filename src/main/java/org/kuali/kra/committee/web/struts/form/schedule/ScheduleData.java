@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.committee.web.struts.form;
+package org.kuali.kra.committee.web.struts.form.schedule;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -26,6 +25,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.struts.util.LabelValueBean;
+import org.kuali.kra.committee.web.struts.form.schedule.util.ScheduleOptionsUtil;
+import org.kuali.kra.scheduling.expr.CronSpecialChars;
 
 public class ScheduleData {
     
@@ -194,6 +195,22 @@ public class ScheduleData {
         return ScheduleOptionsUtil.convert24HourFmt(startTime, meridiem);
     }
     
+    public static CronSpecialChars getMonthOfWeek(String month) {
+        return ScheduleOptionsUtil.getMonthOfWeek(month);
+    }
+    
+    public static CronSpecialChars getDayOfWeek(String dayOfWeek) {
+        return ScheduleData.getDayOfWeek(dayOfWeek);
+    }
+    
+    public static CronSpecialChars getWeekOfMonth(String monthsWeek) {
+        return ScheduleData.getWeekOfMonth(monthsWeek);
+    }
+    
+    public static CronSpecialChars[] convertToWeekdays(String [] daysOfWeek){
+        return ScheduleData.convertToWeekdays(daysOfWeek);
+    }
+    
     public void printf() {
         LOG.info("=========================================================");
         LOG.info("ScheduleStartDate Date is :" + scheduleStartDate.toString());
@@ -211,16 +228,19 @@ public class ScheduleData {
         LOG.info("=========================================================");
         LOG.info("Schedule Monthly End Date is :" + monthlySchedule.getScheduleEndDate());
         LOG.info("Day is :" + monthlySchedule.getDay());
-        LOG.info("Month is :" + monthlySchedule.getMonth());
+        LOG.info("Month Option1 is :" + monthlySchedule.getOption1Month());
+        LOG.info("Month Option2 is :" + monthlySchedule.getOption2Month());
         LOG.info("Radio Button Option is :" + monthlySchedule.getMonthOption());
         LOG.info("Month's Week is :" + monthlySchedule.getSelectedMonthsWeek());
         LOG.info("Day Of Week is :" + monthlySchedule.getSelectedDayOfWeek());
         LOG.info("=========================================================");
         LOG.info("Schedule Yearly End Date is :" + yearlySchedule.getScheduleEndDate());
         LOG.info("Day is :" + yearlySchedule.getDay());
-        LOG.info("Year is :" + yearlySchedule.getYear());
+        LOG.info("Year Option1 is :" + yearlySchedule.getOption1Year());
+        LOG.info("Year Option2 is :" + yearlySchedule.getOption2Year());
         LOG.info("Radio Button Option is :" + yearlySchedule.getYearOption());
-        LOG.info("Month is :" + yearlySchedule.getSelectedMonth());
+        LOG.info("Month Option1 is :" + yearlySchedule.getSelectedOption1Month());
+        LOG.info("Month Option2 is :" + yearlySchedule.getSelectedOption2Month());
         LOG.info("Month's Week is :" + yearlySchedule.getSelectedMonthsWeek());
         LOG.info("Day Of Week is :" + yearlySchedule.getSelectedDayOfWeek());
         LOG.info("=========================================================");
