@@ -22,7 +22,6 @@ import java.util.Map;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.ValidRates;
-import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.rule.AwardBenefitsRatesRule;
 import org.kuali.kra.award.rule.event.AwardBenefitsRatesRuleEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -34,6 +33,8 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  */
 public class AwardBenefitsRatesRuleImpl extends ResearchDocumentRuleBase implements AwardBenefitsRatesRule {
 
+    private static final String ON_CAMPUS_RATE = "onCampusRate";
+    private static final String OFF_CAMPUS_RATE = "offCampusRate";
     private static final String BENEFITS_RATES = "benefitsRates";
     BusinessObjectService businessObjectService;
     
@@ -42,11 +43,7 @@ public class AwardBenefitsRatesRuleImpl extends ResearchDocumentRuleBase impleme
      * (org.kuali.kra.award.rule.event.AwardBenefitsRatesRuleEvent)
      */
     public boolean processBenefitsRatesBusinessRules(AwardBenefitsRatesRuleEvent event) {
-        AwardDocument awardDocument = event.getAwardDocument();
-        Award award = awardDocument.getAward();
-        boolean valid = true;
-        valid &= validateBenefitsRatesInValidRatesTable(award);
-        return valid;
+        return validateBenefitsRatesInValidRatesTable(event.getAwardDocument().getAward());
     }
     
     /**
@@ -56,8 +53,7 @@ public class AwardBenefitsRatesRuleImpl extends ResearchDocumentRuleBase impleme
      * @return
      */
     private boolean validateBenefitsRatesInValidRatesTable(Award award) {
-        boolean valid = true;
-        valid &= checkValidRateInValidRatesTable(award);
+        boolean valid = checkValidRateInValidRatesTable(award);
         if(!valid){
             reportError(BENEFITS_RATES, 
                     KeyConstants.ERROR_BENEFITS_RATES);
@@ -66,42 +62,38 @@ public class AwardBenefitsRatesRuleImpl extends ResearchDocumentRuleBase impleme
         return valid;
     }
     
-    protected boolean checkValidRateInValidRatesTable(Award award){
+    /**
+     * This method tests that the valid rates attached to the award are in the valid rates table.
+     * @param award
+     * @return
+     */
+    protected boolean checkValidRateInValidRatesTable(Award award) {
         boolean valid = true;
-        Collection<ValidRates> validRates = getValidRates(award);
-        if(award.getSpecialEbRateOffCampus()!=null
-                || award.getSpecialEbRateOnCampus()!=null){
-            if(validRates.size() == 0){
-                valid=false;
-                }
-            else{
-                valid=true;
-            }
-           }
+        if(award.getSpecialEbRateOffCampus() != null 
+                || award.getSpecialEbRateOnCampus() != null) {
+            valid = getValidRates(award).size() > 0;
+        }
         return valid;
     }
     
-    
     /**
-     * This method...
+     * This method returns the valid rates from valid rates table that match the rates attached to the award.
      * @return
      */
     @SuppressWarnings("unchecked")
     protected Collection<ValidRates> getValidRates(Award award){
         Map<String, Object> rateValues = new HashMap<String, Object>();
-        rateValues.put("onCampusRate", award.getSpecialEbRateOnCampus());
-        rateValues.put("offCampusRate", award.getSpecialEbRateOffCampus());
-        
-        Collection<ValidRates> validRates =
-            (Collection<ValidRates>) getKraBusinessObjectService().findMatching(ValidRates.class, rateValues);
-        return validRates;
+        rateValues.put(ON_CAMPUS_RATE, award.getSpecialEbRateOnCampus());
+        rateValues.put(OFF_CAMPUS_RATE, award.getSpecialEbRateOffCampus());
+        return (Collection<ValidRates>) 
+                getKraBusinessObjectService().findMatching(ValidRates.class, rateValues);
     }
     
     /**
      * This is a convenience method to use jmock to set the businessObjectService for unit testing.
      * @param businessObjectService
      */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService){
+    protected void setBusinessObjectService(BusinessObjectService businessObjectService){
         this.businessObjectService = businessObjectService;
     }
     
