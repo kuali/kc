@@ -304,15 +304,15 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
                     valid = false;
                 }
                 if (budgetLineItem!=null && budgetLineItem.getCostSharingAmount() != null && budgetLineItem.getCostSharingAmount().isNegative()) {
-                    errorMap.putError("budgetCategoryTypes[" + budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode() + "].budgetPeriods[" + i +"].budgetLineItems[" + j + "].costSharingAmount", KeyConstants.ERROR_NEGATIVE_AMOUNT,"Cost Sharing");
+                    errorMap.putError("budgetPeriod[" + i +"].budgetLineItem[" + j + "].costSharingAmount", KeyConstants.ERROR_NEGATIVE_AMOUNT,"Cost Sharing");
                     valid = false;
                 }
                 if (budgetLineItem!=null && budgetLineItem.getQuantity() != null && budgetLineItem.getQuantity().intValue()<0) {
-                    errorMap.putError("budgetCategoryTypes[" + budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode() + "].budgetPeriods[" + i +"].budgetLineItems[" + j + "].quantity", KeyConstants.ERROR_NEGATIVE_AMOUNT,"Quantity");
+                    errorMap.putError("budgetPeriod[" + i +"].budgetLineItem[" + j + "].quantity", KeyConstants.ERROR_NEGATIVE_AMOUNT,"Quantity");
                     valid = false;
                 }
                 if (budgetLineItem!=null && budgetLineItem.getLineItemCost() != null && budgetLineItem.getLineItemCost().isNegative()) {
-                    errorMap.putError("budgetCategoryTypes[" + budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode() + "].budgetPeriods[" + i +"].budgetLineItems[" + j + "].lineItemCost", KeyConstants.ERROR_NEGATIVE_AMOUNT,"Total Base Cost");
+                    errorMap.putError("budgetPeriod[" + i +"].budgetLineItem[" + j + "].lineItemCost", KeyConstants.ERROR_NEGATIVE_AMOUNT,"Total Base Cost");
                     valid = false;
                 }
 //                if(budgetLineItem.getEndDate().compareTo(budgetLineItem.getStartDate()) <=0 ) {                        
