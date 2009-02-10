@@ -34,6 +34,9 @@
 	</c:otherwise>
 </c:choose>
 	<c:set var="tabErrorKeyString" value=""/>
+	<c:set var="tabErrorKeyString2" value=""/>
+	<c:set var="tabErrorKeyString3" value=""/>
+	
     <c:forEach var="budgetCategoryTypeIndex" items="${KualiForm.document.budgetCategoryTypeCodes}" varStatus="status1">
     	<c:if test="${budgetCategoryTypeIndex.key ==  budgetCategoryTypeCodeKey}">
     		<c:set var="index" value="0"/>
@@ -58,10 +61,10 @@
 	    		</c:choose>
 	    		<c:choose>
 	    			<c:when test="${empty tabErrorKeyString3}">
-	    				<c:set var="tabErrorKeyString3" value="document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].*"/>
+	    				<c:set var="tabErrorKeyString3" value="document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].lineItemCost,document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].quantity"/>
 	    			</c:when>
 	    			<c:otherwise>
-	    				<c:set var="tabErrorKeyString3" value="${tabErrorKeyString3},document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].*"/>
+	    				<c:set var="tabErrorKeyString3" value="${tabErrorKeyString3},document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].lineItemCost,document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].quantity"/>
 	    			</c:otherwise>
 	    		</c:choose>			    		
     		</c:if>    		
@@ -80,7 +83,7 @@
   		</c:if>		
 	</c:if>
  	
-	<kul:tab tabTitle="${budgetCategoryTypeCodeLabel}" tabItemCount="${tabItemCount}" defaultOpen="false" tabErrorKey="*costElement*,newBudgetLineItems[${catCodes}].*,${tabErrorKeyString},${tabErrorKeyString2}">
+	<kul:tab tabTitle="${budgetCategoryTypeCodeLabel}" tabItemCount="${tabItemCount}" defaultOpen="false" tabErrorKey="*costElement*,newBudgetLineItems[${catCodes}].*,${tabErrorKeyString},${tabErrorKeyString2},${tabErrorKeyString3}">
 		<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>${budgetCategoryTypeCodeLabel}</h2></span>
