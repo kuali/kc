@@ -63,7 +63,6 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
     private String lookupResultsSequenceNumber;
     private String lookupResultsBOClassName;
     
-    private String organizationName;
     
     public ProtocolForm() {
         super();
@@ -227,14 +226,6 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
 
     public void setNewProtocolPersonUnits(List<ProtocolUnit> newProtocolPersonUnits) {
         this.newProtocolPersonUnits = newProtocolPersonUnits;
-    }
-
-    public String getOrganizationName() {
-        return organizationName;
-    }
-
-    public void setOrganizationName(String organizationName) {
-        this.organizationName = organizationName;
     }
 
 }

@@ -52,13 +52,13 @@
 					</th>
 	
 	                <td align="left" valign="middle"  class="infoline">
-	                	<kul:htmlControlAttribute property="protocolHelper.newProtocolLocation.organizationId" attributeEntry="${protocolLocationAttributes.organizationId}" onblur="loadOrganizationName('protocolHelper.newProtocolLocation.organizationId', 'organizationName');" />
+	                	<kul:htmlControlAttribute property="protocolHelper.newProtocolLocation.organizationId" attributeEntry="${protocolLocationAttributes.organizationId}" onblur="loadOrganizationName('protocolHelper.newProtocolLocation.organizationId', 'protocolHelper.organizationName');" />
 	                    <kul:lookup boClassName="org.kuali.kra.bo.Organization" 
 	                    fieldConversions="organizationId:protocolHelper.newProtocolLocation.organizationId,contactAddressId:protocolHelper.newProtocolLocation.rolodexId,humanSubAssurance:protocolHelper.newProtocolLocation.organization.humanSubAssurance,organizationName:protocolHelper.newProtocolLocation.organization.organizationName,rolodex.firstName:protocolHelper.newProtocolLocation.organization.rolodex.firstName,rolodex.lastName:protocolHelper.newProtocolLocation.organization.rolodex.lastName,rolodex.addressLine1:protocolHelper.newProtocolLocation.organization.rolodex.addressLine1,rolodex.addressLine2:protocolHelper.newProtocolLocation.organization.rolodex.addressLine2,rolodex.addressLine3:protocolHelper.newProtocolLocation.organization.rolodex.addressLine3,rolodex.city:protocolHelper.newProtocolLocation.organization.rolodex.city,rolodex.state:protocolHelper.newProtocolLocation.organization.rolodex.state" anchor="${currentTabIndex}"/> 
 	                    <kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="newProtocolLocation.organizationId:organizationId" anchor="${currentTabIndex}"/>
                 		<br />
-                		<div id="organizationName.div" class="fineprint">
-                			${KualiForm.organizationName}&nbsp;
+                		<div id="protocolHelper.organizationName.div" class="fineprint">
+                			${protocolHelper.organizationName}&nbsp;
 						</div>
 	                </td>
 	                <td align="left" valign="middle" class="infoline">
