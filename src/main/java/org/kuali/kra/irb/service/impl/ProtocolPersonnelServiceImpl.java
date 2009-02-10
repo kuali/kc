@@ -117,14 +117,11 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     /**
      * @see org.kuali.kra.irb.service.ProtocolPersonnelService#isRoleChangePermitted(org.kuali.kra.irb.bo.Protocol, int)
      */
-    public boolean isRoleChangePermitted(Protocol protocol, int selectedPersonIndex) {
+    public boolean isRoleChangePermitted(ProtocolPerson protocolPerson) {
         boolean isRolePermitted = true;
-        List<ProtocolPersonRoleMapping> personRoleMappings = new ArrayList<ProtocolPersonRoleMapping>();
-        for(ProtocolPerson protocolPerson : protocol.getProtocolPersons()) {
-            personRoleMappings.addAll(getPersonRoleMapping(protocolPerson.getPreviousPersonRoleId()));
-            if(!isRolePermitted(personRoleMappings, protocolPerson)) {
+        if(!protocolPerson.getPreviousPersonRoleId().equalsIgnoreCase(protocolPerson.getProtocolPersonRoleId())) {
+            if(!isRolePermitted(getPersonRoleMapping(protocolPerson.getPreviousPersonRoleId()), protocolPerson)) {
                 isRolePermitted = false;
-                break;
             }
         }
         return isRolePermitted;
@@ -145,10 +142,12 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
      * @param sourceRoleId
      * @return Collection<PersonTraining>
      */
-    private Collection<ProtocolPersonRoleMapping> getPersonRoleMapping(String sourceRoleId) {
+    private List<ProtocolPersonRoleMapping> getPersonRoleMapping(String sourceRoleId) {
+        List<ProtocolPersonRoleMapping> personRoleMappings = new ArrayList<ProtocolPersonRoleMapping>();
         Map<String, Object> matchingKeys = new HashMap<String, Object>();
         matchingKeys.put("sourceRoldId", sourceRoleId);
-        return businessObjectService.findMatching(ProtocolPersonRoleMapping.class, matchingKeys);
+        personRoleMappings.addAll(businessObjectService.findMatching(ProtocolPersonRoleMapping.class, matchingKeys));
+        return personRoleMappings;
     }
 
     /**
@@ -156,8 +155,10 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
      */
     public void updateProtocolUnit(List<ProtocolPerson> protocolPersons) {
         for(ProtocolPerson protocolPerson : protocolPersons) {
-            protocolPerson.resetAllProtocolLeadUnits();
-            protocolPerson.getProtocolUnit(protocolPerson.getSelectedUnit()).setLeadUnitFlag(true);
+            if(protocolPerson.getProtocolUnits().size() > 0) {
+                protocolPerson.resetAllProtocolLeadUnits();
+                protocolPerson.getProtocolUnit(protocolPerson.getSelectedUnit()).setLeadUnitFlag(true);
+            }
         }
     }
     
@@ -205,6 +206,34 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
         return duplicatePerson;
     }
 
+    /**
+     * @see org.kuali.kra.irb.service.ProtocolPersonnelService#getPrincipalInvestigator(java.util.List)
+     */
+    public ProtocolPerson getPrincipalInvestigator(List<ProtocolPerson> protocolPersons) {
+        ProtocolPerson principalInvestigator = null;
+        for(ProtocolPerson protocolPerson : protocolPersons) {
+            if(isPrincipalInvestigator(protocolPerson)) {
+                principalInvestigator = protocolPerson;
+                break;
+            }
+        }
+        return principalInvestigator;
+    }
+
+    /**
+     * This method is to check if the person has the role Principal Investigator
+     * @param protocolPerson
+     * @return true / false
+     */
+    public boolean isPrincipalInvestigator(ProtocolPerson protocolPerson) {
+        boolean isInvestigator = false;
+        if(protocolPerson.getProtocolPersonRoleId().equalsIgnoreCase(Constants.PRINCIPAL_INVESTIGATOR_ROLE)) {
+            isInvestigator = true;
+        }
+        return isInvestigator;
+        
+    }
+    
     /**
      * Gets the businessObjectService attribute.
      * 
