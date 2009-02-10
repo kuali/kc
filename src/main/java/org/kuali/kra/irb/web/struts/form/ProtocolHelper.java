@@ -64,6 +64,7 @@ public class ProtocolHelper {
     private boolean modifyProtocol = false;
     private boolean billableReadOnly = false;
     private ProtocolLocation newProtocolLocation;
+    private String organizationName;
 
     public ProtocolHelper(ProtocolForm form) {
         this.form = form;
@@ -380,4 +381,12 @@ public class ProtocolHelper {
         this.newProtocolLocation = newProtocolLocation;
     }
     
+    public String getOrganizationName() {
+        return organizationName;
+    }
+
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
+    }
+
 }
