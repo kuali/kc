@@ -22,11 +22,13 @@ public class WeeklyScheduleDetails extends ScheduleDetails {
     
     private String[] daysOfWeek;
     
+    public static final String[] days = {"SUNDAY","MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY","SATURDAY"};
+    
     public WeeklyScheduleDetails() {
         super();
         this.setWeek(1);
         this.setDaysOfWeek(new String[7]);
-        this.getDaysOfWeek()[0] = "MONDAY";
+        this.getDaysOfWeek()[0] = days[1];
     }
 
     public void setWeek(int week) {

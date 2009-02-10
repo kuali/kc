@@ -16,6 +16,7 @@
 package org.kuali.kra.committee.web.struts.form;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -33,6 +34,8 @@ public class ScheduleData {
     private Date scheduleStartDate;
        
     private String startTime;
+    
+    private String meridiem;
     
     private List<LabelValueBean> timeSlots;
     
@@ -58,6 +61,9 @@ public class ScheduleData {
         
         this.setTimeSlots(new ArrayList<LabelValueBean>());
         ScheduleOptionsUtil.populate(timeSlots, ScheduleOptionsUtil.time);
+        
+        this.setStartTime("00:00");
+        this.setMeridiem("AM");
         
         this.setRecurrenceType(stylekey[0]);
         this.setStyleClasses(new HashMap<String,String>());
@@ -109,6 +115,14 @@ public class ScheduleData {
 
     public void setStartTime(String startTime) {
         this.startTime = startTime;
+    }
+
+    public String getMeridiem() {
+        return meridiem;
+    }
+
+    public void setMeridiem(String meridiem) {
+        this.meridiem = meridiem;
     }
 
     public void setScheduleStartDate(Date scheduleStartDate) {
@@ -172,10 +186,18 @@ public class ScheduleData {
         }        
     }
     
+    public int calculateMinutes() {
+        return ScheduleOptionsUtil.findMinutes(startTime, meridiem);
+    }
+    
+    public String convert24HrTimeFmt() {
+        return ScheduleOptionsUtil.convert24HourFmt(startTime, meridiem);
+    }
+    
     public void printf() {
         LOG.info("=========================================================");
         LOG.info("ScheduleStartDate Date is :" + scheduleStartDate.toString());
-        LOG.info("Start time is :" + startTime);
+        LOG.info("Start time is :" + startTime + meridiem);
         LOG.info("Place is :" + place);
         LOG.info("recurrenceType is :" + recurrenceType);
         LOG.info("=========================================================");

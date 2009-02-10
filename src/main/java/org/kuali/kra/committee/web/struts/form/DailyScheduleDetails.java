@@ -20,14 +20,19 @@ public class DailyScheduleDetails extends ScheduleDetails {
     @SuppressWarnings("unused")
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DailyScheduleDetails.class);
     
+    private int defaultDay;
+
     private int day;
     
     private String dayOption;
     
+    public static final String[] optionValues = {"XDAY","WEEKDAY"};
+    
     public DailyScheduleDetails() {
         super();
-        this.setDay(1);
-        this.setDayOption("XDAY");
+        this.setDefaultDay(1);
+        this.setDay(this.getDefaultDay());
+        this.setDayOption(optionValues[0]);
     }
 
     public void setDay(int day) {
@@ -38,6 +43,14 @@ public class DailyScheduleDetails extends ScheduleDetails {
         return day;
     }
 
+    public int getDefaultDay() {
+        return defaultDay;
+    }
+
+    public void setDefaultDay(int defaultDay) {
+        this.defaultDay = defaultDay;
+    }
+    
     public void setDayOption(String dayOption) {
         this.dayOption = dayOption;
     }
