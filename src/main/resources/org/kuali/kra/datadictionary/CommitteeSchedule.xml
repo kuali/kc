@@ -112,7 +112,7 @@
 		<property name="label" value="Scheduled Date" />
 		<property name="shortLabel" value="Scheduled Date" />
 		<property name="summary" value="Scheduled Date" />
-		<property name="description" value="Scheduled Date" />
+		<property name="description" value="Scheduled Date" />		
 	</bean>
 
 	<bean id="CommSchedule-place" parent="CommSchedule-place-parentBean" />
@@ -161,10 +161,18 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
-		<property name="control" >
+		<!--<property name="control" >
 			<bean parent="TextControlDefinition"
 				p:size="10" />
-		</property>
+		</property>-->
+		<property name="control" >
+            <bean parent="SelectControlDefinition"
+                p:businessObjectClass="org.kuali.kra.committee.bo.ScheduleStatus"
+                p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" 
+                p:includeKeyInLabel="false"
+                p:keyAttribute="scheduleStatusCode"
+                p:labelAttribute="description" />
+        </property>		
 		<property name="summary" value="Schedule Status Code" />
 		<property name="description" value="Schedule Status Code" />
 	</bean>
