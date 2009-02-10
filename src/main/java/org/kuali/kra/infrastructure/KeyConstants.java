@@ -251,9 +251,6 @@ public final class KeyConstants {
     // Budget Version
     public static final String BUDGET_VERSION_EXISTS = "error.budgetVersion.exists";
     
-    //Award Comments
-    public static final String ERROR_AWARD_COMMENTS_TYPE_CODE_MISSING = "error.comments.type.code.missing";
-    
     // Award Approved Equipment
     public static final String ERROR_AWARD_APPROVED_EQUIPMENT_AMOUNT_REQUIRED = "error.required";
     public static final String ERROR_AWARD_APPROVED_EQUIPMENT_ITEM_REQUIRED = ERROR_AWARD_APPROVED_EQUIPMENT_AMOUNT_REQUIRED;
