@@ -16,15 +16,22 @@
 package org.kuali.kra.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.award.bo.AwardReportTerm;
 import org.kuali.kra.award.bo.AwardReportTermRecipient;
+import org.kuali.kra.award.bo.ReportClass;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.ReportClassValuesFinder;
 import org.kuali.kra.award.web.struts.form.AwardForm;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.service.AwardReportsService;
 
 /**
@@ -36,6 +43,9 @@ public class AwardReportsServiceImpl implements AwardReportsService {
     private static final String SEMICOLON_AS_DELIMITOR = ";";
     private static final String COMA_AS_DELIMITOR = ",";
     
+    KualiConfigurationService kualiConfigurationService;
+    BusinessObjectService businessObjectService;
+    
     /**
      * 
      * @see org.kuali.kra.service.AwardReportsService#doPreparations(
@@ -45,6 +55,27 @@ public class AwardReportsServiceImpl implements AwardReportsService {
         
         assignReportClassesToAwardFormForPanelHeaderDisplay(awardForm);        
         addEmptyNewAwardReportTermRecipients(awardForm);
+        setReportClassInFormForPaymentsAndInvoicesSubPanel(awardForm);
+    }
+    
+    
+    /**
+     * 
+     * This method fetches the reportClass object from the database using system paramter as the primary
+     * key and sets it in the awardForm. Its used in the jsp/tag files to populate the report class panel
+     * under Payments and Invoices panel.
+     * 
+     * @param awardForm
+     */
+    protected void setReportClassInFormForPaymentsAndInvoicesSubPanel(AwardForm awardForm){
+        Map<String, String> primaryKeyField = new HashMap<String, String>();
+        
+        primaryKeyField.put("reportClassCode",kualiConfigurationService.getParameter(Constants
+                .PARAMETER_MODULE_AWARD,Constants.PARAMETER_COMPONENT_DOCUMENT
+                ,KeyConstants.MIT_IDC_VALIDATION_ENABLED).getParameterValue());        
+        
+        awardForm.setReportClassForPaymentsAndInvoices((ReportClass) businessObjectService.findByPrimaryKey(
+                ReportClass.class, primaryKeyField));
     }
     
     /**
@@ -143,6 +174,14 @@ public class AwardReportsServiceImpl implements AwardReportsService {
         List<KeyLabelPair> frequencyBaseCodes = frequencyBaseCodeValuesFinder.getKeyValues();
         return processKeyLabelPairList(frequencyBaseCodes);
         
+    }
+
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
 }
