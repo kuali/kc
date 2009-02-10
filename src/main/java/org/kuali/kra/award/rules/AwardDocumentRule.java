@@ -164,6 +164,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         boolean valid = true;
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         AwardDocument awardDocument = (AwardDocument) document;
+        Award award = awardDocument.getAward();
         errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
         errorMap.addToErrorPath(AWARD_ERROR_PATH);
         if(StringUtils.equalsIgnoreCase(
@@ -173,7 +174,9 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
                         KeyConstants.MIT_IDC_VALIDATION_ENABLED_VALUE_FOR_COMPARISON)){
             String errorPath = "benefitsRates.rates";
             errorMap.addToErrorPath(errorPath);
-            AwardBenefitsRatesRuleEvent event = new AwardBenefitsRatesRuleEvent(errorPath, awardDocument); 
+            AwardBenefitsRatesRuleEvent event = new AwardBenefitsRatesRuleEvent(errorPath, 
+                                                                                    award, 
+                                                                                    awardDocument); 
             valid &= new AwardBenefitsRatesRuleImpl().processBenefitsRatesBusinessRules(event);
             errorMap.removeFromErrorPath(errorPath);
         }        

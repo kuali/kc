@@ -43,7 +43,7 @@ public class AwardBenefitsRatesRuleImpl extends ResearchDocumentRuleBase impleme
      * (org.kuali.kra.award.rule.event.AwardBenefitsRatesRuleEvent)
      */
     public boolean processBenefitsRatesBusinessRules(AwardBenefitsRatesRuleEvent event) {
-        return validateBenefitsRatesInValidRatesTable(event.getAwardDocument().getAward());
+        return validateBenefitsRatesInValidRatesTable(event.getAward());
     }
     
     /**
@@ -52,8 +52,8 @@ public class AwardBenefitsRatesRuleImpl extends ResearchDocumentRuleBase impleme
      * @param event
      * @return
      */
-    private boolean validateBenefitsRatesInValidRatesTable(Award award) {
-        boolean valid = checkValidRateInValidRatesTable(award);
+    boolean validateBenefitsRatesInValidRatesTable(Award award) {
+        boolean valid = checkValidRatesOrNullValues(award);
         if(!valid){
             reportError(BENEFITS_RATES, 
                     KeyConstants.ERROR_BENEFITS_RATES);
@@ -67,7 +67,7 @@ public class AwardBenefitsRatesRuleImpl extends ResearchDocumentRuleBase impleme
      * @param award
      * @return
      */
-    protected boolean checkValidRateInValidRatesTable(Award award) {
+    boolean checkValidRatesOrNullValues(Award award) {
         boolean valid = true;
         if(award.getSpecialEbRateOffCampus() != null 
                 || award.getSpecialEbRateOnCampus() != null) {
@@ -81,7 +81,7 @@ public class AwardBenefitsRatesRuleImpl extends ResearchDocumentRuleBase impleme
      * @return
      */
     @SuppressWarnings("unchecked")
-    protected Collection<ValidRates> getValidRates(Award award){
+    Collection<ValidRates> getValidRates(Award award){
         Map<String, Object> rateValues = new HashMap<String, Object>();
         rateValues.put(ON_CAMPUS_RATE, award.getSpecialEbRateOnCampus());
         rateValues.put(OFF_CAMPUS_RATE, award.getSpecialEbRateOffCampus());
@@ -93,7 +93,7 @@ public class AwardBenefitsRatesRuleImpl extends ResearchDocumentRuleBase impleme
      * This is a convenience method to use jmock to set the businessObjectService for unit testing.
      * @param businessObjectService
      */
-    protected void setBusinessObjectService(BusinessObjectService businessObjectService){
+    void setBusinessObjectService(BusinessObjectService businessObjectService){
         this.businessObjectService = businessObjectService;
     }
     
@@ -101,7 +101,7 @@ public class AwardBenefitsRatesRuleImpl extends ResearchDocumentRuleBase impleme
      * This method returns the Kra business object service.
      * @return
      */
-    protected BusinessObjectService getKraBusinessObjectService() {
+    BusinessObjectService getKraBusinessObjectService() {
         if(businessObjectService == null){
             businessObjectService = 
                 (BusinessObjectService) KraServiceLocator.getService("businessObjectService");
