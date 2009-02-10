@@ -60,7 +60,6 @@ public class ProtocolParticipantServiceImpl implements ProtocolParticipantServic
 
         protocolParticipant.setParticipantType(participantType);
 
-        // TODO Framework problem of 2 saves
         protocolParticipant.setProtocolNumber("0");
         protocolParticipant.setSequenceNumber(0);
 
