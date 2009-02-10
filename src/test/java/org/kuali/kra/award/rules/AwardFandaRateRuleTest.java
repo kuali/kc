@@ -21,6 +21,8 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.core.util.ErrorMap;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.award.bo.AwardFandaRate;
 
@@ -46,7 +48,8 @@ public class AwardFandaRateRuleTest {
         awardFandaRate.setOnCampusFlag("N");
         awardFandaRate.setUnderrecoveryOfIndirectCost(new KualiDecimal(1000));
         awardFandaRate.setStartDate(new Date(new Long("1183316613046")));        
-        awardFandaRate.setEndDate(new Date(new Long("1214852613046")));        
+        awardFandaRate.setEndDate(new Date(new Long("1214852613046")));
+        GlobalVariables.setErrorMap(new ErrorMap());
     }
 
     /**
@@ -65,6 +68,18 @@ public class AwardFandaRateRuleTest {
     @Test
     public final void testEvaluateRuleForApplicableIndirectCostRate() {
         Assert.assertTrue(awardFandaRateRule.evaluateRuleForApplicableFandaRate(awardFandaRate));
+    }
+    
+    @Test
+    public final void testEvaluateRuleForApplicableIndirectCostRateNull() {
+        awardFandaRate.setApplicableFandaRate(null);
+        Assert.assertFalse(awardFandaRateRule.evaluateRuleForApplicableFandaRate(awardFandaRate));
+    }
+    
+    @Test
+    public final void testEvaluateRuleForApplicableIndirectCostRateEmpty() {
+        awardFandaRate.setApplicableFandaRate(new KualiDecimal(-5));
+        Assert.assertFalse(awardFandaRateRule.evaluateRuleForApplicableFandaRate(awardFandaRate));
     }
 
     /**
