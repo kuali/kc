@@ -81,5 +81,4 @@ ORDER by  proposal_number,
           rate_class_code,
           rate_type_code,
           rate_class_type,
-          calculated_cost
-/
+          calculated_cost;

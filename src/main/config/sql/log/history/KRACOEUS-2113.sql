@@ -125,10 +125,7 @@ group by
 order by       
       proposal_number, version_number, budget_period, line_item_number, person_number;
 
-END;
-/
-
-
+END;;
 CREATE OR REPLACE PROCEDURE get_salary_summary
    ( as_proposal_number IN osp$budget_per_details_for_edi.PROPOSAL_NUMBER%TYPE,
 	   ai_version			IN osp$budget_details.version_number%TYPE,
@@ -263,10 +260,7 @@ group by
 order by       
       proposal_number, version_number, budget_period, line_item_number, person_number;
 
-END;
-/
-
-
+END;;
 CREATE OR REPLACE VIEW OSP$BUDGET_PER_DETAILS_FOR_EDI AS
 SELECT
   A.PROPOSAL_NUMBER, A.BUDGET_PERIOD, A.LINE_ITEM_NUMBER, A.PERSON_NUMBER, ROWNUM RATE_NUMBER, A.PERSON_ID, '000000' JOB_CODE,
@@ -380,5 +374,4 @@ WHERE
 	B.PROPOSAL_NUMBER = A.PROPOSAL_NUMBER AND
 	B.VERSION_NUMBER = A.VERSION_NUMBER AND
 	B.BUDGET_PERIOD = A.BUDGET_PERIOD AND
-	B.LINE_ITEM_NUMBER = A.LINE_ITEM_NUMBER
-/
+	B.LINE_ITEM_NUMBER = A.LINE_ITEM_NUMBER;

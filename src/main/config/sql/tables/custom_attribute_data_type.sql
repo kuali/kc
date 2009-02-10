@@ -8,5 +8,4 @@ create table custom_attribute_data_type
   obj_id varchar2(36) DEFAULT SYS_GUID() constraint custom_attribute_data_type_n6 NOT NULL,
   constraint custom_attribute_data_type_p1 primary key (data_type_code),
   constraint custom_attribute_data_type_c0 unique (obj_id)
-)
-/
+);

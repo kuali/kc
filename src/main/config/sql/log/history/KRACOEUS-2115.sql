@@ -286,8 +286,6 @@ order by
       proposal_number, version_number, budget_period, line_item_number, person_number;
 
 END;
-/
-
 CREATE OR REPLACE PROCEDURE get_cum_salary_summary
    ( as_proposal_number IN osp$budget_per_details_for_edi.PROPOSAL_NUMBER%TYPE,
      ai_version      IN osp$budget_details.version_number%TYPE,
@@ -467,4 +465,3 @@ order by
       proposal_number, version_number, budget_period, line_item_number, person_number;
 
 END;
-/

@@ -70,8 +70,6 @@ procedure  getTraining ( as_proposal_number in osp$budget.proposal_number%type,
 								 cur_type IN OUT result_sets.cur_generic);
 
 end;
-/
-
 CREATE OR REPLACE package body s2sED524V11Pkg as
 
 
@@ -754,5 +752,3 @@ EXCEPTION
 end;
 
 end;
-/
-

@@ -187,5 +187,3 @@ order by
        
 ) order by category, cost_element_desc, person_name, start_date;  
 END;
-
-/

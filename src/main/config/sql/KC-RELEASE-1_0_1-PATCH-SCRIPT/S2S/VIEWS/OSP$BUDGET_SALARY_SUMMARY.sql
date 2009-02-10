@@ -99,5 +99,4 @@ where
      c.rate_class_code = R.rate_class_code and
      c.rate_type_code = R.rate_type_code and
      b.proposal_number = inv.proposal_number (+) and
-     b.person_id = inv.person_id (+) 
-/
+     b.person_id = inv.person_id (+);

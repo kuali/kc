@@ -1,7 +1,6 @@
 /* Database changes for Authorization Maintanence documents */
 /* This script is ONLY for development databases, not test databases. */
 /* For test databases, use 1401b. */
-
 insert into FP_DOC_TYPE_T (FDOC_TYP_CD, VER_NBR, FDOC_GRP_CD, FDOC_NM, FIN_ELIM_ELGBL_CD, FDOC_TYP_ACTIVE_CD, FDOC_RTNG_RULE_CD, FDOC_AUTOAPRV_DAYS, FDOC_BALANCED_CD, TRN_SCRBBR_OFST_GEN_IND) values ('KIRP', 1, 'KR', 'KIM ROLE-PERMISSION', 'N', 'Y', 'N', 0, 'N', 'N');
 
 insert into FP_DOC_TYPE_T (FDOC_TYP_CD, VER_NBR, FDOC_GRP_CD, FDOC_NM, FIN_ELIM_ELGBL_CD, FDOC_TYP_ACTIVE_CD, FDOC_RTNG_RULE_CD, FDOC_AUTOAPRV_DAYS, FDOC_BALANCED_CD, TRN_SCRBBR_OFST_GEN_IND) values ('UAED', 1, 'KR', 'UNIT ACL ENTRY', 'N', 'Y', 'N', 0, 'N', 'N');
@@ -40,7 +39,6 @@ create table PROP_ROLE_TEMPLATE
 CREATE SEQUENCE SEQ_PROP_ROLE_TEMPLATE_ID INCREMENT BY 1 START WITH 1000;
 
 /* Add a new set of users */
-
 insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (10, 'majors', 'fK69ATFsAydwQuteang+xMva+Tc=');
 insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (11, 'chew', 'fK69ATFsAydwQuteang+xMva+Tc=');
 insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (12, 'woods', 'fK69ATFsAydwQuteang+xMva+Tc=');
@@ -244,7 +242,6 @@ insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (100,'mwmartin', 'fK69
 insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, KIM_PERSON_ID, ACTIVE_FLAG, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR) values ('000000099', 'MARTIN','MERRILL', 'MARTIN,MERRILL W','mwmartin','Kuali Foundation','000001', 100, 'Y', SYSDATE,'KRADEV','1');
 
 /* workflow groups */
-
 insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
 values ('majors', 1, 'U', 1);
 insert into en_wrkgrp_mbr_t (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR)
