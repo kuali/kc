@@ -28,6 +28,10 @@
         <ref bean="Award-specialEbRateOffCampus" />
         <ref bean="Award-subPlanFlag" />
         <ref bean="Award-procurementPriorityCode" />
+        <ref bean="Award-basisOfPaymentCode" />
+        <ref bean="Award-methodOfPaymentCode" />
+        <ref bean="Award-finalInvoiceDue" />
+        <ref bean="Award-documentFundingId" />
       </list>
     </property>
   </bean>
@@ -240,6 +244,94 @@
     </property>
     <property name="summary" value="Small Business Subcontracting Plan" />
     <property name="description" value="Small Business Subcontracting Plan" />
+  </bean>
+  
+  <bean id="Award-basisOfPaymentCode" parent="Award-basisOfPaymentCode-parentBean" />
+  
+  <bean id="Award-basisOfPaymentCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="basisOfPaymentCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Payment Basis" />
+    <property name="shortLabel" value="Payment Basis" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kra.award.bo.AwardBasisOfPayment"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="false"
+            p:keyAttribute="basisOfPaymentCode"
+            p:labelAttribute="description" />
+    </property>
+    <property name="summary" value="Payment Basis" />
+    <property name="description" value="Payment Basis" />
+  </bean>
+  
+  <bean id="Award-methodOfPaymentCode" parent="Award-methodOfPaymentCode-parentBean" />
+  
+  <bean id="Award-methodOfPaymentCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="methodOfPaymentCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Payment Method" />
+    <property name="shortLabel" value="Payment Method" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kra.award.bo.AwardMethodOfPayment"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="false"
+            p:keyAttribute="methodOfPaymentCode"
+            p:labelAttribute="description" />
+    </property>
+    <property name="summary" value="Payment Method" />
+    <property name="description" value="Payment Method" />
+  </bean>
+  
+  <bean id="Award-finalInvoiceDue" parent="Award-finalInvoiceDue-parentBean" />
+  
+  <bean id="Award-finalInvoiceDue-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="finalInvoiceDue" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Final Invoice" />
+    <property name="shortLabel" value="Final Invoice" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Final Invoice" />
+    <property name="description" value="Final Invoice" />
+  </bean>
+  
+  <bean id="Award-documentFundingId" parent="Award-documentFundingId-parentBean" />
+  
+  <bean id="Award-documentFundingId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentFundingId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Document Funding ID" />
+    <property name="shortLabel" value="Document Funding ID" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+    <property name="summary" value="Document Funding ID" />
+    <property name="description" value="Document Funding ID" />
   </bean>
   
   </beans>
