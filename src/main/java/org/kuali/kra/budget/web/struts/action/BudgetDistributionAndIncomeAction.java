@@ -133,7 +133,7 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
         BudgetUnrecoveredFandA budgetUnrecoveredFandA = budgetForm.getNewBudgetUnrecoveredFandA();
         boolean passed = getKualiRuleService().applyRules(createRuleEvent(budgetForm, budgetUnrecoveredFandA));
         
-        if(passed) {;
+        if(passed) {
             setUnrecoveredFandAAddRowDefaults(budgetDocument, budgetUnrecoveredFandA);
                        
             budgetForm.getBudgetDocument().add(budgetUnrecoveredFandA);

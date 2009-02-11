@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.budget.service.impl;
 
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.RateDecimal;
 import org.kuali.kra.budget.bo.BudgetCostShare;
@@ -25,16 +24,6 @@ import org.kuali.kra.budget.document.BudgetDocument.FiscalYearSummary;
 import org.kuali.kra.budget.service.BudgetDistributionAndIncomeService;
 
 public class BudgetDistributionAndIncomeServiceImpl implements BudgetDistributionAndIncomeService {
-
-    private BusinessObjectService businessObjectService;
-    
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
 
     /**
      * @see org.kuali.kra.budget.service.BudgetDistributionAndIncomeService#initializeCollectionDefaults(org.kuali.kra.budget.document.BudgetDocument)
