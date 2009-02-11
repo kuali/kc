@@ -43,6 +43,7 @@ import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.bo.BudgetModular;
 import org.kuali.kra.budget.bo.BudgetPeriod;
+import org.kuali.kra.budget.bo.BudgetProjectIncome;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
@@ -1024,6 +1025,9 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             budgetPeriod.setBudgetModular(null);
         }
         
+        List<BudgetProjectIncome> srcProjectIncomeList = budget.getBudgetProjectIncomes();
+        budget.setBudgetProjectIncomes(new ArrayList<BudgetProjectIncome>());
+        
         documentService.saveDocument(budget);
         
         for(BudgetPeriod tmpBudgetPeriod: budget.getBudgetPeriods()) {
@@ -1032,8 +1036,17 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                 tmpBudgetModular.setBudgetPeriodId(tmpBudgetPeriod.getBudgetPeriodId());
                 tmpBudgetPeriod.setBudgetModular(tmpBudgetModular);
             }
+            
+            for(BudgetProjectIncome budgetProjectIncome : srcProjectIncomeList) {
+                if(budgetProjectIncome.getBudgetPeriodNumber().intValue() == tmpBudgetPeriod.getBudgetPeriod().intValue()) {
+                    budgetProjectIncome.setBudgetPeriodId(tmpBudgetPeriod.getBudgetPeriodId());
+                    budgetProjectIncome.setProposalNumber(tmpBudgetPeriod.getProposalNumber());
+                    budgetProjectIncome.setVersionNumber(new Long(0));
+                }
+            }
         }
         
+        budget.setBudgetProjectIncomes(srcProjectIncomeList);
         documentService.saveDocument(budget);
         documentService.routeDocument(budget, "Route to Final", new ArrayList());
     }
