@@ -562,12 +562,13 @@
 		<property name="businessObjectService" >
   			<ref bean="businessObjectService"/>
   		</property>
+  		<property name="budgetDistributionAndIncomeService" >
+  			<ref bean="budgetDistributionAndIncomeService"/>
+  		</property>
+  		
 	</bean>
 
 	<bean id="budgetDistributionAndIncomeService" class="org.kuali.kra.budget.service.impl.BudgetDistributionAndIncomeServiceImpl">
-		<property name="businessObjectService" >
-  			<ref bean="businessObjectService"/>
-  		</property>
 	</bean>
 
     <bean id="kraWorkflowService" class="org.kuali.kra.service.impl.KraWorkflowServiceImpl" />

@@ -52,14 +52,14 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetCalculationService;
 import org.kuali.kra.budget.service.BudgetDistributionAndIncomeService;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-
 
 /**
  * This class implements all methods declared in BudgetCalculationService
  */
 public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     private BusinessObjectService businessObjectService;
+    private BudgetDistributionAndIncomeService budgetDistributionAndIncomeService;
+    
     /**
      * @see org.kuali.kra.budget.service.BudgetCalculationService#calculateBudget(java.lang.String, java.lang.Integer)
      */
@@ -67,7 +67,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
         String ohRateClassCodePrevValue = null;
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
-            if(isCalculationRequired(budgetDocument,budgetPeriod)){
+            if(isCalculationRequired(budgetDocument.isBudgetLineItemDeleted(),budgetPeriod)){
                 String workOhCode = null;
                 if(budgetDocument.getOhRateClassCode()!=null && ((BudgetForm)GlobalVariables.getKualiForm())!=null && budgetDocument.getBudgetPeriods().size() > budgetPeriod.getBudgetPeriod()){
                     workOhCode = ((BudgetForm)GlobalVariables.getKualiForm()).getOhRateClassCodePrevValue();
@@ -89,19 +89,32 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
             syncCostsToBudgetDocument(budgetDocument);
         }
     }
-    private boolean isCalculationRequired(BudgetDocument budgetDocument,BudgetPeriod budgetPeriod){
-        List<BudgetLineItem> lineItemDetails = budgetPeriod.getBudgetLineItems();
-        if(lineItemDetails.isEmpty() && !budgetDocument.isBudgetLineItemDeleted()){
-            Map fieldValues = new HashMap();
+    /**
+     * Checks if a calculation is required where Budget periods must be synced in line items.
+     *  
+     * @param budgetLineItemDeleted whether of not a budget line item has been deleted.
+     * @param budgetPeriod the current budget period.
+     * 
+     * @return true if calculation is required false if not
+     */
+    private boolean isCalculationRequired(final boolean budgetLineItemDeleted, final BudgetPeriod budgetPeriod){
+        assert budgetPeriod != null : "The budget period is null";
+        
+        final boolean isLineItemsEmpty = budgetPeriod.getBudgetLineItems().isEmpty();
+        
+        if(isLineItemsEmpty && !budgetLineItemDeleted){
+            final Map<Object, Object> fieldValues = new HashMap<Object, Object>();
             fieldValues.put("proposalNumber", budgetPeriod.getProposalNumber());
             fieldValues.put("budgetVersionNumber", budgetPeriod.getBudgetVersionNumber());
             fieldValues.put("budgetPeriod", budgetPeriod.getBudgetPeriod());
-            Collection<BudgetLineItem> deletedLineItems = businessObjectService.findMatching(BudgetLineItem.class, fieldValues);
-            return !deletedLineItems.isEmpty();
-        }else{
-            return true;
-        }
             
+            @SuppressWarnings("unchecked")
+            final Collection<BudgetLineItem> deletedLineItems
+                = this.businessObjectService.findMatching(BudgetLineItem.class, fieldValues);
+            return !deletedLineItems.isEmpty();
+        }
+        
+        return true;
     }
     private void copyLineItemToPersonnelDetails(BudgetLineItem budgetLineItem, BudgetPersonnelDetails budgetPersonnelDetails) {
         budgetPersonnelDetails.setProposalNumber(budgetLineItem.getProposalNumber());
@@ -119,7 +132,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
      * @see org.kuali.kra.budget.service.BudgetCalculationService#calculateBudgetLineItem(org.kuali.kra.budget.bo.BudgetLineItem)
      */
     public void calculateBudgetLineItem(BudgetDocument budgetDocument,BudgetLineItem budgetLineItem){
-        BudgetLineItem budgetLineItemToCalc = (BudgetLineItem)budgetLineItem;
+        BudgetLineItem budgetLineItemToCalc = budgetLineItem;
         List<BudgetPersonnelDetails> budgetPersonnelDetList = budgetLineItemToCalc.getBudgetPersonnelDetailsList();
         if(budgetLineItemToCalc.isBudgetPersonnelLineItemDeleted() || (budgetPersonnelDetList!=null && !budgetPersonnelDetList.isEmpty())){
             updatePersonnelBudgetRate(budgetLineItemToCalc);
@@ -203,7 +216,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     }
 
     public void calculateBudgetPeriod(BudgetDocument budgetDocument, BudgetPeriod budgetPeriod){
-        if(isCalculationRequired(budgetDocument,budgetPeriod)){
+        if (isCalculationRequired(budgetDocument.isBudgetLineItemDeleted(), budgetPeriod)){
             new BudgetPeriodCalculator().calculate(budgetDocument, budgetPeriod);
         }
     }
@@ -212,62 +225,153 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         calculateBudgetPeriod(budgetDocument, budgetPeriod);
         syncCostsToBudgetDocument(budgetDocument);
     }
-    private void syncCostsToBudgetDocument(BudgetDocument budgetDocument){
-        List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
-        BudgetDecimal totalDirectCost = BudgetDecimal.ZERO;
-        BudgetDecimal totalIndirectCost = BudgetDecimal.ZERO;
-        BudgetDecimal totalCost = BudgetDecimal.ZERO;
-        BudgetDecimal totalUnderrecoveryAmount = BudgetDecimal.ZERO; 
-        BudgetDecimal totalCostSharingAmount = BudgetDecimal.ZERO;
-        for (BudgetPeriod budgetPeriod : budgetPeriods) {
-            List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
-//            if(budgetLineItems.isEmpty()){
-            if(isCalculationRequired(budgetDocument,budgetPeriod)){
-                QueryList<BudgetLineItem> qlBudgetLineItems = new QueryList<BudgetLineItem>(budgetLineItems);
-                BudgetDecimal directCost = qlBudgetLineItems.sumObjects("directCost");
-                BudgetDecimal indirectCost = qlBudgetLineItems.sumObjects("indirectCost");
-                BudgetDecimal costSharingAmount = qlBudgetLineItems.sumObjects("totalCostSharingAmount");
-                BudgetDecimal underrecoveryAmount = qlBudgetLineItems.sumObjects("underrecoveryAmount");
-                budgetPeriod.setTotalDirectCost(directCost);
-                budgetPeriod.setTotalIndirectCost(indirectCost);
-                budgetPeriod.setTotalCost(directCost.add(indirectCost));
-                budgetPeriod.setUnderrecoveryAmount(underrecoveryAmount);
-                budgetPeriod.setCostSharingAmount(costSharingAmount);
-                totalDirectCost = totalDirectCost.add(directCost);
-                totalIndirectCost = totalIndirectCost.add(indirectCost);
-                // change for jira-1341 - if only trc entered, then keep it, so it's not dc+idc
-                //totalCost = totalCost.add(directCost.add(indirectCost));
-                totalCost = totalCost.add(budgetPeriod.getTotalCost());
-                totalUnderrecoveryAmount = totalUnderrecoveryAmount.add(underrecoveryAmount);
-                totalCostSharingAmount = totalCostSharingAmount.add(costSharingAmount);
-           }else{
-               totalDirectCost = totalDirectCost.add(budgetPeriod.getTotalDirectCost());
-               totalIndirectCost = totalIndirectCost.add(budgetPeriod.getTotalIndirectCost());
-               //totalCost = totalCost.add(budgetPeriod.getTotalDirectCost().add(budgetPeriod.getTotalIndirectCost()));
-               totalCost = totalCost.add(budgetPeriod.getTotalCost());
-               totalUnderrecoveryAmount = totalUnderrecoveryAmount.add(budgetPeriod.getUnderrecoveryAmount());
-               totalCostSharingAmount = totalCostSharingAmount.add(budgetPeriod.getCostSharingAmount());
-            }
-        }
-        budgetDocument.setTotalDirectCost(totalDirectCost);
-        budgetDocument.setTotalIndirectCost(totalIndirectCost);
-        budgetDocument.setTotalCost(totalCost);
-        budgetDocument.setUnderrecoveryAmount(totalUnderrecoveryAmount);
-        budgetDocument.setCostSharingAmount(totalCostSharingAmount);
 
-        budgetDocument.getBudgetCostShares().clear();   
-        // Must recalculate the collection as we cleared above
-        if (totalCostSharingAmount.doubleValue() > 0 ) {
-            KraServiceLocator.getService(BudgetDistributionAndIncomeService.class).initializeCostSharingCollectionDefaults(budgetDocument);
-        } 
+    /**
+     * Syncs the calculated costs in the budget document with the calculated costs in the budget
+     * periods. If the certain costs are not positive then lists on items related to those costs 
+     * are also cleared and reset (i.e. UnrecoveredFandAs).
+     * This method modifies the passed in BudgetDocument.
+     * 
+     * @param budgetDocument the budget document
+     */
+    private void syncCostsToBudgetDocument(final BudgetDocument budgetDocument){
+        assert budgetDocument != null : "The document was null";
         
-        budgetDocument.getBudgetUnrecoveredFandAs().clear();        
-        // Must recalculate the collection as we cleared above
-        if (totalUnderrecoveryAmount.doubleValue() > 0 ) {
-            KraServiceLocator.getService(BudgetDistributionAndIncomeService.class).initializeUnrecoveredFandACollectionDefaults(budgetDocument);
-        }        
+        this.initCostDependentItems(budgetDocument);
+        this.ensureBudgetPeriodHasSyncedCosts(budgetDocument);
+        this.setBudgetDocumentCostsFromPeriods(budgetDocument);
+    }
+    
+    /**
+     * Initializes items that are dependent on a cost value. (i.e. UnrecoveredFandAs)
+     * This method modifies the passed in BudgetDocument.
+     * 
+     * @param budgetDocument the budget document
+     */
+    private void initCostDependentItems(final BudgetDocument document) {
+        assert document != null : "The document was null";
+        
+        if (!this.isPositiveTotalUnderreoveryAmount(document)) {
+            this.initUnrecoveredFandAs(document);
+        }
+        
+        if (!this.isPositiveTotalCostSharingAmount(document)) {
+            this.initCostSharing(document);
+        }
+    }
+    
+    /**
+     * Clears and initializes the UnrecoveredFandAs in a budget document.
+     * This method modifies the passed in BudgetDocument.
+     * 
+     * @param document the budget document.
+     */
+    private void initUnrecoveredFandAs(final BudgetDocument document) {
+        assert document != null : "the document was null";
+        
+        document.getBudgetUnrecoveredFandAs().clear();
+        this.getBudgetDistributionAndIncomeService().initializeUnrecoveredFandACollectionDefaults(document);
+    }
+    
+    /**
+     * Clears and initializes the CostSharing in a budget document.
+     * This method modifies the passed in BudgetDocument.
+     * 
+     * @param document the budget document.
+     */
+    private void initCostSharing(final BudgetDocument document) {
+        assert document != null : "the document was null";
+        
+        document.getBudgetCostShares().clear();
+        this.getBudgetDistributionAndIncomeService().initializeCostSharingCollectionDefaults(document);
     }
 
+    /**
+     * Ensures that a budget period has synced costs with other budget objects (i.e. line items)
+     * 
+     * @param budgetLineItemDeleted whether or not a budget line item has been deleted
+     * @param currentPeriod the current period.
+     */
+    private void ensureBudgetPeriodHasSyncedCosts(final BudgetDocument document) {
+        assert document != null : "the document was null";
+        
+        for (final BudgetPeriod budgetPeriod : document.getBudgetPeriods()) {
+            if (this.isCalculationRequired(document.isBudgetLineItemDeleted(), budgetPeriod)) {
+                this.setBudgetPeriodCostsFromLineItems(budgetPeriod);
+            }
+        }
+    }
+    
+    /**
+     * 
+     * This method sets the budget document's costs from the budget periods' costs.
+     * This method modifies the passed in budget document.
+     * 
+     * @param document the budget document to set the costs on.
+     */
+    private void setBudgetDocumentCostsFromPeriods(final BudgetDocument document) {
+        assert document != null : "The document is null";
+
+        document.setTotalDirectCost(document.getSumDirectCostAmountFromPeriods());
+        document.setTotalIndirectCost(document.getSumIndirectCostAmountFromPeriods());
+        document.setTotalCost(document.getSumTotalCostAmountFromPeriods());
+        document.setUnderrecoveryAmount(document.getSumUnderreoveryAmountFromPeriods());
+        document.setCostSharingAmount(document.getSumCostSharingAmountFromPeriods());
+    }
+    
+    /**
+     * 
+     * This method sets the budget period costs from the line item costs.
+     * This method modifies the passed in budget period.
+     * 
+     * @param budgetPeriod the budget periods to set the costs on.
+     */
+    private void setBudgetPeriodCostsFromLineItems(final BudgetPeriod budgetPeriod) {
+        assert budgetPeriod != null : "The period is null";
+
+        budgetPeriod.setTotalDirectCost(budgetPeriod.getSumDirectCostAmountFromLineItems());
+        budgetPeriod.setTotalIndirectCost(budgetPeriod.getSumIndirectCostAmountFromLineItems());
+        budgetPeriod.setTotalCost(budgetPeriod.getSumTotalCostAmountFromLineItems());
+        budgetPeriod.setUnderrecoveryAmount(budgetPeriod.getSumUnderreoveryAmountFromLineItems());
+        budgetPeriod.setCostSharingAmount(budgetPeriod.getSumTotalCostSharingAmountFromLineItems());
+    }
+    
+    /**
+     * Checks if a positive Total Underrecoverary Amount exists in a line item or in a budget period.
+     * @param document The budget Document
+     * @return true if positive.
+     */
+    private final boolean isPositiveTotalUnderreoveryAmount(final BudgetDocument document) {
+        assert document != null : "The periods is null";
+        
+        BudgetDecimal lineItemsAmount = BudgetDecimal.ZERO;
+        
+        for (final BudgetPeriod budgetPeriod : document.getBudgetPeriods()) {
+            lineItemsAmount = lineItemsAmount.add(budgetPeriod.getSumUnderreoveryAmountFromLineItems());
+        }
+        
+        return lineItemsAmount.isPositive()
+            || document.getSumUnderreoveryAmountFromPeriods().isPositive();
+    }
+    
+    /**
+     * Checks if a positive Total CostSharing Amount exists in a line item or in a budget period.
+     * @param document The budget Document
+     * @return true if positive.
+     */
+    private final boolean isPositiveTotalCostSharingAmount(final BudgetDocument document) {
+        assert document != null : "The document is null";
+        
+        BudgetDecimal lineItemsAmount = BudgetDecimal.ZERO;
+        
+        for (final BudgetPeriod budgetPeriod : document.getBudgetPeriods()) {
+            lineItemsAmount = lineItemsAmount.add(budgetPeriod.getSumTotalCostSharingAmountFromLineItems());
+        }
+        
+        return lineItemsAmount.isPositive()
+            || document.getSumCostSharingAmountFromPeriods().isPositive();
+    }
+    
     private SortedMap<BudgetCategoryType, List<CostElement>> categorizeObjectCodesByCategory(BudgetDocument budgetDocument) {
         SortedMap<CostElement, List> objectCodeTotals = budgetDocument.getObjectCodeTotals();
         SortedMap<BudgetCategoryType, List<CostElement>> objectCodeListByBudgetCategoryType = new TreeMap<BudgetCategoryType, List<CostElement>>();
@@ -288,19 +392,17 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     }
     
     private BudgetCategoryType getPersonnelCategoryType() {
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
-        Map primaryKeys = new HashMap();
+        final Map<String, String> primaryKeys = new HashMap<String, String>();
         primaryKeys.put("budgetCategoryTypeCode", "P");
-        return (BudgetCategoryType) boService.findByPrimaryKey(BudgetCategoryType.class, primaryKeys);
+        return (BudgetCategoryType) this.getBusinessObjectService().findByPrimaryKey(BudgetCategoryType.class, primaryKeys);
     }
     
     public void calculateBudgetSummaryTotals(BudgetDocument budgetDocument){
         calculateBudgetTotals(budgetDocument);
-        SortedMap<CostElement, List> objectCodeTotals = budgetDocument.getObjectCodeTotals();
+
         //Categorize all Object Codes per their Category Type
         SortedMap<BudgetCategoryType, List<CostElement>> objectCodeListByBudgetCategoryType = categorizeObjectCodesByCategory(budgetDocument);   
        
-        SortedMap<CostElement, List<BudgetPersonnelDetails>> objectCodePersonnelList = new TreeMap<CostElement, List<BudgetPersonnelDetails>>();
         SortedMap<CostElement, List<BudgetPersonnelDetails>> objectCodeUniquePersonnelList = new TreeMap<CostElement, List<BudgetPersonnelDetails>>();
         
         SortedMap<String, List> objectCodePersonnelSalaryTotals = new TreeMap<String, List>();
@@ -656,12 +758,31 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
             }
         }
     }
+    
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
+    
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
+    
+    /**
+     * Gets the budgetDistributionAndIncomeService attribute. 
+     * @return Returns the budgetDistributionAndIncomeService.
+     */
+    public BudgetDistributionAndIncomeService getBudgetDistributionAndIncomeService() {
+        return this.budgetDistributionAndIncomeService;
+    }
+    
+    /**
+     * Sets the budgetDistributionAndIncomeService attribute value.
+     * @param budgetDistributionAndIncomeService The budgetDistributionAndIncomeService to set.
+     */
+    public void setBudgetDistributionAndIncomeService(BudgetDistributionAndIncomeService service) {
+        this.budgetDistributionAndIncomeService = service;
+    }
+    
     public void rePopulateCalculatedAmount(BudgetDocument budgetDocument, BudgetLineItem budgetLineItem) {
         budgetLineItem.getBudgetCalculatedAmounts().clear();
         new LineItemCalculator(budgetDocument,budgetLineItem).setCalculatedAmounts(budgetDocument, budgetLineItem);
@@ -670,19 +791,6 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         newBudgetPersonnelDetails.getBudgetCalculatedAmounts().clear();
         new PersonnelLineItemCalculator(budgetDocument,newBudgetPersonnelDetails).setCalculatedAmounts(budgetDocument, newBudgetPersonnelDetails);
     }
-
-//    public void updatePersonnelBudgetRate(BudgetLineItem budgetLineItem){
-//        for(BudgetPersonnelDetails budgetPersonnelDetails: budgetLineItem.getBudgetPersonnelDetailsList()){
-//            List<BudgetPersonnelCalculatedAmount> personnelCalculatedAmounts = budgetPersonnelDetails.getBudgetPersonnelCalculatedAmounts();
-//            List<BudgetLineItemCalculatedAmount> lineItemCalculatedAmounts = budgetLineItem.getBudgetLineItemCalculatedAmounts();
-//
-//            int minSize = Math.min(lineItemCalculatedAmounts.size(), personnelCalculatedAmounts.size());
-//
-//            for (int j = 0; j < minSize; j++) {
-//                personnelCalculatedAmounts.get(j).setApplyRateFlag(budgetLineItem.getBudgetLineItemCalculatedAmounts().get(j).getApplyRateFlag());                        
-//            }
-//        }
-//    }
     
     public void updatePersonnelBudgetRate(BudgetLineItem budgetLineItem){
         int j = 0;
