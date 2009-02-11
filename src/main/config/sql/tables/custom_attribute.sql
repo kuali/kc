@@ -15,12 +15,9 @@ create table custom_attribute
   obj_id            varchar2(36) DEFAULT SYS_GUID() constraint custom_attribute_n8 NOT NULL,
   constraint custom_attribute_p1 primary key (id),
   constraint custom_attribute_c0 unique (obj_id)
-)
-/
-
+);
 alter table custom_attribute add (
 	constraint fk_cust_attr_data_type
 	foreign key (data_type_code)
 	references custom_attribute_data_type (data_type_code)
-)
-/
+);
