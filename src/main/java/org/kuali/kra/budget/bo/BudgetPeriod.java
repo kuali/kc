@@ -266,12 +266,8 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
     
     public String getDateRange() {
         StringBuffer dateRange = new StringBuffer();
-        if (this.getStartDate() != null) {
-            dateRange.append(this.getStartDate().toString());
-        }
-        dateRange.append(" - ");
-        if (this.getEndDate() != null) {
-            dateRange.append(this.getEndDate().toString());
+        if (this.getStartDate()!=null && this.getEndDate()!=null) {
+            dateRange.append(getDateRangeLabel());
         }
         return dateRange.toString();
     }
