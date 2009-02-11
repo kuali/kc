@@ -3,6 +3,7 @@
 <c:set var="protocolRiskLevelsAttributes" value="${DataDictionary.ProtocolRiskLevel.attributes}" />
 <c:set var="riskLevelAttributes" value="${DataDictionary.RiskLevel.attributes}" />
 <c:set var="action" value="protocolProtocol" />
+<c:set var="commentDisplayLength" value="<%=org.kuali.kra.infrastructure.Constants.PROTOCOL_RISK_LEVEL_COMMENT_LENGTH%>" />
 <h3>
 	<span class="subhead-left">Risk Levels</span>
     <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.RiskLevel" altText="help"/></span>
@@ -29,20 +30,13 @@
              	<kul:htmlControlAttribute property="${protocolRiskLevelPath}.dateUpdated" attributeEntry="${protocolRiskLevelsAttributes.dateUpdated}" readOnly="true" />
             </td>
           	<td align="left" valign="middle">
-             	<c:choose>
-             	  	<c:when test="${protocolRiskLevel.status == 'A'}" >
-             	      	Active
-             	  	</c:when>
-             	  	<c:otherwise>
-             	      	Inactive
-             	  	</c:otherwise>
-             	</c:choose>
+          	    ${protocolRiskLevel.statusText}
             </td>
             <td align="left" valign="middle">
                 <c:set var="comments" value="${protocolRiskLevel.comments}" />
                 <c:choose>
-                	  <c:when test="${fn:length(comments) > 40}" >
-                	      ${fn:substring(comments,0,39)}...
+                	  <c:when test="${fn:length(comments) > commentDisplayLength}" >
+                	      ${fn:substring(comments,0,commentDisplayLength - 1)}...
                 	  </c:when>
                 	  <c:otherwise>
                 	      ${comments}

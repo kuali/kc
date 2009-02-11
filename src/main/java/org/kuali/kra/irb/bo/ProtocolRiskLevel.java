@@ -21,6 +21,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.RiskLevel;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.document.ProtocolDocument;
 
 /**
@@ -211,5 +212,11 @@ public class ProtocolRiskLevel extends KraPersistableBusinessObjectBase {
 
         return true;
     }
-	
+
+    public String getStatusText() {
+        return status.equals(Constants.STATUS_ACTIVE) ? Constants.ACTIVE_STATUS_LITERAL : 
+            Constants.INACTIVE_STATUS_LITERAL ;
+    }
+
+
 }
