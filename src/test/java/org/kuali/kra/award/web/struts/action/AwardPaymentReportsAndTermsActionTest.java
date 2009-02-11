@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.paymentreports;
+package org.kuali.kra.award.web.struts.action;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ import org.junit.Test;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardReportTerm;
 import org.kuali.kra.award.bo.AwardReportTermRecipient;
-import org.kuali.kra.award.paymentreports.AwardPaymentReportsAndTermsAction;
+import org.kuali.kra.award.web.struts.action.AwardPaymentReportsAndTermsAction;
 
 /**
  * 
