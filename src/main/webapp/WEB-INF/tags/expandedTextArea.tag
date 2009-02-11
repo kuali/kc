@@ -23,7 +23,7 @@
   <c:choose>
     <c:when test="${viewOnly}">
            <c:set var="srcImage" value="${ConfigProperties.kra.externalizable.images.url}open_detailview.png"/>
-           <c:set var="altMsg" value="View Comment"/>
+           <c:set var="altMsg" value="View Text"/>
     </c:when>
     <c:otherwise>
            <c:set var="viewOnly" value="false" />
