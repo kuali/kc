@@ -9,12 +9,9 @@ create table custom_attribute_doc_value
   obj_id              varchar2(36) DEFAULT SYS_GUID() constraint custom_attribute_doc_value_n6 NOT NULL,
   constraint custom_attribute_doc_value_p1 primary key (document_number, custom_attribute_id),
   constraint custom_attribute_doc_value_c0 unique (obj_id)
-)
-/
-
+);
 alter table custom_attribute_doc_value add (
 	constraint fk_cust_attr_doc_val_cust_attr
 	foreign key (custom_attribute_id)
 	references custom_attribute (id)
-)
-/
+);

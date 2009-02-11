@@ -1,29 +1,19 @@
 INSERT INTO AWARD_SPONSOR_TERMS_TYPE ( AWARD_SPONSOR_TERMS_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
-VALUES ( 1, 'Equipment Approval Terms', sysdate, user )
-/
+VALUES ( 1, 'Equipment Approval Terms', sysdate, user );
 INSERT INTO AWARD_SPONSOR_TERMS_TYPE ( AWARD_SPONSOR_TERMS_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
-VALUES ( 2, 'Invention Terms', sysdate, user )
-/
+VALUES ( 2, 'Invention Terms', sysdate, user );
 INSERT INTO AWARD_SPONSOR_TERMS_TYPE ( AWARD_SPONSOR_TERMS_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
-VALUES ( 3, 'Prior Approval Terms', sysdate, user )
-/
+VALUES ( 3, 'Prior Approval Terms', sysdate, user );
 INSERT INTO AWARD_SPONSOR_TERMS_TYPE ( AWARD_SPONSOR_TERMS_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
-VALUES ( 4, 'Priority Terms', sysdate, user )
-/
+VALUES ( 4, 'Priority Terms', sysdate, user );
 INSERT INTO AWARD_SPONSOR_TERMS_TYPE ( AWARD_SPONSOR_TERMS_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
-VALUES ( 5, 'Publication Terms', sysdate, user )
-/
+VALUES ( 5, 'Publication Terms', sysdate, user );
 INSERT INTO AWARD_SPONSOR_TERMS_TYPE ( AWARD_SPONSOR_TERMS_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
-VALUES ( 6, 'Referenced Document Terms', sysdate, user )
-/
+VALUES ( 6, 'Referenced Document Terms', sysdate, user );
 INSERT INTO AWARD_SPONSOR_TERMS_TYPE ( AWARD_SPONSOR_TERMS_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
-VALUES ( 7, 'Rights In Data Terms', sysdate, user )
-/
+VALUES ( 7, 'Rights In Data Terms', sysdate, user );
 INSERT INTO AWARD_SPONSOR_TERMS_TYPE ( AWARD_SPONSOR_TERMS_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
-VALUES ( 8, 'Subcontract Approval Terms', sysdate, user )
-/
+VALUES ( 8, 'Subcontract Approval Terms', sysdate, user );
 INSERT INTO AWARD_SPONSOR_TERMS_TYPE ( AWARD_SPONSOR_TERMS_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
-VALUES ( 9, 'Travel Restrictions Terms', sysdate, user )
-/
-commit
-/
+VALUES ( 9, 'Travel Restrictions Terms', sysdate, user );
+commit;

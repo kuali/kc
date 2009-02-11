@@ -1,9 +1,5 @@
-drop view osp$comm_schedule
-/
-
-drop table comm_schedule
-/
-
+drop view osp$comm_schedule;
+drop table comm_schedule;
 create table comm_schedule (
   id					 number(12)     not null PRIMARY KEY,
   schedule_id            varchar2 (10)  not null,
@@ -22,9 +18,7 @@ create table comm_schedule (
   UPDATE_TIMESTAMP DATE NOT NULL, 
   UPDATE_USER VARCHAR2(60) NOT NULL,
   VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL, 
-  OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL)  
-/
-
+  OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL);
 CREATE OR REPLACE VIEW osp$comm_schedule AS SELECT 
   a.schedule_id schedule_id,
   b.committee_id committee_id,
@@ -43,11 +37,6 @@ CREATE OR REPLACE VIEW osp$comm_schedule AS SELECT
   a.update_user update_user
 FROM comm_schedule a
 INNER JOIN committee b
-ON a.committee_id = b.id
-/
-
-CREATE SEQUENCE SEQ_COMM_SCHEDULE_ID INCREMENT BY 1 START WITH 1
-/
-
-commit
-/
+ON a.committee_id = b.id;
+CREATE SEQUENCE SEQ_COMM_SCHEDULE_ID INCREMENT BY 1 START WITH 1;
+commit;
