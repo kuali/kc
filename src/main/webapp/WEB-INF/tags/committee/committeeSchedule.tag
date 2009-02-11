@@ -165,7 +165,8 @@
 
 	                <td align="left" valign="middle">
 	                	<div align="center"> 
-	                	Day Of Week </div>
+	                	<kul:htmlControlAttribute property="document.committee.committeeSchedules[${status.index}].dayOfWeek" 
+	                								readOnly="true" attributeEntry="${committeeScheduleAttributes.dayOfWeek}"  /> </div>
 					</td>
 
 	                <td align="left" valign="middle">
