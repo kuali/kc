@@ -200,15 +200,15 @@ public class ScheduleData {
     }
     
     public static CronSpecialChars getDayOfWeek(String dayOfWeek) {
-        return ScheduleData.getDayOfWeek(dayOfWeek);
+        return ScheduleOptionsUtil.getDayOfWeek(dayOfWeek);
     }
     
     public static CronSpecialChars getWeekOfMonth(String monthsWeek) {
-        return ScheduleData.getWeekOfMonth(monthsWeek);
+        return ScheduleOptionsUtil.getWeekOfMonth(monthsWeek);
     }
     
     public static CronSpecialChars[] convertToWeekdays(String [] daysOfWeek){
-        return ScheduleData.convertToWeekdays(daysOfWeek);
+        return ScheduleOptionsUtil.convertToWeekdays(daysOfWeek);
     }
     
     public void printf() {

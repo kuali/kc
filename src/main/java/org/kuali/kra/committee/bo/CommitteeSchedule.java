@@ -17,6 +17,8 @@ package org.kuali.kra.committee.bo;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.LinkedHashMap;
 
 import javax.persistence.CascadeType;
@@ -34,7 +36,21 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 public class CommitteeSchedule extends KraPersistableBusinessObjectBase { 
 
     private static final long serialVersionUID = -360139608123017188L;
-
+    
+    public static final String SUNDAY = "Sunday";
+    
+    public static final String MONDAY = "Monday";
+    
+    public static final String TUESDAY = "Tuesday";
+    
+    public static final String WEDNESDAY = "Wednesday";
+    
+    public static final String THURSDAY = "Thursday";
+    
+    public static final String FRIDAY = "Friday";
+    
+    public static final String SATURDAY = "Saturday";
+    
     @javax.persistence.Id 
     @Column(name="ID")
     private Long id; 
@@ -218,6 +234,33 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
         this.scheduleStatus = scheduleStatus;
     }	
 	
+    public void setDayOfWeek(String dayOfWeek){
+        //Do nothing, struts needs it on refresh
+    }
+    
+    public String getDayOfWeek() {
+        Calendar cl = new GregorianCalendar();
+        cl.setTime(time);
+        String dayOfWeek = null;
+        switch(cl.get(Calendar.DAY_OF_WEEK)) {
+            case 1: dayOfWeek = SUNDAY; 
+                    break;
+            case 2: dayOfWeek = MONDAY; 
+                    break;
+            case 3: dayOfWeek = TUESDAY; 
+                    break;
+            case 4: dayOfWeek = WEDNESDAY; 
+                    break;
+            case 5: dayOfWeek = THURSDAY; 
+                    break;
+            case 6: dayOfWeek = FRIDAY; 
+                    break;
+            case 7: dayOfWeek = SATURDAY; 
+                    break;
+        }
+        return dayOfWeek;
+    }
+    
 	@SuppressWarnings("unchecked")
     @Override 
 	protected LinkedHashMap toStringMapper() {
