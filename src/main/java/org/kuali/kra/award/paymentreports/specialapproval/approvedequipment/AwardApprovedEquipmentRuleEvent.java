@@ -13,14 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.rule.event;
+package org.kuali.kra.award.paymentreports.specialapproval.approvedequipment;
 
 import org.apache.log4j.Logger;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.award.bo.AwardApprovedEquipment;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.rule.AwardApprovedEquipmentRule;
-import org.kuali.kra.award.rules.MinimumCapitalizationInfo;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 
 /**
@@ -86,5 +84,36 @@ public class AwardApprovedEquipmentRuleEvent extends KraDocumentEventBase {
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((AwardApprovedEquipmentRule)rule).processAwardApprovedEquipmentBusinessRules(this);
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((approvedEquipmentItem == null) ? 0 : approvedEquipmentItem.hashCode());
+        result = prime * result + ((minimumCapitalization == null) ? 0 : minimumCapitalization.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof AwardApprovedEquipmentRuleEvent))
+            return false;
+        AwardApprovedEquipmentRuleEvent other = (AwardApprovedEquipmentRuleEvent) obj;
+        if (approvedEquipmentItem == null) {
+            if (other.approvedEquipmentItem != null)
+                return false;
+        } else if (!approvedEquipmentItem.equals(other.approvedEquipmentItem))
+            return false;
+        if (minimumCapitalization == null) {
+            if (other.minimumCapitalization != null)
+                return false;
+        } else if (!minimumCapitalization.equals(other.minimumCapitalization))
+            return false;
+        return true;
     }
 }

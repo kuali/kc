@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.rule;
+package org.kuali.kra.award.paymentreports.specialapproval.approvedequipment;
 
 import org.kuali.core.rule.BusinessRule;
-import org.kuali.kra.award.rule.event.AwardApprovedEquipmentRuleEvent;
 
 /**
  * This interface defines the rule processing method
