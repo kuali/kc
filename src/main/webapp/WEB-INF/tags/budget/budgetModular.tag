@@ -46,7 +46,7 @@
               				<bean:write name="KualiForm" property="document.budgetPeriod[${periodNum - 1}].startDate"/>
               			</c:when>
               			<c:otherwise>
-              				${KualiForm.document.proposal.requestedStartDateInitial}
+              				<fmt:formatDate value="${KualiForm.document.proposal.requestedStartDateInitial}" pattern="MM/dd/yyyy" />
               			</c:otherwise>
               		</c:choose>
               	</td>
@@ -79,7 +79,7 @@
               				<bean:write name="KualiForm" property="document.budgetPeriod[${periodNum - 1}].endDate"/>
               			</c:when>
               			<c:otherwise>
-              				${KualiForm.document.proposal.requestedEndDateInitial}
+              				<fmt:formatDate value="${KualiForm.document.proposal.requestedEndDateInitial}" pattern="MM/dd/yyyy" />
               			</c:otherwise>
               		</c:choose>
               	</td>
