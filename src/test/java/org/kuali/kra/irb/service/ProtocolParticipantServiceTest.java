@@ -93,9 +93,9 @@ public class ProtocolParticipantServiceTest extends MockObjectTestCase {
 
         protocolParticipantService.deleteProtocolParticipant(protocol, 1);
 
-        assert (protocol.getProtocolParticipants().size() == 2);
-        assert (protocol.getProtocolParticipant(0).getParticipantTypeCode() == "1");
-        assert (protocol.getProtocolParticipant(1).getParticipantTypeCode() == "3");
+        assertTrue(protocol.getProtocolParticipants().size() == 2);
+        assertTrue(protocol.getProtocolParticipant(0).getParticipantTypeCode() == "1");
+        assertTrue(protocol.getProtocolParticipant(1).getParticipantTypeCode() == "3");
     }
 
 }
