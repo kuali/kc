@@ -127,6 +127,8 @@ public class KimRolePersonRule extends KraMaintenanceDocumentRuleBase {
         fieldValues.put("personId", aclEntry.getPersonId());
         fieldValues.put("roleId", aclEntry.getRoleId());
         fieldValues.put("unitNumber", aclEntry.getUnitNumber());
+        fieldValues.put("active", aclEntry.getActive());
+        fieldValues.put("subunits", aclEntry.getSubunits());
         return (getBusinessObjectService().countMatching(UnitAclEntry.class, fieldValues) != 0);
     }
     
