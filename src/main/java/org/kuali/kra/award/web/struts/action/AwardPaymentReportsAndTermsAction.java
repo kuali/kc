@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.paymentreports;
+package org.kuali.kra.award.web.struts.action;
 
 import java.util.List;
 
@@ -30,7 +30,6 @@ import org.kuali.kra.award.bo.AwardReportTermRecipient;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.rule.event.AddAwardReportTermEvent;
 import org.kuali.kra.award.rule.event.AddAwardReportTermRecipientEvent;
-import org.kuali.kra.award.web.struts.action.AwardAction;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -164,8 +163,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      * @param reportClass
      * @return
      */
-    protected List<AwardReportTerm> addAwardReportTermToAward(
-            Award award, AwardReportTerm newAwardReportTerm){        
+    protected List<AwardReportTerm> addAwardReportTermToAward(Award award, AwardReportTerm newAwardReportTerm){        
         newAwardReportTerm.setAward(award);
         award.getAwardReportTerms().add(newAwardReportTerm);
         return award.getAwardReportTerms();
