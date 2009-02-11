@@ -32,9 +32,6 @@ public class WeekCronExpression extends CronExpression {
     @Override
     public String getExpression() {
 
-        Calendar stDt = new GregorianCalendar();
-        stDt.setTime(getStartDate());
-        
         StringBuilder exp = new StringBuilder();
         exp.append(SECONDS).append(CronSpecialChars.SPACE);
         exp.append(getMinutes()).append(CronSpecialChars.SPACE);
