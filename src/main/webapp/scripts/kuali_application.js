@@ -231,15 +231,8 @@ function kraTextAreaPop(textAreaName,htmlFormAction,textAreaLabel,docFormKey, se
   idx1=url.indexOf(pathname);
   idx2=url.indexOf("/",idx1+1);
   extractUrl=url.substr(0,idx2)
-  //text=text.replace(/\n/g,'<br>');
-  //window.open(extractUrl+"/updateTextArea.do?" + text+"&textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope, "_blank", "width=640, height=600, scrollbars=yes");
   window.open(extractUrl+"/kraUpdateTextArea.do?&textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope+"&viewOnly="+viewOnly, "_blank", "width=640, height=600, scrollbars=yes");
 }
-
-
-//function kraTextAreaPop(textAreaName,htmlFormAction,textAreaLabel,docFormKey, sessionDocument){
-//	kraTextArea(textAreaName,htmlFormAction,textAreaLabel,docFormKey, sessionDocument, "false")
-//}
 
 var kraTextAreaFieldName
 function kraSetTextArea() {
@@ -248,13 +241,8 @@ function kraSetTextArea() {
   var idx2=passData.indexOf("&htmlFormAction=")
   kraTextAreaFieldName=passData.substring(idx+19,idx2)
   text = window.opener.document.getElementById(kraTextAreaFieldName).value;
-  //text=passData.substr(0,idx)
-  //text=unescape(text).replace(/<br>/g,"\n")
   document.getElementById(kraTextAreaFieldName).value = text;
   
-//  alert (escape(text))
-//  alert (unescape(text))
-
 }
 
 function viewCommentPop(fieldName,label){
@@ -263,8 +251,6 @@ function viewCommentPop(fieldName,label){
   idx1=url.indexOf(pathname);
   idx2=url.indexOf("/",idx1+1);
   extractUrl=url.substr(0,idx2)
-  //text=text.replace(/\n/g,'<br>');
-  //window.open(extractUrl+"/updateTextArea.do?" + text+"&textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope, "_blank", "width=640, height=600, scrollbars=yes");
   window.open(extractUrl+"/viewComment.do?&commentFieldName="+fieldName+"&commentFieldLabel="+label, "_blank", "width=640, height=600, scrollbars=yes");
 }
 
