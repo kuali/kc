@@ -16,9 +16,7 @@ create table comm_schedule (
   UPDATE_TIMESTAMP DATE NOT NULL, 
   UPDATE_USER VARCHAR2(60) NOT NULL,
   VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL, 
-  OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL)  
-/
-
+  OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL);
 CREATE OR REPLACE VIEW osp$comm_schedule AS SELECT 
   a.schedule_id schedule_id,
   b.committee_id committee_id,
@@ -37,9 +35,7 @@ CREATE OR REPLACE VIEW osp$comm_schedule AS SELECT
   a.update_user update_user
 FROM comm_schedule a
 INNER JOIN committee b
-ON a.committee_id = b.id
-/
-  
+ON a.committee_id = b.id;
 create table comm_schedule_frequency (
   frequency_code    number (3)    not null PRIMARY KEY,
   description       varchar2 (200)  not null,
@@ -47,21 +43,15 @@ create table comm_schedule_frequency (
   UPDATE_TIMESTAMP DATE NOT NULL, 
   UPDATE_USER VARCHAR2(60) NOT NULL,
   VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL, 
-  OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL)
-/  
-
+  OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL);
 CREATE OR REPLACE VIEW osp$comm_schedule_frequency AS SELECT 
   frequency_code,
   description,
   no_of_days,
   update_timestamp,
   update_user
-FROM comm_schedule_frequency
-/
-
-commit
-/
-
+FROM comm_schedule_frequency;
+commit;
 Insert into COMM_SCHEDULE_FREQUENCY (FREQUENCY_CODE,DESCRIPTION,NO_OF_DAYS,UPDATE_TIMESTAMP,UPDATE_USER) values (2,'Weekly',7,to_date('16-JAN-04','DD-MON-RR'),'COEUS');
 Insert into COMM_SCHEDULE_FREQUENCY (FREQUENCY_CODE,DESCRIPTION,NO_OF_DAYS,UPDATE_TIMESTAMP,UPDATE_USER) values (4,'Monthly',null,to_date('16-JAN-04','DD-MON-RR'),'COEUS');
 Insert into COMM_SCHEDULE_FREQUENCY (FREQUENCY_CODE,DESCRIPTION,NO_OF_DAYS,UPDATE_TIMESTAMP,UPDATE_USER) values (5,'BiWeekly',14,to_date('16-JAN-04','DD-MON-RR'),'COEUS');
@@ -75,5 +65,4 @@ Insert into COMM_SCHEDULE_FREQUENCY (FREQUENCY_CODE,DESCRIPTION,NO_OF_DAYS,UPDAT
 Insert into COMM_SCHEDULE_FREQUENCY (FREQUENCY_CODE,DESCRIPTION,NO_OF_DAYS,UPDATE_TIMESTAMP,UPDATE_USER) values (1,'Daily',1,to_date('16-JAN-04','DD-MON-RR'),'COEUS');
 
 
-commit
-/
+commit;

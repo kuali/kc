@@ -20,8 +20,6 @@ EXECUTE IMMEDIATE
 END LOOP;
 CLOSE v_cons_CUR;
 END;
-/
-
 /* Load data for abstract_type Table */ 
 insert into abstract_type (abstract_type_code,description,update_timestamp,update_user) values('1','Project Summary',sysdate,'kradev');
 insert into abstract_type (abstract_type_code,description,update_timestamp,update_user) values('2','Technical Abstract',sysdate,'kradev');
@@ -4001,5 +3999,3 @@ EXECUTE IMMEDIATE
 END LOOP;
 CLOSE v_cons_CUR;
 END;
-/
-

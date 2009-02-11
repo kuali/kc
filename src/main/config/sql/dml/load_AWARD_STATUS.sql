@@ -13,6 +13,4 @@ VALUES ( 6, 'Hold', sysdate, user );
 
 INSERT INTO FP_DOC_TYPE_T (FDOC_TYP_CD,FDOC_NM,FDOC_TYP_ACTIVE_CD) 
  				VALUES ('ADST','AwardStatus','Y');
-/
-commit
-/
+commit;
