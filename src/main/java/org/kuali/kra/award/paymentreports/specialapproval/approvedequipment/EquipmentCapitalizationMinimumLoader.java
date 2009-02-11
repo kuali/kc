@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.rules;
+package org.kuali.kra.award.paymentreports.specialapproval.approvedequipment;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
@@ -26,16 +26,18 @@ import org.kuali.rice.config.ConfigurationException;
  * This class provides support to the AwardApprovedEquipmentRule 
  */
 public class EquipmentCapitalizationMinimumLoader {
-    static final String INSTITUTION_REQUIREMENT = "Institution";
+    public static final String PARM_TYPE_CODE = "D";
+    static final String FEDERAL_CAPITALIZATION_MIN_PARM_NAME = "federalCapitalizationMinimum";
     static final String FEDERAL_REQUIREMENT = "Federal";
     static final String INSTITUTE_CAPITALIZATION_MIN_PARM_NAME = "institutionCapitalizationMinimum";
-    static final String FEDERAL_CAPITALIZATION_MIN_PARM_NAME = "federalCapitalizationMinimum";
-
-    private static final String CONFIG_PARM_NOT_NUMERIC_MSG = "Configuration parameter %s is not numeric";
+    static final String INSTITUTION_REQUIREMENT = "Institution";
+    
     private static final String CONFIG_PARM_MISSING_MSG = "Configuration parameter %s is missing";
     
-    private static final String PARM_TYPE_CODE = "D";
+    private static final String CONFIG_PARM_NOT_NUMERIC_MSG = "Configuration parameter %s is not numeric";
     
+    private KualiConfigurationService configurationService;
+        
     /**
      * This method gets the minimum capitalization requirement
      * @return
@@ -49,19 +51,11 @@ public class EquipmentCapitalizationMinimumLoader {
     }
     
     /**
-     * 
+     * This method sets the KualiConfigurationService
      * @return
      */
-    double getFederalCapitalizationMinimum() {
-        return getValueFromParameter(FEDERAL_CAPITALIZATION_MIN_PARM_NAME);
-    }
-    
-    /**
-     * 
-     * @return
-     */
-    double getInstitutionCapitalizationMinimum() {
-        return getValueFromParameter(INSTITUTE_CAPITALIZATION_MIN_PARM_NAME);
+    public void setConfigurationService(KualiConfigurationService configurationService) {
+        this.configurationService = configurationService;
     }
     
     /**
@@ -74,13 +68,32 @@ public class EquipmentCapitalizationMinimumLoader {
                                                             PARM_TYPE_CODE, parmName);
     }
     
-
     /**
      * This method gets the KualiConfigurationService
      * @return
      */
     protected KualiConfigurationService getConfigurationService() {
-        return KraServiceLocator.getService(KualiConfigurationService.class);
+        if(configurationService == null) {
+            configurationService = KraServiceLocator.getService(KualiConfigurationService.class);
+        }
+        return configurationService;
+    }
+    
+
+    /**
+     * 
+     * @return
+     */
+    protected double getFederalCapitalizationMinimum() {
+        return getValueFromParameter(FEDERAL_CAPITALIZATION_MIN_PARM_NAME);
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    protected double getInstitutionCapitalizationMinimum() {
+        return getValueFromParameter(INSTITUTE_CAPITALIZATION_MIN_PARM_NAME);
     }
     
     /**
