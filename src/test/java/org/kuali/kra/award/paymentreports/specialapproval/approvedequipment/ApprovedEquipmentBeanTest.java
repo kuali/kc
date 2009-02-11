@@ -37,6 +37,9 @@ import org.kuali.kra.award.bo.AwardApprovedEquipment;
  */     
 @RunWith(JMock.class)
 public class ApprovedEquipmentBeanTest {
+    private static final String MODEL_NAME = "Model";
+    private static final String VENDOR_NAME = "Vendor";
+    private static final String ITEM_NAME = "Item";
     private static final double INSTITUTION_MINIMUM_AMOUNT = 50.00;
     private static final double FEDERAL_MINIMUM_AMOUNT = 100.00;
     
@@ -68,15 +71,15 @@ public class ApprovedEquipmentBeanTest {
     public void testAddingNewEquipmentItem() throws Exception {
         checkAddingEquipmentItem(bean, equipmentItem, false);
         
-        equipmentItem.setItem("Item");
+        equipmentItem.setItem(ITEM_NAME);
         checkAddingEquipmentItem(bean, equipmentItem, false);
         Assert.assertEquals(0, award.getApprovedEquipmentItems().size());
         
-        equipmentItem.setVendor("Vendor");
+        equipmentItem.setVendor(VENDOR_NAME);
         checkAddingEquipmentItem(bean, equipmentItem, false);
         
         Assert.assertEquals(0, award.getApprovedEquipmentItems().size());
-        equipmentItem.setModel("Model");
+        equipmentItem.setModel(MODEL_NAME);
         checkAddingEquipmentItem(bean, equipmentItem, false);
         
         equipmentItem.setAmount(-INSTITUTION_MINIMUM_AMOUNT);
@@ -100,7 +103,7 @@ public class ApprovedEquipmentBeanTest {
     public void testDeletingEquipmentItem() throws Exception {
         final int NUMBER_OF_ITEMS = 5;
         for (int i = 1; i <= NUMBER_OF_ITEMS; i++) {
-            award.add(new AwardApprovedEquipment("Vendor" + i, "Model" + i, "Item" + i, INSTITUTION_MINIMUM_AMOUNT));
+            award.add(new AwardApprovedEquipment(VENDOR_NAME + i, MODEL_NAME + i, ITEM_NAME + i, INSTITUTION_MINIMUM_AMOUNT));
         }
         List<AwardApprovedEquipment> originalList = new ArrayList<AwardApprovedEquipment>(award.getApprovedEquipmentItems());
         Assert.assertEquals(NUMBER_OF_ITEMS, award.getApprovedEquipmentItems().size());
