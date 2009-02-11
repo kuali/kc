@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 CREATE INDEX FP_DOC_HEADER_TI3 ON FP_DOC_HEADER_T(
-        ORG_DOC_NBR )
-/
+        ORG_DOC_NBR );
 CREATE INDEX FP_DOC_HEADER_TI4 ON FP_DOC_HEADER_T(
-        FDOC_STATUS_CD )
-/
+        FDOC_STATUS_CD );
