@@ -33,9 +33,6 @@ import org.kuali.core.util.ActionFormUtilMap;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.bo.ProtocolInvestigator;
-import org.kuali.kra.irb.bo.ProtocolLocation;
-import org.kuali.kra.irb.bo.ProtocolParticipant;
 import org.kuali.kra.irb.bo.ProtocolPerson;
 import org.kuali.kra.irb.bo.ProtocolReference;
 import org.kuali.kra.irb.bo.ProtocolUnit;
@@ -52,8 +49,8 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
     
     private ProtocolHelper protocolHelper;
     private PersonnelHelper personnelHelper;
-    
-    private ProtocolParticipant newProtocolParticipant;
+    private ParticipantsHelper participantsHelper;
+
     private ProtocolReference newProtocolReference;
     
     ProtocolPerson newProtocolPerson;
@@ -76,9 +73,9 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
      */
     public void initialize() {
         initializeHeaderNavigationTabs(); 
-        setNewProtocolParticipant(new ProtocolParticipant());
         setProtocolHelper(new ProtocolHelper(this));
         setPersonnelHelper(new PersonnelHelper(this));
+        setParticipantsHelper(new ParticipantsHelper());
         setNewProtocolReference(new ProtocolReference());
         setNewProtocolPerson(new ProtocolPerson());
         setNewProtocolPersonUnits(new ArrayList<ProtocolUnit>());
@@ -88,14 +85,6 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
 
     public ProtocolDocument getProtocolDocument() {
         return (ProtocolDocument) this.getDocument();
-    }
-
-    public ProtocolParticipant getNewProtocolParticipant() {
-        return newProtocolParticipant;
-    }
-
-    public void setNewProtocolParticipant(ProtocolParticipant newProtocolParticipant) {
-        this.newProtocolParticipant = newProtocolParticipant;
     }
 
     /**
@@ -193,6 +182,14 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
         return personnelHelper;
     }
     
+    public void setParticipantsHelper(ParticipantsHelper participantsHelper) {
+        this.participantsHelper = participantsHelper;
+    }
+
+    public ParticipantsHelper getParticipantsHelper() {
+        return participantsHelper;
+    }
+
     public void setNewProtocolReference(ProtocolReference newProtocolReference) {
         this.newProtocolReference = newProtocolReference;
     }

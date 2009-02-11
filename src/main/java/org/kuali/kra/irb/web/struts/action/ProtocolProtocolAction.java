@@ -27,7 +27,6 @@ import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolLocation;
 import org.kuali.kra.irb.bo.ProtocolParticipant;
 import org.kuali.kra.irb.bo.ProtocolReference;
@@ -103,12 +102,11 @@ public class ProtocolProtocolAction extends ProtocolAction {
     public ActionForward addProtocolParticipant(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolParticipant newProtocolParticipant = protocolForm.getNewProtocolParticipant();
+        ProtocolParticipant newProtocolParticipant = protocolForm.getParticipantsHelper().getNewProtocolParticipant();
         
         if(applyRules(new AddProtocolParticipantEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument(), newProtocolParticipant))) {
-            ProtocolParticipantService service = (ProtocolParticipantService)KraServiceLocator.getService("protocolParticipantTypeService");
-            service.addProtocolParticipant(protocolForm.getProtocolDocument().getProtocol(), newProtocolParticipant);
-            protocolForm.setNewProtocolParticipant(new ProtocolParticipant());
+            getProtocolParticipantService().addProtocolParticipant(protocolForm.getProtocolDocument().getProtocol(), newProtocolParticipant);
+            protocolForm.getParticipantsHelper().setNewProtocolParticipant(new ProtocolParticipant());
         }
               
         return mapping.findForward(Constants.MAPPING_BASIC );
@@ -129,12 +127,8 @@ public class ProtocolProtocolAction extends ProtocolAction {
     public ActionForward deleteProtocolParticipant(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-//        protocolForm.getProtocolDocument().getProtocol().getProtocolParticipants().remove(getLineToDelete(request));
-//        GlobalVariables.getErrorMap().clear();
         
-        ProtocolParticipantService service = (ProtocolParticipantService)KraServiceLocator.getService("protocolParticipantTypeService");
-        
-        service.deleteProtocolParticipant(protocolForm.getProtocolDocument().getProtocol(), getLineToDelete(request));
+        getProtocolParticipantService().deleteProtocolParticipant(protocolForm.getProtocolDocument().getProtocol(), getLineToDelete(request));
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -257,6 +251,14 @@ public class ProtocolProtocolAction extends ProtocolAction {
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
     
+    /**
+     * This method is to get protocol participant service
+     * @return ProtocolPersonnelService
+     */
+    private ProtocolParticipantService getProtocolParticipantService() {
+        return(ProtocolParticipantService)KraServiceLocator.getService("protocolParticipantTypeService");
+    }
+
     /**
      * This method is to get protocol location service
      * @return ProtocolLocationService
