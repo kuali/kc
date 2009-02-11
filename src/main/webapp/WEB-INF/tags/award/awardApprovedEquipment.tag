@@ -58,22 +58,22 @@
         	<th width="50" align="center" scope="row"><div align="right">Add:</div></th>
         	<td class="infoline">
         	  	<div align="center">
-        	  	 	<kul:htmlControlAttribute property="approvedEquipmentFormHelper.newAwardApprovedEquipment.item" attributeEntry="${approvedEquipmentAttributes.item}"/>
+        	  	 	<kul:htmlControlAttribute property="approvedEquipmentBean.newAwardApprovedEquipment.item" attributeEntry="${approvedEquipmentAttributes.item}"/>
         	 	</div>
         	</td>
             <td class="infoline">
               	<div align="center">
-            		<kul:htmlControlAttribute property="approvedEquipmentFormHelper.newAwardApprovedEquipment.vendor" attributeEntry="${approvedEquipmentAttributes.vendor}" />
+            		<kul:htmlControlAttribute property="approvedEquipmentBean.newAwardApprovedEquipment.vendor" attributeEntry="${approvedEquipmentAttributes.vendor}" />
               	</div>
             </td>
             <td class="infoline">
             	<div align="center">
-        	    	<kul:htmlControlAttribute property="approvedEquipmentFormHelper.newAwardApprovedEquipment.model" attributeEntry="${approvedEquipmentAttributes.model}"/>
+        	    	<kul:htmlControlAttribute property="approvedEquipmentBean.newAwardApprovedEquipment.model" attributeEntry="${approvedEquipmentAttributes.model}"/>
         	  	</div>
             </td>
             <td class="infoline">
             	<div align="center">
-        	    	<kul:htmlControlAttribute property="approvedEquipmentFormHelper.newAwardApprovedEquipment.amount" attributeEntry="${approvedEquipmentAttributes.amount}"/>
+        	    	<kul:htmlControlAttribute property="approvedEquipmentBean.newAwardApprovedEquipment.amount" attributeEntry="${approvedEquipmentAttributes.amount}"/>
         	  	</div>
             </td>
             <td class="infoline">
