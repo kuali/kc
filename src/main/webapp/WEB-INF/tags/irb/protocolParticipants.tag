@@ -49,20 +49,20 @@
 	
 	            <td align="left" valign="middle" class="infoline">
 	               	<div align="center">
-	               		<kul:htmlControlAttribute property="newProtocolParticipant.participantTypeCode" attributeEntry="${protocolParticipantAttributes.participantTypeCode}" />
+	               		<kul:htmlControlAttribute property="participantsHelper.newProtocolParticipant.participantTypeCode" attributeEntry="${protocolParticipantAttributes.participantTypeCode}" />
 	            	</div>
 				</td>
 				
 	
 	            <td align="left" valign="middle" class="infoline">
 	               	<div align="center">
-	               	    <kul:htmlControlAttribute property="newProtocolParticipant.participantCount" attributeEntry="${protocolParticipantAttributes.participantCount}" />
+	               	    <kul:htmlControlAttribute property="participantsHelper.newProtocolParticipant.participantCount" attributeEntry="${protocolParticipantAttributes.participantCount}" />
 	               	</div>
 	            </td>
 	
 				<td align="left" valign="middle" class="infoline">
 					<div align=center>
-						<html:image property="methodToCall.addProtocolParticipant.anchor${tabKey}"
+					    <html:image property="methodToCall.addProtocolParticipant.anchor${tabKey}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
 					</div>
 	               </td>
