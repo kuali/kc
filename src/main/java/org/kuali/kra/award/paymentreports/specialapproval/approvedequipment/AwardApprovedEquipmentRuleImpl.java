@@ -13,15 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.rules;
+package org.kuali.kra.award.paymentreports.specialapproval.approvedequipment;
 
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.award.bo.AwardApprovedEquipment;
-import org.kuali.kra.award.rule.AwardApprovedEquipmentRule;
-import org.kuali.kra.award.rule.event.AwardApprovedEquipmentRuleEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 

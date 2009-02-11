@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.web.struts.action;
+package org.kuali.kra.award.paymentreports;
 
 import java.util.List;
 
@@ -30,6 +30,7 @@ import org.kuali.kra.award.bo.AwardReportTermRecipient;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.rule.event.AddAwardReportTermEvent;
 import org.kuali.kra.award.rule.event.AddAwardReportTermRecipientEvent;
+import org.kuali.kra.award.web.struts.action.AwardAction;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -45,16 +46,14 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
     private static final String ROLODEX = "rolodex";
     private static final String PERIOD = ".";
     private static final int HARDCODED_ROLODEX_ID = 20083;
-    private ApprovedEquipmentActionHelper approvedEquipmentActionHelper;
     
     public AwardPaymentReportsAndTermsAction() {
-        init();
     }
     
     public ActionForward addApprovedEquipmentItem(ActionMapping mapping, ActionForm form, 
                                                     HttpServletRequest request, HttpServletResponse response) 
                                                     throws Exception {
-        approvedEquipmentActionHelper.addApprovedEquipmentItem(((AwardForm)form).getApprovedEquipmentFormHelper());
+        (((AwardForm)form).getApprovedEquipmentBean()).addApprovedEquipmentItem();
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
            
@@ -195,6 +194,13 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         awardDocument.getAward().getAwardReportTerms().remove(getLineToDelete(request));
         
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    public ActionForward deleteApprovedEquipmentItem(ActionMapping mapping, ActionForm form, 
+                                        HttpServletRequest request, HttpServletResponse response) 
+                                                                        throws Exception {
+            (((AwardForm)form).getApprovedEquipmentBean()).deleteApprovedEquipmentItem(getLineToDelete(request));
+            return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
     /**
@@ -414,9 +420,5 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
             recipientSize = Integer.parseInt(recipientSizeString);
         }        
         return recipientSize;
-    }
-
-    protected void init() {
-        approvedEquipmentActionHelper = new ApprovedEquipmentActionHelper(this);
     }
 }
