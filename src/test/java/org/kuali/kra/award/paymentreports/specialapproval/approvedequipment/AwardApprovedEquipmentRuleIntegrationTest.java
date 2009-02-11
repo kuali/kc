@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.rules;
+package org.kuali.kra.award.paymentreports.specialapproval.approvedequipment;
 
 import java.util.ArrayList;
 import java.util.Collection;

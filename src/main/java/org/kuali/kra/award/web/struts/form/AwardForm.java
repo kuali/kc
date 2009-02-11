@@ -33,6 +33,7 @@ import org.kuali.kra.award.bo.AwardSpecialReview;
 import org.kuali.kra.award.bo.AwardSpecialReviewExemption;
 import org.kuali.kra.award.bo.ReportClass;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.ApprovedEquipmentBean;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -69,7 +70,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase implements Multi
     private List<AwardReportTermRecipient> newAwardReportTermRecipient;
     private List<KeyLabelPair> reportClasses;
     
-    private ApprovedEquipmentFormHelper approvedEquipmentFormHelper;
+    private ApprovedEquipmentBean approvedEquipmentBean;
     private CostShareFormHelper costShareFormHelper;
     private ApprovedSubawardFormHelper approvedSubawardFormHelper;
     
@@ -99,7 +100,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase implements Multi
         setNewAwardReportTermRecipient(new ArrayList<AwardReportTermRecipient>());        
         newAwardSpecialReview = new AwardSpecialReview();
         newSpecialReviewExemptions = new ArrayList<AwardSpecialReviewExemption>();
-        approvedEquipmentFormHelper = new ApprovedEquipmentFormHelper(this);
+        approvedEquipmentBean = new ApprovedEquipmentBean(this.getAwardDocument(), this.getAwardDocument().getAward());
         costShareFormHelper = new CostShareFormHelper(this);
         approvedSubawardFormHelper = new ApprovedSubawardFormHelper(this);
     }    
@@ -127,8 +128,8 @@ public class AwardForm extends KraTransactionalDocumentFormBase implements Multi
     /**
      * @return
      */
-    public ApprovedEquipmentFormHelper getApprovedEquipmentFormHelper() {
-        return approvedEquipmentFormHelper;
+    public ApprovedEquipmentBean getApprovedEquipmentBean() {
+        return approvedEquipmentBean;
     }
     
     /**
