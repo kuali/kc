@@ -46,7 +46,8 @@ final class AuditMapSorter {
     
     /**
      * <p>
-     * Sorts the AuditMap's {@link AuditError AuditError's} based on comparison rules.
+     * Sorts the AuditMap's {@link AuditError AuditError's} based on comparison rules.  The passed in
+     * Audit Map will be directly modified by the method.
      * </p>
      * 
      * <p>
@@ -74,7 +75,7 @@ final class AuditMapSorter {
         if (patternComparatorMap.isEmpty()) {
             throw new IllegalArgumentException("no comparator entries provided");
         }
-        
+
         for (Map.Entry<String, AuditCluster> entryError : this.auditErrorsMap.entrySet()) {
             final AuditCluster cluster = entryError.getValue();
             
@@ -84,20 +85,38 @@ final class AuditMapSorter {
                     @SuppressWarnings("unchecked")
                     List<AuditError> errors = cluster.getAuditErrorList();
                     
-                    final Comparator<AuditError> comp = compEntry.getValue();
-                    if (comp == null) {
-                        throw new NullPointerException("the comparator was null");
-                    }
-                    
+                    final Comparator<AuditError> comp = this.getComparator(compEntry.getValue());
                     Collections.sort(errors, comp);
                 }
             }
         }
     }
+    
+    /**
+     * This methods returns the comparator passed in if not null.
+     * Used to prevent {@link Collections#sort(List, Comparator)} from falling back
+     * to natural ordering.
+     * 
+     * @param comp The Comparator
+     * @return The Comparator
+     * @throws NullPointerException comp is null
+     */
+    private Comparator<AuditError> getComparator(final Comparator<AuditError> comp) {
+        
+        if (comp == null) {
+            throw new NullPointerException("the comparator was null");
+        }
+        
+        return comp;
+    }
         
     /**
      * A Comparator that sorts Y/N questions in question number order.  Currently this class is nested
      * as it is only used by this class.  Feel free to refactor as needed.
+     * 
+     * <p>
+     * This Comparator is not consistent with {@link AuditError#equals(Object) AuditError#equals(Object)}.
+     * </p>
      */
     private static final class YNQuestionByNumber implements Comparator<AuditError>, Serializable {
         
@@ -112,13 +131,30 @@ final class AuditMapSorter {
          * Sets the parameter position to find the question number.
          * 
          * @param questionNumberParamPosition parameter position
+         * @throws IllegalArgumentException if questionNumberParamPosition is < 0
          */
         public YNQuestionByNumber(final int questionNumberParamPosition) {
+            
+            if (questionNumberParamPosition < 0) {
+                throw new IllegalArgumentException(questionNumberParamPosition + " is < 0");
+            }
+            
             this.questionNumberParamPosition = questionNumberParamPosition;
         }
         
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         * @throws NullPointerException if o1 or o2 is null
+         */
         public int compare(AuditError o1, AuditError o2) {
+            
+            if (o1 == null) {
+                throw new NullPointerException("o1 is null");
+            }
+            
+            if (o2 == null) {
+                throw new NullPointerException("o2 is null");
+            }
             
             final String qNumber1 = this.getQuestonNumber(o1.getParams());
             final String qNumber2 = this.getQuestonNumber(o2.getParams());
