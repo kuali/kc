@@ -32,7 +32,8 @@
               <tr>
                 <th width="30%"><div align="right">Date:</div></th>
                 <td width="70%">
-                		<kra-committee:date property="scheduleData.scheduleStartDate"/>                
+                		<kul:htmlControlAttribute property="scheduleData.scheduleStartDate" 
+	                								datePicker="true"	attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}" />                		              
                 </span></td>
               </tr>  
 
@@ -216,6 +217,5 @@
 	        </c:if>     
         	</c:forEach>
            </table>
-            <!-- <img src="images/schedule.png" width="763" height="408">-->
     </div> 
 </kul:tab>
