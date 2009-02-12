@@ -40,17 +40,15 @@
               <tr>
                 <th><div align="right"><span class="labelText">Start Time:</span></div></th>
 				<td nobr>
-					<html:text property="scheduleData.startTime" size="6" maxlength="6" /> 
-					<html:radio property="scheduleData.meridiem" value="AM" styleClass="radio">
- 						AM&nbsp;</html:radio>
- 					<html:radio property="scheduleData.meridiem" value="PM" styleClass="radio">
- 						PM&nbsp;</html:radio>	
+					<kul:htmlControlAttribute property="scheduleData.startTime" attributeEntry="${committeeScheduleAttributes.displayTime}" /> 
+					
+					<kul:htmlControlAttribute property="scheduleData.meridiem" attributeEntry="${committeeScheduleAttributes.meridiem}" /> 		
 				</td>
               </tr>
               <tr>
                 <th><div align="right">Place:</div></th>
                 <td>
-                	<html:text property="scheduleData.place" size="12" maxlength="12" /> 
+                	<kul:htmlControlAttribute property="scheduleData.place" attributeEntry="${committeeScheduleAttributes.place}" />
                 </td>
               </tr>
 
@@ -198,11 +196,11 @@
 
 	                <td nobr><div align="center">
 						<kul:htmlControlAttribute property="document.committee.committeeSchedules[${status.index}].displayTime" 
-	                								attributeEntry="${committeeScheduleAttributes.displayTime}" /> 
-						<html:radio property="document.committee.committeeSchedules[${status.index}].meridiem" value="AM" styleClass="radio">
- 							AM&nbsp;</html:radio>
- 						<html:radio property="document.committee.committeeSchedules[${status.index}].meridiem" value="PM" styleClass="radio">
- 							PM&nbsp;</html:radio>
+	                								attributeEntry="${committeeScheduleAttributes.displayTime}" />  						
+ 						<kul:htmlControlAttribute property="document.committee.committeeSchedules[${status.index}].meridiem" 
+	                								attributeEntry="${committeeScheduleAttributes.meridiem}" /> 
+	                									
+ 							
  						</div>           									                									
 	                </td>
 

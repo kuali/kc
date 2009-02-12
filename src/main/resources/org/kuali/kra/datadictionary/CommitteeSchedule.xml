@@ -39,6 +39,7 @@
 				<ref bean="CommSchedule-place" />
 				<ref bean="CommSchedule-time" />
 				<ref bean="CommSchedule-displayTime" />
+				<ref bean="CommSchedule-meridiem" />
 				<ref bean="CommSchedule-protocolSubDeadline" />
 				<ref bean="CommSchedule-scheduleStatusCode" />
 				<ref bean="CommSchedule-meetingDate" />
@@ -193,8 +194,9 @@
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+			<bean parent="RadioControlDefinition"
+            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.AMPMValuesFinder"
+            	p:includeKeyInLabel="false" />
 		</property>
 		<property name="summary" value="Time" />
 		<property name="description" value="Time" />
