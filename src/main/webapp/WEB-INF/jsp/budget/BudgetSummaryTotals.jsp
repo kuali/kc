@@ -21,7 +21,7 @@
 	htmlFormAction="budgetSummaryTotals"
 	documentTypeName="BudgetDocument"
   	headerDispatch="reload" 
-  	headerTabActive="totals"
+  	headerTabActive="summaryTotals"
   	extraTopButtons="${extraTopButtons}">
   	
   	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Summary" /></div>
