@@ -197,14 +197,7 @@ public class ScheduleData {
                 this.getStyleClasses().put(str, "display: block; background:#f4f4f4; border:solid; border-color:#CCCCCC; border-width:1px; padding:5px");
                 break;
             }
-        }
-        //TODO take it out
-        Set s = this.getStyleClasses().keySet();
-        Iterator itr = s.iterator();
-        while(itr.hasNext()) {
-            String obj = (String)itr.next();
-            LOG.info("STYLE : ==== :" + obj.toString() + " ===== :" + getStyleClasses().get(obj));
-        }        
+        }      
     }
 
     public int calculateMinutes() {
