@@ -15,19 +15,21 @@
  */
 package org.kuali.kra.irb.service;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.jmock.Expectations;
-import org.jmock.MockObjectTestCase;
 import org.jmock.Mockery;
+import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kra.irb.bo.ParticipantType;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolParticipant;
-import org.kuali.kra.irb.bo.ParticipantType;
 import org.kuali.kra.irb.service.impl.ProtocolParticipantServiceImpl;
 
 /**
@@ -36,9 +38,9 @@ import org.kuali.kra.irb.service.impl.ProtocolParticipantServiceImpl;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolParticipantServiceTest extends MockObjectTestCase {
+public class ProtocolParticipantServiceTest {
 
-    Mockery context = new Mockery();
+    private Mockery context = new JUnit4Mockery();
 
     private Protocol protocol;
 
@@ -67,24 +69,34 @@ public class ProtocolParticipantServiceTest extends MockObjectTestCase {
     @SuppressWarnings("unchecked")
     @Test
     public void testAddProtocolParticipant() {
+        ProtocolParticipant protocolParticipant = new ProtocolParticipant();
+        protocolParticipant.setParticipantTypeCode("4");
+
         final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
         final ProtocolParticipantServiceImpl protocolParticipantService = new ProtocolParticipantServiceImpl();
         protocolParticipantService.setBusinessObjectService(businessObjectService);
 
-        context.checking(new Expectations() {
-            {
-                Map keyMap = new HashMap();
-                keyMap.put("participantTypeCode", "1");
-                oneOf(businessObjectService).findByPrimaryKey(ParticipantType.class, keyMap);
-                will(returnValue(new ParticipantType()));
-            }
-        });
+        final Map keyMap = new HashMap();
+        keyMap.put("participantTypeCode", "4");
+        context.checking(new Expectations() {{
+            one(businessObjectService).findByPrimaryKey(ParticipantType.class, keyMap); will(returnValue(new ParticipantType()));
+        }});
 
-        ProtocolParticipant protocolParticipant = new ProtocolParticipant();
-        protocolParticipant.setParticipantTypeCode("1");
-        protocolParticipantService.addProtocolParticipant(new Protocol(), protocolParticipant);
+        protocolParticipantService.addProtocolParticipant(protocol, protocolParticipant);
 
         context.assertIsSatisfied();
+        
+        int participantSize = protocol.getProtocolParticipants().size();
+        assertTrue("participant size is " + participantSize, participantSize == 4);
+        String participantCode1 = protocol.getProtocolParticipant(0).getParticipantTypeCode();
+        assertTrue("participant type code of participant 1 is " + participantCode1, participantCode1 == "1");
+        String participantCode2 = protocol.getProtocolParticipant(1).getParticipantTypeCode();
+        assertTrue("participant type code of participant 2 is " + participantCode2, participantCode2 == "2");
+        String participantCode3 = protocol.getProtocolParticipant(2).getParticipantTypeCode();
+        assertTrue("participant type code of participant 3 is " + participantCode3, participantCode3 == "3");
+        String participantCode4 = protocol.getProtocolParticipant(3).getParticipantTypeCode();
+        assertTrue("participant type code of participant 4 is " + participantCode4, participantCode4 == "4");
+        
     }
 
     @Test
@@ -93,9 +105,12 @@ public class ProtocolParticipantServiceTest extends MockObjectTestCase {
 
         protocolParticipantService.deleteProtocolParticipant(protocol, 1);
 
-        assertTrue(protocol.getProtocolParticipants().size() == 2);
-        assertTrue(protocol.getProtocolParticipant(0).getParticipantTypeCode() == "1");
-        assertTrue(protocol.getProtocolParticipant(1).getParticipantTypeCode() == "3");
+        int participantSize = protocol.getProtocolParticipants().size();
+        assertTrue("participant size is " + participantSize, participantSize == 2);
+        String participantCode1 = protocol.getProtocolParticipant(0).getParticipantTypeCode();
+        assertTrue("participant type code of participant 1 is " + participantCode1, participantCode1 == "1");
+        String participantCode2 = protocol.getProtocolParticipant(1).getParticipantTypeCode();
+        assertTrue("participant type code of participant 2 is " + participantCode2, participantCode2 == "3");
     }
 
 }
