@@ -39,8 +39,8 @@ public class ProtocolParticipantPanelWebTest extends ProtocolWebTestBase {
 
     private static final String PARTICIPANT_DIV = "tab-ParticipantTypes-div";
     private static final String PARTICIPANT_TABLE = "participants-table";
-    private static final String PARTICIPANT_TYPE_CODE_ID = "newProtocolParticipant.participantTypeCode";
-    private static final String PARTICIPANT_DETAILS_ID = "newProtocolParticipant.participantCount";
+    private static final String PARTICIPANT_TYPE_CODE_ID = "participantsHelper.newProtocolParticipant.participantTypeCode";
+    private static final String PARTICIPANT_DETAILS_ID = "participantsHelper.newProtocolParticipant.participantCount";
     private static final String PARTICIPANT_ADD_BTN = "methodToCall.addProtocolParticipant";
 
     private static final String PARTICIPANT_STUDENTS_TYPE_CODE = "7";
@@ -240,12 +240,9 @@ public class ProtocolParticipantPanelWebTest extends ProtocolWebTestBase {
                 PARTICIPANT_STUDENTS_TYPE_CODE, PARTICIPANT_STUDENTS_TYPE_VALUE, 
                 PARTICIPANT_STUDENTS_COUNT_VALUE_NEG);
 
-        // Save the document
-        //protocolPage = saveDoc(protocolPage);
-
         // Verify that an error has been thrown.
         List<String> errors = this.getErrors(protocolPage, PARTICIPANT_DIV);
-        assertEquals(errors.size(), 1);
+        assertEquals(1, errors.size());
     }
 
     /**
@@ -258,17 +255,14 @@ public class ProtocolParticipantPanelWebTest extends ProtocolWebTestBase {
         HtmlPage protocolPage = getProtocolSavedRequiredFieldsPage();
 
         // Add a participant with a non-numeric count.
-
         protocolPage = addParticipant(protocolPage,
                 PARTICIPANT_STUDENTS_TYPE_CODE, PARTICIPANT_STUDENTS_TYPE_VALUE, 
                 PARTICIPANT_STUDENTS_COUNT_VALUE_NON_NUM);
 
-        // Save the document
-        protocolPage = saveDoc(protocolPage);
-
         // Verify that an error has been thrown.
         List<String> errors = this.getErrors(protocolPage, PARTICIPANT_DIV);
-        assertEquals(errors.size(), 1);
+        System.out.println(">>>> error.size: " + errors.size());
+        assertEquals(1, errors.size());
     }
 
     /**
@@ -285,7 +279,7 @@ public class ProtocolParticipantPanelWebTest extends ProtocolWebTestBase {
         protocolPage = clickOn(addBtn);
 
         List<String> errors = this.getErrors(protocolPage, PARTICIPANT_DIV);
-        assertEquals(errors.size(), 1);
+        assertEquals(1, errors.size());
     }
 
     /**
