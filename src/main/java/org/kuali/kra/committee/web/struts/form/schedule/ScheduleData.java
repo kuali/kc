@@ -55,7 +55,11 @@ public class ScheduleData {
     private MonthlyScheduleDetails monthlySchedule;
     
     private YearlyScheduleDetails yearlySchedule;
-
+    
+    private Date filterStartDate;
+    
+    private Date filerEndDate;    
+    
     public ScheduleData() {
         super();
         this.setScheduleStartDate(new Date(new java.util.Date().getTime()));
@@ -166,6 +170,22 @@ public class ScheduleData {
         return yearlySchedule;
     }
     
+    public Date getFilterStartDate() {
+        return filterStartDate;
+    }
+
+    public void setFilterStartDate(Date filterStartDate) {
+        this.filterStartDate = filterStartDate;
+    }
+
+    public Date getFilerEndDate() {
+        return filerEndDate;
+    }
+
+    public void setFilerEndDate(Date filerEndDate) {
+        this.filerEndDate = filerEndDate;
+    }
+
     @SuppressWarnings("unchecked")
     public void populateStyleClass(){
         
@@ -186,7 +206,7 @@ public class ScheduleData {
             LOG.info("STYLE : ==== :" + obj.toString() + " ===== :" + getStyleClasses().get(obj));
         }        
     }
-    
+
     public int calculateMinutes() {
         return ScheduleOptionsUtil.findMinutes(startTime, meridiem);
     }
