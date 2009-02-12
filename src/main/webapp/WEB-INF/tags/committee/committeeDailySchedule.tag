@@ -15,7 +15,8 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="styleClass" value="${KualiForm.scheduleData.styleClasses}" />      
-                        
+<c:set var="kraAttributeReferenceDummyAttributes" value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
+                    
 <%-- Daily --%>
 	<div id="calendar_daily_table" style="${styleClass['DAILY']}">
          <html:radio property="scheduleData.dailySchedule.dayOption" value="XDAY"  styleClass="radio">
@@ -29,7 +30,8 @@
          
          <hr size="1" noshade>
              Ending on      
-         <kra-committee:date property="scheduleData.dailySchedule.scheduleEndDate"/>
+         <kul:htmlControlAttribute property="scheduleData.dailySchedule.scheduleEndDate" 
+	                								datePicker="true"	attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}" />
 		 </span>
 	</div>
 <%-- END Daily --%>

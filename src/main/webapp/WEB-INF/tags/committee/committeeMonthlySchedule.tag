@@ -15,6 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="styleClass" value="${KualiForm.scheduleData.styleClasses}" />
+<c:set var="kraAttributeReferenceDummyAttributes" value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
  
 	<div id="calendar_monthly_table" style="${styleClass['MONTHLY']}">
                      
@@ -44,7 +45,7 @@
             &nbsp;month(s)
             <hr size="1" noshade>
             Ending on
-            
-            <kra-committee:date property="scheduleData.monthlySchedule.scheduleEndDate"/>
+            <kul:htmlControlAttribute property="scheduleData.monthlySchedule.scheduleEndDate" 
+	                								datePicker="true"	attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}" /> 
             </span>
 	</div>
