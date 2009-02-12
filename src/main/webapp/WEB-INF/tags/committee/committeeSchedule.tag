@@ -200,7 +200,7 @@
 
 					<td>
 						<div align=center>&nbsp;
-								<html:image property="methodToCall.deleteProtocolReference.line${status.index}.anchor${currentTabIndex}"
+								<html:image property="methodToCall.deleteCommitteeSchedule.line${status.index}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>  
 						</div>
 	                </td>
