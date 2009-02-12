@@ -50,7 +50,7 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         final Collection<ProposalPersonRole> roles = getKeyValuesService().findAll(ProposalPersonRole.class);
-        final ProposalDevelopmentDocument document = ((ProposalDevelopmentForm) getKualiForm()).getProposalDevelopmentDocument();
+        final ProposalDevelopmentDocument document = ((ProposalDevelopmentForm) getKualiForm()).getDocument();
         final boolean hasPrincipalInvestigator = getKeyPersonnelService().hasPrincipalInvestigator(document);
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", "select"));

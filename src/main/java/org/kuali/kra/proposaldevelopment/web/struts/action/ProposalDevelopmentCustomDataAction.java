@@ -45,7 +45,7 @@ public class ProposalDevelopmentCustomDataAction extends ProposalDevelopmentActi
             throws Exception {
 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
 
         for (Map.Entry<String, String[]>customAttributeValue: proposalDevelopmentForm.getCustomAttributeValues().entrySet()) {
             String customAttributeId = customAttributeValue.getKey().substring(2);
@@ -60,7 +60,7 @@ public class ProposalDevelopmentCustomDataAction extends ProposalDevelopmentActi
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.refresh(mapping, form, request, response);
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
 
         //Does not seem we need this any more.
         // TODO : if there is no issue in QA, then remove this. 
@@ -96,7 +96,7 @@ public class ProposalDevelopmentCustomDataAction extends ProposalDevelopmentActi
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
         boolean rulePassed = true;
         // check any business rules
         rulePassed &= getKualiRuleService().applyRules(new SaveCustomAttributeEvent(Constants.EMPTY_STRING,proposalDevelopmentDocument));

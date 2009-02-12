@@ -100,7 +100,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         }
 
         if (IDocHandler.INITIATE_COMMAND.equals(proposalDevelopmentForm.getCommand())) {
-            proposalDevelopmentForm.getProposalDevelopmentDocument().initialize();
+            proposalDevelopmentForm.getDocument().initialize();
         }else{
             proposalDevelopmentForm.initialize();
         }
@@ -113,7 +113,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         
         ActionForward actionForward = super.execute(mapping, form, request, response);
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument document = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument document = proposalDevelopmentForm.getDocument();
          String keywordPanelDisplay = KraServiceLocator.getService(KualiConfigurationService.class).getParameterValue(
                     Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.KEYWORD_PANEL_DISPLAY);        
             request.getSession().setAttribute(Constants.KEYWORD_PANEL_DISPLAY, keywordPanelDisplay);
@@ -128,10 +128,10 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
 
             assignSponsor(proposalDevelopmentForm);
             
-            if (getKeyPersonnelService().hasPrincipalInvestigator(proposalDevelopmentForm.getProposalDevelopmentDocument())) {
+            if (getKeyPersonnelService().hasPrincipalInvestigator(proposalDevelopmentForm.getDocument())) {
                 boolean found = false;
                 
-                for(Iterator<ProposalPerson> person_it = proposalDevelopmentForm.getProposalDevelopmentDocument().getInvestigators().iterator();
+                for(Iterator<ProposalPerson> person_it = proposalDevelopmentForm.getDocument().getInvestigators().iterator();
                     person_it.hasNext() && !found; ){
                     ProposalPerson investigator = person_it.next();
                     
@@ -148,11 +148,11 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
             //if(isPrincipalInvestigator){
             //}
             
-            /*if(proposalDevelopmentForm.getProposalDevelopmentDocument().getSponsorCode()!=null){
-                proposalDevelopmentForm.setAdditionalDocInfo1(new KeyLabelPair("datadictionary.Sponsor.attributes.sponsorCode.label",proposalDevelopmentForm.getProposalDevelopmentDocument().getSponsorCode()));
+            /*if(proposalDevelopmentForm.getDocument().getSponsorCode()!=null){
+                proposalDevelopmentForm.setAdditionalDocInfo1(new KeyLabelPair("datadictionary.Sponsor.attributes.sponsorCode.label",proposalDevelopmentForm.getDocument().getSponsorCode()));
             }
-            if(proposalDevelopmentForm.getProposalDevelopmentDocument().getPrincipalInvestigator()!=null){
-                proposalDevelopmentForm.setAdditionalDocInfo2(new KeyLabelPair("${Document.DataDictionary.ProposalDevelopmentDocument.attributes.sponsorCode.label}",proposalDevelopmentForm.getProposalDevelopmentDocument().getPrincipalInvestigator().getFullName()));
+            if(proposalDevelopmentForm.getDocument().getPrincipalInvestigator()!=null){
+                proposalDevelopmentForm.setAdditionalDocInfo2(new KeyLabelPair("${Document.DataDictionary.ProposalDevelopmentDocument.attributes.sponsorCode.label}",proposalDevelopmentForm.getDocument().getPrincipalInvestigator().getFullName()));
             }*/
     
             // setup any Proposal Development System Parameters that will be needed
@@ -177,8 +177,8 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
     private void assignSponsor(ProposalDevelopmentForm form) {
         KeyLabelPair sponsorName = new KeyLabelPair("DataDictionary.Sponsor.attributes.sponsorName", "");
 
-        if (form.getProposalDevelopmentDocument().getSponsor() != null) {
-            sponsorName.setLabel(form.getProposalDevelopmentDocument().getSponsor().getSponsorName());
+        if (form.getDocument().getSponsor() != null) {
+            sponsorName.setLabel(form.getDocument().getSponsor().getSponsorName());
         }
         
         form.setAdditionalDocInfo1(sponsorName);
@@ -205,7 +205,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
     @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.loadDocument(kualiDocumentFormBase);
-        getKeyPersonnelService().populateDocument(((ProposalDevelopmentForm) kualiDocumentFormBase).getProposalDevelopmentDocument());
+        getKeyPersonnelService().populateDocument(((ProposalDevelopmentForm) kualiDocumentFormBase).getDocument());
     }
 
     @Override
@@ -214,7 +214,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         // We will need to determine if the proposal is being saved for the first time.
 
         final ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        final ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        final ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
         final String originalStatus = getStatus(doc);
 
 		updateProposalDocument(proposalDevelopmentForm);
@@ -232,7 +232,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         }
 
         final ProposalDevelopmentDocument proposalDevelopmentDocument
-            = proposalDevelopmentForm.getProposalDevelopmentDocument();
+            = proposalDevelopmentForm.getDocument();
 
         proposalDevelopmentForm.setFinalBudgetVersion(getFinalBudgetVersion(proposalDevelopmentDocument.getBudgetVersionOverviews()));
         setBudgetStatuses(proposalDevelopmentDocument);
@@ -249,7 +249,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
     }
 
     protected void updateProposalDocument(ProposalDevelopmentForm pdForm) {
-        ProposalDevelopmentDocument pdDocument = pdForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument pdDocument = pdForm.getDocument();
         ProposalDevelopmentDocument updatedDocCopy = getProposalDoc(pdDocument.getDocumentNumber());
         
         //For Budget Lock region, this is the only way in which a Proposal Document might get updated
@@ -294,7 +294,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
      */
     public ActionForward keyPersonnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
-        getKeyPersonnelService().populateDocument(pdform.getProposalDevelopmentDocument());
+        getKeyPersonnelService().populateDocument(pdform.getDocument());
               
         // Let this be taken care of in KeyPersonnelAction execute() method
         if (this instanceof ProposalDevelopmentKeyPersonnelAction) {
@@ -329,13 +329,13 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         final ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         final String headerTabCall = getHeaderTabDispatch(request);
         if(StringUtils.isEmpty(headerTabCall)) {
-            pdForm.getProposalDevelopmentDocument().refreshPessimisticLocks();
+            pdForm.getDocument().refreshPessimisticLocks();
         }
-        pdForm.setFinalBudgetVersion(getFinalBudgetVersion(pdForm.getProposalDevelopmentDocument().getBudgetVersionOverviews()));
-        setBudgetStatuses(pdForm.getProposalDevelopmentDocument());
+        pdForm.setFinalBudgetVersion(getFinalBudgetVersion(pdForm.getDocument().getBudgetVersionOverviews()));
+        setBudgetStatuses(pdForm.getDocument());
 
         final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
-        tdcValidator.validateGeneratingWarnings(pdForm.getProposalDevelopmentDocument());
+        tdcValidator.validateGeneratingWarnings(pdForm.getDocument());
 
         return mapping.findForward(Constants.PD_BUDGET_VERSIONS_PAGE);
     }
@@ -343,7 +343,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
     public ActionForward abstractsAttachments(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         // TODO temporarily to set up proposal person- remove this once keyperson is completed and htmlunit testing fine
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
         doc.populateNarrativeRightsForLoggedinUser();
 
         /*
@@ -368,7 +368,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         SortedMap<String, List> customAttributeGroups = new TreeMap<String, List>();
 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
 
         Map<String, CustomAttributeDocument> customAttributeDocuments = doc.getCustomAttributeDocuments();
         String documentNumber = doc.getDocumentNumber();
@@ -401,7 +401,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
 
     public ActionForward actions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
         PrintService printService = KraServiceLocator.getService(PrintService.class);
         printService.populateSponsorForms(proposalDevelopmentForm.getSponsorFormTemplates(), proposalDevelopmentDocument.getSponsorCode());
         return mapping.findForward(Constants.PROPOSAL_ACTIONS_PAGE);
@@ -505,7 +505,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
 
         ((KualiForm) form).setTabStates(new HashMap());
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposaldevelopmentdocument=pdform.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument proposaldevelopmentdocument=pdform.getDocument();
 
         UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
         for (Iterator<ProposalPerson> person_it = proposaldevelopmentdocument.getProposalPersons().iterator(); person_it.hasNext();) {

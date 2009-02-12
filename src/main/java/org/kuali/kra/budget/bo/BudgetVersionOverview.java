@@ -92,7 +92,7 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     }
 
     public String getOhRateClassCode() {
-        return ohRateTypeCode;
+        return ohRateClassCode;
     }
 
     public void setOhRateClassCode(String ohRateClassCode) {

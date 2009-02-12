@@ -81,7 +81,7 @@ public class AbstractTypeValuesFinder extends KeyValuesBase {
         ProposalDevelopmentDocument doc = null;
         ProposalDevelopmentForm form = (ProposalDevelopmentForm) GlobalVariables.getKualiForm();
         if (form != null) {
-            doc = form.getProposalDevelopmentDocument();
+            doc = form.getDocument();
         }
         return doc;
     }

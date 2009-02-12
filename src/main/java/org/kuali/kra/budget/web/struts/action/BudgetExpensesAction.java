@@ -68,7 +68,7 @@ public class BudgetExpensesAction extends BudgetAction {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        BudgetDocument budgetDocument = budgetForm.getDocument();
         ActionForward forward = super.execute(mapping, form, request, response);
         // for fixing audit error
         if (budgetDocument.getBudgetCategoryTypeCodes() == null || budgetDocument.getBudgetCategoryTypeCodes().size() == 0) {
@@ -92,7 +92,7 @@ public class BudgetExpensesAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form;
         Integer budgetCategoryTypeIndex = Integer.parseInt(getBudgetCategoryTypeIndex(request));
         BudgetLineItem newBudgetLineItem = budgetForm.getNewBudgetLineItems().get(budgetCategoryTypeIndex);        
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        BudgetDocument budgetDocument = budgetForm.getDocument();
         
         if(budgetForm.getViewBudgetPeriod() == null || StringUtils.equalsIgnoreCase(budgetForm.getViewBudgetPeriod().toString(), "0")){
             GlobalVariables.getErrorMap().putError("viewBudgetPeriod", KeyConstants.ERROR_BUDGET_PERIOD_NOT_SELECTED);
@@ -130,10 +130,10 @@ public class BudgetExpensesAction extends BudgetAction {
             newBudgetLineItem.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
             newBudgetLineItem.setBudgetCategory(newBudgetCategory);
             newBudgetLineItem.setStartDate(budgetDocument.getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1).getStartDate());
-            newBudgetLineItem.setEndDate(budgetForm.getBudgetDocument().getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1).getEndDate());
+            newBudgetLineItem.setEndDate(budgetForm.getDocument().getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1).getEndDate());
             newBudgetLineItem.setProposalNumber(budgetDocument.getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1).getProposalNumber());
             newBudgetLineItem.setBudgetVersionNumber(budgetDocument.getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1).getBudgetVersionNumber());
-            newBudgetLineItem.setLineItemNumber(budgetForm.getBudgetDocument().getHackedDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER));
+            newBudgetLineItem.setLineItemNumber(budgetForm.getDocument().getHackedDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER));
             newBudgetLineItem.setApplyInRateFlag(true);
             newBudgetLineItem.refreshReferenceObject("costElementBO");
             
@@ -148,8 +148,8 @@ public class BudgetExpensesAction extends BudgetAction {
             newBudgetLineItem.setLineItemSequence(newBudgetLineItem.getLineItemNumber());
             
             BudgetCalculationService budgetCalculationService = KraServiceLocator.getService(BudgetCalculationService.class);                          
-            budgetForm.getBudgetDocument().getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1).getBudgetLineItems().add(newBudgetLineItem);            
-            budgetCalculationService.calculateBudgetPeriod(budgetForm.getBudgetDocument(), budgetForm.getBudgetDocument().getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1));
+            budgetForm.getDocument().getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1).getBudgetLineItems().add(newBudgetLineItem);            
+            budgetCalculationService.calculateBudgetPeriod(budgetForm.getDocument(), budgetForm.getDocument().getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1));
             
             budgetCalculationService.populateCalculatedAmount(budgetDocument, newBudgetLineItem);
             BudgetLineItem newLineItemToAdd = new BudgetLineItem();
@@ -170,12 +170,12 @@ public class BudgetExpensesAction extends BudgetAction {
      */
     public ActionForward deleteBudgetLineItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        BudgetDocument budgetDocument = budgetForm.getDocument();
         int sltdBudgetPeriod = budgetForm.getViewBudgetPeriod()-1;
-        if (new BudgetExpenseRule().processCheckExistBudgetPersonnelDetailsBusinessRules(budgetDocument, budgetForm.getBudgetDocument().getBudgetPeriod(sltdBudgetPeriod).getBudgetLineItems().get(getLineToDelete(request)), getLineToDelete(request))) {
-            budgetForm.getBudgetDocument().getBudgetPeriod(sltdBudgetPeriod).getBudgetLineItems().remove(getLineToDelete(request));        
+        if (new BudgetExpenseRule().processCheckExistBudgetPersonnelDetailsBusinessRules(budgetDocument, budgetForm.getDocument().getBudgetPeriod(sltdBudgetPeriod).getBudgetLineItems().get(getLineToDelete(request)), getLineToDelete(request))) {
+            budgetForm.getDocument().getBudgetPeriod(sltdBudgetPeriod).getBudgetLineItems().remove(getLineToDelete(request));        
             budgetDocument.setBudgetLineItemDeleted(true);        
-            getCalculationService().calculateBudgetPeriod(budgetForm.getBudgetDocument(), budgetForm.getBudgetDocument().getBudgetPeriod(sltdBudgetPeriod));
+            getCalculationService().calculateBudgetPeriod(budgetForm.getDocument(), budgetForm.getDocument().getBudgetPeriod(sltdBudgetPeriod));
         }
         return mapping.findForward("basic");
     }
@@ -230,7 +230,7 @@ public class BudgetExpensesAction extends BudgetAction {
      */
     public ActionForward viewPersonnelSalaries(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm)form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        BudgetDocument budgetDocument = budgetForm.getDocument();
         BudgetPrintService budgetPrintService = KraServiceLocator.getService(BudgetPrintService.class);
         try{
             AttachmentDataSource dataStream = budgetPrintService.readBudgetPrintStream(budgetDocument, Constants.BUDGET_SALARY_REPORT);
@@ -254,7 +254,7 @@ public class BudgetExpensesAction extends BudgetAction {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        BudgetDocument budgetDocument = budgetForm.getDocument();
         for(BudgetPeriod budgetPeriod:budgetDocument.getBudgetPeriods()){
             for(BudgetLineItem budgetLineItem:budgetPeriod.getBudgetLineItems()){                
                 if(!StringUtils.equalsIgnoreCase(budgetLineItem.getCostElement(), budgetLineItem.getCostElementBO().getCostElement())){
@@ -286,7 +286,7 @@ public class BudgetExpensesAction extends BudgetAction {
      */
     public ActionForward syncCostLimitYes(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();        
+        BudgetDocument budgetDocument = budgetForm.getDocument();        
         int sltdLineItem = getSelectedLine(request);
         int sltdBudgetPeriod = budgetForm.getViewBudgetPeriod()-1;
         BudgetPeriod budgetPeriod = budgetDocument.getBudgetPeriod(sltdBudgetPeriod);
@@ -298,7 +298,7 @@ public class BudgetExpensesAction extends BudgetAction {
 
     public ActionForward syncToPeriodCostLimit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();        
+        BudgetDocument budgetDocument = budgetForm.getDocument();        
         int sltdBudgetPeriod = budgetForm.getViewBudgetPeriod()-1;
         BudgetPeriod budgetPeriod = budgetDocument.getBudgetPeriod(sltdBudgetPeriod);
         if(budgetPeriod.getTotalCost().isGreaterThan(budgetPeriod.getTotalCostLimit())) {
@@ -322,7 +322,7 @@ public class BudgetExpensesAction extends BudgetAction {
      */
     public ActionForward applyToLaterPeriods(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();        
+        BudgetDocument budgetDocument = budgetForm.getDocument();        
         int sltdLineItem = getSelectedLine(request);
         int sltdBudgetPeriod = budgetForm.getViewBudgetPeriod()-1;
         BudgetExpenseRule budgetExpenseRule = new BudgetExpenseRule();
@@ -334,7 +334,7 @@ public class BudgetExpensesAction extends BudgetAction {
     }
     
     private void calculateCurrentBudgetPeriod(BudgetForm budgetForm) {
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        BudgetDocument budgetDocument = budgetForm.getDocument();
         int selectedPeriod = budgetForm.getViewBudgetPeriod().intValue();
         BudgetPeriod budgetPeriod = budgetDocument.getBudgetPeriod(selectedPeriod-1);
         for(BudgetLineItem budgetLineItem:budgetPeriod.getBudgetLineItems()){

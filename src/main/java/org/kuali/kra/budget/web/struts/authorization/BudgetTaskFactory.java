@@ -36,7 +36,7 @@ public class BudgetTaskFactory extends WebTaskFactoryImpl {
      */
     public Task createTask(ActionForm form, HttpServletRequest request) {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        BudgetDocument budgetDocument = budgetForm.getDocument();
         return new BudgetTask(getTaskName(), budgetDocument);
     }
     

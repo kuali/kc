@@ -273,7 +273,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
     public void populateExemptNumbersToForm(ProposalDevelopmentForm proposalDevelopmentForm) {
         // initial load
-        List<ProposalSpecialReview> proposalSpecialReviews = proposalDevelopmentForm.getProposalDevelopmentDocument()
+        List<ProposalSpecialReview> proposalSpecialReviews = proposalDevelopmentForm.getDocument()
                 .getPropSpecialReviews();
         int i = 0;
         List<String[]> documentExemptNumbers = proposalDevelopmentForm.getDocumentExemptNumbers();
@@ -309,7 +309,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
     public void populateProposalExempNumbers(ProposalDevelopmentForm proposalDevelopmentForm) {
         // initial load
-        List<ProposalSpecialReview> proposalSpecialReviews = proposalDevelopmentForm.getProposalDevelopmentDocument()
+        List<ProposalSpecialReview> proposalSpecialReviews = proposalDevelopmentForm.getDocument()
                 .getPropSpecialReviews();
         int i = 0;
         List<String[]> documentExemptNumbers = proposalDevelopmentForm.getDocumentExemptNumbers();

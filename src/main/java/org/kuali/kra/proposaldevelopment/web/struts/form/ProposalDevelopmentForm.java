@@ -42,6 +42,7 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.core.bo.Parameter;
 import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
@@ -168,7 +169,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         setNewProposalUser(new ProposalUser());
         setNewS2sOpportunity(new S2sOpportunity());
         customAttributeValues = new HashMap<String, String[]>();
-        setCopyCriteria(new ProposalCopyCriteria(getProposalDevelopmentDocument()));
+        setCopyCriteria(new ProposalCopyCriteria(getDocument()));
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
         this.setHeaderNavigationTabs((dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName())).getHeaderTabNavigation());
         proposalDevelopmentParameters = new HashMap<String, Parameter>();
@@ -198,16 +199,12 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         setLookupResultsBOClassName(null);
     }
 
-    public ProposalDevelopmentDocument getProposalDevelopmentDocument() {
-        return (ProposalDevelopmentDocument) this.getDocument();
-    }
-
     @Override
     public void populate(HttpServletRequest request) {
        
         clearMultipleValueLookupResults();
         super.populate(request);
-        ProposalDevelopmentDocument proposalDevelopmentDocument=getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument=getDocument();
 
         proposalDevelopmentDocument.refreshReferenceObject("sponsor");
 
@@ -225,7 +222,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     protected void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
         
-        ProposalDevelopmentDocument pd = getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument pd = getDocument();
         ProposalState proposalState = (pd == null) ? null : pd.getProposalState();
         HeaderField docStatus = new HeaderField("DataDictionary.DocumentHeader.attributes.financialDocumentStatusCode", proposalState == null? "" : proposalState.getDescription());
         
@@ -299,7 +296,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         this.setCurrentTabIndex(0);
 
 
-        ProposalDevelopmentDocument proposalDevelopmentDocument = this.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = this.getDocument();
         List<PropScienceKeyword> keywords = proposalDevelopmentDocument.getPropScienceKeywords();
         for(int i=0; i<keywords.size(); i++) {
             PropScienceKeyword propScienceKeyword = (PropScienceKeyword)keywords.get(i);
@@ -379,7 +376,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      * @return the value of newProposalPersonUnit
      */
     public List<Unit> getNewProposalPersonUnit() {
-        if (this.getProposalDevelopmentDocument().getProposalPersons().size() > this.newProposalPersonUnit.size()) {
+        if (this.getDocument().getProposalPersons().size() > this.newProposalPersonUnit.size()) {
             this.newProposalPersonUnit.add(this.newProposalPersonUnit.size(), new Unit());
         }
         return this.newProposalPersonUnit;
@@ -401,7 +398,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      */
     public List<ProposalPersonDegree> getNewProposalPersonDegree() {
 
-        if (this.getProposalDevelopmentDocument().getProposalPersons().size() > this.newProposalPersonDegree.size()) {
+        if (this.getDocument().getProposalPersons().size() > this.newProposalPersonDegree.size()) {
             this.newProposalPersonDegree.add(this.newProposalPersonDegree.size(),new ProposalPersonDegree());
         }
         return this.newProposalPersonDegree;
@@ -512,8 +509,8 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     }
 
     public Map getCreditSplitTotals() {
-        //Map test=getKeyPersonnelService().calculateCreditSplitTotals(getProposalDevelopmentDocument());
-        return getKeyPersonnelService().calculateCreditSplitTotals(getProposalDevelopmentDocument());
+        //Map test=getKeyPersonnelService().calculateCreditSplitTotals(getDocument());
+        return getKeyPersonnelService().calculateCreditSplitTotals(getDocument());
         
     }
 
@@ -594,7 +591,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      * @return true if copying attachments is disabled; otherwise false.
      */
     public boolean getIsCopyAttachmentsDisabled() {
-        ProposalDevelopmentDocument doc = this.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument doc = this.getDocument();
         return !(doc.getNarratives().size() > 0 ||
             doc.getInstituteAttachments().size() > 0 ||
             doc.getPropPersonBios().size() > 0);
@@ -632,7 +629,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      * @return true if copying budget(s) is disabled; otherwise false.
      */
     public boolean getIsCopyBudgetDisabled() {
-        return !(this.getProposalDevelopmentDocument().getBudgetVersionOverviews().size() > 0);
+        return !(this.getDocument().getBudgetVersionOverviews().size() > 0);
     }
 
 
@@ -843,7 +840,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      */
     private void addPersons(List<ProposalUserRoles> proposalUserRolesList, String roleName) {
         ProposalAuthorizationService proposalAuthService = KraServiceLocator.getService(ProposalAuthorizationService.class);
-        ProposalDevelopmentDocument doc = this.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument doc = this.getDocument();
         
         List<Person> persons = proposalAuthService.getPersonsInRole(doc, roleName);
         for (Person person : persons) {
@@ -1038,7 +1035,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         extraButtons.clear();
         boolean showSubmitButton = true;
         boolean showResubmitButton = true;
-        ProposalDevelopmentDocument doc = this.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument doc = this.getDocument();
         if(doc.getS2sSubmissionHistory()!=null && doc.getS2sSubmissionHistory().size()!=0){
             for(S2sSubmissionHistory s2sSubmissionHistory:doc.getS2sSubmissionHistory()){
                 if(StringUtils.equalsIgnoreCase(s2sSubmissionHistory.getProposalNumberOrig(),doc.getProposalNumber())){
@@ -1107,7 +1104,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     public void processValidationFail() {
         try {
             boolean creditSplitEnabled = getConfigurationService().getIndicatorParameter(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, CREDIT_SPLIT_ENABLED_RULE_NAME)
-                && getProposalDevelopmentDocument().getInvestigators().size() > 0;
+                && getDocument().getInvestigators().size() > 0;
             setCreditSplitEnabled(creditSplitEnabled);
         }
         catch (Exception e) {
@@ -1198,15 +1195,15 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     }
     
     public boolean isSubmissionStatusVisible() {
-        String routeStatus = this.getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument().getRouteHeader()
+        String routeStatus = this.getDocument().getDocumentHeader().getWorkflowDocument().getRouteHeader()
         .getDocRouteStatus();
-        return EdenConstants.ROUTE_HEADER_PROCESSED_CD.equals(routeStatus) || EdenConstants.ROUTE_HEADER_FINAL_CD.equals(routeStatus) || (this.getProposalDevelopmentDocument().getSubmitFlag() && EdenConstants.ROUTE_HEADER_ENROUTE_CD.equals(routeStatus));
+        return EdenConstants.ROUTE_HEADER_PROCESSED_CD.equals(routeStatus) || EdenConstants.ROUTE_HEADER_FINAL_CD.equals(routeStatus) || (this.getDocument().getSubmitFlag() && EdenConstants.ROUTE_HEADER_ENROUTE_CD.equals(routeStatus));
     }
     
     public boolean isSubmissionStatusReadOnly() {
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
         ProposalAuthorizationService proposalAuthService = KraServiceLocator.getService(ProposalAuthorizationService.class);
-        boolean canModify = proposalAuthService.hasPermission(user.getPersonUserIdentifier(), this.getProposalDevelopmentDocument(), PermissionConstants.MODIFY_PROPOSAL);
+        boolean canModify = proposalAuthService.hasPermission(user.getPersonUserIdentifier(), this.getDocument(), PermissionConstants.MODIFY_PROPOSAL);
         if (canModify) { return false; }
         List<KualiGroup> groups = user.getGroups();
         for (KualiGroup group: groups) {
@@ -1345,4 +1342,14 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         return KraServiceLocator.getService(KraWorkflowService.class).isInWorkflow(this.getDocument());
     }
     
+    /**
+     * Retrieves the {@link ProposalDevelopmentDocument ProposalDevelopmentDocument}.
+     * @return {@link ProposalDevelopmentDocument ProposalDevelopmentDocument}
+     */
+    @Override
+    public ProposalDevelopmentDocument getDocument() {
+        //overriding and using covariant return to avoid casting
+        //Document to ProposalDevelopmentDocument everywhere
+        return (ProposalDevelopmentDocument) super.getDocument();
+    }
 }

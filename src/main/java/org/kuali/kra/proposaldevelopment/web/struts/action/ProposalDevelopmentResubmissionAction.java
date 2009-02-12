@@ -67,7 +67,7 @@ public class ProposalDevelopmentResubmissionAction extends ProposalDevelopmentAc
         ActionForward nextWebPage = null;
         BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
         int i=0;
         for(S2sSubmissionHistory s2sSubmissionHistory:doc.getS2sSubmissionHistory()){
             s2sSubmissionHistory = (S2sSubmissionHistory)boService.retrieve(s2sSubmissionHistory);
@@ -105,7 +105,7 @@ public class ProposalDevelopmentResubmissionAction extends ProposalDevelopmentAc
             
             proposalDevelopmentForm.setDocId(newDocId);
             this.loadDocument(proposalDevelopmentForm);
-            ProposalDevelopmentDocument copiedDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+            ProposalDevelopmentDocument copiedDocument = proposalDevelopmentForm.getDocument();
             copiedDocument.setS2sAppSubmission(new ArrayList<S2sAppSubmission>());
             copiedDocument.setContinuedFrom(originalProposalId);
             copiedDocument.setProposalTypeCode("4");
