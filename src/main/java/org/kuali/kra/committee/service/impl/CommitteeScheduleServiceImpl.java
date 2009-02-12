@@ -140,6 +140,7 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
             committeeSchedule.setCommitteeId(committee.getId());            
             committeeSchedule.setScheduledDate(sqldate);
             committeeSchedule.setPlace(location);
+            LOG.info("Date before adding :" + date.toString());
             committeeSchedule.setTime(new Timestamp(date.getTime()));
 
             int daysToAdd = committee.getAdvancedSubmissionDaysRequired();
