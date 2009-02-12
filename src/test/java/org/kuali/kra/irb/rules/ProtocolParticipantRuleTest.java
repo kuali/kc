@@ -41,7 +41,7 @@ public class ProtocolParticipantRuleTest extends ProtocolRuleTestBase {
 
     private static final Integer NEW_PARTICIPANT_COUNT = 5;
     private static final Integer NEW_PARTICIPANT_NEG_COUNT = -5;
-    private static final String NEW_PROTOCOL_PARTICIPANT = "newProtocolParticipant";
+    private static final String NEW_PROTOCOL_PARTICIPANT = "participantsHelper.newProtocolParticipant";
     private static final String INVALID_PARTICIPANT_TYPE_CD = "999";
     private ProtocolParticipantRule rule;
     private List<ParticipantType> participantTypes;
