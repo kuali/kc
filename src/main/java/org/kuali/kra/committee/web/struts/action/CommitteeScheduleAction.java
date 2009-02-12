@@ -38,12 +38,11 @@ public class CommitteeScheduleAction extends CommitteeAction {
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         CommitteeForm committeeForm = (CommitteeForm) form;
-        //Some service to do job goes here
         committeeForm.getScheduleData().printf();
         CommitteeScheduleService service  = (CommitteeScheduleService) KraServiceLocator.getService("committeeScheduleService");
         service.addSchedule(committeeForm.getScheduleData(), committeeForm.getCommitteeDocument().getCommittee());
-        //Reset committee schedule data bean
-        //committeeForm.setScheduleData(new ScheduleData());
+        //TODO comment it: Changes style class selection, which will trigger selected type of recurrence
+        committeeForm.getScheduleData().populateStyleClass();
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
     
@@ -74,7 +73,7 @@ public class CommitteeScheduleAction extends CommitteeAction {
     public ActionForward reload(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         CommitteeForm committeeForm = (CommitteeForm) form;
-        //Changes style class selection, which will trigger selected type of recurrence
+        //TODO comment it: Changes style class selection, which will trigger selected type of recurrence
         committeeForm.getScheduleData().populateStyleClass();
         return mapping.findForward(Constants.MAPPING_BASIC );
     }    
