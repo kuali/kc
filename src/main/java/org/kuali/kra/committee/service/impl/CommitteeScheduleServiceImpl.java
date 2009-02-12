@@ -36,6 +36,7 @@ import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.committee.web.struts.form.schedule.WeeklyScheduleDetails;
 import org.kuali.kra.committee.web.struts.form.schedule.YearlyScheduleDetails;
 import org.kuali.kra.committee.web.struts.form.schedule.util.ScheduleOptionsUtil;
+import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.scheduling.ScheduleSequence;
 import org.kuali.kra.scheduling.WeekScheduleSequence;
 import org.kuali.kra.scheduling.expr.CronSpecialChars;
@@ -64,7 +65,13 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
     public void setScheduleService(ScheduleServiceImpl scheduleService) {
         this.scheduleService = scheduleService;
     }
+    
+    public void deleteCommitteeSchedule(Committee committee, int lineNumber) {
 
+        committee.getCommitteeSchedules().remove(lineNumber);  
+
+    }
+    
     public void addSchedule(ScheduleData scheduleData, Committee committee) throws ParseException {
         
         List<Date> dates = null;

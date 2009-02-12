@@ -24,5 +24,7 @@ import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 public interface CommitteeScheduleService {
 
     public void addSchedule(ScheduleData scheduleData, Committee committee) throws ParseException;
+    
+    public void deleteCommitteeSchedule(Committee committee, int lineNumber);
 
 }
