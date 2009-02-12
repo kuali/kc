@@ -14,11 +14,11 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<c:set var="committeeScheduleAttributes" value="${DataDictionary.CommitteeSchedule.attributes}" />
 <c:set var="action" value="committeeSchedule" />
 <c:set var="className" value="org.kuali.kra.committee.document.CommitteeDocument" />
 <c:set var="styleClass" value="${KualiForm.scheduleData.styleClasses}" />
 <c:set var="committeeScheduleAttributes" value="${DataDictionary.CommitteeSchedule.attributes}" />
+<c:set var="kraAttributeReferenceDummyAttributes" value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
 
 <div id="workarea">
 <kul:tab tabTitle="Schedule" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="" auditCluster=""  tabAuditKey="" useRiceAuditMode="true">
@@ -124,15 +124,22 @@
                         <td valign="middle" class="nobord" style="background-color:none"><div align="right"><strong>View Date Range:&nbsp;&nbsp;</strong></div></td>
 
                         <td valign="middle" class="nobord" style="background-color:none">Before<br>
-                          <input name="startDate3" type=text onchange="dataChanged()" size=12 />
-                          <a href="#" onClick="cal.select(document.forms['example'].date1,'anchor1','MM/dd/yyyy'); return false;" name="anchor1" id="anchor9"><img src="../images/cal.gif" alt="select date" width=16 height=16 align=absmiddle></a></td>
+                          <kul:htmlControlAttribute property="scheduleData.filterStartDate" 
+	                								datePicker="true"	attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}"  />
+	                								
                         <td valign="middle" class="nobord" style="background-color:none">After</span><br>
-                          <input name="startDate3" type=text onchange="dataChanged()" size=12 />
-                          <a href="#" onClick="cal.select(document.forms['example'].date1,'anchor1','MM/dd/yyyy'); return false;" name="anchor1" id="anchor7"><img src="../images/cal.gif" alt="select date" width=16 height=16 align=absmiddle></a></td>
+                          <kul:htmlControlAttribute property="scheduleData.filerEndDate" 
+	                								datePicker="true"	attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}"  />
+	                								                        
                         <td valign="middle" class="nobord" style="background-color:none">
-                        	<html:image property="methodToCall.filterDates.anchor${tabKey}"
+                        	<html:image property="methodToCall.filterCommitteeScheduleDates.anchor${tabKey}"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-filter.gif' styleClass="tinybutton"/>
                         </td>
+                        
+                        <td valign="middle" class="nobord" style="background-color:none">
+                        	<html:image property="methodToCall.resetCommitteeScheduleDates.anchor${tabKey}"
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-filter.gif' styleClass="tinybutton"/>
+                        </td>                        
                       </tr>
 
                     </table>
@@ -152,7 +159,8 @@
               </tr>
 
 
-        	<c:forEach var="protocolParticipant" items="${KualiForm.document.committee.committeeSchedules}" varStatus="status">
+        	<c:forEach var="committeeSchedule" items="${KualiForm.document.committee.committeeSchedules}" varStatus="status">
+        	<c:if test="${committeeSchedule.filter}">
 	             <tr>
 					<th class="infoline">
 						<c:out value="${status.index+1}" />
@@ -205,7 +213,7 @@
 						</div>
 	                </td>
 	            </tr>            
-	            
+	        </c:if>     
         	</c:forEach>
            </table>
             <!-- <img src="images/schedule.png" width="763" height="408">-->

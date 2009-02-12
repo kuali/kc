@@ -50,6 +50,10 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
     @SuppressWarnings("unused")
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeScheduleServiceImpl.class);
     
+    public static final Boolean TRUE = true;
+    
+    public static final Boolean FALSE = false;
+    
     private BusinessObjectService businessObjectService;
     
     private ScheduleServiceImpl scheduleService = new ScheduleServiceImpl();
@@ -67,9 +71,30 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
     }
     
     public void deleteCommitteeSchedule(Committee committee, int lineNumber) {
-
         committee.getCommitteeSchedules().remove(lineNumber);  
+    }
+    
+    public void filterCommitteeScheduleDates(ScheduleData scheduleData, Committee committee){
+        List<CommitteeSchedule> committeeSchedules = committee.getCommitteeSchedules();
+        Date startDate = null;
+        Date endDate = null;
+        Date scheduleDate = null;
+        for(CommitteeSchedule committeeSchedule : committeeSchedules) {
+            startDate = scheduleData.getFilterStartDate();
+            endDate = scheduleData.getFilerEndDate();
+            scheduleDate = committeeSchedule.getScheduledDate();
+            if(scheduleDate.after(startDate) && scheduleDate.before(endDate)) 
+                committeeSchedule.setFilter(TRUE);            
+            else
+                committeeSchedule.setFilter(FALSE);
+        }
+    }
 
+    public void resetCommitteeScheduleDates(Committee committee){
+        List<CommitteeSchedule> committeeSchedules = committee.getCommitteeSchedules();
+        for(CommitteeSchedule committeeSchedule : committeeSchedules) {
+                committeeSchedule.setFilter(TRUE);            
+        }
     }
     
     public void addSchedule(ScheduleData scheduleData, Committee committee) throws ParseException {
