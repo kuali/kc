@@ -72,7 +72,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         request.setAttribute("rateClassMap", getBudgetRatesService().getBudgetRateClassMap("O"));
         
         final ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
-        final ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
+        final ProposalDevelopmentDocument pdDoc = pdForm.getDocument();
         
         if (TOGGLE_TAB.equals(pdForm.getMethodToCall())) {
             final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
@@ -93,7 +93,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
      */
     public ActionForward addBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument pdDoc = pdForm.getDocument();
 
         getProposalDevelopmentService().addBudgetVersion(pdDoc, pdForm.getNewBudgetVersionName());
 
@@ -116,7 +116,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         if ("TRUE".equals(pdForm.getEditingMode().get("modifyProposalBudget"))) {
             save(mapping, form, request, response);
         }
-        ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument pdDoc = pdForm.getDocument();
         BudgetVersionOverview budgetToOpen = pdDoc.getBudgetVersionOverview(getSelectedLine(request));
         if (KraServiceLocator.getService(BudgetService.class).checkActivityTypeChange(pdDoc,budgetToOpen.getBudgetVersionNumber().toString())) {
             return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
@@ -147,7 +147,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
 
     private ActionForward synchBudgetRate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, boolean confirm) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument pdDoc = pdForm.getDocument();
         BudgetVersionOverview budgetToOpen = pdDoc.getBudgetVersionOverview(getSelectedLine(request));
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
@@ -206,19 +206,19 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
 
         if (pdForm.isSaveAfterCopy()) {
             final List<BudgetVersionOverview> overviews
-                = pdForm.getProposalDevelopmentDocument().getBudgetVersionOverviews();
+                = pdForm.getDocument().getBudgetVersionOverviews();
             final BudgetVersionOverview copiedOverview = overviews.get(overviews.size() - 1);
             final String copiedName = copiedOverview.getDocumentDescription();
             copiedOverview.setDocumentDescription("copied placeholder");
             BufferedLogger.debug("validating ", copiedName);
             valid = this.getProposalDevelopmentService().isBudgetVersionNameValid(
-                pdForm.getProposalDevelopmentDocument(), copiedName);
+                pdForm.getDocument(), copiedName);
             copiedOverview.setDocumentDescription(copiedName);
             pdForm.setSaveAfterCopy(!valid);
         }
 
         valid &= this.getProposalDevelopmentService().validateBudgetAuditRuleBeforeSaveBudgetVersion(
-            pdForm.getProposalDevelopmentDocument());
+            pdForm.getDocument());
 
         if (!valid) {
             // set up error message to go to validate panel
@@ -231,8 +231,8 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
 
-        this.setProposalStatus(pdForm.getProposalDevelopmentDocument());
-        //this.setBudgetStatuses(pdForm.getProposalDevelopmentDocument());
+        this.setProposalStatus(pdForm.getDocument());
+        //this.setBudgetStatuses(pdForm.getDocument());
         final ActionForward forward = super.save(mapping, form, request, response);
 
         //Need to facilitate releasing the Budget locks if user is redirected to Actions page
@@ -248,7 +248,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
             return pdForm.getFinalBudgetVersion().intValue();
         }
         
-        ProposalDevelopmentDocument document = pdForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument document = pdForm.getDocument();
         if(document != null && CollectionUtils.isNotEmpty(document.getBudgetVersionOverviews())) {
             for(BudgetVersionOverview budget : document.getBudgetVersionOverviews()) {
                 if(budget.isFinalVersionFlag()) {
@@ -263,7 +263,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
     @Override 
     protected void updateProposalDocument(ProposalDevelopmentForm pdForm) {
         BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
-        ProposalDevelopmentDocument pdDocument = pdForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument pdDocument = pdForm.getDocument();
         DocumentHeader currentDocumentHeader = pdDocument.getDocumentHeader();
         KualiWorkflowDocument workflowDoc = currentDocumentHeader.getWorkflowDocument();
         ProposalDevelopmentDocument updatedDocCopy = getProposalDoc(pdDocument.getDocumentNumber());
@@ -285,11 +285,11 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         final ActionForward forward = super.reload(mapping, form, request, response);
         final ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
-        pdForm.setFinalBudgetVersion(getFinalBudgetVersion(pdForm.getProposalDevelopmentDocument().getBudgetVersionOverviews()));
-        setBudgetStatuses(pdForm.getProposalDevelopmentDocument());
+        pdForm.setFinalBudgetVersion(getFinalBudgetVersion(pdForm.getDocument().getBudgetVersionOverviews()));
+        setBudgetStatuses(pdForm.getDocument());
 
         final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
-        tdcValidator.validateGeneratingWarnings(pdForm.getProposalDevelopmentDocument());
+        tdcValidator.validateGeneratingWarnings(pdForm.getDocument());
         return forward;
     }
 
@@ -314,12 +314,12 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
     }
     
     private BudgetVersionOverview getSelectedVersion(ProposalDevelopmentForm proposalDevelopmentForm, HttpServletRequest request) {
-        return proposalDevelopmentForm.getProposalDevelopmentDocument().getBudgetVersionOverview(getSelectedLine(request));
+        return proposalDevelopmentForm.getDocument().getBudgetVersionOverview(getSelectedLine(request));
     }
     
     private void copyBudget(ActionForm form, HttpServletRequest request, boolean copyPeriodOneOnly) throws WorkflowException {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument pdDoc = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument pdDoc = proposalDevelopmentForm.getDocument();
         BudgetVersionOverview budgetToCopy = getSelectedVersion(proposalDevelopmentForm, request);
         copyBudget(pdDoc, budgetToCopy, copyPeriodOneOnly);
     }

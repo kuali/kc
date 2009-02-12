@@ -53,7 +53,7 @@ public class BudgetSummaryTotalsAction extends BudgetAction {
     
     public ActionForward nextPeriodSet(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        BudgetDocument budgetDocument = budgetForm.getDocument();
         
         if(StringUtils.isNotEmpty(request.getParameter("periodStartIndex")) && 
                 StringUtils.isNotEmpty(request.getParameter("periodEndIndex"))) {

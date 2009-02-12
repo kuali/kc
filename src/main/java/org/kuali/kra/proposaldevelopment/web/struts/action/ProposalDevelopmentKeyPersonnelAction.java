@@ -89,14 +89,14 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     }
     
     public ActionForward moveDown(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        List<ProposalPerson> keyPersonnel = ((ProposalDevelopmentForm) form).getProposalDevelopmentDocument().getProposalPersons();
+        List<ProposalPerson> keyPersonnel = ((ProposalDevelopmentForm) form).getDocument().getProposalPersons();
         swapAdjacentPersonnel(keyPersonnel, getLineToDelete(request), MoveOperationEnum.MOVING_PERSON_DOWN);
         
         return mapping.findForward(MAPPING_BASIC);
     }
     
     public ActionForward moveUp(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        List<ProposalPerson> keyPersonnel = ((ProposalDevelopmentForm) form).getProposalDevelopmentDocument().getProposalPersons();
+        List<ProposalPerson> keyPersonnel = ((ProposalDevelopmentForm) form).getDocument().getProposalPersons();
         swapAdjacentPersonnel(keyPersonnel, getLineToDelete(request), MoveOperationEnum.MOVING_PERSON_UP);
         
         return mapping.findForward(MAPPING_BASIC);
@@ -111,7 +111,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     void prepare(ActionForm form, HttpServletRequest request) {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         request.setAttribute(NEW_PERSON_LOOKUP_FLAG, EMPTY_STRING);
-        ProposalDevelopmentDocument document=pdform.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument document=pdform.getDocument();
         List<ProposalPerson> proposalpersons=document.getProposalPersons();
         for (Iterator<ProposalPerson> iter = proposalpersons.iterator(); iter.hasNext();) {
             ProposalPerson person=(ProposalPerson) iter.next();
@@ -121,13 +121,13 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         }
         
         pdform.populatePersonEditableFields();
-        handleRoleChangeEvents(pdform.getProposalDevelopmentDocument());
+        handleRoleChangeEvents(pdform.getDocument());
         
-        debug(INV_SIZE_MSG, pdform.getProposalDevelopmentDocument().getInvestigators().size());
+        debug(INV_SIZE_MSG, pdform.getDocument().getInvestigators().size());
     
         try {
             boolean creditSplitEnabled = getConfigurationService().getIndicatorParameter(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, CREDIT_SPLIT_ENABLED_RULE_NAME)
-                && pdform.getProposalDevelopmentDocument().getInvestigators().size() > 0;
+                && pdform.getDocument().getInvestigators().size() > 0;
             request.setAttribute(CREDIT_SPLIT_ENABLED_FLAG, new Boolean(creditSplitEnabled));
             pdform.setCreditSplitEnabled(creditSplitEnabled);
         }
@@ -195,7 +195,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         }
         
         if (person != null) {
-            person.setProposalNumber(pdform.getProposalDevelopmentDocument().getProposalNumber());
+            person.setProposalNumber(pdform.getDocument().getProposalNumber());
             person.setProposalPersonRoleId(pdform.getNewProposalPerson().getProposalPersonRoleId());
             pdform.setNewProposalPerson(person);
             request.setAttribute(NEW_PERSON_LOOKUP_FLAG, new Boolean(true));
@@ -224,7 +224,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
      */
     public ActionForward insertProposalPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument document = pdform.getDocument();
         GlobalVariables.getErrorMap().removeFromErrorPath("document.proposalPersons");
         
         if ( isNotBlank(pdform.getNewProposalPerson().getProposalPersonRoleId())){
@@ -300,12 +300,12 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
      */
     public ActionForward insertDegree(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument document = pdform.getDocument();
 
         int selectedPersonIndex = getSelectedPersonIndex(request, document);
         ProposalPerson person = document.getProposalPerson(selectedPersonIndex);
         ProposalPersonDegree degree = pdform.getNewProposalPersonDegree().get(selectedPersonIndex);
-        degree.setDegreeSequenceNumber(pdform.getProposalDevelopmentDocument().getDocumentNextValue(Constants.PROPOSAL_PERSON_DEGREE_SEQUENCE_NUMBER));
+        degree.setDegreeSequenceNumber(pdform.getDocument().getDocumentNextValue(Constants.PROPOSAL_PERSON_DEGREE_SEQUENCE_NUMBER));
          
         // check any business rules
         
@@ -328,7 +328,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
      */
     public ActionForward insertUnit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument document = pdform.getDocument();
 
         int selectedPersonIndex = getSelectedPersonIndex(request, document);
         ProposalPerson person = document.getProposalPerson(selectedPersonIndex);
@@ -359,7 +359,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
      */
     public ActionForward deletePerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument document = pdform.getDocument();
         
         for (Iterator<ProposalPerson> person_it = document.getProposalPersons().iterator(); person_it.hasNext();) {
             ProposalPerson person = person_it.next();
@@ -384,7 +384,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
      */
     public ActionForward deleteUnit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument document = pdform.getDocument();
         int selectedPersonIndex = getSelectedPersonIndex(request, document);
         ProposalPerson selectedPerson =  document.getProposalPerson(selectedPersonIndex);
         ProposalPersonUnit unit = selectedPerson.getUnit(getSelectedLine(request));
@@ -405,7 +405,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
      */
     public ActionForward deleteDegree(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument document = pdform.getDocument();
         
         ProposalPerson selectedPerson = getSelectedPerson(request, document);
         selectedPerson.getProposalPersonDegrees().remove(getSelectedLine(request));
@@ -425,7 +425,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
      */
     public ActionForward recalculateCreditSplit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument document = pdform.getDocument();
         boolean rulePassed = getKualiRuleService().applyRules(new CalculateCreditSplitEvent(EMPTY_STRING, document));
         if(rulePassed){
             prepare(form, request);
@@ -440,7 +440,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         boolean rulePassed = true;
 
-        updateCurrentOrdinalPositions(((ProposalDevelopmentForm) form).getProposalDevelopmentDocument().getProposalPersons());
+        updateCurrentOrdinalPositions(((ProposalDevelopmentForm) form).getDocument().getProposalPersons());
         
         // check any business rules
         rulePassed &= getKualiRuleService().applyRules(new SaveKeyPersonEvent(EMPTY_STRING, pdform.getDocument()));
@@ -465,7 +465,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
      */
     public ActionForward addUnitDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument document = pdform.getDocument();
         int selectedPersonIndex = getSelectedPersonIndex(request, document);
         ProposalPerson person = document.getProposalPerson(selectedPersonIndex);
         if (isNotBlank(person.getHomeUnit()) && isValidHomeUnit(person,person.getHomeUnit())){
@@ -489,7 +489,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
      */
     public ActionForward removeUnitDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument document = pdform.getDocument();
         ProposalPerson selectedPerson = getSelectedPerson(request, document);
         pdform.setOptInUnitDetails("N");
         selectedPerson.setOptInUnitStatus("N");
@@ -509,7 +509,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
      */
     public ActionForward addCertificationQuestion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument document = pdform.getDocument();
         ProposalPerson selectedPerson = getSelectedPerson(request, document);
         pdform.setOptInCertificationStatus("Y");
         selectedPerson.setOptInCertificationStatus("Y");
@@ -527,7 +527,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
      */
     public ActionForward removeCertificationQuestion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument document = pdform.getDocument();
         ProposalPerson selectedPerson = getSelectedPerson(request, document);
         pdform.setOptInCertificationStatus("N");
         selectedPerson.setOptInCertificationStatus("N");

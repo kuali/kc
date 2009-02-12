@@ -56,7 +56,7 @@ public class GroupNameValuesFinder extends KeyValuesBase{
         
         KualiForm form = GlobalVariables.getKualiForm();        
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        BudgetDocument budgetDocument = budgetForm.getDocument();
         
         Map fieldValues = new HashMap();
         fieldValues.put("proposalNumber", budgetDocument.getProposalNumber());

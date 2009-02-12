@@ -252,7 +252,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         KraPersistenceStructureService kraPersistenceStructureService = KraServiceLocator.getService(KraPersistenceStructureService.class);
 
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument pdDocument = pdForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument pdDocument = pdForm.getDocument();
         ProposalChangedData newProposalChangedData = pdForm.getNewProposalChangedData();
         
         newProposalChangedData.setProposalNumber(pdDocument.getProposalNumber());
@@ -275,7 +275,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             }
         }
             
-        if(getKualiRuleService().applyRules(new ProposalDataOverrideEvent(pdForm.getProposalDevelopmentDocument(), newProposalChangedData))){
+        if(getKualiRuleService().applyRules(new ProposalDataOverrideEvent(pdForm.getDocument(), newProposalChangedData))){
             boService.save(newProposalChangedData);
         
             ProposalOverview proposalWrapper = createProposalWrapper(pdDocument);
@@ -285,7 +285,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             ObjectUtils.setObjectProperty(pdDocument, proposalAttributeToPersist, newProposalChangedData.getChangedValue());
             
             boService.save(proposalWrapper);
-            pdForm.getProposalDevelopmentDocument().setVersionNumber(proposalWrapper.getVersionNumber());
+            pdForm.getDocument().setVersionNumber(proposalWrapper.getVersionNumber());
             
             pdForm.setNewProposalChangedData(new ProposalChangedData());
             growProposalChangedHistory(pdDocument, newProposalChangedData);
@@ -344,7 +344,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         ActionForward nextWebPage = null;
         
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
         ProposalCopyCriteria criteria = proposalDevelopmentForm.getCopyCriteria();
         
         // check any business rules
@@ -374,7 +374,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                 proposalDevelopmentForm.setDocId(newDocId);
                 this.loadDocument(proposalDevelopmentForm);
                 
-                ProposalDevelopmentDocument copiedDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+                ProposalDevelopmentDocument copiedDocument = proposalDevelopmentForm.getDocument();
                 initializeProposalUsers(copiedDocument);//add in any default permissions
                 copiedDocument.setS2sAppSubmission(new ArrayList<S2sAppSubmission>());
                 
@@ -486,7 +486,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         String methodToCall = ((KualiForm) form).getMethodToCall();
         
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-        int status = isValidSubmission(proposalDevelopmentForm.getProposalDevelopmentDocument());
+        int status = isValidSubmission(proposalDevelopmentForm.getDocument());
 
        //if((map.size()==1) &&  map.containsKey("sponsorProgramInformationAuditWarnings"))
         if (status == WARNING) 
@@ -756,7 +756,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.reload(mapping, form, request, response);
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
         PrintService printService = KraServiceLocator.getService(PrintService.class);
         printService.populateSponsorForms(proposalDevelopmentForm.getSponsorFormTemplates(), proposalDevelopmentDocument.getSponsorCode());
         return forward;
@@ -974,7 +974,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
      */
     private String getForwardToBudgetUrl(ActionForm form) {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument pdDoc = pdForm.getDocument();
         BudgetDocument budgetDocument = null;
         String forward = null;
         try {

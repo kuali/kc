@@ -233,7 +233,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
      */
     public List<BudgetPeriod> getBudgetPeriods(){
         BudgetForm budgetForm = (BudgetForm) GlobalVariables.getKualiForm();
-        BudgetDocument budgetDocument  = budgetForm.getBudgetDocument();
+        BudgetDocument budgetDocument  = budgetForm.getDocument();
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
         return budgetPeriods;
     }

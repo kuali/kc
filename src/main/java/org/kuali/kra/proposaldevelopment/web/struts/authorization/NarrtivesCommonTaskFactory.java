@@ -31,7 +31,7 @@ public class NarrtivesCommonTaskFactory extends NarrativeTaskFactory {
 
     public Task createTask(ActionForm form, HttpServletRequest request) {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        return new ProposalTask(getTaskName(), proposalDevelopmentForm.getProposalDevelopmentDocument());
+        return new ProposalTask(getTaskName(), proposalDevelopmentForm.getDocument());
     }
 
 

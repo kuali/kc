@@ -162,12 +162,8 @@ public class BudgetForm extends ProposalFormBase {
         newBudgetLineItems = new ArrayList<BudgetLineItem>();
         newPersonnelLineItem = new BudgetLineItem();          
         setDocumentNextValueRefresh(true);
-        budgetJustificationWrapper = new BudgetJustificationWrapper(getBudgetDocument().getBudgetJustification());
+        budgetJustificationWrapper = new BudgetJustificationWrapper(getDocument().getBudgetJustification());
         newSubAward = new BudgetSubAwards();
-    }
-    
-    public BudgetDocument getBudgetDocument() {
-        return (BudgetDocument) this.getDocument();
     }
 
     @Override
@@ -185,8 +181,8 @@ public class BudgetForm extends ProposalFormBase {
 
     public void setNewBudgetPeriod(BudgetPeriod newBudgetPeriod) {
         Integer budgetPeriod = 1;
-        if(getBudgetDocument().getBudgetPeriods() != null) {
-            budgetPeriod = getBudgetDocument().getBudgetPeriods().size() + 1;
+        if(getDocument().getBudgetPeriods() != null) {
+            budgetPeriod = getDocument().getBudgetPeriods().size() + 1;
         }
         newBudgetPeriod.setBudgetPeriod(budgetPeriod);
         this.newBudgetPeriod = newBudgetPeriod;
@@ -308,7 +304,7 @@ public class BudgetForm extends ProposalFormBase {
      * @return
      */
     public boolean isCostSharingEditFormVisible() {
-        BudgetDocument budgetDocument = getBudgetDocument();        
+        BudgetDocument budgetDocument = getDocument();        
         return budgetDocument != null && budgetDocument.isCostSharingApplicable() && budgetDocument.isCostSharingAvailable(); 
     }
     
@@ -317,7 +313,7 @@ public class BudgetForm extends ProposalFormBase {
      * @return
      */
     public boolean isUnrecoveredFandAEditFormVisible() {
-        BudgetDocument budgetDocument = getBudgetDocument(); 
+        BudgetDocument budgetDocument = getDocument(); 
         return budgetDocument != null && budgetDocument.isUnrecoveredFandAApplicable() && budgetDocument.isUnrecoveredFandAAvailable(); 
     }
     
@@ -767,4 +763,14 @@ public class BudgetForm extends ProposalFormBase {
         return KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET;
     }
     
+    /**
+     * Retrieves the {@link BudgetDocument BudgetDocument}.
+     * @return {@link BudgetDocument BudgetDocument}
+     */
+    @Override
+    public BudgetDocument getDocument() {
+        //overriding and using covariant return to avoid casting
+        //Document to BudgetDocument everywhere
+        return (BudgetDocument) super.getDocument();
+    }
 }

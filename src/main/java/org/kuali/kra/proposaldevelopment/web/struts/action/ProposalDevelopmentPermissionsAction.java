@@ -75,7 +75,7 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
             HttpServletResponse response) throws Exception {
        
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
         
         List<ProposalUserRoles> proposalUsers = proposalDevelopmentForm.getCurrentProposalUserRoles();
         for (ProposalUserRoles proposalUser : proposalUsers) {
@@ -107,7 +107,7 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiDocumentFormBase docForm = (KualiDocumentFormBase) form;
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
 
         // only want to prompt them to save if they already can save
         if (docForm.getDocumentActionFlags().getCanSave()) {
@@ -193,7 +193,7 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
             HttpServletResponse response) throws Exception {
         
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
         
         ProposalUser proposalUser = proposalDevelopmentForm.getNewProposalUser();
         
@@ -228,7 +228,7 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
             HttpServletResponse response) throws Exception {
         
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
         
         // Find the proposal user to be deleted.
         
@@ -263,7 +263,7 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
         Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
         if (Constants.CONFIRM_DELETE_PROPOSAL_USER_KEY.equals(question)) { 
             ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-            ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
+            ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
             
             int lineNum = getLineToDelete(request);
             List<ProposalUserRoles> proposalUserRolesList = proposalDevelopmentForm.getProposalUserRoles();
@@ -364,7 +364,7 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
         
         ProposalAuthorizationService proposalAuthorizationService = KraServiceLocator.getService(ProposalAuthorizationService.class);
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
         
         // The Edit Roles BO contains the username, javascriptEnabled, and the new set of
         // roles to set for the user in the proposal.
@@ -508,7 +508,7 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
             HttpServletResponse response) throws Exception {
 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
 
         List<ProposalUserRoles> currentProposalUsers = proposalDevelopmentForm.getCurrentProposalUserRoles();
         List<ProposalUserRoles> newProposalUsers = proposalDevelopmentForm.getProposalUserRoles();
