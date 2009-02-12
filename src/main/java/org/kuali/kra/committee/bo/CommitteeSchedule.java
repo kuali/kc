@@ -310,6 +310,7 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
     }
     
     public void setMeridiem(String meridiem) {
+        LOG.info("Medidiem setter :" + meridiem);
         this.meridiem = meridiem;
     }
     
