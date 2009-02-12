@@ -26,6 +26,8 @@ import org.kuali.kra.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.service.ProtocolReferenceService;
+import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 
 public class CommitteeScheduleAction extends CommitteeAction {
     
@@ -43,6 +45,16 @@ public class CommitteeScheduleAction extends CommitteeAction {
         //committeeForm.setScheduleData(new ScheduleData());
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
+    
+    public ActionForward deleteCommitteeSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CommitteeForm committeeForm = (CommitteeForm) form;
+        
+        CommitteeScheduleService service  = (CommitteeScheduleService) KraServiceLocator.getService("committeeScheduleService");
+        
+        service.deleteCommitteeSchedule(committeeForm.getCommitteeDocument().getCommittee(), getLineToDelete(request));
+   
+        return mapping.findForward(Constants.MAPPING_BASIC );
+    }    
     
     public ActionForward reload(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
