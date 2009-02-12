@@ -28,6 +28,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -55,9 +56,14 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
     
     public static final String SATURDAY = "Saturday";
     
+    @Transient
     private String displayTime;
     
+    @Transient
     private String meridiem;
+    
+    @Transient
+    private Boolean filter = true;
     
     @javax.persistence.Id 
     @Column(name="ID")
@@ -317,6 +323,14 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
             str = "PM";
         return str;
     }
+    
+    public void setFilter(Boolean filter) {
+        this.filter = filter;
+    }
+
+    public Boolean getFilter() {
+        return filter;
+    }    
     
     private int findMinutes(String time, String meridiem) {        
         

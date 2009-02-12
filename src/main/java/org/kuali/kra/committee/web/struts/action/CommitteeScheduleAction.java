@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
@@ -47,14 +48,28 @@ public class CommitteeScheduleAction extends CommitteeAction {
     }
     
     public ActionForward deleteCommitteeSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CommitteeForm committeeForm = (CommitteeForm) form;
         
-        CommitteeScheduleService service  = (CommitteeScheduleService) KraServiceLocator.getService("committeeScheduleService");
-        
-        service.deleteCommitteeSchedule(committeeForm.getCommitteeDocument().getCommittee(), getLineToDelete(request));
-   
+        CommitteeForm committeeForm = (CommitteeForm) form;        
+        CommitteeScheduleService service  = (CommitteeScheduleService) KraServiceLocator.getService("committeeScheduleService");        
+        service.deleteCommitteeSchedule(committeeForm.getCommitteeDocument().getCommittee(), getLineToDelete(request));   
         return mapping.findForward(Constants.MAPPING_BASIC );
     }    
+    
+    public ActionForward filterCommitteeScheduleDates(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        CommitteeForm committeeForm = (CommitteeForm) form;        
+        CommitteeScheduleService service  = (CommitteeScheduleService) KraServiceLocator.getService("committeeScheduleService"); 
+        service.filterCommitteeScheduleDates(committeeForm.getScheduleData(), committeeForm.getCommitteeDocument().getCommittee());
+        return mapping.findForward(Constants.MAPPING_BASIC );
+    }
+
+    public ActionForward resetCommitteeScheduleDates(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        CommitteeForm committeeForm = (CommitteeForm) form;        
+        CommitteeScheduleService service  = (CommitteeScheduleService) KraServiceLocator.getService("committeeScheduleService"); 
+        service.resetCommitteeScheduleDates(committeeForm.getCommitteeDocument().getCommittee());
+        return mapping.findForward(Constants.MAPPING_BASIC );
+    }
     
     public ActionForward reload(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
