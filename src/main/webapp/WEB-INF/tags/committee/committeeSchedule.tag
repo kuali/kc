@@ -187,16 +187,15 @@
 	                								attributeEntry="${committeeScheduleAttributes.place}" /> </div>
 					</td>
 
-	                <td nowrap><div align="center">
-	
-	                    <select name="pickUpDropOffDetailForm.pickupTime" onfocus="showPUTime()" id="puTime">
-	                      <option value="12:00 AM" selected>select</option>
-	                      <option value="12:30 AM">12:00 AM</option>
-	                      <option value="12:30 AM">12:30 AM</option>
-	                      <option value="1:00 AM">1:00 AM</option>
-	                      <option value="1:30 AM">1:30 AM</option>
-	                    </select>
-	                  </div></td>
+	                <td nobr><div align="center">
+						<kul:htmlControlAttribute property="document.committee.committeeSchedules[${status.index}].displayTime" 
+	                								attributeEntry="${committeeScheduleAttributes.displayTime}" /> 
+						<html:radio property="document.committee.committeeSchedules[${status.index}].meridiem" value="AM" styleClass="radio">
+ 							AM&nbsp;</html:radio>
+ 						<html:radio property="document.committee.committeeSchedules[${status.index}].meridiem" value="PM" styleClass="radio">
+ 							PM&nbsp;</html:radio>
+ 						</div>           									                									
+	                </td>
 
 
 					<td>
