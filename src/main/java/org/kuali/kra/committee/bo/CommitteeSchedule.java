@@ -29,12 +29,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 
 @Entity 
 @Table(name="COMM_SCHEDULE")
 public class CommitteeSchedule extends KraPersistableBusinessObjectBase { 
-
+    
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeSchedule.class);
+    
     private static final long serialVersionUID = -360139608123017188L;
     
     public static final String SUNDAY = "Sunday";
@@ -50,6 +54,10 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
     public static final String FRIDAY = "Friday";
     
     public static final String SATURDAY = "Saturday";
+    
+    private String displayTime;
+    
+    private String meridiem;
     
     @javax.persistence.Id 
     @Column(name="ID")
@@ -147,7 +155,12 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
 	}
 
 	public Timestamp getTime() {
-		return time;
+	    java.util.Date dt = new java.util.Date(this.time.getTime());
+	    dt = DateUtils.round(dt, Calendar.DAY_OF_MONTH);
+	    dt = DateUtils.addMinutes(dt, findMinutes(displayTime, meridiem));
+	    this.time = new Timestamp(dt.getTime());
+	    LOG.info("TIME getTime():" + time.toString());
+	    return time;
 	}
 
 	public void setTime(Timestamp time) {
@@ -259,6 +272,68 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
                     break;
         }
         return dayOfWeek;
+    }
+    
+    public void setDisplayTime(String displayTime){
+      this.displayTime = displayTime;
+    }
+    
+    public String getDisplayTime() {
+        Calendar cl = new GregorianCalendar();
+        cl.setTime(time);
+        StringBuilder str = new StringBuilder();
+        LOG.info("Timestamp :" + time.toString());
+        LOG.info("cl.get(Calendar.AM_PM) :" + cl.get(Calendar.AM_PM));        
+        int hr = cl.get(Calendar.HOUR_OF_DAY);
+        hr = (hr>12?hr-12:hr);
+        
+        if (hr < 10) 
+            str.append("0").append(hr);
+        else
+            str.append(hr);
+       
+        str.append(":");
+        int min = cl.get(Calendar.MINUTE);
+        
+        if(min < 10) 
+            str.append("0").append(min);
+        else
+            str.append(min);
+        
+        return str.toString();
+    }
+    
+    public void setMeridiem(String meridiem) {
+        this.meridiem = meridiem;
+    }
+    
+    public String getMeridiem() {
+        Calendar cl = new GregorianCalendar();
+        cl.setTime(time);
+        String str = null;       
+        if(cl.get(Calendar.AM_PM) == 0) 
+            str = "AM";
+        else
+            str = "PM";
+        return str;
+    }
+    
+    private int findMinutes(String time, String meridiem) {        
+        
+        String[] result = time.split(":");
+        int hrs = new Integer(result[0]);
+        int min = new Integer(result[1]);
+                
+        boolean am_pm = false;
+        if(meridiem.equalsIgnoreCase("AM"))
+            am_pm = true;
+          
+        LOG.info("DATE hrs:" + hrs + " :min: " + min + " :AM: " + am_pm);
+        
+        if(hrs == 12) {
+            return 0 + min + (am_pm?0:12*60); 
+        }
+        return (hrs * 60)  + min + (am_pm?0:12*60);
     }
     
 	@SuppressWarnings("unchecked")
