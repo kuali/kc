@@ -66,7 +66,7 @@ public class YnqServiceImpl implements YnqService {
         /* filter by question type */
         questionTypeMap.put("questionType", questionType);
         /* filter by status - fetch all active questions */
-        questionTypeMap.put("status", Constants.QUESTION_STATUS_ACTIVE); 
+        questionTypeMap.put("status", Constants.STATUS_ACTIVE); 
 
         Collection<Ynq> allTypes = getBusinessObjectService().findMatchingOrderBy(Ynq.class, questionTypeMap, "groupName", false);
         List<Ynq> ynqs = new ArrayList<Ynq>();
