@@ -22,15 +22,18 @@ import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
 
 public class AMPMValuesFinder extends KeyValuesBase {
-
+    
+    public static final String AM = "AM";
+    public static final String PM = "PM";
+    
     public AMPMValuesFinder() {
     }
 
     @SuppressWarnings("unchecked")
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair("AM", "AM"));
-        keyValues.add(new KeyLabelPair("PM", "PM"));
+        keyValues.add(new KeyLabelPair(AM, AM));
+        keyValues.add(new KeyLabelPair(PM, PM));
         return keyValues;
     }
 
