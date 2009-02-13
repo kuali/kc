@@ -2970,7 +2970,7 @@
 		<field-descriptor name="dateAcknowledged" column="DATE_ACKNOWLEDGED" jdbc-type="DATE" />
 		<field-descriptor name="followupDate" column="FOLLOWUP_DATE" jdbc-type="DATE" />
 		<field-descriptor name="score" column="SCORE" jdbc-type="VARCHAR" />
-		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
+		<field-descriptor name="comments" column="COMMENTS" jdbc-type="CLOB" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
