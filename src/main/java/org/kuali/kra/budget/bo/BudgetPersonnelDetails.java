@@ -217,7 +217,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
     
     public String getEffdtAfterStartdtMsg() {
         this.refreshReferenceObject("budgetPerson");
-        if (budgetPerson.getEffectiveDate().after(getStartDate())) {
+        if (getStartDate() != null && budgetPerson.getEffectiveDate().after(getStartDate())) {
             return "Earning Period Start Date is before "+budgetPerson.getPersonName() +"'s Salary Effective Date. Salary is calculated based on Effective Date."; 
         }
         return "";
