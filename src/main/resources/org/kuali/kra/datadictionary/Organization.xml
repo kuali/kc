@@ -33,7 +33,7 @@
 				<field attributeName="cognizantAuditor"/>
 				<field attributeName="comGovEntityCode"/>
 				<field attributeName="congressionalDistrict"/>
-				<field attributeName="rolodex.addressLine1"/>
+				<field attributeName="rolodex.fullName"/>
 				<field attributeName="county"/>
 				<field attributeName="dodacNumber"/>
 				<field attributeName="dunsNumber"/>
@@ -265,6 +265,11 @@
 			<summary>Contact Address Id </summary>
 			<description>Contact Address Id </description>
 			</attribute>
+
+            <attributeReference name="rolodex.fullName" sourceClassName="org.kuali.kra.bo.Rolodex" sourceAttributeName="fullName" >
+			    <label>Contact Name </label>
+			    <shortLabel>Contact Name </shortLabel>
+            </attributeReference>
 
             <attributeReference name="rolodex.addressLine1" sourceClassName="org.kuali.kra.bo.Rolodex" sourceAttributeName="addressLine1" >
 			    <label>Contact Address Id </label>
