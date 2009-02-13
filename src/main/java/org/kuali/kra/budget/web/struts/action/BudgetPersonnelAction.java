@@ -578,9 +578,6 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
             
             if(budgetPersonnelDetailsCheck(budgetDocument) && new BudgetPersonnelExpenseRule().processSaveCheckDuplicateBudgetPersonnel(budgetDocument)) {
                 super.save(mapping, form, request, response);
-            } else {
-                BudgetCalculationService budgetCalculationService = KraServiceLocator.getService(BudgetCalculationService.class);
-                budgetCalculationService.calculateBudget(budgetDocument);
             }
         }
         
