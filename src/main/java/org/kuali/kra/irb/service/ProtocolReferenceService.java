@@ -31,11 +31,4 @@ public interface ProtocolReferenceService {
      */
     public abstract void addProtocolReference(Protocol protocol, ProtocolReference protocolReference);
     
-    /**
-     * This method deletes ProtocolReference from the List at specified position(lineNumber)
-     * @param protocol which contains list of ProtocolRefernces
-     * @param lineNumber to be deleted
-     */
-    public abstract void deleteProtocolReference(Protocol protocol, int lineNumber);
-
 }

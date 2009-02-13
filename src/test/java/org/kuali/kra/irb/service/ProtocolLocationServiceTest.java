@@ -43,22 +43,6 @@ public class ProtocolLocationServiceTest {
     }
 
     /**
-     * This method is to test delete protocol location
-     * Method will add a new protocol location and remove an existing location
-     * @throws Exception
-     */
-    @Test
-    public void testDeleteProtocolLocation() throws Exception {
-        ProtocolLocationService service  = new ProtocolLocationServiceImpl();
-        Protocol protocol = new Protocol();
-        service.addProtocolLocation(protocol, getNewProtocolLocation() );
-        assertEquals(2, protocol.getProtocolLocations().size());
-        service.deleteProtocolLocation(protocol, 1);
-        assertEquals(1, protocol.getProtocolLocations().size());
-        
-    }
-    
-    /**
      * This method is to get a new protocol location data
      * @return ProtocolLocation
      */

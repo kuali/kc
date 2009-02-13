@@ -68,16 +68,7 @@ public class ProtocolLocationServiceImpl implements ProtocolLocationService {
             protocol.getProtocolLocations().add(protocolLocation);
         }
     }
-    
-    /**
-     * @see org.kuali.kra.irb.service.ProtocolLocationService#deleteProtocolLocation(org.kuali.kra.irb.bo.Protocol, int)
-     */
-    public void deleteProtocolLocation(Protocol protocol, int lineNumber) {
-
-        protocol.getProtocolLocations().remove(lineNumber);  
-
-    }
-   
+       
     /**
      * @see org.kuali.kra.irb.service.ProtocolLocationService#clearProtocolLocation(org.kuali.kra.irb.bo.Protocol, int)
      */

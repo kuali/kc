@@ -99,18 +99,4 @@ public class ProtocolParticipantServiceTest {
         
     }
 
-    @Test
-    public void testDeleteProtocolParticipant() {
-        final ProtocolParticipantServiceImpl protocolParticipantService = new ProtocolParticipantServiceImpl();
-
-        protocolParticipantService.deleteProtocolParticipant(protocol, 1);
-
-        int participantSize = protocol.getProtocolParticipants().size();
-        assertTrue("participant size is " + participantSize, participantSize == 2);
-        String participantCode1 = protocol.getProtocolParticipant(0).getParticipantTypeCode();
-        assertTrue("participant type code of participant 1 is " + participantCode1, participantCode1 == "1");
-        String participantCode2 = protocol.getProtocolParticipant(1).getParticipantTypeCode();
-        assertTrue("participant type code of participant 2 is " + participantCode2, participantCode2 == "3");
-    }
-
 }
