@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
-import static org.kuali.kra.logging.BufferedLogger.*;
-
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -38,7 +36,6 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.bo.BudgetModular;
@@ -481,8 +478,11 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         doc.refreshReferenceObject("performingOrganization");
         
         // Remove the first Location because it's probably the old one.
+        Integer firstProposalLocationSeqeunceNumber = null;
         if (doc.getProposalLocations().size() > 0) {
-            doc.getProposalLocations().remove(doc.getProposalLocations().get(0));
+            ProposalLocation proposalLocation = doc.getProposalLocations().get(0);
+            firstProposalLocationSeqeunceNumber = proposalLocation.getLocationSequenceNumber();
+            doc.getProposalLocations().remove(proposalLocation);
         }
   
         // re-initialize Proposal Locations with Organization details
@@ -490,7 +490,10 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         newProposalLocation.setLocation(doc.getOrganization().getOrganizationName());
         newProposalLocation.setRolodexId(doc.getOrganization().getContactAddressId());
         newProposalLocation.refreshReferenceObject("rolodex");
-        newProposalLocation.setLocationSequenceNumber(doc.getDocumentNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER));
+        if(firstProposalLocationSeqeunceNumber == null || firstProposalLocationSeqeunceNumber.intValue() <= 0) {
+            firstProposalLocationSeqeunceNumber = doc.getDocumentNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER);
+        }
+        newProposalLocation.setLocationSequenceNumber(firstProposalLocationSeqeunceNumber);
         doc.getProposalLocations().add(0, newProposalLocation);
     }
     
@@ -649,9 +652,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
        
         List<ProposalPerson> persons = doc.getProposalPersons();
         for (ProposalPerson person : persons) {
-            Integer personNumber = doc.getDocumentNextValue(Constants.PROPOSAL_PERSON_NUMBER);
             person.setProposalNumber(null);
-            person.setProposalPersonNumber(personNumber);
            
             ProposalPersonRole role = person.getRole();
             String roleId = role.getProposalPersonRoleId();
@@ -685,9 +686,6 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                 
                 person.setUnits(newProposalPersonUnits);  
             }
-            
-            List<Object> list = new ArrayList<Object>();
-            fixProposalPersonNumbers(person, personNumber, list);
             
             for (ProposalPersonYnq ynq : person.getProposalPersonYnqs()) {
                 ynq.setAnswer(null);
@@ -730,37 +728,6 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         return null;
     }
     
-    /**
-     * Recurse through all of the BOs and if a BO has a ProposalPersonNumber property,
-     * set its value to the new proposal person number.
-     * @param object the object
-     * @param proposalPersonNumber the proposal person number
-     */
-    private void fixProposalPersonNumbers(Object object, Integer proposalPersonNumber, List<Object> list) throws Exception {
-        if (object instanceof BusinessObject) {
-            if (list.contains(object)) return;
-            list.add(object);
-            Method[] methods = object.getClass().getMethods();
-            for (Method method : methods) {
-                if (method.getName().equals("setProposalPersonNumber")) {
-                    method.invoke(object, proposalPersonNumber);
-                } else if (isPropertyGetterMethod(method, methods)) {
-                    Object value = method.invoke(object);
-                    if (value instanceof Collection) {
-                        Collection c = (Collection) value;
-                        Iterator iter = c.iterator();
-                        while (iter.hasNext()) {
-                            Object entry = iter.next();
-                            fixProposalPersonNumbers(entry, proposalPersonNumber, list);
-                        }
-                    } else {
-                        fixProposalPersonNumbers(value, proposalPersonNumber, list);
-                    }   
-                }
-            }
-        }
-    }
-
     /**
      * Initialize the Authorizations for a new proposal.  The initiator/creator
      * is assigned the Aggregator role.
