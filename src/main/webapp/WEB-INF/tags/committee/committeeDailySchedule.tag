@@ -16,12 +16,13 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="styleClass" value="${KualiForm.scheduleData.styleClasses}" />      
 <c:set var="kraAttributeReferenceDummyAttributes" value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
+<c:set var="committeeScheduleAttributeReferenceDummy" value="${DataDictionary.CommitteeScheduleAttributeReferenceDummy.attributes}" />
                     
 <%-- Daily --%>
 	<div id="calendar_daily_table" style="${styleClass['DAILY']}">
          <html:radio property="scheduleData.dailySchedule.dayOption" value="XDAY"  styleClass="radio">
          	 Every&nbsp;
-    	     <html:text property="scheduleData.dailySchedule.day" size="2" maxlength="2" />                          
+         	 <kul:htmlControlAttribute property="scheduleData.dailySchedule.day" attributeEntry="${committeeScheduleAttributeReferenceDummy.intValue}" />                       
  	         &nbsp;day(s)</html:radio>
          <hr size="1" noshade>
                         

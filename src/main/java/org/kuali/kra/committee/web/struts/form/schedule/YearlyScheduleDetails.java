@@ -33,17 +33,17 @@ public class YearlyScheduleDetails extends ScheduleDetails {
     
     public static String[] yearOptionValues = {"XDAY","CMPLX"};
     
-    private List<LabelValueBean> months;
+    //private List<LabelValueBean> months;
     
     private String selectedOption1Month;
     
     private String selectedOption2Month;
    
-    private List<LabelValueBean> monthsweek;
+    //private List<LabelValueBean> monthsweek;
     
     private String selectedMonthsWeek;
     
-    private List<LabelValueBean> dayofweek;
+    //private List<LabelValueBean> dayofweek;
     
     private String selectedDayOfWeek; 
     
@@ -55,17 +55,17 @@ public class YearlyScheduleDetails extends ScheduleDetails {
         this.setOption1Year(1);
         this.setOption2Year(1);
         
-        this.setMonths(new ArrayList<LabelValueBean>());
-        ScheduleOptionsUtil.populate(months, ScheduleOptionsUtil.mths);
+        //this.setMonths(new ArrayList<LabelValueBean>());
+        //ScheduleOptionsUtil.populate(months, ScheduleOptionsUtil.mths);
         this.setSelectedOption1Month(ScheduleOptionsUtil.mths[0]);
         this.setSelectedOption2Month(ScheduleOptionsUtil.mths[0]);
         
-        this.setMonthsweek(new ArrayList<LabelValueBean>());
-        ScheduleOptionsUtil.populate(monthsweek, ScheduleOptionsUtil.mthsweek);
+        //this.setMonthsweek(new ArrayList<LabelValueBean>());
+        //ScheduleOptionsUtil.populate(monthsweek, ScheduleOptionsUtil.mthsweek);
         this.setSelectedMonthsWeek(ScheduleOptionsUtil.mthsweek[0]);
         
-        this.setDayofweek(new ArrayList<LabelValueBean>());
-        ScheduleOptionsUtil.populate(dayofweek, ScheduleOptionsUtil.dyofweek);
+        //this.setDayofweek(new ArrayList<LabelValueBean>());
+        //ScheduleOptionsUtil.populate(dayofweek, ScheduleOptionsUtil.dyofweek);
         this.setSelectedDayOfWeek(ScheduleOptionsUtil.dyofweek[4]);
     }
 
@@ -101,13 +101,13 @@ public class YearlyScheduleDetails extends ScheduleDetails {
         this.yearOption = yearOption;
     }
 
-    public List<LabelValueBean> getMonths() {
+/*    public List<LabelValueBean> getMonths() {
         return months;
     }
 
     public void setMonths(List<LabelValueBean> months) {
         this.months = months;
-    }
+    }*/
     
     public String getSelectedOption1Month() {
         return selectedOption1Month;
@@ -126,13 +126,13 @@ public class YearlyScheduleDetails extends ScheduleDetails {
         return selectedOption2Month;
     }
     
-    public List<LabelValueBean> getMonthsweek() {
+/*    public List<LabelValueBean> getMonthsweek() {
         return monthsweek;
     }
 
     public void setMonthsweek(List<LabelValueBean> monthsweek) {
         this.monthsweek = monthsweek;
-    }
+    }*/
 
     public String getSelectedMonthsWeek() {
         return selectedMonthsWeek;
@@ -142,13 +142,13 @@ public class YearlyScheduleDetails extends ScheduleDetails {
         this.selectedMonthsWeek = selectedMonthsWeek;
     }
 
-    public List<LabelValueBean> getDayofweek() {
+/*    public List<LabelValueBean> getDayofweek() {
         return dayofweek;
     }
 
     public void setDayofweek(List<LabelValueBean> dayofweek) {
         this.dayofweek = dayofweek;
-    }
+    }*/
 
     public String getSelectedDayOfWeek() {
         return selectedDayOfWeek;
