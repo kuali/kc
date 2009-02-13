@@ -136,7 +136,7 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
             Date dtEnd = addTime(scheduleData.getMonthlySchedule().getScheduleEndDate(), scheduleData.calculateMinutes());
             CronSpecialChars weekOfMonth = ScheduleData.getWeekOfMonth(scheduleData.getMonthlySchedule().getSelectedMonthsWeek());
             CronSpecialChars dayOfWeek = ScheduleData.getDayOfWeek(scheduleData.getMonthlySchedule().getSelectedDayOfWeek());
-            int frequency = scheduleData.getMonthlySchedule().getOption1Month();
+            int frequency = scheduleData.getMonthlySchedule().getOption2Month();
             dates = scheduleService.getScheduledDates(dt, dtEnd, time24fmt, dayOfWeek, weekOfMonth, frequency, null);
         }         
         if(scheduleData.getRecurrenceType().equalsIgnoreCase(ScheduleData.stylekey[4]) 
