@@ -188,7 +188,7 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
     }
     
     private java.sql.Date calculateAdvancedSubmissionDays(Date startDate, Integer days){
-        Date deadlineDate = DateUtils.addDays(startDate, days);
+        Date deadlineDate = DateUtils.addDays(startDate, -days);
         return new java.sql.Date(deadlineDate.getTime());
     }
     
