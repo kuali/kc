@@ -122,11 +122,11 @@
                       <tr>
                         <td valign="middle" class="nobord" style="background-color:none"><div align="right"><strong>View Date Range:&nbsp;&nbsp;</strong></div></td>
 
-                        <td valign="middle" class="nobord" style="background-color:none">Before<br>
+                        <td valign="middle" class="nobord" style="background-color:none">After<br>
                           <kul:htmlControlAttribute property="scheduleData.filterStartDate" 
 	                								datePicker="true"	attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}"  />
 	                								
-                        <td valign="middle" class="nobord" style="background-color:none">After</span><br>
+                        <td valign="middle" class="nobord" style="background-color:none">Before</span><br>
                           <kul:htmlControlAttribute property="scheduleData.filerEndDate" 
 	                								datePicker="true"	attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}"  />
 	                								                        
@@ -137,7 +137,7 @@
                         
                         <td valign="middle" class="nobord" style="background-color:none">
                         	<html:image property="methodToCall.resetCommitteeScheduleDates.anchor${tabKey}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-filter.gif' styleClass="tinybutton"/>
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-clear1.gif' styleClass="tinybutton"/>
                         </td>                        
                       </tr>
 
