@@ -38,7 +38,7 @@ public class ScheduleData {
     
     private String meridiem;
     
-    private List<LabelValueBean> timeSlots;
+    //private List<LabelValueBean> timeSlots;
     
     private String place;
     
@@ -64,8 +64,8 @@ public class ScheduleData {
         super();
         this.setScheduleStartDate(new Date(new java.util.Date().getTime()));
         
-        this.setTimeSlots(new ArrayList<LabelValueBean>());
-        ScheduleOptionsUtil.populate(timeSlots, ScheduleOptionsUtil.time);
+        //this.setTimeSlots(new ArrayList<LabelValueBean>());
+        //ScheduleOptionsUtil.populate(timeSlots, ScheduleOptionsUtil.time);
         
         this.setStartTime("00:00");
         this.setMeridiem("AM");
@@ -106,13 +106,13 @@ public class ScheduleData {
         this.place = place;
     }
 
-    public List<LabelValueBean> getTimeSlots() {
+/*    public List<LabelValueBean> getTimeSlots() {
         return timeSlots;
     }
 
     public void setTimeSlots(List<LabelValueBean> timeSlots) {
         this.timeSlots = timeSlots;
-    }
+    }*/
     
     public String getStartTime() {
         return startTime;
