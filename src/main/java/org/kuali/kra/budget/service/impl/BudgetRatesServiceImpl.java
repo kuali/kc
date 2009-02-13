@@ -142,6 +142,11 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
      * */
     public void syncBudgetRatesForRateClassType(String rateClassType, BudgetDocument budgetDocument) {
         if(isOutOfSync(budgetDocument)) {
+            List instituteRates = (List) getInstituteRates(budgetDocument);
+            filterRates(budgetDocument, instituteRates, budgetDocument.getInstituteRates()); 
+            List instituteLaRates = (List) getInstituteLaRates(budgetDocument);
+            filterRates(budgetDocument, instituteLaRates, budgetDocument.getInstituteLaRates()); 
+            
             Map<String, AbstractInstituteRate> mapOfExistingBudgetProposalRates = mapRatesToKeys(budgetDocument.getBudgetProposalRates()); 
             Map<String, AbstractInstituteRate> mapOfExistingBudgetProposalLaRates = mapRatesToKeys(budgetDocument.getBudgetProposalLaRates());
             replaceRateClassesForRateClassType(rateClassType, budgetDocument, budgetDocument.getInstituteRates());
@@ -332,7 +337,8 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
     @SuppressWarnings("unchecked")
     private Collection getAbstractInstituteRates(BudgetDocument budgetDocument, Class rateType, Map rateFilterMap) {
         ProposalDevelopmentDocument proposal = budgetDocument.getProposal(); 
-        String unitNumber = proposal.getOwnedByUnitNumber();                               
+        String unitNumber = proposal.getOwnedByUnitNumber();               
+        
         Collection abstractInstituteRates = getFilteredInstituteRates(rateType, unitNumber, proposal.getOwnedByUnit(), rateFilterMap);        
         
         return abstractInstituteRates.size() > 0 ? abstractInstituteRates : new ArrayList();
@@ -687,6 +693,17 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
             syncAllBudgetRatesForInstituteRateType(budgetDocument, abstractBudgetRates, instituteRates);
         }
     }
+    
+  @SuppressWarnings("unchecked")
+  public void syncBudgetRateCollectionsToExistingRates(List<RateClassType> rateClassTypes, BudgetDocument budgetDocument) {
+      syncAllRateClasses(budgetDocument, (List) budgetDocument.getBudgetProposalRates());
+      syncAllRateClassTypes(budgetDocument, rateClassTypes, (List) budgetDocument.getBudgetProposalRates());
+      
+      syncAllRateClasses(budgetDocument, (List) budgetDocument.getBudgetProposalLaRates());
+      syncAllRateClassTypes(budgetDocument, rateClassTypes, (List) budgetDocument.getBudgetProposalLaRates());
+
+      checkActivityPrefixForRateClassTypes(rateClassTypes, budgetDocument);
+  }
 
     @SuppressWarnings("unchecked")
     private void syncAllBudgetRatesForInstituteRateType(BudgetDocument budgetDocument, List<AbstractBudgetRate> budgetRates, List<AbstractInstituteRate> instituteRates) {

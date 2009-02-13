@@ -106,8 +106,8 @@ public class BudgetCalculationServiceTest extends KraTestBase {
     private BudgetDocument createBudgetDocument() throws Exception {
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService
                 .getNewDocument("ProposalDevelopmentDocument");
-        Date requestedStartDateInitial = new Date(System.currentTimeMillis());
-        Date requestedEndDateInitial = new Date(System.currentTimeMillis());
+        Date requestedStartDateInitial = new Date(107, 0, 1);
+        Date requestedEndDateInitial = new Date(110, 0, 1);
         setBaseDocumentFields(document, "ProposalDevelopmentDocumentTest test doc", "005770", "project title",
                 requestedStartDateInitial, requestedEndDateInitial, "1", "1", "000001");
         documentService.saveDocument(document);

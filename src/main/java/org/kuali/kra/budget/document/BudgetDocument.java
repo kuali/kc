@@ -121,7 +121,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     
     private String activityTypeCode="x";
     private boolean BudgetLineItemDeleted = false;
-    private boolean rateClassTypesReloaded = false;
+    private boolean rateClassTypesReload = false ;
 
     private List<BudgetPersonnelDetails> budgetPersonnelDetailsList;
     private List<BudgetPerson> budgetPersons;
@@ -134,11 +134,11 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private List<RateClass> rateClasses;
     private List<RateClassType> rateClassTypes;
     
-    private SortedMap <CostElement, List> objectCodeTotals;
-    private SortedMap <RateType, List> calculatedExpenseTotals;
+    private SortedMap <CostElement, List> objectCodeTotals ;
+    private SortedMap <RateType, List> calculatedExpenseTotals ;
         
-    private SortedMap <RateType, List> personnelCalculatedExpenseTotals; 
-    private SortedMap <RateType, List> nonPersonnelCalculatedExpenseTotals; 
+    private SortedMap <RateType, List> personnelCalculatedExpenseTotals ; 
+    private SortedMap <RateType, List> nonPersonnelCalculatedExpenseTotals ; 
     
     private List<KeyLabelPair> budgetCategoryTypeCodes;
     
@@ -229,6 +229,11 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         if (this.getProposal() != null && this.getProposal().getBudgetVersionOverviews() != null) {
             updateDocumentDescriptions(this.getProposal().getBudgetVersionOverviews());
         }
+       
+        if(this.getProposal() == null) {
+            this.refreshReferenceObject("proposal");
+        }
+        getRateClassTypes();
     }
         
     @Override
@@ -535,13 +540,11 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     public void setBudgetPeriods(List<BudgetPeriod> budgetPeriods) {
         this.budgetPeriods = budgetPeriods;
     }
-
+    
     @Override
     @SuppressWarnings("unchecked")
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
-//        managedLists.add(getBudgetPeriods());
-        managedLists.add(getRateClassTypes());
         managedLists.add(getBudgetProjectIncomes());
         managedLists.add(getBudgetCostShares());
         managedLists.add(getBudgetUnrecoveredFandAs());
@@ -589,7 +592,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         managedLists.add(getBudgetSubAwards());
         return managedLists;
     }
-    
+
     /**
      * This method checks if any BudgetPeriod LineItem's have Justification
      * @param budgetDocument
@@ -709,15 +712,18 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
     }
 
     public List<RateClassType> getRateClassTypes() {
-        /* check budget rates - if empty get all budget rates */
-        if(rateClassTypes.isEmpty() || !rateClassTypesReloaded) {  
+        if(rateClassTypes.isEmpty() && !rateClassTypesReload && !this.getBudgetProposalRates().isEmpty()) {
+          getBudgetRatesService().syncBudgetRateCollectionsToExistingRates(this.rateClassTypes, this);
+          getBudgetRatesService().syncBudgetRateCollectionsToExistingRates(this.rateClassTypes, this);
+        } else if(rateClassTypesReload) {
             if (!rateClassTypes.isEmpty()) {
                 rateClassTypes.clear();
             }
             getBudgetRatesService().getBudgetRates(this.rateClassTypes, this);
-            Collections.sort(rateClassTypes, new RateClassTypeComparator());
-            rateClassTypesReloaded = true;
-			}
+        }
+        
+        rateClassTypesReload = false;
+        Collections.sort(rateClassTypes, new RateClassTypeComparator());
         return rateClassTypes;
     }
 
@@ -1448,12 +1454,12 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
         this.budgetPrintForms = budgetPrintForms;
     }
 
-    public boolean isRateClassTypesReloaded() {
-        return rateClassTypesReloaded;
+    public boolean isRateClassTypesReload() {
+        return rateClassTypesReload;
     }
 
-    public void setRateClassTypesReloaded(boolean rateClassTypesReloaded) {
-        this.rateClassTypesReloaded = rateClassTypesReloaded;
+    public void setRateClassTypesReload(boolean rateClassTypesReload) {
+        this.rateClassTypesReload = rateClassTypesReload;
     }
 
     public List<BudgetSubAwards> getBudgetSubAwards() {
@@ -1540,8 +1546,8 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
         }
         
         return amount;
-    }
-    
+}
+
     /**
      * Gets the sum of the CostSharing Amount for all budget periods.
      * @return the amount

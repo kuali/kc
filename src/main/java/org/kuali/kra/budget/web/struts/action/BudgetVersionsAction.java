@@ -93,13 +93,13 @@ public class BudgetVersionsAction extends BudgetAction {
         final BudgetForm budgetForm = (BudgetForm) form;
         budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(budgetForm.getDocument().getProposal().getBudgetVersionOverviews()));
         setBudgetStatuses(budgetForm.getDocument().getProposal());
-
+        
         final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
         tdcValidator.validateGeneratingWarnings(budgetForm.getDocument().getProposal());
 
         return forward;
     }
-
+    
     /* There is a certain amount of shared logic in the below methods. If you find yourself maintaining/refactoring this, consider consolidation. */
 
     /**
@@ -116,7 +116,7 @@ public class BudgetVersionsAction extends BudgetAction {
         ProposalDevelopmentDocument pdDoc = budgetForm.getDocument().getProposal();
         getProposalDevelopmentService().addBudgetVersion(pdDoc, budgetForm.getNewBudgetVersionName());
         budgetForm.setNewBudgetVersionName("");
-
+        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -138,6 +138,8 @@ public class BudgetVersionsAction extends BudgetAction {
         BudgetDocument budgetDoc = budgetForm.getDocument();
         ProposalDevelopmentDocument pdDoc = budgetDoc.getProposal();
         if (KraServiceLocator.getService(BudgetService.class).checkActivityTypeChange(pdDoc,budgetDoc.getBudgetVersionNumber().toString())) {
+            //Rates-Refresh Scenario-2
+            budgetDoc.setRateClassTypesReload(true);
             return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
                     KeyConstants.QUESTION_SYNCH_BUDGET_RATE), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
 
@@ -258,7 +260,7 @@ public class BudgetVersionsAction extends BudgetAction {
         setProposalStatus(budgetForm.getDocument().getProposal());
         return super.save(mapping, form, request, response);
     }
-
+    
     public ActionForward copyBudgetPeriodOne(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);

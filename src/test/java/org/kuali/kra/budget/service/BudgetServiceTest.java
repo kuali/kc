@@ -127,6 +127,8 @@ public class BudgetServiceTest extends KraTestBase {
         
         getDocumentService().saveDocument(pdDocument);
         
+        pdDocument.refreshReferenceObject("ownedByUnit");
+        
         String username = "quickstart";
         ProposalAuthorizationService proposalAuthService = KraServiceLocator.getService(ProposalAuthorizationService.class);
         proposalAuthService.addRole(username, RoleConstants.AGGREGATOR, pdDocument);

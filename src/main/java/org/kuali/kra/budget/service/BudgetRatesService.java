@@ -47,6 +47,8 @@ public interface BudgetRatesService {
 
     public void resetBudgetRatesForRateClassType(String rateClassType, BudgetDocument budgetDocument);
     public void syncBudgetRatesForRateClassType(String rateClassType, BudgetDocument budgetDocument);
+    
+    public void syncBudgetRateCollectionsToExistingRates(List<RateClassType> rateClassTypes, BudgetDocument budgetDocument);
     public void syncAllBudgetRates(BudgetDocument budgetDocument);
     public void resetAllBudgetRates(BudgetDocument budgetDocument);
     public void viewLocation(String viewLocation, Integer budgetPeriod, BudgetDocument budgetDocument);
