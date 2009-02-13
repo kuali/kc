@@ -33,11 +33,11 @@ public class MonthlyScheduleDetails extends ScheduleDetails {
     
     public static String[] optionValues = {"XDAYANDXMONTH","XDAYOFWEEKANDXMONTH"};
     
-    private List<LabelValueBean> monthsweek;
+    //private List<LabelValueBean> monthsweek;
     
     private String selectedMonthsWeek;
     
-    private List<LabelValueBean> dayofweek;
+    //private List<LabelValueBean> dayofweek;
     
     private String selectedDayOfWeek;    
     
@@ -48,12 +48,12 @@ public class MonthlyScheduleDetails extends ScheduleDetails {
         this.setOption1Month(1);
         this.setOption2Month(1);
         
-        this.setMonthsweek(new ArrayList<LabelValueBean>());
-        ScheduleOptionsUtil.populate(monthsweek, ScheduleOptionsUtil.mthsweek);
+        //this.setMonthsweek(new ArrayList<LabelValueBean>());
+        //ScheduleOptionsUtil.populate(monthsweek, ScheduleOptionsUtil.mthsweek);
         this.setSelectedMonthsWeek(ScheduleOptionsUtil.mthsweek[0]);
         
-        this.setDayofweek(new ArrayList<LabelValueBean>());
-        ScheduleOptionsUtil.populate(dayofweek, ScheduleOptionsUtil.dyofweek);
+        //this.setDayofweek(new ArrayList<LabelValueBean>());
+        //ScheduleOptionsUtil.populate(dayofweek, ScheduleOptionsUtil.dyofweek);
         this.setSelectedDayOfWeek(ScheduleOptionsUtil.dyofweek[4]);
     }
 
@@ -89,13 +89,13 @@ public class MonthlyScheduleDetails extends ScheduleDetails {
         return monthOption;
     }
 
-    public void setMonthsweek(List<LabelValueBean> monthsweek) {
+/*    public void setMonthsweek(List<LabelValueBean> monthsweek) {
         this.monthsweek = monthsweek;
     }
 
     public List<LabelValueBean> getMonthsweek() {
         return monthsweek;
-    }
+    }*/
 
     public void setSelectedMonthsWeek(String selectedMonthsWeek) {
         this.selectedMonthsWeek = selectedMonthsWeek;
@@ -105,13 +105,13 @@ public class MonthlyScheduleDetails extends ScheduleDetails {
         return selectedMonthsWeek;
     }
 
-    public void setDayofweek(List<LabelValueBean> dayofweek) {
+/*    public void setDayofweek(List<LabelValueBean> dayofweek) {
         this.dayofweek = dayofweek;
     }
 
     public List<LabelValueBean> getDayofweek() {
         return dayofweek;
-    }
+    }*/
 
     public void setSelectedDayOfWeek(String selectedDayOfWeek) {
         this.selectedDayOfWeek = selectedDayOfWeek;

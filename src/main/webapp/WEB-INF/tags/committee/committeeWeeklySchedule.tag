@@ -16,12 +16,12 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="styleClass" value="${KualiForm.scheduleData.styleClasses}" />
 <c:set var="kraAttributeReferenceDummyAttributes" value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
-						
+<c:set var="committeeScheduleAttributeReferenceDummy" value="${DataDictionary.CommitteeScheduleAttributeReferenceDummy.attributes}" />						
 <%-- Weekly --%>
 	<div id="calendar_weekly_table" style="${styleClass['WEEKLY']}"> 
 	    Recur every
 	    
-	    <html:text property="scheduleData.weeklySchedule.week" size="2" maxlength="2" />
+	    <kul:htmlControlAttribute property="scheduleData.weeklySchedule.week" attributeEntry="${committeeScheduleAttributeReferenceDummy.intValue}" />  
 	    week(s) on:<hr size="1" noshade>                       
 	    
 	    <html:multibox property="scheduleData.weeklySchedule.daysOfWeek" value="SUNDAY" styleClass="radio"></html:multibox>
