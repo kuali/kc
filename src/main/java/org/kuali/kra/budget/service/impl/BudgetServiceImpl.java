@@ -104,6 +104,9 @@ public class BudgetServiceImpl implements BudgetService {
                 budgetDocument.addBudgetPerson(budgetPerson);
             }
         }
+
+        //Rates-Refresh Scenario-1
+        budgetDocument.setRateClassTypesReload(true);
         
         documentService.saveDocument(budgetDocument);
         

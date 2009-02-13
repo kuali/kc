@@ -141,7 +141,7 @@ public class BudgetRatesAction extends BudgetAction {
             RateClassType rateClassT = budgetDocument.getRateClassTypes().get(getSelectedLine(request));
             String rateClassType = rateClassT.getRateClassType();
             budgetDocument.getBudgetRatesService().syncBudgetRatesForRateClassType(rateClassType, budgetDocument);
-            budgetDocument.setRateClassTypesReloaded(false);
+            budgetDocument.setRateClassTypesReload(false);
             if (rateClassType.equals("O")) {
                 budgetDocument.setRateSynced(true);
             }
@@ -182,8 +182,11 @@ public class BudgetRatesAction extends BudgetAction {
         if (CONFIRM_SYNC_ALL_RATES.equals(question)) {
             BudgetForm budgetForm = (BudgetForm) form;
             BudgetDocument budgetDocument = budgetForm.getDocument();
+
+            //Rates-Refresh Scenario-4
+            budgetDocument.setRateClassTypesReload(true);
             budgetDocument.getBudgetRatesService().syncAllBudgetRates(budgetDocument);
-            budgetDocument.setRateClassTypesReloaded(false);
+            
             budgetDocument.setRateSynced(true);
             if (!budgetDocument.getActivityTypeCode().equals(budgetDocument.getProposal().getActivityTypeCode())) {
                 budgetDocument.setActivityTypeCode(budgetDocument.getProposal().getActivityTypeCode());

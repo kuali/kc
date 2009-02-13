@@ -96,8 +96,8 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         ProposalDevelopmentDocument pdDoc = pdForm.getDocument();
 
         getProposalDevelopmentService().addBudgetVersion(pdDoc, pdForm.getNewBudgetVersionName());
-
         pdForm.setNewBudgetVersionName("");
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -192,7 +192,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         pdForm.setSaveAfterCopy(true);
         return performQuestionWithoutInput(mapping, form, request, response, COPY_BUDGET_PERIOD_QUESTION, QUESTION_TEXT + versionToCopy.getBudgetVersionNumber() + ".", QUESTION_TYPE, pdForm.getMethodToCall(), "");
     }
-
+    
     /**
      * {@inheritDoc}
      */
@@ -203,7 +203,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         final ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         // check audit rules.  If there is error, then budget can't have complete status
         boolean valid = true;
-
+        
         if (pdForm.isSaveAfterCopy()) {
             final List<BudgetVersionOverview> overviews
                 = pdForm.getDocument().getBudgetVersionOverviews();
@@ -223,7 +223,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         if (!valid) {
             // set up error message to go to validate panel
             final int errorBudgetVersion = this.getTentativeFinalBudgetVersion(pdForm);
-            if (errorBudgetVersion != -1) {
+            if(errorBudgetVersion != -1) {
                 GlobalVariables.getErrorMap().putError("document.budgetVersionOverview["
                     + (errorBudgetVersion-1) +"].budgetStatus",
                     KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
@@ -234,13 +234,13 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         this.setProposalStatus(pdForm.getDocument());
         //this.setBudgetStatuses(pdForm.getDocument());
         final ActionForward forward = super.save(mapping, form, request, response);
-
-        //Need to facilitate releasing the Budget locks if user is redirected to Actions page
-        if(forward != null && forward.getName().equalsIgnoreCase("actions")) {
-            pdForm.setMethodToCall("actions");
-        }
-
-        return forward;
+            
+            //Need to facilitate releasing the Budget locks if user is redirected to Actions page
+            if(forward != null && forward.getName().equalsIgnoreCase("actions")) {
+                pdForm.setMethodToCall("actions");
+            }
+            
+            return forward;
     }
     
     private int getTentativeFinalBudgetVersion(ProposalDevelopmentForm pdForm) {
@@ -276,8 +276,8 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         }
         
         boService.save(pdDocument.getBudgetVersionOverviews());
-    }
-
+    }    
+    
     /**
      * {@inheritDoc}
      */
@@ -292,24 +292,24 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         tdcValidator.validateGeneratingWarnings(pdForm.getDocument());
         return forward;
     }
-
+    
     public ActionForward copyBudgetPeriodOne(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         Object question = request.getParameter(org.kuali.RiceConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (COPY_BUDGET_PERIOD_QUESTION.equals(question)) {
             copyBudget(form, request, true);
         }
-
+        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-
+    
     public ActionForward copyBudgetAllPeriods(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         Object question = request.getParameter(org.kuali.RiceConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (COPY_BUDGET_PERIOD_QUESTION.equals(question)) {
             copyBudget(form, request, false);
         }
-
+        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
