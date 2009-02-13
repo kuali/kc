@@ -15,9 +15,12 @@
  */
 package org.kuali.kra.budget.calculator;
 
+import static org.kuali.kra.logging.BufferedLogger.debug;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.BudgetDecimal;
@@ -25,11 +28,8 @@ import org.kuali.kra.budget.bo.BudgetLineItemBase;
 import org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.bo.BudgetPersonnelRateAndBase;
-import org.kuali.kra.budget.bo.BudgetRateAndBase;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
-
-import static org.kuali.kra.logging.BufferedLogger.*;
 
 /**
  * This class is for calculating personnel line items.
@@ -68,7 +68,7 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
     public void populateCalculatedAmountLineItems() {
         List<BudgetPersonnelCalculatedAmount> budgetPersonnelCalcAmts = new ArrayList<BudgetPersonnelCalculatedAmount>();
 
-       if (budgetPersonnelCalcAmts.size() <= 0) {
+       if (CollectionUtils.isEmpty(budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts())) { 
             budgetPersonnelLineItem.refreshReferenceObject("budgetPersonnelCalculatedAmounts");
        }
 

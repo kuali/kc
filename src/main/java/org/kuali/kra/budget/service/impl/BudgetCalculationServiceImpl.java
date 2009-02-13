@@ -53,6 +53,7 @@ import org.kuali.kra.budget.service.BudgetCalculationService;
 import org.kuali.kra.budget.service.BudgetDistributionAndIncomeService;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 
+
 /**
  * This class implements all methods declared in BudgetCalculationService
  */
@@ -113,7 +114,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                 = this.businessObjectService.findMatching(BudgetLineItem.class, fieldValues);
             return !deletedLineItems.isEmpty();
         }
-        
+            
         return true;
     }
     private void copyLineItemToPersonnelDetails(BudgetLineItem budgetLineItem, BudgetPersonnelDetails budgetPersonnelDetails) {
@@ -123,6 +124,8 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         budgetPersonnelDetails.setLineItemNumber(budgetLineItem.getLineItemNumber());
         budgetPersonnelDetails.setCostElement(budgetLineItem.getCostElement());
         budgetPersonnelDetails.setCostElementBO(budgetLineItem.getCostElementBO());
+        budgetPersonnelDetails.setApplyInRateFlag(budgetLineItem.getApplyInRateFlag());
+        budgetPersonnelDetails.setOnOffCampusFlag(budgetLineItem.getOnOffCampusFlag());
     }
 
     public void calculateBudgetLineItem(BudgetDocument budgetDocument,BudgetPersonnelDetails budgetLineItem){
@@ -334,7 +337,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         budgetPeriod.setTotalCost(budgetPeriod.getSumTotalCostAmountFromLineItems());
         budgetPeriod.setUnderrecoveryAmount(budgetPeriod.getSumUnderreoveryAmountFromLineItems());
         budgetPeriod.setCostSharingAmount(budgetPeriod.getSumTotalCostSharingAmountFromLineItems());
-    }
+            }
     
     /**
      * Checks if a positive Total Underrecoverary Amount exists in a line item or in a budget period.
@@ -349,11 +352,11 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         for (final BudgetPeriod budgetPeriod : document.getBudgetPeriods()) {
             lineItemsAmount = lineItemsAmount.add(budgetPeriod.getSumUnderreoveryAmountFromLineItems());
         }
-        
+
         return lineItemsAmount.isPositive()
             || document.getSumUnderreoveryAmountFromPeriods().isPositive();
-    }
-    
+        } 
+        
     /**
      * Checks if a positive Total CostSharing Amount exists in a line item or in a budget period.
      * @param document The budget Document
@@ -366,12 +369,12 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         
         for (final BudgetPeriod budgetPeriod : document.getBudgetPeriods()) {
             lineItemsAmount = lineItemsAmount.add(budgetPeriod.getSumTotalCostSharingAmountFromLineItems());
-        }
+        }        
         
         return lineItemsAmount.isPositive()
             || document.getSumCostSharingAmountFromPeriods().isPositive();
     }
-    
+
     private SortedMap<BudgetCategoryType, List<CostElement>> categorizeObjectCodesByCategory(BudgetDocument budgetDocument) {
         SortedMap<CostElement, List> objectCodeTotals = budgetDocument.getObjectCodeTotals();
         SortedMap<BudgetCategoryType, List<CostElement>> objectCodeListByBudgetCategoryType = new TreeMap<BudgetCategoryType, List<CostElement>>();
@@ -758,11 +761,9 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
             }
         }
     }
-    
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
-    
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
