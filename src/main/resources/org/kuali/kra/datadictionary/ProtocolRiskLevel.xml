@@ -151,8 +151,9 @@
 	            p:allowWhitespace="true" />
 	    </property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+			<bean parent="TextareaControlDefinition"
+				p:rows="3"
+				p:cols="20" />
 		</property>
 		<property name="summary" value="Comments" />
 		<property name="description" value="Comments" />
