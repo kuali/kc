@@ -127,8 +127,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
     public ActionForward deleteProtocolParticipant(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        
-        getProtocolParticipantService().deleteProtocolParticipant(protocolForm.getProtocolDocument().getProtocol(), getLineToDelete(request));
+        protocolForm.getProtocolDocument().getProtocol().getProtocolParticipants().remove(getLineToDelete(request));        
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -173,7 +172,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
         
         ProtocolReferenceService service = (ProtocolReferenceService)KraServiceLocator.getService("protocolReferenceTypeService");
         
-        service.deleteProtocolReference(protocolForm.getProtocolDocument().getProtocol(), getLineToDelete(request));
+        protocolForm.getProtocolDocument().getProtocol().getProtocolReferences().remove(getLineToDelete(request));  
    
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
@@ -192,7 +191,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
         
         ProtocolResearchAreaService service = (ProtocolResearchAreaService)KraServiceLocator.getService("protocolResearchAreaService");
         
-        service.deleteProtocolResearchArea(protocolForm.getProtocolDocument().getProtocol(), getLineToDelete(request));
+        protocolForm.getProtocolDocument().getProtocol().getProtocolResearchAreas().remove(getLineToDelete(request));
    
         return mapping.findForward(Constants.MAPPING_BASIC );
     }    
@@ -231,7 +230,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
      */
     public ActionForward deleteProtocolLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        getProtocolLocationService().deleteProtocolLocation(protocolForm.getProtocolDocument().getProtocol(), getLineToDelete(request));
+        protocolForm.getProtocolDocument().getProtocol().getProtocolLocations().remove(getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
 

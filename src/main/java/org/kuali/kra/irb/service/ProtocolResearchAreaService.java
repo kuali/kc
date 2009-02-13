@@ -32,11 +32,4 @@ public interface ProtocolResearchAreaService {
      */
     public abstract void addProtocolResearchArea(Protocol protocol, Collection<PersistableBusinessObject> selectedBOs);
     
-    /**
-     * This method deletes ProtocolResearchArea from the List at specified position(lineNumber)
-     * @param protocol which contains list of ProtocolRefernces
-     * @param lineNumber to be deleted
-     */
-    public abstract void deleteProtocolResearchArea(Protocol protocol, int lineNumber);
-    
 }

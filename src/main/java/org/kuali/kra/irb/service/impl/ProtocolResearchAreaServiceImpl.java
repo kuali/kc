@@ -44,15 +44,6 @@ public class ProtocolResearchAreaServiceImpl implements ProtocolResearchAreaServ
     }
 
     /**
-     * @see org.kuali.kra.irb.service.ProtocolResearchAreaService#deleteProtocolResearchArea(org.kuali.kra.irb.bo.Protocol, int)
-     */
-    public void deleteProtocolResearchArea(Protocol protocol, int lineNumber) {
-        
-        protocol.getProtocolResearchAreas().remove(lineNumber);
-
-    }
-
-    /**
      * This method is private helper method, to create instance of ProtocolResearchAreas and set appropriate values.
      * @param protocolDocument
      * @param researchAreas
