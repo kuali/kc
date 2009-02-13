@@ -83,13 +83,4 @@ public class ProtocolResearchAreaServiceTest {
         assertEquals(3, protocol.getProtocolResearchAreas().size());
     }
     
-    @Test
-    public void testDeleteProtocolResearchArea() throws Exception {
-
-        service.addProtocolResearchArea(protocol, listOfResearchArea);
-        assertEquals(2, protocol.getProtocolResearchAreas().size());
-        //Test Delete method
-        service.deleteProtocolResearchArea(protocol, 1);
-        assertEquals(1, protocol.getProtocolResearchAreas().size());   
-    }
 }

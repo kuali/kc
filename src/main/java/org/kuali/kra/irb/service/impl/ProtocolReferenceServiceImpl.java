@@ -57,13 +57,4 @@ public class ProtocolReferenceServiceImpl implements ProtocolReferenceService {
         protocol.getProtocolReferences().add(protocolReference);
     }
 
-    /**
-     * @see org.kuali.kra.irb.service.ProtocolReferenceService#deleteProtocolReference(org.kuali.kra.irb.document.ProtocolDocument, java.lang.Integer)
-     */
-    public void deleteProtocolReference(Protocol protocol, int lineNumber) {
-
-        protocol.getProtocolReferences().remove(lineNumber);  
-
-    }
-   
 }

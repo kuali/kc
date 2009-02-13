@@ -67,13 +67,4 @@ public class ProtocolParticipantServiceImpl implements ProtocolParticipantServic
 
     }
 
-    /**
-     * This method deletes the ProtocolParticipant from the List at specified position(lineNumber)
-     * 
-     * @param protocol which contains list of ProtocolParticipants
-     * @param lineNumber to be deleted
-     */
-    public void deleteProtocolParticipant(Protocol protocol, int lineNumber) {
-        protocol.getProtocolParticipants().remove(lineNumber);
-    }
 }

@@ -43,9 +43,6 @@ public class ProtocolReferenceServiceTest {
         protocol.getProtocolReferences().add(bo1);
         protocol.getProtocolReferences().add(bo2);
         
-        //Test delete method
-        service.deleteProtocolReference(protocol, 1);
-        assertEquals(1, protocol.getProtocolReferences().size());
         
     }
 }
