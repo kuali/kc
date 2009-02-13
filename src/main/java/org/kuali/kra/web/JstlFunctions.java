@@ -15,14 +15,13 @@
  */
 package org.kuali.kra.web;
 
+import static java.lang.Class.forName;
+import static org.apache.commons.beanutils.PropertyUtils.setProperty;
+
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesFinder;
-import org.apache.commons.beanutils.PropertyUtils;
-
-import static java.lang.Class.forName;
-import static org.apache.commons.beanutils.PropertyUtils.setProperty;
 
 /**
  * Full of static methods for JSTL function access.
@@ -30,9 +29,15 @@ import static org.apache.commons.beanutils.PropertyUtils.setProperty;
  * @author $Author: gmcgrego $
  * @version $Revision: 1.7 $
  */
-public class JstlFunctions {
+public final class JstlFunctions {
+    private static final String SETTING_PARAMS_PROLOG = "Setting params ";
+    private static final String PROPERTY_SETTING_EXC_PROLOG = "Could not set property ";
+    private static final String IN_PREPOSITION = " in ";
+    private static final String VALUES_FINDER_CLASS_EXC_PROLOG = "Could not find valuesFinder class ";
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(JstlFunctions.class);
 
+    private JstlFunctions() {}
+    
     /**
      * Returns a list of key/value pairs for displaying in an HTML option for a select list. This is a customized approach to retrieving
      * key/value data from database based on criteria specified in the <code>params {@link Map}</code><br/>
@@ -62,9 +67,10 @@ public class JstlFunctions {
      * 
      * 
      * @param valuesFinderClassName
-     * @param params mapped parameters to make it simpler for <code>{@link PropertyUtils#setProperty(Object,String,Object)}</code>
-     * @return List of <code>{@link KeyLabelPair}</code> instances
+     * @param params mapped parameters
+     * @return List of key values
      */
+    @SuppressWarnings("unchecked")
     public static List getOptionList(String valuesFinderClassName, Map params) {
         return setupValuesFinder(valuesFinderClassName, (Map<String, String>) params).getKeyValues();
     }
@@ -89,40 +95,52 @@ public class JstlFunctions {
      * @see PropertyUtils#setProperty(Object, String, Object)
      */
     private static KeyValuesFinder setupValuesFinder(String valuesFinderClassName, Map<String, String> params) {
-        KeyValuesFinder retval = null;
-        LOG.info("In setupValuesFinder");
-        try {
-            retval = (KeyValuesFinder) forName(valuesFinderClassName).newInstance();                        
-        }
-        catch (ClassNotFoundException cnfe) {
-            LOG.warn("Could not find valuesFinder class " +  valuesFinderClassName + " in " + buildTraceMessage(cnfe));
-        }
-        catch (InstantiationException e) {
-            LOG.warn("Could not instantiate valuesFinder class " +  valuesFinderClassName + " in " + buildTraceMessage(e));
-        }
-        catch (IllegalAccessException e) {
-            LOG.warn("Could not instantiate valuesFinder class " +  valuesFinderClassName + " in " + buildTraceMessage(e));
+        KeyValuesFinder retval = getKeyFinder(valuesFinderClassName);
+        
+        if(LOG.isDebugEnabled()) {
+            LOG.debug(SETTING_PARAMS_PROLOG + params);
         }
         
-        LOG.info("Setting params " + params);
-        
-        if (retval != null && params != null) {
+        addParametersToFinder(params, retval);
+
+        return retval;
+    }
+
+    private static void addParametersToFinder(Map<String, String> params, KeyValuesFinder finder) {
+        if (finder != null && params != null) {
             for (Map.Entry<String, String> entry : params.entrySet()) {
                 try {
-                    setProperty(retval, entry.getKey(), entry.getValue());
-                }
-                catch (Exception e) {
-                    LOG.warn("Could not set property " +  entry.getKey() + " in " + buildTraceMessage(e));
+                    setProperty(finder, entry.getKey(), entry.getValue());
+                } catch (Exception e) {
+                    warn(PROPERTY_SETTING_EXC_PROLOG + entry.getKey(), e);
                     e.printStackTrace();
                 }
             }
         }
+    }
 
+    private static KeyValuesFinder getKeyFinder(String valuesFinderClassName) {
+        KeyValuesFinder retval = null;
+        try {
+            retval = (KeyValuesFinder) forName(valuesFinderClassName).newInstance();                        
+        } catch (ClassNotFoundException e) {
+            warnAboutValueFinderClassExceptions(valuesFinderClassName, e);
+        } catch (InstantiationException e) {
+            warnAboutValueFinderClassExceptions(valuesFinderClassName, e);
+        } catch (IllegalAccessException e) {
+            warnAboutValueFinderClassExceptions(valuesFinderClassName, e);
+        }
         return retval;
     }
-    
-    private Object buildPropertyParameter(Object obj, String propertyName) throws Exception {
-        return PropertyUtils.getPropertyDescriptor(obj, propertyName).getWriteMethod().getParameterTypes()[0];
+
+    private static void warnAboutValueFinderClassExceptions(String valuesFinderClassName, Exception e) {
+        warn(VALUES_FINDER_CLASS_EXC_PROLOG + valuesFinderClassName, e);
+    }
+
+    private static void warn(String message, Exception e) {
+        if (LOG.isWarnEnabled()) {
+            LOG.warn(new StringBuilder(message).append(IN_PREPOSITION).append(buildTraceMessage(e)));
+        }
     }
 
     /**
@@ -132,8 +150,16 @@ public class JstlFunctions {
      * @return String log message
      */
     private static String buildTraceMessage(Throwable thrownObj) {
-        return thrownObj.getStackTrace()[0].getClassName() + "#" 
-            + thrownObj.getStackTrace()[0].getMethodName() + ":" 
-                + thrownObj.getStackTrace()[0].getLineNumber() + " " + thrownObj.getClass().getSimpleName() + "\n" + thrownObj.getMessage();
+        StackTraceElement stackTraceElement = thrownObj.getStackTrace()[0];
+        return new StringBuilder(stackTraceElement.getClassName())
+                        .append("#") 
+                        .append(stackTraceElement.getMethodName())
+                        .append(":") 
+                        .append(stackTraceElement.getLineNumber())
+                        .append(" ")
+                        .append(thrownObj.getClass().getSimpleName())
+                        .append("\n")
+                        .append(thrownObj.getMessage())
+                        .toString();
     }
 }
