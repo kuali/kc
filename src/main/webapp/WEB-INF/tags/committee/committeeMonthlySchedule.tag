@@ -16,32 +16,29 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="styleClass" value="${KualiForm.scheduleData.styleClasses}" />
 <c:set var="kraAttributeReferenceDummyAttributes" value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
+<c:set var="committeeScheduleAttributeReferenceDummy" value="${DataDictionary.CommitteeScheduleAttributeReferenceDummy.attributes}" />
  
 	<div id="calendar_monthly_table" style="${styleClass['MONTHLY']}">
                      
     	<html:radio property="scheduleData.monthlySchedule.monthOption" value="XDAYANDXMONTH" styleClass="radio"></html:radio>
                      
-        	&nbsp;Day&nbsp;						  
-	  		<html:text property="scheduleData.monthlySchedule.day" size="2" maxlength="2" />	                         
+        	&nbsp;Day&nbsp;		
+        	<kul:htmlControlAttribute property="scheduleData.monthlySchedule.day" attributeEntry="${committeeScheduleAttributeReferenceDummy.intValue}" />				                           
                      
             &nbsp;of every&nbsp;
-            <html:text property="scheduleData.monthlySchedule.option1Month" size="2" maxlength="2" />                          
+            <kul:htmlControlAttribute property="scheduleData.monthlySchedule.option1Month" attributeEntry="${committeeScheduleAttributeReferenceDummy.intValue}" />                      
             &nbsp;month(s)
             <hr size="1" noshade>
                   
    		<html:radio property="scheduleData.monthlySchedule.monthOption" value="XDAYOFWEEKANDXMONTH" styleClass="radio"></html:radio>
                     
         	&nbsp;The&nbsp;
-			<html:select property="scheduleData.monthlySchedule.selectedMonthsWeek">
-				<html:optionsCollection property="scheduleData.monthlySchedule.monthsweek" label="label" value="value"/>
-			</html:select>
-
-			<html:select property="scheduleData.monthlySchedule.selectedDayOfWeek">
-				<html:optionsCollection property="scheduleData.monthlySchedule.dayofweek" label="label" value="value"/>
-			</html:select>
+			<kul:htmlControlAttribute property="scheduleData.monthlySchedule.selectedMonthsWeek" attributeEntry="${committeeScheduleAttributeReferenceDummy.monthsWeek}" />
+			
+			<kul:htmlControlAttribute property="scheduleData.monthlySchedule.selectedDayOfWeek"  attributeEntry="${committeeScheduleAttributeReferenceDummy.weekDay}" />
 
 			&nbsp;of every&nbsp;
-            <html:text property="scheduleData.monthlySchedule.option2Month" size="2" maxlength="2" />
+            <kul:htmlControlAttribute property="scheduleData.monthlySchedule.option2Month" attributeEntry="${committeeScheduleAttributeReferenceDummy.intValue}" />
             &nbsp;month(s)
             <hr size="1" noshade>
             Ending on
