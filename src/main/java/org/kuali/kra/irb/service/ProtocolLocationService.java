@@ -36,13 +36,6 @@ public interface ProtocolLocationService {
     public abstract void addDefaultProtocolLocation(Protocol protocol);
 
     /**
-     * This method deletes ProtocolLocation from the List at specified position(lineNumber)
-     * @param protocol which contains list of ProtocolLocations
-     * @param lineNumber to be deleted
-     */
-    public abstract void deleteProtocolLocation(Protocol protocol, int lineNumber);
-
-    /**
      * This method will clear ProtocolLocation address from the List at specified position(lineNumber)
      * @param protocol which contains list of ProtocolLocations
      * @param lineNumber to clear location address

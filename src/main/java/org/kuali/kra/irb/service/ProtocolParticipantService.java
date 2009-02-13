@@ -36,12 +36,4 @@ public interface ProtocolParticipantService {
      */
     void addProtocolParticipant(Protocol protocol, ProtocolParticipant protocolParticipant);
 
-    /**
-     * This method deletes the ProtocolParticipant from the List at specified position(lineNumber)
-     * 
-     * @param protocol which contains list of ProtocolParticipants
-     * @param lineNumber to be deleted
-     */
-    void deleteProtocolParticipant(Protocol protocol, int lineNumber);
-
 }
