@@ -40,6 +40,7 @@
 <jsp:useBean id="mtdcCostMap" class="java.util.HashMap" scope="request" />
 <jsp:useBean id="personnelSubTotalsMap" class="java.util.HashMap" scope="request" />
 <jsp:useBean id="nonPersonnelSubTotalsMap" class="java.util.HashMap" scope="request" />
+<jsp:useBean id="personnelSubTotalsMapDJE" class="java.util.HashMap" scope="request" />
 
 <c:set var="anchorIndex" value="1" />
 
@@ -47,6 +48,7 @@
 	<c:set var="periodTotalVar" value="period${status.index}" />
 	<c:set target="${personnelSubTotalsMap}" property="${periodTotalVar}" value="0.00" />
 	<c:set target="${nonPersonnelSubTotalsMap}" property="${periodTotalVar}" value="0.00" />
+	<c:set target="${personnelSubTotalsMapDJE}" property="${periodTotalVar}" value="0.00" />
 </c:forEach>
 
 <kul:tabTop tabTitle="Summary" defaultOpen="true" >
@@ -113,6 +115,9 @@
               <c:set var="personnelSalaryTotals" value="${KualiForm.document.budgetSummaryTotals['personnelSalaryTotals']}" />
               <c:set var="personnelSalaryCumulativeTotals" value="0.00" />
               <c:forEach var="period" items="${KualiForm.document.budgetPeriods}" varStatus="status">
+                	<c:set var="periodTotalVar" value="period${status.index}" />
+               		<c:set target="${personnelSubTotalsMapDJE}" property="${periodTotalVar}" value="${personnelSubTotalsMapDJE[periodTotalVar] + personnelSalaryTotals[period.budgetPeriod-1]}" />
+
               		<c:if test="${status.index ge periodStartIndex and status.index le periodEndIndex }" >
 		           		<td class="tab-subhead" >
 		           			<div align="right">
@@ -232,6 +237,8 @@
               <c:set var="personnelFringeTotals" value="${KualiForm.document.budgetSummaryTotals['personnelFringeTotals']}" />
               <c:set var="personnelFringeCumulativeTotals" value="0.00" />
               <c:forEach var="period" items="${KualiForm.document.budgetPeriods}" varStatus="status" >
+                	<c:set var="periodTotalVar" value="period${status.index}" />
+               		<c:set target="${personnelSubTotalsMapDJE}" property="${periodTotalVar}" value="${personnelSubTotalsMapDJE[periodTotalVar] + personnelFringeTotals[period.budgetPeriod-1]}" />
 	              <c:if test="${status.index ge periodStartIndex and status.index le periodEndIndex }" >
 		           		<td class="tab-subhead" >
 		           			<div align="right">
@@ -341,6 +348,8 @@
 				<c:set var="personnelCalculatedExpenseSummaryTotals" value="${KualiForm.document.budgetSummaryTotals['personnelCalculatedExpenseSummaryTotals']}" />
 				<c:set var="personnelCalculatedExpenseSummaryCumulativeTotals" value="0.00" />
               	<c:forEach var="period" items="${KualiForm.document.budgetPeriods}" varStatus="status" >
+                	<c:set var="periodTotalVar" value="period${status.index}" />
+               		<c:set target="${personnelSubTotalsMapDJE}" property="${periodTotalVar}" value="${personnelSubTotalsMapDJE[periodTotalVar] + personnelCalculatedExpenseSummaryTotals[period.budgetPeriod-1]}" />
               		<c:if test="${status.index ge periodStartIndex and status.index le periodEndIndex }" >
 		           		<td class="tab-subhead" >
 		           			<div align="right">
@@ -420,9 +429,9 @@
         	    <c:forEach var="period" items="${KualiForm.document.budgetPeriods}" varStatus="status" >
         	    	<c:set var="periodTotalVar" value="period${status.index}" />
         	    	<c:if test="${status.index ge periodStartIndex and status.index le periodEndIndex }" >
-						<td><div align="right"><i><fmt:formatNumber value="${personnelSubTotalsMap[periodTotalVar]}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;</i></div></td>
+						<td><div align="right"><i><fmt:formatNumber value="${personnelSubTotalsMapDJE[periodTotalVar]}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;</i></div></td>
 					</c:if>
-					<c:set var="cumPersonnelTotal" value = "${cumPersonnelTotal + personnelSubTotalsMap[periodTotalVar] }" />
+					<c:set var="cumPersonnelTotal" value = "${cumPersonnelTotal + personnelSubTotalsMapDJE[periodTotalVar] }" />
 				</c:forEach>    
                 <td>
                 	<div align="right">  	
@@ -614,14 +623,14 @@
             
         	<tr>
                 <td width="5%" rowspan="3" class="infoline">&nbsp;</td>
-                <td colspan="2" width="20%" class="infoline"><strong>TOTAL DIRECT COSTS</strong></td>
+                <td colspan="2" width="20%" class="infoline"><strong>TOTAL DIRECT COSTS ${KualiForm.document.totalDirectCost}</strong></td>
                 <c:set var="cumTotal" value="0.00" />
         	    <c:forEach var="period" items="${KualiForm.document.budgetPeriods}" varStatus="status" >
         	    	<c:set var="periodTotalVar" value="period${status.index}" />
         	    	<c:if test="${status.index ge periodStartIndex and status.index le periodEndIndex }" >
-						<td class="infoline"><div align="right"><strong><fmt:formatNumber value="${personnelSubTotalsMap[periodTotalVar] + nonPersonnelSubTotalsMap[periodTotalVar]}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;</strong></div></td>
+						<td class="infoline"><div align="right"><strong><fmt:formatNumber value="${personnelSubTotalsMapDJE[periodTotalVar] + nonPersonnelSubTotalsMap[periodTotalVar]}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;</strong></div></td>
 					</c:if>
-					<c:set var="cumTotal" value = "${cumTotal + personnelSubTotalsMap[periodTotalVar] + nonPersonnelSubTotalsMap[periodTotalVar]}" />
+					<c:set var="cumTotal" value = "${cumTotal + personnelSubTotalsMapDJE[periodTotalVar] + nonPersonnelSubTotalsMap[periodTotalVar]}" />
 				</c:forEach>    
                 <td class="infoline">
                 	<div align="right">  	
@@ -658,15 +667,15 @@
         	 </tr>
         	 
         	 <tr>
-                <td colspan="2" width="20%" class="infoline"><strong>TOTAL COSTS</strong></td>
+                <td colspan="2" width="20%" class="infoline"><strong>TOTAL COSTS ${KualiForm.document.totalCost}</strong></td>
                 <c:set var="cumTotal" value="0.00" />
         	    <c:forEach var="period" items="${KualiForm.document.budgetPeriods}" varStatus="status" >
         	    	<c:set var="periodTotalVar" value="period${status.index}" />
         	    	<c:set var="calculatedIndirectExpenseVar" value="calculatedIndirectExpense${status.index}" />
         	    	<c:if test="${status.index ge periodStartIndex and status.index le periodEndIndex }" >
-						<td class="infoline"><div align="right"><strong><fmt:formatNumber value="${personnelSubTotalsMap[periodTotalVar] + nonPersonnelSubTotalsMap[periodTotalVar] + indirectCostMap[calculatedIndirectExpenseVar]}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;</strong></div></td>
+						<td class="infoline"><div align="right"><strong><fmt:formatNumber value="${personnelSubTotalsMapDJE[periodTotalVar] + nonPersonnelSubTotalsMap[periodTotalVar] + indirectCostMap[calculatedIndirectExpenseVar]}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;</strong></div></td>
 					</c:if>
-					<c:set var="cumTotal" value = "${cumTotal + personnelSubTotalsMap[periodTotalVar] + nonPersonnelSubTotalsMap[periodTotalVar] + indirectCostMap[calculatedIndirectExpenseVar]}" />
+					<c:set var="cumTotal" value = "${cumTotal + personnelSubTotalsMapDJE[periodTotalVar] + nonPersonnelSubTotalsMap[periodTotalVar] + indirectCostMap[calculatedIndirectExpenseVar]}" />
 				</c:forEach>    
                 <td class="infoline">
                 	<div align="right">  	
