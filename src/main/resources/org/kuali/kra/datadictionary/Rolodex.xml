@@ -39,6 +39,7 @@
                 <field attributeName="firstName"/>
                 <field attributeName="lastName"/>
                 <field attributeName="middleName"/>
+                <field attributeName="fullName"/>
                 <field attributeName="organization"/>
                 <field attributeName="unit.unitName"/>
                 <field attributeName="phoneNumber"/>
@@ -221,6 +222,18 @@
             </control>
             <summary>Middle Name </summary>
             <description>Middle Name </description>
+            </attribute>
+
+            <attribute name="fullName">
+            <label>Full Name </label>
+            <shortLabel>Full Name </shortLabel>
+            <maxLength>63</maxLength> <!-- ex: Smith, John Paul  add 3 for comma & 2 spaces-->
+            <validationPattern><alpha allowWhitespace="true"/></validationPattern>
+            <control>
+                <text size="63" />
+            </control>
+            <summary>Full Name </summary>
+            <description>Full Name </description>
             </attribute>
 
             <attribute name="organization">
