@@ -144,7 +144,9 @@
 		<property name="shortLabel" value="Place" />
 		<property name="maxLength" value="200" />
 		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
+			<bean parent="AlphaNumericValidationPattern" >
+				<property name="allowWhitespace" value="true" />
+			</bean>
 		</property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"
