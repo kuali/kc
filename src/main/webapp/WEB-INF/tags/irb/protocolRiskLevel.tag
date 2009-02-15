@@ -15,7 +15,6 @@
         <kul:htmlAttributeHeaderCell attributeEntry="${protocolRiskLevelsAttributes.dateUpdated}" />
         <kul:htmlAttributeHeaderCell attributeEntry="${protocolRiskLevelsAttributes.status}" />
         <kul:htmlAttributeHeaderCell attributeEntry="${protocolRiskLevelsAttributes.comments}" />
-		<th>&nbsp</th>
 	</tr>
     <c:forEach var="protocolRiskLevel" items="${KualiForm.document.protocol.protocolRiskLevels}" varStatus="status">
       	<c:set var="protocolRiskLevelPath" value="document.protocol.protocolRiskLevels[${status.index}]" />
@@ -32,22 +31,30 @@
           	<td align="left" valign="middle">
           	    ${protocolRiskLevel.statusText}
             </td>
-            <td align="left" valign="middle">
+            <td>
                 <c:set var="comments" value="${protocolRiskLevel.comments}" />
-                <c:choose>
-                	  <c:when test="${fn:length(comments) > commentDisplayLength}" >
-                	      ${fn:substring(comments,0,commentDisplayLength - 1)}...
-                	  </c:when>
-                	  <c:otherwise>
-                	      ${comments}
-                	  </c:otherwise>
-                </c:choose>
-				<html:hidden property="${protocolRiskLevelPath}.comments" />
-            </td>
-			<td class="infoline">
-				<div align=center>
-                    <kra:expandedTextArea textAreaFieldName="${protocolRiskLevelPath}.comments" action="${action}" textAreaLabel="Risk Level Comments"  viewOnly="true"/>
-				</div>
+                    <table border="0" cellpadding="0" cellspacing="0" style="border:none" >
+                        <tr>
+                           <td align="left" style="border:none" >
+                              <c:choose>
+                	             <c:when test="${fn:length(comments) > commentDisplayLength}" >
+                	                 ${fn:substring(comments,0,commentDisplayLength - 1)}...
+                	              </c:when>
+                	              <c:otherwise>
+                	                  ${comments}
+                	              </c:otherwise>
+                              </c:choose>
+                          </td>
+                          <td style="border:none" >
+				             <html:hidden property="${protocolRiskLevelPath}.comments" />
+				             <c:if test="${!empty comments}">
+				               <div  align="right">
+                                 <kra:expandedTextArea textAreaFieldName="${protocolRiskLevelPath}.comments" action="${action}" textAreaLabel="Risk Level Comments"  viewOnly="true"/>
+                               </div> 
+                             </c:if>
+                          </td>
+				     </tr>
+				</table>
             </td>
 		</tr>
 	</c:forEach>
