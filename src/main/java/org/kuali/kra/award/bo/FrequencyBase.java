@@ -34,11 +34,6 @@ public class FrequencyBase extends KraPersistableBusinessObjectBase {
     private String frequencyBaseCode; 
     private String description; 
     
-    /*private TemplateReportTerms templateReportTerms; 
-    private ValidFrequencyBase validFrequencyBase; 
-    private AwardReporting awardReporting; 
-    private AwardReportTerms awardReportTerms;*/ 
-    
     /**
      * Constructs a FrequencyBase object.
      */
@@ -79,38 +74,6 @@ public class FrequencyBase extends KraPersistableBusinessObjectBase {
         this.description = description;
     }
 
-    /*public TemplateReportTerms getTemplateReportTerms() {
-        return templateReportTerms;
-    }
-
-    public void setTemplateReportTerms(TemplateReportTerms templateReportTerms) {
-        this.templateReportTerms = templateReportTerms;
-    }
-
-    public ValidFrequencyBase getValidFrequencyBase() {
-        return validFrequencyBase;
-    }
-
-    public void setValidFrequencyBase(ValidFrequencyBase validFrequencyBase) {
-        this.validFrequencyBase = validFrequencyBase;
-    }
-
-    public AwardReporting getAwardReporting() {
-        return awardReporting;
-    }
-
-    public void setAwardReporting(AwardReporting awardReporting) {
-        this.awardReporting = awardReporting;
-    }
-
-    public AwardReportTerms getAwardReportTerms() {
-        return awardReportTerms;
-    }
-
-    public void setAwardReportTerms(AwardReportTerms awardReportTerms) {
-        this.awardReportTerms = awardReportTerms;
-    }*/
-
     /**
      * 
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
@@ -122,5 +85,33 @@ public class FrequencyBase extends KraPersistableBusinessObjectBase {
         hashMap.put("description", getDescription());
         return hashMap;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((frequencyBaseCode == null) ? 0 : frequencyBaseCode.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final FrequencyBase other = (FrequencyBase) obj;
+        if (frequencyBaseCode == null) {
+            if (other.frequencyBaseCode != null)
+                return false;
+        }
+        else if (!frequencyBaseCode.equals(other.frequencyBaseCode))
+            return false;
+        return true;
+    }
+    
+    
     
 }

@@ -35,11 +35,6 @@ public class ReportClass extends KraPersistableBusinessObjectBase {
     private String description; 
     private boolean generateReportRequirements; 
     
-    /*private TemplateReportTerms templateReportTerms; 
-    private ValidClassReportFreq validClassReportFreq; 
-    private AwardReporting awardReporting; 
-    private AwardReportTerms awardReportTerms;*/ 
-    
     /**
      * Constructs a ReportClass.java
      */
@@ -93,39 +88,7 @@ public class ReportClass extends KraPersistableBusinessObjectBase {
      */
     public void setGenerateReportRequirements(boolean generateReportRequirements) {
         this.generateReportRequirements = generateReportRequirements;
-    }
-
-    /*public TemplateReportTerms getTemplateReportTerms() {
-        return templateReportTerms;
-    }
-
-    public void setTemplateReportTerms(TemplateReportTerms templateReportTerms) {
-        this.templateReportTerms = templateReportTerms;
-    }
-
-    public ValidClassReportFreq getValidClassReportFreq() {
-        return validClassReportFreq;
-    }
-
-    public void setValidClassReportFreq(ValidClassReportFreq validClassReportFreq) {
-        this.validClassReportFreq = validClassReportFreq;
-    }
-
-    public AwardReporting getAwardReporting() {
-        return awardReporting;
-    }
-
-    public void setAwardReporting(AwardReporting awardReporting) {
-        this.awardReporting = awardReporting;
-    }
-
-    public AwardReportTerms getAwardReportTerms() {
-        return awardReportTerms;
-    }
-
-    public void setAwardReportTerms(AwardReportTerms awardReportTerms) {
-        this.awardReportTerms = awardReportTerms;
-    }*/
+    }   
 
     /**
      * 
@@ -138,6 +101,32 @@ public class ReportClass extends KraPersistableBusinessObjectBase {
         hashMap.put("description", getDescription());
         hashMap.put("generateReportRequirements", getGenerateReportRequirements());
         return hashMap;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((reportClassCode == null) ? 0 : reportClassCode.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final ReportClass other = (ReportClass) obj;
+        if (reportClassCode == null) {
+            if (other.reportClassCode != null)
+                return false;
+        }
+        else if (!reportClassCode.equals(other.reportClassCode))
+            return false;
+        return true;
     }
     
 }

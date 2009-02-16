@@ -40,11 +40,6 @@ public class Frequency extends KraPersistableBusinessObjectBase {
     private Integer advanceNumberOfDays; 
     private Integer advanceNumberOfMonths; 
     
-    /*private TemplateReportTerms templateReportTerms; 
-    private ValidClassReportFreq validClassReportFreq; 
-    private ValidFrequencyBase validFrequencyBase; 
-    private AwardReporting awardReporting; */
-    private AwardReportTerm awardReportTerm; 
     
     public Frequency() { 
 
@@ -120,47 +115,7 @@ public class Frequency extends KraPersistableBusinessObjectBase {
 
     public void setAdvanceNumberOfMonths(Integer advanceNumberOfMonths) {
         this.advanceNumberOfMonths = advanceNumberOfMonths;
-    }
-
-    /*public TemplateReportTerms getTemplateReportTerms() {
-        return templateReportTerms;
-    }
-
-    public void setTemplateReportTerms(TemplateReportTerms templateReportTerms) {
-        this.templateReportTerms = templateReportTerms;
-    }
-
-    public ValidClassReportFreq getValidClassReportFreq() {
-        return validClassReportFreq;
-    }
-
-    public void setValidClassReportFreq(ValidClassReportFreq validClassReportFreq) {
-        this.validClassReportFreq = validClassReportFreq;
-    }
-
-    public ValidFrequencyBase getValidFrequencyBase() {
-        return validFrequencyBase;
-    }
-
-    public void setValidFrequencyBase(ValidFrequencyBase validFrequencyBase) {
-        this.validFrequencyBase = validFrequencyBase;
-    }
-
-    public AwardReporting getAwardReporting() {
-        return awardReporting;
-    }
-
-    public void setAwardReporting(AwardReporting awardReporting) {
-        this.awardReporting = awardReporting;
-    }*/
-
-    public AwardReportTerm getAwardReportTerm() {
-        return awardReportTerm;
-    }
-
-    public void setAwardReportTerm(AwardReportTerm awardReportTerm) {
-        this.awardReportTerm = awardReportTerm;
-    }
+    }    
 
     @SuppressWarnings("unchecked")
     @Override 
@@ -177,5 +132,33 @@ public class Frequency extends KraPersistableBusinessObjectBase {
         hashMap.put("advanceNumberOfMonths", getAdvanceNumberOfMonths());
         return hashMap;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((frequencyCode == null) ? 0 : frequencyCode.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final Frequency other = (Frequency) obj;
+        if (frequencyCode == null) {
+            if (other.frequencyCode != null)
+                return false;
+        }
+        else if (!frequencyCode.equals(other.frequencyCode))
+            return false;
+        return true;
+    }
+    
+    
     
 }
