@@ -23,7 +23,7 @@ import org.kuali.kra.rule.event.KraDocumentEventBase;
 
 /**
  * 
- * This class represents the AddAwardReportTermEvent
+ * This class represents the AwardReportTermEvent
  */
 public abstract class AwardReportTermEvent extends KraDocumentEventBase {
     
@@ -53,7 +53,7 @@ public abstract class AwardReportTermEvent extends KraDocumentEventBase {
     public void validate() {
         super.validate();
         if (getAwardReportTerm() == null) {
-            throw new IllegalArgumentException("invalid (null) awardReportTErm");
+            throw new IllegalArgumentException("invalid (null) awardReportTerm");
         }
     }
 
@@ -61,17 +61,19 @@ public abstract class AwardReportTermEvent extends KraDocumentEventBase {
      * Logs the event type and some information about the associated special review
      */
     protected void logEvent() {
-        StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(
-                this.getClass().getName(), "."));
-        logMessage.append(" with ");
+        if(LOG.isDebugEnabled()){
+            StringBuilder logMessage = new StringBuilder(StringUtils.substringAfterLast(
+                    this.getClass().getName(), "."));
+            logMessage.append(" with ");
 
-        if (getAwardReportTerm() == null) {
-            logMessage.append("null Award Report Terms");
-        }else {
-            logMessage.append(getAwardReportTerm().toString());
+            if (getAwardReportTerm() == null) {
+                logMessage.append("null Award Report Terms");
+            }else {
+                logMessage.append(getAwardReportTerm().toString());
+            }
+
+            LOG.debug(logMessage);            
         }
-
-        LOG.debug(logMessage);
     }
 
     /**
