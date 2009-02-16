@@ -23,21 +23,14 @@ import org.kuali.core.web.ui.KeyLabelPair;
 
 /**
  * 
- * This class is a values finder for <code>ReportClass</code> business object.
+ * This class is a values finder for subPlanFlag of Award business object.
  */
 @SuppressWarnings("unchecked")
 public class SubPlanFlagValuesFinder extends KeyValuesBase {
     
     /**
-     * Constructs the list of Report Classes.  Each entry
-     * in the list is a &lt;key, value&gt; pair, where the "key" is the unique
-     * report class code and the "value" is the textual description that is viewed
-     * by a user.  The list is obtained from the AwardDocument if any are defined there. 
-     * Otherwise, it is obtained from a lookup of the REPORT_CLASS database table
-     * via the "KeyValueFinderService".
+     * This method adds 3 pre-determined values to a key values pair and returns it.
      * 
-     * @return the list of &lt;key, value&gt; pairs of abstract types.  The first entry
-     * is always &lt;"", "select:"&gt;.
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List<KeyLabelPair> getKeyValues() {
