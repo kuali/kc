@@ -31,7 +31,11 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  */
 public class AwardReportTermRule extends ResearchDocumentRuleBase implements AddAwardReportTermRule {
     
-    private static final String NEW_AWARD_REPORT_TERM = "newAwardReportTerm";
+    private static final String NEW_AWARD_REPORT_TERM = "newAwardReportTerm";    
+    private static final String DOT_REPORT_CODE = ".reportCode";
+    private static final String DOT_FREQUENCY_BASE_CODE = ".frequencyBaseCode";
+    private static final String DOT_FREQUENCY_CODE = ".frequencyCode";
+    private static final String DOT_DUE_DATE = ".dueDate";
     
     /**
      * 
@@ -60,15 +64,11 @@ public class AwardReportTermRule extends ResearchDocumentRuleBase implements Add
      * @param awardReportTerm
      * @return
      */
-    protected boolean evaluateRuleForReportCode(AwardReportTerm awardReportTerm, String index){
-        boolean rulePassed = true;
+    protected boolean evaluateRuleForReportCode(AwardReportTerm awardReportTerm, int index){
+        boolean rulePassed = !(StringUtils.isEmpty(awardReportTerm.getReportCode()));
         
-        if(awardReportTerm.getReportCode() == null 
-                || StringUtils.isBlank(awardReportTerm.getReportCode().toString())){
-            rulePassed = false;
-            reportError(NEW_AWARD_REPORT_TERM + Constants.LEFT_SQUARE_BRACKET + index 
-                    + Constants.RIGHT_SQUARE_BRACKET + ".reportCode"
-                    , KeyConstants.ERROR_REQUIRED_REPORT_CODE);
+        if(!rulePassed){
+            reportError(index, DOT_REPORT_CODE, KeyConstants.ERROR_REQUIRED_REPORT_CODE);            
         }
         
         return rulePassed;
@@ -80,15 +80,11 @@ public class AwardReportTermRule extends ResearchDocumentRuleBase implements Add
      * @param awardReportTerm
      * @return
      */
-    protected boolean evaluateRuleForFrequency(AwardReportTerm awardReportTerm, String index){
-        boolean rulePassed = true;
-        
-        if(awardReportTerm.getFrequencyCode() == null 
-                || StringUtils.isBlank(awardReportTerm.getFrequencyCode().toString())){
-            rulePassed = false;
-            reportError(NEW_AWARD_REPORT_TERM + Constants.LEFT_SQUARE_BRACKET + index 
-                    + Constants.RIGHT_SQUARE_BRACKET + ".frequencyCode"
-                    , KeyConstants.ERROR_REQUIRED_FREQUENCY_CODE);
+    protected boolean evaluateRuleForFrequency(AwardReportTerm awardReportTerm, int index){
+        boolean rulePassed = !(StringUtils.isEmpty(awardReportTerm.getFrequencyCode()));
+                
+        if(!rulePassed){            
+            reportError(index, DOT_FREQUENCY_CODE, KeyConstants.ERROR_REQUIRED_FREQUENCY_CODE);
         }
         
         return rulePassed;
@@ -100,14 +96,11 @@ public class AwardReportTermRule extends ResearchDocumentRuleBase implements Add
      * @param awardReportTerm
      * @return
      */
-    protected boolean evaluateRuleForFrequencyBase(AwardReportTerm awardReportTerm, String index){
-        boolean rulePassed = !(awardReportTerm.getFrequencyBaseCode() == null 
-                || StringUtils.isBlank(awardReportTerm.getFrequencyBaseCode().toString()));
+    protected boolean evaluateRuleForFrequencyBase(AwardReportTerm awardReportTerm, int index){
+        boolean rulePassed = !(StringUtils.isEmpty(awardReportTerm.getFrequencyBaseCode()));        
         
-        if(!rulePassed){            
-            reportError(NEW_AWARD_REPORT_TERM + Constants.LEFT_SQUARE_BRACKET + index 
-                    + Constants.RIGHT_SQUARE_BRACKET + ".frequencyBaseCode"
-                    , KeyConstants.ERROR_REQUIRED_FREQUENCY_BASE_CODE);
+        if(!rulePassed){
+            reportError(index, DOT_FREQUENCY_BASE_CODE, KeyConstants.ERROR_REQUIRED_FREQUENCY_BASE_CODE);
         }
         
         return rulePassed;
@@ -119,14 +112,11 @@ public class AwardReportTermRule extends ResearchDocumentRuleBase implements Add
      * @param awardReportTerm
      * @return
      */
-    protected boolean evaluateRuleForDistribution(AwardReportTerm awardReportTerm, String index){
-        boolean rulePassed = !(awardReportTerm.getOspDistributionCode() == null 
-                || StringUtils.isBlank(awardReportTerm.getOspDistributionCode().toString()));
+    protected boolean evaluateRuleForDistribution(AwardReportTerm awardReportTerm, int index){
+        boolean rulePassed = !(StringUtils.isEmpty(awardReportTerm.getOspDistributionCode()));        
         
-        if(!rulePassed){            
-            reportError(NEW_AWARD_REPORT_TERM + Constants.LEFT_SQUARE_BRACKET + index 
-                    + Constants.RIGHT_SQUARE_BRACKET + ".ospDistributionCode"
-                    , KeyConstants.ERROR_REQUIRED_DISTRIBUTION_CODE);
+        if(!rulePassed){
+            reportError(index, ".ospDistributionCode", KeyConstants.ERROR_REQUIRED_DISTRIBUTION_CODE);
         }
         
         return rulePassed;
@@ -138,16 +128,20 @@ public class AwardReportTermRule extends ResearchDocumentRuleBase implements Add
      * @param awardReportTerm
      * @return
      */
-    protected boolean evaluateRuleForDueDate(AwardReportTerm awardReportTerm, String index){
-        boolean rulePassed = !(awardReportTerm.getDueDate() == null 
-                || StringUtils.isBlank(awardReportTerm.getDueDate().toString()));
+    protected boolean evaluateRuleForDueDate(AwardReportTerm awardReportTerm, int index){        
+        boolean rulePassed = !(awardReportTerm.getDueDate() == null);
         
-        if(!rulePassed){            
-            reportError(NEW_AWARD_REPORT_TERM + Constants.LEFT_SQUARE_BRACKET + index 
-                    + Constants.RIGHT_SQUARE_BRACKET + ".dueDate"
-                    , KeyConstants.ERROR_REQUIRED_DUE_DATE);
+        if(!rulePassed){
+            reportError(index, DOT_DUE_DATE, KeyConstants.ERROR_REQUIRED_DUE_DATE);            
         }
         
         return rulePassed;
+    }
+    
+    private void reportError(int index, String context, String errorKey) {
+        String errorPath = new StringBuilder(NEW_AWARD_REPORT_TERM).append(Constants.LEFT_SQUARE_BRACKET)
+                                           .append(index).append(Constants.RIGHT_SQUARE_BRACKET)
+                                           .append(context).toString();
+        reportError(errorPath, errorKey);
     }
 }
