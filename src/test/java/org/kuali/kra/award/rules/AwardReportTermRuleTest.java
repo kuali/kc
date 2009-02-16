@@ -48,41 +48,41 @@ public class AwardReportTermRuleTest {
     @Test
     public final void testEvaluateRuleForReportCode() {
         awardReportTerm.setReportCode("5");
-        Assert.assertTrue(awardReportTermRule.evaluateRuleForReportCode(awardReportTerm, "0"));
+        Assert.assertTrue(awardReportTermRule.evaluateRuleForReportCode(awardReportTerm, 0));
         awardReportTerm.setReportCode(null);
-        Assert.assertFalse(awardReportTermRule.evaluateRuleForReportCode(awardReportTerm, "0"));        
+        Assert.assertFalse(awardReportTermRule.evaluateRuleForReportCode(awardReportTerm, 0));        
     }
 
     @Test
     public final void testEvaluateRuleForFrequency() {
         awardReportTerm.setFrequencyCode("5");
-        Assert.assertTrue(awardReportTermRule.evaluateRuleForFrequency(awardReportTerm, "0"));
+        Assert.assertTrue(awardReportTermRule.evaluateRuleForFrequency(awardReportTerm, 0));
         awardReportTerm.setFrequencyCode(null);
-        Assert.assertFalse(awardReportTermRule.evaluateRuleForFrequency(awardReportTerm, "0"));
+        Assert.assertFalse(awardReportTermRule.evaluateRuleForFrequency(awardReportTerm, 0));
     }
 
     @Test
     public final void testEvaluateRuleForFrequencyBase() {
         awardReportTerm.setFrequencyBaseCode("5");
-        Assert.assertTrue(awardReportTermRule.evaluateRuleForFrequencyBase(awardReportTerm, "0"));
+        Assert.assertTrue(awardReportTermRule.evaluateRuleForFrequencyBase(awardReportTerm, 0));
         awardReportTerm.setFrequencyBaseCode(null);
-        Assert.assertFalse(awardReportTermRule.evaluateRuleForFrequencyBase(awardReportTerm, "0"));
+        Assert.assertFalse(awardReportTermRule.evaluateRuleForFrequencyBase(awardReportTerm, 0));
     }
 
     @Test
     public final void testEvaluateRuleForDistribution() {
         awardReportTerm.setOspDistributionCode("5");
-        Assert.assertTrue(awardReportTermRule.evaluateRuleForDistribution(awardReportTerm, "0"));
+        Assert.assertTrue(awardReportTermRule.evaluateRuleForDistribution(awardReportTerm, 0));
         awardReportTerm.setOspDistributionCode(null);
-        Assert.assertFalse(awardReportTermRule.evaluateRuleForDistribution(awardReportTerm, "0"));
+        Assert.assertFalse(awardReportTermRule.evaluateRuleForDistribution(awardReportTerm, 0));
     }
 
     @Test
     public final void testEvaluateRuleForDueDate() {
         awardReportTerm.setDueDate(new Date(new Long("10004232")));
-        Assert.assertTrue(awardReportTermRule.evaluateRuleForDueDate(awardReportTerm, "0"));
+        Assert.assertTrue(awardReportTermRule.evaluateRuleForDueDate(awardReportTerm, 0));
         awardReportTerm.setDueDate(null);
-        Assert.assertFalse(awardReportTermRule.evaluateRuleForDueDate(awardReportTerm, "0"));
+        Assert.assertFalse(awardReportTermRule.evaluateRuleForDueDate(awardReportTerm, 0));
     }
 
 }
