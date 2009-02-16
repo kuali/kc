@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.service;
 
+import java.util.HashMap;
+
+import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 
 /**
@@ -22,6 +25,8 @@ import org.kuali.kra.award.web.struts.form.AwardForm;
  * This is the AwardReportsService interface.
  */
 public interface AwardReportsService {
+    
+    public HashMap doPreps(Award award);
     
     /**
      * 
