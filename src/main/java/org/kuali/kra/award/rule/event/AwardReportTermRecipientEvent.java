@@ -23,7 +23,7 @@ import org.kuali.kra.rule.event.KraDocumentEventBase;
 
 /**
  * 
- * This class represents the AwardReportTermRecipientEventBase
+ * This class represents the AwardReportTermRecipientEvent
  */
 public abstract class AwardReportTermRecipientEvent extends KraDocumentEventBase {
     
@@ -63,17 +63,19 @@ public abstract class AwardReportTermRecipientEvent extends KraDocumentEventBase
      * Logs the event type and some information about the associated special review
      */
     protected void logEvent() {
-        StringBuffer logMessage = new StringBuffer(
-                StringUtils.substringAfterLast(this.getClass().getName(), "."));
-        logMessage.append(" with ");
+        if(LOG.isDebugEnabled()){
+            StringBuilder logMessage = new StringBuilder(
+                    StringUtils.substringAfterLast(this.getClass().getName(), "."));
+            logMessage.append(" with ");
 
-        if (getAwardReportTermRecipient() == null) {
-            logMessage.append("null Award Report Term Recipient");
-        }else {
-            logMessage.append(getAwardReportTermRecipient().toString());
+            if (getAwardReportTermRecipient() == null) {
+                logMessage.append("null Award Report Term Recipient");
+            }else {
+                logMessage.append(getAwardReportTermRecipient().toString());
+            }
+
+            LOG.debug(logMessage);
         }
-
-        LOG.debug(logMessage);
     }
 
     /**
