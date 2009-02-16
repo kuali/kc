@@ -25,8 +25,8 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * 
- * This class represents the AwardReportTerm business object and is mapped
- * to AWARD_REPORT_TERMS table
+ * This class represents the AwardReportTerm business object 
+ * 
  */
 public class AwardReportTerm extends KraPersistableBusinessObjectBase { 
     
