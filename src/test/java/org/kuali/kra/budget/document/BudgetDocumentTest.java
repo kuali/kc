@@ -15,34 +15,43 @@
  */
 package org.kuali.kra.budget.document;
 
+import java.lang.reflect.Method;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import junit.framework.TestCase;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
 
-import org.junit.After;
+import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kra.budget.bo.BudgetPeriod;
+import org.kuali.kra.budget.bo.BudgetProjectIncome;
 
-public class BudgetDocumentTest extends TestCase {
+public class BudgetDocumentTest {
+    
     private static final int DEVIATION_LIMIT_MS = 1000;
     private static final int DAY_1 = 1;
     private static final int YEAR_2000 = 2000;
     
-    @Before
-    public void setUp() throws Exception {
-        super.setUp();
-    }
+    private Mockery context;
     
-    @After
-    public void tearDown() throws Exception {
-        super.tearDown();
+    @Before
+    public void setupMockery() {
+        this.context = new JUnit4Mockery();
     }
     
     /**
-     * This method does what its name says
+     * Tests calculating a date from a string.
+     * 
      * @throws Exception
      */
     @Test
@@ -50,8 +59,114 @@ public class BudgetDocumentTest extends TestCase {
         BudgetDocument bd = new BudgetDocument();
         Date fiscalYearDate = bd.createDateFromString("07/01/2000");
         
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.set(YEAR_2000, Calendar.JULY, DAY_1, 0, 0, 0);
         Assert.assertTrue(cal.getTimeInMillis() - fiscalYearDate.getTime() < DEVIATION_LIMIT_MS);
+    }
+    
+    /**
+     * Tests that project incomes are deleted when a budget period deletion is detected.
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void handlePeriodToProjectIncomeRelationshipItemsToDelete() throws Exception {
+        
+        final BusinessObjectService mockBOS = context.mock(BusinessObjectService.class);
+        
+        final BudgetDocument bd = new BudgetDocument() {
+            @Override
+            protected <T> T getService(Class<T> serviceClass) {
+                if (BusinessObjectService.class.equals(serviceClass)) {
+                    return (T) mockBOS;
+                }
+                throw new RuntimeException("unexpected request for service " + serviceClass);
+            }
+        };
+        bd.setProposalNumber("1234");
+        bd.setBudgetVersionNumber(Integer.valueOf(1));
+        
+        
+        
+        context.checking(new Expectations() {
+            {
+                final Map<Object, Object> matchCriteria = new HashMap<Object, Object>();
+                matchCriteria.put("proposalNumber", bd.getProposalNumber());
+                matchCriteria.put("budgetVersionNumber", bd.getBudgetVersionNumber());
+                
+                List<BudgetPeriod> periods = new ArrayList<BudgetPeriod>();
+                BudgetPeriod p = new BudgetPeriod();
+                p.setBudgetPeriodId(Long.valueOf(1));
+                p.setProposalNumber("1234");
+                periods.add(p);
+                
+                oneOf(mockBOS).findMatching(BudgetPeriod.class, matchCriteria);
+                will(returnValue(periods));
+            }
+            
+            {
+                final Map<String, Collection<Long>> matchCriteria = new HashMap<String, Collection<Long>>();
+                Collection<Long> ids = new ArrayList<Long>();
+                ids.add(Long.valueOf(1));
+                matchCriteria.put("budgetPeriodId", ids);
+                oneOf(mockBOS).deleteMatching(BudgetProjectIncome.class, matchCriteria);
+            }
+        });
+        
+        
+        Method m = bd.getClass().getSuperclass().getDeclaredMethod("handlePeriodToProjectIncomeRelationship");
+       
+        m.setAccessible(true);
+        m.invoke(bd);
+        
+        context.assertIsSatisfied();
+    }
+    
+    /**
+     * Tests that project incomes are NOT deleted when a budget period deletion is detected.
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void handlePeriodToProjectIncomeRelationshipNoItemsToDelete() throws Exception {
+        final BusinessObjectService mockBOS = context.mock(BusinessObjectService.class);
+        
+        final BudgetDocument bd = new BudgetDocument() {
+            @Override
+            protected <T> T getService(Class<T> serviceClass) {
+                if (BusinessObjectService.class.equals(serviceClass)) {
+                    return (T) mockBOS;
+                }
+                throw new RuntimeException("unexpected request for service " + serviceClass);
+            }
+        };
+        bd.setProposalNumber("1234");
+        bd.setBudgetVersionNumber(Integer.valueOf(1));
+        
+        context.checking(new Expectations() {
+            {
+                final Map<Object, Object> matchCriteria = new HashMap<Object, Object>();
+                matchCriteria.put("proposalNumber", bd.getProposalNumber());
+                matchCriteria.put("budgetVersionNumber", bd.getBudgetVersionNumber());
+                
+                oneOf(mockBOS).findMatching(BudgetPeriod.class, matchCriteria);
+                will(returnValue(Collections.emptyList()));
+            }
+            
+            {
+                final Map<String, Collection<Long>> matchCriteria = new HashMap<String, Collection<Long>>();
+                Collection<Long> ids = new ArrayList<Long>();
+                ids.add(Long.valueOf(1));
+                matchCriteria.put("budgetPeriodId", ids);
+                never(mockBOS).deleteMatching(BudgetProjectIncome.class, matchCriteria);
+            }
+        });
+        
+        
+        Method m = bd.getClass().getSuperclass().getDeclaredMethod("handlePeriodToProjectIncomeRelationship");
+        m.setAccessible(true);
+        m.invoke(bd);
+        
+        context.assertIsSatisfied();
     }
 }

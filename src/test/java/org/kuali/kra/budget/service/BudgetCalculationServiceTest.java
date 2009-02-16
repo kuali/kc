@@ -143,7 +143,7 @@ public class BudgetCalculationServiceTest extends KraTestBase {
 
         // check object code total
         int sortingIndex = 0;
-        for (Map.Entry<CostElement, List> objectCodeTotalMap : bd.getObjectCodeTotals().entrySet()) {
+        for (Map.Entry<CostElement, List<BudgetDecimal>> objectCodeTotalMap : bd.getObjectCodeTotals().entrySet()) {
             // the order is ok
             assertEquals(objectCodes.get(sortingIndex), (objectCodeTotalMap.getKey()).getCostElement());
             for (Object objectCodeTotal : objectCodeTotalMap.getValue()) {
@@ -155,7 +155,7 @@ public class BudgetCalculationServiceTest extends KraTestBase {
 
         // check calculated expenses
         sortingIndex = 0;
-        for (Map.Entry<RateType, List> calculatedExpensesTotalMap : bd.getCalculatedExpenseTotals().entrySet()) {
+        for (Map.Entry<RateType, List<BudgetDecimal>> calculatedExpensesTotalMap : bd.getCalculatedExpenseTotals().entrySet()) {
             assertEquals(rateClassCodes.get(sortingIndex), (calculatedExpensesTotalMap.getKey()).getRateClassCode());
 
             for (Object CalculatedExpensesTotal : calculatedExpensesTotalMap.getValue()) {
