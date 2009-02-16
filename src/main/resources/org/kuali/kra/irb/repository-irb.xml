@@ -200,7 +200,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
-		<field-descriptor name="riskLevelCode" column="RISK_LEVEL_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="riskLevelCode" column="RISK_LEVEL_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
 		<field-descriptor name="dateAssigned" column="DATE_ASSIGNED" jdbc-type="DATE" />
 		<field-descriptor name="dateUpdated" column="DATE_UPDATED" jdbc-type="DATE" />
