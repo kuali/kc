@@ -34,12 +34,6 @@ public class ContactType extends KraPersistableBusinessObjectBase {
     private String contactTypeCode; 
     private String description; 
     
-    /*private SubcontractContact subcontractContact; 
-    private TemplateReportTerms templateReportTerms; 
-    private TemplateContact templateContact; 
-    private AwardContact awardContact; 
-    private AwardReportTerms awardReportTerms;*/ 
-    
     /**
      * Constructs a ContactType.java
      */
@@ -78,47 +72,7 @@ public class ContactType extends KraPersistableBusinessObjectBase {
      */
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    /*public SubcontractContact getSubcontractContact() {
-        return subcontractContact;
-    }
-
-    public void setSubcontractContact(SubcontractContact subcontractContact) {
-        this.subcontractContact = subcontractContact;
-    }
-
-    public TemplateReportTerms getTemplateReportTerms() {
-        return templateReportTerms;
-    }
-
-    public void setTemplateReportTerms(TemplateReportTerms templateReportTerms) {
-        this.templateReportTerms = templateReportTerms;
-    }
-
-    public TemplateContact getTemplateContact() {
-        return templateContact;
-    }
-
-    public void setTemplateContact(TemplateContact templateContact) {
-        this.templateContact = templateContact;
-    }
-
-    public AwardContact getAwardContact() {
-        return awardContact;
-    }
-
-    public void setAwardContact(AwardContact awardContact) {
-        this.awardContact = awardContact;
-    }
-
-    public AwardReportTerms getAwardReportTerms() {
-        return awardReportTerms;
-    }
-
-    public void setAwardReportTerms(AwardReportTerms awardReportTerms) {
-        this.awardReportTerms = awardReportTerms;
-    }*/
+    }    
 
     /**
      * 
@@ -130,6 +84,32 @@ public class ContactType extends KraPersistableBusinessObjectBase {
         hashMap.put("contactTypeCode", getContactTypeCode());
         hashMap.put("description", getDescription());
         return hashMap;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((contactTypeCode == null) ? 0 : contactTypeCode.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final ContactType other = (ContactType) obj;
+        if (contactTypeCode == null) {
+            if (other.contactTypeCode != null)
+                return false;
+        }
+        else if (!contactTypeCode.equals(other.contactTypeCode))
+            return false;
+        return true;
     }
     
 }

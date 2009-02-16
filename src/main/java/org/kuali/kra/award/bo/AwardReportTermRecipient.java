@@ -23,8 +23,8 @@ import org.kuali.kra.bo.Rolodex;
 
 /**
  * 
- * This class represents the AwardReportTermRecipient business object and is mapped
- * to AWARD_REP_TERMS_RECNT table
+ * This class represents the AwardReportTermRecipient business object
+ * 
  */
 public class AwardReportTermRecipient extends KraPersistableBusinessObjectBase {
     

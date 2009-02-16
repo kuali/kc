@@ -136,5 +136,39 @@ public class ValidFrequencyBase extends KraPersistableBusinessObjectBase {
         hashMap.put("frequencyBaseCode", getFrequencyBaseCode());
         return hashMap;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((frequencyBaseCode == null) ? 0 : frequencyBaseCode.hashCode());
+        result = prime * result + ((frequencyCode == null) ? 0 : frequencyCode.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final ValidFrequencyBase other = (ValidFrequencyBase) obj;
+        if (frequencyBaseCode == null) {
+            if (other.frequencyBaseCode != null)
+                return false;
+        }
+        else if (!frequencyBaseCode.equals(other.frequencyBaseCode))
+            return false;
+        if (frequencyCode == null) {
+            if (other.frequencyCode != null)
+                return false;
+        }
+        else if (!frequencyCode.equals(other.frequencyCode))
+            return false;
+        return true;
+    }
+    
     
 }
