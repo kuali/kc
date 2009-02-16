@@ -44,17 +44,17 @@ public class AwardReportTermRecipientRuleTest {
     @Test
     public final void testEvaluateRuleForContactType() {
         awardReportTermRecipient.setContactTypeCode("5");
-        Assert.assertTrue(awardReportTermRecipientRule.evaluateRuleForContactType(awardReportTermRecipient, "0"));
+        Assert.assertTrue(awardReportTermRecipientRule.evaluateRuleForContactType(awardReportTermRecipient, 0));
         awardReportTermRecipient.setContactTypeCode(null);
-        Assert.assertFalse(awardReportTermRecipientRule.evaluateRuleForContactType(awardReportTermRecipient, "0"));
+        Assert.assertFalse(awardReportTermRecipientRule.evaluateRuleForContactType(awardReportTermRecipient, 0));
     }
 
     @Test
     public final void testEvaluateRuleForRolodex() {
         awardReportTermRecipient.setRolodexId(5);
-        Assert.assertTrue(awardReportTermRecipientRule.evaluateRuleForRolodex(awardReportTermRecipient, "0"));
+        Assert.assertTrue(awardReportTermRecipientRule.evaluateRuleForRolodex(awardReportTermRecipient, 0));
         awardReportTermRecipient.setRolodexId(null);
-        Assert.assertFalse(awardReportTermRecipientRule.evaluateRuleForRolodex(awardReportTermRecipient, "0"));
+        Assert.assertFalse(awardReportTermRecipientRule.evaluateRuleForRolodex(awardReportTermRecipient, 0));
     }
 
 }
