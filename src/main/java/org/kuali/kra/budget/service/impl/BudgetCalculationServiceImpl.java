@@ -376,7 +376,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     }
 
     private SortedMap<BudgetCategoryType, List<CostElement>> categorizeObjectCodesByCategory(BudgetDocument budgetDocument) {
-        SortedMap<CostElement, List> objectCodeTotals = budgetDocument.getObjectCodeTotals();
+        SortedMap<CostElement, List<BudgetDecimal>> objectCodeTotals = budgetDocument.getObjectCodeTotals();
         SortedMap<BudgetCategoryType, List<CostElement>> objectCodeListByBudgetCategoryType = new TreeMap<BudgetCategoryType, List<CostElement>>();
         
         for(CostElement objectCode : objectCodeTotals.keySet()) {
@@ -408,15 +408,15 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
        
         SortedMap<CostElement, List<BudgetPersonnelDetails>> objectCodeUniquePersonnelList = new TreeMap<CostElement, List<BudgetPersonnelDetails>>();
         
-        SortedMap<String, List> objectCodePersonnelSalaryTotals = new TreeMap<String, List>();
-        SortedMap<String, List> objectCodePersonnelFringeTotals = new TreeMap<String, List>();
+        SortedMap<String, List<BudgetDecimal>> objectCodePersonnelSalaryTotals = new TreeMap<String, List<BudgetDecimal>>();
+        SortedMap<String, List<BudgetDecimal>> objectCodePersonnelFringeTotals = new TreeMap<String, List<BudgetDecimal>>();
         
         //Temp collections for maintaining Sub Section Totals
         SortedSet<String> objectCodePersonnelSalaryTotalsByPeriod = new TreeSet<String>();
         SortedSet<String> objectCodePersonnelFringeTotalsByPeriod = new TreeSet<String>();
 
-        SortedMap<RateType, List> personnelCalculatedExpenseTotals = new TreeMap<RateType, List>();
-        SortedMap<RateType, List> nonPersonnelCalculatedExpenseTotals = new TreeMap<RateType, List>(); 
+        SortedMap<RateType, List<BudgetDecimal>> personnelCalculatedExpenseTotals = new TreeMap<RateType, List<BudgetDecimal>>();
+        SortedMap<RateType, List<BudgetDecimal>> nonPersonnelCalculatedExpenseTotals = new TreeMap<RateType, List<BudgetDecimal>>(); 
 
         List <BudgetDecimal> periodSummarySalaryTotals = new ArrayList<BudgetDecimal>();
         for (int i = 0; i < budgetDocument.getBudgetPeriods().size(); i++) {
@@ -426,7 +426,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         for (int i = 0; i < budgetDocument.getBudgetPeriods().size(); i++) {
             periodSummaryFringeTotals.add(i,BudgetDecimal.ZERO);
         }
-        SortedMap<String, List> subTotalsBySubSection = new TreeMap<String, List>();
+        SortedMap<String, List<BudgetDecimal>> subTotalsBySubSection = new TreeMap<String, List<BudgetDecimal>>();
         subTotalsBySubSection.put("personnelSalaryTotals", periodSummarySalaryTotals);
         subTotalsBySubSection.put("personnelFringeTotals", periodSummaryFringeTotals);
         
@@ -599,8 +599,8 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         return filteredObjectCodes;
     }
     
-    private SortedMap<RateType, List> calculateExpenseTotals(BudgetDocument budgetDocument, boolean personnelFlag){
-        SortedMap<RateType, List> calculatedExpenseTotals = new TreeMap <RateType, List> ();
+    private SortedMap<RateType, List<BudgetDecimal>> calculateExpenseTotals(BudgetDocument budgetDocument, boolean personnelFlag){
+        SortedMap<RateType, List<BudgetDecimal>> calculatedExpenseTotals = new TreeMap <RateType, List<BudgetDecimal>> ();
         
         List <BudgetDecimal> calculatedDirectCostSummaryTotals = new ArrayList<BudgetDecimal>();
         for (int i = 0; i < budgetDocument.getBudgetPeriods().size(); i++) {
@@ -675,8 +675,8 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     @SuppressWarnings("unchecked")
     public void calculateBudgetTotals(BudgetDocument budgetDocument){
         // do we need to cache the totals ?
-        SortedMap<CostElement, List> objectCodeTotals = new TreeMap <CostElement, List> ();
-        SortedMap<RateType, List> calculatedExpenseTotals = new TreeMap <RateType, List> ();
+        SortedMap<CostElement, List<BudgetDecimal>> objectCodeTotals = new TreeMap <CostElement, List<BudgetDecimal>> ();
+        SortedMap<RateType, List<BudgetDecimal>> calculatedExpenseTotals = new TreeMap <RateType, List<BudgetDecimal>> ();
         for (BudgetPeriod budgetPeriod: budgetDocument.getBudgetPeriods()) {
             List <CostElement> objectCodes = new ArrayList<CostElement>();
             QueryList lineItemQueryList = new QueryList();

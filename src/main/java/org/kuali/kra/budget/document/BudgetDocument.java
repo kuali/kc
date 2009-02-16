@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.budget.document;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -24,8 +22,8 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -76,7 +74,6 @@ import org.kuali.kra.budget.service.BudgetSummaryService;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.BudgetDecimalFormatter;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RateDecimalFormatter;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
@@ -95,7 +92,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private String proposalNumber;
     private Integer budgetVersionNumber;
     private String comments;
-    private BudgetDecimal costSharingAmount; // = new BudgetDecimal(0);
+    private BudgetDecimal costSharingAmount;
     private String budgetJustification;
     private Date endDate;
     private boolean finalVersionFlag;
@@ -105,10 +102,10 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private BudgetDecimal residualFunds;
     private Date startDate;
     private BudgetDecimal totalCost;
-    private BudgetDecimal totalCostLimit; // = new BudgetDecimal(0);
+    private BudgetDecimal totalCostLimit;
     private BudgetDecimal totalDirectCost;
-    private BudgetDecimal totalIndirectCost; // = new BudgetDecimal(0);
-    private BudgetDecimal underrecoveryAmount; // = new BudgetDecimal(0);
+    private BudgetDecimal totalIndirectCost;
+    private BudgetDecimal underrecoveryAmount;
     private String urRateClassCode;
     private ProposalDevelopmentDocument proposal;
     private RateClass rateClass;
@@ -120,8 +117,8 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private List<BudgetUnrecoveredFandA> budgetUnrecoveredFandAs;
     
     private String activityTypeCode="x";
-    private boolean BudgetLineItemDeleted = false;
-    private boolean rateClassTypesReload = false ;
+    private boolean budgetLineItemDeleted;
+    private boolean rateClassTypesReload;
 
     private List<BudgetPersonnelDetails> budgetPersonnelDetailsList;
     private List<BudgetPerson> budgetPersons;
@@ -134,19 +131,19 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private List<RateClass> rateClasses;
     private List<RateClassType> rateClassTypes;
     
-    private SortedMap <CostElement, List> objectCodeTotals ;
-    private SortedMap <RateType, List> calculatedExpenseTotals ;
+    private SortedMap <CostElement, List<BudgetDecimal>> objectCodeTotals;
+    private SortedMap <RateType, List<BudgetDecimal>> calculatedExpenseTotals;
         
-    private SortedMap <RateType, List> personnelCalculatedExpenseTotals ; 
-    private SortedMap <RateType, List> nonPersonnelCalculatedExpenseTotals ; 
+    private SortedMap <RateType, List<BudgetDecimal>> personnelCalculatedExpenseTotals; 
+    private SortedMap <RateType, List<BudgetDecimal>> nonPersonnelCalculatedExpenseTotals; 
     
     private List<KeyLabelPair> budgetCategoryTypeCodes;
     
     private SortedMap<BudgetCategoryType, List<CostElement>> objectCodeListByBudgetCategoryType;   
     private SortedMap<CostElement, List<BudgetPersonnelDetails>> objectCodePersonnelList;
-    private SortedMap<String, List> objectCodePersonnelSalaryTotals;
-    private SortedMap<String, List> objectCodePersonnelFringeTotals;
-    private SortedMap<String, List> budgetSummaryTotals;
+    private SortedMap<String, List<BudgetDecimal>> objectCodePersonnelSalaryTotals;
+    private SortedMap<String, List<BudgetDecimal>> objectCodePersonnelFringeTotals;
+    private SortedMap<String, List<BudgetDecimal>> budgetSummaryTotals;
     
     private String budgetStatus;
     private String onOffCampusFlag;
@@ -195,7 +192,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         //workaround till then
         /*****BEGIN BLOCK *****/
         if(propNextValue==1){
-            BusinessObjectService bos = KraServiceLocator.getService(BusinessObjectService.class);
+            BusinessObjectService bos = this.getService(BusinessObjectService.class);
             Map<String, String> pkMap = new HashMap<String,String>();
             pkMap.put("documentKey", getProposalNumber());
             pkMap.put("propertyName", propertyName);
@@ -221,23 +218,126 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     }
     
     
-    
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void prepareForSave() {
         super.prepareForSave();
-        KraServiceLocator.getService(ProposalStatusService.class).saveBudgetFinalVersionStatus(this);
-        if (this.getProposal() != null && this.getProposal().getBudgetVersionOverviews() != null) {
-            updateDocumentDescriptions(this.getProposal().getBudgetVersionOverviews());
-        }
-       
-        if(this.getProposal() == null) {
+        this.getService(ProposalStatusService.class).saveBudgetFinalVersionStatus(this);
+        
+        if (this.getProposal() != null) {
+            if (this.getProposal().getBudgetVersionOverviews() != null) {
+                this.updateDocumentDescriptions(this.getProposal().getBudgetVersionOverviews());
+            }
+        } else {
             this.refreshReferenceObject("proposal");
         }
-        getRateClassTypes();
+ 
+        this.getRateClassTypes();
+        
+        this.handlePeriodToProjectIncomeRelationship();
+    }
+    
+    /**
+     * This method handles the database relationship between {@link BudgetPeriod BudgetPeriods}
+     * and {@link BudgetProjectIncome BudgetProjectIncomes}.  This method is needed to ensure
+     * that a database constraint is not violated where a budget period needs to be deleted
+     * but a budget project income still exists referencing that period.  This relationship
+     * is not handled by our O/R M solution; therefore, it is handled here, manually.
+     */
+    private void handlePeriodToProjectIncomeRelationship() {
+        
+        final Collection<Long> periodIncomesToDelete = new ArrayList<Long>();
+        
+        for (final BudgetPeriod persistedPeriod : this.getPersistedBudgetPeriods()) {
+            if (!this.containsBudgetPeriod(persistedPeriod.getBudgetPeriodId())) {
+                periodIncomesToDelete.add(persistedPeriod.getBudgetPeriodId());
+            }
+        }
+        
+        this.deletePersistedProjectIncomes(periodIncomesToDelete);
+        this.deleteLocalProjectIncomes(periodIncomesToDelete);
+    }
+    
+    /**
+     * Checks if this budget document contains a budget period with a specific period id.
+     * 
+     * @param periodId the budget period id
+     * @return true if it contains the budget period with the matching id.
+     */
+    private boolean containsBudgetPeriod(final Long periodId) {
+        assert periodId != null : "the periodId is null";
+        
+        for (final BudgetPeriod localPeriod : this.getBudgetPeriods()) {
+            if (localPeriod.getBudgetPeriodId().equals(periodId)) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Gets all persisted {@link BudgetPeriod BudgetPeriods} for the current proposal
+     * as an immutable collection.
+     * 
+     * @return {@link BudgetPeriod BudgetPeriods} if no periods are found this method returns
+     * an empty {@link Collection Collection}
+     */
+    private Collection<BudgetPeriod> getPersistedBudgetPeriods() {
+        
+        final BusinessObjectService service = this.getService(BusinessObjectService.class);
+        
+        final Map<Object, Object> matchCriteria = new HashMap<Object, Object>();
+        matchCriteria.put("proposalNumber", this.proposalNumber);
+        matchCriteria.put("budgetVersionNumber", this.getBudgetVersionNumber());
+        
+        @SuppressWarnings("unchecked")
+        final Collection<BudgetPeriod> periods = service.findMatching(BudgetPeriod.class, matchCriteria);
+        
+        return periods != null ? Collections.unmodifiableCollection(periods) : Collections.<BudgetPeriod>emptyList();
+    }
+    
+    /**
+     * Deletes the {@link BudgetProjectIncome BudgetProjectIncomes} matching the passed in period ids from the database.
+     */
+    private void deletePersistedProjectIncomes(final Collection<Long> periodIds) {
+        assert periodIds != null : "the periodIds are null";
+        
+        if (periodIds.isEmpty()) {
+            return;
+        }
+        
+        final BusinessObjectService service = this.getService(BusinessObjectService.class);
+        
+        final Map<String, Collection<Long>> matchCriteria = new HashMap<String, Collection<Long>>();
+        matchCriteria.put("budgetPeriodId", periodIds);
+        
+        service.deleteMatching(BudgetProjectIncome.class, matchCriteria);
+    }
+    
+    /**
+     * Deletes the {@link BudgetProjectIncome BudgetProjectIncomes} matching the passed in period ids from local budget document.
+     */
+    private void deleteLocalProjectIncomes(final Collection<Long> periodIds) {
+        assert periodIds != null : "the periodIds are null";
+        
+        if (periodIds.isEmpty()) {
+            return;
+        }
+        
+        for (final Iterator<BudgetProjectIncome> i = this.getBudgetProjectIncomes().iterator(); i.hasNext();) {
+            final BudgetProjectIncome budgetProjectIncome = i.next();
+            
+            if (periodIds.contains(budgetProjectIncome.getBudgetPeriodId())) {
+                i.remove();
+            }
+        }
     }
         
     @Override
-    public void toCopy() throws WorkflowException, IllegalStateException {
+    public void toCopy() throws WorkflowException {
         super.toCopy();
         setBudgetVersionNumber(proposal.getNextBudgetVersionNumber());
     }
@@ -325,7 +425,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
             if(unrecoveredFandAAvailable) { break; }
         }
         return unrecoveredFandAAvailable;
-    };
+    }
     
     /**
      * This method does what its name says
@@ -534,7 +634,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
      * @return Returns the BudgetSummary.
      */
     public BudgetSummaryService getBudgetSummaryService() {
-        return getService(BudgetSummaryService.class);
+        return this.getService(BudgetSummaryService.class);
     }
     
     public void setBudgetPeriods(List<BudgetPeriod> budgetPeriods) {
@@ -551,7 +651,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         List<BudgetLineItem> budgetLineItems = new ArrayList<BudgetLineItem>();
         List<BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts = new ArrayList<BudgetLineItemCalculatedAmount>();
         List<BudgetRateAndBase> budgetRateAndBaseList = new ArrayList<BudgetRateAndBase>();
-        List<BudgetPersonnelDetails> budgetPersonnelDetailsList = new ArrayList<BudgetPersonnelDetails>();
+        List<BudgetPersonnelDetails> bPersonnelDetailsList = new ArrayList<BudgetPersonnelDetails>();
         List<BudgetPersonnelCalculatedAmount> budgetPersonnelCalculatedAmounts = new ArrayList<BudgetPersonnelCalculatedAmount>();
         List<BudgetPersonnelRateAndBase> budgetPersonnelRateAndBaseList = new ArrayList<BudgetPersonnelRateAndBase>();
         List<BudgetModularIdc> budgetModularIdcs = new ArrayList<BudgetModularIdc>();
@@ -569,7 +669,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
                 budgetLineItemCalculatedAmounts.addAll(budgetLineItem.getBudgetLineItemCalculatedAmounts());
                 budgetRateAndBaseList.addAll(budgetLineItem.getBudgetRateAndBaseList());
                 List<BudgetPersonnelDetails> tempPerList = budgetLineItem.getBudgetPersonnelDetailsList();
-                budgetPersonnelDetailsList.addAll(tempPerList);
+                bPersonnelDetailsList.addAll(tempPerList);
                 for (BudgetPersonnelDetails budgetPersonnelDetails : tempPerList) {
                     budgetPersonnelCalculatedAmounts.addAll(budgetPersonnelDetails.getBudgetPersonnelCalculatedAmounts());
                     budgetPersonnelRateAndBaseList.addAll(budgetPersonnelDetails.getBudgetPersonnelRateAndBaseList());
@@ -778,9 +878,9 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
     
     private Long getBudgetPeriodId(BudgetProjectIncome budgetProjectIncome) {
         //BudgetPeriod budgetPeriod = getBudgetPeriod(budgetProjectIncome.getBudgetPeriodNumber());
-        List<BudgetPeriod> budgetPeriods = getBudgetPeriods();
-        if(budgetPeriods != null && budgetPeriods.size() > 0) {
-            for(BudgetPeriod bPeriod: budgetPeriods) {
+        List<BudgetPeriod> bPeriods = getBudgetPeriods();
+        if(bPeriods != null && bPeriods.size() > 0) {
+            for(BudgetPeriod bPeriod: bPeriods) {
                 if(bPeriod.getBudgetPeriod() != null && budgetProjectIncome.getBudgetPeriodNumber() != null && bPeriod.getBudgetPeriod().intValue() == budgetProjectIncome.getBudgetPeriodNumber().intValue()) {
                     return bPeriod.getBudgetPeriodId();
                 }
@@ -845,7 +945,7 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
     @Override
     public void processAfterRetrieve() {
         super.processAfterRetrieve();
-        KraServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(this.getProposal());
+        this.getService(ProposalStatusService.class).loadBudgetStatus(this.getProposal());
     }
 
     /**
@@ -949,22 +1049,22 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
     }
 
     public void getBudgetTotals() {
-        KraServiceLocator.getService(BudgetCalculationService.class).calculateBudgetSummaryTotals(this);
+        this.getService(BudgetCalculationService.class).calculateBudgetSummaryTotals(this);
     }
 
-    public SortedMap<CostElement, List> getObjectCodeTotals() {
+    public SortedMap<CostElement, List<BudgetDecimal>> getObjectCodeTotals() {
         return objectCodeTotals;
     }
 
-    public void setObjectCodeTotals(SortedMap<CostElement, List> objectCodeTotals) {
+    public void setObjectCodeTotals(SortedMap<CostElement, List<BudgetDecimal>> objectCodeTotals) {
         this.objectCodeTotals = objectCodeTotals;
     }
 
-    public SortedMap<RateType, List> getCalculatedExpenseTotals() {
+    public SortedMap<RateType, List<BudgetDecimal>> getCalculatedExpenseTotals() {
         return calculatedExpenseTotals;
     }
 
-    public void setCalculatedExpenseTotals(SortedMap<RateType, List> calculatedExpenseTotals) {
+    public void setCalculatedExpenseTotals(SortedMap<RateType, List<BudgetDecimal>> calculatedExpenseTotals) {
         this.calculatedExpenseTotals = calculatedExpenseTotals;
     }
     
@@ -1039,7 +1139,7 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
      * @return
      */
     protected Date loadFiscalYearStart() {
-        KualiConfigurationService kualiConfigurationService = KraServiceLocator.getService(KualiConfigurationService.class);
+        KualiConfigurationService kualiConfigurationService = this.getService(KualiConfigurationService.class);
         return createDateFromString(kualiConfigurationService.getParameterValue(BUDGET_NAMESPACE_CODE, DETAIL_TYPE_CODE, Constants.BUDGET_CURRENT_FISCAL_YEAR));        
     }
     
@@ -1088,7 +1188,7 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
         String[] dateParts = budgetFiscalYearStart.split("/"); // mm/dd/yyyy
         
         // using Calendar her because org.kuali.core.util.DateUtils.newdate(...) has hour value in time fields (UT?)
-        Calendar calendar = GregorianCalendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         calendar.set(Integer.valueOf(dateParts[2]), Integer.valueOf(dateParts[0]) - 1, Integer.valueOf(dateParts[1]), 0, 0, 0);
         return new Date(calendar.getTimeInMillis());
     }
@@ -1209,7 +1309,7 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
         String parmValue;
         
         try {
-            KualiConfigurationService kualiConfigurationService = KraServiceLocator.getService(KualiConfigurationService.class);
+            KualiConfigurationService kualiConfigurationService = this.getService(KualiConfigurationService.class);
             parmValue = kualiConfigurationService.getParameterValue(BUDGET_NAMESPACE_CODE, DETAIL_TYPE_CODE, parmName);
         } catch(Exception exc) {
             parmValue = FALSE_FLAG;
@@ -1258,7 +1358,7 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
     /**
      * This class wraps fiscal year, on and off campus rate
      */
-    public class FiscalYearApplicableRate {
+    public static class FiscalYearApplicableRate {
         private Integer fiscalYear;
         private RateDecimal onCampusApplicableRate;
         private RateDecimal offCampusApplicableRate;
@@ -1306,7 +1406,7 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
     /**
      * This class wraps the fiscal year, assignedBudgetPeriod, fiscl year applicable rate, and the fiscal year totals for cost share and unrecovered
      */
-    public class FiscalYearSummary {
+    public static class FiscalYearSummary {
         private int fiscalYear;
         private BudgetPeriod assignedBudgetPeriod;
         private BudgetDecimal costShare;
@@ -1427,7 +1527,7 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
     * @return Returns the budgetLineItemDeleted.
     */
     public boolean isBudgetLineItemDeleted() {
-        return BudgetLineItemDeleted;
+        return budgetLineItemDeleted;
     }
     
     /**
@@ -1435,7 +1535,7 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
      * @param budgetLineItemDeleted The budgetLineItemDeleted to set.
      */
     public void setBudgetLineItemDeleted(boolean budgetLineItemDeleted) {
-        BudgetLineItemDeleted = budgetLineItemDeleted;
+        this.budgetLineItemDeleted = budgetLineItemDeleted;
     }
 
     /**
@@ -1494,43 +1594,43 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
         this.objectCodePersonnelList = objectCodePersonnelList;
     }
 
-    public SortedMap<String, List> getObjectCodePersonnelSalaryTotals() {
+    public SortedMap<String, List<BudgetDecimal>> getObjectCodePersonnelSalaryTotals() {
         return objectCodePersonnelSalaryTotals;
     }
 
-    public void setObjectCodePersonnelSalaryTotals(SortedMap<String, List> objectCodePersonnelSalaryTotals) {
+    public void setObjectCodePersonnelSalaryTotals(SortedMap<String, List<BudgetDecimal>> objectCodePersonnelSalaryTotals) {
         this.objectCodePersonnelSalaryTotals = objectCodePersonnelSalaryTotals;
     }
 
-    public SortedMap<String, List> getObjectCodePersonnelFringeTotals() {
+    public SortedMap<String, List<BudgetDecimal>> getObjectCodePersonnelFringeTotals() {
         return objectCodePersonnelFringeTotals;
     }
 
-    public void setObjectCodePersonnelFringeTotals(SortedMap<String, List> objectCodePersonnelFringeTotals) {
+    public void setObjectCodePersonnelFringeTotals(SortedMap<String, List<BudgetDecimal>> objectCodePersonnelFringeTotals) {
         this.objectCodePersonnelFringeTotals = objectCodePersonnelFringeTotals;
     }
 
-    public SortedMap<RateType, List> getPersonnelCalculatedExpenseTotals() {
+    public SortedMap<RateType, List<BudgetDecimal>> getPersonnelCalculatedExpenseTotals() {
         return personnelCalculatedExpenseTotals;
     }
 
-    public void setPersonnelCalculatedExpenseTotals(SortedMap<RateType, List> personnelCalculatedExpenseTotals) {
+    public void setPersonnelCalculatedExpenseTotals(SortedMap<RateType, List<BudgetDecimal>> personnelCalculatedExpenseTotals) {
         this.personnelCalculatedExpenseTotals = personnelCalculatedExpenseTotals;
     }
 
-    public SortedMap<RateType, List> getNonPersonnelCalculatedExpenseTotals() {
+    public SortedMap<RateType, List<BudgetDecimal>> getNonPersonnelCalculatedExpenseTotals() {
         return nonPersonnelCalculatedExpenseTotals;
     }
 
-    public void setNonPersonnelCalculatedExpenseTotals(SortedMap<RateType, List> nonPersonnelCalculatedExpenseTotals) {
+    public void setNonPersonnelCalculatedExpenseTotals(SortedMap<RateType, List<BudgetDecimal>> nonPersonnelCalculatedExpenseTotals) {
         this.nonPersonnelCalculatedExpenseTotals = nonPersonnelCalculatedExpenseTotals;
     }
 
-    public SortedMap<String, List> getBudgetSummaryTotals() {
+    public SortedMap<String, List<BudgetDecimal>> getBudgetSummaryTotals() {
         return budgetSummaryTotals;
     }
 
-    public void setBudgetSummaryTotals(SortedMap<String, List> budgetSummaryTotals) {
+    public void setBudgetSummaryTotals(SortedMap<String, List<BudgetDecimal>> budgetSummaryTotals) {
         this.budgetSummaryTotals = budgetSummaryTotals;
     }
     

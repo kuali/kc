@@ -18,7 +18,6 @@ package org.kuali.kra.document;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -31,12 +30,12 @@ import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.service.BudgetService;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.CustomAttributeService;
 
 public class ResearchDocumentBase extends TransactionalDocumentBase {
 
+    private static final long serialVersionUID = -1879382692835231633L;
     private String updateUser;
     private Timestamp updateTimestamp;
     private List<DocumentNextvalue> documentNextvalues;
@@ -55,18 +54,17 @@ public class ResearchDocumentBase extends TransactionalDocumentBase {
     @Override
     public void prepareForSave() {
         super.prepareForSave();
-        String updateUser = GlobalVariables.getUserSession().getLoggedInUserNetworkId();
+        String uUser = GlobalVariables.getUserSession().getLoggedInUserNetworkId();
 
         // Since the UPDATE_USER column is only VACHAR(60), we need to truncate this string if it's longer than 60 characters
-        if (updateUser.length() > 60) {
-            updateUser = updateUser.substring(0, 60);
+        if (uUser.length() > 60) {
+            uUser = uUser.substring(0, 60);
         }
 
-        setUpdateTimestamp(((DateTimeService)KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
-        setUpdateUser(updateUser);
-        //setProposalNextvalues(documentNextvalues);
+        setUpdateTimestamp((this.getService(DateTimeService.class)).getCurrentTimestamp());
+        setUpdateUser(uUser);
 
-        CustomAttributeService customAttributeService = KraServiceLocator.getService(CustomAttributeService.class);
+        CustomAttributeService customAttributeService = this.getService(CustomAttributeService.class);
         customAttributeService.saveCustomAttributeValues(this);
     }
 
@@ -77,7 +75,7 @@ public class ResearchDocumentBase extends TransactionalDocumentBase {
     }
     
     protected void updateDocumentDescriptions(List<BudgetVersionOverview> budgetVersionOverviews) {
-        BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
+        BudgetService budgetService = this.getService(BudgetService.class);
         for (BudgetVersionOverview budgetVersion: budgetVersionOverviews) {
             if (budgetVersion.isDescriptionUpdatable() && !StringUtils.isBlank(budgetVersion.getDocumentDescription())) {
                 budgetService.updateDocumentDescription(budgetVersion);
@@ -90,10 +88,10 @@ public class ResearchDocumentBase extends TransactionalDocumentBase {
      * This method populates the customAttributes for this document.
      */
     private void populateCustomAttributes() {
-        CustomAttributeService customAttributeService = KraServiceLocator.getService(CustomAttributeService.class);
-        String documentTypeCode = ((DocumentTypeService)KraServiceLocator.getService(DocumentTypeService.class)).getDocumentTypeCodeByClass(this.getClass());
-        Map<String, CustomAttributeDocument> customAttributeDocuments = customAttributeService.getDefaultCustomAttributesForDocumentType(documentTypeCode, documentNumber);
-        setCustomAttributeDocuments(customAttributeDocuments);
+        CustomAttributeService customAttributeService = this.getService(CustomAttributeService.class);
+        String documentTypeCode = (this.getService(DocumentTypeService.class)).getDocumentTypeCodeByClass(this.getClass());
+        Map<String, CustomAttributeDocument> cAttributeDocuments = customAttributeService.getDefaultCustomAttributesForDocumentType(documentTypeCode, documentNumber);
+        setCustomAttributeDocuments(cAttributeDocuments);
     }
 
     public Timestamp getUpdateTimestamp() {
@@ -121,8 +119,7 @@ public class ResearchDocumentBase extends TransactionalDocumentBase {
     public Integer getDocumentNextValue(String propertyName) {
         Integer propNextValue = 1;
         // search for property and get the latest number - increment for next call
-        for(Iterator iter = documentNextvalues.iterator(); iter.hasNext();) {
-            DocumentNextvalue documentNextvalue = (DocumentNextvalue)iter.next();
+        for (DocumentNextvalue documentNextvalue : documentNextvalues) {
             if(documentNextvalue.getPropertyName().equalsIgnoreCase(propertyName)) {
                 propNextValue = documentNextvalue.getNextValue();
                 documentNextvalue.setNextValue(propNextValue + 1);
@@ -142,8 +139,7 @@ public class ResearchDocumentBase extends TransactionalDocumentBase {
 
     // TODO : this is for the attachment that save attachment only when click 'add
     public DocumentNextvalue getDocumentNextvalueBo(String propertyName) {
-        for(Iterator iter = documentNextvalues.iterator(); iter.hasNext();) {
-            DocumentNextvalue documentNextvalue = (DocumentNextvalue)iter.next();
+        for (DocumentNextvalue documentNextvalue : documentNextvalues) {
             if(documentNextvalue.getPropertyName().equalsIgnoreCase(propertyName)) {
                 return documentNextvalue;
             }
@@ -187,4 +183,14 @@ public class ResearchDocumentBase extends TransactionalDocumentBase {
         return customAttributeDocuments.get(key);
     }
     
+    /**
+     * Lookups and returns a service class.  This method can be overriden for easier unit testing.
+     * 
+     * @param <T> the type of service.
+     * @param serviceClass the service class.
+     * @return the service.
+     */
+    protected <T> T getService(Class<T> serviceClass) {
+        return KraServiceLocator.getService(serviceClass);
+    }
 }
