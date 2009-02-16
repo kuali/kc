@@ -20,8 +20,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.AuthenticationUserId;
@@ -36,6 +38,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.kim.bo.KimRole;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
@@ -166,10 +169,15 @@ public class NarrativeServiceImpl implements NarrativeService {
                                RoleConstants.VIEWER,
                                RoleConstants.UNASSIGNED };
         
+        Map<String, String> roleSearchCriteria = new HashMap<String, String>();
+        roleSearchCriteria.put("roleTypeCode", RoleConstants.PROPOSAL_ROLE_TYPE);
+        List<KimRole> proposalRoles = (List<KimRole>) businessObjectService.findMatching(KimRole.class, roleSearchCriteria) ;
+        
         ProposalAuthorizationService proposalAuthorizationService = KraServiceLocator.getService(ProposalAuthorizationService.class);
         List<Person> allPersons = new ArrayList<Person>();
-        for (String roleName : roleNames) {
-            List<Person> persons = proposalAuthorizationService.getPersonsInRole(proposalDevelopmentDocument, roleName);
+        //for (String roleName : roleNames) {
+        for (KimRole proposalRole : proposalRoles) {
+            List<Person> persons = proposalAuthorizationService.getPersonsInRole(proposalDevelopmentDocument, proposalRole.getName());
             for (Person person : persons) {
                 if (!isPersonInList(person, allPersons)) {
                     allPersons.add(person);
