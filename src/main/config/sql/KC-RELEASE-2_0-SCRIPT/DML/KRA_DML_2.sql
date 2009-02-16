@@ -714,3 +714,20 @@ INSERT INTO VALID_CLASS_REPORT_FREQ ( VALID_CLASS_REPORT_FREQ_ID, REPORT_CLASS_C
 VALUES ( 411, '6', '38', '14', sysdate, user );
 
 COMMIT;
+
+insert into KIM_ROLES_T (ID,NAME,DESCRIPTION, ROLE_TYPE_CODE, DESCEND_FLAG) values(14,'Protocol Unassigned','Protocol Unassigned - no permissions', 'R', 'N'); 
+
+commit;
+
+INSERT INTO RISK_LEVEL ( RISK_LEVEL_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
+VALUES ( 1, 'No greater than minimal risk.', sysdate, user ); 
+INSERT INTO RISK_LEVEL ( RISK_LEVEL_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
+VALUES ( 2, 'Greater than minimal risk but potential for direct benefit for participant', sysdate, user ); 
+INSERT INTO RISK_LEVEL ( RISK_LEVEL_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
+VALUES ( 3, 'Moderate Risk', sysdate, user ); 
+INSERT INTO RISK_LEVEL ( RISK_LEVEL_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
+VALUES ( 4, 'Research involving greater than minimal risk, with no potential for benefit to participant, but likely to yield generalizable knowledge about the participant''s condition', sysdate, user ); 
+INSERT INTO RISK_LEVEL ( RISK_LEVEL_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
+VALUES ( 5, 'High Risk', sysdate, user ); 
+
+commit;
