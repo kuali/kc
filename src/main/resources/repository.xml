@@ -2950,7 +2950,7 @@
 	<class-descriptor class="org.kuali.kra.bo.RiskLevel" table="RISK_LEVEL">
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<field-descriptor name="riskLevelCode" column="RISK_LEVEL_CODE" jdbc-type="INTEGER" primarykey="true" />
+		<field-descriptor name="riskLevelCode" column="RISK_LEVEL_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />

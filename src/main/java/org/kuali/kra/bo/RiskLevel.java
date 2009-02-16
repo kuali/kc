@@ -24,18 +24,18 @@ import java.util.LinkedHashMap;
  */
 public class RiskLevel extends KraPersistableBusinessObjectBase { 
 	
-	private Integer riskLevelCode; 
+	private String riskLevelCode; 
 	private String description; 
 	
 	public RiskLevel() { 
 
 	} 
 	
-	public Integer getRiskLevelCode() {
+	public String getRiskLevelCode() {
 		return riskLevelCode;
 	}
 
-	public void setRiskLevelCode(Integer riskLevelCode) {
+	public void setRiskLevelCode(String riskLevelCode) {
 		this.riskLevelCode = riskLevelCode;
 	}
 
