@@ -45,8 +45,7 @@ public class ReportClassValuesFinder extends KeyValuesBase {
      */
     @SuppressWarnings("unchecked")
     public List<KeyLabelPair> getKeyValues() {
-        KeyValuesService keyValuesService = 
-            (KeyValuesService) KraServiceLocator.getService("keyValuesService");
+        KeyValuesService keyValuesService = getKeyValuesService();    
         
         Collection reportClasses = keyValuesService.findAll(ReportClass.class);
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
@@ -58,6 +57,10 @@ public class ReportClassValuesFinder extends KeyValuesBase {
         }
                 
         return keyValues;
+    }
+    
+    protected KeyValuesService getKeyValuesService(){
+        return (KeyValuesService) KraServiceLocator.getService("keyValuesService");
     }
    
 }

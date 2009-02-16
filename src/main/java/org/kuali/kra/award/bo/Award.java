@@ -626,7 +626,12 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * @param basisOfPaymentCode
      */
     public void setBasisOfPaymentCode(Integer basisOfPaymentCode) {
-        this.basisOfPaymentCode = basisOfPaymentCode;
+        if(basisOfPaymentCode!=null){
+            this.basisOfPaymentCode = basisOfPaymentCode;    
+        }else{
+            this.basisOfPaymentCode = 1;
+        }
+        
     }
 
 
@@ -731,7 +736,11 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * @param methodOfPaymentCode
      */
     public void setMethodOfPaymentCode(Integer methodOfPaymentCode) {
-        this.methodOfPaymentCode = methodOfPaymentCode;
+        if(methodOfPaymentCode!=null){
+            this.methodOfPaymentCode = methodOfPaymentCode;    
+        }else{
+            this.methodOfPaymentCode = 1;
+        }
     }
 
 

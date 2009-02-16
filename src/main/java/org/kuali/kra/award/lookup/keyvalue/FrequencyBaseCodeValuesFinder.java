@@ -36,6 +36,15 @@ public class FrequencyBaseCodeValuesFinder extends KeyValuesBase {
     
     private String frequencyCode;
     
+    public FrequencyBaseCodeValuesFinder() {
+        super();
+    }
+    
+    public FrequencyBaseCodeValuesFinder(String frequencyCode) {
+        super();
+        this.frequencyCode = frequencyCode;
+    }
+    
     /**
      * Constructs the list of Frequency Bases.  Each entry
      * in the list is a &lt;key, value&gt; pair, where the "key" is the unique
@@ -49,9 +58,9 @@ public class FrequencyBaseCodeValuesFinder extends KeyValuesBase {
      */
     @SuppressWarnings("unchecked")
     public List<KeyLabelPair> getKeyValues() {
-        KeyValuesService keyValuesService = 
-            (KeyValuesService) KraServiceLocator.getService("keyValuesService");
-                List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        KeyValuesService keyValuesService = getKeyValuesService();
+        
+        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         
         Collection validFrequencyBaseCodes = keyValuesService.findAll(ValidFrequencyBase.class);
         
@@ -82,6 +91,10 @@ public class FrequencyBaseCodeValuesFinder extends KeyValuesBase {
 
     public void setFrequencyCode(String frequencyCode) {
         this.frequencyCode = frequencyCode;
+    }
+    
+    protected KeyValuesService getKeyValuesService(){
+        return (KeyValuesService) KraServiceLocator.getService("keyValuesService");
     }
    
 }

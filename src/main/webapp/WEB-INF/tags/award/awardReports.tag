@@ -23,8 +23,10 @@
     			<kul:help businessObjectClassName="org.kuali.kra.award.bo.AwardFandaRate" altText="help"/>
 			</span>
         </h3>                
-        <c:forEach var="reportClass" items="${KualiForm.reportClasses}" varStatus="reportClassIndex">        	        	
-			<kra-a:awardReportClasses index="${reportClassIndex.index}" reportClassKey="${reportClass.key}" reportClassLabel="${reportClass.label}" />
+        <c:forEach var="reportClass" items="${KualiForm.reportClasses}" varStatus="reportClassIndex">
+        	<c:if test="${KualiForm.reportClassForPaymentsAndInvoices.reportClassCode != reportClass.key}" >
+        		<kra-a:awardReportClasses index="${reportClassIndex.index}" reportClassKey="${reportClass.key}" reportClassLabel="${reportClass.label}" />
+        	</c:if>
 		</c:forEach>
 		</br>
 		</br>

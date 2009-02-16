@@ -23,6 +23,7 @@ import java.util.Map;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardReportTerm;
 import org.kuali.kra.award.bo.AwardReportTermRecipient;
 import org.kuali.kra.award.bo.ReportClass;
@@ -46,6 +47,28 @@ public class AwardReportsServiceImpl implements AwardReportsService {
     KualiConfigurationService kualiConfigurationService;
     BusinessObjectService businessObjectService;
     
+    public HashMap doPreps(Award award){
+        HashMap a = new HashMap();
+        ReportClassValuesFinder reportClassValuesFinder = new ReportClassValuesFinder();
+        List<KeyLabelPair> reportClasses = new ArrayList<KeyLabelPair>();
+        List<AwardReportTerm> newAwardReportTerm = new ArrayList<AwardReportTerm>();
+        reportClasses = reportClassValuesFinder.getKeyValues();
+        
+        a.put("reportClasses",  reportClasses);
+        
+        for(int i=0;i<reportClasses.size();i++){
+            newAwardReportTerm.add(new AwardReportTerm());
+        }
+        a.put("newAwardReportTermList",  newAwardReportTerm);
+        
+        List<AwardReportTermRecipient> newAwardReportTermRecipients = new ArrayList<AwardReportTermRecipient>();
+        for(int i=0;i<award.getAwardReportTerms().size();i++){
+            newAwardReportTermRecipients.add(new AwardReportTermRecipient());
+        }
+        a.put("newAwardReportTermRecipientsList",  newAwardReportTermRecipients);
+        
+        return a;
+    }
     /**
      * 
      * @see org.kuali.kra.service.AwardReportsService#doPreparations(
@@ -103,7 +126,7 @@ public class AwardReportsServiceImpl implements AwardReportsService {
      * @param reportClasses
      */
     protected void addEmptyNewAwardReportTerms(AwardForm awardForm, List<KeyLabelPair> reportClasses){
-        for(int i=0;i<reportClasses.size();i++){
+        for(KeyLabelPair keyLabelPair:reportClasses){
             awardForm.getNewAwardReportTerm().add(new AwardReportTerm());
         }
     }
@@ -115,8 +138,8 @@ public class AwardReportsServiceImpl implements AwardReportsService {
      * in Award.
      * @param awardForm
      */
-    protected void addEmptyNewAwardReportTermRecipients(AwardForm awardForm){                
-        for(int i=0;i<awardForm.getAwardDocument().getAward().getAwardReportTerms().size();i++){
+    protected void addEmptyNewAwardReportTermRecipients(AwardForm awardForm){
+        for(AwardReportTerm awardReportTerm:awardForm.getAwardDocument().getAward().getAwardReportTerms()){
             awardForm.getNewAwardReportTermRecipient().add(new AwardReportTermRecipient());
         }
     }
@@ -126,14 +149,10 @@ public class AwardReportsServiceImpl implements AwardReportsService {
      * @see org.kuali.kra.service.AwardReportsService#getFrequencyCodes(java.lang.String, java.lang.String)
      */
     public String getFrequencyCodes(String reportClassCode, String reportCode){        
-        FrequencyCodeValuesFinder frequencyCodeValuesFinder = new FrequencyCodeValuesFinder();
+        FrequencyCodeValuesFinder frequencyCodeValuesFinder 
+            = new FrequencyCodeValuesFinder(reportClassCode, reportCode);
                 
-        frequencyCodeValuesFinder.setReportClassCode(reportClassCode);
-        frequencyCodeValuesFinder.setReportCode(reportCode);
-        
-        List<KeyLabelPair> frequencyCodes = frequencyCodeValuesFinder.getKeyValues();
-                
-        return processKeyLabelPairList(frequencyCodes);
+        return processKeyLabelPairList(frequencyCodeValuesFinder.getKeyValues());
     }
     
     /**
@@ -146,18 +165,21 @@ public class AwardReportsServiceImpl implements AwardReportsService {
      * @return
      */
     public String processKeyLabelPairList(List<KeyLabelPair> keyLabelPairList){
-        int i = 1;
-        StringBuffer strBuffer = new StringBuffer();
-        for(KeyLabelPair keyLabelPair : keyLabelPairList){
-            strBuffer.append(keyLabelPair.key);
-            strBuffer.append(SEMICOLON_AS_DELIMITOR);
-            strBuffer.append(keyLabelPair.label);
-            if(i!=keyLabelPairList.size()){
-                strBuffer.append(COMA_AS_DELIMITOR);    
-            }
-            i++;
+        
+        StringBuilder strBuilder = new StringBuilder();
+        
+        for(int i=0;i<keyLabelPairList.size()-1; i++){
+            strBuilder.append(keyLabelPairList.get(i).key);
+            strBuilder.append(SEMICOLON_AS_DELIMITOR);
+            strBuilder.append(keyLabelPairList.get(i).label);
+            strBuilder.append(COMA_AS_DELIMITOR);
         }
-        return strBuffer.toString();
+        
+        strBuilder.append(keyLabelPairList.get(keyLabelPairList.size()-1).key);
+        strBuilder.append(SEMICOLON_AS_DELIMITOR);
+        strBuilder.append(keyLabelPairList.get(keyLabelPairList.size()-1).label);
+        
+        return strBuilder.toString();
     }
     
     
@@ -167,12 +189,9 @@ public class AwardReportsServiceImpl implements AwardReportsService {
      */
     public String getFrequencyBaseCodes(String frequencyCode){        
         FrequencyBaseCodeValuesFinder frequencyBaseCodeValuesFinder 
-            = new FrequencyBaseCodeValuesFinder();        
+            = new FrequencyBaseCodeValuesFinder(frequencyCode);        
         
-        frequencyBaseCodeValuesFinder.setFrequencyCode(frequencyCode);
-        
-        List<KeyLabelPair> frequencyBaseCodes = frequencyBaseCodeValuesFinder.getKeyValues();
-        return processKeyLabelPairList(frequencyBaseCodes);
+        return processKeyLabelPairList(frequencyBaseCodeValuesFinder.getKeyValues());
         
     }
 

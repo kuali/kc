@@ -42,6 +42,16 @@ public class FrequencyCodeValuesFinder extends KeyValuesBase {
     private String reportClassCode;
     private String reportCode;
     
+    public FrequencyCodeValuesFinder() {
+        super();
+    }
+    
+    public FrequencyCodeValuesFinder(String reportClassCode, String reportCode) {
+        super();
+        this.reportClassCode = reportClassCode;
+        this.reportCode = reportCode;
+    }
+    
     /**
      * Constructs the list of Reports.  Each entry
      * in the list is a &lt;key, value&gt; pair, where the "key" is the unique
@@ -54,9 +64,9 @@ public class FrequencyCodeValuesFinder extends KeyValuesBase {
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List<KeyLabelPair> getKeyValues() {
-        KeyValuesService keyValuesService = 
-            (KeyValuesService) KraServiceLocator.getService("keyValuesService");
-                List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        KeyValuesService keyValuesService = getKeyValuesService();
+        
+        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         
         Collection validClassReportFrequencies = keyValuesService.findAll(ValidClassReportFrequency.class);
         
@@ -95,6 +105,10 @@ public class FrequencyCodeValuesFinder extends KeyValuesBase {
 
     public void setReportCode(String reportCode) {
         this.reportCode = reportCode;
+    }
+    
+    protected KeyValuesService getKeyValuesService(){
+        return (KeyValuesService) KraServiceLocator.getService("keyValuesService");
     }
    
 }

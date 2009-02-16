@@ -27,7 +27,6 @@ import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.award.bo.ValidClassReportFrequency;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 
 /**
  * 
@@ -35,10 +34,16 @@ import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
  */
 public class ReportCodeValuesFinder extends KeyValuesBase {
     
-    KeyValueFinderService keyValueFinderService= 
-        (KeyValueFinderService) KraServiceLocator.getService("keyValueFinderService");
-    
     private String reportClassCode;
+    
+    public ReportCodeValuesFinder() {
+        super();
+    }
+    
+    public ReportCodeValuesFinder(String reportClassCode) {
+        super();
+        this.reportClassCode = reportClassCode;
+    }
     
     /**
      * Constructs the list of Reports.  Each entry
@@ -52,10 +57,10 @@ public class ReportCodeValuesFinder extends KeyValuesBase {
      */
     @SuppressWarnings("unchecked")
     public List<KeyLabelPair> getKeyValues() {
-        KeyValuesService keyValuesService = 
-            (KeyValuesService) KraServiceLocator.getService("keyValuesService");
-                List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        
+        KeyValuesService keyValuesService = getKeyValuesService();
+            
+        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+                
         Collection validClassReportFrequencies = 
             keyValuesService.findAll(ValidClassReportFrequency.class);        
         
@@ -85,6 +90,10 @@ public class ReportCodeValuesFinder extends KeyValuesBase {
 
     public void setReportClassCode(String reportClassCode) {
         this.reportClassCode = reportClassCode;
+    }
+    
+    protected KeyValuesService getKeyValuesService(){
+        return (KeyValuesService) KraServiceLocator.getService("keyValuesService");        
     }
    
 }
