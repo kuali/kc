@@ -45,7 +45,13 @@ public class ValidClassReportFrequency extends KraPersistableBusinessObjectBase 
      */
     public ValidClassReportFrequency() { 
 
-    } 
+    }
+    
+    public ValidClassReportFrequency(String reportClassCode, String reportCode, String frquencyCode) {
+        this.reportClassCode = reportClassCode;
+        this.reportCode = reportCode;
+        this.frequencyCode = frquencyCode;
+    }
     
     /**
      *
@@ -172,5 +178,47 @@ public class ValidClassReportFrequency extends KraPersistableBusinessObjectBase 
         hashMap.put("frequencyCode", getFrequencyCode());
         return hashMap;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((frequencyCode == null) ? 0 : frequencyCode.hashCode());
+        result = prime * result + ((reportClassCode == null) ? 0 : reportClassCode.hashCode());
+        result = prime * result + ((reportCode == null) ? 0 : reportCode.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final ValidClassReportFrequency other = (ValidClassReportFrequency) obj;
+        if (frequencyCode == null) {
+            if (other.frequencyCode != null)
+                return false;
+        }
+        else if (!frequencyCode.equals(other.frequencyCode))
+            return false;
+        if (reportClassCode == null) {
+            if (other.reportClassCode != null)
+                return false;
+        }
+        else if (!reportClassCode.equals(other.reportClassCode))
+            return false;
+        if (reportCode == null) {
+            if (other.reportCode != null)
+                return false;
+        }
+        else if (!reportCode.equals(other.reportCode))
+            return false;
+        return true;
+    }
+    
+    
     
 }

@@ -34,10 +34,6 @@ public class Distribution extends KraPersistableBusinessObjectBase {
     private String ospDistributionCode; 
     private String description; 
     
-    /*private TemplateReportTerms templateReportTerms; 
-    private AwardReporting awardReporting; 
-    private AwardReportTerms awardReportTerms;*/ 
-    
     /**
      * Constructs a Distribution.java
      */
@@ -77,30 +73,6 @@ public class Distribution extends KraPersistableBusinessObjectBase {
         this.description = description;
     }
 
-    /*public TemplateReportTerms getTemplateReportTerms() {
-        return templateReportTerms;
-    }
-
-    public void setTemplateReportTerms(TemplateReportTerms templateReportTerms) {
-        this.templateReportTerms = templateReportTerms;
-    }
-
-    public AwardReporting getAwardReporting() {
-        return awardReporting;
-    }
-
-    public void setAwardReporting(AwardReporting awardReporting) {
-        this.awardReporting = awardReporting;
-    }
-
-    public AwardReportTerms getAwardReportTerms() {
-        return awardReportTerms;
-    }
-
-    public void setAwardReportTerms(AwardReportTerms awardReportTerms) {
-        this.awardReportTerms = awardReportTerms;
-    }*/
-
     /**
      * 
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
@@ -112,5 +84,33 @@ public class Distribution extends KraPersistableBusinessObjectBase {
         hashMap.put("description", getDescription());
         return hashMap;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((ospDistributionCode == null) ? 0 : ospDistributionCode.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final Distribution other = (Distribution) obj;
+        if (ospDistributionCode == null) {
+            if (other.ospDistributionCode != null)
+                return false;
+        }
+        else if (!ospDistributionCode.equals(other.ospDistributionCode))
+            return false;
+        return true;
+    }
+    
+    
     
 }

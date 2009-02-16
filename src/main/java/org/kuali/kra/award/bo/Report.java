@@ -35,11 +35,6 @@ public class Report extends KraPersistableBusinessObjectBase {
     private String description; 
     private boolean finalReportFlag; 
     
-    /*private TemplateReportTerms templateReportTerms; 
-    private ValidClassReportFreq validClassReportFreq; 
-    private AwardReporting awardReporting; 
-    private AwardReportTerms awardReportTerms;*/ 
-    
     /**
      * Constructs a Report.java
      */
@@ -95,38 +90,6 @@ public class Report extends KraPersistableBusinessObjectBase {
         this.finalReportFlag = finalReportFlag;
     }
 
-    /*public TemplateReportTerms getTemplateReportTerms() {
-        return templateReportTerms;
-    }
-
-    public void setTemplateReportTerms(TemplateReportTerms templateReportTerms) {
-        this.templateReportTerms = templateReportTerms;
-    }
-
-    public ValidClassReportFreq getValidClassReportFreq() {
-        return validClassReportFreq;
-    }
-
-    public void setValidClassReportFreq(ValidClassReportFreq validClassReportFreq) {
-        this.validClassReportFreq = validClassReportFreq;
-    }
-
-    public AwardReporting getAwardReporting() {
-        return awardReporting;
-    }
-
-    public void setAwardReporting(AwardReporting awardReporting) {
-        this.awardReporting = awardReporting;
-    }
-
-    public AwardReportTerms getAwardReportTerms() {
-        return awardReportTerms;
-    }
-
-    public void setAwardReportTerms(AwardReportTerms awardReportTerms) {
-        this.awardReportTerms = awardReportTerms;
-    }*/
-
     /**
      * 
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
@@ -139,5 +102,33 @@ public class Report extends KraPersistableBusinessObjectBase {
         hashMap.put("finalReportFlag", getFinalReportFlag());
         return hashMap;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((reportCode == null) ? 0 : reportCode.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final Report other = (Report) obj;
+        if (reportCode == null) {
+            if (other.reportCode != null)
+                return false;
+        }
+        else if (!reportCode.equals(other.reportCode))
+            return false;
+        return true;
+    }
+    
+    
     
 }
