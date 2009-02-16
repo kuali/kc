@@ -137,7 +137,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDocument= (AwardDocument) awardForm.getAwardDocument();
         
-        awardForm.setAwardReportTermPanelNumber(new Integer(getReportClassCodeIndex(request)).toString());
+        awardForm.setAwardReportTermPanelNumber(getReportClassCodeIndex(request));
         
         AwardReportTerm newAwardReportTerm = 
             awardForm.getNewAwardReportTerm().get(getReportClassCodeIndex(request));
@@ -219,7 +219,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDocument = awardForm.getAwardDocument();
         
-        awardForm.setAwardReportTermPanelNumber(new Integer(getAwardReportTermIndex(request)).toString());
+        awardForm.setAwardReportTermPanelNumber(getAwardReportTermIndex(request));
         
         AwardReportTermRecipient newAwardReportTermRecipient = awardForm.getNewAwardReportTermRecipient().
                                                 get(getAwardReportTermIndex(request));
