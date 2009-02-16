@@ -63,14 +63,13 @@ public class AwardReportTermRecipientRule extends ResearchDocumentRuleBase
      * @return
      */
     protected boolean evaluateRuleForContactType(
-            AwardReportTermRecipient awardReportTermRecipient, String index){
-        boolean rulePassed = !(awardReportTermRecipient.getContactTypeCode() == null 
-            || StringUtils.isBlank(awardReportTermRecipient.getContactTypeCode().toString()));
+            AwardReportTermRecipient awardReportTermRecipient, int index){
+        boolean rulePassed = !(StringUtils.isEmpty(awardReportTermRecipient.getContactTypeCode()));
+        
         if(!rulePassed){
-            reportError(NEW_AWARD_REPORT_TERM_RECIPIENT + Constants.LEFT_SQUARE_BRACKET + index 
-                    + Constants.RIGHT_SQUARE_BRACKET + DOT_CONTACT_TYPE_CODE, 
-                    KeyConstants.ERROR_REQUIRED_CONTACT_TYPE);
+            reportError(index, DOT_CONTACT_TYPE_CODE, KeyConstants.ERROR_REQUIRED_CONTACT_TYPE);
         }
+        
         return rulePassed;
     }
     
@@ -80,14 +79,20 @@ public class AwardReportTermRecipientRule extends ResearchDocumentRuleBase
      * @param awardReportTerm
      * @return
      */
-    protected boolean evaluateRuleForRolodex(AwardReportTermRecipient awardReportTermRecipient, String index){
-        boolean rulePassed = !(awardReportTermRecipient.getRolodexId() == null 
-            || StringUtils.isBlank(awardReportTermRecipient.getRolodexId().toString()));
+    protected boolean evaluateRuleForRolodex(AwardReportTermRecipient awardReportTermRecipient, int index){
+        boolean rulePassed = !(awardReportTermRecipient.getRolodexId() == null);
+        
         if(!rulePassed){
-            reportError(NEW_AWARD_REPORT_TERM_RECIPIENT + Constants.LEFT_SQUARE_BRACKET + index 
-                    + Constants.RIGHT_SQUARE_BRACKET + DOT_ROLODEX_ID, 
-                    KeyConstants.ERROR_REQUIRED_ROLODEX_ID);
+            reportError(index, DOT_ROLODEX_ID, KeyConstants.ERROR_REQUIRED_ROLODEX_ID);
+            
         }
         return rulePassed;
+    }
+    
+    private void reportError(int index, String context, String errorKey) {
+        String errorPath = new StringBuilder(NEW_AWARD_REPORT_TERM_RECIPIENT).append(Constants.LEFT_SQUARE_BRACKET)
+                                           .append(index).append(Constants.RIGHT_SQUARE_BRACKET)
+                                           .append(context).toString();
+        reportError(errorPath, errorKey);
     }
 }
