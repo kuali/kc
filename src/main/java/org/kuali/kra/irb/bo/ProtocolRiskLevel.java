@@ -34,7 +34,7 @@ public class ProtocolRiskLevel extends KraPersistableBusinessObjectBase {
 	private Long protocolId; 
 	private String protocolNumber; 
 	private Integer sequenceNumber; 
-	private Integer riskLevelCode; 
+	private String riskLevelCode; 
 	private String comments; 
 	private Date dateAssigned; 
 	private Date dateUpdated; 
@@ -81,11 +81,11 @@ public class ProtocolRiskLevel extends KraPersistableBusinessObjectBase {
 		this.sequenceNumber = sequenceNumber;
 	}
 
-	public Integer getRiskLevelCode() {
+	public String getRiskLevelCode() {
 		return riskLevelCode;
 	}
 
-	public void setRiskLevelCode(Integer riskLevelCode) {
+	public void setRiskLevelCode(String riskLevelCode) {
 		this.riskLevelCode = riskLevelCode;
 	}
 
