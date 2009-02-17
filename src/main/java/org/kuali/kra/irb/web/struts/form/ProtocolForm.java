@@ -31,8 +31,11 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ActionFormUtilMap;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.bo.ProtocolLocation;
+import org.kuali.kra.irb.bo.ProtocolParticipant;
 import org.kuali.kra.irb.bo.ProtocolPerson;
 import org.kuali.kra.irb.bo.ProtocolReference;
 import org.kuali.kra.irb.bo.ProtocolUnit;
@@ -43,12 +46,13 @@ import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
  * This class...
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolForm extends KraTransactionalDocumentFormBase {
+public class ProtocolForm extends KraTransactionalDocumentFormBase implements PermissionsForm {
     
     private static final long serialVersionUID = -7633960906991275328L;
     
     private ProtocolHelper protocolHelper;
     private PersonnelHelper personnelHelper;
+    private PermissionsHelper permissionsHelper;
     private ParticipantsHelper participantsHelper;
 
     private ProtocolReference newProtocolReference;
@@ -75,6 +79,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
         initializeHeaderNavigationTabs(); 
         setProtocolHelper(new ProtocolHelper(this));
         setPersonnelHelper(new PersonnelHelper(this));
+        setPermissionsHelper(new PermissionsHelper(this));
         setParticipantsHelper(new ParticipantsHelper());
         setNewProtocolReference(new ProtocolReference());
         setNewProtocolPerson(new ProtocolPerson());
@@ -180,6 +185,14 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase {
     
     public PersonnelHelper getPersonnelHelper() {
         return personnelHelper;
+    }
+    
+    private void setPermissionsHelper(PermissionsHelper permissionsHelper) {
+        this.permissionsHelper = permissionsHelper;
+    }
+    
+    public PermissionsHelper getPermissionsHelper() {
+        return permissionsHelper;
     }
     
     public void setParticipantsHelper(ParticipantsHelper participantsHelper) {

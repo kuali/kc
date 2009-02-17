@@ -15,9 +15,14 @@
  */
 package org.kuali.kra.service.impl;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.kim.bo.KimRole;
 import org.kuali.kra.kim.pojo.Permission;
 import org.kuali.kra.kim.pojo.Role;
 import org.kuali.kra.kim.service.PersonService;
@@ -31,9 +36,18 @@ import org.kuali.kra.service.SystemAuthorizationService;
  */
 public class SystemAuthorizationServiceImpl implements SystemAuthorizationService {
     
+    private BusinessObjectService businessObjectService;
     private PersonService kimPersonService;
     private RoleService kimRoleService;
 
+    /**
+     * Set the BusinessObjectService.
+     * @param businessObjectService
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+    
     /**
      * Set the KIM Person Service.  Set by Spring with dependency injection.
      * 
@@ -72,5 +86,15 @@ public class SystemAuthorizationServiceImpl implements SystemAuthorizationServic
      */
     public boolean hasPermission(String username, String permissionName) {
         return kimPersonService.hasPermission(username, Constants.KRA_NAMESPACE, permissionName);
+    }
+    
+    /**
+     * @see org.kuali.kra.service.SystemAuthorizationService#getRoles(java.lang.String)
+     */
+    @SuppressWarnings("unchecked")
+    public Collection<KimRole> getRoles(String roleType) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("roleTypeCode", roleType);
+        return businessObjectService.findMatching(KimRole.class, fieldValues);
     }
 }

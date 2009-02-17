@@ -65,6 +65,7 @@ public class ProtocolPersonnelAction extends ProtocolAction {
         
         ((ProtocolForm)form).getProtocolHelper().prepareView();
         ((ProtocolForm)form).getPersonnelHelper().prepareView();
+        ((ProtocolForm)form).getPermissionsHelper().prepareView();
         
         return actionForward;
     }

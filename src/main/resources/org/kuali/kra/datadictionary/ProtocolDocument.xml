@@ -44,24 +44,34 @@
     	<property name="headerNavigationList" >
       	<list>
         	<bean parent="HeaderNavigation">
-          	<property name="helpDefinition" >
-            	<bean parent="HelpDefinition"
-                  p:parameterNamespace="KRA-PD"
-                  p:parameterName="protocolHelp"
-                  p:parameterDetailType="D" />
-          	</property>
-          	<property name="headerTabDisplayName" value="Protocol" />
-          	<property name="headerTabNavigateTo" value="protocol" />
+	          	<property name="helpDefinition" >
+	            	<bean parent="HelpDefinition"
+	                  p:parameterNamespace="KC-IRB"
+	                  p:parameterName="protocolHelp"
+	                  p:parameterDetailType="D" />
+	          	</property>
+	          	<property name="headerTabDisplayName" value="Protocol" />
+	          	<property name="headerTabNavigateTo" value="protocol" />
+	        </bean>
+	        <bean parent="HeaderNavigation">
+	          	<property name="helpDefinition" >
+	            	<bean parent="HelpDefinition"
+	                  p:parameterNamespace="KC-IRB"
+	                  p:parameterName="personnelHelp"
+	                  p:parameterDetailType="D" />
+	          	</property>
+	          	<property name="headerTabDisplayName" value="Personnel" />
+	          	<property name="headerTabNavigateTo" value="personnel" />
         	</bean>
         	<bean parent="HeaderNavigation">
-          	<property name="helpDefinition" >
-            	<bean parent="HelpDefinition"
-                  p:parameterNamespace="KRA-PD"
-                  p:parameterName="personnelHelp"
-                  p:parameterDetailType="D" />
-          	</property>
-          	<property name="headerTabDisplayName" value="Personnel" />
-          	<property name="headerTabNavigateTo" value="personnel" />
+	          	<property name="helpDefinition" >
+	            	<bean parent="HelpDefinition"
+	                  p:parameterNamespace="KC-IRB"
+	                  p:parameterName="permissionsHelp"
+	                  p:parameterDetailType="D" />
+	          	</property>
+	          	<property name="headerTabDisplayName" value="Permissions" />
+	          	<property name="headerTabNavigateTo" value="permissions" />
         	</bean>
       	</list>
     	</property>

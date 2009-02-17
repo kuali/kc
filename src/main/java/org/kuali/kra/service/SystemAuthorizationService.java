@@ -15,8 +15,10 @@
  */
 package org.kuali.kra.service;
 
+import java.util.Collection;
 import java.util.List;
 
+import org.kuali.kra.kim.bo.KimRole;
 import org.kuali.kra.kim.pojo.Permission;
 import org.kuali.kra.kim.pojo.Role;
 
@@ -37,6 +39,13 @@ public interface SystemAuthorizationService {
      * @return the role or null if not found.
      */
     public Role getRole(String roleName);
+    
+    /**
+     * Get all of the roles for a particular type.
+     * @param roleType the type of role
+     * @return the KIM roles
+     */
+    public Collection<KimRole> getRoles(String roleType);
     
     /**
      * Get the permissions in a role.
