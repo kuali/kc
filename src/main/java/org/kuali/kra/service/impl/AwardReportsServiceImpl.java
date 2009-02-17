@@ -95,7 +95,7 @@ public class AwardReportsServiceImpl implements AwardReportsService {
         
         primaryKeyField.put("reportClassCode",kualiConfigurationService.getParameter(Constants
                 .PARAMETER_MODULE_AWARD,Constants.PARAMETER_COMPONENT_DOCUMENT
-                ,KeyConstants.MIT_IDC_VALIDATION_ENABLED).getParameterValue());        
+                ,KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES).getParameterValue());        
         
         awardForm.setReportClassForPaymentsAndInvoices((ReportClass) businessObjectService.findByPrimaryKey(
                 ReportClass.class, primaryKeyField));
