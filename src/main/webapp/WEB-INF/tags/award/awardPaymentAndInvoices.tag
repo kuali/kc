@@ -19,7 +19,7 @@
 <kul:tabTop tabTitle="Payment & Invoices" defaultOpen="false" tabErrorKey="" >
 	<div class="tab-container" align="right">
 		<kra-a:awardPaymentAndInvoicesTopPanel />	
-		<kra-a:awardReportClasses index="0" reportClassKey="${KualiForm.reportClassForPaymentsAndInvoices.reportClassCode}" 
+		<kra-a:awardReportClasses index="5" reportClassKey="${KualiForm.reportClassForPaymentsAndInvoices.reportClassCode}" 
 			reportClassLabel="Payment & Invoice Requirements" defaultOpenForTab="true" noShowHideButton="true" />
 	</div>
 </kul:tabTop>

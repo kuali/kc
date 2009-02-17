@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.service.impl;
 
-import static org.junit.Assert.fail;
-
 import java.util.ArrayList;
 import java.util.List;
 

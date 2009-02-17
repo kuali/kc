@@ -737,5 +737,5 @@ Insert into SH_PARM_T
 INSERT INTO SH_PARM_T 
 	(SH_PARM_NMSPC_CD,SH_PARM_DTL_TYP_CD,SH_PARM_NM,OBJ_ID,VER_NBR,SH_PARM_TYP_CD,SH_PARM_TXT,SH_PARM_DESC,SH_PARM_CONS_CD,WRKGRP_NM,ACTIVE_IND) 
 	VALUES 
-	('KC-AWARD','D','reportClassForPaymentsAndInvoices',sys_guid(),1,'CONFG','5','Report Class For Payments And Invoices','A','WorkflowAdmin','Y');
+	('KC-AWARD','D','reportClassForPaymentsAndInvoices',sys_guid(),1,'CONFG','6','Report Class For Payments And Invoices','A','WorkflowAdmin','Y');
 commit;

@@ -142,9 +142,10 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         AwardReportTerm newAwardReportTerm = 
             awardForm.getNewAwardReportTerm().get(getReportClassCodeIndex(request));
         
+        newAwardReportTerm.setReportClassCode(getReportClass(request));
+        
         if(getKualiRuleService().applyRules(new AddAwardReportTermEvent(Constants.EMPTY_STRING,
-                awardForm.getAwardDocument(), newAwardReportTerm))){
-            newAwardReportTerm.setReportClassCode(getReportClass(request));
+                awardForm.getAwardDocument(), newAwardReportTerm))){            
             awardDocument.getAward().setAwardReportTerms(addAwardReportTermToAward(
                     awardDocument.getAward(),newAwardReportTerm));            
             awardForm.getNewAwardReportTerm().set(
