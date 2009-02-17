@@ -98,40 +98,54 @@ public class BudgetPersonnelExpenseRule {
         
         return valid;
     }
-
     
-    public boolean processSaveCheckDuplicateBudgetPersonnel(BudgetDocument budgetDocument) {
+    public boolean processCheckDuplicateBudgetPersonnel(BudgetDocument budgetDocument, int budgetPeriodIndex, int budgetLineItemIndex) {
         boolean valid=true;
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         
-        int i=0;
-        int j=0;
         int k=0;
         int l=0;
         Map<String, String> errorCombinations = new HashMap<String, String>();
         
-        for(BudgetPeriod budgetPeriod : budgetDocument.getBudgetPeriods()) {
+        BudgetPeriod selectedBudgetPeriod = budgetDocument.getBudgetPeriod(budgetPeriodIndex);
+        BudgetLineItem selectedBudgetLineItem = selectedBudgetPeriod.getBudgetLineItem(budgetLineItemIndex);
+
+        for(BudgetPersonnelDetails personnelDetails : selectedBudgetLineItem.getBudgetPersonnelDetailsList()) {
+            l=0;
+            for(BudgetPersonnelDetails personnelDetailsForcomparison : selectedBudgetLineItem.getBudgetPersonnelDetailsList()) {
+                if(k != l && personnelDetails.getPersonSequenceNumber().intValue() == personnelDetailsForcomparison.getPersonSequenceNumber().intValue() && 
+                      StringUtils.equals(personnelDetails.getJobCode(), personnelDetailsForcomparison.getJobCode()) && 
+                      personnelDetails.getStartDate().equals(personnelDetailsForcomparison.getStartDate())) {
+                      if(errorCombinations.get(k + "" + l) == null) {
+                          errorMap.putError("document.budgetPeriod["+budgetPeriodIndex+"].budgetLineItem["+budgetPeriodIndex+"].budgetPersonnelDetailsList["+l+"].startDate", KeyConstants.ERROR_DUPLICATE_PERSON, personnelDetailsForcomparison.getBudgetPerson().getPersonName());
+                      }
+                      errorCombinations.put(k + "" + l, l + "" + k);
+                      errorCombinations.put(l + "" + k, k + "" + l);
+                      valid = false;
+                }
+                
+                l++;
+            }
+            //increment the PersonnelDetails counter
+            k++;
+        }
+        
+        return valid;
+    }
+    
+    public boolean processSaveCheckDuplicateBudgetPersonnel(BudgetDocument budgetDocument) {
+        boolean valid = true;
+        List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
+        List<BudgetLineItem> budgetLineItems;
+        int i=0;
+        int j=0;
+        
+        for(BudgetPeriod budgetPeriod: budgetPeriods){
             j=0;
-            for(BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-                k=0;
-                for(BudgetPersonnelDetails personnelDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
-                    l=0;
-                    for(BudgetPersonnelDetails personnelDetailsForcomparison : budgetLineItem.getBudgetPersonnelDetailsList()) {
-                        if(k != l && personnelDetails.getPersonSequenceNumber().intValue() == personnelDetailsForcomparison.getPersonSequenceNumber().intValue() && 
-                              StringUtils.equals(personnelDetails.getJobCode(), personnelDetailsForcomparison.getJobCode()) && 
-                              personnelDetails.getStartDate().equals(personnelDetailsForcomparison.getStartDate())) {
-                              if(errorCombinations.get(k + "" + l) == null) {
-                                  errorMap.putError("document.budgetPeriod["+i+"].budgetLineItem["+j+"].budgetPersonnelDetailsList["+l+"].startDate", KeyConstants.ERROR_DUPLICATE_PERSON, personnelDetailsForcomparison.getBudgetPerson().getPersonName());
-                              }
-                              errorCombinations.put(k + "" + l, l + "" + k);
-                              errorCombinations.put(l + "" + k, k + "" + l);
-                              valid = false;
-                        }
-                        
-                        l++;
-                    }
-                    //increment the PersonnelDetails counter
-                    k++;
+            budgetLineItems = budgetPeriod.getBudgetLineItems();
+            for(BudgetLineItem budgetLineItem: budgetLineItems){
+                if (budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode().equals("P")) {
+                    valid &= processCheckDuplicateBudgetPersonnel(budgetDocument, i, j);
                 }
                 j++;
             }
@@ -139,5 +153,5 @@ public class BudgetPersonnelExpenseRule {
         }
         
         return valid;
-    }
+  }
 }

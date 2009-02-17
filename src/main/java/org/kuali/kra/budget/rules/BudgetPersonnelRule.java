@@ -95,40 +95,6 @@ public class BudgetPersonnelRule {
         return valid;
     }
 
-//    public boolean processCheckBaseSalaryFormat(BudgetDocument budgetDocument) {
-//        boolean valid = true;
-//        
-//        ErrorMap errorMap = GlobalVariables.getErrorMap();
-//        int i = 0;
-//        List <BudgetPerson> budgetPersons = (List <BudgetPerson>)ObjectUtils.deepCopy((Serializable)budgetDocument.getBudgetPersons());
-//        for (BudgetPerson budgetPerson : budgetDocument.getBudgetPersons()) {
-//            if (budgetPerson.getCalculationBase() == null) {
-//                errorMap.putError("document.budgetPerson["+i+"].calculationBase", RiceKeyConstants.ERROR_REQUIRED, new String[] { "Base Salary"});
-//                    valid = false;
-//            } else if (budgetPerson.getCalculationBase().isNegative()) {
-//                errorMap.putError("document.budgetPerson["+i+"].calculationBase", KeyConstants.ERROR_NEGATIVE_AMOUNT, new String[] { "Base Salary"});
-//                valid = false;
-//            }
-//            for (BudgetPerson dupBudgetPerson : budgetPersons) {
-//                if (dupBudgetPerson.getPersonId() != null && dupBudgetPerson.getPersonId().equals(budgetPerson.getPersonId()) && dupBudgetPerson.getPersonSequenceNumber().intValue() < budgetPerson.getPersonSequenceNumber().intValue()
-//                        && dupBudgetPerson.getJobCode().equals(budgetPerson.getJobCode()) && dupBudgetPerson.getEffectiveDate().compareTo(budgetPerson.getEffectiveDate()) == 0) 
-//                {
-//                    errorMap.putError("document.budgetPerson["+i+"].dupkey", KeyConstants.ERROR_DUPLICATE_PERSON, new String[] { ""});
-//                    valid = false;
-//                }
-//                if (dupBudgetPerson.getRolodexId() != null && dupBudgetPerson.getRolodexId().equals(budgetPerson.getRolodexId()) && dupBudgetPerson.getPersonSequenceNumber().intValue() < budgetPerson.getPersonSequenceNumber().intValue()
-//                        && dupBudgetPerson.getJobCode().equals(budgetPerson.getJobCode()) && dupBudgetPerson.getEffectiveDate().compareTo(budgetPerson.getEffectiveDate()) == 0) 
-//                {
-//                    errorMap.putError("document.budgetPerson["+i+"].dupkey", KeyConstants.ERROR_DUPLICATE_PERSON, new String[] { ""});
-//                    valid = false;
-//                }
-//            }
-//            i++;
-//        }
-//                    
-//        return valid;
-//    }
-
     public boolean processCheckBaseSalaryFormat(BudgetDocument budgetDocument) {
         boolean valid = true;
         
@@ -277,4 +243,5 @@ public class BudgetPersonnelRule {
         return isValid;
     }
 
+    
 }
