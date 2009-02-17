@@ -23,7 +23,7 @@ import org.kuali.kra.bo.AbstractSpecialReview;
  * This interface declares all methods required to process SpecialReview.
  * T represents type of concrete class of SpecialReview
  */
-public interface SpecialReviewManager<T extends AbstractSpecialReview> {
+public interface SpecialReviewHandler<T extends AbstractSpecialReview> {
     /**
      * 
      * This method is for adding special review

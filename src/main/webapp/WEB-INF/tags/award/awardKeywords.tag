@@ -17,8 +17,7 @@
 
 <c:set var="awardKeywordAttributes" value="${DataDictionary.AwardScienceKeyword.attributes}" />
 <c:set var="scienceKeywordAttributes" value="${DataDictionary.ScienceKeyword.attributes}" />
-
-<kul:tab tabTitle="Keywords" defaultOpen="false" tabErrorKey="">
+<kul:tab tabTitle="Keywords" defaultOpen="false" useCurrentTabIndexAsKey="false" >
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Keywords</span>
@@ -64,10 +63,10 @@
               <tr>
                 <td class="infoline" colspan=2>&nbsp;</td>
                 <td nowrap class="infoline"><div align=center>
-                <c:if test="${fn:length(KualiForm.document.award.keywords) > 0}">
+                <%--<c:if test="${fn:length(KualiForm.document.award.keywords) > 0}">--%>
 	                <html:image property="methodToCall.selectAllScienceKeyword.anchor${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-selectall.gif" title="Select All" alt="Select All" styleClass="tinybutton" onclick="javascript: selectAllAwardKeywords(document);return false" />    
 	                <html:image property="methodToCall.deleteSelectedScienceKeyword.anchor${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-deleteselected.gif" title="Delete Selected" alt="Delete Selected" styleClass="tinybutton" />
-	            </c:if>
+	            <%--</c:if>--%>
                 </div></td>
               </tr>
              <%--</kra:section>--%> 

@@ -17,7 +17,7 @@ package org.kuali.kra.service;
 
 import org.kuali.kra.bo.AbstractSpecialReview;
 import org.kuali.kra.bo.AbstractSpecialReviewExemption;
-import org.kuali.kra.document.SpecialReviewManager;
+import org.kuali.kra.document.SpecialReviewHandler;
 import org.kuali.kra.web.struts.form.SpecialReviewFormBase;
 
 /**
@@ -30,18 +30,18 @@ public interface SpecialReviewService<T extends AbstractSpecialReview,E extends 
      * @param processSpecialReview
      * @param specialReviewForm
      */
-    public void addSpecialReview(SpecialReviewManager<T> processSpecialReview,SpecialReviewFormBase<E> specialReviewForm);
+    public void addSpecialReview(SpecialReviewHandler<T> processSpecialReview,SpecialReviewFormBase<E> specialReviewForm);
     /**
      * 
      * This method is for deleting special review from SpecialReview list
      * @param processSpecialReview
      * @param selectedIndex
      */
-    public void deleteSpecialReview(SpecialReviewManager<T> processSpecialReview,int selectedIndex);
+    public void deleteSpecialReview(SpecialReviewHandler<T> processSpecialReview,int selectedIndex);
     /**
      * 
      * This method process all required validations and actions needed before saving the special review
      * @param processSpecialReview
      */
-    public void processBeforeSaveSpecialReview(SpecialReviewManager<T> processSpecialReview);
+    public void processBeforeSaveSpecialReview(SpecialReviewHandler<T> processSpecialReview);
 }
