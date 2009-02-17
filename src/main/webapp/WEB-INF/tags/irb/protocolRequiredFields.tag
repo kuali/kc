@@ -8,7 +8,7 @@
 <c:set var="className" value="org.kuali.kra.protocol.document.ProtocolDocument" />
 <c:set var="readOnly" value="${!KualiForm.protocolHelper.modifyProtocol}" />
 
-<kul:tab tabTitle="Required Fields for Saving Document" defaultOpen="false" tabErrorKey="document.protocol.protocolTypeCode*,principalInvestigator*,document.protocol.principalInvestigatorName*,document.protocol.title*,document.protocol.principalInvestigatorId*,document.protocol.leadUnitNumber*, document.currentAwardNumber*,document.continuedFrom,document.sponsorCode*,document.ProtocolTypeCode*,document.requestedStartDateInitial*,document.ownedByUnit*,document.requestedEndDateInitial*,document.activityTypeCode*,document.title" auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.title" useRiceAuditMode="true">
+<kul:tab tabTitle="Required Fields for Saving Document" defaultOpen="true" tabErrorKey="document.protocol.protocolTypeCode*,principalInvestigator*,document.protocol.principalInvestigatorName*,document.protocol.title*,document.protocol.principalInvestigatorId*,document.protocol.leadUnitNumber*, document.currentAwardNumber*,document.continuedFrom,document.sponsorCode*,document.ProtocolTypeCode*,document.requestedStartDateInitial*,document.ownedByUnit*,document.requestedEndDateInitial*,document.activityTypeCode*,document.title" auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.title" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Required Fields for Saving Document</span>
