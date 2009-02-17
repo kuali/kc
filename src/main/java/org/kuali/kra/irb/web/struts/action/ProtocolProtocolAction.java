@@ -27,15 +27,18 @@ import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.bo.ProtocolFundingSource;
 import org.kuali.kra.irb.bo.ProtocolLocation;
 import org.kuali.kra.irb.bo.ProtocolParticipant;
 import org.kuali.kra.irb.bo.ProtocolReference;
 import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.kra.irb.rule.event.AddProtocolFundingSourceEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolLocationEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolParticipantEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolReferenceEvent;
 import org.kuali.kra.irb.rule.event.SaveProtocolLocationEvent;
 import org.kuali.kra.irb.rule.event.SaveProtocolRequiredFieldsEvent;
+import org.kuali.kra.irb.service.ProtocolFundingSourceService;
 import org.kuali.kra.irb.service.ProtocolLocationService;
 import org.kuali.kra.irb.service.ProtocolParticipantService;
 import org.kuali.kra.irb.service.ProtocolReferenceService;
@@ -267,4 +270,60 @@ public class ProtocolProtocolAction extends ProtocolAction {
     }
 
     
+    /**
+     * This method is linked to ProtocolFundingService to perform the action - Add Protocol Funding Source. 
+     * Method is called in protocolFundingSources.tag 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward addProtocolFundingSource(ActionMapping mapping, 
+                                                  ActionForm form, 
+                                                  HttpServletRequest request, 
+                                                  HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        AddProtocolFundingSourceEvent event = 
+            new AddProtocolFundingSourceEvent(Constants.EMPTY_STRING,protocolForm.getProtocolDocument());
+        
+        if(applyRules(event)) {
+            ((ProtocolForm)form).getProtocolHelper().syncFundingSources(protocolForm.getProtocolDocument().getProtocol());
+            getProtocolFundingSourceService().addProtocolFundingSource(protocolForm.getProtocolDocument().getProtocol());
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * This method is linked to ProtocolLocationService to perform the action - Delete Protocol Location. 
+     * Method is called in protocolLocations.tag 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteProtocolFundingSource(ActionMapping mapping, 
+                                                     ActionForm form, 
+                                                     HttpServletRequest request, 
+                                                     HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        getProtocolFundingSourceService().deleteProtocolFundingSource(protocolForm.getProtocolDocument().getProtocol(), getLineToDelete(request));
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * This method is to get protocol location service
+     * @return ProtocolLocationService
+     */
+    private ProtocolFundingSourceService getProtocolFundingSourceService() {
+        
+        ProtocolFundingSourceService protocolFundingSourceService = 
+            (ProtocolFundingSourceService) KraServiceLocator.getService("protocolFundingSourceService");
+        
+        return protocolFundingSourceService;
+    }
 }

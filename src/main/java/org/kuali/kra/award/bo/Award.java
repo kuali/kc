@@ -26,6 +26,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.ScienceKeyword;
+import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.document.SpecialReviewManager;
 import org.kuali.kra.infrastructure.Constants;
@@ -90,6 +91,9 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private String subPlanFlag;
     private String title;
     
+    private Sponsor sponsor;
+
+
     private List<AwardComment> awardComments;
     private Map<Integer, AwardComment> commentMap;
     private List<AwardCostShare> awardCostShares;
@@ -218,6 +222,16 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      */
     public void setSponsorCode(String sponsorCode) {
         this.sponsorCode = sponsorCode;
+        
+        // When the type code changes, the corresponding
+        //  field must also be updated.  A refresh will
+        // cause a read from the database. By
+        // the magic of OJB, the data member is automatically updated.
+        
+        if (this.sponsorCode != null 
+            && !this.sponsorCode.equals("")) {
+            this.refreshReferenceObject("sponsor");
+        }
     }
 
 
@@ -1322,5 +1336,14 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
             returnVal = returnVal.add(amount);
         }
         return returnVal;
+    }
+    
+    
+    public Sponsor getSponsor() {
+        return sponsor;
+    }
+
+    public void setSponsor(Sponsor sponsor) {
+        this.sponsor = sponsor;
     }
 }

@@ -21,7 +21,7 @@
 <c:set var="docHeaderAttributes" value="${DataDictionary.DocumentHeader.attributes}" />
 
 <dd:evalNameToMap mapName="DataDictionary.${KualiForm.docTypeName}.attributes" returnVar="documentAttributes"/>
-<kul:tabTop tabTitle="Document Overview" defaultOpen="true" tabErrorKey="${Constants.DOCUMENT_ERRORS}" >
+<kul:tabTop tabTitle="Document Overview" defaultOpen="false" tabErrorKey="${Constants.DOCUMENT_ERRORS}" >
 	<div class="tab-container" align=center>
 		  <!-- DOC OVERVIEW TABLE -->
 		  <html:hidden property="document.documentHeader.versionNumber" />
