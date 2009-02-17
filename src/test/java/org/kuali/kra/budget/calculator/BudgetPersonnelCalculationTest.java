@@ -155,7 +155,6 @@ public class BudgetPersonnelCalculationTest extends KraTestBase {
         
         BudgetCalculationService bcs = getService(BudgetCalculationService.class);
         bcs.calculateBudgetPeriod(bd, bp);
-        bcs.populateCalculatedAmount(bd, bli);
         
         List<BudgetLineItemCalculatedAmount> calcAmounts = bli.getBudgetLineItemCalculatedAmounts();
         assertNotNull(calcAmounts);
