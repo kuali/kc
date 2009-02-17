@@ -52,7 +52,7 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
             
         if (!isValidUser(proposalUser.getUsername())) {
             isValid = false;
-            this.reportError(Constants.PERMISSION_USERS_PROPERTY_KEY + ".username", 
+            this.reportError(Constants.PERMISSION_PROPOSAL_USERS_PROPERTY_KEY + ".username", 
                              KeyConstants.ERROR_UNKNOWN_USERNAME);
         }
             
@@ -61,7 +61,7 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
             
         else if (isDuplicate(proposalUser.getUsername(), proposalUserRolesList)) {
             isValid = false;
-            this.reportError(Constants.PERMISSION_USERS_PROPERTY_KEY + ".username", 
+            this.reportError(Constants.PERMISSION_PROPOSAL_USERS_PROPERTY_KEY + ".username", 
                              KeyConstants.ERROR_DUPLICATE_PROPOSAL_USER);
         }
         
@@ -79,7 +79,7 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
         ProposalUserRoles userRoles = proposalUserRolesList.get(index);
         if (isLastAggregator(userRoles.getUsername(), proposalUserRolesList)) {
             isValid = false;
-            this.reportError(Constants.PERMISSION_USERS_PROPERTY_KEY, 
+            this.reportError(Constants.PERMISSION_PROPOSAL_USERS_PROPERTY_KEY, 
                              KeyConstants.ERROR_LAST_AGGREGATOR);
         }
         

@@ -164,11 +164,15 @@ public interface Constants {
     
     // Key Permissions Info
     public static final String CONFIRM_DELETE_PROPOSAL_USER_KEY = "confirmDeleteProposalUser";
-    public static final String PERMISSION_USERS_PROPERTY_KEY = "newProposalUser";
+    public static final String PERMISSION_PROPOSAL_USERS_PROPERTY_KEY = "newProposalUser";
     public static final String EDIT_ROLES_PROPERTY_KEY = "proposalUserEditRole";
+    public static final String PERMISSIONS_EDIT_ROLES_PROPERTY_KEY = "permissionsUserEditRole";
     public static final String MAPPING_PERMISSIONS_ROLE_RIGHTS_PAGE = "permissionsRoleRights";
     public static final String MAPPING_PERMISSIONS_EDIT_ROLES_PAGE = "permissionsEditRoles";
     public static final String MAPPING_PERMISSIONS_CLOSE_EDIT_ROLES_PAGE = "permissionsCloseEditRoles";
+    
+    // Permission constants
+    public static final String PERMISSION_USERS_PROPERTY_KEY = "newPermissionsUser";
     
     // Task Authorization
     public static final String TASK_AUTHORIZATION = "taskAuthorization";
@@ -316,7 +320,7 @@ public interface Constants {
     public static final String CONTACT_TYPE_OTHER = "8";
 
     // IRB
-    public static final String PARTICIPANTS_PROPERTY_KEY = "participantsHelper.newProtocolParticipant";
+    public static final String PARTICIPANTS_PROPERTY_KEY = "newProtocolParticipant";
     public static final String DEFAULT_PROTOCOL_ORGANIZATION_TYPE_CODE = "1";
     public static final String DEFAULT_PROTOCOL_ORGANIZATION_ID = "000001";
     public static final String DEFAULT_PROTOCOL_STATUS_CODE = "100";
@@ -325,9 +329,12 @@ public interface Constants {
     public static final Integer PROTOCOL_RISK_LEVEL_COMMENT_LENGTH = 40;
     public static final String ACTIVE_STATUS_LITERAL = "Active";
     public static final String INACTIVE_STATUS_LITERAL = "Inactive";
-
+    public static final String CONFIRM_DELETE_PROTOCOL_USER_KEY = "confirmDeleteProtocolUser";
+    
     public static final String VIEW_ONLY = "viewOnly";
 
     // Committee
     public static final String COMMITTEE_PROPERTY_KEY = "committee";
+    
+    public static final String CONFIRM_DELETE_PERMISSIONS_USER_KEY = "confirmDeletePermissionsUser";
 }

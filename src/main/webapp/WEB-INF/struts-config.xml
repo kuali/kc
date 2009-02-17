@@ -182,6 +182,10 @@
           <forward name="basic" path="/WEB-INF/jsp/irb/Protocol{1}.jsp" />
           <forward name="protocol" path="/WEB-INF/jsp/irb/ProtocolProtocol.jsp" />
           <forward name="personnel" path="/WEB-INF/jsp/irb/ProtocolPersonnel.jsp" />
+          <forward name="permissions" path="/WEB-INF/jsp/irb/ProtocolPermissions.jsp" />
+          <forward name="permissionsRoleRights" path="/WEB-INF/jsp/irb/ProtocolPermissionsRoleRights.jsp" />
+      	  <forward name="permissionsEditRoles" path="/WEB-INF/jsp/irb/ProtocolPermissionsEditRoles.jsp" />
+      	  <forward name="permissionsCloseEditRoles" path="/WEB-INF/jsp/irb/ProtocolPermissionsCloseEditRoles.jsp" />
       </action>
       
       <!--  KRA IRB Committee Mapping -->

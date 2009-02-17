@@ -130,6 +130,11 @@
                 <bean class="org.kuali.kra.irb.document.authorizer.AddProtocolBillableAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="modifyBillable" />
                 </bean>
+                
+                <!--  Task Authorizer for modifying persons and their roles on a proposal -->
+                <bean class="org.kuali.kra.irb.document.authorizer.ModifyProtocolPermissionsAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="modifyProtocolRoles" />
+                </bean>
             </list>
         </property>
     </bean>

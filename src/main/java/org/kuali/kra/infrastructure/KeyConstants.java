@@ -341,5 +341,10 @@ public final class KeyConstants {
     public static final String ERROR_PROTOCOL_FUNDING_NAME_INVALID = "error.protocolFundingSource.fundingSourceName.invalid";
     //public static final String ERROR_PROTOCOL_FUNDING_TITLE_NOT_FOUND = "error.protocolFundingSource.fundingSourceTitle.notFound";
     
+    // Permissions
+    public static final String ERROR_DUPLICATE_PERMISSIONS_USER = "error.duplicate.permissionsUser";
+    public static final String ERROR_PERMISSIONS_LAST_ADMINSTRATOR = "error.permissions.last.administrator";
+    public static final String ERROR_PERMISSIONS_ADMINSTRATOR_INCLUSIVE = "error.permissions.administrator.inclusive";
+
     private KeyConstants() {}
 }

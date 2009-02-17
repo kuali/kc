@@ -69,6 +69,10 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     public ActionForward personnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return mapping.findForward("personnel");
     }
+    
+    public ActionForward permissions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        return mapping.findForward("permissions");
+    }
 
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -85,6 +89,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL, doc.getProtocol());
         if (isAuthorized(task)) {
             if (isValidSave(protocolForm)) {
+                preSave(protocolForm);
                 String originalStatus = getDocumentStatus(doc);
                 actionForward = super.save(mapping, form, request, response);
                 if (isInitialSave(originalStatus)) {
@@ -105,6 +110,16 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
      */
     protected boolean isValidSave(ProtocolForm protocolForm) {
         return true;
+    }
+    
+    /**
+     * Any processing that must be performed before the save operation goes here.
+     * Typically overridden by a subclass.
+     * @param protocolForm the Protocol Form
+     * @throws Exception
+     */
+    protected void preSave(ProtocolForm protocolForm) throws Exception {
+        // do nothing
     }
 
     /**
