@@ -584,40 +584,51 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    private boolean budgetPersonnelDetailsCheck(BudgetDocument budgetDocument) {
+    private boolean budgetPersonnelDetailsCheck(BudgetDocument budgetDocument, int budgetPeriodIndex, int budgetLineItemIndex) {
         boolean valid = true;
         boolean validJobCodeCECombo = false;
-        List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
-        List<BudgetLineItem> budgetLineItems;
         BudgetPersonnelRule budgetPersonnelRule = new BudgetPersonnelRule();
-        int i=0;
-        int j=0;
-        int k=0;
         
-        for(BudgetPeriod budgetPeriod: budgetPeriods){
-            j=0;
-            budgetLineItems = budgetPeriod.getBudgetLineItems();
-            for(BudgetLineItem budgetLineItem: budgetLineItems){
-                if (budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode().equals("P")) {
-                    k=0;
-                    for(BudgetPersonnelDetails budgetPersonnelDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
-                        valid &= !(personnelDetailsCheck(budgetDocument, i, j, k));
-                        
-                        validJobCodeCECombo = budgetPersonnelRule.processCheckJobCodeObjectCodeCombo(budgetDocument, budgetPersonnelDetails, true);
-                        if(!validJobCodeCECombo)  {
-                            GlobalVariables.getErrorMap().putError("document.budgetPeriod[" + i   +"].budgetLineItem[" + j + "].budgetPersonnelDetailsList[" + k + "].personSequenceNumber", KeyConstants.ERROR_SAVE_JOBCODE_COST_ELEMENT_COMBO_INVALID);
-                        }
-                        valid &= validJobCodeCECombo;
-                        k++;
-                    }
-                }
-                j++;
+        BudgetPeriod selectedBudgetPeriod = budgetDocument.getBudgetPeriod(budgetPeriodIndex);
+        BudgetLineItem selectedBudgetLineItem = selectedBudgetPeriod.getBudgetLineItem(budgetLineItemIndex);
+        
+        int k=0;
+        for(BudgetPersonnelDetails budgetPersonnelDetails : selectedBudgetLineItem.getBudgetPersonnelDetailsList()) {
+            valid &= !(personnelDetailsCheck(budgetDocument, budgetPeriodIndex, budgetLineItemIndex, k));
+            
+            validJobCodeCECombo = budgetPersonnelRule.processCheckJobCodeObjectCodeCombo(budgetDocument, budgetPersonnelDetails, true);
+            if(!validJobCodeCECombo)  {
+                GlobalVariables.getErrorMap().putError("document.budgetPeriod[" + budgetPeriodIndex   +"].budgetLineItem[" + budgetLineItemIndex + "].budgetPersonnelDetailsList[" + k + "].personSequenceNumber", KeyConstants.ERROR_SAVE_JOBCODE_COST_ELEMENT_COMBO_INVALID);
             }
-            i++;
+            valid &= validJobCodeCECombo;
+            k++;
         }
         
         return valid;
     }
+
+    private boolean budgetPersonnelDetailsCheck(BudgetDocument budgetDocument) {
+          boolean valid = true;
+          List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
+          List<BudgetLineItem> budgetLineItems;
+          int i=0;
+          int j=0;
+          
+          for(BudgetPeriod budgetPeriod: budgetPeriods){
+              j=0;
+              budgetLineItems = budgetPeriod.getBudgetLineItems();
+              for(BudgetLineItem budgetLineItem: budgetLineItems){
+                  if (budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode().equals("P")) {
+                      valid &= budgetPersonnelDetailsCheck(budgetDocument, i, j);
+                  }
+                  j++;
+              }
+              i++;
+          }
+          
+          return valid;
+    }
+    
         
     /**
      * 
@@ -922,7 +933,10 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         int sltdBudgetPeriod = budgetForm.getViewBudgetPeriod()-1;
         BudgetExpenseRule budgetExpenseRule = new BudgetExpenseRule();
         if (budgetExpenseRule.processApplyToLaterPeriodsWithPersonnelDetails(budgetDocument, budgetDocument.getBudgetPeriod(sltdBudgetPeriod), budgetDocument.getBudgetPeriod(sltdBudgetPeriod).getBudgetLineItem(sltdLineItem), sltdLineItem) &&
-                budgetExpenseRule.processCheckLineItemDates(budgetDocument.getBudgetPeriod(sltdBudgetPeriod), sltdLineItem)) {
+                budgetExpenseRule.processCheckLineItemDates(budgetDocument.getBudgetPeriod(sltdBudgetPeriod), sltdLineItem) && 
+                budgetPersonnelDetailsCheck(budgetDocument, sltdBudgetPeriod, sltdLineItem) && 
+                new BudgetPersonnelExpenseRule().processCheckDuplicateBudgetPersonnel(budgetDocument, sltdBudgetPeriod, sltdLineItem)
+                ) {
             budgetCalculationService.applyToLaterPeriods(budgetDocument, budgetDocument.getBudgetPeriod(sltdBudgetPeriod), budgetDocument.getBudgetPeriod(sltdBudgetPeriod).getBudgetLineItem(sltdLineItem));
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
