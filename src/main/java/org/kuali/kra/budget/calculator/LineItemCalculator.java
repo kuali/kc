@@ -54,12 +54,11 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
     }
 
     private boolean isDocumentOhRateSameAsFormOhRate() {
-        if (bd.getOhRateClassCode() != null || ((BudgetForm)GlobalVariables.getKualiForm()) != null) {
-            return false;
+        if(bd.getOhRateClassCode()!= null && ((BudgetForm)GlobalVariables.getKualiForm())!= null && StringUtils.equalsIgnoreCase(bd.getOhRateClassCode(), ((BudgetForm)GlobalVariables.getKualiForm()).getOhRateClassCodePrevValue())){
+            return true;
         }
-
-        return StringUtils.equalsIgnoreCase(bd.getOhRateClassCode(),
-                                            ((BudgetForm) GlobalVariables.getKualiForm()).getOhRateClassCodePrevValue());
+        
+        return false;        
     }
 
     public void populateCalculatedAmountLineItems() {
@@ -70,7 +69,7 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
             setCalculatedAmounts(bd,bli);
         }
 
-        if(isDocumentOhRateSameAsFormOhRate()){
+        if(!isDocumentOhRateSameAsFormOhRate()){
             Long versionNumber = null;
             if (CollectionUtils.isNotEmpty(bli.getBudgetLineItemCalculatedAmounts())) {
                 versionNumber = bli.getBudgetLineItemCalculatedAmounts().get(0).getVersionNumber();
@@ -86,29 +85,7 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
         }
          
     }    
-//    public void calculate(){
-//        bli.setDirectCost(bli.getLineItemCost());
-//        bli.setIndirectCost(BudgetDecimal.ZERO);
-//        boolean OHAvailable = true;
-//        bli.setUnderrecoveryAmount(BudgetDecimal.ZERO);
-//        createAndCalculateBreakupIntervals();
-//        updateBudgetLineItemCostsAndCalAmts();
-////        if (!uRMatchesOh) {
-////            // Check whether any OH Rate is present
-////            Equals eqRateClassType = new Equals("rateClassType", RateClassTypeConstants.OVERHEAD);
-////            CoeusVector cvOHRate = cvLineItemCalcAmts.filter(eqRateClassType);
-////            if (cvOHRate == null || cvOHRate.size() == 0) {
-////                OHAvailable = false;
-////            }
-////        }else {
-////            budgetDetailBean.setTotalCostSharing(budgetDetailBean.getCostSharingAmount());
-////        }
-////        if (!uRMatchesOh && (!OHAvailable || cvLineItemCalcAmts == null || cvLineItemCalcAmts.size() == 0)) {
-////            calculateURBase();
-////        }
-//
-//    }
-//
+
     /*
      * unitcost = (totalcost/totalnumofdays)*actualnumofdays
      * 

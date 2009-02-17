@@ -57,47 +57,43 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
     }
 
     private boolean isDocumentOhRateSameAsFormOhRate() {
-        if (budgetDocument.getOhRateClassCode() != null || ((BudgetForm)GlobalVariables.getKualiForm()) != null) {
-            return false;
+        if(budgetDocument.getOhRateClassCode()!= null && ((BudgetForm)GlobalVariables.getKualiForm())!= null && StringUtils.equalsIgnoreCase(budgetDocument.getOhRateClassCode(), ((BudgetForm)GlobalVariables.getKualiForm()).getOhRateClassCodePrevValue())){
+            return true;
         }
-
-        return StringUtils.equalsIgnoreCase(budgetDocument.getOhRateClassCode(),((BudgetForm)GlobalVariables.getKualiForm()).getOhRateClassCodePrevValue());
+        
+        return false;
     }
     
     @Override
     public void populateCalculatedAmountLineItems() {
-        List<BudgetPersonnelCalculatedAmount> budgetPersonnelCalcAmts = new ArrayList<BudgetPersonnelCalculatedAmount>();
-
        if (CollectionUtils.isEmpty(budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts())) { 
             budgetPersonnelLineItem.refreshReferenceObject("budgetPersonnelCalculatedAmounts");
        }
-
        Long versionNumber = -1L;
        
-       if (isDocumentOhRateSameAsFormOhRate()){
-           budgetPersonnelLineItem.setBudgetPersonnelCalculatedAmounts(budgetPersonnelCalcAmts);
+       if (!isDocumentOhRateSameAsFormOhRate()){
+           if (budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts().size() > 0) {
+               versionNumber = budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts().get(0).getVersionNumber();
+           }
+           budgetPersonnelLineItem.setBudgetPersonnelCalculatedAmounts(new ArrayList<BudgetPersonnelCalculatedAmount>());
+           setCalculatedAmounts(budgetDocument,budgetPersonnelLineItem);
            
-           if (budgetPersonnelCalcAmts.size() > 0) {
-               budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts().get(0).getVersionNumber();
+           for (BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount : budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts()) {
+               if (versionNumber != null && versionNumber.longValue() > -1) {
+                   budgetPersonnelCalculatedAmount.setVersionNumber(versionNumber);
+               }
            }
        }
-       else {
-           budgetPersonnelCalcAmts = budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts();
-       }
 
-       if (budgetPersonnelCalcAmts.size() <= 0) {
+       if (budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts().size() <= 0) {
            setCalculatedAmounts(budgetDocument,budgetPersonnelLineItem);
        }
 
-       for (BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount : budgetPersonnelCalcAmts) {
+       for (BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount : budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts()) {
            budgetPersonnelCalculatedAmount.refreshReferenceObject("rateClass");
            budgetPersonnelCalculatedAmount.refreshReferenceObject("rateType");
            debug(budgetPersonnelCalculatedAmount);
            debug(budgetPersonnelCalculatedAmount.getRateClass());
-           
-           if (versionNumber > -1) {
-               budgetPersonnelCalculatedAmount.setVersionNumber(versionNumber);
-           }
        }        
     }
 
