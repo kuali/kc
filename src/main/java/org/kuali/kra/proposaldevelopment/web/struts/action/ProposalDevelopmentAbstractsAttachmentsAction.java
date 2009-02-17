@@ -52,6 +52,7 @@ import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.WebUtils;
+import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -113,14 +114,6 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
         
-//        proposalDevelopmentDocument.mergeNarratives();
-//        List<Narrative> narrativeList = proposalDevelopmentDocument.getNarratives();
-//        
-//        for (Narrative narrative : narrativeList) {
-//            populateNarrativeUserRights(proposalDevelopmentDocument, narrative);
-//            populateNarrativeType(narrative);
-//        }
-        
         Narrative newNarrative = proposalDevelopmentForm.getNewNarrative();
         
         boolean rulePassed = true;
@@ -148,9 +141,6 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiConfigurationService configService = getService(KualiConfigurationService.class);
         ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put("proposalNarrativeTypeGroup", configService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, "proposalNarrativeTypeGroup"));
-//        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-//        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
-//        proposalDevelopmentDocument.populateNarrativeRightsForLoggedinUser();
         ActionForward actionForward = super.execute(mapping, form, request, response); 
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument)((ProposalDevelopmentForm)form).getDocument();
         KraServiceLocator.getService(ProposalPersonBiographyService.class).setPersonnelBioTimeStampUser(doc.getPropPersonBios());
@@ -182,6 +172,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         if(getKualiRuleService().applyRules(new AddNarrativeEvent(EMPTY_STRING, proposalDevelopmentDocument, narrative))){
             proposalDevelopmentDocument.addNarrative(narrative);
             proposalDevelopmentForm.setNewNarrative(new Narrative());
+            populateTabState(proposalDevelopmentForm, "Proposal Attachments " + proposalDevelopmentDocument.getNarratives().size());
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -300,6 +291,9 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
      */
     public ActionForward confirmDeleteProposalAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument pdDoc = pdForm.getDocument();
+        populateTabState((ProposalDevelopmentForm) form, "Proposal Attachments " + pdDoc.getNarratives().size());
         return deleteAttachment(mapping, form, request, response, CONFIRM_DELETE_PROPOSAL_ATTACHMENT_KEY, "deleteProposalAttachment");
     }
     
@@ -649,6 +643,10 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         return getService(KualiRuleService.class);
     }
 
+    private void populateTabState(KualiForm form, String tabTitle) {
+        form.getTabStates().put(WebUtils.generateTabKey(tabTitle), "OPEN");
+    }
+    
     /**
      * Adds a personnel attachment.
      * 
@@ -670,6 +668,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         if(getKualiRuleService().applyRules(new AddPersonnelAttachmentEvent(EMPTY_STRING, proposalDevelopmentDocument, proposalDevelopmentForm.getNewPropPersonBio()))){
             proposalDevelopmentDocument.addProposalPersonBiography(proposalDevelopmentForm.getNewPropPersonBio());
             proposalDevelopmentForm.setNewPropPersonBio(new ProposalPersonBiography());
+            populateTabState(proposalDevelopmentForm, "Personnel Attachments " + proposalDevelopmentDocument.getPropPersonBios().size());
         } 
 
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -707,6 +706,10 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
      */
     public ActionForward confirmDeletePersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument pdDoc = pdForm.getDocument();
+        populateTabState((ProposalDevelopmentForm) form, "Personnel Attachments " + pdDoc.getPropPersonBios().size());
+
         return deleteAttachment(mapping, form, request, response, CONFIRM_DELETE_PERSONNEL_ATTACHMENT_KEY, "deleteProposalPersonBiography");
     }
 
@@ -758,6 +761,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         if(getKualiRuleService().applyRules(new AddInstituteAttachmentEvent(EMPTY_STRING, proposalDevelopmentDocument, narrative))){
             proposalDevelopmentDocument.addInstituteAttachment(narrative);
             proposalDevelopmentForm.setNewInstituteAttachment(new Narrative());
+            populateTabState(proposalDevelopmentForm, "Internal Attachments " + proposalDevelopmentDocument.getInstituteAttachments().size());
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
 
@@ -789,6 +793,9 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
      * @throws Exception
      */
     public ActionForward confirmDeleteInstitutionalAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument pdDoc = pdForm.getDocument();
+        populateTabState((ProposalDevelopmentForm) form, "Internal Attachments " + pdDoc.getInstituteAttachments().size());
         return deleteAttachment(mapping, form, request, response, CONFIRM_DELETE_INSTITUTIONAL_ATTACHMENT_KEY, "deleteInstitutionalAttachment");
     }
 
