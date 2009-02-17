@@ -23,7 +23,7 @@
 <c:set var="action" value="protocolLocation" />
 <c:set var="readOnly" value="${!KualiForm.protocolHelper.modifyProtocol}" />
 
-<kul:tab tabTitle="Organizations" defaultOpen="true" tabErrorKey="newProtocolLocation*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
+<kul:tab tabTitle="Organizations" defaultOpen="false" tabErrorKey="newProtocolLocation*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Organizations</span>

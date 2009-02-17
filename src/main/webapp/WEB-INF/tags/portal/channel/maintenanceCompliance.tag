@@ -31,6 +31,7 @@
     <li>Exempt Studies Checklist</li>
     <li>Expedited Review Checklist</li>
     <li>Funding Source Type</li>
+    <li><portal:portalLink displayTitle="true" title="Funding Source Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.FundingSourceType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li><portal:portalLink displayTitle="true" title="Membership Role" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.committee.bo.MembershipRole&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li>Minute Entry Type</li>
     <li>Organization Correspondents</li>

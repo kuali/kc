@@ -15,9 +15,11 @@
  */
 package org.kuali.kra.irb.web.struts.action;
 
+import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.Collection;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,6 +35,10 @@ import org.kuali.core.lookup.LookupResultsService;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.UrlFactory;
+import org.kuali.core.web.struts.form.KualiForm;
+import org.kuali.kra.bo.Unit;
+import org.kuali.kra.budget.BudgetException;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -227,4 +233,69 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     protected final boolean applyRules(KualiDocumentEvent event) {
         return getKualiRuleService().applyRules(event);
     }
+
+    /**
+     * Takes care of storing the action form in the User session and forwarding to the lookup action.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward performFundingSourceLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        // parse out the important strings from our methodToCall parameter
+        String fullParameter = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        StringBuffer fullParameterBuffer = new StringBuffer(fullParameter);
+        boolean lookupTypeSet = true;
+        
+        String fieldConversions="";
+        
+        //TODO this is a kludge but worth a test:
+        String boClassName = ((ProtocolForm)form).getProtocolDocument().getProtocol().getNewFundingSource().getFundingSourceType().getDescription();
+        if (boClassName.equalsIgnoreCase(Unit.class.getSimpleName())) {
+            boClassName = Unit.class.getName();
+            fieldConversions="unitNumber:document.protocol.newFundingSource.fundingSource,unitName:document.protocol.newFundingSource.fundingSourceName";
+        } else if (boClassName.equalsIgnoreCase("Sponsor")) {
+            boClassName = "org.kuali.kra.bo.Sponsor";
+            fieldConversions="sponsorCode:document.protocol.newFundingSource.fundingSource,sponsorName:document.protocol.newFundingSource.fundingSourceName";
+        } else if (boClassName.equalsIgnoreCase("Award")) {
+            boClassName = "org.kuali.kra.award.bo.Award";
+            fieldConversions="awardNumber:document.protocol.newFundingSource.fundingSource,sponsor.sponsorName:document.protocol.newFundingSource.fundingSourceName,title:document.protocol.newFundingSource.fundingSourceTitle";
+        } else if (boClassName.equalsIgnoreCase("Development Proposal")) {
+            boClassName = "org.kuali.kra.bo.proposaldevelopment.document.ProposalDevelopmentDocument";
+            fieldConversions="proposalNumber:document.protocol.newFundingSource.fundingSource,sponsor.sponsorName:document.protocol.newFundingSource.fundingSourceName,title:document.protocol.newFundingSource.fundingSourceTitle";
+        }  else if (boClassName.equalsIgnoreCase("Institute Proposal")) {
+            boClassName = "org.kuali.kra.bo.proposaldevelopment.document.ProposalDevelopmentDocument";
+            fieldConversions="proposalNumber:document.protocol.newFundingSource.fundingSource,sponsor.sponsorName:document.protocol.newFundingSource.fundingSourceName,title:document.protocol.newFundingSource.fundingSourceTitle";
+        }  else if (boClassName.equalsIgnoreCase("Other")) {
+                GlobalVariables.getErrorMap().putError("document.protocol.newFundingSource.fundingSourceTypeCode", "error.custom", "Lookup is unavailable for Funding Type Other");            
+            return mapping.findForward(MAPPING_BASIC);
+        }
+        
+        // parse out business object class name for lookup
+        String boClassNameField = StringUtils.substringBetween(fullParameter, KNSConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL,
+                KNSConstants.METHOD_TO_CALL_BOPARM_RIGHT_DEL);
+        
+        
+        int start = fullParameterBuffer.indexOf(KNSConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL)+KNSConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL.length();
+        int end = fullParameterBuffer.indexOf(KNSConstants.METHOD_TO_CALL_BOPARM_RIGHT_DEL);        
+        fullParameterBuffer.replace(start, end, boClassName);
+
+        start = fullParameterBuffer.indexOf(KNSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL)+KNSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL.length();
+        end = fullParameterBuffer.indexOf(KNSConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL);        
+        fullParameterBuffer.replace(start, end, fieldConversions);
+        
+
+        if (StringUtils.isBlank(boClassName)) {
+            throw new RuntimeException("Illegal call to perform lookup, no business object class name specified.");
+        }
+        
+        request.setAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE, fullParameterBuffer.toString());
+        return super.performLookup( mapping,  form,  request, response);
+    }
+
+    
 }

@@ -25,12 +25,14 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.bo.Protocol;
+import org.kuali.kra.irb.bo.ProtocolFundingSource;
 import org.kuali.kra.irb.bo.ProtocolInvestigator;
 import org.kuali.kra.irb.bo.ProtocolLocation;
 import org.kuali.kra.irb.bo.ProtocolPerson;
 import org.kuali.kra.irb.bo.ProtocolUnit;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.document.authorization.ProtocolTask;
+import org.kuali.kra.irb.service.ProtocolFundingSourceService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.service.UnitService;
 
@@ -160,6 +162,40 @@ public class ProtocolHelper {
     public void setPersonTrainingSectionRequired(boolean personTrainingSectionRequired) {
         this.personTrainingSectionRequired = personTrainingSectionRequired;
     }   
+    public void syncFundingSources(Protocol protocol) {
+        if (protocol != null ) {
+            if (protocol.getNewFundingSource() != null) {
+                ProtocolFundingSource fundingSource = protocol.getNewFundingSource();
+                
+                if (fundingSource.getFundingSourceType() != null && 
+                    fundingSource.getFundingSourceType().getFundingSourceTypeCode() != null &&
+                    fundingSource.getFundingSource() != null    ) {
+                    
+                    ProtocolFundingSource syncedSource = 
+                        getProtocolFundingSourceService().getNameAndTitle(fundingSource.getFundingSourceType().getFundingSourceTypeCode().toString(), fundingSource.getFundingSource(),fundingSource.getFundingSourceName(), fundingSource.getFundingSourceTitle());
+                    fundingSource.setFundingSourceName(syncedSource.getFundingSourceName());
+                    fundingSource.setFundingSourceTitle(syncedSource.getFundingSourceTitle());                        
+                }
+            }
+            for (ProtocolFundingSource source : protocol.getProtocolFundingSources()) {
+                if (source.getFundingSourceType() != null && 
+                        source.getFundingSourceType().getFundingSourceTypeCode() != null &&
+                        source.getFundingSource() != null    ) {
+                        
+                        ProtocolFundingSource syncedSource = 
+                            getProtocolFundingSourceService().getNameAndTitle(source.getFundingSourceType().getFundingSourceTypeCode().toString(), source.getFundingSource(),source.getFundingSourceName(), source.getFundingSourceTitle());
+                        source.setFundingSourceName(syncedSource.getFundingSourceName());
+                        source.setFundingSourceTitle(syncedSource.getFundingSourceTitle());                        
+                    }                
+            }
+        }
+    }
+    
+    public ProtocolFundingSourceService getProtocolFundingSourceService() {
+        ProtocolFundingSourceService theService = 
+            (ProtocolFundingSourceService) KraServiceLocator.getService("protocolFundingSourceService");
+        return theService;
+    }
 
 
     public ProtocolInvestigator getNewPrincipalInvestgator() {
