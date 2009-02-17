@@ -42,7 +42,7 @@ public class KeywordPanelTest extends AwardHomeWebTest{
     private static final String DEFAULT_DOCUMENT_DESCRIPTION = "Award Keywords Web Test";
 
     @Test
-    public void keywordPanelTest() throws Exception {
+    public void testKeywordPanel() throws Exception {
 
         HtmlPage proposalPage = getAwardHomePage();
 
