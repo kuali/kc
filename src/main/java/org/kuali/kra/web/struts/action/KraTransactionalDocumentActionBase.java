@@ -323,7 +323,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
      * @return the next action to go to
      * @throws Exception
      */
-    protected ActionForward processAuthorizationViolation(String taskName, ActionMapping mapping, ActionForm form,
+    public ActionForward processAuthorizationViolation(String taskName, ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         errorMap.putErrorWithoutFullErrorPath(Constants.TASK_AUTHORIZATION, KeyConstants.AUTHORIZATION_VIOLATION);

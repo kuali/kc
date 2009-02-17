@@ -16,8 +16,10 @@
 package org.kuali.kra.service.impl.mocks;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import org.kuali.kra.kim.bo.KimRole;
 import org.kuali.kra.kim.pojo.Permission;
 import org.kuali.kra.kim.pojo.Role;
 import org.kuali.kra.service.SystemAuthorizationService;
@@ -72,5 +74,12 @@ public class MockSystemAuthorizationService implements SystemAuthorizationServic
      */
     public boolean hasPermission(String username, String permissionName) {
         return result;
+    }
+
+    /**
+     * @see org.kuali.kra.service.SystemAuthorizationService#getRoles(java.lang.String)
+     */
+    public Collection<KimRole> getRoles(String roleType) {
+        return new ArrayList<KimRole>();
     }
 }
