@@ -29,6 +29,7 @@ import org.kuali.kra.award.bo.AwardApprovedSubaward;
 import org.kuali.kra.award.bo.AwardCostShare;
 import org.kuali.kra.award.bo.AwardFandaRate;
 import org.kuali.kra.award.bo.AwardReportTerm;
+import org.kuali.kra.award.bo.AwardSpecialReview;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder;
@@ -46,27 +47,25 @@ import org.kuali.kra.award.rule.event.AddAwardReportTermRecipientEvent;
 import org.kuali.kra.award.rule.event.AwardApprovedSubawardRuleEvent;
 import org.kuali.kra.award.rule.event.AwardBenefitsRatesRuleEvent;
 import org.kuali.kra.award.rule.event.AwardCostShareRuleEvent;
-import org.kuali.kra.bo.AbstractSpecialReview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rule.SpecialReviewRule;
 import org.kuali.kra.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.rules.SpecialReviewRulesImpl;
 
 /**
  * Main Business Rule class for <code>{@link AwardDocument}</code>. 
  * Responsible for delegating rules to independent rule classes.
  *
  */
-public class AwardDocumentRule extends ResearchDocumentRuleBase implements AwardApprovedEquipmentRule, AddFandaRateRule,SpecialReviewRule,AddAwardReportTermRule, AddAwardReportTermRecipientRule {
+public class AwardDocumentRule extends ResearchDocumentRuleBase implements AwardApprovedEquipmentRule, AddFandaRateRule,SpecialReviewRule<AwardSpecialReview>,AddAwardReportTermRule, AddAwardReportTermRecipientRule {
     
     public static final String DOCUMENT_ERROR_PATH = "document";
     public static final String AWARD_ERROR_PATH = "awardList[0]";
     public static final boolean VALIDATION_REQUIRED = true;
     public static final boolean CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME = false;
-    private static final String NEW_SPECIAL_REVIEW = "newSpecialReview";
-    private static final int ZERO = 0;
     private static final String AWARD_REPORT_TERMS = "awardReportTerms";
     
     /**
@@ -473,29 +472,9 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      * 2.  Select an approval status
      * 3.  Approval Date should be later than Application Date
      */
-    public boolean processAddSpecialReviewEvent(AddSpecialReviewEvent addSpecialReviewEvent) {
-        AbstractSpecialReview specialReview = addSpecialReviewEvent.getSpecialReview();
-        Document document = addSpecialReviewEvent.getDocument();
-//        ProposalSpecialReview proposalSpecialReview = addProposalSpecialReviewEvent.getProposalSpecialReview();
-        boolean rulePassed = true;
-        String errorPath = NEW_SPECIAL_REVIEW;
-        String[] dateParams = {"Approval Date","Application Date"};
-
-        if(StringUtils.isBlank(specialReview.getApprovalTypeCode())){
-            rulePassed = false;
-            reportError(errorPath+".approvalTypeCode", KeyConstants.ERROR_REQUIRED_SELECT_APPROVAL_STATUS);
-        }
-        if(StringUtils.isBlank(specialReview.getSpecialReviewCode())){
-            rulePassed = false;
-            reportError(errorPath+".specialReviewCode", KeyConstants.ERROR_REQUIRED_SELECT_SPECIAL_REVIEW_CODE);
-        }
-        if (specialReview.getApplicationDate() !=null && specialReview.getApprovalDate() != null && 
-                specialReview.getApprovalDate().before(specialReview.getApplicationDate())) {
-            rulePassed = false;
-            reportError(errorPath+".approvalDate", KeyConstants.ERROR_APPROVAL_DATE_BEFORE_APPLICATION_DATE_SPECIALREVIEW,dateParams);
-        }
-
-        return rulePassed;
+    public boolean processAddSpecialReviewEvent(AddSpecialReviewEvent<AwardSpecialReview> addSpecialReviewEvent) {
+        SpecialReviewRulesImpl ruleImpl = new SpecialReviewRulesImpl();
+        return ruleImpl.processAddSpecialReviewEvent(addSpecialReviewEvent);
     }
 
     public boolean processAwardApprovedEquipmentBusinessRules(AwardApprovedEquipmentRuleEvent awardApprovedEquipmentRuleEvent) {

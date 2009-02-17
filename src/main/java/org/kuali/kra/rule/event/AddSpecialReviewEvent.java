@@ -25,10 +25,12 @@ import org.kuali.kra.rule.SpecialReviewRule;
 /**
  * This class represents the event for adding special review.
  */
-public class AddSpecialReviewEvent extends KraDocumentEventBase {
+public class AddSpecialReviewEvent<T extends AbstractSpecialReview> extends KraDocumentEventBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AddSpecialReviewEvent.class);
 
-    private AbstractSpecialReview specialReview;
+    private T specialReview;
+
+    public String NEW_SPECIAL_REVIEW = "newSpecialReview";
     /**
      * Constructs an AddProposalSpecialReviewEvent with the given errorPathPrefix, document, and proposalSpecialReview.
      * 
@@ -36,15 +38,17 @@ public class AddSpecialReviewEvent extends KraDocumentEventBase {
      * @param proposalDevelopmentDocument
      * @param proposalSpecialReview
      */
-    public AddSpecialReviewEvent(String errorPathPrefix, Document document, AbstractSpecialReview specialReview) {
+    @SuppressWarnings("unchecked")
+    public AddSpecialReviewEvent(String errorPathPrefix, Document document, T specialReview) {
         super("adding special review to document " + getDocumentId(document), errorPathPrefix, document);
-        this.specialReview = (AbstractSpecialReview) ObjectUtils.deepCopy(specialReview);
+        this.specialReview = (T) ObjectUtils.deepCopy(specialReview);
         logEvent();
     }
 
     /**
      * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
+    @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
         return SpecialReviewRule.class;
     }
@@ -61,7 +65,7 @@ public class AddSpecialReviewEvent extends KraDocumentEventBase {
      * 
      * @return Returns the specialReview.
      */
-    public AbstractSpecialReview getSpecialReview() {
+    public T getSpecialReview() {
         return specialReview;
     }
 
@@ -70,7 +74,7 @@ public class AddSpecialReviewEvent extends KraDocumentEventBase {
      * 
      * @param specialReview The specialReview to set.
      */
-    public void setSpecialReview(AbstractSpecialReview specialReview) {
+    public void setSpecialReview(T specialReview) {
         this.specialReview = specialReview;
     }
 
@@ -90,15 +94,11 @@ public class AddSpecialReviewEvent extends KraDocumentEventBase {
     protected void logEvent() {
         StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
         logMessage.append(" with ");
-
-        // vary logging detail as needed
         if (getSpecialReview() == null) {
             logMessage.append("null specialReview");
-        }
-        else {
+        }else {
             logMessage.append(getSpecialReview().toString());
         }
-
         LOG.debug(logMessage);
     }
 

@@ -16,11 +16,18 @@
 package org.kuali.kra.rule;
 
 import org.kuali.core.rule.BusinessRule;
+import org.kuali.kra.bo.AbstractSpecialReview;
 import org.kuali.kra.rule.event.AddSpecialReviewEvent;
 
 /**
- * This class...
+ * This interface defines the rule to be implemented to validate SpecialReview events
  */
-public interface SpecialReviewRule  extends BusinessRule {
-    public boolean processAddSpecialReviewEvent(AddSpecialReviewEvent addSpecialReviewEvent);
+public interface SpecialReviewRule<T extends AbstractSpecialReview<?>>  extends BusinessRule {
+    /**
+     * 
+     * This method validates the AddSpecialReviewEvent
+     * @param addSpecialReviewEvent
+     * @return true if it validates correctly
+     */
+    public boolean processAddSpecialReviewEvent(AddSpecialReviewEvent<T> addSpecialReviewEvent);
 }

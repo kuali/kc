@@ -40,19 +40,10 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
     protected static final String CONTACTS_LINK_NAME = "contacts.x";
     protected static final String SPECIAL_REVIEW_LINK_NAME = "specialReview.x";
     protected static final String CUSTOM_DATA_LINK_NAME = "customData.x";
-    protected static final String QUESTIONS_LINK_NAME = "questions.x";
     protected static final String PERMISSIONS_LINK_NAME = "permissions.x";
-    protected static final String NOTES_AND_ATTACHMENTS_LINK_NAME = "notesAndAttachments.x";
     protected static final String AWARD_ACTIONS_LINK_NAME = "awardActions.x";
     
     protected static final String DOCUMENT_DESCRIPTION_ID = "document.documentHeader.documentDescription";
-    protected static final String PROPOSAL_SPONSOR_CODE_ID = "document.sponsorCode";
-    protected static final String PROPOSAL_TITLE_ID = "document.title";
-    protected static final String PROPOSAL_REQUESTED_START_DATE_ID = "document.requestedStartDateInitial";
-    protected static final String PROPOSAL_REQUESTED_END_DATE_ID = "document.requestedEndDateInitial";
-    protected static final String PROPOSAL_ACTIVITY_TYPE_CODE_ID = "document.activityTypeCode";
-    protected static final String PROPOSAL_TYPE_CODE_ID = "document.proposalTypeCode";
-    protected static final String PROPOSAL_OWNED_BY_UNIT_ID = "document.ownedByUnitNumber";
     
     protected static final String DEFAULT_DOCUMENT_DESCRIPTION = "Award Development Web Test";    
     

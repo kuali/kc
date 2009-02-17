@@ -81,38 +81,7 @@
                 	<kul:htmlControlAttribute property="newSpecialReview.expirationDate" attributeEntry="${awardSpecialReviewAttributes.expirationDate}" datePicker="true"/>
                </div>
                 </td>
-                <%--
-                <td align="left" valign="middle" class="infoline">
-	                <div align="center">
-	                	<kul:htmlControlAttribute property="newExemptionTypeCodes" attributeEntry="${awardSpecialReviewExemptionAttributes.exemptionTypeCode}" />
-	                <div align="center">
-                </td>
-                 --%>
-                <%--
-                 <c:set var="exemptNumberStyle" value="" scope="request"/>
-			     <c:forEach items="${ErrorPropertyList}" var="key">
-				    <c:if test="${key eq 'newExemptNumbers'}">
-					  <c:set var="exemptNumberStyle" value="background-color:#FFD5D5" scope="request"/>
-				    </c:if>
-			     </c:forEach>
                 
-                
-                <td align="left" valign="middle" class="infoline">
-               		 <div align="center">
-                    	<c:set var="selected" value="" />
-						<c:forEach var="key" items="${KualiForm.newExemptionTypeCodes}">
-						   <c:set var="selected" value="${selected},${key}" />
-						</c:forEach>
-						<select name="newExemptionTypeCodes" multiple="true" size="4"  style="${exemptNumberStyle}">
-							<c:forEach var="keyLabel" items="${KualiForm.exemptNumberList}">
-			  			    	<c:if test="${!empty keyLabel.key}" >
-	                                <option value="${keyLabel.key}" <c:if test="${fn:contains(selected, keyLabel.key)}"> selected="true" </c:if> >${keyLabel.label}</option>
-								</c:if>
-							</c:forEach>
-						</select>
-					</div>	  			
-                </td>
-                 --%>
                  <c:set var="exemptionTypes" value="${KualiForm.newSpecialReview.exemptionTypes}" />
                 <td align="left" valign="middle" class="infoline">
                		 <div align="center">
@@ -170,14 +139,6 @@
 	                <td align="left" valign="middle">
 	                <div align="center"><kul:htmlControlAttribute property="document.award.specialReview[${status.index}].expirationDate" attributeEntry="${awardSpecialReviewAttributes.expirationDate}" datePicker="true"/></div>
 	                </td>
-			<%-- 
-	                
-	                <td align="left" valign="middle" class="infoline">
-		                <div align="center">
-		                	<kul:htmlControlAttribute property="document.award.specialReview[${status.index}].exemptionTypeCodes" attributeEntry="${awardSpecialReviewExemptionAttributes.exemptionTypeCode}" />
-		                <div align="center">
-                	</td>
-			--%>
 	                <td align="left" valign="middle" class="infoline">
 	               		 <div align="center">
 	               		 	<c:set var="selected" value="" />
@@ -194,44 +155,6 @@
 							 </html:select>
 						 </div>	  			
 	                </td>
-			<%-- 
-                 <c:set var="exemptNumberStyle" value="" scope="request"/>
-          	     <c:set var="exemptNumberFieldName" value="documentExemptNumbers[${status.index}]" />
-			     <c:forEach items="${ErrorPropertyList}" var="key">
-				    <c:if test="${key eq exemptNumberFieldName}">
-					  <c:set var="exemptNumberStyle" value="background-color:#FFD5D5" scope="request"/>
-				    </c:if>
-			     </c:forEach>
- 
-                <td align="left" valign="middle" class="infoline">
-                <div align="center">
-                    <c:set var="selected" value="" />
-                    <c:set var="selectedExemptText" value="" />
-						<c:forEach var="key" items="${KualiForm.documentExemptNumbers[status.index]}">
-						   <c:set var="selected" value="${selected},${key}" />
-						   <c:set var="selectedExemptText" value="${selectedExemptText},${KualiForm.exemptNumberList[key-1].label}" />
-						</c:forEach>
-						<c:choose> 
-						<c:when test="${readOnly}">
-							<c:if test="${not empty selectedExemptText}" >
-								<c:out value="${fn:substring(selectedExemptText, 1, fn:length(selectedExemptText))}" />
-							</c:if>
-						</c:when>
-						<c:otherwise>
-			  				<select name="documentExemptNumbers[${status.index}]" multiple="true" size="4"  style="${exemptNumberStyle}">
-								<c:forEach var="keyLabel" items="${KualiForm.exemptNumberList}">
-				  			    	<c:if test="${!empty keyLabel.key}" >
-		                                <option value="${keyLabel.key}" <c:if test="${fn:contains(selected, keyLabel.key)}"> selected="true" </c:if> >${keyLabel.label}</option>
-									</c:if>
-								</c:forEach>
-							</select>
-						</c:otherwise>
-						</c:choose>
-					</div>	  			
-                </td>
-
-                --%>
-                
 	                <td align="left" valign="middle">
 	                <div align="center">
 	                	<kul:htmlControlAttribute property="document.award.specialReview[${status.index}].comments" attributeEntry="${awardSpecialReviewAttributes.comments}" />

@@ -310,7 +310,7 @@ public interface Constants {
     public static final Integer MAX_FISCAL_YEAR = 2499;
     
     public static final String PARAMETER_MODULE_AWARD = "KC-AWARD";
-    public static final String AWARD_SPECIALREVIEW_NUMBER = "AWARD_SPECIALREVIEW_NUMBER";
+    public static final String SPECIAL_REVIEW_NUMBER = "SPECIAL_REVIEW_NUMBER";
     public static final String LEFT_SQUARE_BRACKET = "[";
     public static final String RIGHT_SQUARE_BRACKET = "]";
     public static final String CONTACT_TYPE_OTHER = "8";

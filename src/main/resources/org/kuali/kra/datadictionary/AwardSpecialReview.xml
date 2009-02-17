@@ -169,16 +169,39 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Comments" />
 		<property name="shortLabel" value="Comments" />
-		<property name="maxLength" value="0" />
+		<property name="maxLength" value="2000" />
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="5" />
+			<bean parent="TextareaControlDefinition"
+            p:rows="3"
+            p:cols="30" />
 		</property>
 		<property name="summary" value="Comments" />
 		<property name="description" value="Comments" />
+	</bean>
+
+	<bean id="AwardSpecialReview-specialReviewExemptions" parent="AwardSpecialReview-specialReviewExemptions-parentBean" />
+	<bean id="AwardSpecialReview-specialReviewExemptions-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="specialReviewExemptions" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="SpecialReviewExemptions" />
+		<property name="shortLabel" value="SpecialReviewExemptions" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="SelectControlDefinition"
+	            p:businessObjectClass="org.kuali.kra.bo.ExemptionType"
+	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+	            p:includeKeyInLabel="false"
+	            p:keyAttribute="exemptionTypeCode"
+	            p:labelAttribute="description" />
+		</property>
+		<property name="summary" value="Special Review Exemptions" />
+		<property name="description" value="Special Review Exemptions" />
 	</bean>
 
 	<bean id="AwardSpecialReview-versionNumber" parent="AwardSpecialReview-versionNumber-parentBean" />

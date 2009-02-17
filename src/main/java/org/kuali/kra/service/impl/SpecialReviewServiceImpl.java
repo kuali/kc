@@ -20,12 +20,11 @@ import java.util.List;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.kra.bo.AbstractSpecialReview;
 import org.kuali.kra.bo.AbstractSpecialReviewExemption;
-import org.kuali.kra.document.SpecialReviewManager;
+import org.kuali.kra.document.SpecialReviewHandler;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.service.SpecialReviewService;
 import org.kuali.kra.web.struts.form.SpecialReviewFormBase;
-import org.kuali.rice.KNSServiceLocator;
 
 /**
  * This class for handling special review actions.
@@ -37,10 +36,11 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
     /**
      * Invoke all related rules associated with the Add Special Review Action and 
      * add the BO to the list which is a part of SpecialReviewManager
-     * @see org.kuali.kra.service.SpecialReviewService#addSpecialReview(org.kuali.kra.document.SpecialReviewManager, 
+     * @see org.kuali.kra.service.SpecialReviewService#addSpecialReview(org.kuali.kra.document.SpecialReviewHandler, 
      * org.kuali.kra.bo.AbstractSpecialReview)
+     * 
      */
-    public void addSpecialReview(SpecialReviewManager specialReviewManager, SpecialReviewFormBase specialReviewForm) {
+    public void addSpecialReview(SpecialReviewHandler specialReviewManager, SpecialReviewFormBase specialReviewForm) {
         AbstractSpecialReview newSpecialReview = specialReviewForm.getNewSpecialReview();
         String[] exemptionTypeCodes = specialReviewForm.getNewExemptionTypeCodes();
         if(exemptionTypeCodes!=null){
@@ -52,16 +52,16 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
         if(getKualiRuleService().applyRules(new AddSpecialReviewEvent(Constants.EMPTY_STRING, 
                 specialReviewForm.getResearchDocument(), newSpecialReview))){
             newSpecialReview.setSpecialReviewNumber(specialReviewForm.getResearchDocument().getDocumentNextValue(
-                    Constants.AWARD_SPECIALREVIEW_NUMBER));
+                    Constants.SPECIAL_REVIEW_NUMBER));
             specialReviewManager.addSpecialReview(newSpecialReview);
         }
     }
     
 
     /**
-     * @see org.kuali.kra.service.SpecialReviewService#deleteSpecialReview(org.kuali.kra.document.SpecialReviewManager, int)
+     * @see org.kuali.kra.service.SpecialReviewService#deleteSpecialReview(org.kuali.kra.document.SpecialReviewHandler, int)
      */
-    public void deleteSpecialReview(SpecialReviewManager specialReviewManager, int selectedIndex) {
+    public void deleteSpecialReview(SpecialReviewHandler specialReviewManager, int selectedIndex) {
         specialReviewManager.getSpecialReviews().remove(selectedIndex);
     }
 
@@ -70,7 +70,8 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
      * @return Returns the kualiRuleService.
      */
     public KualiRuleService getKualiRuleService() {
-        return KNSServiceLocator.getKualiRuleService();
+//        return KNSServiceLocator.getKualiRuleService();
+        return kualiRuleService;
     }
 
     /**
@@ -82,11 +83,15 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
     }
 
 
-    public void processBeforeSaveSpecialReview(SpecialReviewManager processSpecialReview) {
+    /**
+     * Perform all required tasks before save. Re-iterate the exemptionCode array, create SpecialReviewExemption BOs and 
+     * attach to the list in the SpecialReview BO.
+     * @see org.kuali.kra.service.SpecialReviewService#processBeforeSaveSpecialReview(org.kuali.kra.document.SpecialReviewHandler)
+     */
+    public void processBeforeSaveSpecialReview(SpecialReviewHandler processSpecialReview) {
         List<AbstractSpecialReview> specialReviews = processSpecialReview.getSpecialReviews();
         
         for (AbstractSpecialReview abstractSpecialReview : specialReviews) {
-//            abstractSpecialReview.getSpecialReviewExemptions().clear();
             String[] exemptionCodes = abstractSpecialReview.getExemptionTypeCodes();
             for (String exemptionTypeCode : exemptionCodes) {
                 AbstractSpecialReviewExemption specialReviewExemption = 
