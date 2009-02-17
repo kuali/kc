@@ -35,16 +35,17 @@
 <%@ attribute name="hidden" required="false" %>
 <%@ attribute name="useRiceAuditMode" required="false" %>
 <%@ attribute name="alwaysOpen" required="false" %>
+<%@ variable name-given="tabKey" scope="NESTED" %>
 
 <c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request"/>
 <c:set var="topLevelTabIndex" value="${KualiForm.currentTabIndex}" scope="request"/>
 
 <c:choose>
     <c:when test="${(useCurrentTabIndexAsKey)}">
-        <c:set var="tabKey" value="${currentTabIndex}"/>
+        <c:set var="tabKey" value="${currentTabIndex}"  scope="request"/>
     </c:when>
     <c:otherwise>
-        <c:set var="tabKey" value="${kfunc:generateTabKey(tabTitle)}"/>
+        <c:set var="tabKey" value="${kfunc:generateTabKey(tabTitle)}"  scope="request"/>
     </c:otherwise>
 </c:choose>
 

@@ -27,14 +27,12 @@ import org.kuali.kra.bo.SpecialReview;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.ValidSpecialReviewApproval;
 import org.kuali.kra.bo.AbstractSpecialReviewExemption;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 import org.kuali.rice.KNSServiceLocator;
 
 /**
- * This class...
+ * This class is the base class for special review BO.
  */
-public abstract class AbstractSpecialReview<T> extends KraPersistableBusinessObjectBase {
+public abstract class AbstractSpecialReview<T extends AbstractSpecialReviewExemption> extends KraPersistableBusinessObjectBase {
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -190,7 +188,7 @@ public abstract class AbstractSpecialReview<T> extends KraPersistableBusinessObj
 
     /**
      * Gets the exemptionTypeCode attribute. 
-     * @return Returns the exemptionTypeCode.
+     * @return Returns the exemptionTypeCode array.
      */
     @SuppressWarnings("unchecked")
     public String[] getExemptionTypeCodes() {

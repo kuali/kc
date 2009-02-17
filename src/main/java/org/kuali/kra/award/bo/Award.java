@@ -28,7 +28,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.document.KeywordsManager;
-import org.kuali.kra.document.SpecialReviewManager;
+import org.kuali.kra.document.SpecialReviewHandler;
 import org.kuali.kra.infrastructure.Constants;
 
 /**
@@ -36,7 +36,7 @@ import org.kuali.kra.infrastructure.Constants;
  * This class is Award Business Object.
  * It implements ProcessKeywords to process all operations related to AwardScenceKeywords.
  */
-public class Award extends KraPersistableBusinessObjectBase implements KeywordsManager<AwardScienceKeyword>,SpecialReviewManager<AwardSpecialReview>{
+public class Award extends KraPersistableBusinessObjectBase implements KeywordsManager<AwardScienceKeyword>,SpecialReviewHandler<AwardSpecialReview>{
     public static final String AWARD_NAMESPACE_CODE = "KC-AWARD";
     
     private static final String ONE = "1";
@@ -1222,7 +1222,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
 
     /**
      * Add AwardSpecialReview to the AwardSpecialReview list
-     * @see org.kuali.kra.document.SpecialReviewManager#addSpecialReview(java.lang.Object)
+     * @see org.kuali.kra.document.SpecialReviewHandler#addSpecialReview(java.lang.Object)
      */
     public void addSpecialReview(AwardSpecialReview specialReview) {
         specialReview.setAward(this);
@@ -1231,7 +1231,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
 
     /**
      * Get AwardSpecialReview from special review list
-     * @see org.kuali.kra.document.SpecialReviewManager#getSpecialReview(int)
+     * @see org.kuali.kra.document.SpecialReviewHandler#getSpecialReview(int)
      */
     public AwardSpecialReview getSpecialReview(int index) {
         return getSpecialReviews().get(index);
@@ -1239,7 +1239,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
 
     /**
      * Get special review list
-     * @see org.kuali.kra.document.SpecialReviewManager#getSpecialReviews()
+     * @see org.kuali.kra.document.SpecialReviewHandler#getSpecialReviews()
      */
     public List<AwardSpecialReview> getSpecialReviews() {
         return specialReviews;
