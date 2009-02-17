@@ -1238,16 +1238,4 @@
 			<ref bean="businessObjectService" />
 		</property>
     </bean>
-
-	<bean id="keywordsService" class="org.kuali.kra.service.impl.KeywordsServiceImpl">
-	</bean>
-	<bean id="specialReviewService" class="org.kuali.kra.service.impl.SpecialReviewServiceImpl">
-	</bean>
-	    
- 	<bean id="fundingSourceTypeService" class="org.kuali.kra.service.impl.FundingSourceTypeServiceImpl">
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property>
-    </bean>
-	
 </beans>
