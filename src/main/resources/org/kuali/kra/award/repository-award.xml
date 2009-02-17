@@ -105,6 +105,9 @@
    		<collection-descriptor name="specialReviews" element-class-ref="org.kuali.kra.award.bo.AwardSpecialReview" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="awardId" />
 		</collection-descriptor>
+		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="sponsorCode" />
+        </reference-descriptor>
 	</class-descriptor>	
 	
 	<class-descriptor class="org.kuali.kra.award.bo.AwardApprovedEquipment" table="AWARD_APPROVED_EQUIPMENT">

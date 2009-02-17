@@ -230,10 +230,12 @@ function loadSponsorName(sponsorCodeFieldName, sponsorNameFieldName ) {
 
 /*
  * Load the Funding Source Name field based on the id and type passed in.
-
+ */
 function loadFundingSourceNameTitle(fundingTypeCodeFieldName, fundingIdFieldName, fundingNameFieldName, fundingTitleFieldName ) {
 	var fundingTypeCode = DWRUtil.getValue( fundingTypeCodeFieldName );
 	var fundingId = DWRUtil.getValue( fundingIdFieldName );
+	var fundingName = DWRUtil.getValue( fundingNameFieldName );
+	var fundingTitle = DWRUtil.getValue( fundingTitleFieldName );
 
 	if (fundingTypeCode=='') {
 		clearRecipients( fundingNameFieldName, "" );
@@ -263,10 +265,10 @@ function loadFundingSourceNameTitle(fundingTypeCodeFieldName, fundingIdFieldName
 				setRecipientValue( fundingTitleFieldName,  wrapError( "not found" ), true );
 			}
 		};
-		ProtocolFundingSourceService.getNameAndTitle(fundingTypeCode, fundingId, dwrReply);
+		ProtocolFundingSourceService.getNameAndTitle(fundingTypeCode, fundingId, fundingName, fundingTitle, dwrReply);
 	}
 }
- */
+ 
 
 /*
  * Load the Budget Category Code based on Object Code(Cost Element)

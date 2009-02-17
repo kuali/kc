@@ -2,7 +2,7 @@
 
 <c:set var="protocolDocumentAttributes" value="${DataDictionary.ProtocolDocument.attributes}" />
 
-<kul:tab tabTitle="Status & Dates" defaultOpen="true" tabErrorKey="" >
+<kul:tab tabTitle="Status & Dates" defaultOpen="false" tabErrorKey="" >
 	<div class="tab-container" align="center">
         <kra-irb:protocolStatusDate />        
         <kra-irb:protocolRiskLevel />        
