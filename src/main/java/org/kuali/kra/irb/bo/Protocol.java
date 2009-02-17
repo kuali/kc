@@ -78,11 +78,31 @@ public class Protocol extends KraPersistableBusinessObjectBase{
     private String newDescription;
     
     private boolean nonEmployeeFlag;
+    
+    //TODO move newfundingsource to helper...
+    private ProtocolFundingSource newFundingSource;
+    private List<ProtocolFundingSource> protocolFundingSources; 
 
     private List<ProtocolInvestigator> protocolInvestigators; 
     private String leadUnitNumber;
     private String principalInvestigatorId;
     
+    public ProtocolFundingSource getNewFundingSource() {
+        return newFundingSource;
+    }
+
+    public void setNewFundingSource(ProtocolFundingSource newFundingSource) {
+        this.newFundingSource = newFundingSource;
+    }
+
+    public List<ProtocolFundingSource> getProtocolFundingSources() {
+        return protocolFundingSources;
+    }
+
+    public void setProtocolFundingSources(List<ProtocolFundingSource> protocolFundingSources) {
+        this.protocolFundingSources = protocolFundingSources;
+    }
+
     private List<ProtocolPerson> protocolPersons; 
     /**
      * 
@@ -102,6 +122,7 @@ public class Protocol extends KraPersistableBusinessObjectBase{
         protocolLocations = new ArrayList<ProtocolLocation>(); //ArrayList<ProtocolLocation>();
         protocolPersons = new ArrayList<ProtocolPerson>(); //ArrayList<ProtocolPerson>();
         initializeProtocolLocation();
+        protocolFundingSources = new ArrayList<ProtocolFundingSource>();        
         // set statuscode default
         setProtocolStatusCode(Constants.DEFAULT_PROTOCOL_STATUS_CODE);
         this.refreshReferenceObject(Constants.PROPERTY_PROTOCOL_STATUS);
@@ -283,6 +304,8 @@ public class Protocol extends KraPersistableBusinessObjectBase{
         this.relatedProjectsIndicator = relatedProjectsIndicator;
     }
 
+
+    //TODO add add'l fields
     @Override 
     protected LinkedHashMap<String,Object> toStringMapper() {
         LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();        
@@ -414,6 +437,7 @@ public class Protocol extends KraPersistableBusinessObjectBase{
         managedLists.add(this.protocolResearchAreas);
         managedLists.add(this.protocolReferences);
         managedLists.add(this.protocolInvestigators);
+        managedLists.add(getProtocolFundingSources());
         managedLists.add(getProtocolLocations());
         return managedLists;
 

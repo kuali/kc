@@ -94,12 +94,17 @@
 			<param name="beanName" value="organizationService" />
 			<include method="getOrganizationName" />
 		</create>
+         <create creator="spring" javascript="ProtocolFundingSourceService">
+            <param name="beanName" value="protocolFundingSourceService" />
+            <include method="getNameAndTitle" />
+        </create>
+        <convert converter="bean" match="org.kuali.kra.irb.bo.ProtocolFundingSource">
+            <param name="include" value="fundingSourceTitle,fundingSourceName" />            
+        </convert>
 		<create creator="spring" javascript="AwardReportsService">
 			<param name="beanName" value="awardReportsService" />			
 			<include method="getFrequencyCodes" />
 			<include method="getFrequencyBaseCodes" />
-		</create>
-
-		
+		</create>		
 	</allow>
 </dwr>
