@@ -544,6 +544,9 @@
 	</bean>
 	
 	<bean id="systemAuthorizationService" class="org.kuali.kra.service.impl.SystemAuthorizationServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
 		<property name="kimPersonService">
 			<ref bean="kimPersonService" />
 		</property>

@@ -40,4 +40,5 @@ public interface RoleConstants {
     public static final String PROTOCOL_CREATOR = "Protocol Creator";
     public static final String PROTOCOL_AGGREGATOR = "Protocol Aggregator";
     public static final String PROTOCOL_VIEWER = "Protocol Viewer";
+    public static final String PROTOCOL_UNASSIGNED = "Protocol Unassigned";
 }

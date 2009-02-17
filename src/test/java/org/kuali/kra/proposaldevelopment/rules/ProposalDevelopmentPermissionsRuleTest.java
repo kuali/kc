@@ -78,7 +78,7 @@ public class ProposalDevelopmentPermissionsRuleTest extends ProposalDevelopmentR
         List<ProposalUserRoles> proposalUserRolesList = getProposalUserRoles();
         ProposalUser proposalUser = createProposalUser("xxx");
         assertFalse(rule.processAddProposalUserBusinessRules(document, proposalUserRolesList, proposalUser));
-        assertError(Constants.PERMISSION_USERS_PROPERTY_KEY + ".username", KeyConstants.ERROR_UNKNOWN_USERNAME);
+        assertError(Constants.PERMISSION_PROPOSAL_USERS_PROPERTY_KEY + ".username", KeyConstants.ERROR_UNKNOWN_USERNAME);
     }
     
     /**
@@ -92,7 +92,7 @@ public class ProposalDevelopmentPermissionsRuleTest extends ProposalDevelopmentR
         List<ProposalUserRoles> proposalUserRolesList = getProposalUserRoles();
         ProposalUser proposalUser = createProposalUser("quickstart");
         assertFalse(rule.processAddProposalUserBusinessRules(document, proposalUserRolesList, proposalUser));
-        assertError(Constants.PERMISSION_USERS_PROPERTY_KEY + ".username", KeyConstants.ERROR_DUPLICATE_PROPOSAL_USER);
+        assertError(Constants.PERMISSION_PROPOSAL_USERS_PROPERTY_KEY + ".username", KeyConstants.ERROR_DUPLICATE_PROPOSAL_USER);
     }
     
     /**
@@ -117,7 +117,7 @@ public class ProposalDevelopmentPermissionsRuleTest extends ProposalDevelopmentR
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         List<ProposalUserRoles> proposalUserRolesList = getProposalUserRoles();
         assertFalse(rule.processDeleteProposalUserBusinessRules(document, proposalUserRolesList, 0));
-        assertError(Constants.PERMISSION_USERS_PROPERTY_KEY, KeyConstants.ERROR_LAST_AGGREGATOR);
+        assertError(Constants.PERMISSION_PROPOSAL_USERS_PROPERTY_KEY, KeyConstants.ERROR_LAST_AGGREGATOR);
     }
     
     /**

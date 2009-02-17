@@ -26,17 +26,17 @@
 	    var rs;
 	    var cnt = 0;
 	    <c:forEach var="roleState" items="${KualiForm.proposalUserEditRoles.roleStates}" varStatus="status">
-           rs = new PropRoleState('${roleState.name}', '${roleState.state}');
+           rs = new PermissionsRoleState('${roleState.name}', '${roleState.name}', '${roleState.state}');
            propRoleStates[propRoleStates.length] = rs;
            if (rs.getState().toLowerCase() == 'true') {
                cnt++;
            }
         </c:forEach>
         if (cnt == 0) {
-            propRoleStates[propRoleStates.length] = new PropRoleState('unassigned', 'true');
+            propRoleStates[propRoleStates.length] = new PermissionsRoleState('unassigned', 'unassigned', 'true');
         }
         
-		updateEditRoles(${KualiForm.proposalUserEditRoles.lineNum}, propRoleStates);
+		updateEditRoles(${KualiForm.proposalUserEditRoles.lineNum}, propRoleStates, 'unassigned');
 	</script>
 	
 </kul:page>

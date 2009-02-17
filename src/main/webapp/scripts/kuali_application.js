@@ -674,6 +674,56 @@ function editRolesPop(lineNumber, docFormKey, sessionDocument) {
     	                               "permissionsEditRoles", 
     	                               "width=800, height=350, scrollbars=yes, resizable=yes");
 }
+/**
+ * Display the Proposal's set of Roles and their Rights.
+ * The roles are Aggregator, Budget Creator, etc.
+ */
+var permissionsRoleRightsWindow = null;
+
+function permissionsRoleRightsPop(name, docFormKey, sessionDocument) {
+
+	var documentWebScope = "";
+	if (sessionDocument == true) {
+		documentWebScope = "session";
+	}
+
+	if (permissionsRoleRightsWindow != null) {
+	    permissionsRoleRightsWindow.close();
+	} 
+
+    permissionsRoleRightsWindow = window.open(extractUrlBase() +
+    	                               "/" + name + "Permissions.do?methodToCall=getPermissionsRoleRights" +
+    	                               "&docFormKey=" + docFormKey + 
+    	                               "&documentWebScope=" + documentWebScope, 
+    	                               "permissionsRoleRights", 
+    	                               "width=800, height=750, scrollbars=yes, resizable=yes");   
+}
+
+/**
+ * Display the Edit Roles popup window.  This window allows users
+ * to change the roles for a user within a proposal.
+ */
+var permissionsEditRolesWindow;
+
+function permissionsEditRolesPop(name, lineNumber, docFormKey, sessionDocument) {
+
+    var documentWebScope = "";
+    if (sessionDocument == "true") {
+        documentWebScope="session"
+    }
+    
+	if (permissionsEditRolesWindow != null) {
+	    permissionsEditRolesWindow.close();
+	} 
+
+    protocolEditRolesWindow = window.open(extractUrlBase() +
+    	                               "/" + name + "Permissions.do?methodToCall=editRoles" +
+    	                               "&line=" + lineNumber +
+    	                               "&docFormKey=" + docFormKey + 
+    	                               "&documentWebScope=" + documentWebScope, 
+    	                               "permissionsEditRoles", 
+    	                               "width=800, height=350, scrollbars=yes, resizable=yes");
+}
 
 /**
  * Utility function for trimming a string.
@@ -726,25 +776,31 @@ User.prototype.hasRole = function(role) {
 }
 
 /**
- * The PropRoleState Class.  Stores the states of the roles as 
+ * The PermissionsRoleState Class.  Stores the states of the roles as 
  * selected by the Edit Roles web page.  We store the name of the
  * role and it's state (true or false).  A value of true indicates
  * that the role was selected by the user; otherwise false is
  * unselected.
  */
-function PropRoleState(name, state) {
+function PermissionsRoleState(name, displayName, state) {
     this._name = name;
+    this._displayName = displayName;
     this._state = state;
 }
 
-PropRoleState.prototype._name;
-PropRoleState.prototype._state;
+PermissionsRoleState.prototype._name;
+PermissionsRoleState.prototype._displayName;
+PermissionsRoleState.prototype._state;
 
-PropRoleState.prototype.getName = function() {
+PermissionsRoleState.prototype.getName = function() {
     return this._name;
 }
 
-PropRoleState.prototype.getState = function() {
+PermissionsRoleState.prototype.getDisplayName = function() {
+    return this._displayName;
+}
+
+PermissionsRoleState.prototype.getState = function() {
     return this._state;
 }
 
@@ -755,14 +811,16 @@ PropRoleState.prototype.getState = function() {
  * to change the roles for the user that was modified.  We also need to 
  * update the listing of assigned roles.
  */
-function updateEditRoles(lineNumber, roleStates) {
+function updateEditRoles(lineNumber, roleStates, unassignedRoleDisplayName) {
 
 	var users = getUsers();
 	updateUserRoles(users[lineNumber], roleStates);
     displayUserRoles(users[lineNumber]);
     
     for (var i = 0; i < roleStates.length; i++) {
-        displayAssignedRoles(users, roleStates[i].getName(), roleStates[i].getName());
+        if (roleStates[i].getDisplayName() != unassignedRoleDisplayName) {
+            displayAssignedRoles(users, roleStates[i].getName(), roleStates[i].getDisplayName());
+        }
     }
     
     self.close();
@@ -788,16 +846,15 @@ function displayUserRoles(user) {
  * Displays the names of users for a specific role.
  */
 function displayAssignedRoles(users, elementId, role) {
-    if (role != "unassigned") {
-    var usernames = new Array();
+    
+	var usernames = new Array();
 	for (var i = 0; i < users.length; i++) {
-	    if (users[i].hasRole(role)) {
-	        usernames[usernames.length] = users[i].getName();
-	    }
+		if (users[i].hasRole(role)) {
+		    usernames[usernames.length] = users[i].getName();
+		}
 	}
 	var node = opener.document.getElementById(elementId);
 	node.innerHTML = usernames.join("; ");
-}
 }
 
 /**
@@ -809,8 +866,8 @@ function updateUserRoles(user, roleStates) {
     for (var i = 0; i < roleStates.length; i++) {
         var state = roleStates[i].getState();
         if (state.toLowerCase() == 'true') {
-            user.addRole(roleStates[i].getName());
-    }
+            user.addRole(roleStates[i].getDisplayName());
+        }
     }
  }
     
