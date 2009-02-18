@@ -31,6 +31,7 @@ import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.budget.bo.BudgetPeriod;
@@ -86,19 +87,17 @@ public class BudgetDocumentTest {
         bd.setProposalNumber("1234");
         bd.setBudgetVersionNumber(Integer.valueOf(1));
         
-        
+        final List<BudgetPeriod> periods = new ArrayList<BudgetPeriod>();
+        final BudgetPeriod p = new BudgetPeriod();
+        p.setBudgetPeriodId(Long.valueOf(1));
+        p.setProposalNumber("1234");
+        periods.add(p);
         
         context.checking(new Expectations() {
             {
                 final Map<Object, Object> matchCriteria = new HashMap<Object, Object>();
                 matchCriteria.put("proposalNumber", bd.getProposalNumber());
                 matchCriteria.put("budgetVersionNumber", bd.getBudgetVersionNumber());
-                
-                List<BudgetPeriod> periods = new ArrayList<BudgetPeriod>();
-                BudgetPeriod p = new BudgetPeriod();
-                p.setBudgetPeriodId(Long.valueOf(1));
-                p.setProposalNumber("1234");
-                periods.add(p);
                 
                 oneOf(mockBOS).findMatching(BudgetPeriod.class, matchCriteria);
                 will(returnValue(periods));
@@ -159,6 +158,128 @@ public class BudgetDocumentTest {
                 ids.add(Long.valueOf(1));
                 matchCriteria.put("budgetPeriodId", ids);
                 never(mockBOS).deleteMatching(BudgetProjectIncome.class, matchCriteria);
+            }
+        });
+        
+        
+        Method m = bd.getClass().getSuperclass().getDeclaredMethod("handlePeriodToProjectIncomeRelationship");
+        m.setAccessible(true);
+        m.invoke(bd);
+        
+        context.assertIsSatisfied();
+    }
+    
+    /**
+     * Tests that project incomes are NOT deleted when a budget period deletion is not detected.
+     * This tests the condition where periods exist but are matched with that in the database.
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void handlePeriodToProjectIncomeRelationshipNoItemsToDeletePeriodsExist() throws Exception {
+        
+        final BusinessObjectService mockBOS = context.mock(BusinessObjectService.class);
+        
+        final BudgetDocument bd = new BudgetDocument() {
+            @Override
+            protected <T> T getService(Class<T> serviceClass) {
+                if (BusinessObjectService.class.equals(serviceClass)) {
+                    return (T) mockBOS;
+                }
+                throw new RuntimeException("unexpected request for service " + serviceClass);
+            }
+        };
+        bd.setProposalNumber("1234");
+        bd.setBudgetVersionNumber(Integer.valueOf(1));
+        
+        final List<BudgetPeriod> periods = new ArrayList<BudgetPeriod>();
+        final BudgetPeriod p = new BudgetPeriod();
+        p.setBudgetPeriodId(Long.valueOf(1));
+        p.setProposalNumber("1234");
+        periods.add(p);
+        
+        bd.setBudgetPeriods(periods);
+        
+        context.checking(new Expectations() {
+            {
+                final Map<Object, Object> matchCriteria = new HashMap<Object, Object>();
+                matchCriteria.put("proposalNumber", bd.getProposalNumber());
+                matchCriteria.put("budgetVersionNumber", bd.getBudgetVersionNumber());
+                
+                oneOf(mockBOS).findMatching(BudgetPeriod.class, matchCriteria);
+                will(returnValue(periods));
+            }
+            
+            {
+                final Map<String, Collection<Long>> matchCriteria = new HashMap<String, Collection<Long>>();
+                Collection<Long> ids = new ArrayList<Long>();
+                ids.add(Long.valueOf(1));
+                matchCriteria.put("budgetPeriodId", ids);
+                never(mockBOS).deleteMatching(BudgetProjectIncome.class, matchCriteria);
+            }
+        });
+        
+        
+        Method m = bd.getClass().getSuperclass().getDeclaredMethod("handlePeriodToProjectIncomeRelationship");
+        m.setAccessible(true);
+        m.invoke(bd);
+        
+        context.assertIsSatisfied();
+    }
+    
+    /**
+     * Tests that project incomes are deleted when a budget period deletion is detected.
+     * This tests the condition where periods exist and are new periods (i.e. no id assigned yet).
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void handlePeriodToProjectIncomeRelationshipNoItemsToDeleteNewPeriodsExist() throws Exception {
+        
+        final BusinessObjectService mockBOS = context.mock(BusinessObjectService.class);
+        
+        final BudgetDocument bd = new BudgetDocument() {
+            @Override
+            protected <T> T getService(Class<T> serviceClass) {
+                if (BusinessObjectService.class.equals(serviceClass)) {
+                    return (T) mockBOS;
+                }
+                throw new RuntimeException("unexpected request for service " + serviceClass);
+            }
+        };
+        bd.setProposalNumber("1234");
+        bd.setBudgetVersionNumber(Integer.valueOf(1));
+        
+        final List<BudgetPeriod> newPeriods = new ArrayList<BudgetPeriod>();
+        final BudgetPeriod newP = new BudgetPeriod();
+        newP.setBudgetPeriodId(null);
+        newP.setProposalNumber("1234");
+        newPeriods.add(newP);
+        
+        bd.setBudgetPeriods(newPeriods);
+        
+        context.checking(new Expectations() {
+            {
+                final Map<Object, Object> matchCriteria = new HashMap<Object, Object>();
+                matchCriteria.put("proposalNumber", bd.getProposalNumber());
+                matchCriteria.put("budgetVersionNumber", bd.getBudgetVersionNumber());
+                
+                final List<BudgetPeriod> periods = new ArrayList<BudgetPeriod>();
+                final BudgetPeriod p = new BudgetPeriod();
+                p.setBudgetPeriodId(Long.valueOf(1));
+                p.setProposalNumber("1234");
+                periods.add(p);
+                
+                oneOf(mockBOS).findMatching(BudgetPeriod.class, matchCriteria);
+                will(returnValue(periods));
+            }
+            
+            {
+                final Map<String, Collection<Long>> matchCriteria = new HashMap<String, Collection<Long>>();
+                Collection<Long> ids = new ArrayList<Long>();
+                ids.add(Long.valueOf(1));
+                matchCriteria.put("budgetPeriodId", ids);
+                oneOf(mockBOS).deleteMatching(BudgetProjectIncome.class, matchCriteria);
             }
         });
         
