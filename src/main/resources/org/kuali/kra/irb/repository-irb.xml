@@ -83,6 +83,7 @@
             <inverse-foreignkey field-ref="protocolId" />
         </collection-descriptor>    		 
    		<collection-descriptor name="protocolPersons" element-class-ref="org.kuali.kra.irb.bo.ProtocolPerson"  auto-retrieve="true" auto-update="object" auto-delete="object">
+	  		<orderby name="protocolPersonId" sort="ASC" />
 			<inverse-foreignkey field-ref="protocolId" />
 		</collection-descriptor>    		
 

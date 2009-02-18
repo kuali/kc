@@ -115,8 +115,8 @@ public class ProtocolPerson extends KraPersistableBusinessObjectBase {
 	}
 
 	public void setProtocolPersonRoleId(String protocolPersonRoleId) {
+        setPreviousPersonRoleId(this.protocolPersonRoleId);
 		this.protocolPersonRoleId = protocolPersonRoleId;
-		setPreviousPersonRoleId(protocolPersonRoleId);
 	}
 
 	public Integer getRolodexId() {
@@ -196,7 +196,7 @@ public class ProtocolPerson extends KraPersistableBusinessObjectBase {
      * @return boolean
      */
     public boolean isTrained() {
-        return getProtocolPersonnelService().isPersonTrained(getPersonId());
+        return trained; //getProtocolPersonnelService().isPersonTrained(getPersonId());
     }
 
     /**
@@ -292,11 +292,16 @@ public class ProtocolPerson extends KraPersistableBusinessObjectBase {
         return ret;
     }
     
+    /**
+     * This method is to find lead unit from unit list
+     * @return ProtocolUnit (lead unit)
+     */
     public ProtocolUnit getLeadUnit() {
         ProtocolUnit leadUnit = null;
         for ( ProtocolUnit unit : getProtocolUnits() ) {
             if (unit.getLeadUnitFlag()) {
                 leadUnit = unit;
+                break;
             }
         }
         return leadUnit;

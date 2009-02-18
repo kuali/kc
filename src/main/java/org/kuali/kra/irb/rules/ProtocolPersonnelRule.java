@@ -26,11 +26,16 @@ import org.kuali.kra.irb.bo.ProtocolUnit;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.rule.AddProtocolPersonnelRule;
 import org.kuali.kra.irb.rule.SaveProtocolPersonnelRule;
+import org.kuali.kra.irb.rule.UpdateProtocolPersonnelRule;
 import org.kuali.kra.irb.rule.event.AddProtocolPersonnelEvent;
 import org.kuali.kra.irb.rule.event.SaveProtocolPersonnelEvent;
+import org.kuali.kra.irb.rule.event.UpdateProtocolPersonnelEvent;
 import org.kuali.kra.irb.service.ProtocolPersonnelService;
 
-public class ProtocolPersonnelRule extends ProtocolDocumentRule implements AddProtocolPersonnelRule, SaveProtocolPersonnelRule {
+/**
+ * This class contains rules to validate protocol personnel.
+ */
+public class ProtocolPersonnelRule extends ProtocolDocumentRule implements AddProtocolPersonnelRule, SaveProtocolPersonnelRule, UpdateProtocolPersonnelRule {
 
     private static final String ERROR_PROPERTY_NEW_PERSON = "newProtocolPerson"; 
     private static final String ERROR_PROPERTY_EXISTING_PERSON = "document.protocol.protocolPersons";
@@ -46,7 +51,7 @@ public class ProtocolPersonnelRule extends ProtocolDocumentRule implements AddPr
         boolean isValid = true;
 
         ProtocolPerson protocolPerson = addProtocolPersonnelEvent.getProtocolPerson();
-        if(isEmptyPersonRole(protocolPerson)) {
+        if(isEmptyPersonOrRole(protocolPerson)) {
             isValid = false;
         }else {
             isValid = !isDuplicateInvestigator(protocolPerson, getProtocolPersons(addProtocolPersonnelEvent), true);
@@ -94,7 +99,6 @@ public class ProtocolPersonnelRule extends ProtocolDocumentRule implements AddPr
             .append(errorKey)
             .toString();
         }
-        System.out.println("errorProperty ==> " + errorProperty);
         return errorProperty;
     }
     
@@ -114,14 +118,16 @@ public class ProtocolPersonnelRule extends ProtocolDocumentRule implements AddPr
     }
 
     /**
-     * This method is to check if user selected a protocol role for a new person
-     * Protocol person role is mandatory
+     * This method is to check if user selected a person and protocol role for a new person
+     * Protocol person and role fields are mandatory
      * @param protocolPerson
      * @return true / false
      */
-    private boolean isEmptyPersonRole(ProtocolPerson protocolPerson) {
+    private boolean isEmptyPersonOrRole(ProtocolPerson protocolPerson) {
         boolean personRoleEmpty = false;
-        if(StringUtils.isEmpty(protocolPerson.getProtocolPersonRoleId())) {
+        if(StringUtils.isEmpty(protocolPerson.getProtocolPersonRoleId()) ||
+                (StringUtils.isEmpty(protocolPerson.getPersonId()) &&
+                protocolPerson.getRolodexId() == null)) {
             reportError(formatErrorPropertyName(true, 0, ERROR_PROPERTY_PERSON_ROLE), KeyConstants.ERROR_PROTOCOL_PERSONNEL_ROLE_MANDATORY);
             personRoleEmpty = true;
         }
@@ -151,15 +157,9 @@ public class ProtocolPersonnelRule extends ProtocolDocumentRule implements AddPr
     public boolean processSaveProtocolPersonnelBusinessRules(SaveProtocolPersonnelEvent saveProtocolPersonnelEvent) {
         boolean isValid = true;
         ProtocolDocument protocolDocument = (ProtocolDocument)saveProtocolPersonnelEvent.getDocument();
+        isValid &= isValidRoleChange(protocolDocument.getProtocol().getProtocolPersons());
         isValid &= isValidPrincipalInvestigator(protocolDocument.getProtocol().getProtocolPersons());
         isValid &= isValidPersonUnit(protocolDocument.getProtocol().getProtocolPersons());
-        isValid &= isValidRoleChange(protocolDocument.getProtocol().getProtocolPersons());
-        /*
-        if(!getProtocolPersonnelService().isRoleChangePermitted(protocolDocument.getProtocol(), 0)) {
-            reportError(ERROR_PROPERTY_NEW_PERSON_ROLE, KeyConstants.ERROR_PROTOCOL_PERSONNEL_ROLE_MANDATORY);
-            isValid = false;
-        }
-        */
         return isValid;
     }
     
@@ -188,6 +188,8 @@ public class ProtocolPersonnelRule extends ProtocolDocumentRule implements AddPr
 
     /**
      * This method is to check if at least one unit is defined for a person.
+     * We need to figure out whether unit details is mandatory for the person.
+     * Check person role to find whether unit is required.
      * If unit(s) defined, check to see if one is marked as lead unit.
      * @param protocolPersons
      * @return true / false
@@ -195,18 +197,34 @@ public class ProtocolPersonnelRule extends ProtocolDocumentRule implements AddPr
     private boolean isValidPersonUnit(List<ProtocolPerson> protocolPersons) {
         boolean personUnitValid = true;
         for(ProtocolPerson protocolPerson : protocolPersons) {
-            int personIndex = protocolPersons.indexOf(protocolPerson);
-            if(protocolPerson.getProtocolUnits().size() == 0) {
-                reportError(formatErrorPropertyName(false, personIndex, ERROR_PROPERTY_PERSON_UNIT), KeyConstants.ERROR_PROTOCOL_UNIT_NOT_FOUND);
-            }else {
-                boolean leadUnitExists = isPersonLeadUnitExists(protocolPerson.getProtocolUnits());
-                if(!leadUnitExists) {
-                    reportError(formatErrorPropertyName(false, personIndex, ERROR_PROPERTY_PERSON_UNIT), KeyConstants.ERROR_PROTOCOL_LEAD_UNIT_NOT_DEFINED);
+            if(isUnitDetailsRequired(protocolPerson)) {
+                int personIndex = protocolPersons.indexOf(protocolPerson);
+                if(protocolPerson.getProtocolUnits().size() == 0) {
+                    reportError(formatErrorPropertyName(false, personIndex, ERROR_PROPERTY_PERSON_UNIT), KeyConstants.ERROR_PROTOCOL_UNIT_NOT_FOUND);
+                }else {
+                    boolean leadUnitExists = isPersonLeadUnitExists(protocolPerson.getProtocolUnits());
+                    if(!leadUnitExists) {
+                        reportError(formatErrorPropertyName(false, personIndex, ERROR_PROPERTY_PERSON_UNIT), KeyConstants.ERROR_PROTOCOL_LEAD_UNIT_NOT_DEFINED);
+                    }
+                    personUnitValid &= leadUnitExists;
                 }
-                personUnitValid &= leadUnitExists;
             }
         }
         return personUnitValid;
+    }
+    
+    /**
+     * This method is to check whether unit details should be configured for the 
+     * person based on person role.
+     * @param protocolPerson
+     * @return true / false
+     */
+    private boolean isUnitDetailsRequired(ProtocolPerson protocolPerson) {
+        if(protocolPerson.getProtocolPersonRole().isUnitDetailsRequired()) {
+            return true;
+        }else {
+            return false;
+        }
     }
  
     /**
@@ -229,19 +247,63 @@ public class ProtocolPersonnelRule extends ProtocolDocumentRule implements AddPr
     /**
      * This method is to check whether role change is permitted for each person role
      * Method triggered during save to check all persons in the list
+     * If role change is valid check to see if we need to switch Investigator and Co-Investigator
+     * roles.
      * @param protocolPersons
      * @return
      */
     private boolean isValidRoleChange(List<ProtocolPerson> protocolPersons) {
         boolean roleChangeValid = true;
         for(ProtocolPerson protocolPerson : protocolPersons) {
-            int personIndex = protocolPersons.indexOf(protocolPerson);
-            if(!getProtocolPersonnelService().isRoleChangePermitted(protocolPerson)) {
-                reportError(formatErrorPropertyName(false, personIndex, ERROR_PROPERTY_PERSON_ROLE), KeyConstants.ERROR_ROLE_CHANGE_NOT_PERMITTED);
-                roleChangeValid = false;
+            if(!protocolPerson.getPreviousPersonRoleId().equalsIgnoreCase(protocolPerson.getProtocolPersonRoleId())) {
+                int personIndex = protocolPersons.indexOf(protocolPerson);
+                roleChangeValid &= isRoleValid(protocolPerson, personIndex);
             }
+        }
+        if(roleChangeValid) {
+            updateInvestigatorCoInvestigatorRole(protocolPersons);
         }
         return roleChangeValid;
     }
+    
+    /**
+     * This method is to update investigator co-investigator roles when
+     * person switch roles.
+     * @param protocolPersons
+     */
+    private void updateInvestigatorCoInvestigatorRole(List<ProtocolPerson> protocolPersons) {
+        getProtocolPersonnelService().switchInvestigatorCoInvestigatorRole(protocolPersons);
+    }
+    
+    /**
+     * This method is to check if changed role is valid and permitted
+     * invoked from valid check during save and update view methods
+     * @param protocolPerson
+     * @param personIndex
+     * @return
+     */
+    private boolean isRoleValid(ProtocolPerson protocolPerson, int personIndex) {
+        if(!getProtocolPersonnelService().isRoleChangePermitted(protocolPerson)) {
+            reportError(formatErrorPropertyName(false, personIndex, ERROR_PROPERTY_PERSON_ROLE), KeyConstants.ERROR_ROLE_CHANGE_NOT_PERMITTED);
+            return false;
+        }
+        return true;
+    }
 
+
+    /**
+     * @see org.kuali.kra.irb.rule.UpdateProtocolPersonnelRule#processUpdateProtocolPersonnelBusinessRules(org.kuali.kra.irb.rule.event.UpdateProtocolPersonnelEvent)
+     */
+    public boolean processUpdateProtocolPersonnelBusinessRules(UpdateProtocolPersonnelEvent updateProtocolPersonnelEvent) {
+        boolean isValid = true;
+        int PersonIndex = updateProtocolPersonnelEvent.getPersonIndex();
+        List<ProtocolPerson> protocolPersons = ((ProtocolDocument)updateProtocolPersonnelEvent.getDocument()).getProtocol().getProtocolPersons(); 
+        ProtocolPerson protocolPerson = protocolPersons.get(PersonIndex);
+        isValid &= isRoleValid(protocolPerson, PersonIndex);
+        if(isValid) {
+            updateInvestigatorCoInvestigatorRole(protocolPersons);
+        }
+        return isValid;
+    }
+    
 }

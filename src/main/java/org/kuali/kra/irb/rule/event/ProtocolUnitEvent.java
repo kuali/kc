@@ -16,22 +16,20 @@
 package org.kuali.kra.irb.rule.event;
 
 import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.kra.irb.bo.ProtocolPerson;
+import org.kuali.kra.irb.bo.ProtocolUnit;
 import org.kuali.kra.irb.document.ProtocolDocument;
 
 /**
- * Event triggered when a protocol person state is modified on a 
+ * Event triggered when a protocol unit state is modified on a 
  * <code>{@link ProtocolDocument}</code>
  *
  */
-public interface ProtocolPersonnelEvent extends KualiDocumentEvent {
+public interface ProtocolUnitEvent extends KualiDocumentEvent {
     /**
-     * @return <code>{@link ProtocolPerson}</code> that triggered this event.
+     * @return <code>{@link ProtocolUnit}</code> that triggered this event.
      */
-    public ProtocolPerson getProtocolPerson();
+    public ProtocolUnit getProtocolUnit();
     
-    /**
-     * @return <code>{@link PersonIndex}</code> that triggered this event.
-     */
     public int getPersonIndex();
+
 }
