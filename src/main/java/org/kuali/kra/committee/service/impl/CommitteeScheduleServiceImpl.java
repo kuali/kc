@@ -71,6 +71,17 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
         this.scheduleService = scheduleService;
     }
     
+    public Boolean isCommitteeScheduleDeleteAllowed(CommitteeSchedule committeeSchedule){
+        Date today = new Date();
+        java.sql.Date yesterday = new java.sql.Date(DateUtils.addDays(today,-1).getTime());
+        java.sql.Date scheduleDate = committeeSchedule.getScheduledDate();
+        boolean retVal = false;
+        if(scheduleDate.after(yesterday)) {
+            retVal = true;
+        }
+        return retVal;
+    }
+    
     public void deleteCommitteeSchedule(Committee committee, int lineNumber) {
         committee.getCommitteeSchedules().remove(lineNumber);  
     }
@@ -195,6 +206,10 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
     private void addScheduleDatesToCommittee(List<Date> dates, Committee committee, String location){
         for(Date date: dates) {
             java.sql.Date sqldate = new java.sql.Date(date.getTime());
+            
+            if(!isDateAvailable(committee.getCommitteeSchedules(), sqldate))
+                continue;
+            
             CommitteeSchedule committeeSchedule = new CommitteeSchedule();
             committeeSchedule.setCommitteeId(committee.getId());            
             committeeSchedule.setScheduledDate(sqldate);
@@ -211,6 +226,17 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
                          
             committee.getCommitteeSchedules().add(committeeSchedule);            
         }
+    }
+    
+    private Boolean isDateAvailable(List<CommitteeSchedule>committeeSchedules, java.sql.Date date){
+        boolean retVal = true;
+        for(CommitteeSchedule committeeSchedule: committeeSchedules) {
+            if(DateUtils.isSameDay(committeeSchedule.getScheduledDate(), date)){
+                retVal = false;
+                break;
+            }
+        }
+        return retVal;
     }
     
     private java.sql.Date calculateAdvancedSubmissionDays(Date startDate, Integer days){
