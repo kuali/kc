@@ -16,6 +16,7 @@
 package org.kuali.kra.award.lookup.keyvalue;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.junit.After;
@@ -23,18 +24,19 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kra.award.bo.ValidClassReportFrequency;
 
 public class ReportCodeValuesFinderTest {
     
     ReportCodeValuesFinder reportCodeValuesFinder;
     List<KeyLabelPair> reportCodes;
+    Collection<ValidClassReportFrequency> validClassReportFrequencies;
 
     @Before
     public void setUp() throws Exception {
-        reportCodeValuesFinder = new ReportCodeValuesFinder();
-        reportCodeValuesFinder.setReportClassCode("1");
-        reportCodes = new ArrayList<KeyLabelPair>();
-        reportCodes = reportCodeValuesFinder.getKeyValues();
+        reportCodeValuesFinder = new ReportCodeValuesFinder("1");        
+        reportCodes = new ArrayList<KeyLabelPair>();        
+        validClassReportFrequencies = new ArrayList<ValidClassReportFrequency>();      
     }
 
     @After
@@ -45,15 +47,26 @@ public class ReportCodeValuesFinderTest {
 
     @Test
     public final void testGetKeyValues() {
+        reportCodes = reportCodeValuesFinder.getKeyValues();
         Assert.assertEquals(11,reportCodes.size());
-    }
-    
-    @Test
-    public final void testGetKeyValuesAreNotNull() {
+        
         for(KeyLabelPair keyLabelPair:reportCodes){
             Assert.assertNotNull(keyLabelPair.getKey());
             Assert.assertNotNull(keyLabelPair.getLabel());
         }
+    }
+    
+    @Test
+    public final void testGetRelevantValidClassReportFrequencies(){
+        validClassReportFrequencies.add(new ValidClassReportFrequency("1", "1", "1"));
+        validClassReportFrequencies.add(new ValidClassReportFrequency("1", "1", "13"));
+        validClassReportFrequencies.add(new ValidClassReportFrequency("1", "55", "4"));
+        validClassReportFrequencies.add(new ValidClassReportFrequency("1", "55", "7"));
+        validClassReportFrequencies.add(new ValidClassReportFrequency("1", "55", "8"));
+        validClassReportFrequencies.add(new ValidClassReportFrequency("2", "5", "16"));
+        
+        Assert.assertEquals(2, reportCodeValuesFinder.getUniqueRelevantReportClassCodes(
+                                                          validClassReportFrequencies).size());
     }
     
 

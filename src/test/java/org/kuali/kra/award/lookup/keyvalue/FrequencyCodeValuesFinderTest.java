@@ -16,6 +16,7 @@
 package org.kuali.kra.award.lookup.keyvalue;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.junit.After;
@@ -23,40 +24,64 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.core.web.ui.KeyLabelPair;
-
-public class FrequencyCodeValuesFinderTest {
+import org.kuali.kra.KcraNoDataTestBase;
+import org.kuali.kra.award.bo.ValidClassReportFrequency;
+    
+public class FrequencyCodeValuesFinderTest extends KcraNoDataTestBase{
     
     FrequencyCodeValuesFinder frequencyCodeValuesFinder;
     List<KeyLabelPair> frequencyCodes;
-
+    Collection<ValidClassReportFrequency> validClassReportFrequencies;
+    
     @Before
-    public void setUp() throws Exception {
-        frequencyCodeValuesFinder = new FrequencyCodeValuesFinder();
-        frequencyCodeValuesFinder.setReportClassCode("1");
-        frequencyCodeValuesFinder.setReportCode("55");
-        frequencyCodes = new ArrayList<KeyLabelPair>();
-        frequencyCodes = frequencyCodeValuesFinder.getKeyValues();
+    public void setUp() throws Exception {        
+        frequencyCodeValuesFinder = new FrequencyCodeValuesFinder("1","55");
+        frequencyCodes = new ArrayList<KeyLabelPair>();        
+        validClassReportFrequencies = new ArrayList<ValidClassReportFrequency>();        
     }
 
     @After
     public void tearDown() throws Exception {
+        
         frequencyCodeValuesFinder = null;
         frequencyCodes = null;
     }
 
     @Test
     public final void testGetKeyValues() {
+        frequencyCodes = frequencyCodeValuesFinder.getKeyValues();
         Assert.assertEquals(4,frequencyCodes.size());
-    }
-    
-    @Test
-    public final void testGetKeyValuesAreNotNull() {
+        
         for(KeyLabelPair keyLabelPair:frequencyCodes){
             Assert.assertNotNull(keyLabelPair.getKey());
             Assert.assertNotNull(keyLabelPair.getLabel());
         }
     }
     
-
+    @Test
+    public final void testGetRelevantValidClassReportFrequencies(){
+        validClassReportFrequencies.add(new ValidClassReportFrequency("1", "1", "1"));
+        validClassReportFrequencies.add(new ValidClassReportFrequency("1", "1", "13"));
+        validClassReportFrequencies.add(new ValidClassReportFrequency("1", "55", "4"));
+        validClassReportFrequencies.add(new ValidClassReportFrequency("1", "55", "7"));
+        validClassReportFrequencies.add(new ValidClassReportFrequency("1", "55", "8"));
+        validClassReportFrequencies.add(new ValidClassReportFrequency("2", "5", "16"));
+        Assert.assertEquals(3, frequencyCodeValuesFinder.getUniqueRelevantFrequencyCodes(validClassReportFrequencies).size());
+    }
+    
+    @Test
+    public final void testThis(){
+        frequencyCodeValuesFinder.setReportClassCode("1");
+        frequencyCodeValuesFinder.setReportCode("27");
+        frequencyCodes = frequencyCodeValuesFinder.getKeyValues();
+        Assert.assertEquals(3,frequencyCodes.size());
+        for(KeyLabelPair keyLabelPair:frequencyCodes){
+            Assert.assertNotNull(keyLabelPair.getKey());
+            Assert.assertNotNull(keyLabelPair.getLabel());
+            System.out.println(keyLabelPair.getKey());
+            System.out.println(keyLabelPair.getLabel());
+        }
+    }
+    
 }
 

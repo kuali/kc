@@ -358,9 +358,8 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     }
     
     protected List<KeyLabelPair> getFrequencyCodes(String reportClassCode, String reportCode){
-        FrequencyCodeValuesFinder frequencyCodeValuesFinder = new FrequencyCodeValuesFinder();        
-        frequencyCodeValuesFinder.setReportClassCode(reportClassCode);
-        frequencyCodeValuesFinder.setReportCode(reportCode);
+        FrequencyCodeValuesFinder frequencyCodeValuesFinder 
+        = new FrequencyCodeValuesFinder(reportClassCode, reportCode);
         return frequencyCodeValuesFinder.getKeyValues();
     }
     

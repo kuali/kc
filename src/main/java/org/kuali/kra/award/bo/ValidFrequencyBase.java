@@ -40,9 +40,20 @@ public class ValidFrequencyBase extends KraPersistableBusinessObjectBase {
      * 
      * Constructs a ValidFrequencyBase.java.
      */
-    public ValidFrequencyBase() { 
-
+    public ValidFrequencyBase() {
+        super();
     } 
+    
+    /**
+     * 
+     * Constructs a ValidFrequencyBase.java.
+     * @param frequencyCode
+     */
+    public ValidFrequencyBase(String frequencyCode, String frequencyBaseCode){
+        super();
+        this.frequencyCode = frequencyCode;
+        this.frequencyBaseCode = frequencyBaseCode;        
+    }
     
     /**
      *
