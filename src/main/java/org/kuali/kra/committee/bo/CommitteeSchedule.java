@@ -242,23 +242,30 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
     
     public String getDayOfWeek() {
         Calendar cl = new GregorianCalendar();
-        cl.setTime(time);
-        DayOfWeek dayOfWeek = null;
-        switch(cl.get(Calendar.DAY_OF_WEEK)) {
-            case 1: dayOfWeek = DayOfWeek.Sunday; 
-                    break;
-            case 2: dayOfWeek = DayOfWeek.Monday; 
-                    break;
-            case 3: dayOfWeek = DayOfWeek.Tuesday; 
-                    break;
-            case 4: dayOfWeek = DayOfWeek.Wednesday; 
-                    break;
-            case 5: dayOfWeek = DayOfWeek.Thursday; 
-                    break;
-            case 6: dayOfWeek = DayOfWeek.Friday; 
-                    break;
-            case 7: dayOfWeek = DayOfWeek.Saturday; 
-                    break;
+        cl.setTime(scheduledDate);
+        DayOfWeek dayOfWeek = null;        
+        switch (cl.get(Calendar.DAY_OF_WEEK)) {
+            case Calendar.SUNDAY:
+                dayOfWeek = DayOfWeek.Sunday;
+                break;
+            case Calendar.MONDAY:
+                dayOfWeek = DayOfWeek.Monday;
+                break;
+            case Calendar.TUESDAY:
+                dayOfWeek = DayOfWeek.Tuesday;
+                break;
+            case Calendar.WEDNESDAY:
+                dayOfWeek = DayOfWeek.Wednesday;
+                break;
+            case Calendar.THURSDAY:
+                dayOfWeek = DayOfWeek.Thursday;
+                break;
+            case Calendar.FRIDAY:
+                dayOfWeek = DayOfWeek.Friday;
+                break;
+            case Calendar.SATURDAY:
+                dayOfWeek = DayOfWeek.Saturday;
+                break;
         }
         return dayOfWeek.name().toUpperCase();
     }
