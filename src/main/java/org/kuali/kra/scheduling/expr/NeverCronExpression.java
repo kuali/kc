@@ -20,11 +20,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import org.kuali.kra.scheduling.Time;
+import org.kuali.kra.scheduling.Time24HrFmt;
 
 public class NeverCronExpression extends CronExpression {
 
-    public NeverCronExpression(Date startDate, Time time) throws ParseException {
+    public NeverCronExpression(Date startDate, Time24HrFmt time) throws ParseException {
         super(startDate, time);
     }
 

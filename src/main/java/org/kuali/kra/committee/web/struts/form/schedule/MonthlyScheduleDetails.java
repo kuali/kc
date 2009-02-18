@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.committee.web.struts.form.schedule;
 
-import org.kuali.kra.committee.web.struts.form.schedule.util.ScheduleOptionsUtil;
-
 public class MonthlyScheduleDetails extends ScheduleDetails {
     
     private int day;
@@ -46,11 +44,11 @@ public class MonthlyScheduleDetails extends ScheduleDetails {
         
         //this.setMonthsweek(new ArrayList<LabelValueBean>());
         //ScheduleOptionsUtil.populate(monthsweek, ScheduleOptionsUtil.mthsweek);
-        this.setSelectedMonthsWeek(ScheduleOptionsUtil.mthsweek[0]);
+        this.setSelectedMonthsWeek(WeekOfMonth.first.toString());
         
         //this.setDayofweek(new ArrayList<LabelValueBean>());
         //ScheduleOptionsUtil.populate(dayofweek, ScheduleOptionsUtil.dyofweek);
-        this.setSelectedDayOfWeek(ScheduleOptionsUtil.dyofweek[4]);
+        this.setSelectedDayOfWeek(DayOfWeek.Monday.toString());
     }
 
     public void setDay(int day) {

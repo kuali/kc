@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt.MERIDIEM;
 import org.kuali.kra.committee.web.struts.form.schedule.util.ScheduleOptionsUtil;
 import org.kuali.kra.scheduling.expr.CronSpecialChars;
 
@@ -28,20 +29,14 @@ public class ScheduleData {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScheduleData.class);
     
     private Date scheduleStartDate;
-       
-    private String startTime;
     
-    private String meridiem;
-    
-    //private List<LabelValueBean> timeSlots;
+    private Time12HrFmt time;
     
     private String place;
     
     private String recurrenceType;
     
     private Map<String,String> styleClasses;
-    
-    //public static final String[] stylekey = {"NEVER","DAILY","WEEKLY","MONTHLY","YEARLY"};
     
     private DailyScheduleDetails dailySchedule;
     
@@ -59,11 +54,7 @@ public class ScheduleData {
         super();
         this.setScheduleStartDate(new Date(new java.util.Date().getTime()));
         
-        //this.setTimeSlots(new ArrayList<LabelValueBean>());
-        //ScheduleOptionsUtil.populate(timeSlots, ScheduleOptionsUtil.time);
-        
-        this.setStartTime("00:00");
-        this.setMeridiem("AM");
+        this.setTime(new Time12HrFmt("12:00",MERIDIEM.PM));
         
         this.setRecurrenceType(StyleKey.NEVER.toString());
         this.setStyleClasses(new HashMap<String,String>());
@@ -97,30 +88,6 @@ public class ScheduleData {
 
     public void setPlace(String place) {
         this.place = place;
-    }
-
-/*    public List<LabelValueBean> getTimeSlots() {
-        return timeSlots;
-    }
-
-    public void setTimeSlots(List<LabelValueBean> timeSlots) {
-        this.timeSlots = timeSlots;
-    }*/
-    
-    public String getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
-
-    public String getMeridiem() {
-        return meridiem;
-    }
-
-    public void setMeridiem(String meridiem) {
-        this.meridiem = meridiem;
     }
 
     public void setScheduleStartDate(Date scheduleStartDate) {
@@ -178,7 +145,16 @@ public class ScheduleData {
     public void setFilerEndDate(Date filerEndDate) {
         this.filerEndDate = filerEndDate;
     }
+    
+    public Time12HrFmt getTime() {
+        return time;
+    }
 
+    public void setTime(Time12HrFmt time) {
+        this.time = time;
+    }
+
+    
     public void populateStyleClass(){
         
         for(StyleKey str: StyleKey.values()) {
@@ -193,14 +169,6 @@ public class ScheduleData {
             }
         }      
     }
-
-    public int calculateMinutes() {
-        return ScheduleOptionsUtil.findMinutes(startTime, meridiem);
-    }
-    
-/*    public String convert24HrTimeFmt() {
-        return ScheduleOptionsUtil.convert24HourFmt(startTime, meridiem);
-    }*/
     
     public static CronSpecialChars getMonthOfWeek(String month) {
         return ScheduleOptionsUtil.getMonthOfWeek(month);
@@ -221,7 +189,7 @@ public class ScheduleData {
     public void printf() {
         LOG.info("=========================================================");
         LOG.info("ScheduleStartDate Date is :" + scheduleStartDate.toString());
-        LOG.info("Start time is :" + startTime + meridiem);
+        LOG.info("Start time is :" + getTime().getTime() + getTime().getMeridiem());
         LOG.info("Place is :" + place);
         LOG.info("recurrenceType is :" + recurrenceType);
         LOG.info("=========================================================");
