@@ -317,7 +317,6 @@ public interface Constants {
     public static final String SPECIAL_REVIEW_NUMBER = "SPECIAL_REVIEW_NUMBER";
     public static final String LEFT_SQUARE_BRACKET = "[";
     public static final String RIGHT_SQUARE_BRACKET = "]";
-    public static final String CONTACT_TYPE_OTHER = "8";
     
     public static final String REPORT_CLASSES_KEY_FOR_INITIALIZE_OBJECTS = "reportClasses";
     public static final String NEW_AWARD_REPORT_TERMS_LIST_KEY_FOR_INITIALIZE_OBJECTS = "newAwardReportTermList";

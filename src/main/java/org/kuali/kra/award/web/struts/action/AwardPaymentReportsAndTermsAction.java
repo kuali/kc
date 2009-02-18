@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardReportTerm;
@@ -35,6 +36,7 @@ import org.kuali.kra.award.rule.event.AddAwardReportTermEvent;
 import org.kuali.kra.award.rule.event.AddAwardReportTermRecipientEvent;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardReportsService;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -243,7 +245,10 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         if(newAwardReportTermRecipient.getContactId()!=null){
             populateContactTypeAndRolodex(newAwardReportTermRecipient);
         }else if(newAwardReportTermRecipient.getRolodexId()!=null){
-            newAwardReportTermRecipient.setContactTypeCode(Constants.CONTACT_TYPE_OTHER);
+            newAwardReportTermRecipient.setContactTypeCode(getKualiConfigurationService().getParameter(Constants
+                    .PARAMETER_MODULE_AWARD,Constants.PARAMETER_COMPONENT_DOCUMENT
+                    ,KeyConstants.CONTACT_TYPE_OTHER).getParameterValue());
+            
         }
         
         if(getKualiRuleService().applyRules(new AddAwardReportTermRecipientEvent(Constants.EMPTY_STRING,
@@ -434,5 +439,15 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
             recipientSize = Integer.parseInt(recipientSizeString);
         }        
         return recipientSize;
+    }
+    
+    /**
+     * 
+     * This is a wrapper method for the retrieval of KualiConfigurationService.
+     * 
+     * @return
+     */
+    protected KualiConfigurationService getKualiConfigurationService(){
+        return KraServiceLocator.getService(KualiConfigurationService.class);
     }
 }
