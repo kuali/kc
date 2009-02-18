@@ -30,7 +30,6 @@ import org.kuali.kra.award.bo.ReportClass;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.ReportClassValuesFinder;
-import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.service.AwardReportsService;
@@ -47,101 +46,113 @@ public class AwardReportsServiceImpl implements AwardReportsService {
     KualiConfigurationService kualiConfigurationService;
     BusinessObjectService businessObjectService;
     
-    public HashMap doPreps(Award award){
-        HashMap a = new HashMap();
-        ReportClassValuesFinder reportClassValuesFinder = new ReportClassValuesFinder();
-        List<KeyLabelPair> reportClasses = new ArrayList<KeyLabelPair>();
-        List<AwardReportTerm> newAwardReportTerm = new ArrayList<AwardReportTerm>();
-        reportClasses = reportClassValuesFinder.getKeyValues();
-        
-        a.put("reportClasses",  reportClasses);
-        
-        for(int i=0;i<reportClasses.size();i++){
-            newAwardReportTerm.add(new AwardReportTerm());
-        }
-        a.put("newAwardReportTermList",  newAwardReportTerm);
-        
-        List<AwardReportTermRecipient> newAwardReportTermRecipients = new ArrayList<AwardReportTermRecipient>();
-        for(int i=0;i<award.getAwardReportTerms().size();i++){
-            newAwardReportTermRecipients.add(new AwardReportTermRecipient());
-        }
-        a.put("newAwardReportTermRecipientsList",  newAwardReportTermRecipients);
-        
-        return a;
-    }
     /**
      * 
-     * @see org.kuali.kra.service.AwardReportsService#doPreparations(
-     * org.kuali.kra.award.web.struts.form.AwardForm)
+     * @see org.kuali.kra.service.AwardReportsService#initializeObjectsForReportsAndPayments(
+     * org.kuali.kra.award.bo.Award)
      */
-    public void doPreparations(AwardForm awardForm){
+    public HashMap<String, Object> initializeObjectsForReportsAndPayments(Award award){
+        HashMap<String, Object> initializedObjects = new HashMap<String, Object>();
         
-        assignReportClassesToAwardFormForPanelHeaderDisplay(awardForm);        
-        addEmptyNewAwardReportTermRecipients(awardForm);
-        setReportClassInFormForPaymentsAndInvoicesSubPanel(awardForm);
+        initializedObjects = assignReportClassesForPanelHeaderDisplay(initializedObjects);
+        
+        initializedObjects = addEmptyNewAwardReportTermRecipients(award, initializedObjects);
+        
+        initializedObjects = setReportClassForPaymentsAndInvoicesSubPanel(initializedObjects);
+        
+        return initializedObjects;
     }
-    
     
     /**
      * 
      * This method fetches the reportClass object from the database using system paramter as the primary
-     * key and sets it in the awardForm. Its used in the jsp/tag files to populate the report class panel
-     * under Payments and Invoices panel.
+     * key and puts it in the map and returns it. 
+     * It is used in the jsp/tag files to populate the report class panel under Payments and Invoices panel.
      * 
-     * @param awardForm
+     * @param hashMap
+     * @return
      */
-    protected void setReportClassInFormForPaymentsAndInvoicesSubPanel(AwardForm awardForm){
+    protected HashMap<String, Object> setReportClassForPaymentsAndInvoicesSubPanel(
+            HashMap<String, Object> hashMap){
+        
         Map<String, String> primaryKeyField = new HashMap<String, String>();
         
         primaryKeyField.put("reportClassCode",kualiConfigurationService.getParameter(Constants
                 .PARAMETER_MODULE_AWARD,Constants.PARAMETER_COMPONENT_DOCUMENT
                 ,KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES).getParameterValue());        
         
-        awardForm.setReportClassForPaymentsAndInvoices((ReportClass) businessObjectService.findByPrimaryKey(
-                ReportClass.class, primaryKeyField));
+        hashMap.put(Constants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES_PANEL, 
+                (ReportClass) businessObjectService.findByPrimaryKey(ReportClass.class, primaryKeyField));
+        return hashMap;
     }
-    
+
     /**
      * 
-     * This method adds an empty AwardReportTerm object to awardForm.newAwardReportTerm
-     * list for every report class.
+     * This method puts an empty AwardReportTerm object to an empty 
+     * list for every report class and puts it in a hashmap.
      * 
-     * @param awardForm
+     * @param hashMap
+     * @return
      */
-    protected void assignReportClassesToAwardFormForPanelHeaderDisplay(AwardForm awardForm){
+    protected HashMap<String, Object> assignReportClassesForPanelHeaderDisplay(
+            HashMap<String, Object> hashMap){
+        
         ReportClassValuesFinder reportClassValuesFinder = new ReportClassValuesFinder();
         List<KeyLabelPair> reportClasses = new ArrayList<KeyLabelPair>();
         
         reportClasses = reportClassValuesFinder.getKeyValues();
-        awardForm.setReportClasses(reportClasses);
         
-        addEmptyNewAwardReportTerms(awardForm, reportClasses);                
+        hashMap.put(Constants.REPORT_CLASSES_KEY_FOR_INITIALIZE_OBJECTS,  reportClasses);
+        
+        hashMap = addEmptyNewAwardReportTerms(hashMap, reportClasses);
+        
+        return hashMap;                
     }
     
     /**
      * 
-     * This method is a helper method for assignReportClassesToAwardFormForPanelHeaderDisplay
+     * This method is a helper method for assignReportClassesForPanelHeaderDisplay
      * 
-     * @param awardForm
+     * @param hashMap
      * @param reportClasses
+     * @return
      */
-    protected void addEmptyNewAwardReportTerms(AwardForm awardForm, List<KeyLabelPair> reportClasses){
+    @SuppressWarnings("all")
+    protected HashMap<String, Object> addEmptyNewAwardReportTerms(
+            HashMap<String, Object> hashMap, List<KeyLabelPair> reportClasses){
+        List<AwardReportTerm> newAwardReportTerm = new ArrayList<AwardReportTerm>();
         for(KeyLabelPair keyLabelPair:reportClasses){
-            awardForm.getNewAwardReportTerm().add(new AwardReportTerm());
+            newAwardReportTerm.add(new AwardReportTerm());
         }
+        hashMap.put(
+                Constants.NEW_AWARD_REPORT_TERMS_LIST_KEY_FOR_INITIALIZE_OBJECTS,  newAwardReportTerm);
+        return hashMap;
     }
     
-    /**
-     * 
+   /**
+    * 
      * This method adds an empty AwardReportTermRecipient object to 
-     * AwardForm.newAwardReportTermRecipient list for every AwardReportTerm object present
-     * in Award.
-     * @param awardForm
-     */
-    protected void addEmptyNewAwardReportTermRecipients(AwardForm awardForm){
-        for(AwardReportTerm awardReportTerm:awardForm.getAwardDocument().getAward().getAwardReportTerms()){
-            awardForm.getNewAwardReportTermRecipient().add(new AwardReportTermRecipient());
+     * an empty list for every AwardReportTerm object present in Award
+     * and puts the list in a hashmap
+     * 
+    * @param award
+    * @param hashMap
+    * @return
+    */
+    protected HashMap<String, Object> addEmptyNewAwardReportTermRecipients(
+            Award award, HashMap<String, Object> hashMap){
+        
+        List<AwardReportTermRecipient> newAwardReportTermRecipients 
+            = new ArrayList<AwardReportTermRecipient>();        
+        
+        for(int i=0;i<award.getAwardReportTerms().size();i++){
+            newAwardReportTermRecipients.add(new AwardReportTermRecipient());
         }
+        
+        hashMap.put(Constants.NEW_AWARD_REPORT_TERM_RECIPIENTS_LIST_KEY_FOR_INITIALIZE_OBJECTS
+                ,  newAwardReportTermRecipients);
+        
+        return hashMap;
     }
     
     /**
@@ -164,7 +175,7 @@ public class AwardReportsServiceImpl implements AwardReportsService {
      * @param keyLabelPairList
      * @return
      */
-    public String processKeyLabelPairList(List<KeyLabelPair> keyLabelPairList){
+    protected String processKeyLabelPairList(List<KeyLabelPair> keyLabelPairList){
         
         StringBuilder strBuilder = new StringBuilder();
         
@@ -195,10 +206,20 @@ public class AwardReportsServiceImpl implements AwardReportsService {
         
     }
 
+    /**
+     * 
+     * This method...
+     * @param kualiConfigurationService
+     */
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 
+    /**
+     * 
+     * This method...
+     * @param businessObjectService
+     */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
