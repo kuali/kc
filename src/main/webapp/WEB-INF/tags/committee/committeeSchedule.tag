@@ -122,11 +122,11 @@
                       <tr>
                         <td valign="middle" class="nobord" style="background-color:none"><div align="right"><strong>View Date Range:&nbsp;&nbsp;</strong></div></td>
 
-                        <td valign="middle" class="nobord" style="background-color:none">After<br>
+                        <td valign="middle" class="nobord" style="background-color:none">From<br>
                           <kul:htmlControlAttribute property="scheduleData.filterStartDate" 
 	                								datePicker="true"	attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}"  />
 	                								
-                        <td valign="middle" class="nobord" style="background-color:none">Before</span><br>
+                        <td valign="middle" class="nobord" style="background-color:none">To</span><br>
                           <kul:htmlControlAttribute property="scheduleData.filerEndDate" 
 	                								datePicker="true"	attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}"  />
 	                								                        
