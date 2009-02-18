@@ -20,15 +20,13 @@ public class WeeklyScheduleDetails extends ScheduleDetails {
     
     private int week;
     
-    private String[] daysOfWeek;
-    
-    public static final String[] days = {"SUNDAY","MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY","SATURDAY"};
+    private String[] daysOfWeek;    
     
     public WeeklyScheduleDetails() {
         super();
         this.setWeek(1);
         this.setDaysOfWeek(new String[7]);
-        this.getDaysOfWeek()[0] = days[1];
+        this.getDaysOfWeek()[0] = DayOfWeek.Monday.name();
     }
 
     public void setWeek(int week) {

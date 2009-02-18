@@ -24,25 +24,25 @@
 	    <kul:htmlControlAttribute property="scheduleData.weeklySchedule.week" attributeEntry="${committeeScheduleAttributeReferenceDummy.intValue}" />  
 	    week(s) on:<hr size="1" noshade>                       
 	    
-	    <html:multibox property="scheduleData.weeklySchedule.daysOfWeek" value="SUNDAY" styleClass="radio"></html:multibox>
+	    <html:multibox property="scheduleData.weeklySchedule.daysOfWeek" value="Sunday" styleClass="radio"></html:multibox>
 			&nbsp;Sunday&nbsp;&nbsp;&nbsp;&nbsp;
 	    
-	    <html:multibox property="scheduleData.weeklySchedule.daysOfWeek" value="MONDAY" styleClass="radio"></html:multibox>
+	    <html:multibox property="scheduleData.weeklySchedule.daysOfWeek" value="Monday" styleClass="radio"></html:multibox>
 			&nbsp;Monday&nbsp;&nbsp;
 	    
-	    <html:multibox property="scheduleData.weeklySchedule.daysOfWeek" value="TUESDAY" styleClass="radio"></html:multibox>
+	    <html:multibox property="scheduleData.weeklySchedule.daysOfWeek" value="Tuesday" styleClass="radio"></html:multibox>
 			&nbsp;Tuesday&nbsp;&nbsp;
 	    
-	    <html:multibox property="scheduleData.weeklySchedule.daysOfWeek" value="WEDNESDAY" styleClass="radio"></html:multibox>
+	    <html:multibox property="scheduleData.weeklySchedule.daysOfWeek" value="Wednesday" styleClass="radio"></html:multibox>
 			&nbsp;Wednesday&nbsp;&nbsp;<br>
 	    	
-	    <html:multibox property="scheduleData.weeklySchedule.daysOfWeek" value="THURSDAY" styleClass="radio"></html:multibox>
+	    <html:multibox property="scheduleData.weeklySchedule.daysOfWeek" value="Thursday" styleClass="radio"></html:multibox>
 			&nbsp;Thursday&nbsp;&nbsp;
 	    
-	    <html:multibox property="scheduleData.weeklySchedule.daysOfWeek" value="FRIDAY" styleClass="radio"></html:multibox>
+	    <html:multibox property="scheduleData.weeklySchedule.daysOfWeek" value="Friday" styleClass="radio"></html:multibox>
 			&nbsp;Friday&nbsp;&nbsp;&nbsp;&nbsp;
 	    
-	    <html:multibox property="scheduleData.weeklySchedule.daysOfWeek" value="SATURDAY" styleClass="radio"></html:multibox>
+	    <html:multibox property="scheduleData.weeklySchedule.daysOfWeek" value="Saturday" styleClass="radio"></html:multibox>
 			Saturday&nbsp;&nbsp; 
 	  	
 	  	<hr size="1" noshade>
