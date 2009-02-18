@@ -473,7 +473,8 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
         String username = user.getPersonUserIdentifier();
         ProposalAuthorizationService proposalAuthService = KraServiceLocator.getService(ProposalAuthorizationService.class);
-        proposalAuthService.addRole(username, RoleConstants.AGGREGATOR, doc);
+        if (!proposalAuthService.hasRole(username, doc, RoleConstants.AGGREGATOR))
+            proposalAuthService.addRole(username, RoleConstants.AGGREGATOR, doc);
         
         // Add the users defined in the role templates for the proposal's lead unit
         
