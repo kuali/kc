@@ -318,6 +318,11 @@ public interface Constants {
     public static final String LEFT_SQUARE_BRACKET = "[";
     public static final String RIGHT_SQUARE_BRACKET = "]";
     public static final String CONTACT_TYPE_OTHER = "8";
+    
+    public static final String REPORT_CLASSES_KEY_FOR_INITIALIZE_OBJECTS = "reportClasses";
+    public static final String NEW_AWARD_REPORT_TERMS_LIST_KEY_FOR_INITIALIZE_OBJECTS = "newAwardReportTermList";
+    public static final String NEW_AWARD_REPORT_TERM_RECIPIENTS_LIST_KEY_FOR_INITIALIZE_OBJECTS = "newAwardReportTermRecipientsList";
+    public static final String REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES_PANEL = "reportClassForPaymentsAndInvoicesPanel";
 
     // IRB
     public static final String PARTICIPANTS_PROPERTY_KEY = "newProtocolParticipant";
