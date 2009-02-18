@@ -38,8 +38,6 @@
 				<ref bean="CommSchedule-dayOfWeek" />
 				<ref bean="CommSchedule-place" />
 				<ref bean="CommSchedule-time" />
-				<ref bean="CommSchedule-displayTime" />
-				<ref bean="CommSchedule-meridiem" />
 				<ref bean="CommSchedule-protocolSubDeadline" />
 				<ref bean="CommSchedule-scheduleStatusCode" />
 				<ref bean="CommSchedule-meetingDate" />
@@ -161,44 +159,6 @@
 		<property name="name" value="time" />
 		<property name="label" value="Time" />
 		<property name="shortLabel" value="Time" />
-		<property name="summary" value="Time" />
-		<property name="description" value="Time" />
-	</bean>
-
-	<bean id="CommSchedule-displayTime" parent="CommSchedule-displayTime-parentBean" />
-	<bean id="CommSchedule-displayTime-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="displayTime" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Time" />
-		<property name="shortLabel" value="Time" />
-		<property name="maxLength" value="22" />
-	    <property name="validationPattern" >
-	      <bean parent="RegexValidationPattern"
-	      		p:pattern="(([0][1-9])|([1][0-2])):[0-5][0-9]" />
-	    </property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
-		</property>
-		<property name="summary" value="Time" />
-		<property name="description" value="Time" />
-	</bean>
-
-	<bean id="CommSchedule-meridiem" parent="CommSchedule-meridiem-parentBean" />
-	<bean id="CommSchedule-meridiem-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="meridiem" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Time" />
-		<property name="shortLabel" value="Time" />
-		<property name="maxLength" value="22" />
-		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
-		</property>
-		<property name="control" >
-			<bean parent="RadioControlDefinition"
-            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.AMPMValuesFinder"
-            	p:includeKeyInLabel="false" />
-		</property>
 		<property name="summary" value="Time" />
 		<property name="description" value="Time" />
 	</bean>

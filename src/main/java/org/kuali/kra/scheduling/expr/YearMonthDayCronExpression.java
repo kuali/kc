@@ -20,7 +20,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import org.kuali.kra.scheduling.Time;
+import org.kuali.kra.scheduling.Time24HrFmt;
 
 public class YearMonthDayCronExpression extends CronExpression {
     
@@ -30,7 +30,7 @@ public class YearMonthDayCronExpression extends CronExpression {
     
     private Integer frequencyInYear;
     
-    public YearMonthDayCronExpression(Date startDate, Time time, CronSpecialChars month, Integer day, Integer frequencyInYear) throws ParseException {
+    public YearMonthDayCronExpression(Date startDate, Time24HrFmt time, CronSpecialChars month, Integer day, Integer frequencyInYear) throws ParseException {
         super(startDate, time);
         this.month = month;
         this.day = day;
