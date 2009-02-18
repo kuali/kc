@@ -77,12 +77,12 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
     
     public void filterCommitteeScheduleDates(ScheduleData scheduleData, Committee committee){
         List<CommitteeSchedule> committeeSchedules = committee.getCommitteeSchedules();
-        Date startDate = null;
-        Date endDate = null;
+        Date startDate = scheduleData.getFilterStartDate();
+        startDate = DateUtils.addDays(startDate, -1);
+        Date endDate = scheduleData.getFilerEndDate();
+        endDate = DateUtils.addDays(endDate, 1);
         Date scheduleDate = null;
-        for(CommitteeSchedule committeeSchedule : committeeSchedules) {
-            startDate = scheduleData.getFilterStartDate();
-            endDate = scheduleData.getFilerEndDate();
+        for(CommitteeSchedule committeeSchedule : committeeSchedules) {            
             scheduleDate = committeeSchedule.getScheduledDate();
             if(scheduleDate.after(startDate) && scheduleDate.before(endDate)) 
                 committeeSchedule.setFilter(TRUE);            
