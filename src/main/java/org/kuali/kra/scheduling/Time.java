@@ -13,33 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.scheduling.expr;
+package org.kuali.kra.scheduling;
 
 import java.text.ParseException;
-import java.util.Date;
 
-import org.kuali.kra.scheduling.Time;
-
-public abstract class CronExpression {
+public class Time {
     
-    private Date startDate;
+    private String hours;
     
-    //private String hours;
+    private String minutes;
     
-    //private String minutes;    
-    
-    private Time time;
-    
-    public final String SECONDS = "0";
-    
-    public CronExpression(Date startDate, Time time) throws ParseException {
-        super();
-        this.startDate = startDate;
-        this.time = time;
-        //parseTime(time);
+    public Time(String time) throws ParseException {
+        parseTime(time);
     }
     
-/*    private void parseTime(String time) throws ParseException {
+    public String getHours() {
+        return hours;
+    }
+
+    public void setHours(String hours) {
+        this.hours = hours;
+    }
+
+    public String getMinutes() {
+        return minutes;
+    }
+
+    public void setMinutes(String minutes) {
+        this.minutes = minutes;
+    }
+    
+    private void parseTime(String time) throws ParseException {
         
         String[] result = time.split(":");
         
@@ -66,24 +70,5 @@ public abstract class CronExpression {
         this.hours = result[0];
         this.minutes = result[1];
         
-    }*/
-    
-    public abstract String getExpression();
-
-    protected Date getStartDate() {
-        return startDate;
     }
-/*
-    protected String getHours() {
-        return hours;
-    }
-
-    protected String getMinutes() {
-        return minutes;
-    }*/
-    
-    protected Time getTime() {
-        return time;
-    }
-
 }

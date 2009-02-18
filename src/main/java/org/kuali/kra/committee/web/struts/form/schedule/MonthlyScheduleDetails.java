@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.committee.web.struts.form.schedule;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.struts.util.LabelValueBean;
 import org.kuali.kra.committee.web.struts.form.schedule.util.ScheduleOptionsUtil;
 
 public class MonthlyScheduleDetails extends ScheduleDetails {
@@ -31,7 +27,7 @@ public class MonthlyScheduleDetails extends ScheduleDetails {
     
     private String monthOption;
     
-    public static String[] optionValues = {"XDAYANDXMONTH","XDAYOFWEEKANDXMONTH"};
+    public static enum optionValues {XDAYANDXMONTH, XDAYOFWEEKANDXMONTH};
     
     //private List<LabelValueBean> monthsweek;
     
@@ -43,7 +39,7 @@ public class MonthlyScheduleDetails extends ScheduleDetails {
     
     public MonthlyScheduleDetails() {
         super();
-        this.monthOption = optionValues[0];
+        this.monthOption = optionValues.XDAYANDXMONTH.toString();
         this.setDay(6);
         this.setOption1Month(1);
         this.setOption2Month(1);

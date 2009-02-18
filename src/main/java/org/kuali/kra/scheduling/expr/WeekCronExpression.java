@@ -18,11 +18,13 @@ package org.kuali.kra.scheduling.expr;
 import java.text.ParseException;
 import java.util.Date;
 
+import org.kuali.kra.scheduling.Time;
+
 public class WeekCronExpression extends CronExpression {
     
     private CronSpecialChars [] weekdays;
     
-    public WeekCronExpression(Date startDate, String time, CronSpecialChars [] weekdays) throws ParseException {
+    public WeekCronExpression(Date startDate, Time time, CronSpecialChars [] weekdays) throws ParseException {
         super(startDate, time);
         this.weekdays = weekdays;
     }
@@ -32,8 +34,8 @@ public class WeekCronExpression extends CronExpression {
 
         StringBuilder exp = new StringBuilder();
         exp.append(SECONDS).append(CronSpecialChars.SPACE);
-        exp.append(getMinutes()).append(CronSpecialChars.SPACE);
-        exp.append(getHours()).append(CronSpecialChars.SPACE);        
+        exp.append(getTime().getMinutes()).append(CronSpecialChars.SPACE);
+        exp.append(getTime().getHours()).append(CronSpecialChars.SPACE);        
         exp.append("?").append(CronSpecialChars.SPACE);
         exp.append("*").append(CronSpecialChars.SPACE);
         exp.append(toStringWeekDays(weekdays,CronSpecialChars.COMMASEPRATOR));

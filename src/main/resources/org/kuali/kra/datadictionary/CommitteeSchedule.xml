@@ -172,11 +172,10 @@
 		<property name="label" value="Time" />
 		<property name="shortLabel" value="Time" />
 		<property name="maxLength" value="22" />
-		<property name="validationPattern" >
-			<bean parent="AnyCharacterValidationPattern" >
-				<property name="allowWhitespace" value="true" />
-			</bean> 
-		</property>
+	    <property name="validationPattern" >
+	      <bean parent="RegexValidationPattern"
+	      		p:pattern="(([0][1-9])|([1][0-2])):[0-5][0-9]" />
+	    </property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"
 				p:size="10" />
