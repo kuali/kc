@@ -20,11 +20,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import org.kuali.kra.scheduling.Time;
+
 public class DayCronExpression extends CronExpression {
 
     private Integer day;
     
-    public DayCronExpression(Date startDate, String time, Integer day) throws ParseException {
+    public DayCronExpression(Date startDate, Time time, Integer day) throws ParseException {
         super(startDate, time);
         this.day = day;
     }
@@ -38,8 +40,8 @@ public class DayCronExpression extends CronExpression {
         
         StringBuilder exp = new StringBuilder();
         exp.append(SECONDS).append(CronSpecialChars.SPACE);
-        exp.append(getMinutes()).append(CronSpecialChars.SPACE);
-        exp.append(getHours()).append(CronSpecialChars.SPACE);
+        exp.append(getTime().getMinutes()).append(CronSpecialChars.SPACE);
+        exp.append(getTime().getHours()).append(CronSpecialChars.SPACE);
         exp.append(stDt_dayOfMonth).append(CronSpecialChars.SLASH).append(day).append(CronSpecialChars.SPACE);
         exp.append(CronSpecialChars.STAR).append(CronSpecialChars.SPACE);
         exp.append(CronSpecialChars.QUESTION);

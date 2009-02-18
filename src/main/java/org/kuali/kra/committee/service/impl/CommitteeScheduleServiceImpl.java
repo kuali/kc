@@ -17,9 +17,9 @@ package org.kuali.kra.committee.service.impl;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,11 +33,10 @@ import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.committee.web.struts.form.schedule.DailyScheduleDetails;
 import org.kuali.kra.committee.web.struts.form.schedule.MonthlyScheduleDetails;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
-import org.kuali.kra.committee.web.struts.form.schedule.WeeklyScheduleDetails;
+import org.kuali.kra.committee.web.struts.form.schedule.StyleKey;
 import org.kuali.kra.committee.web.struts.form.schedule.YearlyScheduleDetails;
-import org.kuali.kra.committee.web.struts.form.schedule.util.ScheduleOptionsUtil;
-import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.scheduling.ScheduleSequence;
+import org.kuali.kra.scheduling.Time;
 import org.kuali.kra.scheduling.WeekScheduleSequence;
 import org.kuali.kra.scheduling.expr.CronSpecialChars;
 import org.kuali.kra.scheduling.service.impl.ScheduleServiceImpl;
@@ -100,69 +99,96 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
     public void addSchedule(ScheduleData scheduleData, Committee committee) throws ParseException {
         
         List<Date> dates = null;
-        Date dt = addTime(scheduleData.getScheduleStartDate(), scheduleData.calculateMinutes());
-        String time24fmt = scheduleData.convert24HrTimeFmt();
+        Date dtEnd = null;
+        int frequency = 0;
+        int day = 0;
+        CronSpecialChars[] weekdays = null;
+        CronSpecialChars weekOfMonth = null;
+        CronSpecialChars dayOfWeek = null;
+        CronSpecialChars month = null;
         
-        if(scheduleData.getRecurrenceType().equalsIgnoreCase(ScheduleData.stylekey[0])){       
-            dates = scheduleService.getScheduledDates(dt, dt, time24fmt, null);
+        Time time = getTime24hFmt(scheduleData.getScheduleStartDate(), scheduleData.calculateMinutes());
+        Date dt = scheduleData.getScheduleStartDate();       
+        
+        StyleKey key = StyleKey.valueOf(scheduleData.getRecurrenceType());        
+        switch (key) {
+            case NEVER :
+                dates = scheduleService.getScheduledDates(dt, dt, time, null);
+                break;
+            case DAILY : 
+                DailyScheduleDetails.optionValues dailyoption = DailyScheduleDetails.optionValues.valueOf(scheduleData.getDailySchedule().getDayOption());
+                switch (dailyoption) {
+                    case XDAY: 
+                        dtEnd = scheduleData.getDailySchedule().getScheduleEndDate();
+                        day = scheduleData.getDailySchedule().getDay();
+                        dates = scheduleService.getScheduledDates(dt, dtEnd, time, day, null);
+                        break;
+                    case WEEKDAY : 
+                        dtEnd = scheduleData.getDailySchedule().getScheduleEndDate();
+                        day = scheduleData.getDailySchedule().getDay();
+                        dates = scheduleService.getScheduledDates(dt, dtEnd, time, day, null);
+                        break;
+                }
+                break;
+            case WEEKLY :
+                dtEnd = scheduleData.getWeeklySchedule().getScheduleEndDate();
+                weekdays = ScheduleData.convertToWeekdays(scheduleData.getWeeklySchedule().getDaysOfWeek());
+                ScheduleSequence scheduleSequence = new WeekScheduleSequence(scheduleData.getWeeklySchedule().getWeek(),weekdays.length);
+                dates = scheduleService.getScheduledDates(dt, dtEnd, time, weekdays, scheduleSequence);
+                break;
+            case MONTHLY :
+                MonthlyScheduleDetails.optionValues monthOption = MonthlyScheduleDetails.optionValues.valueOf(scheduleData.getMonthlySchedule().getMonthOption());
+                switch(monthOption) {
+                    case XDAYANDXMONTH :
+                        dtEnd = scheduleData.getMonthlySchedule().getScheduleEndDate();
+                        day = scheduleData.getMonthlySchedule().getDay();
+                        frequency = scheduleData.getMonthlySchedule().getOption1Month();
+                        dates = scheduleService.getScheduledDates(dt, dtEnd, time, day, frequency, null);
+                        break;
+                    case XDAYOFWEEKANDXMONTH :
+                        dtEnd = scheduleData.getMonthlySchedule().getScheduleEndDate();
+                        weekOfMonth = ScheduleData.getWeekOfMonth(scheduleData.getMonthlySchedule().getSelectedMonthsWeek());
+                        dayOfWeek = ScheduleData.getDayOfWeek(scheduleData.getMonthlySchedule().getSelectedDayOfWeek());
+                        frequency = scheduleData.getMonthlySchedule().getOption2Month();
+                        dates = scheduleService.getScheduledDates(dt, dtEnd, time, dayOfWeek, weekOfMonth, frequency, null);
+                        break;
+                }
+                break;
+            case YEARLY : 
+                YearlyScheduleDetails.yearOptionValues yearOption = YearlyScheduleDetails.yearOptionValues.valueOf(scheduleData.getYearlySchedule().getYearOption());
+                switch(yearOption) {
+                    case XDAY :
+                        dtEnd = scheduleData.getYearlySchedule().getScheduleEndDate();
+                        month = ScheduleData.getMonthOfWeek(scheduleData.getYearlySchedule().getSelectedOption1Month());
+                        day = scheduleData.getYearlySchedule().getDay();
+                        frequency = scheduleData.getYearlySchedule().getOption1Year();
+                        dates = scheduleService.getScheduledDates(dt, dtEnd, time, month, day, frequency, null);
+                        break;
+                    case CMPLX:
+                        dtEnd = scheduleData.getYearlySchedule().getScheduleEndDate();
+                        weekOfMonth = ScheduleData.getWeekOfMonth(scheduleData.getYearlySchedule().getSelectedMonthsWeek());
+                        dayOfWeek = ScheduleData.getDayOfWeek(scheduleData.getYearlySchedule().getSelectedDayOfWeek());
+                        month = ScheduleData.getMonthOfWeek(scheduleData.getYearlySchedule().getSelectedOption2Month());
+                        frequency = scheduleData.getYearlySchedule().getOption2Year();
+                        dates = scheduleService.getScheduledDates(dt, dtEnd, time, weekOfMonth, dayOfWeek, month, frequency, null);
+                        break;
+                }
+                break;            
         }
-        if(scheduleData.getRecurrenceType().equalsIgnoreCase(ScheduleData.stylekey[1]) 
-                && scheduleData.getDailySchedule().getDayOption().equalsIgnoreCase(DailyScheduleDetails.optionValues[0])){
-            Date dtEnd = addTime(scheduleData.getDailySchedule().getScheduleEndDate(), scheduleData.calculateMinutes());
-            int day = scheduleData.getDailySchedule().getDay();
-            dates = scheduleService.getScheduledDates(dt, dtEnd, time24fmt, day, null);
-        }
-        if(scheduleData.getRecurrenceType().equalsIgnoreCase(ScheduleData.stylekey[1]) 
-                && scheduleData.getDailySchedule().getDayOption().equalsIgnoreCase(DailyScheduleDetails.optionValues[1])){
-            Date dtEnd = addTime(scheduleData.getDailySchedule().getScheduleEndDate(), scheduleData.calculateMinutes());
-            int day = scheduleData.getDailySchedule().getDay();
-            dates = scheduleService.getScheduledDates(dt, dtEnd, time24fmt, day, null);
-        }        
-        if(scheduleData.getRecurrenceType().equalsIgnoreCase(ScheduleData.stylekey[2])){
-            Date dtEnd = addTime(scheduleData.getWeeklySchedule().getScheduleEndDate(), scheduleData.calculateMinutes());
-            CronSpecialChars[] weekdays = ScheduleData.convertToWeekdays(scheduleData.getWeeklySchedule().getDaysOfWeek());
-            ScheduleSequence scheduleSequence = new WeekScheduleSequence(scheduleData.getWeeklySchedule().getWeek(),weekdays.length);
-            dates = scheduleService.getScheduledDates(dt, dtEnd, time24fmt, weekdays, scheduleSequence);
-        } 
-        if(scheduleData.getRecurrenceType().equalsIgnoreCase(ScheduleData.stylekey[3]) 
-                && scheduleData.getMonthlySchedule().getMonthOption().equalsIgnoreCase(MonthlyScheduleDetails.optionValues[0])){
-             Date dtEnd = addTime(scheduleData.getMonthlySchedule().getScheduleEndDate(), scheduleData.calculateMinutes());
-            int day = scheduleData.getMonthlySchedule().getDay();
-            int frequency = scheduleData.getMonthlySchedule().getOption1Month();
-            dates = scheduleService.getScheduledDates(dt, dtEnd, time24fmt, day, frequency, null);
-        }           
-        if(scheduleData.getRecurrenceType().equalsIgnoreCase(ScheduleData.stylekey[3]) 
-                && scheduleData.getMonthlySchedule().getMonthOption().equalsIgnoreCase(MonthlyScheduleDetails.optionValues[1])){
-            Date dtEnd = addTime(scheduleData.getMonthlySchedule().getScheduleEndDate(), scheduleData.calculateMinutes());
-            CronSpecialChars weekOfMonth = ScheduleData.getWeekOfMonth(scheduleData.getMonthlySchedule().getSelectedMonthsWeek());
-            CronSpecialChars dayOfWeek = ScheduleData.getDayOfWeek(scheduleData.getMonthlySchedule().getSelectedDayOfWeek());
-            int frequency = scheduleData.getMonthlySchedule().getOption2Month();
-            dates = scheduleService.getScheduledDates(dt, dtEnd, time24fmt, dayOfWeek, weekOfMonth, frequency, null);
-        }         
-        if(scheduleData.getRecurrenceType().equalsIgnoreCase(ScheduleData.stylekey[4]) 
-                && scheduleData.getYearlySchedule().getYearOption().equalsIgnoreCase(YearlyScheduleDetails.yearOptionValues[0])){
-            Date dtEnd = addTime(scheduleData.getYearlySchedule().getScheduleEndDate(), scheduleData.calculateMinutes());
-            CronSpecialChars month = ScheduleData.getMonthOfWeek(scheduleData.getYearlySchedule().getSelectedOption1Month());
-            int day = scheduleData.getYearlySchedule().getDay();
-            int frequency = scheduleData.getYearlySchedule().getOption1Year();
-            dates = scheduleService.getScheduledDates(dt, dtEnd, time24fmt, month, day, frequency, null);
-        }    
-        if(scheduleData.getRecurrenceType().equalsIgnoreCase(ScheduleData.stylekey[4]) 
-                && scheduleData.getYearlySchedule().getYearOption().equalsIgnoreCase(YearlyScheduleDetails.yearOptionValues[1])){
-            Date dtEnd = addTime(scheduleData.getYearlySchedule().getScheduleEndDate(), scheduleData.calculateMinutes());
-            CronSpecialChars weekOfMonth = ScheduleData.getWeekOfMonth(scheduleData.getYearlySchedule().getSelectedMonthsWeek());
-            CronSpecialChars dayOfWeek = ScheduleData.getDayOfWeek(scheduleData.getYearlySchedule().getSelectedDayOfWeek());
-            CronSpecialChars month = ScheduleData.getMonthOfWeek(scheduleData.getYearlySchedule().getSelectedOption2Month());
-            int frequency = scheduleData.getYearlySchedule().getOption2Year();
-            dates = scheduleService.getScheduledDates(dt, dtEnd, time24fmt, weekOfMonth, dayOfWeek, month, frequency, null);
-        }         
+    
         addScheduleDatesToCommittee(dates, committee, scheduleData.getPlace());
 
     }
     
-    private Date addTime(Date date, int min){
+    private Time getTime24hFmt(Date date, int min) throws ParseException{
         Date dt  = DateUtils.round(date, Calendar.DAY_OF_MONTH);            
-        return DateUtils.addMinutes(dt, min);
+        dt = DateUtils.addMinutes(dt, min);
+        Calendar cl = new GregorianCalendar();
+        cl.setTime(dt);
+        StringBuffer sb = new StringBuffer();
+        String str = sb.append(cl.get(Calendar.HOUR_OF_DAY)).append(":").append(cl.get(Calendar.MINUTE)).toString();
+        LOG.info("24 HR time :" + str);        
+        return new Time(str); 
     }
   
     private void addScheduleDatesToCommittee(List<Date> dates, Committee committee, String location){

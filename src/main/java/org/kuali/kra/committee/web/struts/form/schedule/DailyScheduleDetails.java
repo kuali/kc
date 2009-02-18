@@ -26,13 +26,13 @@ public class DailyScheduleDetails extends ScheduleDetails {
     
     private String dayOption;
     
-    public static final String[] optionValues = {"XDAY","WEEKDAY"};
+    public static enum optionValues {XDAY,WEEKDAY};
     
     public DailyScheduleDetails() {
         super();
         this.setDefaultDay(1);
         this.setDay(this.getDefaultDay());
-        this.setDayOption(optionValues[0]);
+        this.setDayOption(optionValues.XDAY.toString());
     }
 
     public void setDay(int day) {

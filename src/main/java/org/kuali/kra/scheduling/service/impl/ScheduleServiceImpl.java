@@ -19,8 +19,10 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kra.scheduling.DefaultScheduleSequence;
 import org.kuali.kra.scheduling.ScheduleSequence;
+import org.kuali.kra.scheduling.Time;
 import org.kuali.kra.scheduling.expr.CronExpression;
 import org.kuali.kra.scheduling.expr.CronSpecialChars;
 import org.kuali.kra.scheduling.expr.DayCronExpression;
@@ -36,64 +38,88 @@ public class ScheduleServiceImpl {
     @SuppressWarnings("unused")
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScheduleServiceImpl.class);
 
-    public List<Date> getScheduledDates(Date startDate, Date endDate, String time24h, ScheduleSequence scheduleSequence)
+    public List<Date> getScheduledDates(Date startDate, Date endDate, Time time, ScheduleSequence scheduleSequence)
             throws ParseException {
 
-        CronExpression expr = new NeverCronExpression(startDate, time24h);
+        CronExpression expr = new NeverCronExpression(startDate, time);
         scheduleSequence = getScheduleSequence(scheduleSequence);
+        startDate = wrapTime(startDate, null);
+        endDate = wrapTime(endDate, time);
         return scheduleSequence.getScheduleSequence(expr.getExpression(), startDate, endDate);
     }
 
-    public List<Date> getScheduledDates(Date startDate, Date endDate, String time24h, Integer day, ScheduleSequence scheduleSequence)
+    public List<Date> getScheduledDates(Date startDate, Date endDate, Time time, Integer day, ScheduleSequence scheduleSequence)
             throws ParseException {
 
-        CronExpression expr = new DayCronExpression(startDate, time24h, day);
+        CronExpression expr = new DayCronExpression(startDate, time, day);
         scheduleSequence = getScheduleSequence(scheduleSequence);
+        startDate = wrapTime(startDate, null);
+        endDate = wrapTime(endDate, time);
         return scheduleSequence.getScheduleSequence(expr.getExpression(), startDate, endDate);
     }
 
-    public List<Date> getScheduledDates(Date startDate, Date endDate, String time24h, CronSpecialChars[] weekdays,
+    public List<Date> getScheduledDates(Date startDate, Date endDate, Time time, CronSpecialChars[] weekdays,
             ScheduleSequence scheduleSequence) throws ParseException {
 
-        CronExpression expr = new WeekCronExpression(startDate, time24h, weekdays);
+        CronExpression expr = new WeekCronExpression(startDate, time, weekdays);
         scheduleSequence = getScheduleSequence(scheduleSequence);
+        startDate = wrapTime(startDate, null);
+        endDate = wrapTime(endDate, time);
         return scheduleSequence.getScheduleSequence(expr.getExpression(), startDate, endDate);
     }
 
-    public List<Date> getScheduledDates(Date startDate, Date endDate, String time24h, Integer day, Integer frequencyInMonth,
+    public List<Date> getScheduledDates(Date startDate, Date endDate, Time time, Integer day, Integer frequencyInMonth,
             ScheduleSequence scheduleSequence) throws ParseException {
 
-        CronExpression expr = new MonthDayCronExpression(startDate, time24h, day, frequencyInMonth);
+        CronExpression expr = new MonthDayCronExpression(startDate, time, day, frequencyInMonth);
         scheduleSequence = getScheduleSequence(scheduleSequence);
+        startDate = wrapTime(startDate, null);
+        endDate = wrapTime(endDate, time);
         return scheduleSequence.getScheduleSequence(expr.getExpression(), startDate, endDate);
     }
 
-    public List<Date> getScheduledDates(Date startDate, Date endDate, String time24h, CronSpecialChars dayOfWeek,
+    public List<Date> getScheduledDates(Date startDate, Date endDate, Time time, CronSpecialChars dayOfWeek,
             CronSpecialChars weekOfMonth, Integer frequencyInMonth, ScheduleSequence scheduleSequence) throws ParseException {
 
-        CronExpression expr = new MonthlyWeekDayCronExpression(startDate, time24h, dayOfWeek, weekOfMonth, frequencyInMonth);
+        CronExpression expr = new MonthlyWeekDayCronExpression(startDate, time, dayOfWeek, weekOfMonth, frequencyInMonth);
         scheduleSequence = getScheduleSequence(scheduleSequence);
+        startDate = wrapTime(startDate, null);
+        endDate = wrapTime(endDate, time);
         return scheduleSequence.getScheduleSequence(expr.getExpression(), startDate, endDate);
     }
 
-    public List<Date> getScheduledDates(Date startDate, Date endDate, String time24h, CronSpecialChars month, Integer day,
+    public List<Date> getScheduledDates(Date startDate, Date endDate, Time time, CronSpecialChars month, Integer day,
             Integer frequencyInYear, ScheduleSequence scheduleSequence) throws ParseException {
 
-        CronExpression expr = new YearMonthDayCronExpression(startDate, time24h, month, day, frequencyInYear);
+        CronExpression expr = new YearMonthDayCronExpression(startDate, time, month, day, frequencyInYear);
         scheduleSequence = getScheduleSequence(scheduleSequence);
+        startDate = wrapTime(startDate, null);
+        endDate = wrapTime(endDate, time);
         return scheduleSequence.getScheduleSequence(expr.getExpression(), startDate, endDate);
     }
 
-    public List<Date> getScheduledDates(Date startDate, Date endDate, String time24h, CronSpecialChars weekOfMonth,
+    public List<Date> getScheduledDates(Date startDate, Date endDate, Time time, CronSpecialChars weekOfMonth,
             CronSpecialChars dayOfWeek, CronSpecialChars month, Integer frequencyInYear, ScheduleSequence scheduleSequence)
             throws ParseException {
 
-        CronExpression expr = new YearMonthDayOfWeekCronExpression(startDate, time24h, weekOfMonth, dayOfWeek, month,
+        CronExpression expr = new YearMonthDayOfWeekCronExpression(startDate, time, weekOfMonth, dayOfWeek, month,
             frequencyInYear);
         scheduleSequence = getScheduleSequence(scheduleSequence);
+        startDate = wrapTime(startDate, null);
+        endDate = wrapTime(endDate, time);
         return scheduleSequence.getScheduleSequence(expr.getExpression(), startDate, endDate);
     }
-
+    
+    private Date wrapTime(Date date, Time time) {
+        java.sql.Date dt = new java.sql.Date(date.getTime());
+        Date utDt = new Date(dt.getTime());
+        if (null != time) {
+            utDt = DateUtils.addHours(utDt, new Integer(time.getHours()));
+            utDt = DateUtils.addHours(utDt, new Integer(time.getMinutes()));
+        }
+        return utDt;
+    }
+    
     private ScheduleSequence getScheduleSequence(ScheduleSequence scheduleSequence) {
         if (null == scheduleSequence) {
             scheduleSequence = new DefaultScheduleSequence();
