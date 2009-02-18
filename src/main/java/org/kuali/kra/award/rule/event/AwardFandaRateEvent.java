@@ -70,18 +70,20 @@ public abstract class AwardFandaRateEvent extends KraDocumentEventBase {
     * Logs the event type and some information about the associated special review
     */
     protected void logEvent() {
-        StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(
-                this.getClass().getName(), "."));
-        logMessage.append(" with ");
-        
-        // vary logging detail as needed
-        if (getAwardFandaRate() == null) {
-            logMessage.append("null proposalSpecialReview");
-        }else {
-            logMessage.append(getAwardFandaRate().toString());
+        if(LOG.isDebugEnabled()){
+            StringBuilder logMessage = new StringBuilder(StringUtils.substringAfterLast(
+                    this.getClass().getName(), "."));
+            logMessage.append(" with ");
+            
+            // vary logging detail as needed
+            if (getAwardFandaRate() == null) {
+                logMessage.append("null award F and a Rate Event");
+            }else {
+                logMessage.append(getAwardFandaRate().toString());
+            }
+            
+            LOG.debug(logMessage);    
         }
-        
-        LOG.debug(logMessage);
     }
     
 }
