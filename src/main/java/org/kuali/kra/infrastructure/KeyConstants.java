@@ -276,6 +276,7 @@ public class KeyConstants {
     public static final String ERROR_SUMMARY_LINEITEM_EXISTS = "error.summaryLineItemExists";
     public static final String ERROR_SUMMARY_LINEITEM_EXISTS_ADD_PERSON = "error.summaryLineItemExists.addPerson";
     public static final String ERROR_PERSON_JOBCODE_CHANGE = "error.person.jobcodeChange";
+    public static final String ERROR_PERSON_JOBCODE_VALUE = "error.person.jobcodeValue";
     public static final String ERROR_DUPLICATE_PERSON = "error.duplicate.personnel";
     public static final String ERROR_JOBCODE_COST_ELEMENT_COMBO_INVALID = "error.jobCode.costElement.invalid";
     public static final String ERROR_SAVE_JOBCODE_COST_ELEMENT_COMBO_INVALID = "error.save.jobCode.costElement.invalid";

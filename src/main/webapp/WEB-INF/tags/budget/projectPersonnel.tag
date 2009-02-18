@@ -20,23 +20,30 @@
 
 <div id="workarea">
 <kul:tab tabTitle="Project Personnel (All Periods)" defaultOpen="true" transparentBackground="true" tabErrorKey="document.budgetPerson*" auditCluster="budgetPersonnelAuditWarnings" tabAuditKey="document.budgetPerson*" useRiceAuditMode="true">
-	<div class="tab-container" align="center">
-		<c:set var="firstErrorFound" value="false" />
-		<c:forEach var="budgetPersons" items="${KualiForm.document.budgetPersons}" varStatus="status">			
-			<c:if test="${KualiForm.document.budgetPersons[status.index].jobCode == '' or empty KualiForm.document.budgetPersons[status.index].jobCode}">
-				<c:if test="${not empty firstErrorFound && firstErrorFound == false}" >
-					<c:set var="firstErrorFound" value="true" />
-				</c:if>		
-				<div class="error">
-					<c:if test="${not empty firstErrorFound && firstErrorFound == true}" >
-						<strong>&nbsp;&nbsp;&nbsp;Errors found in this Section:</strong><br/>
-						<c:set var="firstErrorFound" value="" />
-					</c:if>	
-					&nbsp;&nbsp;&nbsp;The Job Code for <c:out value="${KualiForm.document.budgetPersons[status.index].personName}" /> is not complete. You must enter a job code value before budgeting this individual.<br/><br/>
-				</div>
-			</c:if>		
-		</c:forEach>
 		
+		<c:set var="firstErrorFound" value="false" />
+		<c:forEach var="property" items="${ErrorContainer.errorPropertyList}">
+			<c:if test="${fn:startsWith(property,'document.budgetPerson')}">
+				<c:set var="firstErrorFound" value="true" />
+			</c:if>
+		</c:forEach>
+		<div class="tab-container-error">
+			<div class="left-errmsg-tab">
+				<div class="error">
+					<c:forEach var="budgetPersons" items="${KualiForm.document.budgetPersons}" varStatus="status">			
+						<c:if test="${KualiForm.document.budgetPersons[status.index].jobCode == '' or empty KualiForm.document.budgetPersons[status.index].jobCode}">
+							<c:if test="${not empty firstErrorFound && firstErrorFound == false}">
+								<strong>Errors found in this Section:</strong>
+								<c:set var="firstErrorFound" value="true" />
+							</c:if>	
+							<li>The Job Code for <c:out value="${KualiForm.document.budgetPersons[status.index].personName}" /> is not complete. You must enter a job code value before budgeting this individual.</li>
+						</c:if>		
+					</c:forEach>
+				</div>
+			</div>
+		</div>
+		
+	<div class="tab-container" align="center">
 		<div align="left">
     	&nbsp;&nbsp;&nbsp;Changes made in the Project Personnel panel must be saved before the corresponding results are reflected in the Personnel Details panel.<br/><br/>
     	</div>  

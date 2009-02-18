@@ -16,6 +16,7 @@
 package org.kuali.kra.budget.service;
 
 import java.util.List;
+
 import org.kuali.kra.budget.bo.BudgetLineItemBase;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.bo.ValidCeJobCode;
@@ -75,9 +76,8 @@ public interface BudgetService {
      * @param budgetVersionNumber
      * @param personSequenceNumber
      * @return List of Cost Elements
-     * @throws Exception
      */
-    public List<ValidCeJobCode> getApplicableCostElements(String proposalNumber, String budgetVersionNumber, String personSequenceNumber) throws Exception ;
+    public List<ValidCeJobCode> getApplicableCostElements(String proposalNumber, String budgetVersionNumber, String personSequenceNumber);
     
     /**
      * 
@@ -86,9 +86,8 @@ public interface BudgetService {
      * @param budgetVersionNumber
      * @param personSequenceNumber
      * @return List of Cost Elements
-     * @throws Exception
      */
-    public String getApplicableCostElementsForAjaxCall(String proposalNumber, String budgetVersionNumber, String personSequenceNumber, String budgetCategoryTypeCode) throws Exception ;
+    public String getApplicableCostElementsForAjaxCall(String proposalNumber, String budgetVersionNumber, String personSequenceNumber, String budgetCategoryTypeCode);
 
     /**
      * This method returns the existing Personnel Line Item Group Names 
@@ -97,9 +96,8 @@ public interface BudgetService {
      * @param budgetVersionNumber
      * @param budgetPeriod
      * @return List of existing Group Names
-     * @throws Exception
      */
-    public List<String> getExistingGroupNames(String proposalNumber, String budgetVersionNumber, String budgetPeriod) throws Exception ;
+    public List<String> getExistingGroupNames(String proposalNumber, String budgetVersionNumber, String budgetPeriod);
     
     /**
      * 
@@ -108,8 +106,7 @@ public interface BudgetService {
      * @param budgetVersionNumber
      * @param budgetPeriod
      * @return List of existing Group Names
-     * @throws Exception
      */
-    public String getExistingGroupNamesForAjaxCall(String proposalNumber, String budgetVersionNumber, String budgetPeriod) throws Exception ;
+    public String getExistingGroupNamesForAjaxCall(String proposalNumber, String budgetVersionNumber, String budgetPeriod);
 
 }
