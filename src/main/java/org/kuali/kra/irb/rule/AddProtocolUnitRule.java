@@ -13,25 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.rule.event;
+package org.kuali.kra.irb.rule;
 
-import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.kra.irb.bo.ProtocolPerson;
-import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.core.rule.BusinessRule;
+import org.kuali.kra.irb.rule.event.AddProtocolUnitEvent;
 
 /**
- * Event triggered when a protocol person state is modified on a 
- * <code>{@link ProtocolDocument}</code>
- *
+ * This class adds rule for adding new <code>ProtocolPerson</code> object
  */
-public interface ProtocolPersonnelEvent extends KualiDocumentEvent {
+public interface AddProtocolUnitRule extends BusinessRule {
+
     /**
-     * @return <code>{@link ProtocolPerson}</code> that triggered this event.
+     * This method evaluates to true if ProtocolUnit objects satisfy required fields and business rules.
+     * Protocol unit number is mandatory.
+     * @param addProtocolPersonnelEvent
+     * @return boolean true for valid object and false for invalid entry
      */
-    public ProtocolPerson getProtocolPerson();
-    
-    /**
-     * @return <code>{@link PersonIndex}</code> that triggered this event.
-     */
-    public int getPersonIndex();
+    public boolean processAddProtocolUnitBusinessRules(AddProtocolUnitEvent addProtocolUnitEvent);
+
 }

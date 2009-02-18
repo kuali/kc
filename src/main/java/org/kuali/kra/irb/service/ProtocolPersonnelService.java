@@ -56,15 +56,6 @@ public interface ProtocolPersonnelService {
     public abstract void deleteProtocolPersonUnit(Protocol protocol, ProtocolPerson protocolPerson, int selectedPersonIndex, int lineNumber);
 
     /**
-     * This method is to check whether person has attended any training session.
-     * Refer to person training object and return boolean.
-     * Hook this service method to external / other training session as required. 
-     * @param personId
-     * @return true / false
-     */
-    public boolean isPersonTrained(String personId);
-
-    /**
      * This method is used to update selected protocol lead unit in the list.
      * Each Protocol Person has index of selected lead unit
      * UI display is handled through selectedUnit index to group lead unit radio.
@@ -122,4 +113,14 @@ public interface ProtocolPersonnelService {
      * @return
      */
     public boolean isPrincipalInvestigator(ProtocolPerson protocolPerson);
+
+    /**
+     * This method is to see if there is any change in the protocol person role.
+     * swapping Investigator and Co-Investigator role is permitted.
+     * If Co-investigator is made a PI then the previous PI automatically is made a Co-investigator
+     * and vice versa
+     * @param protocolPersons
+     */
+    public void switchInvestigatorCoInvestigatorRole(List<ProtocolPerson> protocolPersons);
+
 }
