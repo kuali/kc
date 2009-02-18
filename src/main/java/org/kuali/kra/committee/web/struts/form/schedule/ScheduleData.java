@@ -16,15 +16,10 @@
 package org.kuali.kra.committee.web.struts.form.schedule;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import org.apache.struts.util.LabelValueBean;
 import org.kuali.kra.committee.web.struts.form.schedule.util.ScheduleOptionsUtil;
 import org.kuali.kra.scheduling.expr.CronSpecialChars;
 
@@ -46,7 +41,7 @@ public class ScheduleData {
     
     private Map<String,String> styleClasses;
     
-    public static final String[] stylekey = {"NEVER","DAILY","WEEKLY","MONTHLY","YEARLY"};
+    //public static final String[] stylekey = {"NEVER","DAILY","WEEKLY","MONTHLY","YEARLY"};
     
     private DailyScheduleDetails dailySchedule;
     
@@ -70,7 +65,7 @@ public class ScheduleData {
         this.setStartTime("00:00");
         this.setMeridiem("AM");
         
-        this.setRecurrenceType(stylekey[0]);
+        this.setRecurrenceType(StyleKey.NEVER.toString());
         this.setStyleClasses(new HashMap<String,String>());
         populateStyleClass();
         
@@ -80,18 +75,16 @@ public class ScheduleData {
         this.setYearlySchedule(new YearlyScheduleDetails());
     }
     
-    @SuppressWarnings("unchecked")
-    public Map getStyleClasses() {
+    public Map<String,String> getStyleClasses() {
         return styleClasses;
     }
     
-    @SuppressWarnings("unchecked")
-    public void setStyleClasses(Map styleClasses) {
+    public void setStyleClasses(Map<String,String> styleClasses) {
         this.styleClasses = styleClasses;
     }
 
     public String getRecurrenceType() {
-        return recurrenceType.toString();
+        return recurrenceType;
     }
 
     public void setRecurrenceType(String recurrenceType) {
@@ -186,15 +179,16 @@ public class ScheduleData {
         this.filerEndDate = filerEndDate;
     }
 
-    @SuppressWarnings("unchecked")
     public void populateStyleClass(){
         
-        for(String str: stylekey) {
-            this.getStyleClasses().put(str, "display: none; background:#f4f4f4; border:solid; border-color:#CCCCCC; border-width:1px; padding:5px");
+        for(StyleKey str: StyleKey.values()) {
+            
+            this.getStyleClasses().put(str.toString(), "display: none; background:#f4f4f4; border:solid; border-color:#CCCCCC; border-width:1px; padding:5px");
         }
-        for(String str: stylekey) {
-            if (getRecurrenceType().equalsIgnoreCase(str)) {
-                this.getStyleClasses().put(str, "display: block; background:#f4f4f4; border:solid; border-color:#CCCCCC; border-width:1px; padding:5px");
+        for(StyleKey str: StyleKey.values()) {
+            if (str.equalsString(getRecurrenceType())) {
+                LOG.info("Stylekey :" + str);
+                this.getStyleClasses().put(str.toString(), "display: block; background:#f4f4f4; border:solid; border-color:#CCCCCC; border-width:1px; padding:5px");
                 break;
             }
         }      
@@ -204,9 +198,9 @@ public class ScheduleData {
         return ScheduleOptionsUtil.findMinutes(startTime, meridiem);
     }
     
-    public String convert24HrTimeFmt() {
+/*    public String convert24HrTimeFmt() {
         return ScheduleOptionsUtil.convert24HourFmt(startTime, meridiem);
-    }
+    }*/
     
     public static CronSpecialChars getMonthOfWeek(String month) {
         return ScheduleOptionsUtil.getMonthOfWeek(month);

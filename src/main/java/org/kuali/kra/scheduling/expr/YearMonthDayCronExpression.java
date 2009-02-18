@@ -20,6 +20,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import org.kuali.kra.scheduling.Time;
+
 public class YearMonthDayCronExpression extends CronExpression {
     
     private CronSpecialChars month;
@@ -28,7 +30,7 @@ public class YearMonthDayCronExpression extends CronExpression {
     
     private Integer frequencyInYear;
     
-    public YearMonthDayCronExpression(Date startDate, String time, CronSpecialChars month, Integer day, Integer frequencyInYear) throws ParseException {
+    public YearMonthDayCronExpression(Date startDate, Time time, CronSpecialChars month, Integer day, Integer frequencyInYear) throws ParseException {
         super(startDate, time);
         this.month = month;
         this.day = day;
@@ -44,8 +46,8 @@ public class YearMonthDayCronExpression extends CronExpression {
         
         StringBuilder exp = new StringBuilder();
         exp.append(SECONDS).append(CronSpecialChars.SPACE);
-        exp.append(getMinutes()).append(CronSpecialChars.SPACE);
-        exp.append(getHours()).append(CronSpecialChars.SPACE);        
+        exp.append(getTime().getMinutes()).append(CronSpecialChars.SPACE);
+        exp.append(getTime().getHours()).append(CronSpecialChars.SPACE);        
         exp.append(day).append(CronSpecialChars.SPACE);
         exp.append(month).append(CronSpecialChars.SPACE);
         exp.append(CronSpecialChars.QUESTION).append(CronSpecialChars.SPACE);

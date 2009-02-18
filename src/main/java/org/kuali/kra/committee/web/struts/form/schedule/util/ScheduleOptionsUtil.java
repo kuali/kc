@@ -32,12 +32,12 @@ public class ScheduleOptionsUtil {
     
     public static final String[] mths = {"JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"};
     
-    public static final String[] time = {"select", "12:00 AM", "12:30 AM", "1:00 AM", "1:30 AM", "2:00 AM", "2:30 AM", "3:00 AM", "3:30 AM", 
+/*    public static final String[] time = {"select", "12:00 AM", "12:30 AM", "1:00 AM", "1:30 AM", "2:00 AM", "2:30 AM", "3:00 AM", "3:30 AM", 
                                         "4:00 AM", "4:30 AM", "5:00 AM", "5:30 AM", "6:00 AM", "6:30 AM", "7:00 AM", "8:00 AM", "8:30 AM", 
                                         "9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM", 
                                         "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM", "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM", 
                                         "4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM", "6:30 PM", "7:00 PM", "8:00 PM", "8:30 PM", 
-                                        "9:00 PM", "9:30 PM", "10:00 PM", "10:30 PM","11:00 PM", "11:30 PM",};
+                                        "9:00 PM", "9:30 PM", "10:00 PM", "10:30 PM","11:00 PM", "11:30 PM",};*/
     
     public static void populate(List<LabelValueBean> list, String [] values) {        
         for(String value: values) {
@@ -55,15 +55,17 @@ public class ScheduleOptionsUtil {
         if(meridiem.equalsIgnoreCase("AM"))
             am_pm = true;
           
-        LOG.info("DATE hrs:" + hrs + " :min: " + min + " :AM: " + am_pm);
         
-        if(hrs == 12) {
-            return 0 + min + (am_pm?0:12*60); 
-        }
-        return (hrs * 60)  + min + (am_pm?0:12*60);
+        int mins = 0;
+        if(hrs == 12) 
+            mins = 0 + min + (am_pm?0:12*60); 
+        else
+            mins = (hrs * 60)  + min + (am_pm?0:12*60);
+        LOG.info("DATE hrs:" + hrs + " :min: " + min + " :AM: " + am_pm + " :mins after midnight :" + mins);
+        return mins;
     }
 
-    public static String convert24HourFmt(String time, String meridiem) {        
+/*    public static String convert24HourFmt(String time, String meridiem) {        
         
         String[] result = time.split(":");
         int hrs = new Integer(result[0]);
@@ -73,7 +75,7 @@ public class ScheduleOptionsUtil {
         }
         StringBuilder sb = new StringBuilder();
         return sb.append(result[0]).append(":").append(result[1]).toString();
-    }
+    }*/
     
     public static CronSpecialChars getMonthOfWeek(String month) {
         CronSpecialChars i = null;

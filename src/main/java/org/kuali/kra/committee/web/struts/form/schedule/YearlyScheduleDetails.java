@@ -31,7 +31,7 @@ public class YearlyScheduleDetails extends ScheduleDetails {
     
     private String yearOption;
     
-    public static String[] yearOptionValues = {"XDAY","CMPLX"};
+    public static enum yearOptionValues {XDAY,CMPLX};
     
     //private List<LabelValueBean> months;
     
@@ -49,7 +49,7 @@ public class YearlyScheduleDetails extends ScheduleDetails {
     
     public YearlyScheduleDetails() {
         super();
-        this.setYearOption(yearOptionValues[0]);
+        this.setYearOption(yearOptionValues.XDAY.toString());
         
         this.setDay(6);
         this.setOption1Year(1);
