@@ -68,7 +68,7 @@ public class CommitteeScheduleAction extends CommitteeAction {
         CommitteeScheduleService service  = (CommitteeScheduleService) KraServiceLocator.getService("committeeScheduleService"); 
         service.resetCommitteeScheduleDates(committeeForm.getCommitteeDocument().getCommittee());
         return mapping.findForward(Constants.MAPPING_BASIC );
-    }
+    } 
     
     public ActionForward reload(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
