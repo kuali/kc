@@ -291,6 +291,9 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
         LOG.info("Timestamp :" + time.toString());
         LOG.info("cl.get(Calendar.AM_PM) :" + cl.get(Calendar.AM_PM));        
         int hr = cl.get(Calendar.HOUR_OF_DAY);
+        
+        hr = (hr==0?12:hr);
+        
         hr = (hr>12?hr-12:hr);
         
         if (hr < 10) 
@@ -343,12 +346,13 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
         if(meridiem.equalsIgnoreCase("AM"))
             am_pm = true;
           
-        LOG.info("DATE hrs:" + hrs + " :min: " + min + " :AM: " + am_pm);
-        
-        if(hrs == 12) {
-            return 0 + min + (am_pm?0:12*60); 
-        }
-        return (hrs * 60)  + min + (am_pm?0:12*60);
+        int mins = 0;
+        if(hrs == 12) 
+            mins = 0 + min + (am_pm?0:12*60); 
+        else
+            mins = (hrs * 60)  + min + (am_pm?0:12*60);
+        LOG.info("DATE hrs:" + hrs + " :min: " + min + " :AM: " + am_pm + " :mins after midnight :" + mins);
+        return mins;
     }
     
 	@SuppressWarnings("unchecked")

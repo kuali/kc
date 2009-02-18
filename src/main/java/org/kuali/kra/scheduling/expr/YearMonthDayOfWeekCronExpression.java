@@ -20,6 +20,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import org.kuali.kra.scheduling.Time;
+
 public class YearMonthDayOfWeekCronExpression extends CronExpression {
     
     private CronSpecialChars weekOfMonth;
@@ -30,7 +32,7 @@ public class YearMonthDayOfWeekCronExpression extends CronExpression {
     
     private Integer frequencyInYear;
     
-    public YearMonthDayOfWeekCronExpression(Date startDate, String time, CronSpecialChars weekOfMonth, CronSpecialChars dayOfWeek, CronSpecialChars month, Integer frequencyInYear) throws ParseException {
+    public YearMonthDayOfWeekCronExpression(Date startDate, Time time, CronSpecialChars weekOfMonth, CronSpecialChars dayOfWeek, CronSpecialChars month, Integer frequencyInYear) throws ParseException {
         super(startDate, time);
         this.weekOfMonth = weekOfMonth;
         this.dayOfWeek = dayOfWeek;
@@ -47,8 +49,8 @@ public class YearMonthDayOfWeekCronExpression extends CronExpression {
         
         StringBuilder exp = new StringBuilder();
         exp.append(SECONDS).append(CronSpecialChars.SPACE);
-        exp.append(getMinutes()).append(CronSpecialChars.SPACE);
-        exp.append(getHours()).append(CronSpecialChars.SPACE);        
+        exp.append(getTime().getMinutes()).append(CronSpecialChars.SPACE);
+        exp.append(getTime().getHours()).append(CronSpecialChars.SPACE);        
         exp.append(CronSpecialChars.QUESTION).append(CronSpecialChars.SPACE);
         exp.append(month).append(CronSpecialChars.SPACE);
         if(!(weekOfMonth == CronSpecialChars.FIFTH))
