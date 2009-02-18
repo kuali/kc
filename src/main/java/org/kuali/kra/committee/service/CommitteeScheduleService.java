@@ -18,11 +18,14 @@ package org.kuali.kra.committee.service;
 import java.text.ParseException;
 
 import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 
 
 public interface CommitteeScheduleService {
-
+    
+    public Boolean isCommitteeScheduleDeleteAllowed(CommitteeSchedule committeeSchedule);
+    
     public void addSchedule(ScheduleData scheduleData, Committee committee) throws ParseException;
     
     public void deleteCommitteeSchedule(Committee committee, int lineNumber);
