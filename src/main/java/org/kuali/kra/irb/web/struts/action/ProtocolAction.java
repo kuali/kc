@@ -268,27 +268,45 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         
         String fieldConversions="";
         
-        //TODO this is a kludge but worth a test:
-        String boClassName = ((ProtocolForm)form).getProtocolDocument().getProtocol().getNewFundingSource().getFundingSourceType().getDescription();
-        if (boClassName.equalsIgnoreCase(Unit.class.getSimpleName())) {
-            boClassName = Unit.class.getName();
-            fieldConversions="unitNumber:document.protocol.newFundingSource.fundingSource,unitName:document.protocol.newFundingSource.fundingSourceName";
-        } else if (boClassName.equalsIgnoreCase("Sponsor")) {
-            boClassName = "org.kuali.kra.bo.Sponsor";
-            fieldConversions="sponsorCode:document.protocol.newFundingSource.fundingSource,sponsorName:document.protocol.newFundingSource.fundingSourceName";
-        } else if (boClassName.equalsIgnoreCase("Award")) {
-            boClassName = "org.kuali.kra.award.bo.Award";
-            fieldConversions="awardNumber:document.protocol.newFundingSource.fundingSource,sponsor.sponsorName:document.protocol.newFundingSource.fundingSourceName,title:document.protocol.newFundingSource.fundingSourceTitle";
-        } else if (boClassName.equalsIgnoreCase("Development Proposal")) {
-            boClassName = "org.kuali.kra.bo.proposaldevelopment.document.ProposalDevelopmentDocument";
-            fieldConversions="proposalNumber:document.protocol.newFundingSource.fundingSource,sponsor.sponsorName:document.protocol.newFundingSource.fundingSourceName,title:document.protocol.newFundingSource.fundingSourceTitle";
-        }  else if (boClassName.equalsIgnoreCase("Institute Proposal")) {
-            boClassName = "org.kuali.kra.bo.proposaldevelopment.document.ProposalDevelopmentDocument";
-            fieldConversions="proposalNumber:document.protocol.newFundingSource.fundingSource,sponsor.sponsorName:document.protocol.newFundingSource.fundingSourceName,title:document.protocol.newFundingSource.fundingSourceTitle";
-        }  else if (boClassName.equalsIgnoreCase("Other")) {
-                GlobalVariables.getErrorMap().putError("document.protocol.newFundingSource.fundingSourceTypeCode", "error.custom", "Lookup is unavailable for Funding Type Other");            
+        String boClassName = null;
+        //TODO this is a kludge but worth a test: wil need to clean most of the bus logic out of here, but proof of concept is useful for now
+         if (((ProtocolForm)form).getProtocolDocument().getProtocol().getNewFundingSource().getFundingSourceType() != null) {
+            boClassName = ((ProtocolForm)form).getProtocolDocument().getProtocol().getNewFundingSource().getFundingSourceType().getDescription();
+            if (boClassName.equalsIgnoreCase(Unit.class.getSimpleName())) {
+                boClassName = Unit.class.getName();
+                fieldConversions="unitNumber:document.protocol.newFundingSource.fundingSource,unitName:document.protocol.newFundingSource.fundingSourceName";
+            } else if (boClassName.equalsIgnoreCase("Sponsor")) {
+                boClassName = "org.kuali.kra.bo.Sponsor";
+                fieldConversions="sponsorCode:document.protocol.newFundingSource.fundingSource,sponsorName:document.protocol.newFundingSource.fundingSourceName";
+            } else if (boClassName.equalsIgnoreCase("Award")) {
+                GlobalVariables.getErrorMap().putError("document.protocol.newFundingSource.fundingSourceTypeCode", "error.custom", "Lookup is Temporarily unavailable for Funding Type Award");            
+                return mapping.findForward(MAPPING_BASIC);
+                //TODO readd
+//                boClassName = "org.kuali.kra.award.bo.Award";
+//                fieldConversions="awardNumber:document.protocol.newFundingSource.fundingSource,sponsor.sponsorName:document.protocol.newFundingSource.fundingSourceName,title:document.protocol.newFundingSource.fundingSourceTitle";
+            } else if (boClassName.equalsIgnoreCase("Development Proposal")) {
+                GlobalVariables.getErrorMap().putError("document.protocol.newFundingSource.fundingSourceTypeCode", "error.custom", "Lookup is Temporarily unavailable for Funding Type Development Proposal");            
+                return mapping.findForward(MAPPING_BASIC);
+                //TODO readd
+                //boClassName = "org.kuali.kra.bo.proposaldevelopment.document.ProposalDevelopmentDocument";
+                //fieldConversions="proposalNumber:document.protocol.newFundingSource.fundingSource,sponsor.sponsorName:document.protocol.newFundingSource.fundingSourceName,title:document.protocol.newFundingSource.fundingSourceTitle";
+            }  else if (boClassName.equalsIgnoreCase("Institute Proposal")) {
+                GlobalVariables.getErrorMap().putError("document.protocol.newFundingSource.fundingSourceTypeCode", "error.custom", "Lookup is Temporarily unavailable for Funding Type Institute Proposal");            
+                return mapping.findForward(MAPPING_BASIC);   
+                //TODO readd
+//                boClassName = "org.kuali.kra.bo.proposaldevelopment.document.ProposalDevelopmentDocument";
+//                fieldConversions="proposalNumber:document.protocol.newFundingSource.fundingSource,sponsor.sponsorName:document.protocol.newFundingSource.fundingSourceName,title:document.protocol.newFundingSource.fundingSourceTitle";
+            }  else if (boClassName.equalsIgnoreCase("Other")) {
+                    GlobalVariables.getErrorMap().putError("document.protocol.newFundingSource.fundingSourceTypeCode", "error.custom", "Lookup is unavailable for Funding Type Other");            
+                return mapping.findForward(MAPPING_BASIC);
+            }
+        } else {
+            GlobalVariables.getErrorMap().putError("document.protocol.newFundingSource.fundingSourceTypeCode", "error.custom", "Funding Type must be select to perform Lookup");            
             return mapping.findForward(MAPPING_BASIC);
-        }
+         }
+         if (StringUtils.isBlank(boClassName)) {
+             throw new RuntimeException("Illegal call to perform lookup, no business object class name specified.");
+         }
         
         // parse out business object class name for lookup
         String boClassNameField = StringUtils.substringBetween(fullParameter, KNSConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL,
@@ -304,9 +322,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         fullParameterBuffer.replace(start, end, fieldConversions);
         
 
-        if (StringUtils.isBlank(boClassName)) {
-            throw new RuntimeException("Illegal call to perform lookup, no business object class name specified.");
-        }
+
         
         request.setAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE, fullParameterBuffer.toString());
         return super.performLookup( mapping,  form,  request, response);
