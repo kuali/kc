@@ -26,16 +26,15 @@ import org.kuali.kra.award.web.struts.form.AwardForm;
  */
 public interface AwardReportsService {
     
-    public HashMap doPreps(Award award);
-    
     /**
      * 
      * This method prepares the AwardReportTerm and related objects for the display of UI.
      * This should get called everytime Payment, Reports and Terms page is loaded.
      * 
-     * @param awardForm
+     * @param award
+     * @return
      */
-    void doPreparations(AwardForm awardForm);
+    HashMap<String, Object> initializeObjectsForReportsAndPayments(Award award);
     
     /**
      * 
