@@ -324,7 +324,7 @@ public interface Constants {
     public static final String REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES_PANEL = "reportClassForPaymentsAndInvoicesPanel";
 
     // IRB
-    public static final String PARTICIPANTS_PROPERTY_KEY = "newProtocolParticipant";
+    public static final String PARTICIPANTS_PROPERTY_KEY = "participantsHelper.newProtocolParticipant";
     public static final String DEFAULT_PROTOCOL_ORGANIZATION_TYPE_CODE = "1";
     public static final String DEFAULT_PROTOCOL_ORGANIZATION_ID = "000001";
     public static final String DEFAULT_PROTOCOL_STATUS_CODE = "100";
