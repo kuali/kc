@@ -332,6 +332,7 @@ public final class KeyConstants {
     public static final String ERROR_PRINCIPAL_INVESTIGATOR_NOT_FOUND = "error.investigator.notFound";
     public static final String ERROR_PROTOCOL_UNIT_NOT_FOUND = "error.protocolUnit.notFound";
     public static final String ERROR_PROTOCOL_LEAD_UNIT_NOT_DEFINED = "error.protocolLeadUnit.notDefined";
+    public static final String ERROR_PROTOCOL_UNIT_INVALID = "error.protocolUnit.invalid";
     
     // IRB Protocol Funding Sources Validation Messages
     public static final String ERROR_PROTOCOL_FUNDING_TYPE_NOT_FOUND = "error.protocolFundingSource.fundingType.notFound";

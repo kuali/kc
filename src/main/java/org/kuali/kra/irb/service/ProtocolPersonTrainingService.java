@@ -13,25 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.rule.event;
+package org.kuali.kra.irb.service;
 
-import org.kuali.core.rule.event.KualiDocumentEvent;
+import java.util.List;
+
 import org.kuali.kra.irb.bo.ProtocolPerson;
-import org.kuali.kra.irb.document.ProtocolDocument;
+
+
 
 /**
- * Event triggered when a protocol person state is modified on a 
- * <code>{@link ProtocolDocument}</code>
- *
+ * This class represents service interface for protocol personnel
+ * training. Each institution can customize this interface to deal
+ * with person training.
  */
-public interface ProtocolPersonnelEvent extends KualiDocumentEvent {
+public interface ProtocolPersonTrainingService {
+
     /**
-     * @return <code>{@link ProtocolPerson}</code> that triggered this event.
+     * This method is to check whether person has attended any training session.
+     * Refer to person training object and return boolean.
+     * This method will set the trained flag for each person in the list.
+     * Hook this service method to external / other training session as required. 
+     * @param protocolPersons
      */
-    public ProtocolPerson getProtocolPerson();
-    
-    /**
-     * @return <code>{@link PersonIndex}</code> that triggered this event.
-     */
-    public int getPersonIndex();
+    public void isPersonTrained(List<ProtocolPerson> protocolPersons);
+
 }
