@@ -27,13 +27,12 @@ public abstract class ProtocolPersonnelEventBase extends KraDocumentEventBase im
             .getLog(ProtocolPersonnelEventBase.class);
 
     private ProtocolPerson protocolPerson;
+    private int personIndex;
 
     protected ProtocolPersonnelEventBase(String description, String errorPathPrefix, ProtocolDocument document,
             ProtocolPerson protocolPerson) {
         super(description, errorPathPrefix, document);
-
-        // by doing a deep copy, we are ensuring that the business rule class can't update
-        // the original object by reference
+        setProtocolPerson(protocolPerson);
         this.protocolPerson = (ProtocolPerson) ObjectUtils.deepCopy(protocolPerson);
 
         logEvent();
@@ -41,14 +40,39 @@ public abstract class ProtocolPersonnelEventBase extends KraDocumentEventBase im
 
     protected ProtocolPersonnelEventBase(String description, String errorPathPrefix, ProtocolDocument document) {
         super(description, errorPathPrefix, document);
+        setProtocolPerson(protocolPerson);
         logEvent();
     }
     
+    protected ProtocolPersonnelEventBase(String description, String errorPathPrefix, ProtocolDocument document,
+            int personIndex) {
+        super(description, errorPathPrefix, document);
+        setProtocolPerson(protocolPerson);
+        this.personIndex = personIndex;
+        logEvent();
+    }
+
     /**
      * @return <code>{@link ProtocolPerson}</code> that triggered this event.
      */
     public ProtocolPerson getProtocolPerson() {
         return this.protocolPerson;
+    }
+
+    /**
+     * @return <code>{@link personIndex}</code> that triggered this event.
+     */
+    public int getPersonIndex() {
+        return this.personIndex;
+    }
+    
+    /**
+     * This method is to deep copy protocol person
+     * by doing a deep copy, we are ensuring that the business rule class can't update
+     * the original object by reference
+     */
+    private void setProtocolPerson(ProtocolPerson protocolPerson) {
+        this.protocolPerson = (ProtocolPerson) ObjectUtils.deepCopy(protocolPerson);
     }
 
     /**

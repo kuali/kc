@@ -17,7 +17,6 @@
 
 <c:set var="protocolPersonAttributes" value="${DataDictionary.ProtocolPerson.attributes}" />
 <div id="workarea">
-<c:set var="personIndex" value="0" />
 <c:forEach items="${KualiForm.document.protocol.protocolPersons}" var="person" varStatus="status">
     <c:set var="protocolPersonProperty" value="document.protocol.protocolPersons[${status.index}]" />
     <c:set var="personUnitRequired" value="${person.protocolPersonRole.unitDetailsRequired}" />
@@ -27,13 +26,18 @@
       <c:set var="transparent" value="true" />
     </c:if> 
      	<c:set var="descri" value="${person.protocolPersonRole.description}" />
+		<c:set var="personIndex" value="${status.index}" />
 			<kul:tab tabTitle="${fn:substring(person.personName, 0, 22)}"
+					 tabErrorKey="document.protocol.protocolPersons[${personIndex}]*"
+					 auditCluster="requiredFieldsAuditErrors" 
+					 tabAuditKey="" 
+					 useRiceAuditMode="true"
 			         tabDescription="${descri}"
 			         leftSideHtmlProperty="${protocolPersonProperty}.delete" 
 			         leftSideHtmlAttribute="${protocolPersonAttributes.delete}" 
 			     	 leftSideHtmlDisabled="false" 
 			         defaultOpen="${hasErrors}" 
-			         transparentBackground="${transparent}"> 
+			         transparentBackground="${transparent}">
 					 <div class="tab-container" align="center">
 						<div id="workarea">
 							<div class="tab-container" align="center" id="G100">

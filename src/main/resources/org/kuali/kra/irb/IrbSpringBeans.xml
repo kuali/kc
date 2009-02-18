@@ -106,6 +106,12 @@
         </property>
 	</bean>	
 
+	<bean id="protocolPersonTrainingService" class="org.kuali.kra.irb.service.impl.ProtocolPersonTrainingServiceImpl">
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+	</bean>	
+
     <!-- Protocol Task Authorizers -->
     
     <bean id="parentProtocolAuthorizer" abstract="true">
