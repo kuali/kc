@@ -33,29 +33,24 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 public class ReportClassValuesFinder extends KeyValuesBase {
     
     /**
-     * Constructs the list of Report Classes.  Each entry
-     * in the list is a &lt;key, value&gt; pair, where the "key" is the unique
+     * Constructs the list of Report Classes using KeyValuesService.  
+     * Each entry in the list is a &lt;key, value&gt; pair, where the "key" is the unique
      * report class code and the "value" is the textual description that is viewed
-     * by a user.  The list is obtained from the AwardDocument if any are defined there. 
-     * Otherwise, it is obtained from a lookup of the REPORT_CLASS database table
+     * by a user.
      * 
-     * @return the list of &lt;key, value&gt; pairs of abstract types.  The first entry
-     * is always &lt;"", "select:"&gt;.
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
-     */
-    @SuppressWarnings("unchecked")
+     */    
     public List<KeyLabelPair> getKeyValues() {
-        KeyValuesService keyValuesService = getKeyValuesService();    
+        Collection<ReportClass> reportClasses = (Collection<ReportClass>)
+                                                    getKeyValuesService().findAll(ReportClass.class);
         
-        Collection reportClasses = keyValuesService.findAll(ReportClass.class);
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         
-        for (Iterator iter = reportClasses.iterator(); iter.hasNext();) {
-            ReportClass reportClass = (ReportClass) iter.next();
+        for(ReportClass reportClass: reportClasses){
             keyValues.add(new KeyLabelPair(reportClass.getReportClassCode(),
-                    reportClass.getDescription()));                            
+                    reportClass.getDescription()));
         }
-                
+        
         return keyValues;
     }
     

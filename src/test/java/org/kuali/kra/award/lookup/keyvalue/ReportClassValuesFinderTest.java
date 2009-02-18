@@ -45,16 +45,11 @@ public class ReportClassValuesFinderTest {
     @Test
     public final void testGetKeyValues() {
         Assert.assertEquals(6,reportClasses.size());
-    }
-    
-    @Test
-    public final void testGetKeyValuesAreNotNull() {
+        
         for(KeyLabelPair keyLabelPair:reportClasses){
             Assert.assertNotNull(keyLabelPair.getKey());
             Assert.assertNotNull(keyLabelPair.getLabel());
         }
     }
-    
-
 }
 
