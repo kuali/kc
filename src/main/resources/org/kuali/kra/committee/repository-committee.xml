@@ -133,6 +133,30 @@
 			<inverse-foreignkey field-ref="committeeId" />
 		</collection-descriptor>  
 		         
-	</class-descriptor>	
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.committee.bo.CommitteeMembership" table="COMM_MEMBERSHIPS">
+        <field-descriptor name="committeeMembershipsId" column="COMM_MEMBERSHIPS_ID" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="committeeId" column="COMMITTEE_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="membershipId" column="MEMBERSHIP_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+        <field-descriptor name="nonEmployee" column="NON_EMPLOYEE_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+        <field-descriptor name="paidMember" column="PAID_MEMBER_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+        <field-descriptor name="termStartDate" column="TERM_START_DATE" jdbc-type="DATE" />
+        <field-descriptor name="termEndDate" column="TERM_END_DATE" jdbc-type="DATE" />
+        <field-descriptor name="membershipTypeCode" column="MEMBERSHIP_TYPE_CODE" jdbc-type="INTEGER" />
+        <field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
+        <field-descriptor name="contactNotes" column="CONTACT_NOTES" jdbc-type="VARCHAR" />
+        <field-descriptor name="trainingNotes" column="TRAINING_NOTES" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+
+        <reference-descriptor name="membershipType" class-ref="org.kuali.kra.committee.bo.CommitteeMembershipType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="membershipTypeCode"/>
+        </reference-descriptor>
+    </class-descriptor>	
 
 </descriptor-repository>
