@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
+import java.util.HashMap;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,6 +27,10 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiRuleService;
+import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kra.award.bo.AwardReportTerm;
+import org.kuali.kra.award.bo.AwardReportTermRecipient;
+import org.kuali.kra.award.bo.ReportClass;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -122,12 +129,24 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
      * @param response
      * @return
      */
+    @SuppressWarnings("all")
     public ActionForward paymentReportsAndTerms(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) {
         AwardForm awardForm = (AwardForm) form;
         AwardReportsService awardReportsService = KraServiceLocator.getService(AwardReportsService.class);
-                
-        awardReportsService.doPreparations(awardForm);
+          
+        HashMap<String,Object> initializedObjects = new HashMap<String, Object>();
+        initializedObjects = awardReportsService.initializeObjectsForReportsAndPayments(
+                                                    awardForm.getAwardDocument().getAward());
+        awardForm.setReportClasses((List<KeyLabelPair>) initializedObjects.get(
+                                      Constants.REPORT_CLASSES_KEY_FOR_INITIALIZE_OBJECTS));
+        awardForm.setNewAwardReportTerm((List<AwardReportTerm>) initializedObjects.get(
+                                          Constants.NEW_AWARD_REPORT_TERMS_LIST_KEY_FOR_INITIALIZE_OBJECTS));
+        awardForm.setNewAwardReportTermRecipient((List<AwardReportTermRecipient>) initializedObjects.get(
+                                                    Constants.NEW_AWARD_REPORT_TERM_RECIPIENTS_LIST_KEY_FOR_INITIALIZE_OBJECTS));
+        awardForm.setReportClassForPaymentsAndInvoices((ReportClass) initializedObjects.get(
+                                                        Constants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES_PANEL));
+        
         
         return mapping.findForward(Constants.MAPPING_AWARD_PAYMENT_REPORTS_AND_TERMS_PAGE);
     }
