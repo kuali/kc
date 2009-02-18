@@ -36,9 +36,10 @@ import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.committee.web.struts.form.schedule.StyleKey;
 import org.kuali.kra.committee.web.struts.form.schedule.YearlyScheduleDetails;
 import org.kuali.kra.scheduling.ScheduleSequence;
-import org.kuali.kra.scheduling.Time;
+import org.kuali.kra.scheduling.Time24HrFmt;
 import org.kuali.kra.scheduling.WeekScheduleSequence;
 import org.kuali.kra.scheduling.expr.CronSpecialChars;
+import org.kuali.kra.scheduling.service.ScheduleService;
 import org.kuali.kra.scheduling.service.impl.ScheduleServiceImpl;
 
 /**
@@ -55,7 +56,8 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
     
     private BusinessObjectService businessObjectService;
     
-    private ScheduleServiceImpl scheduleService = new ScheduleServiceImpl();
+    //TODO move to spring config later
+    private ScheduleService scheduleService = new ScheduleServiceImpl(); 
     
     /**
      * Set the Business Object Service.
@@ -65,7 +67,7 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
         this.businessObjectService = businessObjectService;
     }    
     
-    public void setScheduleService(ScheduleServiceImpl scheduleService) {
+    public void setScheduleService(ScheduleService scheduleService) {
         this.scheduleService = scheduleService;
     }
     
@@ -107,7 +109,7 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
         CronSpecialChars dayOfWeek = null;
         CronSpecialChars month = null;
         
-        Time time = getTime24hFmt(scheduleData.getScheduleStartDate(), scheduleData.calculateMinutes());
+        Time24HrFmt time = getTime24hFmt(scheduleData.getScheduleStartDate(), scheduleData.getTime().findMinutes());
         Date dt = scheduleData.getScheduleStartDate();       
         
         StyleKey key = StyleKey.valueOf(scheduleData.getRecurrenceType());        
@@ -180,15 +182,14 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
 
     }
     
-    private Time getTime24hFmt(Date date, int min) throws ParseException{
+    private Time24HrFmt getTime24hFmt(Date date, int min) throws ParseException{
         Date dt  = DateUtils.round(date, Calendar.DAY_OF_MONTH);            
         dt = DateUtils.addMinutes(dt, min);
         Calendar cl = new GregorianCalendar();
         cl.setTime(dt);
         StringBuffer sb = new StringBuffer();
-        String str = sb.append(cl.get(Calendar.HOUR_OF_DAY)).append(":").append(cl.get(Calendar.MINUTE)).toString();
-        LOG.info("24 HR time :" + str);        
-        return new Time(str); 
+        String str = sb.append(cl.get(Calendar.HOUR_OF_DAY)).append(":").append(cl.get(Calendar.MINUTE)).toString();       
+        return new Time24HrFmt(str); 
     }
   
     private void addScheduleDatesToCommittee(List<Date> dates, Committee committee, String location){
@@ -198,7 +199,6 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
             committeeSchedule.setCommitteeId(committee.getId());            
             committeeSchedule.setScheduledDate(sqldate);
             committeeSchedule.setPlace(location);
-            LOG.info("Date before adding :" + date.toString());
             committeeSchedule.setTime(new Timestamp(date.getTime()));
 
             int daysToAdd = committee.getAdvancedSubmissionDaysRequired();

@@ -18,7 +18,7 @@ package org.kuali.kra.scheduling.expr;
 import java.text.ParseException;
 import java.util.Date;
 
-import org.kuali.kra.scheduling.Time;
+import org.kuali.kra.scheduling.Time24HrFmt;
 
 public abstract class CronExpression {
     
@@ -28,11 +28,11 @@ public abstract class CronExpression {
     
     //private String minutes;    
     
-    private Time time;
+    private Time24HrFmt time;
     
     public final String SECONDS = "0";
     
-    public CronExpression(Date startDate, Time time) throws ParseException {
+    public CronExpression(Date startDate, Time24HrFmt time) throws ParseException {
         super();
         this.startDate = startDate;
         this.time = time;
@@ -82,7 +82,7 @@ public abstract class CronExpression {
         return minutes;
     }*/
     
-    protected Time getTime() {
+    protected Time24HrFmt getTime() {
         return time;
     }
 

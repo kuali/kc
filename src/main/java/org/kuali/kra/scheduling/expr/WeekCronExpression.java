@@ -18,13 +18,13 @@ package org.kuali.kra.scheduling.expr;
 import java.text.ParseException;
 import java.util.Date;
 
-import org.kuali.kra.scheduling.Time;
+import org.kuali.kra.scheduling.Time24HrFmt;
 
 public class WeekCronExpression extends CronExpression {
     
     private CronSpecialChars [] weekdays;
     
-    public WeekCronExpression(Date startDate, Time time, CronSpecialChars [] weekdays) throws ParseException {
+    public WeekCronExpression(Date startDate, Time24HrFmt time, CronSpecialChars [] weekdays) throws ParseException {
         super(startDate, time);
         this.weekdays = weekdays;
     }

@@ -28,7 +28,11 @@ public class CommitteeScheduleAttributeReferenceDummy extends AttributeReference
     private String weekDay;
     
     private String month;
-
+    
+    private String time;
+    
+    private String meridiem;
+    
     public String getWeekDay() {
         return weekDay;
     }
@@ -59,6 +63,22 @@ public class CommitteeScheduleAttributeReferenceDummy extends AttributeReference
 
     public String getMonthsWeek() {
         return monthsWeek;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getMeridiem() {
+        return meridiem;
+    }
+
+    public void setMeridiem(String meridiem) {
+        this.meridiem = meridiem;
     }
 
 

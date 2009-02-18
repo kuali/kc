@@ -32,7 +32,8 @@ import javax.persistence.Transient;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
+import org.kuali.kra.committee.web.struts.form.schedule.DayOfWeek;
+import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt;
 
 @Entity 
 @Table(name="COMM_SCHEDULE")
@@ -42,25 +43,8 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
     
     private static final long serialVersionUID = -360139608123017188L;
     
-    public static final String SUNDAY = "Sunday";
-    
-    public static final String MONDAY = "Monday";
-    
-    public static final String TUESDAY = "Tuesday";
-    
-    public static final String WEDNESDAY = "Wednesday";
-    
-    public static final String THURSDAY = "Thursday";
-    
-    public static final String FRIDAY = "Friday";
-    
-    public static final String SATURDAY = "Saturday";
-    
     @Transient
-    private String displayTime;
-    
-    @Transient
-    private String meridiem;
+    private Time12HrFmt viewTime;
     
     @Transient
     private Boolean filter = true;
@@ -163,9 +147,8 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
 	public Timestamp getTime() {
 	    java.util.Date dt = new java.util.Date(this.time.getTime());
 	    dt = DateUtils.round(dt, Calendar.DAY_OF_MONTH);
-	    dt = DateUtils.addMinutes(dt, findMinutes(displayTime, meridiem));
+	    dt = DateUtils.addMinutes(dt, viewTime.findMinutes());
 	    this.time = new Timestamp(dt.getTime());
-	    LOG.info("TIME getTime():" + time.toString());
 	    return time;
 	}
 
@@ -260,72 +243,24 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
     public String getDayOfWeek() {
         Calendar cl = new GregorianCalendar();
         cl.setTime(time);
-        String dayOfWeek = null;
+        DayOfWeek dayOfWeek = null;
         switch(cl.get(Calendar.DAY_OF_WEEK)) {
-            case 1: dayOfWeek = SUNDAY; 
+            case 1: dayOfWeek = DayOfWeek.Sunday; 
                     break;
-            case 2: dayOfWeek = MONDAY; 
+            case 2: dayOfWeek = DayOfWeek.Monday; 
                     break;
-            case 3: dayOfWeek = TUESDAY; 
+            case 3: dayOfWeek = DayOfWeek.Tuesday; 
                     break;
-            case 4: dayOfWeek = WEDNESDAY; 
+            case 4: dayOfWeek = DayOfWeek.Wednesday; 
                     break;
-            case 5: dayOfWeek = THURSDAY; 
+            case 5: dayOfWeek = DayOfWeek.Thursday; 
                     break;
-            case 6: dayOfWeek = FRIDAY; 
+            case 6: dayOfWeek = DayOfWeek.Friday; 
                     break;
-            case 7: dayOfWeek = SATURDAY; 
+            case 7: dayOfWeek = DayOfWeek.Saturday; 
                     break;
         }
-        return dayOfWeek;
-    }
-    
-    public void setDisplayTime(String displayTime){
-      this.displayTime = displayTime;
-    }
-    
-    public String getDisplayTime() {
-        Calendar cl = new GregorianCalendar();
-        cl.setTime(time);
-        StringBuilder str = new StringBuilder();
-        LOG.info("Timestamp :" + time.toString());
-        LOG.info("cl.get(Calendar.AM_PM) :" + cl.get(Calendar.AM_PM));        
-        int hr = cl.get(Calendar.HOUR_OF_DAY);
-        
-        hr = (hr==0?12:hr);
-        
-        hr = (hr>12?hr-12:hr);
-        
-        if (hr < 10) 
-            str.append("0").append(hr);
-        else
-            str.append(hr);
-       
-        str.append(":");
-        int min = cl.get(Calendar.MINUTE);
-        
-        if(min < 10) 
-            str.append("0").append(min);
-        else
-            str.append(min);
-        
-        return str.toString();
-    }
-    
-    public void setMeridiem(String meridiem) {
-        LOG.info("Medidiem setter :" + meridiem);
-        this.meridiem = meridiem;
-    }
-    
-    public String getMeridiem() {
-        Calendar cl = new GregorianCalendar();
-        cl.setTime(time);
-        String str = null;       
-        if(cl.get(Calendar.AM_PM) == 0) 
-            str = "AM";
-        else
-            str = "PM";
-        return str;
+        return dayOfWeek.name().toUpperCase();
     }
     
     public void setFilter(Boolean filter) {
@@ -336,23 +271,14 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
         return filter;
     }    
     
-    private int findMinutes(String time, String meridiem) {        
-        
-        String[] result = time.split(":");
-        int hrs = new Integer(result[0]);
-        int min = new Integer(result[1]);
-                
-        boolean am_pm = false;
-        if(meridiem.equalsIgnoreCase("AM"))
-            am_pm = true;
-          
-        int mins = 0;
-        if(hrs == 12) 
-            mins = 0 + min + (am_pm?0:12*60); 
-        else
-            mins = (hrs * 60)  + min + (am_pm?0:12*60);
-        LOG.info("DATE hrs:" + hrs + " :min: " + min + " :AM: " + am_pm + " :mins after midnight :" + mins);
-        return mins;
+    public Time12HrFmt getViewTime() {
+        if(null == this.viewTime)
+            this.viewTime = new Time12HrFmt(time);
+        return viewTime;
+    }
+
+    public void setViewTime(Time12HrFmt viewTime) {
+        this.viewTime = viewTime;
     }
     
 	@SuppressWarnings("unchecked")
