@@ -171,7 +171,6 @@ public class FrequencyCodeValuesFinder extends KeyValuesBase {
             if(frequencyCode!=null){
                 validClassReportFrequency.setFrequencyCode(frequencyCode);
                 validClassReportFrequency.refreshReferenceObject("frequency");
-                System.out.println("validClassReportFrequency.getFrequencyCode()" + validClassReportFrequency.getFrequencyCode());
                 keyValues.add(new KeyLabelPair(validClassReportFrequency.getFrequencyCode()
                         , validClassReportFrequency.getFrequency().getDescription()));    
             }
