@@ -19,7 +19,7 @@
 <c:set var="styleClass" value="${KualiForm.scheduleData.styleClasses}" />
 <c:set var="committeeScheduleAttributes" value="${DataDictionary.CommitteeSchedule.attributes}" />
 <c:set var="kraAttributeReferenceDummyAttributes" value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
-
+<c:set var="committeeScheduleAttributeReferenceDummy" value="${DataDictionary.CommitteeScheduleAttributeReferenceDummy.attributes}" />
 <div id="workarea">
 <kul:tab tabTitle="Schedule" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="" auditCluster=""  tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
@@ -40,9 +40,9 @@
               <tr>
                 <th><div align="right"><span class="labelText">Start Time:</span></div></th>
 				<td nobr>
-					<kul:htmlControlAttribute property="scheduleData.startTime" attributeEntry="${committeeScheduleAttributes.displayTime}" /> 
+					<kul:htmlControlAttribute property="scheduleData.time.time" attributeEntry="${committeeScheduleAttributeReferenceDummy.time}" /> 
 					
-					<kul:htmlControlAttribute property="scheduleData.meridiem" attributeEntry="${committeeScheduleAttributes.meridiem}" /> 		
+					<kul:htmlControlAttribute property="scheduleData.time.meridiem" attributeEntry="${committeeScheduleAttributeReferenceDummy.meridiem}" /> 		
 				</td>
               </tr>
               <tr>
@@ -195,10 +195,10 @@
 					</td>
 
 	                <td nobr><div align="center">
-						<kul:htmlControlAttribute property="document.committee.committeeSchedules[${status.index}].displayTime" 
-	                								attributeEntry="${committeeScheduleAttributes.displayTime}" />  						
- 						<kul:htmlControlAttribute property="document.committee.committeeSchedules[${status.index}].meridiem" 
-	                								attributeEntry="${committeeScheduleAttributes.meridiem}" /> 
+						<kul:htmlControlAttribute property="document.committee.committeeSchedules[${status.index}].viewTime.time" 
+	                								attributeEntry="${committeeScheduleAttributeReferenceDummy.time}" />  						
+ 						<kul:htmlControlAttribute property="document.committee.committeeSchedules[${status.index}].viewTime.meridiem" 
+	                								attributeEntry="${committeeScheduleAttributeReferenceDummy.meridiem}" /> 
 	                									
  							
  						</div>           									                									

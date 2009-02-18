@@ -20,13 +20,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import org.kuali.kra.scheduling.Time;
+import org.kuali.kra.scheduling.Time24HrFmt;
 
 public class DayCronExpression extends CronExpression {
 
     private Integer day;
     
-    public DayCronExpression(Date startDate, Time time, Integer day) throws ParseException {
+    public DayCronExpression(Date startDate, Time24HrFmt time, Integer day) throws ParseException {
         super(startDate, time);
         this.day = day;
     }

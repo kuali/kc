@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.committee.web.struts.form.schedule;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.struts.util.LabelValueBean;
-import org.kuali.kra.committee.web.struts.form.schedule.util.ScheduleOptionsUtil;
 
 public class YearlyScheduleDetails extends ScheduleDetails {
     
@@ -57,16 +52,16 @@ public class YearlyScheduleDetails extends ScheduleDetails {
         
         //this.setMonths(new ArrayList<LabelValueBean>());
         //ScheduleOptionsUtil.populate(months, ScheduleOptionsUtil.mths);
-        this.setSelectedOption1Month(ScheduleOptionsUtil.mths[0]);
-        this.setSelectedOption2Month(ScheduleOptionsUtil.mths[0]);
+        this.setSelectedOption1Month(Months.JANUARY.toString());
+        this.setSelectedOption2Month(Months.JANUARY.toString());
         
         //this.setMonthsweek(new ArrayList<LabelValueBean>());
         //ScheduleOptionsUtil.populate(monthsweek, ScheduleOptionsUtil.mthsweek);
-        this.setSelectedMonthsWeek(ScheduleOptionsUtil.mthsweek[0]);
+        this.setSelectedMonthsWeek(WeekOfMonth.first.toString());
         
         //this.setDayofweek(new ArrayList<LabelValueBean>());
         //ScheduleOptionsUtil.populate(dayofweek, ScheduleOptionsUtil.dyofweek);
-        this.setSelectedDayOfWeek(ScheduleOptionsUtil.dyofweek[4]);
+        this.setSelectedDayOfWeek(DayOfWeek.Monday.toString());
     }
 
     public int getDay() {

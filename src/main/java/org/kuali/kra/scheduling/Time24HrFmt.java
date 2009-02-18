@@ -17,13 +17,23 @@ package org.kuali.kra.scheduling;
 
 import java.text.ParseException;
 
-public class Time {
+public class Time24HrFmt {
     
     private String hours;
     
     private String minutes;
     
-    public Time(String time) throws ParseException {
+    public static final String splitChr = ":";
+    
+    public static final String msg1 = "Time format exception, expects hh:mm";
+    
+    public static final String msg2 = "Time format exception, expects hh as 0-23 & mm as 0-59";
+    
+    public static final String msg3 = "Time format exception, expects hh as 0-23";
+    
+    public static final String msg4 = "Time format exception, expects mm as 0-59";
+    
+    public Time24HrFmt(String time) throws ParseException {
         parseTime(time);
     }
     
@@ -45,10 +55,10 @@ public class Time {
     
     private void parseTime(String time) throws ParseException {
         
-        String[] result = time.split(":");
+        String[] result = time.split(splitChr);
         
         if(result.length != 2)
-            throw new ParseException("Time format exception, expects hh:mm", 0);
+            throw new ParseException(msg1, 0);
         
         Integer hrs;
         Integer mins;
@@ -57,15 +67,15 @@ public class Time {
             hrs = new Integer(result[0]);
             mins = new Integer(result[1]);
         }catch (NumberFormatException e) {
-            throw new ParseException("Time format exception, expects hh as 0-23 & mm as 0-59", 0);
+            throw new ParseException(msg2, 0);
         }
         
         if(!(hrs >= 0 && hrs <= 23)) {
-            throw new ParseException("Time format exception, expects hh as 0-23", 0);
+            throw new ParseException(msg3, 0);
         }
         
         if(!(mins >= 0 && mins <= 59)) {
-            throw new ParseException("Time format exception, expects mm as 0-59", 0);
+            throw new ParseException(msg4, 0);
         }
         this.hours = result[0];
         this.minutes = result[1];
