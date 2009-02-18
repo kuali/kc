@@ -50,7 +50,8 @@ import edu.iu.uis.eden.exception.WorkflowException;
         @UnitTestFile(filename = "classpath:sql/dml/load_protocol_type.sql", delimiter = ";") }))
 public abstract class ProtocolWebTestBase extends KraWebTestBase {
     
-
+    protected static final String PERMISSIONS_LINK_NAME = "permissions.x";
+    
     /* check for save success - any errors found in the page */
     protected static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
     protected static final String SAVE_SUCCESS_MESSAGE = "Document was successfully saved";
@@ -339,5 +340,22 @@ public abstract class ProtocolWebTestBase extends KraWebTestBase {
     }
     
     private void removedCode() {
+    }
+    
+    /**
+     * Get the Permissions Web Page. To do this, we first get the Protocol  
+     * Web Page and fill in the required fields with some default values.  We can 
+     * then navigate to the Permissions Web Page.
+     * 
+     * @return the Permissions Web Page.
+     * @throws Exception
+     */
+    protected HtmlPage getPermissionsPage() throws Exception {
+        HtmlPage protocolPage = getProtocolHomePage();
+        setProtocolRequiredFields(protocolPage);
+        setFieldValue(protocolPage, "protocolHelper.leadUnitNumber", "000001");
+        protocolPage = savePage(protocolPage);
+        validateSavedPage(protocolPage);
+        return clickOnTab(protocolPage, PERMISSIONS_LINK_NAME);
     }
 }
