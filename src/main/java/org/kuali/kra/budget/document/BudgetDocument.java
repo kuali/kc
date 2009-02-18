@@ -270,7 +270,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         assert periodId != null : "the periodId is null";
         
         for (final BudgetPeriod localPeriod : this.getBudgetPeriods()) {
-            if (localPeriod.getBudgetPeriodId().equals(periodId)) {
+            if (periodId.equals(localPeriod.getBudgetPeriodId())) {
                 return true;
             }
         }
