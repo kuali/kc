@@ -188,10 +188,11 @@
       	  <forward name="permissionsCloseEditRoles" path="/WEB-INF/jsp/irb/ProtocolPermissionsCloseEditRoles.jsp" />
       </action>
       
-      <!--  KRA IRB Committee Mapping -->
+      <!--  KRA Committee Mapping -->
       <action path="/committee*" name="CommitteeForm" input="/WEB-INF/jsp/committee/Committee{1}.jsp" type="org.kuali.kra.committee.web.struts.action.Committee{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/committee/Committee{1}.jsp" />
           <forward name="committee" path="/WEB-INF/jsp/committee/CommitteeCommittee.jsp" />
+          <forward name="committeeMembers" path="/WEB-INF/jsp/committee/CommitteeMembers.jsp" />
           <forward name="committeeSchedule" path="/WEB-INF/jsp/committee/CommitteeSchedule.jsp" />
       </action>
       

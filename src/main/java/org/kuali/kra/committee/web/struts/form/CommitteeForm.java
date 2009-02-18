@@ -50,7 +50,9 @@ import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
  */
 @SuppressWarnings("serial")
 public class CommitteeForm extends KraTransactionalDocumentFormBase {
-    
+
+    private MembershipHelper membershipHelper;
+     
     @SuppressWarnings("unused")
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeForm.class);
     
@@ -194,6 +196,14 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
 
     public void setScheduleData(ScheduleData scheduleData) {
         this.scheduleData = scheduleData;
+    }
+
+    public MembershipHelper getMembershipHelper() {
+        return membershipHelper;
+    }
+
+    public void setMembershipHelper(MembershipHelper membershipHelper) {
+        this.membershipHelper = membershipHelper;
     }
 }
 
