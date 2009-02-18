@@ -39,11 +39,55 @@ import org.kuali.kra.budget.service.BudgetService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.KNSServiceLocator;
 
+/**
+ * Business Rules for the BudgetPersonnel panel. 
+ */
 public class BudgetPersonnelRule {
 
+    private final BusinessObjectService boService;
+    private final KualiConfigurationService kConfigService;
+    private final BudgetService budgetService;
+    
+    /**
+     * Creates a new BudgetPersonnelRule setting the required services using the
+     * {@link KraServiceLocator KraServiceLocator}.
+     */
     public BudgetPersonnelRule() {
+        this(KraServiceLocator.getService(BusinessObjectService.class),
+            KraServiceLocator.getService(KualiConfigurationService.class),
+            KraServiceLocator.getService(BudgetService.class));
+    }
+    
+    /**
+     * Creates a new BudgetPersonnelRule setting the required services.
+     * <p>
+     * Default access for easy unit testing.
+     * </p>
+     * @param boService the BusinessObjectService
+     * @param kConfigService the KualiConfigurationService
+     * @param budgetService the BudgetService
+     * @throws NullPointerException if any of the services are null.
+     */
+    BudgetPersonnelRule(final BusinessObjectService boService,
+        final KualiConfigurationService kConfigService,
+        final BudgetService budgetService) {
+        
+        if (boService == null) {
+            throw new NullPointerException("the boService is null");
+        }
+        
+        if (kConfigService == null) {
+            throw new NullPointerException("the kConfigService is null");
+        }
+        
+        if (budgetService == null) {
+            throw new NullPointerException("the budgetService is null");
+        }
+        
+        this.boService = boService;
+        this.kConfigService = kConfigService;
+        this.budgetService = budgetService;
     }
     
     /**
@@ -78,20 +122,20 @@ public class BudgetPersonnelRule {
      */
     public boolean processCheckExistBudgetPersonnelDetailsBusinessRules(BudgetDocument budgetDocument, BudgetPerson budgetPerson) {
         boolean valid = true;
-        
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-        Map qMap = new HashMap();
+
+        final Map<String, Object> qMap = new HashMap<String, Object>();
         qMap.put("proposalNumber", budgetDocument.getProposalNumber());
         qMap.put("budgetVersionNumber", budgetDocument.getBudgetVersionNumber());
         qMap.put("personId", budgetPerson.getPersonId());
         qMap.put("personSequenceNumber", budgetPerson.getPersonSequenceNumber());
-        Collection budgetPersonnelDetails = KraServiceLocator.getService(BusinessObjectService.class).findMatching(BudgetPersonnelDetails.class, qMap);
-        if (CollectionUtils.isNotEmpty(budgetPersonnelDetails)) {
+
+        if (CollectionUtils.isNotEmpty(this.boService.findMatching(BudgetPersonnelDetails.class, qMap))) {
                 // just try to make sure key is on budget personnel tab
+                final ErrorMap errorMap = GlobalVariables.getErrorMap();
                 errorMap.putError("document.budgetPersons[0].personNumber", KeyConstants.ERROR_DELETE_PERSON_WITH_PERSONNEL_DETAIL, budgetPerson.getPersonName());
-                    valid = false;
+                valid = false;
         }
-                    
+
         return valid;
     }
 
@@ -102,10 +146,10 @@ public class BudgetPersonnelRule {
         int i = 0;
         for (BudgetPerson budgetPerson : budgetDocument.getBudgetPersons()) {
             if (budgetPerson.getCalculationBase() == null) {
-                errorMap.putError("document.budgetPerson["+i+"].calculationBase", RiceKeyConstants.ERROR_REQUIRED, new String[] { "Base Salary"});
+                errorMap.putError("document.budgetPerson["+i+"].calculationBase", RiceKeyConstants.ERROR_REQUIRED, new String[] {"Base Salary"});
                     valid = false;
             } else if (budgetPerson.getCalculationBase().isNegative()) {
-                errorMap.putError("document.budgetPerson["+i+"].calculationBase", KeyConstants.ERROR_NEGATIVE_AMOUNT, new String[] { "Base Salary"});
+                errorMap.putError("document.budgetPerson["+i+"].calculationBase", KeyConstants.ERROR_NEGATIVE_AMOUNT, new String[] {"Base Salary"});
                 valid = false;
             }
             i++;
@@ -114,110 +158,167 @@ public class BudgetPersonnelRule {
         return valid;
     }
 
-    private List<ValidCeJobCode> getMappedCostElements(BudgetPerson person) {
-        BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
-        List<ValidCeJobCode> validCostElements = null;
-        try {
-            validCostElements = budgetService.getApplicableCostElements(person.getProposalNumber(), person.getBudgetVersionNumber().toString(), person.getPersonSequenceNumber().toString());
-        }
-        catch (Exception e) {
-            throw new RuntimeException("Exception occurred while obtaining mapped Cost Elements for Job code");
-        }
-        return validCostElements;
+    private Collection<ValidCeJobCode> getMappedCostElements(BudgetPerson person) {
+        return this.budgetService.getApplicableCostElements(person.getProposalNumber(),
+            person.getBudgetVersionNumber().toString(), person.getPersonSequenceNumber().toString());
     }
     
-    public boolean processCheckForJobCodeChange(BudgetDocument budgetDocument, int viewBudgetPeriod) {
+    /**
+     * This method executes the job code change validation rules against the budget document
+     * for a specific budget period.
+     * @param budgetDocument the budget document
+     * @param viewBudgetPeriod the budget period number.
+     * @return true is valid false if not valid
+     * @throws NullPointerException if the budgetDocument is null
+     * @throws IllegalArgumentException if the viewBudgetPeriod < 1
+     */
+    public boolean processCheckForJobCodeChange(final BudgetDocument budgetDocument, final int viewBudgetPeriod) {
+        if (budgetDocument == null) {
+            throw new NullPointerException("the budgetDocument is null");
+        }
+        
+        if (viewBudgetPeriod < 1) {
+            throw new IllegalArgumentException("this viewBudgetPeriod: " + viewBudgetPeriod + " is invalid");
+        }
+        
         boolean valid = true;
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-        List<Integer> budgetPersonSequences = new ArrayList<Integer>();
-        BusinessObjectService boService = KNSServiceLocator.getBusinessObjectService();
-        Map<Integer, BudgetPerson> budgetPersonsMap = new HashMap<Integer, BudgetPerson>();
         
-        int selectedBudgetPeriodIndex = viewBudgetPeriod-1;
-        BudgetPeriod selectedBudgetPeriod = budgetDocument.getBudgetPeriod(selectedBudgetPeriodIndex);
+        final BudgetPeriod selectedBudgetPeriod = budgetDocument.getBudgetPeriod(viewBudgetPeriod - 1);
         
-        for(BudgetLineItem budgetLineItem : selectedBudgetPeriod.getBudgetLineItems()) {
-            for(BudgetPersonnelDetails budgetPersonnelDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
-                budgetPersonSequences.add(budgetPersonnelDetails.getPersonSequenceNumber());
+        final Collection<Integer> budgetPersonSequences
+            = this.getBudgetPersonSequencesFromPersonnelDetails(selectedBudgetPeriod.getBudgetLineItems());
+        
+        if (CollectionUtils.isNotEmpty(budgetPersonSequences)) {
+            int i = 0;
+            for (BudgetPerson person : budgetDocument.getBudgetPersons()) {
+                if (budgetPersonSequences.contains(person.getPersonSequenceNumber())) {
+                    if(CollectionUtils.isNotEmpty(this.getMappedCostElements(person))) {
+                        valid &= this.validateJobCodeChange(i, person);
+                    } else {
+                        valid &= this.validateJobCodeValue(i, person);
+                        this.updateJobCodeOnDetailsFromPerson(selectedBudgetPeriod.getBudgetLineItems(), person);
+                    }
+                }
+                i++;
             }
         }
-        
-        Map queryMap = new HashMap();
-        queryMap.put("proposalNumber", budgetDocument.getProposalNumber());
-        queryMap.put("budgetVersionNumber", budgetDocument.getBudgetVersionNumber());
-        List<ValidCeJobCode> validCostElements = null;
-        
-        if(budgetPersonSequences.size() > 0) {
-             int i = 0;
-             for(BudgetPerson person : budgetDocument.getBudgetPersons()) {
-                 if(budgetPersonSequences.contains(person.getPersonSequenceNumber())) {
-                     validCostElements = getMappedCostElements(person);
-                     if(CollectionUtils.isNotEmpty(validCostElements)) {
-                         queryMap.put("personSequenceNumber", person.getPersonSequenceNumber());
-                         BudgetPerson personCopy = (BudgetPerson) boService.findByPrimaryKey(BudgetPerson.class, queryMap);
-                         if(!person.isDuplicatePerson(personCopy)) {
-                             if (!StringUtils.equals(person.getJobCode(), personCopy.getJobCode())) {
-                                 errorMap.putError("document.budgetPerson["+i+"].jobCode", KeyConstants.ERROR_PERSON_JOBCODE_CHANGE, person.getPersonName());
-                                 valid = false;
-                             }
-                         }
-                         queryMap.remove("personSequenceNumber");
-                     } else {
-                         budgetPersonsMap.put(person.getPersonSequenceNumber(), person);
-                     }
-                     validCostElements = null;
-                 }
-                 i++;
-             }
-             
-             //Update BudgetPerson References
-             for(BudgetLineItem budgetLineItem : selectedBudgetPeriod.getBudgetLineItems()) {
-                 for(BudgetPersonnelDetails budgetPersonnelDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
-                     BudgetPerson documentBudgetPersonCopy = budgetPersonsMap.get(budgetPersonnelDetails.getPersonSequenceNumber());
-                     if(documentBudgetPersonCopy != null) {
-                         budgetPersonnelDetails.setJobCode(documentBudgetPersonCopy.getJobCode());
-                     }
-                 }
-             }
-        }
-        
         return valid;
     }
     
-    private List<ValidCeJobCode> getApplicableCostElements(BudgetDocument budgetDocument, BudgetPersonnelDetails newBudgetPersonnelDetails, boolean save) {
-        List<ValidCeJobCode> validCostElements = null;
-        BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
-    
-        try {
-            if(save) {
-                String jobCodeValidationEnabledInd = KraServiceLocator.getService(KualiConfigurationService.class).getParameter(
-                        Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT,
-                        Constants.BUDGET_JOBCODE_VALIDATION_ENABLED).getParameterValue();
-                
-                Map fieldValues = new HashMap();
-                BudgetPerson budgetPerson = null;
-                
-                if(StringUtils.isNotEmpty(jobCodeValidationEnabledInd) && jobCodeValidationEnabledInd.equals("Y")) { 
-                    List<BudgetPerson> budgetPersons = budgetDocument.getBudgetPersons();
-                    for(BudgetPerson tmpBudgetPerson : budgetDocument.getBudgetPersons()) {
-                        if(tmpBudgetPerson.getPersonSequenceNumber().intValue() == newBudgetPersonnelDetails.getPersonSequenceNumber().intValue()) {
-                            budgetPerson = tmpBudgetPerson;
-                            break;
-                        }
-                    }
-                    if(budgetPerson != null && StringUtils.isNotEmpty(budgetPerson.getJobCode())) {
-                        fieldValues.put("jobCode", budgetPerson.getJobCode().toUpperCase());
-                        validCostElements = (List<ValidCeJobCode>) boService.findMatching(ValidCeJobCode.class, fieldValues);
-                    }
-                }
-                
-            } else {
-                validCostElements = budgetService.getApplicableCostElements(budgetDocument.getProposalNumber(), budgetDocument.getBudgetVersionNumber().toString(), newBudgetPersonnelDetails.getPersonSequenceNumber().toString());
+    /**
+     * Validates if the job code is a valid change.
+     * @param personNumber the current person number
+     * @param person the current person
+     * @return true is valid false if not valid
+     */
+    private boolean validateJobCodeChange(final int personNumber, final BudgetPerson person) {
+        assert person != null : "the person is null";
+        assert personNumber >= 0 : "the personNumber: " + personNumber + " is invalid";
+        
+        boolean valid = true;
+        
+        final Map<String, Object> queryMap = new HashMap<String, Object>();
+        queryMap.put("proposalNumber", person.getProposalNumber());
+        queryMap.put("budgetVersionNumber", person.getBudgetVersionNumber());
+        queryMap.put("personSequenceNumber", person.getPersonSequenceNumber());
+        final BudgetPerson personCopy = (BudgetPerson) this.boService.findByPrimaryKey(BudgetPerson.class, queryMap);
+        if (!person.isDuplicatePerson(personCopy)) {
+            if (!StringUtils.equals(person.getJobCode(), personCopy.getJobCode())) {
+                final ErrorMap errorMap = GlobalVariables.getErrorMap();
+                errorMap.putError("document.budgetPerson[" + personNumber + "].jobCode", KeyConstants.ERROR_PERSON_JOBCODE_CHANGE, person.getPersonName());
+                valid = false;
             }
         }
-        catch (Exception e) {
-            throw new RuntimeException("Exception Occurred while calling BudgetService getApplicableCostElements");
+        return valid;
+    }
+    
+    /**
+     * Validates if the job code is a valid value.
+     * @param personNumber the current person number
+     * @param person the current person
+     * @return true is valid false if not valid
+     */
+    private boolean validateJobCodeValue(final int personNumber, final BudgetPerson person) {
+        assert person != null : "the person is null";
+        assert personNumber >= 0 : "the personNumber: " + personNumber + " is invalid";
+        
+        boolean valid = true;
+        if (person.getJobCode() == null) {
+            final ErrorMap errorMap = GlobalVariables.getErrorMap();
+            errorMap.putError("document.budgetPerson[" + personNumber + "].jobCode", KeyConstants.ERROR_PERSON_JOBCODE_VALUE, person.getPersonName());
+            valid = false;
+        }
+        return valid;
+    }
+    
+    /**
+     * Gets a Collection of sequence numbers from every lines items personnel details
+     * @param budgetLineItems the lines items
+     * @return Collection of sequence numbers
+     */
+    private Collection<Integer> getBudgetPersonSequencesFromPersonnelDetails(final Collection<BudgetLineItem> budgetLineItems) {
+        assert budgetLineItems != null : "the budgetLineItems is null";
+        
+        final Collection<Integer> budgetPersonSequences = new ArrayList<Integer>();
+        
+        for (final BudgetLineItem budgetLineItem : budgetLineItems) {
+            for (final BudgetPersonnelDetails budgetPersonnelDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
+                budgetPersonSequences.add(budgetPersonnelDetails.getPersonSequenceNumber());
+            }
+        }
+        return budgetPersonSequences;
+    }
+    
+    /**
+     * Updates personnel details job code from a person's job code.
+     * @param budgetLineItems the lines items
+     * @param person the person
+     */
+    private void updateJobCodeOnDetailsFromPerson(final Collection<BudgetLineItem> budgetLineItems, final BudgetPerson person) {
+        assert budgetLineItems != null : "the budgetLineItems is null";
+        assert person != null : "the person is null";
+        
+        if (person.getJobCode() == null) {
+            return;
+        }
+        
+        for (final BudgetLineItem budgetLineItem : budgetLineItems) {
+            for (final BudgetPersonnelDetails budgetPersonnelDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
+                if (person.getPersonSequenceNumber().equals(budgetPersonnelDetails.getPersonSequenceNumber())) {
+                    budgetPersonnelDetails.setJobCode(person.getJobCode());
+                }  
+            }
+        }
+    }
+    
+    @SuppressWarnings("unchecked")
+    private List<ValidCeJobCode> getApplicableCostElements(BudgetDocument budgetDocument, BudgetPersonnelDetails newBudgetPersonnelDetails, boolean save) {
+        List<ValidCeJobCode> validCostElements = null;
+    
+        if(save) {
+            String jobCodeValidationEnabledInd = this.kConfigService.getParameter(
+                    Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT,
+                    Constants.BUDGET_JOBCODE_VALIDATION_ENABLED).getParameterValue();
+            
+            Map<String, Object> fieldValues = new HashMap<String, Object>();
+            BudgetPerson budgetPerson = null;
+            
+            if(StringUtils.isNotEmpty(jobCodeValidationEnabledInd) && jobCodeValidationEnabledInd.equals("Y")) { 
+
+                for(BudgetPerson tmpBudgetPerson : budgetDocument.getBudgetPersons()) {
+                    if(tmpBudgetPerson.getPersonSequenceNumber().intValue() == newBudgetPersonnelDetails.getPersonSequenceNumber().intValue()) {
+                        budgetPerson = tmpBudgetPerson;
+                        break;
+                    }
+                }
+                if(budgetPerson != null && StringUtils.isNotEmpty(budgetPerson.getJobCode())) {
+                    fieldValues.put("jobCode", budgetPerson.getJobCode().toUpperCase());
+                    validCostElements = (List<ValidCeJobCode>) this.boService.findMatching(ValidCeJobCode.class, fieldValues);
+                }
+            }
+            
+        } else {
+            validCostElements = this.budgetService.getApplicableCostElements(budgetDocument.getProposalNumber(), budgetDocument.getBudgetVersionNumber().toString(), newBudgetPersonnelDetails.getPersonSequenceNumber().toString());
         }
          
         return validCostElements;
@@ -242,6 +343,4 @@ public class BudgetPersonnelRule {
 
         return isValid;
     }
-
-    
 }

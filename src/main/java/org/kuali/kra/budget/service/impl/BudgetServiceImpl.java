@@ -35,7 +35,6 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetLineItemBase;
-import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetModular;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPerson;
@@ -47,7 +46,6 @@ import org.kuali.kra.budget.bo.ValidCeRateType;
 import org.kuali.kra.budget.calculator.QueryList;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.calculator.query.Equals;
-import org.kuali.kra.budget.calculator.query.QueryEngine;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.lookup.keyvalue.CostElementValuesFinder;
 import org.kuali.kra.budget.service.BudgetPersonService;
@@ -192,7 +190,7 @@ public class BudgetServiceImpl implements BudgetService {
      * @param object the object
      * @param proposalNumber the proposal number
      */
-    private void fixProperty(Object object, String methodName, Class clazz, Object propertyValue, Map<String, Object> objectMap) throws Exception {
+    private void fixProperty(Object object, String methodName, Class clazz, Object propertyValue, Map<String, Object> objectMap) {
         if(ObjectUtils.isNotNull(object)) {
             if (object instanceof PersistableBusinessObject) {
                 PersistableBusinessObject objectWId = (PersistableBusinessObject) object;
@@ -331,8 +329,8 @@ public class BudgetServiceImpl implements BudgetService {
         
     }
 
-    public List<ValidCeJobCode> getApplicableCostElements(String proposalNumber, String budgetVersionNumber, String personSequenceNumber)
-        throws Exception {
+    public List<ValidCeJobCode> getApplicableCostElements(String proposalNumber, String budgetVersionNumber, String personSequenceNumber) {
+        
         List<ValidCeJobCode> validCostElements = null;
         BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
 
@@ -358,7 +356,7 @@ public class BudgetServiceImpl implements BudgetService {
     }
     
     public String getApplicableCostElementsForAjaxCall(String proposalNumber, String budgetVersionNumber,
-        String personSequenceNumber, String budgetCategoryTypeCode) throws Exception {
+        String personSequenceNumber, String budgetCategoryTypeCode) {
         
         String resultStr = "";
         BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
@@ -387,8 +385,7 @@ public class BudgetServiceImpl implements BudgetService {
         return resultStr;
     }
 
-    public List<String> getExistingGroupNames(String proposalNumber, String budgetVersionNumber, String budgetPeriod)
-            throws Exception {
+    public List<String> getExistingGroupNames(String proposalNumber, String budgetVersionNumber, String budgetPeriod) {
         List<String> groupNames = new ArrayList<String>();
         BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
         Map fieldValues = new HashMap();
@@ -406,8 +403,7 @@ public class BudgetServiceImpl implements BudgetService {
         return groupNames;
     }
 
-    public String getExistingGroupNamesForAjaxCall(String proposalNumber, String budgetVersionNumber, String budgetPeriod)
-            throws Exception {
+    public String getExistingGroupNamesForAjaxCall(String proposalNumber, String budgetVersionNumber, String budgetPeriod) {
         List<String> groupNames = getExistingGroupNames(proposalNumber, budgetVersionNumber, budgetPeriod);
         String resultStr = "";
         
