@@ -291,6 +291,7 @@ public final class KeyConstants {
     public static final String MIT_IDC_VALIDATION_ENABLED = "mit.idc.validation.enabled";
     public static final String MIT_IDC_VALIDATION_ENABLED_VALUE_FOR_COMPARISON = "1";
     public static final String REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES = "reportClassForPaymentsAndInvoices";
+    public static final String CONTACT_TYPE_OTHER = "contactTypeOther";
     
     //Award Validation Error Messages
     public static final String INDIRECT_COST_RATE_NOT_IN_PAIR = "indirectCostRate.not.in.pair";
