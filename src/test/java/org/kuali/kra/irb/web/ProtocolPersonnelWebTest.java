@@ -44,8 +44,8 @@ public class ProtocolPersonnelWebTest extends ProtocolWebTestBase{
     private static final String CO_INVESTIGATOR_NAME = "Philip Berg";
     private static final String CO_INVESTIGATOR_ROLE_ID = "COI";
     private static final String CORRESPONDENT_ROLE_ID = "CRC";
-    private static final String NEW_PERSON_NAME_FIELD = "newProtocolPerson.personName";
-    private static final String NEW_PERSON_ROLE_ID_FIELD = "newProtocolPerson.protocolPersonRoleId";
+    private static final String NEW_PERSON_NAME_FIELD = "personnelHelper.newProtocolPerson.personName";
+    private static final String NEW_PERSON_ROLE_ID_FIELD = "personnelHelper.newProtocolPerson.protocolPersonRoleId";
     private static final String ADD_PERSON_BUTTON = "methodToCall.addProtocolPerson";
     private static final String CLEAR_PERSON_BUTTON = "methodToCall.clearProtocolPerson";
     private static final String ADD_UNIT_BUTTON = "methodToCall.addProtocolPersonUnit.document.protocol.protocolPersons[0].line";
@@ -58,8 +58,8 @@ public class ProtocolPersonnelWebTest extends ProtocolWebTestBase{
     private static final String CHECKBOX_CHECKED = "on";
     private static final String ERROR_PROTOCOL_WITHOUT_PI = "A Principal Investigator must be assigned to the Protocol.";
     private static final String ERROR_ROLE_CHANGE_NOT_PERMITTED = "This role change is not permitted.";
-    private static final String NEW_PERSON1_UNIT_FIELD = "newProtocolPersonUnits[0].unitNumber";
-    private static final String NEW_PERSON2_UNIT_FIELD = "newProtocolPersonUnits[0].unitNumber";
+    private static final String NEW_PERSON1_UNIT_FIELD = "personnelHelper.newProtocolPersonUnits[0].unitNumber";
+    private static final String NEW_PERSON2_UNIT_FIELD = "personnelHelper.newProtocolPersonUnits[0].unitNumber";
     
 
     /**
