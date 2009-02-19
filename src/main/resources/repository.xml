@@ -2917,12 +2917,6 @@
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<collection-descriptor name="protocolInvestigator" proxy="true" element-class-ref="org.kuali.kra.irb.bo.ProtocolInvestigator" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
-			<inverse-foreignkey field-ref="affiliationTypeCode"/>
-		</collection-descriptor>
-		<collection-descriptor name="protocolKeyPerson" proxy="true" element-class-ref="org.kuali.kra.irb.bo.ProtocolKeyPerson" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
-			<inverse-foreignkey field-ref="affiliationTypeCode"/>
-		</collection-descriptor>
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.bo.ResearchArea" table="RESEARCH_AREAS">

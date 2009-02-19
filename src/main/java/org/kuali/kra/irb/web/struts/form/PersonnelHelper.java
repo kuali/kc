@@ -15,16 +15,17 @@
  */
 package org.kuali.kra.irb.web.struts.form;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.irb.bo.Protocol;
-import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.irb.bo.Protocol;
+import org.kuali.kra.irb.bo.ProtocolPerson;
+import org.kuali.kra.irb.bo.ProtocolUnit;
+import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.document.authorization.ProtocolTask;
 import org.kuali.kra.service.TaskAuthorizationService;
 
@@ -37,9 +38,13 @@ public class PersonnelHelper {
     private ProtocolForm form;
     
     private boolean modifyProtocol = false;
+    ProtocolPerson newProtocolPerson;
+    private List<ProtocolUnit> newProtocolPersonUnits;
    
     public PersonnelHelper(ProtocolForm form) {
-        this.form = form;
+        setForm(form); 
+        setNewProtocolPerson(new ProtocolPerson());
+        setNewProtocolPersonUnits(new ArrayList<ProtocolUnit>());
     }    
     
     public void prepareView() {
@@ -75,4 +80,33 @@ public class PersonnelHelper {
     public boolean getModifyProtocol() {
         return modifyProtocol;
     }
+
+    public void setNewProtocolPerson(ProtocolPerson newProtocolPerson) {
+        this.newProtocolPerson = newProtocolPerson;
+    }
+
+    public ProtocolPerson getNewProtocolPerson() {
+        return newProtocolPerson;
+    }
+
+    public List<ProtocolUnit> getNewProtocolPersonUnits() {
+        if (getForm().getProtocolDocument().getProtocol().getProtocolPersons().size() > this.newProtocolPersonUnits.size()) {
+            this.newProtocolPersonUnits.add(this.newProtocolPersonUnits.size(), new ProtocolUnit());
+        }
+        return newProtocolPersonUnits;
+    }
+
+    public void setNewProtocolPersonUnits(List<ProtocolUnit> newProtocolPersonUnits) {
+        this.newProtocolPersonUnits = newProtocolPersonUnits;
+    }
+
+    public ProtocolForm getForm() {
+        return form;
+    }
+
+    public void setForm(ProtocolForm form) {
+        this.form = form;
+    }
+
+
 }
