@@ -22,12 +22,6 @@ import java.util.List;
 import org.kuali.kra.bo.AffiliationType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Person;
-import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.service.ProtocolPersonnelService;
-import org.kuali.kra.service.PersonService;
-import org.kuali.kra.service.RolodexService;
-import org.springframework.util.StringUtils;
 
 public class ProtocolPerson extends KraPersistableBusinessObjectBase { 
     /**
@@ -196,7 +190,7 @@ public class ProtocolPerson extends KraPersistableBusinessObjectBase {
      * @return boolean
      */
     public boolean isTrained() {
-        return trained; //getProtocolPersonnelService().isPersonTrained(getPersonId());
+        return trained; 
     }
 
     /**
@@ -245,72 +239,6 @@ public class ProtocolPerson extends KraPersistableBusinessObjectBase {
         return getProtocolUnits().get(index);
     }
     
-    /**
-     * This method is to get protocol personnel service
-     * @return ProtocolPersonnelService
-     */
-    private ProtocolPersonnelService getProtocolPersonnelService() {
-        return (ProtocolPersonnelService)KraServiceLocator.getService("protocolPersonnelService");
-    }
-
-    
-
-    
-    
-    public String getPersonNameFromId(String personId, boolean nonEmployee) {
-        String ret = null;
-        if(nonEmployee) {
-            Rolodex theRolodex = getRolodexFromId(personId);
-            if (theRolodex != null ) {
-                    ret = theRolodex.getFullName();
-            }
-        } else {
-            Person thePerson = getPersonFromId(personId);
-            if (thePerson != null ) {
-                    ret = thePerson.getFullName();
-            }
-        }
-        return ret;
-    }
-    
-    private Person getPersonFromId(String personId) {
-        Person ret =null;
-        if (StringUtils.hasText(personId) ) { 
-            PersonService personService = KraServiceLocator.getService(PersonService.class);
-            ret = personService.getPerson(personId);
-        }
-        return ret;
-    }
-    
-    private Rolodex getRolodexFromId(String rolodexId) {
-        Rolodex ret = null;
-        if (StringUtils.hasText(rolodexId) ) { 
-            Integer rolodexIntId = Integer.parseInt(rolodexId);
-            RolodexService rolodexService = KraServiceLocator.getService(RolodexService.class);
-            ret = rolodexService.getRolodex(rolodexIntId.intValue());
-        }
-        return ret;
-    }
-    
-    /**
-     * This method is to find lead unit from unit list
-     * @return ProtocolUnit (lead unit)
-     */
-    public ProtocolUnit getLeadUnit() {
-        ProtocolUnit leadUnit = null;
-        for ( ProtocolUnit unit : getProtocolUnits() ) {
-            if (unit.getLeadUnitFlag()) {
-                leadUnit = unit;
-                break;
-            }
-        }
-        return leadUnit;
-    }
-    
-    public void setPersonNameFromId(String personId, boolean nonEmpFlag) {       
-        this.personName = getPersonNameFromId(personId, nonEmpFlag);
-    }
-
     public int getSelectedUnit() {
         return selectedUnit;
     }
@@ -350,4 +278,18 @@ public class ProtocolPerson extends KraPersistableBusinessObjectBase {
         return rolodex==null;
     }
 
+    /**
+     * This method is to find lead unit from unit list
+     * @return ProtocolUnit (lead unit)
+     */
+    public ProtocolUnit getLeadUnit() {
+        ProtocolUnit leadUnit = null;
+        for ( ProtocolUnit unit : getProtocolUnits() ) {
+            if (unit.getLeadUnitFlag()) {
+                leadUnit = unit;
+                break;
+            }
+        }
+        return leadUnit;
+    }    
 }

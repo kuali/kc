@@ -18,16 +18,10 @@ package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.irb.bo.ProtocolInvestigator;
-import org.kuali.kra.irb.bo.ProtocolKeyPerson;
-
 public class AffiliationType extends KraPersistableBusinessObjectBase { 
 	
 	private Integer affiliationTypeCode; 
 	private String description; 
-	
-	private ProtocolInvestigator protocolInvestigator; 
-	private ProtocolKeyPerson protocolKeyPerson; 
 	
 	public AffiliationType() { 
 
@@ -47,22 +41,6 @@ public class AffiliationType extends KraPersistableBusinessObjectBase {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public ProtocolInvestigator getProtocolInvestigator() {
-		return protocolInvestigator;
-	}
-
-	public void setProtocolInvestigator(ProtocolInvestigator protocolInvestigator) {
-		this.protocolInvestigator = protocolInvestigator;
-	}
-
-	public ProtocolKeyPerson getProtocolKeyPersons() {
-		return protocolKeyPerson;
-	}
-
-	public void setProtocolKeyPersons(ProtocolKeyPerson protocolKeyPersons) {
-		this.protocolKeyPerson = protocolKeyPerson;
 	}
 
 	@Override 
