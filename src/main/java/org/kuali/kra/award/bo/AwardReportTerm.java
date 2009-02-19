@@ -346,12 +346,124 @@ public class AwardReportTerm extends KraPersistableBusinessObjectBase {
         return hashMap;
     }
 
+    /**
+     * 
+     * 
+     * @return
+     */
     public List<AwardReportTermRecipient> getAwardReportTermRecipients() {
         return awardReportTermRecipients;
     }
 
+    /**
+     *
+     * @param awardReportTermRecipients
+     */
     public void setAwardReportTermRecipients(List<AwardReportTermRecipient> awardReportTermRecipients) {
         this.awardReportTermRecipients = awardReportTermRecipients;
+    }
+
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int PRIME = 31;
+        int result = 1;
+        result = PRIME * result + ((awardNumber == null) ? 0 : awardNumber.hashCode());
+        result = PRIME * result + ((dueDate == null) ? 0 : dueDate.hashCode());
+        result = PRIME * result + ((frequencyBaseCode == null) ? 0 : frequencyBaseCode.hashCode());
+        result = PRIME * result + ((frequencyCode == null) ? 0 : frequencyCode.hashCode());
+        result = PRIME * result + ((ospDistributionCode == null) ? 0 : ospDistributionCode.hashCode());
+        result = PRIME * result + ((reportClassCode == null) ? 0 : reportClassCode.hashCode());
+        result = PRIME * result + ((reportCode == null) ? 0 : reportCode.hashCode());
+        result = PRIME * result + ((sequenceNumber == null) ? 0 : sequenceNumber.hashCode());
+        return result;
+    }
+
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj){
+            return true;
+        }   
+        if (obj == null){
+            return false;
+        }   
+        if (!(obj instanceof AwardReportTerm)){
+            return false;
+        }   
+        
+        return equals((AwardReportTerm) obj);
+    }
+    
+    /**
+     * 
+     * Convenience method to check equality of another AwardFandaRate
+     * @param awardReportTerm
+     * @return
+     */
+    public boolean equals(AwardReportTerm awardReportTerm) {
+        if (awardNumber == null) {
+            if (awardReportTerm.awardNumber != null){
+                return false;
+            }   
+        }else if (!awardNumber.equals(awardReportTerm.awardNumber)){
+            return false;
+        }   
+        if (dueDate == null) {
+            if (awardReportTerm.dueDate != null){
+                return false;
+            }   
+        }else if (!dueDate.equals(awardReportTerm.dueDate)){
+            return false;
+        }    
+        if (frequencyBaseCode == null) {
+            if (awardReportTerm.frequencyBaseCode != null){
+                return false;
+            }   
+        }else if (!frequencyBaseCode.equals(awardReportTerm.frequencyBaseCode)){
+            return false;
+        }   
+        if (frequencyCode == null) {
+            if (awardReportTerm.frequencyCode != null){
+                return false;
+            }   
+        }else if (!frequencyCode.equals(awardReportTerm.frequencyCode)){
+            return false;
+        }   
+        if (ospDistributionCode == null) {
+            if (awardReportTerm.ospDistributionCode != null){
+                return false;
+            }
+                
+        }else if (!ospDistributionCode.equals(awardReportTerm.ospDistributionCode)){
+            return false;
+        }   
+        if (reportClassCode == null) {
+            if (awardReportTerm.reportClassCode != null){
+                return false;
+            }   
+        }else if (!reportClassCode.equals(awardReportTerm.reportClassCode)){
+            return false;
+        }   
+        if (reportCode == null) {
+            if (awardReportTerm.reportCode != null){
+                return false;
+            }   
+        }else if (!reportCode.equals(awardReportTerm.reportCode)){
+            return false;
+        }   
+        if (sequenceNumber == null) {
+            if (awardReportTerm.sequenceNumber != null){
+                return false;
+            }   
+        }else if (!sequenceNumber.equals(awardReportTerm.sequenceNumber)){
+            return false;
+        }            
+        return true;
     }
     
 }

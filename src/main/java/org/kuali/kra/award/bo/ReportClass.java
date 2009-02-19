@@ -103,30 +103,51 @@ public class ReportClass extends KraPersistableBusinessObjectBase {
         return hashMap;
     }
 
+    /**
+     * @see java.lang.Object#hashCode()
+     */
     @Override
     public int hashCode() {
-        final int prime = 31;
+        final int PRIME = 31;
         int result = 1;
-        result = prime * result + ((reportClassCode == null) ? 0 : reportClassCode.hashCode());
+        result = PRIME * result + ((reportClassCode == null) ? 0 : reportClassCode.hashCode());
         return result;
     }
 
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj){
             return true;
-        if (obj == null)
+        }   
+        if (obj == null){
             return false;
-        if (getClass() != obj.getClass())
+        }   
+        if (!(obj instanceof ReportClass)){
             return false;
-        final ReportClass other = (ReportClass) obj;
-        if (reportClassCode == null) {
-            if (other.reportClassCode != null)
-                return false;
         }
-        else if (!reportClassCode.equals(other.reportClassCode))
+        return equals((ReportClass) obj);
+    }
+    
+    /**
+     * 
+     * Convenience method for equality of ReportClass
+     * @param reportClass
+     * @return
+     */
+    public boolean equals(ReportClass reportClass){
+        if (reportClassCode == null) {
+            if (reportClass.reportClassCode != null){
+                return false;
+            }   
+        }else if (!reportClassCode.equals(reportClass.reportClassCode)){
             return false;
+        }   
         return true;
     }
+    
+    
     
 }
