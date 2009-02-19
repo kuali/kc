@@ -87,13 +87,13 @@ public class ProtocolPersonnelAction extends ProtocolAction {
      */
     public ActionForward addProtocolPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolPerson newProtocolPerson = protocolForm.getNewProtocolPerson();
+        ProtocolPerson newProtocolPerson = protocolForm.getPersonnelHelper().getNewProtocolPerson();
         
         // check any business rules
-        boolean rulePassed = applyRules(new AddProtocolPersonnelEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument(), protocolForm.getNewProtocolPerson()));
+        boolean rulePassed = applyRules(new AddProtocolPersonnelEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument(), protocolForm.getPersonnelHelper().getNewProtocolPerson()));
         if (rulePassed) {
             getProtocolPersonnelService().addProtocolPerson(protocolForm.getProtocolDocument().getProtocol(), newProtocolPerson);
-            protocolForm.setNewProtocolPerson(new ProtocolPerson());
+            protocolForm.getPersonnelHelper().setNewProtocolPerson(new ProtocolPerson());
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC );
@@ -128,7 +128,7 @@ public class ProtocolPersonnelAction extends ProtocolAction {
      */
     public ActionForward clearProtocolPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        protocolForm.setNewProtocolPerson(new ProtocolPerson());
+        protocolForm.getPersonnelHelper().setNewProtocolPerson(new ProtocolPerson());
         return mapping.findForward(MAPPING_BASIC);
     }
     
@@ -151,12 +151,12 @@ public class ProtocolPersonnelAction extends ProtocolAction {
 
         ProtocolPerson protocolPerson = protocolDocument.getProtocol().getProtocolPerson(selectedPersonIndex);
         
-        ProtocolUnit newProtocolPersonUnit = protocolForm.getNewProtocolPersonUnits().get(selectedPersonIndex);
+        ProtocolUnit newProtocolPersonUnit = protocolForm.getPersonnelHelper().getNewProtocolPersonUnits().get(selectedPersonIndex);
         boolean rulePassed = applyRules(new AddProtocolUnitEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument(), 
                 newProtocolPersonUnit, selectedPersonIndex));
 
         if (rulePassed) {
-            getProtocolPersonnelService().addProtocolPersonUnit(protocolForm.getNewProtocolPersonUnits(), protocolPerson, selectedPersonIndex);
+            getProtocolPersonnelService().addProtocolPersonUnit(protocolForm.getPersonnelHelper().getNewProtocolPersonUnits(), protocolPerson, selectedPersonIndex);
         }
 
         return mapping.findForward(MAPPING_BASIC);

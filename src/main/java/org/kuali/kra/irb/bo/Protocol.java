@@ -26,9 +26,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.service.ProtocolLocationService;
-import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
-import org.kuali.kra.service.UnitService;
-import org.springframework.util.StringUtils;
+import org.kuali.kra.irb.service.ProtocolPersonnelService;
 
 /**
  * 
@@ -83,7 +81,6 @@ public class Protocol extends KraPersistableBusinessObjectBase{
     private ProtocolFundingSource newFundingSource;
     private List<ProtocolFundingSource> protocolFundingSources; 
 
-    private List<ProtocolInvestigator> protocolInvestigators; 
     private String leadUnitNumber;
     private String principalInvestigatorId;
     
@@ -116,7 +113,6 @@ public class Protocol extends KraPersistableBusinessObjectBase{
         protocolResearchAreas = new ArrayList<ProtocolResearchArea>();// new TypedArrayList(ProtocolResearchAreas.class);
         protocolReferences = new ArrayList<ProtocolReference>(); //ArrayList<ProtocolReference>();
         newDescription = getDefaultNewDescription();
-        protocolInvestigators = new ArrayList<ProtocolInvestigator>();
         protocolStatus = new ProtocolStatus();
         protocolStatusCode = protocolStatus.getProtocolStatusCode();
         protocolLocations = new ArrayList<ProtocolLocation>(); //ArrayList<ProtocolLocation>();
@@ -436,19 +432,10 @@ public class Protocol extends KraPersistableBusinessObjectBase{
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(this.protocolResearchAreas);
         managedLists.add(this.protocolReferences);
-        managedLists.add(this.protocolInvestigators);
         managedLists.add(getProtocolFundingSources());
         managedLists.add(getProtocolLocations());
         return managedLists;
 
-    }
-
-    public List<ProtocolInvestigator> getProtocolInvestigators() {
-        return protocolInvestigators;
-    }
-
-    public void setProtocolInvestigators(List<ProtocolInvestigator> protocolInvestigators) {
-        this.protocolInvestigators = protocolInvestigators;
     }
 
     /**
@@ -456,6 +443,8 @@ public class Protocol extends KraPersistableBusinessObjectBase{
      * @return ProtocolPerson
      */
     public ProtocolPerson getPrincipalInvestigator() {
+        return getProtocolPersonnelService().getPrincipalInvestigator(getProtocolPersons());
+        /*
         ProtocolPerson principalInvestigator = null;
         for ( ProtocolPerson investigator : getProtocolPersons() ) {
             if (investigator.getProtocolPersonRoleId().equalsIgnoreCase(Constants.PRINCIPAL_INVESTIGATOR_ROLE)) {
@@ -463,19 +452,9 @@ public class Protocol extends KraPersistableBusinessObjectBase{
             }
         }
         return principalInvestigator;
+        */
     }
     
-    public ProtocolInvestigator getPI() {
-        ProtocolInvestigator principalInvestigator = null;
-        for ( ProtocolInvestigator investigator : getProtocolInvestigators() ) {
-            if (investigator.getPrincipalInvestigatorFlag()) {
-                principalInvestigator = investigator;
-            }
-        }
-        return principalInvestigator;
-    }
-
-
     public ProtocolUnit getLeadUnit() {
         ProtocolUnit leadUnit = null;
         if (getPrincipalInvestigator() != null) {
@@ -547,5 +526,15 @@ public class Protocol extends KraPersistableBusinessObjectBase{
     public ProtocolPerson getProtocolPerson(int index) {
         return getProtocolPersons().get(index);
     }
+
+    /**
+     * This method is to get protocol personnel service
+     * @return protocolPersonnelService
+     */
+    private ProtocolPersonnelService getProtocolPersonnelService() {
+        ProtocolPersonnelService protocolPersonnelService = (ProtocolPersonnelService)KraServiceLocator.getService("protocolPersonnelService");
+        return protocolPersonnelService;
+    }
+
 
 }

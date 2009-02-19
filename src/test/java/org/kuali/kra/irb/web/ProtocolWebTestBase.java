@@ -25,7 +25,6 @@ import org.junit.Before;
 import org.kuali.core.service.DocumentService;
 import org.kuali.kra.KraWebTestBase;
 import org.kuali.kra.irb.bo.Protocol;
-import org.kuali.kra.irb.bo.ProtocolInvestigator;
 import org.kuali.kra.irb.bo.ProtocolPerson;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.rice.KNSServiceLocator;
