@@ -29,6 +29,7 @@ public class ProtocolPermissionsRule extends PermissionsRuleBase {
     /**
      * @see org.kuali.kra.common.permissions.rules.PermissionsRuleBase#getAdministratorRoleName()
      */
+    @Override
     protected String getAdministratorRoleName() {
         return RoleConstants.PROTOCOL_AGGREGATOR;
     }   
