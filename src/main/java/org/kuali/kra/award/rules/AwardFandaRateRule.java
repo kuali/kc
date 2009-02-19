@@ -16,6 +16,7 @@
 package org.kuali.kra.award.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.award.bo.AwardFandaRate;
 import org.kuali.kra.award.rule.AddFandaRateRule;
 import org.kuali.kra.award.rule.event.AddAwardFandaRateEvent;
@@ -57,12 +58,20 @@ public class AwardFandaRateRule  extends ResearchDocumentRuleBase implements Add
      * @return
      */
     protected boolean evaluateRuleForApplicableFandaRate(AwardFandaRate awardFandaRate){        
-        boolean rulePassed = !(awardFandaRate.getApplicableFandaRate()==null 
-                || StringUtils.isBlank(awardFandaRate.getApplicableFandaRate().toString()));
+        boolean rulePassed = awardFandaRate.getApplicableFandaRate()!=null 
+                                && !StringUtils.isBlank(awardFandaRate.getApplicableFandaRate().toString());
+        
         if(!rulePassed){            
             reportError(NEW_AWARD_FANDA_RATE+".applicableFandaRate"
                     , KeyConstants.ERROR_REQUIRED_APPLICABLE_INDIRECT_COST_RATE);
+        }else{
+            rulePassed = awardFandaRate.getApplicableFandaRate().isGreaterEqual(KualiDecimal.ZERO) ? true:false;
+            if(!rulePassed){
+                reportError(NEW_AWARD_FANDA_RATE+".applicableFandaRate"
+                        , KeyConstants.ERROR_APPLICABLE_INDIRECT_COST_RATE_CAN_NOT_BE_NEGATIVE);
+            }
         }
+        
         return rulePassed;
     }
     
