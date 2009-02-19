@@ -19,28 +19,29 @@ import static java.util.Collections.sort;
 import static org.apache.commons.lang.StringUtils.isBlank;
 import static org.apache.commons.lang.StringUtils.isNotBlank;
 import static org.kuali.core.util.GlobalVariables.getErrorMap;
+import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
+import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ADD_EXISTING_UNIT;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_DELETE_LEAD_UNIT;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVALID_UNIT;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVALID_YEAR;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_UPBOUND;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_MISSING_PERSON_ROLE;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PROPOSAL_PERSON_EXISTS;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVALID_YEAR;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVALID_UNIT;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_SELECT_UNIT;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ONE_UNIT;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PERCENTAGE;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PROPOSAL_PERSON_EXISTS;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_SELECT_UNIT;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.kra.logging.FormattedLogger.debug;
 import static org.kuali.kra.logging.FormattedLogger.info;
-import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
-import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
-import org.kuali.RiceKeyConstants;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.RiceKeyConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.document.Document;
 import org.kuali.core.util.GlobalVariables;
@@ -59,7 +60,6 @@ import org.kuali.kra.proposaldevelopment.rule.AddKeyPersonRule;
 import org.kuali.kra.proposaldevelopment.rule.CalculateCreditSplitRule;
 import org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
-import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 /**
@@ -370,13 +370,13 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         
         debug("Validating unit %s",  source);
        
-        if (source.getUnit() == null && isBlank(source.getUnitNumber()) && (GlobalVariables.getErrorMap().getMessages("document.newProposalPersonUnit*")== null)) {
-            GlobalVariables.getErrorMap().putError("document.proposalPersons[" + index + "].newProposalPersonUnit",ERROR_SELECT_UNIT);
+        if (source.getUnit() == null && isBlank(source.getUnitNumber()) && (GlobalVariables.getErrorMap().getMessages("newProposalPersonUnit*")== null)) {
+            GlobalVariables.getErrorMap().putError("newProposalPersonUnit[" + index + "].unitNumber", ERROR_SELECT_UNIT);
             retval = false;
         }
         
-        if (isNotBlank(source.getUnitNumber()) && isInvalid(Unit.class, keyValue("unitNumber", source.getUnitNumber())) && (GlobalVariables.getErrorMap().getMessages("document.newProposalPersonUnit*")== null)) {
-            GlobalVariables.getErrorMap().putError("document.proposalPersons[" + index + "].newProposalPersonUnit", ERROR_INVALID_UNIT,
+        if (isNotBlank(source.getUnitNumber()) && isInvalid(Unit.class, keyValue("unitNumber", source.getUnitNumber())) && (GlobalVariables.getErrorMap().getMessages("newProposalPersonUnit*")== null)) {
+            GlobalVariables.getErrorMap().putError("newProposalPersonUnit[" + index + "].unitNumber", ERROR_INVALID_UNIT,
                     source.getUnitNumber(), person.getFullName());
             retval = false;
         }
@@ -384,16 +384,16 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         debug("isLeadUnit %s", source.isLeadUnit());
         if(source.isDelete()){
             if(person.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE)){
-               if (isDeletingUnitFromPrincipalInvestigator(source, person)&& (GlobalVariables.getErrorMap().getMessages("document.newProposalPersonUnit*")== null)) {
-                   GlobalVariables.getErrorMap().putError("document.proposalPersons[" + index + "].newProposalPersonUnit", ERROR_DELETE_LEAD_UNIT,
+               if (isDeletingUnitFromPrincipalInvestigator(source, person)&& (GlobalVariables.getErrorMap().getMessages("newProposalPersonUnit*")== null)) {
+                   GlobalVariables.getErrorMap().putError("newProposalPersonUnit[" + index + "].unitNumber", ERROR_DELETE_LEAD_UNIT,
                            source.getUnitNumber(), person.getFullName());
                 retval = false;
                }
             }
         }else
         {
-        if((unitExists(source , person)) && (GlobalVariables.getErrorMap().getMessages("document.newProposalPersonUnit*")== null)){
-            GlobalVariables.getErrorMap().putError("document.proposalPersons[" + index + "].newProposalPersonUnit", ERROR_ADD_EXISTING_UNIT,
+        if((unitExists(source , person)) && (GlobalVariables.getErrorMap().getMessages("newProposalPersonUnit*")== null)){
+            GlobalVariables.getErrorMap().putError("newProposalPersonUnit[" + index + "].unitNumber", ERROR_ADD_EXISTING_UNIT,
                      source.getUnitNumber(), person.getFullName());
             retval=false;
         }
@@ -485,15 +485,6 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         return retval;
     }
     
-    /**
-     * Locate <code>{@link ProposalPersonService}</code> instance withing Spring and return it.
-     * 
-     * @return ProposalPersonService
-     */
-    private ProposalPersonService getProposalPersonService() {
-        return getService(ProposalPersonService.class);
-    }
-
     public boolean processCalculateCreditSplitBusinessRules(ProposalDevelopmentDocument document) {
 
         List<ProposalPerson> person=document.getInvestigators();
