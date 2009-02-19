@@ -197,7 +197,7 @@ public class ProtocolParticipantPanelWebTest extends ProtocolWebTestBase {
 
         // Delete the first participant in the list.
         HtmlElement deleteBtn = this.getElementByName(protocolPage,
-                "methodToCall.deleteProtocolParticipant.line0.anchor5", true);
+                "methodToCall.deleteProtocolParticipant.line0.anchor", true);
         protocolPage = clickOn(deleteBtn);
 
         // Save the document
