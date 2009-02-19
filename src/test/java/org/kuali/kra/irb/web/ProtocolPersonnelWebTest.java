@@ -197,11 +197,8 @@ public class ProtocolPersonnelWebTest extends ProtocolWebTestBase{
     @Test
     public void testChangeRoleFailure() throws Exception {
         HtmlPage personnelPage = getPersonnelPage();
-        System.out.println("start => " + personnelPage.asText());
         setFieldValue(personnelPage, PERSON_PI_ROLE_ID_FIELD, CORRESPONDENT_ROLE_ID);
-        System.out.println("after set => " + personnelPage.asText());
         personnelPage = savePage(personnelPage);
-        System.out.println("after save => " + personnelPage.asText());
         assertContains(personnelPage, ERROR_ROLE_CHANGE_NOT_PERMITTED);                         
     }
     
