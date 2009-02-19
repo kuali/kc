@@ -16,13 +16,11 @@
 
 package org.kuali.kra.irb.bo;
 
+import java.util.LinkedHashMap;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.infrastructure.Constants;
-
-import java.util.LinkedHashMap;
-import java.sql.Date;
 
 public class ProtocolUnit extends KraPersistableBusinessObjectBase { 
 	
@@ -36,7 +34,6 @@ public class ProtocolUnit extends KraPersistableBusinessObjectBase {
 	private String personId; 
 	private String unitName;
 	
-	private ProtocolInvestigator protocolInvestigator; 
 	private Unit unit; 
 	
     private ProtocolPerson protocolPerson; 
@@ -108,14 +105,6 @@ public class ProtocolUnit extends KraPersistableBusinessObjectBase {
 
 	public void setPersonId(String personId) {
 		this.personId = personId;
-	}
-
-	public ProtocolInvestigator getProtocolInvestigator() {
-		return protocolInvestigator;
-	}
-
-	public void setProtocolInvestigators(ProtocolInvestigator protocolInvestigator) {
-		this.protocolInvestigator = protocolInvestigator;
 	}
 
 	public Unit getUnit() {

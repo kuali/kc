@@ -26,7 +26,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolFundingSource;
-import org.kuali.kra.irb.bo.ProtocolInvestigator;
 import org.kuali.kra.irb.bo.ProtocolLocation;
 import org.kuali.kra.irb.bo.ProtocolPerson;
 import org.kuali.kra.irb.bo.ProtocolUnit;
@@ -44,7 +43,6 @@ public class ProtocolHelper {
      */
     private ProtocolForm form;
     
-    private ProtocolInvestigator newPrincipalInvestgator;
     private String principalInvestigatorId;
     private String principalInvestigatorName;
     private String personId;
@@ -195,15 +193,6 @@ public class ProtocolHelper {
         ProtocolFundingSourceService theService = 
             (ProtocolFundingSourceService) KraServiceLocator.getService("protocolFundingSourceService");
         return theService;
-    }
-
-
-    public ProtocolInvestigator getNewPrincipalInvestgator() {
-        return newPrincipalInvestgator;
-    }
-
-    public void setNewPrincipalInvestgator(ProtocolInvestigator newPrincipalInvestgator) {
-        this.newPrincipalInvestgator = newPrincipalInvestgator;
     }
 
     public String getPrincipalInvestigatorId() {
@@ -370,7 +359,7 @@ public class ProtocolHelper {
                 && StringUtils.isNotEmpty(getLeadUnitName())) {            
                 pi = new ProtocolPerson();
                 pi.setPersonId(principalInvestigatorId);
-                pi.setPersonNameFromId(principalInvestigatorId, nonEmployeeFlag);
+                //pi.setPersonNameFromId(principalInvestigatorId, nonEmployeeFlag);
                 pi.setProtocolPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
                 pi.setProtocolNumber("0");
                 pi.setSequenceNumber(0);
@@ -385,6 +374,7 @@ public class ProtocolHelper {
                 ProtocolUnit unit = createLeadUnit();
                 if (unit != null) {
                     unit.setPersonId(pi.getPersonId());
+                    unit.refreshReferenceObject("unit");
                 }
                 pi.getProtocolUnits().add(unit);  
 

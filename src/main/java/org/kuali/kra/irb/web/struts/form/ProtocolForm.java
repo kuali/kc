@@ -57,9 +57,6 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
 
     private ProtocolReference newProtocolReference;
     
-    ProtocolPerson newProtocolPerson;
-    private List<ProtocolUnit> newProtocolPersonUnits;
-
     //KNS Lookup hooks
     private String lookupResultsSequenceNumber;
     private String lookupResultsBOClassName;
@@ -82,8 +79,6 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         setPermissionsHelper(new PermissionsHelper(this));
         setParticipantsHelper(new ParticipantsHelper());
         setNewProtocolReference(new ProtocolReference());
-        setNewProtocolPerson(new ProtocolPerson());
-        setNewProtocolPersonUnits(new ArrayList<ProtocolUnit>());
     }
 
     
@@ -217,25 +212,6 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     
     protected String getLockRegion() {
         return "";
-    }
-
-    public void setNewProtocolPerson(ProtocolPerson newProtocolPerson) {
-        this.newProtocolPerson = newProtocolPerson;
-    }
-
-    public ProtocolPerson getNewProtocolPerson() {
-        return newProtocolPerson;
-    }
-
-    public List<ProtocolUnit> getNewProtocolPersonUnits() {
-        if (this.getProtocolDocument().getProtocol().getProtocolPersons().size() > this.newProtocolPersonUnits.size()) {
-            this.newProtocolPersonUnits.add(this.newProtocolPersonUnits.size(), new ProtocolUnit());
-        }
-        return newProtocolPersonUnits;
-    }
-
-    public void setNewProtocolPersonUnits(List<ProtocolUnit> newProtocolPersonUnits) {
-        this.newProtocolPersonUnits = newProtocolPersonUnits;
     }
 
 }
