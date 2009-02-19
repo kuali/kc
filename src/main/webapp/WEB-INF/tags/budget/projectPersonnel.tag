@@ -20,18 +20,29 @@
 
 <div id="workarea">
 <kul:tab tabTitle="Project Personnel (All Periods)" defaultOpen="true" transparentBackground="true" tabErrorKey="document.budgetPerson*" auditCluster="budgetPersonnelAuditWarnings" tabAuditKey="document.budgetPerson*" useRiceAuditMode="true">
-		
+
+<%-- handle job code error start--%>		
 		<c:set var="firstErrorFound" value="false" />
 		<c:forEach var="property" items="${ErrorContainer.errorPropertyList}">
 			<c:if test="${fn:startsWith(property,'document.budgetPerson')}">
 				<c:set var="firstErrorFound" value="true" />
 			</c:if>
 		</c:forEach>
+		
 		<div class="tab-container-error">
 			<div class="left-errmsg-tab">
 				<div class="error">
 					<c:forEach var="budgetPersons" items="${KualiForm.document.budgetPersons}" varStatus="status">			
-						<c:if test="${KualiForm.document.budgetPersons[status.index].jobCode == '' or empty KualiForm.document.budgetPersons[status.index].jobCode}">
+						
+						<c:set var="foundJobCodeError" value="false" />
+						<c:forEach var="property" items="${ErrorContainer.errorPropertyList}">
+							<c:set var="propertyName" value="document.budgetPersons[${status.index}].jobCode"/>
+							<c:if test="${property eq propertyName}">
+								<c:set var="foundJobCodeError" value="true" />
+							</c:if>
+						</c:forEach>
+						
+						<c:if test="${(KualiForm.document.budgetPersons[status.index].jobCode == '' or empty KualiForm.document.budgetPersons[status.index].jobCode) && foundJobCodeError == false}">
 							<c:if test="${not empty firstErrorFound && firstErrorFound == false}">
 								<strong>Errors found in this Section:</strong>
 								<c:set var="firstErrorFound" value="true" />
@@ -42,6 +53,7 @@
 				</div>
 			</div>
 		</div>
+<%-- handle job code error end --%>
 		
 	<div class="tab-container" align="center">
 		<div align="left">
@@ -100,16 +112,16 @@
 					</div>
               	</td>
               	<td>
-              		<kra:kraControlAttribute property="document.budgetPerson[${status.index}].appointmentTypeCode" readOnly="${readOnly}" attributeEntry="${budgetPersonAttributes.appointmentType}"/>
+              		<kra:kraControlAttribute property="document.budgetPersons[${status.index}].appointmentTypeCode" readOnly="${readOnly}" attributeEntry="${budgetPersonAttributes.appointmentType}"/>
               	</td>
               	<td>
               		<div align="center">
-                  		<kul:htmlControlAttribute property="document.budgetPerson[${status.index}].calculationBase" attributeEntry="${budgetPersonAttributes.calculationBase}" styleClass="amount" />
+                  		<kul:htmlControlAttribute property="document.budgetPersons[${status.index}].calculationBase" attributeEntry="${budgetPersonAttributes.calculationBase}" styleClass="amount" />
               		</div>
               	</td>
               	<td>
               		<div align="center">
-						<kul:htmlControlAttribute property="document.budgetPerson[${status.index}].effectiveDate" attributeEntry="${budgetPersonAttributes.effectiveDate}" datePicker="true" />
+						<kul:htmlControlAttribute property="document.budgetPersons[${status.index}].effectiveDate" attributeEntry="${budgetPersonAttributes.effectiveDate}" datePicker="true" />
                   	</div>
                 </td>
               	<td>

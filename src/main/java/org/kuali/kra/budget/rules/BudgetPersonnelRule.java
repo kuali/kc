@@ -45,6 +45,11 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
  */
 public class BudgetPersonnelRule {
 
+    private static final String BUDGET_PERSONS_FIELD_NAME_START = "document.budgetPersons[";
+    private static final String BUDGET_PERSONS_FIELD_NAME_JOBCODE = "].jobCode";
+    private static final String BUDGET_PERSONS_FIELD_NAME_PERSON_NUMBER = "].personNumber";
+    private static final String BUDGET_PERSONS_FIELD_NAME_CALC_BASE = "].calculationBase";
+    
     private final BusinessObjectService boService;
     private final KualiConfigurationService kConfigService;
     private final BudgetService budgetService;
@@ -132,7 +137,8 @@ public class BudgetPersonnelRule {
         if (CollectionUtils.isNotEmpty(this.boService.findMatching(BudgetPersonnelDetails.class, qMap))) {
                 // just try to make sure key is on budget personnel tab
                 final ErrorMap errorMap = GlobalVariables.getErrorMap();
-                errorMap.putError("document.budgetPersons[0].personNumber", KeyConstants.ERROR_DELETE_PERSON_WITH_PERSONNEL_DETAIL, budgetPerson.getPersonName());
+                errorMap.putError(BUDGET_PERSONS_FIELD_NAME_START + "0" + BUDGET_PERSONS_FIELD_NAME_PERSON_NUMBER,
+                    KeyConstants.ERROR_DELETE_PERSON_WITH_PERSONNEL_DETAIL, budgetPerson.getPersonName());
                 valid = false;
         }
 
@@ -146,10 +152,12 @@ public class BudgetPersonnelRule {
         int i = 0;
         for (BudgetPerson budgetPerson : budgetDocument.getBudgetPersons()) {
             if (budgetPerson.getCalculationBase() == null) {
-                errorMap.putError("document.budgetPerson["+i+"].calculationBase", RiceKeyConstants.ERROR_REQUIRED, new String[] {"Base Salary"});
+                errorMap.putError(BUDGET_PERSONS_FIELD_NAME_START + i + BUDGET_PERSONS_FIELD_NAME_CALC_BASE,
+                    RiceKeyConstants.ERROR_REQUIRED, new String[] {"Base Salary"});
                     valid = false;
             } else if (budgetPerson.getCalculationBase().isNegative()) {
-                errorMap.putError("document.budgetPerson["+i+"].calculationBase", KeyConstants.ERROR_NEGATIVE_AMOUNT, new String[] {"Base Salary"});
+                errorMap.putError(BUDGET_PERSONS_FIELD_NAME_START + i + BUDGET_PERSONS_FIELD_NAME_CALC_BASE,
+                    KeyConstants.ERROR_NEGATIVE_AMOUNT, new String[] {"Base Salary"});
                 valid = false;
             }
             i++;
@@ -225,7 +233,8 @@ public class BudgetPersonnelRule {
         if (!person.isDuplicatePerson(personCopy)) {
             if (!StringUtils.equals(person.getJobCode(), personCopy.getJobCode())) {
                 final ErrorMap errorMap = GlobalVariables.getErrorMap();
-                errorMap.putError("document.budgetPerson[" + personNumber + "].jobCode", KeyConstants.ERROR_PERSON_JOBCODE_CHANGE, person.getPersonName());
+                errorMap.putError(BUDGET_PERSONS_FIELD_NAME_START + personNumber + BUDGET_PERSONS_FIELD_NAME_JOBCODE,
+                    KeyConstants.ERROR_PERSON_JOBCODE_CHANGE, person.getPersonName());
                 valid = false;
             }
         }
@@ -245,7 +254,8 @@ public class BudgetPersonnelRule {
         boolean valid = true;
         if (person.getJobCode() == null) {
             final ErrorMap errorMap = GlobalVariables.getErrorMap();
-            errorMap.putError("document.budgetPerson[" + personNumber + "].jobCode", KeyConstants.ERROR_PERSON_JOBCODE_VALUE, person.getPersonName());
+            errorMap.putError(BUDGET_PERSONS_FIELD_NAME_START + personNumber + BUDGET_PERSONS_FIELD_NAME_JOBCODE,
+                KeyConstants.ERROR_PERSON_JOBCODE_VALUE, person.getPersonName());
             valid = false;
         }
         return valid;
