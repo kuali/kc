@@ -18,20 +18,20 @@
 
 <kul:documentPage 
     showDocumentInfo="true"
-	htmlFormAction="committeeMembers" 
+	htmlFormAction="committeeMembership" 
 	documentTypeName="CommitteeDocument"
 	renderMultipart="false" 
 	showTabButtons="true" 
 	auditCount="0"
 	headerDispatch="${KualiForm.headerDispatch}"
-	headerTabActive="committeeMembers">
+	headerTabActive="committeeMembership">
 
-	<div align="right"><kul:help documentTypeName="CommitteeDocument" pageName="CommitteeMembers" /></div>
+	<div align="right"><kul:help documentTypeName="CommitteeDocument" pageName="CommitteeMembership" /></div>
  
-    <kra-committee:committeeAddMemberSection/>
+    <kra-committee:committeeAddMembershipSection/>
+    
+    <kra-committee:committeeMemberships/>
 
-
-	<kul:panelFooter />
 	<kul:documentControls 
 	    transactionalDocument="false"
 		suppressRoutingControls="true"

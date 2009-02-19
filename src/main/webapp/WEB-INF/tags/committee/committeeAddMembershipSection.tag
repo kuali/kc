@@ -12,7 +12,7 @@
                 <th class="grid"><div align="right">*Person:</div></th>
                 <td nowrap class="grid">
                     <c:choose>                  
-                        <c:when test="${empty KualiForm.membershipHelper.newCommitteeMembership.personId && empty KualiForm.membershipHelper.newCommitteeMembership.rolodexId}">
+                        <c:when test="${empty KualiForm.membershipHelper.newCommitteeMembership.personId}">
                             <label>Employee Search</label>
                             <label>
                                 <kul:lookup boClassName="org.kuali.kra.bo.Person" 
@@ -22,7 +22,7 @@
                             <label>Non-employee Search</label> 
                             <label>
                                 <kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" 
-                                    fieldConversions="rolodexId:membershipHelper,newCommitteeMembership.rolodexId,fullName:membershipHelper.newPersonName" />
+                                    fieldConversions="rolodexId:membershipHelper,newCommitteeMembership.personId,fullName:membershipHelper.newPersonName" />
                             </label>
                         </c:when>
                         <c:otherwise>
@@ -40,7 +40,7 @@
                  src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" 
                  title="Clear Fields" alt="Clear Fields" 
                  styleClass="tinybutton"/>
-            <html:image property="methodToCall.addCommitteeMember" 
+            <html:image property="methodToCall.addCommitteeMembership" 
                  src="${ConfigProperties.kr.externalizable.images.url}tinybutton-addmember.gif" 
                  title="Add Committee Member" 
                  alt="Add Committee Member" 
