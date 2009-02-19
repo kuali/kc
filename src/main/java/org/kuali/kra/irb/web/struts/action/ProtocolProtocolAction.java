@@ -151,7 +151,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
         
         if(applyRules(new AddProtocolReferenceEvent(Constants.EMPTY_STRING,protocolForm.getProtocolDocument(),newProtocolReference))) {
       
-            ProtocolReferenceService service = (ProtocolReferenceService)KraServiceLocator.getService("protocolReferenceTypeService");
+            ProtocolReferenceService service = KraServiceLocator.getService(ProtocolReferenceService.class);
             
             service.addProtocolReference(protocolForm.getProtocolDocument().getProtocol(), newProtocolReference);
           
@@ -174,8 +174,6 @@ public class ProtocolProtocolAction extends ProtocolAction {
     public ActionForward deleteProtocolReference(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         
-        ProtocolReferenceService service = (ProtocolReferenceService)KraServiceLocator.getService("protocolReferenceTypeService");
-        
         protocolForm.getProtocolDocument().getProtocol().getProtocolReferences().remove(getLineToDelete(request));  
    
         return mapping.findForward(Constants.MAPPING_BASIC );
@@ -192,8 +190,6 @@ public class ProtocolProtocolAction extends ProtocolAction {
      */
     public ActionForward deleteProtocolResearchArea(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        
-        ProtocolResearchAreaService service = (ProtocolResearchAreaService)KraServiceLocator.getService("protocolResearchAreaService");
         
         protocolForm.getProtocolDocument().getProtocol().getProtocolResearchAreas().remove(getLineToDelete(request));
    
