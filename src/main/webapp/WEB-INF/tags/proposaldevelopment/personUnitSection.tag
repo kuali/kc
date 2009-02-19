@@ -17,7 +17,8 @@
 
 <c:set var="personUnitAttributes" value="${DataDictionary.ProposalPersonUnit.attributes}" />
 <c:set var="unitAttributes" value="${DataDictionary.Unit.attributes}" />
-<bean:define id="proposalPersonUnits" name="KualiForm" property="${proposalPerson}.units" />
+<c:set var="piRole" value="<%= org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE %>" />
+<bean:define id="currentPerson" name="KualiForm" property="${proposalPerson}" />
 
                 <tbody id="G3">
                   <tr>
@@ -54,17 +55,19 @@
                   </tr>
                   </kra:section>
                   
-  				<c:forEach items="${proposalPersonUnits}" varStatus="status">
+  				<c:forEach var="aUnit" items="${currentPerson.units}" varStatus="status">
 	                  <tr>
 	                    <th scope="row"  align="center"><c:out value="${status.index + 1}" /></th>
 	
 	                    <td><kul:htmlControlAttribute attributeEntry="${unitAttributes.unitName}" property="${proposalPerson}.unit[${status.index}].unit.unitName" readOnly="true" /></td>
 	                    
-	                    <td><kul:htmlControlAttribute attributeEntry="${unitAttributes.unitNumber}" property="${proposalPerson}.unit[${status.index}].unitNumber" /></td>
+	                    <td><kul:htmlControlAttribute attributeEntry="${unitAttributes.unitNumber}" property="${proposalPerson}.unit[${status.index}].unitNumber" readOnly="true"/></td>
 	                    <td>
-	                    	<div align=center>&nbsp;
+	                    	<div align=center>
 	                    	<kra:section permission="modifyProposal">
-	                    	<html:image property="methodToCall.deleteUnit.${proposalPerson}.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Remove Unit" alt="Remove Unit" styleClass="tinybutton"/>
+	                    	<c:if test="${(currentPerson.proposalPersonRoleId == piRole && aUnit.unitNumber != KualiForm.document.ownedByUnitNumber) || (currentPerson.proposalPersonRoleId != piRole)}">
+	                    		<html:image property="methodToCall.deleteUnit.${proposalPerson}.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Remove Unit" alt="Remove Unit" styleClass="tinybutton" />
+	                    	</c:if>
 	                    	</kra:section>
 	                    	</div>
 	                    </td>
