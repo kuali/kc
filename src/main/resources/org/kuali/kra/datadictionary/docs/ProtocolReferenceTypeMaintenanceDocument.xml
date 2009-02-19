@@ -43,9 +43,9 @@
 				p:parameterName="protocolReferenceTypeMaintenanceHelp"
 				p:parameterDetailType="D" />
 			</property>
-		<property name="documentTypeName" value="Protocol Reference Type Maintenance Document" />
+		<property name="documentTypeName" value="ProtocolReferenceTypeMaintenanceDocument" />
 		<property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
-		<property name="documentTypeCode" value="PROT" />
+		<property name="documentTypeCode" value="PRET" />
 		<property name="authorizations" >
 			<list>
 				<bean parent="AuthorizationDefinition" >
