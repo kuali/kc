@@ -100,41 +100,13 @@ public class BudgetActionsAction extends BudgetAction {
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         return super.save(mapping, form, request, response);
     }
+    
     /**
-     * Close the document and take the user back to the index; only after asking the user if they want to save the document first.
-     * Only users who have the "canSave()" permission are given this option.
-     *
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return ActionForward
-     * @throws Exception
+     * The document is closed and a save is requested.
      */
     @Override
-    public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        KualiDocumentFormBase docForm = (KualiDocumentFormBase) form;
-        // only want to prompt them to save if they already can save
-        if (docForm.getDocumentActionFlags().getCanSave()) {
-            Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-            KualiConfigurationService kualiConfiguration = KNSServiceLocator.getKualiConfigurationService();
-
-            // logic for close question
-            if (question == null) {
-                // ask question if not already asked
-                return this.performQuestionWithoutInput(mapping, form, request, response, KNSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, kualiConfiguration.getPropertyString(RiceKeyConstants.QUESTION_SAVE_BEFORE_CLOSE), KNSConstants.CONFIRMATION_QUESTION, KNSConstants.MAPPING_CLOSE, "");
-            }
-            else {
-                Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
-                if ((KNSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
-                    // if yes button clicked - save the doc
-                    budgetJustificationService.preSave(getBudgetDocument(form), getBudgetJusticationWrapper(form));
-                }
-                // else go to close logic below
-            }
-        }
-
-        return super.close(mapping, form, request, response);
+    protected void saveOnClose(KualiDocumentFormBase form) throws Exception {
+        budgetJustificationService.preSave(getBudgetDocument(form), getBudgetJusticationWrapper(form));
     }
     
     @Override

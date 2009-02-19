@@ -185,16 +185,9 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
-        String originalStatus = getStatus(doc);
-            
+       
 		updateProposalDocument(proposalDevelopmentForm);
         ActionForward forward = super.save(mapping, form, request, response);
-           
-        // Special processing on the initial save of a proposal goes here!
-            
-        if (isInitialSave(originalStatus)) {
-            initializeProposalUsers(doc); 
-        }
 
         if (proposalDevelopmentForm.getMethodToCall().equals("save") && proposalDevelopmentForm.isAuditActivated()) {
             // TODO : need to check whether the error is really fixed ?
@@ -395,29 +388,19 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
     }
     
     /**
-     * Get the current status of the document.  
-     * @param doc the Proposal Development Document
-     * @return the status (INITIATED, SAVED, etc.)
+     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#initialDocumentSave(org.kuali.core.web.struts.form.KualiDocumentFormBase)
      */
-    private String getStatus(ProposalDevelopmentDocument doc) {
-        return doc.getDocumentHeader().getWorkflowDocument().getStatusDisplayValue();
+    @Override
+    protected void initialDocumentSave(KualiDocumentFormBase form) throws Exception {
+        ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument doc = pdForm.getProposalDevelopmentDocument();
+        initializeProposalUsers(doc);
     }
     
-    /**
-     * Is this the initial save of the document?
-     * @param status the original status before the save operation
-     * @return true if the initial save; otherwise false
-     */
-    private boolean isInitialSave(String status) {
-        return GlobalVariables.getErrorMap().isEmpty() &&
-               StringUtils.equals("INITIATED", status);
-    }
-    
-    /**
-     * Create the original set of Proposal Users for a new Proposal Development Document.
-     * The creator the proposal is assigned to the AGGREGATOR role.
-     * @param doc the Proposal Development Document
-     */
+   /**
+    * Create the original set of Proposal Users for a new Proposal Development Document.
+    * The creator the proposal is assigned to the AGGREGATOR role.
+    */
     protected void initializeProposalUsers(ProposalDevelopmentDocument doc) {
         
         // Assign the creator of the proposal to the AGGREGATOR role.
