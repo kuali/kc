@@ -17,6 +17,7 @@ package org.kuali.kra.infrastructure;
 
 import org.kuali.rice.KNSServiceLocator;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -40,7 +41,15 @@ public class KraServiceLocator {
         initialize();
         return appContext;
     }
-
+    
+    public static ConfigurableApplicationContext getAppContextWithoutInitializing() {
+        return appContext;
+    }
+    
+    protected static void setApplicationContext(ConfigurableApplicationContext context) {
+        appContext = context;
+    }
+    
     public static Object getService(String name) {
         Object service = null;
         
@@ -83,6 +92,7 @@ public class KraServiceLocator {
         String name = serviceClass.getSimpleName().substring(0, 1).toLowerCase() + serviceClass.getSimpleName().substring(1);
 
         try {
+            ConfigurableApplicationContext appContext = getAppContext();
             service = (T) getAppContext().getBean(name);
         } catch (NoSuchBeanDefinitionException e) {
             // If we don't find this service locally, look for it in the KNS context
