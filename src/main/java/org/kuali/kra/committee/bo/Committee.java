@@ -73,12 +73,14 @@ public class Committee extends KraPersistableBusinessObjectBase {
     
     private CommitteeDocument committeeDocument;
     
+    private List<CommitteeMembership> committeeMemberships;
     private List<CommitteeSchedule> committeeSchedules;
     
     /**
      * Constructs a Committee.
      */
     public Committee() {
+        setCommitteeMemberships(new ArrayList<CommitteeMembership>());
         setCommitteeSchedules(new ArrayList<CommitteeSchedule>());
     }
     
@@ -202,6 +204,14 @@ public class Committee extends KraPersistableBusinessObjectBase {
         this.committeeDocument = committeeDocument;
     }
 
+    public List<CommitteeMembership> getCommitteeMemberships() {
+        return committeeMemberships;
+    }
+
+    public void setCommitteeMemberships(List<CommitteeMembership> committeeMemberships) {
+        this.committeeMemberships = committeeMemberships;
+    }
+
     public void setCommitteeSchedules(List<CommitteeSchedule> committeeSchedules) {
         this.committeeSchedules = committeeSchedules;
     }
@@ -232,6 +242,7 @@ public class Committee extends KraPersistableBusinessObjectBase {
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add(this.committeeMemberships);
         managedLists.add(this.committeeSchedules);
         return managedLists;
     }

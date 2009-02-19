@@ -194,7 +194,6 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase {
 		hashMap.put("personId", getPersonId());
 		hashMap.put("membershipId", getMembershipId());
 		hashMap.put("sequenceNumber", getSequenceNumber());
-		hashMap.put("personName", getPersonName());
 		hashMap.put("nonEmployee", getNonEmployee());
 		hashMap.put("paidMember", getPaidMember());
 		hashMap.put("termStartDate", getTermStartDate());
@@ -210,5 +209,10 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase {
 	    // TODO: cniesen - implement name getter.  Use People/Rolodex lookup based on nonEmployee
 	    String personName = "To be implemented";
         return personName;
+    }
+
+    public boolean isDelete() {
+        // TODO cniesen - Auto-generated method stub
+        return false;
     }
 }
