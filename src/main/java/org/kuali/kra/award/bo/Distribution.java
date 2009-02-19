@@ -85,32 +85,49 @@ public class Distribution extends KraPersistableBusinessObjectBase {
         return hashMap;
     }
 
+    /**
+     * @see java.lang.Object#hashCode()
+     */
     @Override
     public int hashCode() {
-        final int prime = 31;
+        final int PRIME = 31;
         int result = 1;
-        result = prime * result + ((ospDistributionCode == null) ? 0 : ospDistributionCode.hashCode());
+        result = PRIME * result + ((ospDistributionCode == null) ? 0 : ospDistributionCode.hashCode());
         return result;
     }
 
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj){
             return true;
-        if (obj == null)
+        }   
+        if (obj == null){
             return false;
-        if (getClass() != obj.getClass())
+        }   
+        if (!(obj instanceof Distribution)){
             return false;
-        final Distribution other = (Distribution) obj;
+        }   
+        return equals((Distribution) obj);
+    }
+
+    /**
+     * 
+     * Convenience method for equality of Distribution
+     * @param distribution
+     * @return
+     */
+    public boolean equals(Distribution distribution){
         if (ospDistributionCode == null) {
-            if (other.ospDistributionCode != null)
+            if (distribution.ospDistributionCode != null){
                 return false;
-        }
-        else if (!ospDistributionCode.equals(other.ospDistributionCode))
+            }   
+        }else if (!ospDistributionCode.equals(distribution.ospDistributionCode)){
             return false;
+        }   
         return true;
     }
-    
-    
     
 }

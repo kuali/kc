@@ -148,38 +148,57 @@ public class ValidFrequencyBase extends KraPersistableBusinessObjectBase {
         return hashMap;
     }
 
+    /**
+     * @see java.lang.Object#hashCode()
+     */
     @Override
     public int hashCode() {
-        final int prime = 31;
+        final int PRIME = 31;
         int result = 1;
-        result = prime * result + ((frequencyBaseCode == null) ? 0 : frequencyBaseCode.hashCode());
-        result = prime * result + ((frequencyCode == null) ? 0 : frequencyCode.hashCode());
+        result = PRIME * result + ((frequencyBaseCode == null) ? 0 : frequencyBaseCode.hashCode());
+        result = PRIME * result + ((frequencyCode == null) ? 0 : frequencyCode.hashCode());
         return result;
     }
 
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj){
             return true;
-        if (obj == null)
+        }   
+        if (obj == null){
             return false;
-        if (getClass() != obj.getClass())
+        }   
+        if (!(obj instanceof ValidFrequencyBase)){
             return false;
-        final ValidFrequencyBase other = (ValidFrequencyBase) obj;
-        if (frequencyBaseCode == null) {
-            if (other.frequencyBaseCode != null)
-                return false;
-        }
-        else if (!frequencyBaseCode.equals(other.frequencyBaseCode))
-            return false;
-        if (frequencyCode == null) {
-            if (other.frequencyCode != null)
-                return false;
-        }
-        else if (!frequencyCode.equals(other.frequencyCode))
-            return false;
-        return true;
+        }   
+        return equals((ValidFrequencyBase) obj);
     }
     
+    /**
+     * 
+     * Convenience method for equality of ValidFrequencyBase
+     * @param validFrequencyBase
+     * @return
+     */
+    public boolean equals(ValidFrequencyBase validFrequencyBase){
+        if (frequencyBaseCode == null) {
+            if (validFrequencyBase.frequencyBaseCode != null){
+                return false;
+            }   
+        }else if (!frequencyBaseCode.equals(validFrequencyBase.frequencyBaseCode)){
+            return false;
+        }   
+        if (frequencyCode == null) {
+            if (validFrequencyBase.frequencyCode != null){
+                return false;
+            }   
+        }else if (!frequencyCode.equals(validFrequencyBase.frequencyCode)){
+            return false;
+        }   
+        return true;
+    }    
     
 }

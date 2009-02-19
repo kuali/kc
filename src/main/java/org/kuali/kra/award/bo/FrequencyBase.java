@@ -86,29 +86,48 @@ public class FrequencyBase extends KraPersistableBusinessObjectBase {
         return hashMap;
     }
 
+    /**
+     * @see java.lang.Object#hashCode()
+     */
     @Override
     public int hashCode() {
-        final int prime = 31;
+        final int PRIME = 31;
         int result = 1;
-        result = prime * result + ((frequencyBaseCode == null) ? 0 : frequencyBaseCode.hashCode());
+        result = PRIME * result + ((frequencyBaseCode == null) ? 0 : frequencyBaseCode.hashCode());
         return result;
     }
 
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj){
             return true;
-        if (obj == null)
+        }   
+        if (obj == null){
             return false;
-        if (getClass() != obj.getClass())
+        }   
+        if (!(obj instanceof FrequencyBase)){
             return false;
-        final FrequencyBase other = (FrequencyBase) obj;
+        }   
+        return equals((FrequencyBase) obj);
+    }
+    
+    /**
+     * 
+     * Convenience method for equality of FrequencyBase
+     * @param frequencyBase
+     * @return
+     */
+    public boolean equals(FrequencyBase frequencyBase){
         if (frequencyBaseCode == null) {
-            if (other.frequencyBaseCode != null)
+            if (frequencyBase.frequencyBaseCode != null){
                 return false;
-        }
-        else if (!frequencyBaseCode.equals(other.frequencyBaseCode))
+            }   
+        }else if (!frequencyBaseCode.equals(frequencyBase.frequencyBaseCode)){
             return false;
+        }   
         return true;
     }
     
