@@ -210,5 +210,77 @@ public class AwardReportTermRecipient extends KraPersistableBusinessObjectBase {
     public void setContactId(Long contactId) {
         this.contactId = contactId;
     }
+
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int PRIME = 31;
+        int result = 1;
+        result = PRIME * result + ((contactId == null) ? 0 : contactId.hashCode());
+        result = PRIME * result + ((contactTypeCode == null) ? 0 : contactTypeCode.hashCode());
+        result = PRIME * result + ((numberOfCopies == null) ? 0 : numberOfCopies.hashCode());
+        result = PRIME * result + ((rolodexId == null) ? 0 : rolodexId.hashCode());
+        return result;
+    }
+
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj){
+            return true;
+        }   
+        if (obj == null){
+            return false;
+        }   
+        if (!(obj instanceof AwardReportTermRecipient)){
+            return false;
+        }           
+        return equals((AwardReportTermRecipient) obj);
+    }
+    
+    /**
+     * 
+     * Convenience method to check equality of another AwardFandaRate
+     * @param awardReportTermRecipient
+     * @return
+     */
+    public boolean equals(AwardReportTermRecipient awardReportTermRecipient){
+        if (contactId == null) {
+            if (awardReportTermRecipient.contactId != null){
+                return false;
+            }
+                
+        }else if (!contactId.equals(awardReportTermRecipient.contactId)){
+            return false;
+        }   
+        if (contactTypeCode == null) {
+            if (awardReportTermRecipient.contactTypeCode != null){
+                return false;
+            }   
+        }else if (!contactTypeCode.equals(awardReportTermRecipient.contactTypeCode)){
+            return false;
+        }   
+        if (numberOfCopies == null) {
+            if (awardReportTermRecipient.numberOfCopies != null){
+                return false;
+            }   
+        }else if (!numberOfCopies.equals(awardReportTermRecipient.numberOfCopies)){
+            return false;
+        }   
+        if (rolodexId == null) {
+            if (awardReportTermRecipient.rolodexId != null){
+                return false;
+            }   
+        }else if (!rolodexId.equals(awardReportTermRecipient.rolodexId)){
+            return false;
+        }   
+        return true;
+    }
+    
+    
     
 }
