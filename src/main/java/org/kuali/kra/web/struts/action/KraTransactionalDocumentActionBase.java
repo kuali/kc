@@ -36,6 +36,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.RiceKeyConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.PessimisticLock;
@@ -54,6 +55,10 @@ import org.kuali.kra.authorization.Task;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.kra.irb.document.authorization.ProtocolTask;
+import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 import org.kuali.kra.service.ResearchDocumentService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.authorization.WebAuthorizationService;
@@ -397,5 +402,117 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
             }
         }  
     }
+    
+    /**
+     * Provide hooks for subclasses to perform additional tasks related to saving
+     * the document.  The optional tasks are:
+     *    1. Doing something right before the document is saved.
+     *    2. Doing something after the document has been saved for the first time only.
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {    
+         
+        KualiDocumentFormBase docForm = (KualiDocumentFormBase) form;
+        
+        preDocumentSave(docForm);
+        String originalStatus = getDocumentStatus(docForm.getDocument());
+        ActionForward actionForward = super.save(mapping, form, request, response);
+        if (isInitialSave(originalStatus)) {
+            initialDocumentSave(docForm); 
+        }
 
+        return actionForward;
+    }
+    
+    /**
+     * Any processing that must be performed before the save operation goes here.
+     * Typically overridden by a subclass.
+     * @param form the Form
+     * @throws Exception
+     */
+    protected void preDocumentSave(KualiDocumentFormBase form) throws Exception {
+        // do nothing
+    }
+    
+    /**
+     * Any processing that must occur only once after the document has been
+     * initially saved is done here.  This method is typically overridden by
+     * a subclass.
+     * @param form the form
+     * @throws Exception
+     */
+    protected void initialDocumentSave(KualiDocumentFormBase form) throws Exception {
+        // do nothing
+    }
+
+    /**
+     * Get the current status of the document.  
+     * @param doc the Protocol Document
+     * @return the status (INITIATED, SAVED, etc.)
+     */
+    private String getDocumentStatus(Document doc) {
+        return doc.getDocumentHeader().getWorkflowDocument().getStatusDisplayValue();
+    }
+    
+    /**
+     * Is this the initial save of the document?  If there are errors
+     * in the document, it won't be saved and thus it cannot be initial
+     * successful save.
+     * @param status the original status before the save operation
+     * @return true if the initial save; otherwise false
+     */
+    private boolean isInitialSave(String status) {
+        return GlobalVariables.getErrorMap().isEmpty() &&
+               StringUtils.equals("INITIATED", status);
+    }
+    
+    
+    /**
+     * Close the document and take the user back to the index (portal page); 
+     * only after asking the user if they want to save the document first.
+     * Only users who have the "canSave()" permission are given this option.
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    @Override
+    public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        KualiDocumentFormBase docForm = (KualiDocumentFormBase) form;
+
+        // only want to prompt them to save if they already can save
+        if (docForm.getDocumentActionFlags().getCanSave()) {
+            Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+            KualiConfigurationService kualiConfiguration = KNSServiceLocator.getKualiConfigurationService();
+
+            // logic for close question
+            if (question == null) {
+                // ask question if not already asked
+                return this.performQuestionWithoutInput(mapping, form, request, response, KNSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, kualiConfiguration.getPropertyString(RiceKeyConstants.QUESTION_SAVE_BEFORE_CLOSE), KNSConstants.CONFIRMATION_QUESTION, KNSConstants.MAPPING_CLOSE, "");
+            }
+            else {
+                Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+                if ((KNSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+                    saveOnClose(docForm);
+                }
+            }
+        }
+
+        return super.close(mapping, form, request, response);
+    }
+
+    /**
+     * Subclass can override this method in order to perform
+     * any operations when the document is saved on a close action.
+     * @param form
+     * @throws Exception 
+     */
+    protected void saveOnClose(KualiDocumentFormBase form) throws Exception {
+        // do nothing
+    }
 }

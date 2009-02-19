@@ -153,7 +153,21 @@ public abstract class AbstractPermissionsActionHelper {
             }
         }
     }
-   
+    
+    /**
+     * Get the Role Rights web page.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward getRoleRights(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        return mapping.findForward(Constants.MAPPING_PERMISSIONS_ROLE_RIGHTS_PAGE);
+    }
+
     /**
      * Add a new user with a role to the document.
      * @param mapping 

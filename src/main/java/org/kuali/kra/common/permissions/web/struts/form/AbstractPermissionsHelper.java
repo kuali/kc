@@ -80,14 +80,28 @@ public abstract class AbstractPermissionsHelper {
     private boolean modifyPermissions = false;
    
     /**
+     * Constructs a AbstractPermissionsHelper with a null role type.
+     */
+    public AbstractPermissionsHelper() {
+        initialize(null);
+    }
+    
+    /**
      * Constructs an AbstractPermissionsHelper.
      * @param roleType the type of role (may be null)
      */
     public AbstractPermissionsHelper(String roleType) {
+       initialize(roleType);
+    }    
+    
+    /*
+     * Initialize the class.
+     */
+    private void initialize(String roleType) {
         this.roleType = roleType;
         clearNewUser();
         buildRoles();
-    }    
+    }
     
     /**
      * To prepare a view, the set of users and their roles must be
@@ -461,6 +475,9 @@ public abstract class AbstractPermissionsHelper {
         this.editRoles = editRoles;
     }
 
+    /*
+     * Find the person with a given userName.
+     */
     private Person findPerson(String userName) {
         PersonService personService = KraServiceLocator.getService(PersonService.class);
         return personService.getPersonByName(userName);
@@ -470,6 +487,10 @@ public abstract class AbstractPermissionsHelper {
         return KraServiceLocator.getService(TaskAuthorizationService.class);
     }
 
+    /**
+     * Get the userName of the user for the current session.
+     * @return the current session's userName
+     */
     protected String getUserName() {
          UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
          return user.getPersonUserIdentifier();
