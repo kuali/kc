@@ -294,4 +294,131 @@ public class AwardFandaRate extends KraPersistableBusinessObjectBase {
     public void setSequenceNumber(Integer sequenceNumber) {
         //do nothing
     }
+
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((applicableFandaRate == null) ? 0 : applicableFandaRate.hashCode());
+        result = prime * result + ((awardNumber == null) ? 0 : awardNumber.hashCode());
+        result = prime * result + ((destinationAccount == null) ? 0 : destinationAccount.hashCode());
+        result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
+        result = prime * result + ((fandaRateTypeCode == null) ? 0 : fandaRateTypeCode.hashCode());
+        result = prime * result + ((fiscalYear == null) ? 0 : fiscalYear.hashCode());
+        result = prime * result + ((onCampusFlag == null) ? 0 : onCampusFlag.hashCode());
+        result = prime * result + ((sequenceNumber == null) ? 0 : sequenceNumber.hashCode());
+        result = prime * result + ((sourceAccount == null) ? 0 : sourceAccount.hashCode());
+        result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
+        result = prime * result + ((underrecoveryOfIndirectCost == null) ? 0 : underrecoveryOfIndirectCost.hashCode());
+        return result;
+    }
+
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj){
+            return true;
+        }            
+        if (obj == null){
+            return false;
+        }            
+        if (!(obj instanceof AwardFandaRate)){
+            return false;
+        }
+        
+        return equals((AwardFandaRate) obj);        
+    }
+    
+    /**
+     * 
+     * Convenience method to check equality of another AwardFandaRate
+     * @param awardFandaRate
+     * @return
+     */
+    public boolean equals(AwardFandaRate awardFandaRate) {
+        if (applicableFandaRate == null) {
+            if (awardFandaRate.applicableFandaRate != null){
+                return false;
+            }                
+        }else if (!applicableFandaRate.equals(awardFandaRate.applicableFandaRate)){
+            return false;
+        }            
+        if (awardNumber == null) {
+            if (awardFandaRate.awardNumber != null){
+                return false;
+            }                
+        }else if (!awardNumber.equals(awardFandaRate.awardNumber)){
+            return false;
+        }            
+        if (destinationAccount == null) {
+            if (awardFandaRate.destinationAccount != null){
+                return false;
+            }                
+        }else if (!destinationAccount.equals(awardFandaRate.destinationAccount)){
+            return false;
+        }            
+        if (endDate == null) {
+            if (awardFandaRate.endDate != null){
+                return false;
+            }   
+        }else if (!endDate.equals(awardFandaRate.endDate)){
+            return false;
+        }   
+        if (fandaRateTypeCode == null) {
+            if (awardFandaRate.fandaRateTypeCode != null){
+                return false;
+            }   
+        }else if (!fandaRateTypeCode.equals(awardFandaRate.fandaRateTypeCode)){
+            return false;
+        }            
+        if (fiscalYear == null) {
+            if (awardFandaRate.fiscalYear != null){
+                return false;
+            }   
+        }else if (!fiscalYear.equals(awardFandaRate.fiscalYear)){
+            return false;
+        }            
+        if (onCampusFlag == null) {
+            if (awardFandaRate.onCampusFlag != null){
+                return false;
+            }   
+        }else if (!onCampusFlag.equals(awardFandaRate.onCampusFlag)){
+            return false;
+        }            
+        if (sequenceNumber == null) {
+            if (awardFandaRate.sequenceNumber != null){
+                return false;
+            }   
+        }else if (!sequenceNumber.equals(awardFandaRate.sequenceNumber)){
+            return false;
+        }            
+        if (sourceAccount == null) {
+            if (awardFandaRate.sourceAccount != null){
+                return false;
+            }   
+        }else if (!sourceAccount.equals(awardFandaRate.sourceAccount)){
+            return false;
+        }   
+        if (startDate == null) {
+            if (awardFandaRate.startDate != null){
+                return false;
+            }   
+        }else if (!startDate.equals(awardFandaRate.startDate)){
+            return false;
+        }            
+        if (underrecoveryOfIndirectCost == null) {
+            if (awardFandaRate.underrecoveryOfIndirectCost != null){
+                return false;
+            }   
+        }else if (!underrecoveryOfIndirectCost.equals(awardFandaRate.underrecoveryOfIndirectCost)){
+            return false;
+        }   
+        return true;
+    }
+    
 }
