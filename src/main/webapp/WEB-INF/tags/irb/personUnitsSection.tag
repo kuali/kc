@@ -48,27 +48,27 @@
 			                <td align="left" valign="middle" class="infoline">
 		   						<div id="newProtocolPersonUnits[${personIndex}].unitName.div" class="same-line">
 		                    		<c:choose>
-		                    			<c:when test="${empty KualiForm.newProtocolPersonUnits[personIndex].unitName}" >
+		                    			<c:when test="${empty KualiForm.personnelHelper.newProtocolPersonUnits[personIndex].unitName}" >
 		                        			(select)
 		                      			</c:when>
 		                      			<c:otherwise>
-		                         			${KualiForm.newProtocolPersonUnits[personIndex].unitName}
+		                         			${KualiForm.personnelHelper.newProtocolPersonUnits[personIndex].unitName}
 		                      			</c:otherwise>
 		                    		</c:choose> 
 		                    	</div>
-		                    	&nbsp; <kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:newProtocolPersonUnits[${personIndex}].unitNumber,unitName:newProtocolPersonUnits[${personIndex}].unitName" />
+		                    	&nbsp; <kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:personnelHelper.newProtocolPersonUnits[${personIndex}].unitNumber,unitName:personnelHelper.newProtocolPersonUnits[${personIndex}].unitName" />
 		                    	<span class="fineprint"></span> 
 							</td>
 			                <td align="left" valign="middle" class="infoline">
 								<div align=left>
-		                    		<kul:htmlControlAttribute attributeEntry="${unitAttributes.unitNumber}" property="newProtocolPersonUnits[${personIndex}].unitNumber" />
+		                    		<kul:htmlControlAttribute attributeEntry="${unitAttributes.unitNumber}" property="personnelHelper.newProtocolPersonUnits[${personIndex}].unitNumber" />
 		                      	</div>
 		                        <span class="fineprint"></span> 
 							</td>
 			                <td align="left" valign="middle" class="infoline">
 								<div align=center>
-								<bean:define id="leadFlag" name="KualiForm" property="newProtocolPersonUnits[${personIndex}].leadUnitFlag" />
-									<html:radio property="newProtocolPersonUnits[${personIndex}].leadUnitFlag" value="true" />
+								<bean:define id="leadFlag" name="KualiForm" property="personnelHelper.newProtocolPersonUnits[${personIndex}].leadUnitFlag" />
+									<html:radio property="personnelHelper.newProtocolPersonUnits[${personIndex}].leadUnitFlag" value="true" />
 		                      	</div>
 							</td>
 		                    <td class="infoline">
