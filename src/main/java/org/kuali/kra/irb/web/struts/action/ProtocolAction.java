@@ -19,7 +19,6 @@ import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.Collection;
-import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,10 +34,8 @@ import org.kuali.core.lookup.LookupResultsService;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.UrlFactory;
-import org.kuali.core.web.struts.form.KualiForm;
+import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.budget.BudgetException;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -89,12 +86,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL, doc.getProtocol());
         if (isAuthorized(task)) {
             if (isValidSave(protocolForm)) {
-                preSave(protocolForm);
-                String originalStatus = getDocumentStatus(doc);
                 actionForward = super.save(mapping, form, request, response);
-                if (isInitialSave(originalStatus)) {
-                    initializeProtocolUsers(doc); 
-                }
             }
         }
 
@@ -113,42 +105,15 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     }
     
     /**
-     * Any processing that must be performed before the save operation goes here.
-     * Typically overridden by a subclass.
-     * @param protocolForm the Protocol Form
-     * @throws Exception
-     */
-    protected void preSave(ProtocolForm protocolForm) throws Exception {
-        // do nothing
-    }
-
-    /**
-     * Get the current status of the document.  
-     * @param doc the Protocol Document
-     * @return the status (INITIATED, SAVED, etc.)
-     */
-    private String getDocumentStatus(ProtocolDocument doc) {
-        return doc.getDocumentHeader().getWorkflowDocument().getStatusDisplayValue();
-    }
-    
-    /**
-     * Is this the initial save of the document?  If there are errors
-     * in the document, it won't be saved and thus it cannot be initial
-     * successful save.
-     * @param status the original status before the save operation
-     * @return true if the initial save; otherwise false
-     */
-    private boolean isInitialSave(String status) {
-        return GlobalVariables.getErrorMap().isEmpty() &&
-               StringUtils.equals("INITIATED", status);
-    }
-    
-    /**
      * Create the original set of Protocol Users for a new Protocol Document.
      * The creator the protocol is assigned to the PROTOCOL_AGGREGATOR role.
-     * @param doc the Protocol Document
+     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#initialDocumentSave(org.kuali.core.web.struts.form.KualiDocumentFormBase)
      */
-    protected void initializeProtocolUsers(ProtocolDocument doc) {
+    @Override
+    protected void initialDocumentSave(KualiDocumentFormBase form) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument doc = protocolForm.getProtocolDocument();
+        
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
         String username = user.getPersonUserIdentifier();
         ProtocolAuthorizationService protocolAuthService = KraServiceLocator.getService(ProtocolAuthorizationService.class);

@@ -17,7 +17,6 @@ package org.kuali.kra.proposaldevelopment.web.struts.action;
 
 import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
-import static org.kuali.kra.infrastructure.Constants.MAPPING_NARRATIVE_ATTACHMENT_RIGHTS_PAGE;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.ArrayList;
@@ -33,9 +32,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.RiceKeyConstants;
-import org.kuali.core.question.ConfirmationQuestion;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
@@ -57,8 +53,6 @@ import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
-import org.kuali.rice.KNSServiceLocator;
-import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * The ProposalDevelopmentPermissionsAction responds to user events from the
@@ -90,54 +84,24 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
         return super.save(mapping, form, request, response);
     }
     
-    
-   
     /**
-     * Close the document and take the user back to the index; only after asking the user if they want to save the document first.
-     * Only users who have the "canSave()" permission are given this option.
-     *
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return ActionForward
-     * @throws Exception
+     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#saveOnClose(org.kuali.core.web.struts.form.KualiDocumentFormBase)
      */
     @Override
-    public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        KualiDocumentFormBase docForm = (KualiDocumentFormBase) form;
+    protected void saveOnClose(KualiDocumentFormBase form) throws Exception {
+   
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
 
-        // only want to prompt them to save if they already can save
-        if (docForm.getDocumentActionFlags().getCanSave()) {
-            Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-            KualiConfigurationService kualiConfiguration = KNSServiceLocator.getKualiConfigurationService();
-
-            // logic for close question
-            if (question == null) {
-                // ask question if not already asked
-                return this.performQuestionWithoutInput(mapping, form, request, response, KNSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, kualiConfiguration.getPropertyString(RiceKeyConstants.QUESTION_SAVE_BEFORE_CLOSE), KNSConstants.CONFIRMATION_QUESTION, KNSConstants.MAPPING_CLOSE, "");
-            }
-            else {
-                Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
-                if ((KNSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
-                    // if yes button clicked - save the doc
-                    List<ProposalUserRoles> proposalUsers = proposalDevelopmentForm.getCurrentProposalUserRoles();
-                    for (ProposalUserRoles proposalUser : proposalUsers) {
-                        deleteProposalUser(proposalUser, doc);
-                    }
-                    
-                    proposalUsers = proposalDevelopmentForm.getProposalUserRoles();
-                    for (ProposalUserRoles proposalUser : proposalUsers) {
-                        saveProposalUser(proposalUser, doc);
-                    }
-                }
-                // else go to close logic below
-            }
+        List<ProposalUserRoles> proposalUsers = proposalDevelopmentForm.getCurrentProposalUserRoles();
+        for (ProposalUserRoles proposalUser : proposalUsers) {
+            deleteProposalUser(proposalUser, doc);
         }
-
-        return super.close(mapping, form, request, response);
+                    
+        proposalUsers = proposalDevelopmentForm.getProposalUserRoles();
+        for (ProposalUserRoles proposalUser : proposalUsers) {
+            saveProposalUser(proposalUser, doc);
+        } 
     }
     
     private void deleteProposalUser(ProposalUserRoles proposalUser, ProposalDevelopmentDocument doc) {

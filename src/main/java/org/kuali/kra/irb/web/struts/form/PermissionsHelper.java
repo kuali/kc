@@ -89,10 +89,10 @@ public class PermissionsHelper extends AbstractPermissionsHelper {
         if (StringUtils.equals(roleName, RoleConstants.PROTOCOL_AGGREGATOR)) {
             return AGGREGATOR_NAME;
         }
-        else if (StringUtils.equals(roleName, RoleConstants.PROTOCOL_VIEWER)) {
+        if (StringUtils.equals(roleName, RoleConstants.PROTOCOL_VIEWER)) {
             return VIEWER_NAME;
         }
-        else if (StringUtils.equals(roleName, RoleConstants.PROTOCOL_UNASSIGNED)) {
+        if (StringUtils.equals(roleName, RoleConstants.PROTOCOL_UNASSIGNED)) {
             return UNASSIGNED_NAME;
         }
         return roleName;

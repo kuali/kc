@@ -10,7 +10,7 @@
     <property name="businessObjectClass" value="org.kuali.kra.common.permissions.bo.PermissionsUser" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KRA-PD"
+            p:parameterNamespace="KC-PER"
             p:parameterName="permissionsHelp"
             p:parameterDetailType="D" />
     </property>
