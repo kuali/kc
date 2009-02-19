@@ -44,7 +44,7 @@
 	                  p:parameterDetailType="D" />
 	          	</property>
 	          	<property name="headerTabDisplayName" value="Members" />
-                <property name="headerTabNavigateTo" value="committeeMembers" />
+                <property name="headerTabNavigateTo" value="committeeMembership" />
         	</bean>         	
             <bean parent="HeaderNavigation">
                 <property name="helpDefinition" >
