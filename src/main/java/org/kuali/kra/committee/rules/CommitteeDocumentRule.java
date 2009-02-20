@@ -18,6 +18,7 @@ package org.kuali.kra.committee.rules;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.service.CommitteeService;
@@ -25,6 +26,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.service.UnitService;
 
 /**
  * This is the main business rule class for the Committee Document.  It
@@ -74,6 +76,7 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase {
         valid &= GlobalVariables.getErrorMap().isEmpty();
         
         valid &= validateUniqueCommitteeId((CommitteeDocument) document);
+        valid &= validateHomeUnit((CommitteeDocument) document);
         
         GlobalVariables.getErrorMap().removeFromErrorPath("document");
         
@@ -112,6 +115,31 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase {
                 }
             }
         }
+        return valid;
+    }
+    
+    /**
+     * Verify that the unit number if is valid.  We can ignore a blank
+     * home unit number since it is a required field and that business logic
+     * will flag a blank value as invalid.
+     * @param document the Committee document
+     * @return true if valid; otherwise false
+     */
+    private boolean validateHomeUnit(CommitteeDocument document) {
+        
+        boolean valid = true;
+        
+        String homeUnitNumber = document.getCommittee().getHomeUnitNumber();
+        if (!StringUtils.isBlank(homeUnitNumber)) {
+            UnitService unitService = KraServiceLocator.getService(UnitService.class);
+            Unit homeUnit = unitService.getUnit(homeUnitNumber);
+            if (homeUnit == null) {
+                valid = false;
+                reportError(Constants.COMMITTEE_PROPERTY_KEY + "List[0].homeUnitNumber", 
+                            KeyConstants.ERROR_INVALID_UNIT, homeUnitNumber);
+            }
+        }
+        
         return valid;
     }
     
