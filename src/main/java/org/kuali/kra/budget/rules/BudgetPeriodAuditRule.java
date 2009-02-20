@@ -93,7 +93,7 @@ public class BudgetPeriodAuditRule extends ResearchDocumentRuleBase implements D
      * @return List of AuditError instances
      */
     private List<AuditError> getAuditProblems(String problemType) {
-        List<AuditError> auditErrors = auditErrors = new ArrayList<AuditError>();
+        List<AuditError> auditErrors = new ArrayList<AuditError>();
         
         if (!getAuditErrorMap().containsKey(BUDGET_PERIOD_DATE_AUDIT_ERROR_KEY)) {
             getAuditErrorMap().put(BUDGET_PERIOD_DATE_AUDIT_ERROR_KEY, new AuditCluster(Constants.BUDGET_PERIOD_PANEL_NAME, auditErrors, problemType));
