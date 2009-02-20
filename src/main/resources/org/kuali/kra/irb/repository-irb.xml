@@ -106,7 +106,6 @@
 	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolUnit" table="PROTOCOL_UNITS">
 		<field-descriptor name="protocolUnitsId" column="PROTOCOL_UNITS_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true"/>
 		<field-descriptor name="protocolPersonId" column="PROTOCOL_PERSON_ID" jdbc-type="INTEGER" />
-		<field-descriptor name="protocolInvestigatorsId" column="PROTOCOL_INVESTIGATORS_ID" jdbc-type="INTEGER" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
