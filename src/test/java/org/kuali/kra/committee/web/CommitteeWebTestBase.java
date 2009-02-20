@@ -51,7 +51,7 @@ public abstract class CommitteeWebTestBase extends KraWebTestBase {
     protected static final String COMMITTEE_DESCRIPTION_ID = "document.committeeList[0].committeeDescription";
     protected static final String COMMITTEE_SCHEDULE_DESCRIPTION_ID = "document.committeeList[0].scheduleDescription";
     
-    protected static final String DEFAULT_DOCUMENT_DESCRIPTION = "Proposal Development Web Test";
+    protected static final String DEFAULT_DOCUMENT_DESCRIPTION = "Committee Web Test";
     protected static final String DEFAULT_TYPE_CODE = "1"; // IRB
     protected static final String DEFAULT_MAX_PROTOCOLS = "10";
     protected static final String DEFAULT_HOME_UNIT_NUMBER = "000001";
@@ -107,7 +107,7 @@ public abstract class CommitteeWebTestBase extends KraWebTestBase {
      * We don't want to test within the Portal.  This means that we will extract the
      * committee web page from within the Portal's Inline Frame (iframe).
      * 
-     * @return the Proposal Development web page.
+     * @return the Comittee web page.
      */
     protected final HtmlPage getCommitteePage() {
         return this.committeePage;

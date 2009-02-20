@@ -790,6 +790,7 @@
                 <ref bean="narrativeTaskAuthorizers" />
                 <ref bean="budgetTaskAuthorizers" />
                 <ref bean="protocolTaskAuthorizers" />
+                <ref bean="committeeTaskAuthorizers" />
             </list>
         </property>
     </bean>
