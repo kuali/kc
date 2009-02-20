@@ -33,7 +33,7 @@
         </authorizations>
 
         <documentTypeName>ValidCeJobCodeMaintenanceDocument</documentTypeName>
-        <documentTypeCode>VACE</documentTypeCode>
+        <documentTypeCode>VCEJ</documentTypeCode>
 
         <label>ValidCeJobCodes Maintenance Document</label>
         <shortLabel>validCeJobCodesMaintDoc</shortLabel>
