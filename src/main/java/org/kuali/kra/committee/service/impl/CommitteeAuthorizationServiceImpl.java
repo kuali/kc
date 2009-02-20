@@ -146,15 +146,24 @@ public class CommitteeAuthorizationServiceImpl implements CommitteeAuthorization
         if (isValidPerson(username)) {
             String committeeNbr = committee.getId().toString();
             if (committeeNbr != null) {
-                List<QualifiedRole> roles = kimPersonService.getQualifiedRoles(username);
-                for (QualifiedRole role : roles) {
-                    Map<String, String> attrs = role.getQualifiedRoleAttributes();
-                    if (attrs.containsKey(COMMITTEE_KEY)) {
-                        String value = attrs.get(COMMITTEE_KEY);
-                        if (value.equals(committeeNbr)) {
-                            roleNames.add(role.getRoleName());
-                        }
-                    }
+                roleNames = getRoleNames(username, committeeNbr);
+            }
+        }
+        return roleNames;
+    }
+    
+    /*
+     * Get the names of the roles for the user in the given committee.
+     */
+    private List<String> getRoleNames(String userName, String committeeNbr) {
+        List<String> roleNames = new ArrayList<String>();
+        List<QualifiedRole> roles = kimPersonService.getQualifiedRoles(userName);
+        for (QualifiedRole role : roles) {
+            Map<String, String> attrs = role.getQualifiedRoleAttributes();
+            if (attrs.containsKey(COMMITTEE_KEY)) {
+                String value = attrs.get(COMMITTEE_KEY);
+                if (value.equals(committeeNbr)) {
+                    roleNames.add(role.getRoleName());
                 }
             }
         }

@@ -35,6 +35,45 @@
 		</property>
 	</bean>
 	
+	<bean id="committeeAuthorizationService" class="org.kuali.kra.committee.service.impl.CommitteeAuthorizationServiceImpl">
+		<property name="unitAuthorizationService">
+			<ref bean="unitAuthorizationService" />
+		</property>
+		<property name="personService">
+			<ref bean="personService" />
+		</property>
+		<property name="kimPersonService">
+			<ref bean="kimPersonService" />
+		</property>
+		<property name="kimQualifiedRoleService">
+			<ref bean="kimQualifiedRoleService" />
+		</property>
+	</bean>
+	
+	<!-- Committee Task Authorizers -->
+    
+    <bean id="parentCommitteeAuthorizer" abstract="true">
+        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
+        <property name="kraWorkflowService" ref="kraWorkflowService" />
+        <property name="personService" ref="personService" />
+        <property name="committeeAuthorizationService" ref="committeeAuthorizationService" />
+    </bean>
+
+    <bean id="committeeTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
+        <property name="groupName" value="committee" />
+        <property name="taskAuthorizers">
+            <list>
+                <bean class="org.kuali.kra.committee.document.authorizer.ModifyCommitteeAuthorizer" parent="parentCommitteeAuthorizer">
+                    <property name="taskName" value="modifyCommittee" />
+                </bean>
+                
+                <bean class="org.kuali.kra.committee.document.authorizer.ViewCommitteeAuthorizer" parent="parentCommitteeAuthorizer">
+                    <property name="taskName" value="viewCommittee" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+	
 	<bean id="committeeService" class="org.kuali.kra.committee.service.impl.CommitteeServiceImpl">
 	    <property name="businessObjectService" ref="businessObjectService" />
 	</bean>
