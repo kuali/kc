@@ -73,9 +73,9 @@ public class BudgetInflationRatesWebTest extends BudgetRatesWebTestBase {
         HtmlPage budgetPersonnelPage = clickOn(page, PERSONNEL_IMAGE_NAME);
         budgetPersonnelPage = multiLookup(budgetPersonnelPage, "org.kuali.kra.bo.Person", "personId", "000000003");
         setFieldValue(budgetPersonnelPage,"document.budgetPersons[0].jobCode", "AA004");
-        setFieldValue(budgetPersonnelPage,"document.budgetPerson[0].appointmentTypeCode", "1");
-        setFieldValue(budgetPersonnelPage,"document.budgetPerson[0].calculationBase", "100000");
-        setFieldValue(budgetPersonnelPage,"document.budgetPerson[0].effectiveDate", "01/01/2000");
+        setFieldValue(budgetPersonnelPage,"document.budgetPersons[0].appointmentTypeCode", "1");
+        setFieldValue(budgetPersonnelPage,"document.budgetPersons[0].calculationBase", "100000");
+        setFieldValue(budgetPersonnelPage,"document.budgetPersons[0].effectiveDate", "01/01/2000");
         HtmlPage ratesPage = clickOn(budgetPersonnelPage, BDOC_BUDGET_RATES_LINK_NAME);
         return ratesPage;
     }
