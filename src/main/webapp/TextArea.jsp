@@ -18,7 +18,11 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <html>
 
+	<c:set var="popWindow" value="true" />
 	<c:forEach items="${param}" var="par">
+	   <c:if test="${fn:startsWith(par.key, 'methodToCall.kraUpdateTextArea')==true}">
+	       <c:set var="popWindow" value="false" />
+       </c:if>
 	   <c:if test="${par.key == 'textAreaFieldLabel'}">
 	       <c:set var="kraTextAreaFieldLabel" value="${par.value}" />
 	   </c:if> 
@@ -32,7 +36,12 @@
 	       <c:set var="viewOnly" value="${par.value}" />
 	   </c:if> 
 	</c:forEach>
-
+    <c:if test="${popWindow == 'false'}">
+	       <c:set var="kraTextAreaFieldLabel" value="${requestScope['textAreaFieldLabel']}" />
+	       <c:set var="kraTextAreaFieldName" value="${requestScope['textAreaFieldName']}" />
+	       <c:set var="htmlFormAction" value="${requestScope['htmlFormAction']}" />
+	       <c:set var="viewOnly" value="${requestScope['viewOnly']}" />
+    </c:if>
 
 <link href="kr/css/kuali.css" rel="stylesheet" type="text/css" />
 <script language="javascript" src="scripts/kuali_application.js"></script>
@@ -40,9 +49,10 @@
 <div class="headerarea" id="headerarea-small">
 <h1>${kraTextAreaFieldLabel}</h1>
 </div>
-
 <c:set var="kraAttributeReferenceDummyAttributes"
 	value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
+
+
 <html:form styleId="kualiForm" method="post"
 	action="/${htmlFormAction}.do" enctype=""
 	onsubmit="return hasFormAlreadyBeenSubmitted();">
@@ -96,8 +106,6 @@
 			<html:hidden property="documentWebScope" value="request"/>	
 		</c:otherwise>
 	</c:choose>
-	
-
 	
 </html:form>
 </body>
