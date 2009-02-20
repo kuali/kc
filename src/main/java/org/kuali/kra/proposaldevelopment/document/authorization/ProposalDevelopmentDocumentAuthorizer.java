@@ -31,6 +31,7 @@ import org.kuali.core.exceptions.DocumentInitiationAuthorizationException;
 import org.kuali.core.exceptions.PessimisticLockingException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
@@ -320,7 +321,10 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
         }
         
         flags.setCanRoute(canExecuteProposalTask(user.getPersonUserIdentifier(), (ProposalDevelopmentDocument) document, TaskName.SUBMIT_TO_WORKFLOW));
-
+        
+        KualiWorkflowDocument workflow = document.getDocumentHeader().getWorkflowDocument();
+        if (workflow.stateIsCanceled()) flags.setCanReload(true);
+        
         return flags;
     }
     
