@@ -75,13 +75,13 @@ public class CommitteeAuthorizationTest extends CommitteeWebTestBase {
     }
     
     /**
-     * Verify that a user who has permission to create/modify a proposal 
+     * Verify that a user who has permission to create/modify a committee 
      * can do so.  The save is done twice: once for create and once for
      * modify.
      */
     @Test
     public void testModifyAuthorization() throws Exception {
-        HtmlPage page = createAndSaveCommittee();
+        HtmlPage page = createAndSaveCommittee("777");
         assertEquals(false, hasError(page));
         page = this.saveDoc(page);
         assertEquals(false, hasError(page));
@@ -93,7 +93,7 @@ public class CommitteeAuthorizationTest extends CommitteeWebTestBase {
      */
     @Test
     public void testNoAccessAuthorization() throws Exception {
-        HtmlPage page = createAndSaveCommittee();
+        HtmlPage page = createAndSaveCommittee("888");
         String docNbr = this.getDocNbr(page);
         this.closeDoc(page);
         
@@ -108,7 +108,7 @@ public class CommitteeAuthorizationTest extends CommitteeWebTestBase {
      */
     @Test
     public void testReadOnlyAuthorization() throws Exception {
-        HtmlPage page = createAndSaveCommittee();
+        HtmlPage page = createAndSaveCommittee("999");
         String docNbr = this.getDocNbr(page);
         this.closeDoc(page);
         
@@ -126,9 +126,10 @@ public class CommitteeAuthorizationTest extends CommitteeWebTestBase {
      * Helper Methods
      ***********************************************************************/
     
-    private HtmlPage createAndSaveCommittee() throws Exception {
+    private HtmlPage createAndSaveCommittee(String committeeId) throws Exception {
         HtmlPage page = buildCommitteePage();
         setDefaultRequiredFields(page);
+        setFieldValue(page, COMMITTEE_ID_ID, committeeId);
         return this.saveDoc(page);
     }
 }

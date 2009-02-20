@@ -1591,6 +1591,8 @@ public abstract class KraWebTestBase extends KraTestBase {
         docSearchPage = clickOn(docSearchPage, "methodToCall.doDocSearch");
         if (docSearchPage.asText().contains("Nothing found to display.")) {
             docPage = null;
+        } else if (docSearchPage.asText().contains("No values match this search")) {
+            docPage = null;
         } else {
             HtmlAnchor hyperlink = getAnchor(docSearchPage, docNbr);
             assertNotNull(hyperlink);
