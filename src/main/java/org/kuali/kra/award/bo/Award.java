@@ -99,6 +99,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private List<AwardCostShare> awardCostShares;
     private List<AwardFandaRate> awardFandaRate;
     private List<AwardReportTerm> awardReportTerms;
+    private List<AwardSponsorTerm> awardSponsorTerms;
 
     private List<AwardApprovedSubaward> awardApprovedSubawards;
     
@@ -1263,6 +1264,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         keywords = new ArrayList<AwardScienceKeyword>();
         specialReviews = new ArrayList<AwardSpecialReview>();
         approvedEquipmentItems = new ArrayList<AwardApprovedEquipment>();
+        setAwardSponsorTerms(new ArrayList<AwardSponsorTerm>());
     }
 
     /**
@@ -1337,6 +1339,23 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         }
         return returnVal;
     }
+
+    /**
+     * Gets the awardSponsorTerms attribute. 
+     * @return Returns the awardSponsorTerms.
+     */
+    public List<AwardSponsorTerm> getAwardSponsorTerms() {
+        return awardSponsorTerms;
+    }
+
+    /**
+     * Sets the awardSponsorTerms attribute value.
+     * @param awardSponsorTerms The awardSponsorTerms to set.
+     */
+    public void setAwardSponsorTerms(List<AwardSponsorTerm> awardSponsorTerms) {
+        this.awardSponsorTerms = awardSponsorTerms;
+    }
+    
     
     
     public Sponsor getSponsor() {

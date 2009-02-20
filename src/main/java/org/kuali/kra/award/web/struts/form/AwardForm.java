@@ -34,6 +34,8 @@ import org.kuali.kra.award.bo.AwardSpecialReviewExemption;
 import org.kuali.kra.award.bo.ReportClass;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.ApprovedEquipmentBean;
+import org.kuali.kra.award.web.struts.action.SponsorTermFormHelper;
+import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -47,7 +49,9 @@ import edu.iu.uis.eden.clientapp.IDocHandler;
  * 
  * This class represents the Award Form Struts class.
  */
-public class AwardForm extends KraTransactionalDocumentFormBase implements MultiLookupFormBase,SpecialReviewFormBase<AwardSpecialReviewExemption> {
+public class AwardForm extends KraTransactionalDocumentFormBase 
+                                        implements MultiLookupFormBase,
+                                                    SpecialReviewFormBase<AwardSpecialReviewExemption> {
     
     public static final String SAVE = "save";
     public static final String RELOAD = "reload";
@@ -62,19 +66,22 @@ public class AwardForm extends KraTransactionalDocumentFormBase implements Multi
     private AwardSpecialReview newAwardSpecialReview;
     private List<AwardSpecialReviewExemption> newSpecialReviewExemptions;
     private String[] newExemptionTypeCodes;
-    //private AwardCostShare newAwardCostShare;
     private AwardComment newAwardCostShareComment;
     
     private AwardFandaRate newAwardFandaRate;
     private List<AwardReportTerm> newAwardReportTerm;
+    //private List<SponsorTerm> newSponsorTerms;
     private List<AwardReportTermRecipient> newAwardReportTermRecipient;
     private List<KeyLabelPair> reportClasses;
     
     private ApprovedEquipmentBean approvedEquipmentBean;
     private CostShareFormHelper costShareFormHelper;
+    private SponsorTermFormHelper sponsorTermFormHelper;
     private ApprovedSubawardFormHelper approvedSubawardFormHelper;
     
     private ReportClass reportClassForPaymentsAndInvoices;
+    
+    //private List<KeyLabelPair> sponsorTermTypes;
     
     /**
      * 
@@ -97,12 +104,15 @@ public class AwardForm extends KraTransactionalDocumentFormBase implements Multi
         //newAwardCostShare = new AwardCostShare();
         newAwardFandaRate = new AwardFandaRate();
         setNewAwardReportTerm(new ArrayList<AwardReportTerm>());
-        setNewAwardReportTermRecipient(new ArrayList<AwardReportTermRecipient>());        
+        setNewAwardReportTermRecipient(new ArrayList<AwardReportTermRecipient>()); 
+        //setNewSponsorTerms(new ArrayList<SponsorTerm>());
         newAwardSpecialReview = new AwardSpecialReview();
         newSpecialReviewExemptions = new ArrayList<AwardSpecialReviewExemption>();
         approvedEquipmentBean = new ApprovedEquipmentBean(this.getAwardDocument(), this.getAwardDocument().getAward());
         costShareFormHelper = new CostShareFormHelper(this);
+        sponsorTermFormHelper = new SponsorTermFormHelper(this);
         approvedSubawardFormHelper = new ApprovedSubawardFormHelper(this);
+        //sponsorTermTypes = new ArrayList<KeyLabelPair>();
     }    
     
     /**
@@ -339,10 +349,8 @@ public class AwardForm extends KraTransactionalDocumentFormBase implements Multi
     public void setApprovedSubawardFormHelper(ApprovedSubawardFormHelper approvedSubawardFormHelper) {
         this.approvedSubawardFormHelper = approvedSubawardFormHelper;
     }
-
-
-
-    public ReportClass getReportClassForPaymentsAndInvoices() {
+    
+     public ReportClass getReportClassForPaymentsAndInvoices() {
         return reportClassForPaymentsAndInvoices;
     }
 
@@ -351,4 +359,65 @@ public class AwardForm extends KraTransactionalDocumentFormBase implements Multi
     public void setReportClassForPaymentsAndInvoices(ReportClass reportClassForPaymentsAndInvoices) {
         this.reportClassForPaymentsAndInvoices = reportClassForPaymentsAndInvoices;
     }    
+
+
+
+    /**
+     * Gets the awardSponsorTermsTypes attribute. 
+     * @return Returns the awardSponsorTermsTypes.
+     */
+    //public List<KeyLabelPair> getSponsorTermTypes() {
+    //    return sponsorTermTypes;
+    //}
+
+
+
+    /**
+     * Sets the awardSponsorTermsTypes attribute value.
+     * @param awardSponsorTermsTypes The awardSponsorTermsTypes to set.
+     */
+    //public void setSponsorTermTypes(List<KeyLabelPair> sponsorTermTypes) {
+    //    this.sponsorTermTypes = sponsorTermTypes;
+    //}
+
+
+
+    /**
+     * Gets the newSponsorTerms attribute. 
+     * @return Returns the newSponsorTerms.
+     */
+    //public List<SponsorTerm> getNewSponsorTerms() {
+     //   return newSponsorTerms;
+    //}
+
+
+
+    /**
+     * Sets the newAwardSponsorTerms attribute value.
+     * @param newAwardSponsorTerms The newAwardSponsorTerms to set.
+     */
+    //public void setNewSponsorTerms(List<SponsorTerm> newSponsorTerms) {
+     //   this.newSponsorTerms = newSponsorTerms;
+    //}
+
+
+
+    /**
+     * Gets the sponsorTermFormHelper attribute. 
+     * @return Returns the sponsorTermFormHelper.
+     */
+    public SponsorTermFormHelper getSponsorTermFormHelper() {
+        return sponsorTermFormHelper;
+    }
+
+
+
+    /**
+     * Sets the sponsorTermFormHelper attribute value.
+     * @param sponsorTermFormHelper The sponsorTermFormHelper to set.
+     */
+    public void setSponsorTermFormHelper(SponsorTermFormHelper sponsorTermFormHelper) {
+        this.sponsorTermFormHelper = sponsorTermFormHelper;
+    }
+
 }

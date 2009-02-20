@@ -39,6 +39,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardReportsService;
+import org.kuali.kra.service.AwardSponsorTermService;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**
@@ -50,8 +51,10 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
     private static final String ROLODEX = "rolodex";
     private static final String PERIOD = ".";
     private static final int HARDCODED_ROLODEX_ID = 20083;
+    private SponsorTermActionHelper sponsorTermActionHelper;
     
     public AwardPaymentReportsAndTermsAction() {
+        sponsorTermActionHelper = new SponsorTermActionHelper();
     }
     
     public ActionForward addApprovedEquipmentItem(ActionMapping mapping, ActionForm form, 
@@ -87,6 +90,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      * org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, 
      * javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
+    @SuppressWarnings("unchecked")
     public ActionForward refresh(ActionMapping mapping, ActionForm form, 
             HttpServletRequest request, HttpServletResponse response) throws Exception {        
         super.refresh(mapping, form, request, response);
@@ -99,7 +103,21 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
             for(AwardReportTermRecipient awardReportTermRecipient : awardReportTerm.getAwardReportTermRecipients()){
                 awardReportTermRecipient.refreshReferenceObject(ROLODEX);
             }
-        }
+        }       
+       // if (awardForm.getLookupResultsBOClassName() != null && awardForm.getLookupResultsSequenceNumber() != null) {
+         //   String lookupResultsSequenceNumber = awardForm.getLookupResultsSequenceNumber();
+          //  Class<?> lookupResultsBOClass = Class.forName(awardForm.getLookupResultsBOClassName());         
+           // Collection<PersistableBusinessObject> rawValues = KraServiceLocator.getService(LookupResultsService.class)
+             ///    .retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass,
+              //          GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());     
+           // if (lookupResultsBOClass.isAssignableFrom(SponsorTerm.class)) {
+            //    for (Iterator iter = rawValues.iterator(); iter.hasNext();) {
+              //       SponsorTerm sponsorTerm = (SponsorTerm) iter.next();
+                //     addAwardSponsorTermFromMutiValueLookup(sponsorTerm, awardForm.getAwardDocument().getAward());
+                //  }
+            //}
+        //}
+        
         
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
@@ -119,6 +137,14 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         ActionForward actionForward = super.reload(mapping, form, request, response);
         
         AwardReportsService awardReportsService = KraServiceLocator.getService(AwardReportsService.class);
+    
+        AwardSponsorTermService awardSponsorTermService = 
+                                    KraServiceLocator.getService(AwardSponsorTermService.class);
+        List<KeyLabelPair> sponsorTermTypes = 
+            awardSponsorTermService.assignSponsorTermTypesToAwardFormForPanelHeaderDisplay();
+        awardForm.getSponsorTermFormHelper().setSponsorTermTypes(sponsorTermTypes);
+        awardForm.getSponsorTermFormHelper().setNewSponsorTerms
+                    (awardSponsorTermService.addEmptyNewSponsorTerms(sponsorTermTypes));
 
         HashMap<String,Object> initializedObjects = new HashMap<String, Object>();
         initializedObjects = awardReportsService.initializeObjectsForReportsAndPayments(
@@ -439,6 +465,63 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
             recipientSize = Integer.parseInt(recipientSizeString);
         }        
         return recipientSize;
+    }
+
+   // public void addAwardSponsorTermFromMutiValueLookup(SponsorTerm sponsorTerm, Award award){
+    //    AwardSponsorTerm newAwardSponsorTerm = new AwardSponsorTerm();
+     //   newAwardSponsorTerm.setSponsorTermId
+      //                          (sponsorTerm.getSponsorTermId());
+      //  newAwardSponsorTerm.setSponsorTerm
+       //                         (sponsorTerm);
+       // newAwardSponsorTerm.setAward(award);
+        //if(getKualiRuleService().applyRules(new AddAwardReportTermEvent(Constants.EMPTY_STRING,
+        //  awardForm.getAwardDocument(), newAwardReportTerm))){
+        //award.setAwardSponsorTerms(addAwardSponsorTermToAward(award,newAwardSponsorTerm));            
+        // }
+    //}
+    
+    /**
+     * 
+     * This method adds a new AwardSponsorTerm object to the list of AwardSponosorTerm objects
+     * inside Award.
+     * For every added AwardReportTerm object; we are adding an empty AwardReportTerm object to
+     * AwardForm.newAwardReportTermRecipients list - for recipients to be added.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward addAwardSponsorTerm(ActionMapping mapping, ActionForm form, 
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        sponsorTermActionHelper.addSponsorTerm(((AwardForm) form).getSponsorTermFormHelper(), request);
+        
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    
+    /**
+     * 
+     * This method deletes a AwardSponsorTerms from the list of AwardSponsorTerms objects.
+     * 
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteAwardSponsorTerm(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        AwardForm awardForm = (AwardForm) form;
+        AwardDocument awardDocument = awardForm.getAwardDocument();
+        
+        awardDocument.getAward().getAwardSponsorTerms().remove(getLineToDelete(request));
+        
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
     /**
