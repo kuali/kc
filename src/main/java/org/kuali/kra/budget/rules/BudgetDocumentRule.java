@@ -15,10 +15,14 @@
  */
 package org.kuali.kra.budget.rules;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.DocumentAuditRule;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.AuditCluster;
+import org.kuali.core.util.AuditError;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
@@ -30,6 +34,7 @@ import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.bo.BudgetProposalLaRate;
 import org.kuali.kra.budget.bo.BudgetProposalRate;
+import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.rule.AddBudgetCostShareRule;
 import org.kuali.kra.budget.rule.AddBudgetPeriodRule;
@@ -46,6 +51,9 @@ import org.kuali.kra.budget.rule.event.GenerateBudgetPeriodEvent;
 import org.kuali.kra.budget.rule.event.SaveBudgetPeriodEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddBudgetPeriodRule, AddBudgetCostShareRule, AddBudgetProjectIncomeRule, SaveBudgetPeriodRule, DeleteBudgetPeriodRule, GenerateBudgetPeriodRule, DocumentAuditRule, SyncModularBudgetRule {
@@ -384,12 +392,7 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         boolean retval = true;
         
         retval &= super.processRunAuditBusinessRules(document);
-        // TODO : add this one for testing jira 780 - remove this when audit rules are complete
-        // comment out these lines before committed to rel-1-0
-//        if (((BudgetDocument)document).getBudgetPersons() == null || ((BudgetDocument)document).getBudgetPersons().size() < 1) {
-//            getAuditErrors().add(new AuditError("document.budgetPerson*", KeyConstants.ERROR_NO_BUDGET_PERSON , "budgetPersonnel.BudgetPersonnel" ));
-//            retval = false;
-//        }
+
         retval &= new BudgetPeriodAuditRule().processRunAuditBusinessRules(document);
         
         retval &= new BudgetExpensesAuditRule().processRunAuditBusinessRules(document);
@@ -402,7 +405,42 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         
         retval &= new BudgetCostShareAuditRule().processRunAuditBusinessRules(document);
         
+        processRunAuditBudgetVersionRule(((BudgetDocument) document).getProposal());
+        
         return retval;
+    }
+    
+    private boolean processRunAuditBudgetVersionRule(ProposalDevelopmentDocument proposal) {
+        // audit check for budgetversion with final status
+        boolean finalAndCompleteBudgetVersionFound = false;
+        boolean budgetVersionsExists = false;
+        boolean retval = true;
+        
+        List<AuditError> auditErrors = new ArrayList<AuditError>();
+        String budgetStatusCompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameter(
+                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_COMPLETE_CODE).getParameterValue();
+        for (BudgetVersionOverview budgetVersion : proposal.getBudgetVersionOverviews()) {
+            budgetVersionsExists = true;
+            if (budgetVersion.isFinalVersionFlag()) {
+                if (proposal.getBudgetStatus()!= null 
+                        && proposal.getBudgetStatus().equals(budgetStatusCompleteCode)) {
+                    finalAndCompleteBudgetVersionFound = true;
+                }
+            }
+        }
+        if(budgetVersionsExists && !finalAndCompleteBudgetVersionFound){
+            auditErrors.add(new AuditError("document.budgetVersionOverview", KeyConstants.AUDIT_ERROR_NO_BUDGETVERSION_COMPLETE_AND_FINAL, Constants.PD_BUDGET_VERSIONS_PAGE + "." + Constants.BUDGET_VERSIONS_PANEL_ANCHOR));
+            retval = false;
+        }
+        if (auditErrors.size() > 0) {
+            GlobalVariables.getAuditErrorMap().put("budgetVersionErrors", new AuditCluster(Constants.BUDGET_VERSION_PANEL_NAME, auditErrors, Constants.AUDIT_ERRORS));
+        }
+
+        return retval;
+    }
+    
+    private ProposalDevelopmentService getProposalDevelopmentService() {
+        return KraServiceLocator.getService(ProposalDevelopmentService.class);
     }
     
     public boolean processSyncModularBusinessRules(Document document) {

@@ -222,24 +222,26 @@ public class BudgetVersionsAction extends BudgetAction {
         
         BudgetDocument budgetDocument = budgetForm.getDocument();
 
-        try {
-            valid &=getProposalDevelopmentService() .validateBudgetAuditRuleBeforeSaveBudgetVersion(budgetDocument.getProposal());
-        } catch (Exception ex) {
-            info("Audit rule check failed ", ex.getStackTrace());
-        }
-        if (!valid) {
-            // set up error message to go to validate panel
-            
-            Integer budgetVersionNumber = budgetForm.getFinalBudgetVersion();
-            // ask form for final version number... if it is null, ask current budget document its version number
-            if (budgetVersionNumber == null || budgetVersionNumber.intValue() == -1) {
-                budgetVersionNumber = budgetDocument.getBudgetVersionNumber();
+        if(budgetForm.isAuditActivated()) {
+            try {
+                valid &=getProposalDevelopmentService() .validateBudgetAuditRuleBeforeSaveBudgetVersion(budgetDocument.getProposal());
+            } catch (Exception ex) {
+                info("Audit rule check failed ", ex.getStackTrace());
             }
-            GlobalVariables
-                .getErrorMap()
-                    .putError("document.proposal.budgetVersionOverview["+(budgetVersionNumber.intValue() - 1)+"].budgetStatus",
-                                KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
-        } 
+            if (!valid) {
+                // set up error message to go to validate panel
+                
+                Integer budgetVersionNumber = budgetForm.getFinalBudgetVersion();
+                // ask form for final version number... if it is null, ask current budget document its version number
+                if (budgetVersionNumber == null || budgetVersionNumber.intValue() == -1) {
+                    budgetVersionNumber = budgetDocument.getBudgetVersionNumber();
+                }
+                GlobalVariables
+                    .getErrorMap()
+                        .putError("document.proposal.budgetVersionOverview["+(budgetVersionNumber.intValue() - 1)+"].budgetStatus",
+                                    KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
+            } 
+        }
         
         if (budgetForm.isSaveAfterCopy()) {
             List<BudgetVersionOverview> overviews = budgetForm.getDocument().getProposal().getBudgetVersionOverviews();

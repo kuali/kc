@@ -378,19 +378,6 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                 initializeProposalUsers(copiedDocument);//add in any default permissions
                 copiedDocument.setS2sAppSubmission(new ArrayList<S2sAppSubmission>());
                 
-                //We need to copy DocumentNextValues to properly handle copied collections
-//                List<DocumentNextvalue> newDocumentNextValues = new ArrayList<DocumentNextvalue>();
-//                for(DocumentNextvalue documentNextValue : doc.getDocumentNextvalues()) {
-//                    DocumentNextvalue newDocumentNextValue = new DocumentNextvalue();
-//                    newDocumentNextValue.setDocumentKey(copiedDocument.getProposalNumber());
-//                    newDocumentNextValue.setVersionNumber(null);
-//                    newDocumentNextValue.setObjectId(null);
-//                    newDocumentNextValue.setPropertyName(documentNextValue.getPropertyName());
-//                    newDocumentNextValue.setNextValue(documentNextValue.getNextValue());
-//                    newDocumentNextValues.add(newDocumentNextValue); 
-//                }
-//                copiedDocument.setDocumentNextvalues(newDocumentNextValues);
-
                 DocumentService docService = KraServiceLocator.getService(DocumentService.class);
                 docService.saveDocument(copiedDocument);
                 
@@ -897,6 +884,38 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         String forward = getForwardToBudgetUrl(form);
         // TODO : what if forward is null
         forward = StringUtils.replace(forward, "budgetParameters.do?", "budgetPersonnel.do?auditActivated=true&");
+        
+        return new ActionForward(forward, true);
+    }
+    
+    /**
+     * 
+     * This method is for audit rule to forward to the Budget Parameters page when the associated audit error fix is clicked.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
+    public ActionForward budgetDistributionAndIncome(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        String forward = getForwardToBudgetUrl(form);
+        forward = StringUtils.replace(forward, "budgetParameters.do?", "budgetDistributionAndIncome.do?auditActivated=true&");
+        
+        return new ActionForward(forward, true);
+    }
+
+    /**
+     * 
+     * This method is for audit rule to forward to the Budget Parameters page when the associated audit error fix is clicked.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
+    public ActionForward parameters(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        String forward = getForwardToBudgetUrl(form);
+        forward = StringUtils.replace(forward, "budgetParameters.do?", "budgetParameters.do?auditActivated=true&");
         
         return new ActionForward(forward, true);
     }

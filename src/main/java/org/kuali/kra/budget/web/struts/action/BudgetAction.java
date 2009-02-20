@@ -375,8 +375,12 @@ public class BudgetAction extends ProposalActionBase {
         // JIRA KRACOEUS-1441
         save(mapping, form, request, response);
         
-        String forward = buildForwardUrl(pdDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
-        return new ActionForward(forward, true);
+        String forwardUrl = buildForwardUrl(pdDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
+        if(budgetForm.isAuditActivated()) {
+            forwardUrl = StringUtils.replace(forwardUrl, "Proposal.do?", "Actions.do?auditActivated=true&");
+        }
+        
+        return new ActionForward(forwardUrl, true);
     }
     
     public void reconcilePersonnelRoles(BudgetDocument budgetDocument) {
