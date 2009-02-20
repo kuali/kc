@@ -217,18 +217,20 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
             pdForm.setSaveAfterCopy(!valid);
         }
 
-        valid &= this.getProposalDevelopmentService().validateBudgetAuditRuleBeforeSaveBudgetVersion(
-            pdForm.getDocument());
-
-        if (!valid) {
-            // set up error message to go to validate panel
-            final int errorBudgetVersion = this.getTentativeFinalBudgetVersion(pdForm);
-            if(errorBudgetVersion != -1) {
-                GlobalVariables.getErrorMap().putError("document.budgetVersionOverview["
-                    + (errorBudgetVersion-1) +"].budgetStatus",
-                    KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
+        if(pdForm.isAuditActivated()) {
+            valid &= this.getProposalDevelopmentService().validateBudgetAuditRuleBeforeSaveBudgetVersion(
+                pdForm.getDocument());
+    
+            if (!valid) {
+                // set up error message to go to validate panel
+                final int errorBudgetVersion = this.getTentativeFinalBudgetVersion(pdForm);
+                if(errorBudgetVersion != -1) {
+                    GlobalVariables.getErrorMap().putError("document.budgetVersionOverview["
+                        + (errorBudgetVersion-1) +"].budgetStatus",
+                        KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
+                }
+                return mapping.findForward(Constants.MAPPING_BASIC);
             }
-            return mapping.findForward(Constants.MAPPING_BASIC);
         }
 
         this.setProposalStatus(pdForm.getDocument());
