@@ -108,6 +108,9 @@
 		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="sponsorCode" />
         </reference-descriptor>
+        <collection-descriptor name="awardSponsorTerms" proxy="true" element-class-ref="org.kuali.kra.award.bo.AwardSponsorTerm" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        	<inverse-foreignkey field-ref="awardId" />
+    	</collection-descriptor>
 	</class-descriptor>	
 	
 	<class-descriptor class="org.kuali.kra.award.bo.AwardApprovedEquipment" table="AWARD_APPROVED_EQUIPMENT">
@@ -678,6 +681,7 @@
 			<inverse-foreignkey field-ref="awardSponsorTermsTypeCode"/>
 		</collection-descriptor>-->
 	</class-descriptor>	
+	
 	<class-descriptor class="org.kuali.kra.award.bo.AwardSponsorTerms" table="AWARD_SPONSOR_TERMS">
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
@@ -689,8 +693,48 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<reference-descriptor name="awardSponsorTermsType" class-ref="org.kuali.kra.award.bo.AwardSponsorTermsType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="awardSponsorTermsTypeCode"/>
-		</reference-descriptor>
+		</reference-descriptor> 
+	</class-descriptor> -->
+	
+	
+	<class-descriptor class="org.kuali.kra.award.bo.AwardSponsorTerm" table="AWARD_SPONSOR_TERM">
+		<field-descriptor name="awardSponsorTermId" column="AWARD_SPONSOR_TERM_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_AWARD_SPONSOR_TERM" />
+		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" access="anonymous"/>
+		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
+		<field-descriptor name="sponsorTermId" column="SPONSOR_TERM_ID" jdbc-type="BIGINT"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="sponsorTerm" class-ref="org.kuali.kra.bo.SponsorTerm" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="sponsorTermId"/> 
+		</reference-descriptor>	
 	</class-descriptor>
+	
+	 <class-descriptor class="org.kuali.kra.bo.SponsorTermType" table="SPONSOR_TERM_TYPE">
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="sponsorTermTypeCode" column="SPONSOR_TERM_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.bo.SponsorTerm" table="SPONSOR_TERM">
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="sponsorTermId" column="SPONSOR_TERM_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_SPONSOR_TERM" autoincrement="true"/>
+		<field-descriptor name="sponsorTermCode" column="SPONSOR_TERM_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="sponsorTermTypeCode" column="SPONSOR_TERM_TYPE_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<reference-descriptor name="sponsorTermType" class-ref="org.kuali.kra.bo.SponsorTermType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="sponsorTermTypeCode"/>
+		</reference-descriptor> 
+	</class-descriptor>
+	
 	<class-descriptor class="org.kuali.kra.award.bo.AwardTemplateTerms" table="AWARD_TEMPLATE_TERMS">
 		<field-descriptor name="awardTemplateTermsId" column="AWARD_TEMPLATE_TERMS_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_AWARD_TEMPLATE" autoincrement="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" />

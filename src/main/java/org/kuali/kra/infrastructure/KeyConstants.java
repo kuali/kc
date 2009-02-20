@@ -261,6 +261,9 @@ public final class KeyConstants {
     public static final String ERROR_FISCAL_YEAR_RANGE = "error.awardCostShare.fiscalYear.range";
     public static final String ERROR_SOURCE_DESTINATION = "error.awardCostShare.source.destination";
     
+    //Award Sponsor Term
+    public static final String ERROR_DUPLICATE_SPONSOR_TERM = "error.awardSponsorTerm.duplicate.term";
+    
     //Award Benefits Rates
     public static final String ERROR_BENEFITS_RATES = "error.awardBenefitsRates.invalid.rates";
     

@@ -35,6 +35,7 @@ import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardReportsService;
+import org.kuali.kra.service.AwardSponsorTermService;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -132,7 +133,14 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
     @SuppressWarnings("all")
     public ActionForward paymentReportsAndTerms(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) {
-        AwardForm awardForm = (AwardForm) form;
+        AwardForm awardForm = (AwardForm) form;          
+        AwardSponsorTermService awardSponsorTermService = 
+                                KraServiceLocator.getService(AwardSponsorTermService.class);
+        List<KeyLabelPair> sponsorTermTypes = 
+                            awardSponsorTermService.assignSponsorTermTypesToAwardFormForPanelHeaderDisplay();
+        awardForm.getSponsorTermFormHelper().setSponsorTermTypes(sponsorTermTypes);
+        awardForm.getSponsorTermFormHelper().setNewSponsorTerms
+                    (awardSponsorTermService.addEmptyNewSponsorTerms(sponsorTermTypes));
         AwardReportsService awardReportsService = KraServiceLocator.getService(AwardReportsService.class);
           
         HashMap<String,Object> initializedObjects = new HashMap<String, Object>();

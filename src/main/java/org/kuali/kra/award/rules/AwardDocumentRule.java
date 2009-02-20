@@ -30,6 +30,7 @@ import org.kuali.kra.award.bo.AwardCostShare;
 import org.kuali.kra.award.bo.AwardFandaRate;
 import org.kuali.kra.award.bo.AwardReportTerm;
 import org.kuali.kra.award.bo.AwardSpecialReview;
+import org.kuali.kra.award.bo.AwardSponsorTerm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder;
@@ -47,6 +48,7 @@ import org.kuali.kra.award.rule.event.AddAwardReportTermRecipientEvent;
 import org.kuali.kra.award.rule.event.AwardApprovedSubawardRuleEvent;
 import org.kuali.kra.award.rule.event.AwardBenefitsRatesRuleEvent;
 import org.kuali.kra.award.rule.event.AwardCostShareRuleEvent;
+import org.kuali.kra.award.rule.event.AwardSponsorTermRuleEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -105,6 +107,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         retval &= processApprovedSubawardBusinessRules(document);
         retval &= processApprovedEquipmentBusinessRules(errorMap, awardDocument);
         retval &= processAwardReportTermBusinessRules(document);
+        retval &= processSponsorTermBusinessRules(document);
 
         return retval;
     }
@@ -153,6 +156,35 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
                                                                         awardDocument, 
                                                                         awardCostShare);
             valid &= new AwardCostShareRuleImpl().processCostShareBusinessRules(event);
+            errorMap.removeFromErrorPath(errorPath);
+            i++;
+        }
+        errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
+        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
+        return valid;
+    }
+    
+    /**
+    *
+    * process SponsorTerm business rules.
+    * @param awardDocument
+    * @return
+    */
+    private boolean processSponsorTermBusinessRules(Document document) {
+        boolean valid = true;
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        AwardDocument awardDocument = (AwardDocument) document;
+        int i = 0;
+        List<AwardSponsorTerm> awardSponsorTerms = awardDocument.getAward().getAwardSponsorTerms();
+        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+        errorMap.addToErrorPath(AWARD_ERROR_PATH);
+        for (AwardSponsorTerm awardSponsorTerm : awardSponsorTerms) {
+            String errorPath = "awardSponsorTerms[" + i + Constants.RIGHT_SQUARE_BRACKET;
+            errorMap.addToErrorPath(errorPath);
+            AwardSponsorTermRuleEvent event = new AwardSponsorTermRuleEvent(errorPath, 
+                                                                        awardDocument, 
+                                                                        awardSponsorTerm);
+            valid &= new AwardSponsorTermRuleImpl().processSponsorTermBusinessRules(event);
             errorMap.removeFromErrorPath(errorPath);
             i++;
         }
