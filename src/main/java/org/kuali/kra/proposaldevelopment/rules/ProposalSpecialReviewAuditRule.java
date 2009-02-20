@@ -62,7 +62,7 @@ public class ProposalSpecialReviewAuditRule extends ResearchDocumentRuleBase imp
      * @return List of AuditError instances
      */
     private List<AuditError> getAuditErrors() {
-        List<AuditError> auditErrors = auditErrors = new ArrayList<AuditError>();
+        List<AuditError> auditErrors = new ArrayList<AuditError>();
         
         if (!getAuditErrorMap().containsKey("specialReviewAuditWarnings")) {
             getAuditErrorMap().put("specialReviewAuditWarnings", new AuditCluster(Constants.SPECIAL_REVIEW_PANEL_NAME, auditErrors, Constants.AUDIT_WARNINGS));

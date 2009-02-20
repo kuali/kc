@@ -949,7 +949,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
     }
     
     private List<AuditError> getAuditErrors() {
-        List<AuditError> auditErrors = auditErrors = new ArrayList<AuditError>();
+        List<AuditError> auditErrors = new ArrayList<AuditError>();
         
         if (!getAuditErrorMap().containsKey(BUDGET_RATE_AUDIT_WARNING_KEY)) {
             getAuditErrorMap().put(BUDGET_RATE_AUDIT_WARNING_KEY, new AuditCluster(Constants.BUDGET_RATE_PANEL_NAME, auditErrors, Constants.AUDIT_WARNINGS));
