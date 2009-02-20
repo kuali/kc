@@ -32,6 +32,7 @@ import org.kuali.core.lookup.LookupResultsService;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
@@ -74,6 +75,25 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
         }
 
         return actionForward;
+    }
+    
+    /**
+     * On reloads the new CommitteeMembership selection is reset.
+     * 
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#reload(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @SuppressWarnings("all")
+    public ActionForward reload(ActionMapping mapping, ActionForm form, 
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        CommitteeForm committeeForm = (CommitteeForm) form;
+        
+        ActionForward actionForward = super.reload(mapping, form, request, response);
+        
+        committeeForm.getMembershipHelper().setNewCommitteeMembership(new CommitteeMembership());
+        committeeForm.getMembershipHelper().setNewPersonName(null);
+        
+        return actionForward;        
     }
     
     /**

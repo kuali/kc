@@ -36,7 +36,7 @@
               </tr>
             </table>
             <br>
-            <html:image property="methodToCall.clearCommitteeMember" 
+            <html:image property="methodToCall.clearCommitteeMembership" 
                  src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" 
                  title="Clear Fields" alt="Clear Fields" 
                  styleClass="tinybutton"/>

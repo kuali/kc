@@ -26,6 +26,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.Person;
+import org.kuali.kra.committee.service.CommitteeMembershipService;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.PersonService;
 
 public class CommitteeMembership extends KraPersistableBusinessObjectBase { 
 	
@@ -207,8 +211,9 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase {
 
 	public String getPersonName() {
 	    // TODO: cniesen - implement name getter.  Use People/Rolodex lookup based on nonEmployee
-	    String personName = "To be implemented";
-        return personName;
+	    PersonService personService = (PersonService)KraServiceLocator.getService("personService");
+	    Person person = personService.getPerson(this.personId);
+        return person.getFullName();
     }
 
     public boolean isDelete() {
