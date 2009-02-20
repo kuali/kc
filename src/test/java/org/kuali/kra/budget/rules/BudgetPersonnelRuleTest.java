@@ -121,7 +121,7 @@ public class BudgetPersonnelRuleTest {
         
         context.assertIsSatisfied();
         Assert.assertEquals(1, GlobalVariables.getErrorMap().size());
-        Assert.assertTrue(GlobalVariables.getErrorMap().containsKey("document.budgetPerson[0].jobCode"));
+        Assert.assertTrue(GlobalVariables.getErrorMap().containsKey("document.budgetPersons[0].jobCode"));
     }
     
     /**
