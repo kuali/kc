@@ -30,12 +30,23 @@ import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.rules.CommitteeDocumentRule;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.test.data.PerSuiteUnitTestData;
+import org.kuali.rice.test.data.UnitTestData;
+import org.kuali.rice.test.data.UnitTestFile;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * Test the Committee Rules.
  */
+@PerSuiteUnitTestData(
+    @UnitTestData(
+        sqlFiles = {
+            @UnitTestFile(filename = "classpath:sql/dml/load_committee_type.sql", delimiter = ";")
+           ,@UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";")
+        }
+    )
+)
 public class CommitteeRuleTest extends KraTestBase {
 
     protected DocumentService documentService = null;
@@ -44,7 +55,7 @@ public class CommitteeRuleTest extends KraTestBase {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setUserSession(new UserSession("quickstart"));
+        GlobalVariables.setUserSession(new UserSession("aslusar"));
         GlobalVariables.setErrorMap(new ErrorMap());
         GlobalVariables.setAuditErrorMap(new HashMap());
         documentService = KNSServiceLocator.getDocumentService();
@@ -84,7 +95,7 @@ public class CommitteeRuleTest extends KraTestBase {
          * There should be nine required fields.
          */
         ErrorMap errorMap = GlobalVariables.getErrorMap();
-        assertEquals(10, errorMap.getErrorCount());
+        assertEquals(9, errorMap.getErrorCount());
         
         /*
          * Verify that the error keys for each of the required fields 
@@ -99,7 +110,6 @@ public class CommitteeRuleTest extends KraTestBase {
         assertTrue(errorMap.containsKey("document.committeeList[0].advancedSubmissionDaysRequired"));
         assertTrue(errorMap.containsKey("document.committeeList[0].reviewTypeCode"));
         assertTrue(errorMap.containsKey("document.committeeList[0].committeeId"));
-        assertTrue(errorMap.containsKey("document.committeeList[0].committeeDescription"));
     }
     
     /**
@@ -124,6 +134,27 @@ public class CommitteeRuleTest extends KraTestBase {
         
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         assertTrue(errorMap.containsMessageKey(KeyConstants.ERROR_COMMITTEE_DUPLICATE_ID));
+    }
+    
+    /**
+     * The home unit number must be valid.
+     * @throws Exception
+     */
+    @Test
+    public void testInvalidHomeUnit() throws Exception {
+        
+        CommitteeDocument document = getNewCommitteeDocument();
+        setCommitteeProperties(document);
+        document.getCommittee().setHomeUnitNumber("xxx");
+       
+        /*
+         * Verify that we can't save a committee with a duplicate Committee ID.
+         */
+        boolean rulesPassed = rule.processSaveDocument(document);
+        assertFalse(rulesPassed);
+        
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        assertTrue(errorMap.containsMessageKey(KeyConstants.ERROR_INVALID_UNIT));
     }
     
     /**

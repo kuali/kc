@@ -20,6 +20,9 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.kra.KraWebTestBase;
+import org.kuali.rice.test.data.PerSuiteUnitTestData;
+import org.kuali.rice.test.data.UnitTestData;
+import org.kuali.rice.test.data.UnitTestFile;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -33,6 +36,15 @@ import org.junit.Before;
  * @author $Author: gmcgrego $
  * @version $Revision: 1.18 $
  */
+
+@PerSuiteUnitTestData(
+        @UnitTestData(
+            sqlFiles = {
+                @UnitTestFile(filename = "classpath:sql/dml/load_committee_type.sql", delimiter = ";")
+               ,@UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";")
+            }
+        )
+    )
 public abstract class CommitteeWebTestBase extends KraWebTestBase {
     
     protected static final String COMMITTEE_LINK_NAME = "committee.x";
@@ -75,6 +87,13 @@ public abstract class CommitteeWebTestBase extends KraWebTestBase {
         super.setUp();
         
         setCommitteePage(buildCommitteePage());
+    }
+    
+    /**
+     * @see org.kuali.kra.KraWebTestBase#getLoginUserName()
+     */
+    protected String getLoginUserName() {
+        return "aslusar";
     }
         
     /**
@@ -172,10 +191,6 @@ public abstract class CommitteeWebTestBase extends KraWebTestBase {
      * @throws Exception
      */
     protected void testTextAreaPopup(HtmlPage page, String textAreaFieldName,String moreTextToBeAdded,String action,String textAreaLabel,String tabIndex) throws Exception{
-//        assertNotNull(webClient);
-//        boolean javaScriptEnabled = webClient.isJavaScriptEnabled(); 
-//        webClient.setJavaScriptEnabled(false);
-
         HtmlPage textAreaPopupPage = clickOn(page, "methodToCall.updateTextArea.((#"+textAreaFieldName+":"+action+":"+textAreaLabel+"#))"+tabIndex);
         String currentValue = getFieldValue(textAreaPopupPage, textAreaFieldName);
         String completeText = currentValue+moreTextToBeAdded;
@@ -183,7 +198,6 @@ public abstract class CommitteeWebTestBase extends KraWebTestBase {
         super.assertContains(textAreaPopupPage, textAreaLabel);
         HtmlPage textAreasAddedPage = clickOn(textAreaPopupPage,"methodToCall.postTextAreaToParent.anchor"+tabIndex);
         assertEquals(getFieldValue(textAreasAddedPage, textAreaFieldName), completeText);
-//        webClient.setJavaScriptEnabled(javaScriptEnabled);
     }
     
     /**

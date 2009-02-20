@@ -916,7 +916,7 @@ public abstract class KraWebTestBase extends KraTestBase {
     private HtmlPage checkForLoginPage(HtmlPage page) throws IOException {
         if (page.getTitleText().equals("Central Authentication Service")) {
             HtmlForm form = (HtmlForm) page.getForms().get(0);
-            setFieldValue(page, "username", "quickstart");
+            setFieldValue(page, "username", getLoginUserName());
             HtmlSubmitInput loginBtn = (HtmlSubmitInput) form.getInputByValue("Login");
             //boolean javascriptEnabled = webClient.isJavaScriptEnabled();
             //webClient.setThrowExceptionOnScriptError(false);
@@ -927,6 +927,15 @@ public abstract class KraWebTestBase extends KraTestBase {
             //webClient.setThrowExceptionOnScriptError(true);
         }
         return page;
+    }
+    
+    /**
+     * Get the userName to login with.  May be overridden
+     * by subclasses to log in as a different user.
+     * @return
+     */
+    protected String getLoginUserName() {
+        return "quickstart";
     }
     
     /**
