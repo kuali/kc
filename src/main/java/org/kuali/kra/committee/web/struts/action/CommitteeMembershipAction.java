@@ -20,6 +20,7 @@ import static org.apache.commons.lang.StringUtils.substringBetween;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.rice.kns.util.KNSConstants.METHOD_TO_CALL_ATTRIBUTE;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +29,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kra.award.bo.AwardReportTerm;
+import org.kuali.kra.award.bo.AwardReportTermRecipient;
+import org.kuali.kra.award.bo.ReportClass;
+import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeMembershipService;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
@@ -43,6 +49,7 @@ import org.kuali.kra.irb.rule.event.UpdateProtocolPersonnelEvent;
 import org.kuali.kra.irb.service.ProtocolPersonTrainingService;
 import org.kuali.kra.irb.service.ProtocolPersonnelService;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
+import org.kuali.kra.service.AwardReportsService;
 
 /**
  * The CommitteeMembershipAction corresponds to the Members tab (web page).  It is
@@ -50,21 +57,18 @@ import org.kuali.kra.irb.web.struts.form.ProtocolForm;
  */
 public class CommitteeMembershipAction extends CommitteeAction {
     
-    @SuppressWarnings("unused")
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeMembershipAction.class);
-
+//    @SuppressWarnings("unused")
+//    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeMembershipAction.class);
+//
 //    /**
-//     * @see org.kuali.kra.irb.web.struts.action.ProtocolAction#isValidSave(org.kuali.kra.irb.web.struts.form.ProtocolForm)
+//     * @see org.kuali.kra.committee.web.struts.action.CommitteeAction#isValidSave(org.kuali.kra.committee.web.struts.form.CommitteeForm)
 //     */
 //    @Override
 //    protected boolean isValidSave(CommitteeForm committeeForm) {    
-//        boolean rulePassed = applyRules(new SaveProtocolPersonnelEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument()));
-//        if(rulePassed) {
-//            getProtocolPersonnelService().updateProtocolUnit(getProtocolPersons(protocolForm));
-//        }
+//        boolean rulePassed = applyRules(new SaveCommitteeMembershipEvent(Constants.EMPTY_STRING, committeeForm.getCommitteeDocument()));
 //        return rulePassed;
 //    }
-//    
+   
 //    @Override
 //    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
 //            throws Exception {
@@ -121,22 +125,24 @@ public class CommitteeMembershipAction extends CommitteeAction {
 //        return mapping.findForward(Constants.MAPPING_BASIC );
 //    }
 //
-//    /**
-//     * This method is to clear existing protocol person.
-//     * Method is called in protocolAddPersonnelSection.tag
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward clearProtocolPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        protocolForm.setNewProtocolPerson(new ProtocolPerson());
-//        return mapping.findForward(MAPPING_BASIC);
-//    }
-//    
+    /**
+     * This method is clears the CommitteeMembership selection.
+     * Method is called in protocolAddCommitteeMembership.tag
+       *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward clearCommitteeMembership(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CommitteeForm committeeForm = (CommitteeForm) form;
+        committeeForm.getMembershipHelper().setNewCommitteeMembership(new CommitteeMembership());
+        committeeForm.getMembershipHelper().setNewPersonName(null);
+        return mapping.findForward(MAPPING_BASIC);
+    }
+    
 //    
 //    /**
 //     * This method is linked to ProtocolPersonnelService to perform the action
