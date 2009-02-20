@@ -26,7 +26,6 @@ public class ProtocolUnit extends KraPersistableBusinessObjectBase {
 	
 	private Integer protocolUnitsId; 
     private Integer protocolPersonId; 
-	private Integer protocolInvestigatorsId; 
 	private String protocolNumber; 
 	private Integer sequenceNumber; 
 	private String unitNumber; 
@@ -57,15 +56,6 @@ public class ProtocolUnit extends KraPersistableBusinessObjectBase {
     public void setProtocolPersonId(Integer protocolPersonId) {
         this.protocolPersonId = protocolPersonId;
     }
-
-
-	public Integer getProtocolInvestigatorsId() {
-		return protocolInvestigatorsId;
-	}
-
-	public void setProtocolInvestigatorsId(Integer protocolInvestigatorsId) {
-		this.protocolInvestigatorsId = protocolInvestigatorsId;
-	}
 
 	public String getProtocolNumber() {
 		return protocolNumber;
@@ -119,7 +109,6 @@ public class ProtocolUnit extends KraPersistableBusinessObjectBase {
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
 		hashMap.put("protocolUnitsId", getProtocolUnitsId());
-		hashMap.put("protocolInvestigatorsId", getProtocolInvestigatorsId());
 		hashMap.put("protocolNumber", getProtocolNumber());
 		hashMap.put("sequenceNumber", getSequenceNumber());
 		hashMap.put("unitNumber", getUnitNumber());

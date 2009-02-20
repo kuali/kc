@@ -74,9 +74,6 @@
 					p:name="protocolUnitsId"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition"
-					p:name="protocolInvestigatorsId"
-					p:required="true" />
-				<bean parent="MaintainableFieldDefinition"
 					p:name="protocolNumber"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition"
