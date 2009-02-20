@@ -26,7 +26,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  */
 public class CommitteeAuthorizationTest extends CommitteeWebTestBase {
     
-    private static final String USERNAME = "aslusar";
+    private static final String USERNAME = "quickstart";
     private static final String VIEWER_USERNAME = "jtester";
     
     /***********************************************************************

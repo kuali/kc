@@ -23,6 +23,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class CommitteeWebTest extends CommitteeWebTestBase {
 
+    private static final String MY_COMMITTEE_ID = "32767";
     private static final String DESCRIPTION_VALUE = "Description text";
     private static final String DESCRIPTION_VALUE2 = "Another description text";
     
@@ -54,7 +55,8 @@ public class CommitteeWebTest extends CommitteeWebTestBase {
         HtmlPage committeePage = this.getCommitteePage();
         
         setDefaultRequiredFields(committeePage);
-       
+        setFieldValue(committeePage, COMMITTEE_ID_ID, MY_COMMITTEE_ID);
+        
         /*
          * Verify that we can save the document without getting any errors.
          */
@@ -76,9 +78,29 @@ public class CommitteeWebTest extends CommitteeWebTestBase {
         assertEquals(DEFAULT_NAME, getFieldValue(committeePage, COMMITTEE_NAME_ID));
         assertEquals(DEFAULT_MIN_MEMBERS_REQUIRED, getFieldValue(committeePage, COMMITTEE_MIN_MEMBERS_REQUIRED_ID));
         assertEquals(DEFAULT_ADV_SUBMISSION_DAYS_REQUIRED, getFieldValue(committeePage, COMMITTEE_ADV_SUBMISSION_DAYS_REQUIRED_ID));
-        assertEquals(DEFAULT_COMMITTEE_ID, getFieldValue(committeePage, COMMITTEE_ID_ID));
+        assertEquals(MY_COMMITTEE_ID, getFieldValue(committeePage, COMMITTEE_ID_ID));
         assertEquals(DEFAULT_DESCRIPTION, getFieldValue(committeePage, COMMITTEE_DESCRIPTION_ID));
         assertEquals(DEFAULT_SCHEDULE_DESCRIPTION, getFieldValue(committeePage, COMMITTEE_SCHEDULE_DESCRIPTION_ID));
+    }
+    
+    /**
+     * Verify that invalid home unit number will result in an error message.
+     * @throws Exception
+     */
+    @Test
+    public void testInvalidHomeUnit() throws Exception {
+       
+        HtmlPage committeePage = this.getCommitteePage();
+        
+        setDefaultRequiredFields(committeePage);
+        setFieldValue(committeePage, COMMITTEE_HOME_UNIT_NUMBER_ID, "xxx");
+        
+        /*
+         * Verify that we can save the document without getting any errors.
+         */
+        committeePage = this.saveDoc(committeePage);
+        assertTrue(this.hasError(committeePage));
+        assertContains(committeePage, "xxx is not a valid Unit");
     }
     
     /**
