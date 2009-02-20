@@ -46,8 +46,8 @@
             </defaultSort>
 
             <lookupFields>
-            	<lookupField attributeName="costElement" required="false"/>
-				<lookupField attributeName="jobCode" required="false"/>
+            	<lookupField attributeName="costElement" required="false" forceLookup="true" />
+				<lookupField attributeName="jobCode" required="false" forceLookup="true" />
 
             </lookupFields>
 
@@ -58,7 +58,7 @@
             </resultFields>
         </lookup>
 
-        <titleAttribute>costElement</titleAttribute>
+        <!-- <titleAttribute>costElement</titleAttribute> -->
 		<!-- <titleAttribute>jobCode</titleAttribute> -->
         <attributes>
 
