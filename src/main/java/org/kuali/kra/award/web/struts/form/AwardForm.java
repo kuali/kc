@@ -35,7 +35,6 @@ import org.kuali.kra.award.bo.ReportClass;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.ApprovedEquipmentBean;
 import org.kuali.kra.award.web.struts.action.SponsorTermFormHelper;
-import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -56,10 +55,8 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     public static final String SAVE = "save";
     public static final String RELOAD = "reload";
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
     private static final long serialVersionUID = -7633960906991275328L;
+    
     private String lookupResultsBOClassName;
     private String lookupResultsSequenceNumber;
     private int awardReportTermPanelNumber;
@@ -108,10 +105,11 @@ public class AwardForm extends KraTransactionalDocumentFormBase
         //setNewSponsorTerms(new ArrayList<SponsorTerm>());
         newAwardSpecialReview = new AwardSpecialReview();
         newSpecialReviewExemptions = new ArrayList<AwardSpecialReviewExemption>();
-        approvedEquipmentBean = new ApprovedEquipmentBean(this.getAwardDocument(), this.getAwardDocument().getAward());
         costShareFormHelper = new CostShareFormHelper(this);
         sponsorTermFormHelper = new SponsorTermFormHelper(this);
         approvedSubawardFormHelper = new ApprovedSubawardFormHelper(this);
+        approvedEquipmentBean = new ApprovedEquipmentBean(this);
+
         //sponsorTermTypes = new ArrayList<KeyLabelPair>();
     }    
     

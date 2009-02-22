@@ -21,6 +21,20 @@ import org.kuali.core.rule.BusinessRule;
  * This interface defines the rule processing method
  */
 public interface AwardApprovedEquipmentRule extends BusinessRule {
-    public boolean processAwardApprovedEquipmentBusinessRules(AwardApprovedEquipmentRuleEvent 
-                                                                awardApprovedEquipmentRuleEvent);
+    public static final String APPROVED_EQUIPMENT_ITEMS_LIST_ERROR_KEY = "approvedEquipmentItems";
+    
+    /**
+     * This method is used to validate AwardApprovedEquipment items in an Award
+     * @param awardApprovedEquipmentRuleEvent
+     * @return
+     */
+    boolean processAwardApprovedEquipmentBusinessRules(AwardApprovedEquipmentRuleEvent event);
+    
+    /**
+     * 
+     * This method is used to validate a new AwardApprovedEquipment to be added to an Award
+     * @param event
+     * @return
+     */
+    boolean processAddAwardApprovedEquipmentBusinessRules(AddAwardApprovedEquipmentRuleEvent event);
 }

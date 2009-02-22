@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.htmlunitwebtest;
 
+
 import org.junit.After;
 import org.junit.Before;
 
@@ -39,7 +40,7 @@ public class AwardPaymentsAndTermsWebTest extends AwardWebTestBase {
         paymentReportsAndTermsPage = null;
         super.tearDown();
     }
-    
+ 
     /**
      * @return
      * 

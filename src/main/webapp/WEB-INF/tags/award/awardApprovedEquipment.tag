@@ -17,28 +17,10 @@
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
  
-<c:set var="approvedEquipmentAttributes" value="${DataDictionary.AwardApprovedEquipment.attributes}" />
-
 <div class="tab-container" align="center">
-	<c:set var="softErrors" value="${KualiForm.softErrors}" />
-	<c:if test="${not empty softErrors}">
-		<fmt:setBundle basename="ApplicationResources" />
-		<div align="left" style="color:navy; padding-left:6pt;">
-			<fmt:message key="soft.error.group.heading" />
-			<c:forEach var="softError" items="${softErrors}" varStatus="status">
-				<li style="padding-left: 2pt;">
-					<fmt:message key="${softError.errorKey}">
-						<c:if test="${not empty softError.errorParms}">
-							<c:forEach var="parm" items="${softError.errorParms}">
-								<fmt:param value="${parm}"/>
-							</c:forEach>
-						</c:if>
-					</fmt:message>
-				</li>
-			</c:forEach>
-			<br/>
-		</div>
-	</c:if>
+	<c:set var="approvedEquipmentAttributes" value="${DataDictionary.AwardApprovedEquipment.attributes}" />	
+
+	<kra:softError softErrorKey="approvedEquipmentItems" />
 
    	<h3>
    		<span class="subhead-left">Special Approval</span>
@@ -106,7 +88,8 @@
 				</td>
                 <td width="20%" valign="middle">
                 	<div align="center">                	
-						<kul:htmlControlAttribute property="document.awardList[0].approvedEquipmentItems[${status.index}].amount" attributeEntry="${approvedEquipmentAttributes.amount}"/>
+						<kul:htmlControlAttribute property="document.awardList[0].approvedEquipmentItems[${status.index}].amount" 
+								attributeEntry="${approvedEquipmentAttributes.amount}" styleClass="amount" />
 					</div> 
 				</td>
                 
@@ -122,11 +105,16 @@
       		<th align="center" scope="row"><div>Totals</div></th>
       		<th colspan="3" scope="row">&nbsp;</th>
       		<th align="right">
-      			<div align="right">  		                		
-                	$<fmt:formatNumber value="${KualiForm.document.award.totalApprovedEquipmentAmount}" type="currency" currencySymbol="" maxFractionDigits="2" />
+      			<div align="right">
+      				<fmt:formatNumber type="CURRENCY" value="${KualiForm.document.award.totalApprovedEquipmentAmount}" />
                 </div>
          	</th>
-         	<th scope="row">&nbsp;</th>
+         	<th scope="row">
+         		<div align="center">
+					<html:image property="methodToCall.recalculateApprovedEquipmentItemTotal.anchor${tabKey}" 
+								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' styleClass="tinybutton" />
+				</div>
+			</th>
       	</tr>
     </table>
 </div>

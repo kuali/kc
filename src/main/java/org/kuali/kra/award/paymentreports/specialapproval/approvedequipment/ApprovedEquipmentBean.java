@@ -19,80 +19,34 @@ import java.util.List;
 
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.kra.award.bo.Award;
-import org.kuali.kra.award.bo.AwardApprovedEquipment;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 
 /**
  * This class supports the AwardForm class
  */
 public class ApprovedEquipmentBean {
-    private AwardDocument document;
-    private KualiRuleService ruleService;
-    private AwardApprovedEquipment newAwardApprovedEquipment;
-    private Award award;
     private EquipmentCapitalizationMinimumLoader capitalizationMinimumLoader;
+    private AwardApprovedEquipment newAwardApprovedEquipment;
+    private KualiRuleService ruleService;
+    private AwardForm form;
     
     /**
      * Constructs a ApprovedEquipmentBean
      * @param parent
      */
-    public ApprovedEquipmentBean(AwardDocument document, Award award) {
-        this(document, award, new EquipmentCapitalizationMinimumLoader());
+    public ApprovedEquipmentBean(AwardForm form) {
+        this(form, new EquipmentCapitalizationMinimumLoader());
     }
     
     /**
      * Constructs a ApprovedEquipmentBean
      * @param parent
      */
-    ApprovedEquipmentBean(AwardDocument document, Award award, EquipmentCapitalizationMinimumLoader capitalizationMinimumLoader) {
-        this.document = document;
-        this.award = award;
+    ApprovedEquipmentBean(AwardForm form, EquipmentCapitalizationMinimumLoader capitalizationMinimumLoader) {
+        this.form = form;
         this.capitalizationMinimumLoader = capitalizationMinimumLoader;
-    }
-    
-    /**
-     * Initialize subform
-     */
-    public void init() {
-        newAwardApprovedEquipment = new AwardApprovedEquipment(); 
-    }
-
-    /**
-     * Gets the newAwardApprovedEquipment attribute. 
-     * @return Returns the newAwardApprovedEquipment.
-     */
-    public AwardApprovedEquipment getNewAwardApprovedEquipment() {
-        return newAwardApprovedEquipment;
-    }
-
-    /**
-     * Sets the newAwardApprovedEquipment attribute value.
-     * @param newAwardApprovedEquipment The newAwardApprovedEquipment to set.
-     */
-    public void setNewAwardApprovedEquipment(AwardApprovedEquipment newAwardApprovedEquipment) {
-        this.newAwardApprovedEquipment = newAwardApprovedEquipment;
-    }
-
-    /**
-     * @return
-     */
-    public AwardDocument getAwardDocument() {
-        return document;
-    }
-    
-    /**
-     * @return
-     */
-    public Award getAward() {
-        return award;
-    }
-    
-    /**
-     * @return
-     */
-    public Object getData() {
-        return getNewAwardApprovedEquipment();
     }
     
     /**
@@ -101,7 +55,7 @@ public class ApprovedEquipmentBean {
      * @return
      */
     public boolean addApprovedEquipmentItem() {
-        AwardApprovedEquipmentRuleEvent event = generateAddEvent();
+        AddAwardApprovedEquipmentRuleEvent event = generateAddEvent();
         boolean success = getRuleService().applyRules(event);
         if(success){
             getAward().add(getNewAwardApprovedEquipment());
@@ -117,9 +71,53 @@ public class ApprovedEquipmentBean {
      */
     public void deleteApprovedEquipmentItem(int deletedItemIndex) {
         List<AwardApprovedEquipment> items = getAward().getApprovedEquipmentItems();
-        if(deletedItemIndex >= 1 || deletedItemIndex <= items.size()) {
-            items.remove(deletedItemIndex-1);
+        if(deletedItemIndex >= 0 && deletedItemIndex < items.size()) {
+            items.remove(deletedItemIndex);
         }        
+    }
+
+    /**
+     * @return
+     */
+    public Award getAward() {
+        return form.getAwardDocument().getAward();
+    }
+
+    /**
+     * @return
+     */
+    public AwardDocument getAwardDocument() {
+        return form.getAwardDocument();
+    }
+    
+    /**
+     * @return
+     */
+    public Object getData() {
+        return getNewAwardApprovedEquipment();
+    }
+    
+    /**
+     * Gets the newAwardApprovedEquipment attribute. 
+     * @return Returns the newAwardApprovedEquipment.
+     */
+    public AwardApprovedEquipment getNewAwardApprovedEquipment() {
+        return newAwardApprovedEquipment;
+    }
+    
+    /**
+     * Initialize subform
+     */
+    public void init() {
+        newAwardApprovedEquipment = new AwardApprovedEquipment(); 
+    }
+
+    /**
+     * Sets the newAwardApprovedEquipment attribute value.
+     * @param newAwardApprovedEquipment The newAwardApprovedEquipment to set.
+     */
+    public void setNewAwardApprovedEquipment(AwardApprovedEquipment newAwardApprovedEquipment) {
+        this.newAwardApprovedEquipment = newAwardApprovedEquipment;
     }
     
     protected KualiRuleService getRuleService() {
@@ -133,10 +131,11 @@ public class ApprovedEquipmentBean {
         this.ruleService = ruleService;
     }
     
-    AwardApprovedEquipmentRuleEvent generateAddEvent() {        
-        AwardApprovedEquipmentRuleEvent event = new AwardApprovedEquipmentRuleEvent(
+    AddAwardApprovedEquipmentRuleEvent generateAddEvent() {        
+        AddAwardApprovedEquipmentRuleEvent event = new AddAwardApprovedEquipmentRuleEvent(
                                                             "newAwardApprovedEquipment",
                                                             getAwardDocument(),
+                                                            getAward(),
                                                             getNewAwardApprovedEquipment(),
                                                             capitalizationMinimumLoader.getMinimumCapitalization());
         return event;
