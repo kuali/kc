@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.bo;
+package org.kuali.kra.award.paymentreports.specialapproval.approvedequipment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +21,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kra.award.bo.Award;
 
 /**
  * This class tests the AwardApprovedEquipment BO
@@ -28,13 +29,6 @@ import org.kuali.core.util.KualiDecimal;
 public class AwardApprovedEquipmentTest {
 
     private static final double DELTA = 0.001;
-    private static final int EXPECTED_TO_STRING_MAPPER_SIZE = 7;
-
-    @Test
-    public void testToStringMapper() {
-        Assert.assertEquals(EXPECTED_TO_STRING_MAPPER_SIZE, 
-                                new AwardApprovedEquipment().toStringMapper().size());
-    }
     
     @Test
     public void testGettingTotal() {
@@ -47,7 +41,6 @@ public class AwardApprovedEquipmentTest {
         items.add(createApprovedEquipmentItem(AMOUNT2));
         items.add(createApprovedEquipmentItem(AMOUNT3));
         award.setApprovedEquipmentItems(items);
-        Assert.assertEquals(AMOUNT1 + AMOUNT2 + AMOUNT3, award.getTotalAmount(items).doubleValue(), DELTA);
         Assert.assertEquals(AMOUNT1 + AMOUNT2 + AMOUNT3, award.getTotalApprovedEquipmentAmount().doubleValue(), DELTA);
     }
     

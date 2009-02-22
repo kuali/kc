@@ -13,11 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.bo;
+package org.kuali.kra.award.paymentreports.specialapproval.approvedequipment;
 
 import java.util.LinkedHashMap;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kra.award.bo.Award;
+import org.kuali.kra.award.bo.ValuableItem;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
@@ -214,12 +216,9 @@ public class AwardApprovedEquipment extends KraPersistableBusinessObjectBase imp
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
+        if (this == obj) { return true; }
+        if (obj == null) { return false; }
+        
         if (!(obj instanceof AwardApprovedEquipment)) {
             return false;
         }
@@ -233,6 +232,9 @@ public class AwardApprovedEquipment extends KraPersistableBusinessObjectBase imp
      * @return
      */
     public boolean equals(AwardApprovedEquipment anotherEquipmentItem) {
+        if (this == anotherEquipmentItem) { return true; }
+        if (anotherEquipmentItem == null) { return false; }
+        
         if (item == null) {
             if (anotherEquipmentItem.item != null) {
                 return false;

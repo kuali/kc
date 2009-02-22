@@ -22,8 +22,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.axis.utils.StringUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipment;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.bo.Sponsor;
@@ -223,16 +225,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      */
     public void setSponsorCode(String sponsorCode) {
         this.sponsorCode = sponsorCode;
-        
-        // When the type code changes, the corresponding
-        //  field must also be updated.  A refresh will
-        // cause a read from the database. By
-        // the magic of OJB, the data member is automatically updated.
-        
-        if (this.sponsorCode != null 
-            && !this.sponsorCode.equals("")) {
-            this.refreshReferenceObject("sponsor");
-        }
     }
 
 
@@ -1356,13 +1348,26 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         this.awardSponsorTerms = awardSponsorTerms;
     }
     
-    
+    /**
+     * This method violates our policy of not calling a service in a getter.
+     * This will only call the service once to set a sponsor when a sponsor code exists, 
+     * but no sponsor was fetched
+     * 
+     * Seems like a persistence design issue to me. Why wouldn't Sponsor:Award be a 1:M 
+     * relationship handled automagically by the persistence framework? 
+     * 
+     * @return
+     */
     
     public Sponsor getSponsor() {
+        if(sponsor == null && !StringUtils.isEmpty(sponsorCode)) {
+            this.refreshReferenceObject("sponsor");
+        }
         return sponsor;
     }
 
     public void setSponsor(Sponsor sponsor) {
         this.sponsor = sponsor;
+        this.sponsorCode = sponsor != null ? sponsor.getSponsorCode() : null;
     }
 }

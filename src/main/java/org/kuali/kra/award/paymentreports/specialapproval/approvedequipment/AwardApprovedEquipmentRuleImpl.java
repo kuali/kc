@@ -18,8 +18,8 @@ package org.kuali.kra.award.paymentreports.specialapproval.approvedequipment;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kra.award.bo.AwardApprovedEquipment;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
@@ -29,31 +29,35 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 public class AwardApprovedEquipmentRuleImpl extends ResearchDocumentRuleBase 
                                             implements AwardApprovedEquipmentRule {
     
-    private static final String EQUIPMENT_AMOUNT_PROPERTY = "approvedEquipmentFormHelper.newAwardApprovedEquipment.amount";
-    private static final String EQUIPMENT_ITEM_PROPERTY = "approvedEquipmentFormHelper.newAwardApprovedEquipment.item";
-    private static final String AMOUNT_ERROR_PARM = "Amount";
-    private static final String ITEM_ERROR_PARM = "Item";
+    private static final String EQUIPMENT_AMOUNT_PROPERTY = "approvedEquipmentBean.newAwardApprovedEquipment.amount";
+    private static final String EQUIPMENT_ITEM_PROPERTY = "approvedEquipmentBean.newAwardApprovedEquipment.item";
+    private static final String AMOUNT_ERROR_PARM = "Amount (Amount)";
+    private static final String ITEM_ERROR_PARM = "Item (Item)";
 
+    /**
+     * @see org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentRule#processAwardApprovedEquipmentBusinessRules(org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentRuleEvent)
+     */
     public boolean processAwardApprovedEquipmentBusinessRules(AwardApprovedEquipmentRuleEvent event) {
         return processCommonValidations(event);        
     }
-    
-    public boolean processNewAwardApprovedEquipmentBusinessRules(AwardApprovedEquipmentRuleEvent event) {
-        boolean commValidations = processCommonValidations(event);
-        
-        AwardApprovedEquipment equipmentItem = event.getEquipmentItemForValidation();
-        boolean validRequiredFields = areRequiredFieldsComplete(equipmentItem);        
-                
-        return commValidations && validRequiredFields;
+    /**
+     * 
+     * This method processes new AwardApprovedEquipment rules
+     * 
+     * @param event
+     * @return
+     */
+    public boolean processAddAwardApprovedEquipmentBusinessRules(AddAwardApprovedEquipmentRuleEvent event) {
+        return areRequiredFieldsComplete(event.getEquipmentItemForValidation()) && processCommonValidations(event);        
     }
     
     private boolean processCommonValidations(AwardApprovedEquipmentRuleEvent event) {
         AwardApprovedEquipment equipmentItem = event.getEquipmentItemForValidation();
-        boolean validAmount = isAmountValid(equipmentItem, event.getMinimumCapitalization());
-        List<AwardApprovedEquipment> items = event.getAwardDocument().getAward().getApprovedEquipmentItems();
-        boolean validUnique = isUnique(items, equipmentItem);
+        boolean valid = isAmountValid(event.getErrorPathPrefix(), equipmentItem, event.getMinimumCapitalization());
+        List<AwardApprovedEquipment> items = event.getAward().getApprovedEquipmentItems();
+        valid &= isUnique(items, equipmentItem);
         
-        return validAmount && validUnique;
+        return valid;
     }
     
     /**
@@ -76,8 +80,10 @@ public class AwardApprovedEquipmentRuleImpl extends ResearchDocumentRuleBase
         }
         
         if(duplicateFound) {
-            reportError("document.awardList[0].item", 
-                    KeyConstants.ERROR_AWARD_APPROVED_EQUIPMENT_ITEM_NOT_UNIQUE, ITEM_ERROR_PARM);
+            if(!hasDuplicateErrorBeenReported()) {
+                reportError(APPROVED_EQUIPMENT_ITEMS_LIST_ERROR_KEY, 
+                        KeyConstants.ERROR_AWARD_APPROVED_EQUIPMENT_ITEM_NOT_UNIQUE, ITEM_ERROR_PARM);
+            }
         }
         return !duplicateFound;
     }
@@ -104,17 +110,23 @@ public class AwardApprovedEquipmentRuleImpl extends ResearchDocumentRuleBase
     }
     
     /**
-     * Validate required amount field
+     * @param errorPath
      * @param equipmentItem
-     * @return Always returns true as this is a soft-error
+     * @param minimumCapitalization
+     * @return
      */
-    boolean isAmountValid(AwardApprovedEquipment equipmentItem, MinimumCapitalizationInfo minimumCapitalization) {
+    boolean isAmountValid(String errorPath, AwardApprovedEquipment equipmentItem, MinimumCapitalizationInfo minimumCapitalization) {
         KualiDecimal amount = equipmentItem.getAmount();
         boolean amountValid = amount != null && amount.doubleValue() >= minimumCapitalization.getAmount();
         if(!amountValid) {
-            reportSoftError(KeyConstants.ERROR_AWARD_APPROVED_EQUIPMENT_AMOUNT_VALID, 
-                                String.format("%-12.2f", minimumCapitalization.getAmount()).trim(), minimumCapitalization.getRequirementDriver());
+            reportSoftError(APPROVED_EQUIPMENT_ITEMS_LIST_ERROR_KEY, KeyConstants.ERROR_AWARD_APPROVED_EQUIPMENT_AMOUNT_VALID, 
+                                String.format("%-12.2f", minimumCapitalization.getAmount()).trim(), 
+                                                minimumCapitalization.getRequirementDriver());
         }
         return true;
+    }
+    
+    private boolean hasDuplicateErrorBeenReported() {
+        return GlobalVariables.getErrorMap().containsMessageKey(KeyConstants.ERROR_AWARD_APPROVED_EQUIPMENT_ITEM_NOT_UNIQUE);
     }
 }
