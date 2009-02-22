@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.htmlunitwebtest;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -22,11 +23,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.kuali.kra.KraWebTestBase;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.rice.test.data.PerSuiteUnitTestData;
-import org.kuali.rice.test.data.UnitTestData;
-import org.kuali.rice.test.data.UnitTestFile;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
+import com.gargoylesoftware.htmlunit.html.HtmlImageInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -42,20 +42,24 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
     protected static final String CUSTOM_DATA_LINK_NAME = "customData.x";
     protected static final String PERMISSIONS_LINK_NAME = "permissions.x";
     protected static final String AWARD_ACTIONS_LINK_NAME = "awardActions.x";
-    
     protected static final String DOCUMENT_DESCRIPTION_ID = "document.documentHeader.documentDescription";
-    
     protected static final String DEFAULT_DOCUMENT_DESCRIPTION = "Award Development Web Test";    
-    
     protected static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
-    protected static final String SOFT_ERRORS_FOUND_ON_PAGE = "Soft Errors found in this Section";
+    protected static final String SOFT_ERRORS_FOUND_ON_PAGE = "Warnings found in this Section";
     protected static final String SAVE_SUCCESS_MESSAGE = "Document was successfully saved";
     protected static final String ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST = "table or view does not exist";
+    protected static final String METHOD_TO_CALL_PREFIX = "methodToCall.";
+    protected static final String EXCEPTION_OR_SYSTEM_ERROR = "Error occurred while processing this request";
+    protected static final String EMPTY_STRING = "";
     
+    private static final String POUND_SIGN = "#";
+    private static final String COLON = ":";
     private static final String ELEMENT_GROUPING = "((<>))";
     private static final String XML_GROUPING = "((&lt;&gt;))";
     private static final String AMPERSAND = "&";
     private static final String XML_AMPERSAND = "&amp;";
+    private static final String SAVE_BUTTON_METHOD = METHOD_TO_CALL_PREFIX + "save";
+    private static final String RELOAD_BUTTON_METHOD = METHOD_TO_CALL_PREFIX + "reload";
     
     private HtmlPage awardHomePage;    
     
@@ -126,13 +130,6 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
      */
     protected void setDefaultRequiredFields(HtmlPage page) {
         setRequiredFields(page, DEFAULT_DOCUMENT_DESCRIPTION);
-                                /*,DEFAULT_PROPOSAL_SPONSOR_CODE,
-                                DEFAULT_PROPOSAL_TITLE,
-                                DEFAULT_PROPOSAL_REQUESTED_START_DATE,
-                                DEFAULT_PROPOSAL_REQUESTED_END_DATE,
-                                DEFAULT_PROPOSAL_ACTIVITY_TYPE,
-                                DEFAULT_PROPOSAL_TYPE_CODE,
-                                DEFAULT_PROPOSAL_OWNED_BY_UNIT);*/
     }
     
     /**
@@ -145,15 +142,8 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
      * @param page the Proposal Development web page.
      * @param description the value for the description field.
      */
-    protected void setRequiredFields(HtmlPage page, String description){//, String sponsorCode, String title, String startDate, String endDate, String activityType, String proposalType, String ownedByUnit) {
-        setFieldValue(page, DOCUMENT_DESCRIPTION_ID, description);
-        /*setFieldValue(page, PROPOSAL_SPONSOR_CODE_ID, sponsorCode);
-        setFieldValue(page, PROPOSAL_TITLE_ID, title);
-        setFieldValue(page, PROPOSAL_REQUESTED_START_DATE_ID, startDate);
-        setFieldValue(page, PROPOSAL_REQUESTED_END_DATE_ID, endDate);
-        setFieldValue(page, PROPOSAL_ACTIVITY_TYPE_CODE_ID, activityType);
-        setFieldValue(page, PROPOSAL_TYPE_CODE_ID, proposalType);
-        setFieldValue(page, PROPOSAL_OWNED_BY_UNIT_ID, ownedByUnit);*/
+    protected void setRequiredFields(HtmlPage page, String description){
+        setFieldValue(page, DOCUMENT_DESCRIPTION_ID, description);        
     }
     /**
      * 
@@ -166,20 +156,18 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
      * @param tabIndex
      * @throws Exception
      */
-    protected void testTextAreaPopup(HtmlPage page, String textAreaFieldName,String moreTextToBeAdded,String action,String textAreaLabel,String tabIndex) throws Exception{
-//        assertNotNull(webClient);
-//        boolean javaScriptEnabled = webClient.isJavaScriptEnabled(); 
-//        webClient.setJavaScriptEnabled(false);
-
-        HtmlPage textAreaPopupPage = clickOn(page, "methodToCall.updateTextArea.((#"+textAreaFieldName+":"+action+":"+textAreaLabel+"#))"+tabIndex);
+    protected void testTextAreaPopup(HtmlPage page, String textAreaFieldName, String moreTextToBeAdded, 
+                                        String action, String textAreaLabel, String tabIndex) throws Exception{
+        String controlId = buildTextAreaControlId(textAreaFieldName, action, textAreaLabel, tabIndex);
+        HtmlPage textAreaPopupPage = clickOn(page, controlId);
         String currentValue = getFieldValue(textAreaPopupPage, textAreaFieldName);
         String completeText = currentValue+moreTextToBeAdded;
         setFieldValue(textAreaPopupPage, textAreaFieldName, completeText);
         super.assertContains(textAreaPopupPage, textAreaLabel);
         HtmlPage textAreasAddedPage = clickOn(textAreaPopupPage,"methodToCall.postTextAreaToParent.anchor"+tabIndex);
         assertEquals(getFieldValue(textAreasAddedPage, textAreaFieldName), completeText);
-//        webClient.setJavaScriptEnabled(javaScriptEnabled);
     }
+
     /**
      * 
      * This method checks the values mentioned in the map against the values in from the page.
@@ -194,21 +182,6 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
             assertEquals(getFieldValue(page, key), keyValues.get(key));
         }
     }
-    
-    /**
-     * 
-     * Get the Award Time & Money Web Page. To do this, we first
-     * get the Award Home page and fill in the required
-     * fields with some default values.  We can then navigate to the
-     * Award Time & Money Web Page.
-     * @return
-     * @throws Exception
-     */
-    //protected HtmlPage getAwardTimeAndMoneyPage() throws Exception {
-      //  HtmlPage awardHomePage = this.getAwardHomePage();
-       // HtmlPage awardTimeAndMoneyPage = clickOnTab(awardHomePage, TIME_AND_MONEY_LINK_NAME);
-       // return awardTimeAndMoneyPage;
-   // }
     
     /**
      * Get the Award Actions Web Page. To do this, we first
@@ -264,5 +237,63 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
     protected void verifySavedRequiredFields(AwardDocument doc, String description) throws WorkflowException {
         assertEquals(description, doc.getDocumentHeader().getDocumentDescription());
     }
-    
+
+    /**
+     * Find a button on the page
+     * The button action is assumed to be named in the image tag name prepended with 'methodtoCall.' 
+     * That is used to find the image which is used to find the actual button input control
+     * @param page
+     * @param methodToCall
+     * @return
+     */
+    protected HtmlImageInput findAButtonByMethodToCallName(HtmlPage page, String methodToCall) {
+        HtmlForm form = (HtmlForm) page.getForms().get(0);        
+        String buttonName = getImageTagName(page, methodToCall);        
+        return (HtmlImageInput) form.getInputByName(buttonName);
+    }
+
+    /**
+     * This method causes a button to be pressed
+     * @param page
+     * @param methodToCall
+     * @return
+     * @throws IOException
+     */
+    protected HtmlPage pressAButton(HtmlPage page, String methodToCall) throws IOException {
+        HtmlImageInput button = findAButtonByMethodToCallName(page, methodToCall);
+        return (HtmlPage) button.click();
+    }
+
+    /**
+     * This method causes the Save button to be pressed
+     * @param page The page after the press is returned
+     * @return
+     * @throws IOException
+     */
+    protected HtmlPage save(HtmlPage page) throws IOException {
+        return pressAButton(page, SAVE_BUTTON_METHOD);
+    }
+
+    /**
+     * This method causes the Reload button to be pressed
+     * @param page The page after the press is returned
+     * @return
+     * @throws IOException
+     */
+    protected HtmlPage reload(HtmlPage page) throws IOException {
+        return pressAButton(page, RELOAD_BUTTON_METHOD);
+    }
+
+    private String buildTextAreaControlId(String textAreaFieldName, String action, String textAreaLabel, String tabIndex) {
+        return new StringBuilder("methodToCall.updateTextArea.((")
+                                    .append(POUND_SIGN)
+                                    .append(textAreaFieldName)
+                                    .append(COLON)
+                                    .append(action)
+                                    .append(COLON)
+                                    .append(textAreaLabel)
+                                    .append(POUND_SIGN)
+                                    .append("))")
+                                    .append(tabIndex).toString();
+    }
 }

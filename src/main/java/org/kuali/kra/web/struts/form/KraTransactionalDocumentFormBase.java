@@ -25,7 +25,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.UserSession;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
@@ -74,15 +73,8 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
      * @return
      */
     @SuppressWarnings("unchecked")
-    public Collection<SoftError> getSoftErrors() {
-        UserSession session = GlobalVariables.getUserSession();
-        Object softErrors = session.retrieveObject(KeyConstants.SOFT_ERRORS_KEY);
-        Collection<SoftError> errors = (Collection<SoftError>) softErrors; 
-        if(errors != null) {
-            session.removeObject(KeyConstants.SOFT_ERRORS_KEY);
-        }
-        
-        return errors;
+    public Map<String, Collection<SoftError>> getSoftErrors() {
+        return (Map<String, Collection<SoftError>>) GlobalVariables.getUserSession().retrieveObject(KeyConstants.SOFT_ERRORS_KEY);
     }
     
     /**

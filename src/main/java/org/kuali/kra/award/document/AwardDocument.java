@@ -93,12 +93,16 @@ public class AwardDocument extends ResearchDocumentBase implements  Copyable, Se
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();       
-                
-        managedLists.add(getAward().getAwardFandaRate());
-        managedLists.add(getAward().getAwardReportTerms());
+        
+        Award award = getAward();
+        
+        managedLists.add(award.getApprovedEquipmentItems());
+        managedLists.add(award.getAwardFandaRate());
+        managedLists.add(award.getAwardReportTerms());
         managedLists.add(getAward().getAwardSponsorTerms());
 
         managedLists.add(awardList);
+        
         return managedLists;
     }
     

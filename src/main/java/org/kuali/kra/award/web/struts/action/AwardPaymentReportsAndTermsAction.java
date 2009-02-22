@@ -60,7 +60,13 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
     public ActionForward addApprovedEquipmentItem(ActionMapping mapping, ActionForm form, 
                                                     HttpServletRequest request, HttpServletResponse response) 
                                                     throws Exception {
-        (((AwardForm)form).getApprovedEquipmentBean()).addApprovedEquipmentItem();
+        ((AwardForm) form).getApprovedEquipmentBean().addApprovedEquipmentItem();
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    public ActionForward recalculateApprovedEquipmentItemTotal(ActionMapping mapping, ActionForm form, 
+                                                    HttpServletRequest request, HttpServletResponse response) 
+                                                    throws Exception {
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
            
