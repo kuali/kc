@@ -17,9 +17,10 @@ package org.kuali.kra.rules;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -71,8 +72,8 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
     }
     
     
-    protected void reportSoftError(String errorKey, String... errorParams) {
-        addSoftError(errorKey, errorParams);
+    protected void reportSoftError(String propertyName, String errorKey, String... errorParams) {
+        addSoftError(propertyName, errorKey, errorParams);
         if (LOG.isDebugEnabled()) {
             LOG.debug("rule failure at " + ExceptionUtils.describeStackLevels(1, 2));
         }
@@ -80,21 +81,18 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
 
 
     @SuppressWarnings("unchecked")
-    public Collection<SoftError> getSoftErrors() {
+    public Map<String, Collection<SoftError>> getSoftErrors() {
         UserSession session = GlobalVariables.getUserSession();
-        List<SoftError> softErrors = (List<SoftError>) session.retrieveObject(KeyConstants.SOFT_ERRORS_KEY);
+        Object o = session.retrieveObject(KeyConstants.SOFT_ERRORS_KEY);
+        Map<String, Collection<SoftError>> softErrors =(Map<String, Collection<SoftError>>) o;
         if(softErrors == null) {
-            softErrors = new ArrayList<SoftError>();
-            session.addObject(KeyConstants.SOFT_ERRORS_KEY, softErrors);            
+            softErrors = initializeSoftErrorMap();
         }
         return softErrors;
     }
 
     public boolean processRunAuditBusinessRules(Document document) {
-        boolean retval = true;
-        
-        return new ResearchDocumentBaseAuditRule().processRunAuditBusinessRules(document);
-        
+        return new ResearchDocumentBaseAuditRule().processRunAuditBusinessRules(document);        
     }
 
     /**
@@ -262,8 +260,28 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
      * @param errorKey
      * @param errorParams
      */
-    private void addSoftError(String errorKey, String[] errorParams) {
-        Collection<SoftError> softErrors = getSoftErrors();
-        softErrors.add(new SoftError(errorKey, errorParams));
+    private void addSoftError(String propertyName, String errorKey, String[] errorParams) {
+        Map<String, Collection<SoftError>> softErrorMap = getSoftErrors();
+        Collection<SoftError> errorsForProperty = softErrorMap.get(propertyName);
+        if(errorsForProperty == null) {
+            errorsForProperty = new HashSet<SoftError>();
+        }
+        errorsForProperty.add(new SoftError(errorKey, errorParams));
+        softErrorMap.put(propertyName, errorsForProperty);
+    }
+
+
+    private Map<String, Collection<SoftError>> initializeSoftErrorMap() {
+        Map<String, Collection<SoftError>> softErrorMap = Collections.synchronizedMap(new HashMap<String, Collection<SoftError>>() {
+            private static final long serialVersionUID = 709850431504932842L;
+
+            @Override
+            public Collection<SoftError> get(Object key) {
+                return super.remove(key);
+            }
+            
+        });
+        GlobalVariables.getUserSession().addObject(KeyConstants.SOFT_ERRORS_KEY, softErrorMap);
+        return softErrorMap;
     }
 }

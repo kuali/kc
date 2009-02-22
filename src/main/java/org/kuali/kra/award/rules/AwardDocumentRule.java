@@ -35,6 +35,7 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.ReportCodeValuesFinder;
+import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AddAwardApprovedEquipmentRuleEvent;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentRule;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentRuleEvent;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentRuleImpl;
@@ -69,6 +70,20 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     public static final boolean VALIDATION_REQUIRED = true;
     public static final boolean CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME = false;
     private static final String AWARD_REPORT_TERMS = "awardReportTerms";
+
+    /**
+     * @see org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentRule#processAwardApprovedEquipmentBusinessRules(org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentRuleEvent)
+     */
+    public boolean processAwardApprovedEquipmentBusinessRules(AwardApprovedEquipmentRuleEvent event) {
+        return processApprovedEquipmentBusinessRules(GlobalVariables.getErrorMap(), event.getAwardDocument());
+    }
+    
+    /**
+     * @see org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentRule#processAwardApprovedEquipmentBusinessRules(org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentRuleEvent)
+     */
+    public boolean processAddAwardApprovedEquipmentBusinessRules(AddAwardApprovedEquipmentRuleEvent event) {
+        return processAddApprovedEquipmentBusinessRules(GlobalVariables.getErrorMap(), event);
+    }
     
     /**
      * 
@@ -118,17 +133,28 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         errorMap.addToErrorPath(AWARD_ERROR_PATH);
         Award award = awardDocument.getAward();
         EquipmentCapitalizationMinimumLoader helper = new EquipmentCapitalizationMinimumLoader();
+        AwardApprovedEquipmentRuleImpl rule = new AwardApprovedEquipmentRuleImpl();
         int count = award.getApprovedEquipmentItems().size();
         for (int i = 0; i < count; i++) {
             String errorPath = String.format("approvedEquipmentItems[%d]", i);
             errorMap.addToErrorPath(errorPath);
             String errorKey = "document.awardList[0]." + errorPath;
-            AwardApprovedEquipmentRuleEvent event = new AwardApprovedEquipmentRuleEvent(errorKey, awardDocument, 
+            AwardApprovedEquipmentRuleEvent event = new AwardApprovedEquipmentRuleEvent(errorKey, awardDocument, awardDocument.getAward(),
                                                                                         award.getApprovedEquipmentItems().get(i),
                                                                                         helper.getMinimumCapitalization());
-            success &= new AwardApprovedEquipmentRuleImpl().processAwardApprovedEquipmentBusinessRules(event);
+            success &= rule.processAwardApprovedEquipmentBusinessRules(event);
             errorMap.removeFromErrorPath(errorPath);
         }
+        errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
+        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
+        
+        return success;
+    }
+    
+    private boolean processAddApprovedEquipmentBusinessRules(ErrorMap errorMap, AddAwardApprovedEquipmentRuleEvent event) {
+        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+        errorMap.addToErrorPath(AWARD_ERROR_PATH);
+        boolean success = new AwardApprovedEquipmentRuleImpl().processAddAwardApprovedEquipmentBusinessRules(event);
         errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
         
@@ -506,9 +532,5 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     public boolean processAddSpecialReviewEvent(AddSpecialReviewEvent<AwardSpecialReview> addSpecialReviewEvent) {
         SpecialReviewRulesImpl ruleImpl = new SpecialReviewRulesImpl();
         return ruleImpl.processAddSpecialReviewEvent(addSpecialReviewEvent);
-    }
-
-    public boolean processAwardApprovedEquipmentBusinessRules(AwardApprovedEquipmentRuleEvent awardApprovedEquipmentRuleEvent) {
-        return new AwardApprovedEquipmentRuleImpl().processAwardApprovedEquipmentBusinessRules(awardApprovedEquipmentRuleEvent);
     }
 }

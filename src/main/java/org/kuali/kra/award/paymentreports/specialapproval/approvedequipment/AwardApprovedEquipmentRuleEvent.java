@@ -17,7 +17,7 @@ package org.kuali.kra.award.paymentreports.specialapproval.approvedequipment;
 
 import org.apache.log4j.Logger;
 import org.kuali.core.rule.BusinessRule;
-import org.kuali.kra.award.bo.AwardApprovedEquipment;
+import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 
@@ -27,18 +27,29 @@ import org.kuali.kra.rule.event.KraDocumentEventBase;
 public class AwardApprovedEquipmentRuleEvent extends KraDocumentEventBase {
     private static final Logger LOG = Logger.getLogger(AwardApprovedEquipmentRuleEvent.class);
     
+    private Award award;
     private AwardApprovedEquipment approvedEquipmentItem;
     private MinimumCapitalizationInfo minimumCapitalization;
     
     public AwardApprovedEquipmentRuleEvent(String errorPathPrefix, 
                                             AwardDocument awardDocument,
+                                            Award award,
                                             AwardApprovedEquipment approvedEquipmentItem,
                                             MinimumCapitalizationInfo minimumCapitalization) {
         super("Approved equipment item", errorPathPrefix, awardDocument);
+        this.award = award;
         this.approvedEquipmentItem = approvedEquipmentItem;
-        this.minimumCapitalization = minimumCapitalization;
+        this.minimumCapitalization = minimumCapitalization; 
     }
 
+    /**
+     * Convenience method to return an Award
+     * @return
+     */
+    public Award getAward() {
+        return award;
+    }
+    
     /**
      * Convenience method to return an AwardDocument
      * @return
@@ -88,32 +99,39 @@ public class AwardApprovedEquipmentRuleEvent extends KraDocumentEventBase {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
+        final int PRIME = 31;
         int result = 1;
-        result = prime * result + ((approvedEquipmentItem == null) ? 0 : approvedEquipmentItem.hashCode());
-        result = prime * result + ((minimumCapitalization == null) ? 0 : minimumCapitalization.hashCode());
+        result = PRIME * result + ((approvedEquipmentItem == null) ? 0 : approvedEquipmentItem.hashCode());
+        result = PRIME * result + ((minimumCapitalization == null) ? 0 : minimumCapitalization.hashCode());
         return result;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (!(obj instanceof AwardApprovedEquipmentRuleEvent))
+        }
+        if (!(obj instanceof AwardApprovedEquipmentRuleEvent)) {
             return false;
+        }
         AwardApprovedEquipmentRuleEvent other = (AwardApprovedEquipmentRuleEvent) obj;
         if (approvedEquipmentItem == null) {
-            if (other.approvedEquipmentItem != null)
+            if (other.approvedEquipmentItem != null) {
                 return false;
-        } else if (!approvedEquipmentItem.equals(other.approvedEquipmentItem))
+            }
+        } else if (!approvedEquipmentItem.equals(other.approvedEquipmentItem)) {
             return false;
+        }
         if (minimumCapitalization == null) {
-            if (other.minimumCapitalization != null)
+            if (other.minimumCapitalization != null) {
                 return false;
-        } else if (!minimumCapitalization.equals(other.minimumCapitalization))
+            }
+        } else if (!minimumCapitalization.equals(other.minimumCapitalization)) {
             return false;
+        }
         return true;
     }
 }

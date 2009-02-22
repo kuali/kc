@@ -17,7 +17,9 @@ package org.kuali.kra.award.paymentreports.specialapproval.approvedequipment;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -26,7 +28,6 @@ import org.junit.Test;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.award.bo.Award;
-import org.kuali.kra.award.bo.AwardApprovedEquipment;
 import org.kuali.kra.rules.SoftError;
 
 /**
@@ -104,8 +105,8 @@ public class AwardApprovedEquipmentRuleTest {
     @Test
     public void testValidatingAmount_MinimumCapititalizationAmount() {
         AwardApprovedEquipment equipmentItem = createEquipmentItem(VENDOR, MODEL, WIDGET1, 1.00);
-        approvedEquipmentRule.isAmountValid(equipmentItem, minimumCapitalizationInfo);
-        List<SoftError> errors = new ArrayList<SoftError>(approvedEquipmentRule.getSoftErrors());
+        approvedEquipmentRule.isAmountValid(AwardApprovedEquipmentRule.APPROVED_EQUIPMENT_ITEMS_LIST_ERROR_KEY, equipmentItem, minimumCapitalizationInfo);
+        List<SoftError> errors = new ArrayList<SoftError>(approvedEquipmentRule.getSoftErrors().get(AwardApprovedEquipmentRule.APPROVED_EQUIPMENT_ITEMS_LIST_ERROR_KEY));
         Assert.assertEquals(AMOUNT2_TEXT, errors.get(0).getErrorParms()[0]);
     }
     
@@ -149,7 +150,7 @@ public class AwardApprovedEquipmentRuleTest {
     }
     
     private void checkValidAmount(AwardApprovedEquipment equipmentItem, int expectedErrorCount) {
-        approvedEquipmentRule.isAmountValid(equipmentItem, minimumCapitalizationInfo);
+        approvedEquipmentRule.isAmountValid(AwardApprovedEquipmentRule.APPROVED_EQUIPMENT_ITEMS_LIST_ERROR_KEY, equipmentItem, minimumCapitalizationInfo);
         Assert.assertEquals(expectedErrorCount, approvedEquipmentRule.getSoftErrors().size());
         approvedEquipmentRule.getSoftErrors().clear();
     }
@@ -166,9 +167,9 @@ public class AwardApprovedEquipmentRuleTest {
     
     private AwardApprovedEquipmentRuleImpl prepareTestReadyAwardApprovedEquipmentRule() {
         AwardApprovedEquipmentRuleImpl approvedEquipmentRule = new AwardApprovedEquipmentRuleImpl() {
-            private List<SoftError> softErrors = new ArrayList<SoftError>();
+            private Map<String, Collection<SoftError>> softErrors = new HashMap<String, Collection<SoftError>>();
             @Override
-            public Collection<SoftError> getSoftErrors() { 
+            public Map<String, Collection<SoftError>> getSoftErrors() { 
                 return softErrors; 
             }
         };

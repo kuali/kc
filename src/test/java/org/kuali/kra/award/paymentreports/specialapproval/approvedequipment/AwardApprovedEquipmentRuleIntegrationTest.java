@@ -18,6 +18,7 @@ package org.kuali.kra.award.paymentreports.specialapproval.approvedequipment;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -27,7 +28,6 @@ import org.kuali.core.UserSession;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.award.bo.Award;
-import org.kuali.kra.award.bo.AwardApprovedEquipment;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.rules.SoftError;
 
@@ -42,6 +42,8 @@ public class AwardApprovedEquipmentRuleIntegrationTest extends KraTestBase {
     private static final String WIDGET = "Widget";
     private static final String MODEL = "Model 1001";
     private static final String VENDOR = "WidgetVendor";
+    private static final String ERROR_PATH_PREFIX = "newAwardApprovedEquipment";
+    
     private AwardApprovedEquipmentRuleImpl approvedEquipmentRule;
     private Award award;
     private MinimumCapitalizationInfo minimumCapitalizationInfo;
@@ -72,30 +74,31 @@ public class AwardApprovedEquipmentRuleIntegrationTest extends KraTestBase {
     @Test
     public void testValidatingAmount() throws Exception {
         AwardApprovedEquipment equipmentItem = createEquipmentItem(VENDOR, MODEL, WIDGET, -1.00);
-        approvedEquipmentRule.isAmountValid(equipmentItem, minimumCapitalizationInfo);
+        approvedEquipmentRule.isAmountValid(ERROR_PATH_PREFIX, equipmentItem, minimumCapitalizationInfo);
         Assert.assertEquals(1, getSoftErrors().size());
         
         equipmentItem.setAmount(0.00);
-        approvedEquipmentRule.isAmountValid(equipmentItem, minimumCapitalizationInfo);
+        approvedEquipmentRule.isAmountValid(ERROR_PATH_PREFIX, equipmentItem, minimumCapitalizationInfo);
         Assert.assertEquals(1, getSoftErrors().size());
         
         equipmentItem.setAmount(INSTITUTE_MIN_AMOUNT - ONE_PENNY);
-        approvedEquipmentRule.isAmountValid(equipmentItem, minimumCapitalizationInfo);
+        approvedEquipmentRule.isAmountValid(ERROR_PATH_PREFIX, equipmentItem, minimumCapitalizationInfo);
         List<SoftError> errors = getSoftErrors();
         Assert.assertEquals(1, errors.size());
         Assert.assertEquals(MIN_AMOUNT_TEXT, errors.get(0).getErrorParms()[0]);
         
         equipmentItem.setAmount(INSTITUTE_MIN_AMOUNT);
-        approvedEquipmentRule.isAmountValid(equipmentItem, minimumCapitalizationInfo);
+        approvedEquipmentRule.isAmountValid(ERROR_PATH_PREFIX, equipmentItem, minimumCapitalizationInfo);
         Assert.assertEquals(0, getSoftErrors().size());
         
         equipmentItem.setAmount(FEDERAL_MIN_AMOUNT);
-        approvedEquipmentRule.isAmountValid(equipmentItem, minimumCapitalizationInfo);
+        approvedEquipmentRule.isAmountValid(ERROR_PATH_PREFIX, equipmentItem, minimumCapitalizationInfo);
         Assert.assertEquals(0, getSoftErrors().size());
     }
 
     private List<SoftError> getSoftErrors() {
-        Collection<SoftError> errors = ((AwardForm) GlobalVariables.getKualiForm()).getSoftErrors();
+        Map<String, Collection<SoftError>> softErrorMap = ((AwardForm) GlobalVariables.getKualiForm()).getSoftErrors();
+        Collection<SoftError> errors = softErrorMap != null ? softErrorMap.get(ERROR_PATH_PREFIX) : null;
         return errors != null ? new ArrayList<SoftError>(errors) : new ArrayList<SoftError>();
     }
     
