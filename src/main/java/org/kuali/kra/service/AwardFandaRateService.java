@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.service;
 
+import java.util.List;
+
+
 /**
  * 
  * This is the AwardFandaRateService interface.
@@ -29,6 +32,6 @@ public interface AwardFandaRateService {
      * @param fiscalYear
      * @return
      */
-    public String getStartAndEndDatesBasedOnFiscalYear(String fiscalYear);
+    public List<String> getStartAndEndDatesBasedOnFiscalYear(String fiscalYear);
     
 }
