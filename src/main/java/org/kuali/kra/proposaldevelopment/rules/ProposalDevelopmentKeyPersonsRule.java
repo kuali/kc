@@ -124,34 +124,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         }        
         personIndex=0;
         for (ProposalPerson person : document.getProposalPersons()) {
-            
-            //String regx="^([0-9]{3}\\-|\\([0-9]{3}\\) ?)[0-9]{3}\\-[0-9]{4}$";
-            // above changed to below to allow for int'l phones - Jira #KRACOEUS-2012
-            String regx="^[0-9\\-\\(\\)]*$";
-            if(person.getPagerNumber()!=null && !(person.getPagerNumber().matches(regx)))
-            {
-                GlobalVariables.getErrorMap().putError("document.proposalPersons[" + personIndex + "].pagerNumber",  RiceKeyConstants.ERROR_INVALID_FORMAT,
-                        new String[] { "Pager Number",person.getPagerNumber()});         
-            
-            }
-            if(person.getOfficePhone()!=null && !(person.getOfficePhone().matches(regx)))
-            {
-                GlobalVariables.getErrorMap().putError("document.proposalPersons[" + personIndex + "].officePhone",  RiceKeyConstants.ERROR_INVALID_FORMAT,
-                        new String[] { "Office Phone",person.getOfficePhone()});         
-            
-            }
-            if(person.getFaxNumber()!=null && !(person.getFaxNumber().matches(regx)))
-            {
-                GlobalVariables.getErrorMap().putError("document.proposalPersons[" + personIndex + "].faxNumber",  RiceKeyConstants.ERROR_INVALID_FORMAT,
-                        new String[] { "Fax Number",person.getFaxNumber()});         
-            
-            }
-            if(person.getMobilePhoneNumber()!=null && !(person.getMobilePhoneNumber().matches(regx)))
-            {
-                GlobalVariables.getErrorMap().putError("document.proposalPersons[" + personIndex + "].mobilePhoneNumber",  RiceKeyConstants.ERROR_INVALID_FORMAT,
-                        new String[] {"Mobile Number", person.getMobilePhoneNumber()});         
-            
-            }
+
             if(isCoInvestigator(person) && (person.getUnits() != null) && (person.getUnits().size()==0)){
                 reportError("newProposalPersonUnit[" + personIndex + "].unitNumber",
                             ERROR_ONE_UNIT, person.getFullName());            
