@@ -186,6 +186,7 @@
           <forward name="permissionsRoleRights" path="/WEB-INF/jsp/irb/ProtocolPermissionsRoleRights.jsp" />
       	  <forward name="permissionsEditRoles" path="/WEB-INF/jsp/irb/ProtocolPermissionsEditRoles.jsp" />
       	  <forward name="permissionsCloseEditRoles" path="/WEB-INF/jsp/irb/ProtocolPermissionsCloseEditRoles.jsp" />
+          <forward name="protocolActions" path="/WEB-INF/jsp/irb/ProtocolProtocolActions.jsp" />
       </action>
       
       <!--  KRA Committee Mapping -->
