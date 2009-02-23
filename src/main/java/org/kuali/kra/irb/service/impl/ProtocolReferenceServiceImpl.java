@@ -15,40 +15,23 @@
  */
 package org.kuali.kra.irb.service.impl;
 
-import java.util.HashMap;
-import java.util.Map;
 
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolReference;
-import org.kuali.kra.irb.bo.ProtocolReferenceType;
 import org.kuali.kra.irb.service.ProtocolReferenceService;
 
 
 public class ProtocolReferenceServiceImpl implements ProtocolReferenceService {
     
+    @SuppressWarnings("unused")
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolReferenceServiceImpl.class);
-    
-    private BusinessObjectService businessObjectService;
-   
-
-    /**
-     * Set the Business Object Service.  Injected by the Spring Framework.
-     * @param businessObjectService the business object service
-     */            
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
     
     /**
      * @see org.kuali.kra.irb.service.ProtocolReferenceService#addProtocolReference(org.kuali.kra.irb.document.ProtocolDocument, org.kuali.kra.irb.bo.ProtocolReference)
      */
     public void addProtocolReference(Protocol protocol, ProtocolReference protocolReference) {
         
-        Map<String, Integer> keyMap = new HashMap<String, Integer>();
-        keyMap.put("protocolReferenceTypeCode", protocolReference.getProtocolReferenceTypeCode());        
-        ProtocolReferenceType potocolReferenceType = (ProtocolReferenceType) businessObjectService.findByPrimaryKey(ProtocolReferenceType.class, keyMap);        
-        protocolReference.setProtocolReferenceType(potocolReferenceType);
+        protocolReference.refreshReferenceObject("protocolReferenceType");
         
         //TODO Framework problem of 2 saves, protocolNumber & SequenceNumber are not null fields and they are only available after one saves new protocol.
         protocolReference.setProtocolNumber("0");
