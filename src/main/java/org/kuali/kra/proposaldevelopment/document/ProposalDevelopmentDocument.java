@@ -15,13 +15,10 @@
  */
 package org.kuali.kra.proposaldevelopment.document;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -45,8 +42,6 @@ import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
-import org.kuali.kra.bo.SponsorFormTemplate;
-import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -84,8 +79,8 @@ import org.kuali.kra.workflow.KraDocumentXMLMaterializer;
 import org.kuali.rice.KNSServiceLocator;
 
 public class ProposalDevelopmentDocument extends ResearchDocumentBase implements BudgetVersionCollection, Copyable, SessionDocument {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalDevelopmentDocument.class);
-    
+        
+    private static final long serialVersionUID = 2958631745964610527L;
     private String proposalNumber;
     private String proposalTypeCode;
     private String continuedFrom;
@@ -115,7 +110,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private Integer mailingAddressId;
     private String numberOfCopies;
     private String proposalStateTypeCode;
-    private ProposalState proposalState = null;
+    private ProposalState proposalState;
     private String organizationId;
     private String performingOrganizationId;
     private List<ProposalLocation> proposalLocations;
@@ -155,13 +150,13 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private List<BudgetVersionOverview> budgetVersionOverviews;
     private String creationStatusCode;
     private List<S2sSubmissionHistory> s2sSubmissionHistory;
-    private boolean nih=false;
-    HashMap<String, String> nihDescription ;
+    private boolean nih;
+    private Map<String, String> nihDescription;
     
     private List<ProposalChangedData> proposalChangedDataList;
     private Map<String, List<ProposalChangedData>> proposalChangeHistory;
 
-    private Boolean submitFlag = false;
+    private Boolean submitFlag = Boolean.FALSE;
 
     
     @SuppressWarnings("unchecked")
@@ -173,7 +168,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         proposalLocations = new ArrayList<ProposalLocation>();
         propSpecialReviews = new TypedArrayList(ProposalSpecialReview.class);
         proposalPersons = new ArrayList<ProposalPerson>();
-        nextProposalPersonNumber = new Integer(1);
+        nextProposalPersonNumber = Integer.valueOf(1);
         narratives = new ArrayList<Narrative>();
         proposalAbstracts = new ArrayList<ProposalAbstract>();
         instituteAttachments = new ArrayList<Narrative>();
@@ -190,6 +185,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     }
 
+    @Override
     public void initialize() {
         super.initialize();
         ProposalDevelopmentService proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
@@ -722,10 +718,6 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         List managedLists = super.buildListOfDeletionAwareLists();
         UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
         
-        //Pessimistic Lock Impl - building DeletionAwareLists based on the Active Locks held by the current user for this document
-        List<PessimisticLock> locksOwnedByCurrentUser = new ArrayList<PessimisticLock>();
-        ProposalDevelopmentDocument retrievedDocument = null;
-        
         for(PessimisticLock lock: getPessimisticLocks()) {
             if(lock.isOwnedByUser(currentUser) && lock.getLockDescriptor().contains(KraAuthorizationConstants.LOCK_DESCRIPTOR_PROPOSAL)) {
                 refreshNarrativesFromUpdatedCopy(managedLists);
@@ -1068,7 +1060,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         while (getPropSpecialReviews().size() <= index) {
             getPropSpecialReviews().add(new ProposalSpecialReview());
         }
-        return (ProposalSpecialReview) getPropSpecialReviews().get(index);
+        return getPropSpecialReviews().get(index);
     }
     
     /**
@@ -1081,7 +1073,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         while (getPropScienceKeywords().size() <= index) {
             getPropScienceKeywords().add(new PropScienceKeyword());
         }
-        return (PropScienceKeyword) getPropScienceKeywords().get(index);
+        return getPropScienceKeywords().get(index);
     }
 
     /**
@@ -1094,7 +1086,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         while (getProposalLocations().size() <= index) {
             getProposalLocations().add(new ProposalLocation());
         }
-        return (ProposalLocation) getProposalLocations().get(index);
+        return getProposalLocations().get(index);
     }
 
     /**
@@ -1107,7 +1099,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         while (getNarratives().size() <= index) {
             getNarratives().add(new Narrative());
         }
-        return (Narrative) getNarratives().get(index);
+        return getNarratives().get(index);
     }
 
     /**
@@ -1120,7 +1112,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         while (getInstituteAttachments().size() <= index) {
             getInstituteAttachments().add(new Narrative());
         }
-        return (Narrative) getInstituteAttachments().get(index);
+        return getInstituteAttachments().get(index);
     }
 
     /**
@@ -1133,7 +1125,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         while (getProposalAbstracts().size() <= index) {
             getProposalAbstracts().add(new ProposalAbstract());
         }
-        return (ProposalAbstract) getProposalAbstracts().get(index);
+        return getProposalAbstracts().get(index);
     }
 
     /**
@@ -1146,7 +1138,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         while (getPropPersonBios().size() <= index) {
             getPropPersonBios().add(new ProposalPersonBiography());
         }
-        return (ProposalPersonBiography) getPropPersonBios().get(index);
+        return getPropPersonBios().get(index);
     }
 
     
@@ -1175,7 +1167,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
             getProposalYnqs().add(new ProposalYnq());
         }
         
-        return (ProposalYnq)getProposalYnqs().get(index);
+        return getProposalYnqs().get(index);
     }
     
     /**
@@ -1189,7 +1181,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
             getYnqGroupNames().add(new YnqGroupName());
         }
         
-        return (YnqGroupName)getYnqGroupNames().get(index);
+        return getYnqGroupNames().get(index);
     }
 
     /**
@@ -1242,7 +1234,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         while (getBudgetVersionOverviews().size() <= index) {
             getBudgetVersionOverviews().add(new BudgetVersionOverview());
         }
-        return (BudgetVersionOverview) getBudgetVersionOverviews().get(index);
+        return getBudgetVersionOverviews().get(index);
     }
     
     public List<S2sOppForms> getS2sOppForms() {
@@ -1433,7 +1425,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
      */
     @Override
     public KualiDocumentXmlMaterializer wrapDocumentWithMetadataForXmlSerialization() {
-        ProposalAuthorizationService proposalauthservice=(ProposalAuthorizationService)KraServiceLocator.getService(ProposalAuthorizationService.class); 
+        ProposalAuthorizationService proposalauthservice=KraServiceLocator.getService(ProposalAuthorizationService.class); 
         KualiTransactionalDocumentInformation transInfo = new KualiTransactionalDocumentInformation();
         DocumentInitiator initiatior = new DocumentInitiator();
         String initiatorNetworkId = getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
@@ -1463,11 +1455,11 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         this.nih = nih;
     }
 
-    public HashMap getNihDescription() {
+    public Map<String, String> getNihDescription() {
         return nihDescription;
     }
 
-    public void setNihDescription(HashMap nihDescription) {
+    public void setNihDescription(Map<String, String> nihDescription) {
         this.nihDescription = nihDescription;
        
     }

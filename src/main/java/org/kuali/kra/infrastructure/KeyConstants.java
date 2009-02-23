@@ -15,7 +15,9 @@
  */
 package org.kuali.kra.infrastructure;
 
-public class KeyConstants {
+public final class KeyConstants {
+    
+    public static final String ERROR_INVALID_FORMAT_WITH_FORMAT = "error.invalidFormat.withFormat";
     public static final String ERROR_REQUIRED = "error.required";
     
     public static final String ERROR_REQUIRED_FOR_APPROVED_SPECIALREVIEW = "error.required.for.approved.specialReview";
@@ -256,7 +258,7 @@ public class KeyConstants {
     public static final String ERROR_PERSONNEL_DETAIL_START_DATE = "error.personnel.detail.start.date";
     public static final String ERROR_LINE_ITEM_END_DATE = "error.line.item.end.date";
     public static final String ERROR_LINE_ITEM_START_DATE = "error.line.item.start.date";
-    public static final String QUESTION_DEFAULT_BUDGET_PERIODs = "document.question.defaultBudgetPeriods.text";
+    public static final String QUESTION_DEFAULT_BUDGET_PERIODS = "document.question.defaultBudgetPeriods.text";
     public static final String AUDIT_WARNING_RATE_OUT_OF_SYNC = "warning.rate.outofsync";
     //public static final String ERROR_DUPLICATE_PERSON = "error.duplicate.person";
 
@@ -280,4 +282,12 @@ public class KeyConstants {
     public static final String ERROR_DUPLICATE_PERSON = "error.duplicate.personnel";
     public static final String ERROR_JOBCODE_COST_ELEMENT_COMBO_INVALID = "error.jobCode.costElement.invalid";
     public static final String ERROR_SAVE_JOBCODE_COST_ELEMENT_COMBO_INVALID = "error.save.jobCode.costElement.invalid";
+    
+    /**
+     * private utility class ctor.
+     * @throws UnsupportedOperationException if called.
+     */
+    private KeyConstants() {
+        throw new UnsupportedOperationException("do not call me");
+    }
 }
