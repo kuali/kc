@@ -312,11 +312,10 @@ function loadStartAndEndDates(fiscalYear,startDate,endDate){
 	} else {
 		var dwrReply = {
 			callback:function(data) {
-				if ( data != null ) {
+				if ( data != null ) {					
 					if ( fiscalYear != null && fiscalYear != "" ) {						
-						var option_array=data.split(",");						
-						setRecipientValue( startDate, option_array[0] );
-						setRecipientValue( endDate, option_array[1] );
+						setRecipientValue( startDate, data[0] );
+						setRecipientValue( endDate, data[1] );
 					}
 				} else {
 					if ( fiscalYear != null && fiscalYear != "" ) {
