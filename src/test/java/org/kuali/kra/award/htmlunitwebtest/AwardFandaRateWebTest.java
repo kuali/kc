@@ -259,5 +259,48 @@ public class AwardFandaRateWebTest extends AwardTimeAndMoneyWebTest {
         assertContains(awardTimeAndMoneyPageAfterAnotherReload,"We are testing Comments");
         
     }
+    
+    /**
+     * 
+     * This method tests the mandatory field conditions before adding.
+     * and saving them.  
+     * @throws Exception
+     */
+    @Test
+    public void testAwardFandaRatePanelAddFandaRateRequiredness() throws Exception{
+        setFieldValue(awardTimeAndMoneyPage, "newAwardFandaRate.applicableFandaRate", "");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardFandaRate.fandaRateTypeCode", "");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardFandaRate.fiscalYear", "");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardFandaRate.startDate", "");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardFandaRate.endDate", "");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardFandaRate.onCampusFlag", "N");
+        
+        final HtmlForm form1 = (HtmlForm) awardTimeAndMoneyPage.getForms().get(0);        
+        String completeButtonName1=getImageTagName(awardTimeAndMoneyPage, "methodToCall.addFandaRate");
+        final HtmlImageInput button1 = (HtmlImageInput) form1.getInputByName(completeButtonName1);
+        HtmlPage awardTimeAndMoneyPage = (HtmlPage) button1.click();
+        
+        assertContains(awardTimeAndMoneyPage,"Rate is a mandatory field");
+        assertContains(awardTimeAndMoneyPage,"Type is a mandatory field");
+        assertContains(awardTimeAndMoneyPage,"Fiscal Year is a mandatory field");
+        assertContains(awardTimeAndMoneyPage,"Start Date is a mandatory field");
+        
+        setFieldValue(awardTimeAndMoneyPage, "newAwardFandaRate.applicableFandaRate", "-5");
+        
+        final HtmlForm form2 = (HtmlForm) awardTimeAndMoneyPage.getForms().get(0);        
+        String completeButtonName2=getImageTagName(awardTimeAndMoneyPage, "methodToCall.addFandaRate");
+        final HtmlImageInput button2 = (HtmlImageInput) form2.getInputByName(completeButtonName2);
+        awardTimeAndMoneyPage = (HtmlPage) button2.click();
+        assertContains(awardTimeAndMoneyPage,"Rate is a mandatory field");
+        
+        setFieldValue(awardTimeAndMoneyPage, "newAwardFandaRate.startDate", "07/01/2007");
+        setFieldValue(awardTimeAndMoneyPage, "newAwardFandaRate.endDate", "06/30/2007");
+        
+        final HtmlForm form3 = (HtmlForm) awardTimeAndMoneyPage.getForms().get(0);        
+        String completeButtonName3=getImageTagName(awardTimeAndMoneyPage, "methodToCall.addFandaRate");
+        final HtmlImageInput button3 = (HtmlImageInput) form3.getInputByName(completeButtonName3);
+        awardTimeAndMoneyPage = (HtmlPage) button3.click();
+        assertContains(awardTimeAndMoneyPage,"Start Date should be after the End Date");
+    }    
 
 }
