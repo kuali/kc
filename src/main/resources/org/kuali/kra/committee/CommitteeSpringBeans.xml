@@ -84,5 +84,6 @@
 
 	<bean id="committeeScheduleService" class="org.kuali.kra.committee.service.impl.CommitteeScheduleServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="scheduleService" ref="scheduleService" />
 	</bean>
 </beans>

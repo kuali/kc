@@ -46,10 +46,7 @@ public class ScheduleServiceImpl implements ScheduleService {
             throws ParseException {
 
         CronExpression expr = new NeverCronExpression(startDate, time);
-        scheduleSequence = getScheduleSequence(scheduleSequence);
-        startDate = wrapTime(startDate, null);
-        endDate = wrapTime(endDate, time);
-        return scheduleSequence.getScheduleSequence(expr.getExpression(), startDate, endDate);
+        return getDates(expr, startDate, endDate, time, scheduleSequence);
     }
 
     /**
@@ -59,10 +56,7 @@ public class ScheduleServiceImpl implements ScheduleService {
             throws ParseException {
 
         CronExpression expr = new DayCronExpression(startDate, time, day);
-        scheduleSequence = getScheduleSequence(scheduleSequence);
-        startDate = wrapTime(startDate, null);
-        endDate = wrapTime(endDate, time);
-        return scheduleSequence.getScheduleSequence(expr.getExpression(), startDate, endDate);
+        return getDates(expr, startDate, endDate, time, scheduleSequence);
     }
 
     /**
@@ -72,10 +66,7 @@ public class ScheduleServiceImpl implements ScheduleService {
             ScheduleSequence scheduleSequence) throws ParseException {
 
         CronExpression expr = new WeekCronExpression(startDate, time, weekdays);
-        scheduleSequence = getScheduleSequence(scheduleSequence);
-        startDate = wrapTime(startDate, null);
-        endDate = wrapTime(endDate, time);
-        return scheduleSequence.getScheduleSequence(expr.getExpression(), startDate, endDate);
+        return getDates(expr, startDate, endDate, time, scheduleSequence);
     }
 
     /**
@@ -85,10 +76,7 @@ public class ScheduleServiceImpl implements ScheduleService {
             ScheduleSequence scheduleSequence) throws ParseException {
 
         CronExpression expr = new MonthDayCronExpression(startDate, time, day, frequencyInMonth);
-        scheduleSequence = getScheduleSequence(scheduleSequence);
-        startDate = wrapTime(startDate, null);
-        endDate = wrapTime(endDate, time);
-        return scheduleSequence.getScheduleSequence(expr.getExpression(), startDate, endDate);
+        return getDates(expr, startDate, endDate, time, scheduleSequence);
     }
 
     /**
@@ -98,10 +86,7 @@ public class ScheduleServiceImpl implements ScheduleService {
             CronSpecialChars weekOfMonth, Integer frequencyInMonth, ScheduleSequence scheduleSequence) throws ParseException {
 
         CronExpression expr = new MonthlyWeekDayCronExpression(startDate, time, dayOfWeek, weekOfMonth, frequencyInMonth);
-        scheduleSequence = getScheduleSequence(scheduleSequence);
-        startDate = wrapTime(startDate, null);
-        endDate = wrapTime(endDate, time);
-        return scheduleSequence.getScheduleSequence(expr.getExpression(), startDate, endDate);
+        return getDates(expr, startDate, endDate, time, scheduleSequence);
     }
 
     /**
@@ -111,10 +96,7 @@ public class ScheduleServiceImpl implements ScheduleService {
             Integer frequencyInYear, ScheduleSequence scheduleSequence) throws ParseException {
 
         CronExpression expr = new YearMonthDayCronExpression(startDate, time, month, day, frequencyInYear);
-        scheduleSequence = getScheduleSequence(scheduleSequence);
-        startDate = wrapTime(startDate, null);
-        endDate = wrapTime(endDate, time);
-        return scheduleSequence.getScheduleSequence(expr.getExpression(), startDate, endDate);
+        return getDates(expr, startDate, endDate, time, scheduleSequence);
     }
 
     /**
@@ -124,8 +106,11 @@ public class ScheduleServiceImpl implements ScheduleService {
             CronSpecialChars dayOfWeek, CronSpecialChars month, Integer frequencyInYear, ScheduleSequence scheduleSequence)
             throws ParseException {
 
-        CronExpression expr = new YearMonthDayOfWeekCronExpression(startDate, time, weekOfMonth, dayOfWeek, month,
-            frequencyInYear);
+        CronExpression expr = new YearMonthDayOfWeekCronExpression(startDate, time, weekOfMonth, dayOfWeek, month, frequencyInYear);
+        return getDates(expr, startDate, endDate, time, scheduleSequence);
+    }
+    
+    private List<Date> getDates(CronExpression expr, Date startDate, Date endDate, Time24HrFmt time, ScheduleSequence scheduleSequence) throws ParseException {
         scheduleSequence = getScheduleSequence(scheduleSequence);
         startDate = wrapTime(startDate, null);
         endDate = wrapTime(endDate, time);
