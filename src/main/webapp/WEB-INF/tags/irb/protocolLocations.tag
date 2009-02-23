@@ -137,12 +137,10 @@
 				  <c:if test="${!readOnly}">
 					  <td>
 						<div align=center>&nbsp;
-							<kra:permission value="${KualiForm.protocolHelper.modifyProtocol}">  
-								<html:image property="methodToCall.clearProtocolLocationAddress.line${status.index}.anchor${currentTabIndex}"
+							<html:image property="methodToCall.clearProtocolLocationAddress.line${status.index}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-clraddress.gif' styleClass="tinybutton"/>
-								<html:image property="methodToCall.deleteProtocolLocation.line${status.index}.anchor${currentTabIndex}"
+							<html:image property="methodToCall.deleteProtocolLocation.line${status.index}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
-							</kra:permission>  
 						</div>
 		              </td>
 		           </c:if>
