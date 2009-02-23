@@ -335,7 +335,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
             }
         }
     }
-        
+  
     @Override
     public void toCopy() throws WorkflowException {
         super.toCopy();
@@ -681,7 +681,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         managedLists.add(budgetModular);
         managedLists.add(budgetPersonnelRateAndBaseList);
         managedLists.add(budgetPersonnelCalculatedAmounts);
-        managedLists.add(budgetPersonnelDetailsList);
+        managedLists.add(bPersonnelDetailsList);
         managedLists.add(budgetRateAndBaseList);
         managedLists.add(budgetLineItemCalculatedAmounts);
         managedLists.add(budgetLineItems);
