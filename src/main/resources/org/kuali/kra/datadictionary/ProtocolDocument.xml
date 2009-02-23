@@ -73,6 +73,16 @@
 	          	<property name="headerTabDisplayName" value="Permissions" />
 	          	<property name="headerTabNavigateTo" value="permissions" />
         	</bean>
+        	<bean parent="HeaderNavigation">
+	          	<property name="helpDefinition" >
+	            	<bean parent="HelpDefinition"
+	                  p:parameterNamespace="KC-IRB"
+	                  p:parameterName="protocolActionsHelp"
+	                  p:parameterDetailType="D" />
+	          	</property>
+	          	<property name="headerTabDisplayName" value="Protocol Actions" />
+	          	<property name="headerTabNavigateTo" value="protocolActions" />
+        	</bean>
       	</list>
     	</property>
     	<property name="authorizations" >
