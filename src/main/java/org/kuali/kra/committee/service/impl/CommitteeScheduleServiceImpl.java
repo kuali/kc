@@ -40,7 +40,7 @@ import org.kuali.kra.scheduling.Time24HrFmt;
 import org.kuali.kra.scheduling.WeekScheduleSequence;
 import org.kuali.kra.scheduling.expr.CronSpecialChars;
 import org.kuali.kra.scheduling.service.ScheduleService;
-import org.kuali.kra.scheduling.service.impl.ScheduleServiceImpl;
+
 
 /**
  * The Committee Service implementation.
@@ -55,9 +55,8 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
     public static final Boolean FALSE = false;
     
     private BusinessObjectService businessObjectService;
-    
-    //TODO move to spring config later
-    private ScheduleService scheduleService = new ScheduleServiceImpl(); 
+
+    private ScheduleService scheduleService;
     
     /**
      * Set the Business Object Service.

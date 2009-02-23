@@ -53,7 +53,7 @@ public class WeekScheduleSequence implements ScheduleSequence {
         }
         
         List<Date> filteredDates = new ArrayList<Date>();
-      
+       //TODO see if u can replace iterator
         Iterator<Date> it = dates.iterator();
         while(it.hasNext()) {
             for(int i = 0; i < dayCount && it.hasNext(); i++) {

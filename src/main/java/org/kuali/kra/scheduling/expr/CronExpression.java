@@ -24,10 +24,6 @@ public abstract class CronExpression {
     
     private Date startDate;
     
-    //private String hours;
-    
-    //private String minutes;    
-    
     private Time24HrFmt time;
     
     public final String SECONDS = "0";
@@ -36,52 +32,14 @@ public abstract class CronExpression {
         super();
         this.startDate = startDate;
         this.time = time;
-        //parseTime(time);
     }
-    
-/*    private void parseTime(String time) throws ParseException {
-        
-        String[] result = time.split(":");
-        
-        if(result.length != 2)
-            throw new ParseException("Time format exception, expects hh:mm", 0);
-        
-        Integer hrs;
-        Integer mins;
-        
-        try {
-            hrs = new Integer(result[0]);
-            mins = new Integer(result[1]);
-        }catch (NumberFormatException e) {
-            throw new ParseException("Time format exception, expects hh as 0-23 & mm as 0-59", 0);
-        }
-        
-        if(!(hrs >= 0 && hrs <= 23)) {
-            throw new ParseException("Time format exception, expects hh as 0-23", 0);
-        }
-        
-        if(!(mins >= 0 && mins <= 59)) {
-            throw new ParseException("Time format exception, expects mm as 0-59", 0);
-        }
-        this.hours = result[0];
-        this.minutes = result[1];
-        
-    }*/
     
     public abstract String getExpression();
 
     protected Date getStartDate() {
         return startDate;
     }
-/*
-    protected String getHours() {
-        return hours;
-    }
 
-    protected String getMinutes() {
-        return minutes;
-    }*/
-    
     protected Time24HrFmt getTime() {
         return time;
     }
