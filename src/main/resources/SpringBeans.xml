@@ -1254,4 +1254,7 @@
         </property>
     </bean>
 	
+	<bean id="scheduleService" class="org.kuali.kra.scheduling.service.impl.ScheduleServiceImpl">
+	</bean>
+	
 </beans>
