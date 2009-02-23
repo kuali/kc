@@ -18,7 +18,6 @@ package org.kuali.kra.rules;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.RiceConstants;
 import org.kuali.RiceKeyConstants;
 import org.kuali.core.UserSession;
 import org.kuali.core.bo.user.UniversalUser;
@@ -29,6 +28,7 @@ import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TestUtilities;
@@ -39,9 +39,6 @@ import org.kuali.kra.proposaldevelopment.service.ProposalRoleTemplateService;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.rice.KNSServiceLocator;
 
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-
 
 // TODO : temporary extends ProposalDevelopmentRuleTestBase to test proposal document custom data 
 // need more generic class for extension, so we can test other modules, such as budget too
@@ -49,6 +46,7 @@ public class KraCustomAttributeRulesTest extends ProposalDevelopmentRuleTestBase
     private KraCustomAttributeRule rule = null;
     private BusinessObjectService bos;
 
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -56,6 +54,7 @@ public class KraCustomAttributeRulesTest extends ProposalDevelopmentRuleTestBase
         bos = KraServiceLocator.getService(BusinessObjectService.class);
     }
 
+    @Override
     @After
     public void tearDown() throws Exception {
         rule = null;
@@ -130,7 +129,7 @@ public class KraCustomAttributeRulesTest extends ProposalDevelopmentRuleTestBase
         TypedArrayList errors = GlobalVariables.getErrorMap().getMessages("customAttributeValues(id4)");
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
-        assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_INVALID_FORMAT);
+        assertEquals(KeyConstants.ERROR_INVALID_FORMAT_WITH_FORMAT, message.getErrorKey());
     }
     
     @Test
@@ -164,7 +163,7 @@ public class KraCustomAttributeRulesTest extends ProposalDevelopmentRuleTestBase
         TypedArrayList errors = GlobalVariables.getErrorMap().getMessages("customAttributeValues(id8)");
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
-        assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_INVALID_FORMAT);
+        assertEquals(KeyConstants.ERROR_INVALID_FORMAT_WITH_FORMAT, message.getErrorKey());
     }
 
 

@@ -31,6 +31,7 @@ import org.kuali.core.util.ActionFormUtilMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.core.web.ui.HeaderField;
+import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.BudgetDecimal;
@@ -53,11 +54,16 @@ import org.kuali.rice.KNSServiceLocator;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 public class BudgetForm extends ProposalFormBase {
+
+    private static final long serialVersionUID = -8853937659597422800L;
+
     private static final String RETURN_TO_PROPOSAL_ALT_TEXT = "return to proposal";
 
     private static final String KRA_EXTERNALIZABLE_IMAGES_URI_KEY = "kra.externalizable.images.url";
     private static final String KR_EXTERNALIZABLE_IMAGES_URI_KEY = "kr.externalizable.images.url";
     private static final String RETURN_TO_PROPOSAL_METHOD_TO_CALL = "methodToCall.returnToProposal";
+    public static final String VERSION_NUMBER_KEY = "DataDictionary.BudgetDocument.attributes.budgetVersionNumber";
+    public static final String BUDGET_NAME_KEY = "DataDictionary.KraAttributeReferenceDummy.attributes.budgetName";
     
     private String newBudgetPersons;
     private String newBudgetRolodexes;
@@ -164,6 +170,8 @@ public class BudgetForm extends ProposalFormBase {
         setDocumentNextValueRefresh(true);
         budgetJustificationWrapper = new BudgetJustificationWrapper(getDocument().getBudgetJustification());
         newSubAward = new BudgetSubAwards();
+        this.setAdditionalDocInfo1(new KeyLabelPair(BUDGET_NAME_KEY, Constants.EMPTY_STRING));
+        this.setAdditionalDocInfo2(new KeyLabelPair(VERSION_NUMBER_KEY, Constants.EMPTY_STRING));
     }
 
     @Override
@@ -230,7 +238,6 @@ public class BudgetForm extends ProposalFormBase {
         String externalImageURL = KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
         String syncAllImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_syncallrates.gif"; 
         String resetAllImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_resetallrates.gif"; 
-        String appExternalImageURL = "ConfigProperties.kra.externalizable.images.url"; 
         addExtraButton("methodToCall.syncAllRates", syncAllImage, "Sync All Rates");
         addExtraButton("methodToCall.resetAllRates",resetAllImage, "Reset All Rates");
         
@@ -606,7 +613,7 @@ public class BudgetForm extends ProposalFormBase {
     
     @Override
     protected void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
-        BudgetDocument budgetDocument = (BudgetDocument) getDocument();
+        BudgetDocument budgetDocument = getDocument();
         ProposalDevelopmentDocument proposalDocument = budgetDocument.getProposal();
         KualiWorkflowDocument parentWorkflowDocument = null;
         

@@ -46,7 +46,6 @@ import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.rule.event.AddBudgetPeriodEvent;
-import org.kuali.kra.budget.rule.event.DeleteBudgetPeriodEvent;
 import org.kuali.kra.budget.rule.event.GenerateBudgetPeriodEvent;
 import org.kuali.kra.budget.rule.event.SaveBudgetPeriodEvent;
 import org.kuali.kra.budget.service.BudgetSummaryService;
@@ -55,8 +54,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
-
-import static org.kuali.kra.logging.BufferedLogger.*;
 
 public class BudgetParametersAction extends BudgetAction {
     private static final Log LOG = LogFactory.getLog(BudgetParametersAction.class);
@@ -241,7 +238,7 @@ public class BudgetParametersAction extends BudgetAction {
         }
         List <BudgetLineItem> budgetLineItems = budgetDocument.getBudgetPeriods().get(delPeriod).getBudgetLineItems();
         if (viewPeriod > 0 && ((delPeriod+1) == viewPeriod || budgetDocument.getBudgetPeriods().size() == viewPeriod)) {
-            budgetForm.setViewBudgetPeriod(new Integer(1));
+            budgetForm.setViewBudgetPeriod(Integer.valueOf(1));
         }
         if (budgetLineItems != null && budgetLineItems.size() > 0) {
             return confirm(buildDeleteBudgetPeriodConfirmationQuestion(mapping, form, request, response,
@@ -607,7 +604,7 @@ public class BudgetParametersAction extends BudgetAction {
     private StrutsConfirmation buildDefaultBudgetPeriodsConfirmationQuestion(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response, String message) throws Exception {
         return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_HEADER_TAB_KEY,
-                KeyConstants.QUESTION_DEFAULT_BUDGET_PERIODs, message);
+                KeyConstants.QUESTION_DEFAULT_BUDGET_PERIODS, message);
     }
    
     public ActionForward confirmDefaultBudgetPeriods(ActionMapping mapping, ActionForm form, HttpServletRequest request,

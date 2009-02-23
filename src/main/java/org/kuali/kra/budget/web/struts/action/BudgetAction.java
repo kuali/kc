@@ -108,44 +108,60 @@ public class BudgetAction extends ProposalActionBase {
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward actionForward = super.execute(mapping, form, request, response);
+        final BudgetForm budgetForm = (BudgetForm) form;
         
+        ActionForward actionForward = null;
+        
+        try {
+            actionForward = super.execute(mapping, budgetForm, request, response);    
+        } finally {
+            this.setAdditionalDocumentHeaderInfo(budgetForm);
+        }
         
         if (actionForward != null) {
-            if (("summaryTotals").equals(actionForward.getName())) { 
-                ((BudgetForm)form).suppressButtonsForTotalPage();
+            if ("summaryTotals".equals(actionForward.getName())) { 
+                budgetForm.suppressButtonsForTotalPage();
             }               
         }
         // check if audit rule check is done from PD
-        if (((BudgetForm)form).isAuditActivated()) {
-            KraServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(((BudgetForm)form).getDocument()));
-        }
-        
-        //Set the Additional Document header info
-        BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getDocument();
-        if(budgetDocument != null) {
-            for (BudgetVersionOverview budgetVersion: budgetDocument.getProposal().getBudgetVersionOverviews()) {
-                if (budgetVersion.getBudgetVersionNumber().intValue() == budgetDocument.getBudgetVersionNumber().intValue()) {
-                    budgetForm.setAdditionalDocInfo1(new KeyLabelPair("DataDictionary.KraAttributeReferenceDummy.attributes.budgetName", budgetVersion.getDocumentDescription()));
-                    break;
-                }
-            }
-            if(budgetForm.getAdditionalDocInfo1() == null) {
-                budgetForm.setAdditionalDocInfo1(new KeyLabelPair("DataDictionary.KraAttributeReferenceDummy.attributes.budgetName", Constants.EMPTY_STRING));
-            }
-            
-            if (budgetDocument.getBudgetVersionNumber() != null) {
-                budgetForm.setAdditionalDocInfo2(new KeyLabelPair("DataDictionary.BudgetDocument.attributes.budgetVersionNumber", Integer.toString(budgetDocument.getBudgetVersionNumber())));
-            } else {
-                budgetForm.setAdditionalDocInfo2(new KeyLabelPair("DataDictionary.KraAttributeReferenceDummy.attributes.budgetName", Constants.EMPTY_STRING));
-            } 
+        if (budgetForm.isAuditActivated()) {
+            KraServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(budgetForm.getDocument()));
         }
         
         return actionForward; 
     }
 
+    /**
+     * This method sets additional document information in the document header of the budget form.
+     * If the document contained in the budget form is null then empty values will be placed for the
+     * additional information.
+     * @param budgetForm the budget form
+     */
+    private void setAdditionalDocumentHeaderInfo(final BudgetForm budgetForm) {
+        assert budgetForm != null : "the budgetForm is null";
+        
+        final BudgetDocument budgetDocument = budgetForm.getDocument();
+        if (budgetDocument != null && budgetDocument.getProposal() != null && budgetDocument.getProposal().getBudgetVersionOverviews() != null) {
+            for (final BudgetVersionOverview budgetVersion: budgetDocument.getProposal().getBudgetVersionOverviews()) {
+                if (budgetVersion.getBudgetVersionNumber().equals(budgetDocument.getBudgetVersionNumber())) {
+                    budgetForm.setAdditionalDocInfo1(new KeyLabelPair(BudgetForm.BUDGET_NAME_KEY, budgetVersion.getDocumentDescription()));
+                    break;
+                }
+            }
 
+            if (budgetDocument.getBudgetVersionNumber() != null) {
+                budgetForm.setAdditionalDocInfo2(new KeyLabelPair(BudgetForm.VERSION_NUMBER_KEY, budgetDocument.getBudgetVersionNumber().toString()));
+            }
+        }
+        
+        if(budgetForm.getAdditionalDocInfo1() == null) {
+            budgetForm.setAdditionalDocInfo1(new KeyLabelPair(BudgetForm.BUDGET_NAME_KEY, Constants.EMPTY_STRING));
+        }
+        
+        if (budgetForm.getAdditionalDocInfo2() == null) {
+            budgetForm.setAdditionalDocInfo2(new KeyLabelPair(BudgetForm.VERSION_NUMBER_KEY, Constants.EMPTY_STRING));
+        }
+    }
 
     /**
      * {@inheritDoc}
@@ -305,7 +321,7 @@ public class BudgetAction extends ProposalActionBase {
         KeyPersonnelService keyPersonnelServiec = KraServiceLocator.getService(KeyPersonnelService.class);
         ProposalDevelopmentDocument proposal = budgetDocument.getProposal();
         boolean nihSponsorProposal = keyPersonnelServiec.isSponsorNIH(proposal);
-        Map roleDescriptions = budgetDocument.getProposal().getNihDescription();
+        Map<String, String> roleDescriptions = budgetDocument.getProposal().getNihDescription();
         
         List<BudgetPerson> budgetPersons = budgetDocument.getBudgetPersons();
         for (BudgetPerson budgetPerson: budgetPersons) {
@@ -314,7 +330,7 @@ public class BudgetAction extends ProposalActionBase {
                 ProposalPerson person = proposal.getProposalNonEmployee(budgetPerson.getRolodexId());
                 ProposalPersonRole role = proposal.getProposalNonEmployeeRole(budgetPerson.getRolodexId());
                 if (role != null) { 
-                    roleDesc = (nihSponsorProposal && roleDescriptions.get(role.getProposalPersonRoleId()) != null) ? roleDescriptions.get(role.getProposalPersonRoleId()).toString() : role.getDescription();
+                    roleDesc = (nihSponsorProposal && roleDescriptions.get(role.getProposalPersonRoleId()) != null) ? roleDescriptions.get(role.getProposalPersonRoleId()) : role.getDescription();
                     if(person != null && StringUtils.equals(Constants.KEY_PERSON_ROLE, role.getProposalPersonRoleId()) && StringUtils.isNotEmpty(person.getProjectRole())) {
                         roleDesc = person.getProjectRole();
                     }
@@ -323,7 +339,7 @@ public class BudgetAction extends ProposalActionBase {
                 ProposalPerson person = proposal.getProposalEmployee(budgetPerson.getPersonId());  
                 ProposalPersonRole role = proposal.getProposalEmployeeRole(budgetPerson.getPersonId());
                 if (role != null) { 
-                    roleDesc = (nihSponsorProposal && roleDescriptions.get(role.getProposalPersonRoleId()) != null) ? roleDescriptions.get(role.getProposalPersonRoleId()).toString() : role.getDescription();
+                    roleDesc = (nihSponsorProposal && roleDescriptions.get(role.getProposalPersonRoleId()) != null) ? roleDescriptions.get(role.getProposalPersonRoleId()) : role.getDescription();
                     if(person != null && StringUtils.equals(Constants.KEY_PERSON_ROLE, role.getProposalPersonRoleId()) && StringUtils.isNotEmpty(person.getProjectRole())) {
                         roleDesc = person.getProjectRole();
                     }
@@ -399,7 +415,7 @@ public class BudgetAction extends ProposalActionBase {
     
     protected void reconcileBudgetStatus(BudgetForm budgetForm) {
         BudgetDocument budgetDocument = budgetForm.getDocument();
-        if (budgetDocument.getFinalVersionFlag() != null && budgetDocument.getFinalVersionFlag()) {
+        if (budgetDocument.getFinalVersionFlag() != null && Boolean.TRUE.equals(budgetDocument.getFinalVersionFlag())) {
             budgetDocument.setBudgetStatus(budgetDocument.getProposal().getBudgetStatus());
         } else {
             String budgetStatusIncompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameterValue(
@@ -407,19 +423,6 @@ public class BudgetAction extends ProposalActionBase {
             budgetDocument.setBudgetStatus(budgetStatusIncompleteCode);
         }
     }
-    
-    
-    /**
-     * 
-     * Sets periodTypeCode in BudgetPersonnelDetails to system variable BUDGET_PERSON_DEFAULT_PERIOD_TYPE
-     */
-//    public void setBudgetPersonDefaultPeriodTypeCode(BudgetForm budgetForm){
-//        KualiConfigurationService kualiConfigurationService = KraServiceLocator.getService(KualiConfigurationService.class);
-//        budgetForm.setNewBudgetPersonnelDetails(new BudgetPersonnelDetails());
-//        budgetForm.getNewBudgetPersonnelDetails().setPeriodTypeCode(kualiConfigurationService.getParameterValue(
-//                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_PERSON_DEFAULT_PERIOD_TYPE));
-//        
-//    }
 
     /**
      * 
