@@ -34,13 +34,7 @@ public class AwardSponsorTermServiceImpl implements AwardSponsorTermService {
      * @param
      */
     public List<KeyLabelPair> assignSponsorTermTypesToAwardFormForPanelHeaderDisplay(){
-        SponsorTermTypeValuesFinder sponsorTermTypeValuesFinder =
-                                                 new SponsorTermTypeValuesFinder();
-        List<KeyLabelPair> sponsorTermTypes = new ArrayList<KeyLabelPair>();
-        
-        sponsorTermTypes = sponsorTermTypeValuesFinder.getKeyValues();
-   
-        return sponsorTermTypes;
+        return new SponsorTermTypeValuesFinder().getKeyValues();
     }
     
     /**

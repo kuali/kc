@@ -30,6 +30,7 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardReportTerm;
 import org.kuali.kra.award.bo.AwardReportTermRecipient;
+import org.kuali.kra.award.bo.AwardSponsorTerm;
 import org.kuali.kra.award.bo.ReportClass;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.rule.event.AddAwardReportTermEvent;
@@ -109,22 +110,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
             for(AwardReportTermRecipient awardReportTermRecipient : awardReportTerm.getAwardReportTermRecipients()){
                 awardReportTermRecipient.refreshReferenceObject(ROLODEX);
             }
-        }       
-       // if (awardForm.getLookupResultsBOClassName() != null && awardForm.getLookupResultsSequenceNumber() != null) {
-         //   String lookupResultsSequenceNumber = awardForm.getLookupResultsSequenceNumber();
-          //  Class<?> lookupResultsBOClass = Class.forName(awardForm.getLookupResultsBOClassName());         
-           // Collection<PersistableBusinessObject> rawValues = KraServiceLocator.getService(LookupResultsService.class)
-             ///    .retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass,
-              //          GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());     
-           // if (lookupResultsBOClass.isAssignableFrom(SponsorTerm.class)) {
-            //    for (Iterator iter = rawValues.iterator(); iter.hasNext();) {
-              //       SponsorTerm sponsorTerm = (SponsorTerm) iter.next();
-                //     addAwardSponsorTermFromMutiValueLookup(sponsorTerm, awardForm.getAwardDocument().getAward());
-                //  }
-            //}
-        //}
-        
-        
+        }            
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
@@ -472,19 +458,6 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         }        
         return recipientSize;
     }
-
-   // public void addAwardSponsorTermFromMutiValueLookup(SponsorTerm sponsorTerm, Award award){
-    //    AwardSponsorTerm newAwardSponsorTerm = new AwardSponsorTerm();
-     //   newAwardSponsorTerm.setSponsorTermId
-      //                          (sponsorTerm.getSponsorTermId());
-      //  newAwardSponsorTerm.setSponsorTerm
-       //                         (sponsorTerm);
-       // newAwardSponsorTerm.setAward(award);
-        //if(getKualiRuleService().applyRules(new AddAwardReportTermEvent(Constants.EMPTY_STRING,
-        //  awardForm.getAwardDocument(), newAwardReportTerm))){
-        //award.setAwardSponsorTerms(addAwardSponsorTermToAward(award,newAwardSponsorTerm));            
-        // }
-    //}
     
     /**
      * 
@@ -504,6 +477,19 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         sponsorTermActionHelper.addSponsorTerm(((AwardForm) form).getSponsorTermFormHelper(), request);
         
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    /**
+     * 
+     * This method is a convenience method for adding an <code>AwardSponsorTerm</code> to
+     * <code>Award</code> business object.This way the add functionality can be tested
+     * independently using a JUnit Test.
+     * @param award
+     * @param awardSponsorTerm
+     * @return
+     */
+    boolean addAwardSponsorTermToAward(Award award, AwardSponsorTerm awardSponsorTerm){
+        return award.getAwardSponsorTerms().add(awardSponsorTerm);
     }
     
     
@@ -528,6 +514,20 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         awardDocument.getAward().getAwardSponsorTerms().remove(getLineToDelete(request));
         
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    /**
+     * 
+     * This method is a convenience method for deleting an <code>AwardSponsorTerm</code> from
+     * <code>Award</code> business object. This way the delete functionality can be tested
+     * independently using a JUnit Test.
+     * @param award
+     * @param lineToDelete
+     * @return
+     */
+    boolean deleteAwardSponsorTermFromAward(Award award, int lineToDelete){
+        award.getAwardSponsorTerms().remove(lineToDelete);
+        return true;
     }
     
     /**
