@@ -51,10 +51,7 @@
 		</property>
 	</bean>
 
-	<bean id="protocolReferenceTypeService" class="org.kuali.kra.irb.service.impl.ProtocolReferenceServiceImpl">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
+	<bean id="protocolReferenceService" class="org.kuali.kra.irb.service.impl.ProtocolReferenceServiceImpl">
 	</bean>	
 
 	<bean id="protocolResearchAreaService" class="org.kuali.kra.irb.service.impl.ProtocolResearchAreaServiceImpl">
