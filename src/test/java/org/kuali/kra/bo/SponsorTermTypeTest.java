@@ -13,44 +13,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.lookup.keyvalue;
-
-import java.util.ArrayList;
-import java.util.List;
+package org.kuali.kra.bo;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kra.KraTestBase;
 
-public class ReportClassValuesFinderTest extends KraTestBase{
+/**
+ * This class tests methods in SponsorTermType.java
+ */
+public class SponsorTermTypeTest {
     
-    ReportClassValuesFinder reportClassValuesFinder;
-    List<KeyLabelPair> reportClasses;
-
+private static final int SPONSOR_TERM_TYPE_ATTRIBUTES_COUNT = 2;
+    
+    private SponsorTermType sponsorTermTypeBo;
+    
+    /**
+     *
+     * @throws Exception
+     */
     @Before
     public void setUp() throws Exception {
-        reportClassValuesFinder = new ReportClassValuesFinder();
-        reportClasses = new ArrayList<KeyLabelPair>();
-        reportClasses = reportClassValuesFinder.getKeyValues();
+        sponsorTermTypeBo = new SponsorTermType();
     }
 
+    /**
+     *
+     * @throws Exception
+     */
     @After
     public void tearDown() throws Exception {
-        reportClassValuesFinder = null;
-        reportClasses = null;
+        sponsorTermTypeBo = null;
     }
-
+    
+    /**
+     * 
+     * This method tests that total attributes of Award Business Object 
+     * @throws Exception
+     */
     @Test
-    public final void testGetKeyValues() {
-        Assert.assertEquals(6,reportClasses.size());
-        
-        for(KeyLabelPair keyLabelPair:reportClasses){
-            Assert.assertNotNull(keyLabelPair.getKey());
-            Assert.assertNotNull(keyLabelPair.getLabel());
-        }
+    public void testCommentTypeBoAttributesCount() throws Exception {              
+        Assert.assertEquals(SPONSOR_TERM_TYPE_ATTRIBUTES_COUNT, sponsorTermTypeBo.toStringMapper().size());
     }
-}
 
+}

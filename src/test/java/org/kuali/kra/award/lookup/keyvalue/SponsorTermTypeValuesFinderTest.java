@@ -25,32 +25,39 @@ import org.junit.Test;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.KraTestBase;
 
-public class ReportClassValuesFinderTest extends KraTestBase{
-    
-    ReportClassValuesFinder reportClassValuesFinder;
-    List<KeyLabelPair> reportClasses;
+
+/**
+ * This class tests that SponsorTermTypeValuesFinder getKeyValues returns a list<KeyLabelPair>
+ * with 9 entries and that each entry has set keys and labels.
+ */
+public class SponsorTermTypeValuesFinderTest extends KraTestBase{
+    private static final int NINE = 9;
+
+    SponsorTermTypeValuesFinder sponsorTermTypeValuesFinder;
+    List<KeyLabelPair> sponsorTermTypes;
 
     @Before
     public void setUp() throws Exception {
-        reportClassValuesFinder = new ReportClassValuesFinder();
-        reportClasses = new ArrayList<KeyLabelPair>();
-        reportClasses = reportClassValuesFinder.getKeyValues();
+        super.setUp();
+        sponsorTermTypeValuesFinder = new SponsorTermTypeValuesFinder();
+        sponsorTermTypes = new ArrayList<KeyLabelPair>();
+        sponsorTermTypes = sponsorTermTypeValuesFinder.getKeyValues();
     }
 
     @After
     public void tearDown() throws Exception {
-        reportClassValuesFinder = null;
-        reportClasses = null;
+        super.tearDown();
+        sponsorTermTypeValuesFinder = null;
+        sponsorTermTypes = null;
     }
 
     @Test
     public final void testGetKeyValues() {
-        Assert.assertEquals(6,reportClasses.size());
+        Assert.assertEquals(NINE,sponsorTermTypes.size());
         
-        for(KeyLabelPair keyLabelPair:reportClasses){
+        for(KeyLabelPair keyLabelPair:sponsorTermTypes){
             Assert.assertNotNull(keyLabelPair.getKey());
             Assert.assertNotNull(keyLabelPair.getLabel());
         }
     }
 }
-

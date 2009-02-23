@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.award.rules;
 
+import java.util.List;
+
 import org.kuali.kra.award.bo.AwardSponsorTerm;
 import org.kuali.kra.award.rule.AwardSponsorTermRule;
 import org.kuali.kra.award.rule.event.AwardSponsorTermRuleEvent;
@@ -33,7 +35,6 @@ public class AwardSponsorTermRuleImpl extends ResearchDocumentRuleBase implement
      */
     private static final String NEW_AWARD_SPONSOR_TERM = "newAwardSponsorTerm[";
     private AwardSponsorTerm awardSponsorTerm;
-    private AwardSponsorTermRuleEvent awardSponsorTermRuleEvent;
     
     /**
      * @see org.kuali.kra.award.rule.AwardSponsorTermRule#processSponsorTermBusinessRules
@@ -41,14 +42,13 @@ public class AwardSponsorTermRuleImpl extends ResearchDocumentRuleBase implement
      */
     public boolean processSponsorTermBusinessRules(AwardSponsorTermRuleEvent awardSponsorTermRuleEvent) {
         this.awardSponsorTerm = awardSponsorTermRuleEvent.getAwardSponsorTermForValidation();
-        this.awardSponsorTermRuleEvent = awardSponsorTermRuleEvent;
         return processCommonValidations(awardSponsorTerm);
     }
     
     public boolean processAddSponsorTermBusinessRules(AwardSponsorTermRuleEvent awardSponsorTermRuleEvent) {
         this.awardSponsorTerm = awardSponsorTermRuleEvent.getAwardSponsorTermForValidation();
-        this.awardSponsorTermRuleEvent = awardSponsorTermRuleEvent;
-        boolean validAwardSponsorTermNotDuplicate = validateAwardSponsorTermNotDuplicate(awardSponsorTerm);
+        boolean validAwardSponsorTermNotDuplicate = validateAwardSponsorTermNotDuplicate(awardSponsorTerm,
+                                                        awardSponsorTermRuleEvent.getAwardDocument().getAward().getAwardSponsorTerms());
         return processCommonValidations(awardSponsorTerm) && validAwardSponsorTermNotDuplicate;
     }
     
@@ -67,11 +67,10 @@ public class AwardSponsorTermRuleImpl extends ResearchDocumentRuleBase implement
     * @param AwardCostShare, ErrorMap
     * @return Boolean
     */
-    public boolean validateAwardSponsorTermNotDuplicate(AwardSponsorTerm awardSponsorTerm){
+    public boolean validateAwardSponsorTermNotDuplicate(AwardSponsorTerm awardSponsorTerm, List<AwardSponsorTerm> awardSponsorTerms){
         boolean valid = true;
         
-        for(AwardSponsorTerm tempAwardSponsorTerm 
-                   : awardSponsorTermRuleEvent.getAwardDocument().getAward().getAwardSponsorTerms()){
+        for(AwardSponsorTerm tempAwardSponsorTerm : awardSponsorTerms){
             if (awardSponsorTerm.getSponsorTermId().equals(tempAwardSponsorTerm.getSponsorTermId())){
                 valid = false;
                 reportError(NEW_AWARD_SPONSOR_TERM+awardSponsorTerm.getSponsorTerm().
