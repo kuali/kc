@@ -70,6 +70,10 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     public ActionForward permissions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return mapping.findForward("permissions");
     }
+    
+    public ActionForward protocolActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        return mapping.findForward("protocolActions");
+    }
 
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
