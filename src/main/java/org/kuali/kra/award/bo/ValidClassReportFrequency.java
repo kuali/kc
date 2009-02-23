@@ -21,8 +21,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * 
- * This class represents a ValidClassReportFrequency business objects and 
- * maps to VALID_CLASS_REPORT_FREQ table in the database.
+ * This class represents a ValidClassReportFrequency business objects 
  */
 public class ValidClassReportFrequency extends KraPersistableBusinessObjectBase { 
     
