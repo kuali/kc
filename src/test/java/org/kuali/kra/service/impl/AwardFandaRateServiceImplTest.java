@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -36,8 +39,10 @@ public class AwardFandaRateServiceImplTest {
     
     private static final String FISCAL_LEAP_YEAR_STRING = "2008";
     private static final String FISCAL_NON_LEAP_YEAR_STRING = "2010";
-    private static final String MOCK_EXPECTED_DATE_STRING_LEAP_YEAR = "07/01/2007,06/30/2008";
-    private static final String MOCK_EXPECTED_DATE_STRING_NON_LEAP_YEAR = "07/01/2009,06/30/2010";
+    
+    private static final List<String> MOCK_EXPECTED_DATE_NON_LEAP_YEAR = new ArrayList<String>();
+    private static final List<String> MOCK_EXPECTED_DATE_LEAP_YEAR = new ArrayList<String>();
+    private static final List<String> MOCK_EXPECTED_DATE_EMPTY = new ArrayList<String>();
 
     private Mockery context = new JUnit4Mockery();
     
@@ -63,8 +68,11 @@ public class AwardFandaRateServiceImplTest {
         }});
 
         awardFandaRateService.setKualiConfigurationService(kualiConfigurationService);
+        
+        MOCK_EXPECTED_DATE_LEAP_YEAR.add("07/01/2007");
+        MOCK_EXPECTED_DATE_LEAP_YEAR.add("06/30/2008");
                 
-        Assert.assertEquals(MOCK_EXPECTED_DATE_STRING_LEAP_YEAR,
+        Assert.assertEquals(MOCK_EXPECTED_DATE_LEAP_YEAR,
                 awardFandaRateService.getStartAndEndDatesBasedOnFiscalYear(FISCAL_LEAP_YEAR_STRING));
     }
     
@@ -81,7 +89,10 @@ public class AwardFandaRateServiceImplTest {
 
         awardFandaRateService.setKualiConfigurationService(kualiConfigurationService);
                 
-        Assert.assertEquals(MOCK_EXPECTED_DATE_STRING_NON_LEAP_YEAR,
+        MOCK_EXPECTED_DATE_NON_LEAP_YEAR.add("07/01/2009");
+        MOCK_EXPECTED_DATE_NON_LEAP_YEAR.add("06/30/2010");        
+                
+        Assert.assertEquals(MOCK_EXPECTED_DATE_NON_LEAP_YEAR,
                 awardFandaRateService.getStartAndEndDatesBasedOnFiscalYear(FISCAL_NON_LEAP_YEAR_STRING));
     }
     
@@ -89,7 +100,7 @@ public class AwardFandaRateServiceImplTest {
     public final void testGetStartAndEndDatesWhenInvalidFiscalYearPassed(){
         AwardFandaRateServiceImpl awardFandaRateService =  new AwardFandaRateServiceImpl();
                 
-        Assert.assertEquals("",
+        Assert.assertEquals(MOCK_EXPECTED_DATE_EMPTY,
                 awardFandaRateService.getStartAndEndDatesBasedOnFiscalYear(""));
     }
 }
