@@ -15,34 +15,35 @@
  */
 package org.kuali.kra.irb.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
-
+import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.KraTestBase;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolReference;
 import org.kuali.kra.irb.service.impl.ProtocolReferenceServiceImpl;
 
 public class ProtocolReferenceServiceTest {
     
+    Protocol protocol = new Protocol();
+    ProtocolReference protocolReference = new ProtocolReference();
+    
+    @Before
+    public void setUp() throws Exception {
+        protocol = new Protocol();
+        protocolReference = new ProtocolReference();
+           
+    }
+    
     @Test
-    public void testDeleteProtocolReference() throws Exception {
+    public void testAddProtocolReference() throws Exception {
         
-        ProtocolReferenceService service  = new ProtocolReferenceServiceImpl();
+        ProtocolReferenceServiceImpl service = new ProtocolReferenceServiceImpl();
         
-        Protocol protocol = new Protocol();
-        protocol.setProtocolReferences(new ArrayList<ProtocolReference>());
+        service.addProtocolReference(protocol, protocolReference);
         
-        ProtocolReference bo1 = new ProtocolReference();
-        bo1.setProtocolReferenceId(1L);
-        
-        ProtocolReference bo2 = new ProtocolReference();
-        bo2.setProtocolReferenceId(2L);
-        
-        protocol.getProtocolReferences().add(bo1);
-        protocol.getProtocolReferences().add(bo2);
-        
+        assertEquals(1, protocol.getProtocolReferences().size());
         
     }
 }
