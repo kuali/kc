@@ -44,8 +44,11 @@ public abstract class KcraNoDataTestBase extends KNSTestCase {
 
     @Before
     public void setUp() throws Exception {
+        setContextName("/kra-dev");
+        setRelativeWebappRoot("/src/main/webapp");
+        setSqlFilename("classpath:DefaultTestData.sql");
+        setXmlFilename("classpath:DefaultTestData.xml");
         super.setUp();
-        
         documentService = getService(DocumentService.class);
         GlobalVariables.setErrorMap(new ErrorMap());
         transactionalLifecycle = new TransactionalLifecycle();
