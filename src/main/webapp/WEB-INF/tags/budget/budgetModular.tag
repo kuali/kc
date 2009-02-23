@@ -151,8 +151,8 @@
              	<tr align="center" valign="top">
                		<th>&nbsp;</th>
                		<th>F&amp;A Rate Type</th>
-               		<th>IDC Rate</th>
-               		<th>IDC Base</th>
+               		<th>F&amp;A Rate</th>
+               		<th>F&amp;A Base</th>
                		<th>Funds Requested</th>
                		<c:if test="${periodDisplay}"><th>Actions</th></c:if>
              	</tr>
