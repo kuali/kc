@@ -26,25 +26,25 @@ import org.kuali.kra.scheduling.expr.CronSpecialChars;
 
 public interface ScheduleService {
 
-    public abstract List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, ScheduleSequence scheduleSequence)
+    public List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, ScheduleSequence scheduleSequence)
             throws ParseException;
 
-    public abstract List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, Integer day,
+    public List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, Integer day,
             ScheduleSequence scheduleSequence) throws ParseException;
 
-    public abstract List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, CronSpecialChars[] weekdays,
+    public List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, CronSpecialChars[] weekdays,
             ScheduleSequence scheduleSequence) throws ParseException;
 
-    public abstract List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, Integer day,
+    public List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, Integer day,
             Integer frequencyInMonth, ScheduleSequence scheduleSequence) throws ParseException;
 
-    public abstract List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, CronSpecialChars dayOfWeek,
+    public List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, CronSpecialChars dayOfWeek,
             CronSpecialChars weekOfMonth, Integer frequencyInMonth, ScheduleSequence scheduleSequence) throws ParseException;
 
-    public abstract List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, CronSpecialChars month,
+    public List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, CronSpecialChars month,
             Integer day, Integer frequencyInYear, ScheduleSequence scheduleSequence) throws ParseException;
 
-    public abstract List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, CronSpecialChars weekOfMonth,
+    public List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, CronSpecialChars weekOfMonth,
             CronSpecialChars dayOfWeek, CronSpecialChars month, Integer frequencyInYear, ScheduleSequence scheduleSequence)
             throws ParseException;
 
