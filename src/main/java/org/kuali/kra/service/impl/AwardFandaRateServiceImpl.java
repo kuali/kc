@@ -18,8 +18,10 @@ package org.kuali.kra.service.impl;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.KualiConfigurationService;
@@ -32,9 +34,10 @@ import org.kuali.kra.service.AwardFandaRateService;
  */
 public class AwardFandaRateServiceImpl implements AwardFandaRateService {
     
-    public static final int FISCAL_YEAR_LENGTH = 4;
+    public static final int FOUR_DIGIT_YEAR_LENGTH = 4;
     public static final long MILLIS_IN_LEAP_YEAR = new Long("31536000000");//365 * 24 * 60 * 60 * 1000
     public static final long MILLIS_IN_NON_LEAP_YEAR = new Long("31449600000");//364 * 24 * 60 * 60 * 1000
+    DateFormat dateFormat = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN);
         
     private KualiConfigurationService kualiConfigurationService;
 
@@ -46,42 +49,48 @@ public class AwardFandaRateServiceImpl implements AwardFandaRateService {
      * 
      * @see org.kuali.kra.service.AwardFandaRateService#getStartAndEndDatesBasedOnFiscalYear(java.lang.String)
      */
-    public String getStartAndEndDatesBasedOnFiscalYear(String fiscalYear){
-        StringBuilder dates = new StringBuilder();
-        
-        if (StringUtils.isNotEmpty(fiscalYear) && fiscalYear.length()==FISCAL_YEAR_LENGTH) {            
+    public List<String> getStartAndEndDatesBasedOnFiscalYear(String fiscalYear){
+        List<String> listDates = new ArrayList<String>();
+                
+        if (StringUtils.isNotEmpty(fiscalYear) && fiscalYear.length()==FOUR_DIGIT_YEAR_LENGTH) {            
             String budgetFiscalYearStart
                 = kualiConfigurationService.getParameterValue(Constants.PARAMETER_MODULE_BUDGET
                         , Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_CURRENT_FISCAL_YEAR);
             
-            Date startDate = getFiscalYearStartDate(fiscalYear, budgetFiscalYearStart.split("/"));      
-            
-            dates.append(getFormattedDate(startDate));            
-            dates.append(",");
-            if(new GregorianCalendar().isLeapYear(Integer.valueOf(fiscalYear))){
-                dates.append(getFormattedDate(new Date(startDate.getTime() + MILLIS_IN_LEAP_YEAR)));    
-            }else{
-                dates.append(getFormattedDate(new Date(startDate.getTime() + MILLIS_IN_NON_LEAP_YEAR)));
-            }            
+            for(Date date:getFiscalYearStartAndDates(
+                                Integer.valueOf(fiscalYear), budgetFiscalYearStart.split("/"))){
+                listDates.add(dateFormat.format(date));
+            }
         }
-        return dates.toString();
+        
+        return listDates;
     }
     
-    public Date getFiscalYearStartDate(String fiscalYear, String[] dateParts){
+    /**
+     * 
+     * This method retrieves the fiscal year start date using the fiscal year and 
+     * default fiscal year start date
+     * 
+     * @param fiscalYear
+     * @param dateParts
+     * @return
+     */
+    protected List<Date> getFiscalYearStartAndDates(int fiscalYear, String[] dateParts){
         Calendar calendar = GregorianCalendar.getInstance();
+        List<Date> dates = new ArrayList<Date>();
         
         try{
-            calendar.set(Integer.valueOf(fiscalYear)-1, Integer.valueOf(dateParts[0]) - 1
-                    , Integer.valueOf(dateParts[1]));    
+            calendar.set(fiscalYear-1, Integer.valueOf(dateParts[0]) - 1
+                    , Integer.valueOf(dateParts[1]));            
         }catch(NumberFormatException e){
             throw e;
         }
         
-        return new Date(calendar.getTimeInMillis()); 
+        dates.add(new Date(calendar.getTimeInMillis()));        
+        calendar.add(Calendar.YEAR, 1);
+        calendar.add(Calendar.DAY_OF_YEAR, -1);
+        dates.add(new Date(calendar.getTimeInMillis()));
+        return dates; 
     }
-    
-    public String getFormattedDate(Date date){
-        DateFormat dateFormat = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN);
-        return dateFormat.format(date);
-    }
+   
 }
