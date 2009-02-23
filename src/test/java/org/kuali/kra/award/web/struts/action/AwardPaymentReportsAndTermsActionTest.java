@@ -26,7 +26,7 @@ import org.junit.Test;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardReportTerm;
 import org.kuali.kra.award.bo.AwardReportTermRecipient;
-import org.kuali.kra.award.web.struts.action.AwardPaymentReportsAndTermsAction;
+import org.kuali.kra.award.bo.AwardSponsorTerm;
 
 /**
  * 
@@ -59,6 +59,11 @@ public class AwardPaymentReportsAndTermsActionTest {
     AwardReportTermRecipient awardReportTermRecipient3;
     List<AwardReportTerm> awardReportTerms;
     
+    AwardSponsorTerm awardSponsorTerm1;
+    AwardSponsorTerm awardSponsorTerm2;
+    AwardSponsorTerm awardSponsorTerm3;
+    List<AwardSponsorTerm> awardSponsorTerms;
+    
     @Before
     public void setUp() throws Exception {
         awardPaymentReportsAndTermsAction = new AwardPaymentReportsAndTermsAction();
@@ -70,6 +75,12 @@ public class AwardPaymentReportsAndTermsActionTest {
         awardReportTermRecipient1 = new AwardReportTermRecipient();
         awardReportTermRecipient2 = new AwardReportTermRecipient();
         awardReportTermRecipient3 = new AwardReportTermRecipient();
+        
+        awardSponsorTerm1 = new AwardSponsorTerm();
+        awardSponsorTerm2 = new AwardSponsorTerm();
+        awardSponsorTerm3 = new AwardSponsorTerm();
+        awardSponsorTerms = new ArrayList<AwardSponsorTerm>();
+
         
         awardReportTerm1 = 
             initializeAwardReportTermWithMockValues(awardReportTerm1, MOCK_REPORT_CLASS_CODE, 
@@ -107,6 +118,12 @@ public class AwardPaymentReportsAndTermsActionTest {
         awardReportTermRecipient1 = null;
         awardReportTermRecipient2 = null;
         awardReportTermRecipient3 = null;
+        
+        awardSponsorTerm1 = null;
+        awardSponsorTerm1 = null;
+        awardSponsorTerm1 = null;
+        awardSponsorTerms = null;
+
     }
     
     @Test
@@ -150,5 +167,27 @@ public class AwardPaymentReportsAndTermsActionTest {
     public void testClearRolodexRequestIsNotForAddLine(){
         Assert.assertTrue(awardPaymentReportsAndTermsAction.clearRolodexRequestIsNotForAddLine(5));
         Assert.assertFalse(awardPaymentReportsAndTermsAction.clearRolodexRequestIsNotForAddLine(-1));
+    }
+    
+    /**
+     * This method tests add functionality of AwardPaymentsReportsAndTerms Add AwardSponsorTerm.
+     */
+    @Test
+    public void testAddAwardSponsorTermToAward(){
+        awardPaymentReportsAndTermsAction.addAwardSponsorTermToAward(award, awardSponsorTerm1);
+        awardPaymentReportsAndTermsAction.addAwardSponsorTermToAward(award, awardSponsorTerm2);
+        awardPaymentReportsAndTermsAction.addAwardSponsorTermToAward(award, awardSponsorTerm3);
+        Assert.assertEquals(3, award.getAwardSponsorTerms().size());
+    }
+    
+    /**
+     * This method tests delete functionality of AwardPaymentsReportsAndTerms delete AwardSponsorTerm.
+     */
+    @Test
+    public void testDeleteAwardSponsorTermFromAward(){
+        awardPaymentReportsAndTermsAction.addAwardSponsorTermToAward(award, awardSponsorTerm1);
+        awardPaymentReportsAndTermsAction.addAwardSponsorTermToAward(award, awardSponsorTerm2);
+        awardPaymentReportsAndTermsAction.deleteAwardSponsorTermFromAward(award, 1);
+        Assert.assertEquals(1, award.getAwardSponsorTerms().size());
     }
 }

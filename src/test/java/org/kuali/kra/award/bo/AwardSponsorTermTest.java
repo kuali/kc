@@ -13,44 +13,51 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.lookup.keyvalue;
-
-import java.util.ArrayList;
-import java.util.List;
+package org.kuali.kra.award.bo;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kra.KraTestBase;
 
-public class ReportClassValuesFinderTest extends KraTestBase{
+
+/**
+ * This class tests the Business Object AwardSponsorTerm
+ */
+public class AwardSponsorTermTest {
+
+private static final int AWARD_SPONSOR_TERM_ATTRIBUTES_COUNT = 4;
     
-    ReportClassValuesFinder reportClassValuesFinder;
-    List<KeyLabelPair> reportClasses;
-
+    private AwardSponsorTerm awardSponsorTermBo;
+    private Award award = new Award();
+    
+    /**
+     *
+     * @throws Exception
+     */
     @Before
     public void setUp() throws Exception {
-        reportClassValuesFinder = new ReportClassValuesFinder();
-        reportClasses = new ArrayList<KeyLabelPair>();
-        reportClasses = reportClassValuesFinder.getKeyValues();
+        awardSponsorTermBo = new AwardSponsorTerm();
+        awardSponsorTermBo.setAward(award);
     }
 
+    /**
+     *
+     * @throws Exception
+     */
     @After
     public void tearDown() throws Exception {
-        reportClassValuesFinder = null;
-        reportClasses = null;
+        awardSponsorTermBo = null;
     }
-
+    
+    /**
+     * 
+     * This method tests that total attributes of Award Business Object 
+     * @throws Exception
+     */
     @Test
-    public final void testGetKeyValues() {
-        Assert.assertEquals(6,reportClasses.size());
-        
-        for(KeyLabelPair keyLabelPair:reportClasses){
-            Assert.assertNotNull(keyLabelPair.getKey());
-            Assert.assertNotNull(keyLabelPair.getLabel());
-        }
+    public void testAwardCostShareBoAttributesCount() throws Exception {              
+        Assert.assertEquals(AWARD_SPONSOR_TERM_ATTRIBUTES_COUNT, awardSponsorTermBo.toStringMapper().size());
     }
+    
 }
-
