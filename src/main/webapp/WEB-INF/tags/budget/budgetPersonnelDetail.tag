@@ -166,14 +166,14 @@
                     
     		<c:set var="index" value="0"/>
     		<c:forEach var="budgetLineItems" items="${KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems}" varStatus="status">
-    		<c:if test="${budgetLineItems.budgetCategory.budgetCategoryTypeCode == budgetCategoryTypeCodeKey}" >
+    		<c:if test="${budgetLineItems.costElementBO.budgetCategory.budgetCategoryTypeCode == budgetCategoryTypeCodeKey}" >
     			<tr>
     				<td colspan="4" width="100%">
 						<kra-b:budgetPersonnelLineItems budgetPeriod = "${budgetPeriod}" budgetCategoryTypeCode = "${budgetCategoryTypeCodeKey}" budgetLineItemNumber="${status.index}" budgetLineItemSequenceNumber="${index}" innerTabParent="Personnel Detail" budgetExpensePanelReadOnly="${readOnly}"/>
 						<c:set var="index" value="${index+1}"/>
 					</td>
 				</tr>
-    		</c:if> 		
+    		</c:if>		
     		</c:forEach>
  
  			</table>

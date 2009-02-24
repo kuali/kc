@@ -157,7 +157,7 @@
 			    	<c:if test="${budgetCategoryTypeIndex.key ==  budgetCategoryTypeCodeKey}">
 			    		<c:set var="index" value="0"/>
 			    		<c:forEach var="budgetLineItems" items="${KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems}" varStatus="status">
-			    		<c:if test="${budgetLineItems.budgetCategory.budgetCategoryTypeCode == budgetCategoryTypeIndex.key}" >
+			    		<c:if test="${budgetLineItems.costElementBO.budgetCategory.budgetCategoryTypeCode == budgetCategoryTypeIndex.key}" >
 							<kra-b:budgetLineItems budgetPeriod = "${budgetPeriod}" budgetCategoryTypeCode = "${budgetCategoryTypeCodeKey}" budgetLineItemNumber="${status.index}" budgetLineItemSequenceNumber="${index}" innerTabParent="${budgetCategoryTypeCodeLabel}" budgetExpensePanelReadOnly="${readOnly}"/>
 							<c:set var="index" value="${index+1}"/>			    		
 			    		</c:if> 		
