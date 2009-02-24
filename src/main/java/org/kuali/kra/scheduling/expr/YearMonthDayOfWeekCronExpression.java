@@ -20,8 +20,33 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import org.kuali.kra.scheduling.Time24HrFmt;
-
+import org.kuali.kra.scheduling.expr.util.CronSpecialChars;
+import org.kuali.kra.scheduling.util.Time24HrFmt;
+/**
+ * This class extends CronExpression and provides YearMonthDayCronExpression implementation.
+ * <p>
+ * This implementation generates expression for yearly scheduling dates using week of month, day of week, month, and year.
+ * 
+ * week of month: CronSpecialChars.FIRST, CronSpecialChars.SECOND, CronSpecialChars.THIRD, CronSpecialChars.FOURTH,
+ * CronSpecialChars.FIFTH 
+ * 
+ * day of week: CronSpecialChars.SUN, CronSpecialChars.MON, CronSpecialChars.TUE, CronSpecialChars.WED,
+ * CronSpecialChars.THU, CronSpecialChars.FRI, CronSpecialChars.SAT 
+ * 
+ * month: CronSpecialChars.FEB, CronSpecialChars.MAR, CronSpecialChars.APR, CronSpecialChars.MAY, CronSpecialChars.JUN,
+ * CronSpecialChars.JUL, CronSpecialChars.AUG, CronSpecialChars.SEP, CronSpecialChars.OCT, CronSpecialChars.NOV,
+ * CronSpecialChars.DEC
+ * 
+ * year: 2009, 2010, etc...
+ * 
+ * Note: Start date is skipped, date boundary is handled by ScheduleSequence implementation  during schedule generation.
+ * 
+ * e.g. Start Date : 02/24/09, Time : 10:10 (hh:mm) Format (second minute hour day month year) Generated Expression : 0 10 10 ? JAN MONL 2009/1
+ * Explanation: Generate dates for every last Monday in January of every year at 10:10 (hh:mm), starting from 2009.  
+ * 
+ * e.g. Start Date : 02/24/09, Time : 10:10 (hh:mm) Format (second minute hour day month year) Generated Expression : 0 10 10 ? JAN MONL 2009/2
+ * Explanation: Generate dates for every last Monday in January of every other year at 10:10 (hh:mm), starting from 2009. 
+ */
 public class YearMonthDayOfWeekCronExpression extends CronExpression {
     
     private CronSpecialChars weekOfMonth;
@@ -53,7 +78,7 @@ public class YearMonthDayOfWeekCronExpression extends CronExpression {
         exp.append(getTime().getHours()).append(CronSpecialChars.SPACE);        
         exp.append(CronSpecialChars.QUESTION).append(CronSpecialChars.SPACE);
         exp.append(month).append(CronSpecialChars.SPACE);
-        if(!(weekOfMonth == CronSpecialChars.FIFTH))
+        if(!(weekOfMonth == CronSpecialChars.LAST))
             exp.append(dayOfWeek).append(CronSpecialChars.HASH).append(weekOfMonth).append(CronSpecialChars.SPACE);
         else
             exp.append(dayOfWeek).append(CronSpecialChars.LAST).append(CronSpecialChars.SPACE);        

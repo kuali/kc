@@ -18,8 +18,11 @@ package org.kuali.kra.scheduling.expr;
 import java.text.ParseException;
 import java.util.Date;
 
-import org.kuali.kra.scheduling.Time24HrFmt;
+import org.kuali.kra.scheduling.util.Time24HrFmt;
 
+/**
+ * This is abstract class, expects to implement expression generation logic.
+ */
 public abstract class CronExpression {
     
     private Date startDate;
@@ -28,12 +31,22 @@ public abstract class CronExpression {
     
     public final String SECONDS = "0";
     
+    /**
+     * Constructs a CronExpression.java.
+     * @param startDate is begin date for schedule generation.
+     * @param time which schedule date refers to.
+     * @throws ParseException might be thrown if CronExpression is incorrect.
+     */
     public CronExpression(Date startDate, Time24HrFmt time) throws ParseException {
         super();
         this.startDate = startDate;
         this.time = time;
     }
     
+    /**
+     * This method implementation must provide valid Cron Expression.
+     * @return Cron Expression.
+     */
     public abstract String getExpression();
 
     protected Date getStartDate() {
