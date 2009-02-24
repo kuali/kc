@@ -287,6 +287,13 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
     
     /**
+     * @return
+     */
+    public int getApprovedEquipmentItemCount() {
+        return approvedEquipmentItems.size();
+    }
+    
+    /**
      * 
      */
     public void setApprovedEquipmentItems(List<AwardApprovedEquipment> awardApprovedEquipmentItems) {
