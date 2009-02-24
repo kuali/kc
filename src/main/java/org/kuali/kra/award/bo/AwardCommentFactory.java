@@ -46,6 +46,15 @@ public class AwardCommentFactory {
     }
     
     /**
+     * This method creates F and A Rate Comment
+     * @param award
+     * @return
+     */
+    public AwardComment createPaymentAndInvoiceComment(Award award) {
+        return createAwardComment(award, Constants.PAYMENT_AND_INVOICES_COMMENT_TYPE_CODE, true);
+    }
+    
+    /**
      * This method creates Benefits Rate Comment
      * @param award
      * @return
