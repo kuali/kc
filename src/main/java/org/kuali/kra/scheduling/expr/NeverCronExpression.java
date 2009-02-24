@@ -20,8 +20,18 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import org.kuali.kra.scheduling.Time24HrFmt;
-
+import org.kuali.kra.scheduling.expr.util.CronSpecialChars;
+import org.kuali.kra.scheduling.util.Time24HrFmt;
+/**
+ * This class extends CronExpression and provides NeverCronExpression implementation. 
+ * <p>
+ * This implementation generates expression for retrieving first schedule date only, using start date's day of month. 
+ * 
+ * e.g. Start Date : 02/24/09, Time : 10:10 (hh:mm)
+ * Format (second minute hour day month year)
+ * Generated Expression :0 10 10 24 * ?
+ * Explanation: Generate date for 24th starting at 10:10 (hh:mm)  
+ */
 public class NeverCronExpression extends CronExpression {
 
     public NeverCronExpression(Date startDate, Time24HrFmt time) throws ParseException {

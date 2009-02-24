@@ -22,7 +22,7 @@ import java.util.Map;
 
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt.MERIDIEM;
 import org.kuali.kra.committee.web.struts.form.schedule.util.ScheduleOptionsUtil;
-import org.kuali.kra.scheduling.expr.CronSpecialChars;
+import org.kuali.kra.scheduling.expr.util.CronSpecialChars;
 
 public class ScheduleData {
     

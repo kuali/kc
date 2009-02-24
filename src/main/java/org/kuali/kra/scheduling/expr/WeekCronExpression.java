@@ -18,13 +18,30 @@ package org.kuali.kra.scheduling.expr;
 import java.text.ParseException;
 import java.util.Date;
 
-import org.kuali.kra.scheduling.Time24HrFmt;
+import org.kuali.kra.scheduling.expr.util.CronSpecialChars;
+import org.kuali.kra.scheduling.util.Time24HrFmt;
 
+/**
+ * This class extends CronExpression and provides WeekCronExpression implementation.
+ * <p>
+ * This implementation generates expression for weekly scheduling dates using day of week.
+ * 
+ * day of week: CronSpecialChars.SUN, CronSpecialChars.MON, CronSpecialChars.TUE, CronSpecialChars.WED, CronSpecialChars.THU,
+ * CronSpecialChars.FRI, CronSpecialChars.SAT
+ * 
+ * Note: Start date is skipped, date boundary is handled by ScheduleSequence implementation during schedule generation.
+ * 
+ * e.g. Start Date : 02/24/09, Time : 10:10 (hh:mm) Format (second minute hour day month year) Generated Expression :0 10 10 ? * MON
+ * Explanation: Generate dates for every week on Monday at 10:10 (hh:mm)
+ * 
+ * e.g. Start Date : 02/24/09, Time : 10:10 (hh:mm) Format (second minute hour day month year) Generated Expression :0 10 10 ? *
+ * MON,FRI Explanation: Generate dates for every week on Monday & Friday at 10:10 (hh:mm)
+ */
 public class WeekCronExpression extends CronExpression {
-    
-    private CronSpecialChars [] weekdays;
-    
-    public WeekCronExpression(Date startDate, Time24HrFmt time, CronSpecialChars [] weekdays) throws ParseException {
+
+    private CronSpecialChars[] weekdays;
+
+    public WeekCronExpression(Date startDate, Time24HrFmt time, CronSpecialChars[] weekdays) throws ParseException {
         super(startDate, time);
         this.weekdays = weekdays;
     }
@@ -35,19 +52,19 @@ public class WeekCronExpression extends CronExpression {
         StringBuilder exp = new StringBuilder();
         exp.append(SECONDS).append(CronSpecialChars.SPACE);
         exp.append(getTime().getMinutes()).append(CronSpecialChars.SPACE);
-        exp.append(getTime().getHours()).append(CronSpecialChars.SPACE);        
+        exp.append(getTime().getHours()).append(CronSpecialChars.SPACE);
         exp.append("?").append(CronSpecialChars.SPACE);
         exp.append("*").append(CronSpecialChars.SPACE);
-        exp.append(toStringWeekDays(weekdays,CronSpecialChars.COMMASEPRATOR));
+        exp.append(toStringWeekDays(weekdays, CronSpecialChars.COMMASEPRATOR));
         return exp.toString();
     }
-    
-    private String toStringWeekDays(CronSpecialChars [] day, CronSpecialChars seperator) {
-        
+
+    private String toStringWeekDays(CronSpecialChars[] day, CronSpecialChars seperator) {
+
         StringBuilder sb = new StringBuilder();
-        for(CronSpecialChars str: day) {
+        for (CronSpecialChars str : day) {
             sb.append(str).append(seperator);
         }
-        return sb.substring(0, sb.length()-1);
+        return sb.substring(0, sb.length() - 1);
     }
 }

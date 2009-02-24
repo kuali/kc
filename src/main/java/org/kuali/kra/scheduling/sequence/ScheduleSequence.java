@@ -13,26 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.scheduling;
+package org.kuali.kra.scheduling.sequence;
 
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
-import org.quartz.CronTrigger;
-import org.quartz.TriggerUtils;
+public interface ScheduleSequence {
 
-public class DefaultScheduleSequence implements ScheduleSequence {
-
-    @SuppressWarnings("unchecked")
-    public List<Date> getScheduleSequence(String expr, Date startDate, Date endDate) throws ParseException {
-        
-        CronTrigger ct = new CronTrigger("t", "g", "j", "g", new Date(), null, expr);
-        ct.setTimeZone(TimeZone.getDefault());
-        System.err.println(ct.getExpressionSummary());//TODO remove
-        return TriggerUtils.computeFireTimesBetween(ct, null, startDate, endDate);
-        
-    }
+    /**
+     * This method expects to generate list of dates between start and end date using cron expression.
+     * 
+     * @param expr can be any valid CronExpression.
+     * @param startDate, is expression's begin date.
+     * @param endDate, is expression's end date.
+     * @return list of dates is returned.
+     * @throws ParseException can thrown in case of invalid expression.
+     */
+    public List<Date> executeScheduleSequence(String expression, Date startDate, Date endDate) throws ParseException;
 
 }
