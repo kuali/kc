@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,6 +27,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.PersistenceService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardReportTerm;
@@ -90,8 +92,11 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
     
     /**
      * Upon the return from look up on <code>Rolodex</code> (Organization) field, this method gets
-     * executed; We need to display Organization name on the screen; thus we have to call
-     * OJB's refreshReferenceObject method on every awardReportTermRecipient object.
+     * executed; We need to display Organization name on the screen;
+     * 
+     * For this first we are adding all the AwardReportTermRecipient objects and the string "Rolodex"
+     * to two lists and passing it to PersistenceService which then refreshes the Rolodex object in 
+     * all of AwardReportTermRecipient objects in 1 single transation.
      *  
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(
      * org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, 
@@ -103,14 +108,22 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         super.refresh(mapping, form, request, response);
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDocument = (AwardDocument) awardForm.getAwardDocument();
+        List<AwardReportTermRecipient> persistableObjects = new ArrayList<AwardReportTermRecipient>();
+        List<String> referenceObjectNames = new ArrayList<String>();
+        
         for(AwardReportTermRecipient awardReportTermRecipient : awardForm.getNewAwardReportTermRecipient()){
-            awardReportTermRecipient.refreshReferenceObject(ROLODEX);
+            persistableObjects.add(awardReportTermRecipient);
+            referenceObjectNames.add(ROLODEX);            
         }
         for(AwardReportTerm awardReportTerm : awardDocument.getAward().getAwardReportTerms()){
             for(AwardReportTermRecipient awardReportTermRecipient : awardReportTerm.getAwardReportTermRecipients()){
-                awardReportTermRecipient.refreshReferenceObject(ROLODEX);
+                persistableObjects.add(awardReportTermRecipient);
+                referenceObjectNames.add(ROLODEX);
             }
-        }            
+        }
+        
+        getPersistenceService().retrieveReferenceObjects(persistableObjects, referenceObjectNames);
+        
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
@@ -538,5 +551,15 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      */
     protected KualiConfigurationService getKualiConfigurationService(){
         return KraServiceLocator.getService(KualiConfigurationService.class);
+    }
+    
+    /**
+     * 
+     * This is a wrapper method for the retrieval of PersistenceService.
+     * 
+     * @return
+     */
+    protected PersistenceService getPersistenceService(){
+        return KraServiceLocator.getService(PersistenceService.class);
     }
 }
