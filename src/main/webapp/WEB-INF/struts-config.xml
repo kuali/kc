@@ -91,7 +91,7 @@
             <forward name="basic" path="/ChangePassword.jsp" />
         </action>
 
- 		<action path="/unitHierarchy" name="UnitHierarchyForm" type="org.kuali.kra.web.struts.action.UnitHierarchyAction">
+ 		<action path="/unitHierarchy" name="UnitHierarchyForm" type="org.kuali.kra.web.struts.action.UnitHierarchyAction" scope="request">
             <forward name="basic" path="/unitHierarchy.jsp" />
         </action>
         
