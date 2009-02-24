@@ -16,6 +16,12 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 
-<kul:tab tabTitle="Special Approval" defaultOpen="false" tabErrorKey="newAwardApprovedEquipment*,document.awardList[0].approvedEquipmentItems*">
-	<kra-a:awardApprovedEquipment />
+<kul:tab tabTitle="Special Approval" defaultOpen="false" tabErrorKey="">
+	<div class="tab-container" align="right">
+		<h3>
+			<span class="subhead-left">Special Approval</span>
+		</h3>
+	
+		<kra-a:awardApprovedEquipment />
+	</div>
 </kul:tab>
