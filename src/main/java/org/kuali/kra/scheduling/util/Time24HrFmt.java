@@ -13,10 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.scheduling;
+package org.kuali.kra.scheduling.util;
 
 import java.text.ParseException;
 
+/**
+ * This is util class helps facade time in 24 hour format.
+ */
 public class Time24HrFmt {
     
     private String hours;
@@ -33,6 +36,11 @@ public class Time24HrFmt {
     
     public static final String msg4 = "Time format exception, expects mm as 0-59";
     
+    /**
+     * Constructs a Time24HrFmt.java.
+     * @param time is expected in 24hr format along with minutes, separated by colon (hh:mm).
+     * @throws ParseException
+     */
     public Time24HrFmt(String time) throws ParseException {
         parseTime(time);
     }

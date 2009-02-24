@@ -35,11 +35,11 @@ import org.kuali.kra.committee.web.struts.form.schedule.MonthlyScheduleDetails;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.committee.web.struts.form.schedule.StyleKey;
 import org.kuali.kra.committee.web.struts.form.schedule.YearlyScheduleDetails;
-import org.kuali.kra.scheduling.ScheduleSequence;
-import org.kuali.kra.scheduling.Time24HrFmt;
-import org.kuali.kra.scheduling.WeekScheduleSequence;
-import org.kuali.kra.scheduling.expr.CronSpecialChars;
+import org.kuali.kra.scheduling.expr.util.CronSpecialChars;
+import org.kuali.kra.scheduling.sequence.ScheduleSequence;
+import org.kuali.kra.scheduling.sequence.WeekScheduleSequence;
 import org.kuali.kra.scheduling.service.ScheduleService;
+import org.kuali.kra.scheduling.util.Time24HrFmt;
 
 
 /**
