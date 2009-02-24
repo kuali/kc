@@ -41,36 +41,36 @@
     	<c:if test="${budgetCategoryTypeIndex.key ==  budgetCategoryTypeCodeKey}">
     		<c:set var="index" value="0"/>
     		<c:forEach var="budgetLineItems" items="${KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems}" varStatus="status">			    		
-    		<c:if test="${budgetLineItems.budgetCategory.budgetCategoryTypeCode == budgetCategoryTypeIndex.key}" >    						
-			<c:set var="index" value="${index+1}"/>
-				<c:choose>
-	    			<c:when test="${empty tabErrorKeyString}">
-	    				<c:set var="tabErrorKeyString" value="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${status.index}].lineItemDescription"/>
-	    			</c:when>
-	    			<c:otherwise>
-	    				<c:set var="tabErrorKeyString" value="${tabErrorKeyString},document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${status.index}].lineItemDescription"/>
-	    			</c:otherwise>
-	    		</c:choose>
-	    		<c:choose>
-	    			<c:when test="${empty tabErrorKeyString2}">
-	    				<c:set var="tabErrorKeyString2" value="document.budgetCategoryTypes[${budgetCategoryTypeIndex.key}].budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${status.index}].*"/>
-	    			</c:when>
-	    			<c:otherwise>
-	    				<c:set var="tabErrorKeyString2" value="${tabErrorKeyString2},document.budgetCategoryTypes[${budgetCategoryTypeIndex.key}].budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${status.index}].*"/>
-	    			</c:otherwise>
-	    		</c:choose>
-	    		<c:choose>
-	    			<c:when test="${empty tabErrorKeyString3}">
-	    				<c:set var="tabErrorKeyString3" value="document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].lineItemCost,document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].quantity"/>
-	    			</c:when>
-	    			<c:otherwise>
-	    				<c:set var="tabErrorKeyString3" value="${tabErrorKeyString3},document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].lineItemCost,document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].quantity"/>
-	    			</c:otherwise>
-	    		</c:choose>			    		
-    		</c:if>    		
-    		<c:if test="${index!=0}">    					    		
-    			<c:set var="budgetLineItemSize" value="${index}"/>
-    		</c:if>
+				<c:if test="${budgetLineItems.costElementBO.budgetCategory.budgetCategoryTypeCode == budgetCategoryTypeIndex.key}" >    						
+					<c:set var="index" value="${index+1}"/>
+					<c:choose>
+		    			<c:when test="${empty tabErrorKeyString}">
+		    				<c:set var="tabErrorKeyString" value="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${status.index}].lineItemDescription"/>
+		    			</c:when>
+		    			<c:otherwise>
+		    				<c:set var="tabErrorKeyString" value="${tabErrorKeyString},document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${status.index}].lineItemDescription"/>
+		    			</c:otherwise>
+		    		</c:choose>
+		    		<c:choose>
+		    			<c:when test="${empty tabErrorKeyString2}">
+		    				<c:set var="tabErrorKeyString2" value="document.budgetCategoryTypes[${budgetCategoryTypeIndex.key}].budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${status.index}].*"/>
+		    			</c:when>
+		    			<c:otherwise>
+		    				<c:set var="tabErrorKeyString2" value="${tabErrorKeyString2},document.budgetCategoryTypes[${budgetCategoryTypeIndex.key}].budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${status.index}].*"/>
+		    			</c:otherwise>
+		    		</c:choose>
+		    		<c:choose>
+		    			<c:when test="${empty tabErrorKeyString3}">
+		    				<c:set var="tabErrorKeyString3" value="document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].lineItemCost,document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].quantity"/>
+		    			</c:when>
+		    			<c:otherwise>
+		    				<c:set var="tabErrorKeyString3" value="${tabErrorKeyString3},document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].lineItemCost,document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].quantity"/>
+		    			</c:otherwise>
+		    		</c:choose>			    		
+	    		</c:if>    		
+	    		<c:if test="${index!=0}">    					    		
+	    			<c:set var="budgetLineItemSize" value="${index}"/>
+	    		</c:if>
     		</c:forEach>
     	</c:if>
     </c:forEach>
