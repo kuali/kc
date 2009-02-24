@@ -140,9 +140,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         setSpecialReviewIndicator(YES_FLAG);
         setTransferSponsorIndicator(YES_FLAG);
         setActivityTypeCode(1);
-        setAwardTypeCode(1);
-        setBasisOfPaymentCode(1);
-        setMethodOfPaymentCode(1);
+        setAwardTypeCode(1);        
         setTitle(AWARD_TITLE);   
     }
     
@@ -640,12 +638,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * @param basisOfPaymentCode
      */
     public void setBasisOfPaymentCode(Integer basisOfPaymentCode) {
-        if(basisOfPaymentCode!=null){
             this.basisOfPaymentCode = basisOfPaymentCode;    
-        }else{
-            this.basisOfPaymentCode = 1;
-        }
-        
     }
 
 
@@ -750,11 +743,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * @param methodOfPaymentCode
      */
     public void setMethodOfPaymentCode(Integer methodOfPaymentCode) {
-        if(methodOfPaymentCode!=null){
-            this.methodOfPaymentCode = methodOfPaymentCode;    
-        }else{
-            this.methodOfPaymentCode = 1;
-        }
+            this.methodOfPaymentCode = methodOfPaymentCode;
     }
 
 
@@ -1104,6 +1093,21 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         if(awardComment == null){
             awardComment = awardCommentFactory.createFandaRateComment(this);  //if null initialize in factory class
             awardComments.add(awardComment);  //add the new CostShareComment to the awardComments list.
+            commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);  //add to Map
+        }
+        return awardComment;
+    }
+    
+    /**
+    *
+    * Get the award AwardPaymentAndInvoiceRequirementsComments.  If the comment has not been set...... initialize and return new Comment.
+    */
+    public AwardComment getAwardPaymentAndInvoiceRequirementsComments(){
+        AwardCommentFactory awardCommentFactory = new AwardCommentFactory();  //create Factory class
+        AwardComment awardComment = getCommentMap().get(Constants.PAYMENT_AND_INVOICES_COMMENT_TYPE_CODE);
+        if(awardComment == null){
+            awardComment = awardCommentFactory.createPaymentAndInvoiceComment(this);  //if null initialize in factory class
+            awardComments.add(awardComment);  //add the new Payment And Invoice to the awardComments list.
             commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);  //add to Map
         }
         return awardComment;
