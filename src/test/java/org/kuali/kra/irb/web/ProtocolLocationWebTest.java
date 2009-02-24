@@ -115,7 +115,7 @@ public class ProtocolLocationWebTest extends ProtocolWebTestBase{
         //add new location
         assertDoesNotContain(pageAfterDeleteLocation, NEW_ORGANIZATION_VALUE);
         setFieldValues(pageAfterDeleteLocation, getProtocolLocationNewFieldsMap());
-        HtmlPage pageAfterAddLocation = clickOn(pageAfterDeleteLocation, ADD_LOCATION);
+        HtmlPage pageAfterAddLocation = clickOnByName(pageAfterDeleteLocation, ADD_LOCATION, true);
         assertContains(pageAfterAddLocation, NEW_ORGANIZATION_VALUE);
     }
 
