@@ -84,7 +84,7 @@
               		</c:choose>
               	</td>
               	<th><div align="right">Project Total Requested Cost:</div></th>
-              	<td>$ ${KualiForm.budgetModularSummary.totalRequestedCost}</td>
+              	<td><fmt:formatNumber currencySymbol="$ " type="currency" value="${KualiForm.budgetModularSummary.totalRequestedCost}"/></td>
             </tr>
     	</table>
     </div>
