@@ -307,6 +307,7 @@ public interface Constants {
     
     public static final Integer COST_SHARE_COMMENT_TYPE_CODE = 9;
     public static final Integer FANDA_RATE_COMMENT_TYPE_CODE = 8;
+    public static final Integer PAYMENT_AND_INVOICES_COMMENT_TYPE_CODE = 1;
     public static final Integer PREAWARD_SPONSOR_AUTHORIZATION_COMMENT_TYPE_CODE = 18;
     public static final Integer PREAWARD_INSTITUTIONAL_AUTHORIZATION_COMMENT_TYPE_CODE = 19;
     public static final Integer BENEFITS_RATES_COMMENT_TYPE_CODE = 20;

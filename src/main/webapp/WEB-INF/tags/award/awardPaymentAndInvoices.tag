@@ -15,11 +15,23 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+<c:set var="awardPaymentAndInvoiceRequirementsCommentAttributes" value="${DataDictionary.AwardComment.attributes}" />
 
 <kul:tabTop tabTitle="Payment & Invoices" defaultOpen="false" tabErrorKey="" >
 	<div class="tab-container" align="right">
 		<kra-a:awardPaymentAndInvoicesTopPanel />	
 		<kra-a:awardReportClasses index="5" reportClassKey="${KualiForm.reportClassForPaymentsAndInvoices.reportClassCode}" 
 			reportClassLabel="Payment & Invoice Requirements" defaultOpenForTab="true" noShowHideButton="true" />
+			<table border="0" cellpadding="0" cellspacing="0" summary="">
+			<tr>
+        			<th width="100" align="right" scope="row"><div align="center">Invoice Instructions:</div></th>
+        			<td class="infoline" colspan="10">
+            	 		<div align="left">
+            	  	 		<kul:htmlControlAttribute property="document.award.awardPaymentAndInvoiceRequirementsComments.comments" attributeEntry="${awardPaymentAndInvoiceRequirementsCommentAttributes.comments}"/>
+            	  	 		<kra:expandedTextArea textAreaFieldName="document.award.awardPaymentAndInvoiceRequirementsComments.comments" action="${action}" textAreaLabel="${awardPaymentAndInvoiceRequirementsCommentAttributes.comments.label}" />
+            	 		</div>
+            		</td>            
+        		</tr>
+        		</table>
 	</div>
 </kul:tabTop>
