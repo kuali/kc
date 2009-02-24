@@ -286,7 +286,7 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
         super.setFieldValue(resultPage,PROTOCOL_REFERENCE_PROTOCOLREFERENCETYPECODE_ID, PROTOCOL_REFERENCE_PROTOCOLREFERENCETYPECODE);
         super.setFieldValue(resultPage,PROTOCOL_REFERENCE_REFERENCEKEY_ID, PROTOCOL_REFERENCE_REFERENCEKEY);
         
-        HtmlPage pageAfterAdd= clickOn(resultPage, PROTOCOL_REFERENCE_ADDMETHOD);
+        HtmlPage pageAfterAdd= clickOnByName(resultPage, PROTOCOL_REFERENCE_ADDMETHOD, true);
         
         setProtocolDocument(null, pageAfterAdd); //Can also be set by child if required
                 
