@@ -21,7 +21,7 @@ import org.apache.struts.util.LabelValueBean;
 import org.kuali.kra.committee.web.struts.form.schedule.DayOfWeek;
 import org.kuali.kra.committee.web.struts.form.schedule.Months;
 import org.kuali.kra.committee.web.struts.form.schedule.WeekOfMonth;
-import org.kuali.kra.scheduling.expr.CronSpecialChars;
+import org.kuali.kra.scheduling.expr.util.CronSpecialChars;
 
 public class ScheduleOptionsUtil {
 

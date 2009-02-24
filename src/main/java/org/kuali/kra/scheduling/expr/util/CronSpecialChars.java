@@ -13,8 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.scheduling.expr;
+package org.kuali.kra.scheduling.expr.util;
 
+/**
+ * This class defines cron special character construct.
+ */
 public enum CronSpecialChars {
     
     SPACE(" "),STAR("*"),QUESTION("?"), COMMA(","), HASH("#"), HYPHEN("-"), LAST("L"),SLASH("/"),COMMASEPRATOR(","),
@@ -25,6 +28,10 @@ public enum CronSpecialChars {
     
     private String chr;
     
+    /**
+     * Constructs a CronSpecialChars.java.
+     * @param chr value is used to create cron expression. 
+     */
     CronSpecialChars(String chr) {
         this.chr = chr;
     }
