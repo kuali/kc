@@ -21,6 +21,8 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
+import org.kuali.kra.committee.rule.AddCommitteeMembershipRule;
+import org.kuali.kra.committee.rule.event.AddCommitteeMembershipEvent;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -35,7 +37,8 @@ import org.kuali.kra.service.UnitService;
  * this class will act as a controller and forward the rules checking to 
  * another class within this package.
  */
-public class CommitteeDocumentRule extends ResearchDocumentRuleBase {
+public class CommitteeDocumentRule extends ResearchDocumentRuleBase
+                                   implements AddCommitteeMembershipRule {
     
     static private final boolean VALIDATION_REQUIRED = true;
     
@@ -153,4 +156,12 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase {
         
         return retval;
     }
+    
+    /**
+     * @see org.kuali.kra.committee.rule.AddCommitteeMembershipRule#processAddCommitteeMembershipRules(org.kuali.kra.committee.rule.event.AddCommitteeMembershipEvent)
+     */
+    public boolean processAddCommitteeMembershipRules(AddCommitteeMembershipEvent addCommitteeMembershipEvent) {
+        return new CommitteeMembershipRule().processAddCommitteeMembershipBusinessRules(addCommitteeMembershipEvent);
+    }
+
 }

@@ -36,6 +36,7 @@ import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
+import org.kuali.kra.committee.web.struts.form.MembershipHelper;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
@@ -101,8 +102,9 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
         
         ActionForward actionForward = super.reload(mapping, form, request, response);
         
-        committeeForm.getMembershipHelper().setNewCommitteeMembership(new CommitteeMembership());
-        committeeForm.getMembershipHelper().setNewPersonName(null);
+        MembershipHelper membershipHelper = committeeForm.getMembershipHelper();
+        membershipHelper.setNewCommitteeMembership(new CommitteeMembership());
+        membershipHelper.setNewPersonName("");
         
         return actionForward;        
     }

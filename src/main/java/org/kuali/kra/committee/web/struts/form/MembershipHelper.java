@@ -22,6 +22,10 @@ public class MembershipHelper {
     private CommitteeMembership newCommitteeMembership;
     private String newPersonName;
 
+    public MembershipHelper() {
+        setNewCommitteeMembership(new CommitteeMembership());
+    }
+    
     public void prepareView() {
         setNewCommitteeMembership(new CommitteeMembership());
     }
