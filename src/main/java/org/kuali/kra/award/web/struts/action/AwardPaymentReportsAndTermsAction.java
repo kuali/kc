@@ -122,7 +122,9 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
             }
         }
         
-        getPersistenceService().retrieveReferenceObjects(persistableObjects, referenceObjectNames);
+        if(persistableObjects.size()>0 && referenceObjectNames.size()>0 ){
+            getPersistenceService().retrieveReferenceObjects(persistableObjects, referenceObjectNames);
+        }
         
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }

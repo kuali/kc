@@ -67,7 +67,6 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     
     private AwardFandaRate newAwardFandaRate;
     private List<AwardReportTerm> newAwardReportTerm;
-    //private List<SponsorTerm> newSponsorTerms;
     private List<AwardReportTermRecipient> newAwardReportTermRecipient;
     private List<KeyLabelPair> reportClasses;
     
@@ -78,7 +77,6 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     
     private ReportClass reportClassForPaymentsAndInvoices;
     
-    //private List<KeyLabelPair> sponsorTermTypes;
     
     /**
      * 

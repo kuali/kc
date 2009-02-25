@@ -57,7 +57,7 @@ public class AwardSponsorTermRuleImpl extends ResearchDocumentRuleBase implement
      * @param event
      * @return
      */
-    public boolean processCommonValidations(AwardSponsorTerm awardSponsorTerm) {
+    boolean processCommonValidations(AwardSponsorTerm awardSponsorTerm) {
         return true;
     }
 
@@ -67,7 +67,7 @@ public class AwardSponsorTermRuleImpl extends ResearchDocumentRuleBase implement
     * @param AwardCostShare, ErrorMap
     * @return Boolean
     */
-    public boolean validateAwardSponsorTermNotDuplicate(AwardSponsorTerm awardSponsorTerm, List<AwardSponsorTerm> awardSponsorTerms){
+    boolean validateAwardSponsorTermNotDuplicate(AwardSponsorTerm awardSponsorTerm, List<AwardSponsorTerm> awardSponsorTerms){
         boolean valid = true;
         
         for(AwardSponsorTerm tempAwardSponsorTerm : awardSponsorTerms){

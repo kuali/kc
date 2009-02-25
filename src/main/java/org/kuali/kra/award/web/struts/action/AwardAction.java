@@ -133,16 +133,14 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
     @SuppressWarnings("all")
     public ActionForward paymentReportsAndTerms(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) {
-        AwardForm awardForm = (AwardForm) form;          
-        AwardSponsorTermService awardSponsorTermService = 
-                                KraServiceLocator.getService(AwardSponsorTermService.class);
-        List<KeyLabelPair> sponsorTermTypes = 
-                            awardSponsorTermService.assignSponsorTermTypesToAwardFormForPanelHeaderDisplay();
+        AwardForm awardForm = (AwardForm) form;     
+        
+        AwardSponsorTermService awardSponsorTermService = KraServiceLocator.getService(AwardSponsorTermService.class);
+        List<KeyLabelPair> sponsorTermTypes = awardSponsorTermService.assignSponsorTermTypesToAwardFormForPanelHeaderDisplay();
         awardForm.getSponsorTermFormHelper().setSponsorTermTypes(sponsorTermTypes);
-        awardForm.getSponsorTermFormHelper().setNewSponsorTerms
-                    (awardSponsorTermService.addEmptyNewSponsorTerms(sponsorTermTypes));
-        AwardReportsService awardReportsService = KraServiceLocator.getService(AwardReportsService.class);
-          
+        awardForm.getSponsorTermFormHelper().setNewSponsorTerms(awardSponsorTermService.addEmptyNewSponsorTerms(sponsorTermTypes));
+        
+        AwardReportsService awardReportsService = KraServiceLocator.getService(AwardReportsService.class);  
         HashMap<String,Object> initializedObjects = new HashMap<String, Object>();
         initializedObjects = awardReportsService.initializeObjectsForReportsAndPayments(
                                                     awardForm.getAwardDocument().getAward());

@@ -25,15 +25,6 @@ import org.kuali.kra.bo.SponsorTerm;
  * This is the Award Sponsor Term Interface.
  */
 public interface AwardSponsorTermService {
-
-    /**
-     * 
-     * This method prepares the AwardSponsorTerm and related objects for the display of UI.
-     * This should get called everytime Payment, Reports and Terms page is loaded.
-     * 
-     * @param awardForm
-     */
-    //void doPreparations(AwardForm awardForm);
     
     /**
      * This method assigns all of the Sponsor Term Types for Panel header display
