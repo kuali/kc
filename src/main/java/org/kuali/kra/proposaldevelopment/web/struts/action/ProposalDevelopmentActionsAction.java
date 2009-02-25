@@ -544,16 +544,13 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         
         /*
          * If this proposal is a continuation from another proposal, it is illegal for
-         * it to be a New Proposal Type or for it to be an S2S Submission Application Type.
+         * it to be a New Proposal Type.
          */
-        if ((proposalDevelopmentDocument.getContinuedFrom() != null) && 
-            (isNewProposalType(proposalDevelopmentDocument) || isSubmissionApplication(proposalDevelopmentDocument))) {
+        if ((proposalDevelopmentDocument.getContinuedFrom() != null) && isNewProposalType(proposalDevelopmentDocument)) {
             state = ERROR;
             if (isNewProposalType(proposalDevelopmentDocument)) {
                 GlobalVariables.getErrorMap().putError("noKey", KeyConstants.ERROR_RESUBMISSION_PROPOSALTYPE_IS_NEW);
-            } else if (isSubmissionApplication(proposalDevelopmentDocument)) {
-                GlobalVariables.getErrorMap().putError("noKey", KeyConstants.ERROR_RESUBMISSION_OPPORTUNITY_IS_APPLICATION);
-            }
+            } 
         }
         else {
             /* 
