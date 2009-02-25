@@ -61,7 +61,9 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
     private String lookupResultsBOClassName;
   
     private ScheduleData scheduleData;
-  
+    
+    private CommitteeHelper committeeHelper;
+
     /**
      * Constructs a CommitteeForm.
      */
@@ -78,6 +80,7 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
      */
     public void initialize() {
         initializeHeaderNavigationTabs(); 
+        setCommitteeHelper(new CommitteeHelper(this));
     }
 
     /**
@@ -205,5 +208,14 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
     public void setMembershipHelper(MembershipHelper membershipHelper) {
         this.membershipHelper = membershipHelper;
     }
+    
+    
+    public CommitteeHelper getCommitteeHelper() {
+        return committeeHelper;
+    }
+
+    public void setCommitteeHelper(CommitteeHelper committeeHelper) {
+        this.committeeHelper = committeeHelper;
+    }    
 }
 
