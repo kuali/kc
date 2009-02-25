@@ -114,5 +114,11 @@ public class ProtocolResearchArea extends KraPersistableBusinessObjectBase {
 		hashMap.put("researchAreaCode", getResearchAreaCode());
 		return hashMap;
 	}
+
+    public void init(Protocol protocol) {
+        setProtocolId(protocol.getProtocolId());
+        setProtocolNumber(protocol.getProtocolNumber());
+        setProtocol(protocol);
+    }
 	
 }

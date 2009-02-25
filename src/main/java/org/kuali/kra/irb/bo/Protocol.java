@@ -98,6 +98,9 @@ public class Protocol extends KraPersistableBusinessObjectBase{
 
     public void setProtocolFundingSources(List<ProtocolFundingSource> protocolFundingSources) {
         this.protocolFundingSources = protocolFundingSources;
+        for (ProtocolFundingSource fundingSource : protocolFundingSources) {
+            fundingSource.init(this);
+        }
     }
 
     private List<ProtocolPerson> protocolPersons; 
@@ -352,6 +355,9 @@ public class Protocol extends KraPersistableBusinessObjectBase{
 
     public void setProtocolRiskLevels(List<ProtocolRiskLevel> protocolRiskLevels) {
         this.protocolRiskLevels = protocolRiskLevels;
+        for (ProtocolRiskLevel riskLevel : protocolRiskLevels) {
+            riskLevel.init(this);
+        }
     }
     
     public List<ProtocolParticipant> getProtocolParticipants() {
@@ -360,6 +366,9 @@ public class Protocol extends KraPersistableBusinessObjectBase{
 
     public void setProtocolParticipants(List<ProtocolParticipant> protocolParticipants) {
         this.protocolParticipants = protocolParticipants;
+        for (ProtocolParticipant participant : protocolParticipants) {
+            participant.init(this);
+        }
     }
     
     /**
@@ -385,6 +394,9 @@ public class Protocol extends KraPersistableBusinessObjectBase{
     }
     public void setProtocolResearchAreas(List<ProtocolResearchArea> protocolResearchAreas) {
         this.protocolResearchAreas = protocolResearchAreas;
+        for (ProtocolResearchArea researchArea : protocolResearchAreas) {
+            researchArea.init(this);
+        }
     }
 
     public List<ProtocolResearchArea> getProtocolResearchAreas() {
@@ -404,6 +416,9 @@ public class Protocol extends KraPersistableBusinessObjectBase{
 
     public void setProtocolReferences(List<ProtocolReference> protocolReferences) {
         this.protocolReferences = protocolReferences;
+        for (ProtocolReference reference : protocolReferences) {
+            reference.init(this);
+        }
     }
 
     public List<ProtocolReference> getProtocolReferences() {
@@ -420,6 +435,9 @@ public class Protocol extends KraPersistableBusinessObjectBase{
 
     public void setProtocolLocations(List<ProtocolLocation> protocolLocations) {
         this.protocolLocations = protocolLocations;
+        for (ProtocolLocation location : protocolLocations) {
+            location.init(this);
+        }
     }
 
     public List<ProtocolLocation> getProtocolLocations() {
@@ -435,7 +453,6 @@ public class Protocol extends KraPersistableBusinessObjectBase{
         managedLists.add(getProtocolFundingSources());
         managedLists.add(getProtocolLocations());
         return managedLists;
-
     }
 
     /**
@@ -515,6 +532,9 @@ public class Protocol extends KraPersistableBusinessObjectBase{
 
     public void setProtocolPersons(List<ProtocolPerson> protocolPersons) {
         this.protocolPersons = protocolPersons;
+        for (ProtocolPerson person : protocolPersons) {
+            person.init(this);
+        }
     }
 
     /**
@@ -535,6 +555,4 @@ public class Protocol extends KraPersistableBusinessObjectBase{
         ProtocolPersonnelService protocolPersonnelService = (ProtocolPersonnelService)KraServiceLocator.getService("protocolPersonnelService");
         return protocolPersonnelService;
     }
-
-
 }

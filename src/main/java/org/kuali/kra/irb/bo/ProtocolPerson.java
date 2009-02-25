@@ -291,5 +291,14 @@ public class ProtocolPerson extends KraPersistableBusinessObjectBase {
             }
         }
         return leadUnit;
+    }
+
+    public void init(Protocol protocol) {
+        setProtocolPersonId(null);
+        setProtocolId(protocol.getProtocolId());
+        setProtocolNumber(protocol.getProtocolNumber());
+        for (ProtocolUnit unit : protocolUnits) {
+            unit.init(this);
+        }
     }    
 }

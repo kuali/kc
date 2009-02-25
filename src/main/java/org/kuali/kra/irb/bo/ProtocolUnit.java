@@ -140,5 +140,12 @@ public class ProtocolUnit extends KraPersistableBusinessObjectBase {
     public void setUnitName(String unitName) {
         this.unitName = unitName;
     }
+
+    public void init(ProtocolPerson protocolPerson) {
+        setProtocolPerson(protocolPerson);
+        setProtocolPersonId(protocolPerson.getProtocolPersonId());
+        setProtocolNumber(protocolPerson.getProtocolNumber());
+        setProtocolUnitsId(null);
+    }
 	
 }
