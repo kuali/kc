@@ -1,11 +1,12 @@
 package org.kuali.kra.util;
-import static org.kuali.kra.logging.BufferedLogger.info;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.kuali.kra.logging.BufferedLogger;
 
 /**
  * This class provides a method of comparing <code>String</code>s that results is a more
@@ -55,7 +56,7 @@ public class NaturalStringComparator implements Serializable, Comparator<String>
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
 	public int compare (String string1, String string2) {
-	    info("Comparing ", string1, " to ", string2);
+	    BufferedLogger.debug("Comparing ", string1, " to ", string2);
 		// compare the references and check for nulls
 		if (string1 == string2) return 0;
 		if (string1 == null) return -1;
@@ -110,7 +111,7 @@ public class NaturalStringComparator implements Serializable, Comparator<String>
 				}
 			}
 		}
-		info(string1, (retval < 0 ? " < " : (retval > 0 ? " > " : " = ")), string2);
+		BufferedLogger.debug(string1, (retval < 0 ? " < " : (retval > 0 ? " > " : " = ")), string2);
 		return retval;
 	}
 	
