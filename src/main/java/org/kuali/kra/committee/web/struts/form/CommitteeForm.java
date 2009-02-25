@@ -79,13 +79,14 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
      * This method initialize all form variables
      */
     public void initialize() {
-        initializeHeaderNavigationTabs(); 
+        initializeHeaderNavigationTabs();
+        setMembershipHelper(new MembershipHelper());
         setCommitteeHelper(new CommitteeHelper(this));
     }
 
     /**
      * Get the Committee Document.
-     * @return the committe document
+     * @return the committee document
      */
     public CommitteeDocument getCommitteeDocument() {
         return (CommitteeDocument) this.getDocument();
