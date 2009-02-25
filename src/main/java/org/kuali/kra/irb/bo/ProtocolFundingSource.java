@@ -186,4 +186,10 @@ public class ProtocolFundingSource extends KraPersistableBusinessObjectBase {
         return hashMap;
     }
 
+    public void init(Protocol protocol) {
+        setProtocolFundingSourceId(null);
+        setProtocolId(protocol.getProtocolId());
+        setProtocol(protocol);
+        setProtocolNumber(protocol.getProtocolNumber());
+    }
 }

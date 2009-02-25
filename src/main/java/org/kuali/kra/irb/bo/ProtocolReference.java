@@ -176,5 +176,12 @@ public class ProtocolReference extends KraPersistableBusinessObjectBase {
 		hashMap.put("comments", getComments());
 		return hashMap;
 	}
+
+    public void init(Protocol protocol) {
+        setProtocolReferenceId(null);
+        setProtocolId(protocol.getProtocolId());
+        setProtocolNumber(protocol.getProtocolNumber());
+        setProtocolReferenceNumber(null);
+    }
 	
 }

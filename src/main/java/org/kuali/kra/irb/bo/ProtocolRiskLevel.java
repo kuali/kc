@@ -218,5 +218,10 @@ public class ProtocolRiskLevel extends KraPersistableBusinessObjectBase {
             Constants.INACTIVE_STATUS_LITERAL ;
     }
 
-
+    public void init(Protocol protocol) {
+        setProtocolRiskLevelId(null);
+        setProtocol(protocol.getProtocolDocument());
+        setProtocolId(protocol.getProtocolId());
+        setProtocolNumber(protocol.getProtocolNumber());
+    }
 }

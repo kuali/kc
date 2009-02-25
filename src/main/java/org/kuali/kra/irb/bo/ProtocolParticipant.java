@@ -117,4 +117,9 @@ public class ProtocolParticipant extends KraPersistableBusinessObjectBase {
         return hashMap;
     }
 
+    public void init(Protocol protocol) {
+        setProtocolId(protocol.getProtocolId());
+        setProtocolNumber(protocol.getProtocolNumber());
+    }
+
 }

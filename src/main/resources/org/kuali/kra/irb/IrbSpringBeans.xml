@@ -126,5 +126,11 @@
             </list>
         </property>
     </bean>
+    
+    <bean id="protocolCopyService" class="org.kuali.kra.irb.service.impl.ProtocolCopyServiceImpl">
+        <property name="documentService" ref="documentService" />
+        <property name="systemAuthorizationService" ref="systemAuthorizationService" />
+        <property name="protocolAuthorizationService" ref="protocolAuthorizationService" />
+    </bean>
 
 </beans>

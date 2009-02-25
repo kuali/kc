@@ -150,4 +150,10 @@ public class ProtocolLocation extends KraPersistableBusinessObjectBase {
         this.rolodex = rolodex;
     }
 
+    public void init(Protocol protocol) {
+        setProtocolLocationId(null);
+        setProtocolId(protocol.getProtocolId());
+        setProtocolNumber(protocol.getProtocolNumber());
+    }
+
 }
