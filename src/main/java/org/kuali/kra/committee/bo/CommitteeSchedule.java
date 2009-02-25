@@ -39,8 +39,6 @@ import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt;
 @Table(name="COMM_SCHEDULE")
 public class CommitteeSchedule extends KraPersistableBusinessObjectBase { 
     
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeSchedule.class);
-    
     private static final long serialVersionUID = -360139608123017188L;
     
     @Transient
@@ -49,6 +47,9 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
     @Transient
     private Boolean filter = true;
     
+    @Transient
+    private Boolean delete = false;
+
     @javax.persistence.Id 
     @Column(name="ID")
     private Long id; 
@@ -287,6 +288,14 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
     public void setViewTime(Time12HrFmt viewTime) {
         this.viewTime = viewTime;
     }
+    
+    public Boolean getDelete() {
+        return delete;
+    }
+
+    public void setDelete(Boolean delete) {
+        this.delete = delete;
+    }    
     
 	@SuppressWarnings("unchecked")
     @Override 

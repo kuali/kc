@@ -70,17 +70,17 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
         this.scheduleService = scheduleService;
     }
     
-    public Boolean isCommitteeScheduleDeleteAllowed(CommitteeSchedule committeeSchedule){
-        Date today = new Date();
-        java.sql.Date yesterday = new java.sql.Date(DateUtils.addDays(today,-1).getTime());
-        java.sql.Date scheduleDate = committeeSchedule.getScheduledDate();
+    public Boolean isCommitteeScheduleDeletable(CommitteeSchedule committeeSchedule){
         boolean retVal = false;
-        if(scheduleDate.after(yesterday)) {
-            retVal = true;
+        Date dt = new Date();
+        dt = DateUtils.addDays(dt, -1);
+        java.sql.Date today = new java.sql.Date(dt.getTime());        
+        if(committeeSchedule.getScheduledDate().after(today)) {
+               retVal = true;
         }
         return retVal;
     }
-    
+    //TODO back to form 
     public void deleteCommitteeSchedule(Committee committee, int lineNumber) {
         committee.getCommitteeSchedules().remove(lineNumber);  
     }

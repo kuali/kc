@@ -158,7 +158,7 @@
               </tr>
 
 
-        	<c:forEach var="committeeSchedule" items="${KualiForm.document.committee.committeeSchedules}" varStatus="status">
+        	<c:forEach var="committeeSchedule" items="${KualiForm.document.committee.committeeSchedules}" varStatus="status">        	
         	<c:if test="${committeeSchedule.filter}">
 	             <tr>
 					<th class="infoline">
@@ -207,8 +207,10 @@
 
 					<td>
 						<div align=center>&nbsp;
+						<c:if test="${committeeSchedule.delete}">
 								<html:image property="methodToCall.deleteCommitteeSchedule.line${status.index}.anchor${currentTabIndex}"
-									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>  
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+						</c:if>  
 						</div>
 	                </td>
 	            </tr>            
