@@ -48,6 +48,7 @@ public class AwardPaymentReportsAndTermsActionTest {
     public static final int MOCK_EXPECTED_SIZE_OF_AWARD_REPORT_TERM_LIST = 6;
     public static final int MOCK_EXPECTED_SIZE_OF_AWARD_REPORT_TERM_LIST_TO_BE_DELETED = 4;
     public static final Integer MOCK_ROLODEX_ID_FOR_CONTACT = 20083;
+    public static final int THREE = 3;
     
     AwardPaymentReportsAndTermsAction awardPaymentReportsAndTermsAction;
     Award award;
@@ -177,7 +178,7 @@ public class AwardPaymentReportsAndTermsActionTest {
         awardPaymentReportsAndTermsAction.addAwardSponsorTermToAward(award, awardSponsorTerm1);
         awardPaymentReportsAndTermsAction.addAwardSponsorTermToAward(award, awardSponsorTerm2);
         awardPaymentReportsAndTermsAction.addAwardSponsorTermToAward(award, awardSponsorTerm3);
-        Assert.assertEquals(3, award.getAwardSponsorTerms().size());
+        Assert.assertEquals(THREE, award.getAwardSponsorTerms().size());
     }
     
     /**

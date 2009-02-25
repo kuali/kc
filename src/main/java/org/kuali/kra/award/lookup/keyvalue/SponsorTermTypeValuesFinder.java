@@ -27,7 +27,7 @@ import org.kuali.kra.bo.SponsorTermType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 
 /**
- * This class...
+ * This class implements KeyValuesBase and method getKeyValues() returns a List<KeyLabelPair> with all sponsorTermTypes in Database.
  */
 public class SponsorTermTypeValuesFinder extends KeyValuesBase {
 
@@ -42,18 +42,15 @@ public class SponsorTermTypeValuesFinder extends KeyValuesBase {
      */
     @SuppressWarnings("unchecked")
     public List<KeyLabelPair> getKeyValues() {
-        KeyValuesService keyValuesService = 
-            (KeyValuesService) KraServiceLocator.getService("keyValuesService");
+        KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
         
         Collection sponsorTermTypes = keyValuesService.findAll(SponsorTermType.class);
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         
         for (Iterator iter = sponsorTermTypes.iterator(); iter.hasNext();) {
             SponsorTermType sponsorTermType = (SponsorTermType) iter.next();
-            keyValues.add(new KeyLabelPair(sponsorTermType.getSponsorTermTypeCode(),
-                    sponsorTermType.getDescription()));                            
-        }
-                
+            keyValues.add(new KeyLabelPair(sponsorTermType.getSponsorTermTypeCode(), sponsorTermType.getDescription()));                            
+        }  
         return keyValues;
     }
 
