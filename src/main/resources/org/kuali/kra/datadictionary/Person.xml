@@ -139,13 +139,17 @@
 
         <titleAttribute>personId</titleAttribute>
         <attributes>
-            <attributeReference name="personId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
-                <label>Person Id </label>
-                <shortLabel>Person Id </shortLabel>
-                <maxLength>10</maxLength>   
-                <summary>Person Id </summary>
-            	<description>Person Id </description>
-            </attributeReference>
+			<attribute name="personId">
+				<label>Person Id </label>
+				<shortLabel>Person Id </shortLabel>
+				<maxLength>10</maxLength>
+				<validationPattern><anyCharacter /></validationPattern>
+				<control>
+					<text size="10" />
+				</control>
+				<summary>Person Id </summary>
+				<description>Person Id </description>
+			</attribute>
 
             <attribute name="socialSecurityNumber" >
                 <label>Social Security Number </label>

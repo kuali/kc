@@ -74,16 +74,7 @@
                 <description>Id </description>
             </attribute>
 
-            <attribute name="personId" >
-                <label>Person Id</label>
-                <shortLabel>Person Id</shortLabel>
-                <maxLength>10</maxLength>
-                <control>
-                    <text size="10" />
-                </control>
-                <summary>Person Id</summary>
-                <description>Person Id</description>
-            </attribute>
+			<attributeReference name="personId" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="personId" />
             
              <attribute name="personName" >
                 <label>Person Full Name</label>

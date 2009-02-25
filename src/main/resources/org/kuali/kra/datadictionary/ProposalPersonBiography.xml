@@ -103,17 +103,8 @@
 			<description>Biography Number </description>
 			</attribute>
 
-			<attribute name="personId">
-			<label>Person Id </label>
-			<shortLabel>Person Id </shortLabel>
-			<maxLength>10</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<control>
-				<text size="10" />
-			</control>
-			<summary>Person Id </summary>
-			<description>Person Id </description>
-			</attribute>
+			<attributeReference name="personId" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="personId" />
+			
 			<attribute name="rolodexId">
 			<label>Rolodex Id </label>
 			<shortLabel>Rolodex Id </shortLabel>

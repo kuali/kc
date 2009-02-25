@@ -121,17 +121,7 @@
 			<description>Non Employee Flag </description>
 			</attribute>
 
-			<attribute name="personId">
-			<label>Person Id </label>
-			<shortLabel>Person Id </shortLabel>
-			<maxLength>10</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="10" />
-			</control>
-			<summary>Person Id </summary>
-			<description>Person Id </description>
-			</attribute>
+			<attributeReference name="personId" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="personId" />
 
 			<attribute name="proposalNumber">
 			<label>Proposal Number </label>

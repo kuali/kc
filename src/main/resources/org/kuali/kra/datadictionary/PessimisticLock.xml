@@ -137,7 +137,6 @@
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>This field defines the date and time the lock was created.</description>
-                <formatterClass>org.kuali.core.web.format.TimestampAMPMFormatter</formatterClass>
             </attributeReference>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
