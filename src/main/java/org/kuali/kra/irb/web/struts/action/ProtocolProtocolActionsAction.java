@@ -21,7 +21,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.service.DocumentService;
+import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.kra.irb.document.authorization.ProtocolTask;
+import org.kuali.kra.irb.service.ProtocolCopyService;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 
 /**
@@ -29,6 +36,8 @@ import org.kuali.kra.irb.web.struts.form.ProtocolForm;
  */
 public class ProtocolProtocolActionsAction extends ProtocolAction {
 
+    private static final String PROTOCOL_TAB = "protocol";
+    
     /**
      * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -45,7 +54,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction {
     }
     
     /**
-     * Invoked when the "copy proposal" button is clicked.
+     * Invoked when the "copy protocol" button is clicked.
      * @param mapping
      * @param form
      * @param request
@@ -55,7 +64,22 @@ public class ProtocolProtocolActionsAction extends ProtocolAction {
      */
     public ActionForward copyProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
+         
+        ProtocolForm protocolForm = (ProtocolForm) form;
+       
+        ApplicationTask task = new ApplicationTask(TaskName.CREATE_PROTOCOL);
+        if (isAuthorized(task)) {
+            ProtocolCopyService protocolCopyService = (ProtocolCopyService) KraServiceLocator.getService(ProtocolCopyService.class);
+            String newDocId = protocolCopyService.copyProtocol(protocolForm.getProtocolDocument());
+            
+            // Switch over to the new protocol document and
+            // go to the Protocol tab web page.
+            
+            protocolForm.setDocId(newDocId);
+            loadDocument(protocolForm);
+        
+            return mapping.findForward(PROTOCOL_TAB);
+        }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
 }
