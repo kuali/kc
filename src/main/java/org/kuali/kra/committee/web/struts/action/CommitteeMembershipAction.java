@@ -15,13 +15,7 @@
  */
 package org.kuali.kra.committee.web.struts.action;
 
-import static org.apache.commons.lang.StringUtils.isNotBlank;
-import static org.apache.commons.lang.StringUtils.substringBetween;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
-import static org.kuali.rice.kns.util.KNSConstants.METHOD_TO_CALL_ATTRIBUTE;
-
-import java.util.HashMap;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,27 +23,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kra.award.bo.AwardReportTerm;
-import org.kuali.kra.award.bo.AwardReportTermRecipient;
-import org.kuali.kra.award.bo.ReportClass;
-import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.committee.rule.event.AddCommitteeMembershipEvent;
 import org.kuali.kra.committee.service.CommitteeMembershipService;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
+import org.kuali.kra.committee.web.struts.form.MembershipHelper;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.bo.ProtocolPerson;
-import org.kuali.kra.irb.bo.ProtocolUnit;
-import org.kuali.kra.irb.document.ProtocolDocument;
-import org.kuali.kra.irb.rule.event.AddProtocolPersonnelEvent;
-import org.kuali.kra.irb.rule.event.AddProtocolUnitEvent;
-import org.kuali.kra.irb.rule.event.SaveProtocolPersonnelEvent;
-import org.kuali.kra.irb.rule.event.UpdateProtocolPersonnelEvent;
-import org.kuali.kra.irb.service.ProtocolPersonTrainingService;
-import org.kuali.kra.irb.service.ProtocolPersonnelService;
-import org.kuali.kra.irb.web.struts.form.ProtocolForm;
-import org.kuali.kra.service.AwardReportsService;
 
 /**
  * The CommitteeMembershipAction corresponds to the Members tab (web page).  It is
@@ -98,8 +78,7 @@ public class CommitteeMembershipAction extends CommitteeAction {
         CommitteeMembership newCommitteeMembership = committeeForm.getMembershipHelper().getNewCommitteeMembership();
         
         // check any business rules
-        //boolean rulePassed = applyRules(new AddProtocolPersonnelEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument(), protocolForm.getNewProtocolPerson()));
-        boolean rulePassed = true;
+        boolean rulePassed = applyRules(new AddCommitteeMembershipEvent(Constants.EMPTY_STRING, committeeForm.getCommitteeDocument(), newCommitteeMembership));
         if (rulePassed) {
             getCommitteeMembershipService().addCommitteeMembership(committeeForm.getCommitteeDocument().getCommittee(), newCommitteeMembership);
             committeeForm.getMembershipHelper().setNewCommitteeMembership(new CommitteeMembership());
@@ -138,8 +117,9 @@ public class CommitteeMembershipAction extends CommitteeAction {
      */
     public ActionForward clearCommitteeMembership(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CommitteeForm committeeForm = (CommitteeForm) form;
-        committeeForm.getMembershipHelper().setNewCommitteeMembership(new CommitteeMembership());
-        committeeForm.getMembershipHelper().setNewPersonName(null);
+        MembershipHelper membershipHelper = committeeForm.getMembershipHelper();
+        membershipHelper.setNewCommitteeMembership(new CommitteeMembership());
+        membershipHelper.setNewPersonName("");
         return mapping.findForward(MAPPING_BASIC);
     }
     
