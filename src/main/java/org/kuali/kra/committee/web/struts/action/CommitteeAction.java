@@ -54,7 +54,18 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
     
     @SuppressWarnings("unused")
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeAction.class);
-
+    
+    //TODO -Kiltesh updated Chris, and waiting on how to make a call to prepareView in specific Action Class.
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        ActionForward actionForward = super.execute(mapping, form, request, response);
+        
+        ((CommitteeForm)form).getCommitteeHelper().prepareView();
+        
+        return actionForward;
+    }
+    
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
