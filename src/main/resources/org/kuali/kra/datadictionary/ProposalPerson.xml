@@ -59,12 +59,7 @@
                 <description>Non-NIH Proposal Person Role Id</description>
             </attributeReference>
 
-            <attributeReference name="personId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
-                <label>Person Id</label>
- 	            <shortLabel>Person Id</shortLabel>
- 	            <summary>Person Id</summary>
-                <description>Person Id</description>
-            </attributeReference>
+			<attributeReference name="personId" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="personId" />
 
             <attributeReference name="rolodexId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
                 <label>Rolodex Id</label>
