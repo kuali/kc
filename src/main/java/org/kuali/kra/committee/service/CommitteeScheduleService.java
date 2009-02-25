@@ -24,7 +24,7 @@ import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 
 public interface CommitteeScheduleService {
     
-    public Boolean isCommitteeScheduleDeleteAllowed(CommitteeSchedule committeeSchedule);
+    public Boolean isCommitteeScheduleDeletable(CommitteeSchedule committeeSchedule);
     
     public void addSchedule(ScheduleData scheduleData, Committee committee) throws ParseException;
     

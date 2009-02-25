@@ -34,6 +34,16 @@ public class CommitteeScheduleAction extends CommitteeAction {
     
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeScheduleAction.class);
     
+/*    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        ActionForward actionForward = super.execute(mapping, form, request, response);
+        
+        ((CommitteeForm)form).getCommitteeHelper().prepareView();
+        
+        return actionForward;
+    }*/
+    
     public ActionForward addEvent(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         
