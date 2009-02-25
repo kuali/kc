@@ -85,7 +85,8 @@ public class AwardSponsorTermRuleTest {
     }
     
     /**
-     * This method tests rule method for non-duplicate SponsorTerms in an award.
+     * This method tests rule method for non-duplicate SponsorTerms in an award. It sets duplicate fields and retests to ensure
+     * failure.
      */
     @Test
     public final void testValidateAwardSponsorTermNotDuplicate() {

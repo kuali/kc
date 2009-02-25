@@ -110,8 +110,8 @@ import org.kuali.rice.test.data.UnitTestFile;
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_VALID_FREQUENCY_BASE.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_COST_SHARE_TYPE.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_VALID_RATES.sql", delimiter = ";")
-                ,@UnitTestFile(filename = "classpath:sql/dml/load_SPONSOR_TERM.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_SPONSOR_TERM_TYPE.sql", delimiter = ";")
+                ,@UnitTestFile(filename = "classpath:sql/dml/load_SPONSOR_TERM.sql", delimiter = ";")
             }
         )
     )
