@@ -15,8 +15,12 @@
  */
 package org.kuali.kra.committee.rules;
 
+import java.util.List;
+
 import org.apache.axis.utils.StringUtils;
+import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.rule.AddCommitteeMembershipRule;
 import org.kuali.kra.committee.rule.event.AddCommitteeMembershipEvent;
 
@@ -42,10 +46,27 @@ public class CommitteeMembershipRule extends CommitteeDocumentRule
         CommitteeMembership committeeMembership = addCommitteeMembershipEvent.getCommitteeMembership();
         if ( (StringUtils.isEmpty(committeeMembership.getPersonId())) || (StringUtils.isEmpty(committeeMembership.getPersonId())) ) { 
             isValid = false;
-        } else {
-            isValid = true;
+        } else if (isDuplicate((CommitteeDocument) addCommitteeMembershipEvent.getDocument(), committeeMembership)){
+            isValid = false;
         }
         return isValid;
+    }
+    /**
+     * 
+     * Check if the <code>{@link CommitteeMembership}</code> is already part of the <code {@link Committee}</code>.
+     * 
+     * @param committeeDocument to which the committee member is added
+     * @param newCommitteeMembership which should be added to the committee.
+     * @return <code>true</code> if it is a duplicate, <code>false</code> otherwise
+     */
+    private boolean isDuplicate(CommitteeDocument committeeDocument, CommitteeMembership newCommitteeMembership) {
+        List<CommitteeMembership> committeeMemberships = committeeDocument.getCommittee().getCommitteeMemberships();
+        for (CommitteeMembership committeeMembership : committeeMemberships) {
+            if (committeeMembership.equals(newCommitteeMembership)) {
+                return true;
+            }
+        }
+        return false;        
     }
 
 }
