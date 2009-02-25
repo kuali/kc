@@ -87,7 +87,7 @@ public class SponsorTermFormHelper {
 
 
     /**
-     * This method...
+     * This method returns the AwardDocument.
      * @return
      */
     public AwardDocument getAwardDocument() {

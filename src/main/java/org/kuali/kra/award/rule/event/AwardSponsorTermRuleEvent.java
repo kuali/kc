@@ -23,7 +23,7 @@ import org.kuali.kra.award.rule.AwardSponsorTermRule;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 
 /**
- * This class 
+ * AwardSponsorTermRuleEvent class for rule processing.
  */
 public class AwardSponsorTermRuleEvent extends KraDocumentEventBase {
     
