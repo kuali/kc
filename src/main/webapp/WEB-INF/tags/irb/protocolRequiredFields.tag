@@ -17,12 +17,12 @@
 		
 		<table cellpadding=4 cellspacing=0 summary="">
             <tr>
-            	<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.protocolTypeCode}" /></div></th>
+            	<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.protocolTypeCode}" /></div></th>
                 <td align="left" valign="center">
                     <kra:kraControlAttribute property="document.protocol.protocolTypeCode" readOnly="${readOnly}" attributeEntry="${protocolAttributes.protocolTypeCode}" />
                 </td>
 				
-				<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.principalInvestigatorId}" /></div></th>
+				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.principalInvestigatorId}" /></div></th>
                 <td align="left" valign="top">
                 <div id="principalInvestigator.div" property="principalInvestigator" >
                         <c:if test="${empty KualiForm.protocolHelper.principalInvestigatorName}">                                                 
@@ -34,22 +34,37 @@
                 	    <c:if test="${empty KualiForm.protocolHelper.rolodexId}">          					                	
                             <input type="hidden" name="protocolHelper.rolodexId" value="">              
                 	    </c:if>   	
-						<c:if test="${empty KualiForm.document.protocol.protocolId}">          					
+                	    <table width="100%" border="0" style="border: medium none ;">
+                	    <tbody>
+						<c:if test="${empty KualiForm.document.protocol.protocolId}">  
+						<tr>
+						<td style="border: medium none ;">        					
 							<label> Employee Search</label>
+						</td>
+						<td width="40" valign="middle" style="border: medium none ;">
 							<label>
 							<kul:lookup boClassName="org.kuali.kra.bo.Person" 
 	                         fieldConversions="personId:protocolHelper.personId,fullName:protocolHelper.principalInvestigatorName,homeUnitRef.unitNumber:protocolHelper.lookupUnitNumber,homeUnitRef.unitName:protocolHelper.lookupUnitName" 
 	                         /></label>
-	                        <br>
+                         </td>
+                         </tr>
+                        <tr>
+                        <td style="border: medium none ;">   
 							<label>Non-employee Search</label> 
+						</td>
+                        <td width="40" valign="middle" style="border: medium none ;">	
 							<label>
 							<kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" 
 	                         fieldConversions="rolodexId:protocolHelper.rolodexId,unit.unitNumber:protocolHelper.lookupUnitNumber,unit.unitName:protocolHelper.lookupUnitName,fullName:protocolHelper.principalInvestigatorName"  
 	                         />   
 							</label>
+						 </td>
+                         </tr>	
 						</c:if>
-					<br>
-									
+
+							
+				    <tr>
+                    <td style="border: medium none ;">  		
 					<div id="principalInvestigatorName.div" >
                         <c:if test="${!empty KualiForm.protocolHelper.principalInvestigatorId}">
             				<c:choose>
@@ -57,18 +72,23 @@
 	                    			<span style='color: red;'>not found</span><br>
 	               				</c:when>
 	                  			<c:otherwise>
-										<c:out value="${KualiForm.protocolHelper.principalInvestigatorName}" /><br>
+										<c:out value="${KualiForm.protocolHelper.principalInvestigatorName}" />
+								<br>
 								</c:otherwise>  
 							</c:choose>                        
                         </c:if>
-					</div>
+					</td>
+                    </tr>  
+                    </tbody>
+                    </table>
+                    </div>
                 </td>
 				</div>
 
 
             </tr>
             <tr>
-                <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.title}" /></div></th>
+                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.title}" /></div></th>
                 <td align="left" valign="top">
                 	<kul:htmlControlAttribute property="document.protocol.title" attributeEntry="${protocolAttributes.title}" readOnly="${readOnly}" />
                     <c:if test="${!readOnly}">
@@ -76,13 +96,22 @@
                     </c:if>
                 </td>
                 
-                <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.leadUnitNumber}" /></div></th>            
-                <td align="left" valign="top">
+                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.leadUnitNumber}" /></div></th>            
+                <td align="left" valign="center">
+                
+                <table width="100%" border="0" style="border: medium none ;">
+                <tbody>
+                <tr>
+                <td style="border: medium none ;">   
+                        
                     <c:if test="${empty KualiForm.document.protocol.protocolId}">
                     	<kul:htmlControlAttribute property="protocolHelper.leadUnitNumber" 
 						 attributeEntry="${protocolAttributes.leadUnitNumber}"  
 						 onblur="loadUnitNameTo('protocolHelper.leadUnitNumber','protocolHelper.leadUnitName');"/> 
-						 						                  
+				
+				</td>
+                <td width="40" valign="middle" style="border: medium none ;">
+                        		 						                  
 	                    <kul:lookup boClassName="org.kuali.kra.bo.Unit" 
 	                     fieldConversions="unitNumber:protocolHelper.leadUnitNumber,unitName:protocolHelper.leadUnitName" />
                     
@@ -92,8 +121,11 @@
                     </label>
                     <br>
                     </c:if>
-                    
-                  					
+                 
+                 </td>
+                 </tr>   
+                 <tr>
+                 <td style="border: medium none ;">  					
 				
                     <div id="protocolHelper.leadUnitName.div" align="left">         
                         <c:out value="${KualiForm.protocolHelper.leadUnitName}" /> 
@@ -112,6 +144,12 @@
 					<c:if test="${!empty KualiForm.document.protocol.protocolId && !empty KualiForm.protocolHelper.leadUnitNumber}">
                        - ${KualiForm.document.protocol.leadUnit.unitNumber}
                     </c:if>
+                    
+                    </td>
+                    </tr>  
+                    </tbody>
+                    </table>
+                    
 				</td>
                 
                 
