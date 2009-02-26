@@ -45,6 +45,11 @@ public class AwardSponsorTermRuleImpl extends ResearchDocumentRuleBase implement
         return processCommonValidations(awardSponsorTerm);
     }
     
+    /**
+     * This method processes Sponsor Term Business Rules on Add method
+     * @param awardSponsorTermRuleEvent
+     * @return
+     */
     public boolean processAddSponsorTermBusinessRules(AwardSponsorTermRuleEvent awardSponsorTermRuleEvent) {
         this.awardSponsorTerm = awardSponsorTermRuleEvent.getAwardSponsorTermForValidation();
         boolean validAwardSponsorTermNotDuplicate = validateAwardSponsorTermNotDuplicate(awardSponsorTerm,

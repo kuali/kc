@@ -36,6 +36,9 @@ public class SponsorTermTypeValuesFinderTest extends KraTestBase{
     SponsorTermTypeValuesFinder sponsorTermTypeValuesFinder;
     List<KeyLabelPair> sponsorTermTypes;
 
+    /**
+     * @see org.kuali.kra.KraTestBase#setUp()
+     */
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -44,6 +47,9 @@ public class SponsorTermTypeValuesFinderTest extends KraTestBase{
         sponsorTermTypes = sponsorTermTypeValuesFinder.getKeyValues();
     }
 
+    /**
+     * @see org.kuali.kra.KraTestBase#tearDown()
+     */
     @After
     public void tearDown() throws Exception {
         super.tearDown();
@@ -51,6 +57,9 @@ public class SponsorTermTypeValuesFinderTest extends KraTestBase{
         sponsorTermTypes = null;
     }
 
+    /**
+     * This method tests that the getKeyValues method returns the correct number of keyValues and that each entry is not null.
+     */
     @Test
     public final void testGetKeyValues() {
         Assert.assertEquals(NINE,sponsorTermTypes.size());
