@@ -41,6 +41,7 @@ import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.AwardPaymentScheduleGenerationService;
 import org.kuali.kra.service.AwardReportsService;
 import org.kuali.kra.service.AwardSponsorTermService;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -58,6 +59,31 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
     
     public AwardPaymentReportsAndTermsAction() {
         sponsorTermActionHelper = new SponsorTermActionHelper();
+    }
+
+    public ActionForward addPaymentScheduleItem(ActionMapping mapping, ActionForm form, 
+            HttpServletRequest request, HttpServletResponse response) 
+            throws Exception {
+        ((AwardForm) form).getPaymentScheduleBean().addPaymentScheduleItem();
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    public ActionForward deletePaymentScheduleItem(ActionMapping mapping, ActionForm form, 
+            HttpServletRequest request, HttpServletResponse response) 
+                                            throws Exception {
+            (((AwardForm)form).getPaymentScheduleBean()).deletePaymentScheduleItem(getLineToDelete(request));
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    public ActionForward generatePaymentSchedules(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response) 
+            throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        AwardDocument awardDocument = (AwardDocument) awardForm.getAwardDocument();
+        Award award = awardDocument.getAward();
+        
+        getAwardPaymentScheduleGenerationService().generateSchedules(award, award.getAwardReportTerms());
+        
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
     public ActionForward addApprovedEquipmentItem(ActionMapping mapping, ActionForm form, 
@@ -563,5 +589,9 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      */
     protected PersistenceService getPersistenceService(){
         return KraServiceLocator.getService(PersistenceService.class);
+    }
+    
+    protected AwardPaymentScheduleGenerationService getAwardPaymentScheduleGenerationService(){
+        return KraServiceLocator.getService(AwardPaymentScheduleGenerationService.class);
     }
 }
