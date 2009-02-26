@@ -117,7 +117,7 @@ public class AwardSponsorTerm extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * This method...
+     * This method returns the sequence number
      * @return
      */
     public int getSequenceNumber() {
@@ -126,7 +126,7 @@ public class AwardSponsorTerm extends KraPersistableBusinessObjectBase {
 
 
     /**
-     * This method...
+     * This method does nothing
      * @param sequenceNumber
      */
     public void setSequenceNumber(Integer sequenceNumber) {
