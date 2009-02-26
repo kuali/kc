@@ -34,7 +34,6 @@
 		<property name="attributes" >
 			<list>
 				<ref bean="AwardReportTerm-awardReportTermId" />
-				<ref bean="AwardReportTerm-awardId" />
 				<ref bean="AwardReportTerm-awardNumber" />
 				<ref bean="AwardReportTerm-sequenceNumber" />
 				<ref bean="AwardReportTerm-reportClassCode" />
@@ -66,24 +65,6 @@
 		</property>
 		<property name="summary" value="Award Report Terms Id" />
 		<property name="description" value="Award Report Terms Id" />
-	</bean>
-
-	<bean id="AwardReportTerm-awardId" parent="AwardReportTerm-awardId-parentBean" />
-	<bean id="AwardReportTerm-awardId-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="awardId" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Award Id" />
-		<property name="shortLabel" value="Award Id" />
-		<property name="maxLength" value="22" />
-		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
-		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
-		</property>
-		<property name="summary" value="Award Id" />
-		<property name="description" value="Award Id" />
 	</bean>
 
 	<bean id="AwardReportTerm-awardNumber" parent="AwardReportTerm-awardNumber-parentBean" />
@@ -279,8 +260,6 @@
 								p:attributeName="awardReportTermId" 
 								p:forceInquiry="true" />
 							<bean parent="FieldDefinition"
-								p:attributeName="awardId" />
-							<bean parent="FieldDefinition"
 								p:attributeName="awardNumber" />
 							<bean parent="FieldDefinition"
 								p:attributeName="sequenceNumber" />
@@ -319,8 +298,6 @@
 					p:attributeName="awardReportTermId" 
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
-					p:attributeName="awardId" />
-				<bean parent="FieldDefinition"
 					p:attributeName="awardNumber" />
 				<bean parent="FieldDefinition"
 					p:attributeName="sequenceNumber" />
@@ -343,8 +320,6 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="awardReportTermId" 
 					p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
-					p:attributeName="awardId" />
 				<bean parent="FieldDefinition"
 					p:attributeName="awardNumber" />
 				<bean parent="FieldDefinition"
