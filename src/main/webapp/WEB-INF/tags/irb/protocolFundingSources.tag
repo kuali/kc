@@ -3,7 +3,7 @@
 <c:set var="protocolFundingSourceAttributes" value="${DataDictionary.ProtocolFundingSource.attributes}" />
 <c:set var="fundingSourceTypeAttributes" value="${DataDictionary.FundingSourceType.attributes}" />
 
-<kul:tab tabTitle="Funding Sources" defaultOpen="true" tabErrorKey="document.protocol.protocolFundingSource*,document.protocol.newFundingSource*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.title" useRiceAuditMode="true">
+<kul:tab tabTitle="Funding Sources" defaultOpen="false" tabErrorKey="document.protocol.protocolFundingSource*,document.protocol.newFundingSource*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.title" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Funding Sources</span>
