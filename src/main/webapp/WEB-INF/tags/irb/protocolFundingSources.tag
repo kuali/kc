@@ -62,8 +62,9 @@
                 <td>
                 <div align="center">
                     <kul:htmlControlAttribute property="document.protocol.newFundingSource.fundingSourceTitle" 
-                                           readOnly='true'  attributeEntry="${protocolFundingSourceAttributes.fundingSourceTitle}" />
-                    </div>
+                                            readOnly="true"      attributeEntry="${protocolFundingSourceAttributes.fundingSourceTitle}" />
+                </div>
+                   <c:out value="${document.protocol.newFundingSource.fundingSourceTitle}" />
                 </td>
 
                 <td class="infoline">
