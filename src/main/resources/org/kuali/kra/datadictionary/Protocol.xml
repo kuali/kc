@@ -123,8 +123,8 @@
 	<bean id="Protocol-protocolTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="protocolTypeCode" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Protocol Type Code" />
-		<property name="shortLabel" value="Protocol Type Code" />
+		<property name="label" value="Protocol Type" />
+		<property name="shortLabel" value="Protocol Type" />
 		<property name="maxLength" value="22" />
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
