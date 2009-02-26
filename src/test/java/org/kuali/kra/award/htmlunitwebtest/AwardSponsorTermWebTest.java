@@ -37,6 +37,11 @@ public class AwardSponsorTermWebTest extends AwardPaymentsAndTermsWebTest {
     public static final String UNIQUE_LOOKUP_ZERO = "newSponsorTerms[0]";
     public static final String UNIQUE_LOOKUP_ONE = "newSponsorTerms[1]";
     public static final String DESCRIPTION = "description";
+    public static final String SPONSOR_TERM_CODE = "sponsorTermCode";
+    public static final String SEVEN = "7";
+    public static final String FIVE = "5";
+    public static final String SPONSOR_TERM_FORM_HELPER = "sponsorTermFormHelper";
+    public static final String DOT = ".";
 
     /**
      * The set up method calls the parent super method and gets the 
@@ -75,6 +80,44 @@ public class AwardSponsorTermWebTest extends AwardPaymentsAndTermsWebTest {
         HtmlPage awardPaymentReportsAndTermsPageAfterSecondAdd = clickOnByName(lookupPage2, METHOD_ADD_INVENTION_TERM, true);
           
         assertDoesNotContain(awardPaymentReportsAndTermsPageAfterSecondAdd, ERRORS_FOUND_ON_PAGE);         
+    }
+    
+    /**
+     * This method tests adding and saving two Sponsor Terms from hardcoded Sponsor Terms in GUI.
+     * @throws Exception
+     */
+    @Test
+    public void testAwardSponsorTermAddTwoSponsorTermsFromGUIAndSave() throws Exception{
+        setFieldValue(paymentReportsAndTermsPage, SPONSOR_TERM_FORM_HELPER + DOT + UNIQUE_LOOKUP_ZERO + DOT + SPONSOR_TERM_CODE, FIVE);
+        HtmlPage awardPaymentReportsAndTermsPageAfterAdd = clickOnByName(paymentReportsAndTermsPage, METHOD_ADD_EQUIPMENT_TERM, true);
+        assertDoesNotContain(awardPaymentReportsAndTermsPageAfterAdd, ERRORS_FOUND_ON_PAGE);
+        
+        setFieldValue(awardPaymentReportsAndTermsPageAfterAdd, SPONSOR_TERM_FORM_HELPER + DOT + UNIQUE_LOOKUP_ONE + DOT + SPONSOR_TERM_CODE, SEVEN);
+        HtmlPage awardPaymentReportsAndTermsPageAfterSecondAdd = 
+                                                clickOnByName(awardPaymentReportsAndTermsPageAfterAdd, METHOD_ADD_INVENTION_TERM, true);
+        assertDoesNotContain(awardPaymentReportsAndTermsPageAfterSecondAdd, ERRORS_FOUND_ON_PAGE);
+        
+        HtmlPage awardPaymentReportsAndTermsPageAfterSave = clickOnByName(awardPaymentReportsAndTermsPageAfterSecondAdd, METHOD_SAVE, true);
+        assertDoesNotContain(awardPaymentReportsAndTermsPageAfterSave, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);        
+        assertDoesNotContain(awardPaymentReportsAndTermsPageAfterSave, ERRORS_FOUND_ON_PAGE); 
+        assertContains(awardPaymentReportsAndTermsPageAfterSave,SAVE_SUCCESS_MESSAGE);
+    }
+    
+    /**
+     * This method tests that adding duplicate sponsor terms will fail.
+     * @throws Exception
+     */
+    @Test
+    public void testAwardSponsorTermAddDuplicateSponsorTermsWillFail() throws Exception{
+        setFieldValue(paymentReportsAndTermsPage, SPONSOR_TERM_FORM_HELPER + DOT + UNIQUE_LOOKUP_ZERO + DOT + SPONSOR_TERM_CODE, FIVE);
+        HtmlPage awardPaymentReportsAndTermsPageAfterAdd = clickOnByName(paymentReportsAndTermsPage, METHOD_ADD_EQUIPMENT_TERM, true);
+        assertDoesNotContain(awardPaymentReportsAndTermsPageAfterAdd, ERRORS_FOUND_ON_PAGE);
+        
+        setFieldValue(awardPaymentReportsAndTermsPageAfterAdd, SPONSOR_TERM_FORM_HELPER + DOT + UNIQUE_LOOKUP_ZERO + DOT + SPONSOR_TERM_CODE, FIVE);
+        HtmlPage awardPaymentReportsAndTermsPageAfterSecondAdd = 
+                                                clickOnByName(awardPaymentReportsAndTermsPageAfterAdd, METHOD_ADD_EQUIPMENT_TERM, true);
+        
+        assertContains(awardPaymentReportsAndTermsPageAfterSecondAdd, ERRORS_FOUND_ON_PAGE);    
     }
     
     /**
