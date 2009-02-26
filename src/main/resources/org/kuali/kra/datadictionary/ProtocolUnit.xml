@@ -53,7 +53,7 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Protocol Units Id" />
 		<property name="shortLabel" value="Protocol Units Id" />
-		<property name="maxLength" value="22" />
+		<property name="maxLength" value="12" />
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
@@ -71,13 +71,13 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Protocol Person Id" />
 		<property name="shortLabel" value="Protocol Person Id" />
-		<property name="maxLength" value="22" />
+		<property name="maxLength" value="9" />
 		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
+			<bean parent="AlphaNumericValidationPattern" />
 		</property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"
-				p:size="10" />
+				p:size="9" />
 		</property>
 		<property name="summary" value="Protocol Person Id" />
 		<property name="description" value="Protocol Person Id" />
@@ -107,7 +107,7 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Sequence Number" />
 		<property name="shortLabel" value="Sequence Number" />
-		<property name="maxLength" value="22" />
+		<property name="maxLength" value="4" />
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
@@ -131,7 +131,7 @@
 		</property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"
-				p:size="10" />
+				p:size="8" />
 		</property>
 		<property name="summary" value="Unit Number" />
 		<property name="description" value="Unit Number" />

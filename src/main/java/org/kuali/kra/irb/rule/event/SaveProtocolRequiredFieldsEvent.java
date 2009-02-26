@@ -21,7 +21,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.rule.SaveProtocolRequiredFieldsRule;
-import org.kuali.kra.irb.rules.ProtocolRequiredFieldsRule;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 
 public class SaveProtocolRequiredFieldsEvent extends KraDocumentEventBase {
@@ -31,7 +30,6 @@ public class SaveProtocolRequiredFieldsEvent extends KraDocumentEventBase {
     
     protected SaveProtocolRequiredFieldsEvent(String description, String errorPathPrefix, ProtocolDocument document) {
         super(description, errorPathPrefix, document);
-        // TODO Auto-generated constructor stub
     }
     
     public SaveProtocolRequiredFieldsEvent(ProtocolDocument document) {
@@ -41,7 +39,6 @@ public class SaveProtocolRequiredFieldsEvent extends KraDocumentEventBase {
 
     @Override
     protected void logEvent() {
-        // TODO Auto-generated method stub
         StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
         logMessage.append(" with ");
 

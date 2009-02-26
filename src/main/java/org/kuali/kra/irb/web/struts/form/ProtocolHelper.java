@@ -48,7 +48,6 @@ public class ProtocolHelper {
     private String personId;
     private String rolodexId;
     
-    private ProtocolUnit newProtocolUnit;
     private String lookupUnitNumber;
     private String lookupUnitName;
 
@@ -250,14 +249,6 @@ public class ProtocolHelper {
     public void setNonEmployeeFlag(boolean nonEmployeeFlag) {
         this.nonEmployeeFlag = nonEmployeeFlag;
     }
-
-    public ProtocolUnit getNewProtocolUnit() {
-        return newProtocolUnit;
-    }
-
-    public void setNewProtocolUnit(ProtocolUnit newProtocolUnit) {
-        this.newProtocolUnit = newProtocolUnit;
-    }
         
     public String getLookupUnitName() {
         return lookupUnitName;
@@ -275,11 +266,15 @@ public class ProtocolHelper {
         this.lookupUnitNumber = lookupUnitNumber;
     }
     
-    
+    /**
+     * This method either populates the protocol form fields from the BO or
+     * it propagates form fields from lookup etc. as appropriate for
+     * the unsaved Protocol.
+     */
     private void prepareRequiredFields() {
         Protocol theProtocol = getProtocol();
-        if (theProtocol.getPrincipalInvestigator() == null) {
-            findPrinciapalInvestigatorIdFromFields();
+        if (theProtocol.getProtocolId() == null) {
+            findPrincipalInvestigatorIdFromFields();
             findAndSetLeadUnitFromFields();
         } else {
             resolveRequiredFieldsFromBO();
@@ -294,19 +289,23 @@ public class ProtocolHelper {
      * "add" element in the required fields panel view like most growing lists
      */
     public void prepareRequiredFieldsForSave() {
-        // create principal investigator from fields
-        findPrinciapalInvestigatorIdFromFields();
 
-        if (getProtocol().getPrincipalInvestigator() == null 
-                    && StringUtils.isNotEmpty(getPrincipalInvestigatorId())) {
-                
-                findAndSetLeadUnitFromFields();
-                
-                ProtocolPerson investigator = createPrincipalInvestigator();
-                if (investigator != null) {
-                    getProtocol().getProtocolPersons().add(investigator);
-                }
-            }
+        findPrincipalInvestigatorIdFromFields();
+        findAndSetLeadUnitFromFields();
+
+        // since we are saving, we will always clear the PI and reset from field values
+        getProtocol().getProtocolPersons().clear();
+        getProtocol().getProtocolPersons().add(createPrincipalInvestigator());
+        getProtocol().setLeadUnitForValidation(createLeadUnit());
+//
+//        if (getProtocol().getPrincipalInvestigator() == null && StringUtils.isNotEmpty(getPrincipalInvestigatorId())) {
+//            ProtocolPerson investigator = createPrincipalInvestigator();
+//            if (investigator != null) {
+//                getProtocol().getProtocolPersons().add(investigator);
+//            }
+//        } else if (getProtocol().getPrincipalInvestigator() != null && getProtocol().getLeadUnit() == null) {
+//            getProtocol().getPrincipalInvestigator().getProtocolUnits().add(createLeadUnit());
+//        }
 
     }
     
@@ -315,7 +314,7 @@ public class ProtocolHelper {
      * it's the values set rolodex id or person id depening on 
      * the lookup type
      */
-    private void findPrinciapalInvestigatorIdFromFields() {
+    private void findPrincipalInvestigatorIdFromFields() {
         if (StringUtils.isNotEmpty(getPersonId())) {
             setPrincipalInvestigatorId(getPersonId());
             setNonEmployeeFlag(false);
@@ -331,54 +330,53 @@ public class ProtocolHelper {
       * from the lookup values returned for PI's home unit
       */
     private void findAndSetLeadUnitFromFields() {
-        if (StringUtils.isNotEmpty(getLeadUnitNumber())) {
-            setLeadUnitName(getUnitService().getUnitName(getLeadUnitNumber()));
-        } else if (StringUtils.isEmpty(getLeadUnitName()) 
-            && StringUtils.isEmpty(getLeadUnitNumber())
-            && StringUtils.isNotEmpty(getLookupUnitNumber())
-            && StringUtils.isNotEmpty(getLookupUnitName())) {
+
+        getProtocol().setLeadUnitNumber(getLeadUnitNumber());
+        setLeadUnitName(getUnitService().getUnitName(getLeadUnitNumber()));
+        if (StringUtils.isEmpty(getLeadUnitName()) 
+                && StringUtils.isEmpty(getLeadUnitNumber()) ) {
             setLeadUnitNumber(getLookupUnitNumber());
             setLeadUnitName(getLookupUnitName());
         }
+        setLookupUnitNumber(null);
+        setLookupUnitName(null);
     }
+
     private ProtocolUnit createLeadUnit() {
         ProtocolUnit ret = null;
-        if ( StringUtils.isNotEmpty(getLeadUnitNumber())
-            && StringUtils.isNotEmpty(getLeadUnitName())) {            
+        if (StringUtils.isNotEmpty(getLeadUnitNumber()) && StringUtils.isNotEmpty(getLeadUnitName())) {
             ret = new ProtocolUnit();
             ret.setLeadUnitFlag(true);
             ret.setUnitNumber(getLeadUnitNumber());
             ret.setUnitName(getLeadUnitName());
-        }        
+        }
         return ret;
     }
     
     private ProtocolPerson createPrincipalInvestigator() {
         ProtocolPerson pi = null;
-        if ( StringUtils.isNotEmpty(getLeadUnitNumber())
-                && StringUtils.isNotEmpty(getLeadUnitName())) {            
-                pi = new ProtocolPerson();
-                pi.setPersonId(principalInvestigatorId);
-                //pi.setPersonNameFromId(principalInvestigatorId, nonEmployeeFlag);
-                pi.setProtocolPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
-                pi.setProtocolNumber("0");
-                pi.setSequenceNumber(0);
-                pi.refreshReferenceObject("protocolPersonRole");
-                if(isNonEmployeeFlag()) {
-                    pi.refreshReferenceObject("rolodex");
-                }else {
-                    pi.refreshReferenceObject("person");
-                }
-                pi.setPersonId(getPrincipalInvestigatorId());
-                pi.setPersonName(getPrincipalInvestigatorName());
-                ProtocolUnit unit = createLeadUnit();
-                if (unit != null) {
-                    unit.setPersonId(pi.getPersonId());
-                    unit.refreshReferenceObject("unit");
-                }
-                pi.getProtocolUnits().add(unit);  
 
-            }  
+        pi = new ProtocolPerson();
+        pi.setPersonId(principalInvestigatorId);
+        pi.setProtocolPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
+        pi.setProtocolNumber("0");
+        pi.setSequenceNumber(0);
+        pi.refreshReferenceObject("protocolPersonRole");
+        if (isNonEmployeeFlag()) {
+            pi.refreshReferenceObject("rolodex");
+        } else {
+            pi.refreshReferenceObject("person");
+        }
+        pi.setPersonId(getPrincipalInvestigatorId());
+        pi.setPersonName(getPrincipalInvestigatorName());
+
+        ProtocolUnit unit = createLeadUnit();
+        if (unit != null) {
+            unit.setPersonId(pi.getPersonId());
+            unit.refreshReferenceObject("unit");
+            pi.getProtocolUnits().add(unit);
+        }
+
         return pi;
     }
     
