@@ -12,22 +12,22 @@
                 <th class="grid"><div align="right">*Person:</div></th>
                 <td nowrap class="grid">
                     <c:choose>                  
-                        <c:when test="${empty KualiForm.membershipHelper.newCommitteeMembership.personId}">
+                        <c:when test="${empty KualiForm.membershipHelper.newCommitteeMembership.personId && empty KualiForm.membershipHelper.newCommitteeMembership.rolodexId}">
                             <label>Employee Search</label>
                             <label>
                                 <kul:lookup boClassName="org.kuali.kra.bo.Person" 
-                                    fieldConversions="personId:membershipHelper.newCommitteeMembership.personId,fullName:membershipHelper.newPersonName" />
+                                    fieldConversions="personId:membershipHelper.newCommitteeMembership.personId,fullName:membershipHelper.newCommitteeMembership.personName" />
                             </label>
                             <br>
                             <label>Non-employee Search</label> 
                             <label>
                                 <kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" 
-                                    fieldConversions="rolodexId:membershipHelper,newCommitteeMembership.personId,fullName:membershipHelper.newPersonName" />
+                                    fieldConversions="rolodexId:membershipHelper.newCommitteeMembership.rolodexId,fullName:membershipHelper.newCommitteeMembership.personName" />
                             </label>
                         </c:when>
                         <c:otherwise>
                             <label>
-                                ${KualiForm.membershipHelper.newPersonName} 
+                                <kul:htmlControlAttribute property="membershipHelper.newCommitteeMembership.personName" attributeEntry="${committeeMembershipAttributes.personName}" readOnly="true"/> 
                             </label>
                             <br/>
                         </c:otherwise>

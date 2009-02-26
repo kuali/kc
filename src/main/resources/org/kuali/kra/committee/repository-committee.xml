@@ -139,9 +139,10 @@
         <field-descriptor name="committeeMembershipsId" column="COMM_MEMBERSHIPS_ID" jdbc-type="INTEGER" primarykey="true" />
         <field-descriptor name="committeeId" column="COMMITTEE_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER" />
+        <field-descriptor name="personName" column="PERSON_NAME" jdbc-type="VARCHAR" />
         <field-descriptor name="membershipId" column="MEMBERSHIP_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
-        <field-descriptor name="nonEmployee" column="NON_EMPLOYEE_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
         <field-descriptor name="paidMember" column="PAID_MEMBER_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
         <field-descriptor name="termStartDate" column="TERM_START_DATE" jdbc-type="DATE" />
         <field-descriptor name="termEndDate" column="TERM_END_DATE" jdbc-type="DATE" />
