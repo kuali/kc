@@ -81,27 +81,13 @@ public class Protocol extends KraPersistableBusinessObjectBase{
     private ProtocolFundingSource newFundingSource;
     private List<ProtocolFundingSource> protocolFundingSources; 
 
+    // this is a transient filed for validation purposes only.
+    private ProtocolUnit leadUnitForValidation;
+
     private String leadUnitNumber;
     private String principalInvestigatorId;
     
-    public ProtocolFundingSource getNewFundingSource() {
-        return newFundingSource;
-    }
 
-    public void setNewFundingSource(ProtocolFundingSource newFundingSource) {
-        this.newFundingSource = newFundingSource;
-    }
-
-    public List<ProtocolFundingSource> getProtocolFundingSources() {
-        return protocolFundingSources;
-    }
-
-    public void setProtocolFundingSources(List<ProtocolFundingSource> protocolFundingSources) {
-        this.protocolFundingSources = protocolFundingSources;
-        for (ProtocolFundingSource fundingSource : protocolFundingSources) {
-            fundingSource.init(this);
-        }
-    }
 
     private List<ProtocolPerson> protocolPersons; 
     /**
@@ -554,5 +540,32 @@ public class Protocol extends KraPersistableBusinessObjectBase{
     private ProtocolPersonnelService getProtocolPersonnelService() {
         ProtocolPersonnelService protocolPersonnelService = (ProtocolPersonnelService)KraServiceLocator.getService("protocolPersonnelService");
         return protocolPersonnelService;
+    }
+    
+    public ProtocolUnit getLeadUnitForValidation() {
+        return leadUnitForValidation;
+    }
+
+    public void setLeadUnitForValidation(ProtocolUnit leadUnitForValidation) {
+        this.leadUnitForValidation = leadUnitForValidation;
+    }
+    
+    public ProtocolFundingSource getNewFundingSource() {
+        return newFundingSource;
+    }
+
+    public void setNewFundingSource(ProtocolFundingSource newFundingSource) {
+        this.newFundingSource = newFundingSource;
+    }
+
+    public List<ProtocolFundingSource> getProtocolFundingSources() {
+        return protocolFundingSources;
+    }
+
+    public void setProtocolFundingSources(List<ProtocolFundingSource> protocolFundingSources) {
+        this.protocolFundingSources = protocolFundingSources;
+        for (ProtocolFundingSource fundingSource : protocolFundingSources) {
+            fundingSource.init(this);
+        }
     }
 }

@@ -320,6 +320,7 @@ public final class KeyConstants {
     public static final String ERROR_PROTOCOL_PRINCIPAL_INVESTIGATOR_ID_NOT_FOUND = "error.protocolRequiredFields.prinInvestigatorId.notFound";
     public static final String ERROR_PROTOCOL_PRINCIPAL_INVESTIGATOR_NAME_NOT_FOUND = "error.protocolRequiredFields.prinInvestigatorName.notFound";
     public static final String ERROR_PROTOCOL_LEAD_UNIT_NUM_NOT_FOUND = "error.protocolRequiredFields.leadUnitNum.notFound";
+    public static final String ERROR_PROTOCOL_LEAD_UNIT_NUM_INVALID = "error.protocolRequiredFields.leadUnitNum.invalid";
     public static final String ERROR_PROTOCOL_LEAD_UNIT_NAME_NOT_FOUND = "error.protocolRequiredFields.leadUnitName.notFound";
     public static final String ERROR_PROTOCOL_TITLE_NOT_FOUND = "error.protocolRequiredFields.title.notFound";
     public static final String ERROR_PROTOCOL_TYPE_NOT_FOUND = "error.protocolRequiredFields.typeCode.notFound";
