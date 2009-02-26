@@ -505,8 +505,10 @@ public class BudgetParametersAction extends BudgetAction {
      */
     private boolean isBudgetPeriodDateChanged(BudgetDocument budgetDocument) {
         for (BudgetPeriod budgetPeriod : budgetDocument.getBudgetPeriods()) {
-            if (budgetPeriod.getStartDate().compareTo(budgetPeriod.getOldStartDate()) != 0
-                    || budgetPeriod.getEndDate().compareTo(budgetPeriod.getOldEndDate()) != 0) {
+            if (budgetPeriod.getStartDate() != null && budgetPeriod.getOldStartDate() != null && 
+                    budgetPeriod.getEndDate() != null && budgetPeriod.getOldEndDate() != null && 
+                    (budgetPeriod.getStartDate().compareTo(budgetPeriod.getOldStartDate()) != 0
+                    || budgetPeriod.getEndDate().compareTo(budgetPeriod.getOldEndDate()) != 0)) {
                 return true;
             }
 
