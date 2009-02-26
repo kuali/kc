@@ -43,14 +43,17 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase {
     @Column(name = "PERSON_ID")
 	private String personId; 
     
+    @Column(name = "ROLODEX_ID")
+    private String rolodexId; 
+    
+    @Column(name = "PERSON_NAME")
+    private String personName; 
+
     @Column(name = "MEMBERSHIP_ID")
-	private String membershipId; 
+    private String membershipId; 
     
     @Column(name = "SEQUENCE_NUMBER")
 	private Integer sequenceNumber; 
-    
-    @Column(name = "NON_EMPLOYEE_FLAG")
-	private boolean nonEmployee; 
     
     @Column(name = "PAID_MEMBER_FLAG")
 	private boolean paidMember; 
@@ -104,7 +107,23 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase {
 		this.personId = personId;
 	}
 
-	public String getMembershipId() {
+	public String getRolodexId() {
+        return rolodexId;
+    }
+
+    public void setRolodexId(String rolodexId) {
+        this.rolodexId = rolodexId;
+    }
+
+    public String getPersonName() {
+        return personName;
+    }
+
+    public void setPersonName(String personName) {
+        this.personName = personName;
+    }
+
+    public String getMembershipId() {
 		return membershipId;
 	}
 
@@ -118,14 +137,6 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase {
 
 	public void setSequenceNumber(Integer sequenceNumber) {
 		this.sequenceNumber = sequenceNumber;
-	}
-
-	public boolean getNonEmployee() {
-		return nonEmployee;
-	}
-
-	public void setNonEmployee(boolean nonEmployeeFlag) {
-		this.nonEmployee = nonEmployeeFlag;
 	}
 
 	public boolean getPaidMember() {
@@ -196,9 +207,10 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase {
 		hashMap.put("committeeMembershipsId", getCommitteeMembershipsId());
 		hashMap.put("committeeId", getCommitteeId());
 		hashMap.put("personId", getPersonId());
+        hashMap.put("rolodexId", getRolodexId());
+        hashMap.put("personName", getPersonName());
 		hashMap.put("membershipId", getMembershipId());
 		hashMap.put("sequenceNumber", getSequenceNumber());
-		hashMap.put("nonEmployee", getNonEmployee());
 		hashMap.put("paidMember", getPaidMember());
 		hashMap.put("termStartDate", getTermStartDate());
 		hashMap.put("termEndDate", getTermEndDate());
@@ -208,13 +220,6 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase {
         hashMap.put("trainingNotes", getTrainingNotes());
 		return hashMap;
 	}
-
-	public String getPersonName() {
-	    // TODO: cniesen - implement name getter.  Use People/Rolodex lookup based on nonEmployee
-	    PersonService personService = (PersonService)KraServiceLocator.getService("personService");
-	    Person person = personService.getPerson(this.personId);
-        return person.getFullName();
-    }
 
     public boolean isDelete() {
         // TODO cniesen - Auto-generated method stub

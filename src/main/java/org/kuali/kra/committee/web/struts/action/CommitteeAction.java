@@ -104,7 +104,6 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
         
         MembershipHelper membershipHelper = committeeForm.getMembershipHelper();
         membershipHelper.setNewCommitteeMembership(new CommitteeMembership());
-        membershipHelper.setNewPersonName("");
         
         return actionForward;        
     }

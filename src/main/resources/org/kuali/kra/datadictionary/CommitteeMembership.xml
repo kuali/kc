@@ -34,9 +34,10 @@
 				<ref bean="CommitteeMembership-committeeMembershipsId" />
 				<ref bean="CommitteeMembership-committeeId" />
 				<ref bean="CommitteeMembership-personId" />
+                <ref bean="CommitteeMembership-rolodexId" />
+                <ref bean="CommitteeMembership-personName" />
 				<ref bean="CommitteeMembership-membershipId" />
 				<ref bean="CommitteeMembership-sequenceNumber" />
-				<ref bean="CommitteeMembership-nonEmployee" />
 				<ref bean="CommitteeMembership-paidMember" />
 				<ref bean="CommitteeMembership-termStartDate" />
 				<ref bean="CommitteeMembership-termEndDate" />
@@ -104,6 +105,39 @@
 		<property name="summary" value="Person Id" />
 		<property name="description" value="Person Id" />
 	</bean>
+	
+	<bean id="CommitteeMembership-rolodexId" parent="CommitteeMembership-rolodexId-parentBean" />
+    <bean id="CommitteeMembership-rolodexId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="rolodexId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Rolodex Id" />
+        <property name="shortLabel" value="Rolodex Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Rolodex Id" />
+        <property name="description" value="Rolodex Id" />
+    </bean>
+	
+    <bean id="CommitteeMembership-personName" parent="CommitteeMembership-personName-parentBean" />
+    <bean id="CommitteeMembership-personName-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="personName" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Person Name" />
+        <property name="shortLabel" value="Person Name" />
+        <property name="maxLength" value="90" />
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Person Name" />
+        <property name="description" value="Person Name" />
+    </bean>
 
 	<bean id="CommitteeMembership-membershipId" parent="CommitteeMembership-membershipId-parentBean" />
 	<bean id="CommitteeMembership-membershipId-parentBean" abstract="true" parent="AttributeDefinition" >
@@ -139,15 +173,6 @@
 		</property>
 		<property name="summary" value="Sequence Number" />
 		<property name="description" value="Sequence Number" />
-	</bean>
-
-	<bean id="CommitteeMembership-nonEmployee" parent="CommitteeMembership-nonEmployee-parentBean" />
-	<bean id="CommitteeMembership-nonEmployee-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
-		<property name="name" value="nonEmployee" />
-		<property name="label" value="Non Employee" />
-		<property name="shortLabel" value="Non Employee" />
-		<property name="summary" value="Non Employee" />
-		<property name="description" value="Non Employee" />
 	</bean>
 
 	<bean id="CommitteeMembership-paidMember" parent="CommitteeMembership-paidMember-parentBean" />
@@ -244,12 +269,14 @@
 								p:attributeName="committeeId" />
 							<bean parent="FieldDefinition"
 								p:attributeName="personId" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="rolodexId" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="personName" />
 							<bean parent="FieldDefinition"
 								p:attributeName="membershipId" />
 							<bean parent="FieldDefinition"
 								p:attributeName="sequenceNumber" />
-							<bean parent="FieldDefinition"
-								p:attributeName="nonEmployee" />
 							<bean parent="FieldDefinition"
 								p:attributeName="paidMember" />
 							<bean parent="FieldDefinition"
@@ -290,12 +317,14 @@
 					p:attributeName="committeeId" />
 				<bean parent="FieldDefinition"
 					p:attributeName="personId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="rolodexId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="personName" />
 				<bean parent="FieldDefinition"
 					p:attributeName="membershipId" />
 				<bean parent="FieldDefinition"
 					p:attributeName="sequenceNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="nonEmployee" />
 				<bean parent="FieldDefinition"
 					p:attributeName="paidMember" />
 				<bean parent="FieldDefinition"
@@ -321,12 +350,14 @@
 					p:attributeName="committeeId" />
 				<bean parent="FieldDefinition"
 					p:attributeName="personId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="rolodexId" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="personName" />
 				<bean parent="FieldDefinition"
 					p:attributeName="membershipId" />
 				<bean parent="FieldDefinition"
 					p:attributeName="sequenceNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="nonEmployee" />
 				<bean parent="FieldDefinition"
 					p:attributeName="paidMember" />
 				<bean parent="FieldDefinition"
