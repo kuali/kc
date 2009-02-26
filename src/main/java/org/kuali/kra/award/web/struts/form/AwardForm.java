@@ -33,6 +33,8 @@ import org.kuali.kra.award.bo.AwardSpecialReview;
 import org.kuali.kra.award.bo.AwardSpecialReviewExemption;
 import org.kuali.kra.award.bo.ReportClass;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentSchedule;
+import org.kuali.kra.award.paymentreports.paymentschedule.PaymentScheduleBean;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.ApprovedEquipmentBean;
 import org.kuali.kra.award.web.struts.action.SponsorTermFormHelper;
 import org.kuali.kra.document.ResearchDocumentBase;
@@ -76,6 +78,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     private ApprovedSubawardFormHelper approvedSubawardFormHelper;
     
     private ReportClass reportClassForPaymentsAndInvoices;
+    private PaymentScheduleBean paymentScheduleBean;
     
     
     /**
@@ -107,6 +110,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase
         sponsorTermFormHelper = new SponsorTermFormHelper(this);
         approvedSubawardFormHelper = new ApprovedSubawardFormHelper(this);
         approvedEquipmentBean = new ApprovedEquipmentBean(this);
+        paymentScheduleBean = new PaymentScheduleBean(this);
 
         //sponsorTermTypes = new ArrayList<KeyLabelPair>();
     }    
@@ -414,6 +418,25 @@ public class AwardForm extends KraTransactionalDocumentFormBase
      */
     public void setSponsorTermFormHelper(SponsorTermFormHelper sponsorTermFormHelper) {
         this.sponsorTermFormHelper = sponsorTermFormHelper;
+    }
+
+
+    /**
+     * Gets the paymentScheduleBean attribute. 
+     * @return Returns the paymentScheduleBean.
+     */
+    public PaymentScheduleBean getPaymentScheduleBean() {
+        return paymentScheduleBean;
+    }
+
+
+
+    /**
+     * Sets the paymentScheduleBean attribute value.
+     * @param paymentScheduleBean The paymentScheduleBean to set.
+     */
+    public void setPaymentScheduleBean(PaymentScheduleBean paymentScheduleBean) {
+        this.paymentScheduleBean = paymentScheduleBean;
     }
 
 }

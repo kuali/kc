@@ -35,6 +35,10 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.ReportCodeValuesFinder;
+import org.kuali.kra.award.paymentreports.paymentschedule.AddAwardPaymentScheduleRuleEvent;
+import org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentScheduleRule;
+import org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentScheduleRuleEvent;
+import org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentScheduleRuleImpl;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AddAwardApprovedEquipmentRuleEvent;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentRule;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentRuleEvent;
@@ -63,7 +67,7 @@ import org.kuali.kra.rules.SpecialReviewRulesImpl;
  * Responsible for delegating rules to independent rule classes.
  *
  */
-public class AwardDocumentRule extends ResearchDocumentRuleBase implements AwardApprovedEquipmentRule, AddFandaRateRule,SpecialReviewRule<AwardSpecialReview>,AddAwardReportTermRule, AddAwardReportTermRecipientRule {
+public class AwardDocumentRule extends ResearchDocumentRuleBase implements AwardPaymentScheduleRule, AwardApprovedEquipmentRule, AddFandaRateRule,SpecialReviewRule<AwardSpecialReview>,AddAwardReportTermRule, AddAwardReportTermRecipientRule {
     
     public static final String DOCUMENT_ERROR_PATH = "document";
     public static final String AWARD_ERROR_PATH = "awardList[0]";
@@ -83,6 +87,22 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      */
     public boolean processAddAwardApprovedEquipmentBusinessRules(AddAwardApprovedEquipmentRuleEvent event) {
         return processAddApprovedEquipmentBusinessRules(GlobalVariables.getErrorMap(), event);
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentScheduleRule#processAwardPaymentScheduleBusinessRules(org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentScheduleRuleEvent)
+     */
+    public boolean processAwardPaymentScheduleBusinessRules(AwardPaymentScheduleRuleEvent event) {
+        return processPaymentScheduleBusinessRules(GlobalVariables.getErrorMap(), event.getAwardDocument());
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentScheduleRule#processAddAwardPaymentScheduleBusinessRules(org.kuali.kra.award.paymentreports.paymentschedule.AddAwardPaymentScheduleRuleEvent)
+     */
+    public boolean processAddAwardPaymentScheduleBusinessRules(AddAwardPaymentScheduleRuleEvent event) {
+        return processAddPaymentScheduleBusinessRules(GlobalVariables.getErrorMap(), event);
     }
     
     /**
@@ -158,6 +178,25 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
         
+        return success;
+    }
+    
+    private boolean processPaymentScheduleBusinessRules(ErrorMap errorMap, AwardDocument awardDocument) {
+        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+        errorMap.addToErrorPath(AWARD_ERROR_PATH);
+        
+        boolean success = true;
+        errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
+        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
+        return success;
+    }
+    
+    private boolean processAddPaymentScheduleBusinessRules(ErrorMap errorMap, AddAwardPaymentScheduleRuleEvent event) {
+        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+        errorMap.addToErrorPath(AWARD_ERROR_PATH);        
+        boolean success = new AwardPaymentScheduleRuleImpl().processAddAwardPaymentScheduleBusinessRules(event);
+        errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
+        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
         return success;
     }
 
