@@ -24,6 +24,7 @@ import java.util.LinkedHashMap;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.springframework.util.StringUtils;
 
 public class ProtocolFundingSource extends KraPersistableBusinessObjectBase {
 
@@ -63,6 +64,11 @@ public class ProtocolFundingSource extends KraPersistableBusinessObjectBase {
     }
 
     public ProposalDevelopmentDocument getFundingProposal() {
+        if ((getFundingSourceType().getDescription().compareTo("Development Proposal")==0 ||
+                getFundingSourceType().getDescription().compareTo(   "Institute Proposal")==0)
+                && StringUtils.hasText(getFundingSource())) {
+            this.refreshReferenceObject("fundingProposal");
+        }
         return fundingProposal;
     }
 
@@ -71,6 +77,10 @@ public class ProtocolFundingSource extends KraPersistableBusinessObjectBase {
     }
 
     public Award getFundingAward() {
+        if (getFundingSourceType().getDescription().compareTo("Award")==0 
+                && StringUtils.hasText(getFundingSource())) {
+            this.refreshReferenceObject("fundingAward");
+        }
         return fundingAward;
     }
 

@@ -64,7 +64,6 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
     private BusinessObjectService businessObjectService;
 
     // ProposalService proposalService;
-    // AwardService awardService;
 
 
     public void addDefaultProtocolFundingSource(Protocol protocol) {
@@ -110,44 +109,32 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
                 source.setFundingSourceName(unitName);
             }
             else if (fundingType.getDescription().equalsIgnoreCase("Award")) {
-                Unit unitObj = getUnitService().getUnit(sourceId);
-                String unitName = null;
-                if (unitObj != null) {
-                    unitName = unitObj.getUnitName();
+                source.setFundingSource(sourceId);
+                source.setFundingSourceType(fundingType);
+                if (source.getFundingAward()!= null) {
+                    //TODO source.setFundingSourceName(source.getFundingAward().getSponsor().getSponsorName());
+                    source.setFundingSourceName(source.getFundingAward().getTitle());
+                    source.setFundingSourceTitle(source.getFundingAward().getTitle());
                 }
-                source.setFundingSourceTitle("");
-                source.setFundingSourceName(unitName);
             }
             else if (fundingType.getDescription().equalsIgnoreCase("Development Proposal")) {
-                ProposalDevelopmentDocument proposalObj = null;
-                try {
-                    proposalObj = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(sourceId);
+                source.setFundingSource(sourceId);
+                source.setFundingSourceType(fundingType);
+                if (source.getFundingProposal()!= null) {
+                    source.setFundingSourceName(source.getFundingProposal().getSponsor().getSponsorName());
+                    source.setFundingSourceTitle(source.getFundingProposal().getTitle());
                 }
-                catch (WorkflowException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-
-                String name = null;
-                String title = null;
-                if (proposalObj != null) {
-                    name = proposalObj.getSponsor().getSponsorName();
-                    title = proposalObj.getTitle();
-                }
-                source.setFundingSourceTitle(title);
-                source.setFundingSourceName(name);
             }
             else if (fundingType.getDescription().equalsIgnoreCase("Institute Proposal")) {
-                Unit unitObj = getUnitService().getUnit(sourceId);
-                String unitName = null;
-                if (unitObj != null) {
-                    unitName = unitObj.getUnitName();
+                source.setFundingSource(sourceId);
+                source.setFundingSourceType(fundingType);
+                if (source.getFundingProposal()!= null) {
+                  //  source.setFundingSourceName(source.getFundingProposal().getSponsor().getSponsorName());
+                    source.setFundingSourceName(source.getFundingProposal().getTitle());
+                    source.setFundingSourceTitle(source.getFundingProposal().getTitle());
                 }
-                source.setFundingSourceTitle("");
-                source.setFundingSourceName(unitName);
             }
             else if (fundingType.getDescription().equalsIgnoreCase("Other")) {
-                // Do nothing here....
                 // Setting to empty string prevents the error message
                 if (sourceTitle == null) {
                     source.setFundingSourceTitle("");
