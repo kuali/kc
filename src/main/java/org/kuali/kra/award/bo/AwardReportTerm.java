@@ -34,8 +34,7 @@ public class AwardReportTerm extends KraPersistableBusinessObjectBase {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -3117988810554700250L;
-    private Integer awardReportTermId; 
-    private Integer awardId; 
+    private Long awardReportTermId;
     private String awardNumber; 
     private Integer sequenceNumber; 
     private String reportClassCode; 
@@ -65,7 +64,7 @@ public class AwardReportTerm extends KraPersistableBusinessObjectBase {
      * 
      * @return
      */
-    public Integer getAwardReportTermId() {
+    public Long getAwardReportTermId() {
         return awardReportTermId;
     }
 
@@ -73,24 +72,8 @@ public class AwardReportTerm extends KraPersistableBusinessObjectBase {
      * 
      * @param awardReportTermId
      */
-    public void setAwardReportTermId(Integer awardReportTermId) {
+    public void setAwardReportTermId(Long awardReportTermId) {
         this.awardReportTermId = awardReportTermId;
-    }
-
-    /**
-     * 
-     * @return
-     */
-    public Integer getAwardId() {
-        return awardId;
-    }
-
-    /**
-     * 
-     * @param awardId
-     */
-    public void setAwardId(Integer awardId) {
-        this.awardId = awardId;
     }
 
     /**
@@ -333,8 +316,7 @@ public class AwardReportTerm extends KraPersistableBusinessObjectBase {
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("awardReportTermId", getAwardReportTermId());
-        hashMap.put("awardId", getAwardId());
+        hashMap.put("awardReportTermId", getAwardReportTermId());        
         hashMap.put("awardNumber", getAwardNumber());
         hashMap.put("sequenceNumber", getSequenceNumber());
         hashMap.put("reportClassCode", getReportClassCode());
