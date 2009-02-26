@@ -216,8 +216,8 @@
     	<property name="required" value="true" />
 		<property name="control" >
       		<bean parent="TextareaControlDefinition"
-            	p:rows="3"
-            	p:cols="80" />
+            	p:rows="4"
+            	p:cols="40" />
 		</property>
 		<property name="summary" value="Title" />
 		<property name="description" value="Title" />
