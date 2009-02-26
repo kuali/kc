@@ -66,7 +66,7 @@ button to continue.  A password is not required, because this is a </font><font 
         <tr>
         <td><font face="Arial,Helvetica"><b>UserID:</b></td>
         <td>
-        <input type="text" name="username" maxlength="10" value="quickstart"></td>
+        <input type="text" name="username" maxlength="10"></td>
         </tr>
         
 		<c:if test="${requestScope.showPasswordField}">
