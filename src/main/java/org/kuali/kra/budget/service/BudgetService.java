@@ -17,7 +17,9 @@ package org.kuali.kra.budget.service;
 
 import java.util.List;
 
+import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetLineItemBase;
+import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.bo.ValidCeJobCode;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -109,4 +111,12 @@ public interface BudgetService {
      */
     public String getExistingGroupNamesForAjaxCall(String proposalNumber, String budgetVersionNumber, String budgetPeriod);
 
+    /**
+     * 
+     * This method returns the Non-Personnel Panel Name (based on the variables).
+     * @param budgetPeriod
+     * @param budgetLineItem
+     * @return Non-Personnel Panel Name for the passed in Line Item
+     */
+    public String getBudgetExpensePanelName(BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem);
 }

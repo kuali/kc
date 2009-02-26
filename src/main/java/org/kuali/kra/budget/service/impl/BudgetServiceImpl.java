@@ -413,5 +413,28 @@ public class BudgetServiceImpl implements BudgetService {
         
         return resultStr;
     }
+    
+    public String getBudgetExpensePanelName(BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem) {
+        StringBuffer panelName = new StringBuffer();
+        if(budgetLineItem.getBudgetCategory() == null) {
+            budgetLineItem.refreshReferenceObject("budgetCategory");
+        }
+        
+        if(budgetLineItem.getBudgetCategory() != null && budgetLineItem.getBudgetCategory().getBudgetCategoryType() == null) {
+            budgetLineItem.getBudgetCategory().refreshReferenceObject("budgetCategoryType");
+        }
+        
+        if(budgetLineItem.getBudgetCategory() != null && budgetLineItem.getBudgetCategory().getBudgetCategoryType() != null) {
+            panelName.append(budgetLineItem.getBudgetCategory().getBudgetCategoryType().getDescription());
+//            panelName.append(" (");
+//            panelName.append(budgetPeriod.getBudgetLineItems().size());
+//            panelName.append(" line item");
+//            if(budgetPeriod.getBudgetLineItems().size() > 1)
+//                panelName.append("s");
+//            panelName.append(")");
+        }
+        
+        return panelName.toString();
+    }
 
 }

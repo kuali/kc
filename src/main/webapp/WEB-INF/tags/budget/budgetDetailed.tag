@@ -83,7 +83,7 @@
   		</c:if>		
 	</c:if>
  	
-	<kul:tab tabTitle="${budgetCategoryTypeCodeLabel}" tabItemCount="${tabItemCount}" defaultOpen="false" tabErrorKey="*costElement*,newBudgetLineItems[${catCodes}].*,${tabErrorKeyString},${tabErrorKeyString2},${tabErrorKeyString3}">
+	<kul:tab tabTitle="${budgetCategoryTypeCodeLabel}" tabItemCount="${tabItemCount}" defaultOpen="false" tabErrorKey="*costElement*,newBudgetLineItems[${catCodes}].*,${tabErrorKeyString},${tabErrorKeyString2},${tabErrorKeyString3}"  auditCluster="budgetNonPersonnelAuditWarnings${budgetPeriod}" tabAuditKey="${tabErrorKeyString},${tabErrorKeyString2},${tabErrorKeyString3}">
 		<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>${budgetCategoryTypeCodeLabel}</h2></span>

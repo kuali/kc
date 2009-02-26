@@ -550,7 +550,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             state = ERROR;
             if (isNewProposalType(proposalDevelopmentDocument)) {
                 GlobalVariables.getErrorMap().putError("noKey", KeyConstants.ERROR_RESUBMISSION_PROPOSALTYPE_IS_NEW);
-            } 
+            }
         }
         else {
             /* 
@@ -942,6 +942,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     public ActionForward budgetExpenses(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         String forward = getForwardToBudgetUrl(form);
         String methodToCallAttribute = (String)request.getAttribute("methodToCallAttribute");
+        String activePanelName = (String)request.getAttribute("activePanelName");
+        
         String viewBudgetPeriodParam = null;
         if (StringUtils.isNotBlank(methodToCallAttribute)) {
             int idx = methodToCallAttribute.indexOf("&viewBudgetPeriod=");
@@ -949,10 +951,16 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                 viewBudgetPeriodParam = "viewBudgetPeriod=" + methodToCallAttribute.substring(methodToCallAttribute.indexOf("=", idx)+1,methodToCallAttribute.indexOf(".", idx))+"&";
             }
         }
+        
         forward = StringUtils.replace(forward, "budgetParameters.do?", "budgetExpenses.do?auditActivated=true&");
         if (viewBudgetPeriodParam != null) {
             forward = StringUtils.replace(forward, "budgetExpenses.do?", "budgetExpenses.do?"+viewBudgetPeriodParam); 
         }
+        
+        if (StringUtils.isNotBlank(activePanelName)) {
+            forward = StringUtils.replace(forward, "budgetExpenses.do?", "budgetExpenses.do?activePanelName=" + activePanelName + "&"); 
+        }
+
         return new ActionForward(forward, true);
     }
     

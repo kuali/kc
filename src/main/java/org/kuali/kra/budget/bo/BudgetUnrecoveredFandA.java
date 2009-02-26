@@ -110,7 +110,7 @@ public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent
      * @return
      */
     public BudgetDecimal getAmount() {
-        return amount;
+        return BudgetDecimal.returnZeroIfNull(amount);
     }
 
     /**

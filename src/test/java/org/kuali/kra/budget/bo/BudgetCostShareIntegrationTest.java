@@ -53,8 +53,8 @@ public class BudgetCostShareIntegrationTest extends BudgetDistributionAndIncomeI
         assertNotNull(savedDocument);        
         assertEquals(1, savedDocument.getBudgetCostShares().size());
         assertNull(savedDocument.getBudgetCostShares().get(0).getFiscalYear());
-        assertNull(savedDocument.getBudgetCostShares().get(0).getShareAmount());
-        assertNull(savedDocument.getBudgetCostShares().get(0).getSharePercentage());
+        assertEquals(BudgetDecimal.ZERO, savedDocument.getBudgetCostShares().get(0).getShareAmount());
+        assertEquals(BudgetDecimal.ZERO, savedDocument.getBudgetCostShares().get(0).getSharePercentage());
         assertNull(savedDocument.getBudgetCostShares().get(0).getSourceAccount());
     }
 

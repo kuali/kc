@@ -54,7 +54,7 @@
 			        			<kul:htmlControlAttribute property="newBudgetCostShare.fiscalYear" attributeEntry="${budgetCostShareAttributes.fiscalYear}" />
 			        		</div></td>
 			        		<td class="infoline"><div align="center">
-								<kul:htmlControlAttribute property="newBudgetCostShare.sharePercentage" attributeEntry="${budgetCostShareAttributes.sharePercentage}" />						
+								<kul:htmlControlAttribute property="newBudgetCostShare.sharePercentage" attributeEntry="${budgetCostShareAttributes.sharePercentage}" styleClass="amount" />						
 			    			</div></td>
 			    			<td class="infoline"><div align="center">
 			        			<kul:htmlControlAttribute property="newBudgetCostShare.sourceAccount" attributeEntry="${budgetCostShareAttributes.sourceAccount}" />

@@ -113,7 +113,7 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent {
      * @return
      */
     public BudgetDecimal getShareAmount() {
-        return shareAmount;
+        return BudgetDecimal.returnZeroIfNull(shareAmount);
     }
 
     /**
@@ -122,7 +122,7 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent {
      * @return
      */
     public BudgetDecimal getSharePercentage() {
-        return sharePercentage;
+        return BudgetDecimal.returnZeroIfNull(sharePercentage);
     }
 
     /**
