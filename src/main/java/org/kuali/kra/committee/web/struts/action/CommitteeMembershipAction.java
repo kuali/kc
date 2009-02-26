@@ -119,7 +119,6 @@ public class CommitteeMembershipAction extends CommitteeAction {
         CommitteeForm committeeForm = (CommitteeForm) form;
         MembershipHelper membershipHelper = committeeForm.getMembershipHelper();
         membershipHelper.setNewCommitteeMembership(new CommitteeMembership());
-        membershipHelper.setNewPersonName("");
         return mapping.findForward(MAPPING_BASIC);
     }
     
