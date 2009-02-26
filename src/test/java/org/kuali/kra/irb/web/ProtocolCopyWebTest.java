@@ -25,11 +25,11 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.bo.Protocol;
-import org.kuali.kra.irb.bo.ProtocolPerson;
-import org.kuali.kra.irb.bo.ProtocolPersonRole;
 import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.kra.irb.service.ProtocolAuthorizationService;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -37,38 +37,36 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class ProtocolCopyWebTest extends ProtocolWebTestBase {
    
     /**
-     * The set of Proposal Development Document properties that
-     * must not be compared.
+     * The set of Protocol properties that must not be compared.
      */
-    private static String[] filteredProperties = { "ProtocolNumber",
-                                                    "UpdateTimestamp",
-                                                    "UpdateUser",
-                                                    "ProtocolId",
-                                                    "SequenceNumber",
-                                                    "VersionNumber",
-                                                    "ObjectId",
-                                                    "protocol",
-                                                    "protocolDocument",
-                                                    "protocolLocationId",
-                                                    "protocolOrganizationType",
-                                                    "protocolPersonId",
-                                                    "unit",
-                                                    "protocolUnitsId"
-                                                   };
+    private static String[] filteredProperties = { "protocolNumber",
+                                                   "updateTimestamp",
+                                                   "updateUser",
+                                                   "protocolId",
+                                                   "sequenceNumber",
+                                                   "versionNumber",
+                                                   "objectId",
+                                                   "protocol",
+                                                   "protocolDocument",
+                                                   "protocolLocationId",
+                                                   "protocolOrganizationType",
+                                                   "protocolPersonId",
+                                                   "unit",
+                                                   "protocolUnitsId"
+                                                 };
     
     private static final String LEAD_UNIT_NBR_1 = "000001";
     private static final String LEAD_UNIT_NBR_2 = "BL-IIDC";
     
     private static final String COPY_PROTOCOL_BTN = "methodToCall.copyProtocol";
      
+    private static final String QUICKSTART = "quickstart";
     private static final String TDURKIN = "tdurkin";
     private static final String JTESTER = "jtester";
     
-    private static final String USERNAME_FIELD_ID = "newPermissionsUser.userName";
-    private static final String ROLENAME_FIELD_ID = "newPermissionsUser.roleName";
+    private static final String USERNAME_FIELD_ID = "permissionsHelper.newUser.userName";
+    private static final String ROLENAME_FIELD_ID = "permissionsHelper.newUser.roleName";
     private static final String ADD_BTN_ID = "methodToCall.addUser";
-    
-    private static final String VIEWER_ROLENAME = "Viewer";
   
     /***********************************************************************
      * Setup and TearDown
@@ -107,95 +105,46 @@ public class ProtocolCopyWebTest extends ProtocolWebTestBase {
     }
     
     /**
-     * Do a proposal copy without copying any of the attachments.  A document will
-     * be created with some attachments.  When the original document and the
-     * copied document are compared, everything should be the same except for
-     * the attachments.  The copied version should have none.
-     * 
+     * Test the copy protocol functionality.
      * @throws Exception
      */
     @Test
-    public void testSimpleCopy() throws Exception {
+    public void testCopy() throws Exception {
         HtmlPage actionsPage = buildDocument();
         ProtocolDocument srcDoc = getProtocolDocument(actionsPage);
         ProtocolDocument destDoc = copyDocument(actionsPage);
       
-        compareDocuments(srcDoc, destDoc, true);
+        compareDocuments(srcDoc, destDoc);
     }
     
     /**
-     * Do a copy with some key personnel.
-     * 
-     * @throws Exception
-     */
-    /*
-    @Test
-    public void testKeyPersonnelCopy() throws Exception {
-        HtmlPage page = buildDocument();
-        
-        ProtocolDocument srcDoc = getProtocolDocument(page);
-        
-        String docNbr = getDocNbr(page);
-        saveAndCloseDoc(page);
-        loginAsTester();
-        page = docSearch(docNbr);
-        HtmlPage actionsPage = clickOnTab(page, ACTIONS_LINK_NAME);
-        
-        setFieldValue(actionsPage, COPY_ATTACHMENTS_ID, "off");
-        setFieldValue(actionsPage, COPY_LEAD_UNIT_ID, LEAD_UNIT_NBR_2);
-        
-        ProposalDevelopmentDocument destDoc = copyDocument(actionsPage);
-       
-        ProposalCopyCriteria criteria = new ProposalCopyCriteria();
-        criteria.setIncludeAttachments(false);
-        criteria.setLeadUnitNumber(LEAD_UNIT_NBR_2);
-        compareDocuments(srcDoc, destDoc, criteria, false);
-        
-        List<ProposalPerson> persons = destDoc.getProposalPersons();
-        assertEquals(1, persons.size());
-        ProposalPerson person = persons.get(0);
-        List<ProposalPersonUnit> units = person.getUnits();
-        assertEquals(2, units.size());
-        String unitNumber1 = units.get(0).getUnitNumber();
-        String unitNumber2 = units.get(1).getUnitNumber();
-        if (StringUtils.equals(unitNumber1, LEAD_UNIT_NBR_2)) {
-            assertEquals(unitNumber2, LEAD_UNIT_NBR_1);
-        }
-        else {
-            assertEquals(unitNumber1, LEAD_UNIT_NBR_1);
-            assertEquals(unitNumber2, LEAD_UNIT_NBR_2);
-        }
-    }
-*/
-    /**
-     * Builds a Proposal Development Document.  Adds several attachments to
-     * the document.
-     * 
-     * NOTE: A better test of the copy feature would add other items to the
-     *       documents, e.g. add some abstracts.
-     *       
+     * Builds a complex Protocol Document.      
      * @return the Actions web page containing the document.
      * @throws Exception
      */
     private HtmlPage buildDocument() throws Exception {
         HtmlPage protocolPage = getProtocolSavedRequiredFieldsPage();
        
+        setAdditionalFields(protocolPage);
+        protocolPage = addParticipant(protocolPage, "3", "5");
+        protocolPage = addLocation(protocolPage, "000020", "2");
         
-       // HtmlPage keyPersonnelPage = clickOnTab(attachmentsPage, KEY_PERSONNEL_LINK_NAME);
-       // keyPersonnelPage = addKeyPersonnel(keyPersonnelPage, TDURKIN, "PI");
+        HtmlPage personnelPage = clickOnTab(protocolPage, PERSONNEL_LINK_NAME);
+        personnelPage = addPersonnelUnit(personnelPage, 0, "IN-CARD");
+        personnelPage = addPersonnel(personnelPage, TDURKIN, "COI", 1);
         
-       // HtmlPage permissionsPage = clickOnTab(keyPersonnelPage, PERMISSIONS_LINK_NAME);
-        //permissionsPage = addUser(permissionsPage, JTESTER, VIEWER_ROLENAME);
-       // permissionsPage = addUser(permissionsPage, JTESTER, "Aggregator");
+        HtmlPage permissionsPage = clickOnTab(personnelPage, PERMISSIONS_LINK_NAME);
+        permissionsPage = addUser(permissionsPage, JTESTER, RoleConstants.PROTOCOL_VIEWER);
+        permissionsPage = addUser(permissionsPage, TDURKIN, RoleConstants.PROTOCOL_UNASSIGNED);
         
-        return clickOnTab(protocolPage, PROTOCOL_ACTIONS_LINK_NAME);
+        return clickOnTab(permissionsPage, PROTOCOL_ACTIONS_LINK_NAME);
     }
-    
+
     /**
-     * Get a Proposal Development Document from the database.
+     * Get a Protocol Document from the database.
      * 
      * @param page the HTML page containing the document.
-     * @return the proposal development document.
+     * @return the protocol document.
      * @throws Exception
      */
     private ProtocolDocument getProtocolDocument(HtmlPage page) throws Exception {
@@ -204,7 +153,7 @@ public class ProtocolCopyWebTest extends ProtocolWebTestBase {
     }
     
     /**
-     * Copies a Proposal Development Document.
+     * Copies a Protocol Document.
      * 
      * @param actionsPage the Actions web page containing the copy feature.
      * @return the new copied document.
@@ -220,14 +169,13 @@ public class ProtocolCopyWebTest extends ProtocolWebTestBase {
     }
     
     /**
-     * Compare the original (source) proposal development document with its copy (destination).
+     * Compare the original (source) protocol document with its copy (destination).
      * 
      * @param srcDoc the original document
      * @param destDoc the copied document
-     * @param criteria the criteria used to copy the document.
      * @throws Exception
      */
-    private void compareDocuments(ProtocolDocument srcDoc, ProtocolDocument destDoc, boolean compareKeyPersonnel) throws Exception {
+    private void compareDocuments(ProtocolDocument srcDoc, ProtocolDocument destDoc) throws Exception {
        
         // They had better have different document numbers.
         
@@ -261,8 +209,31 @@ public class ProtocolCopyWebTest extends ProtocolWebTestBase {
                 fail("Property " + property.getter.getName() + " is different. {" + getStringValue(value1) + "}, {" + getStringValue(value2) + "}");
             }
         }
+        
+        checkPermissions(destDoc);
     }
     
+    /**
+     * Verify that the user/roles for the new protocol are as expected based upon the
+     * users/roles that were assigned to the original protocol.
+     * @param destDoc
+     */
+    private void checkPermissions(ProtocolDocument destDoc) {
+        ProtocolAuthorizationService protocolAuthorizationService = KraServiceLocator.getService(ProtocolAuthorizationService.class);
+        
+        List<String> roleNames = protocolAuthorizationService.getRoles(QUICKSTART, destDoc.getProtocol());
+        assertEquals(1, roleNames.size());
+        assertTrue(roleNames.contains(RoleConstants.PROTOCOL_AGGREGATOR));
+        
+        roleNames = protocolAuthorizationService.getRoles(JTESTER, destDoc.getProtocol());
+        assertEquals(1, roleNames.size());
+        assertTrue(roleNames.contains(RoleConstants.PROTOCOL_VIEWER));
+        
+        roleNames = protocolAuthorizationService.getRoles(TDURKIN, destDoc.getProtocol());
+        assertEquals(1, roleNames.size());
+        assertTrue(roleNames.contains(RoleConstants.PROTOCOL_UNASSIGNED));
+    }
+
     /**
      * Get the name of a property.  The method must be a setter method.
      * The property name is computed by removing the "set" from the
@@ -319,6 +290,7 @@ public class ProtocolCopyWebTest extends ProtocolWebTestBase {
      * @return true if equal; otherwise false.
      * @throws Exception
      */
+    @SuppressWarnings("unchecked")
     private boolean equals(Object obj1, Object obj2) throws Exception {
         
         boolean isEqual = false;
@@ -359,6 +331,7 @@ public class ProtocolCopyWebTest extends ProtocolWebTestBase {
      * @return true if equal; otherwise false.
      * @throws Exception
      */
+    @SuppressWarnings("unchecked")
     private boolean compareKualiObjects(Object obj1, Object obj2) throws Exception {
         Class clazz = obj1.getClass();
         List<DocProperty> properties = getComparableProperties(clazz);
@@ -372,6 +345,12 @@ public class ProtocolCopyWebTest extends ProtocolWebTestBase {
         return true;
     }
     
+    /**
+     * Build a string representation for the given object.
+     * @param value the object
+     * @return a string representation
+     */
+    @SuppressWarnings("unchecked")
     private String getStringValue(Object value) {
         String s = null;
         if (value instanceof Collection) {
@@ -401,6 +380,7 @@ public class ProtocolCopyWebTest extends ProtocolWebTestBase {
      * @return true if equal; otherwise false
      * @throws Exception
      */
+    @SuppressWarnings("unchecked")
     private boolean compareCollections(Collection c1, Collection c2) throws Exception {
         if (c1.size() != c2.size()) {
             return false;
@@ -432,6 +412,7 @@ public class ProtocolCopyWebTest extends ProtocolWebTestBase {
      * @param clazz the Kauli Business Class.
      * @return the list of comparable properties.
      */
+    @SuppressWarnings("unchecked")
     private List<DocProperty> getComparableProperties(Class clazz) {
         List<DocProperty> list = new ArrayList<DocProperty>();
         
@@ -451,8 +432,13 @@ public class ProtocolCopyWebTest extends ProtocolWebTestBase {
         return list;
     }
     
-    private boolean isService(String name) {
-        return name.endsWith("Service");
+    /**
+     * Is this a service method?
+     * @param methodName the method name
+     * @return
+     */
+    private boolean isService(String methodName) {
+        return methodName.endsWith("Service");
     }
 
     /**
@@ -469,6 +455,7 @@ public class ProtocolCopyWebTest extends ProtocolWebTestBase {
      * @param name the property name
      * @return true if there is a corresponding "Id" property; otherwise false.
      */
+    @SuppressWarnings("unchecked")
     private boolean hasIdProperty(Class clazz, String name) {
         if (name.endsWith("Id")) {
             return false;
@@ -484,6 +471,21 @@ public class ProtocolCopyWebTest extends ProtocolWebTestBase {
         return false;
     }
     
+    /**
+     * Does this property have an associated "Code" property?  Some business objects
+     * have the following:
+     * 
+     *      String get<PropertyName>Code();
+     *      <BusinessObjectClass> get<PropertyName>();
+     *      
+     * To avoid circular relationships (which lead to infinite loops), we only need
+     * to compare the "Code" values between two business objects. 
+     * 
+     * @param clazz the business object class
+     * @param name the property name
+     * @return true if there is a corresponding "Id" property; otherwise false.
+     */
+    @SuppressWarnings("unchecked")
     private boolean hasCodeProperty(Class clazz, String name) {
         if (name.endsWith("Code")) {
             return false;
@@ -499,18 +501,6 @@ public class ProtocolCopyWebTest extends ProtocolWebTestBase {
         return false;
     }
     
-    private HtmlPage addKeyPersonnel(HtmlPage keyPersonnelPage, String username, String roleId) throws Exception {
-        keyPersonnelPage = lookup(keyPersonnelPage, "newPersonId", "userName", username);
-        setFieldValue(keyPersonnelPage, "newProposalPerson.proposalPersonRoleId", roleId);
-        keyPersonnelPage = clickOn(keyPersonnelPage, "methodToCall.insertProposalPerson");
-        HtmlElement element = getElement(keyPersonnelPage, "document.proposalPersons[0].proposalPersonYnq[0].answer");
-        if (element != null) {
-            setFieldValue(keyPersonnelPage, "document.proposalPersons[0].proposalPersonYnq[0].answer", "Y");
-        }
-        keyPersonnelPage = clickOn(keyPersonnelPage, "save");
-        return keyPersonnelPage;
-    }
-    
     /**
      * Add a single user to the proposal.
      * @param page
@@ -524,25 +514,5 @@ public class ProtocolCopyWebTest extends ProtocolWebTestBase {
         setFieldValue(page, ROLENAME_FIELD_ID, roleName);
         HtmlElement addBtn = getElementByName(page, ADD_BTN_ID, true);
         return clickOn(addBtn);
-    }
-    
-    /**
-     * For Key Personnel, the certify questions must be null.
-     * @param doc
-     */
-    private void checkKeyPersonnel(ProtocolDocument doc) {
-        List<ProtocolPerson> persons = doc.getProtocol().getProtocolPersons();
-        for (ProtocolPerson person : persons) {
-            ProtocolPersonRole role = person.getProtocolPersonRole();
-            String roleId = role.getProtocolPersonRoleId();
-            if ((StringUtils.equals(roleId, Constants.PRINCIPAL_INVESTIGATOR_ROLE)) || 
-                (StringUtils.equals(roleId, Constants.CO_INVESTIGATOR_ROLE))) {
-                
-               // List<ProtocolPersonYnq> questions = person.getProposalPersonYnqs();
-                //for (ProposalPersonYnq question : questions) {
-                //    assertNull(question.getAnswer());
-                //}
-            }
-        }
     }
 }

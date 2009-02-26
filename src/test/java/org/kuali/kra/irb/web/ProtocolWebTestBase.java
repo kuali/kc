@@ -49,6 +49,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
         @UnitTestFile(filename = "classpath:sql/dml/load_protocol_type.sql", delimiter = ";") }))
 public abstract class ProtocolWebTestBase extends KraWebTestBase {
     
+    protected static final String PERSONNEL_LINK_NAME = "personnel.x";
     protected static final String PERMISSIONS_LINK_NAME = "permissions.x";
     protected static final String PROTOCOL_ACTIONS_LINK_NAME = "protocolActions.x";
     
@@ -358,4 +359,59 @@ public abstract class ProtocolWebTestBase extends KraWebTestBase {
         validateSavedPage(protocolPage);
         return clickOnTab(protocolPage, PERMISSIONS_LINK_NAME);
     }
+    
+    /**
+     * Add some random values to the Additional Panel fields.
+     * @param protocolPage
+     */
+    protected void setAdditionalFields(HtmlPage protocolPage) {
+        setFieldValue(protocolPage, "document.protocol.fdaApplicationNumber", "666");
+        setFieldValue(protocolPage, "document.protocol.referenceNumber1", "1");
+        setFieldValue(protocolPage, "document.protocol.referenceNumber2", "2");
+        setFieldValue(protocolPage, "document.protocol.description", "test");
+    }
+    
+    protected HtmlPage addParticipant(HtmlPage protocolPage, String participantTypeCode, String count) throws IOException {
+        setFieldValue(protocolPage, "participantsHelper.newProtocolParticipant.participantTypeCode", participantTypeCode);
+        setFieldValue(protocolPage, "participantsHelper.newProtocolParticipant.participantCount", count);
+        HtmlElement addBtn = getElementByName(protocolPage, "methodToCall.addProtocolParticipant", true);
+        protocolPage = clickOn(addBtn);
+        assertTrue(!hasError(protocolPage));
+        return protocolPage;
+    }
+    
+    protected HtmlPage addLocation(HtmlPage protocolPage, String organizationId, String organizationTypeCode) throws IOException {
+        setFieldValue(protocolPage, "protocolHelper.newProtocolLocation.organizationId", organizationId);
+        setFieldValue(protocolPage, "protocolHelper.newProtocolLocation.protocolOrganizationTypeCode", organizationTypeCode);
+        HtmlElement addBtn = getElementByName(protocolPage, "methodToCall.addProtocolLocation", true);
+        protocolPage = clickOn(addBtn);
+        assertTrue(!hasError(protocolPage));
+        return protocolPage;
+    }
+    
+    protected HtmlPage addPersonnel(HtmlPage personnelPage, String username, String roleId, int index) throws Exception {
+        personnelPage = lookup(personnelPage, "newProtocolPerson", "userName", username);
+        setFieldValue(personnelPage, "personnelHelper.newProtocolPerson.protocolPersonRoleId", roleId);
+        personnelPage = clickOn(personnelPage, "methodToCall.addProtocolPerson");
+        
+        // add unit
+        addPersonnelUnit(personnelPage, index, "IN-CARD");
+        
+        personnelPage = clickOn(personnelPage, "save");
+        assertTrue(!hasError(personnelPage));
+        
+        return personnelPage;
+    }
+    
+    protected HtmlPage addPersonnelUnit(HtmlPage personnelPage, int index, String unitNumber) throws Exception {
+        setFieldValue(personnelPage, "personnelHelper.newProtocolPersonUnits[" + index + "].unitNumber", unitNumber);
+        HtmlElement addBtn = getElementByName(personnelPage, "methodToCall.addProtocolPersonUnit.document.protocol.protocolPersons[" + index + "]", true);
+        personnelPage = clickOn(addBtn);
+        
+        personnelPage = clickOn(personnelPage, "save");
+        assertTrue(!hasError(personnelPage));
+        
+        return personnelPage;
+    }
+    
 }
