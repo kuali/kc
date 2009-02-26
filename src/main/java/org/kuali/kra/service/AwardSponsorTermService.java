@@ -22,7 +22,7 @@ import org.kuali.kra.bo.SponsorTerm;
 
 
 /**
- * This is the Award Sponsor Term Interface.
+ * This is the Award Sponsor Term Service Interface.
  */
 public interface AwardSponsorTermService {
     
