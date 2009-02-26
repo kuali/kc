@@ -80,7 +80,8 @@
 				<value>budgetExpenseLookupable</value>
 				<value>onOffCampusLookupable</value>
 				<value>copyPeriodsQuestion</value>
-				<value>sponsorLookupable</value>	
+				<value>sponsorLookupable</value>
+				<value>pessimisticLockLookupable</value>	
 			</set>
 		</property>
 	</bean>	
@@ -1154,6 +1155,45 @@
 			<list>
 				<ref bean="kcCronTrigger" />
 			</list>
+		</property>
+	</bean>
+	
+	<bean id="kraPessimisticLockLookupableHelperService" class="org.kuali.kra.lookup.KraPessimisticLockLookupableHelperServiceImpl">
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="businessObjectDictionaryService">
+			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+		<property name="encryptionService">
+			<ref bean="encryptionService" />
+		</property>
+		<property name="universalUserService">
+			<ref bean="universalUserService" />
+		</property>
+		<property name="lookupService">
+			<ref bean="lookupService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
+		<property name="sequenceAccessorService">
+			<ref bean="sequenceAccessorService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="lookupResultsService">
+			<ref bean="lookupResultsService" />
+		</property>
+	</bean>
+	
+	<bean id="pessimisticLockLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="kraPessimisticLockLookupableHelperService" />
 		</property>
 	</bean>
 </beans>
