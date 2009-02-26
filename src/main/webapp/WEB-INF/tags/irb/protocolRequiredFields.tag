@@ -18,7 +18,7 @@
 		<table cellpadding=4 cellspacing=0 summary="">
             <tr>
             	<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.protocolTypeCode}" /></div></th>
-                <td align="left" valign="top">
+                <td align="left" valign="center">
                     <kra:kraControlAttribute property="document.protocol.protocolTypeCode" readOnly="${readOnly}" attributeEntry="${protocolAttributes.protocolTypeCode}" />
                 </td>
 				

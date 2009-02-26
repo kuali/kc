@@ -62,7 +62,7 @@ public class ProtocolRequiredFieldsWebTest extends ProtocolWebTestBase {
         setProtocolRequiredFields(page);
         setFieldValue(page, ProtocolRequiredFields.PROTOCOL_PI_ID.getCode(), "");        
         HtmlPage resultPage = savePage(page);
-        //assertContains(resultPage,ERRORS_FOUND_ON_PAGE);   
+        assertContains(resultPage,ERRORS_FOUND_ON_PAGE);   
         assertContains(resultPage,"Principal Investigator must be supplied");                         
     }
 
@@ -79,7 +79,7 @@ public class ProtocolRequiredFieldsWebTest extends ProtocolWebTestBase {
         setProtocolRequiredFields(page);
         setFieldValue(page, ProtocolRequiredFields.PROTOCOL_TYPE_CODE.getCode(), "");        
         HtmlPage resultPage = savePage(page);
-        //assertContains(resultPage,ERRORS_FOUND_ON_PAGE);   
+        assertContains(resultPage,ERRORS_FOUND_ON_PAGE);   
         assertContains(resultPage,"Protocol Type must be supplied");                         
     }    
     
@@ -96,7 +96,7 @@ public class ProtocolRequiredFieldsWebTest extends ProtocolWebTestBase {
         setProtocolRequiredFields(page);
         setFieldValue(page, ProtocolRequiredFields.PROTOCOL_TITLE.getCode(), "");        
         HtmlPage resultPage = savePage(page);
-        //assertContains(resultPage,ERRORS_FOUND_ON_PAGE);   
+        assertContains(resultPage,ERRORS_FOUND_ON_PAGE);   
         assertContains(resultPage,"Protocol Title must be supplied");                         
     }
     
@@ -113,8 +113,25 @@ public class ProtocolRequiredFieldsWebTest extends ProtocolWebTestBase {
         setProtocolRequiredFields(page);
         setFieldValue(page, ProtocolRequiredFields.PROTOCOL_LEAD_UNIT_NUM.getCode(), "");        
         HtmlPage resultPage = savePage(page);
-        //assertContains(resultPage,ERRORS_FOUND_ON_PAGE);   
+        assertContains(resultPage,ERRORS_FOUND_ON_PAGE);   
         assertContains(resultPage,"Lead Unit must be supplied");                         
+    }
+    
+    /**
+     * This method asserts the form's additional field value persistence. 
+     * @throws Exception
+     */
+    @Test
+    public  void testRequiredFieldsNegativeInvalidLeadUnit() throws Exception {
+        //Click to create new protocol link
+        HtmlPage portalPage = getPortalPage();
+        HtmlPage page = clickOn(portalPage, "Create Protocol", "Kuali Portal Index");
+        page = getInnerPages(page).get(0);       
+        setProtocolRequiredFields(page);
+        setFieldValue(page, ProtocolRequiredFields.PROTOCOL_LEAD_UNIT_NUM.getCode(), "bogus");        
+        HtmlPage resultPage = savePage(page);
+        assertContains(resultPage,ERRORS_FOUND_ON_PAGE);   
+        assertContains(resultPage,"Lead Unit is invalid");                         
     }
     
 }
