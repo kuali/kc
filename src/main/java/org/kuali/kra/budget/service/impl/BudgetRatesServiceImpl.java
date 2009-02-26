@@ -142,10 +142,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
      * */
     public void syncBudgetRatesForRateClassType(String rateClassType, BudgetDocument budgetDocument) {
         if(isOutOfSync(budgetDocument)) {
-            List instituteRates = (List) getInstituteRates(budgetDocument);
-            filterRates(budgetDocument, instituteRates, budgetDocument.getInstituteRates()); 
-            List instituteLaRates = (List) getInstituteLaRates(budgetDocument);
-            filterRates(budgetDocument, instituteLaRates, budgetDocument.getInstituteLaRates()); 
+            populateInstituteRates(budgetDocument);
             
             Map<String, AbstractInstituteRate> mapOfExistingBudgetProposalRates = mapRatesToKeys(budgetDocument.getBudgetProposalRates()); 
             Map<String, AbstractInstituteRate> mapOfExistingBudgetProposalLaRates = mapRatesToKeys(budgetDocument.getBudgetProposalLaRates());
@@ -885,7 +882,16 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
         return retval;
     }
     
+    private void populateInstituteRates(BudgetDocument budgetDocument) {
+        List instituteRates = (List) getInstituteRates(budgetDocument);
+        filterRates(budgetDocument, instituteRates, budgetDocument.getInstituteRates()); 
+        List instituteLaRates = (List) getInstituteLaRates(budgetDocument);
+        filterRates(budgetDocument, instituteLaRates, budgetDocument.getInstituteLaRates()); 
+    }
+    
     public boolean isOutOfSyncForRateAudit(BudgetDocument budgetDocument) {
+        populateInstituteRates(budgetDocument);
+
         return isOutOfSyncForRateAudit(budgetDocument.getInstituteRates(), budgetDocument.getBudgetProposalRates()) || 
                 isOutOfSyncForRateAudit(budgetDocument.getInstituteLaRates(), budgetDocument.getBudgetProposalLaRates());
     }

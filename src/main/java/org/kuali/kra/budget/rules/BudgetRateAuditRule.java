@@ -42,10 +42,8 @@ public class BudgetRateAuditRule  extends ResearchDocumentRuleBase implements Do
     public boolean processRunAuditBusinessRules(Document document) {
         BudgetDocument budgetDocument = (BudgetDocument) document;
         boolean retval = true;
-        budgetDocument.getRateClassTypes(); // to load instituterates & institutelarate lists
         if (KraServiceLocator.getService(BudgetRatesService.class).isOutOfSyncForRateAudit(budgetDocument)) {
             retval = false;
-        //    getAuditErrors().add(new AuditError("document.budgetProposalRate", KeyConstants.AUDIT_WARNING_RATE_OUT_OF_SYNC, Constants.BUDGET_RATE_PAGE + "." + Constants.BUDGET_RATE_PANEL_ANCHOR));            
         }
         
         return retval;
