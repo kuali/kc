@@ -3,19 +3,20 @@
 
 <div id="workarea">
 <c:forEach items="${KualiForm.document.committee.committeeMemberships}" var="membership" varStatus="status">
-    <c:set var="committeeMembershipProperty" value="document.committee.committeeMemberships${status.index}]" />
+    <c:set var="committeeMembershipProperty" value="document.committee.committeeMemberships[${status.index}]" />
     <c:set var="transparent" value="false" />
 
     <c:if test="${status.first}">
       <c:set var="transparent" value="true" />
-    </c:if> 
+    </c:if>
+    <c:set var="description" value="Term ${committeeMembershipProperty}.termStartDate - ${committeeMembershipProperty}.termEndDate" /> 
     <c:set var="membershipIndex" value="${status.index}" />
-    <kul:tab tabTitle="${fn:substring(membership.personName, 0, 22)}"
+    <kul:tab tabTitle="${fn:substring(membership.personName, 0, 22)} (${membership.membershipType.description})"
              tabErrorKey="document.committee.committeeMemberships[${personIndex}]*"
              auditCluster="requiredFieldsAuditErrors" 
              tabAuditKey="" 
              useRiceAuditMode="true"
-             tabDescription="Term <start date> - <end date>"
+             tabDescription="Term ${membership.termStartDate} - ${membership.termEndDate}"
              leftSideHtmlProperty="${committeeMembershipProperty}.delete" 
              leftSideHtmlAttribute="${committeeMembershipAttributes.delete}" 
              leftSideHtmlDisabled="false" 
@@ -25,8 +26,8 @@
                  <div id="workarea">
                      <div class="tab-container" align="center" id="G100">
                          <h3>
-                             <span class="subhead-left"> <%-- <bean:write name="KualiForm" property="${committeeMembershipProperty}.getPersonName()"/> --%> blah blah </span>
-                             <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.Committee" altText="help"/></span>
+                             <span class="subhead-left"><bean:write name="KualiForm" property="${committeeMembershipProperty}.personName" /></span>
+                             <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.Committee" altText="help" /></span>
                          </h3>
                          <%-- <kra-irb:personDetailsSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/> --%>
                      </div>

@@ -20,7 +20,6 @@ import org.kuali.kra.committee.bo.CommitteeMembership;
 public class MembershipHelper {
     
     private CommitteeMembership newCommitteeMembership;
-    private String newPersonName;
 
     public MembershipHelper() {
         setNewCommitteeMembership(new CommitteeMembership());
@@ -36,13 +35,5 @@ public class MembershipHelper {
 
     public void setNewCommitteeMembership(CommitteeMembership newCommitteeMembership) {
         this.newCommitteeMembership = newCommitteeMembership;
-    }
-
-    public String getNewPersonName() {
-        return newPersonName;
-    }
-
-    public void setNewPersonName(String newPersonName) {
-        this.newPersonName = newPersonName;
     }
 }

@@ -44,7 +44,7 @@ public class CommitteeMembershipRule extends CommitteeDocumentRule
     public boolean processAddCommitteeMembershipBusinessRules(AddCommitteeMembershipEvent addCommitteeMembershipEvent) {
         boolean isValid = true;
         CommitteeMembership committeeMembership = addCommitteeMembershipEvent.getCommitteeMembership();
-        if ( (StringUtils.isEmpty(committeeMembership.getPersonId())) || (StringUtils.isEmpty(committeeMembership.getPersonId())) ) { 
+        if ( (StringUtils.isEmpty(committeeMembership.getPersonId())) && (StringUtils.isEmpty(committeeMembership.getRolodexId())) ) { 
             isValid = false;
         } else if (isDuplicate((CommitteeDocument) addCommitteeMembershipEvent.getDocument(), committeeMembership)){
             isValid = false;
