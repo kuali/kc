@@ -200,6 +200,7 @@ public final class KeyConstants {
     public static final String ERROR_BUDGET_PERSONNEL_INCOMPLETE = "error.budgetPersonnel.incomplete";
     public static final String ERROR_GLOBAL_MESSAGE = "error.global.application";
     public static final String WARNING_PERIOD_COST_LIMIT_EXCEEDED= "warning.periodCostLimit.exceeded";
+    public static final String WARNING_UNRECOVERED_FA_NEGATIVE= "warning.unrecoveredFA.negative";
 
     // special review enhancement
     public static final String ERROR_EXEMPT_NUMBER_SELECTED = "error.exempt.number.selected";
@@ -210,7 +211,10 @@ public final class KeyConstants {
     public static final String AUDIT_WARNING_BUDGETPERIOD_END_BEFORE_PROJECT_END_DATE = "warning.budgetEndDate.before.projectEndDate";
 
     public static final String AUDIT_ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING = "error.budget.distribution.sourceMissing";
+    public static final String AUDIT_ERROR_BUDGET_DISTRIBUTION_FISCALYEAR_MISSING = "error.budget.distribution.fiscalYearMissing";
     public static final String AUDIT_ERROR_BUDGET_DISTRIBUTION_UNALLOCATED_NOT_ZERO = "error.budget.distribution.unallocatedMustBeZero";
+    public static final String AUDIT_WARNING_BUDGET_DISTRIBUTION_FISCALYEAR_INCONSISTENT = "warning.budget.distribution.fiscalYearInconsistent";
+    public static final String AUDIT_ERROR_BUDGET_DISTRIBUTION_DUPLICATE_UNRECOVERED_FA = "error.budget.distribution.duplicate.unrecoveredFA";
     
     // Change Password
     public static final String ERROR_EMPTY_PASSWORD = "error.password.empty";

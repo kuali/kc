@@ -56,14 +56,24 @@ public class BudgetCostShareAuditRule implements DocumentAuditRule {
             }
         }
         String source = null;
+        Integer fiscalYear = null;
+        
         int i=0;
         // Forces inclusion of source account
         for (BudgetCostShare costShare : costShares) {
             source = costShare.getSourceAccount();
+            fiscalYear = costShare.getFiscalYear();
             if (null == source || source.length() == 0) {
                 retval = false;
                 getAuditErrors().add(new AuditError("document.budgetCostShare["+i+"].sourceAccount",
                                                     KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING,
+                                                    Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_COST_SHARE_PANEL_ANCHOR,
+                                                    params));
+            }
+            if (null == fiscalYear || fiscalYear.intValue() <= 0) {
+                retval = false;
+                getAuditErrors().add(new AuditError("document.budgetCostShare["+i+"].fiscalYear",
+                                                    KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_FISCALYEAR_MISSING,
                                                     Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_COST_SHARE_PANEL_ANCHOR,
                                                     params));
             }

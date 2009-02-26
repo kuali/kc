@@ -20,6 +20,8 @@ import java.util.List;
 
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.WebUtils;
+import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -129,4 +131,7 @@ public class ProposalActionBase extends KraTransactionalDocumentActionBase {
                                                         + budgetToCopy.getBudgetVersionNumber() + " copy", true);
     }
 
+    protected void populateTabState(KualiForm form, String tabTitle) {
+        form.getTabStates().put(WebUtils.generateTabKey(tabTitle), "OPEN");
+    }
 }

@@ -35,6 +35,8 @@ public abstract class ProposalFormBase extends KraTransactionalDocumentFormBase 
     private String newBudgetVersionName;
     private Integer finalBudgetVersion;
     private boolean auditActivated;
+    private String activePanelName;
+    
     /**
      * The type of result returned by the multi-value lookup
      *
@@ -130,6 +132,14 @@ public abstract class ProposalFormBase extends KraTransactionalDocumentFormBase 
 
     public void setAuditActivated(boolean auditActivated) {
         this.auditActivated = auditActivated;
+    }
+
+    public String getActivePanelName() {
+        return activePanelName;
+    }
+
+    public void setActivePanelName(String activePanelName) {
+        this.activePanelName = activePanelName;
     }
     
 }

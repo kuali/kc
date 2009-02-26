@@ -643,10 +643,6 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         return getService(KualiRuleService.class);
     }
 
-    private void populateTabState(KualiForm form, String tabTitle) {
-        form.getTabStates().put(WebUtils.generateTabKey(tabTitle), "OPEN");
-    }
-    
     /**
      * Adds a personnel attachment.
      * 
