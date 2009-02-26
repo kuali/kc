@@ -142,8 +142,10 @@ public final class KeyConstants {
     public static final String ERROR_LAST_AGGREGATOR = "error.last.aggregator";
     
     public static final String ERROR_REQUIRE_ONE_NARRATIVE_MODIFY="error.narrative.one.modify";
+    public static final String ERROR_REQUIRE_ONE_NARRATIVE_MODIFY_WITH_ARG="error.narrative.one.modify.with.arg";
     public static final String ERROR_NARRATIVE_USER_RIGHT_NO_PERMISSION="error.narrative.no.permission";
     public static final String ERROR_ONE_AGGREGATOR_MODFIY="error.one.aggregator.modify";
+    public static final String ERROR_ONE_AGGREGATOR_MODIFY_WITH_ARG="error.one.aggregator.modify.with.arg";
     public static final String ERROR_PERMISSION_VIEWER_ONLY_KEY = "error.viewer.only";
     
     // Authorization
