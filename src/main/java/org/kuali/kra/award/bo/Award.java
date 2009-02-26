@@ -25,6 +25,7 @@ import java.util.Map;
 import org.apache.axis.utils.StringUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentSchedule;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipment;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.ScienceKeyword;
@@ -108,6 +109,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private List<AwardScienceKeyword> keywords;
     private List<AwardSpecialReview> specialReviews;
     private List<AwardApprovedEquipment> approvedEquipmentItems;
+    private List<AwardPaymentSchedule> paymentScheduleItems;
 
     /**
      * 
@@ -1258,6 +1260,15 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         approvedEquipmentItem.setAward(this);
     }
     
+    /**
+     * Add an
+     * @param newAwardPaymentSchedule
+     */
+    public void add(AwardPaymentSchedule paymentScheduleItem) {
+        paymentScheduleItems.add(0, paymentScheduleItem);
+        paymentScheduleItem.setAward(this);
+    }
+    
     protected void initializeCollections() {
         setAwardCostShares(new ArrayList<AwardCostShare>());
         setAwardComments(new ArrayList<AwardComment>());
@@ -1268,6 +1279,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         specialReviews = new ArrayList<AwardSpecialReview>();
         approvedEquipmentItems = new ArrayList<AwardApprovedEquipment>();
         setAwardSponsorTerms(new ArrayList<AwardSponsorTerm>());
+        paymentScheduleItems = new ArrayList<AwardPaymentSchedule>();
     }
 
     /**
@@ -1380,5 +1392,21 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public void setSponsor(Sponsor sponsor) {
         this.sponsor = sponsor;
         this.sponsorCode = sponsor != null ? sponsor.getSponsorCode() : null;
+    }
+
+    /**
+     * Gets the paymentScheduleItems attribute. 
+     * @return Returns the paymentScheduleItems.
+     */
+    public List<AwardPaymentSchedule> getPaymentScheduleItems() {
+        return paymentScheduleItems;
+    }
+
+    /**
+     * Sets the paymentScheduleItems attribute value.
+     * @param paymentScheduleItems The paymentScheduleItems to set.
+     */
+    public void setPaymentScheduleItems(List<AwardPaymentSchedule> paymentScheduleItems) {
+        this.paymentScheduleItems = paymentScheduleItems;
     }
 }
