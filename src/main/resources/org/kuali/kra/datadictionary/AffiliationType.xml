@@ -48,34 +48,20 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Affiliation Type Code" />
 		<property name="shortLabel" value="Affiliation Type Code" />
-		<property name="maxLength" value="22" />
+		<property name="maxLength" value="3" />
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"
-				p:size="10" />
+				p:size="3" />
 		</property>
 		<property name="summary" value="Affiliation Type Code" />
 		<property name="description" value="Affiliation Type Code" />
 	</bean>
 
 	<bean id="AffiliationType-description" parent="AffiliationType-description-parentBean" />
-	<bean id="AffiliationType-description-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="description" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Description" />
-		<property name="shortLabel" value="Description" />
-		<property name="maxLength" value="200" />
-		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
-		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
-		</property>
-		<property name="summary" value="Description" />
-		<property name="description" value="Description" />
+	<bean id="AffiliationType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
 	</bean>
 
 	<bean id="AffiliationType-versionNumber" parent="AffiliationType-versionNumber-parentBean" />
