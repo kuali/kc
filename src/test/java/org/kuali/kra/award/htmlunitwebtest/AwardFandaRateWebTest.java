@@ -291,7 +291,7 @@ public class AwardFandaRateWebTest extends AwardTimeAndMoneyWebTest {
         String completeButtonName2=getImageTagName(awardTimeAndMoneyPage, "methodToCall.addFandaRate");
         final HtmlImageInput button2 = (HtmlImageInput) form2.getInputByName(completeButtonName2);
         awardTimeAndMoneyPage = (HtmlPage) button2.click();
-        assertContains(awardTimeAndMoneyPage,"Rate is a mandatory field");
+        assertContains(awardTimeAndMoneyPage,"Rate can not be negative.");
         
         setFieldValue(awardTimeAndMoneyPage, "newAwardFandaRate.startDate", "07/01/2007");
         setFieldValue(awardTimeAndMoneyPage, "newAwardFandaRate.endDate", "06/30/2007");
@@ -300,7 +300,7 @@ public class AwardFandaRateWebTest extends AwardTimeAndMoneyWebTest {
         String completeButtonName3=getImageTagName(awardTimeAndMoneyPage, "methodToCall.addFandaRate");
         final HtmlImageInput button3 = (HtmlImageInput) form3.getInputByName(completeButtonName3);
         awardTimeAndMoneyPage = (HtmlPage) button3.click();
-        assertContains(awardTimeAndMoneyPage,"Start Date should be after the End Date");
+        assertContains(awardTimeAndMoneyPage,"End Date should be before the Start Date");
     }    
 
 }
