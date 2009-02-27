@@ -82,4 +82,45 @@ public class SponsorTermType extends KraPersistableBusinessObjectBase {
         return hashMap;
     }
 
+
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((description == null) ? 0 : description.hashCode());
+        result = prime * result + ((sponsorTermTypeCode == null) ? 0 : sponsorTermTypeCode.hashCode());
+        return result;
+    }
+
+
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final SponsorTermType other = (SponsorTermType) obj;
+        if (description == null) {
+            if (other.description != null)
+                return false;
+        }
+        else if (!description.equals(other.description))
+            return false;
+        if (sponsorTermTypeCode == null) {
+            if (other.sponsorTermTypeCode != null)
+                return false;
+        }
+        else if (!sponsorTermTypeCode.equals(other.sponsorTermTypeCode))
+            return false;
+        return true;
+    }
+
 }

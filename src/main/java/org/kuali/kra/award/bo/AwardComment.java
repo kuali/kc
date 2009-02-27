@@ -20,6 +20,9 @@ import java.util.LinkedHashMap;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.CommentType;
 
+/**
+ * This class is business object representation of an Award Comment
+ */
 public class AwardComment extends KraPersistableBusinessObjectBase {
     
     /**
@@ -221,6 +224,87 @@ public class AwardComment extends KraPersistableBusinessObjectBase {
         hashMap.put("checklistPrintFlag", getChecklistPrintFlag());
         hashMap.put("comments", getComments());
         return hashMap;
+    }
+
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((award == null) ? 0 : award.hashCode());
+        result = prime * result + ((awardCommentId == null) ? 0 : awardCommentId.hashCode());
+        result = prime * result + ((awardNumber == null) ? 0 : awardNumber.hashCode());
+        result = prime * result + ((checklistPrintFlag == null) ? 0 : checklistPrintFlag.hashCode());
+        result = prime * result + ((commentType == null) ? 0 : commentType.hashCode());
+        result = prime * result + ((commentTypeCode == null) ? 0 : commentTypeCode.hashCode());
+        result = prime * result + ((comments == null) ? 0 : comments.hashCode());
+        result = prime * result + ((sequenceNumber == null) ? 0 : sequenceNumber.hashCode());
+        return result;
+    }
+
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final AwardComment other = (AwardComment) obj;
+        if (award == null) {
+            if (other.award != null)
+                return false;
+        }
+        else if (!award.equals(other.award))
+            return false;
+        if (awardCommentId == null) {
+            if (other.awardCommentId != null)
+                return false;
+        }
+        else if (!awardCommentId.equals(other.awardCommentId))
+            return false;
+        if (awardNumber == null) {
+            if (other.awardNumber != null)
+                return false;
+        }
+        else if (!awardNumber.equals(other.awardNumber))
+            return false;
+        if (checklistPrintFlag == null) {
+            if (other.checklistPrintFlag != null)
+                return false;
+        }
+        else if (!checklistPrintFlag.equals(other.checklistPrintFlag))
+            return false;
+        if (commentType == null) {
+            if (other.commentType != null)
+                return false;
+        }
+        else if (!commentType.equals(other.commentType))
+            return false;
+        if (commentTypeCode == null) {
+            if (other.commentTypeCode != null)
+                return false;
+        }
+        else if (!commentTypeCode.equals(other.commentTypeCode))
+            return false;
+        if (comments == null) {
+            if (other.comments != null)
+                return false;
+        }
+        else if (!comments.equals(other.comments))
+            return false;
+        if (sequenceNumber == null) {
+            if (other.sequenceNumber != null)
+                return false;
+        }
+        else if (!sequenceNumber.equals(other.sequenceNumber))
+            return false;
+        return true;
     }
 
 

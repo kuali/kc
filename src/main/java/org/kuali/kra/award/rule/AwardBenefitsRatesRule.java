@@ -19,10 +19,15 @@ import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.award.rule.event.AwardBenefitsRatesRuleEvent;
 
 /**
- * This class...
+ * This interface defines methods that must be supplied in AwardBenefitsRatesRuleImpl
  */
 public interface AwardBenefitsRatesRule extends BusinessRule {
 
+    /**
+     * This method is called to process business rules in any implementing class.
+     * @param awardBenefitsRatesRuleEvent
+     * @return
+     */
     public boolean processBenefitsRatesBusinessRules(AwardBenefitsRatesRuleEvent 
             awardBenefitsRatesRuleEvent);
 }
