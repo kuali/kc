@@ -65,6 +65,7 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.web.struts.action.ProposalActionBase;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
+import edu.iu.uis.eden.exception.WorkflowException;
 
 public class BudgetAction extends ProposalActionBase {
     private static final Log LOG = LogFactory.getLog(BudgetAction.class);
@@ -176,12 +177,7 @@ public class BudgetAction extends ProposalActionBase {
         ActionForward forward = super.save(mapping, form, request, response);
 
         if (budgetForm.getMethodToCall().equals("save") && budgetForm.isAuditActivated()) {
-            final DocumentService docService = KraServiceLocator.getService(DocumentService.class);
-            final ProposalDevelopmentDocument pdDoc =
-                (ProposalDevelopmentDocument) docService.getByDocumentHeaderId(budgetForm.getDocument().getProposal().getDocumentNumber());
-            final String tempForwardUrl = buildForwardUrl(pdDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
-            final String forwardUrl = StringUtils.replace(tempForwardUrl, "Proposal.do?", "Actions.do?auditActivated=true&");
-            forward = new ActionForward(forwardUrl, true);
+            forward = this.getReturnToProposalForward(budgetForm);
         }
 
         final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
@@ -383,16 +379,34 @@ public class BudgetAction extends ProposalActionBase {
     }
     
     public ActionForward returnToProposal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BudgetForm budgetForm = (BudgetForm) form;
-        DocumentService docService = KraServiceLocator.getService(DocumentService.class);
-        String docNumber = budgetForm.getDocument().getProposal().getDocumentNumber();
-        ProposalDevelopmentDocument pdDoc = (ProposalDevelopmentDocument) docService.getByDocumentHeaderId(docNumber);
         
-        // JIRA KRACOEUS-1441
-        save(mapping, form, request, response);
+        final BudgetForm budgetForm = (BudgetForm) form;
+       
+        final ActionForward forward = this.save(mapping, form, request, response);
         
+        if (!forward.getPath().contains(RiceConstants.QUESTION_ACTION)) {
+            return this.getReturnToProposalForward(budgetForm);
+        }
+        
+        return forward;
+    }
+    
+    /**
+     * Gets the correct return-to-proposal action forward.
+     * 
+     * @param form the budget form
+     * @return the action forward
+     * @throws WorkflowException if there is a problem interacting with workflow
+     */
+    private ActionForward getReturnToProposalForward(final BudgetForm form) throws WorkflowException {
+        assert form != null : "the form is null";
+        
+        final DocumentService docService = KraServiceLocator.getService(DocumentService.class);
+        final String docNumber = form.getDocument().getProposal().getDocumentNumber();
+        
+        final ProposalDevelopmentDocument pdDoc = (ProposalDevelopmentDocument) docService.getByDocumentHeaderId(docNumber);
         String forwardUrl = buildForwardUrl(pdDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
-        if(budgetForm.isAuditActivated()) {
+        if(form.isAuditActivated()) {
             forwardUrl = StringUtils.replace(forwardUrl, "Proposal.do?", "Actions.do?auditActivated=true&");
         }
         
