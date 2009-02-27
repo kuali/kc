@@ -30,6 +30,7 @@ public class AwardBenefitsRateWebTest extends AwardTimeAndMoneyWebTest {
     
     private static final String DOCUMENT_AWARD_OFFCAMPUS = "document.awardList[0].specialEbRateOffCampus";
     private static final String DOCUMENT_AWARD_ONCAMPUS = "document.awardList[0].specialEbRateOnCampus";
+    private static final String DOCUMENT_AWARD_BENEFITS_RATE_COMMENT = "document.awardList[0].awardBenefitsRateComment.comments";
     private static final String SAVE_COST_SHARE_METHOD = "methodToCall.save";
     private static final String RELOAD_METHOD = "methodToCall.reload";
     private static final String TEST_COMMENTS = "we are testing comments.";
@@ -84,7 +85,7 @@ public class AwardBenefitsRateWebTest extends AwardTimeAndMoneyWebTest {
     public void testBenefitsRateComments() throws Exception{
         
         setFieldValue(awardTimeAndMoneyPage, 
-                        "document.awardList[0].awardBenefitsRateComment.comments", 
+                        DOCUMENT_AWARD_BENEFITS_RATE_COMMENT, 
                          TEST_COMMENTS);
         
         HtmlPage awardTimeAndMoneyPageAfterSave = clickOn(awardTimeAndMoneyPage,

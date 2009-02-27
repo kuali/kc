@@ -72,6 +72,7 @@ public class AwardBenefitsRatesRuleTest {
         INITIALIZED_VALID_RATES.add(validRate);
         awardBenefitsRatesRuleEvent = new AwardBenefitsRatesRuleEvent(ERROR_PATH_KEY, award, null);
         GlobalVariables.setErrorMap(new ErrorMap());
+        awardBenefitsRatesRule = new AwardBenefitsRatesRuleImpl();
     }
     
     /**
@@ -87,11 +88,16 @@ public class AwardBenefitsRatesRuleTest {
     /**
      * This method sets award on and off campus Benefits Rates to known record in Valid Rates Table.
      */
-    public void setKnownBenefitsRates() {
+    private void setKnownBenefitsRates() {
         award.setSpecialEbRateOffCampus(new KualiDecimal(0.00));
         award.setSpecialEbRateOnCampus(new KualiDecimal(0.00));
     }
     
+    /**
+     * This method returns the mocked business object service using validRates to find the matching Valid Rates objects.
+     * @param validRates
+     * @return
+     */
     public BusinessObjectService getMockedBusinessObjectService(Collection<ValidRates> validRates) {
         final BusinessObjectService MOCKED_BUSINESS_OBJECT_SERVICE;
         final Collection<ValidRates> VALID_RATES = validRates;
@@ -108,7 +114,6 @@ public class AwardBenefitsRatesRuleTest {
      */
     @Test
     public void testProcessBenefitsRatesBusinessRulesWithValidRate() {
-        awardBenefitsRatesRule = new AwardBenefitsRatesRuleImpl();
       
         final BusinessObjectService MOCKED_BUSINESS_OBJECT_SERVICE = 
                                             getMockedBusinessObjectService(INITIALIZED_VALID_RATES);
@@ -119,11 +124,10 @@ public class AwardBenefitsRatesRuleTest {
     }
     
     /**
-     * Test rule returns false when the rates ar invalid.
+     * Test rule returns false when the rates are invalid.
      */
     @Test
     public void testProcessBenefitsRatesBusinessRulesWithInvalidRates(){
-        awardBenefitsRatesRule = new AwardBenefitsRatesRuleImpl();
         
         final BusinessObjectService MOCKED_BUSINESS_OBJECT_SERVICE = 
                                         getMockedBusinessObjectService(NULL_VALID_RATES);
@@ -134,11 +138,10 @@ public class AwardBenefitsRatesRuleTest {
     
     
     /**
-     * This tests for valid rates in Valid Rates Table
+     * This tests that errors are being put in Global Error map when rates are invalid.
      */
     @Test
     public void testProcessBenefitsRatesBusinessRulesReportsError(){
-        awardBenefitsRatesRule = new AwardBenefitsRatesRuleImpl();
         GlobalVariables.setErrorMap(new ErrorMap());
         
         final BusinessObjectService MOCKED_BUSINESS_OBJECT_SERVICE = 

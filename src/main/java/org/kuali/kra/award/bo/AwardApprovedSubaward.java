@@ -20,6 +20,9 @@ import java.util.LinkedHashMap;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+/**
+ * This class is the Business Object representation of an Award Approved Subaward
+ */
 public class AwardApprovedSubaward extends KraPersistableBusinessObjectBase implements ValuableItem {
     
     
@@ -118,8 +121,8 @@ public class AwardApprovedSubaward extends KraPersistableBusinessObjectBase impl
             sequenceNumber = null;
             awardNumber = null;
         } else {
-            sequenceNumber = (award.getSequenceNumber());
-            awardNumber = (award.getAwardNumber());
+            sequenceNumber = award.getSequenceNumber();
+            awardNumber = award.getAwardNumber();
         }
     }
 
@@ -176,5 +179,85 @@ public class AwardApprovedSubaward extends KraPersistableBusinessObjectBase impl
         hashMap.put("amount", getAmount());
         return hashMap;
     }
+
+
+    //CSOFF
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int PRIME = 31;
+        int result = 1;
+        result = PRIME * result + ((amount == null) ? 0 : amount.hashCode());
+        result = PRIME * result + ((award == null) ? 0 : award.hashCode());
+        result = PRIME * result + ((awardApprovedSubawardId == null) ? 0 : awardApprovedSubawardId.hashCode());
+        result = PRIME * result + ((awardNumber == null) ? 0 : awardNumber.hashCode());
+        result = PRIME * result + ((organizationName == null) ? 0 : organizationName.hashCode());
+        result = PRIME * result + ((sequenceNumber == null) ? 0 : sequenceNumber.hashCode());
+        return result;
+    }
+
+
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj){
+            return true;
+        }
+        if (obj == null){
+            return false;
+        }
+        if (getClass() != obj.getClass()){
+            return false;
+        }
+        final AwardApprovedSubaward OTHER = (AwardApprovedSubaward) obj;
+        if (amount == null) {
+            if (OTHER.amount != null){
+                return false;
+            }
+        }else if (!amount.equals(OTHER.amount)){
+            return false;
+        }
+        if (award == null) {
+            if (OTHER.award != null){
+                return false;
+            }
+        }else if (!award.equals(OTHER.award)){
+            return false;
+        }
+        if (awardApprovedSubawardId == null) {
+            if (OTHER.awardApprovedSubawardId != null){
+                return false;
+            }
+        }else if (!awardApprovedSubawardId.equals(OTHER.awardApprovedSubawardId)){
+            return false;
+        }
+        if (awardNumber == null) {
+            if (OTHER.awardNumber != null){
+                return false;
+            }
+        }else if (!awardNumber.equals(OTHER.awardNumber)){
+            return false;
+        }
+        if (organizationName == null) {
+            if (OTHER.organizationName != null){
+                return false;
+            }
+        }else if (!organizationName.equals(OTHER.organizationName)){
+            return false;
+        }
+        if (sequenceNumber == null) {
+            if (OTHER.sequenceNumber != null){
+                return false;
+            }
+        }else if (!sequenceNumber.equals(OTHER.sequenceNumber)){
+            return false;
+        }
+        return true;
+    }
+    //CSON
 
 }
