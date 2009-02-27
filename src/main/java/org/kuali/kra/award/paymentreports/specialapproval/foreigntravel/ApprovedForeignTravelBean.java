@@ -45,27 +45,27 @@ public class ApprovedForeignTravelBean {
      * @param formHelper
      * @return
      */
-    public boolean addApprovedForeignTravel() {
-        AddAwardApprovedForeignTravelRuleEvent event = generateAddEvent();
-        boolean success = getRuleService().applyRules(event);
-        if(success){
-            getAward().add(getNewApprovedForeignTravel());
-            init();
-        }
-        return success;
-    }
+//    public boolean addApprovedForeignTravel() {
+//        AddAwardApprovedForeignTravelRuleEvent event = generateAddEvent();
+//        boolean success = getRuleService().applyRules(event);
+//        if(success){
+//            getAward().add(getNewApprovedForeignTravel());
+//            init();
+//        }
+//        return success;
+//    }
 
     /**
      * This method delets a selected equipment item
      * @param formHelper
      * @param deletedItemIndex
      */
-    public void deleteApprovedForeignTravelTrip(int deletedItemIndex) {
-        List<AwardApprovedForeignTravel> items = getAward().getApprovedForeignTravelTrips();
-        if(deletedItemIndex >= 0 && deletedItemIndex < items.size()) {
-            items.remove(deletedItemIndex);
-        }        
-    }
+//    public void deleteApprovedForeignTravelTrip(int deletedItemIndex) {
+//        List<AwardApprovedForeignTravel> items = getAward().getApprovedForeignTravelTrips();
+//        if(deletedItemIndex >= 0 && deletedItemIndex < items.size()) {
+//            items.remove(deletedItemIndex);
+//        }        
+//    }
 
     /**
      * @return
