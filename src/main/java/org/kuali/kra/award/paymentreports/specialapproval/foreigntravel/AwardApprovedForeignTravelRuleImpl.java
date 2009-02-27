@@ -63,8 +63,8 @@ public class AwardApprovedForeignTravelRuleImpl extends ResearchDocumentRuleBase
         
         valid &= isEndDateOnOrAfterStartDate(event);
         
-        List<AwardApprovedForeignTravel> trips = event.getAward().getApprovedForeignTravelTrips();
-        valid &= isUnique(trips, foreignTravel);
+//        List<AwardApprovedForeignTravel> trips = event.getAward().getApprovedForeignTravelTrips();
+//        valid &= isUnique(trips, foreignTravel);
         
         return valid;
     }
