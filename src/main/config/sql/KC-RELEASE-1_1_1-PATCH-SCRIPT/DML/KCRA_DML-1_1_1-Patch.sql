@@ -34,11 +34,19 @@ UPDATE sh_parm_t
 SET sh_parm_txt = '7'
 WHERE sh_parm_nm = 'budgetPersonDefaultAppointmentType';
 update SH_PARM_TYP_T set ACTIVE_IND = 'Y' where ACTIVE_IND = '1';
+
 update sh_parm_t t
    set t.sh_parm_txt = 'N'
  where t.sh_parm_nmspc_cd = 'KR-NS'
    AND T.SH_PARM_DTL_TYP_CD = 'Document'
    and t.sh_parm_nm = 'DEFAULT_CAN_PERFORM_ROUTE_REPORT_IND';
+
+UPDATE SH_PARM_T 
+	SET SH_PARM_NM = 'budgetPersonnelDetailsHelpUrl', 
+		SH_PARM_TXT = 'default.htm?turl=WordDocuments%2Fpersonneldetailtab.htm' 
+	WHERE SH_PARM_NMSPC_CD = 'KRA-B' 
+		AND SH_PARM_DTL_TYP_CD = 'D' 
+		AND SH_PARM_NM = 'budgetPersonnelDetailsHelpUrl';
 
 INSERT
 INTO fp_doc_type_t(fdoc_typ_cd,    ver_nbr,    fdoc_grp_cd,    fdoc_nm,    fin_elim_elgbl_cd,    fdoc_typ_active_cd,    fdoc_rtng_rule_cd,    fdoc_autoaprv_days,    fdoc_balanced_cd,    trn_scrbbr_ofst_gen_ind)
