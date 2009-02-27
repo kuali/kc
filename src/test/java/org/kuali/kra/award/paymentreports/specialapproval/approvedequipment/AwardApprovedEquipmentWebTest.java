@@ -194,7 +194,6 @@ public class AwardApprovedEquipmentWebTest extends AwardPaymentsAndTermsWebTest 
         addNewEquipmentItem(ITEM1, VENDOR1, MODEL1, AMOUNT1);
         save();
         deleteRow(0);
-        checkForErrorMessages();
         save();
         reload();
         assertDoesNotContain(paymentReportsAndTermsPage, VENDOR1);
@@ -202,10 +201,12 @@ public class AwardApprovedEquipmentWebTest extends AwardPaymentsAndTermsWebTest 
 
     private void reload() throws IOException {
         paymentReportsAndTermsPage = reload(paymentReportsAndTermsPage);
+        checkForErrorMessages();
     }
 
     private void save() throws IOException {
         paymentReportsAndTermsPage = save(paymentReportsAndTermsPage);
+        checkForErrorMessages();
     }
     
     private void editExistingRow(int rowNum, String fieldName, String value) {
@@ -243,6 +244,7 @@ public class AwardApprovedEquipmentWebTest extends AwardPaymentsAndTermsWebTest 
     
     private void deleteRow(int rowNum) throws IOException {
         paymentReportsAndTermsPage = pressAButton(paymentReportsAndTermsPage, getButtonMethodCToCallName(rowNum));
+        checkForErrorMessages();
     }
 
     private String getButtonMethodCToCallName(int rowNum) {
