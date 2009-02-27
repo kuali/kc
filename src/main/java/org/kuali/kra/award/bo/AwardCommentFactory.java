@@ -23,9 +23,12 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 
 /**
- * This class...
+ * This class Creates comment type based on the create comment method called.
  */
 public class AwardCommentFactory {
+    
+    private static final boolean INCLUDE_IN_CHECKLIST = true;
+    private static final boolean EXCLUDE_FROM_CHECKLIST = false;
     
     /**
      * This method creates a Cost Share Comment
@@ -33,7 +36,7 @@ public class AwardCommentFactory {
      * @return
      */
     public AwardComment createCostShareComment(Award award) {
-        return createAwardComment(award, Constants.COST_SHARE_COMMENT_TYPE_CODE, true);
+        return createAwardComment(award, Constants.COST_SHARE_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
     }
     
     /**
@@ -42,7 +45,7 @@ public class AwardCommentFactory {
      * @return
      */
     public AwardComment createFandaRateComment(Award award) {
-        return createAwardComment(award, Constants.FANDA_RATE_COMMENT_TYPE_CODE, true);
+        return createAwardComment(award, Constants.FANDA_RATE_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
     }
     
     /**
@@ -51,7 +54,7 @@ public class AwardCommentFactory {
      * @return
      */
     public AwardComment createPaymentAndInvoiceComment(Award award) {
-        return createAwardComment(award, Constants.PAYMENT_AND_INVOICES_COMMENT_TYPE_CODE, true);
+        return createAwardComment(award, Constants.PAYMENT_AND_INVOICES_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
     }
     
     /**
@@ -60,7 +63,7 @@ public class AwardCommentFactory {
      * @return
      */
     public AwardComment createBenefitsRateComment(Award award) {
-        return createAwardComment(award, Constants.BENEFITS_RATES_COMMENT_TYPE_CODE, true);
+        return createAwardComment(award, Constants.BENEFITS_RATES_COMMENT_TYPE_CODE, INCLUDE_IN_CHECKLIST);
     }
     
     /**
@@ -69,7 +72,7 @@ public class AwardCommentFactory {
      * @return
      */
     public AwardComment createPreAwardSponsorAuthorizationComment(Award award) {
-        return createAwardComment(award, Constants.PREAWARD_SPONSOR_AUTHORIZATION_COMMENT_TYPE_CODE, false);
+        return createAwardComment(award, Constants.PREAWARD_SPONSOR_AUTHORIZATION_COMMENT_TYPE_CODE, EXCLUDE_FROM_CHECKLIST);
     }
     
     /**
@@ -78,8 +81,7 @@ public class AwardCommentFactory {
      * @return
      */
     public AwardComment createPreAwardInstitutionalAuthorizationComment(Award award) {
-        return createAwardComment(award, 
-                Constants.PREAWARD_INSTITUTIONAL_AUTHORIZATION_COMMENT_TYPE_CODE, false);
+        return createAwardComment(award, Constants.PREAWARD_INSTITUTIONAL_AUTHORIZATION_COMMENT_TYPE_CODE, EXCLUDE_FROM_CHECKLIST);
     }
 
     /**

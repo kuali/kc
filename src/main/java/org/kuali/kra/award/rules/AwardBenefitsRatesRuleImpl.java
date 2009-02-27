@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.ValidRates;
 import org.kuali.kra.award.rule.AwardBenefitsRatesRule;
@@ -71,7 +72,8 @@ public class AwardBenefitsRatesRuleImpl extends ResearchDocumentRuleBase impleme
         boolean valid = true;
         if(award.getSpecialEbRateOffCampus() != null 
                 || award.getSpecialEbRateOnCampus() != null) {
-            valid = getValidRates(award).size() > 0;
+            valid = getValidRates(award.getSpecialEbRateOnCampus(), 
+                        award.getSpecialEbRateOffCampus()).size() > 0;
         }
         return valid;
     }
@@ -81,10 +83,10 @@ public class AwardBenefitsRatesRuleImpl extends ResearchDocumentRuleBase impleme
      * @return
      */
     @SuppressWarnings("unchecked")
-    Collection<ValidRates> getValidRates(Award award){
+    Collection<ValidRates> getValidRates(KualiDecimal specialEbRateOnCampus, KualiDecimal specialEbRateOffCampus){
         Map<String, Object> rateValues = new HashMap<String, Object>();
-        rateValues.put(ON_CAMPUS_RATE, award.getSpecialEbRateOnCampus());
-        rateValues.put(OFF_CAMPUS_RATE, award.getSpecialEbRateOffCampus());
+        rateValues.put(ON_CAMPUS_RATE, specialEbRateOnCampus);
+        rateValues.put(OFF_CAMPUS_RATE, specialEbRateOffCampus);
         return (Collection<ValidRates>) 
                 getKraBusinessObjectService().findMatching(ValidRates.class, rateValues);
     }

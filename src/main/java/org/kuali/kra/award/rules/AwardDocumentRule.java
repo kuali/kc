@@ -266,9 +266,9 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
         errorMap.addToErrorPath(AWARD_ERROR_PATH);
         if(StringUtils.equalsIgnoreCase(
-                getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_AWARD, 
+                getKualiConfigurationService().getParameterValue(Constants.PARAMETER_MODULE_AWARD, 
                         Constants.PARAMETER_COMPONENT_DOCUMENT,
-                        KeyConstants.MIT_IDC_VALIDATION_ENABLED).getParameterValue(),
+                        KeyConstants.MIT_IDC_VALIDATION_ENABLED),
                         KeyConstants.MIT_IDC_VALIDATION_ENABLED_VALUE_FOR_COMPARISON)){
             String errorPath = "benefitsRates.rates";
             errorMap.addToErrorPath(errorPath);
