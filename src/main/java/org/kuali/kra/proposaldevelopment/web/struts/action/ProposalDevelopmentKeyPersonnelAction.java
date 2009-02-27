@@ -612,6 +612,19 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             person.setOrdinalPosition(index++);
         }
     }
+
+    /**
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#reload(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        ActionForward returnValue = super.reload(mapping, form, request, response);
+        clearProposalPerson(mapping, form, request, response);
+        return returnValue;
+    }
+    
+    
 }
 
 
