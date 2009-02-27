@@ -22,7 +22,7 @@
 		tabItemCount="${KualiForm.document.budgetUnrecoveredFandACount}" 
 		defaultOpen="false" 
 		tabErrorKey="newUnrecoveredFandA*,document.unrecoveredFandA*,document.budgetUnrecoveredFandA*" 
-		auditCluster="budgetUnrecoveredFandAAuditErrors" 
+		auditCluster="budgetUnrecoveredFandAAuditErrors,budgetUnrecoveredFandAAuditWarnings" 
 		tabAuditKey="document.budgetUnrecoveredFandA*"
 		useRiceAuditMode="true">
 	<div class="tab-container" align="center">

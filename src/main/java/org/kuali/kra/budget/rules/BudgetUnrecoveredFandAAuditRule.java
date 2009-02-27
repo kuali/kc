@@ -32,6 +32,8 @@ import org.kuali.kra.infrastructure.KeyConstants;
 
 public class BudgetUnrecoveredFandAAuditRule implements DocumentAuditRule {
     public static final String BUDGET_UNRECOVERED_F_AND_A_ERROR_KEY = "budgetUnrecoveredFandAAuditErrors";
+    public static final String BUDGET_UNRECOVERED_F_AND_A_WARNING_KEY = "budgetUnrecoveredFandAAuditWarnings";
+    
     String[] params = { "Unrecovered F and A" };
     private static final int YEAR_CONSTANT = 1900;
 
@@ -124,7 +126,7 @@ public class BudgetUnrecoveredFandAAuditRule implements DocumentAuditRule {
      * @return List of AuditError instances
      */    
     private List<AuditError> getAuditErrors() {
-        return getAuditProblems(Constants.AUDIT_ERRORS);
+        return getAuditProblems(BUDGET_UNRECOVERED_F_AND_A_ERROR_KEY, Constants.AUDIT_ERRORS);
     }
     
     /**
@@ -132,7 +134,7 @@ public class BudgetUnrecoveredFandAAuditRule implements DocumentAuditRule {
      * @return List of AuditError instances
      */
     private List<AuditError> getAuditWarnings() {
-        return getAuditProblems(Constants.AUDIT_WARNINGS);
+        return getAuditProblems(BUDGET_UNRECOVERED_F_AND_A_WARNING_KEY, Constants.AUDIT_WARNINGS);
     }
     
     /**
@@ -141,14 +143,14 @@ public class BudgetUnrecoveredFandAAuditRule implements DocumentAuditRule {
      * TODO : should this method move up to parent class
      * @return List of AuditError instances
      */
-    private List<AuditError> getAuditProblems(String problemType) {
+    private List<AuditError> getAuditProblems(String key, String problemType) {
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         
-        if (!getAuditErrorMap().containsKey(BUDGET_UNRECOVERED_F_AND_A_ERROR_KEY)) {
-            getAuditErrorMap().put(BUDGET_UNRECOVERED_F_AND_A_ERROR_KEY, new AuditCluster(Constants.BUDGET_UNRECOVERED_F_AND_A_PANEL_NAME, auditErrors, problemType));
+        if (!getAuditErrorMap().containsKey(key)) {
+            getAuditErrorMap().put(key, new AuditCluster(Constants.BUDGET_UNRECOVERED_F_AND_A_PANEL_NAME, auditErrors, problemType));
         }
         else {
-            auditErrors = ((AuditCluster) getAuditErrorMap().get(BUDGET_UNRECOVERED_F_AND_A_ERROR_KEY)).getAuditErrorList();
+            auditErrors = ((AuditCluster) getAuditErrorMap().get(key)).getAuditErrorList();
         }
         
         return auditErrors;
