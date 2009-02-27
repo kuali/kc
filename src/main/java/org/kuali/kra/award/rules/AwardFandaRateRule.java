@@ -129,7 +129,7 @@ public class AwardFandaRateRule  extends ResearchDocumentRuleBase implements Add
     protected boolean evaluateRuleForStartAndEndDates(AwardFandaRate awardFandaRate){
         boolean rule1Passed = !(awardFandaRate.getStartDate()==null 
                 || StringUtils.isBlank(awardFandaRate.getStartDate().toString()));
-        final String[] DATE_PARAMS = {"End Date","Start Date"};
+        final String[] DATE_PARAMS = {"Start Date","End Date"};
         
         if(!rule1Passed){            
             reportError(NEW_AWARD_FANDA_RATE+".startDate", KeyConstants.ERROR_REQUIRED_START_DATE);
