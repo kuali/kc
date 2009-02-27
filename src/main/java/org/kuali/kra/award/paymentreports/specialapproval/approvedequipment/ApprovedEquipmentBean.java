@@ -47,6 +47,7 @@ public class ApprovedEquipmentBean {
     ApprovedEquipmentBean(AwardForm form, EquipmentCapitalizationMinimumLoader capitalizationMinimumLoader) {
         this.form = form;
         this.capitalizationMinimumLoader = capitalizationMinimumLoader;
+        init();
     }
     
     /**
@@ -105,21 +106,6 @@ public class ApprovedEquipmentBean {
         return newAwardApprovedEquipment;
     }
     
-    /**
-     * Initialize subform
-     */
-    public void init() {
-        newAwardApprovedEquipment = new AwardApprovedEquipment(); 
-    }
-
-    /**
-     * Sets the newAwardApprovedEquipment attribute value.
-     * @param newAwardApprovedEquipment The newAwardApprovedEquipment to set.
-     */
-    public void setNewAwardApprovedEquipment(AwardApprovedEquipment newAwardApprovedEquipment) {
-        this.newAwardApprovedEquipment = newAwardApprovedEquipment;
-    }
-    
     protected KualiRuleService getRuleService() {
         if(ruleService == null) {
             ruleService = (KualiRuleService) KraServiceLocator.getService("kualiRuleService"); 
@@ -131,6 +117,19 @@ public class ApprovedEquipmentBean {
         this.ruleService = ruleService;
     }
     
+
+    /**
+     * Sets the newAwardApprovedEquipment attribute value.
+     * @param newAwardApprovedEquipment The newAwardApprovedEquipment to set.
+     */
+    void setNewAwardApprovedEquipment(AwardApprovedEquipment newAwardApprovedEquipment) {
+        this.newAwardApprovedEquipment = newAwardApprovedEquipment;
+    }
+    
+    /**
+     * This method generates an Add Event
+     * @return
+     */
     AddAwardApprovedEquipmentRuleEvent generateAddEvent() {        
         AddAwardApprovedEquipmentRuleEvent event = new AddAwardApprovedEquipmentRuleEvent(
                                                             "newAwardApprovedEquipment",
@@ -139,5 +138,12 @@ public class ApprovedEquipmentBean {
                                                             getNewAwardApprovedEquipment(),
                                                             capitalizationMinimumLoader.getMinimumCapitalization());
         return event;
+    }
+    
+    /**
+     * Initialize subform
+     */
+    private void init() {
+        newAwardApprovedEquipment = new AwardApprovedEquipment(); 
     }
 }
