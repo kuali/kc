@@ -140,4 +140,64 @@ public class SponsorTerm extends KraPersistableBusinessObjectBase {
         return hashMap;
     }
 
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((description == null) ? 0 : description.hashCode());
+        result = prime * result + ((sponsorTermCode == null) ? 0 : sponsorTermCode.hashCode());
+        result = prime * result + ((sponsorTermId == null) ? 0 : sponsorTermId.hashCode());
+        result = prime * result + ((sponsorTermType == null) ? 0 : sponsorTermType.hashCode());
+        result = prime * result + ((sponsorTermTypeCode == null) ? 0 : sponsorTermTypeCode.hashCode());
+        return result;
+    }
+
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final SponsorTerm other = (SponsorTerm) obj;
+        if (description == null) {
+            if (other.description != null)
+                return false;
+        }
+        else if (!description.equals(other.description))
+            return false;
+        if (sponsorTermCode == null) {
+            if (other.sponsorTermCode != null)
+                return false;
+        }
+        else if (!sponsorTermCode.equals(other.sponsorTermCode))
+            return false;
+        if (sponsorTermId == null) {
+            if (other.sponsorTermId != null)
+                return false;
+        }
+        else if (!sponsorTermId.equals(other.sponsorTermId))
+            return false;
+        if (sponsorTermType == null) {
+            if (other.sponsorTermType != null)
+                return false;
+        }
+        else if (!sponsorTermType.equals(other.sponsorTermType))
+            return false;
+        if (sponsorTermTypeCode == null) {
+            if (other.sponsorTermTypeCode != null)
+                return false;
+        }
+        else if (!sponsorTermTypeCode.equals(other.sponsorTermTypeCode))
+            return false;
+        return true;
+    }
+
 }

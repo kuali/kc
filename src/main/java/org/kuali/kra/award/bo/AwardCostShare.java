@@ -25,7 +25,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 
 /**
- * This class...
+ * This class is business object representation of an Award Cost Share
  */
 public class AwardCostShare extends KraPersistableBusinessObjectBase implements ValuableItem {
     private static final long serialVersionUID = -839007857238262207L;
@@ -294,4 +294,108 @@ public class AwardCostShare extends KraPersistableBusinessObjectBase implements 
     public KualiDecimal getAmount() {
         return getCommitmentAmount();
     }
+    
+  //CHECKSTYLE_OFF: NPathComplexity|MethodLength|CyclomaticComplexity|LocalFinalVariableName|JavaNCSS|NeedBraces|RightCurly
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((award == null) ? 0 : award.hashCode());
+        result = prime * result + ((awardCostShareId == null) ? 0 : awardCostShareId.hashCode());
+        result = prime * result + ((awardNumber == null) ? 0 : awardNumber.hashCode());
+        result = prime * result + ((commitmentAmount == null) ? 0 : commitmentAmount.hashCode());
+        result = prime * result + ((costSharePercentage == null) ? 0 : costSharePercentage.hashCode());
+        result = prime * result + ((costShareType == null) ? 0 : costShareType.hashCode());
+        result = prime * result + ((costShareTypeCode == null) ? 0 : costShareTypeCode.hashCode());
+        result = prime * result + ((destination == null) ? 0 : destination.hashCode());
+        result = prime * result + ((fiscalYear == null) ? 0 : fiscalYear.hashCode());
+        result = prime * result + ((sequenceNumber == null) ? 0 : sequenceNumber.hashCode());
+        result = prime * result + ((source == null) ? 0 : source.hashCode());
+        return result;
+    }
+
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final AwardCostShare other = (AwardCostShare) obj;
+        if (award == null) {
+            if (other.award != null)
+                return false;
+        }
+        else if (!award.equals(other.award))
+            return false;
+        if (awardCostShareId == null) {
+            if (other.awardCostShareId != null)
+                return false;
+        }
+        else if (!awardCostShareId.equals(other.awardCostShareId))
+            return false;
+        if (awardNumber == null) {
+            if (other.awardNumber != null)
+                return false;
+        }
+        else if (!awardNumber.equals(other.awardNumber))
+            return false;
+        if (commitmentAmount == null) {
+            if (other.commitmentAmount != null)
+                return false;
+        }
+        else if (!commitmentAmount.equals(other.commitmentAmount))
+            return false;
+        if (costSharePercentage == null) {
+            if (other.costSharePercentage != null)
+                return false;
+        }
+        else if (!costSharePercentage.equals(other.costSharePercentage))
+            return false;
+        if (costShareType == null) {
+            if (other.costShareType != null)
+                return false;
+        }
+        else if (!costShareType.equals(other.costShareType))
+            return false;
+        if (costShareTypeCode == null) {
+            if (other.costShareTypeCode != null)
+                return false;
+        }
+        else if (!costShareTypeCode.equals(other.costShareTypeCode))
+            return false;
+        if (destination == null) {
+            if (other.destination != null)
+                return false;
+        }
+        else if (!destination.equals(other.destination))
+            return false;
+        if (fiscalYear == null) {
+            if (other.fiscalYear != null)
+                return false;
+        }
+        else if (!fiscalYear.equals(other.fiscalYear))
+            return false;
+        if (sequenceNumber == null) {
+            if (other.sequenceNumber != null)
+                return false;
+        }
+        else if (!sequenceNumber.equals(other.sequenceNumber))
+            return false;
+        if (source == null) {
+            if (other.source != null)
+                return false;
+        }
+        else if (!source.equals(other.source))
+            return false;
+        return true;
+    }
+  //CHECKSTYLE_ON: NPathComplexity|MethodLength|CyclomaticComplexity|LocalFinalVariableName|JavaNCSS|NeedBraces|RightCurly
 }
