@@ -15,11 +15,14 @@
  */
 package org.kuali.kra.rules;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.collections.keyvalue.DefaultMapEntry;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.bo.user.UniversalUser;
@@ -28,6 +31,8 @@ import org.kuali.core.rule.DocumentAuditRule;
 import org.kuali.core.rules.DocumentRuleBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DictionaryValidationService;
+import org.kuali.core.util.AuditCluster;
+import org.kuali.core.util.AuditError;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.ExceptionUtils;
 import org.kuali.core.util.GlobalVariables;
@@ -65,6 +70,45 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
         if (LOG.isDebugEnabled()) {
             LOG.debug("rule failure at " + ExceptionUtils.describeStackLevels(1, 2));
         }
+    }
+    
+    /**
+     * Adds an audit error to the
+     * {@link GlobalVariables#getAuditErrorMap() GlobalVariables#getAuditErrorMap()}.
+     * 
+     * @param error the error to add.
+     * @param errorKey the error map key
+     * @param clusterLabel the cluster label
+     * @param clusterCategory the cluster category
+     * @throws IllegalArgumentException if error, errorKey, clusterLabel, or clusterCategory are null or
+     * if errorKey, clusterLabel, or clusterCategory are whitespace
+     */
+    protected void addAuditError(AuditError error, String errorKey, String clusterLabel, String clusterCategory) {
+        if (error == null || StringUtils.isBlank(errorKey)
+            || StringUtils.isBlank(clusterLabel) || StringUtils.isBlank(clusterCategory)) {
+            throw new IllegalArgumentException(new StringBuilder("null argument error: ")
+                .append(error)
+                .append(" errorkey: ")
+                .append(errorKey)
+                .append(" clusterLabel: ")
+                .append(clusterLabel)
+                .append(" clusterCategory: ")
+                .append(clusterCategory).toString());
+        }
+        
+        @SuppressWarnings("unchecked")
+        final Map<String, AuditCluster> errorMap = GlobalVariables.getAuditErrorMap();
+        
+        AuditCluster cluster = errorMap.get(errorKey);
+        
+        if (cluster == null) {
+            cluster = new AuditCluster(clusterLabel, new ArrayList<AuditError>(), clusterCategory);
+            errorMap.put(errorKey, cluster);
+        }
+        
+        @SuppressWarnings("unchecked")
+        final Collection<AuditError> errors = cluster.getAuditErrorList();
+        errors.add(error);
     }
     
     /**
