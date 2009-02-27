@@ -66,7 +66,12 @@ public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocument
         String errorPath = NEW_INSTITUTE_ATTACHMENT;
         if(narrative.getNarrativeType()==null)
             rulePassed = false;
-
+        
+        GlobalVariables.getErrorMap().addToErrorPath(NEW_INSTITUTE_ATTACHMENT);
+        getDictionaryValidationService().validateBusinessObject(narrative);
+        if (GlobalVariables.getErrorMap().getPropertiesWithErrors().size() > 0) rulePassed = false;
+        GlobalVariables.getErrorMap().removeFromErrorPath(NEW_INSTITUTE_ATTACHMENT);
+        
         if(StringUtils.isBlank(narrative.getNarrativeTypeCode())){
             rulePassed = false;
             reportError(errorPath+".institutionalAttachmentTypeCode", ERROR_ATTACHMENT_TYPE_NOT_SELECTED);
