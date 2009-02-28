@@ -16,7 +16,10 @@
 package org.kuali.kra.irb.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.service.DictionaryValidationService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.rule.SaveProtocolRequiredFieldsRule;
 import org.kuali.kra.irb.rule.event.SaveProtocolRequiredFieldsEvent;
@@ -27,13 +30,20 @@ public class ProtocolRequiredFieldsRule extends ProtocolDocumentRule implements 
     private static final String PROTOCOL_PIID_FORM_ELEMENT="document.protocolHelper.personId";
     private static final String PROTOCOL_LUN_FORM_ELEMENT="protocolHelper.leadUnitNumber";
     private static final String PROTOCOL_TYPE_FORM_ELEMENT="document.protocol.protocolTypeCode";
+
     
     public boolean processSaveProtocolRequiredFieldsRules(SaveProtocolRequiredFieldsEvent saveProtocolRequiredFieldsEvent) {
+
         boolean isValid = true;
 
         ProtocolDocument document = (ProtocolDocument) saveProtocolRequiredFieldsEvent.getDocument();
 
+        GlobalVariables.getErrorMap().addToErrorPath("document.protocol");
+        getDictionaryValidationService().validateBusinessObject(document.getProtocol(), false);
+        GlobalVariables.getErrorMap().removeFromErrorPath("document.protocol");
+        isValid = GlobalVariables.getErrorMap().isEmpty();
         
+
         if   (StringUtils.isBlank(document.getProtocol().getTitle())) {
             isValid = false;
             reportError(PROTOCOL_TITLE_FORM_ELEMENT,   KeyConstants.ERROR_PROTOCOL_TITLE_NOT_FOUND);
@@ -58,5 +68,10 @@ public class ProtocolRequiredFieldsRule extends ProtocolDocumentRule implements 
         }
         return isValid;
     }
+    
+    public DictionaryValidationService getDictionaryValidationService() {
+        return  KraServiceLocator.getService(DictionaryValidationService.class);
+    }
+
 
 }
