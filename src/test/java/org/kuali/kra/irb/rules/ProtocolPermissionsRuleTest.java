@@ -214,20 +214,4 @@ public class ProtocolPermissionsRuleTest extends ProtocolRuleTestBase {
         user.setRoleName(RoleConstants.PROTOCOL_AGGREGATOR);
         return user;
     }
-    
-    /**
-     * Assert an error.  The Error Map should have one error with the given
-     * propery key and error key.
-     * @param propertyKey
-     * @param errorKey
-     */
-    private void assertError(String propertyKey, String errorKey) {
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(propertyKey);
-        assertNotNull(errors);
-        assertTrue(errors.size() == 1);
-        
-        ErrorMessage message = (ErrorMessage) errors.get(0);
-        assertNotNull(message);
-        assertEquals(message.getErrorKey(), errorKey);
-    }
 }
