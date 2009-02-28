@@ -250,7 +250,6 @@
 		<property name="shortLabel" value="Application Date" />
 		<property name="summary" value="Application Date" />
 		<property name="description" value="Application Date" />
-    	<property name="required" value="true" />
 	</bean>
 
 	<bean id="Protocol-approvalDate" parent="Protocol-approvalDate-parentBean" />
