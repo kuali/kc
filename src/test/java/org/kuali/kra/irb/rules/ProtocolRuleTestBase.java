@@ -22,7 +22,9 @@ import org.junit.Before;
 import org.kuali.core.UserSession;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.ErrorMap;
+import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolPerson;
@@ -98,6 +100,7 @@ public abstract class ProtocolRuleTestBase extends KraTestBase {
         protocolUnit.setSequenceNumber(0);
         protocolUnit.refreshReferenceObject(REFERENCE_UNIT);
 
+        protocol.setLeadUnitForValidation(protocolUnit);
         protocolPerson.getProtocolUnits().add(protocolUnit);
         
         protocol.getProtocolPersons().add(protocolPerson);
@@ -130,4 +133,19 @@ public abstract class ProtocolRuleTestBase extends KraTestBase {
         return getProtocolPerson(PRINCIPAL_INVESTIGATOR_ID, PRINCIPAL_INVESTIGATOR_NAME, PRINCIPAL_INVESTIGATOR_ROLE);
     }
 
+    /**
+     * Assert an error.  The Error Map should have one error with the given
+     * property key and error key.
+     * @param propertyKey
+     * @param errorKey
+     */
+    protected void assertError(String propertyKey, String errorKey) {
+        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(propertyKey);
+        assertNotNull(errors);
+        assertTrue(errors.size() == 1);
+        
+        ErrorMessage message = (ErrorMessage) errors.get(0);
+        assertNotNull(message);
+        assertEquals(message.getErrorKey(), errorKey);
+    }
 }
