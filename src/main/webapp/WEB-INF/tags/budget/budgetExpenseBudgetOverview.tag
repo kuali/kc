@@ -50,7 +50,7 @@
 	<div class="tab-container" align="center">
 	<c:if test="${KualiForm.document.totalCostLimit > 0 && cumTotalCost > KualiForm.document.totalCostLimit }" >		
     	<div align="left">
-    	&nbsp;&nbsp;&nbsp;Total Cost Limit has been exceeded.<br/><br/>
+    	&nbsp;&nbsp;&nbsp;The Total Cost Limit has been exceeded.<br/><br/>
     	</div>    	
     </c:if>
 	<c:if test="${KualiForm.document.budgetPeriods[budgetPeriod - 1].totalCostLimit > 0 && KualiForm.document.budgetPeriods[budgetPeriod - 1].totalCost > KualiForm.document.budgetPeriods[budgetPeriod - 1].totalCostLimit }" >		
