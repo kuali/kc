@@ -220,6 +220,34 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase {
         hashMap.put("trainingNotes", getTrainingNotes());
 		return hashMap;
 	}
+	
+    /**
+     * Indicates if the <code>CommitteeMemership</code> is "equal to" this one.
+     * Equal is defined that the personId and rolodexId are the same.
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object obj) {
+        boolean isEquals = false;
+        if (obj instanceof CommitteeMembership) {
+            CommitteeMembership committeeMembership = (CommitteeMembership) obj;
+            
+            if ((idEquals(committeeMembership.personId, this.personId)) &&
+                (idEquals(committeeMembership.rolodexId, this.rolodexId))) {
+                isEquals = true;
+            }
+        }
+        return isEquals;
+    }
+    
+    private boolean idEquals (String id1, String id2) {
+        if ((id1 == null && id2 == null) || 
+            (id1 != null && (id1.equals(id2)))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public boolean isDelete() {
         // TODO cniesen - Auto-generated method stub

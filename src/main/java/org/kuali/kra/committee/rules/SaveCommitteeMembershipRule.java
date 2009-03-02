@@ -13,26 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.committee.web.struts.form;
+package org.kuali.kra.committee.rules;
 
-import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.core.rule.BusinessRule;
+import org.kuali.kra.committee.rule.event.SaveCommitteeMembershipEvent;
 
-public class MembershipHelper {
-    
-    private CommitteeMembership newCommitteeMembership;
+/**
+ * Interface for saving committee membership
+ *
+ */
+public interface SaveCommitteeMembershipRule extends BusinessRule {
 
-    public MembershipHelper() {
-        setNewCommitteeMembership(new CommitteeMembership());
-    }
-    
-    public void prepareView() {
-    }
-
-    public CommitteeMembership getNewCommitteeMembership() {
-        return newCommitteeMembership;
-    }
-
-    public void setNewCommitteeMembership(CommitteeMembership newCommitteeMembership) {
-        this.newCommitteeMembership = newCommitteeMembership;
-    }
+    /**
+     * Rule invoked upon saving committee membership to a 
+     * <code>{@link org.kuali.kra.irb.document.CommitteeDocument}</code>
+     *
+     * @return boolean
+     */
+    public boolean processSaveCommitteeMembershipBusinessRules(SaveCommitteeMembershipEvent saveCommitteMembershipEvent);
 }
