@@ -59,7 +59,8 @@
 	</bean>
 
 	<bean id="AwardSpecialReviewExemption-exemptionTypeCode" parent="AwardSpecialReviewExemption-exemptionTypeCode-parentBean" />
-	<bean id="AwardSpecialReviewExemption-exemptionTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+	<bean id="AwardSpecialReviewExemption-exemptionTypeCode-parentBean" abstract="true" parent="SpecialReviewExemptionReference-exemptionTypeCode" />
+	<!--<bean id="AwardSpecialReviewExemption-exemptionTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="exemptionTypeCode" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Exemption #" />
@@ -79,7 +80,7 @@
 		</property>
 		<property name="summary" value="Exemption Type Code" />
 		<property name="description" value="Exemption Type Code" />
-	</bean>
+	</bean>-->
 
 	<bean id="AwardSpecialReviewExemption-versionNumber" parent="AwardSpecialReviewExemption-versionNumber-parentBean" />
 	<bean id="AwardSpecialReviewExemption-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">

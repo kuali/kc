@@ -166,7 +166,7 @@ public class SponsorTerm extends KraPersistableBusinessObjectBase {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        final SponsorTerm other = (SponsorTerm) obj;
+        SponsorTerm other = (SponsorTerm) obj;
         if (description == null) {
             if (other.description != null)
                 return false;

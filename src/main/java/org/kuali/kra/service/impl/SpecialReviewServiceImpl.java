@@ -17,9 +17,11 @@ package org.kuali.kra.service.impl;
 
 import java.util.List;
 
+import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.kra.bo.AbstractSpecialReview;
 import org.kuali.kra.bo.AbstractSpecialReviewExemption;
+import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.document.SpecialReviewHandler;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rule.event.AddSpecialReviewEvent;
@@ -49,10 +51,14 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
             }
             newSpecialReview.setExemptionTypeCodes(exemptionTypeCodes);
         }
-        if(getKualiRuleService().applyRules(new AddSpecialReviewEvent(Constants.EMPTY_STRING, 
-                specialReviewForm.getResearchDocument(), newSpecialReview))){
-            newSpecialReview.setSpecialReviewNumber(specialReviewForm.getResearchDocument().getDocumentNextValue(
-                    Constants.SPECIAL_REVIEW_NUMBER));
+        ResearchDocumentBase docBase = specialReviewForm.getResearchDocument();
+        AddSpecialReviewEvent addSpecialReviewEvent =new AddSpecialReviewEvent(Constants.EMPTY_STRING, 
+                docBase, newSpecialReview); 
+        if(getKualiRuleService().applyRules(addSpecialReviewEvent)){
+            if(docBase!=null){
+                newSpecialReview.setSpecialReviewNumber(docBase.getDocumentNextValue(
+                        Constants.SPECIAL_REVIEW_NUMBER));
+            }
             specialReviewManager.addSpecialReview(newSpecialReview);
         }
     }
@@ -70,7 +76,6 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
      * @return Returns the kualiRuleService.
      */
     public KualiRuleService getKualiRuleService() {
-//        return KNSServiceLocator.getKualiRuleService();
         return kualiRuleService;
     }
 

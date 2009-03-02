@@ -91,7 +91,7 @@ public class AwardCommentFactory {
      * @param checklistPrintFlag
      * @return
      */
-    public  AwardComment createAwardComment(Award award, int commentTypeCode, boolean checklistPrintFlag) {
+    public  AwardComment createAwardComment(Award award, String commentTypeCode, boolean checklistPrintFlag) {
                 AwardComment comment = new AwardComment();
                 CommentType commentType = findCommentType(commentTypeCode);
                 comment.setCommentType(commentType);
@@ -107,7 +107,7 @@ public class AwardCommentFactory {
      * @return
      */
     @SuppressWarnings("unchecked")
-    public CommentType findCommentType(int commentTypeCode){
+    public CommentType findCommentType(String commentTypeCode){
         BusinessObjectService costShareCommentType = getKraBusinessObjectService();
         Collection<CommentType> costShareCommentTypes = 
             (Collection<CommentType>) costShareCommentType.findAll(CommentType.class);
