@@ -130,8 +130,8 @@
             <attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber"></attributeReference>
 
             <attributeReference name="generatedTimestamp" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
-                <label>Generated Time</label>
-                <shortLabel>Gen Time</shortLabel>
+                <label>Generated Date</label>
+                <shortLabel>Gen Date</shortLabel>
 
                 <summary>
                     <![CDATA[&nbsp;]]>
