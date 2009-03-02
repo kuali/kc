@@ -113,6 +113,13 @@ public interface ProtocolPersonnelService {
      * @return
      */
     public boolean isPrincipalInvestigator(ProtocolPerson protocolPerson);
+    
+    /**
+     * This method sets/updates the principal investigator person
+     * @param protocol
+     * @param person
+     */
+    public void updatePrincipalInvestigator(Protocol protocol, ProtocolPerson person);
 
     /**
      * This method is to see if there is any change in the protocol person role.
