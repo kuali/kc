@@ -4,7 +4,7 @@
 <documentType>
 <name>AwardStatusMaintenanceDocument</name>
 <description>Create a New Award Status</description>
-<label>Abstract Type</label>
+<label>Award Status Type</label>
 <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
