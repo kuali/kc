@@ -46,7 +46,7 @@
 
 	<c:set var="extraButtonSource" value="${moveUpBtn} ${moveDownBtn}" />
 
-	<kul:checkErrors keyMatch="document.proposalPersons[${status.index}]*,newProposalPersonDegree[${status.index}]*" auditMatch="document.proposalPerson*"/>
+	<kul:checkErrors keyMatch="document.proposalPersons[${status.index}]*,newProposalPersonDegree[${status.index}]*" auditMatch="document.proposalPersons[${status.index}]*"/>
 	<c:set var="isOpen" value="${hasErrors ? true : isOpen}"/>
 	<c:choose>
 		<c:when test="${KualiForm.document.nih}">
