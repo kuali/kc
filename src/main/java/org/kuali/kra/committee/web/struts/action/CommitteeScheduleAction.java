@@ -21,14 +21,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.rule.event.AddCommitteeScheduleEvent;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
-import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.service.ProtocolReferenceService;
-import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 
 public class CommitteeScheduleAction extends CommitteeAction {
     
@@ -50,8 +47,10 @@ public class CommitteeScheduleAction extends CommitteeAction {
         
         CommitteeForm committeeForm = (CommitteeForm) form;
         committeeForm.getScheduleData().printf();
-        CommitteeScheduleService service  = KraServiceLocator.getService(CommitteeScheduleService.class);
-        service.addSchedule(committeeForm.getScheduleData(), committeeForm.getCommitteeDocument().getCommittee());
+        if(applyRules(new AddCommitteeScheduleEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), committeeForm.getScheduleData()))){
+            CommitteeScheduleService service  = getCommitteeScheduleService();
+            service.addSchedule(committeeForm.getScheduleData(), committeeForm.getCommitteeDocument().getCommittee());
+        }        
         //TODO comment it: Changes style class selection, which will trigger selected type of recurrence
         committeeForm.getScheduleData().populateStyleClass();
         return mapping.findForward(Constants.MAPPING_BASIC );
@@ -68,7 +67,7 @@ public class CommitteeScheduleAction extends CommitteeAction {
     public ActionForward filterCommitteeScheduleDates(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         CommitteeForm committeeForm = (CommitteeForm) form;        
-        CommitteeScheduleService service  = KraServiceLocator.getService(CommitteeScheduleService.class); 
+        CommitteeScheduleService service  = getCommitteeScheduleService(); 
         service.filterCommitteeScheduleDates(committeeForm.getScheduleData(), committeeForm.getCommitteeDocument().getCommittee());
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
@@ -76,7 +75,7 @@ public class CommitteeScheduleAction extends CommitteeAction {
     public ActionForward resetCommitteeScheduleDates(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         CommitteeForm committeeForm = (CommitteeForm) form;        
-        CommitteeScheduleService service  = KraServiceLocator.getService(CommitteeScheduleService.class); 
+        CommitteeScheduleService service  = getCommitteeScheduleService(); 
         service.resetCommitteeScheduleDates(committeeForm.getCommitteeDocument().getCommittee());
         return mapping.findForward(Constants.MAPPING_BASIC );
     } 
@@ -87,5 +86,9 @@ public class CommitteeScheduleAction extends CommitteeAction {
         //TODO comment it: Changes style class selection, which will trigger selected type of recurrence
         committeeForm.getScheduleData().populateStyleClass();
         return mapping.findForward(Constants.MAPPING_BASIC );
-    }    
+    }  
+    
+    private CommitteeScheduleService getCommitteeScheduleService(){
+        return KraServiceLocator.getService(CommitteeScheduleService.class);
+    }
 }
