@@ -15,11 +15,13 @@
  */
 package org.kuali.kra.budget.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetLineItemBase;
 import org.kuali.kra.budget.bo.BudgetPeriod;
+import org.kuali.kra.budget.bo.BudgetProposalRate;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.bo.ValidCeJobCode;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -55,10 +57,30 @@ public interface BudgetService {
     /**
      * 
      * This method check if activity type changed, then display confirmation message on 'open' budget version.
-     * @param budgetDocument
+     * @param pdDoc
+     * @param budgetVersionNumbe
      * @return
      */
     public boolean checkActivityTypeChange(ProposalDevelopmentDocument pdDoc, String budgetVersionNumbe);
+  
+    /**
+     * 
+     * This method checks if activity type changed, then display confirmation message on 'open' budget version.
+     * @param allPropRates
+     * @param proposalActivityTypeCode
+     * @return
+     */
+    public boolean checkActivityTypeChange(Collection<BudgetProposalRate> allPropRates, String proposalActivityTypeCode);
+   
+    /**
+     * 
+     * This method returns the saved Proposal Rates collection.
+     * @param pdDoc
+     * @param budgetVersionNumbe
+     * @return Collection<BudgetProposalRate>
+     */
+
+    public Collection<BudgetProposalRate> getSavedProposalRates(ProposalDevelopmentDocument pdDoc, String budgetVersionNumber);
     
     /**
      * check if this line item CE has inflation rate
