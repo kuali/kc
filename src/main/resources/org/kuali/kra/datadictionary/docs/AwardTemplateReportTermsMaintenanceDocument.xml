@@ -48,7 +48,7 @@
 		<property name="documentTypeName" value="AwardTemplateReportTermMaintenanceDocument" />
 		<property name="documentAuthorizerClass"
 			value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
-		<property name="documentTypeCode" value="AWAR" />
+		<property name="documentTypeCode" value="ATRT" />
 		<property name="authorizations">
 			<list>
 				<bean parent="AuthorizationDefinition">
