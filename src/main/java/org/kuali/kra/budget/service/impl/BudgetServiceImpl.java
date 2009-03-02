@@ -30,7 +30,6 @@ import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.budget.bo.BudgetLineItem;
@@ -68,7 +67,6 @@ public class BudgetServiceImpl implements BudgetService {
     private BusinessObjectService businessObjectService;
     private KualiConfigurationService kualiConfigurationService;
     private BudgetPersonService budgetPersonService;
-    private KualiRuleService rulesService;
     
     /**
      * @see org.kuali.kra.budget.service.BudgetService#getNewBudgetVersion(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, java.lang.String)
@@ -162,13 +160,12 @@ public class BudgetServiceImpl implements BudgetService {
     }
     
     public void updateDocumentDescription(BudgetVersionOverview budgetVersion) {
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
         Map<String, Object> keyMap = new HashMap<String, Object>();
         keyMap.put("documentNumber", budgetVersion.getDocumentNumber());
-        DocumentHeader docHeader = (DocumentHeader) boService.findByPrimaryKey(DocumentHeader.class, keyMap);
+        DocumentHeader docHeader = (DocumentHeader) businessObjectService.findByPrimaryKey(DocumentHeader.class, keyMap);
         if (!docHeader.getFinancialDocumentDescription().equals(budgetVersion.getDocumentDescription())) {
             docHeader.setFinancialDocumentDescription(budgetVersion.getDocumentDescription());
-            boService.save(docHeader);
+            businessObjectService.save(docHeader);
         }
     }
     
@@ -183,6 +180,11 @@ public class BudgetServiceImpl implements BudgetService {
     public void setBudgetPersonService(BudgetPersonService budgetPersonService) {
         this.budgetPersonService = budgetPersonService;
     }
+    
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
     
     /**
      * Recurse through all of the BOs and if a BO has a ProposalNumber property,
@@ -259,32 +261,35 @@ public class BudgetServiceImpl implements BudgetService {
         return false;
     }
     
-    public boolean checkActivityTypeChange(ProposalDevelopmentDocument pdDoc, String budgetVersionNumber) {
+    public Collection<BudgetProposalRate> getSavedProposalRates(ProposalDevelopmentDocument pdDoc, String budgetVersionNumber) {
         Map qMap = new HashMap();
         qMap.put("proposalNumber",pdDoc.getProposalNumber());
         qMap.put("budgetVersionNumber",budgetVersionNumber);
-        Collection<BudgetProposalRate> allPropRates = KraServiceLocator.getService(BusinessObjectService.class).findMatching(
-                BudgetProposalRate.class, qMap);
+        return businessObjectService.findMatching(BudgetProposalRate.class, qMap);
+    }
+    
+    public boolean checkActivityTypeChange(Collection<BudgetProposalRate> allPropRates, String proposalActivityTypeCode) {
         if (CollectionUtils.isNotEmpty(allPropRates)) {
-            qMap.put("activityTypeCode",pdDoc.getActivityTypeCode());
-            Collection<BudgetProposalRate> matchActivityTypePropRates = KraServiceLocator.getService(BusinessObjectService.class).findMatching(
-                BudgetProposalRate.class, qMap);
+            Equals equalsActivityType = new Equals("activityTypeCode", proposalActivityTypeCode);
+            QueryList matchActivityTypePropRates = new QueryList(allPropRates).filter(equalsActivityType);
             if (CollectionUtils.isEmpty(matchActivityTypePropRates) || allPropRates.size() != matchActivityTypePropRates.size()) {
                 return true;
             }
         }
                 
         return false;
-        
     }
-    
+   
+    public boolean checkActivityTypeChange(ProposalDevelopmentDocument pdDoc, String budgetVersionNumber) {
+        return checkActivityTypeChange(getSavedProposalRates(pdDoc, budgetVersionNumber), pdDoc.getActivityTypeCode());
+    }
     
     public boolean ValidInflationCeRate(BudgetLineItemBase budgetLineItem) {
         //QueryEngine queryEngine = new QueryEngine();
         //BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmt = null;
         Map<String, String> costElementQMap = new HashMap<String, String>();
         costElementQMap.put("costElement", budgetLineItem.getCostElement());
-        CostElement costElementBO = (CostElement) KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(CostElement.class, costElementQMap);
+        CostElement costElementBO = (CostElement) businessObjectService.findByPrimaryKey(CostElement.class, costElementQMap);
         budgetLineItem.setCostElementBO(costElementBO);
         Map<String, String> validCeQMap = new HashMap<String, String>();
         validCeQMap.put("costElement", budgetLineItem.getCostElement());
@@ -307,11 +312,11 @@ public class BudgetServiceImpl implements BudgetService {
         Map qMap = new HashMap();
         qMap.put("proposalNumber",pdDoc.getProposalNumber());
         qMap.put("budgetVersionNumber",budgetDocument.getBudgetVersionNumber());
-        ArrayList<BudgetProposalRate> allPropRates = (ArrayList)KraServiceLocator.getService(BusinessObjectService.class).findMatching(
+        ArrayList<BudgetProposalRate> allPropRates = (ArrayList) businessObjectService.findMatching(
                 BudgetProposalRate.class, qMap);
         if (CollectionUtils.isNotEmpty(allPropRates)) {
             qMap.put("activityTypeCode",pdDoc.getActivityTypeCode());
-            Collection<BudgetProposalRate> matchActivityTypePropRates = KraServiceLocator.getService(BusinessObjectService.class).findMatching(
+            Collection<BudgetProposalRate> matchActivityTypePropRates = businessObjectService.findMatching(
                 BudgetProposalRate.class, qMap);
             if (CollectionUtils.isNotEmpty(matchActivityTypePropRates)) {
                 for (BudgetProposalRate budgetProposalRate : allPropRates) { 
@@ -330,9 +335,7 @@ public class BudgetServiceImpl implements BudgetService {
     }
 
     public List<ValidCeJobCode> getApplicableCostElements(String proposalNumber, String budgetVersionNumber, String personSequenceNumber) {
-        
         List<ValidCeJobCode> validCostElements = null;
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
 
         String jobCodeValidationEnabledInd = KraServiceLocator.getService(KualiConfigurationService.class).getParameter(
                 Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT,
@@ -343,12 +346,12 @@ public class BudgetServiceImpl implements BudgetService {
             fieldValues.put("proposalNumber", proposalNumber);
             fieldValues.put("budgetVersionNumber", budgetVersionNumber);
             fieldValues.put("personSequenceNumber", personSequenceNumber);
-            BudgetPerson budgetPerson = (BudgetPerson) boService.findByPrimaryKey(BudgetPerson.class, fieldValues);
+            BudgetPerson budgetPerson = (BudgetPerson) businessObjectService.findByPrimaryKey(BudgetPerson.class, fieldValues);
             
             fieldValues.clear();
             if(budgetPerson != null && StringUtils.isNotEmpty(budgetPerson.getJobCode())) {
                 fieldValues.put("jobCode", budgetPerson.getJobCode().toUpperCase());
-                validCostElements = (List<ValidCeJobCode>) boService.findMatching(ValidCeJobCode.class, fieldValues);
+                validCostElements = (List<ValidCeJobCode>) businessObjectService.findMatching(ValidCeJobCode.class, fieldValues);
             }
         }
         
@@ -359,14 +362,13 @@ public class BudgetServiceImpl implements BudgetService {
         String personSequenceNumber, String budgetCategoryTypeCode) {
         
         String resultStr = "";
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
         List<ValidCeJobCode> validCostElements = getApplicableCostElements(proposalNumber, budgetVersionNumber, personSequenceNumber);
         
         if(CollectionUtils.isNotEmpty(validCostElements)) {
             for (ValidCeJobCode validCE : validCostElements) {
                 Map fieldValues = new HashMap();
                 fieldValues.put("costElement", validCE.getCostElement());
-                CostElement costElement = (CostElement) boService.findByPrimaryKey(CostElement.class, fieldValues);
+                CostElement costElement = (CostElement) businessObjectService.findByPrimaryKey(CostElement.class, fieldValues);
                 resultStr += "," + validCE.getCostElement() + ";" + costElement.getDescription();
             }
             resultStr += ",ceLookup;false";
@@ -387,12 +389,11 @@ public class BudgetServiceImpl implements BudgetService {
 
     public List<String> getExistingGroupNames(String proposalNumber, String budgetVersionNumber, String budgetPeriod) {
         List<String> groupNames = new ArrayList<String>();
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
         Map fieldValues = new HashMap();
         fieldValues.put("proposalNumber", proposalNumber);
         fieldValues.put("budgetVersionNumber", budgetVersionNumber);
         fieldValues.put("budgetPeriodId", budgetPeriod);
-        List<BudgetLineItem> budgetLineItems = (List<BudgetLineItem>) boService.findByPrimaryKey(BudgetLineItem.class, fieldValues);
+        List<BudgetLineItem> budgetLineItems = (List<BudgetLineItem>) businessObjectService.findByPrimaryKey(BudgetLineItem.class, fieldValues);
         
         for(BudgetLineItem budgetLineItem: budgetLineItems) {
             if(StringUtils.isNotEmpty(budgetLineItem.getGroupName())) {

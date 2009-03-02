@@ -23,17 +23,20 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.kra.logging.BufferedLogger.debug;
 import static org.kuali.kra.logging.BufferedLogger.info;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kra.budget.bo.BudgetProposalRate;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.bo.RateClass;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -57,7 +60,7 @@ public class BudgetVersionsAction extends BudgetAction {
     private static final String TOGGLE_TAB = "toggleTab";
     private static final String CONFIRM_SYNCH_BUDGET_RATE = "confirmSynchBudgetRate";
     private static final String NO_SYNCH_BUDGET_RATE = "noSynchBudgetRate";
-
+    
     /**
      * Main execute method that is run. Populates A map of rate types in the {@link HttpServletRequest} instance to be used
      * in the JSP. The map is called <code>rateClassMap</code> this is set everytime execute is called in this class. This should only
@@ -132,17 +135,24 @@ public class BudgetVersionsAction extends BudgetAction {
      */
     public ActionForward openBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
+        BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
+        
         if (!"TRUE".equals(budgetForm.getEditingMode().get(AuthorizationConstants.EditMode.VIEW_ONLY))) {
             save(mapping, form, request, response);
         }
         BudgetDocument budgetDoc = budgetForm.getDocument();
         ProposalDevelopmentDocument pdDoc = budgetDoc.getProposal();
-        if (KraServiceLocator.getService(BudgetService.class).checkActivityTypeChange(pdDoc,budgetDoc.getBudgetVersionNumber().toString())) {
+        
+        Collection<BudgetProposalRate> allPropRates = budgetService.getSavedProposalRates(pdDoc, budgetDoc.getBudgetVersionNumber().toString());
+        if (budgetService.checkActivityTypeChange(allPropRates, pdDoc.getActivityTypeCode())) {
             //Rates-Refresh Scenario-2
             budgetDoc.setRateClassTypesReload(true);
             return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
                     KeyConstants.QUESTION_SYNCH_BUDGET_RATE), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
-
+        } else if(CollectionUtils.isEmpty(allPropRates)) {
+            //Throw Empty Rates message
+            return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
+                    KeyConstants.QUESTION_NO_RATES_ATTEMPT_SYNCH), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
         } else {
             BudgetVersionOverview budgetToOpen = pdDoc.getBudgetVersionOverview(getSelectedLine(request));
             DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
@@ -311,6 +321,12 @@ public class BudgetVersionsAction extends BudgetAction {
                 message, "");
     }
 
+//    private StrutsConfirmation noRatesSyncConfirmationQuestion(ActionMapping mapping, ActionForm form,
+//            HttpServletRequest request, HttpServletResponse response, String message) throws Exception {
+//        return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_SYNCH_BUDGET_RATE,
+//                message, "");
+//    }
+    
     /**
      * Locate the {@link ProposalDevelopmentService} implementation
      *

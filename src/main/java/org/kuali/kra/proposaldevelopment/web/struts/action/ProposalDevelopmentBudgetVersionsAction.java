@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +31,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kra.budget.bo.BudgetProposalRate;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.bo.RateClass;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -113,14 +115,22 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
      */
     public ActionForward openBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
+        BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
+
         if ("TRUE".equals(pdForm.getEditingMode().get("modifyProposalBudget"))) {
             save(mapping, form, request, response);
         }
+
         ProposalDevelopmentDocument pdDoc = pdForm.getDocument();
         BudgetVersionOverview budgetToOpen = pdDoc.getBudgetVersionOverview(getSelectedLine(request));
-        if (KraServiceLocator.getService(BudgetService.class).checkActivityTypeChange(pdDoc,budgetToOpen.getBudgetVersionNumber().toString())) {
+        Collection<BudgetProposalRate> allPropRates = budgetService.getSavedProposalRates(pdDoc, budgetToOpen.getBudgetVersionNumber().toString());
+        if (budgetService.checkActivityTypeChange(allPropRates, pdDoc.getActivityTypeCode())) {
             return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
                     KeyConstants.QUESTION_SYNCH_BUDGET_RATE), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
+        } else if(CollectionUtils.isEmpty(allPropRates)) {
+            //Throw Empty Rates message
+            return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
+                    KeyConstants.QUESTION_NO_RATES_ATTEMPT_SYNCH), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
         } else {
             DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
             BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
@@ -331,7 +341,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_SYNCH_BUDGET_RATE,
                 message, "");
     }    
-
+    
     private BudgetRatesService getBudgetRatesService() {
         return KraServiceLocator.getService(BudgetRatesService.class);
     }
