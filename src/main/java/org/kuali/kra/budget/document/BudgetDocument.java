@@ -812,8 +812,7 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
     }
 
     public List<RateClassType> getRateClassTypes() {
-        if(rateClassTypes.isEmpty() && !rateClassTypesReload && !this.getBudgetProposalRates().isEmpty()) {
-          getBudgetRatesService().syncBudgetRateCollectionsToExistingRates(this.rateClassTypes, this);
+        if(rateClassTypes.isEmpty() && !rateClassTypesReload && (!this.getBudgetProposalRates().isEmpty() || !this.getBudgetProposalLaRates().isEmpty())) {
           getBudgetRatesService().syncBudgetRateCollectionsToExistingRates(this.rateClassTypes, this);
         } else if(rateClassTypesReload) {
             if (!rateClassTypes.isEmpty()) {
