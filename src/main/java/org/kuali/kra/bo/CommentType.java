@@ -27,17 +27,17 @@ public class CommentType extends KraPersistableBusinessObjectBase {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 5649376154094364142L;
-    private Integer commentTypeCode;
+    private String commentTypeCode;
     private String description;
     private Boolean templateFlag;
     private Boolean checklistFlag;
     private Boolean awardCommentScreenFlag;
 
-    public Integer getCommentTypeCode() {
+    public String getCommentTypeCode() {
         return commentTypeCode;
     }
 
-    public void setCommentTypeCode(Integer commentTypeCode) {
+    public void setCommentTypeCode(String commentTypeCode) {
         this.commentTypeCode = commentTypeCode;
     }
 
@@ -146,7 +146,7 @@ public class CommentType extends KraPersistableBusinessObjectBase {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        final CommentType other = (CommentType) obj;
+        CommentType other = (CommentType) obj;
         if (awardCommentScreenFlag == null) {
             if (other.awardCommentScreenFlag != null)
                 return false;

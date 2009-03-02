@@ -305,12 +305,12 @@ public interface Constants {
     public static final String MAPPING_AWARD_NOTES_AND_ATTACHMENTS_PAGE = "notesAndAttachments";
     public static final String MAPPING_AWARD_ACTIONS_PAGE = "awardActions";
     
-    public static final Integer COST_SHARE_COMMENT_TYPE_CODE = 9;
-    public static final Integer FANDA_RATE_COMMENT_TYPE_CODE = 8;
-    public static final Integer PAYMENT_AND_INVOICES_COMMENT_TYPE_CODE = 1;
-    public static final Integer PREAWARD_SPONSOR_AUTHORIZATION_COMMENT_TYPE_CODE = 18;
-    public static final Integer PREAWARD_INSTITUTIONAL_AUTHORIZATION_COMMENT_TYPE_CODE = 19;
-    public static final Integer BENEFITS_RATES_COMMENT_TYPE_CODE = 20;
+    public static final String COST_SHARE_COMMENT_TYPE_CODE = "9";
+    public static final String FANDA_RATE_COMMENT_TYPE_CODE = "8";
+    public static final String PAYMENT_AND_INVOICES_COMMENT_TYPE_CODE = "1";
+    public static final String PREAWARD_SPONSOR_AUTHORIZATION_COMMENT_TYPE_CODE = "18";
+    public static final String PREAWARD_INSTITUTIONAL_AUTHORIZATION_COMMENT_TYPE_CODE = "19";
+    public static final String BENEFITS_RATES_COMMENT_TYPE_CODE = "20";
     public static final Integer MIN_FISCAL_YEAR = 1900;
     public static final Integer MAX_FISCAL_YEAR = 2499;
     

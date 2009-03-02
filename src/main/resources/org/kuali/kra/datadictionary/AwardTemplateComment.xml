@@ -35,7 +35,7 @@
 				<!--<ref bean="AwardTemplateComment-templateCode" />-->
 				<ref bean="AwardTemplateComment-commentTypeCode" />
 				<ref bean="AwardTemplateComment-checklistPrintFlag" />
-				<ref bean="AwardTemplateComment-comment" />
+				<ref bean="AwardTemplateComment-comments" />
 				<ref bean="AwardTemplateComment-versionNumber" />
 			</list>
 		</property>
@@ -110,20 +110,22 @@
 		<property name="description" value="Checklist Print Flag" />
 	</bean>
 
-	<bean id="AwardTemplateComment-comment" parent="AwardTemplateComment-comment-parentBean" />
-	<bean id="AwardTemplateComment-comment-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="comment" />
+	<bean id="AwardTemplateComment-comments" parent="AwardTemplateComment-comments-parentBean" />
+	<bean id="AwardTemplateComment-comments-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="comments" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Comments" />
 		<property name="shortLabel" value="Comments" />
-		<property name="maxLength" value="0" />
+		<property name="maxLength" value="2000" />
 		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
+			<bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
 		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="5" />
-		</property>
+	    <property name="control" >
+	      <bean parent="TextareaControlDefinition"
+	            p:rows="5"
+	            p:cols="40" />
+	    </property>
 		<property name="summary" value="Comments" />
 		<property name="description" value="Comments" />
 	</bean>
@@ -153,7 +155,7 @@
 							<bean parent="FieldDefinition"
 								p:attributeName="checklistPrintFlag" />
 							<bean parent="FieldDefinition"
-								p:attributeName="comment" />
+								p:attributeName="comments" />
 						</list>
 					</property>
 				</bean>
@@ -183,7 +185,7 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="checklistPrintFlag" />
 				<bean parent="FieldDefinition"
-					p:attributeName="comment" />
+					p:attributeName="comments" />
 			</list>
 		</property>
 		<property name="resultFields" >
@@ -198,7 +200,7 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="checklistPrintFlag" />
 				<bean parent="FieldDefinition"
-					p:attributeName="comment" />
+					p:attributeName="comments" />
 			</list>
 		</property>
 	</bean>
