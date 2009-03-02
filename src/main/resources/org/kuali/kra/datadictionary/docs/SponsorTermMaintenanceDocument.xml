@@ -33,19 +33,19 @@
 				<value>sponsorTermId</value>
 			</list>
 		</property>
-		<property name="label" value="Award Sponsor Terms Maintenance Document" />
-		<property name="shortLabel" value="awardSponsorTermsMaintDoc" />
-		<property name="summary" value="Award Sponsor Terms Maintenance Document" />
-		<property name="description" value="Document used to create or update Award Sponsor Terms Reference objects" />
+		<property name="label" value="Sponsor Terms Maintenance Document" />
+		<property name="shortLabel" value="sponsorTermsMaintDoc" />
+		<property name="summary" value="Sponsor Terms Maintenance Document" />
+		<property name="description" value="Document used to create or update Sponsor Terms Reference objects" />
 		<property name="helpDefinition" >
 			<bean parent="HelpDefinition"
 				p:parameterNamespace="KRA-M"
-				p:parameterName="awardSponsorTermsMaintenanceHelp"
+				p:parameterName="sponsorTermsMaintenanceHelp"
 				p:parameterDetailType="D" />
 			</property>
-		<property name="documentTypeName" value="Award Sponsor Terms Maintenance Document" />
+		<property name="documentTypeName" value="SponsorTermMaintenanceDocument" />
 		<property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
-		<property name="documentTypeCode" value="AWAR" />
+		<property name="documentTypeCode" value="STMD" />
 		<property name="authorizations" >
 			<list>
 				<bean parent="AuthorizationDefinition" >
@@ -64,8 +64,8 @@
 	
 	<bean id="SponsorTermMaintenanceDocument-EditSponsorTerm" parent="SponsorTermMaintenanceDocument-EditSponsorTerm-parentBean" />
 	<bean id="SponsorTermMaintenanceDocument-EditSponsorTerm-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="Award Sponsor Terms" />
-		<property name="title" value="Award Sponsor Terms" />
+		<property name="id" value="Sponsor Term" />
+		<property name="title" value="Sponsor Term" />
 		<property name="maintainableItems" >
 			<list>
 				<bean parent="MaintainableFieldDefinition"

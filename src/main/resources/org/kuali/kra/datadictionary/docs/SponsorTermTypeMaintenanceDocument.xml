@@ -33,19 +33,19 @@
 				<value>sponsorTermTypeCode</value>
 			</list>
 		</property>
-		<property name="label" value="Award Sponsor Terms Type Maintenance Document" />
-		<property name="shortLabel" value="awardSponsorTermsTypeMaintDoc" />
-		<property name="summary" value="Award Sponsor Terms Type Maintenance Document" />
-		<property name="description" value="Document used to create or update Award Sponsor Terms Type Reference objects" />
+		<property name="label" value="Sponsor Terms Type Maintenance Document" />
+		<property name="shortLabel" value="sponsorTermsTypeMaintDoc" />
+		<property name="summary" value="Sponsor Terms Type Maintenance Document" />
+		<property name="description" value="Document used to create or update Sponsor Terms Type Reference objects" />
 		<property name="helpDefinition" >
 			<bean parent="HelpDefinition"
 				p:parameterNamespace="KRA-M"
-				p:parameterName="awardSponsorTermsTypeMaintenanceHelp"
+				p:parameterName="sponsorTermsTypeMaintenanceHelp"
 				p:parameterDetailType="D" />
 			</property>
-		<property name="documentTypeName" value="Award Sponsor Terms Type Maintenance Document" />
+		<property name="documentTypeName" value="Sponsor Terms Type Maintenance Document" />
 		<property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
-		<property name="documentTypeCode" value="AWAR" />
+		<property name="documentTypeCode" value="STTD" />
 		<property name="authorizations" >
 			<list>
 				<bean parent="AuthorizationDefinition" >
@@ -64,8 +64,8 @@
 	
 	<bean id="SponsorTermTypeMaintenanceDocument-EditSponsorTermType" parent="SponsorTermTypeMaintenanceDocument-EditSponsorTermType-parentBean" />
 	<bean id="SponsorTermTypeMaintenanceDocument-EditSponsorTermType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="Award Sponsor Terms Type" />
-		<property name="title" value="Award Sponsor Terms Type" />
+		<property name="id" value="Sponsor Terms Type" />
+		<property name="title" value="Sponsor Terms Type" />
 		<property name="maintainableItems" >
 			<list>
 				<bean parent="MaintainableFieldDefinition"
