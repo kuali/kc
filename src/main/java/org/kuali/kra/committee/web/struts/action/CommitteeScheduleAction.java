@@ -34,7 +34,8 @@ public class CommitteeScheduleAction extends CommitteeAction {
     
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeScheduleAction.class);
     
-/*    @Override
+/*  TODO check if required  
+    @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
@@ -49,7 +50,7 @@ public class CommitteeScheduleAction extends CommitteeAction {
         
         CommitteeForm committeeForm = (CommitteeForm) form;
         committeeForm.getScheduleData().printf();
-        CommitteeScheduleService service  = (CommitteeScheduleService) KraServiceLocator.getService("committeeScheduleService");
+        CommitteeScheduleService service  = KraServiceLocator.getService(CommitteeScheduleService.class);
         service.addSchedule(committeeForm.getScheduleData(), committeeForm.getCommitteeDocument().getCommittee());
         //TODO comment it: Changes style class selection, which will trigger selected type of recurrence
         committeeForm.getScheduleData().populateStyleClass();
@@ -58,16 +59,16 @@ public class CommitteeScheduleAction extends CommitteeAction {
     
     public ActionForward deleteCommitteeSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-        CommitteeForm committeeForm = (CommitteeForm) form;        
-        CommitteeScheduleService service  = (CommitteeScheduleService) KraServiceLocator.getService("committeeScheduleService");        
-        service.deleteCommitteeSchedule(committeeForm.getCommitteeDocument().getCommittee(), getLineToDelete(request));   
+        CommitteeForm committeeForm = (CommitteeForm) form;       
+        int lineToDelete = getLineToDelete(request);
+        committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules().remove(lineToDelete);   
         return mapping.findForward(Constants.MAPPING_BASIC );
     }    
     
     public ActionForward filterCommitteeScheduleDates(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         CommitteeForm committeeForm = (CommitteeForm) form;        
-        CommitteeScheduleService service  = (CommitteeScheduleService) KraServiceLocator.getService("committeeScheduleService"); 
+        CommitteeScheduleService service  = KraServiceLocator.getService(CommitteeScheduleService.class); 
         service.filterCommitteeScheduleDates(committeeForm.getScheduleData(), committeeForm.getCommitteeDocument().getCommittee());
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
@@ -75,7 +76,7 @@ public class CommitteeScheduleAction extends CommitteeAction {
     public ActionForward resetCommitteeScheduleDates(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         CommitteeForm committeeForm = (CommitteeForm) form;        
-        CommitteeScheduleService service  = (CommitteeScheduleService) KraServiceLocator.getService("committeeScheduleService"); 
+        CommitteeScheduleService service  = KraServiceLocator.getService(CommitteeScheduleService.class); 
         service.resetCommitteeScheduleDates(committeeForm.getCommitteeDocument().getCommittee());
         return mapping.findForward(Constants.MAPPING_BASIC );
     } 
