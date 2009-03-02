@@ -23,6 +23,8 @@ import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.rule.AddCommitteeMembershipRule;
 import org.kuali.kra.committee.rule.event.AddCommitteeMembershipEvent;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 
 /**
  * 
@@ -31,7 +33,8 @@ import org.kuali.kra.committee.rule.event.AddCommitteeMembershipEvent;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class CommitteeMembershipRule extends CommitteeDocumentRule 
-                                     implements AddCommitteeMembershipRule {
+                                     implements AddCommitteeMembershipRule,
+                                                SaveCommitteeMembershipRule {
 
     /**
      * 
@@ -42,12 +45,15 @@ public class CommitteeMembershipRule extends CommitteeDocumentRule
      * @return <code>true</code> if valid, <code>false</code> otherwise
      */
     public boolean processAddCommitteeMembershipBusinessRules(AddCommitteeMembershipEvent addCommitteeMembershipEvent) {
+        final String PROPERTY_NAME_PERSON_NAME = "membershipHelper.newCommitteeMembership.personName";
         boolean isValid = true;
         CommitteeMembership committeeMembership = addCommitteeMembershipEvent.getCommitteeMembership();
         if ( (StringUtils.isEmpty(committeeMembership.getPersonId())) && (StringUtils.isEmpty(committeeMembership.getRolodexId())) ) { 
             isValid = false;
+            reportError(PROPERTY_NAME_PERSON_NAME, KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_PERSON_NOT_SPECIFIED);
         } else if (isDuplicate((CommitteeDocument) addCommitteeMembershipEvent.getDocument(), committeeMembership)){
             isValid = false;
+            reportError(PROPERTY_NAME_PERSON_NAME, KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_PERSON_DUPLICATE);
         }
         return isValid;
     }
@@ -60,13 +66,14 @@ public class CommitteeMembershipRule extends CommitteeDocumentRule
      * @return <code>true</code> if it is a duplicate, <code>false</code> otherwise
      */
     private boolean isDuplicate(CommitteeDocument committeeDocument, CommitteeMembership newCommitteeMembership) {
+        boolean isDuplicate = false;
         List<CommitteeMembership> committeeMemberships = committeeDocument.getCommittee().getCommitteeMemberships();
         for (CommitteeMembership committeeMembership : committeeMemberships) {
             if (committeeMembership.equals(newCommitteeMembership)) {
-                return true;
+                isDuplicate = true;
             }
         }
-        return false;        
+        return isDuplicate;        
     }
 
 }
