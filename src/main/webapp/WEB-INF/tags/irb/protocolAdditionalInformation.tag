@@ -12,7 +12,7 @@
 <c:set var="researchAreasAttributes" value="${DataDictionary.ResearchAreas.attributes}" />
 <c:set var="readOnly" value="${!KualiForm.protocolHelper.modifyProtocol}" />
 
-<kul:tab tabTitle="Additional Information" defaultOpen="false" tabErrorKey="newProtocolReference*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
+<kul:tab tabTitle="Additional Information" defaultOpen="false" tabErrorKey="newProtocolReference*" auditCluster="" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Additional Information</span>
