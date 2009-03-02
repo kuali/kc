@@ -2,9 +2,9 @@
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
 <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 <documentType>
-<name>AwardTemplateMaintenanceDocument</name>
-<description>Create a New Award Template</description>
-<label>Award Template</label>
+<name>AwardTemplateReportTermRecipientMaintenanceDocument</name>
+<description>Create a New Award Template Report Term Recipient</description>
+<label>Award Template Report Term Recipient</label>
 <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
