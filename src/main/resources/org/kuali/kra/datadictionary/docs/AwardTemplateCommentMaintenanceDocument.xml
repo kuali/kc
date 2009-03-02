@@ -68,9 +68,9 @@
 		<property name="title" value="Edit Award Template Comments" />
 		<property name="maintainableItems" >
 			<list>
-				<bean parent="MaintainableFieldDefinition"
+				<!--<bean parent="MaintainableFieldDefinition"
 					p:name="templateCommentsId"
-					p:required="true" />
+					p:required="true" />-->
 				<!--<bean parent="MaintainableFieldDefinition"
 					p:name="templateCode"
 					p:required="true" />-->
@@ -81,29 +81,25 @@
 					p:name="checklistPrintFlag"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition"
-					p:name="comment" />
+					p:name="comments" />
 				<bean parent="MaintainableFieldDefinition"
 					p:name="versionNumber" />
 			</list>
 		</property>
 	</bean>
-	<bean id="AwardTemplateCommentMaintenanceDocument-EditListAwardTemplateComment" parent="AwardTemplateCommentMaintenanceDocument-EditAwardTemplateComment-parentBean" />
+	<bean id="AwardTemplateCommentMaintenanceDocument-EditListAwardTemplateComment" parent="AwardTemplateCommentMaintenanceDocument-EditListAwardTemplateComment-parentBean" />
 	<bean id="AwardTemplateCommentMaintenanceDocument-EditListAwardTemplateComment-parentBean" abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id" value="Edit Award Template Comments" />
 		<property name="title" value="Edit Award Template Comments" />
+		
+		
 		<property name="maintainableItems" >
 			<list>
-
 				<bean parent="MaintainableCollectionDefinition">
 					<property name="businessObjectClass"
 						value="org.kuali.kra.award.bo.AwardTemplateComment" />
 					<property name="name" value="templateComments" />
 					<property name="sourceClassName" value="org.kuali.kra.award.bo.AwardTemplateComment" />
-					<!--
-						<property name="sourceClassName" value="LookupDefinition" />
-						<property name="sourceAttributeName"
-						value="org.kuali.kra.award.bo.AwardTemplateComment" />
-					-->
 					<property name="includeAddLine" value="true" />
 					<property name="includeMultipleLookupLine" value="false" />
 					<property name="summaryTitle" value="Award Template Comments" />
@@ -113,32 +109,30 @@
 		                   p:name="commentTypeCode" />
                    </list>
 					</property>
-					<property name="attributeToHighlightOnDuplicateKey" value="templateCommentId" />
+					<property name="attributeToHighlightOnDuplicateKey" value="templateCommentsId" />
 					<property name="duplicateIdentificationFields">
 						<list>
 							<!--<bean parent="MaintainableFieldDefinition" p:name="templateCode" />-->
 							<bean parent="MaintainableFieldDefinition" p:name="commentTypeCode" />
-							<!--<bean parent="MaintainableFieldDefinition" p:name="rolodexId" />-->
 						</list>
 					</property>
 					<property name="maintainableFields">
 						<list>
-							<!--<bean parent="MaintainableFieldDefinition" p:name="templateCommentsId"
-								p:required="true" />-->
-							<!--<bean parent="MaintainableFieldDefinition" p:name="templateCode"
-								p:required="true" />-->
-							<bean parent="MaintainableFieldDefinition" p:name="commentTypeCode"
+							<bean parent="MaintainableFieldDefinition"
+								p:name="commentTypeCode"
 								p:required="true" />
 							<bean parent="MaintainableFieldDefinition"
 								p:name="checklistPrintFlag"
 								p:required="true" />
 							<bean parent="MaintainableFieldDefinition"
-								p:name="comment" />
-							<bean parent="MaintainableFieldDefinition" p:name="versionNumber" />
+								p:name="comments" />
+							<bean parent="MaintainableFieldDefinition"
+								p:name="versionNumber" />
 						</list>
 					</property>
 				</bean>
 			</list>
 		</property>
+
 	</bean>
 </beans>

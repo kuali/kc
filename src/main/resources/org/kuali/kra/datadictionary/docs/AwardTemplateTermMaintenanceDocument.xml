@@ -19,18 +19,18 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="AwardTemplateTermsMaintenanceDocument" parent="AwardTemplateTermsMaintenanceDocument-parentBean" />
-	<bean id="AwardTemplateTermsMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.award.bo.AwardTemplateTerms" />
+	<bean id="AwardTemplateTermMaintenanceDocument" parent="AwardTemplateTermMaintenanceDocument-parentBean" />
+	<bean id="AwardTemplateTermMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.award.bo.AwardTemplateTerm" />
 		<property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
 		<property name="maintainableSections" >
 			<list>
-				<ref bean="AwardTemplateTermsMaintenanceDocument-EditAwardTemplateTerms" />
+				<ref bean="AwardTemplateTermMaintenanceDocument-EditAwardTemplateTerm" />
 			</list>
 		</property>
 		<property name="lockingKeys" >
 			<list>
-				<value>awardTemplateTermsId</value>
+				<value>awardTemplateTermId</value>
 			</list>
 		</property>
 		<property name="label" value="Award Template Terms Maintenance Document" />
@@ -62,31 +62,25 @@
 
 	<!-- Maintenance Section Definitions -->
 	
-	<bean id="AwardTemplateTermsMaintenanceDocument-EditAwardTemplateTerms" parent="AwardTemplateTermsMaintenanceDocument-EditAwardTemplateTerms-parentBean" />
-	<bean id="AwardTemplateTermsMaintenanceDocument-EditAwardTemplateTerms-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+	<bean id="AwardTemplateTermMaintenanceDocument-EditAwardTemplateTerm" parent="AwardTemplateTermMaintenanceDocument-EditAwardTemplateTerm-parentBean" />
+	<bean id="AwardTemplateTermMaintenanceDocument-EditAwardTemplateTerm-parentBean" abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id" value="Edit Award Template Terms" />
 		<property name="title" value="Edit Award Template Terms" />
 		<property name="maintainableItems" >
 			<list>
-				<!--<bean parent="MaintainableFieldDefinition"
-					p:name="awardTemplateTermsId"
-					p:required="true" />-->
-				<!--<bean parent="MaintainableFieldDefinition"
-					p:name="awardTemplateCode"
-					p:required="true" />-->
 				<bean parent="MaintainableFieldDefinition"
-					p:name="awardSponsorTermsTypeCode"
+					p:name="sponsorTermTypeCode"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition"
-					p:name="awardSponsorTermsId"
+					p:name="sponsorTermId"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition"
 					p:name="versionNumber" />
 			</list>
 		</property>
 	</bean>
-	<bean id="AwardTemplateTermsMaintenanceDocument-EditListAwardTemplateTerms" parent="AwardTemplateTermsMaintenanceDocument-EditListAwardTemplateTerms-parentBean" />
-	<bean id="AwardTemplateTermsMaintenanceDocument-EditListAwardTemplateTerms-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+	<bean id="AwardTemplateTermMaintenanceDocument-EditListAwardTemplateTerm" parent="AwardTemplateTermMaintenanceDocument-EditListAwardTemplateTerm-parentBean" />
+	<bean id="AwardTemplateTermMaintenanceDocument-EditListAwardTemplateTerm-parentBean" abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id" value="Edit Award Template Terms" />
 		<property name="title" value="Edit Award Template Terms" />
 		
@@ -94,43 +88,38 @@
 			<list>
 				<bean parent="MaintainableCollectionDefinition">
 					<property name="businessObjectClass"
-						value="org.kuali.kra.award.bo.AwardTemplateTerms" />
+						value="org.kuali.kra.award.bo.AwardTemplateTerm" />
 					<property name="name" value="templateTerms" />
-					<property name="sourceClassName" value="org.kuali.kra.award.bo.AwardTemplateTerms" />
+					<property name="sourceClassName" value="org.kuali.kra.award.bo.AwardTemplateTerm" />
 					<!--
 						<property name="sourceClassName" value="LookupDefinition" />
 						<property name="sourceAttributeName"
-						value="org.kuali.kra.award.bo.AwardTemplateTerms" />
+						value="org.kuali.kra.award.bo.AwardTemplateTerm" />
 					-->
 					<property name="includeAddLine" value="true" />
 					<property name="includeMultipleLookupLine" value="false" />
 					<property name="summaryTitle" value="Award Template Terms" />
 					<property name="summaryFields" >
 					<list>
-		             <bean parent="MaintainableFieldDefinition"
-		                   p:name="awardSponsorTermsId" />
+						<bean parent="MaintainableFieldDefinition"
+							p:name="sponsorTermTypeCode"/>
+			             <bean parent="MaintainableFieldDefinition"
+		                   p:name="sponsorTermId" />
                    </list>
 					</property>
-					<property name="attributeToHighlightOnDuplicateKey" value="awardSponsorTermsId" />
+					<property name="attributeToHighlightOnDuplicateKey" value="sponsorTermId" />
 					<property name="duplicateIdentificationFields">
 						<list>
 							<!--<bean parent="MaintainableFieldDefinition" p:name="templateCode" />-->
-							<bean parent="MaintainableFieldDefinition" p:name="awardSponsorTermsId" />
+							<bean parent="MaintainableFieldDefinition" p:name="sponsorTermId" />
 						</list>
 					</property>
 					<property name="maintainableFields">
 						<list>
-							<!--<bean parent="MaintainableFieldDefinition"
-								p:name="awardTemplateTermsId"
-								p:required="true" />-->
-							<!--<bean parent="MaintainableFieldDefinition"
-								p:name="awardTemplateCode"
-								p:required="true" />-->
-							<!--<bean parent="MaintainableFieldDefinition"
-								p:name="awardSponsorTerms.awardSponsorTermsTypeCode"
-								/>-->
 							<bean parent="MaintainableFieldDefinition"
-								p:name="awardSponsorTermsId"
+								p:name="sponsorTermTypeCode"/>
+							<bean parent="MaintainableFieldDefinition"
+								p:name="sponsorTermId"
 								p:required="true" />
 							<bean parent="MaintainableFieldDefinition"
 								p:name="versionNumber" />

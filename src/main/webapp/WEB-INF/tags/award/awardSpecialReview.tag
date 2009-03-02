@@ -123,11 +123,6 @@
 	                <td>     
 	                <div align="center">           	
 	                  <kul:htmlControlAttribute property="document.award.specialReview[${status.index}].protocolNumber" attributeEntry="${awardSpecialReviewAttributes.protocolNumber}" />
-                    <!-- <input type="image" class="nobord" src="kr/static/images/searchicon.gif" alt="lookup">  
-                    <input type="image" class="nobord" src="kr/static/images/book_open.png" alt="inquiry">-->
-	                <!--  <kul:lookup boClassName="org.kuali.kra.bo.Protocol" 
-	                    fieldConversions="protocolNumber:document.award.specialReview[${status.index}].protocolNumber"  anchor="${tabKey}"/> --> 
-					
 					</div>
 					</td>
 	                <td align="left" valign="middle">

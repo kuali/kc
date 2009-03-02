@@ -98,7 +98,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
 
 
     private List<AwardComment> awardComments;
-    private Map<Integer, AwardComment> commentMap;
+//    private Map<Integer, AwardComment> commentMap;
+    private Map<String, AwardComment> commentMap;
     private List<AwardCostShare> awardCostShares;
     private List<AwardFandaRate> awardFandaRate;
     private List<AwardReportTerm> awardReportTerms;
@@ -150,9 +151,9 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     *
     * @return
     */
-    private Map<Integer, AwardComment> getCommentMap(){
+    private Map<String, AwardComment> getCommentMap(){
         if(commentMap == null){
-            commentMap = new HashMap<Integer, AwardComment>();
+            commentMap = new HashMap<String, AwardComment>();
             for(AwardComment ac : awardComments){
                 commentMap.put(ac.getCommentType().getCommentTypeCode(), ac);
             }

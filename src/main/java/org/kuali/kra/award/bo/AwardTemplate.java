@@ -48,17 +48,18 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase {
     private Frequency nonCompetingContPrpslDue;
     private Frequency competingRenewalPrpslDue;
     private Frequency paymentInvoiceFrequency;
-//	private TemplateReportTerms templateReportTerms; 
+	private List<AwardTemplateReportTerm> templateReportTerms; 
 	private List<AwardTemplateComment> templateComments; 
 	private List<AwardTemplateContact> templateContacts; 
-    private List<AwardTemplateTerms> templateTerms; 
+    private List<AwardTemplateTerm> templateTerms; 
 //	private Award award; 
 	
 	@SuppressWarnings("unchecked")
     public AwardTemplate() { 
 	    templateContacts = new TypedArrayList(AwardTemplateContact.class);
 	    templateComments = new TypedArrayList(AwardTemplateComment.class);
-	    templateTerms = new TypedArrayList(AwardTemplateTerms.class);
+	    templateTerms = new TypedArrayList(AwardTemplateTerm.class);
+	    templateReportTerms = new TypedArrayList(AwardTemplateReportTerm.class);
 	} 
 	
 	public Integer getTemplateCode() {
@@ -148,15 +149,15 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase {
 	public void setAwardStatus(AwardStatus awardStatus) {
 		this.awardStatus = awardStatus;
 	}
-//
-//	public TemplateReportTerms getTemplateReportTerms() {
-//		return templateReportTerms;
-//	}
-//
-//	public void setTemplateReportTerms(TemplateReportTerms templateReportTerms) {
-//		this.templateReportTerms = templateReportTerms;
-//	}
-//
+
+	public List<AwardTemplateReportTerm> getTemplateReportTerms() {
+		return templateReportTerms;
+	}
+
+	public void setTemplateReportTerms(List<AwardTemplateReportTerm> templateReportTerms) {
+		this.templateReportTerms = templateReportTerms;
+	}
+
 
 	public List<AwardTemplateContact> getTemplateContacts() {
 		return templateContacts;
@@ -317,7 +318,7 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase {
      * Gets the templateTerms attribute. 
      * @return Returns the templateTerms.
      */
-    public List<AwardTemplateTerms> getTemplateTerms() {
+    public List<AwardTemplateTerm> getTemplateTerms() {
         return templateTerms;
     }
 
@@ -325,7 +326,7 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase {
      * Sets the templateTerms attribute value.
      * @param templateTerms The templateTerms to set.
      */
-    public void setTemplateTerms(List<AwardTemplateTerms> templateTerms) {
+    public void setTemplateTerms(List<AwardTemplateTerm> templateTerms) {
         this.templateTerms = templateTerms;
     }
 	
