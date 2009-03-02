@@ -326,6 +326,8 @@ public final class KeyConstants {
 
     //  Committee Messages
     public static final String ERROR_COMMITTEE_DUPLICATE_ID = "error.committee.duplicateId";
+    public static final String ERROR_COMMITTEE_MEMBERSHIP_PERSON_NOT_SPECIFIED = "error.committee.membership.person.not.specified";
+    public static final String ERROR_COMMITTEE_MEMBERSHIP_PERSON_DUPLICATE = "error.committee.membership.person.duplicate";
     
     public static final String SOFT_ERRORS_KEY = "SOFT_ERRORS_KEY";
 
