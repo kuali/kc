@@ -166,6 +166,9 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase
         return new CommitteeMembershipRule().processAddCommitteeMembershipBusinessRules(addCommitteeMembershipEvent);
     }
     
+    /**
+     * @see org.kuali.kra.committee.rule.AddCommitteeScheduleRule#processAddCommitteeScheduleRuleBusinessRules(org.kuali.kra.committee.rule.event.AddCommitteeScheduleEvent)
+     */
     public boolean processAddCommitteeScheduleRuleBusinessRules(AddCommitteeScheduleEvent addCommitteeScheduleEvent) {
         return new CommitteeScheduleRule().processAddCommitteeScheduleRuleBusinessRules(addCommitteeScheduleEvent);
     }
