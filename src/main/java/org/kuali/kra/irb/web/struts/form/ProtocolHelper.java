@@ -32,6 +32,7 @@ import org.kuali.kra.irb.bo.ProtocolUnit;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.document.authorization.ProtocolTask;
 import org.kuali.kra.irb.service.ProtocolFundingSourceService;
+import org.kuali.kra.irb.service.ProtocolPersonnelService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.service.UnitService;
 
@@ -294,18 +295,8 @@ public class ProtocolHelper {
         findAndSetLeadUnitFromFields();
 
         // since we are saving, we will always clear the PI and reset from field values
-        getProtocol().getProtocolPersons().clear();
-        getProtocol().getProtocolPersons().add(createPrincipalInvestigator());
+        getProtocolPersonnelService().updatePrincipalInvestigator(getProtocol(),createPrincipalInvestigator());
         getProtocol().setLeadUnitForValidation(createLeadUnit());
-//
-//        if (getProtocol().getPrincipalInvestigator() == null && StringUtils.isNotEmpty(getPrincipalInvestigatorId())) {
-//            ProtocolPerson investigator = createPrincipalInvestigator();
-//            if (investigator != null) {
-//                getProtocol().getProtocolPersons().add(investigator);
-//            }
-//        } else if (getProtocol().getPrincipalInvestigator() != null && getProtocol().getLeadUnit() == null) {
-//            getProtocol().getPrincipalInvestigator().getProtocolUnits().add(createLeadUnit());
-//        }
 
     }
     
@@ -413,4 +404,9 @@ public class ProtocolHelper {
         this.organizationName = organizationName;
     }
 
+    public ProtocolPersonnelService getProtocolPersonnelService() {
+        ProtocolPersonnelService theService = 
+            (ProtocolPersonnelService) KraServiceLocator.getService(ProtocolPersonnelService.class);
+        return theService;
+    }
 }

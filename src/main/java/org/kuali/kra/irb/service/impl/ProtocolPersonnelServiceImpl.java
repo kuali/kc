@@ -324,6 +324,25 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     }
     
     /**
+     * This method sets/updates the principal investigator person
+     * @param protocol
+     * @param person
+     */
+    public void updatePrincipalInvestigator(Protocol protocol, ProtocolPerson person) {
+        person.setProtocolPersonRoleId(getPrincipalInvestigatorRole());
+        List<ProtocolPerson> protocolPersons = protocol.getProtocolPersons();
+        ProtocolPerson currentPi = getPrincipalInvestigator(protocolPersons);
+        if (currentPi == null ) {
+            protocolPersons.add(person);
+        } else if (!isDuplicatePerson(protocolPersons,person)) {
+            protocol.getProtocolPersons().remove(currentPi);
+            protocol.getProtocolPersons().add(person);
+        }
+        
+    }
+
+    
+    /**
      * Gets the businessObjectService attribute.
      * 
      * @return Returns the businessObjectService.
