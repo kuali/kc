@@ -19,31 +19,32 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="AwardTemplateTerms" parent="AwardTemplateTerms-parentBean" />
-	<bean id="AwardTemplateTerms-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.award.bo.AwardTemplateTerms" />
+	<bean id="AwardTemplateTerm" parent="AwardTemplateTerm-parentBean" />
+	<bean id="AwardTemplateTerm-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.award.bo.AwardTemplateTerm" />
 		<property name="inquiryDefinition" >
-			<ref bean="AwardTemplateTerms-inquiryDefinition" />
+			<ref bean="AwardTemplateTerm-inquiryDefinition" />
 		</property>
 		<property name="lookupDefinition" >
-			<ref bean="AwardTemplateTerms-lookupDefinition" />
+			<ref bean="AwardTemplateTerm-lookupDefinition" />
 		</property>
-		<property name="titleAttribute" value="awardTemplateTermsId" />
+		<property name="titleAttribute" value="awardTemplateTermId" />
 		<property name="attributes" >
 			<list>
-				<ref bean="AwardTemplateTerms-awardTemplateTermsId" />
-				<!--<ref bean="AwardTemplateTerms-awardTemplateCode" />-->
-				<ref bean="AwardTemplateTerms-awardSponsorTermsId" />
-				<ref bean="AwardTemplateTerms-versionNumber" />
+				<ref bean="AwardTemplateTerm-awardTemplateTermId" />
+				<!--<ref bean="AwardTemplateTerm-awardTemplateCode" />-->
+				<ref bean="AwardTemplateTerm-sponsorTermTypeCode" />
+				<ref bean="AwardTemplateTerm-sponsorTermId" />
+				<ref bean="AwardTemplateTerm-versionNumber" />
 			</list>
 		</property>
 	</bean>
 
 	<!-- Attribute Definitions -->
 	
-	<bean id="AwardTemplateTerms-awardTemplateTermsId" parent="AwardTemplateTerms-awardTemplateTermsId-parentBean" />
-	<bean id="AwardTemplateTerms-awardTemplateTermsId-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="awardTemplateTermsId" />
+	<bean id="AwardTemplateTerm-awardTemplateTermId" parent="AwardTemplateTerm-awardTemplateTermId-parentBean" />
+	<bean id="AwardTemplateTerm-awardTemplateTermId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="awardTemplateTermId" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Award Template Terms Id" />
 		<property name="shortLabel" value="Award Template Terms Id" />
@@ -59,8 +60,8 @@
 		<property name="description" value="Award Template Terms Id" />
 	</bean>
 
-	<!--<bean id="AwardTemplateTerms-awardTemplateCode" parent="AwardTemplateTerms-awardTemplateCode-parentBean" />
-	<bean id="AwardTemplateTerms-awardTemplateCode-parentBean" abstract="true" parent="AttributeDefinition" >
+	<!--<bean id="AwardTemplateTerm-awardTemplateCode" parent="AwardTemplateTerm-awardTemplateCode-parentBean" />
+	<bean id="AwardTemplateTerm-awardTemplateCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="awardTemplateCode" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Award Template Code" />
@@ -76,30 +77,31 @@
 		<property name="summary" value="Award Template Code" />
 		<property name="description" value="Award Template Code" />
 	</bean>-->
-	<bean id="AwardTemplateTerms-awardSponsorTermsTypeCode" parent="AwardTemplateTerms-awardSponsorTermsTypeCode-parentBean" />
-	<bean id="AwardTemplateTerms-awardSponsorTermsTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="awardSponsorTermsTypeCode" />
+	<bean id="AwardTemplateTerm-sponsorTermTypeCode" parent="AwardTemplateTerm-sponsorTermTypeCode-parentBean" />
+	<bean id="AwardTemplateTerm-sponsorTermTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="sponsorTermTypeCode" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Award Sponsor Terms Type Code" />
-		<property name="shortLabel" value="Award Sponsor Terms Type Code" />
+		<property name="label" value="Sponsor Terms Type" />
+		<property name="shortLabel" value="Sponsor Terms Type" />
 		<property name="maxLength" value="3" />
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
 	    <property name="control" >
 	      <bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.award.bo.AwardSponsorTermsType"
+	            p:businessObjectClass="org.kuali.kra.bo.SponsorTermType"
 	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 	            p:includeKeyInLabel="false"
-	            p:keyAttribute="awardSponsorTermsTypeCode"
+	            p:keyAttribute="sponsorTermTypeCode"
 	            p:labelAttribute="description" />
 	    </property>
-		<property name="summary" value="Award Sponsor Terms Type Code" />
-		<property name="description" value="Award Sponsor Terms Type Code" />
+		<property name="summary" value="Sponsor Terms Type Code" />
+		<property name="description" value="Sponsor Terms Type Code" />
 	</bean>
-	<bean id="AwardTemplateTerms-awardSponsorTermsId" parent="AwardTemplateTerms-awardSponsorTermsId-parentBean" />
-	<bean id="AwardTemplateTerms-awardSponsorTermsId-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="awardSponsorTermsId" />
+
+	<bean id="AwardTemplateTerm-sponsorTermId" parent="AwardTemplateTerm-sponsorTermId-parentBean" />
+	<bean id="AwardTemplateTerm-sponsorTermId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="sponsorTermId" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Award Sponsor Terms Id" />
 		<property name="shortLabel" value="Award Sponsor Terms Id" />
@@ -109,23 +111,23 @@
 		</property>
 	    <property name="control" >
 	      <bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.award.bo.AwardSponsorTerms"
+	            p:businessObjectClass="org.kuali.kra.bo.SponsorTerm"
 	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 	            p:includeKeyInLabel="false"
-	            p:keyAttribute="awardSponsorTermsId"
+	            p:keyAttribute="sponsorTermId"
 	            p:labelAttribute="description" />
 	    </property>
 		<property name="summary" value="Award Sponsor Terms Id" />
 		<property name="description" value="Award Sponsor Terms Id" />
 	</bean>
 
-	<bean id="AwardTemplateTerms-versionNumber" parent="AwardTemplateTerms-versionNumber-parentBean" />
-	<bean id="AwardTemplateTerms-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+	<bean id="AwardTemplateTerm-versionNumber" parent="AwardTemplateTerm-versionNumber-parentBean" />
+	<bean id="AwardTemplateTerm-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
 	</bean>
 
-	<!-- Business Object Inquiry Definition -->
-	<bean id="AwardTemplateTerms-inquiryDefinition" parent="AwardTemplateTerms-inquiryDefinition-parentBean" />
-	<bean id="AwardTemplateTerms-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+	<!--  Business Object Inquiry Definition  -->
+	<bean id="AwardTemplateTerm-inquiryDefinition" parent="AwardTemplateTerm-inquiryDefinition-parentBean" />
+	<bean id="AwardTemplateTerm-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 		<property name="title" value="Award Template Terms Id" />
 		<property name="inquirySections" >
 			<list>
@@ -135,12 +137,14 @@
 					<property name="inquiryFields" >
 						<list>
 							<bean parent="FieldDefinition"
-								p:attributeName="awardTemplateTermsId" 
+								p:attributeName="awardTemplateTermId" 
 								p:forceInquiry="true" />
 							<!--<bean parent="FieldDefinition"
 								p:attributeName="awardTemplateCode" />-->
 							<bean parent="FieldDefinition"
-								p:attributeName="awardSponsorTermsId" />
+								p:attributeName="sponsorTermTypeCode" />
+							<bean parent="FieldDefinition"
+								p:attributeName="sponsorTermId" />
 						</list>
 					</property>
 				</bean>
@@ -148,9 +152,9 @@
 		</property>
 	</bean>
 
-	<!-- Business Object Lookup Definition -->
-	<bean id="AwardTemplateTerms-lookupDefinition" parent="AwardTemplateTerms-lookupDefinition-parentBean" />
-	<bean id="AwardTemplateTerms-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+	 <!-- Business Object Lookup Definition  --> 
+	<bean id="AwardTemplateTerm-lookupDefinition" parent="AwardTemplateTerm-lookupDefinition-parentBean" />
+	<bean id="AwardTemplateTerm-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Award Template Terms Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 		<property name="instructions" value="Look up a Award Template Terms" />
@@ -161,23 +165,27 @@
 		<property name="lookupFields" >
 			<list>
 				<bean parent="FieldDefinition"
-					p:attributeName="awardTemplateTermsId" 
+					p:attributeName="awardTemplateTermId" 
 					p:forceInquiry="true" />
 				<!--<bean parent="FieldDefinition"
 					p:attributeName="awardTemplateCode" />-->
 				<bean parent="FieldDefinition"
-					p:attributeName="awardSponsorTermsId" />
+					p:attributeName="sponsorTermTypeCode" />
+				<bean parent="FieldDefinition"
+					p:attributeName="sponsorTermId" />
 			</list>
 		</property>
 		<property name="resultFields" >
 			<list>
 				<bean parent="FieldDefinition"
-					p:attributeName="awardTemplateTermsId" 
+					p:attributeName="awardTemplateTermId" 
 					p:forceInquiry="true" />
 				<!--<bean parent="FieldDefinition"
 					p:attributeName="awardTemplateCode" />-->
 				<bean parent="FieldDefinition"
-					p:attributeName="awardSponsorTermsId" />
+					p:attributeName="sponsorTermTypeCode" />
+				<bean parent="FieldDefinition"
+					p:attributeName="sponsorTermId" />
 			</list>
 		</property>
 	</bean>

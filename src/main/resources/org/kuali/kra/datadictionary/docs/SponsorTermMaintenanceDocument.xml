@@ -19,18 +19,18 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="AwardSponsorTermsMaintenanceDocument" parent="AwardSponsorTermsMaintenanceDocument-parentBean" />
-	<bean id="AwardSponsorTermsMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.award.bo.AwardSponsorTerms" />
+	<bean id="SponsorTermMaintenanceDocument" parent="SponsorTermMaintenanceDocument-parentBean" />
+	<bean id="SponsorTermMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.bo.SponsorTerm" />
 		<property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
 		<property name="maintainableSections" >
 			<list>
-				<ref bean="AwardSponsorTermsMaintenanceDocument-EditAwardSponsorTerms" />
+				<ref bean="SponsorTermMaintenanceDocument-EditSponsorTerm" />
 			</list>
 		</property>
 		<property name="lockingKeys" >
 			<list>
-				<value>awardSponsorTermsId</value>
+				<value>sponsorTermId</value>
 			</list>
 		</property>
 		<property name="label" value="Award Sponsor Terms Maintenance Document" />
@@ -62,20 +62,20 @@
 
 	<!-- Maintenance Section Definitions -->
 	
-	<bean id="AwardSponsorTermsMaintenanceDocument-EditAwardSponsorTerms" parent="AwardSponsorTermsMaintenanceDocument-EditAwardSponsorTerms-parentBean" />
-	<bean id="AwardSponsorTermsMaintenanceDocument-EditAwardSponsorTerms-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="Edit Award Sponsor Terms" />
-		<property name="title" value="Edit Award Sponsor Terms" />
+	<bean id="SponsorTermMaintenanceDocument-EditSponsorTerm" parent="SponsorTermMaintenanceDocument-EditSponsorTerm-parentBean" />
+	<bean id="SponsorTermMaintenanceDocument-EditSponsorTerm-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="Award Sponsor Terms" />
+		<property name="title" value="Award Sponsor Terms" />
 		<property name="maintainableItems" >
 			<list>
 				<bean parent="MaintainableFieldDefinition"
-					p:name="awardSponsorTermsId"
+					p:name="sponsorTermId"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition"
-					p:name="awardSponsorTermsCode"
+					p:name="sponsorTermCode"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition"
-					p:name="awardSponsorTermsTypeCode"
+					p:name="sponsorTermTypeCode"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition"
 					p:name="description"

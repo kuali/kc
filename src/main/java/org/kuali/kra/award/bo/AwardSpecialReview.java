@@ -24,7 +24,7 @@ import java.util.LinkedHashMap;
  * This class represents AwardSpecialReview BO
  */
 public class AwardSpecialReview extends AbstractSpecialReview<AwardSpecialReviewExemption> { 
-	
+	//TODO: awardnumber, sequencenumber to be added
 	/**
      * Comment for <code>serialVersionUID</code>
      */
@@ -77,6 +77,45 @@ public class AwardSpecialReview extends AbstractSpecialReview<AwardSpecialReview
         awardSpecialReviewExemption.setExemptionTypeCode(exemptionTypeCode);
         awardSpecialReviewExemption.setAwardSpecialReview(this);
         return awardSpecialReviewExemption;
+    }
+
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((award == null) ? 0 : award.hashCode());
+        result = prime * result + ((awardSpecialReviewId == null) ? 0 : awardSpecialReviewId.hashCode());
+        return result;
+    }
+
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        AwardSpecialReview other = (AwardSpecialReview) obj;
+        if (award == null) {
+            if (other.award != null)
+                return false;
+        }
+        else if (!award.equals(other.award))
+            return false;
+        if (awardSpecialReviewId == null) {
+            if (other.awardSpecialReviewId != null)
+                return false;
+        }
+        else if (!awardSpecialReviewId.equals(other.awardSpecialReviewId))
+            return false;
+        return true;
     }
 	
 }

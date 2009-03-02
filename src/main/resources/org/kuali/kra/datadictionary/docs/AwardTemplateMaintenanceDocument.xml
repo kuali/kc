@@ -27,18 +27,10 @@
 			<list>
 				<ref bean="AwardTemplateMaintenanceDocument-EditAwardTemplate" />
 				<ref bean="AwardTemplateContactMaintenanceDocument-EditListAwardTemplateContact" />
-				<ref bean="AwardTemplateTermsMaintenanceDocument-EditListAwardTemplateTerms" />
-				<!--<ref bean="AwardTemplateCommentMaintenanceDocument-EditListAwardTemplateComment" />--><!--
-				<ref bean="AwardTemplateDocumentTermsMaintenanceDocument-EditAwardTemplateDocumentTerms" />
-				<ref bean="AwardTemplateEquipmentTermsMaintenanceDocument-EditAwardTemplateEquipmentTerms" />
-				<ref bean="AwardTemplateInventionTermsMaintenanceDocument-EditAwardTemplateInventionTerms" />
-				<ref bean="AwardTemplatePriorTermsMaintenanceDocument-EditAwardTemplatePriorTerms" />
-				<ref bean="AwardTemplatePropertyTermsMaintenanceDocument-EditAwardTemplatePropertyTerms" />
-				<ref bean="AwardTemplatePublicationTermsMaintenanceDocument-EditAwardTemplatePublicationTerms" />
-				<ref bean="AwardTemplateRightsTermsMaintenanceDocument-EditAwardTemplateRightsTerms" />
-				<ref bean="AwardTemplateSubcontractTermsMaintenanceDocument-EditAwardTemplateSubcontractTerms" />
-				<ref bean="AwardTemplateTravelTermsMaintenanceDocument-EditAwardTemplateTravelTerms" />
-			--></list>
+				<ref bean="AwardTemplateCommentMaintenanceDocument-EditListAwardTemplateComment" />
+				<ref bean="AwardTemplateTermMaintenanceDocument-EditListAwardTemplateTerm" />
+				<ref bean="AwardTemplateReportTermMaintenanceDocument-EditListAwardTemplateReportTerm" />
+			</list>
 		</property>
 		<property name="lockingKeys" >
 			<list>
@@ -82,9 +74,9 @@
 		<property name="title" value="Edit Award Template" />
 		<property name="maintainableItems" >
 			<list>
-				<bean parent="MaintainableFieldDefinition"
+				<!--<bean parent="MaintainableFieldDefinition"
 					p:name="templateCode"
-					p:required="true" />
+					p:required="true" />-->
 				<bean parent="MaintainableFieldDefinition"
 					p:name="description"
 					p:required="true" />

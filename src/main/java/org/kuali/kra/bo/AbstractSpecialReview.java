@@ -17,6 +17,7 @@ package org.kuali.kra.bo;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -35,6 +36,7 @@ import org.kuali.rice.KNSServiceLocator;
 public abstract class AbstractSpecialReview<T extends AbstractSpecialReviewExemption> extends KraPersistableBusinessObjectBase {
     /**
      * Comment for <code>serialVersionUID</code>
+     * Do we need this???
      */
     private static final long serialVersionUID = 3671069178534624665L;
     private Integer specialReviewNumber;
@@ -234,6 +236,125 @@ public abstract class AbstractSpecialReview<T extends AbstractSpecialReviewExemp
      */
     public void setExemptionTypes(List<ExemptionType> exemptionTypes) {
         this.exemptionTypes = exemptionTypes;
+    }
+
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((applicationDate == null) ? 0 : applicationDate.hashCode());
+        result = prime * result + ((approvalDate == null) ? 0 : approvalDate.hashCode());
+        result = prime * result + ((approvalTypeCode == null) ? 0 : approvalTypeCode.hashCode());
+        result = prime * result + ((comments == null) ? 0 : comments.hashCode());
+        result = prime * result + Arrays.hashCode(exemptionTypeCodes);
+        result = prime * result + ((exemptionTypes == null) ? 0 : exemptionTypes.hashCode());
+        result = prime * result + ((expirationDate == null) ? 0 : expirationDate.hashCode());
+        result = prime * result + ((protocolNumber == null) ? 0 : protocolNumber.hashCode());
+        result = prime * result + ((specialReview == null) ? 0 : specialReview.hashCode());
+        result = prime * result + ((specialReviewApprovalType == null) ? 0 : specialReviewApprovalType.hashCode());
+        result = prime * result + ((specialReviewCode == null) ? 0 : specialReviewCode.hashCode());
+        result = prime * result + ((specialReviewExemptions == null) ? 0 : specialReviewExemptions.hashCode());
+        result = prime * result + ((specialReviewNumber == null) ? 0 : specialReviewNumber.hashCode());
+        result = prime * result + ((validSpecialReviewApproval == null) ? 0 : validSpecialReviewApproval.hashCode());
+        return result;
+    }
+
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        AbstractSpecialReview other = (AbstractSpecialReview) obj;
+        if (applicationDate == null) {
+            if (other.applicationDate != null)
+                return false;
+        }
+        else if (!applicationDate.equals(other.applicationDate))
+            return false;
+        if (approvalDate == null) {
+            if (other.approvalDate != null)
+                return false;
+        }
+        else if (!approvalDate.equals(other.approvalDate))
+            return false;
+        if (approvalTypeCode == null) {
+            if (other.approvalTypeCode != null)
+                return false;
+        }
+        else if (!approvalTypeCode.equals(other.approvalTypeCode))
+            return false;
+        if (comments == null) {
+            if (other.comments != null)
+                return false;
+        }
+        else if (!comments.equals(other.comments))
+            return false;
+        if (!Arrays.equals(exemptionTypeCodes, other.exemptionTypeCodes))
+            return false;
+        if (exemptionTypes == null) {
+            if (other.exemptionTypes != null)
+                return false;
+        }
+        else if (!exemptionTypes.equals(other.exemptionTypes))
+            return false;
+        if (expirationDate == null) {
+            if (other.expirationDate != null)
+                return false;
+        }
+        else if (!expirationDate.equals(other.expirationDate))
+            return false;
+        if (protocolNumber == null) {
+            if (other.protocolNumber != null)
+                return false;
+        }
+        else if (!protocolNumber.equals(other.protocolNumber))
+            return false;
+        if (specialReview == null) {
+            if (other.specialReview != null)
+                return false;
+        }
+        else if (!specialReview.equals(other.specialReview))
+            return false;
+        if (specialReviewApprovalType == null) {
+            if (other.specialReviewApprovalType != null)
+                return false;
+        }
+        else if (!specialReviewApprovalType.equals(other.specialReviewApprovalType))
+            return false;
+        if (specialReviewCode == null) {
+            if (other.specialReviewCode != null)
+                return false;
+        }
+        else if (!specialReviewCode.equals(other.specialReviewCode))
+            return false;
+        if (specialReviewExemptions == null) {
+            if (other.specialReviewExemptions != null)
+                return false;
+        }
+        else if (!specialReviewExemptions.equals(other.specialReviewExemptions))
+            return false;
+        if (specialReviewNumber == null) {
+            if (other.specialReviewNumber != null)
+                return false;
+        }
+        else if (!specialReviewNumber.equals(other.specialReviewNumber))
+            return false;
+        if (validSpecialReviewApproval == null) {
+            if (other.validSpecialReviewApproval != null)
+                return false;
+        }
+        else if (!validSpecialReviewApproval.equals(other.validSpecialReviewApproval))
+            return false;
+        return true;
     }
 
 }

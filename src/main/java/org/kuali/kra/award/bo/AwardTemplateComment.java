@@ -15,23 +15,15 @@
  */
 package org.kuali.kra.award.bo;
 
-import org.kuali.kra.bo.CommentType;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import java.util.LinkedHashMap;
 
-public class AwardTemplateComment extends KraPersistableBusinessObjectBase { 
+public class AwardTemplateComment extends AwardCommentBase { 
 	
 	/**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -4617051298910760741L;
     private Integer templateCommentsId; 
-//	private Integer templateCode; 
-	private String commentTypeCode; 
-	private Boolean checklistPrintFlag; 
-	private String comment; 
-	
-	private CommentType commentType; 
 	private AwardTemplate template; 
 	
 	public AwardTemplateComment() { 
@@ -46,46 +38,6 @@ public class AwardTemplateComment extends KraPersistableBusinessObjectBase {
 		this.templateCommentsId = templateCommentsId;
 	}
 
-//	public Integer getTemplateCode() {
-//		return templateCode;
-//	}
-//
-//	public void setTemplateCode(Integer templateCode) {
-//		this.templateCode = templateCode;
-//	}
-
-	public String getCommentTypeCode() {
-		return commentTypeCode;
-	}
-
-	public void setCommentTypeCode(String commentTypeCode) {
-		this.commentTypeCode = commentTypeCode;
-	}
-
-	public Boolean getChecklistPrintFlag() {
-		return checklistPrintFlag;
-	}
-
-	public void setChecklistPrintFlag(Boolean checklistPrintFlag) {
-		this.checklistPrintFlag = checklistPrintFlag;
-	}
-
-	public String getComment() {
-		return comment;
-	}
-
-	public void setComment(String comments) {
-		this.comment = comments;
-	}
-
-	public CommentType getCommentType() {
-		return commentType;
-	}
-
-	public void setCommentType(CommentType commentType) {
-		this.commentType = commentType;
-	}
-
 	public AwardTemplate getTemplate() {
 		return template;
 	}
@@ -97,12 +49,8 @@ public class AwardTemplateComment extends KraPersistableBusinessObjectBase {
 	@SuppressWarnings("unchecked")
     @Override 
 	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
+		LinkedHashMap hashMap = super.toStringMapper();
 		hashMap.put("templateCommentsId", getTemplateCommentsId());
-//		hashMap.put("templateCode", getTemplateCode());
-		hashMap.put("commentTypeCode", getCommentTypeCode());
-		hashMap.put("checklistPrintFlag", getChecklistPrintFlag());
-		hashMap.put("comments", getComment());
 		return hashMap;
 	}
 	

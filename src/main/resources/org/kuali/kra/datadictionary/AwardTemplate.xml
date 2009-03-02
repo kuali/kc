@@ -58,7 +58,7 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Award Template Code" />
 		<property name="shortLabel" value="Award Template Code" />
-		<property name="maxLength" value="22" />
+		<property name="maxLength" value="5" />
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
@@ -78,12 +78,14 @@
 		<property name="shortLabel" value="Description" />
 		<property name="maxLength" value="200" />
 		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
-		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
-		</property>
+			<bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+        </property>
+	    <property name="control" >
+	      <bean parent="TextareaControlDefinition"
+	            p:rows="5"
+	            p:cols="40" />
+	    </property>
 		<property name="summary" value="Description" />
 		<property name="description" value="Description" />
 	</bean>

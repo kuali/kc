@@ -19,18 +19,18 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="AwardSponsorTermsTypeMaintenanceDocument" parent="AwardSponsorTermsTypeMaintenanceDocument-parentBean" />
-	<bean id="AwardSponsorTermsTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.award.bo.AwardSponsorTermsType" />
+	<bean id="SponsorTermTypeMaintenanceDocument" parent="SponsorTermTypeMaintenanceDocument-parentBean" />
+	<bean id="SponsorTermTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.bo.SponsorTermType" />
 		<property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
 		<property name="maintainableSections" >
 			<list>
-				<ref bean="AwardSponsorTermsTypeMaintenanceDocument-EditAwardSponsorTermsType" />
+				<ref bean="SponsorTermTypeMaintenanceDocument-EditSponsorTermType" />
 			</list>
 		</property>
 		<property name="lockingKeys" >
 			<list>
-				<value>awardSponsorTermsTypeCode</value>
+				<value>sponsorTermTypeCode</value>
 			</list>
 		</property>
 		<property name="label" value="Award Sponsor Terms Type Maintenance Document" />
@@ -62,14 +62,14 @@
 
 	<!-- Maintenance Section Definitions -->
 	
-	<bean id="AwardSponsorTermsTypeMaintenanceDocument-EditAwardSponsorTermsType" parent="AwardSponsorTermsTypeMaintenanceDocument-EditAwardSponsorTermsType-parentBean" />
-	<bean id="AwardSponsorTermsTypeMaintenanceDocument-EditAwardSponsorTermsType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="Edit Award Sponsor Terms Type" />
-		<property name="title" value="Edit Award Sponsor Terms Type" />
+	<bean id="SponsorTermTypeMaintenanceDocument-EditSponsorTermType" parent="SponsorTermTypeMaintenanceDocument-EditSponsorTermType-parentBean" />
+	<bean id="SponsorTermTypeMaintenanceDocument-EditSponsorTermType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="Award Sponsor Terms Type" />
+		<property name="title" value="Award Sponsor Terms Type" />
 		<property name="maintainableItems" >
 			<list>
 				<bean parent="MaintainableFieldDefinition"
-					p:name="awardSponsorTermsTypeCode"
+					p:name="sponsorTermTypeCode"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition"
 					p:name="description"

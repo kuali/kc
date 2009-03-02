@@ -18,15 +18,12 @@ package org.kuali.kra.award.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.Rolodex;
-
 /**
  * 
  * This class represents the AwardReportTermRecipient business object
  * 
  */
-public class AwardReportTermRecipient extends KraPersistableBusinessObjectBase {
+public class AwardReportTermRecipient extends AwardReportTermRecipientBase {
     
     /**
      * Comment for <code>serialVersionUID</code>
@@ -35,12 +32,12 @@ public class AwardReportTermRecipient extends KraPersistableBusinessObjectBase {
     private Long awardReportTermRecipientId;
     private Integer awardReportTermId;
     private Long contactId;
-    private String contactTypeCode; 
-    private Integer rolodexId;
-    private Integer numberOfCopies; 
-    
-    private ContactType contactType;
-    private Rolodex rolodex; 
+//    private String contactTypeCode; 
+//    private Integer rolodexId;
+//    private Integer numberOfCopies; 
+//    
+//    private ContactType contactType;
+//    private Rolodex rolodex; 
     private AwardReportTerm awardReportTerm; 
     
     /**
@@ -67,99 +64,100 @@ public class AwardReportTermRecipient extends KraPersistableBusinessObjectBase {
         this.awardReportTermId = awardReportTermId;
     }
 
-    /**
-     *
-     * @return
-     */
-    public String getContactTypeCode() {
-        return contactTypeCode;
-    }
-
-    /**
-     *
-     * @param contactTypeCode
-     */
-    public void setContactTypeCode(String contactTypeCode) {
-        this.contactTypeCode = contactTypeCode;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public Integer getRolodexId() {
-        return rolodexId;
-    }
-
-    /**
-     *
-     * @param rolodexId
-     */
-    public void setRolodexId(Integer rolodexId) {
-        this.rolodexId = rolodexId;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public Integer getNumberOfCopies() {
-        return numberOfCopies;
-    }
-
-    /**
-     *
-     * @param numberOfCopies
-     */
-    public void setNumberOfCopies(Integer numberOfCopies) {
-        this.numberOfCopies = numberOfCopies;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public ContactType getContactType() {
-        return contactType;
-    }
-
-    /**
-     *
-     * @param contactType
-     */
-    public void setContactType(ContactType contactType) {
-        this.contactType = contactType;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public Rolodex getRolodex() {
-        return rolodex;
-    }
-
-    /**
-     *
-     * @param rolodex
-     */
-    public void setRolodex(Rolodex rolodex) {
-        this.rolodex = rolodex;
-    }
-    
+//    /**
+//     *
+//     * @return
+//     */
+//    public String getContactTypeCode() {
+//        return contactTypeCode;
+//    }
+//
+//    /**
+//     *
+//     * @param contactTypeCode
+//     */
+//    public void setContactTypeCode(String contactTypeCode) {
+//        this.contactTypeCode = contactTypeCode;
+//    }
+//
+//    /**
+//     *
+//     * @return
+//     */
+//    public Integer getRolodexId() {
+//        return rolodexId;
+//    }
+//
+//    /**
+//     *
+//     * @param rolodexId
+//     */
+//    public void setRolodexId(Integer rolodexId) {
+//        this.rolodexId = rolodexId;
+//    }
+//
+//    /**
+//     *
+//     * @return
+//     */
+//    public Integer getNumberOfCopies() {
+//        return numberOfCopies;
+//    }
+//
+//    /**
+//     *
+//     * @param numberOfCopies
+//     */
+//    public void setNumberOfCopies(Integer numberOfCopies) {
+//        this.numberOfCopies = numberOfCopies;
+//    }
+//
+//    /**
+//     *
+//     * @return
+//     */
+//    public ContactType getContactType() {
+//        return contactType;
+//    }
+//
+//    /**
+//     *
+//     * @param contactType
+//     */
+//    public void setContactType(ContactType contactType) {
+//        this.contactType = contactType;
+//    }
+//
+//    /**
+//     *
+//     * @return
+//     */
+//    public Rolodex getRolodex() {
+//        return rolodex;
+//    }
+//
+//    /**
+//     *
+//     * @param rolodex
+//     */
+//    public void setRolodex(Rolodex rolodex) {
+//        this.rolodex = rolodex;
+//    }
+//    
     /**
      * 
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
+    @SuppressWarnings("unchecked")
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
+        LinkedHashMap<String, Object> hashMap = super.toStringMapper();
         hashMap.put("awardReportTermRecipientId", getAwardReportTermRecipientId());
         hashMap.put("awardReportTermId", getAwardReportTermId());
-        hashMap.put("contactId", getContactId());
-        hashMap.put("contactTypeCode", getContactTypeCode());
-        hashMap.put("rolodexId", getRolodexId());
-        hashMap.put("numberOfCopies", getNumberOfCopies());
+//        hashMap.put("contactId", getContactId());
+//        hashMap.put("contactTypeCode", getContactTypeCode());
+//        hashMap.put("rolodexId", getRolodexId());
+//        hashMap.put("numberOfCopies", getNumberOfCopies());
         return hashMap;
     }
 
@@ -216,12 +214,12 @@ public class AwardReportTermRecipient extends KraPersistableBusinessObjectBase {
      */
     @Override
     public int hashCode() {
-        final int PRIME = 31;
-        int result = 1;
-        result = PRIME * result + ((contactId == null) ? 0 : contactId.hashCode());
-        result = PRIME * result + ((contactTypeCode == null) ? 0 : contactTypeCode.hashCode());
-        result = PRIME * result + ((numberOfCopies == null) ? 0 : numberOfCopies.hashCode());
-        result = PRIME * result + ((rolodexId == null) ? 0 : rolodexId.hashCode());
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((awardReportTerm == null) ? 0 : awardReportTerm.hashCode());
+        result = prime * result + ((awardReportTermId == null) ? 0 : awardReportTermId.hashCode());
+        result = prime * result + ((awardReportTermRecipientId == null) ? 0 : awardReportTermRecipientId.hashCode());
+        result = prime * result + ((contactId == null) ? 0 : contactId.hashCode());
         return result;
     }
 
@@ -230,57 +228,40 @@ public class AwardReportTermRecipient extends KraPersistableBusinessObjectBase {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj){
+        if (this == obj)
             return true;
-        }   
-        if (obj == null){
+        if (!super.equals(obj))
             return false;
-        }   
-        if (!(obj instanceof AwardReportTermRecipient)){
+        if (getClass() != obj.getClass())
             return false;
-        }           
-        return equals((AwardReportTermRecipient) obj);
-    }
-    
-    /**
-     * 
-     * Convenience method to check equality of another AwardFandaRate
-     * @param awardReportTermRecipient
-     * @return
-     */
-    public boolean equals(AwardReportTermRecipient awardReportTermRecipient){
+        AwardReportTermRecipient other = (AwardReportTermRecipient) obj;
+        if (awardReportTerm == null) {
+            if (other.awardReportTerm != null)
+                return false;
+        }
+        else if (!awardReportTerm.equals(other.awardReportTerm))
+            return false;
+        if (awardReportTermId == null) {
+            if (other.awardReportTermId != null)
+                return false;
+        }
+        else if (!awardReportTermId.equals(other.awardReportTermId))
+            return false;
+        if (awardReportTermRecipientId == null) {
+            if (other.awardReportTermRecipientId != null)
+                return false;
+        }
+        else if (!awardReportTermRecipientId.equals(other.awardReportTermRecipientId))
+            return false;
         if (contactId == null) {
-            if (awardReportTermRecipient.contactId != null){
+            if (other.contactId != null)
                 return false;
-            }
-                
-        }else if (!contactId.equals(awardReportTermRecipient.contactId)){
+        }
+        else if (!contactId.equals(other.contactId))
             return false;
-        }   
-        if (contactTypeCode == null) {
-            if (awardReportTermRecipient.contactTypeCode != null){
-                return false;
-            }   
-        }else if (!contactTypeCode.equals(awardReportTermRecipient.contactTypeCode)){
-            return false;
-        }   
-        if (numberOfCopies == null) {
-            if (awardReportTermRecipient.numberOfCopies != null){
-                return false;
-            }   
-        }else if (!numberOfCopies.equals(awardReportTermRecipient.numberOfCopies)){
-            return false;
-        }   
-        if (rolodexId == null) {
-            if (awardReportTermRecipient.rolodexId != null){
-                return false;
-            }   
-        }else if (!rolodexId.equals(awardReportTermRecipient.rolodexId)){
-            return false;
-        }   
         return true;
     }
-    
-    
+
+   
     
 }
