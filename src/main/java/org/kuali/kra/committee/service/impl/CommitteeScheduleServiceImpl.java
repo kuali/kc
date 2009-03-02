@@ -80,11 +80,7 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
         }
         return retVal;
     }
-    //TODO back to form 
-    public void deleteCommitteeSchedule(Committee committee, int lineNumber) {
-        committee.getCommitteeSchedules().remove(lineNumber);  
-    }
-    
+
     public void filterCommitteeScheduleDates(ScheduleData scheduleData, Committee committee){
         List<CommitteeSchedule> committeeSchedules = committee.getCommitteeSchedules();
         Date startDate = scheduleData.getFilterStartDate();

@@ -34,13 +34,14 @@ public class CommitteeHelper {
     }
     
     private void prepareCommitteeScheduleDeleteView(){
-        List<CommitteeSchedule> committeeSchedules = form.getCommitteeDocument().getCommittee().getCommitteeSchedules();
- 
-        for(CommitteeSchedule committeeSchedule: committeeSchedules) {            
-            boolean flag = getCommitteeScheduleService().isCommitteeScheduleDeletable(committeeSchedule);
-            committeeSchedule.setDelete(flag);
-        }
         
+        List<CommitteeSchedule> committeeSchedules = form.getCommitteeDocument().getCommittee().getCommitteeSchedules();
+        boolean flag = false;
+        CommitteeScheduleService service = getCommitteeScheduleService();
+        for(CommitteeSchedule committeeSchedule: committeeSchedules) {            
+            flag = service.isCommitteeScheduleDeletable(committeeSchedule);
+            committeeSchedule.setDelete(flag);
+        }    
     }
     
     private CommitteeScheduleService getCommitteeScheduleService() {
