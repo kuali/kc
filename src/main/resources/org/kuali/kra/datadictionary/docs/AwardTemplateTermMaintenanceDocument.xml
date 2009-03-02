@@ -43,9 +43,9 @@
 				p:parameterName="awardTemplateTermsMaintenanceHelp"
 				p:parameterDetailType="D" />
 			</property>
-		<property name="documentTypeName" value="Award Template Terms Maintenance Document" />
+		<property name="documentTypeName" value="AwardTemplateTermMaintenanceDocument" />
 		<property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
-		<property name="documentTypeCode" value="AWAR" />
+		<property name="documentTypeCode" value="ATTR" />
 		<property name="authorizations" >
 			<list>
 				<bean parent="AuthorizationDefinition" >
