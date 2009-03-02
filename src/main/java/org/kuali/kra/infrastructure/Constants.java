@@ -116,8 +116,7 @@ public interface Constants {
     public static final String PERSON_EDITABLE_FIELD_NAME_PROPERTY_KEY = "fieldName";
     public static final String INVESTIGATOR_CREDIT_TYPE_CODE_PROPERTY_KEY = "invCreditTypeCode";
     public static final String EMPTY_STRING = "";
-    public static final String PROPOSAL_PERSON_KEY = "document.proposalPerson*";
-    public static final String PRINCIPAL_INVESTIGATOR_KEY = "newProposalPerson*";
+    public static final String PRINCIPAL_INVESTIGATOR_KEY = "newProposalPerson";
     public static final String CREDIT_SPLIT_KEY = "document.creditSplit";
 
    
