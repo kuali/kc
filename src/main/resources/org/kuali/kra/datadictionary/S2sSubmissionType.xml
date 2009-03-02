@@ -59,12 +59,11 @@
             <attribute name="s2sSubmissionTypeCode">
                 <label>Submission Type</label>
                 <shortLabel>Submission Type</shortLabel>
-                <maxLength>15</maxLength>
+                <maxLength>3</maxLength>
                 <validationPattern><alphaNumeric /></validationPattern>
                 <required>false</required>                
-                <control> 
-					<select valuesFinderClass="org.kuali.kra.lookup.keyvalue.S2sSubmissionTypeValuesFinder" businessObjectClass="org.kuali.kra.s2s.bo.S2sSubmissionType" keyAttribute="s2sSubmissionTypeCode" labelAttribute="description" includeKeyInLabel="false"/>
-					<!-- <text size="5"/> -->															
+                <control>
+					<text size="4"/>														
 				</control>
                 <summary>Submission Type</summary>
                 <description>Submission Type</description>
