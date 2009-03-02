@@ -23,6 +23,7 @@ import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.rule.AddCommitteeMembershipRule;
 import org.kuali.kra.committee.rule.event.AddCommitteeMembershipEvent;
+import org.kuali.kra.committee.rule.event.SaveCommitteeMembershipEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 
@@ -57,6 +58,20 @@ public class CommitteeMembershipRule extends CommitteeDocumentRule
         }
         return isValid;
     }
+    
+    /**
+     * @see org.kuali.kra.committee.rules.CommitteeDocumentRule#processSaveCommitteeMembershipBusinessRules(org.kuali.kra.committee.rule.event.SaveCommitteeMembershipEvent)
+     */
+    @Override
+    public boolean processSaveCommitteeMembershipBusinessRules(SaveCommitteeMembershipEvent saveCommitteeMembershipEvent) {
+        boolean isValid = true;
+        // TODO: cniesen - add committee membership rules
+        // isValid&= isValidSomething(parms);
+        return isValid;
+    }
+
+    // Add isValidSomething() here
+    
     /**
      * 
      * Check if the <code>{@link CommitteeMembership}</code> is already part of the <code {@link Committee}</code>.
