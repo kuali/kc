@@ -21,15 +21,22 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.kra.committee.rule.event.AddCommitteeScheduleEvent;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.util.KNSConstants;
 
 public class CommitteeScheduleAction extends CommitteeAction {
     
+    @SuppressWarnings("unused")
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeScheduleAction.class);
+    
+    private static final String DELETE_QUESTION = "Are you sure you want to delete?";
+    
+    private static final String DELETE_QUESTION_ID = "committeeSchedule.delete.question";
     
 /*  TODO check if required  
     @Override
@@ -55,12 +62,22 @@ public class CommitteeScheduleAction extends CommitteeAction {
         committeeForm.getScheduleData().populateStyleClass();
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
-    
+
     public ActionForward deleteCommitteeSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-        CommitteeForm committeeForm = (CommitteeForm) form;       
-        int lineToDelete = getLineToDelete(request);
-        committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules().remove(lineToDelete);   
+        CommitteeForm committeeForm = (CommitteeForm) form;          
+        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        String methodToCall = committeeForm.getMethodToCall();
+        if (question == null) {
+            return performQuestionWithoutInput(mapping, form, request, response, DELETE_QUESTION_ID, DELETE_QUESTION, KNSConstants.CONFIRMATION_QUESTION, methodToCall, "");
+        }
+        else {
+            Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+            if ((DELETE_QUESTION_ID.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {              
+                int lineToDelete = getLineToDelete(request);
+                committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules().remove(lineToDelete);                   
+            }
+        }
         return mapping.findForward(Constants.MAPPING_BASIC );
     }    
     
