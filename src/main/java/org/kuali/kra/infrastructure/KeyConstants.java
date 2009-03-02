@@ -21,10 +21,6 @@ package org.kuali.kra.infrastructure;
  */
 public final class KeyConstants {
     
-    //Error messages for Protocol Document
-    public static final String ERROR_PROTOCOLREFERENCE_PROTOCOLREFERENCETYPECODE = "error.required.for.protocolReference.protocolReferenceTypeCode";
-    public static final String ERROR_PROTOCOLREFERENCE_PROTOCOLREFERENCEKEY = "error.required.for.protocolReference.protocolReferenceKey";
-    
     public static final String ERROR_REQUIRED_FOR_APPROVED_SPECIALREVIEW = "error.required.for.approved.specialReview";
     public static final String ERROR_NOT_APPROVED_SPECIALREVIEW = "error.not.approved.specialReview";
     public static final String ERROR_REQUIRED_SELECT_APPROVAL_STATUS = "error.required.select.approval.status";
@@ -355,6 +351,14 @@ public final class KeyConstants {
     public static final String ERROR_DUPLICATE_PERMISSIONS_USER = "error.duplicate.permissionsUser";
     public static final String ERROR_PERMISSIONS_LAST_ADMINSTRATOR = "error.permissions.last.administrator";
     public static final String ERROR_PERMISSIONS_ADMINSTRATOR_INCLUSIVE = "error.permissions.administrator.inclusive";
-
+        
+    //IRB Additional Information Fields
+    public static final String ERROR_PROTOCOLREFERENCE_PROTOCOLREFERENCETYPECODE = "error.required.for.protocolReference.protocolReferenceTypeCode";
+    public static final String ERROR_PROTOCOLREFERENCE_PROTOCOLREFERENCEKEY = "error.required.for.protocolReference.protocolReferenceKey";
+    
+    //CommitteeSchedule Messages
+    public static final String ERROR_COMMITTEESCHEDULE_SCHEDULEDATES = "error.committeeSchedule.startDate.must.be.before.endDate";
+    public static final String ERROR_COMMITTEESCHEDULE_BLANK = "error.committeeSchedule.blank";    
+    
     private KeyConstants() {}
 }
