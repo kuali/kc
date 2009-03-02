@@ -58,6 +58,21 @@ public abstract class CommitteeMembershipEventBase extends KraDocumentEventBase
 
     /**
      * 
+     * Constructs a <code>{@link CommitteeMembershipEventBase}</code>
+     * 
+     * 
+     * @param description
+     * @param errorPathPrefix
+     * @param document
+     */
+    protected CommitteeMembershipEventBase(String description, String errorPathPrefix, 
+            CommitteeDocument comitteeDocument) {
+        super(description, errorPathPrefix, comitteeDocument);
+        logEvent();
+    }
+
+    /**
+     * 
      * Get the <code>{@link CommitteeMembership}</code> of this event.
      * 
      * @return <code>CommitteeMembership</code>

@@ -24,6 +24,7 @@ import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.rule.AddCommitteeMembershipRule;
 import org.kuali.kra.committee.rule.AddCommitteeScheduleRule;
 import org.kuali.kra.committee.rule.event.AddCommitteeMembershipEvent;
+import org.kuali.kra.committee.rule.event.SaveCommitteeMembershipEvent;
 import org.kuali.kra.committee.rule.event.AddCommitteeScheduleEvent;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.Constants;
@@ -40,7 +41,9 @@ import org.kuali.kra.service.UnitService;
  * another class within this package.
  */
 public class CommitteeDocumentRule extends ResearchDocumentRuleBase
-                                   implements AddCommitteeScheduleRule, AddCommitteeMembershipRule {
+                                   implements AddCommitteeScheduleRule,
+                                              AddCommitteeMembershipRule,
+                                              SaveCommitteeMembershipRule {
     
     static private final boolean VALIDATION_REQUIRED = true;
     
@@ -164,6 +167,14 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase
      */
     public boolean processAddCommitteeMembershipRules(AddCommitteeMembershipEvent addCommitteeMembershipEvent) {
         return new CommitteeMembershipRule().processAddCommitteeMembershipBusinessRules(addCommitteeMembershipEvent);
+    }
+    
+    /**
+     * @see org.kuali.kra.irb.rule.SaveCommitteeMembershipRule#processSaveCommitteeMembershipBusinessRules(org.kuali.kra.irb.rule.event.SaveCommitteeMembershipEvent)
+     */
+    public boolean processSaveCommitteeMembershipBusinessRules(SaveCommitteeMembershipEvent saveCommitteeMembershipEvent) {
+        return new CommitteeMembershipRule().processSaveCommitteeMembershipBusinessRules(saveCommitteeMembershipEvent);
+        
     }
     
     /**

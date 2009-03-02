@@ -25,6 +25,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.rule.event.AddCommitteeMembershipEvent;
+import org.kuali.kra.committee.rule.event.SaveCommitteeMembershipEvent;
 import org.kuali.kra.committee.service.CommitteeMembershipService;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.committee.web.struts.form.MembershipHelper;
@@ -37,32 +38,19 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
  */
 public class CommitteeMembershipAction extends CommitteeAction {
     
-//    @SuppressWarnings("unused")
-//    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeMembershipAction.class);
-//
-//    /**
-//     * @see org.kuali.kra.committee.web.struts.action.CommitteeAction#isValidSave(org.kuali.kra.committee.web.struts.form.CommitteeForm)
-//     */
-//    @Override
-//    protected boolean isValidSave(CommitteeForm committeeForm) {    
-//        boolean rulePassed = applyRules(new SaveCommitteeMembershipEvent(Constants.EMPTY_STRING, committeeForm.getCommitteeDocument()));
-//        return rulePassed;
-//    }
-   
-//    @Override
-//    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-//            throws Exception {
-//        ActionForward actionForward = super.execute(mapping, form, request, response);
-//        getProtocolPersonnelService().selectProtocolUnit(getProtocolPersons(form));
-//        getProtocolPersonTrainingService().isPersonTrained(getProtocolPersons(form));
-//        
-//        ((ProtocolForm)form).getProtocolHelper().prepareView();
-//        ((ProtocolForm)form).getPersonnelHelper().prepareView();
-//        ((ProtocolForm)form).getPermissionsHelper().prepareView();
-//        
-//        return actionForward;
-//    }
+    @SuppressWarnings("unused")
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeMembershipAction.class);
 
+    /**
+     * @see org.kuali.kra.committee.web.struts.action.CommitteeAction#isValidSave(org.kuali.kra.committee.web.struts.form.CommitteeForm)
+     */
+    @Override
+    protected boolean isValidSave(CommitteeForm committeeForm) {
+        boolean rulePassed = true;
+        rulePassed &= applyRules(new SaveCommitteeMembershipEvent(Constants.EMPTY_STRING, committeeForm.getCommitteeDocument()));
+        return rulePassed;
+    }
+   
     /**
      * This method is linked to ProtocolPersonnelService to perform the action - Add Protocol Person. 
      * Method is called in protocolAddPersonnelSection.tag 
