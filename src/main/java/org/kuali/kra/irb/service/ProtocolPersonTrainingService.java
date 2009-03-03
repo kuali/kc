@@ -31,10 +31,18 @@ public interface ProtocolPersonTrainingService {
     /**
      * This method is to check whether person has attended any training session.
      * Refer to person training object and return boolean.
-     * This method will set the trained flag for each person in the list.
+     * This method is invoked to set the trained flag for each person in the list.
      * Hook this service method to external / other training session as required. 
      * @param protocolPersons
      */
     public void isPersonTrained(List<ProtocolPerson> protocolPersons);
+    
+    /**
+     * This method is to set trained flag for a person
+     * Set true / false
+     * This method is invoked from isPersonTrained and while adding a new person to the list.
+     * @param protocolPerson
+     */
+    public void setTrainedFlag(ProtocolPerson protocolPerson);
 
 }

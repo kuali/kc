@@ -112,13 +112,13 @@ public class Protocol extends KraPersistableBusinessObjectBase{
         billable = false;
         protocolRiskLevels = new ArrayList<ProtocolRiskLevel>();
         protocolParticipants = new TypedArrayList(ProtocolParticipant.class);
-        protocolResearchAreas = new ArrayList<ProtocolResearchArea>();// new TypedArrayList(ProtocolResearchAreas.class);
-        protocolReferences = new ArrayList<ProtocolReference>(); //ArrayList<ProtocolReference>();
+        protocolResearchAreas = new ArrayList<ProtocolResearchArea>();
+        protocolReferences = new ArrayList<ProtocolReference>(); 
         newDescription = getDefaultNewDescription();
         protocolStatus = new ProtocolStatus();
         protocolStatusCode = protocolStatus.getProtocolStatusCode();
-        protocolLocations = new ArrayList<ProtocolLocation>(); //ArrayList<ProtocolLocation>();
-        protocolPersons = new ArrayList<ProtocolPerson>(); //ArrayList<ProtocolPerson>();
+        protocolLocations = new ArrayList<ProtocolLocation>(); 
+        protocolPersons = new ArrayList<ProtocolPerson>(); 
         initializeProtocolLocation();
         protocolFundingSources = new ArrayList<ProtocolFundingSource>();        
         // set statuscode default
@@ -460,15 +460,6 @@ public class Protocol extends KraPersistableBusinessObjectBase{
      */
     public ProtocolPerson getPrincipalInvestigator() {
         return getProtocolPersonnelService().getPrincipalInvestigator(getProtocolPersons());
-        /*
-        ProtocolPerson principalInvestigator = null;
-        for ( ProtocolPerson investigator : getProtocolPersons() ) {
-            if (investigator.getProtocolPersonRoleId().equalsIgnoreCase(Constants.PRINCIPAL_INVESTIGATOR_ROLE)) {
-                principalInvestigator = investigator;
-            }
-        }
-        return principalInvestigator;
-        */
     }
     
     public ProtocolUnit getLeadUnit() {

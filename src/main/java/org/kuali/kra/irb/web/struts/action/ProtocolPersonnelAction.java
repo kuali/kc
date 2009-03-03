@@ -66,7 +66,7 @@ public class ProtocolPersonnelAction extends ProtocolAction {
             throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
         getProtocolPersonnelService().selectProtocolUnit(getProtocolPersons(form));
-        getProtocolPersonTrainingService().isPersonTrained(getProtocolPersons(form));
+        //getProtocolPersonTrainingService().isPersonTrained(getProtocolPersons(form));
         
         ((ProtocolForm)form).getProtocolHelper().prepareView();
         ((ProtocolForm)form).getPersonnelHelper().prepareView();
@@ -90,7 +90,7 @@ public class ProtocolPersonnelAction extends ProtocolAction {
         ProtocolPerson newProtocolPerson = protocolForm.getPersonnelHelper().getNewProtocolPerson();
         
         // check any business rules
-        boolean rulePassed = applyRules(new AddProtocolPersonnelEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument(), protocolForm.getPersonnelHelper().getNewProtocolPerson()));
+        boolean rulePassed = applyRules(new AddProtocolPersonnelEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument(), newProtocolPerson));
         if (rulePassed) {
             getProtocolPersonnelService().addProtocolPerson(protocolForm.getProtocolDocument().getProtocol(), newProtocolPerson);
             protocolForm.getPersonnelHelper().setNewProtocolPerson(new ProtocolPerson());
@@ -210,14 +210,6 @@ public class ProtocolPersonnelAction extends ProtocolAction {
      */
     private ProtocolPersonnelService getProtocolPersonnelService() {
         return (ProtocolPersonnelService)KraServiceLocator.getService("protocolPersonnelService");
-    }
-
-    /**
-     * This method is to get protocol personnel service
-     * @return ProtocolPersonnelService
-     */
-    private ProtocolPersonTrainingService getProtocolPersonTrainingService() {
-        return (ProtocolPersonTrainingService)KraServiceLocator.getService("protocolPersonTrainingService");
     }
 
     /**

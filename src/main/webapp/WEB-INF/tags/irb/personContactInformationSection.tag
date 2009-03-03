@@ -40,7 +40,7 @@
             		<table class=tab cellpadding=0 cellspacing="0" summary=""> 
               			<tbody id="G2">
 		                	<tr>
-		                    	<th align="left" nowrap="nowrap"> 
+		                    	<th> 
 									<div align="right">
 										<kul:htmlAttributeLabel attributeEntry="${personAttributes.fullName}"/>
 									</div>
@@ -50,7 +50,7 @@
 		                      								  attributeEntry="${personAttributes.fullName}" 
 		                                                      readOnly="true"/> 
 		                    	</td>
-		                    	<th align="left" width="15%">
+		                    	<th width="15%">
 									<div align="right">
 										<kul:htmlAttributeLabel attributeEntry="${personAttributes.userName}"/>
 									</div>
@@ -61,7 +61,7 @@
 		                    	</td>
 		                  	</tr>
 		                	<tr>
-		                    	<th align="left" nowrap="nowrap"> 
+		                    	<th nowrap="nowrap"> 
 									<div align="right">
 										<kul:htmlAttributeLabel attributeEntry="${personAttributes.emailAddress}"/>
 									</div>
@@ -71,7 +71,7 @@
 		                      								  attributeEntry="${personAttributes.emailAddress}" 
 		                                                      readOnly="true"/> 
 		                    	</td>
-		                    	<th align="left" width="15%">
+		                    	<th width="15%">
 									<div align="right">
 										<kul:htmlAttributeLabel attributeEntry="${personAttributes.officePhone}"/>
 									</div>
@@ -82,7 +82,7 @@
 		                    	</td>
 		                  	</tr>
 		                	<tr>
-		                    	<th align="left" nowrap="nowrap"> 
+		                    	<th nowrap="nowrap"> 
 									<div align="right">
 										<kul:htmlAttributeLabel attributeEntry="${personAttributes.primaryTitle}"/>
 									</div>
@@ -92,18 +92,18 @@
 		                      								  attributeEntry="${personAttributes.primaryTitle}" 
 		                                                      readOnly="true"/> 
 		                    	</td>
-		                    	<th align="left" width="15%">
+		                    	<th width="15%">
 									<div align="right">
 										<kul:htmlAttributeLabel attributeEntry="${personAttributes.directoryTitle}"/>
 									</div>
 								</th>
-		                    	<td align="left" width="30%">
+		                    	<td width="30%">
 		                    		<kul:htmlControlAttribute property="${person}.directoryTitle" 
 		                    		attributeEntry="${personAttributes.directoryTitle}" readOnly="true"/>
 		                    	</td>
 		                  	</tr>
 		                	<tr>
-		                    	<th align="left" nowrap="nowrap"> 
+		                    	<th nowrap="nowrap"> 
 									<div align="right">
 										<kul:htmlAttributeLabel attributeEntry="${personAttributes.homeUnit}"/>
 									</div>
@@ -113,7 +113,7 @@
 		                      								  attributeEntry="${personAttributes.homeUnit}" 
 		                                                      readOnly="true"/> 
 		                    	</td>
-		                    	<th align="left" width="15%">
+		                    	<th width="15%">
 									<div align="right">
 										<kul:htmlAttributeLabel attributeEntry="${personAttributes.school}"/>
 									</div>
@@ -124,7 +124,7 @@
 		                    	</td>
 		                  	</tr>
 		                	<tr>
-		                    	<th align="left" nowrap="nowrap"> 
+		                    	<th> 
 									<div align="right">
 										<kul:htmlAttributeLabel attributeEntry="${personAttributes.eraCommonsUserName}"/>
 									</div>
@@ -134,7 +134,7 @@
 		                      								  attributeEntry="${personAttributes.eraCommonsUserName}" 
 		                                                      readOnly="true"/> 
 		                    	</td>
-		                    	<th align="left" width="15%">
+		                    	<th width="15%">
 									<div align="right">
 										<kul:htmlAttributeLabel attributeEntry="${personAttributes.faxNumber}"/>
 									</div>
@@ -145,7 +145,7 @@
 		                    	</td>
 		                  	</tr>
 		                	<tr>
-		                    	<th align="left" nowrap="nowrap"> 
+		                    	<th> 
 									<div align="right">
 										<kul:htmlAttributeLabel attributeEntry="${personAttributes.pagerNumber}"/>
 									</div>
@@ -155,7 +155,7 @@
 		                      								  attributeEntry="${personAttributes.pagerNumber}" 
 		                                                      readOnly="true"/> 
 		                    	</td>
-		                    	<th align="left" width="15%">
+		                    	<th width="15%">
 									<div align="right">
 										<kul:htmlAttributeLabel attributeEntry="${personAttributes.mobilePhoneNumber}"/>
 									</div>
@@ -166,7 +166,7 @@
 		                    	</td>
 		                  	</tr>
 		                	<tr>
-		                    	<th align="left" nowrap="nowrap"> 
+		                    	<th> 
 									<div align="right">
 										<kul:htmlAttributeLabel attributeEntry="${personAttributes.officeLocation}"/>
 									</div>
@@ -176,7 +176,7 @@
 		                      								  attributeEntry="${personAttributes.officeLocation}" 
 		                                                      readOnly="true"/> 
 		                    	</td>
-		                    	<th align="left" width="15%">
+		                    	<th width="15%">
 									<div align="right">
 										<kul:htmlAttributeLabel attributeEntry="${personAttributes.secondaryOfficeLocation}"/>
 									</div>
@@ -187,7 +187,7 @@
 		                    	</td>
 		                  	</tr>
 		                	<tr>
-		                    	<th align="left" nowrap="nowrap"> 
+		                    	<th> 
 									<div align="right">
 										<kul:htmlAttributeLabel attributeEntry="${personAttributes.addressLine1}"/>
 									</div>
@@ -197,7 +197,7 @@
 		                      								  attributeEntry="${personAttributes.addressLine1}" 
 		                                                      readOnly="true"/> 
 		                    	</td>
-		                    	<th align="left" width="15%">
+		                    	<th width="15%">
 									<div align="right">
 										<kul:htmlAttributeLabel attributeEntry="${personAttributes.city}"/>
 									</div>
@@ -208,7 +208,7 @@
 		                    	</td>
 		                  	</tr>
 		                	<tr>
-		                    	<th align="left" nowrap="nowrap"> 
+		                    	<th> 
 									<div align="right">
 										<kul:htmlAttributeLabel attributeEntry="${personAttributes.addressLine2}"/>
 									</div>
@@ -218,7 +218,7 @@
 		                      								  attributeEntry="${personAttributes.addressLine2}" 
 		                                                      readOnly="true"/> 
 		                    	</td>
-		                    	<th align="left" width="15%">
+		                    	<th width="15%">
 									<div align="right">
 										<kul:htmlAttributeLabel attributeEntry="${personAttributes.county}"/>
 									</div>
@@ -229,7 +229,7 @@
 		                    	</td>
 		                  	</tr>
 		                	<tr>
-		                    	<th align="left" nowrap="nowrap"> 
+		                    	<th> 
 									<div align="right">
 										<kul:htmlAttributeLabel attributeEntry="${personAttributes.addressLine3}"/>
 									</div>
@@ -239,7 +239,7 @@
 		                      								  attributeEntry="${personAttributes.addressLine3}" 
 		                                                      readOnly="true"/> 
 		                    	</td>
-		                    	<th align="left" width="15%">
+		                    	<th width="15%">
 									<div align="right">
 										<kul:htmlAttributeLabel attributeEntry="${personAttributes.state}"/>
 									</div>
@@ -251,7 +251,7 @@
 		                  	</tr>
 
 		                	<tr>
-		                    	<th align="left" nowrap="nowrap"> 
+		                    	<th> 
 									<div align="right">
 										<kul:htmlAttributeLabel attributeEntry="${personAttributes.postalCode}"/>
 									</div>
@@ -261,7 +261,7 @@
 		                      								  attributeEntry="${personAttributes.postalCode}" 
 		                                                      readOnly="true"/> 
 		                    	</td>
-		                    	<th align="left" width="15%">
+		                    	<th width="15%">
 									<div align="right">
 										<kul:htmlAttributeLabel attributeEntry="${personAttributes.countryCode}"/>
 									</div>

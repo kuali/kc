@@ -53,7 +53,7 @@ public class ProtocolUnitRule extends ProtocolDocumentRule implements AddProtoco
      */
     private boolean isEmptyProtocolUnit(ProtocolUnit protocolUnit, int personIndex) {
         boolean validUnit = true;
-        if(StringUtils.isEmpty(protocolUnit.getUnitNumber())) {
+        if(StringUtils.isBlank(protocolUnit.getUnitNumber())) {
             reportError(formatErrorPropertyName(personIndex, ERROR_PROPERTY_UNIT_NUMBER), KeyConstants.ERROR_PROTOCOL_UNIT_INVALID);
             validUnit = false;
         }else {
@@ -69,7 +69,7 @@ public class ProtocolUnitRule extends ProtocolDocumentRule implements AddProtoco
      */
     private boolean isValidProtocolUnit(ProtocolUnit protocolUnit, int personIndex) {
         boolean validUnit = true;
-        if(StringUtils.isEmpty(getUnitService().getUnitName(protocolUnit.getUnitNumber()))) {
+        if(StringUtils.isBlank(getUnitService().getUnitName(protocolUnit.getUnitNumber()))) {
             reportError(formatErrorPropertyName(personIndex, ERROR_PROPERTY_UNIT_NUMBER), KeyConstants.ERROR_PROTOCOL_UNIT_INVALID);
             validUnit = false;
         }

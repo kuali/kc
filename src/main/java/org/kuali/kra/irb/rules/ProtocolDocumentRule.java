@@ -32,6 +32,7 @@ import org.kuali.kra.irb.rule.AddProtocolUnitRule;
 import org.kuali.kra.irb.rule.SaveProtocolLocationRule;
 import org.kuali.kra.irb.rule.SaveProtocolPersonnelRule;
 import org.kuali.kra.irb.rule.SaveProtocolRequiredFieldsRule;
+import org.kuali.kra.irb.rule.UpdateProtocolPersonnelRule;
 import org.kuali.kra.irb.rule.event.AddProtocolFundingSourceEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolLocationEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolParticipantEvent;
@@ -41,6 +42,7 @@ import org.kuali.kra.irb.rule.event.AddProtocolUnitEvent;
 import org.kuali.kra.irb.rule.event.SaveProtocolLocationEvent;
 import org.kuali.kra.irb.rule.event.SaveProtocolPersonnelEvent;
 import org.kuali.kra.irb.rule.event.SaveProtocolRequiredFieldsEvent;
+import org.kuali.kra.irb.rule.event.UpdateProtocolPersonnelEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 /**
@@ -48,7 +50,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolParticipantRule, AddProtocolLocationRule, SaveProtocolLocationRule, SaveProtocolRequiredFieldsRule, AddProtocolPersonnelRule, SaveProtocolPersonnelRule, AddProtocolFundingSourceRule, PermissionsRule, AddProtocolUnitRule {
+public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolParticipantRule, AddProtocolLocationRule, SaveProtocolLocationRule, SaveProtocolRequiredFieldsRule, AddProtocolPersonnelRule, SaveProtocolPersonnelRule, AddProtocolFundingSourceRule, PermissionsRule, AddProtocolUnitRule, UpdateProtocolPersonnelRule {
     
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -176,5 +178,13 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         
     }
 
+    /**
+     * @see org.kuali.kra.irb.rule.UpdateProtocolPersonnelRule#processUpdateProtocolPersonnelBusinessRules(org.kuali.kra.irb.rule.event.UpdateProtocolPersonnelEvent)
+     */
+    public boolean processUpdateProtocolPersonnelBusinessRules(UpdateProtocolPersonnelEvent updateProtocolPersonnelEvent) {
+
+        return new ProtocolPersonnelRule().processUpdateProtocolPersonnelBusinessRules(updateProtocolPersonnelEvent);
+        
+    }
 
 }

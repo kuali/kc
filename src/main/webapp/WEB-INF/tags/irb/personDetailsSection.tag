@@ -31,31 +31,31 @@
 				<div class="innerTab-container" align="left">
             				<table class=tab cellpadding=0 cellspacing="0" summary=""> 
               				<tbody id="G1">
-                					<tr>
-                  				<th align="left" nowrap="nowrap"> 
+                				<tr>
+                  				<th> 
 								<div align="right">
 									<kul:htmlAttributeLabel attributeEntry="${protocolPersonAttributes.protocolPersonRoleId}" />
 								</div>
-							</th>
+								</th>
                   				<td colspan="3">
               						<kul:htmlControlAttribute property="${protocolPerson}.protocolPersonRoleId" attributeEntry="${protocolPersonAttributes.protocolPersonRoleId}" />
             						<html:image property="methodToCall.updateProtocolPersonView.${protocolPerson}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-updateview.gif" title="Update View" alt="Update View" styleClass="tinybutton"/>
                    				</td>
-                					</tr>              
-                					<tr>
-                  				<th align="left" nowrap="nowrap"> 
+                				</tr>              
+                				<tr>
+                  				<th> 
 								<div align="right">
 									<kul:htmlAttributeLabel attributeEntry="${protocolPersonAttributes.affiliationTypeCode}" />
 								</div>
-							</th>
+								</th>
                   				<td colspan="3">
               						<kul:htmlControlAttribute property="${protocolPerson}.affiliationTypeCode" attributeEntry="${protocolPersonAttributes.affiliationTypeCode}" />
                    				</td>
-                					</tr>
+                				</tr>
 
     							<c:if test="${KualiForm.protocolHelper.personTrainingSectionRequired}">
 	                				<tr>
-	                  					<th align="left" nowrap="nowrap"> 
+	                  					<th> 
 											<div align="right">
 												<kul:htmlAttributeLabel attributeEntry="${protocolPersonAttributes.trained}" />
 											</div>
@@ -65,7 +65,7 @@
 	                   					</td>
 	                				</tr>              
     							</c:if> 
-     							</tbody>
+     						</tbody>
 					</table>
 				</div>
 			</kul:innerTab>
