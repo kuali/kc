@@ -133,4 +133,25 @@
         <property name="protocolAuthorizationService" ref="protocolAuthorizationService" />
     </bean>
 
+	<bean id="protocolLookupable" class="org.kuali.kra.irb.lookup.ProtocolLookupableImpl" scope="prototype">
+  		<property name="lookupableHelperService">
+    		<ref bean="protocolLookupableHelperService" />
+  		</property>  		
+	</bean>	
+
+	<bean id="protocolLookupableHelperService" class="org.kuali.kra.irb.lookup.ProtocolLookupableHelperServiceImpl" 
+ 		scope="prototype" parent="lookupableHelperService">
+      <property name="protocolDao">
+        <ref bean="protocolDao" />
+      </property>
+  	</bean>
+
+    <bean id="protocolDao" parent="platformAwareDao" class="org.kuali.kra.irb.dao.ojb.ProtocolDaoOjb">
+	</bean>	
+	<bean id="protocolProtocolService" class="org.kuali.kra.irb.service.impl.ProtocolProtocolServiceImpl">
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+	</bean>	
+
 </beans>
