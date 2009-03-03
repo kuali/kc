@@ -54,6 +54,7 @@ public class ProtocolPersonRole extends KraPersistableBusinessObjectBase {
 		LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
 		hashMap.put("protocolPersonRoleId", getProtocolPersonRoleId());
 		hashMap.put("description", getDescription());
+        hashMap.put("unitDetailsRequired", isUnitDetailsRequired());
 		return hashMap;
 	}
 
