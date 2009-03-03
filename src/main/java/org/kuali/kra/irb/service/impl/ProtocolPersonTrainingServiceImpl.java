@@ -39,12 +39,19 @@ public class ProtocolPersonTrainingServiceImpl implements ProtocolPersonTraining
      */
     public void isPersonTrained(List<ProtocolPerson> protocolPersons) {
         for(ProtocolPerson protocolPerson : protocolPersons) {
-            if (StringUtils.isNotEmpty(protocolPerson.getPersonId())) {
-                Map<String, Object> matchingKeys = new HashMap<String, Object>();
-                matchingKeys.put(PERSON_ID_FIELD, protocolPerson.getPersonId());
-                Collection<PersonTraining> personTrainings = getBusinessObjectService().findMatching(PersonTraining.class, matchingKeys);
-                protocolPerson.setTrained(personTrainings.size() > 0 ? true : false);
-            }
+            setTrainedFlag(protocolPerson);
+        }
+    }
+    
+    /**
+     * @see org.kuali.kra.irb.service.ProtocolPersonTrainingService#setTrainedFlag(org.kuali.kra.irb.bo.ProtocolPerson)
+     */
+    public void setTrainedFlag(ProtocolPerson protocolPerson) {
+        if (StringUtils.isNotEmpty(protocolPerson.getPersonId())) {
+            Map<String, Object> matchingKeys = new HashMap<String, Object>();
+            matchingKeys.put(PERSON_ID_FIELD, protocolPerson.getPersonId());
+            Collection<PersonTraining> personTrainings = getBusinessObjectService().findMatching(PersonTraining.class, matchingKeys);
+            protocolPerson.setTrained(personTrainings.size() > 0 ? true : false);
         }
     }
     

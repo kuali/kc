@@ -86,6 +86,9 @@
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
+        <property name="protocolPersonTrainingService">
+            <ref bean="protocolPersonTrainingService" />
+        </property>        
 	</bean>	
 
 	<bean id="protocolPersonTrainingService" class="org.kuali.kra.irb.service.impl.ProtocolPersonTrainingServiceImpl">

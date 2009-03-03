@@ -18,11 +18,7 @@
 
 <c:set var="protocolAttributes" value="${DataDictionary.ProtocolDocument.attributes}" />
 <c:set var="protocolPersonAttributes" value="${DataDictionary.ProtocolPerson.attributes}" />
-<c:set var="proposalPersonAttributes" value="${DataDictionary.ProposalPerson.attributes}" />
 <c:set var="personAttributes" value="${DataDictionary.Person.attributes}" />
-<c:set var="readOnly" value="${not KualiForm.personnelHelper.modifyProtocol}" scope="request" />
-
-<jsp:useBean id="newMap" class="java.util.HashMap" scope="request" />
 
 <kul:documentPage
 	showDocumentInfo="true"
@@ -39,12 +35,6 @@
 	<c:set var="viewOnly" value="${not KualiForm.personnelHelper.modifyProtocol}" />
 	<kra-irb:protocolAddPersonnelSection/>
 	<kra-irb:protocolPersons/>
-
-
-
-
-
-
   <c:if test="${not empty viewOnly && ! viewOnly and fn:length(KualiForm.document.protocol.protocolPersons) > 0}">
   	<c:set var="extraButtonSource" value="${ConfigProperties.externalizable.images.url}buttonsmall_deletesel.gif"/>
   	<c:set var="extraButtonProperty" value="methodToCall.deleteProtocolPerson"/>

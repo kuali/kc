@@ -222,14 +222,6 @@ public class ProtocolPerson extends KraPersistableBusinessObjectBase {
     }
     
     /**
-     * This method deletes an existing unit from the collection of person units
-     * @param protocolUnit
-     */
-    public void removeProtocolUnit(ProtocolUnit protocolUnit) {
-        getProtocolUnits().remove(protocolUnit);
-    }
-
-    /**
      * Gets index i from the protocol units list.
      * 
      * @param index
@@ -274,8 +266,14 @@ public class ProtocolPerson extends KraPersistableBusinessObjectBase {
         this.previousPersonRoleId = previousPersonRoleId;
     }
     
+    /**
+     * This method checks whether person is an employee or not
+     * non employee details are updated in rolodex
+     * a value in rolodex indicates that the person is non employee
+     * @return true / false
+     */
     public boolean isNonEmployee() {
-        return rolodex==null;
+        return rolodex != null;
     }
 
     /**
