@@ -15,13 +15,16 @@
  */
 package org.kuali.kra.committee.web.struts.form.schedule;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class Time12HrFmt {
-    
+public class Time12HrFmt implements Serializable {
+
+    private static final long serialVersionUID = -5569353959041715547L;
+
     private String time;
     
     private String meridiem;
