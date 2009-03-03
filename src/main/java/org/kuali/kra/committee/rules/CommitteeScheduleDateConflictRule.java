@@ -16,17 +16,21 @@
 package org.kuali.kra.committee.rules;
 
 import java.sql.Date;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.kuali.core.util.DateUtils;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.rule.AddCommitteeScheduleDateConflictRule;
 import org.kuali.kra.committee.rule.event.AddCommitteeScheduleDateConflictEvent;
-import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 
 public class CommitteeScheduleDateConflictRule extends CommitteeDocumentRule implements AddCommitteeScheduleDateConflictRule {
+    
+    @SuppressWarnings("unused")
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeScheduleDateConflictRule.class);
     
     public static final String id1 = "document.committee.committeeSchedules[";
     public static final String id2 = "].scheduledDate";
@@ -34,39 +38,47 @@ public class CommitteeScheduleDateConflictRule extends CommitteeDocumentRule imp
     public boolean processAddCommitteeScheduleRuleBusinessRules(AddCommitteeScheduleDateConflictEvent addCommitteeScheduleEvent) {
         boolean rulePassed = true;
         
-        List<CommitteeSchedule> committeeSchedules = addCommitteeScheduleEvent.getCommitteeSchedules();
+        List<CommitteeSchedule> committeeSchedules = addCommitteeScheduleEvent.getCommitteeSchedules();   
+        List<Date> conflictDates = new LinkedList<Date>();
         
-        Date scheduleDate = null;
-        Date copyOfScheduleDate = null;
-        int count = 0;
-        StringBuilder sb = null;
-        
-        for(CommitteeSchedule committeeSchedule : committeeSchedules) {
-            scheduleDate = committeeSchedule.getScheduledDate();
-            copyOfScheduleDate = committeeSchedule.getCopyOfScheduleDate();            
-            if(!DateUtils.isSameDay(scheduleDate, copyOfScheduleDate) && isDateConflicting(scheduleDate)) {
-                sb = new StringBuilder();
-                sb.append(id1).append(count).append(id2);
-                reportError(sb.toString(), KeyConstants.ERROR_COMMITTEESCHEDULE_DATE_CONFLICT, scheduleDate.toString());
-                rulePassed = false;
-            }
-            count++;
+        rulePassed = parseUniqueDateSet(committeeSchedules, conflictDates);
+        if(!rulePassed) {
+            identifyPotentialConflicts(committeeSchedules, conflictDates);
         }
-        
         return rulePassed;
     }
     
-    private boolean isDateConflicting(Date scheduleDate) {
-        boolean retVal = false;
-        CommitteeScheduleService service = getCommitteeScheduleService();
-        List<CommitteeSchedule> committeeSchedules = service.getCommitteeSchedules(scheduleDate);
-        if(committeeSchedules.size() != 0)
-            retVal = true;
+    private boolean parseUniqueDateSet(List<CommitteeSchedule> committeeSchedules, List<Date> conflictDates){
+        boolean retVal = true;
+        boolean flag = true;
+        Set<Date> set = new LinkedHashSet<Date>();
+        for(CommitteeSchedule committeeSchedule : committeeSchedules) {
+            flag = true;
+            flag = set.add(committeeSchedule.getScheduledDate());
+            if(!flag)
+                conflictDates.add(committeeSchedule.getScheduledDate());
+        }        
+        if(conflictDates.size() > 0)
+            retVal = false;
         return retVal;
     }
     
-    private CommitteeScheduleService getCommitteeScheduleService() {
-        return KraServiceLocator.getService(CommitteeScheduleService.class);
+    private void identifyPotentialConflicts(List<CommitteeSchedule> committeeSchedules, List<Date> conflictDates) {
+        Date scheduleDate = null;
+        StringBuilder sb = null;
+        int count = 0;
+        for(Date date : conflictDates) {
+            count = 0;
+            for(CommitteeSchedule committeeSchedule : committeeSchedules) {
+                scheduleDate = committeeSchedule.getScheduledDate();
+                if(DateUtils.isSameDay(date, scheduleDate)){
+                    sb = new StringBuilder();
+                    sb.append(id1).append(count).append(id2);
+                    reportError(sb.toString(), KeyConstants.ERROR_COMMITTEESCHEDULE_DATE_CONFLICT, scheduleDate.toString());
+                }
+                count++;
+            }   
+        }
     }
 
 }
