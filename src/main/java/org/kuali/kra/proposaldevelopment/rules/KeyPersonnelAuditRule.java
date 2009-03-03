@@ -25,7 +25,6 @@ import static org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PANEL_ANCHOR;
 import static org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PANEL_NAME;
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
-import static org.kuali.kra.infrastructure.Constants.PROPOSAL_PERSON_KEY;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_LOWBOUND;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_UNITS_UPBOUND;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_YNQ_INCOMPLETE;
@@ -42,6 +41,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.commons.collections.keyvalue.DefaultMapEntry;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.DocumentAuditRule;
 import org.kuali.core.service.KualiConfigurationService;
@@ -82,14 +82,19 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
         // Include normal save document business rules
         retval &= new ProposalDevelopmentKeyPersonsRule().processCustomSaveDocumentBusinessRules(pd);
         
+        boolean hasInvestigator = false;
+        
         for (ProposalPerson person : pd.getProposalPersons()) {
             retval &= validateInvestigator(person);
-        }                    
-        
-        retval &= validateCreditSplit((ProposalDevelopmentDocument) document);
-        
+            if (!hasInvestigator && isInvestigator(person)) {
+                hasInvestigator = true;
+            }
+        }
         retval &= validateYesNoQuestions((ProposalDevelopmentDocument) document);
         
+        if (hasInvestigator) {
+            retval &= validateCreditSplit((ProposalDevelopmentDocument) document);
+        }
         return retval;
 
     }
@@ -104,22 +109,34 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
      */
     private boolean validateYesNoQuestions(ProposalDevelopmentDocument document) {
         boolean retval = true;
+        int count = 0;
+        List<AuditError> errors = getAuditErrors();
+        AuditError error = null;
         
-        for (ProposalPerson investigator : document.getProposalPersons()) {
-            if(investigator.getProposalPersonRoleId().equals(CO_INVESTIGATOR_ROLE) || investigator.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE)){
-                retval = validateYesNoQuestions(investigator);
+        for (ProposalPerson person : document.getProposalPersons()) {
+            if (shouldValidateYesNoQuestions(person) && !validateYesNoQuestions(person)) {
+                retval = false;
+                error = new AuditError("document.proposalPersons["+count+"]", ERROR_YNQ_INCOMPLETE, KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR, new String[]{person.getFullName()});
+                errors.add(error);
             }
-            if(investigator.getProposalPersonRoleId().equals(KEY_PERSON_ROLE) && isNotBlank(investigator.getOptInCertificationStatus()) && investigator.getOptInCertificationStatus().equals("Y")){
-                retval = validateYesNoQuestions(investigator);
-            }
+            count++;
         }
-        
-        if (!retval) {
-            addAuditError(ERROR_YNQ_INCOMPLETE);
-        }
-        
         return retval;
     }
+    
+    private boolean shouldValidateYesNoQuestions(ProposalPerson person) {
+        boolean retval = false;
+        if (person.getProposalPersonRoleId().equals(CO_INVESTIGATOR_ROLE)
+                || person.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE)) {
+            retval = true;
+        }
+        else if (person.getProposalPersonRoleId().equals(KEY_PERSON_ROLE) && isNotBlank(person.getOptInCertificationStatus())
+                && person.getOptInCertificationStatus().equals("Y")) {
+            retval = true;
+        }
+        return retval;
+    }
+    
     
     /**
      * Yes/No questions have to be submitted to Grants.gov on document route. If the submitter has not completed the certifications,
@@ -174,13 +191,13 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
        
        if (person.getUnits().size() < 1) {
            LOG.info("error.investigatorUnits.limit");
-           auditErrors.add(new AuditError(PROPOSAL_PERSON_KEY,ERROR_INVESTIGATOR_UNITS_UPBOUND , KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR));
+           auditErrors.add(new AuditError("document.proposalPerson",ERROR_INVESTIGATOR_UNITS_UPBOUND , KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR));
        }
        
        for (ProposalPersonUnit unit : person.getUnits()) {
            if (isBlank(unit.getUnitNumber())) {
                LOG.trace("error.investigatorUnits.limit");
-               auditErrors.add(new AuditError(PROPOSAL_PERSON_KEY,ERROR_INVESTIGATOR_UNITS_UPBOUND , KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR));
+               auditErrors.add(new AuditError("document.proposalPerson",ERROR_INVESTIGATOR_UNITS_UPBOUND , KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR));
            }
            
            retval &= validateUnit(unit);
@@ -281,44 +298,6 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
         }
         
         return auditErrors;
-    }
-    
-    /**
-     * Delegates to <code>{@link #addAuditError(String, String...)}</code>
-     * 
-     * Convenience method for adding an <code>{@link AuditError}</code> with just a <code>messageKey</code>.<br/>
-     * 
-     * @param messageKey
-     * @see CreditSplitAuditError
-     * @see AuditError
-     * @see GlobalVariables#getAuditErrorMap()
-     * @see #addAuditError(String, String...)
-     */
-    private void addAuditError(String messageKey) {
-        addAuditError(messageKey, null);
-    }
-
-    /**
-     * Convenience method for adding an <code>{@link AuditError}</code> with just a <code>messageKey</code>.<br/>
-     * <br/>
-     * The <code>{@link AuditError}</code> that is added is.<br/>
-     * 
-     * @param messageKey
-     * @see CreditSplitAuditError
-     * @see AuditError
-     * @see GlobalVariables#getAuditErrorMap()
-     */
-    private void addAuditError(String messageKey, String ... params) {
-        AuditError error = new AuditError(PROPOSAL_PERSON_KEY, messageKey, KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR);
-
-        boolean found = false;
-        for (AuditError ae : getAuditErrors()) {
-            found |= ae.getMessageKey().equals(messageKey);
-        }
-        
-        if (!found) {          
-            getAuditErrors().add(error);
-        }
     }
     
     /**
