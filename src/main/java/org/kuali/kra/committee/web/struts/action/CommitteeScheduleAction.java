@@ -108,7 +108,7 @@ public class CommitteeScheduleAction extends CommitteeAction {
         return mapping.findForward(Constants.MAPPING_BASIC );
     } 
     
-    public ActionForward reload(ActionMapping mapping, ActionForm form,
+    public ActionForward loadRecurrence(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         CommitteeForm committeeForm = (CommitteeForm) form;
         //TODO comment it: Changes style class selection, which will trigger selected type of recurrence
