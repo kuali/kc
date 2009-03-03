@@ -43,6 +43,7 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.document.authorization.ProtocolTask;
 import org.kuali.kra.irb.service.ProtocolAuthorizationService;
+import org.kuali.kra.irb.service.ProtocolPersonTrainingService;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.KNSServiceLocator;
@@ -64,6 +65,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     }
 
     public ActionForward personnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        getProtocolPersonTrainingService().isPersonTrained(((ProtocolForm) form).getProtocolDocument().getProtocol().getProtocolPersons());
         return mapping.findForward("personnel");
     }
     
@@ -297,5 +299,12 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         return super.performLookup( mapping,  form,  request, response);
     }
 
+    /**
+     * This method is to get protocol personnel service
+     * @return ProtocolPersonnelService
+     */
+    private ProtocolPersonTrainingService getProtocolPersonTrainingService() {
+        return (ProtocolPersonTrainingService)KraServiceLocator.getService("protocolPersonTrainingService");
+    }
     
 }

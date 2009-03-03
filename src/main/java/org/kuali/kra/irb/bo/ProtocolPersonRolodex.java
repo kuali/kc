@@ -15,8 +15,9 @@
  */
 package org.kuali.kra.irb.bo;
 
+import java.util.LinkedHashMap;
+
 import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.infrastructure.Constants;
 
 /**
  * This class represents Rolodex contact details
@@ -143,4 +144,23 @@ public class ProtocolPersonRolodex extends Rolodex{
         this.fullName = fullName;
     } 
     
+    @Override 
+    protected LinkedHashMap<String,Object> toStringMapper() {
+        LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
+        hashMap.put("userName", getUserName());
+        hashMap.put("officeLocation", getOfficeLocation());
+        hashMap.put("officePhone", getOfficePhone());
+        hashMap.put("secondaryOfficeLocation", getSecondaryOfficeLocation());
+        hashMap.put("school", getSchool());
+        hashMap.put("primaryTitle", getPrimaryTitle());
+        hashMap.put("directoryTitle", getDirectoryTitle());
+        hashMap.put("homeUnit", getHomeUnit());
+        hashMap.put("pagerNumber", getPagerNumber());
+        hashMap.put("mobilePhoneNumber", getMobilePhoneNumber());
+        hashMap.put("eraCommonsUserName", getEraCommonsUserName());
+        hashMap.put("fullName", getFullName());
+        return hashMap;
+    }
+
+
 }

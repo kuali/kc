@@ -24,7 +24,11 @@ import org.kuali.kra.bo.Unit;
 
 public class ProtocolUnit extends KraPersistableBusinessObjectBase { 
 	
-	private Integer protocolUnitsId; 
+	/**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 8187880795930346699L;
+    private Integer protocolUnitsId; 
     private Integer protocolPersonId; 
 	private String protocolNumber; 
 	private Integer sequenceNumber; 
@@ -106,9 +110,10 @@ public class ProtocolUnit extends KraPersistableBusinessObjectBase {
 	}
 
 	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
+	protected LinkedHashMap<String,Object> toStringMapper() {
+	    LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
 		hashMap.put("protocolUnitsId", getProtocolUnitsId());
+        hashMap.put("protocolPersonId", getProtocolPersonId());
 		hashMap.put("protocolNumber", getProtocolNumber());
 		hashMap.put("sequenceNumber", getSequenceNumber());
 		hashMap.put("unitNumber", getUnitNumber());

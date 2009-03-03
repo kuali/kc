@@ -27,6 +27,7 @@ import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolPerson;
 import org.kuali.kra.irb.bo.ProtocolPersonRoleMapping;
 import org.kuali.kra.irb.bo.ProtocolUnit;
+import org.kuali.kra.irb.service.ProtocolPersonTrainingService;
 import org.kuali.kra.irb.service.ProtocolPersonnelService;
 
 
@@ -34,6 +35,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolPersonnelServiceImpl.class);
     private BusinessObjectService businessObjectService;
+    private ProtocolPersonTrainingService protocolPersonTrainingService;
     private static final String REFERENCE_PERSON_ROLE = "protocolPersonRole";
     private static final String REFERENCE_PERSON = "person";
     private static final String REFERENCE_ROLODEX = "rolodex";
@@ -42,6 +44,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     private static final boolean LEAD_UNIT_FLAG_ON = true;
     private static final int PI_CHANGED = 0;
     private static final int COI_CHANGED = 1;
+    private static final int ROLE_UNCHANGED = -1;
     
     
     /**
@@ -60,6 +63,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
             protocolPerson.refreshReferenceObject(REFERENCE_ROLODEX);
         }
         protocolPerson.refreshReferenceObject(REFERENCE_PERSON_ROLE);
+        getProtocolPersonTrainingService().setTrainedFlag(protocolPerson);
         protocol.getProtocolPersons().add(protocolPerson);
     }
 
@@ -84,10 +88,6 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
         newProtocolPersonUnit.setProtocolNumber(protocolPerson.getProtocolNumber());
         newProtocolPersonUnit.setProtocolPersonId(protocolPerson.getProtocolPersonId());
 
-        //TODO - How to handle protocol number and sequence number
-        newProtocolPersonUnit.setProtocolNumber("0");
-        newProtocolPersonUnit.setSequenceNumber(0);
-        
         newProtocolPersonUnit.refreshReferenceObject(REFERENCE_UNIT);
         protocolPerson.addProtocolUnit(newProtocolPersonUnit);
         setLeadUnitFlag(protocolPerson);
@@ -103,7 +103,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     public void deleteProtocolPersonUnit(Protocol protocol, ProtocolPerson protocolPerson, int selectedPersonIndex, int lineNumber) {
         ProtocolPerson selectedPerson =  protocol.getProtocolPerson(selectedPersonIndex);
         ProtocolUnit protocolUnit = selectedPerson.getProtocolUnit(lineNumber);
-        selectedPerson.removeProtocolUnit(protocolUnit);
+        selectedPerson.getProtocolUnits().remove(protocolUnit);
     }
     
     /**
@@ -127,12 +127,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
      * @return true / false
      */
     private boolean isRolePermitted(List<ProtocolPersonRoleMapping> personRoleMappings, ProtocolPerson selectedProtocolPerson) {
-        for(ProtocolPersonRoleMapping personRoleMapping : personRoleMappings) {
-            if(personRoleMapping.getTargetRoleId().equalsIgnoreCase(selectedProtocolPerson.getProtocolPersonRoleId())) {
-                return true;
-            }
-        }
-        return false;
+        return personRoleMappings.contains(selectedProtocolPerson.getProtocolPersonRoleId());
     }
     
     /**
@@ -164,7 +159,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
      * @return int
      */
     private int getPIOrCoIChanged(List<ProtocolPerson> protocolPersons) {
-        int roleChanged = -1;
+        int roleChanged = ROLE_UNCHANGED;
         for(ProtocolPerson protocolPerson : protocolPersons) {
             if(isRoleChangedToNewRole(protocolPerson, getPrincipalInvestigatorRole())) {
                 roleChanged = PI_CHANGED;
@@ -374,6 +369,24 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
      */
     private String getCoInvestigatorRole() {
         return Constants.CO_INVESTIGATOR_ROLE;
+    }
+
+    /**
+     * Gets the protocolPersonTrainingService attribute.
+     * 
+     * @return Returns the protocolPersonTrainingService.
+     */
+    public ProtocolPersonTrainingService getProtocolPersonTrainingService() {
+        return protocolPersonTrainingService;
+    }
+
+    /**
+     * Sets the protocolPersonTrainingService attribute value.
+     * 
+     * @param protocolPersonTrainingService The protocolPersonTrainingService to set.
+     */
+    public void setProtocolPersonTrainingService(ProtocolPersonTrainingService protocolPersonTrainingService) {
+        this.protocolPersonTrainingService = protocolPersonTrainingService;
     }
 
 }
