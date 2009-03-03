@@ -42,6 +42,16 @@ public class CommitteeScheduleAction extends CommitteeAction {
     
     private static final String DELETE_QUESTION_ID = "committeeSchedule.delete.question";
     
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        ActionForward actionForward = super.execute(mapping, form, request, response);
+        
+        ((CommitteeForm)form).getCommitteeScheduleHelper().prepareView();
+        
+        return actionForward;
+    }    
+    
     /**
      * @see org.kuali.kra.committee.web.struts.action.CommitteeAction#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
