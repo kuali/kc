@@ -335,7 +335,8 @@ public interface Constants {
     public static final String ACTIVE_STATUS_LITERAL = "Active";
     public static final String INACTIVE_STATUS_LITERAL = "Inactive";
     public static final String CONFIRM_DELETE_PROTOCOL_USER_KEY = "confirmDeleteProtocolUser";
-    
+    public static final String PROPERTY_PROTOCOL_NUMBER = "protocolNumber";
+
     public static final String VIEW_ONLY = "viewOnly";
 
     // Committee
