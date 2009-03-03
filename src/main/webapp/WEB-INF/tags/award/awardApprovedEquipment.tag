@@ -108,7 +108,7 @@
 	     	</th>
 	     	<th scope="row">
 	     		<div align="center">
-					<html:image property="methodToCall.recalculateApprovedEquipmentItemTotal.anchor${tabKey}" 
+					<html:image property="methodToCall.recalculateSpecialApprovalTotals.anchor${tabKey}" 
 								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' styleClass="tinybutton" />
 				</div>
 			</th>

@@ -33,9 +33,9 @@ import org.kuali.kra.award.bo.AwardSpecialReview;
 import org.kuali.kra.award.bo.AwardSpecialReviewExemption;
 import org.kuali.kra.award.bo.ReportClass;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentSchedule;
 import org.kuali.kra.award.paymentreports.paymentschedule.PaymentScheduleBean;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.ApprovedEquipmentBean;
+import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.ApprovedForeignTravelBean;
 import org.kuali.kra.award.web.struts.action.SponsorTermFormHelper;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
@@ -79,6 +79,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     
     private ReportClass reportClassForPaymentsAndInvoices;
     private PaymentScheduleBean paymentScheduleBean;
+    private ApprovedForeignTravelBean approvedForeignTravelBean;
     
     
     /**
@@ -111,7 +112,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase
         approvedSubawardFormHelper = new ApprovedSubawardFormHelper(this);
         approvedEquipmentBean = new ApprovedEquipmentBean(this);
         paymentScheduleBean = new PaymentScheduleBean(this);
-
+        approvedForeignTravelBean = new ApprovedForeignTravelBean(this);
         //sponsorTermTypes = new ArrayList<KeyLabelPair>();
     }    
     
@@ -140,6 +141,13 @@ public class AwardForm extends KraTransactionalDocumentFormBase
      */
     public ApprovedEquipmentBean getApprovedEquipmentBean() {
         return approvedEquipmentBean;
+    }
+    
+    /**
+     * @return
+     */
+    public ApprovedForeignTravelBean getApprovedForeignTravelBean() {
+        return approvedForeignTravelBean;
     }
     
     /**
