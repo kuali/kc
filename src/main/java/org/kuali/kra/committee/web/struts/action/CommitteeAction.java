@@ -56,13 +56,12 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
     @SuppressWarnings("unused")
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeAction.class);
     
-    //TODO -Kiltesh updated Chris, and waiting on how to make a call to prepareView in specific Action Class.
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
         
-        ((CommitteeForm)form).getCommitteeHelper().prepareView();
+        ((CommitteeForm)form).getCommitteeScheduleHelper().prepareView();
         ((CommitteeForm)form).getMembershipHelper().prepareView();
         
         return actionForward;
@@ -215,6 +214,7 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
      * @return
      */
     public ActionForward committeeSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        //((CommitteeForm)form).getCommitteeScheduleHelper().prepareView();
         return mapping.findForward("committeeSchedule");
     }
 
