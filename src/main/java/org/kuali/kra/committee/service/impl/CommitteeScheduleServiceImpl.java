@@ -70,6 +70,14 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
         this.scheduleService = scheduleService;
     }
     
+    @SuppressWarnings("unchecked")
+    public List<CommitteeSchedule> getCommitteeSchedules(Date scheduleDate) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("scheduledDate", scheduleDate);
+        List<CommitteeSchedule> committeeSchedules = (List<CommitteeSchedule>)businessObjectService.findMatching(CommitteeSchedule.class, fieldValues);
+        return committeeSchedules;
+    }
+    
     public Boolean isCommitteeScheduleDeletable(CommitteeSchedule committeeSchedule){
         boolean retVal = false;
         Date dt = new Date();

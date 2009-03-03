@@ -22,10 +22,12 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.rule.AddCommitteeMembershipRule;
-import org.kuali.kra.committee.rule.AddCommitteeScheduleRule;
+import org.kuali.kra.committee.rule.AddCommitteeScheduleDateConflictRule;
+import org.kuali.kra.committee.rule.AddCommitteeScheduleStartAndEndDateRule;
 import org.kuali.kra.committee.rule.event.AddCommitteeMembershipEvent;
+import org.kuali.kra.committee.rule.event.AddCommitteeScheduleDateConflictEvent;
+import org.kuali.kra.committee.rule.event.AddCommitteeScheduleStartAndEndDateEvent;
 import org.kuali.kra.committee.rule.event.SaveCommitteeMembershipEvent;
-import org.kuali.kra.committee.rule.event.AddCommitteeScheduleEvent;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -41,9 +43,7 @@ import org.kuali.kra.service.UnitService;
  * another class within this package.
  */
 public class CommitteeDocumentRule extends ResearchDocumentRuleBase
-                                   implements AddCommitteeScheduleRule,
-                                              AddCommitteeMembershipRule,
-                                              SaveCommitteeMembershipRule {
+                                   implements AddCommitteeScheduleStartAndEndDateRule, AddCommitteeScheduleDateConflictRule, AddCommitteeMembershipRule, SaveCommitteeMembershipRule {
     
     static private final boolean VALIDATION_REQUIRED = true;
     
@@ -176,11 +176,18 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase
         return new CommitteeMembershipRule().processSaveCommitteeMembershipBusinessRules(saveCommitteeMembershipEvent);
         
     }
-    
+
     /**
-     * @see org.kuali.kra.committee.rule.AddCommitteeScheduleRule#processAddCommitteeScheduleRuleBusinessRules(org.kuali.kra.committee.rule.event.AddCommitteeScheduleEvent)
+     * @see org.kuali.kra.committee.rule.AddCommitteeScheduleStartAndEndDateRule#processAddCommitteeScheduleRuleBusinessRules(org.kuali.kra.committee.rule.event.AddCommitteeScheduleStartAndEndDateEvent)
      */
-    public boolean processAddCommitteeScheduleRuleBusinessRules(AddCommitteeScheduleEvent addCommitteeScheduleEvent) {
-        return new CommitteeScheduleRule().processAddCommitteeScheduleRuleBusinessRules(addCommitteeScheduleEvent);
+    public boolean processAddCommitteeScheduleRuleBusinessRules(AddCommitteeScheduleStartAndEndDateEvent addCommitteeScheduleEvent) {
+        return new CommitteeScheduleStartAndEndDateRule().processAddCommitteeScheduleRuleBusinessRules(addCommitteeScheduleEvent);
+    }
+
+    /**
+     * @see org.kuali.kra.committee.rule.AddCommitteeScheduleDateConflictRule#processAddCommitteeScheduleRuleBusinessRules(org.kuali.kra.committee.rule.event.AddCommitteeScheduleDateConflictEvent)
+     */
+    public boolean processAddCommitteeScheduleRuleBusinessRules(AddCommitteeScheduleDateConflictEvent addCommitteeScheduleEvent) {
+        return new CommitteeScheduleDateConflictRule().processAddCommitteeScheduleRuleBusinessRules(addCommitteeScheduleEvent);
     }
 }

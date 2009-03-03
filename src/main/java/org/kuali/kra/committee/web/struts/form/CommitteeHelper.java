@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.committee.web.struts.form;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.kuali.kra.committee.bo.CommitteeSchedule;
@@ -31,6 +32,7 @@ public class CommitteeHelper {
     
     public void prepareView() {
         prepareCommitteeScheduleDeleteView();
+        prepareCommitteeScheduleDateConflictView();
     }
     
     private void prepareCommitteeScheduleDeleteView(){
@@ -42,6 +44,15 @@ public class CommitteeHelper {
             flag = service.isCommitteeScheduleDeletable(committeeSchedule);
             committeeSchedule.setDelete(flag);
         }    
+    }
+    
+    private void prepareCommitteeScheduleDateConflictView() {
+        List<CommitteeSchedule> committeeSchedules = form.getCommitteeDocument().getCommittee().getCommitteeSchedules();
+        Date dt = null;
+        for(CommitteeSchedule committeeSchedule: committeeSchedules) {
+            dt = committeeSchedule.getScheduledDate();
+            committeeSchedule.setCopyOfScheduleDate(dt);
+        }
     }
     
     private CommitteeScheduleService getCommitteeScheduleService() {
