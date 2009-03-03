@@ -60,8 +60,7 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
-        
-        ((CommitteeForm)form).getCommitteeScheduleHelper().prepareView();
+
         ((CommitteeForm)form).getMembershipHelper().prepareView();
         
         return actionForward;
@@ -214,7 +213,7 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
      * @return
      */
     public ActionForward committeeSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        //((CommitteeForm)form).getCommitteeScheduleHelper().prepareView();
+        ((CommitteeForm)form).getCommitteeScheduleHelper().prepareView();
         return mapping.findForward("committeeSchedule");
     }
 
