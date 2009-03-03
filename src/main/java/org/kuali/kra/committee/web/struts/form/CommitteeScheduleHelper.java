@@ -22,11 +22,11 @@ import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 
-public class CommitteeHelper {
+public class CommitteeScheduleHelper {
     
     private CommitteeForm form;
     
-    public CommitteeHelper(CommitteeForm form) {
+    public CommitteeScheduleHelper(CommitteeForm form) {
         this.form = form;
     }
     
