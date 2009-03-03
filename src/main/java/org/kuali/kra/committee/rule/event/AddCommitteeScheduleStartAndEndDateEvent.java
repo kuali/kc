@@ -15,29 +15,32 @@
  */
 package org.kuali.kra.committee.rule.event;
 
+import java.util.List;
+
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
+import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.CommitteeDocument;
-import org.kuali.kra.committee.rule.AddCommitteeScheduleRule;
+import org.kuali.kra.committee.rule.AddCommitteeScheduleStartAndEndDateRule;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 
-public class AddCommitteeScheduleEvent extends CommitteeScheduleEventBase {
+public class AddCommitteeScheduleStartAndEndDateEvent extends CommitteeScheduleEventBase {
 
-    public AddCommitteeScheduleEvent(String errorPathPrefix, CommitteeDocument document, ScheduleData scheduleData) {
-        super("adding CommitteeSchedule to document " + getDocumentId(document), errorPathPrefix, document, scheduleData);
+    public AddCommitteeScheduleStartAndEndDateEvent(String errorPathPrefix, CommitteeDocument document, ScheduleData scheduleData, List<CommitteeSchedule> committeeSchedules) {
+        super("adding CommitteeSchedule to document " + getDocumentId(document), errorPathPrefix, document, scheduleData, committeeSchedules);
     }
     
-    public AddCommitteeScheduleEvent(String errorPathPrefix, Document document, ScheduleData scheduleData) {
-        this(errorPathPrefix, (CommitteeDocument)document, scheduleData);
+    public AddCommitteeScheduleStartAndEndDateEvent(String errorPathPrefix, Document document, ScheduleData scheduleData, List<CommitteeSchedule> committeeSchedules) {
+        this(errorPathPrefix, (CommitteeDocument)document, scheduleData, committeeSchedules);
     }
 
     @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
-        return AddCommitteeScheduleRule.class;
+        return AddCommitteeScheduleStartAndEndDateRule.class;
     }
 
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((AddCommitteeScheduleRule)rule).processAddCommitteeScheduleRuleBusinessRules(this);
+        return ((AddCommitteeScheduleStartAndEndDateRule)rule).processAddCommitteeScheduleRuleBusinessRules(this);
     }
 
 }

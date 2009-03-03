@@ -49,7 +49,10 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
     
     @Transient
     private Boolean delete = false;
-
+    
+    @Transient
+    private Date copyOfScheduleDate;
+    
     @javax.persistence.Id 
     @Column(name="ID")
     private Long id; 
@@ -297,7 +300,15 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
         this.delete = delete;
     }    
     
-	@SuppressWarnings("unchecked")
+	public Date getCopyOfScheduleDate() {
+        return copyOfScheduleDate;
+    }
+
+    public void setCopyOfScheduleDate(Date copyOfScheduleDate) {
+        this.copyOfScheduleDate = copyOfScheduleDate;
+    }
+
+    @SuppressWarnings("unchecked")
     @Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();

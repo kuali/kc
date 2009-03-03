@@ -15,11 +15,10 @@
  */
 package org.kuali.kra.committee.rule;
 
-import org.kuali.core.rule.BusinessRule;
-import org.kuali.kra.committee.rule.event.AddCommitteeScheduleEvent;
+import org.kuali.kra.committee.rule.event.AddCommitteeScheduleDateConflictEvent;
 
-public interface AddCommitteeScheduleRule extends BusinessRule {
+public interface AddCommitteeScheduleDateConflictRule {
     
-    public boolean processAddCommitteeScheduleRuleBusinessRules(AddCommitteeScheduleEvent addCommitteeScheduleEvent);
+    public boolean processAddCommitteeScheduleRuleBusinessRules(AddCommitteeScheduleDateConflictEvent addCommitteeScheduleEvent);
     
 }

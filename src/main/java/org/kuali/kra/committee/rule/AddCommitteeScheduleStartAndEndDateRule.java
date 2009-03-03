@@ -13,18 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.committee.rule.event;
+package org.kuali.kra.committee.rule;
 
-import java.util.List;
+import org.kuali.core.rule.BusinessRule;
+import org.kuali.kra.committee.rule.event.AddCommitteeScheduleStartAndEndDateEvent;
 
-import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
-
-public interface CommitteeScheduleEvent extends KualiDocumentEvent {
+public interface AddCommitteeScheduleStartAndEndDateRule extends BusinessRule {
     
-    public ScheduleData getScheduleData();
-    
-    public List<CommitteeSchedule> getCommitteeSchedules();
+    public boolean processAddCommitteeScheduleRuleBusinessRules(AddCommitteeScheduleStartAndEndDateEvent addCommitteeScheduleEvent);
     
 }
