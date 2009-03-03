@@ -64,11 +64,16 @@
 	                    <td><kul:htmlControlAttribute attributeEntry="${unitAttributes.unitNumber}" property="${proposalPerson}.unit[${status.index}].unitNumber" readOnly="true"/></td>
 	                    <td>
 	                    	<div align=center>
-	                    	<kra:section permission="modifyProposal">
-	                    	<c:if test="${(currentPerson.proposalPersonRoleId == piRole && aUnit.unitNumber != KualiForm.document.ownedByUnitNumber) || (currentPerson.proposalPersonRoleId != piRole)}">
-	                    		<html:image property="methodToCall.deleteUnit.${proposalPerson}.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Remove Unit" alt="Remove Unit" styleClass="tinybutton" />
-	                    	</c:if>
-	                    	</kra:section>
+		                    	<kra:section permission="modifyProposal">
+			                    	<c:choose>
+			                    		<c:when test="${(currentPerson.proposalPersonRoleId == piRole && aUnit.unitNumber != KualiForm.document.ownedByUnitNumber) || (currentPerson.proposalPersonRoleId != piRole)}">
+			                    			<html:image property="methodToCall.deleteUnit.${proposalPerson}.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Remove Unit" alt="Remove Unit" styleClass="tinybutton" />
+			                    		</c:when>
+			                    		<c:otherwise>
+			                    			&nbsp;
+			                    		</c:otherwise>
+			                    	</c:choose>
+		                    	</kra:section>
 	                    	</div>
 	                    </td>
 	                  </tr>
