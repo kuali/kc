@@ -100,6 +100,15 @@
     							collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="awardId" />
     	</collection-descriptor>
+    	<collection-descriptor name="approvedForeignTravelTrips" proxy="true" 
+    							element-class-ref="org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravel" 
+    							collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+    							auto-retrieve="true" auto-update="object" auto-delete="object">
+			<orderby name="startDate" sort="DESC" />
+			<orderby name="travelerName" sort="ASC" />
+        	<inverse-foreignkey field-ref="awardId" />
+    	</collection-descriptor>
+    	
    		<collection-descriptor name="keywords" element-class-ref="org.kuali.kra.award.bo.AwardScienceKeyword" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="awardId" />
 		</collection-descriptor>
@@ -123,6 +132,23 @@
 		<field-descriptor name="item" column="ITEM" jdbc-type="VARCHAR" nullable="false" />
 		<field-descriptor name="model" column="MODEL" jdbc-type="VARCHAR" nullable="true" />
 		<field-descriptor name="vendor" column="VENDOR" jdbc-type="VARCHAR" nullable="true" />
+		<field-descriptor name="amount" column="AMOUNT" jdbc-type="DECIMAL" nullable="false" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" nullable="false" />
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" nullable="false" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />		 
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravel" table="AWARD_APPROVED_FOREIGN_TRAVEL">
+		<field-descriptor name="approvedForeignTravelId" column="AWARD_APPR_FORN_TRAVEL_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQUENCE_AWARD_ID" />
+		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" access="anonymous" />
+		<field-descriptor name="travelerId" column="TRAVELER_ID" jdbc-type="VARCHAR" nullable="false" />
+		<field-descriptor name="travelerName" column="TRAVELER_NAME" jdbc-type="VARCHAR" nullable="true" />
+		<field-descriptor name="destination" column="DESTINATION" jdbc-type="VARCHAR" nullable="false" />
+		<field-descriptor name="startDate" column="START_DATE" jdbc-type="DATE" nullable="false" />
+		<field-descriptor name="endDate" column="END_DATE" jdbc-type="DATE" nullable="true" />
 		<field-descriptor name="amount" column="AMOUNT" jdbc-type="DECIMAL" nullable="false" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" nullable="false" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" nullable="false" />

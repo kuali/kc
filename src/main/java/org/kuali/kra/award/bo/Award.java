@@ -17,6 +17,7 @@ package org.kuali.kra.award.bo;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -27,6 +28,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentSchedule;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipment;
+import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravel;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.bo.Sponsor;
@@ -110,6 +112,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private List<AwardScienceKeyword> keywords;
     private List<AwardSpecialReview> specialReviews;
     private List<AwardApprovedEquipment> approvedEquipmentItems;
+    private List<AwardApprovedForeignTravel> approvedForeignTravelTrips;
     private List<AwardPaymentSchedule> paymentScheduleItems;
 
     /**
@@ -295,12 +298,33 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
     
     /**
+     * @return
+     */
+    public int getApprovedForeignTravelTripCount() {
+        return approvedForeignTravelTrips.size();
+    }
+    
+    /**
+     * @return
+     */
+    public List<AwardApprovedForeignTravel> getApprovedForeignTravelTrips() {
+        return approvedForeignTravelTrips;
+    }
+    
+    /**
      * 
      */
     public void setApprovedEquipmentItems(List<AwardApprovedEquipment> awardApprovedEquipmentItems) {
        this.approvedEquipmentItems = awardApprovedEquipmentItems;
     }
 
+    /**
+     * 
+     */
+    public void setApprovedForeignTravelTrips(List<AwardApprovedForeignTravel> approvedForeignTravelTrips) {
+       this.approvedForeignTravelTrips = approvedForeignTravelTrips;
+    }
+    
     /**
      *
      * @return
@@ -1156,6 +1180,14 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
     
     /**
+     * This method Approved Foreign Travel trip amounts
+     * @return
+     */
+    public KualiDecimal getTotalApprovedApprovedForeignTravelAmount() {
+        return getTotalAmount(approvedForeignTravelTrips);
+    }
+    
+    /**
      * This method...
      * @return
      */
@@ -1279,6 +1311,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         keywords = new ArrayList<AwardScienceKeyword>();
         specialReviews = new ArrayList<AwardSpecialReview>();
         approvedEquipmentItems = new ArrayList<AwardApprovedEquipment>();
+        approvedForeignTravelTrips = new ArrayList<AwardApprovedForeignTravel>();
         setAwardSponsorTerms(new ArrayList<AwardSponsorTerm>());
         paymentScheduleItems = new ArrayList<AwardPaymentSchedule>();
     }
@@ -1393,6 +1426,15 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public void setSponsor(Sponsor sponsor) {
         this.sponsor = sponsor;
         this.sponsorCode = sponsor != null ? sponsor.getSponsorCode() : null;
+    }
+
+    /**
+     * This method adds an approved foreign travel trip
+     * @param approvedForeignTravelTrip
+     */
+    public void add(AwardApprovedForeignTravel approvedForeignTravelTrip) {
+        approvedForeignTravelTrips.add(approvedForeignTravelTrip);
+        approvedForeignTravelTrip.setAward(this);
     }
 
     /**

@@ -15,28 +15,24 @@
  */
 package org.kuali.kra.award.paymentreports.specialapproval.foreigntravel;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.kra.award.bo.Award;
-import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.SpecialApprovalBean;
 import org.kuali.kra.award.web.struts.form.AwardForm;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.bo.Person;
 
 /**
  * This class supports the AwardForm class
  */
-public class ApprovedForeignTravelBean {
+public class ApprovedForeignTravelBean extends SpecialApprovalBean {
     private AwardApprovedForeignTravel newApprovedForeignTravel;
-    private KualiRuleService ruleService;
-    private AwardForm form;
-    
     /**
      * Constructs a ApprovedEquipmentBean
      * @param parent
      */
     public ApprovedForeignTravelBean(AwardForm form) {
-        this.form = form;
+        super(form);
         init();
     }
     
@@ -45,42 +41,24 @@ public class ApprovedForeignTravelBean {
      * @param formHelper
      * @return
      */
-//    public boolean addApprovedForeignTravel() {
-//        AddAwardApprovedForeignTravelRuleEvent event = generateAddEvent();
-//        boolean success = getRuleService().applyRules(event);
-//        if(success){
-//            getAward().add(getNewApprovedForeignTravel());
-//            init();
-//        }
-//        return success;
-//    }
-
-    /**
-     * This method delets a selected equipment item
-     * @param formHelper
-     * @param deletedItemIndex
-     */
-//    public void deleteApprovedForeignTravelTrip(int deletedItemIndex) {
-//        List<AwardApprovedForeignTravel> items = getAward().getApprovedForeignTravelTrips();
-//        if(deletedItemIndex >= 0 && deletedItemIndex < items.size()) {
-//            items.remove(deletedItemIndex);
-//        }        
-//    }
-
-    /**
-     * @return
-     */
-    public Award getAward() {
-        return form.getAwardDocument().getAward();
+    public boolean addApprovedForeignTravel() {
+        AddAwardApprovedForeignTravelRuleEvent event = generateAddEvent();
+        boolean success = getRuleService().applyRules(event);
+        if(success){
+            getAward().add(getNewApprovedForeignTravel());
+            init();
+        }
+        return success;
     }
 
     /**
-     * @return
+     * This method deletes an approved foreign travel trip
+     * @param deletedTripIndex
      */
-    public AwardDocument getAwardDocument() {
-        return form.getAwardDocument();
+    public void deleteApprovedForeignTravelTrip(int deletedTripIndex) {
+        removeCollectionItem(getAward().getApprovedForeignTravelTrips(), deletedTripIndex);
     }
-    
+
     /**
      * @return
      */
@@ -103,23 +81,28 @@ public class ApprovedForeignTravelBean {
         newApprovedForeignTravel = new AwardApprovedForeignTravel(); 
     }
 
+    public void refreshTravelers() {
+        refreshTraveler(newApprovedForeignTravel);
+        for(AwardApprovedForeignTravel trip: getAward().getApprovedForeignTravelTrips()) {
+            refreshTraveler(trip);
+        }
+    }
+
+    private void refreshTraveler(AwardApprovedForeignTravel trip) {
+        String travelerId = trip.getTravelerId();
+        if(travelerId != null) {
+            Map<String, Object> pkMap = new HashMap<String, Object>();
+            pkMap.put("PERSON_ID", travelerId);
+            trip.setTraveler((Person) getBusinessObjectService().findByPrimaryKey(Person.class, pkMap));
+        }
+    }
+    
     /**
      * Sets the newAwardApprovedForeignTravel attribute value.
      * @param newAwardApprovedForeignTravel The newAwardApprovedForeignTravel to set.
      */
-    public void setNewAwardApprovedEquipment(AwardApprovedForeignTravel newAwardApprovedForeignTravel) {
+    public void setNewAwardApprovedForeignTravel(AwardApprovedForeignTravel newAwardApprovedForeignTravel) {
         this.newApprovedForeignTravel = newAwardApprovedForeignTravel;
-    }
-    
-    protected KualiRuleService getRuleService() {
-        if(ruleService == null) {
-            ruleService = (KualiRuleService) KraServiceLocator.getService("kualiRuleService"); 
-        }
-        return ruleService;
-    }
-    
-    protected void setRuleService(KualiRuleService ruleService) {
-        this.ruleService = ruleService;
     }
     
     AddAwardApprovedForeignTravelRuleEvent generateAddEvent() {        

@@ -135,9 +135,9 @@ public class AwardApprovedEquipmentWebTest extends AwardPaymentsAndTermsWebTest 
     public void testEditingAwardApprovedEquipment_CausesDuplicateError() throws Exception{
         addNewEquipmentItem(ITEM1, VENDOR1, MODEL1, AMOUNT1);
         addNewEquipmentItem(ITEM2, VENDOR1, MODEL1, AMOUNT2);
-        save();
+        saveWithErrorCheck();
         editExistingRow(0, ITEM_FIELD_NAME, ITEM1);
-        save();
+        saveWithoutErrorCheck();
         assertContains(paymentReportsAndTermsPage, UNIQUE_ERROR_MSG);
     }
     
@@ -184,7 +184,7 @@ public class AwardApprovedEquipmentWebTest extends AwardPaymentsAndTermsWebTest 
     public void testDeletingAwardApprovedEquipment_FirstSavedItem() throws Exception{
         addNewEquipmentItem(ITEM1, VENDOR1, MODEL1, AMOUNT1);
         addNewEquipmentItem(ITEM2, VENDOR2, MODEL2, AMOUNT2);
-        save();
+        saveWithErrorCheck();
         deleteRow(1);
         checkForErrorMessages();
     }
@@ -192,9 +192,9 @@ public class AwardApprovedEquipmentWebTest extends AwardPaymentsAndTermsWebTest 
     @Test
     public void testDeletingAwardApprovedEquipment_SavedItem() throws Exception{
         addNewEquipmentItem(ITEM1, VENDOR1, MODEL1, AMOUNT1);
-        save();
+        saveWithErrorCheck();
         deleteRow(0);
-        save();
+        saveWithErrorCheck();
         reload();
         assertDoesNotContain(paymentReportsAndTermsPage, VENDOR1);
     }
@@ -204,8 +204,12 @@ public class AwardApprovedEquipmentWebTest extends AwardPaymentsAndTermsWebTest 
         checkForErrorMessages();
     }
 
-    private void save() throws IOException {
+    private void saveWithoutErrorCheck() throws IOException {
         paymentReportsAndTermsPage = save(paymentReportsAndTermsPage);
+    }
+    
+    private void saveWithErrorCheck() throws IOException {
+        saveWithoutErrorCheck();
         checkForErrorMessages();
     }
     
@@ -229,7 +233,7 @@ public class AwardApprovedEquipmentWebTest extends AwardPaymentsAndTermsWebTest 
     private void checkEditApprovedEquipment_CausesRequiredError(String fieldName, String errorMessageContext) throws IOException {
         addNewEquipmentItem(ITEM1, VENDOR1, MODEL1, AMOUNT1);
         editExistingRow(0, fieldName, EMPTY_STRING);
-        save();
+        saveWithoutErrorCheck();
         assertContains(paymentReportsAndTermsPage, String.format(REQUIRED_FIELD_MSG, errorMessageContext));
     }
     
