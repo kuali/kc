@@ -20,8 +20,10 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.document.ProtocolDocument;
@@ -71,7 +73,7 @@ public class Protocol extends KraPersistableBusinessObjectBase{
     
     private List<ProtocolReference> protocolReferences;
     private List<ProtocolLocation> protocolLocations;
-    
+        
     //Is transient, used for lookup select option in UI by KNS 
     private String newDescription;
     
@@ -87,6 +89,17 @@ public class Protocol extends KraPersistableBusinessObjectBase{
     private String leadUnitNumber;
     private String principalInvestigatorId;
     
+    // lookup field
+    private String personId;
+    private String fundingSource;
+    
+    private String personEmployeeIndicator;
+    private String investigatorEmployeeIndicator;
+    private String performingOrganizationId;
+    private String researchAreaCode;
+    private Integer fundingSourceTypeCode;
+    private String leadUnitName;
+
 
 
     private List<ProtocolPerson> protocolPersons; 
@@ -471,6 +484,12 @@ public class Protocol extends KraPersistableBusinessObjectBase{
     }    
     
     public String getLeadUnitNumber() {
+        // TODO : for lookup 
+        if (StringUtils.isBlank(leadUnitNumber)) {
+            if (getLeadUnit() != null) {
+                setLeadUnitNumber(getLeadUnit().getUnitNumber());
+            }
+        }
         return leadUnitNumber;
     }
 
@@ -479,6 +498,19 @@ public class Protocol extends KraPersistableBusinessObjectBase{
     }
 
     public String getPrincipalInvestigatorId() {       
+        // TODO : for lookup 
+        if (StringUtils.isBlank(principalInvestigatorId)) {
+            if (getPrincipalInvestigator() != null) {
+                ProtocolPerson principalInvestigator = getPrincipalInvestigator();
+                if (StringUtils.isNotBlank(principalInvestigator.getPersonId())) {
+                    setPrincipalInvestigatorId(principalInvestigator.getPersonId());
+                } else {
+                    if (principalInvestigator.getRolodexId() != null) {
+                        setPrincipalInvestigatorId(principalInvestigator.getRolodexId().toString());
+                    }
+                }
+            }
+        }
         return principalInvestigatorId;
     }
 
@@ -541,7 +573,7 @@ public class Protocol extends KraPersistableBusinessObjectBase{
         ProtocolPersonnelService protocolPersonnelService = (ProtocolPersonnelService)KraServiceLocator.getService("protocolPersonnelService");
         return protocolPersonnelService;
     }
-    
+
     public ProtocolUnit getLeadUnitForValidation() {
         return leadUnitForValidation;
     }
@@ -568,4 +600,76 @@ public class Protocol extends KraPersistableBusinessObjectBase{
             fundingSource.init(this);
         }
     }
+
+    public String getResearchAreaCode() {
+        return researchAreaCode;
+    }
+
+    public void setResearchAreaCode(String researchAreaCode) {
+        this.researchAreaCode = researchAreaCode;
+    }
+
+    public String getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(String personId) {
+        this.personId = personId;
+    }
+
+    public String getFundingSource() {
+        return fundingSource;
+    }
+
+    public void setFundingSource(String fundingSource) {
+        this.fundingSource = fundingSource;
+    }
+
+    public String getPersonEmployeeIndicator() {
+        return personEmployeeIndicator;
+    }
+
+    public void setPersonEmployeeIndicator(String personEmployeeIndicator) {
+        this.personEmployeeIndicator = personEmployeeIndicator;
+    }
+
+    public String getInvestigatorEmployeeIndicator() {
+        return investigatorEmployeeIndicator;
+    }
+
+    public void setInvestigatorEmployeeIndicator(String investigatorEmployeeIndicator) {
+        this.investigatorEmployeeIndicator = investigatorEmployeeIndicator;
+    }
+
+    public String getPerformingOrganizationId() {
+        return performingOrganizationId;
+    }
+
+    public void setPerformingOrganizationId(String performingOrganizationId) {
+        this.performingOrganizationId = performingOrganizationId;
+    }
+
+    public Integer getFundingSourceTypeCode() {
+        return fundingSourceTypeCode;
+    }
+
+    public void setFundingSourceTypeCode(Integer fundingSourceTypeCode) {
+        this.fundingSourceTypeCode = fundingSourceTypeCode;
+    }
+
+    public String getLeadUnitName() {
+        // TODO : for lookup 
+        if (StringUtils.isBlank(leadUnitName)) {
+            if (getLeadUnit() != null) {
+                setLeadUnitName(getLeadUnit().getUnitName());
+            }
+        }
+        return leadUnitName;
+    }
+
+    public void setLeadUnitName(String leadUnitName) {
+        this.leadUnitName = leadUnitName;
+    }
+
+
 }

@@ -20,6 +20,7 @@ import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -27,7 +28,6 @@ import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.bo.ProtocolFundingSource;
 import org.kuali.kra.irb.bo.ProtocolLocation;
 import org.kuali.kra.irb.bo.ProtocolParticipant;
 import org.kuali.kra.irb.bo.ProtocolReference;
@@ -41,9 +41,11 @@ import org.kuali.kra.irb.rule.event.SaveProtocolRequiredFieldsEvent;
 import org.kuali.kra.irb.service.ProtocolFundingSourceService;
 import org.kuali.kra.irb.service.ProtocolLocationService;
 import org.kuali.kra.irb.service.ProtocolParticipantService;
+import org.kuali.kra.irb.service.ProtocolProtocolService;
 import org.kuali.kra.irb.service.ProtocolReferenceService;
 import org.kuali.kra.irb.service.ProtocolResearchAreaService;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * The ProtocolProtocolAction corresponds to the Protocol tab (web page).  It is
@@ -73,9 +75,15 @@ public class ProtocolProtocolAction extends ProtocolAction {
             throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
         
+        // Following is for protocol lookup - edit protocol 
+        String commandParam = request.getParameter(KNSConstants.PARAMETER_COMMAND);
+        if (StringUtils.isNotBlank(commandParam) && commandParam.equals("initiate") && StringUtils.isNotBlank(request.getParameter(Constants.PROPERTY_PROTOCOL_NUMBER))) {
+            getProtocolProtocolService().loadProtocolForEdit(((ProtocolForm)form).getProtocolDocument(), request.getParameter(Constants.PROPERTY_PROTOCOL_NUMBER));
+        }
         ((ProtocolForm)form).getProtocolHelper().prepareView();
         ((ProtocolForm)form).getPersonnelHelper().prepareView();
         ((ProtocolForm)form).getPermissionsHelper().prepareView();
+
         
         return actionForward;
     }
@@ -323,4 +331,12 @@ public class ProtocolProtocolAction extends ProtocolAction {
         
         return protocolFundingSourceService;
     }
+    
+    private ProtocolProtocolService getProtocolProtocolService() {
+        
+        return (ProtocolProtocolService) KraServiceLocator.getService("protocolProtocolService");
+        
+    }
+ 
+    
 }
