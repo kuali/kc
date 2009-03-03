@@ -537,6 +537,9 @@
 		<property name="documentService">
 			<ref bean="documentService"/>
 		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService"/>
+		</property>
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService"/>
 		</property>
