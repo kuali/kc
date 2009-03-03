@@ -16,8 +16,6 @@
 package org.kuali.kra.committee.service;
 
 import java.text.ParseException;
-import java.util.Date;
-import java.util.List;
 
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
@@ -25,8 +23,6 @@ import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 
 
 public interface CommitteeScheduleService {
-    
-    public List<CommitteeSchedule> getCommitteeSchedules(Date scheduleDate);
     
     public Boolean isCommitteeScheduleDeletable(CommitteeSchedule committeeSchedule);
     

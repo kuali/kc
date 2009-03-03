@@ -42,6 +42,9 @@ public class CommitteeScheduleAction extends CommitteeAction {
     
     private static final String DELETE_QUESTION_ID = "committeeSchedule.delete.question";
     
+    /**
+     * @see org.kuali.kra.committee.web.struts.action.CommitteeAction#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -80,7 +83,7 @@ public class CommitteeScheduleAction extends CommitteeAction {
             service.addSchedule(committeeForm.getScheduleData(), committeeForm.getCommitteeDocument().getCommittee());
         }        
         //TODO comment it: Changes style class selection, which will trigger selected type of recurrence
-        committeeForm.getScheduleData().populateStyleClass();
+        committeeForm.getScheduleData().populateStyleClass();        
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
 
