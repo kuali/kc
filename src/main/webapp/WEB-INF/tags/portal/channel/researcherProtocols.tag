@@ -17,12 +17,22 @@
 
 <channel:portalChannelTop channelTitle="Protocols" />
 <div class="body">
-  <ul class="chan">
-    <li><portal:portalLink displayTitle="false" title="Create Protocol" url="protocolProtocol.do?methodToCall=docHandler&command=initiate&docTypeName=ProtocolDocument">Create Protocol</portal:portalLink></li>
-    <li>Pending Protocols</li>
-    <li>All My Protocols</li>
-    <li>Pending PI Action</li>
-    <li>Amendments & Renewals</li>
+  <strong>Actions </strong>
+
+      <ul class="chan">
+        <li><portal:portalLink displayTitle="false" title="Create Protocol" url="protocolProtocol.do?methodToCall=docHandler&command=initiate&docTypeName=ProtocolDocument">Create Protocol</portal:portalLink></li>
+        <li>Pending Protocols</li>
+        <li>Protocols Pending PI Action </li>
+        <li>Amend or Renew Protocol </li>
+        <li>Notify IRB on a Protocol</li>
+        <li>Request a Status Change on a Protocol </li>
   </ul>
+  <strong>Lists</strong>
+       <ul class="chan">
+            <li>Protocols Under Development </li>
+            <li>Protocols Pending Committee Action </li>
+            <li>All My Protocols </li>
+            <li><portal:portalLink displayTitle="true" title="Search Protocols" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.irb.bo.Protocol&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+        </ul>  
 </div>
 <channel:portalChannelBottom />
