@@ -93,7 +93,31 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
-    public ActionForward recalculateApprovedEquipmentItemTotal(ActionMapping mapping, ActionForm form, 
+    /**
+     * This method adds a foreign travel trip
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward addApprovedForeignTravel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+                                                                                                                                throws Exception {
+        ((AwardForm) form).getApprovedForeignTravelBean().addApprovedForeignTravel();
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    /**
+     * This method forces recalculation
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward recalculateSpecialApprovalTotals(ActionMapping mapping, ActionForm form, 
                                                     HttpServletRequest request, HttpServletResponse response) 
                                                     throws Exception {
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
@@ -129,28 +153,14 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      * javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @SuppressWarnings("unchecked")
-    public ActionForward refresh(ActionMapping mapping, ActionForm form, 
-            HttpServletRequest request, HttpServletResponse response) throws Exception {        
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {        
         super.refresh(mapping, form, request, response);
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDocument = (AwardDocument) awardForm.getAwardDocument();
-        List<AwardReportTermRecipient> persistableObjects = new ArrayList<AwardReportTermRecipient>();
-        List<String> referenceObjectNames = new ArrayList<String>();
         
-        for(AwardReportTermRecipient awardReportTermRecipient : awardForm.getNewAwardReportTermRecipient()){
-            persistableObjects.add(awardReportTermRecipient);
-            referenceObjectNames.add(ROLODEX);            
-        }
-        for(AwardReportTerm awardReportTerm : awardDocument.getAward().getAwardReportTerms()){
-            for(AwardReportTermRecipient awardReportTermRecipient : awardReportTerm.getAwardReportTermRecipients()){
-                persistableObjects.add(awardReportTermRecipient);
-                referenceObjectNames.add(ROLODEX);
-            }
-        }
+        awardForm.getApprovedForeignTravelBean().refreshTravelers();
         
-        if(persistableObjects.size()>0 && referenceObjectNames.size()>0 ){
-            getPersistenceService().retrieveReferenceObjects(persistableObjects, referenceObjectNames);
-        }
+        refreshAwardReportTermRecipients(awardForm, awardDocument);
         
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
@@ -274,8 +284,15 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
     public ActionForward deleteApprovedEquipmentItem(ActionMapping mapping, ActionForm form, 
                                         HttpServletRequest request, HttpServletResponse response) 
                                                                         throws Exception {
-            (((AwardForm)form).getApprovedEquipmentBean()).deleteApprovedEquipmentItem(getLineToDelete(request));
+            (((AwardForm) form).getApprovedEquipmentBean()).deleteApprovedEquipmentItem(getLineToDelete(request));
             return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    public ActionForward deleteApprovedForeignTravelTrip(ActionMapping mapping, ActionForm form, 
+                                                        HttpServletRequest request, HttpServletResponse response) 
+                                                        throws Exception {
+        (((AwardForm) form).getApprovedForeignTravelBean()).deleteApprovedForeignTravelTrip(getLineToDelete(request));
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
     /**
@@ -593,5 +610,25 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
     
     protected AwardPaymentScheduleGenerationService getAwardPaymentScheduleGenerationService(){
         return KraServiceLocator.getService(AwardPaymentScheduleGenerationService.class);
+    }
+    
+    private void refreshAwardReportTermRecipients(AwardForm awardForm, AwardDocument awardDocument) {
+        List<AwardReportTermRecipient> persistableObjects = new ArrayList<AwardReportTermRecipient>();
+        List<String> referenceObjectNames = new ArrayList<String>();
+        
+        for(AwardReportTermRecipient awardReportTermRecipient : awardForm.getNewAwardReportTermRecipient()){
+            persistableObjects.add(awardReportTermRecipient);
+            referenceObjectNames.add(ROLODEX);            
+        }
+        for(AwardReportTerm awardReportTerm : awardDocument.getAward().getAwardReportTerms()){
+            for(AwardReportTermRecipient awardReportTermRecipient : awardReportTerm.getAwardReportTermRecipients()){
+                persistableObjects.add(awardReportTermRecipient);
+                referenceObjectNames.add(ROLODEX);
+            }
+        }
+        
+        if(persistableObjects.size()>0 && referenceObjectNames.size()>0 ){
+            getPersistenceService().retrieveReferenceObjects(persistableObjects, referenceObjectNames);
+        }
     }
 }

@@ -44,6 +44,10 @@ import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.Awar
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentRuleEvent;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentRuleImpl;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.EquipmentCapitalizationMinimumLoader;
+import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AddAwardApprovedForeignTravelRuleEvent;
+import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRule;
+import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRuleEvent;
+import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRuleImpl;
 import org.kuali.kra.award.rule.AddAwardReportTermRecipientRule;
 import org.kuali.kra.award.rule.AddAwardReportTermRule;
 import org.kuali.kra.award.rule.AddFandaRateRule;
@@ -67,7 +71,11 @@ import org.kuali.kra.rules.SpecialReviewRulesImpl;
  * Responsible for delegating rules to independent rule classes.
  *
  */
-public class AwardDocumentRule extends ResearchDocumentRuleBase implements AwardPaymentScheduleRule, AwardApprovedEquipmentRule, AddFandaRateRule,SpecialReviewRule<AwardSpecialReview>,AddAwardReportTermRule, AddAwardReportTermRecipientRule {
+public class AwardDocumentRule extends ResearchDocumentRuleBase implements AwardPaymentScheduleRule, AwardApprovedEquipmentRule, 
+                                                                            AwardApprovedForeignTravelRule, 
+                                                                            AddFandaRateRule,SpecialReviewRule<AwardSpecialReview>,
+                                                                            AddAwardReportTermRule, 
+                                                                            AddAwardReportTermRecipientRule {
     
     public static final String DOCUMENT_ERROR_PATH = "document";
     public static final String AWARD_ERROR_PATH = "awardList[0]";
@@ -87,6 +95,20 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      */
     public boolean processAddAwardApprovedEquipmentBusinessRules(AddAwardApprovedEquipmentRuleEvent event) {
         return processAddApprovedEquipmentBusinessRules(GlobalVariables.getErrorMap(), event);
+    }
+    
+    /**
+     * @see org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRule#processAddAwardApprovedForeignTravelBusinessRules(org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AddAwardApprovedForeignTravelRuleEvent)
+     */
+    public boolean processAddAwardApprovedForeignTravelBusinessRules(AddAwardApprovedForeignTravelRuleEvent event) {
+        return processAddApprovedForeignTravelBusinessRules(GlobalVariables.getErrorMap(), event);
+    }
+    
+    /**
+     * @see org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRule#processAwardApprovedForeignTravelBusinessRules(org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRuleEvent)
+     */
+        public boolean processAwardApprovedForeignTravelBusinessRules(AwardApprovedForeignTravelRuleEvent event) {
+            return processApprovedForeignTravelBusinessRules(GlobalVariables.getErrorMap(), event.getAwardDocument());
     }
     
     /**
@@ -141,6 +163,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         retval &= processBenefitsRatesBusinessRules(document);
         retval &= processApprovedSubawardBusinessRules(document);
         retval &= processApprovedEquipmentBusinessRules(errorMap, awardDocument);
+        retval &= processApprovedForeignTravelBusinessRules(errorMap, awardDocument);
         retval &= processAwardReportTermBusinessRules(document);
         retval &= processSponsorTermBusinessRules(document);
 
@@ -572,4 +595,36 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         SpecialReviewRulesImpl ruleImpl = new SpecialReviewRulesImpl();
         return ruleImpl.processAddSpecialReviewEvent(addSpecialReviewEvent);
     }
+    
+    private boolean processApprovedForeignTravelBusinessRules(ErrorMap errorMap, AwardDocument awardDocument) {
+        boolean success = true;
+        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+        errorMap.addToErrorPath(AWARD_ERROR_PATH);
+        Award award = awardDocument.getAward();
+        AwardApprovedForeignTravelRule rule = new AwardApprovedForeignTravelRuleImpl();
+        int count = award.getApprovedForeignTravelTrips().size();
+        for (int i = 0; i < count; i++) {
+            String errorPath = String.format("approvedForeignTravelTrips[%d]", i);
+            errorMap.addToErrorPath(errorPath);
+            String errorKey = "document.awardList[0]." + errorPath;
+            AwardApprovedForeignTravelRuleEvent event = new AwardApprovedForeignTravelRuleEvent(errorKey, awardDocument, awardDocument.getAward(),
+                                                                                        award.getApprovedForeignTravelTrips().get(i));
+            success &= rule.processAwardApprovedForeignTravelBusinessRules(event);
+            errorMap.removeFromErrorPath(errorPath);
+        }
+        errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
+        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
+        
+        return success;
+    }
+
+    private boolean processAddApprovedForeignTravelBusinessRules(ErrorMap errorMap, AddAwardApprovedForeignTravelRuleEvent event) {
+        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+        errorMap.addToErrorPath(AWARD_ERROR_PATH);
+        boolean success = new AwardApprovedForeignTravelRuleImpl().processAddAwardApprovedForeignTravelBusinessRules(event);
+        errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
+        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
+        
+        return success;
+}
 }

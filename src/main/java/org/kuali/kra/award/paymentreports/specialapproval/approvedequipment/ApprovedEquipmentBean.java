@@ -15,23 +15,15 @@
  */
 package org.kuali.kra.award.paymentreports.specialapproval.approvedequipment;
 
-import java.util.List;
 
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.kra.award.bo.Award;
-import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.web.struts.form.AwardForm;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 
 /**
  * This class supports the AwardForm class
  */
-public class ApprovedEquipmentBean {
+public class ApprovedEquipmentBean extends SpecialApprovalBean {
     private EquipmentCapitalizationMinimumLoader capitalizationMinimumLoader;
     private AwardApprovedEquipment newAwardApprovedEquipment;
-    private KualiRuleService ruleService;
-    private AwardForm form;
-    
     /**
      * Constructs a ApprovedEquipmentBean
      * @param parent
@@ -45,7 +37,7 @@ public class ApprovedEquipmentBean {
      * @param parent
      */
     ApprovedEquipmentBean(AwardForm form, EquipmentCapitalizationMinimumLoader capitalizationMinimumLoader) {
-        this.form = form;
+        super(form);
         this.capitalizationMinimumLoader = capitalizationMinimumLoader;
         init();
     }
@@ -71,24 +63,7 @@ public class ApprovedEquipmentBean {
      * @param deletedItemIndex
      */
     public void deleteApprovedEquipmentItem(int deletedItemIndex) {
-        List<AwardApprovedEquipment> items = getAward().getApprovedEquipmentItems();
-        if(deletedItemIndex >= 0 && deletedItemIndex < items.size()) {
-            items.remove(deletedItemIndex);
-        }        
-    }
-
-    /**
-     * @return
-     */
-    public Award getAward() {
-        return form.getAwardDocument().getAward();
-    }
-
-    /**
-     * @return
-     */
-    public AwardDocument getAwardDocument() {
-        return form.getAwardDocument();
+        removeCollectionItem(getAward().getApprovedEquipmentItems(), deletedItemIndex);
     }
     
     /**
@@ -105,18 +80,6 @@ public class ApprovedEquipmentBean {
     public AwardApprovedEquipment getNewAwardApprovedEquipment() {
         return newAwardApprovedEquipment;
     }
-    
-    protected KualiRuleService getRuleService() {
-        if(ruleService == null) {
-            ruleService = (KualiRuleService) KraServiceLocator.getService("kualiRuleService"); 
-        }
-        return ruleService;
-    }
-    
-    protected void setRuleService(KualiRuleService ruleService) {
-        this.ruleService = ruleService;
-    }
-    
 
     /**
      * Sets the newAwardApprovedEquipment attribute value.
@@ -139,7 +102,7 @@ public class ApprovedEquipmentBean {
                                                             capitalizationMinimumLoader.getMinimumCapitalization());
         return event;
     }
-    
+
     /**
      * Initialize subform
      */

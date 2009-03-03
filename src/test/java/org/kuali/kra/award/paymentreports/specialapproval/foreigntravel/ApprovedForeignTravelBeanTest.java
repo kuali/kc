@@ -13,16 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.award.paymentreports.specialapproval.approvedequipment;
+package org.kuali.kra.award.paymentreports.specialapproval.foreigntravel;
+
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.kra.award.bo.Award;
+import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.SpecialApprovalBean;
 
 /**
  * This test class will not be executable until we fix the Rice code where 
@@ -31,18 +34,18 @@ import org.kuali.kra.award.bo.Award;
  * 
  */     
 //@RunWith(JMock.class)
-public class ApprovedEquipmentBeanTest {
-    private static final String MODEL_NAME = "Model";
-    private static final String VENDOR_NAME = "Vendor";
-    private static final String ITEM_NAME = "Item";
-    private static final double INSTITUTION_MINIMUM_AMOUNT = 50.00;
-    private static final double FEDERAL_MINIMUM_AMOUNT = 100.00;
+public class ApprovedForeignTravelBeanTest {
+    private static final String TRAVELER_NAME = "Joe Smith";
+    private static final String DESTINATION_NAME = "Tokyo, Japan";
+    private static final Date START_DATE = new Date(new GregorianCalendar(2009, Calendar.JUNE, 1).getTimeInMillis());
+    private static final Date END_DATE = new Date(new GregorianCalendar(2009, Calendar.JUNE, 10).getTimeInMillis());
+    private static final String TRIP_AMOUNT = "Amount";
     
     private Mockery context;
     private KualiRuleService ruleService;
     private Award award;
     private SpecialApprovalBean bean;
-    private AwardApprovedEquipment equipmentItem;
+    private AwardApprovedForeignTravel foreignTravelTrip;
    
     @Test
     public void testDummy() {
@@ -114,11 +117,11 @@ public class ApprovedEquipmentBeanTest {
 //        Assert.assertFalse(award.getApprovedEquipmentItems().contains(originalList.get(0)));
 //    }
     
-    private void checkAddingEquipmentItem(ApprovedEquipmentBean bean, AwardApprovedEquipment item, boolean expectedOutcome) {
-        bean.setNewAwardApprovedEquipment(item);
+    private void checkAddingEquipmentItem(ApprovedForeignTravelBean bean, AwardApprovedForeignTravel item, boolean expectedOutcome) {
+        bean.setNewAwardApprovedForeignTravel(item);
         bean.setRuleService(ruleService);
         setExpectation(ruleService, bean.generateAddEvent(), expectedOutcome);
-        bean.addApprovedEquipmentItem();
+        bean.addApprovedForeignTravel();
         context.assertIsSatisfied();
     }
     
@@ -131,22 +134,5 @@ public class ApprovedEquipmentBeanTest {
             one(ruleService).applyRules(event); 
             will(returnValue(outcome));
             }});
-    }
-    
-    private EquipmentCapitalizationMinimumLoader getCapitalizationMinimumLoader() {
-        EquipmentCapitalizationMinimumLoader loader = new EquipmentCapitalizationMinimumLoader() {
-
-            @Override
-            protected double getFederalCapitalizationMinimum() {
-                return FEDERAL_MINIMUM_AMOUNT;
-            }
-
-            @Override
-            protected double getInstitutionCapitalizationMinimum() {
-                return INSTITUTION_MINIMUM_AMOUNT;
-            }
-            
-        };
-        return loader;
     }
 }
