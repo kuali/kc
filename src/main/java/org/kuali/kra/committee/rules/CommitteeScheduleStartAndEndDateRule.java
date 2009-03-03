@@ -17,13 +17,13 @@ package org.kuali.kra.committee.rules;
 
 import java.sql.Date;
 
-import org.kuali.kra.committee.rule.AddCommitteeScheduleRule;
-import org.kuali.kra.committee.rule.event.AddCommitteeScheduleEvent;
+import org.kuali.kra.committee.rule.AddCommitteeScheduleStartAndEndDateRule;
+import org.kuali.kra.committee.rule.event.AddCommitteeScheduleStartAndEndDateEvent;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.committee.web.struts.form.schedule.StyleKey;
 import org.kuali.kra.infrastructure.KeyConstants;
 
-public class CommitteeScheduleRule extends CommitteeDocumentRule implements AddCommitteeScheduleRule {
+public class CommitteeScheduleStartAndEndDateRule extends CommitteeDocumentRule implements AddCommitteeScheduleStartAndEndDateRule {
     
     private enum constants {scheduleData, dailySchedule, weeklySchedule, monthlySchedule, yearlySchedule, scheduleEndDate, scheduleStartDate, Date};
     
@@ -35,7 +35,7 @@ public class CommitteeScheduleRule extends CommitteeDocumentRule implements AddC
     
     public static final String BLANK = "";
     
-    public boolean processAddCommitteeScheduleRuleBusinessRules(AddCommitteeScheduleEvent addCommitteeScheduleEvent) {
+    public boolean processAddCommitteeScheduleRuleBusinessRules(AddCommitteeScheduleStartAndEndDateEvent addCommitteeScheduleEvent) {
         
         StringBuilder endDateId = new StringBuilder();
         StringBuilder startDateId = new StringBuilder();
