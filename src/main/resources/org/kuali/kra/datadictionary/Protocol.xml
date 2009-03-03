@@ -30,7 +30,7 @@
 		<property name="lookupDefinition" >
 			<ref bean="Protocol-lookupDefinition" />
 		</property>
-		<property name="titleAttribute" value="protocolId" />
+		<property name="titleAttribute" value="protocolNumber" />
 
 		<property name="attributes" >
 			<list>
@@ -40,6 +40,7 @@
 				<ref bean="Protocol-protocolTypeCode" />
 				<ref bean="Protocol-protocolStatusCode" />
 				<ref bean="Protocol-leadUnitNumber" />
+				<ref bean="Protocol-leadUnitName" />
 				<ref bean="Protocol-principalInvestigatorId" />
 				<ref bean="Protocol-title" />
 				<ref bean="Protocol-description" />
@@ -59,8 +60,35 @@
 				<ref bean="Protocol-referenceIndicator" />
 				<ref bean="Protocol-relatedProjectsIndicator" />
 				<ref bean="Protocol-versionNumber" />
+				<ref bean="Protocol-personEmployeeIndicator" />
+				<ref bean="Protocol-investigatorEmployeeIndicator" />
+				<ref bean="Protocol-fundingSourceTypeCode" />
+				<ref bean="Protocol-personId" />
+				<ref bean="Protocol-researchAreaCode" />
+				<ref bean="Protocol-performingOrganizationId" />
+				<ref bean="Protocol-fundingSource" />
+				
 			</list>
 		</property>
+		
+		
+		<!--  
+    <property name="relationships" >
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="researchArea" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="researchAreaCode"
+                    p:targetName="researchAreaCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+		-->
+		
 	</bean>
 
 	<!-- Attribute Definitions -->
@@ -82,6 +110,24 @@
 		<property name="summary" value="Protocol Id" />
 		<property name="description" value="Protocol Id" />
 	</bean>
+
+  <bean id="Protocol-researchAreaCode" parent="Protocol-researchAreaCode-parentBean" />
+  <bean id="Protocol-researchAreaCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="researchAreaCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Research Area" />
+    <property name="shortLabel" value="Research Area" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
+    <property name="summary" value="Research Areae" />
+    <property name="description" value="Research Area" />
+  </bean>
 
 	<bean id="Protocol-protocolNumber" parent="Protocol-protocolNumber-parentBean" />
 	<bean id="Protocol-protocolNumber-parentBean" abstract="true" parent="AttributeDefinition" >
@@ -472,7 +518,145 @@
 	<bean id="Protocol-versionNumber" parent="Protocol-versionNumber-parentBean" />
 	<bean id="Protocol-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
 	</bean>
+	<bean id="Protocol-leadUnitName" parent="Protocol-leadUnitName-parentBean" />
+	<bean id="Protocol-leadUnitName-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="leadUnitName" />
+		<property name="required" value="true" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Lead Unit Name" />
+		<property name="shortLabel" value="Lead Unit Name" />
+        <property name="maxLength" value="60" />
+        <property name="validationPattern" >
+           <bean parent="AnyCharacterValidationPattern"
+                 p:allowWhitespace="true" />
+        </property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Lead Unit Name" />
+		<property name="description" value="The protocol's fixed home unit that will be used for routing and business rule purposes." />
+	</bean>
 
+    <!-- lookup fields -->
+    
+      <bean id="Protocol-personEmployeeIndicator" parent="Protocol-personEmployeeIndicator-parentBean" />
+
+  <bean id="Protocol-personEmployeeIndicator-parentBean"  abstract="true" parent="AttributeDefinition">
+    <property name="name" value="personEmployeeIndicator" />
+    <property name="label" value="Is Person Employee?" />
+    <property name="shortLabel" value="Is Person Employee?" />
+    <property name="forceUppercase" value="false" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Is Person Employee?" />
+    <property name="description" value="Is Person Employee?" />
+  </bean>
+
+  <bean id="Protocol-investigatorEmployeeIndicator" parent="Protocol-investigatorEmployeeIndicator-parentBean" />
+
+  <bean id="Protocol-investigatorEmployeeIndicator-parentBean"  abstract="true" parent="AttributeDefinition">
+    <property name="name" value="investigatorEmployeeIndicator" />
+    <property name="label" value="Is Investigator Employee ?" />
+    <property name="shortLabel" value="Is Investigator Employee ?" />
+    <property name="forceUppercase" value="false" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Is Investigator Employee" />
+    <property name="description" value="Is Investigator Employee" />
+  </bean>
+
+ 	<bean id="Protocol-fundingSourceTypeCode" parent="Protocol-fundingSourceTypeCode-parentBean" />
+	<bean id="Protocol-fundingSourceTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="fundingSourceTypeCode" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Funding Type" />
+		<property name="shortLabel" value="Funding Type" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+        <property name="required" value="true" />
+		<property name="control" >
+		<!-- "  -->
+            <bean parent="SelectControlDefinition"
+                p:businessObjectClass="org.kuali.kra.bo.FundingSourceType"
+                p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+                p:includeKeyInLabel="false"
+                p:keyAttribute="fundingSourceTypeCode"
+                p:labelAttribute="description" />
+        </property>
+		<property name="summary" value="Funding Source Type Code" />
+		<property name="description" value="Funding Source Type Code" />
+	</bean>
+
+
+	<bean id="Protocol-fundingSource" parent="Protocol-fundingSource-parentBean" />
+	<bean id="Protocol-fundingSource-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="fundingSource" />
+		<property name="required" value="true" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Funding Source" />
+		<property name="shortLabel" value="Funding Source" />
+		<property name="maxLength" value="8" />
+		<property name="validationPattern" >
+			<bean parent="AnyCharacterValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="8" />
+		</property>
+		<property name="summary" value="Funding Source" />
+		<property name="description" value="The protocol's fixed home unit that will be used for routing and business rule purposes." />
+	</bean>
+	
+ 	<bean id="Protocol-performingOrganizationId" parent="Protocol-performingOrganizationId-parentBean" />
+	<bean id="Protocol-performingOrganizationId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="performingOrganizationId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Performing Organization" />
+		<property name="shortLabel" value="Org Id" />
+		<property name="maxLength" value="8" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="required" value="true" />
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Performing Organization Id" />
+		<property name="description" value="Performing Organization Id" />
+	</bean>
+    
+ 	<bean id="Protocol-personId" parent="Protocol-personId-parentBean" />
+	<bean id="Protocol-personId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="personId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Person" />
+		<property name="shortLabel" value="Person" />
+		<property name="maxLength" value="9" />
+		<property name="validationPattern" >
+      		<bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="9" />
+		</property>
+		<property name="summary" value="Person" />
+		<property name="description" value="Person" />
+	</bean>
+
+    
 	<!-- Business Object Inquiry Definition -->
 	<bean id="Protocol-inquiryDefinition" parent="Protocol-inquiryDefinition-parentBean" />
 	<bean id="Protocol-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
@@ -490,9 +674,9 @@
 							<bean parent="FieldDefinition"
 								p:attributeName="protocolNumber" />
 							<bean parent="FieldDefinition"
-								p:attributeName="sequenceNumber" />
-							<bean parent="FieldDefinition"
 								p:attributeName="protocolTypeCode" />
+							<bean parent="FieldDefinition"
+								p:attributeName="referenceNumber1" />
 							<bean parent="FieldDefinition"
 								p:attributeName="protocolStatusCode" />
 							<bean parent="FieldDefinition"
@@ -508,9 +692,9 @@
 							<bean parent="FieldDefinition"
 								p:attributeName="lastApprovalDate" />
 							<bean parent="FieldDefinition"
-								p:attributeName="fdaApplicationNumber" />
+								p:attributeName="sequenceNumber" />
 							<bean parent="FieldDefinition"
-								p:attributeName="referenceNumber1" />
+								p:attributeName="fdaApplicationNumber" />
 							<bean parent="FieldDefinition"
 								p:attributeName="referenceNumber2" />
 							<bean parent="FieldDefinition"
@@ -540,6 +724,7 @@
 	<bean id="Protocol-lookupDefinition" parent="Protocol-lookupDefinition-parentBean" />
 	<bean id="Protocol-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Protocol Lookup" />
+        <property name="lookupableID" value="protocolLookupable" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 		<property name="instructions" value="Look up a Protocol" />
 		<property name="defaultSort" >
@@ -548,17 +733,18 @@
 		</property>
 		<property name="lookupFields" >
 			<list>
-				<bean parent="FieldDefinition"
+				<!-- <bean parent="FieldDefinition"
 					p:attributeName="protocolId" 
-					p:forceInquiry="true" />
+					p:forceInquiry="true" /> -->
 				<bean parent="FieldDefinition"
-					p:attributeName="protocolNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="sequenceNumber" />
+					p:attributeName="protocolNumber"
+					p:forceInquiry="true"  />
 				<bean parent="FieldDefinition"
 					p:attributeName="protocolTypeCode" />
 				<bean parent="FieldDefinition"
 					p:attributeName="protocolStatusCode" />
+				<bean parent="FieldDefinition"
+					p:attributeName="referenceNumber1" />
 				<bean parent="FieldDefinition"
 					p:attributeName="title" />
 				<bean parent="FieldDefinition"
@@ -566,15 +752,31 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="applicationDate" />
 				<bean parent="FieldDefinition"
-					p:attributeName="approvalDate" />
-				<bean parent="FieldDefinition"
 					p:attributeName="expirationDate" />
+			    <bean parent="FieldDefinition"
+					p:attributeName="approvalDate" />				
 				<bean parent="FieldDefinition"
 					p:attributeName="lastApprovalDate" />
 				<bean parent="FieldDefinition"
-					p:attributeName="fdaApplicationNumber" />
+					p:attributeName="investigatorEmployeeIndicator" />					
 				<bean parent="FieldDefinition"
-					p:attributeName="referenceNumber1" />
+					p:attributeName="principalInvestigatorId" />
+				<bean parent="FieldDefinition"
+					p:attributeName="personEmployeeIndicator" />					
+				<bean parent="FieldDefinition"
+					p:attributeName="personId"/>
+				<bean parent="FieldDefinition"
+					p:attributeName="researchAreaCode" />					
+				<bean parent="FieldDefinition"
+					p:attributeName="fundingSourceTypeCode" />					
+				<bean parent="FieldDefinition"
+					p:attributeName="fundingSource" />
+				<bean parent="FieldDefinition"
+					p:attributeName="performingOrganizationId" />
+				<!-- bean parent="FieldDefinition"
+					p:attributeName="sequenceNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="fdaApplicationNumber" />
 				<bean parent="FieldDefinition"
 					p:attributeName="referenceNumber2" />
 				<bean parent="FieldDefinition"
@@ -592,22 +794,22 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="referenceIndicator" />
 				<bean parent="FieldDefinition"
-					p:attributeName="relatedProjectsIndicator" />
+					p:attributeName="relatedProjectsIndicator" /-->
 			</list>
 		</property>
 		<property name="resultFields" >
 			<list>
 				<bean parent="FieldDefinition"
-					p:attributeName="protocolId" 
+					p:attributeName="protocolNumber"
 					p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
-					p:attributeName="protocolNumber" />
 				<bean parent="FieldDefinition"
 					p:attributeName="sequenceNumber" />
 				<bean parent="FieldDefinition"
-					p:attributeName="protocolTypeCode" />
+					p:attributeName="protocolTypeCode"
+					p:forceInquiry="true"/>
 				<bean parent="FieldDefinition"
-					p:attributeName="protocolStatusCode" />
+					p:attributeName="protocolStatusCode"
+		            p:forceInquiry="true"/>
 				<bean parent="FieldDefinition"
 					p:attributeName="title" />
 				<bean parent="FieldDefinition"
@@ -615,11 +817,20 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="applicationDate" />
 				<bean parent="FieldDefinition"
-					p:attributeName="approvalDate" />
-				<bean parent="FieldDefinition"
 					p:attributeName="expirationDate" />
 				<bean parent="FieldDefinition"
 					p:attributeName="lastApprovalDate" />
+				<bean parent="FieldDefinition"
+					p:attributeName="principalInvestigatorId" />
+				<bean parent="FieldDefinition"
+					p:attributeName="leadUnitNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="leadUnitName" />
+					
+				<!-- <bean parent="FieldDefinition"
+					p:attributeName="approvalDate" />
+				<bean parent="FieldDefinition"
+					p:attributeName="expirationDate" />
 				<bean parent="FieldDefinition"
 					p:attributeName="fdaApplicationNumber" />
 				<bean parent="FieldDefinition"
@@ -641,7 +852,7 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="referenceIndicator" />
 				<bean parent="FieldDefinition"
-					p:attributeName="relatedProjectsIndicator" />
+					p:attributeName="relatedProjectsIndicator" /> -->
 			</list>
 		</property>
 	</bean>
