@@ -110,14 +110,13 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
     private boolean validateYesNoQuestions(ProposalDevelopmentDocument document) {
         boolean retval = true;
         int count = 0;
-        List<AuditError> errors = getAuditErrors();
         AuditError error = null;
         
         for (ProposalPerson person : document.getProposalPersons()) {
             if (shouldValidateYesNoQuestions(person) && !validateYesNoQuestions(person)) {
                 retval = false;
                 error = new AuditError("document.proposalPersons["+count+"]", ERROR_YNQ_INCOMPLETE, KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR, new String[]{person.getFullName()});
-                errors.add(error);
+                getAuditErrors().add(error);
             }
             count++;
         }
