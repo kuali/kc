@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.committee.web.struts.action;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,7 +24,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.question.ConfirmationQuestion;
-import org.kuali.kra.committee.rule.event.AddCommitteeScheduleEvent;
+import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.committee.rule.event.AddCommitteeScheduleDateConflictEvent;
+import org.kuali.kra.committee.rule.event.AddCommitteeScheduleStartAndEndDateEvent;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.infrastructure.Constants;
@@ -49,12 +53,30 @@ public class CommitteeScheduleAction extends CommitteeAction {
         return actionForward;
     }*/
     
+    /**
+     * @see org.kuali.kra.committee.web.struts.action.CommitteeAction#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {    
+        
+        ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
+        
+        CommitteeForm committeeForm = (CommitteeForm) form;
+        List<CommitteeSchedule> committeeSchedules = committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules();
+        
+        if(applyRules(new AddCommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules))){
+            actionForward = super.save(mapping, form, request, response);
+        }
+        
+        return actionForward;
+    }    
+    
     public ActionForward addEvent(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         CommitteeForm committeeForm = (CommitteeForm) form;
         committeeForm.getScheduleData().printf();
-        if(applyRules(new AddCommitteeScheduleEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), committeeForm.getScheduleData()))){
+        if(applyRules(new AddCommitteeScheduleStartAndEndDateEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), committeeForm.getScheduleData(), null))){
             CommitteeScheduleService service  = getCommitteeScheduleService();
             service.addSchedule(committeeForm.getScheduleData(), committeeForm.getCommitteeDocument().getCommittee());
         }        

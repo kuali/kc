@@ -15,7 +15,10 @@
  */
 package org.kuali.kra.committee.rule.event;
 
+import java.util.List;
+
 import org.kuali.core.document.Document;
+import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 
@@ -23,9 +26,12 @@ public abstract class CommitteeScheduleEventBase extends KraDocumentEventBase im
     
     private ScheduleData scheduleData;
     
-    protected CommitteeScheduleEventBase(String description, String errorPathPrefix, Document document, ScheduleData scheduleData) {
+    private List<CommitteeSchedule> committeeSchedules;
+    
+    protected CommitteeScheduleEventBase(String description, String errorPathPrefix, Document document, ScheduleData scheduleData, List<CommitteeSchedule> committeeSchedules) {
         super(description, errorPathPrefix, document);
         this.scheduleData = scheduleData;
+        this.committeeSchedules = committeeSchedules;
     }
     
     @Override
@@ -34,5 +40,9 @@ public abstract class CommitteeScheduleEventBase extends KraDocumentEventBase im
     
     public ScheduleData getScheduleData() {
         return this.scheduleData;
+    }
+    
+    public List<CommitteeSchedule> getCommitteeSchedules(){
+        return this.committeeSchedules;
     }
 }

@@ -21,7 +21,7 @@
 <c:set var="kraAttributeReferenceDummyAttributes" value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
 <c:set var="committeeScheduleAttributeReferenceDummy" value="${DataDictionary.CommitteeScheduleAttributeReferenceDummy.attributes}" />
 <div id="workarea">
-<kul:tab tabTitle="Schedule" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="scheduleData*" auditCluster="requiredFieldsAuditErrors"  tabAuditKey="" useRiceAuditMode="true">
+<kul:tab tabTitle="Schedule" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="document.committee.committeeSchedules*,scheduleData*" auditCluster="requiredFieldsAuditErrors"  tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Add to Schedule</span>
