@@ -23,5 +23,6 @@
 		</h3>
 	
 		<kra-a:awardApprovedEquipment />
+		<kra-a:awardApprovedForeignTravel />
 	</div>
 </kul:tab>

@@ -27,11 +27,15 @@ import org.kuali.kra.bo.Person;
 /**
  * This class handles the Award Special Approval for Approved Equipment
  */
-public class AwardApprovedForeignTravel extends KraPersistableBusinessObjectBase implements ValuableItem {
+public class AwardApprovedForeignTravel extends KraPersistableBusinessObjectBase 
+                                        implements Comparable<AwardApprovedForeignTravel>, ValuableItem {
+    private static final String SPACE = " ";
+
     private static final long serialVersionUID = 1039155193608738040L;
     
     private Long approvedForeignTravelId;
     private Person traveler;
+    private String travelerId;
     private String travelerName;
     private String destination;
     private Date startDate;
@@ -52,12 +56,26 @@ public class AwardApprovedForeignTravel extends KraPersistableBusinessObjectBase
      * Constructs a AwardApprovedForeignTravel
      */
     public AwardApprovedForeignTravel(Person traveler, String destination, Date startDate, Date endDate, double amount) {
-        this();
-        this.traveler = traveler;
+        super();
+        setTraveler(traveler);
         this.destination = destination;
         this.startDate = startDate;
         this.endDate = endDate;
         this.amount = new KualiDecimal(amount);
+    }
+
+    /**
+     * Constructs a AwardApprovedForeignTravel.java.
+     * @param tripToCopy
+     */
+    AwardApprovedForeignTravel(AwardApprovedForeignTravel tripToCopy) {
+        setTraveler(tripToCopy.traveler);
+        setApprovedForeignTravelId(null);
+        setDestination(tripToCopy.destination);
+        setStartDate(tripToCopy.startDate);
+        setEndDate(tripToCopy.endDate);
+        setAmount(tripToCopy.amount);
+        setAward(tripToCopy.award);
     }
 
     /**
@@ -92,6 +110,14 @@ public class AwardApprovedForeignTravel extends KraPersistableBusinessObjectBase
         return traveler;
     }
     
+    public String getTravelerId() {
+        return travelerId;
+    }
+
+    public void setTravelerId(String travelerId) {
+        this.travelerId = travelerId;
+    }
+
     /**
      * This method returns the destination
      * @return The destination
@@ -153,6 +179,13 @@ public class AwardApprovedForeignTravel extends KraPersistableBusinessObjectBase
      */
     public void setTraveler(final Person traveler) {
         this.traveler = traveler;
+        if(traveler != null) {
+            this.travelerName = traveler.getFullName();
+            this.travelerId = traveler.getPersonId();
+        } else {
+            this.travelerName = null;
+            this.travelerId = null;
+        }
     }
     
     /**
@@ -170,14 +203,6 @@ public class AwardApprovedForeignTravel extends KraPersistableBusinessObjectBase
     public void setDestination (final String destination ) {
         this.destination = destination;
     }
-
-    /**
-     * Sets the start date attribute value.
-     * @param startDate The start date to set.
-     */
-    public void setModel(final Date startDate ) {
-        this.startDate = startDate;
-    }
     
     /**
      * Sets the end date attribute value.
@@ -188,7 +213,8 @@ public class AwardApprovedForeignTravel extends KraPersistableBusinessObjectBase
     }
 
     /**
-     * @param startDate
+     * Sets the start date attribute value.
+     * @param startDate The start date to set.
      */
     public void setStartDate(final Date startDate) {
         this.startDate = startDate;
@@ -306,8 +332,12 @@ public class AwardApprovedForeignTravel extends KraPersistableBusinessObjectBase
                     return false;
                 }
             }
-        } else if (!traveler.equals(other.traveler)) {
-            return false;
+        } else {
+            if (other.traveler == null) {
+                return false;
+            } else {
+                return traveler.getFullName().equalsIgnoreCase(other.traveler.getFullName());
+            }
         }
         
         return true;
@@ -328,6 +358,22 @@ public class AwardApprovedForeignTravel extends KraPersistableBusinessObjectBase
         map.put("endDate", endDate);
         map.put("amount", amount);
         return map;
+    }
+
+    public int compareTo(AwardApprovedForeignTravel other) {
+        int result = startDate != null ? startDate.compareTo(other.startDate) : 0;
+        if(result == 0) {
+            if(traveler != null && other.traveler != null) {
+                result = compareTravelerNames(traveler.getLastName(), other.traveler.getLastName());
+                if(result == 0) {
+                    result = compareTravelerNames(traveler.getFirstName(), other.traveler.getFirstName());
+                }
+            }
+        }
+        return result;
     }       
     
+    private int compareTravelerNames(String thisTravelerName, String otherTravelerName) {
+        return thisTravelerName.compareToIgnoreCase(otherTravelerName);
+    }
 }

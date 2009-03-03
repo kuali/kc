@@ -65,7 +65,7 @@ public class AwardTest {
     }
     
     @Test
-    public void testCalculatingvaluableItemTotal() {
+    public void testCalculatingValuableItemTotal() {
         final double AMOUNT1 = 100.00;
         final double AMOUNT2 = 200.00;
         final double AMOUNT3 = 300.00;
