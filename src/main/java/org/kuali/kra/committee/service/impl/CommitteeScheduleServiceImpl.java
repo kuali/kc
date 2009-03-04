@@ -17,6 +17,7 @@ package org.kuali.kra.committee.service.impl;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -156,8 +157,9 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
                 }
                 break;            
         }
-    
-        addScheduleDatesToCommittee(dates, committee, scheduleData.getPlace());
+        List<java.sql.Date> skippedDates = new ArrayList<java.sql.Date>();
+        scheduleData.setDatesInConflict(skippedDates);
+        addScheduleDatesToCommittee(dates, committee, scheduleData.getPlace(),skippedDates);
 
     }
     
@@ -171,13 +173,15 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
         return new Time24HrFmt(str); 
     }
   
-    private void addScheduleDatesToCommittee(List<Date> dates, Committee committee, String location){
+    private void addScheduleDatesToCommittee(List<Date> dates, Committee committee, String location, List<java.sql.Date> skippedDates){
         for(Date date: dates) {
             java.sql.Date sqldate = new java.sql.Date(date.getTime());
             
-            if(!isDateAvailable(committee.getCommitteeSchedules(), sqldate))
+            if(!isDateAvailable(committee.getCommitteeSchedules(), sqldate)){
+                skippedDates.add(sqldate);
                 continue;
-            
+            }
+          
             CommitteeSchedule committeeSchedule = new CommitteeSchedule();
             committeeSchedule.setCommitteeId(committee.getId());            
             committeeSchedule.setScheduledDate(sqldate);

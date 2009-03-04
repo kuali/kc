@@ -28,6 +28,7 @@ import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.rule.event.AddCommitteeScheduleDateConflictEvent;
 import org.kuali.kra.committee.rule.event.AddCommitteeScheduleStartAndEndDateEvent;
+import org.kuali.kra.committee.rule.event.CommitteeScheduleEvent.event;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
@@ -68,7 +69,7 @@ public class CommitteeScheduleAction extends CommitteeAction {
         CommitteeForm committeeForm = (CommitteeForm) form;
         List<CommitteeSchedule> committeeSchedules = committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules();
         
-        if(applyRules(new AddCommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules))){
+        if(applyRules(new AddCommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules, event.HARDERROR))){
             actionForward = super.save(mapping, form, request, response);
         }
         
@@ -79,13 +80,18 @@ public class CommitteeScheduleAction extends CommitteeAction {
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         CommitteeForm committeeForm = (CommitteeForm) form;
-        committeeForm.getScheduleData().printf();
-        if(applyRules(new AddCommitteeScheduleStartAndEndDateEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), committeeForm.getScheduleData(), null))){
+        
+        ScheduleData scheduleData = committeeForm.getScheduleData();
+        scheduleData.printf();//TODO remove
+        
+        if(applyRules(new AddCommitteeScheduleStartAndEndDateEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, event.HARDERROR))){
             CommitteeScheduleService service  = getCommitteeScheduleService();
-            service.addSchedule(committeeForm.getScheduleData(), committeeForm.getCommitteeDocument().getCommittee());
+            service.addSchedule(scheduleData, committeeForm.getCommitteeDocument().getCommittee());
+            
+            applyRules(new AddCommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, event.SOFTERROR));
         }        
         //TODO comment it: Changes style class selection, which will trigger selected type of recurrence
-        committeeForm.getScheduleData().populateStyleClass();        
+        scheduleData.populateStyleClass();        
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
 

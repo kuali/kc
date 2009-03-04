@@ -28,10 +28,13 @@ public abstract class CommitteeScheduleEventBase extends KraDocumentEventBase im
     
     private List<CommitteeSchedule> committeeSchedules;
     
-    protected CommitteeScheduleEventBase(String description, String errorPathPrefix, Document document, ScheduleData scheduleData, List<CommitteeSchedule> committeeSchedules) {
+    private event type;
+    
+    protected CommitteeScheduleEventBase(String description, String errorPathPrefix, Document document, ScheduleData scheduleData, List<CommitteeSchedule> committeeSchedules, event type) {
         super(description, errorPathPrefix, document);
         this.scheduleData = scheduleData;
         this.committeeSchedules = committeeSchedules;
+        this.type = type;
     }
     
     @Override
@@ -44,5 +47,9 @@ public abstract class CommitteeScheduleEventBase extends KraDocumentEventBase im
     
     public List<CommitteeSchedule> getCommitteeSchedules(){
         return this.committeeSchedules;
+    }
+    
+    public event getType() {
+        return this.type;
     }
 }

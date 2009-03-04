@@ -25,6 +25,7 @@ import org.kuali.core.util.DateUtils;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.rule.AddCommitteeScheduleDateConflictRule;
 import org.kuali.kra.committee.rule.event.AddCommitteeScheduleDateConflictEvent;
+import org.kuali.kra.committee.rule.event.CommitteeScheduleEvent.event;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
@@ -33,11 +34,27 @@ public class CommitteeScheduleDateConflictRule extends ResearchDocumentRuleBase 
     @SuppressWarnings("unused")
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeScheduleDateConflictRule.class);
     
-    public static final String id = "document.committee.committeeSchedules[%1$s].scheduledDate";
+    public static final String ID = "document.committee.committeeSchedules[%1$s].scheduledDate";
+    
+    public static final String DATES_IN_CONFLICT_ERROR_KEY = "datesInConflict";
     
     public boolean processAddCommitteeScheduleRuleBusinessRules(AddCommitteeScheduleDateConflictEvent addCommitteeScheduleEvent) {
-        boolean rulePassed = true;
         
+        boolean rulePassed = true;   
+        event type = addCommitteeScheduleEvent.getType();        
+        switch (type) {
+            case HARDERROR:
+                rulePassed = processHardErrors(addCommitteeScheduleEvent);
+                break;
+            case SOFTERROR:
+                rulePassed = processSoftErrors(addCommitteeScheduleEvent);
+                break;
+        }
+        return rulePassed;
+    }
+    
+    private boolean processHardErrors(AddCommitteeScheduleDateConflictEvent addCommitteeScheduleEvent) {
+        boolean rulePassed = true;
         List<CommitteeSchedule> committeeSchedules = addCommitteeScheduleEvent.getCommitteeSchedules();   
         List<Date> conflictDates = new LinkedList<Date>();
         
@@ -71,10 +88,19 @@ public class CommitteeScheduleDateConflictRule extends ResearchDocumentRuleBase 
             for(CommitteeSchedule committeeSchedule : committeeSchedules) {
                 scheduleDate = committeeSchedule.getScheduledDate();
                 if(DateUtils.isSameDay(date, scheduleDate)){
-                    reportError(String.format(id, count), KeyConstants.ERROR_COMMITTEESCHEDULE_DATE_CONFLICT, scheduleDate.toString());
+                    reportError(String.format(ID, count), KeyConstants.ERROR_COMMITTEESCHEDULE_DATE_CONFLICT, scheduleDate.toString());
                 }
                 count++;
             }   
         }
+    }
+    
+    private boolean processSoftErrors(AddCommitteeScheduleDateConflictEvent addCommitteeScheduleEvent) {
+        boolean rulePassed = true;
+        List<Date> datesInConflict = addCommitteeScheduleEvent.getScheduleData().getDatesInConflict();
+        for(Date date: datesInConflict) {
+            reportSoftError(DATES_IN_CONFLICT_ERROR_KEY, KeyConstants.ERROR_COMMITTEESCHEDULE_DATES_SKIPPED, date.toString());
+        }
+        return rulePassed;
     }
 }

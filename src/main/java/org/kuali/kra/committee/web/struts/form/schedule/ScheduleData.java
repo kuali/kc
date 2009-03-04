@@ -18,6 +18,7 @@ package org.kuali.kra.committee.web.struts.form.schedule;
 import java.sql.Date;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt.MERIDIEM;
@@ -50,6 +51,8 @@ public class ScheduleData {
     
     private Date filerEndDate;    
     
+    private List<Date> datesInConflict;
+
     public ScheduleData() {
         super();
         this.setScheduleStartDate(new Date(new java.util.Date().getTime()));
@@ -153,7 +156,14 @@ public class ScheduleData {
     public void setTime(Time12HrFmt time) {
         this.time = time;
     }
+    
+    public List<Date> getDatesInConflict() {
+        return datesInConflict;
+    }
 
+    public void setDatesInConflict(List<Date> datesInConflict) {
+        this.datesInConflict = datesInConflict;
+    }
     
     public void populateStyleClass(){
         
