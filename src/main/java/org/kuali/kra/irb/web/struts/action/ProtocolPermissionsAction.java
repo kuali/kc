@@ -46,6 +46,7 @@ public class ProtocolPermissionsAction extends ProtocolAction implements Permiss
         ((ProtocolForm)form).getProtocolHelper().prepareView();
         ((ProtocolForm)form).getPersonnelHelper().prepareView();
         ((ProtocolForm)form).getPermissionsHelper().prepareView();
+        ((ProtocolForm)form).getCustomDataHelper().prepareView();
         
         return actionForward;
     }
@@ -55,6 +56,7 @@ public class ProtocolPermissionsAction extends ProtocolAction implements Permiss
      */
     @Override
     protected void preDocumentSave(KualiDocumentFormBase form) throws Exception {
+        super.preDocumentSave(form);
         permissionsActionHelper.save((ProtocolForm) form);
     }
     
@@ -63,6 +65,7 @@ public class ProtocolPermissionsAction extends ProtocolAction implements Permiss
      */
     @Override
     protected void saveOnClose(KualiDocumentFormBase form) throws Exception {
+        super.saveOnClose(form);
         permissionsActionHelper.save((ProtocolForm) form);
     }
     
