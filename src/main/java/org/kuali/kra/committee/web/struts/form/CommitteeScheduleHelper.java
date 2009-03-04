@@ -15,8 +15,10 @@
  */
 package org.kuali.kra.committee.web.struts.form;
 
+import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -26,6 +28,10 @@ public class CommitteeScheduleHelper {
     @SuppressWarnings("unused")
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeScheduleHelper.class);
     
+    public static final Boolean TRUE = true;
+    
+    public static final Boolean FALSE = false;
+    
     private CommitteeForm form;
     
     public CommitteeScheduleHelper(CommitteeForm form) {
@@ -34,6 +40,27 @@ public class CommitteeScheduleHelper {
     
     public void prepareView() {
         prepareCommitteeScheduleDeleteView();
+    }
+    
+    public void prepareFilterDatesView(Date startDate, Date endDate) {
+        List<CommitteeSchedule> committeeSchedules = form.getCommitteeDocument().getCommittee().getCommitteeSchedules();
+        startDate = DateUtils.addDays(startDate, -1);
+        endDate = DateUtils.addDays(endDate, 1);
+        Date scheduleDate = null;
+        for(CommitteeSchedule committeeSchedule : committeeSchedules) {            
+            scheduleDate = committeeSchedule.getScheduledDate();
+            if(scheduleDate.after(startDate) && scheduleDate.before(endDate)) 
+                committeeSchedule.setFilter(TRUE);            
+            else
+                committeeSchedule.setFilter(FALSE);
+        }
+    }
+    
+    public void resetFilterDatesView() {
+        List<CommitteeSchedule> committeeSchedules = form.getCommitteeDocument().getCommittee().getCommitteeSchedules();
+        for(CommitteeSchedule committeeSchedule : committeeSchedules) {
+                committeeSchedule.setFilter(TRUE);            
+        }
     }
     
     private void prepareCommitteeScheduleDeleteView(){

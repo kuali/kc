@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.committee.web.struts.action;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +30,7 @@ import org.kuali.kra.committee.rule.event.AddCommitteeScheduleDateConflictEvent;
 import org.kuali.kra.committee.rule.event.AddCommitteeScheduleStartAndEndDateEvent;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
+import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -107,17 +109,18 @@ public class CommitteeScheduleAction extends CommitteeAction {
     
     public ActionForward filterCommitteeScheduleDates(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-        CommitteeForm committeeForm = (CommitteeForm) form;        
-        CommitteeScheduleService service  = getCommitteeScheduleService(); 
-        service.filterCommitteeScheduleDates(committeeForm.getScheduleData(), committeeForm.getCommitteeDocument().getCommittee());
+        CommitteeForm committeeForm = (CommitteeForm) form;  
+        ScheduleData scheduleData = committeeForm.getScheduleData();
+        Date startDate = scheduleData.getFilterStartDate();
+        Date endDate = scheduleData.getFilerEndDate();
+        committeeForm.getCommitteeScheduleHelper().prepareFilterDatesView(startDate, endDate);
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
 
     public ActionForward resetCommitteeScheduleDates(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         CommitteeForm committeeForm = (CommitteeForm) form;        
-        CommitteeScheduleService service  = getCommitteeScheduleService(); 
-        service.resetCommitteeScheduleDates(committeeForm.getCommitteeDocument().getCommittee());
+        committeeForm.getCommitteeScheduleHelper().resetFilterDatesView();
         return mapping.findForward(Constants.MAPPING_BASIC );
     } 
     
