@@ -18,7 +18,7 @@
 <kul:page lookup="true" 
           docTitle="Roles" 
           transactionalDocument="true" 
-          htmlFormAction="protocolPermissions">
+          htmlFormAction="${KualiForm.actionName}Permissions">
           
     <kra-permissions:editRolesPage />
 
