@@ -34,87 +34,39 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolPerson;
 import org.kuali.kra.irb.dao.ProtocolDao;
+import org.kuali.rice.kns.util.KNSConstants;
 
 public class ProtocolLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-    private static final String CLASS_NAME = "className";
-    private static final String KEY_NAME = "keyName";
-    private static final String FIELD_NAME = "fieldName";
+    private static final String ROLODEX_ID = "rolodexId";
+    private static final String UNIT_NUMBER = "unitNumber";
     private static final String PERSON_ID = "personId";
-    private static final String PERSON = "person";
-    private static final String INVESTIGATOR_ID = "principalInvestigatorId";
+    private static final String PRINCIPAL_INVESTIGATOR_ID = "principalInvestigatorId";
     private static final String FUNDING_SOURCE = "fundingSource";
-    private static final Map<String, String> PERSON_MAP = new HashMap<String, String>();
-    static {
-        PERSON_MAP.put(CLASS_NAME, "org.kuali.kra.bo.Person");
-        PERSON_MAP.put(KEY_NAME, PERSON_ID);
-        //PERSON_MAP.put(FIELD_NAME, PERSON_ID);
-    }
-    private static final Map<String, String> ROLODEX_MAP = new HashMap<String, String>();
-    static {
-        ROLODEX_MAP.put(CLASS_NAME, "org.kuali.kra.bo.Rolodex");
-        ROLODEX_MAP.put(KEY_NAME, "rolodexId");
-        //ROLODEX_MAP.put(FIELD_NAME, PERSON_ID);
-    }
-    private static final Map<String, String> SPONSOR_MAP = new HashMap<String, String>();
-    static {
-        SPONSOR_MAP.put(CLASS_NAME, "org.kuali.kra.bo.Sponsor");
-        SPONSOR_MAP.put(KEY_NAME, "sponsorCode");
-        SPONSOR_MAP.put(FIELD_NAME, FUNDING_SOURCE);
-    }
-    private static final Map<String, String> UNIT_MAP = new HashMap<String, String>();
-    static {
-        UNIT_MAP.put(CLASS_NAME, "org.kuali.kra.bo.Unit");
-        UNIT_MAP.put(KEY_NAME, "unitNumber");
-        UNIT_MAP.put(FIELD_NAME, FUNDING_SOURCE);
-    }
-    private static final Map<String, String> RESEARCH_AREA_MAP = new HashMap<String, String>();
-    static {
-        RESEARCH_AREA_MAP.put(CLASS_NAME, "org.kuali.kra.bo.ResearchArea");
-        RESEARCH_AREA_MAP.put(KEY_NAME, "researchAreaCode");
-        RESEARCH_AREA_MAP.put(FIELD_NAME, "researchAreaCode");
-    }
-    private static final List <Map<String, String>> FUNDING_MAP_LIST = new ArrayList<Map<String, String>>();
-    static {
-        FUNDING_MAP_LIST.add(0, SPONSOR_MAP);
-        FUNDING_MAP_LIST.add(1, UNIT_MAP);
-        // TODO : the rest are not ready yet
-        FUNDING_MAP_LIST.add(2, UNIT_MAP);
-        FUNDING_MAP_LIST.add(3, UNIT_MAP);
-        FUNDING_MAP_LIST.add(4, UNIT_MAP);
-        FUNDING_MAP_LIST.add(5, UNIT_MAP);
-    }
-
+    private static final String FUNDING_SOURCE_TYPE_CODE = "fundingSourceTypeCode";
+    private static final String RESEARCH_AREA_CODE = "researchAreaCode";
+    private List <String> searchFieldNames = new ArrayList <String> ();
+    private Map <String, String> searchMap = new HashMap<String, String>();
+    private Map <String, String> indicatorNames = new HashMap<String, String>();
+    
 
     ProtocolDao protocolDao;
     
+    /**
+     * use 'protocolNumber' which is not a PK'
+     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getActionUrls(org.kuali.core.bo.BusinessObject)
+     */
     @Override
     public String getActionUrls(BusinessObject businessObject) {
-      //  return super.getActionUrls(businessObject);
-      //  try to make it generic
-        String idName = "";
-        String docTypeName="";
-        if (businessObject instanceof Protocol) {
-            idName="&protocolId=";
-            docTypeName="ProtocolDocument";
-        }
-//        String docTypeName = getDataDictionaryService().getDataDictionary().getMaintenanceDocumentEntryForBusinessObjectClass(getBusinessObjectClass()).getDocumentTypeName();
-        String editUrl = getMaintenanceUrl(businessObject, "edit");
-        int idx1 = editUrl.indexOf(idName);
-        int idx2 = editUrl.indexOf("\"", idx1+1);
-        String protocolIdParam = editUrl.substring(idx1, idx2);
-        //return "<a href=\"../protocolProtocol.do?methodToCall=docHandler&command=initiate&docTypeName="+docTypeName+editUrl.substring(idx1, idx2)+"\">edit</a>";
-        return "<a href=\"../protocolProtocol.do?methodToCall=docHandler&command=initiate&docTypeName="+docTypeName+"&protocolNumber="+((Protocol)businessObject).getProtocolNumber()+"\">edit</a>";
+        // TODO : may need to add 'sequencenumber' to query string
+        return "<a href=\"../protocolProtocol.do?methodToCall=docHandler&command=initiate&docTypeName=ProtocolDocument&protocolNumber="+((Protocol)businessObject).getProtocolNumber()+"\">edit</a>";
     }
 
-    @Override
-    public String getMaintenanceUrl(BusinessObject businessObject, String methodToCall) {
-        // TODO Auto-generated method stub
-        return super.getMaintenanceUrl(businessObject, methodToCall);
-    }
-
+    /**
+     * To force to it to show action links, such as 'edit'.
+     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#performLookup(org.kuali.core.web.struts.form.LookupForm, java.util.Collection, boolean)
+     */
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
-        // TODO Auto-generated method stub
         lookupForm.setShowMaintenanceLinks(true);
         return super.performLookup(lookupForm, resultTable, bounded);
     }
@@ -124,9 +76,9 @@ public class ProtocolLookupableHelperServiceImpl extends KualiLookupableHelperSe
 
         //need to set backlocation & docformkey here.  Otherwise, they are empty
         for (Entry<String,String> entry : fieldValues.entrySet()) {
-            if (entry.getKey().equals("backLocation")) {
+            if (entry.getKey().equals(KNSConstants.BACK_LOCATION)) {
                 setBackLocation(entry.getValue());
-            } else if (entry.getKey().equals("docFormKey")) {
+            } else if (entry.getKey().equals(KNSConstants.DOC_FORM_KEY)) {
                 setDocFormKey(entry.getValue());
             }
         }
@@ -134,62 +86,129 @@ public class ProtocolLookupableHelperServiceImpl extends KualiLookupableHelperSe
     }
 
     
+    /**
+     * This override is reset field definition for several lookup fields.
+     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getRows()
+     */
     @Override
     public List<Row> getRows() {
         List<Row> rows =  super.getRows();
-        String employeeIndicator="Y";
-        Integer funcingSource = 1;
+        initMappingValues();
+        Map <String, String> indicatorMap = new HashMap<String, String>();
+        indicatorMap.put(RESEARCH_AREA_CODE, "");
         for (Row row : rows) {
             for (Field field : row.getFields()) {
-                if (field.getPropertyName().endsWith("EmployeeIndicator")) {
-                    field.setFieldType(Field.DROPDOWN_REFRESH);
-                    if (StringUtils.isBlank(field.getPropertyValue())) {
-                        field.setPropertyValue("Y") ;
-                    }
-                    employeeIndicator = field.getPropertyValue();
-                } else if (field.getPropertyName().equals(PERSON_ID) || field.getPropertyName().equals(INVESTIGATOR_ID)) {
-                    updatePersonLookup(field, employeeIndicator.equals("Y"));
-                } else if (field.getPropertyName().equals("fundingSourceTypeCode")) {
-                    field.setFieldType(Field.DROPDOWN_REFRESH);
-                    if (StringUtils.isBlank(field.getPropertyValue())) {
-                        field.setPropertyValue("1") ;
-                    } 
-                    funcingSource = Integer.parseInt(field.getPropertyValue());
-                } else if (field.getPropertyName().equals(FUNDING_SOURCE)) {
-                    updateField(field, FUNDING_MAP_LIST.get(funcingSource - 1));
-                }else if (field.getPropertyName().equals("researchAreaCode")) {
-                    updateField(field, RESEARCH_AREA_MAP);
+                if (indicatorNames.containsKey(field.getPropertyName())) {
+                    setupIndicator(field);
+                    indicatorMap.put(indicatorNames.get(field.getPropertyName()), field.getPropertyValue());
+                } else if (searchFieldNames.contains(field.getPropertyName())) {
+                    updateField(field, searchMap.get(field.getPropertyName()+indicatorMap.get(field.getPropertyName())));
                 }
             }
         }
         return rows;
     }
-
-    private void updatePersonLookup(Field field, boolean isEmployee) {
-        if (field.getPropertyName().equals(PERSON_ID)) {
-            PERSON_MAP.put(FIELD_NAME, PERSON_ID);                
-            ROLODEX_MAP.put(FIELD_NAME, PERSON_ID);
-        } else {
-            PERSON_MAP.put(FIELD_NAME, INVESTIGATOR_ID);
-            ROLODEX_MAP.put(FIELD_NAME, INVESTIGATOR_ID);
-        }
-        if (isEmployee) {
-            updateField(field, PERSON_MAP);
-        } else {
-            updateField(field, ROLODEX_MAP);
-            
-        }
+    
+    private void initMappingValues() {
+        indicatorNames.put("personEmployeeIndicator", PERSON_ID);
+        indicatorNames.put("investigatorEmployeeIndicator", PRINCIPAL_INVESTIGATOR_ID);
+        indicatorNames.put(FUNDING_SOURCE_TYPE_CODE,FUNDING_SOURCE);
         
+        // map to enum
+        searchMap.put("personIdY", "EMPLOYEEPERSON");
+        searchMap.put("personIdN", "ROLODEXPERSON");
+        searchMap.put("principalInvestigatorIdY", "EMPLOYEEINVESTIGATOR");
+        searchMap.put("principalInvestigatorIdN", "ROLODEXINVESTIGATOR");
+        searchMap.put("fundingSource1", "SPONSOR");
+        searchMap.put("fundingSource2", "UNIT");
+        // the rest fundingsource not ready yet
+        searchMap.put("fundingSource3", "UNIT");
+        searchMap.put("fundingSource4", "UNIT");
+        searchMap.put("fundingSource5", "UNIT");
+        searchMap.put("fundingSource6", "UNIT");
+        searchMap.put(RESEARCH_AREA_CODE, "RESEARCHAREA");
+        
+        searchFieldNames.add(PERSON_ID);
+        searchFieldNames.add(PRINCIPAL_INVESTIGATOR_ID);
+        searchFieldNames.add(FUNDING_SOURCE);
+        searchFieldNames.add(RESEARCH_AREA_CODE);
+       
     }
     
-    private void updateField(Field field, Map<String,String> lookupMap) {
-        field.setFieldConversions(lookupMap.get(KEY_NAME)+":"+lookupMap.get(FIELD_NAME));
-        field.setLookupParameters(lookupMap.get(FIELD_NAME)+":"+lookupMap.get(KEY_NAME));
-        field.setInquiryParameters(lookupMap.get(FIELD_NAME)+":"+lookupMap.get(KEY_NAME));
-        field.setQuickFinderClassNameImpl(lookupMap.get(CLASS_NAME));
+    /*
+     * set up indicator fields and make it dropdown_fresh, so the lookup page will be refreshed if dropdown selection is changed.
+     */
+    private void setupIndicator(Field field) {
+        field.setFieldType(Field.DROPDOWN_REFRESH);
+        if (StringUtils.isBlank(field.getPropertyValue())) {
+            if (field.getPropertyName().equals(FUNDING_SOURCE_TYPE_CODE)) {
+                field.setPropertyValue("1");                
+            } else {
+                field.setPropertyValue("Y");                
+            }
+        }
+    }
+    
+    /*
+     * update the lookup field definition.  This is critical in protocol lookup because some lookup field 
+     * has multiple lookup classes based options selected. 
+     */
+    private void updateField(Field field, String searchKeyName) {
+        LookupProperty lookupProperty = Enum.valueOf(LookupProperty.class, searchKeyName);
+
+        field.setFieldConversions(lookupProperty.getKeyName()+":"+lookupProperty.getFieldName());
+        field.setLookupParameters(lookupProperty.getFieldName()+":"+lookupProperty.getKeyName());
+        field.setInquiryParameters(lookupProperty.getFieldName()+":"+lookupProperty.getKeyName());
+        field.setQuickFinderClassNameImpl(lookupProperty.getClassName());
                    
     }
 
+    /**
+     * 
+     * This class is to set up keyname,fieldname, classname for lookup field that has search icon
+     * Some of the fields has multiple lookup classes.
+     */
+    public enum LookupProperty {
+
+        EMPLOYEEPERSON(PERSON_ID,PERSON_ID,"org.kuali.kra.bo.Person"),
+        ROLODEXPERSON(ROLODEX_ID,PERSON_ID,"org.kuali.kra.bo.Rolodex"),
+        EMPLOYEEINVESTIGATOR(PERSON_ID,PRINCIPAL_INVESTIGATOR_ID,"org.kuali.kra.bo.Person"),
+        ROLODEXINVESTIGATOR(ROLODEX_ID,PRINCIPAL_INVESTIGATOR_ID,"org.kuali.kra.bo.Rolodex"),
+        SPONSOR("sponsorCode",FUNDING_SOURCE,"org.kuali.kra.bo.Sponsor"),
+        UNIT(UNIT_NUMBER,FUNDING_SOURCE,"org.kuali.kra.bo.Unit"),
+        RESEARCHAREA(RESEARCH_AREA_CODE,RESEARCH_AREA_CODE,"org.kuali.kra.bo.ResearchArea");
+        
+        private LookupProperty(String keyName, String fieldName, String className){
+          this.keyName = keyName;
+          this.fieldName = fieldName;
+          this.className = className;
+        }
+
+        private String keyName;
+        private String fieldName;
+        private String className;
+        
+        public String getKeyName() {
+            return keyName;
+        }
+        public void setKeyName(String keyName) {
+            this.keyName = keyName;
+        }
+        public String getFieldName() {
+            return fieldName;
+        }
+        public void setFieldName(String fieldName) {
+            this.fieldName = fieldName;
+        }
+        public String getClassName() {
+            return className;
+        }
+        public void setClassName(String className) {
+            this.className = className;
+        }
+      }
+
+    
     public ProtocolDao getProtocolDao() {
         return protocolDao;
     }
@@ -198,6 +217,10 @@ public class ProtocolLookupableHelperServiceImpl extends KualiLookupableHelperSe
         this.protocolDao = protocolDao;
     }
 
+    /**
+     * This method is for several fields that does not have inquiry created by lookup frame work.
+     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
+     */
     @Override
     public String getInquiryUrl(BusinessObject bo, String propertyName) {
 
@@ -205,29 +228,26 @@ public class ProtocolLookupableHelperServiceImpl extends KualiLookupableHelperSe
         String inqPropertyName = propertyName;
         if (propertyName.equals("leadUnitNumber")) {
            inqBo = new Unit();
-            ((Unit)inqBo).setUnitNumber(((Protocol)bo).getLeadUnitNumber());
-            inqPropertyName = "unitNumber";
-            //return super.getInquiryUrl(inqBo, "unitNumber");
-        } else if (propertyName.equals("principalInvestigatorId")) {
-            Protocol protocol = (Protocol)bo;
+            ((Unit) inqBo).setUnitNumber(((Protocol) bo).getLeadUnitNumber());
+            inqPropertyName = UNIT_NUMBER;
+        } else if (propertyName.equals(PRINCIPAL_INVESTIGATOR_ID)) {
+            Protocol protocol = (Protocol) bo;
             ProtocolPerson principalInvestigator = protocol.getPrincipalInvestigator();
             if (principalInvestigator != null) {
                 if (StringUtils.isNotBlank(principalInvestigator.getPersonId())) {
                     inqBo = new Person();
-                    ((Person)inqBo).setPersonId(principalInvestigator.getPersonId());
-                    inqPropertyName = "personId";
+                    ((Person) inqBo).setPersonId(principalInvestigator.getPersonId());
+                    inqPropertyName = PERSON_ID;
                 } else {
                     if (principalInvestigator.getRolodexId() != null) {
-                        ((Rolodex)inqBo).setRolodexId(principalInvestigator.getRolodexId());
-                        inqPropertyName = "rolodexId";
+                        ((Rolodex) inqBo).setRolodexId(principalInvestigator.getRolodexId());
+                        inqPropertyName = ROLODEX_ID;
                     }
                 }
             }
         }
         return super.getInquiryUrl(inqBo, inqPropertyName);
     }
-
-
 
 
 }
