@@ -15,17 +15,24 @@
  */
 package org.kuali.kra.irb.service.impl;
 
+import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
+
+import java.util.HashMap;
+
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolFundingSource;
 import org.kuali.kra.irb.service.ProtocolFundingSourceService;
+import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.FundingSourceTypeService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.UnitService;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.springframework.util.StringUtils;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -83,17 +90,13 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
 
 
     public ProtocolFundingSource getNameAndTitle(String sourceType, String sourceId, String sourceName, String sourceTitle) {
-
         FundingSourceType fundingType = getfundingSourceTypeService().getFundingSourceType(sourceType);
         ProtocolFundingSource source = new ProtocolFundingSource();
         
-
-
         if (fundingType != null && StringUtils.hasText(sourceId)) {
             source.setFundingSourceName(sourceName);
             source.setFundingSourceTitle(sourceTitle);
-            
-            
+                    
             if (fundingType.getDescription().equalsIgnoreCase("Sponsor")) {
                 String name = getSponsorService().getSponsorName(sourceId);
                 source.setFundingSourceTitle("");
@@ -112,8 +115,11 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
                 source.setFundingSource(sourceId);
                 source.setFundingSourceType(fundingType);
                 if (source.getFundingAward()!= null) {
-                    //TODO source.setFundingSourceName(source.getFundingAward().getSponsor().getSponsorName());
-                    source.setFundingSourceName(source.getFundingAward().getTitle());
+                    if (source.getFundingAward().getSponsor()!= null) {
+                        source.setFundingSourceName(source.getFundingAward().getSponsor().getSponsorName());
+                    } else {
+                        source.setFundingSourceName("");
+                    }
                     source.setFundingSourceTitle(source.getFundingAward().getTitle());
                 }
             }
@@ -129,13 +135,11 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
                 source.setFundingSource(sourceId);
                 source.setFundingSourceType(fundingType);
                 if (source.getFundingProposal()!= null) {
-                  //  source.setFundingSourceName(source.getFundingProposal().getSponsor().getSponsorName());
-                    source.setFundingSourceName(source.getFundingProposal().getTitle());
+                    source.setFundingSourceName(source.getFundingProposal().getSponsor().getSponsorName());
                     source.setFundingSourceTitle(source.getFundingProposal().getTitle());
                 }
             }
             else if (fundingType.getDescription().equalsIgnoreCase("Other")) {
-                // Setting to empty string prevents the error message
                 if (sourceTitle == null) {
                     source.setFundingSourceTitle("");
                 }
@@ -171,13 +175,71 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
         } else  {
             ProtocolFundingSource testSrc = 
                 getNameAndTitle(source.getFundingSourceTypeCode().toString(), source.getFundingSource(), source.getFundingSourceName(), source.getFundingSourceTitle());
-            if (StringUtils.hasText(testSrc.getFundingSourceName())) {
+            if (StringUtils.hasText(testSrc.getFundingSourceName()) ||
+                    StringUtils.hasText(testSrc.getFundingSourceTitle())) {
                 ret=true;
             }
         }
 
         return ret;
     }
+    
+    public boolean isValidLookup(String boClassName) {
+        boolean isValid = true;
+        
+        if (StringUtils.hasText(boClassName)) {            
+            if (boClassName.equalsIgnoreCase("Institute Proposal")) {
+               GlobalVariables.getErrorMap().putError("document.protocol.newFundingSource.fundingSourceTypeCode", "error.custom", "Lookup is Temporarily unavailable for Funding Type Institute Proposal");            
+               isValid = false;
+           }  else if (boClassName.equalsIgnoreCase("Other")) {
+               GlobalVariables.getErrorMap().putError("document.protocol.newFundingSource.fundingSourceTypeCode", "error.custom", "Lookup is unavailable for Funding Type Other");            
+               isValid = false;
+           }
+       } else {
+           GlobalVariables.getErrorMap().putError("document.protocol.newFundingSource.fundingSourceTypeCode", "error.custom", "Funding Type must be select to perform Lookup");            
+           isValid = false;
+        }   
+        return isValid;
+    }
+    
+    public HashMap<String, String>  getLookupParameters(String boClassName) {
+        
+        HashMap<String, String> boAndFields = new HashMap<String, String>();
+        String fieldConversions=null;
+        
+           if (boClassName.equalsIgnoreCase(Unit.class.getSimpleName())) {
+               boClassName = Unit.class.getName();
+               fieldConversions="unitNumber:document.protocol.newFundingSource.fundingSource,unitName:document.protocol.newFundingSource.fundingSourceName";
+           } else if (boClassName.equalsIgnoreCase("Sponsor")) {
+               boClassName = "org.kuali.kra.bo.Sponsor";
+               fieldConversions="sponsorCode:document.protocol.newFundingSource.fundingSource,sponsorName:document.protocol.newFundingSource.fundingSourceName";
+           } else if (boClassName.equalsIgnoreCase("Award")) {
+               boClassName = "org.kuali.kra.award.bo.Award";
+               fieldConversions="awardNumber:document.protocol.newFundingSource.fundingSource,sponsor.sponsorName:document.protocol.newFundingSource.fundingSourceName,title:document.protocol.newFundingSource.fundingSourceTitle";
+           } else if (boClassName.equalsIgnoreCase("Development Proposal")) {
+               boClassName = "org.kuali.kra.irb.bo.LookupableDevelopmentProposal";
+               fieldConversions="proposalNumber:document.protocol.newFundingSource.fundingSource,sponsor.sponsorName:document.protocol.newFundingSource.fundingSourceName,title:document.protocol.newFundingSource.fundingSourceTitle";
+           } else if (boClassName.equalsIgnoreCase("Institute Proposal")) {
+               //TODO readd when instituteProposal is impl'd
+                //   boClassName = "org.kuali.kra.bo.proposaldevelopment.document.ProposalDevelopmentDocument";
+                //   fieldConversions="proposalNumber:document.protocol.newFundingSource.fundingSource,sponsor.sponsorName:document.protocol.newFundingSource.fundingSourceName,title:document.protocol.newFundingSource.fundingSourceTitle";
+           } 
+           boAndFields.put(boClassName, fieldConversions);
 
+        return boAndFields;
+    }
+
+    public String updateLookupParameter(String parameter, String boClassName, String fieldConversions) {
+        StringBuffer fullParameterBuffer = new StringBuffer(parameter);
+        int start = fullParameterBuffer.indexOf(KNSConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL)+KNSConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL.length();
+        int end = fullParameterBuffer.indexOf(KNSConstants.METHOD_TO_CALL_BOPARM_RIGHT_DEL);        
+        fullParameterBuffer.replace(start, end, boClassName);
+
+        start = fullParameterBuffer.indexOf(KNSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL)+KNSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL.length();
+        end = fullParameterBuffer.indexOf(KNSConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL);        
+        fullParameterBuffer.replace(start, end, fieldConversions);
+        
+        return fullParameterBuffer.toString();
+    }
 
 }

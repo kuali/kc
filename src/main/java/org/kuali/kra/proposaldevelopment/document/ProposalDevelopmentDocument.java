@@ -784,6 +784,13 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     public void setSponsor(Sponsor sponsor) {
         this.sponsor = sponsor;
     }
+    
+    public String getSponsorName() {
+        if (getSponsor() != null) {
+            return getSponsor().getSponsorName();
+        }
+        return null;
+    }
 
 
     /**
