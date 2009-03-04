@@ -23,8 +23,12 @@ import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 
 public interface CommitteeScheduleEvent extends KualiDocumentEvent {
     
+    public enum event {HARDERROR, SOFTERROR};
+    
     public ScheduleData getScheduleData();
     
     public List<CommitteeSchedule> getCommitteeSchedules();
+    
+    public event getType();
     
 }

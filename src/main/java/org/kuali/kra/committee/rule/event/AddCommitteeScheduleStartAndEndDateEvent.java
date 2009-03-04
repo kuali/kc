@@ -25,13 +25,15 @@ import org.kuali.kra.committee.rule.AddCommitteeScheduleStartAndEndDateRule;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 
 public class AddCommitteeScheduleStartAndEndDateEvent extends CommitteeScheduleEventBase {
-
-    public AddCommitteeScheduleStartAndEndDateEvent(String errorPathPrefix, CommitteeDocument document, ScheduleData scheduleData, List<CommitteeSchedule> committeeSchedules) {
-        super("adding CommitteeSchedule to document " + getDocumentId(document), errorPathPrefix, document, scheduleData, committeeSchedules);
+    
+    public static final String msg = "adding CommitteeSchedule to document ";
+    
+    public AddCommitteeScheduleStartAndEndDateEvent(String errorPathPrefix, CommitteeDocument document, ScheduleData scheduleData, List<CommitteeSchedule> committeeSchedules, event type) {
+        super(msg + getDocumentId(document), errorPathPrefix, document, scheduleData, committeeSchedules, type);
     }
     
-    public AddCommitteeScheduleStartAndEndDateEvent(String errorPathPrefix, Document document, ScheduleData scheduleData, List<CommitteeSchedule> committeeSchedules) {
-        this(errorPathPrefix, (CommitteeDocument)document, scheduleData, committeeSchedules);
+    public AddCommitteeScheduleStartAndEndDateEvent(String errorPathPrefix, Document document, ScheduleData scheduleData, List<CommitteeSchedule> committeeSchedules, event type) {
+        this(errorPathPrefix, (CommitteeDocument)document, scheduleData, committeeSchedules, type);
     }
 
     @SuppressWarnings("unchecked")
