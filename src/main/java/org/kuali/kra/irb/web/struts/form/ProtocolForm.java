@@ -17,7 +17,6 @@ package org.kuali.kra.irb.web.struts.form;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -31,14 +30,11 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ActionFormUtilMap;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.bo.ProtocolLocation;
-import org.kuali.kra.irb.bo.ProtocolParticipant;
-import org.kuali.kra.irb.bo.ProtocolPerson;
 import org.kuali.kra.irb.bo.ProtocolReference;
-import org.kuali.kra.irb.bo.ProtocolUnit;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 
@@ -46,7 +42,7 @@ import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
  * This class...
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolForm extends KraTransactionalDocumentFormBase implements PermissionsForm {
+public class ProtocolForm extends KraTransactionalDocumentFormBase implements PermissionsForm, CustomDataForm {
     
     private static final long serialVersionUID = -7633960906991275328L;
     
@@ -54,7 +50,8 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     private PersonnelHelper personnelHelper;
     private PermissionsHelper permissionsHelper;
     private ParticipantsHelper participantsHelper;
-
+    private CustomDataHelper customDataHelper = new CustomDataHelper(this);
+    
     private ProtocolReference newProtocolReference;
     
     //KNS Lookup hooks
@@ -213,5 +210,20 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     protected String getLockRegion() {
         return "";
     }
+    
+    public String getActionName() {
+        return "protocol";
+    }
+    
+    public String getDocumentTypeName() {
+        return "ProtocolDocument";
+    }
 
+    public CustomDataHelper getCustomDataHelper() {
+        return customDataHelper;
+    }
+
+    public void setCustomDataHelper(CustomDataHelper customDataHelper) {
+        this.customDataHelper = customDataHelper;
+    }
 }

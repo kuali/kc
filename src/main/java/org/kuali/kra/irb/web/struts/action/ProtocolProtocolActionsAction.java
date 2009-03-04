@@ -49,6 +49,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction {
         ((ProtocolForm)form).getProtocolHelper().prepareView();
         ((ProtocolForm)form).getPersonnelHelper().prepareView();
         ((ProtocolForm)form).getPermissionsHelper().prepareView();
+        ((ProtocolForm)form).getCustomDataHelper().prepareView();
         
         return actionForward;
     }

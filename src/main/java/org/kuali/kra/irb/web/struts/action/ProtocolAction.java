@@ -36,6 +36,7 @@ import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.common.customattributes.CustomDataAction;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -75,6 +76,10 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     
     public ActionForward protocolActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return mapping.findForward("protocolActions");
+    }
+    
+    public ActionForward customData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        return CustomDataAction.customData(mapping, form, request, response);
     }
 
     /**
