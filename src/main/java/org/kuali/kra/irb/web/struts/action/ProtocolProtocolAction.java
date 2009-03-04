@@ -319,18 +319,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
         getProtocolFundingSourceService().deleteProtocolFundingSource(protocolForm.getProtocolDocument().getProtocol(), getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
-    /**
-     * This method is to get protocol location service
-     * @return ProtocolLocationService
-     */
-    private ProtocolFundingSourceService getProtocolFundingSourceService() {
-        
-        ProtocolFundingSourceService protocolFundingSourceService = 
-            (ProtocolFundingSourceService) KraServiceLocator.getService("protocolFundingSourceService");
-        
-        return protocolFundingSourceService;
-    }
+
     
     private ProtocolProtocolService getProtocolProtocolService() {
         

@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.irb.service;
 
+import java.util.HashMap;
+
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolFundingSource;
 
@@ -51,6 +53,10 @@ public interface ProtocolFundingSourceService {
      * @return
      */
     public boolean isValidIdForType(ProtocolFundingSource source);
+    
+    public boolean isValidLookup(String boClassName);
 
-
+    public HashMap<String, String> getLookupParameters(String boName);
+    
+    public String updateLookupParameter(String parameter, String boClassName, String fieldConversions);
 }

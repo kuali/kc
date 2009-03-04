@@ -19,6 +19,7 @@ import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.Collection;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,6 +45,7 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.document.authorization.ProtocolTask;
 import org.kuali.kra.irb.service.ProtocolAuthorizationService;
+import org.kuali.kra.irb.service.ProtocolFundingSourceService;
 import org.kuali.kra.irb.service.ProtocolPersonTrainingService;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
@@ -226,7 +228,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     }
 
     /**
-     * Takes care of storing the action form in the User session and forwarding to the lookup action.
+     * Takes care of forwarding to the lookup action.
      * 
      * @param mapping
      * @param form
@@ -237,71 +239,45 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
      */
     public ActionForward performFundingSourceLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        // parse out the important strings from our methodToCall parameter
-        String fullParameter = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
-        StringBuffer fullParameterBuffer = new StringBuffer(fullParameter);
-        boolean lookupTypeSet = true;
         
         String fieldConversions="";
-        
         String boClassName = null;
-        //TODO this is a kludge but worth a test: wil need to clean most of the bus logic out of here, but proof of concept is useful for now
-         if (((ProtocolForm)form).getProtocolDocument().getProtocol().getNewFundingSource().getFundingSourceType() != null) {
+        if (((ProtocolForm)form).getProtocolDocument().getProtocol().getNewFundingSource().getFundingSourceType() != null) {
             boClassName = ((ProtocolForm)form).getProtocolDocument().getProtocol().getNewFundingSource().getFundingSourceType().getDescription();
-            if (boClassName.equalsIgnoreCase(Unit.class.getSimpleName())) {
-                boClassName = Unit.class.getName();
-                fieldConversions="unitNumber:document.protocol.newFundingSource.fundingSource,unitName:document.protocol.newFundingSource.fundingSourceName";
-            } else if (boClassName.equalsIgnoreCase("Sponsor")) {
-                boClassName = "org.kuali.kra.bo.Sponsor";
-                fieldConversions="sponsorCode:document.protocol.newFundingSource.fundingSource,sponsorName:document.protocol.newFundingSource.fundingSourceName";
-            } else if (boClassName.equalsIgnoreCase("Award")) {
-                GlobalVariables.getErrorMap().putError("document.protocol.newFundingSource.fundingSourceTypeCode", "error.custom", "Lookup is Temporarily unavailable for Funding Type Award");            
-                return mapping.findForward(MAPPING_BASIC);
-                //TODO readd
-//                boClassName = "org.kuali.kra.award.bo.Award";
-//                fieldConversions="awardNumber:document.protocol.newFundingSource.fundingSource,sponsor.sponsorName:document.protocol.newFundingSource.fundingSourceName,title:document.protocol.newFundingSource.fundingSourceTitle";
-            } else if (boClassName.equalsIgnoreCase("Development Proposal")) {
-                GlobalVariables.getErrorMap().putError("document.protocol.newFundingSource.fundingSourceTypeCode", "error.custom", "Lookup is Temporarily unavailable for Funding Type Development Proposal");            
-                return mapping.findForward(MAPPING_BASIC);
-                //TODO readd
-                //boClassName = "org.kuali.kra.bo.proposaldevelopment.document.ProposalDevelopmentDocument";
-                //fieldConversions="proposalNumber:document.protocol.newFundingSource.fundingSource,sponsor.sponsorName:document.protocol.newFundingSource.fundingSourceName,title:document.protocol.newFundingSource.fundingSourceTitle";
-            }  else if (boClassName.equalsIgnoreCase("Institute Proposal")) {
-                GlobalVariables.getErrorMap().putError("document.protocol.newFundingSource.fundingSourceTypeCode", "error.custom", "Lookup is Temporarily unavailable for Funding Type Institute Proposal");            
-                return mapping.findForward(MAPPING_BASIC);   
-                //TODO readd
-//                boClassName = "org.kuali.kra.bo.proposaldevelopment.document.ProposalDevelopmentDocument";
-//                fieldConversions="proposalNumber:document.protocol.newFundingSource.fundingSource,sponsor.sponsorName:document.protocol.newFundingSource.fundingSourceName,title:document.protocol.newFundingSource.fundingSourceTitle";
-            }  else if (boClassName.equalsIgnoreCase("Other")) {
-                    GlobalVariables.getErrorMap().putError("document.protocol.newFundingSource.fundingSourceTypeCode", "error.custom", "Lookup is unavailable for Funding Type Other");            
-                return mapping.findForward(MAPPING_BASIC);
-            }
+        }
+        HashMap<String, String> map = getProtocolFundingSourceService().getLookupParameters(boClassName);
+
+        boolean isValid = getProtocolFundingSourceService().isValidLookup(boClassName);
+        
+        if (!map.isEmpty()) {
+            boClassName = map.keySet().iterator().next();
+            fieldConversions = map.get(boClassName);
         } else {
-            GlobalVariables.getErrorMap().putError("document.protocol.newFundingSource.fundingSourceTypeCode", "error.custom", "Funding Type must be select to perform Lookup");            
-            return mapping.findForward(MAPPING_BASIC);
-         }
-         if (StringUtils.isBlank(boClassName)) {
-             throw new RuntimeException("Illegal call to perform lookup, no business object class name specified.");
-         }
-        
-        // parse out business object class name for lookup
-        String boClassNameField = StringUtils.substringBetween(fullParameter, KNSConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL,
-                KNSConstants.METHOD_TO_CALL_BOPARM_RIGHT_DEL);
-        
-        
-        int start = fullParameterBuffer.indexOf(KNSConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL)+KNSConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL.length();
-        int end = fullParameterBuffer.indexOf(KNSConstants.METHOD_TO_CALL_BOPARM_RIGHT_DEL);        
-        fullParameterBuffer.replace(start, end, boClassName);
+            isValid=false;
+        }
 
-        start = fullParameterBuffer.indexOf(KNSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL)+KNSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL.length();
-        end = fullParameterBuffer.indexOf(KNSConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL);        
-        fullParameterBuffer.replace(start, end, fieldConversions);
-        
+        if (!isValid) {
+             return mapping.findForward(MAPPING_BASIC);             
+        }        
+                
+        String fullParameter = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String updatedParameter = getProtocolFundingSourceService().updateLookupParameter( fullParameter,  boClassName,  fieldConversions);
 
-
-        
-        request.setAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE, fullParameterBuffer.toString());
+        request.setAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE, updatedParameter);
         return super.performLookup( mapping,  form,  request, response);
+    }
+    
+    
+    /**
+     * This method is to get protocol location service
+     * @return ProtocolLocationService
+     */
+    protected ProtocolFundingSourceService getProtocolFundingSourceService() {
+        
+        ProtocolFundingSourceService protocolFundingSourceService = 
+            (ProtocolFundingSourceService) KraServiceLocator.getService("protocolFundingSourceService");
+        
+        return protocolFundingSourceService;
     }
 
     /**
