@@ -17,16 +17,16 @@ package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.budget.bo.AbstractBudgetRate;
-import org.kuali.kra.budget.bo.BudgetProposalRate;
-import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 /**
  * 
  * This class represents INSTITUTE_RATE record
  */
 public class InstituteRate extends AbstractInstituteRate {
-	private String activityTypeCode;
+
+    private static final long serialVersionUID = -7899229198533624158L;
+
+    private String activityTypeCode;
     
     private ActivityType activityType;
 
@@ -39,9 +39,8 @@ public class InstituteRate extends AbstractInstituteRate {
 	}
     
     @Override 
-    @SuppressWarnings("unchecked")
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = super.toStringMapper();
+	protected LinkedHashMap<String, Object> toStringMapper() {
+		LinkedHashMap<String, Object> hashMap = super.toStringMapper();
 		hashMap.put("activityTypeCode", getActivityTypeCode());
 		return hashMap;
 	}

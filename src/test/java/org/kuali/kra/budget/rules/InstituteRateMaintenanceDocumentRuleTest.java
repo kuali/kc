@@ -51,7 +51,7 @@ public class InstituteRateMaintenanceDocumentRuleTest extends MaintenanceRuleTes
 
         InstituteRate instituteRate = new InstituteRate();
         
-        instituteRate.setRateClassCode("10");
+        instituteRate.setRateClassCode("1");
         instituteRate.setRateTypeCode("1");
         instituteRate.setUnitNumber("000001");
         instituteRate.setActivityTypeCode("1");

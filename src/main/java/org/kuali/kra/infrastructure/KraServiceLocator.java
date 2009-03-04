@@ -15,77 +15,104 @@
  */
 package org.kuali.kra.infrastructure;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.KNSServiceLocator;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class KraServiceLocator {
+/**
+ * Service locator used for research administration.
+ */
+public final class KraServiceLocator {
 
-    public static final String SPRING_BEANS = "classpath:SpringBeans.xml";
+    private static final String SPRING_BEANS = "classpath:SpringBeans.xml";
 
-    private static ConfigurableApplicationContext appContext;
-
-    private static void initialize() {
-        if (appContext == null) {
-            appContext = new ClassPathXmlApplicationContext(SPRING_BEANS);
-        }
+    /**
+     * private utility class ctor.
+     * @throws UnsupportedOperationException if called
+     */
+    private KraServiceLocator() {
+        throw new UnsupportedOperationException("do not call");
     }
-
-    public static ConfigurableApplicationContext getAppContext() {
-        initialize();
-        return appContext;
-    }
-
-    public static Object getService(String name) {
-        Object service = null;
+    
+    /**
+     * This class follows the "Initialization on demand holder idiom."  It is a thread-safe way
+     * to lazily init a resource.
+     */
+    private static final class ContextHolder {
         
-        try {
-            service = getAppContext().getBean(name);
-        } catch (NoSuchBeanDefinitionException e) {
-            // If we don't find this service locally, look for it in the KNS context
-            service = KNSServiceLocator.getService(name);
+        public static final ConfigurableApplicationContext APP_CONTEXT
+            = new ClassPathXmlApplicationContext(KraServiceLocator.SPRING_BEANS);
+        
+        /**
+         * private utility class ctor.
+         * @throws UnsupportedOperationException if called
+         */
+        private ContextHolder() {
+            throw new UnsupportedOperationException("do not call");
         }
-        
-        return service;
-    }
-
-    public static <T> T getTypedService(String name) {
-        T service = null;
-        
-        try {
-            service = (T) getAppContext().getBean(name);
-        } catch (NoSuchBeanDefinitionException e) {
-            // If we don't find this service locally, look for it in the KNS context
-            service = (T) KNSServiceLocator.getService(name);
-        }
-        
-        return service;
     }
 
     /**
-     * Uses the service interface to find the first service that matches it by name as a default service. There 
-     * may be many services for a given interface. Only use this method if you are interested in finding a service
-     * that matches the convention described.<br/>
-     * <br/>
-     * The service name and the service interface name are the same when converted to lowercase. Again, this method
-     * should only be used in the special case where this convention applies. On KRA, this is usually the case.
-     *
-     * @param Interface class of the service you want
-     * @return T the type of the service
+     * Gets the application context.
+     * @return the application context
      */
-    public static <T> T getService(Class<T> serviceClass) {
-        T service = null;
-        String name = serviceClass.getSimpleName().substring(0, 1).toLowerCase() + serviceClass.getSimpleName().substring(1);
+    public static ConfigurableApplicationContext getAppContext() {
+        return ContextHolder.APP_CONTEXT;
+    }
 
-        try {
-            service = (T) getAppContext().getBean(name);
-        } catch (NoSuchBeanDefinitionException e) {
-            // If we don't find this service locally, look for it in the KNS context
-            service = KNSServiceLocator.getBean(serviceClass, name);
+    /**
+     * Lookups a service by name.
+     * 
+     * @param serviceName name of the Interface class of the service you want
+     * @param <T> the type of service you want.
+     * @return the service
+     * @throws IllegalArgumentException if the service name is blank.
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> T getService(final String serviceName) {
+        
+        if (StringUtils.isBlank(serviceName)) {
+            throw new IllegalArgumentException("the service name is blank.");
         }
         
-        return service;
+        try {
+            return (T) getAppContext().getBean(serviceName);
+        } catch (NoSuchBeanDefinitionException e) {
+            // If we don't find this service locally, look for it in the KNS context
+            return (T) KNSServiceLocator.getService(serviceName);
+        }
+    }
+
+    /**
+     * <p>
+     * Uses the service interface to find the first service that matches it by name as a default service.
+     * There may be many services for a given interface. Only use this method if you are interested in
+     * finding a service that matches the convention described.
+     * </p>
+     * 
+     * <p>
+     * The service name and the service interface name are the same when converted to lowercase.
+     * Again, this method should only be used in the special case where this convention applies.
+     * On KRA, this is usually the case.
+     * </p>
+     * 
+     * @param serviceClass Interface class of the service you want
+     * @param <T> the type of service you want.
+     * @return the service
+     * @throws IllegalArgumentException if the service class is null.
+     */
+    public static <T> T getService(final Class<T> serviceClass) {
+        
+        if (serviceClass == null) {
+            throw new IllegalArgumentException("the service class is null.");
+        }
+        
+        final String name = serviceClass.getSimpleName().substring(0, 1).toLowerCase()
+            + serviceClass.getSimpleName().substring(1);
+
+        return KraServiceLocator.getService(name);
     }
 
 }

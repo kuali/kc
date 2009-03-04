@@ -26,8 +26,7 @@ import org.kuali.core.lookup.KualiLookupableImpl;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Rolodex;
-
-import static org.kuali.kra.infrastructure.KraServiceLocator.getTypedService;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 
 /**
  * Class for testing units of functionality for the <code>{@link NonOrganizationalLookupableHelperServiceImpl}
@@ -62,7 +61,7 @@ public class NonOrganizationalRolodexLookupableHelperServiceImplTest extends Kra
         fieldValues.put("organization", "Lockheed*"); // Search for organizations that start with National
         fieldValues.put("firstName", "Chris"); // Search for organizations that start with National
         
-        KualiLookupableImpl lookupableService = getTypedService("nonOrganizationalRolodexLookupable");
+        KualiLookupableImpl lookupableService = KraServiceLocator.getService("nonOrganizationalRolodexLookupable");
         lookupableService.setBusinessObjectClass(NonOrganizationalRolodex.class);
         
         Collection results = lookupableService.getSearchResults(fieldValues);
@@ -75,7 +74,7 @@ public class NonOrganizationalRolodexLookupableHelperServiceImplTest extends Kra
         Map fieldValues = new HashMap();
         fieldValues.put("organization", "Lockheed*"); // Search for organizations that start with National
         
-        KualiLookupableImpl lookupableService = getTypedService("nonOrganizationalRolodexLookupable");
+        KualiLookupableImpl lookupableService = KraServiceLocator.getService("nonOrganizationalRolodexLookupable");
         lookupableService.setBusinessObjectClass(NonOrganizationalRolodex.class);
         
         Collection results = lookupableService.getSearchResults(fieldValues);
