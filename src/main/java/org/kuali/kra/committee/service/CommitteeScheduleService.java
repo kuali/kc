@@ -28,7 +28,4 @@ public interface CommitteeScheduleService {
     
     public void addSchedule(ScheduleData scheduleData, Committee committee) throws ParseException;
     
-    public void filterCommitteeScheduleDates(ScheduleData scheduleData, Committee committee);
-
-    public void resetCommitteeScheduleDates(Committee committee);
 }
