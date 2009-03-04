@@ -73,6 +73,7 @@ public class ProtocolHelper {
     
     public void prepareView() {
         prepareRequiredFields();
+        syncFundingSources(getProtocol());
         initializeReferenceLabels();
         initializeTrainingSection();
         initializePermissions(getProtocol());    
@@ -161,30 +162,32 @@ public class ProtocolHelper {
         this.personTrainingSectionRequired = personTrainingSectionRequired;
     }   
     public void syncFundingSources(Protocol protocol) {
-        if (protocol != null ) {
-            if (protocol.getNewFundingSource() != null) {
-                ProtocolFundingSource fundingSource = protocol.getNewFundingSource();
+        if (protocol != null) {
+            ProtocolFundingSource fundingSource = protocol.getNewFundingSource();
+            if (fundingSource != null) {
                 
-                if (fundingSource.getFundingSourceType() != null && 
-                    fundingSource.getFundingSourceType().getFundingSourceTypeCode() != null &&
-                    fundingSource.getFundingSource() != null    ) {
-                    
-                    ProtocolFundingSource syncedSource = 
-                        getProtocolFundingSourceService().getNameAndTitle(fundingSource.getFundingSourceType().getFundingSourceTypeCode().toString(), fundingSource.getFundingSource(),fundingSource.getFundingSourceName(), fundingSource.getFundingSourceTitle());
+                if (fundingSource.getFundingSourceType() != null
+                        && fundingSource.getFundingSourceType().getFundingSourceTypeCode() != null
+                        && StringUtils.isNotEmpty(fundingSource.getFundingSource()) ) {
+
+                    ProtocolFundingSource syncedSource = getProtocolFundingSourceService().getNameAndTitle(
+                            fundingSource.getFundingSourceType().getFundingSourceTypeCode().toString(),
+                            fundingSource.getFundingSource(), fundingSource.getFundingSourceName(),
+                            fundingSource.getFundingSourceTitle());
                     fundingSource.setFundingSourceName(syncedSource.getFundingSourceName());
-                    fundingSource.setFundingSourceTitle(syncedSource.getFundingSourceTitle());                        
+                    fundingSource.setFundingSourceTitle(syncedSource.getFundingSourceTitle());
                 }
             }
             for (ProtocolFundingSource source : protocol.getProtocolFundingSources()) {
-                if (source.getFundingSourceType() != null && 
-                        source.getFundingSourceType().getFundingSourceTypeCode() != null &&
-                        source.getFundingSource() != null    ) {
-                        
-                        ProtocolFundingSource syncedSource = 
-                            getProtocolFundingSourceService().getNameAndTitle(source.getFundingSourceType().getFundingSourceTypeCode().toString(), source.getFundingSource(),source.getFundingSourceName(), source.getFundingSourceTitle());
-                        source.setFundingSourceName(syncedSource.getFundingSourceName());
-                        source.setFundingSourceTitle(syncedSource.getFundingSourceTitle());                        
-                    }                
+                if (source.getFundingSourceType() != null && source.getFundingSourceType().getFundingSourceTypeCode() != null
+                        && source.getFundingSource() != null) {
+
+                    ProtocolFundingSource syncedSource = getProtocolFundingSourceService().getNameAndTitle(
+                            source.getFundingSourceType().getFundingSourceTypeCode().toString(), source.getFundingSource(),
+                            source.getFundingSourceName(), source.getFundingSourceTitle());
+                    source.setFundingSourceName(syncedSource.getFundingSourceName());
+                    source.setFundingSourceTitle(syncedSource.getFundingSourceTitle());
+                }
             }
         }
     }

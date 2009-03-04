@@ -1427,6 +1427,13 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         this.sponsor = sponsor;
         this.sponsorCode = sponsor != null ? sponsor.getSponsorCode() : null;
     }
+    
+    public String getSponsorName() {
+        if (getSponsor() != null) {
+            return getSponsor().getSponsorName();
+        }
+        return null;
+    }
 
     /**
      * This method adds an approved foreign travel trip
