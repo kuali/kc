@@ -2283,6 +2283,14 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+
+		<reference-descriptor name="costElementBo" class-ref="org.kuali.kra.budget.bo.CostElement" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="costElement"/> 
+		</reference-descriptor>
+		<reference-descriptor name="jobCodeRef" class-ref="org.kuali.kra.budget.bo.JobCode" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="jobCode"/> 
+		</reference-descriptor>
+
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.budget.bo.ValidCeRateType" table="VALID_CE_RATE_TYPES">
 		<field-descriptor name="costElement" column="COST_ELEMENT" jdbc-type="VARCHAR" primarykey="true"/>
