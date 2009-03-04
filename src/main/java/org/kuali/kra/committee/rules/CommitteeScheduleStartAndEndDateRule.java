@@ -22,8 +22,9 @@ import org.kuali.kra.committee.rule.event.AddCommitteeScheduleStartAndEndDateEve
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.committee.web.struts.form.schedule.StyleKey;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
-public class CommitteeScheduleStartAndEndDateRule extends CommitteeDocumentRule implements AddCommitteeScheduleStartAndEndDateRule {
+public class CommitteeScheduleStartAndEndDateRule extends ResearchDocumentRuleBase implements AddCommitteeScheduleStartAndEndDateRule {
     
     private enum constants {scheduleData, dailySchedule, weeklySchedule, monthlySchedule, yearlySchedule, scheduleEndDate, scheduleStartDate, Date};
     
