@@ -17,7 +17,7 @@ package org.kuali.kra.committee.rule;
 
 import org.kuali.kra.committee.rule.event.AddCommitteeScheduleDateConflictEvent;
 
-public interface AddCommitteeScheduleDateConflictRule {
+public interface AddCommitteeScheduleDateConflictRule {    
     
     public boolean processAddCommitteeScheduleRuleBusinessRules(AddCommitteeScheduleDateConflictEvent addCommitteeScheduleEvent);
     
