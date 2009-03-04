@@ -82,8 +82,6 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 public class BudgetDocument extends ResearchDocumentBase implements Copyable, SessionDocument {
     private static final long serialVersionUID = 9170582507508175565L;
-    private static final String DETAIL_TYPE_CODE = "D";
-    private static final String BUDGET_NAMESPACE_CODE = "KRA-B";
     private static final String FALSE_FLAG = "N";
     private static final String TRUE_FLAG = "Y";
 
@@ -1139,7 +1137,7 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
      */
     protected Date loadFiscalYearStart() {
         KualiConfigurationService kualiConfigurationService = this.getService(KualiConfigurationService.class);
-        return createDateFromString(kualiConfigurationService.getParameterValue(BUDGET_NAMESPACE_CODE, DETAIL_TYPE_CODE, Constants.BUDGET_CURRENT_FISCAL_YEAR));        
+        return createDateFromString(kualiConfigurationService.getParameterValue(Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_CURRENT_FISCAL_YEAR));        
     }
     
     /**
@@ -1309,7 +1307,7 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
         
         try {
             KualiConfigurationService kualiConfigurationService = this.getService(KualiConfigurationService.class);
-            parmValue = kualiConfigurationService.getParameterValue(BUDGET_NAMESPACE_CODE, DETAIL_TYPE_CODE, parmName);
+            parmValue = kualiConfigurationService.getParameterValue(Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, parmName);
         } catch(Exception exc) {
             parmValue = FALSE_FLAG;
         }

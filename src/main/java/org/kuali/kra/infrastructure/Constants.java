@@ -134,6 +134,7 @@ public interface Constants {
 
     public static final String DEFAULT_DATE_FORMAT_PATTERN = "MM/dd/yyyy";
     public static final String PARAMETER_MODULE_BUDGET = "KRA-B";
+    public static final String BUDGET_ALL_DETAIL_TYPE_CODE = "A";
     
     // Budget Versions Constants
     public static final String BUDGET_STATUS_COMPLETE_CODE = "budgetStatusCompleteCode";

@@ -225,6 +225,8 @@ public final class KeyConstants {
     public static final String ERROR_LEAD_UNIT_REQUIRED = "error.leadUnit.required";
     
     public static final String ERROR_RATE_TYPE_NOT_EXIST = "error.rateType.not.exist";
+    public static final String ERROR_RATE_TYPE_NOT_VALID_FOR_TYPE = "error.rateType.not.valid.for.type";
+    public static final String ERROR_RATE_CLASS_NOT_VALID_FOR_TYPE = "error.rateClass.not.valid.for.type";
     
     public static final String ERROR_EFFECTIVE_DATE_OUT_OF_RANGE = "error.effective.date.out.of.range";
     public static final String ERROR_IMCOMPLETE_PERSON_ENTRIES = "error.incomplete.person.entries";
