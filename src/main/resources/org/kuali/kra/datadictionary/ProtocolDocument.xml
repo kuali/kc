@@ -67,6 +67,16 @@
 	          	<property name="helpDefinition" >
 	            	<bean parent="HelpDefinition"
 	                  p:parameterNamespace="KC-IRB"
+	                  p:parameterName="customDataHelp"
+	                  p:parameterDetailType="D" />
+	          	</property>
+	          	<property name="headerTabDisplayName" value="Custom Data" />
+	          	<property name="headerTabNavigateTo" value="customData" />
+        	</bean>
+        	<bean parent="HeaderNavigation">
+	          	<property name="helpDefinition" >
+	            	<bean parent="HelpDefinition"
+	                  p:parameterNamespace="KC-IRB"
 	                  p:parameterName="permissionsHelp"
 	                  p:parameterDetailType="D" />
 	          	</property>

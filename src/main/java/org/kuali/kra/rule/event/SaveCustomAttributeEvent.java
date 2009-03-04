@@ -16,15 +16,14 @@
 package org.kuali.kra.rule.event;
 
 import org.kuali.core.rule.BusinessRule;
-import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.rule.CustomAttributeRule;
 
 public class SaveCustomAttributeEvent extends KraDocumentEventBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
             .getLog(SaveCustomAttributeEvent.class);
 
-    public SaveCustomAttributeEvent(String errorPathPrefix, ProposalDevelopmentDocument document) {
+    public SaveCustomAttributeEvent(String errorPathPrefix, ResearchDocumentBase document) {
         super("Adding custom attribute to document " + getDocumentId(document), errorPathPrefix, document);
     }
 
