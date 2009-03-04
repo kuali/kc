@@ -16,7 +16,6 @@
 package org.kuali.kra.committee.rules;
 
 import java.sql.Date;
-import java.util.Formatter;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -66,18 +65,13 @@ public class CommitteeScheduleDateConflictRule extends ResearchDocumentRuleBase 
     
     private void identifyPotentialConflicts(List<CommitteeSchedule> committeeSchedules, List<Date> conflictDates) {
         Date scheduleDate = null;
-        StringBuilder sb = null;
-        Formatter formatter = null;
         int count = 0;
         for(Date date : conflictDates) {
             count = 0;
             for(CommitteeSchedule committeeSchedule : committeeSchedules) {
                 scheduleDate = committeeSchedule.getScheduledDate();
                 if(DateUtils.isSameDay(date, scheduleDate)){
-                    sb = new StringBuilder();
-                    formatter = new Formatter(sb);
-                    formatter.format(id, count);
-                    reportError(sb.toString(), KeyConstants.ERROR_COMMITTEESCHEDULE_DATE_CONFLICT, scheduleDate.toString());
+                    reportError(String.format(id, count), KeyConstants.ERROR_COMMITTEESCHEDULE_DATE_CONFLICT, scheduleDate.toString());
                 }
                 count++;
             }   
