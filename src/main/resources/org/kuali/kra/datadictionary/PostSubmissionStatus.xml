@@ -26,6 +26,7 @@
             <inquirySections><inquirySection title="Post Submission Status Code"><inquiryFields>
                 <field attributeName="postSubmissionStatusCode" forceInquiry="true" />
                 <field attributeName="description" />
+                <field attributeName="definition" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -45,11 +46,13 @@
             <lookupFields>
                 <lookupField attributeName="postSubmissionStatusCode" required="false" />
                 <lookupField attributeName="description" required="false" />
+                <lookupField attributeName="definition" required="false" />
             </lookupFields>
 
             <resultFields>
                 <field attributeName="postSubmissionStatusCode" forceInquiry="true" />
                 <field attributeName="description" forceInquiry="false"/>
+                <field attributeName="definition" forceInquiry="false"/>
             </resultFields>
         </lookup>
 
@@ -73,7 +76,12 @@
 			</attribute>
 
             <attributeReference name="description" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="description" />
-
+			<attributeReference name="definition" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="description">
+				<label>Definition</label>
+                <shortLabel>Definition</shortLabel>
+                <summary>Definition</summary>
+                <description>Definition</description>
+			</attributeReference>
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
 		</attributes>

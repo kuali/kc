@@ -51,6 +51,7 @@
                 <maintainableItems>
                     <maintainableField name="postSubmissionStatusCode" required="true" />
                     <maintainableField name="description" required="true" />
+                    <maintainableField name="definition" required="true" />
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>
