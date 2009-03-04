@@ -112,7 +112,8 @@ public final class KraServiceLocator {
         final String name = serviceClass.getSimpleName().substring(0, 1).toLowerCase()
             + serviceClass.getSimpleName().substring(1);
 
-        return KraServiceLocator.getService(name);
+        //cannot use type inference for T here or continuum fails to compile under sun's jdk 1.5.0.8
+        return KraServiceLocator.<T>getService(name);
     }
 
 }
