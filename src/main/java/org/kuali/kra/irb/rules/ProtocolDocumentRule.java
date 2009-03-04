@@ -43,6 +43,9 @@ import org.kuali.kra.irb.rule.event.SaveProtocolLocationEvent;
 import org.kuali.kra.irb.rule.event.SaveProtocolPersonnelEvent;
 import org.kuali.kra.irb.rule.event.SaveProtocolRequiredFieldsEvent;
 import org.kuali.kra.irb.rule.event.UpdateProtocolPersonnelEvent;
+import org.kuali.kra.rule.CustomAttributeRule;
+import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
+import org.kuali.kra.rules.KraCustomAttributeRule;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 /**
@@ -50,7 +53,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolParticipantRule, AddProtocolLocationRule, SaveProtocolLocationRule, SaveProtocolRequiredFieldsRule, AddProtocolPersonnelRule, SaveProtocolPersonnelRule, AddProtocolFundingSourceRule, PermissionsRule, AddProtocolUnitRule, UpdateProtocolPersonnelRule {
+public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolParticipantRule, AddProtocolLocationRule, SaveProtocolLocationRule, SaveProtocolRequiredFieldsRule, AddProtocolPersonnelRule, SaveProtocolPersonnelRule, AddProtocolFundingSourceRule, PermissionsRule, AddProtocolUnitRule, UpdateProtocolPersonnelRule, CustomAttributeRule {
     
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -185,6 +188,13 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
 
         return new ProtocolPersonnelRule().processUpdateProtocolPersonnelBusinessRules(updateProtocolPersonnelEvent);
         
+    }
+    
+    /**
+     * @see org.kuali.kra.rule.CustomAttributeRule#processCustomAttributeRules(org.kuali.kra.rule.event.SaveCustomAttributeEvent)
+     */
+    public boolean processCustomAttributeRules(SaveCustomAttributeEvent saveCustomAttributeEvent) {
+        return new KraCustomAttributeRule().processCustomAttributeRules(saveCustomAttributeEvent);
     }
 
 }

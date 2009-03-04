@@ -26,9 +26,9 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDataType;
 import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.rule.CustomAttributeRule;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.kra.service.CustomAttributeService;
@@ -48,7 +48,7 @@ public class KraCustomAttributeRule extends ResearchDocumentRuleBase implements 
      * @see org.kuali.kra.rule.CustomAttributeRule#processCustomAttributeRules(org.kuali.kra.rule.event.SaveCustomAttributeEvent)
      */
     public boolean processCustomAttributeRules(SaveCustomAttributeEvent saveCustomAttributeEvent) {
-        ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) saveCustomAttributeEvent.getDocument();
+        ResearchDocumentBase document = (ResearchDocumentBase) saveCustomAttributeEvent.getDocument();
         Map<String, CustomAttributeDocument> customAttributeDocuments = document.getCustomAttributeDocuments();
         boolean valid = true;
         for (Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry : customAttributeDocuments.entrySet()) {
