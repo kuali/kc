@@ -21,12 +21,15 @@
 <c:set var="kraAttributeReferenceDummyAttributes" value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
 <c:set var="committeeScheduleAttributeReferenceDummy" value="${DataDictionary.CommitteeScheduleAttributeReferenceDummy.attributes}" />
 <div id="workarea">
-<kul:tab tabTitle="Schedule" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="document.committee.committeeSchedules*,scheduleData*" auditCluster="requiredFieldsAuditErrors"  tabAuditKey="" useRiceAuditMode="true">
+<kul:tab tabTitle="Schedule" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="document.committee.committeeSchedules*,scheduleData*,datesInConflict*" auditCluster="requiredFieldsAuditErrors"  tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
+		
+		<kra:softError softErrorKey="datesInConflict" />
+		
     	<h3>
     		<span class="subhead-left">Add to Schedule</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.committee.document.CommitteeDocument" altText="help"/></span>
-        </h3>
+        </h3>      
         
         <table cellpadding=0 cellspacing=0 summary="">
               <tr>
