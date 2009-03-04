@@ -29,6 +29,12 @@ VALUES('KRA-B', 'D', 'budgetCostSharingEnforcementFlag', '205246DF7F364A30833579
 INSERT
 INTO sh_parm_t (sh_parm_nmspc_cd, sh_parm_dtl_typ_cd, sh_parm_nm, obj_id, ver_nbr, sh_parm_typ_cd, sh_parm_txt, sh_parm_desc, sh_parm_cons_cd, wrkgrp_nm, active_ind)
 VALUES('KRA-B', 'D', 'budgetUnrecoveredFandAEnforcementFlag', 'C9E4C6277E234C45BF0E1D041B2491CF',1, 'CONFG', 'Y', 'Flag indicating if Unrecovered F and A allocation should be enforced', 'A', 'WorkflowAdmin', 'Y');
+INSERT INTO sh_parm_t (sh_parm_nmspc_cd,sh_parm_dtl_typ_cd,sh_parm_nm,sh_parm_typ_cd,sh_parm_txt,sh_parm_desc,sh_parm_cons_cd,active_ind)   
+VALUES ('KRA-B','A','instituteRateClassTypes','CONFG','E;I;O;V;X','Manages a list of Institute rate class types.','A','Y');
+
+INSERT INTO sh_parm_t (sh_parm_nmspc_cd,sh_parm_dtl_typ_cd,sh_parm_nm,sh_parm_typ_cd,sh_parm_txt,sh_parm_desc,sh_parm_cons_cd,active_ind)  
+VALUES ('KRA-B','A','instituteLaRateClassTypes','CONFG','Y;L','Manages a list of Institute La rate class types.','A','Y');
+
 
 UPDATE sh_parm_t
 SET sh_parm_txt = '7'
