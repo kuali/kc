@@ -21,7 +21,7 @@ import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kra.common.permissions.web.struts.form.AbstractPermissionsHelper;
+import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 
 /**
@@ -52,7 +52,7 @@ public class RolesValuesFinder extends KeyValuesBase {
         
         if (form instanceof PermissionsForm) {
             PermissionsForm tabSupport = (PermissionsForm) form;
-            AbstractPermissionsHelper helper = tabSupport.getPermissionsHelper();
+            PermissionsHelperBase helper = tabSupport.getPermissionsHelper();
             return helper.getRoleSelection();
         }
         

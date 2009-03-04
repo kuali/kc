@@ -33,5 +33,5 @@ public interface PermissionsForm {
      * Get the form's PermissionsHelper.
      * @return the form's PermissionsHelper
      */
-    public AbstractPermissionsHelper getPermissionsHelper();
+    public PermissionsHelperBase getPermissionsHelper();
 }

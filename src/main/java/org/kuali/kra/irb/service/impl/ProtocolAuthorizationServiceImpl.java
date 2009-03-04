@@ -78,25 +78,25 @@ public class ProtocolAuthorizationServiceImpl implements ProtocolAuthorizationSe
     }
     
     /**
-     * @see org.kuali.kra.protocoldevelopment.service.ProtocolAuthorizationService#getUserNames(org.kuali.kra.protocoldevelopment.document.ProtocolDocument, java.lang.String)
+     * @see org.kuali.kra.irb.service.ProtocolAuthorizationService#getUserNames(org.kuali.kra.irb.bo.Protocol, java.lang.String)
      */
     public List<String> getUserNames(Protocol protocol, String roleName) {
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put(PROTOCOL_KEY, protocol.getProtocolNumber());
         return kimQualifiedRoleService.getPersonUsernames(roleName, qualifiedRoleAttributes);
     }
-
+    
     /**
-     * @see org.kuali.kra.protocoldevelopment.service.ProtocolAuthorizationService#addRole(java.lang.String, java.lang.String, org.kuali.kra.protocoldevelopment.document.ProtocolDocument)
+     * @see org.kuali.kra.irb.service.ProtocolAuthorizationService#addRole(java.lang.String, java.lang.String, org.kuali.kra.irb.bo.Protocol)
      */
     public void addRole(String username, String roleName, Protocol protocol) {
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put(PROTOCOL_KEY, protocol.getProtocolNumber());
         kimPersonService.addQualifiedRole(username, roleName, qualifiedRoleAttributes);
     }
-
+    
     /**
-     * @see org.kuali.kra.protocoldevelopment.service.ProtocolAuthorizationService#removeRole(java.lang.String, java.lang.String, org.kuali.kra.protocoldevelopment.document.ProtocolDocument)
+     * @see org.kuali.kra.irb.service.ProtocolAuthorizationService#removeRole(java.lang.String, java.lang.String, org.kuali.kra.irb.bo.Protocol)
      */
     public void removeRole(String username, String roleName, Protocol protocol) {
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
@@ -105,7 +105,7 @@ public class ProtocolAuthorizationServiceImpl implements ProtocolAuthorizationSe
     }
     
     /**
-     * @see org.kuali.kra.protocoldevelopment.service.ProtocolAuthorizationService#hasPermission(java.lang.String, org.kuali.kra.protocoldevelopment.document.ProtocolDocument, java.lang.String)
+     * @see org.kuali.kra.irb.service.ProtocolAuthorizationService#hasPermission(java.lang.String, org.kuali.kra.irb.bo.Protocol, java.lang.String)
      */
     public boolean hasPermission(String username, Protocol protocol, String permissionName) {
         boolean userHasPermission = false;
@@ -127,9 +127,9 @@ public class ProtocolAuthorizationServiceImpl implements ProtocolAuthorizationSe
     private boolean isValidPerson(String username) {
         return personService.isActiveByName(username);
     }
-
+    
     /**
-     * @see org.kuali.kra.protocoldevelopment.service.ProtocolAuthorizationService#hasRole(java.lang.String, org.kuali.kra.protocoldevelopment.document.ProtocolDocument, java.lang.String)
+     * @see org.kuali.kra.irb.service.ProtocolAuthorizationService#hasRole(java.lang.String, org.kuali.kra.irb.bo.Protocol, java.lang.String)
      */
     public boolean hasRole(String username, Protocol protocol, String roleName) {
         if (isValidPerson(username)) {
@@ -141,7 +141,7 @@ public class ProtocolAuthorizationServiceImpl implements ProtocolAuthorizationSe
     }
     
     /**
-     * @see org.kuali.kra.protocoldevelopment.service.ProtocolAuthorizationService#getRoles(java.lang.String, org.kuali.kra.protocoldevelopment.document.ProtocolDocument)
+     * @see org.kuali.kra.irb.service.ProtocolAuthorizationService#getRoles(java.lang.String, org.kuali.kra.irb.bo.Protocol)
      */
     public List<String> getRoles(String username, Protocol protocol) {
         List<String> roleNames = new ArrayList<String>();
@@ -164,7 +164,7 @@ public class ProtocolAuthorizationServiceImpl implements ProtocolAuthorizationSe
     }
     
     /**
-     * @see org.kuali.kra.protocoldevelopment.service.ProtocolAuthorizationService#getPersonsInRole(org.kuali.kra.protocoldevelopment.document.ProtocolDocument, java.lang.String)
+     * @see org.kuali.kra.irb.service.ProtocolAuthorizationService#getPersonsInRole(org.kuali.kra.irb.bo.Protocol, java.lang.String)
      */
     public List<Person> getPersonsInRole(Protocol protocol, String roleName) {
         List<Person> persons = new ArrayList<Person>();
@@ -181,7 +181,7 @@ public class ProtocolAuthorizationServiceImpl implements ProtocolAuthorizationSe
     }
     
     /**
-     * @see org.kuali.kra.protocoldevelopment.service.ProtocolAuthorizationService#getAllRolePersons(org.kuali.kra.protocoldevelopment.document.ProtocolDocument)
+     * @see org.kuali.kra.irb.service.ProtocolAuthorizationService#getAllRolePersons(org.kuali.kra.irb.bo.Protocol)
      */
     public List<RolePersons> getAllRolePersons(Protocol protocol) {
         List<RolePersons> rolePersonsList = new ArrayList<RolePersons>();
