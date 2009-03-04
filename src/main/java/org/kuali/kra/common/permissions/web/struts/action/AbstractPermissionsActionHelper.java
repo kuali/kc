@@ -16,7 +16,6 @@
 package org.kuali.kra.common.permissions.web.struts.action;
 
 import static org.apache.commons.lang.StringUtils.replace;
-import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.rice.kns.util.KNSConstants.CONFIRMATION_QUESTION;
 import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
@@ -252,7 +251,7 @@ public abstract class AbstractPermissionsActionHelper {
             }
         }
         
-        return mapping.findForward(MAPPING_BASIC);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }      
     
     /*
