@@ -16,6 +16,7 @@
 package org.kuali.kra.committee.rules;
 
 import java.sql.Date;
+import java.util.Formatter;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -33,8 +34,7 @@ public class CommitteeScheduleDateConflictRule extends ResearchDocumentRuleBase 
     @SuppressWarnings("unused")
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeScheduleDateConflictRule.class);
     
-    public static final String id1 = "document.committee.committeeSchedules[";
-    public static final String id2 = "].scheduledDate";
+    public static final String id = "document.committee.committeeSchedules[%1$s].scheduledDate";
     
     public boolean processAddCommitteeScheduleRuleBusinessRules(AddCommitteeScheduleDateConflictEvent addCommitteeScheduleEvent) {
         boolean rulePassed = true;
@@ -67,6 +67,7 @@ public class CommitteeScheduleDateConflictRule extends ResearchDocumentRuleBase 
     private void identifyPotentialConflicts(List<CommitteeSchedule> committeeSchedules, List<Date> conflictDates) {
         Date scheduleDate = null;
         StringBuilder sb = null;
+        Formatter formatter = null;
         int count = 0;
         for(Date date : conflictDates) {
             count = 0;
@@ -74,12 +75,12 @@ public class CommitteeScheduleDateConflictRule extends ResearchDocumentRuleBase 
                 scheduleDate = committeeSchedule.getScheduledDate();
                 if(DateUtils.isSameDay(date, scheduleDate)){
                     sb = new StringBuilder();
-                    sb.append(id1).append(count).append(id2);
+                    formatter = new Formatter(sb);
+                    formatter.format(id, count);
                     reportError(sb.toString(), KeyConstants.ERROR_COMMITTEESCHEDULE_DATE_CONFLICT, scheduleDate.toString());
                 }
                 count++;
             }   
         }
     }
-
 }
