@@ -16,7 +16,7 @@
 package org.kuali.kra.irb.web.struts.action;
 
 import org.kuali.core.document.Document;
-import org.kuali.kra.common.permissions.web.struts.action.AbstractPermissionsActionHelper;
+import org.kuali.kra.common.permissions.web.struts.action.PermissionsActionHelperBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.service.ProtocolAuthorizationService;
@@ -26,7 +26,7 @@ import org.kuali.kra.irb.service.ProtocolAuthorizationService;
  * for the Permissions tab web page.  The ProtocolPermissionsAction delegates all
  * of the work to this helper.
  */
-public class ProtocolPermissionsActionHelper extends AbstractPermissionsActionHelper {
+public class ProtocolPermissionsActionHelper extends PermissionsActionHelperBase {
 
     /**
      * Constructs a ProtocolPermissionsActionHelper.
@@ -37,7 +37,7 @@ public class ProtocolPermissionsActionHelper extends AbstractPermissionsActionHe
     }
     
     /**
-     * @see org.kuali.kra.common.permissions.web.struts.action.AbstractPermissionsActionHelper#addUserToRoleInDatabase(org.kuali.core.document.Document, java.lang.String, java.lang.String)
+     * @see org.kuali.kra.common.permissions.web.struts.action.PermissionsActionHelperBase#addUserToRoleInDatabase(org.kuali.core.document.Document, java.lang.String, java.lang.String)
      */
     @Override
     protected void addUserToRoleInDatabase(Document document, String userName, String roleName) {
@@ -46,7 +46,7 @@ public class ProtocolPermissionsActionHelper extends AbstractPermissionsActionHe
     }
     
     /**
-     * @see org.kuali.kra.common.permissions.web.struts.action.AbstractPermissionsActionHelper#removeRoleFromUserInDatabase(org.kuali.core.document.Document, java.lang.String, java.lang.String)
+     * @see org.kuali.kra.common.permissions.web.struts.action.PermissionsActionHelperBase#removeRoleFromUserInDatabase(org.kuali.core.document.Document, java.lang.String, java.lang.String)
      */
     @Override
     protected void removeUserFromRoleInDatabase(Document document, String userName, String roleName) {

@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Person;
-import org.kuali.kra.common.permissions.web.struts.form.AbstractPermissionsHelper;
+import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.document.authorization.ProtocolTask;
@@ -34,7 +34,7 @@ import org.kuali.kra.irb.service.ProtocolAuthorizationService;
  * The PermissionsHelper is used to manage the Permissions tab web page.
  * It contains the data, forms, and methods needed to render the page.
  */
-public class PermissionsHelper extends AbstractPermissionsHelper {
+public class PermissionsHelper extends PermissionsHelperBase {
     
     private static final String AGGREGATOR_NAME = "Aggregator";
     private static final String VIEWER_NAME = "Viewer";
@@ -84,7 +84,7 @@ public class PermissionsHelper extends AbstractPermissionsHelper {
     }
     
     /**
-     * @see org.kuali.kra.common.permissions.web.struts.form.AbstractPermissionsHelper#getUnassignedRoleName()
+     * @see org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase#getUnassignedRoleName()
      */
     @Override
     public String getUnassignedRoleName() {
@@ -92,7 +92,7 @@ public class PermissionsHelper extends AbstractPermissionsHelper {
     }
 
     /**
-     * @see org.kuali.kra.common.permissions.web.struts.form.AbstractPermissionsHelper#isStandardRoleName(java.lang.String)
+     * @see org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase#isStandardRoleName(java.lang.String)
      */
     @Override
     protected boolean isStandardRoleName(String roleName) {
@@ -101,7 +101,7 @@ public class PermissionsHelper extends AbstractPermissionsHelper {
     }
     
     /**
-     * @see org.kuali.kra.common.permissions.web.struts.form.AbstractPermissionsHelper#getRoleDisplayName(java.lang.String)
+     * @see org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase#getRoleDisplayName(java.lang.String)
      */
     @Override
     protected String getRoleDisplayName(String roleName) {
@@ -114,7 +114,7 @@ public class PermissionsHelper extends AbstractPermissionsHelper {
     }
     
     /**
-     * @see org.kuali.kra.common.permissions.web.struts.form.AbstractPermissionsHelper#getPersonsInRole(java.lang.String)
+     * @see org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase#getPersonsInRole(java.lang.String)
      */
     @Override
     protected List<Person> getPersonsInRole(String roleName) {
@@ -123,7 +123,7 @@ public class PermissionsHelper extends AbstractPermissionsHelper {
     }
 
     /**
-     * @see org.kuali.kra.common.permissions.web.struts.form.AbstractPermissionsHelper#canModifyPermissions()
+     * @see org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase#canModifyPermissions()
      */
     @Override
     public boolean canModifyPermissions() {
