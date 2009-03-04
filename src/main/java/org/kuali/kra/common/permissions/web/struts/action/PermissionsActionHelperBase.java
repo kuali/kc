@@ -45,7 +45,7 @@ import org.kuali.kra.common.permissions.web.bean.Role;
 import org.kuali.kra.common.permissions.web.bean.RoleState;
 import org.kuali.kra.common.permissions.web.bean.User;
 import org.kuali.kra.common.permissions.web.bean.UserState;
-import org.kuali.kra.common.permissions.web.struts.form.AbstractPermissionsHelper;
+import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -54,11 +54,11 @@ import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**
- * The AbstractPermissionsActionHelper is a delegate for supporting the Permissions Tab web page.
+ * The PermissionsActionHelperBase is a delegate for supporting the Permissions Tab web page.
  * A subclass is necessary to perform operations specific to the document and roles for the 
  * Permissions web page, e.g. saving users and roles to the database.
  */
-public abstract class AbstractPermissionsActionHelper {
+public abstract class PermissionsActionHelperBase {
     
     private static final String ADD_USER_METHOD = "addUser";
     private static final String DELETE_USER_METHOD = "deleteUser";
@@ -66,7 +66,7 @@ public abstract class AbstractPermissionsActionHelper {
     
     private KraTransactionalDocumentActionBase parentAction;
     
-    protected AbstractPermissionsActionHelper(KraTransactionalDocumentActionBase parentAction) {
+    protected PermissionsActionHelperBase(KraTransactionalDocumentActionBase parentAction) {
         this.parentAction = parentAction;
     }
     
@@ -180,7 +180,7 @@ public abstract class AbstractPermissionsActionHelper {
             HttpServletResponse response) throws Exception {
          
         PermissionsForm permissionsForm = (PermissionsForm) form;
-        AbstractPermissionsHelper permissionsHelper = permissionsForm.getPermissionsHelper();
+        PermissionsHelperBase permissionsHelper = permissionsForm.getPermissionsHelper();
         Document doc = permissionsForm.getDocument();
         
         // early exit if the end-user is not authorized
@@ -209,7 +209,7 @@ public abstract class AbstractPermissionsActionHelper {
             HttpServletResponse response) throws Exception {
        
         PermissionsForm permissionsForm = (PermissionsForm) form;
-        AbstractPermissionsHelper permissionsHelper = permissionsForm.getPermissionsHelper();
+        PermissionsHelperBase permissionsHelper = permissionsForm.getPermissionsHelper();
         Document doc = permissionsForm.getDocument();
         
         // early exit if not authorized
@@ -305,7 +305,7 @@ public abstract class AbstractPermissionsActionHelper {
             HttpServletResponse response) throws Exception {
         
         PermissionsForm permissionsForm = (PermissionsForm) form;
-        AbstractPermissionsHelper permissionsHelper = permissionsForm.getPermissionsHelper();
+        PermissionsHelperBase permissionsHelper = permissionsForm.getPermissionsHelper();
            
         int lineNum = getLineNum(request);
         User user = permissionsHelper.getUsers().get(lineNum);
@@ -359,7 +359,7 @@ public abstract class AbstractPermissionsActionHelper {
        
         ActionForward actionForward = null;
         
-        AbstractPermissionsHelper permissionsHelper = ((PermissionsForm) form).getPermissionsHelper();
+        PermissionsHelperBase permissionsHelper = ((PermissionsForm) form).getPermissionsHelper();
         PermissionsForm permissionsForm = (PermissionsForm) form;
         Document doc = permissionsForm.getDocument();
         
@@ -405,7 +405,7 @@ public abstract class AbstractPermissionsActionHelper {
      * @param editRoles the new set of roles for the user
      * @param permissionsHelper the PermissionsHelper
      */
-    private void updateRoles(PermissionsUserEditRoles editRoles , AbstractPermissionsHelper permissionsHelper) {
+    private void updateRoles(PermissionsUserEditRoles editRoles , PermissionsHelperBase permissionsHelper) {
         
         /*
          * Clear the current roles before setting the new ones

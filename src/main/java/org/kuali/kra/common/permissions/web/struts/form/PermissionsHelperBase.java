@@ -40,11 +40,11 @@ import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.kra.service.TaskAuthorizationService;
 
 /**
- * The AbstractPermissionsHelper is the base class of all PermissionsHelper classes.
+ * The PermissionsHelperBase is the base class of all PermissionsHelper classes.
  * Every document that requires a Permissions tab web page must have a form that
- * has a PermissionsHelper derived from AbstractPermissionsHelper.
+ * has a PermissionsHelper derived from PermissionsHelperBase.
  */
-public abstract class AbstractPermissionsHelper {
+public abstract class PermissionsHelperBase {
     
     /*
      * The form data for a new user.  See the Users panel
@@ -82,7 +82,7 @@ public abstract class AbstractPermissionsHelper {
     /**
      * Constructs a AbstractPermissionsHelper with a null role type.
      */
-    public AbstractPermissionsHelper() {
+    public PermissionsHelperBase() {
         initialize(null);
     }
     
@@ -90,7 +90,7 @@ public abstract class AbstractPermissionsHelper {
      * Constructs an AbstractPermissionsHelper.
      * @param roleType the type of role (may be null)
      */
-    public AbstractPermissionsHelper(String roleType) {
+    public PermissionsHelperBase(String roleType) {
        initialize(roleType);
     }    
     
