@@ -68,7 +68,7 @@ public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocument
             rulePassed = false;
         
         GlobalVariables.getErrorMap().addToErrorPath(NEW_INSTITUTE_ATTACHMENT);
-        getDictionaryValidationService().validateBusinessObject(narrative);
+        getDictionaryValidationService().validateAttributeFormat(narrative.getClass().getName(), "moduleTitle", narrative.getModuleTitle(), "moduleTitle"); //(entryName, attributeName, attributeValue, errorKey)
         if (GlobalVariables.getErrorMap().getPropertiesWithErrors().size() > 0) rulePassed = false;
         GlobalVariables.getErrorMap().removeFromErrorPath(NEW_INSTITUTE_ATTACHMENT);
         
