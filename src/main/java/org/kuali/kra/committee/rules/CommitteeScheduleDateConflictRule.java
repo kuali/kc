@@ -26,8 +26,9 @@ import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.rule.AddCommitteeScheduleDateConflictRule;
 import org.kuali.kra.committee.rule.event.AddCommitteeScheduleDateConflictEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
-public class CommitteeScheduleDateConflictRule extends CommitteeDocumentRule implements AddCommitteeScheduleDateConflictRule {
+public class CommitteeScheduleDateConflictRule extends ResearchDocumentRuleBase implements AddCommitteeScheduleDateConflictRule {
     
     @SuppressWarnings("unused")
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeScheduleDateConflictRule.class);
