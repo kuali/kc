@@ -247,6 +247,12 @@ INSERT INTO VULNERABLE_SUBJECT_TYPE(VULNERABLE_SUBJECT_TYPE_CODE, DESCRIPTION, U
 COMMIT;
 
 INSERT INTO FP_DOC_TYPE_T (FDOC_TYP_CD,FDOC_NM,FDOC_TYP_ACTIVE_CD) VALUES ('REAR','RESEARCH AREAS','Y');
+INSERT INTO FP_DOC_TYPE_T (FDOC_TYP_CD,FDOC_NM,FDOC_TYP_ACTIVE_CD) VALUES ('ATRT','AwardTemplateReportTerm','Y');
+INSERT INTO FP_DOC_TYPE_T (FDOC_TYP_CD,FDOC_NM,FDOC_TYP_ACTIVE_CD) VALUES ('ATTR','AwardTemplateTerm','Y');
+INSERT INTO FP_DOC_TYPE_T (FDOC_TYP_CD,FDOC_NM,FDOC_TYP_ACTIVE_CD) VALUES ('ARTR','AwardTemplateReportTermRecipient','Y');
+INSERT INTO FP_DOC_TYPE_T (FDOC_TYP_CD,FDOC_NM,FDOC_TYP_ACTIVE_CD) VALUES ('STMD','SponsorTerm','Y');
+INSERT INTO FP_DOC_TYPE_T (FDOC_TYP_CD,FDOC_NM,FDOC_TYP_ACTIVE_CD) VALUES ('STTD','SponsorTermType','Y');
+INSERT INTO FP_DOC_TYPE_T (FDOC_TYP_CD,FDOC_NM,FDOC_TYP_ACTIVE_CD) VALUES ('PROT','PROTOCOL','Y'); 
 commit;
 
 INSERT INTO RESEARCH_AREAS (RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER) VALUES (
@@ -13300,47 +13306,56 @@ insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(12,36);
 commit;
 
 insert into COMMENT_TYPE (COMMENT_TYPE_CODE,DESCRIPTION,TEMPLATE_FLAG,CHECKLIST_FLAG,AWARD_COMMENT_SCREEN_FLAG,UPDATE_TIMESTAMP,UPDATE_USER)
-            values(2, 'General Comments', 'Y', 'N', 'Y', sysdate, 'quickstart');
+            values(2, 'General Comments', 'Y', 'N', 'Y', sysdate, user);
 
 insert into COMMENT_TYPE (COMMENT_TYPE_CODE,DESCRIPTION,TEMPLATE_FLAG,CHECKLIST_FLAG,AWARD_COMMENT_SCREEN_FLAG,UPDATE_TIMESTAMP,UPDATE_USER)
-            values(4, 'Intellectual Property Comments', 'Y', 'N', 'Y', sysdate, 'quickstart');
+            values(4, 'Intellectual Property Comments', 'Y', 'N', 'Y', sysdate, user);
 
 insert into COMMENT_TYPE (COMMENT_TYPE_CODE,DESCRIPTION,TEMPLATE_FLAG,CHECKLIST_FLAG,AWARD_COMMENT_SCREEN_FLAG,UPDATE_TIMESTAMP,UPDATE_USER)
-            values(9, 'Cost Sharing Comments', 'Y', 'N', 'N', sysdate, 'quickstart');
+            values(9, 'Cost Sharing Comments', 'Y', 'N', 'N', sysdate, user);
 
 insert into COMMENT_TYPE (COMMENT_TYPE_CODE,DESCRIPTION,TEMPLATE_FLAG,CHECKLIST_FLAG,AWARD_COMMENT_SCREEN_FLAG,UPDATE_TIMESTAMP,UPDATE_USER)
-            values(3, 'Fiscal Report Comments', 'Y', 'N', 'Y', sysdate, 'quickstart');
+            values(3, 'Fiscal Report Comments', 'Y', 'N', 'Y', sysdate, user);
 
 insert into COMMENT_TYPE (COMMENT_TYPE_CODE,DESCRIPTION,TEMPLATE_FLAG,CHECKLIST_FLAG,AWARD_COMMENT_SCREEN_FLAG,UPDATE_TIMESTAMP,UPDATE_USER)
-            values(1, 'Invoice Instructions', 'N', 'N', 'N', sysdate, 'quickstart');
+            values(1, 'Invoice Instructions', 'N', 'N', 'N', sysdate, user);
 
 insert into COMMENT_TYPE (COMMENT_TYPE_CODE,DESCRIPTION,TEMPLATE_FLAG,CHECKLIST_FLAG,AWARD_COMMENT_SCREEN_FLAG,UPDATE_TIMESTAMP,UPDATE_USER)
-            values(10, 'Special Review Comments', 'N', 'N', 'N', sysdate, 'quickstart');
+            values(10, 'Special Review Comments', 'N', 'N', 'N', sysdate, user);
 
 insert into COMMENT_TYPE (COMMENT_TYPE_CODE,DESCRIPTION,TEMPLATE_FLAG,CHECKLIST_FLAG,AWARD_COMMENT_SCREEN_FLAG,UPDATE_TIMESTAMP,UPDATE_USER)
-            values(7, 'Special Rate', 'N', 'N', 'N', sysdate, 'quickstart');
+            values(7, 'Special Rate', 'N', 'N', 'N', sysdate, user);
 
 insert into COMMENT_TYPE (COMMENT_TYPE_CODE,DESCRIPTION,TEMPLATE_FLAG,CHECKLIST_FLAG,AWARD_COMMENT_SCREEN_FLAG,UPDATE_TIMESTAMP,UPDATE_USER)
-            values(8, 'Indirect Cost Comments', 'N', 'N', 'N', sysdate, 'quickstart');
+            values(8, 'Indirect Cost Comments', 'N', 'N', 'N', sysdate, user);
 
 insert into COMMENT_TYPE (COMMENT_TYPE_CODE,DESCRIPTION,TEMPLATE_FLAG,CHECKLIST_FLAG,AWARD_COMMENT_SCREEN_FLAG,UPDATE_TIMESTAMP,UPDATE_USER)
-            values(5, 'Procurement Comments', 'Y', 'N', 'Y', sysdate, 'quickstart');
+            values(5, 'Procurement Comments', 'Y', 'N', 'Y', sysdate, user);
 
 insert into COMMENT_TYPE (COMMENT_TYPE_CODE,DESCRIPTION,TEMPLATE_FLAG,CHECKLIST_FLAG,AWARD_COMMENT_SCREEN_FLAG,UPDATE_TIMESTAMP,UPDATE_USER)
-            values(12, 'Proposal Summary', 'N', 'N', 'N', sysdate, 'quickstart');
+            values(12, 'Proposal Summary', 'N', 'N', 'N', sysdate, user);
             
 insert into COMMENT_TYPE (COMMENT_TYPE_CODE,DESCRIPTION,TEMPLATE_FLAG,CHECKLIST_FLAG,AWARD_COMMENT_SCREEN_FLAG,UPDATE_TIMESTAMP,UPDATE_USER)
-            values(6, 'Property Comments', 'Y', 'N', 'Y', sysdate, 'quickstart');
+            values(6, 'Property Comments', 'Y', 'N', 'Y', sysdate, user);
 
 insert into COMMENT_TYPE (COMMENT_TYPE_CODE,DESCRIPTION,TEMPLATE_FLAG,CHECKLIST_FLAG,AWARD_COMMENT_SCREEN_FLAG,UPDATE_TIMESTAMP,UPDATE_USER)
-            values(13, 'Proposal Comments', 'N', 'N', 'N', sysdate, 'quickstart');
+            values(13, 'Proposal Comments', 'N', 'N', 'N', sysdate, user);
 
 insert into COMMENT_TYPE (COMMENT_TYPE_CODE,DESCRIPTION,TEMPLATE_FLAG,CHECKLIST_FLAG,AWARD_COMMENT_SCREEN_FLAG,UPDATE_TIMESTAMP,UPDATE_USER)
-            values(16, 'Proposal IP Review Comment', 'N', 'N', 'N', sysdate, 'quickstart');
+            values(16, 'Proposal IP Review Comment', 'N', 'N', 'N', sysdate, user);
 
 insert into COMMENT_TYPE (COMMENT_TYPE_CODE,DESCRIPTION,TEMPLATE_FLAG,CHECKLIST_FLAG,AWARD_COMMENT_SCREEN_FLAG,UPDATE_TIMESTAMP,UPDATE_USER)
-            values(17, 'Proposal IP Review Comment', 'N', 'N', 'N', sysdate, 'quickstart');
-           
+            values(17, 'Proposal IP Review Comment', 'N', 'N', 'N', sysdate, user);
+            
+insert into COMMENT_TYPE (COMMENT_TYPE_CODE,DESCRIPTION,TEMPLATE_FLAG,CHECKLIST_FLAG,AWARD_COMMENT_SCREEN_FLAG,UPDATE_TIMESTAMP,UPDATE_USER)
+            values(18, 'Pre-Award Sponsor Auth Comments ', 'N', 'N', 'N', sysdate, user);
+insert into COMMENT_TYPE (COMMENT_TYPE_CODE,DESCRIPTION,TEMPLATE_FLAG,CHECKLIST_FLAG,AWARD_COMMENT_SCREEN_FLAG,UPDATE_TIMESTAMP,UPDATE_USER)
+            values(19, 'Pre-Award Institutional Auth Comments', 'N', 'N', 'N', sysdate, user);
+
+insert into COMMENT_TYPE (COMMENT_TYPE_CODE,DESCRIPTION,TEMPLATE_FLAG,CHECKLIST_FLAG,AWARD_COMMENT_SCREEN_FLAG,UPDATE_TIMESTAMP,UPDATE_USER)
+            values(20, 'Benefits Rates Comments', 'N', 'N', 'N', sysdate, user);
+            
+commit;
 
 insert into COST_SHARE_TYPE (COST_SHARE_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
 			values(1, 'funded', sysdate, 'quickstart');
