@@ -15,7 +15,9 @@
  */
 package org.kuali.kra.irb.web.struts.form;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Person;
@@ -45,13 +47,30 @@ public class PermissionsHelper extends AbstractPermissionsHelper {
     private ProtocolForm form;
     
     /**
+     * Stores mapping of role names to display names.
+     */
+    private Map<String, String> displayNameMap = null;
+    
+    /**
      * Constructs a PermissionsHelper.
      * @param form the form
      */
     public PermissionsHelper(ProtocolForm form) {
         super(RoleConstants.PROTOCOL_ROLE_TYPE);
         this.form = form;
-    }    
+    }   
+
+    /*
+     * Build the mapping of role names to display.
+     */
+    private void buildDisplayNameMap() {
+        if (displayNameMap == null) {
+            displayNameMap = new HashMap<String, String>();
+            displayNameMap.put(RoleConstants.PROTOCOL_AGGREGATOR, AGGREGATOR_NAME);
+            displayNameMap.put(RoleConstants.PROTOCOL_VIEWER, VIEWER_NAME);
+            displayNameMap.put(RoleConstants.PROTOCOL_UNASSIGNED, UNASSIGNED_NAME);
+        }
+    }
 
     /*
      * Get the Protocol.
@@ -86,16 +105,12 @@ public class PermissionsHelper extends AbstractPermissionsHelper {
      */
     @Override
     protected String getRoleDisplayName(String roleName) {
-        if (StringUtils.equals(roleName, RoleConstants.PROTOCOL_AGGREGATOR)) {
-            return AGGREGATOR_NAME;
+        buildDisplayNameMap();
+        String displayName = displayNameMap.get(roleName);
+        if (displayName == null) {
+            displayName = roleName;
         }
-        if (StringUtils.equals(roleName, RoleConstants.PROTOCOL_VIEWER)) {
-            return VIEWER_NAME;
-        }
-        if (StringUtils.equals(roleName, RoleConstants.PROTOCOL_UNASSIGNED)) {
-            return UNASSIGNED_NAME;
-        }
-        return roleName;
+        return displayName;
     }
     
     /**

@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<kra:infopage title="Rights" action="permissions" htmlFormAction="protocolPermissions">
+<kra:infopage title="Rights" action="permissions" htmlFormAction="${actionName}Permissions">
 
 	<kra-permissions:roleRights />
 	<kul:panelFooter />	

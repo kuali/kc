@@ -17,14 +17,14 @@
 
 <kul:documentPage
 	showDocumentInfo="true"
-	htmlFormAction="protocolPermissions"
-	documentTypeName="ProtocolDocument"
+	htmlFormAction="${KualiForm.actionName}Permissions"
+	documentTypeName="${KualiForm.documentTypeName}"
 	renderMultipart="false"
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="permissions">
   	
-  	<kra-permissions:permissionsPage name="protocol" documentTypeName="ProtocolDocument" />
+  	<kra-permissions:permissionsPage name="${KualiForm.actionName}" documentTypeName="${KualiForm.documentTypeName}" />
   	
 </kul:documentPage>
