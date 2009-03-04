@@ -121,8 +121,8 @@ public class ProtocolLookupableHelperServiceImpl extends KualiLookupableHelperSe
 
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        // TODO Auto-generated method stub
-        //return super.getSearchResults(fieldValues);
+
+        //need to set backlocation & docformkey here.  Otherwise, they are empty
         for (Entry<String,String> entry : fieldValues.entrySet()) {
             if (entry.getKey().equals("backLocation")) {
                 setBackLocation(entry.getValue());
@@ -137,22 +137,18 @@ public class ProtocolLookupableHelperServiceImpl extends KualiLookupableHelperSe
     @Override
     public List<Row> getRows() {
         List<Row> rows =  super.getRows();
-        Map <String, Boolean> employeeIndicatorMap = new HashMap<String, Boolean>();
-        employeeIndicatorMap.put("person", true);
-        employeeIndicatorMap.put("investigator", true);
+        String employeeIndicator="Y";
         Integer funcingSource = 1;
         for (Row row : rows) {
             for (Field field : row.getFields()) {
                 if (field.getPropertyName().endsWith("EmployeeIndicator")) {
-                    setupEmployeeIndicator(field, employeeIndicatorMap);
-                } else if (field.getPropertyName().equals(PERSON_ID)) {
-                    PERSON_MAP.put(FIELD_NAME, PERSON_ID);
-                    ROLODEX_MAP.put(FIELD_NAME, PERSON_ID);
-                    updatePersonLookup(field, employeeIndicatorMap.get("person"));
-                } else if (field.getPropertyName().equals(INVESTIGATOR_ID)) {
-                    PERSON_MAP.put(FIELD_NAME, INVESTIGATOR_ID);
-                    ROLODEX_MAP.put(FIELD_NAME, INVESTIGATOR_ID);
-                    updatePersonLookup(field, employeeIndicatorMap.get("investigator"));
+                    field.setFieldType(Field.DROPDOWN_REFRESH);
+                    if (StringUtils.isBlank(field.getPropertyValue())) {
+                        field.setPropertyValue("Y") ;
+                    }
+                    employeeIndicator = field.getPropertyValue();
+                } else if (field.getPropertyName().equals(PERSON_ID) || field.getPropertyName().equals(INVESTIGATOR_ID)) {
+                    updatePersonLookup(field, employeeIndicator.equals("Y"));
                 } else if (field.getPropertyName().equals("fundingSourceTypeCode")) {
                     field.setFieldType(Field.DROPDOWN_REFRESH);
                     if (StringUtils.isBlank(field.getPropertyValue())) {
@@ -161,33 +157,22 @@ public class ProtocolLookupableHelperServiceImpl extends KualiLookupableHelperSe
                     funcingSource = Integer.parseInt(field.getPropertyValue());
                 } else if (field.getPropertyName().equals(FUNDING_SOURCE)) {
                     updateField(field, FUNDING_MAP_LIST.get(funcingSource - 1));
-                    // TODO : test research area in protocol
                 }else if (field.getPropertyName().equals("researchAreaCode")) {
                     updateField(field, RESEARCH_AREA_MAP);
-                    //field.setFieldType(Field.LOOKUP_READONLY);
                 }
             }
         }
         return rows;
     }
 
-    private void setupEmployeeIndicator(Field field, Map <String, Boolean> employeeIndicatorMap) {
-        //field.setWebOnBlurHandler("submitOnChange");
-        // Field.DROPDOWN_REFRESH will refresh page when drowdown is changed
-        field.setFieldType(Field.DROPDOWN_REFRESH);
-        if (StringUtils.isBlank(field.getPropertyValue())) {
-            field.setPropertyValue("Y") ;
-        } else  if ("N".equals(field.getPropertyValue())) {
-            if (field.getPropertyName().equals("personEmployeeIndicator")) {
-                employeeIndicatorMap.put("person", false);                
-            } else {
-                employeeIndicatorMap.put("investigator", false);                
-            }
-        }
-
-    }
-    
     private void updatePersonLookup(Field field, boolean isEmployee) {
+        if (field.getPropertyName().equals(PERSON_ID)) {
+            PERSON_MAP.put(FIELD_NAME, PERSON_ID);                
+            ROLODEX_MAP.put(FIELD_NAME, PERSON_ID);
+        } else {
+            PERSON_MAP.put(FIELD_NAME, INVESTIGATOR_ID);
+            ROLODEX_MAP.put(FIELD_NAME, INVESTIGATOR_ID);
+        }
         if (isEmployee) {
             updateField(field, PERSON_MAP);
         } else {
@@ -215,8 +200,7 @@ public class ProtocolLookupableHelperServiceImpl extends KualiLookupableHelperSe
 
     @Override
     public String getInquiryUrl(BusinessObject bo, String propertyName) {
-        // TODO : investigatorid ?
-        // each protocol may have several investigators ? multiple list for each investigator ?
+
         BusinessObject inqBo = bo;
         String inqPropertyName = propertyName;
         if (propertyName.equals("leadUnitNumber")) {
