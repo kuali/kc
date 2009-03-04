@@ -22,6 +22,13 @@ import org.kuali.kra.irb.bo.Protocol;
 
 
 public interface ProtocolDao {
+    
+    /**
+     * 
+     * This method get protocols lookup search results.
+     * @param fieldValues
+     * @return
+     */
     List<Protocol> getProtocols(Map<String,String> fieldValues);
 
 }
