@@ -36,6 +36,7 @@ import org.kuali.kra.committee.web.struts.form.schedule.MonthlyScheduleDetails;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.committee.web.struts.form.schedule.StyleKey;
 import org.kuali.kra.committee.web.struts.form.schedule.YearlyScheduleDetails;
+import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.scheduling.expr.util.CronSpecialChars;
 import org.kuali.kra.scheduling.sequence.ScheduleSequence;
 import org.kuali.kra.scheduling.sequence.WeekScheduleSequence;
@@ -68,13 +69,32 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
     }
 
     public Boolean isCommitteeScheduleDeletable(CommitteeSchedule committeeSchedule){
+        
         boolean retVal = false;
+        
+        retVal = !isProtocolAssignedToScheduleDate(committeeSchedule);
+        
+        retVal = retVal && !isScheduleDateInPast(committeeSchedule);
+
+        return retVal;
+    }
+    
+    private Boolean isScheduleDateInPast(CommitteeSchedule committeeSchedule){
+        boolean retVal = true;
         Date dt = new Date();
         dt = DateUtils.addDays(dt, -1);
         java.sql.Date today = new java.sql.Date(dt.getTime());        
         if(committeeSchedule.getScheduledDate().after(today)) {
-               retVal = true;
-        }
+               retVal = false;
+        }        
+        return retVal;
+    }
+    
+    private Boolean isProtocolAssignedToScheduleDate(CommitteeSchedule committeeSchedule){
+        boolean retVal = true;
+        List<Protocol> list = committeeSchedule.getProtocols();
+        if(null == list || list.size() == 0)
+            retVal = false;
         return retVal;
     }
 

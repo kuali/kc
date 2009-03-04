@@ -17,9 +17,11 @@ package org.kuali.kra.committee.bo;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -34,6 +36,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.committee.web.struts.form.schedule.DayOfWeek;
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt;
+import org.kuali.kra.irb.bo.Protocol;
 
 @Entity 
 @Table(name="COMM_SCHEDULE")
@@ -101,8 +104,10 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
     @JoinColumn(name="SCHEDULE_STATUS_CODE", insertable=false, updatable=false)
     private ScheduleStatus scheduleStatus;
     
-	public CommitteeSchedule() { 
+    //TODO revisit required during meeting management
+    private List<Protocol> protocols;
 
+    public CommitteeSchedule() { 
 	} 
 	
     public Long getId() {
@@ -295,8 +300,16 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
 
     public void setDelete(Boolean delete) {
         this.delete = delete;
-    }    
+    }        
+    
+    public List<Protocol> getProtocols() {
+        return protocols;
+    }
 
+    public void setProtocols(List<Protocol> protocols) {
+        this.protocols = protocols;
+    }
+    
     @SuppressWarnings("unchecked")
     @Override 
 	protected LinkedHashMap toStringMapper() {
