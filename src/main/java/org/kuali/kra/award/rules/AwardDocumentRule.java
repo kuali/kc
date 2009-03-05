@@ -61,6 +61,14 @@ import org.kuali.kra.award.rule.event.AwardSponsorTermRuleEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.rules.KeyPersonnelAuditRule;
+import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentGrantsGovAuditRule;
+import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentProposalRequiredFieldsAuditRule;
+import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentSponsorProgramInformationAuditRule;
+import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentYnqAuditRule;
+import org.kuali.kra.proposaldevelopment.rules.ProposalSpecialReviewAuditRule;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.rule.SpecialReviewRule;
 import org.kuali.kra.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
@@ -345,7 +353,14 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      * org.kuali.core.document.Document)
      */
     public boolean processRunAuditBusinessRules(Document document){
-        return super.processRunAuditBusinessRules(document);
+        boolean retval = true;
+        
+        retval &= super.processRunAuditBusinessRules(document);
+        retval &= new AwardReportAuditRule().processRunAuditBusinessRules(document);
+        
+        return retval;
+        
+        
     }
     
     /**

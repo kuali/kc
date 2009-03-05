@@ -304,6 +304,7 @@ public interface Constants {
     public static final String MAPPING_AWARD_PERMISSIONS_PAGE = "permissions";
     public static final String MAPPING_AWARD_NOTES_AND_ATTACHMENTS_PAGE = "notesAndAttachments";
     public static final String MAPPING_AWARD_ACTIONS_PAGE = "awardActions";
+    public static final String MAPPING_REPORTS_TAB = "reports";
     
     public static final String COST_SHARE_COMMENT_TYPE_CODE = "9";
     public static final String FANDA_RATE_COMMENT_TYPE_CODE = "8";
@@ -323,6 +324,12 @@ public interface Constants {
     public static final String NEW_AWARD_REPORT_TERMS_LIST_KEY_FOR_INITIALIZE_OBJECTS = "newAwardReportTermList";
     public static final String NEW_AWARD_REPORT_TERM_RECIPIENTS_LIST_KEY_FOR_INITIALIZE_OBJECTS = "newAwardReportTermRecipientsList";
     public static final String REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES_PANEL = "reportClassForPaymentsAndInvoicesPanel";
+    
+    //Award Audit Rules
+    public static final String REPORT_TERMS_AUDIT_RULES_ERROR_KEY = "document.reportTermsAuditRules";
+    public static final String AWARD_PAGE = "award";
+    public static final String REPORTS_PANEL_ANCHOR = "Reports";
+    public static final String REPORTS_PANEL_NAME = "Reports";
 
     // IRB
     public static final String PARTICIPANTS_PROPERTY_KEY = "participantsHelper.newProtocolParticipant";
