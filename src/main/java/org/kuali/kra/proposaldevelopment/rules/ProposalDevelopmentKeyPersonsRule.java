@@ -35,8 +35,6 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.kra.logging.FormattedLogger.debug;
 import static org.kuali.kra.logging.FormattedLogger.info;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.Iterator;
 import java.util.List;
 
@@ -45,10 +43,12 @@ import org.kuali.RiceKeyConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.document.Document;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.bo.DegreeType;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonComparator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit;
@@ -72,6 +72,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule,CalculateCreditSplitRule  {
     private static final String PERSON_HAS_UNIT_MSG = "Person %s has unit %s";
+    private static final int FIELD_ERA_COMMONS_USERNAME_MIN_LENGTH = 6;
     
     /**
      * @see ResearchDocumentRuleBase#processCustomSaveDocumentBusinessRules(Document)
@@ -129,14 +130,17 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
                 reportError("document.proposalPersons[" + personIndex + "].projectRole",
                             RiceKeyConstants.ERROR_REQUIRED,"Key Person Role");
             }
-            if(person.getPercentageEffort()!= null){
-                String percentageeffort=String.valueOf(person.getPercentageEffort().intValue());
-                if(!(percentageeffort.matches(reg))){
-                    GlobalVariables.getErrorMap().putError("document.proposalPersons[" + personIndex + "].percentageEffort", ERROR_PERCENTAGE,
-                            new String[] {"Percentage Effort" });
-                }
+            
+            if(person.getPercentageEffort()!= null && (person.getPercentageEffort().isLessThan(new KualiDecimal(0)) 
+                    || person.getPercentageEffort().isGreaterThan(new KualiDecimal(100)))){
+                GlobalVariables.getErrorMap().putError("document.proposalPersons[" + personIndex + "].percentageEffort", ERROR_PERCENTAGE,
+                        new String[] {"Percentage Effort" });
             }
             
+            if(StringUtils.isNotBlank(person.getEraCommonsUserName()) && person.getEraCommonsUserName().length() < FIELD_ERA_COMMONS_USERNAME_MIN_LENGTH){
+                GlobalVariables.getErrorMap().putError("document.proposalPersons[" + personIndex + "].eraCommonsUserName", KeyConstants.ERROR_MINLENGTH,
+                        new String[] {"eRA Commons User Name" , ""+ FIELD_ERA_COMMONS_USERNAME_MIN_LENGTH});
+            }
             
             personIndex++;
         }
@@ -414,7 +418,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         if(source.getGraduationYear()!=null && !(source.getGraduationYear().matches(regExpr)) && GlobalVariables.getErrorMap().getMessages("document.newProposalPersonDegree") == null)
         {            
             GlobalVariables.getErrorMap().putError("newProposalPersonDegree[" + index + "].graduationYear", ERROR_INVALID_YEAR,
-                    new String[] { source.getGraduationYear() });
+                    new String[] { source.getGraduationYear(), "Graduation Year"});
             retval = false;
         }
 
