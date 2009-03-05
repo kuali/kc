@@ -51,6 +51,7 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
 
     protected String actionName;
     protected String navigateTo;
+    private boolean awardAuditActivated;
     
     public String getActionName() {
         return actionName;
@@ -220,5 +221,21 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
     protected abstract String getLockRegion();
     
     protected abstract void setSaveDocumentControl(DocumentActionFlags tempDocumentActionFlags, Map editMode);
+
+    /**
+     * Gets the awardAuditActivated attribute. 
+     * @return Returns the awardAuditActivated.
+     */
+    public boolean isAwardAuditActivated() {
+        return awardAuditActivated;
+    }
+
+    /**
+     * Sets the awardAuditActivated attribute value.
+     * @param awardAuditActivated The awardAuditActivated to set.
+     */
+    public void setAwardAuditActivated(boolean awardAuditActivated) {
+        this.awardAuditActivated = awardAuditActivated;
+    }
     
 }
