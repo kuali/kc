@@ -15,10 +15,65 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.kuali.core.web.struts.action.AuditModeAction;
+import org.kuali.kra.award.web.struts.form.AwardForm;
+import org.kuali.kra.infrastructure.Constants;
+
 /**
  * 
  * This class represents the Struts Action for Award Actions page(AwardActions.jsp)
  */
-public class AwardActionsAction extends AwardAction {    
+public class AwardActionsAction extends AwardAction implements AuditModeAction {    
     
+    /**
+     * @see org.kuali.kra.award.web.struts.action.AwardAction#execute(org.apache.struts.action.ActionMapping, 
+     * org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward actionForward = super.execute(mapping, form, request, response);
+        return actionForward;
+    }
+ 
+    /**
+     * @see org.kuali.core.web.struts.action.AuditModeAction#activate(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        awardForm.setAwardAuditActivated(true);     
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /**
+     * @see org.kuali.core.web.struts.action.AuditModeAction#deactivate(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        awardForm.setAwardAuditActivated(false);
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * Action method called to forward to reports tab
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
+   // public ActionForward paymentReportsAndTerms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+       // return mapping.findForward(Constants.MAPPING_AWARD_PAYMENT_REPORTS_AND_TERMS_PAGE);
+   // }
+
 }

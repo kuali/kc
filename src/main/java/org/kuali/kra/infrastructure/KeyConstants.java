@@ -289,6 +289,7 @@ public final class KeyConstants {
     public static final String ERROR_REQUIRED_DUE_DATE = "error.required.due.date";
     public static final String ERROR_REQUIRED_CONTACT_TYPE = "error.required.contact.type";
     public static final String ERROR_REQUIRED_ROLODEX_ID = "error.required.rolodex.id";
+    public static final String ERROR_EMPTY_REPORT_TERMS = "error.empty.report.terms";
     
     //Award System Parameters    
     public static final String MIT_IDC_VALIDATION_ENABLED = "mit.idc.validation.enabled";
