@@ -40,6 +40,7 @@ public class ProtocolLookupableHelperServiceImpl extends KualiLookupableHelperSe
     private static final String ROLODEX_ID = "rolodexId";
     private static final String UNIT_NUMBER = "unitNumber";
     private static final String PERSON_ID = "personId";
+    private static final String COLUMN = ":";
     private static final String PRINCIPAL_INVESTIGATOR_ID = "principalInvestigatorId";
     private static final String FUNDING_SOURCE = "fundingSource";
     private static final String FUNDING_SOURCE_TYPE_CODE = "fundingSourceTypeCode";
@@ -156,9 +157,9 @@ public class ProtocolLookupableHelperServiceImpl extends KualiLookupableHelperSe
     private void updateField(Field field, String searchKeyName) {
         LookupProperty lookupProperty = Enum.valueOf(LookupProperty.class, searchKeyName);
 
-        field.setFieldConversions(lookupProperty.getKeyName()+":"+lookupProperty.getFieldName());
-        field.setLookupParameters(lookupProperty.getFieldName()+":"+lookupProperty.getKeyName());
-        field.setInquiryParameters(lookupProperty.getFieldName()+":"+lookupProperty.getKeyName());
+        field.setFieldConversions(lookupProperty.getKeyName()+COLUMN+lookupProperty.getFieldName());
+        field.setLookupParameters(lookupProperty.getFieldName()+COLUMN+lookupProperty.getKeyName());
+        field.setInquiryParameters(lookupProperty.getFieldName()+COLUMN+lookupProperty.getKeyName());
         field.setQuickFinderClassNameImpl(lookupProperty.getClassName());
                    
     }
@@ -177,6 +178,11 @@ public class ProtocolLookupableHelperServiceImpl extends KualiLookupableHelperSe
         SPONSOR("sponsorCode",FUNDING_SOURCE,"org.kuali.kra.bo.Sponsor"),
         UNIT(UNIT_NUMBER,FUNDING_SOURCE,"org.kuali.kra.bo.Unit"),
         RESEARCHAREA(RESEARCH_AREA_CODE,RESEARCH_AREA_CODE,"org.kuali.kra.bo.ResearchArea");
+
+        private String keyName;
+        private String fieldName;
+        private String className;
+        
         
         private LookupProperty(String keyName, String fieldName, String className){
           this.keyName = keyName;
@@ -184,10 +190,6 @@ public class ProtocolLookupableHelperServiceImpl extends KualiLookupableHelperSe
           this.className = className;
         }
 
-        private String keyName;
-        private String fieldName;
-        private String className;
-        
         public String getKeyName() {
             return keyName;
         }
@@ -207,7 +209,6 @@ public class ProtocolLookupableHelperServiceImpl extends KualiLookupableHelperSe
             this.className = className;
         }
       }
-
     
     public ProtocolDao getProtocolDao() {
         return protocolDao;

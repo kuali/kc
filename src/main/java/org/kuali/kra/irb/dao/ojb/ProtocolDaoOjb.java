@@ -16,7 +16,9 @@
 package org.kuali.kra.irb.dao.ojb;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -26,11 +28,15 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.dao.LookupDao;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.OjbCollectionAware;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolPerson;
 import org.kuali.kra.irb.dao.ProtocolDao;
+import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, ProtocolDao {
@@ -44,28 +50,15 @@ public class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollec
     private static final String FUNDING_SOURCE ="fundingSource";
     private static final String RESEARCH_AREA_CODE = "researchAreaCode";
     private static final String PERFORMING_ORGANIZATION_ID = "performingOrganizationId";
+    private LookupDao lookupDao;
+    private DataDictionaryService dataDictionaryService;
     private Map<String, String> searchMap = new HashMap<String, String>();
     private List<String> investigatorRole = new ArrayList<String>();
     private List<String> personRole = new ArrayList<String>();
     private Map<String, String> baseLookupFields;
     private Map<String, CritField> collectionFields;
-    {
-        // map to enum
-        searchMap.put("personIdY", "EMPLOYEEPERSON");
-        searchMap.put("personIdN", "ROLODEXPERSON");
-        searchMap.put("principalInvestigatorIdY", "EMPLOYEEINVESTIGATOR");
-        searchMap.put("principalInvestigatorIdN", "ROLODEXINVESTIGATOR");
-        searchMap.put(FUNDING_SOURCE, "FUNDINGSOURCE");
-        searchMap.put(PERFORMING_ORGANIZATION_ID, "ORGANIZATION");
-        searchMap.put(RESEARCH_AREA_CODE, "RESEARCHAREA");
-        // TODO : only principal investigator
-        investigatorRole.add("PI");
-        // investigatorRole.add("COI");
-        // TODO : what should be in personRole ?
-        personRole.add("SP");
-        personRole.add("CA");
-        personRole.add("CRC");
-    }
+    private List<String> excludedFields = new ArrayList<String>();
+    private List<String> collectionFieldNames = new ArrayList<String>();
 
     /**
      * 
@@ -73,13 +66,13 @@ public class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollec
      */
     public List<Protocol> getProtocols(Map<String, String> fieldValues) {
         Criteria crit = new Criteria();
+        initialization();
         baseLookupFields = new HashMap<String, String>();
         collectionFields = new HashMap<String, CritField>();
         setupCritMaps(fieldValues);
+        Protocol protocol = new Protocol();
         for (Entry<String, String> entry : baseLookupFields.entrySet()) {
-            if (StringUtils.isNotBlank(entry.getValue())) {
-                crit.addLike(entry.getKey(), entry.getValue());
-            }
+            crit = getCollectionCriteriaFromMap(protocol, baseLookupFields);
         }
 
         if (!collectionFields.isEmpty()) {
@@ -94,6 +87,54 @@ public class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollec
     }
 
 
+    /*
+     * initialize several maps & lists for use
+     */
+    private void initialization() {
+        initExcludedFields();
+        initCollectionFields();
+        initEnumSearchMap();
+        initRoleLists();
+    }
+
+    private void initExcludedFields() {
+        excludedFields.add(KNSConstants.BACK_LOCATION);
+        excludedFields.add(KNSConstants.DOC_FORM_KEY);
+        excludedFields.add(PERSON_EMPLOYEE_INDICATOR);
+        excludedFields.add(INVESTIGATOR_EMPLOYEE_INDICATOR);
+        excludedFields.add(FUNDING_SOURCE_TYPE_CODE);
+    }
+    
+    private void initCollectionFields() {
+        collectionFieldNames.add(PERSON_ID);
+        collectionFieldNames.add(PRINCIPAL_INVESTIGATOR_ID);
+        collectionFieldNames.add(FUNDING_SOURCE);
+        collectionFieldNames.add(RESEARCH_AREA_CODE);
+        collectionFieldNames.add(PERFORMING_ORGANIZATION_ID);
+        // collectionFieldNames.add(FUNDING_SOURCE_TYPE_CODE);
+    }
+    
+    private void initEnumSearchMap() {
+        // map to enum
+        searchMap.put("personIdY", "EMPLOYEEPERSON");
+        searchMap.put("personIdN", "ROLODEXPERSON");
+        searchMap.put("principalInvestigatorIdY", "EMPLOYEEINVESTIGATOR");
+        searchMap.put("principalInvestigatorIdN", "ROLODEXINVESTIGATOR");
+        searchMap.put(FUNDING_SOURCE, "FUNDINGSOURCE");
+        searchMap.put(PERFORMING_ORGANIZATION_ID, "ORGANIZATION");
+        searchMap.put(RESEARCH_AREA_CODE, "RESEARCHAREA");        
+    }
+
+    private void initRoleLists() {
+        // TODO : only principal investigator
+        investigatorRole.add("PI");
+        // investigatorRole.add("COI");
+        // TODO : what should be in personRole ?
+        personRole.add("SP");
+        personRole.add("CA");
+        personRole.add("CRC");        
+    }
+    
     /*
      * set up criteria for collections in protocol with lookup field
      */
@@ -135,34 +176,18 @@ public class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollec
      * filter excluded field.  Also group fields to base lookup and collection lookup fields.
      */
     private void setupCritMaps(Map<String, String> fieldValues) {
-        List<String> excludedFields = new ArrayList<String>();
-        excludedFields.add(KNSConstants.BACK_LOCATION);
-        excludedFields.add(KNSConstants.DOC_FORM_KEY);
-        excludedFields.add(PERSON_EMPLOYEE_INDICATOR);
-        excludedFields.add(INVESTIGATOR_EMPLOYEE_INDICATOR);
-        excludedFields.add(FUNDING_SOURCE_TYPE_CODE);
 
-
-        List<String> collectionFieldNames = new ArrayList<String>();
-        collectionFieldNames.add(PERSON_ID);
-        collectionFieldNames.add(PRINCIPAL_INVESTIGATOR_ID);
-        collectionFieldNames.add(FUNDING_SOURCE);
-        collectionFieldNames.add(RESEARCH_AREA_CODE);
-        collectionFieldNames.add(PERFORMING_ORGANIZATION_ID);
-        // collectionFieldNames.add(FUNDING_SOURCE_TYPE_CODE);
         for (Entry<String, String> entry : fieldValues.entrySet()) {
             if (!excludedFields.contains(entry.getKey()) && StringUtils.isNotBlank(entry.getValue())) {
-                String nameValue = entry.getValue().replace('*', '%');
                 if (collectionFieldNames.contains(entry.getKey())) {
+                    String nameValue = entry.getValue().replace('*', '%');
                     collectionFields.put(entry.getKey(), getQueryCriteria(entry.getKey(), nameValue, findIndicator(entry.getKey(),
                             fieldValues)));
-                }
-                else {
-                    baseLookupFields.put(entry.getKey(), nameValue);
+                } else {
+                    baseLookupFields.put(entry.getKey(), entry.getValue());
                 }
             }
         }
-
     }
 
     /*
@@ -173,6 +198,7 @@ public class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollec
         for (Entry<String, String> entry : fieldValues.entrySet()) {
             if (entry.getKey().equals(FUNDING_SOURCE_TYPE_CODE)) {
                 fundingSourceTypeCode = entry.getValue();
+                break;
             }
         }
         return fundingSourceTypeCode;
@@ -213,7 +239,7 @@ public class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollec
     }
 
     /*
-     * 
+     * This is to get the proper enum CritField based on parameters.
      */
     private CritField getQueryCriteria(String key, String nameValue, String indicator) {
 
@@ -233,7 +259,7 @@ public class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollec
     
     /**
      * 
-     * This class set up the criterial field name and some value for criteria set up to use later.
+     * This class set up the criteria field name and some value for criteria set up to use later.
      */
     public enum CritField {
 
@@ -245,15 +271,15 @@ public class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollec
         ORGANIZATION("protocolLocations.organizationId","protocolLocations.protocolOrganizationTypeCode"), 
         RESEARCHAREA("protocolResearchAreas.researchAreaCode", "");
 
-        private CritField(String fieldName, String secondCritName) {
-            this.secondCritName = secondCritName;
-            this.fieldName = fieldName;
-        }
-
         private String secondCritName;
         private String fieldName;
         private String fieldValue;
         private String indicatorValue;
+
+        private CritField(String fieldName, String secondCritName) {
+            this.secondCritName = secondCritName;
+            this.fieldName = fieldName;
+        }
 
         public String getSecondCritName() {
             return secondCritName;
@@ -288,5 +314,57 @@ public class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollec
         }
     }
 
+    /**
+     * 
+     * Builds up criteria object based on the object and map.
+     * This method is copied from lookdaoojb, but not published in lookupdao, so can't access it directly.
+     * @param businessObject
+     * @param formProps
+     * @return
+     */
+    private Criteria getCollectionCriteriaFromMap(PersistableBusinessObject businessObject, Map formProps) {
+        Criteria criteria = new Criteria();
+        Iterator propsIter = formProps.keySet().iterator();
+        while (propsIter.hasNext()) {
+            String propertyName = (String) propsIter.next();
+            if (formProps.get(propertyName) instanceof Collection) {
+                Iterator iter = ((Collection) formProps.get(propertyName)).iterator();
+                while (iter.hasNext()) {
+                    if (!lookupDao.createCriteria(businessObject, (String) iter.next(), propertyName, 
+                            isCaseSensitive(businessObject,  propertyName), criteria)) {
+                        throw new RuntimeException("Invalid value in Collection");
+                    }
+                }
+            } else {
+                if (!lookupDao.createCriteria(businessObject, (String) formProps.get(propertyName), propertyName, 
+                        isCaseSensitive(businessObject,  propertyName), criteria)) {
+                    continue;
+                }
+            }
+        }
+        return criteria;
+    }
+
+
+    /*
+     * extract method for casesensitive in method getCollectionCriteriaFromMap
+     */
+    private boolean isCaseSensitive (PersistableBusinessObject persistBo, String  propertyName) {
+        
+        boolean caseInsensitive = false;
+        if (dataDictionaryService.isAttributeDefined(persistBo.getClass(), propertyName)) {
+            caseInsensitive = !dataDictionaryService.getAttributeForceUppercase(persistBo.getClass(), propertyName);
+        }
+        return caseInsensitive;
+    }
+    
+    public void setLookupDao(LookupDao lookupDao) {
+        this.lookupDao = lookupDao;
+    }
+
+
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
+    }
 
 }
