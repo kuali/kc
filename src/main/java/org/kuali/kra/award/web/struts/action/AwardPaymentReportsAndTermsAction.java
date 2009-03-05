@@ -81,7 +81,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         AwardDocument awardDocument = (AwardDocument) awardForm.getAwardDocument();
         Award award = awardDocument.getAward();
         
-        getAwardPaymentScheduleGenerationService().generateSchedules(award, award.getAwardReportTerms());
+        getAwardPaymentScheduleGenerationService().generatePaymentSchedules(award, award.getAwardReportTerms());
         
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }

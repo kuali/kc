@@ -23,6 +23,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kra.scheduling.expr.CronExpression;
 import org.kuali.kra.scheduling.expr.DayCronExpression;
 import org.kuali.kra.scheduling.expr.MonthDayCronExpression;
+import org.kuali.kra.scheduling.expr.MonthDayMultipleYearsCronExpression;
 import org.kuali.kra.scheduling.expr.MonthlyWeekDayCronExpression;
 import org.kuali.kra.scheduling.expr.NeverCronExpression;
 import org.kuali.kra.scheduling.expr.WeekCronExpression;
@@ -96,6 +97,19 @@ public class ScheduleServiceImpl implements ScheduleService {
             ScheduleSequence scheduleSequence) throws ParseException {
 
         CronExpression expr = new MonthDayCronExpression(startDate, time, day, frequencyInMonth);
+        return getScheduledDates(expr, startDate, endDate, time, scheduleSequence);
+    }
+    
+    /**
+     * This overloaded implementation uses MonthDayMultipleYearsCronExpression targeting monthly types of schedule generation.
+     * 
+     * @see org.kuali.kra.scheduling.service.ScheduleService#getScheduledDates(java.util.Date, java.util.Date, org.kuali.kra.scheduling.util.Time24HrFmt,
+     * org.kuali.kra.scheduling.sequence.ScheduleSequence, java.lang.Integer)
+     */
+    public List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, ScheduleSequence scheduleSequence
+            , Integer dayOfMonth) throws ParseException {
+
+        CronExpression expr = new MonthDayMultipleYearsCronExpression(startDate, time, dayOfMonth);
         return getScheduledDates(expr, startDate, endDate, time, scheduleSequence);
     }
 
