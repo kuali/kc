@@ -27,6 +27,7 @@
   	
 This is the Award Actions - Under Construction
 
+<kra-a:awardDataValidation />
 
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 
