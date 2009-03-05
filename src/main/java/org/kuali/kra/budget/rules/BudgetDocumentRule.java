@@ -264,25 +264,7 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
      * @return
      */
     protected boolean processBudgetPersonnelBusinessRules(BudgetDocument budgetDocument) {
-        boolean valid = true;
-        
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-        
-        List<BudgetPerson> budgetPersons = budgetDocument.getBudgetPersons();
-        for (int i = 0; i < budgetPersons.size(); i++) {
-            BudgetPerson budgetPerson = budgetPersons.get(i);
-            for (int j = i + 1; j < budgetPersons.size(); j++) {
-                BudgetPerson budgetPersonCompare = budgetPersons.get(j);
-                if (budgetPerson.isDuplicatePerson(budgetPersonCompare)) {
-                    errorMap.putError("budgetPersons[" + j + "].personName", KeyConstants.ERROR_DUPLICATE_BUDGET_PERSON, budgetPerson.getPersonName());
-                    valid = false;
-                }
-
-            }
-            
-        }
-        
-        return valid;
+        return new BudgetPersonnelRule().processBudgetPersonnelBusinessRules(budgetDocument);
     }
     
     /**

@@ -45,7 +45,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
  */
 public class BudgetPersonnelRule {
 
-    private static final String BUDGET_PERSONS_FIELD_NAME_START = "document.budgetPersons[";
+    private static final String BUDGET_PERSONS_FIELD_NAME_START = "budgetPersons[";
     private static final String BUDGET_PERSONS_FIELD_NAME_JOBCODE = "].jobCode";
     private static final String BUDGET_PERSONS_FIELD_NAME_PERSON_NUMBER = "].personNumber";
     private static final String BUDGET_PERSONS_FIELD_NAME_CALC_BASE = "].calculationBase";
@@ -171,6 +171,28 @@ public class BudgetPersonnelRule {
             person.getBudgetVersionNumber().toString(), person.getPersonSequenceNumber().toString());
     }
     
+    public boolean processBudgetPersonnelBusinessRules(BudgetDocument budgetDocument) {
+        boolean valid = true;
+        
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        
+        List<BudgetPerson> budgetPersons = budgetDocument.getBudgetPersons();
+        for (int i = 0; i < budgetPersons.size(); i++) {
+            BudgetPerson budgetPerson = budgetPersons.get(i);
+            for (int j = i + 1; j < budgetPersons.size(); j++) {
+                BudgetPerson budgetPersonCompare = budgetPersons.get(j);
+                if (budgetPerson.isDuplicatePerson(budgetPersonCompare)) {
+                    errorMap.putError("budgetPersons[" + j + "].personName", KeyConstants.ERROR_DUPLICATE_BUDGET_PERSON, budgetPerson.getPersonName());
+                    valid = false;
+                }
+
+            }
+            
+        }
+        
+        return valid;
+    }
+
     /**
      * This method executes the job code change validation rules against the budget document
      * for a specific budget period.
@@ -191,25 +213,32 @@ public class BudgetPersonnelRule {
         
         boolean valid = true;
         
-        final BudgetPeriod selectedBudgetPeriod = budgetDocument.getBudgetPeriod(viewBudgetPeriod - 1);
+        GlobalVariables.getErrorMap().addToErrorPath("document");
+        valid &= this.processBudgetPersonnelBusinessRules(budgetDocument);
         
-        final Collection<Integer> budgetPersonSequences
-            = this.getBudgetPersonSequencesFromPersonnelDetails(selectedBudgetPeriod.getBudgetLineItems());
-        
-        if (CollectionUtils.isNotEmpty(budgetPersonSequences)) {
-            int i = 0;
-            for (BudgetPerson person : budgetDocument.getBudgetPersons()) {
-                if (budgetPersonSequences.contains(person.getPersonSequenceNumber())) {
-                    if(CollectionUtils.isNotEmpty(this.getMappedCostElements(person))) {
-                        valid &= this.validateJobCodeChange(i, person);
-                    } else {
-                        valid &= this.validateJobCodeValue(i, person);
-                        this.updateJobCodeOnDetailsFromPerson(selectedBudgetPeriod.getBudgetLineItems(), person);
+        if(valid) {
+            final BudgetPeriod selectedBudgetPeriod = budgetDocument.getBudgetPeriod(viewBudgetPeriod - 1);
+            
+            final Collection<Integer> budgetPersonSequences
+                = this.getBudgetPersonSequencesFromPersonnelDetails(selectedBudgetPeriod.getBudgetLineItems());
+            
+            if (CollectionUtils.isNotEmpty(budgetPersonSequences)) {
+                int i = 0;
+                for (BudgetPerson person : budgetDocument.getBudgetPersons()) {
+                    if (budgetPersonSequences.contains(person.getPersonSequenceNumber())) {
+                        if(CollectionUtils.isNotEmpty(this.getMappedCostElements(person))) {
+                            valid &= this.validateJobCodeChange(i, person);
+                        } else {
+                            valid &= this.validateJobCodeValue(i, person);
+                            this.updateJobCodeOnDetailsFromPerson(selectedBudgetPeriod.getBudgetLineItems(), person);
+                        }
                     }
+                    i++;
                 }
-                i++;
             }
         }
+        
+        GlobalVariables.getErrorMap().removeFromErrorPath("document");
         return valid;
     }
     
