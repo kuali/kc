@@ -23,15 +23,10 @@
     <li><portal:portalLink displayTitle="true" title="Country" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.Country&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li><portal:portalLink displayTitle="true" title="Current Locks" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.core.document.authorization.PessimisticLock&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
     <li>EDI Enabled Sponsors</li>
-    <li>Investigators Credit Type</li>
     <li>Module Names</li>
     <li>Negotiation Activity Type</li>
     <li>Negotiation Status</li>
-    <li>Organization Type</li>
-    <li>Rule Functions</li>
-    <li>Rule Functions Argument</li>
-    <li>Rule Variables</li>
-    <li>School Code</li>
+    <li><portal:portalLink displayTitle="true" title="School Code" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.SchoolCode&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li><portal:portalLink displayTitle="true" title="Sponsor" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.Sponsor&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li>Sponsor Contact Type</li>
  	<li><portal:portalLink displayTitle="true" title="Sponsor Forms" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.SponsorForms&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
@@ -42,7 +37,7 @@
     <li>Sub-Contract Status</li>
     <li>Training</li>
     <li>User Preference Variables</li>
-    <li>Unit Administrator Type</li>
+    <li><portal:portalLink displayTitle="true" title="Unit Administrator Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.UnitAdministratorType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li><portal:portalLink displayTitle="true" title="Unit Hierarchy" url="unitHierarchy.do" /></li>
     <li>Valid Rates</li>
   </ul>
