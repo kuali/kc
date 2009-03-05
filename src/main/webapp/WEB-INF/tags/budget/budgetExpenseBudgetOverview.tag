@@ -45,8 +45,10 @@
 	</c:forEach>
 </c:if>
 
-    <div id="workarea">
-<kul:tab tabTitle="Budget Overview (Period ${budgetPeriod})" transparentBackground="${transparentBackground}" defaultOpen="${defaultOpen}" tabErrorKey="document.budgetPeriod[${budgetPeriod-1}].costSharingAmount,document.budgetPeriod[${budgetPeriod-1}].totalDirectCost,document.budgetPeriod[${budgetPeriod-1}].totalIndirectCost,document.budgetPeriod[${budgetPeriod-1}].totalCost,document.budgetPeriod[${budgetPeriod-1}].totalCostLimit,document.budgetPeriod[${budgetPeriod-1}].underrecoveryAmount,document.budgetPeriod[${budgetPeriod-1}].periodCostLimit," auditCluster="${tabAuditCluster}" tabAuditKey="document.budgetPeriod[${budgetPeriod-1}].totalCostLimit" useRiceAuditMode="true">	
+<div id="workarea">
+<c:set var="showWarnings" value="${(KualiForm.document.totalCostLimit > 0 && cumTotalCost > KualiForm.document.totalCostLimit) || (KualiForm.document.budgetPeriods[budgetPeriod - 1].totalCostLimit > 0 && KualiForm.document.budgetPeriods[budgetPeriod - 1].totalCost > KualiForm.document.budgetPeriods[budgetPeriod - 1].totalCostLimit)}" />
+
+<kul:tab tabTitle="Budget Overview (Period ${budgetPeriod})" transparentBackground="${transparentBackground}" defaultOpen="${showWarnings || defaultOpen}" tabErrorKey="document.budgetPeriod[${budgetPeriod-1}].costSharingAmount,document.budgetPeriod[${budgetPeriod-1}].totalDirectCost,document.budgetPeriod[${budgetPeriod-1}].totalIndirectCost,document.budgetPeriod[${budgetPeriod-1}].totalCost,document.budgetPeriod[${budgetPeriod-1}].totalCostLimit,document.budgetPeriod[${budgetPeriod-1}].underrecoveryAmount,document.budgetPeriod[${budgetPeriod-1}].periodCostLimit," auditCluster="${tabAuditCluster}" tabAuditKey="document.budgetPeriod[${budgetPeriod-1}].totalCostLimit" useRiceAuditMode="true">	
 	<div class="tab-container" align="center">
 	<c:if test="${KualiForm.document.totalCostLimit > 0 && cumTotalCost > KualiForm.document.totalCostLimit }" >		
     	<div align="left">
