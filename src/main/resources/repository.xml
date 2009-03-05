@@ -2285,11 +2285,11 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 
-		<reference-descriptor name="costElementBo" class-ref="org.kuali.kra.budget.bo.CostElement" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="costElementReference" class-ref="org.kuali.kra.budget.bo.CostElement" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="costElement"/> 
 		</reference-descriptor>
-		<reference-descriptor name="jobCodeRef" class-ref="org.kuali.kra.budget.bo.JobCode" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="jobCode"/> 
+		<reference-descriptor name="jobCodeReference" class-ref="org.kuali.kra.budget.bo.JobCode" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="jobCode"/>
 		</reference-descriptor>
 
 	</class-descriptor>

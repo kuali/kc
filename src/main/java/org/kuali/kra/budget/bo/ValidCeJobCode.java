@@ -22,6 +22,9 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 public class ValidCeJobCode extends KraPersistableBusinessObjectBase {
 	private String costElement;
 	private String jobCode;
+	
+	private JobCode jobCodeReference;
+	private CostElement costElementReference;
 
 	public String getCostElement() {
 		return costElement;
@@ -40,7 +43,39 @@ public class ValidCeJobCode extends KraPersistableBusinessObjectBase {
 	}
 
 
-	@Override 
+	/**
+     * Gets the jobCodeReference attribute. 
+     * @return Returns the jobCodeReference.
+     */
+    public JobCode getJobCodeReference() {
+        return jobCodeReference;
+    }
+
+    /**
+     * Sets the jobCodeReference attribute value.
+     * @param jobCodeReference The jobCodeReference to set.
+     */
+    public void setJobCodeBO(JobCode jobCodeReference) {
+        this.jobCodeReference = jobCodeReference;
+    }
+
+    /**
+     * Gets the costElementReference attribute. 
+     * @return Returns the costElementReference.
+     */
+    public CostElement getCostElementReference() {
+        return costElementReference;
+    }
+
+    /**
+     * Sets the costElementReference attribute value.
+     * @param costElementReference The costElementReference to set.
+     */
+    public void setCostElementReference(CostElement costElementReference) {
+        this.costElementReference = costElementReference;
+    }
+
+    @Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
 		hashMap.put("costElement", getCostElement());
