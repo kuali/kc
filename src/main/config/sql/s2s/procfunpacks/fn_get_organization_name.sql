@@ -7,8 +7,10 @@ begin
    	FROM OSP$organization  
    	WHERE rtrim(ltrim(organization_id)) = rtrim(ltrim(as_organization_id));
 
+	EXCEPTION WHEN NO_DATA_FOUND THEN
+            	ls_name := ' ';
+
 return ls_name;
 end;
 
 /
-

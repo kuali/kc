@@ -189,6 +189,11 @@ procedure getLeadUnit (as_proposal_number OSP$EPS_PROPOSAL.proposal_number%type,
  								cur_type IN OUT result_sets.cur_generic) ;
 
 
+FUNCTION fn_Get_base_salary (AS_PROPOSAL_NUMBER OSP$EPS_PROPOSAL.PROPOSAL_NUMBER%TYPE,
+                             AI_VERSION_NUMBER osp$budget_persons.version_number%TYPE,
+                             AS_PERSON_ID osp$budget_persons.person_id%TYPE)
+RETURN  NUMBER ;
+
 end;
 
 /
@@ -2408,6 +2413,69 @@ OPEN cur_type for
 
 end;
 
+
+---------------------------------------------------------
+-- function fn_get_base_salary
+--  when there are two appointments (same person with two job codes) or person with
+--  same job code but different effective dts: using the base salary that has earliest effective dt
+---------------------------------------------------------
+
+FUNCTION fn_Get_base_salary (AS_PROPOSAL_NUMBER OSP$EPS_PROPOSAL.PROPOSAL_NUMBER%TYPE,
+                             AI_VERSION_NUMBER osp$budget_persons.version_number%TYPE,
+                             AS_PERSON_ID osp$budget_persons.person_id%TYPE)
+RETURN  NUMBER IS
+li_count  NUMBER;
+li_count2 NUMBER;
+li_effective_date  OSP$BUDGET_PERSONS.effective_date%TYPE;
+li_calculation_base  OSP$BUDGET_PERSONS.calculation_base%TYPE;
+li_base_salary       OSP$BUDGET_PERSONS.calculation_base%TYPE;
+li_appointment_type  OSP$BUDGET_PERSONS.APPOINTMENT_TYPE%TYPE;
+
+FIRST                BOOLEAN;
+
+CURSOR c_budget_persons (prop_number    OSP$EPS_PROPOSAL.PROPOSAL_NUMBER%TYPE,
+                         version        osp$budget_persons.version_number%TYPE,
+                         personid       osp$budget_persons.person_id%TYPE) IS
+
+SELECT DISTINCT bp.calculation_base,  bp.effective_date, bp.APPOINTMENT_TYPE
+				FROM  OSP$BUDGET_PERSONS bp,  OSP$BUDGET_PERSONNEL_DETAILS pd
+				WHERE bp.proposal_number = prop_number
+				AND   bp.version_number = version
+				AND	bp.person_id = personid
+            AND   pd.proposal_number=bp.proposal_number
+            AND   pd.version_number= bp.version_number
+            AND   pd.person_id = bp.person_id
+            AND   pd.JOB_CODE = bp.JOB_CODE
+				ORDER BY bp.effective_date, bp.APPOINTMENT_TYPE;
+
+BEGIN
+
+   FIRST := TRUE;
+
+	OPEN c_budget_persons (as_proposal_number, ai_version_number, as_person_id);
+
+		LOOP
+			FETCH c_budget_persons INTO li_calculation_base, li_effective_date, li_appointment_type;
+			EXIT WHEN c_budget_persons%NOTFOUND;
+
+         IF FIRST THEN
+				li_base_salary := li_calculation_base;
+				FIRST := FALSE;
+         END IF;
+
+         IF (trim(li_appointment_type) != 'SUM EMPLOYEE' AND trim(li_appointment_type) != 'TMP EMPLOYEE' ) THEN
+             li_base_salary := li_calculation_base;
+
+             EXIT;
+         END IF;
+
+      END LOOP;
+   CLOSE c_budget_persons;
+
+   RETURN li_base_Salary;
+
+
+END;
 
 end;
 
