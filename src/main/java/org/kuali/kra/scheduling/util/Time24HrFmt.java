@@ -15,13 +15,16 @@
  */
 package org.kuali.kra.scheduling.util;
 
+import java.io.Serializable;
 import java.text.ParseException;
 
 /**
  * This is util class helps facade time in 24 hour format.
  */
-public class Time24HrFmt {
-    
+public class Time24HrFmt implements Serializable{
+
+    private static final long serialVersionUID = 2554984023134603437L;
+
     private String hours;
     
     private String minutes;
@@ -88,5 +91,43 @@ public class Time24HrFmt {
         this.hours = result[0];
         this.minutes = result[1];
         
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((hours == null) ? 0 : hours.hashCode());
+        result = prime * result + ((minutes == null) ? 0 : minutes.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Time24HrFmt other = (Time24HrFmt) obj;
+        if (hours == null) {
+            if (other.hours != null)
+                return false;
+        }
+        else if (!hours.equals(other.hours))
+            return false;
+        if (minutes == null) {
+            if (other.minutes != null)
+                return false;
+        }
+        else if (!minutes.equals(other.minutes))
+            return false;
+        return true;
+    }
+    
+    @Override
+    public String toString() {
+       return hours + ":" + minutes; 
     }
 }

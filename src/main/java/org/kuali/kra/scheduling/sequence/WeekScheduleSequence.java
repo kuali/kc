@@ -86,4 +86,39 @@ public class WeekScheduleSequence implements ScheduleSequence {
 
         return dates;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((dayCount == null) ? 0 : dayCount.hashCode());
+        result = prime * result + ((frequency == null) ? 0 : frequency.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        WeekScheduleSequence other = (WeekScheduleSequence) obj;
+        if (dayCount == null) {
+            if (other.dayCount != null)
+                return false;
+        }
+        else if (!dayCount.equals(other.dayCount))
+            return false;
+        if (frequency == null) {
+            if (other.frequency != null)
+                return false;
+        }
+        else if (!frequency.equals(other.frequency))
+            return false;
+        return true;
+    }
+    
+    
 }
