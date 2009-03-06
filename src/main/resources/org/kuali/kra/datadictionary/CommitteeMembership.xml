@@ -32,6 +32,7 @@
 		<property name="attributes" >
 			<list>
 				<ref bean="CommitteeMembership-committeeMembershipsId" />
+				<ref bean="CommitteeMembership-id" />
 				<ref bean="CommitteeMembership-committeeId" />
 				<ref bean="CommitteeMembership-personId" />
                 <ref bean="CommitteeMembership-rolodexId" />
@@ -43,8 +44,8 @@
 				<ref bean="CommitteeMembership-termEndDate" />
 				<ref bean="CommitteeMembership-membershipTypeCode" />
 				<ref bean="CommitteeMembership-comments" />
-<!--				<ref bean="CommitteeMembership-contactNotes" />-->
-<!--				<ref bean="CommitteeMembership-trainingNotes" />-->
+				<ref bean="CommitteeMembership-contactNotes" />
+				<ref bean="CommitteeMembership-trainingNotes" />
 				<ref bean="CommitteeMembership-versionNumber" />
 			</list>
 		</property>
@@ -70,6 +71,24 @@
 		<property name="description" value="Committee Memberships Id" />
 	</bean>
 
+    <bean id="CommitteeMembership-id" parent="CommitteeMembership-id-parentBean" />
+    <bean id="CommitteeMembership-id-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="id" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Id" />
+        <property name="shortLabel" value="Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Id" />
+        <property name="description" value="Id" />
+    </bean>
+    
 	<bean id="CommitteeMembership-committeeId" parent="CommitteeMembership-committeeId-parentBean" />
 	<bean id="CommitteeMembership-committeeId-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="committeeId" />
