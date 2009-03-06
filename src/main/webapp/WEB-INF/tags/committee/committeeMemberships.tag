@@ -12,7 +12,7 @@
     <c:set var="description" value="Term ${committeeMembershipProperty}.termStartDate - ${committeeMembershipProperty}.termEndDate" /> 
     <c:set var="membershipIndex" value="${status.index}" />
     <kul:tab tabTitle="${fn:substring(membership.personName, 0, 22)} (${membership.membershipType.description})"
-             tabErrorKey="document.committee.committeeMemberships[${personIndex}]*"
+             tabErrorKey="document.committee.committeeMemberships[${membershipIndex}]*"
              auditCluster="requiredFieldsAuditErrors" 
              tabAuditKey="" 
              useRiceAuditMode="true"
@@ -29,7 +29,10 @@
                              <span class="subhead-left"><bean:write name="KualiForm" property="${committeeMembershipProperty}.personName" /></span>
                              <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.Committee" altText="help" /></span>
                          </h3>
-                         <%-- <kra-irb:personDetailsSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/> --%>
+                         <kra-committee:committeeMembershipDetailsSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" />
+                         <kra-committee:committeeMembershipContactInformationSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" />
+                         <kra-committee:committeeMembershipRolesSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" />
+                         <kra-committee:committeeMembershipExpertiseSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" />
                      </div>
                  </div>
              </div>
