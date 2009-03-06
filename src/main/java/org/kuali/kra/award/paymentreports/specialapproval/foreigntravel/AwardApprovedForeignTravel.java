@@ -19,18 +19,15 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kra.award.bo.Award;
+import org.kuali.kra.award.AwardBusinessObject;
 import org.kuali.kra.award.bo.ValuableItem;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Person;
 
 /**
  * This class handles the Award Special Approval for Approved Equipment
  */
-public class AwardApprovedForeignTravel extends KraPersistableBusinessObjectBase 
+public class AwardApprovedForeignTravel extends AwardBusinessObject 
                                         implements Comparable<AwardApprovedForeignTravel>, ValuableItem {
-    private static final String SPACE = " ";
-
     private static final long serialVersionUID = 1039155193608738040L;
     
     private Long approvedForeignTravelId;
@@ -41,11 +38,6 @@ public class AwardApprovedForeignTravel extends KraPersistableBusinessObjectBase
     private Date startDate;
     private Date endDate;
     private KualiDecimal amount;
-    
-    private String awardNumber;
-    private Integer sequenceNumber;
-    private Award award;
-    
     /**
      * Constructs a AwardApprovedForeignTravel
      */
@@ -75,7 +67,7 @@ public class AwardApprovedForeignTravel extends KraPersistableBusinessObjectBase
         setStartDate(tripToCopy.startDate);
         setEndDate(tripToCopy.endDate);
         setAmount(tripToCopy.amount);
-        setAward(tripToCopy.award);
+        setAward(tripToCopy.getAward());
     }
 
     /**
@@ -85,15 +77,7 @@ public class AwardApprovedForeignTravel extends KraPersistableBusinessObjectBase
     public Long getApprovedForeignTravelId() {
         return approvedForeignTravelId;
     }
-
-    /**
-     * Gets the award attribute. 
-     * @return Returns the award.
-     */
-    public Award getAward() {
-        return award;
-    }
-
+    
     /**
      * Gets the traveler name attribute. 
      * @return Returns the traveler name.
@@ -159,21 +143,6 @@ public class AwardApprovedForeignTravel extends KraPersistableBusinessObjectBase
     }
 
     /**
-     * Sets the award attribute value.
-     * @param award The award to set.
-     */
-    public void setAward(Award award) {
-        this.award = award;
-        if(award != null) {
-            setSequenceNumber(award.getSequenceNumber());
-            setAwardNumber(award.getAwardNumber());
-        } else {
-            setSequenceNumber(0);
-            setAwardNumber("");
-        }
-    }
-
-    /**
      * Sets the traveler attribute value.
      * @param traveler The Person to set.
      */
@@ -235,39 +204,6 @@ public class AwardApprovedForeignTravel extends KraPersistableBusinessObjectBase
     public void setAmount(final double amount) {
         this.amount = new KualiDecimal(amount);
     }
-
-    /**
-     * @return
-     * @see org.kuali.kra.award.bo.Award#getAwardNumber()
-     */
-    public String getAwardNumber() {
-        return awardNumber;
-    }
-    
-    /**
-     * @return
-     * @see org.kuali.kra.award.bo.Award#getSequenceNumber()
-     */
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
-
-    /**
-     * @param awardNumber
-     * @see org.kuali.kra.award.bo.Award#setAwardNumber(java.lang.String)
-     */
-    public void setAwardNumber(final String awardNumber) {
-        this.awardNumber = awardNumber;
-    }
-    
-    /**
-     * @param sequenceNumber
-     * @see org.kuali.kra.award.bo.Award#setSequenceNumber(java.lang.Integer)
-     */
-    public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
-    }
-
     
     /**
      * Note: This was modified from the Eclipse generated version so that Traveler Name is only 
@@ -348,10 +284,8 @@ public class AwardApprovedForeignTravel extends KraPersistableBusinessObjectBase
      */
     @Override
     protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+        LinkedHashMap<String, Object> map = super.toStringMapper();
         map.put("approvedEquipmentId", approvedForeignTravelId);
-        map.put("awardNumber", awardNumber);
-        map.put("sequenceNumber", sequenceNumber);
         map.put("traveler", traveler);
         map.put("destination", destination);
         map.put("startDate", startDate);
