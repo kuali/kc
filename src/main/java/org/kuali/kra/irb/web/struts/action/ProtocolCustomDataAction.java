@@ -44,10 +44,7 @@ public class ProtocolCustomDataAction extends ProtocolAction {
             throws Exception {
 
         CustomDataAction.copyCustomDataToDocument(form);
-        
-        ((ProtocolForm)form).getProtocolHelper().prepareView();
-        ((ProtocolForm)form).getPersonnelHelper().prepareView();
-        ((ProtocolForm)form).getPermissionsHelper().prepareView();
+
         ((ProtocolForm)form).getCustomDataHelper().prepareView();
         
         return super.execute(mapping, form, request, response);
