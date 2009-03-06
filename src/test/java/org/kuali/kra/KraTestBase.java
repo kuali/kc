@@ -112,6 +112,9 @@ import org.kuali.rice.test.data.UnitTestFile;
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_VALID_RATES.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_SPONSOR_TERM_TYPE.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_SPONSOR_TERM.sql", delimiter = ";")
+                ,@UnitTestFile(filename = "classpath:sql/dml/load_AWARD_BASIS_OF_PAYMENT.sql", delimiter = ";")
+                ,@UnitTestFile(filename = "classpath:sql/dml/load_AWARD_METHOD_OF_PAYMENT.sql", delimiter = ";")
+                
             }
         )
     )
