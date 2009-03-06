@@ -18,6 +18,12 @@ package org.kuali.kra.web.struts.action;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.WebUtils;
@@ -29,6 +35,8 @@ import org.kuali.kra.budget.service.BudgetService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.kra.web.struts.form.ProposalFormBase;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -37,6 +45,24 @@ import edu.iu.uis.eden.exception.WorkflowException;
  */
 public class ProposalActionBase extends KraTransactionalDocumentActionBase {
     
+    /**
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        
+        final ProposalFormBase proposalForm = (ProposalFormBase) form;
+        ActionForward forward = super.save(mapping, form, request, response);
+        
+        if (proposalForm.getMethodToCall().equals("save") && proposalForm.isAuditActivated()) {
+            // TODO : need to check whether the error is really fixed ?
+            forward = mapping.findForward(Constants.PROPOSAL_ACTIONS_PAGE);
+        }
+
+        return forward;
+    }
+
     protected static final String COPY_BUDGET_PERIOD_QUESTION = "copyBudgetQuestion";
     protected static final String QUESTION_TYPE = "copyPeriodsQuestion";
     protected static final String QUESTION_TEXT = "A new version of the budget will be created based on version ";

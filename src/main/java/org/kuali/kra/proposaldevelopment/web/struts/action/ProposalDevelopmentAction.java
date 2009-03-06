@@ -226,23 +226,15 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
             initializeProposalUsers(doc);
         }
 
-        if (proposalDevelopmentForm.getMethodToCall().equals("save") && proposalDevelopmentForm.isAuditActivated()) {
-            // TODO : need to check whether the error is really fixed ?
-            forward = mapping.findForward(Constants.PROPOSAL_ACTIONS_PAGE);
-        }
-
-        final ProposalDevelopmentDocument proposalDevelopmentDocument
-            = proposalDevelopmentForm.getDocument();
-
-        proposalDevelopmentForm.setFinalBudgetVersion(getFinalBudgetVersion(proposalDevelopmentDocument.getBudgetVersionOverviews()));
-        setBudgetStatuses(proposalDevelopmentDocument);
+        proposalDevelopmentForm.setFinalBudgetVersion(getFinalBudgetVersion(doc.getBudgetVersionOverviews()));
+        setBudgetStatuses(doc);
 
         //if not on budget page
         if ("ProposalDevelopmentBudgetVersionsAction".equals(proposalDevelopmentForm.getActionName())) {
             GlobalVariables.getErrorMap().addToErrorPath(RiceConstants.DOCUMENT_PROPERTY_NAME + ".proposal");
 
             final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
-            tdcValidator.validateGeneratingErrorsAndWarnings(proposalDevelopmentDocument);
+            tdcValidator.validateGeneratingErrorsAndWarnings(doc);
         }
 
         return forward;
