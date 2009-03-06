@@ -18,6 +18,7 @@ package org.kuali.kra.committee.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
@@ -27,7 +28,10 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
 
     @SuppressWarnings("unused")
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeScheduleServiceImpl.class);
-    
+
+    private static final String REFERENCE_PERSON = "person";
+    private static final String REFERENCE_ROLODEX = "rolodex";
+
     private BusinessObjectService businessObjectService;
     
     /**
@@ -45,14 +49,15 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
     public void addCommitteeMembership(Committee committee, CommitteeMembership committeeMembership) {
         
         committeeMembership.setCommitteeId(committee.getCommitteeId());
+        committeeMembership.setMembershipId("0");
         committeeMembership.setSequenceNumber(0);
 
         //Refresh Person or Rolodex
-//        if(!StringUtils.isBlank(committeeMembership.getPersonId())) {
-//            committeeMembership.refreshReferenceObject(REFERENCE_PERSON);
-//        }else {
-//            committeeMembership.refreshReferenceObject(REFERENCE_ROLODEX);
-//        }
+        if(!StringUtils.isBlank(committeeMembership.getPersonId())) {
+            committeeMembership.refreshReferenceObject(REFERENCE_PERSON);
+        }else {
+            committeeMembership.refreshReferenceObject(REFERENCE_ROLODEX);
+        }
         
         committee.getCommitteeMemberships().add(committeeMembership);
     }
