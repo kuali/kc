@@ -23,6 +23,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.service.PersistenceService;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardReportTerm;
 import org.kuali.kra.award.bo.Frequency;
@@ -39,17 +40,12 @@ import org.kuali.kra.scheduling.util.Time24HrFmt;
 public class AwardPaymentScheduleGenerationServiceImpl implements org.kuali.kra.service.AwardPaymentScheduleGenerationService {
     
     private ScheduleService scheduleService;
-    //private PersistenceService persistenceService;
-    private static final java.util.Date EXPIRATION_DATE = new Date(2010,3,1);
-    private static final java.util.Date AWARD_EXECUTION_DATE = new Date(2009,3,1);
-    private static final java.util.Date AWARD_EFFECTIVE_DATE = new Date(2009,5,1);
-    private static final java.util.Date EXPIRATION_DATE_OF_OBLIGATION = new Date(2009,10,1);
-    private static final java.util.Date EFFECTIVE_DATE_OF_OBLIGATION = new Date(2010,5,1);
+    private PersistenceService persistenceService;
     
     public void generatePaymentSchedules(Award award, List<AwardReportTerm> awardReportTerms) throws ParseException{
         List<Date> dates = new ArrayList<Date>();
         AwardPaymentSchedule newAwardPaymentSchedule;
-        //refreshAwardReportTerms(awardReportTerms);
+        refreshAwardReportTerms(awardReportTerms);
         dates = generateSchedules(award,awardReportTerms);
         for(Date date: dates){
             newAwardPaymentSchedule = new AwardPaymentSchedule();
@@ -61,137 +57,87 @@ public class AwardPaymentScheduleGenerationServiceImpl implements org.kuali.kra.
         }
     }
 
-    protected List<Date> generateSchedules(Award award, List<AwardReportTerm> awardReportTerms) throws ParseException{
-        
+    protected List<Date> generateSchedules(Award award, List<AwardReportTerm> awardReportTerms) throws ParseException{        
         List<Date> dates = new ArrayList<Date>();
         GregorianCalendar calendar = new GregorianCalendar();        
-        java.util.Date startDate = calendar.getTime();
-        java.util.Date endDate = calendar.getTime();
-        int dayOfMonth = 0;
-        int startYear = 0;
-        int endYear = 0;
+        java.util.Date startDate = null;
+        java.util.Date endDate = null;
         
         for(AwardReportTerm awardReportTerm: awardReportTerms){
             if(StringUtils.equalsIgnoreCase(awardReportTerm.getReportClassCode(), "6")){
                 
                 if(awardReportTerm.getFrequencyBaseCode()!=null){
-                    if(awardReportTerm.getFrequencyBaseCode().equals("1")){
-                        calendar.clear();
-                        calendar.set(2009, 3, 1);//temp hardcoded award execution date.
-                        startDate = calendar.getTime();
-                        dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-                        startYear = calendar.get(Calendar.YEAR);                        
-                    }else if(awardReportTerm.getFrequencyBaseCode().equals("2")){                        
-                        calendar.clear();
-                        calendar.set(2009, 4, 1);//temp hardcoded award effective date.
-                        startDate = calendar.getTime();
-                        dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-                        startYear = calendar.get(Calendar.YEAR);
-                    }else if(awardReportTerm.getFrequencyBaseCode().equals("3")){
-                        calendar.clear();
-                        calendar.set(2009, 5, 1);//temp hardcoded award expiration date of obligation.
-                        startDate = calendar.getTime();
-                        dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-                        startYear = calendar.get(Calendar.YEAR);
-                    }else if(awardReportTerm.getFrequencyBaseCode().equals("4")){
-                        calendar.clear();
-                        calendar.set(2011, 4, 1);//temp hardcoded award expiration date.
-                        startDate = calendar.getTime();
-                        dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-                        startYear = calendar.get(Calendar.YEAR);
-                    }else if(awardReportTerm.getFrequencyBaseCode().equals("5")){
-                        calendar.clear();
-                        calendar.set(2009, 7, 1);//temp hardcoded award effective date of obligation..
-                        startDate = calendar.getTime();
-                        dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-                        startYear = calendar.get(Calendar.YEAR);
-                    }else{
-                        startDate = awardReportTerm.getDueDate();
-                    }                    
-                    
-                    if(awardReportTerm.getFrequencyBaseCode().equals("4")){                        
-                        calendar.clear();
-                        calendar.setTime(startDate);   
-                        calendar.add(Calendar.YEAR, 1);
-                        endDate = calendar.getTime();
-                        endYear = calendar.get(Calendar.YEAR);
-                    }else{
-                        calendar.clear();
-                        calendar.set(2011, 4, 1);//temp hardcoded award expiration date.
-                        endDate = calendar.getTime();
-                        endYear = calendar.get(Calendar.YEAR);
-                    }
-                    
+                    getStartDate(calendar, awardReportTerm);
+                    startDate = calendar.getTime();
+                    getEndDate(calendar, awardReportTerm.getFrequencyBaseCode(),startDate);                    
+                    endDate = calendar.getTime();
                 }
                 
-                awardReportTerm.refreshReferenceObject("frequency");
-                Frequency frequency = awardReportTerm.getFrequency();
-                if(frequency.getNumberOfMonths()!=null){                   
+                if(startDate!=null){
+                    Frequency frequency = awardReportTerm.getFrequency();                                   
                     calendar.setTime(startDate);
-                    if(frequency.getRepeatFlag()){                        
-                        if(frequency.getNumberOfDays()!=null){
-                            calendar.add(Calendar.DAY_OF_YEAR,frequency.getNumberOfDays());
-                        }else if(frequency.getAdvanceNumberOfDays()!=null){
-                            calendar.add(Calendar.DAY_OF_YEAR,-frequency.getAdvanceNumberOfDays());
-                        }else if(frequency.getAdvanceNumberOfMonths()!=null){
-                            calendar.add(Calendar.MONTH,-frequency.getAdvanceNumberOfMonths());
-                        }
-                        
-                        dates = scheduleService.getScheduledDates(
-                                startDate, endDate, new Time24HrFmt("00:00"), dayOfMonth, 1, new XMonthlyScheduleSequence(frequency.getNumberOfMonths()));
-                        
+                    if(endDate!=null && frequency.getRepeatFlag() && frequency.getNumberOfMonths()!=null){                        
+                        getUpdatedStartDate(calendar, frequency);                        
+                        startDate = calendar.getTime();                        
+                        dates = scheduleService.getScheduledDates(startDate, endDate, new Time24HrFmt("00:00")
+                                    , new XMonthlyScheduleSequence(frequency.getNumberOfMonths()), calendar.get(Calendar.DAY_OF_MONTH));                        
                     }else{
-                        if(frequency.getNumberOfDays()!=null){
-                            calendar.add(Calendar.DAY_OF_YEAR,frequency.getNumberOfDays());
-                        }else if(frequency.getNumberOfMonths()!=null){
-                            calendar.add(Calendar.MONTH,frequency.getNumberOfMonths());
-                        }else if(frequency.getAdvanceNumberOfDays()!=null){
-                            calendar.add(Calendar.DAY_OF_YEAR,-frequency.getAdvanceNumberOfDays());
-                        }else if(frequency.getAdvanceNumberOfMonths()!=null){
-                            calendar.add(Calendar.MONTH,-frequency.getAdvanceNumberOfMonths());
-                        }
-                        
-                        startDate = calendar.getTime();
-                        dates.add(startDate);
-                    }
-                    
+                        getUpdatedStartDate(calendar, frequency);                      
+                        dates.add(calendar.getTime());
+                    }    
                 }
                 
             }
+            
         }
         
         return dates;
+    }
 
+    protected void getUpdatedStartDate(GregorianCalendar calendar, Frequency frequency) {
+        if(frequency.getNumberOfDays()!=null){
+            calendar.add(Calendar.DAY_OF_YEAR,frequency.getNumberOfDays());
+        }else if(frequency.getAdvanceNumberOfDays()!=null){
+            calendar.add(Calendar.DAY_OF_YEAR,-frequency.getAdvanceNumberOfDays());
+        }else if(frequency.getAdvanceNumberOfMonths()!=null){
+            calendar.add(Calendar.MONTH,-frequency.getAdvanceNumberOfMonths());
+        }else if(frequency.getAdvanceNumberOfMonths()!=null){
+            calendar.add(Calendar.MONTH,-frequency.getAdvanceNumberOfMonths());
+        }  
     }
     
-    /*private void getStartAndEndDates(AwardReportTerm awardReportTerm, Date startDate, Date endDate){
-        GregorianCalendar calendar = new GregorianCalendar();
-        
-        if(awardReportTerm.getFrequencyBaseCode()!=null){
-            if(awardReportTerm.getFrequencyBaseCode().equals("1")){
-                startDate = AWARD_EXECUTION_DATE;                
-            }else if(awardReportTerm.getFrequencyBaseCode().equals("2")){
-                startDate = AWARD_EFFECTIVE_DATE;
-            }else if(awardReportTerm.getFrequencyBaseCode().equals("3")){
-                startDate = EXPIRATION_DATE_OF_OBLIGATION;
-            }else if(awardReportTerm.getFrequencyBaseCode().equals("4")){
-                startDate = EXPIRATION_DATE;
-            }else if(awardReportTerm.getFrequencyBaseCode().equals("5")){
-                startDate = EFFECTIVE_DATE_OF_OBLIGATION;
-            }else{
-                startDate = awardReportTerm.getDueDate();
-            }                    
-            
-            if(awardReportTerm.getFrequencyBaseCode().equals("4")){
-                calendar.setTime(startDate);   
-                calendar.add(Calendar.YEAR, 1);
-                endDate = calendar.getTime();
-            }else{
-                endDate = EXPIRATION_DATE;
-            }
-            
+    protected void getStartDate(GregorianCalendar calendar, AwardReportTerm awardReportTerm){
+        if(awardReportTerm.getFrequencyBaseCode().equals("1")){
+            calendar.clear();
+            calendar.set(2009, 3, 1);//temp hardcoded award execution date.
+        }else if(awardReportTerm.getFrequencyBaseCode().equals("2")){                        
+            calendar.clear();
+            calendar.set(2009, 4, 1);//temp hardcoded award effective date.
+        }else if(awardReportTerm.getFrequencyBaseCode().equals("3")){
+            calendar.clear();
+            calendar.set(2009, 5, 1);//temp hardcoded award expiration date of obligation.
+        }else if(awardReportTerm.getFrequencyBaseCode().equals("4")){
+            calendar.clear();
+            calendar.set(2011, 4, 1);//temp hardcoded award expiration date.
+        }else if(awardReportTerm.getFrequencyBaseCode().equals("5")){
+            calendar.clear();
+            calendar.set(2009, 7, 1);//temp hardcoded award effective date of obligation.
+        }else{
+            calendar.clear();
+            calendar.setTimeInMillis(awardReportTerm.getDueDate().getTime());
         }
-    }*/
+    }
+    
+    protected void getEndDate(GregorianCalendar calendar, String frequencyBaseCode, Date startDate){
+        if(frequencyBaseCode.equals("4")){                        
+            calendar.clear();
+            calendar.setTime(startDate);   
+            calendar.add(Calendar.YEAR, 1);            
+        }else{
+            calendar.clear();
+            calendar.set(2011, 4, 1);//temp hardcoded award expiration date.                                  
+        }
+    }
 
     /**
      * Gets the scheduleService attribute. 
@@ -209,7 +155,7 @@ public class AwardPaymentScheduleGenerationServiceImpl implements org.kuali.kra.
         this.scheduleService = scheduleService;
     }
     
-/*    protected void refreshAwardReportTerms(List<AwardReportTerm> awardReportTerms) {
+    protected void refreshAwardReportTerms(List<AwardReportTerm> awardReportTerms) {
         List<AwardReportTerm> persistableObjects = new ArrayList<AwardReportTerm>();
         List<String> referenceObjectNames = new ArrayList<String>();
         
@@ -221,23 +167,23 @@ public class AwardPaymentScheduleGenerationServiceImpl implements org.kuali.kra.
         if(persistableObjects.size()>0 && referenceObjectNames.size()>0 ){            
             getPersistenceService().retrieveReferenceObjects(persistableObjects, referenceObjectNames);
         }
-    }*/
+    }
     
-/*    *//**
+    /**
      * Gets the persistenceService attribute. 
      * @return Returns the persistenceService.
-     *//*
+     */
     public PersistenceService getPersistenceService() {
         return persistenceService;
     }
 
-    *//**
+    /**
      * Sets the persistenceService attribute value.
      * @param persistenceService The persistenceService to set.
-     *//*
+     */
     public void setPersistenceService(PersistenceService persistenceService) {
         this.persistenceService = persistenceService;
-    }*/
+    }
 
 }
 
