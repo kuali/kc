@@ -21,12 +21,13 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.bo.ProtocolUnit;
 import org.kuali.kra.irb.rule.AddProtocolUnitRule;
 import org.kuali.kra.irb.rule.event.AddProtocolUnitEvent;
+import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.UnitService;
 
 /**
  * This class contains rules to validate protocol units for each protocol personnel.
  */
-public class ProtocolUnitRule extends ProtocolDocumentRule implements AddProtocolUnitRule {
+public class ProtocolUnitRule extends ResearchDocumentRuleBase implements AddProtocolUnitRule {
 
     private static final String ERROR_PROPERTY_NEW_PERSON_UNIT = "newProtocolPersonUnits"; 
     private static final String ERROR_PROPERTY_UNIT_NUMBER = ".unitNumber"; 

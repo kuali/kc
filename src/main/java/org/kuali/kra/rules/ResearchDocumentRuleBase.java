@@ -54,6 +54,10 @@ import edu.emory.mathcs.backport.java.util.AbstractMap.SimpleImmutableEntry;
  */
 public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implements DocumentAuditRule {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ResearchDocumentRuleBase.class);
+    public static final String DOCUMENT_ERROR_PATH = "document";
+    public static final boolean VALIDATION_REQUIRED = true;
+    public static final boolean CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME = false;
+
 
     /**
      * Wrapper around global errorMap.put call, to allow better logging

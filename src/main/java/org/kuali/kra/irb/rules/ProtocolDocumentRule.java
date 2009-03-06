@@ -17,11 +17,16 @@ package org.kuali.kra.irb.rules;
 
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
+import org.kuali.core.util.ErrorMap;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.common.permissions.bo.PermissionsUser;
 import org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles;
 import org.kuali.kra.common.permissions.rule.PermissionsRule;
 import org.kuali.kra.common.permissions.web.bean.User;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.rule.AddProtocolFundingSourceRule;
 import org.kuali.kra.irb.rule.AddProtocolLocationRule;
@@ -29,9 +34,7 @@ import org.kuali.kra.irb.rule.AddProtocolParticipantRule;
 import org.kuali.kra.irb.rule.AddProtocolPersonnelRule;
 import org.kuali.kra.irb.rule.AddProtocolReferenceRule;
 import org.kuali.kra.irb.rule.AddProtocolUnitRule;
-import org.kuali.kra.irb.rule.SaveProtocolLocationRule;
 import org.kuali.kra.irb.rule.SaveProtocolPersonnelRule;
-import org.kuali.kra.irb.rule.SaveProtocolRequiredFieldsRule;
 import org.kuali.kra.irb.rule.UpdateProtocolPersonnelRule;
 import org.kuali.kra.irb.rule.event.AddProtocolFundingSourceEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolLocationEvent;
@@ -39,9 +42,7 @@ import org.kuali.kra.irb.rule.event.AddProtocolParticipantEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolPersonnelEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolReferenceEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolUnitEvent;
-import org.kuali.kra.irb.rule.event.SaveProtocolLocationEvent;
 import org.kuali.kra.irb.rule.event.SaveProtocolPersonnelEvent;
-import org.kuali.kra.irb.rule.event.SaveProtocolRequiredFieldsEvent;
 import org.kuali.kra.irb.rule.event.UpdateProtocolPersonnelEvent;
 import org.kuali.kra.rule.CustomAttributeRule;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
@@ -53,8 +54,12 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolParticipantRule, AddProtocolLocationRule, SaveProtocolLocationRule, SaveProtocolRequiredFieldsRule, AddProtocolPersonnelRule, SaveProtocolPersonnelRule, AddProtocolFundingSourceRule, PermissionsRule, AddProtocolUnitRule, UpdateProtocolPersonnelRule, CustomAttributeRule {
-    
+public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolParticipantRule, AddProtocolLocationRule, AddProtocolPersonnelRule, SaveProtocolPersonnelRule, AddProtocolFundingSourceRule, PermissionsRule, AddProtocolUnitRule, UpdateProtocolPersonnelRule, CustomAttributeRule {
+    private static final String PROTOCOL_PIID_FORM_ELEMENT="protocolHelper.personId";
+    private static final String PROTOCOL_LUN_FORM_ELEMENT="protocolHelper.leadUnitNumber";
+    private static final String ERROR_PROPERTY_ORGANIZATION_ID = "protocolHelper.newProtocolLocation.organizationId"; 
+
+// TODO : move these static constant up to parent 
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean retval = true;
@@ -69,8 +74,17 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
             return false;
         }
 
-        boolean valid = true;
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+        getDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(
+                document, getMaxDictionaryValidationDepth(),
+                VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
+        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
 
+        boolean valid = true;
+        valid &= processRequiredFieldsBusinessRules((ProtocolDocument) document);
+        valid &= processProtocolLocationBusinessRules((ProtocolDocument) document);
+        
         return valid;
     }
 
@@ -84,6 +98,54 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         retval &= super.processRunAuditBusinessRules(document);
         
         return retval;
+    }
+
+    
+    /**
+     * 
+     * This method validate whether leadunit is valid and principalinvestigator exist.
+     * refactored by copying from protocolrequiredfieldsrule.
+     * @param document
+     * @return
+     */
+    public boolean processRequiredFieldsBusinessRules(ProtocolDocument document) {
+
+        boolean isValid = true;
+
+        // TODO : temporary comment out.  need to resolve 'copyprotocol' save after protocol required fields is copied issue.
+//        if (StringUtils.isNotBlank(document.getProtocol().getPrincipalInvestigatorId()) && (document.getProtocol().getPrincipalInvestigator()== null ||
+//              StringUtils.isBlank(document.getProtocol().getPrincipalInvestigator().getPersonName()) || 
+//              StringUtils.isBlank(document.getProtocol().getPrincipalInvestigator().getPersonId()))) {
+//            isValid = false;
+//            reportError(PROTOCOL_PIID_FORM_ELEMENT, KeyConstants.ERROR_PROTOCOL_PRINCIPAL_INVESTIGATOR_NAME_NOT_FOUND);
+//        } 
+        if   (StringUtils.isNotEmpty(document.getProtocol().getLeadUnitNumber()) &&
+              document.getProtocol().getLeadUnitForValidation() == null             ) {
+              isValid = false;
+              reportError(PROTOCOL_LUN_FORM_ELEMENT, KeyConstants.ERROR_PROTOCOL_LEAD_UNIT_NUM_INVALID);
+        } else if   (document.getProtocol().getLeadUnitForValidation() == null   ) {
+              // TODO : does this really needed.  leadunitvalidation == null is already checked above
+              // leadunit is 'required' also checked by Dictionaryservice validation?
+              isValid = false;
+              reportError(PROTOCOL_LUN_FORM_ELEMENT, KeyConstants.ERROR_PROTOCOL_LEAD_UNIT_NAME_NOT_FOUND);
+        }
+        return isValid;
+    }
+
+    
+    /**
+     * At least one organization must be entered.  
+     * If the default value is removed, another organization must be added before user 
+     * can save
+     * @see org.kuali.kra.irb.rule.SaveProtocolLocationRule#processSaveProtocolLocationBusinessRules(org.kuali.kra.irb.rule.event.SaveProtocolLocationEvent)
+     */
+    public boolean processProtocolLocationBusinessRules(ProtocolDocument document) {
+        boolean isValid = true;
+        if(CollectionUtils.isEmpty(document.getProtocol().getProtocolLocations())) {
+            reportError(ERROR_PROPERTY_ORGANIZATION_ID, KeyConstants.ERROR_PROTOCOL_LOCATION_SHOULD_EXIST);
+            isValid = false;
+        }
+        return isValid;
     }
 
     /**
@@ -107,22 +169,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         return new ProtocolLocationRule().processAddProtocolLocationBusinessRules(addProtocolLocationEvent);
         
     }
-
-    /**
-     * @see org.kuali.kra.irb.rule.SaveProtocolLocationRule#processSaveProtocolLocationBusinessRules(org.kuali.kra.irb.rule.event.SaveProtocolLocationEvent)
-     */
-    public boolean processSaveProtocolLocationBusinessRules(SaveProtocolLocationEvent saveProtocolLocationEvent) {
-
-        return new ProtocolLocationRule().processSaveProtocolLocationBusinessRules(saveProtocolLocationEvent);
-        
-    }
     
-    public boolean processSaveProtocolRequiredFieldsRules(SaveProtocolRequiredFieldsEvent saveProtocolRequiredFieldsEvent) {
-
-        return new ProtocolRequiredFieldsRule().processSaveProtocolRequiredFieldsRules(saveProtocolRequiredFieldsEvent);
-        
-    }
-
     /**
      * @see org.kuali.kra.irb.rule.AddProtocolPersonnelRule#processAddProtocolPersonnelBusinessRules(org.kuali.kra.irb.rule.event.AddProtocolPersonnelEvent)
      */
