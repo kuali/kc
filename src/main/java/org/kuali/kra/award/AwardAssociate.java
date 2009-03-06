@@ -23,7 +23,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 /**
  * This class handles the legacy sequenceNumber/awardNumber data from Coeus
  */
-public class AwardBusinessObject extends KraPersistableBusinessObjectBase {
+public class AwardAssociate extends KraPersistableBusinessObjectBase {
     private static final long serialVersionUID = -1966175324490120727L;
     
     private String awardNumber;
@@ -114,10 +114,10 @@ public class AwardBusinessObject extends KraPersistableBusinessObjectBase {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof AwardBusinessObject)) {
+        if (!(obj instanceof AwardAssociate)) {
             return false;
         }
-        AwardBusinessObject other = (AwardBusinessObject) obj;
+        AwardAssociate other = (AwardAssociate) obj;
         if (awardNumber == null) {
             if (other.awardNumber != null) {
                 return false;

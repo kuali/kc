@@ -18,13 +18,13 @@ package org.kuali.kra.award.paymentreports.specialapproval.approvedequipment;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kra.award.AwardBusinessObject;
+import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.bo.ValuableItem;
 
 /**
  * This class handles the Award Special Approval for Approved Equipment
  */
-public class AwardApprovedEquipment extends AwardBusinessObject implements ValuableItem {
+public class AwardApprovedEquipment extends AwardAssociate implements ValuableItem {
     private static final long serialVersionUID = 1039155193608738040L;
     
     private Long approvedEquipmentId;
