@@ -68,10 +68,7 @@ public class ProtocolPersonnelAction extends ProtocolAction {
         getProtocolPersonnelService().selectProtocolUnit(getProtocolPersons(form));
         //getProtocolPersonTrainingService().isPersonTrained(getProtocolPersons(form));
         
-        ((ProtocolForm)form).getProtocolHelper().prepareView();
         ((ProtocolForm)form).getPersonnelHelper().prepareView();
-        ((ProtocolForm)form).getPermissionsHelper().prepareView();
-        ((ProtocolForm)form).getCustomDataHelper().prepareView();
         
         return actionForward;
     }

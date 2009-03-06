@@ -45,11 +45,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
-        
-        ((ProtocolForm)form).getProtocolHelper().prepareView();
-        ((ProtocolForm)form).getPersonnelHelper().prepareView();
-        ((ProtocolForm)form).getPermissionsHelper().prepareView();
-        ((ProtocolForm)form).getCustomDataHelper().prepareView();
+
         
         return actionForward;
     }

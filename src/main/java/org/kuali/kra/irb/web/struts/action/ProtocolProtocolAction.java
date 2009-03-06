@@ -84,9 +84,6 @@ public class ProtocolProtocolAction extends ProtocolAction {
             getProtocolProtocolService().loadProtocolForEdit(((ProtocolForm)form).getProtocolDocument(), request.getParameter(Constants.PROPERTY_PROTOCOL_NUMBER));
         }
         ((ProtocolForm)form).getProtocolHelper().prepareView();
-        ((ProtocolForm)form).getPersonnelHelper().prepareView();
-        ((ProtocolForm)form).getPermissionsHelper().prepareView();
-        ((ProtocolForm)form).getCustomDataHelper().prepareView();
         
         return actionForward;
     }
@@ -319,7 +316,6 @@ public class ProtocolProtocolAction extends ProtocolAction {
                                                      HttpServletRequest request, 
                                                      HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-       // getProtocolFundingSourceService().deleteProtocolFundingSource(protocolForm.getProtocolDocument().getProtocol(), getLineToDelete(request));
         protocolForm.getProtocolDocument().getProtocol().getProtocolFundingSources().remove(getLineToDelete(request));
 
         return mapping.findForward(Constants.MAPPING_BASIC);
