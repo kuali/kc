@@ -199,6 +199,10 @@
 	<bean id="routeHeaderService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
 		<property name="serviceName" value="enDocumentRouteHeaderService" />
 	</bean>
+	
+	<bean id="persistenceService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="persistenceService" />
+	</bean>
 	<!-- 
 	<bean id="lookupableHelperService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
     	<property name="serviceName" value="lookupableHelperService" />
