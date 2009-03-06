@@ -18,14 +18,13 @@ package org.kuali.kra.award.paymentreports.specialapproval.approvedequipment;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kra.award.bo.Award;
+import org.kuali.kra.award.AwardBusinessObject;
 import org.kuali.kra.award.bo.ValuableItem;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * This class handles the Award Special Approval for Approved Equipment
  */
-public class AwardApprovedEquipment extends KraPersistableBusinessObjectBase implements ValuableItem {
+public class AwardApprovedEquipment extends AwardBusinessObject implements ValuableItem {
     private static final long serialVersionUID = 1039155193608738040L;
     
     private Long approvedEquipmentId;
@@ -33,10 +32,6 @@ public class AwardApprovedEquipment extends KraPersistableBusinessObjectBase imp
     private String vendor;
     private String model;
     private KualiDecimal amount;
-    
-    private String awardNumber;
-    private Integer sequenceNumber;
-    private Award award;
     
     /**
      * Constructs a AwardApprovedEquipment
@@ -61,14 +56,6 @@ public class AwardApprovedEquipment extends KraPersistableBusinessObjectBase imp
      */
     public Long getApprovedEquipmentId() {
         return approvedEquipmentId;
-    }
-
-    /**
-     * Gets the award attribute. 
-     * @return Returns the award.
-     */
-    public Award getAward() {
-        return award;
     }
 
     /**
@@ -112,21 +99,6 @@ public class AwardApprovedEquipment extends KraPersistableBusinessObjectBase imp
     }
 
     /**
-     * Sets the award attribute value.
-     * @param award The award to set.
-     */
-    public void setAward(Award award) {
-        this.award = award;
-        if(award != null) {
-            setSequenceNumber(award.getSequenceNumber());
-            setAwardNumber(award.getAwardNumber());
-        } else {
-            setSequenceNumber(0);
-            setAwardNumber("");
-        }
-    }
-
-    /**
      * Sets the item attribute value.
      * @param item The item to set.
      */
@@ -165,64 +137,51 @@ public class AwardApprovedEquipment extends KraPersistableBusinessObjectBase imp
     public void setAmount(final double amount) {
         this.amount = new KualiDecimal(amount);
     }
-
-    /**
-     * @return
-     * @see org.kuali.kra.award.bo.Award#getAwardNumber()
-     */
-    public String getAwardNumber() {
-        return awardNumber;
-    }
     
-    /**
-     * @return
-     * @see org.kuali.kra.award.bo.Award#getSequenceNumber()
-     */
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
-
-    /**
-     * @param awardNumber
-     * @see org.kuali.kra.award.bo.Award#setAwardNumber(java.lang.String)
-     */
-    public void setAwardNumber(final String awardNumber) {
-        this.awardNumber = awardNumber;
-    }
-    
-    /**
-     * @param sequenceNumber
-     * @see org.kuali.kra.award.bo.Award#setSequenceNumber(java.lang.Integer)
-     */
-    public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
-    }
-    
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int PRIME = 31;
-        int result = 1;
+        int result = super.hashCode();
         result = PRIME * result + ((item == null) ? 0 : item.hashCode());
         result = PRIME * result + ((model == null) ? 0 : model.hashCode());
         result = PRIME * result + ((vendor == null) ? 0 : vendor.hashCode());
         return result;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) { return true; }
-        if (obj == null) { return false; }
-        
+        if (this == obj) {
+            return true;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
         if (!(obj instanceof AwardApprovedEquipment)) {
             return false;
         }
-        return equals((AwardApprovedEquipment) obj);
+        AwardApprovedEquipment other = (AwardApprovedEquipment) obj;
+        if (item == null) {
+            if (other.item != null) {
+                return false;
+            }
+        } else if (!item.equals(other.item)) {
+            return false;
+        }
+        if (model == null) {
+            if (other.model != null) {
+                return false;
+            }
+        } else if (!model.equals(other.model)) {
+            return false;
+        }
+        if (vendor == null) {
+            if (other.vendor != null) {
+                return false;
+            }
+        } else if (!vendor.equals(other.vendor)) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -264,10 +223,8 @@ public class AwardApprovedEquipment extends KraPersistableBusinessObjectBase imp
      */
     @Override
     protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+        LinkedHashMap<String, Object> map = super.toStringMapper();
         map.put("approvedEquipmentId", approvedEquipmentId);
-        map.put("awardNumber", awardNumber);
-        map.put("sequenceNumber", sequenceNumber);
         map.put("amount", amount);
         map.put("item", item);
         map.put("model", model);
