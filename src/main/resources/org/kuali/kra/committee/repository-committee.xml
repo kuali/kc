@@ -129,6 +129,10 @@
             <foreignkey field-ref="reviewTypeCode" />
          </reference-descriptor>
          
+   		<collection-descriptor name="committeeMemberships" element-class-ref="org.kuali.kra.committee.bo.CommitteeMembership" auto-retrieve="true" auto-update="object" auto-delete="object">
+   		    <inverse-foreignkey field-ref="id" />
+   		</collection-descriptor>
+   		
    		<collection-descriptor name="committeeSchedules" element-class-ref="org.kuali.kra.committee.bo.CommitteeSchedule" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="committeeId" />
 		</collection-descriptor>  
@@ -136,7 +140,8 @@
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.committee.bo.CommitteeMembership" table="COMM_MEMBERSHIPS">
-        <field-descriptor name="committeeMembershipsId" column="COMM_MEMBERSHIPS_ID" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="committeeMembershipsId" column="COMM_MEMBERSHIPS_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMM_SCHEDULE_ID" autoincrement="true" />
+        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" />
         <field-descriptor name="committeeId" column="COMMITTEE_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER" />
@@ -157,6 +162,14 @@
 
         <reference-descriptor name="membershipType" class-ref="org.kuali.kra.committee.bo.CommitteeMembershipType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="membershipTypeCode"/>
+        </reference-descriptor>
+        
+        <reference-descriptor name="person" class-ref="org.kuali.kra.bo.Person" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="personId"/>
+        </reference-descriptor>
+        
+        <reference-descriptor name="rolodex" class-ref="org.kuali.kra.irb.bo.ProtocolPersonRolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="rolodexId"/>
         </reference-descriptor>
     </class-descriptor>	
 
