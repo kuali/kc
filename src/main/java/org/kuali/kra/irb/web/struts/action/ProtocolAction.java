@@ -64,15 +64,18 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolAction.class);
     
     public ActionForward protocol(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ((ProtocolForm)form).getProtocolHelper().prepareView();
         return mapping.findForward("protocol");
     }
 
     public ActionForward personnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         getProtocolPersonTrainingService().isPersonTrained(((ProtocolForm) form).getProtocolDocument().getProtocol().getProtocolPersons());
+        ((ProtocolForm)form).getPersonnelHelper().prepareView();
         return mapping.findForward("personnel");
     }
     
     public ActionForward permissions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ((ProtocolForm)form).getPermissionsHelper().prepareView();
         return mapping.findForward("permissions");
     }
     
@@ -81,6 +84,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     }
     
     public ActionForward customData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ((ProtocolForm)form).getCustomDataHelper().prepareView();
         return CustomDataAction.customData(mapping, form, request, response);
     }
 
