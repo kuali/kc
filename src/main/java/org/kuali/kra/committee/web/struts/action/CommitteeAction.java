@@ -59,10 +59,7 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        ActionForward actionForward = super.execute(mapping, form, request, response);
-
-        ((CommitteeForm)form).getMembershipHelper().prepareView();
-        
+        ActionForward actionForward = super.execute(mapping, form, request, response);        
         return actionForward;
     }
     
@@ -201,6 +198,7 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
      * @return
      */
     public ActionForward committeeMembership(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ((CommitteeForm)form).getMembershipHelper().prepareView();
         return mapping.findForward("committeeMembership");
     }
 
