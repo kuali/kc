@@ -104,6 +104,8 @@ public abstract class ProtocolRuleTestBase extends KraTestBase {
         protocolPerson.getProtocolUnits().add(protocolUnit);
         
         protocol.getProtocolPersons().add(protocolPerson);
+        protocol.setLeadUnitNumber(PRINCIPAL_INVESTIGATOR_UNIT);
+        protocol.setPrincipalInvestigatorId(PRINCIPAL_INVESTIGATOR_ID);
     }
     
     /**

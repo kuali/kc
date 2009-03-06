@@ -18,14 +18,14 @@ package org.kuali.kra.irb.rules;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.budget.service.BudgetSummaryService;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.rule.AddProtocolFundingSourceRule;
 import org.kuali.kra.irb.rule.event.AddProtocolFundingSourceEvent;
 import org.kuali.kra.irb.service.ProtocolFundingSourceService;
+import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
-public class ProtocolFundingSourceRule extends ProtocolDocumentRule implements AddProtocolFundingSourceRule {
+public class ProtocolFundingSourceRule extends ResearchDocumentRuleBase implements AddProtocolFundingSourceRule {
         
     public boolean processAddProtocolFundingSourceBusinessRules(AddProtocolFundingSourceEvent addProtocolFundingSourceEvent) {
         boolean isValid = true;

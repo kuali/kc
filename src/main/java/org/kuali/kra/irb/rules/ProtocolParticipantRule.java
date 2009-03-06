@@ -29,6 +29,7 @@ import org.kuali.kra.irb.bo.ProtocolParticipant;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.rule.AddProtocolParticipantRule;
 import org.kuali.kra.irb.rule.event.AddProtocolParticipantEvent;
+import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 /**
  * 
@@ -36,7 +37,7 @@ import org.kuali.kra.irb.rule.event.AddProtocolParticipantEvent;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolParticipantRule extends ProtocolDocumentRule implements AddProtocolParticipantRule {
+public class ProtocolParticipantRule extends ResearchDocumentRuleBase implements AddProtocolParticipantRule {
 
     /**
      * 

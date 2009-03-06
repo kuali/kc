@@ -26,7 +26,7 @@
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="protocol">
+  	headerTabActive="protocolActions">
   	
 <div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="Protocol Actions" /></div>
 <kra-irb:protocolCopyProtocol />
