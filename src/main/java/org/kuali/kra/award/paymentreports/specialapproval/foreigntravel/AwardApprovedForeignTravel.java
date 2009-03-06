@@ -19,14 +19,14 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kra.award.AwardBusinessObject;
+import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.bo.ValuableItem;
 import org.kuali.kra.bo.Person;
 
 /**
  * This class handles the Award Special Approval for Approved Equipment
  */
-public class AwardApprovedForeignTravel extends AwardBusinessObject 
+public class AwardApprovedForeignTravel extends AwardAssociate 
                                         implements Comparable<AwardApprovedForeignTravel>, ValuableItem {
     private static final long serialVersionUID = 1039155193608738040L;
     
