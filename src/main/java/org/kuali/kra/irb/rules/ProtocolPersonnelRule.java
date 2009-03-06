@@ -31,11 +31,12 @@ import org.kuali.kra.irb.rule.event.AddProtocolPersonnelEvent;
 import org.kuali.kra.irb.rule.event.SaveProtocolPersonnelEvent;
 import org.kuali.kra.irb.rule.event.UpdateProtocolPersonnelEvent;
 import org.kuali.kra.irb.service.ProtocolPersonnelService;
+import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 /**
  * This class contains rules to validate protocol personnel.
  */
-public class ProtocolPersonnelRule extends ProtocolDocumentRule implements AddProtocolPersonnelRule, SaveProtocolPersonnelRule, UpdateProtocolPersonnelRule {
+public class ProtocolPersonnelRule extends ResearchDocumentRuleBase implements AddProtocolPersonnelRule, SaveProtocolPersonnelRule, UpdateProtocolPersonnelRule {
 
     private static final String ERROR_PROPERTY_NEW_PERSON = "newProtocolPerson"; 
     private static final String ERROR_PROPERTY_EXISTING_PERSON = "document.protocol.protocolPersons";

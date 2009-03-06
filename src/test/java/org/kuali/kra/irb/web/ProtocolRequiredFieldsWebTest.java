@@ -61,9 +61,11 @@ public class ProtocolRequiredFieldsWebTest extends ProtocolWebTestBase {
         page = getInnerPages(page).get(0);
         setProtocolRequiredFields(page);
         setFieldValue(page, ProtocolRequiredFields.PROTOCOL_PI_ID.getCode(), "");        
+        setFieldValue(page, ProtocolRequiredFields.PROTOCOL_PI_ID1.getCode(), "");        
+        setFieldValue(page, ProtocolRequiredFields.PROTOCOL_PI_ID2.getCode(), "");        
         HtmlPage resultPage = savePage(page);
         assertContains(resultPage,ERRORS_FOUND_ON_PAGE);   
-        assertContains(resultPage,"Principal Investigator must be supplied");                         
+        assertContains(resultPage,"Principal Investigator (Principal Investigator) is a required field");                         
     }
 
     /**
@@ -80,7 +82,7 @@ public class ProtocolRequiredFieldsWebTest extends ProtocolWebTestBase {
         setFieldValue(page, ProtocolRequiredFields.PROTOCOL_TYPE_CODE.getCode(), "");        
         HtmlPage resultPage = savePage(page);
         assertContains(resultPage,ERRORS_FOUND_ON_PAGE);   
-        assertContains(resultPage,"Protocol Type must be supplied");                         
+        assertContains(resultPage,"Protocol Type (Protocol Type) is a required field");                         
     }    
     
     /**
@@ -97,7 +99,7 @@ public class ProtocolRequiredFieldsWebTest extends ProtocolWebTestBase {
         setFieldValue(page, ProtocolRequiredFields.PROTOCOL_TITLE.getCode(), "");        
         HtmlPage resultPage = savePage(page);
         assertContains(resultPage,ERRORS_FOUND_ON_PAGE);   
-        assertContains(resultPage,"Protocol Title must be supplied");                         
+        assertContains(resultPage,"Title (Title) is a required field");                         
     }
     
     /**
@@ -114,7 +116,7 @@ public class ProtocolRequiredFieldsWebTest extends ProtocolWebTestBase {
         setFieldValue(page, ProtocolRequiredFields.PROTOCOL_LEAD_UNIT_NUM.getCode(), "");        
         HtmlPage resultPage = savePage(page);
         assertContains(resultPage,ERRORS_FOUND_ON_PAGE);   
-        assertContains(resultPage,"Lead Unit must be supplied");                         
+        assertContains(resultPage,"Lead Unit (Lead Unit) is a required field");                         
     }
     
     /**

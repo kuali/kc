@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.rules;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -24,12 +22,11 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.bo.ProtocolLocation;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.rule.AddProtocolLocationRule;
-import org.kuali.kra.irb.rule.SaveProtocolLocationRule;
 import org.kuali.kra.irb.rule.event.AddProtocolLocationEvent;
-import org.kuali.kra.irb.rule.event.SaveProtocolLocationEvent;
+import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.OrganizationService;
 
-public class ProtocolLocationRule extends ProtocolDocumentRule implements AddProtocolLocationRule, SaveProtocolLocationRule {
+public class ProtocolLocationRule extends ResearchDocumentRuleBase implements AddProtocolLocationRule {
 
     private static final String ERROR_PROPERTY_ORGANIZATION_ID = "newProtocolLocation.organizationId"; 
     private static final String ERROR_PROPERTY_ORGANIZATION_TYPE_CODE = "newProtocolLocation.protocolOrganizationTypeCode"; 
@@ -101,23 +98,6 @@ public class ProtocolLocationRule extends ProtocolDocumentRule implements AddPro
             }
         }
         return false;        
-    }
-
-    /**
-     * At least one organization must be entered.  
-     * If the default value is removed, another organization must be added before user 
-     * can save
-     * @see org.kuali.kra.irb.rule.SaveProtocolLocationRule#processSaveProtocolLocationBusinessRules(org.kuali.kra.irb.rule.event.SaveProtocolLocationEvent)
-     */
-    public boolean processSaveProtocolLocationBusinessRules(SaveProtocolLocationEvent saveProtocolLocationEvent) {
-        boolean isValid = true;
-        ProtocolDocument protocolDocument = (ProtocolDocument)saveProtocolLocationEvent.getDocument();
-        List<ProtocolLocation> protocolLocations = protocolDocument.getProtocol().getProtocolLocations();
-        if(protocolLocations.size() == 0) {
-            reportError(ERROR_PROPERTY_ORGANIZATION_ID, KeyConstants.ERROR_PROTOCOL_LOCATION_SHOULD_EXIST);
-            isValid = false;
-        }
-        return isValid;
     }
 
 }

@@ -79,10 +79,12 @@ public abstract class ProtocolWebTestBase extends KraWebTestBase {
      */
     protected enum ProtocolRequiredFields {       
         DOCUMENT_DESCRIPTION("document.documentHeader.documentDescription", DEFAULT_DOCUMENT_DESCRIPTION),
-        PROTOCOL_TYPE_CODE("document.protocol.protocolTypeCode", PROTOCOL_TYPE_CODE_STR),
-        PROTOCOL_TITLE("document.protocol.title", PROTOCOL_TITLE_STR),
+        PROTOCOL_TYPE_CODE("document.protocolList[0].protocolTypeCode", PROTOCOL_TYPE_CODE_STR),
+        PROTOCOL_TITLE("document.protocolList[0].title", PROTOCOL_TITLE_STR),
      //   PROTOCOL_STATUS_ID("document.protocol.protocolStatusCode"),
         PROTOCOL_PI_ID("protocolHelper.personId", "000000001"),
+        PROTOCOL_PI_ID1("protocolHelper.principalInvestigatorId", "000000001"),
+        PROTOCOL_PI_ID2("document.protocolList[0].principalInvestigatorId", "000000001"),
         PROTOCOL_PI_NAME("protocolHelper.principalInvestigatorName", "Terry Durkin"),
         PROTOCOL_LEAD_UNIT_NUM("protocolHelper.leadUnitNumber", "BL-BL");
                 
