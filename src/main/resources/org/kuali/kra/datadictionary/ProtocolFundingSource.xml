@@ -49,7 +49,7 @@
 	<bean id="ProtocolFundingSource-protocolFundingSourceId" parent="ProtocolFundingSource-protocolFundingSourceId-parentBean" />
 	<bean id="ProtocolFundingSource-protocolFundingSourceId-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="protocolFundingSourceId" />
-		<property name="required" value="true" />
+		<property name="required" value="false" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Protocol Funding Source Id" />
 		<property name="shortLabel" value="Funding Id" />

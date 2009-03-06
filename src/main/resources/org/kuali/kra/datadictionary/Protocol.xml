@@ -521,7 +521,7 @@
 	<bean id="Protocol-leadUnitName" parent="Protocol-leadUnitName-parentBean" />
 	<bean id="Protocol-leadUnitName-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="leadUnitName" />
-		<property name="required" value="true" />
+		<property name="required" value="false" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Lead Unit Name" />
 		<property name="shortLabel" value="Lead Unit Name" />
@@ -584,7 +584,7 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
-        <property name="required" value="true" />
+        <property name="required" value="false" />
 		<property name="control" >
 		<!-- "  -->
             <bean parent="SelectControlDefinition"
@@ -602,7 +602,7 @@
 	<bean id="Protocol-fundingSource" parent="Protocol-fundingSource-parentBean" />
 	<bean id="Protocol-fundingSource-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="fundingSource" />
-		<property name="required" value="true" />
+		<property name="required" value="false" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Funding Source" />
 		<property name="shortLabel" value="Funding Source" />
@@ -628,7 +628,7 @@
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
-		<property name="required" value="true" />
+		<property name="required" value="false" />
 		<property name="control" >
 			<bean parent="TextControlDefinition"
 				p:size="10" />

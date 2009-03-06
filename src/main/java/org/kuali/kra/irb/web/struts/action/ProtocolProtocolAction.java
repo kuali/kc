@@ -39,8 +39,6 @@ import org.kuali.kra.irb.rule.event.AddProtocolFundingSourceEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolLocationEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolParticipantEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolReferenceEvent;
-import org.kuali.kra.irb.rule.event.SaveProtocolLocationEvent;
-import org.kuali.kra.irb.rule.event.SaveProtocolRequiredFieldsEvent;
 import org.kuali.kra.irb.service.ProtocolFundingSourceService;
 import org.kuali.kra.irb.service.ProtocolLocationService;
 import org.kuali.kra.irb.service.ProtocolParticipantService;
@@ -65,8 +63,8 @@ public class ProtocolProtocolAction extends ProtocolAction {
     protected boolean isValidSave(ProtocolForm protocolForm) {    
         boolean rulePassed = true;
         protocolForm.getProtocolHelper().prepareRequiredFieldsForSave();
-        rulePassed &= applyRules(new SaveProtocolLocationEvent(Constants.EMPTY_STRING,protocolForm.getProtocolDocument()));
-        rulePassed &= applyRules(new SaveProtocolRequiredFieldsEvent(protocolForm.getProtocolDocument()));
+ //       rulePassed &= applyRules(new SaveProtocolLocationEvent(Constants.EMPTY_STRING,protocolForm.getProtocolDocument()));
+ //       rulePassed &= applyRules(new SaveProtocolRequiredFieldsEvent(protocolForm.getProtocolDocument()));
         return rulePassed;
     }
 
