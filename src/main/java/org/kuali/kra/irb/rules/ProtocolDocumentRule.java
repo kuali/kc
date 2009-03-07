@@ -120,10 +120,11 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
 //            reportError(PROTOCOL_PIID_FORM_ELEMENT, KeyConstants.ERROR_PROTOCOL_PRINCIPAL_INVESTIGATOR_NAME_NOT_FOUND);
 //        } 
         if   (StringUtils.isNotEmpty(document.getProtocol().getLeadUnitNumber()) &&
-              document.getProtocol().getLeadUnitForValidation() == null             ) {
+              (StringUtils.isEmpty(document.getProtocol().getLeadUnitName()) && 
+                      document.getProtocol().getLeadUnitForValidation() == null)             ) {
               isValid = false;
               reportError(PROTOCOL_LUN_FORM_ELEMENT, KeyConstants.ERROR_PROTOCOL_LEAD_UNIT_NUM_INVALID);
-        } else if   (document.getProtocol().getLeadUnitForValidation() == null   ) {
+        } else if   (document.getProtocol().getLeadUnitForValidation() == null &&  document.getProtocol().getLeadUnit() == null ) {
               // TODO : does this really needed.  leadunitvalidation == null is already checked above
               // leadunit is 'required' also checked by Dictionaryservice validation?
               isValid = false;
