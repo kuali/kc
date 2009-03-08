@@ -352,6 +352,7 @@ CREATE TABLE AWARD_TEMPLATE_TERMS (
 
 CREATE TABLE COMM_MEMBERSHIPS ( 
     COMM_MEMBERSHIPS_ID NUMBER(12,0) NOT NULL,
+    ID NUMBER(12,0) NOT NULL,
     COMMITTEE_ID VARCHAR2(15) NOT NULL,
     PERSON_ID VARCHAR2(9) NOT NULL,
     ROLODEX_ID NUMBER(12,0) NULL, 
@@ -370,7 +371,7 @@ CREATE TABLE COMM_MEMBERSHIPS (
     VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL, 
     OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL);
 
-create table comm_schedule (
+    create table comm_schedule (
   id					 number(12)     not null,
   schedule_id            varchar2 (10)  not null,
   committee_id           number(12)     not null,
