@@ -164,10 +164,11 @@
 	</class-descriptor>
 	
     <class-descriptor class="org.kuali.kra.irb.bo.ProtocolParticipant" table="PROTOCOL_VULNERABLE_SUB">
-        <field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" primarykey="true" />
+        <field-descriptor name="protocolParticipantId" column="PROTOCOL_VULNERABLE_SUB_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true" />
+        <field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
         <field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
-        <field-descriptor name="participantTypeCode" column="VULNERABLE_SUBJECT_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
+        <field-descriptor name="participantTypeCode" column="VULNERABLE_SUBJECT_TYPE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="participantCount" column="SUBJECT_COUNT" jdbc-type="INTEGER" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />

@@ -30,9 +30,10 @@
 		<property name="lookupDefinition" >
 			<ref bean="ProtocolParticipant-lookupDefinition" />
 		</property>
-		<property name="titleAttribute" value="protocolVulnerableSubId" />
+		<property name="titleAttribute" value="protocolParticipantId" />
 		<property name="attributes" >
 			<list>
+			    <ref bean="ProtocolParticipant-protocolParticipantId" />
 				<ref bean="ProtocolParticipant-protocolId" />
 				<ref bean="ProtocolParticipant-participantTypeCode" />
 				<ref bean="ProtocolParticipant-participantCount" />
@@ -43,6 +44,24 @@
 
 	<!-- Attribute Definitions -->
 	
+    <bean id="ProtocolParticipant-protocolParticipantId" parent="ProtocolParticipant-protocolParticipantId-parentBean" />
+    <bean id="ProtocolParticipant-protocolParticipantId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="protocolParticipantId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Protocol Participant Id" />
+        <property name="shortLabel" value="Protocol Participant Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Protocol Participant Id" />
+        <property name="description" value="Protocol Participant Id" />
+    </bean>
+
 	<bean id="ProtocolParticipant-protocolId" parent="ProtocolParticipant-protocolId-parentBean" />
 	<bean id="ProtocolParticipant-protocolId-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="protocolId" />
@@ -108,8 +127,10 @@
 					<property name="inquiryFields" >
 						<list>
 							<bean parent="FieldDefinition"
-								p:attributeName="protocolId" 
+								p:attributeName="protocolParticipantId" 
 								p:forceInquiry="true" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="protocolId" />
 							<bean parent="FieldDefinition"
 								p:attributeName="participantTypeCode" />
 							<bean parent="FieldDefinition"
@@ -134,8 +155,10 @@
 		<property name="lookupFields" >
 			<list>
 				<bean parent="FieldDefinition"
-					p:attributeName="protocolId" 
+					p:attributeName="protocolParticipantId" 
 					p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="protocolId" />
 				<bean parent="FieldDefinition"
 					p:attributeName="participantTypeCode" />
 				<bean parent="FieldDefinition"
@@ -145,8 +168,10 @@
 		<property name="resultFields" >
 			<list>
 				<bean parent="FieldDefinition"
-					p:attributeName="protocolId"
+					p:attributeName="protocolParticipantId"
 					p:forceInquiry="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="protocolId" />
 				<bean parent="FieldDefinition"
 					p:attributeName="participantTypeCode" />
 				<bean parent="FieldDefinition"
