@@ -352,7 +352,8 @@
 		<property name="shortLabel" value="Reference Number 1" />
 		<property name="maxLength" value="50" />
 		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
+			<bean parent="AlphaNumericValidationPattern" 
+				p:allowWhitespace="true" />
 		</property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"
@@ -370,7 +371,8 @@
 		<property name="shortLabel" value="Reference Number 2" />
 		<property name="maxLength" value="50" />
 		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
+			<bean parent="AlphaNumericValidationPattern" 
+				p:allowWhitespace="true" />
 		</property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"
