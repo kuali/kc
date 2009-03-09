@@ -17,14 +17,12 @@ package org.kuali.kra.award.web.struts.action;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardSponsorTerm;
 import org.kuali.kra.award.rule.event.AwardSponsorTermRuleEvent;
 import org.kuali.kra.award.rules.AwardSponsorTermRuleImpl;
@@ -42,9 +40,6 @@ public class SponsorTermActionHelper {
     private static final String PERIOD = ".";
     private static final String NEW_AWARD_SPONSOR_TERM = "newAwardSponsorTerm";
     BusinessObjectService businessObjectService;
-    private SponsorTermFormHelper localFormHelper;
-    private HttpServletRequest localRequest;
-
     
     /**
      * This method is called when adding a new AwardSponsorTerm. It checks if the add is coming from a lookup or a hardcoded
@@ -55,29 +50,30 @@ public class SponsorTermActionHelper {
      */
     public boolean addSponsorTerm(SponsorTermFormHelper formHelper, HttpServletRequest request) throws Exception {
         
-        localFormHelper = formHelper;
-        localRequest = request;
         boolean success;
-        if(formHelper.getNewSponsorTerms().get(getSponsorTermTypeIndex(request)).getSponsorTermId() != null){
-                 success = addSponsorTermFromLookup();
+        if(getSponsorTermId(formHelper, request) != null){
+                 success = addSponsorTermFromLookup(formHelper, request);
             }else {
-               success = addSponsorTermFromDatabase();
+               success = addSponsorTermFromDatabase(formHelper, request);
                }
             return success;
         
     }
+    
+    private Long getSponsorTermId(SponsorTermFormHelper formHelper, HttpServletRequest request) {  
+        return formHelper.getNewSponsorTerms().get(getSponsorTermTypeIndex(request)).getSponsorTermId();
+        }
+
     
     /**
      * This method adds sponsor term with data from a lookup in User Interface.  Here you do not need to pull data from Database
      * to set fields in AwardSponsorTerm
      * @return
      */
-    protected boolean addSponsorTermFromLookup() {
-        AwardSponsorTerm newAwardSponsorTerm = new AwardSponsorTerm();
-        newAwardSponsorTerm.setSponsorTermId(localFormHelper.getNewSponsorTerms().get(getSponsorTermTypeIndex(localRequest)).getSponsorTermId());
-        newAwardSponsorTerm.setSponsorTerm(localFormHelper.getNewSponsorTerms().get(getSponsorTermTypeIndex(localRequest)));
-        newAwardSponsorTerm.setAward(localFormHelper.getAwardDocument().getAward());
-        return applyRulesToAwardSponsorTerm(newAwardSponsorTerm);
+    protected boolean addSponsorTermFromLookup(SponsorTermFormHelper formHelper, HttpServletRequest request) {
+        AwardSponsorTerm newAwardSponsorTerm = new AwardSponsorTerm(formHelper.getNewSponsorTerms().get(getSponsorTermTypeIndex(request)).getSponsorTermId(),
+                                                                        formHelper.getNewSponsorTerms().get(getSponsorTermTypeIndex(request)));
+        return applyRulesToAwardSponsorTerm(newAwardSponsorTerm, formHelper, request);
     }
     
     
@@ -86,15 +82,13 @@ public class SponsorTermActionHelper {
      * @return
      */
     @SuppressWarnings("unchecked")
-    protected boolean addSponsorTermFromDatabase() {
-        AwardSponsorTerm newAwardSponsorTerm = new AwardSponsorTerm();
-        Collection<SponsorTerm> matchingSponsorTerms = getMatchingSponsorTermFromDatabase();
-        for(SponsorTerm sponsorTerm : matchingSponsorTerms) {
-            newAwardSponsorTerm.setSponsorTermId(sponsorTerm.getSponsorTermId());
-            newAwardSponsorTerm.setSponsorTerm(sponsorTerm);
-        }
-        newAwardSponsorTerm.setAward(localFormHelper.getAwardDocument().getAward());
-        return applyRulesToAwardSponsorTerm(newAwardSponsorTerm);
+    protected boolean addSponsorTermFromDatabase(SponsorTermFormHelper formHelper, HttpServletRequest request) {
+        Collection<SponsorTerm> matchingSponsorTerms = getMatchingSponsorTermFromDatabase(formHelper, request);
+        Object[] matchingSponsorTermsArray = matchingSponsorTerms.toArray();
+        SponsorTerm matchingSponsorTerm = (SponsorTerm) matchingSponsorTermsArray[0];
+        
+        AwardSponsorTerm newAwardSponsorTerm = new AwardSponsorTerm(matchingSponsorTerm.getSponsorTermId(), matchingSponsorTerm);
+        return applyRulesToAwardSponsorTerm(newAwardSponsorTerm, formHelper, request);
     }
     
     
@@ -103,12 +97,12 @@ public class SponsorTermActionHelper {
      * @param newAwardSponsorTerm
      * @return
      */
-    protected boolean applyRulesToAwardSponsorTerm(AwardSponsorTerm newAwardSponsorTerm) {
+    protected boolean applyRulesToAwardSponsorTerm(AwardSponsorTerm newAwardSponsorTerm, SponsorTermFormHelper formHelper, HttpServletRequest request) {
         AwardSponsorTermRuleEvent event = 
-            new AwardSponsorTermRuleEvent(NEW_AWARD_SPONSOR_TERM, localFormHelper.getAwardDocument(), newAwardSponsorTerm);
+            new AwardSponsorTermRuleEvent(NEW_AWARD_SPONSOR_TERM, formHelper.getAwardDocument(), newAwardSponsorTerm);
          boolean success = new AwardSponsorTermRuleImpl().processAddSponsorTermBusinessRules(event);
               if(success){
-                  addAwardSponsorTerm(newAwardSponsorTerm);   
+                  addAwardSponsorTerm(newAwardSponsorTerm, formHelper, request);   
                   }
               return success;
     }
@@ -117,34 +111,21 @@ public class SponsorTermActionHelper {
      * Helper method to add sponsorTerm to Award.
      * @param newAwardSponsorTerm
      */
-    protected void addAwardSponsorTerm(AwardSponsorTerm newAwardSponsorTerm) {
-        localFormHelper.getAwardDocument().getAward().
-                setAwardSponsorTerms(addAwardSponsorTermToAward(localFormHelper.getAwardDocument().getAward(),newAwardSponsorTerm));            
-        localFormHelper.getNewSponsorTerms().set(getSponsorTermTypeIndex(localRequest),new SponsorTerm());  
+    protected void addAwardSponsorTerm(AwardSponsorTerm newAwardSponsorTerm, SponsorTermFormHelper formHelper, HttpServletRequest request) {
+        formHelper.getAwardDocument().getAward().add(newAwardSponsorTerm);          
+        formHelper.getNewSponsorTerms().set(getSponsorTermTypeIndex(request),new SponsorTerm());  
     }
     
-    /**
-     * 
-     * This method adds the newAwardSponsorTerm to the list of <code>AwardSponsorTerms</code> objects.
-     * @param award
-     * @param newAwardSponsorTerms
-     * @param reportClass
-     * @return
-     */
-    protected List<AwardSponsorTerm> addAwardSponsorTermToAward(Award award, AwardSponsorTerm newAwardSponsorTerm){        
-        award.getAwardSponsorTerms().add(newAwardSponsorTerm);
-        return award.getAwardSponsorTerms();
-    }
     
     /**
      * This method gets the Matching sponsorTerm from the database and returns a Collection of one SponsorTerm.
      * @return
      */
     @SuppressWarnings("unchecked")
-    protected Collection<SponsorTerm> getMatchingSponsorTermFromDatabase() {
+    protected Collection<SponsorTerm> getMatchingSponsorTermFromDatabase(SponsorTermFormHelper formHelper, HttpServletRequest request) {
         Map<String, Object> matchingSponsorTerm = new HashMap<String, Object>();
-        matchingSponsorTerm.put(SPONSOR_TERM_CODE, localFormHelper.getNewSponsorTerms().get(getSponsorTermTypeIndex(localRequest)).getSponsorTermCode());
-        matchingSponsorTerm.put(SPONSOR_TERM_TYPE_CODE, Integer.toString(getSponsorTermTypeIndex(localRequest)+1));
+        matchingSponsorTerm.put(SPONSOR_TERM_CODE, formHelper.getNewSponsorTerms().get(getSponsorTermTypeIndex(request)).getSponsorTermCode());
+        matchingSponsorTerm.put(SPONSOR_TERM_TYPE_CODE, Integer.toString(getSponsorTermTypeIndex(request)+1));
         return (Collection<SponsorTerm>) getKraBusinessObjectService().findMatching(SponsorTerm.class, matchingSponsorTerm);
     }
     

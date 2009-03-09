@@ -80,7 +80,7 @@ public class AwardSponsorTermRuleEvent extends KraDocumentEventBase {
      * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((AwardSponsorTermRule)rule).processSponsorTermBusinessRules(this);
+        return ((AwardSponsorTermRule)rule).processAddSponsorTermBusinessRules(this);
     }
 
 }
