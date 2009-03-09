@@ -451,6 +451,7 @@ public class Protocol extends KraPersistableBusinessObjectBase{
         managedLists.add(this.protocolReferences);
         managedLists.add(getProtocolFundingSources());
         managedLists.add(getProtocolLocations());
+        managedLists.add(getProtocolParticipants());
         return managedLists;
     }
 
