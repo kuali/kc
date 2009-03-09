@@ -17,9 +17,12 @@ package org.kuali.kra.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.award.lookup.keyvalue.SponsorTermTypeValuesFinder;
 import org.kuali.kra.bo.SponsorTerm;
+import org.kuali.kra.bo.SponsorTermType;
 import org.kuali.kra.service.AwardSponsorTermService;
 /**
  * This is the service class for Term tab in Award Payments Reports and Terms page.
@@ -34,7 +37,12 @@ public class AwardSponsorTermServiceImpl implements AwardSponsorTermService {
      * @param
      */
     public List<KeyLabelPair> assignSponsorTermTypesToAwardFormForPanelHeaderDisplay(){
-        return new SponsorTermTypeValuesFinder().getKeyValues();
+        PersistableBusinessObjectValuesFinder persistableBusinessObjectValuesFinder = new PersistableBusinessObjectValuesFinder();
+        persistableBusinessObjectValuesFinder.setBusinessObjectClass(SponsorTermType.class);
+        persistableBusinessObjectValuesFinder.setKeyAttributeName("sponsorTermTypeCode");
+        persistableBusinessObjectValuesFinder.setLabelAttributeName("description");
+        return persistableBusinessObjectValuesFinder.getKeyValues();
+        //return new SponsorTermTypeValuesFinder().getKeyValues();
     }
     
     /**
