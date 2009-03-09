@@ -29,6 +29,9 @@ import org.kuali.kra.service.VersioningService;
  * This service implements generic versioning
  */
 public class VersioningServiceImpl implements VersioningService {
+    private static final String TO = " to ";
+    private static final String VERSIONED_FROM = " versioned from ";
+    private static final String PERIOD = ".";
     private static final Log LOGGER = LogFactory.getLog(VersioningServiceImpl.class);
     
     /**
@@ -44,26 +47,25 @@ public class VersioningServiceImpl implements VersioningService {
     /**
      * @see org.kuali.kra.service.VersioningService#versionAssociate(org.kuali.kra.SequenceOwner, org.kuali.kra.SeparatelySequenceableAssociate)
      */
-    public SeparatelySequenceableAssociate versionAssociate(SequenceOwner oldVersion, 
+    public SeparatelySequenceableAssociate versionAssociate(SequenceOwner newVersion, 
                                             SeparatelySequenceableAssociate oldAssociate) 
                                             throws VersionException {
         SequenceUtils sequenceUtils = new SequenceUtils();
-        SequenceOwner newVersion = sequenceUtils.sequence(oldVersion);
-        SeparatelySequenceableAssociate newAssociate = sequenceUtils.sequence(newVersion, oldAssociate);
-        logVersionOperation(oldVersion, newVersion, oldAssociate);
+        SeparatelySequenceableAssociate newAssociate = sequenceUtils.sequence(oldAssociate);
+        
+        logVersionOperation(newVersion, newVersion, oldAssociate);
         return newAssociate;
     }
 
     /**
      * @see org.kuali.kra.service.VersioningService#versionAssociates(org.kuali.kra.SequenceOwner, java.util.List)
      */
-    public List<? extends SeparatelySequenceableAssociate> versionAssociates(SequenceOwner oldVersion, 
+    public List<? extends SeparatelySequenceableAssociate> versionAssociates(SequenceOwner newVersion, 
                                             List<? extends SeparatelySequenceableAssociate> oldAssociates)
                                             throws VersionException {
         SequenceUtils sequenceUtils = new SequenceUtils();
-        SequenceOwner newVersion = sequenceUtils.sequence(oldVersion);
         List<? extends SeparatelySequenceableAssociate> newAssociates = sequenceUtils.sequence(newVersion, oldAssociates);
-        logVersionOperation(oldVersion, newVersion, oldAssociates);
+        logVersionOperation(newVersion, newVersion, oldAssociates);
         return newAssociates;
     }
 
@@ -71,10 +73,10 @@ public class VersioningServiceImpl implements VersioningService {
         if (LOGGER.isInfoEnabled()) {
             String className = oldVersion.getClass().getName();
             String versionLoggingMessage = new StringBuilder()
-                                                    .append(className.substring(className.lastIndexOf(".") + 1))
-                                                    .append(" versioned from ")
+                                                    .append(className.substring(className.lastIndexOf(PERIOD) + 1))
+                                                    .append(VERSIONED_FROM)
                                                     .append(oldVersion.getSequenceNumber())
-                                                    .append(" to ")
+                                                    .append(TO)
                                                     .append(newVersion.getSequenceNumber())
                                                     .toString();
             LOGGER.info(versionLoggingMessage);
@@ -85,10 +87,10 @@ public class VersioningServiceImpl implements VersioningService {
         if (LOGGER.isInfoEnabled()) {
             String className = oldVersion.getClass().getName();
             String versionLoggingMessage = new StringBuilder()
-                                                    .append(className.substring(className.lastIndexOf(".") + 1))
-                                                    .append(" versioned from ")
+                                                    .append(className.substring(className.lastIndexOf(PERIOD) + 1))
+                                                    .append(VERSIONED_FROM)
                                                     .append(oldVersion.getSequenceNumber())
-                                                    .append(" to ")
+                                                    .append(TO)
                                                     .append(newVersion.getSequenceNumber())
                                                     .append(" for old attachment: ")
                                                     .append(oldAssociate)
@@ -102,10 +104,10 @@ public class VersioningServiceImpl implements VersioningService {
         if (LOGGER.isInfoEnabled()) {
             String className = oldVersion.getClass().getName();
             StringBuilder sb = new StringBuilder()
-                                                    .append(className.substring(className.lastIndexOf(".") + 1))
-                                                    .append(" versioned from ")
+                                                    .append(className.substring(className.lastIndexOf(PERIOD) + 1))
+                                                    .append(VERSIONED_FROM)
                                                     .append(oldVersion.getSequenceNumber())
-                                                    .append(" to ")
+                                                    .append(TO)
                                                     .append(newVersion.getSequenceNumber())
                                                     .append(" for old attachments: ");
             for(SeparatelySequenceableAssociate associate: associates) {

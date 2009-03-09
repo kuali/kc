@@ -90,8 +90,8 @@ public class VersioningServiceImplTest {
     public void testVersioning_MtoN_Association_SingleAssociateUpdated() throws Exception {
         SequenceAssociateAttachmentBO attachment = originalVersion.getAttachments().get(0);
         SequenceOwnerImpl newVersion = (SequenceOwnerImpl) service.createNewVersion(originalVersion); 
-        SequenceAssociateAttachmentBO newAttachmentVersion = (SequenceAssociateAttachmentBO) service.versionAssociate(newVersion, attachment);                                            
-        newVersion.add(newAttachmentVersion);
+        SeparatelySequenceableAssociate newAttachmentVersion = service.versionAssociate(newVersion, attachment);                                            
+        newVersion.add((SequenceAssociateAttachmentBO) newAttachmentVersion);
         
         checkAttachmentCollectionSizeAfterVersioning(newVersion, 1);
         checkIdentifierResetOnNewAttachments(newVersion, 1);
