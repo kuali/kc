@@ -69,7 +69,7 @@
    		<collection-descriptor name="protocolReferences" element-class-ref="org.kuali.kra.irb.bo.ProtocolReference"  auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="protocolId" />
 		</collection-descriptor>    		
-        <collection-descriptor name="protocolParticipants" element-class-ref="org.kuali.kra.irb.bo.ProtocolParticipant" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+        <collection-descriptor name="protocolParticipants" element-class-ref="org.kuali.kra.irb.bo.ProtocolParticipant" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
             <inverse-foreignkey field-ref="protocolId"/>
         </collection-descriptor>
         <collection-descriptor name="protocolLocations" element-class-ref="org.kuali.kra.irb.bo.ProtocolLocation"  auto-retrieve="true" auto-update="object" auto-delete="object">
