@@ -174,12 +174,19 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
     @SuppressWarnings("all")
     public ActionForward paymentReportsAndTerms(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) {
-        AwardForm awardForm = (AwardForm) form;     
+        AwardForm awardForm = (AwardForm) form;   
         
-        AwardSponsorTermService awardSponsorTermService = KraServiceLocator.getService(AwardSponsorTermService.class);
-        List<KeyLabelPair> sponsorTermTypes = awardSponsorTermService.assignSponsorTermTypesToAwardFormForPanelHeaderDisplay();
+        setReportsAndTermsOnAwardForm(awardForm);
+        
+        return mapping.findForward(Constants.MAPPING_AWARD_PAYMENT_REPORTS_AND_TERMS_PAGE);
+    }
+    
+    @SuppressWarnings("unchecked")
+    protected void setReportsAndTermsOnAwardForm(AwardForm awardForm) {
+        AwardSponsorTermService awardSponsorTermService = getAwardSponsorTermService();
+        List<KeyLabelPair> sponsorTermTypes = awardSponsorTermService.retrieveSponsorTermTypesToAwardFormForPanelHeaderDisplay();
         awardForm.getSponsorTermFormHelper().setSponsorTermTypes(sponsorTermTypes);
-        awardForm.getSponsorTermFormHelper().setNewSponsorTerms(awardSponsorTermService.addEmptyNewSponsorTerms(sponsorTermTypes));
+        awardForm.getSponsorTermFormHelper().setNewSponsorTerms(awardSponsorTermService.getEmptyNewSponsorTerms(sponsorTermTypes));
         
         AwardReportsService awardReportsService = KraServiceLocator.getService(AwardReportsService.class);  
         HashMap<String,Object> initializedObjects = new HashMap<String, Object>();
@@ -194,8 +201,15 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
         awardForm.setReportClassForPaymentsAndInvoices((ReportClass) initializedObjects.get(
                                                         Constants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES_PANEL));
         
-        
-        return mapping.findForward(Constants.MAPPING_AWARD_PAYMENT_REPORTS_AND_TERMS_PAGE);
+    }
+    
+    /**
+     * 
+     * This method is a helper method to retrieve AwardSponsorTermService.
+     * @return
+     */
+    protected AwardSponsorTermService getAwardSponsorTermService() {
+        return KraServiceLocator.getService(AwardSponsorTermService.class);
     }
     
     /**

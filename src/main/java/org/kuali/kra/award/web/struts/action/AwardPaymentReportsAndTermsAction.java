@@ -179,27 +179,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         
         ActionForward actionForward = super.reload(mapping, form, request, response);
         
-        AwardReportsService awardReportsService = KraServiceLocator.getService(AwardReportsService.class);
-    
-        AwardSponsorTermService awardSponsorTermService = 
-                                    KraServiceLocator.getService(AwardSponsorTermService.class);
-        List<KeyLabelPair> sponsorTermTypes = 
-            awardSponsorTermService.assignSponsorTermTypesToAwardFormForPanelHeaderDisplay();
-        awardForm.getSponsorTermFormHelper().setSponsorTermTypes(sponsorTermTypes);
-        awardForm.getSponsorTermFormHelper().setNewSponsorTerms
-                    (awardSponsorTermService.addEmptyNewSponsorTerms(sponsorTermTypes));
-
-        HashMap<String,Object> initializedObjects = new HashMap<String, Object>();
-        initializedObjects = awardReportsService.initializeObjectsForReportsAndPayments(
-                                                    awardForm.getAwardDocument().getAward());
-        awardForm.setReportClasses((List<KeyLabelPair>) initializedObjects.get(
-                                      Constants.REPORT_CLASSES_KEY_FOR_INITIALIZE_OBJECTS));
-        awardForm.setNewAwardReportTerm((List<AwardReportTerm>) initializedObjects.get(
-                                          Constants.NEW_AWARD_REPORT_TERMS_LIST_KEY_FOR_INITIALIZE_OBJECTS));
-        awardForm.setNewAwardReportTermRecipient((List<AwardReportTermRecipient>) initializedObjects.get(
-                                                    Constants.NEW_AWARD_REPORT_TERM_RECIPIENTS_LIST_KEY_FOR_INITIALIZE_OBJECTS));
-        awardForm.setReportClassForPaymentsAndInvoices((ReportClass) initializedObjects.get(
-                                                        Constants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES_PANEL));
+        setReportsAndTermsOnAwardForm(awardForm);
         
         return actionForward;        
     }

@@ -25,7 +25,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 /**
- * This class...
+ * This class applies sponsor term rules.
  */
 public class AwardSponsorTermRuleImpl extends ResearchDocumentRuleBase implements AwardSponsorTermRule {
 
@@ -40,10 +40,6 @@ public class AwardSponsorTermRuleImpl extends ResearchDocumentRuleBase implement
      * @see org.kuali.kra.award.rule.AwardSponsorTermRule#processSponsorTermBusinessRules
      * (org.kuali.kra.award.rule.event.AwardSponsorTermRuleEvent)
      */
-    public boolean processSponsorTermBusinessRules(AwardSponsorTermRuleEvent awardSponsorTermRuleEvent) {
-        this.awardSponsorTerm = awardSponsorTermRuleEvent.getAwardSponsorTermForValidation();
-        return processCommonValidations(awardSponsorTerm);
-    }
     
     /**
      * This method processes Sponsor Term Business Rules on Add method
@@ -54,18 +50,9 @@ public class AwardSponsorTermRuleImpl extends ResearchDocumentRuleBase implement
         this.awardSponsorTerm = awardSponsorTermRuleEvent.getAwardSponsorTermForValidation();
         boolean validAwardSponsorTermNotDuplicate = validateAwardSponsorTermNotDuplicate(awardSponsorTerm,
                                                         awardSponsorTermRuleEvent.getAwardDocument().getAward().getAwardSponsorTerms());
-        return processCommonValidations(awardSponsorTerm) && validAwardSponsorTermNotDuplicate;
+        return validAwardSponsorTermNotDuplicate;
     }
     
-    /**
-     * This method processes common validations for business rules
-     * @param event
-     * @return
-     */
-    boolean processCommonValidations(AwardSponsorTerm awardSponsorTerm) {
-        return true;
-    }
-
     /**
     *
     * Test source and destination for equality in AwardCostShare.
