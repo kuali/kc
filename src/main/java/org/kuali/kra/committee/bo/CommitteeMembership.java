@@ -77,6 +77,8 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase {
 
     private Person person;
     private ProtocolPersonRolodex rolodex;
+    
+    private boolean delete;
 
     public CommitteeMembership() {
     }
@@ -225,6 +227,14 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase {
         this.rolodex = rolodex;
     }
 
+    public boolean isDelete() {
+        return delete;
+    }
+
+    public void setDelete(boolean delete) {
+        this.delete = delete;
+    }
+
     @Override
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
@@ -272,10 +282,5 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase {
         else {
             return false;
         }
-    }
-
-    public boolean isDelete() {
-        // TODO cniesen - Auto-generated method stub
-        return false;
     }
 }

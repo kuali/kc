@@ -47,6 +47,7 @@
 				<ref bean="CommitteeMembership-contactNotes" />
 				<ref bean="CommitteeMembership-trainingNotes" />
 				<ref bean="CommitteeMembership-versionNumber" />
+				<ref bean="CommitteeMembership-delete" />
 			</list>
 		</property>
 	</bean>
@@ -208,6 +209,7 @@
 		<property name="name" value="termStartDate" />
 		<property name="label" value="Term Start Date" />
 		<property name="shortLabel" value="Term Start Date" />
+        <property name="required" value="true" />
 		<property name="summary" value="Term Start Date" />
 		<property name="description" value="Term Start Date" />
 	</bean>
@@ -217,6 +219,7 @@
 		<property name="name" value="termEndDate" />
 		<property name="label" value="Term End Date" />
 		<property name="shortLabel" value="Term End Date" />
+        <property name="required" value="true" />
 		<property name="summary" value="Term End Date" />
 		<property name="description" value="Term End Date" />
 	</bean>
@@ -225,12 +228,13 @@
 	<bean id="CommitteeMembership-membershipTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="membershipTypeCode" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Membership Type Code" />
-		<property name="shortLabel" value="Membership Type Code" />
+		<property name="label" value="Membership Type" />
+		<property name="shortLabel" value="Membership Type" />
 		<property name="maxLength" value="22" />
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
+		<property name="required" value="true" />
 		<property name="control" >
             <bean parent="SelectControlDefinition"
                 p:businessObjectClass="org.kuali.kra.committee.bo.CommitteeMembershipType"
@@ -273,6 +277,11 @@
 
 	<bean id="CommitteeMembership-versionNumber" parent="CommitteeMembership-versionNumber-parentBean" />
 	<bean id="CommitteeMembership-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
+
+    <bean id="CommitteeMembership-delete" parent="CommitteeMembership-delete-parentBean" />
+    <bean id="CommitteeMembership-delete-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="delete" />
+    </bean>
 
 	<!-- Business Object Inquiry Definition -->
 	<bean id="CommitteeMembership-inquiryDefinition" parent="CommitteeMembership-inquiryDefinition-parentBean" />
