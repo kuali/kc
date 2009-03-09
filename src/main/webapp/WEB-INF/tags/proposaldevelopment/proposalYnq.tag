@@ -50,7 +50,7 @@
 				  </c:if>
 			</c:forEach>
 
-<kul:tab tabTitle="${trunGroupName}" spanForLongTabTitle="true" defaultOpen="false" tabErrorKey="document.proposalYnq[${groupName}]*, ${dateValidationError}" auditCluster="ynqAuditErrors*" tabAuditKey="document.proposalYnq[${groupName}]*" transparentBackground="${transparent}">
+<kul:tab tabTitle="${trunGroupName}" spanForLongTabTitle="true" defaultOpen="false" tabErrorKey="document.proposalYnq[${groupName}]*, ${dateValidationError}" auditCluster="ynqAuditErrors${fullGroupName}" tabAuditKey="document.proposalYnq[${groupName}]*" transparentBackground="${transparent}" useRiceAuditMode="true" >
 <c:set var="tabErrorKey" value="document.proposalYnq[${gps.index}]"/>
     <c:set var="proposalYnq" value="document.proposalYnqs[${gps.index}]" /> 
     <c:set var="transparent" value="false" />
