@@ -38,6 +38,9 @@ import javax.persistence.Table;
 public class ProtocolParticipant extends KraPersistableBusinessObjectBase {
 
     @Id
+    @Column(name = "PROTOCOL_VULNERABLE_SUB_ID")
+    private Long protocolParticipantId;
+
     @Column(name = "PROTOCOL_ID")
     private Long protocolId;
 
@@ -58,6 +61,14 @@ public class ProtocolParticipant extends KraPersistableBusinessObjectBase {
     private ParticipantType participantType;
 
     public ProtocolParticipant() {
+    }
+
+    public Long getProtocolParticipantId() {
+        return protocolParticipantId;
+    }
+
+    public void setProtocolParticipantId(Long protocolParticipantId) {
+        this.protocolParticipantId = protocolParticipantId;
     }
 
     public Long getProtocolId() {
@@ -111,7 +122,10 @@ public class ProtocolParticipant extends KraPersistableBusinessObjectBase {
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap hashMap = new LinkedHashMap();
+        hashMap.put("protocolParticipantId", getProtocolParticipantId());
         hashMap.put("protocolId", getProtocolId());
+        hashMap.put("protocolNumber", getProtocolNumber());
+        hashMap.put("sequenceNumber", getSequenceNumber());
         hashMap.put("participantTypeCode", getParticipantTypeCode());
         hashMap.put("participantCount", getParticipantCount());
         return hashMap;
