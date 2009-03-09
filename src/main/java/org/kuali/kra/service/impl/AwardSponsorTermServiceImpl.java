@@ -20,39 +20,39 @@ import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kra.award.lookup.keyvalue.SponsorTermTypeValuesFinder;
 import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.kra.bo.SponsorTermType;
 import org.kuali.kra.service.AwardSponsorTermService;
+import org.springframework.transaction.annotation.Transactional;
 /**
  * This is the service class for Term tab in Award Payments Reports and Terms page.
  */
+@Transactional
 public class AwardSponsorTermServiceImpl implements AwardSponsorTermService {
 
     
     /**
      * 
-     * This method sets the List awardSponsorTermsTypes on the AwardForm
+     * This method retrieves the list of Sponsor Term types from Database.
      * 
      * @param
      */
-    public List<KeyLabelPair> assignSponsorTermTypesToAwardFormForPanelHeaderDisplay(){
+    public List<KeyLabelPair> retrieveSponsorTermTypesToAwardFormForPanelHeaderDisplay(){
         PersistableBusinessObjectValuesFinder persistableBusinessObjectValuesFinder = new PersistableBusinessObjectValuesFinder();
         persistableBusinessObjectValuesFinder.setBusinessObjectClass(SponsorTermType.class);
         persistableBusinessObjectValuesFinder.setKeyAttributeName("sponsorTermTypeCode");
         persistableBusinessObjectValuesFinder.setLabelAttributeName("description");
         return persistableBusinessObjectValuesFinder.getKeyValues();
-        //return new SponsorTermTypeValuesFinder().getKeyValues();
     }
     
     /**
      * 
-     * This method assigns the empty list of Sponsor Terms to the awardForm.
+     * This method creates and returns a list of empty Sponsor Terms
      * 
      * @param awardForm
      * @param reportClasses
      */
-    public List<SponsorTerm> addEmptyNewSponsorTerms(List<KeyLabelPair> sponsorTermTypes){
+    public List<SponsorTerm> getEmptyNewSponsorTerms(List<KeyLabelPair> sponsorTermTypes){
         List<SponsorTerm> sponsorTerms = new ArrayList<SponsorTerm>();
         for(int i=0;i<sponsorTermTypes.size();i++){
             sponsorTerms.add(new SponsorTerm());

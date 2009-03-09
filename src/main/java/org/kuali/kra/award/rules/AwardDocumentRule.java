@@ -173,7 +173,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         retval &= processApprovedEquipmentBusinessRules(errorMap, awardDocument);
         retval &= processApprovedForeignTravelBusinessRules(errorMap, awardDocument);
         retval &= processAwardReportTermBusinessRules(document);
-        retval &= processSponsorTermBusinessRules(document);
 
         return retval;
     }
@@ -252,35 +251,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
                                                                         awardDocument, 
                                                                         awardCostShare);
             valid &= new AwardCostShareRuleImpl().processCostShareBusinessRules(event);
-            errorMap.removeFromErrorPath(errorPath);
-            i++;
-        }
-        errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
-        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
-        return valid;
-    }
-    
-    /**
-    *
-    * process SponsorTerm business rules.
-    * @param awardDocument
-    * @return
-    */
-    private boolean processSponsorTermBusinessRules(Document document) {
-        boolean valid = true;
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-        AwardDocument awardDocument = (AwardDocument) document;
-        int i = 0;
-        List<AwardSponsorTerm> awardSponsorTerms = awardDocument.getAward().getAwardSponsorTerms();
-        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
-        errorMap.addToErrorPath(AWARD_ERROR_PATH);
-        for (AwardSponsorTerm awardSponsorTerm : awardSponsorTerms) {
-            String errorPath = "awardSponsorTerms[" + i + Constants.RIGHT_SQUARE_BRACKET;
-            errorMap.addToErrorPath(errorPath);
-            AwardSponsorTermRuleEvent event = new AwardSponsorTermRuleEvent(errorPath, 
-                                                                        awardDocument, 
-                                                                        awardSponsorTerm);
-            valid &= new AwardSponsorTermRuleImpl().processSponsorTermBusinessRules(event);
             errorMap.removeFromErrorPath(errorPath);
             i++;
         }

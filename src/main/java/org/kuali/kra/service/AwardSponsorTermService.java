@@ -30,13 +30,13 @@ public interface AwardSponsorTermService {
      * This method assigns all of the Sponsor Term Types for Panel header display
      * @return
      */
-    List<KeyLabelPair> assignSponsorTermTypesToAwardFormForPanelHeaderDisplay();
+    List<KeyLabelPair> retrieveSponsorTermTypesToAwardFormForPanelHeaderDisplay();
     
     /**
      * This method creates an empty list of Sponsor Term objects corresponding to Sponsor Term Types
      * @param sponsorTermTypes
      * @return
      */
-    List<SponsorTerm> addEmptyNewSponsorTerms(List<KeyLabelPair> sponsorTermTypes);
+    List<SponsorTerm> getEmptyNewSponsorTerms(List<KeyLabelPair> sponsorTermTypes);
     
 }
