@@ -76,14 +76,13 @@ public class SequenceUtils {
     }
 
     /**
-     * This method sequences a SequenceOwner and SeparatelySequenceableAssociate a new version
+     * This method sequences a SeparatelySequenceableAssociate a new version
      * 
-     * @param newOwner
      * @param oldAssociate
      * @retrun The newly versioned associate 
      * @throws VersionException
      */
-    public SeparatelySequenceableAssociate sequence(SequenceOwner newOwner, SeparatelySequenceableAssociate oldAssociate) throws VersionException {
+    public SeparatelySequenceableAssociate sequence(SeparatelySequenceableAssociate oldAssociate) throws VersionException {
         try {
             SeparatelySequenceableAssociate newAssociate = (SeparatelySequenceableAssociate) ObjectUtils.deepCopy(oldAssociate);
             newAssociate.resetPersistenceState();
