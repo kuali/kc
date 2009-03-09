@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/jsp/committee/committeeMember.jsp"%>
 
 <c:choose>
-    <c:when test="${empty KualiForm.document.committee.committeeMemberships[memberIndex].personName}">
+    <c:when test="${empty KualiForm.document.committeeList[0].committeeMemberships[memberIndex].personName}">
         <c:set var="parentTabName" value="" />
     </c:when>
     <c:otherwise>
@@ -12,7 +12,10 @@
 <table cellpadding=0 cellspacing=0 summary="">
     <tr>
         <td>
-            <kul:innerTab tabTitle="Person Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="">
+            <kul:innerTab tabTitle="Person Details" 
+                          parentTab="${parentTabName}" 
+                          defaultOpen="false" 
+                          tabErrorKey="document.committeeList[0].committeeMemberships[${memberIndex}].membershipTypeCode,document.committeeList[0].committeeMemberships[${memberIndex}].termStartDate,document.committeeList[0].committeeMemberships[${memberIndex}].termEndDate">
                 <div class="innerTab-container" align="left">
                     <table class=tab cellpadding=0 cellspacing="0" summary=""> 
                         <tr>
