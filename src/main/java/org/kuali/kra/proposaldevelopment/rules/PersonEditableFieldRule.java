@@ -53,8 +53,11 @@ public class PersonEditableFieldRule extends MaintenanceDocumentRuleBase {
                 PersonEditableField newField = (PersonEditableField) getNewBo();
                 
                 for (PersonEditableField existingField : (Collection<PersonEditableField>) getBusinessObjectService().findAll(PersonEditableField.class)) {
-                    retval &= !equalByKeys(existingField, newField);
-                    getErrorMap().putError(PERSON_EDITABLE_FIELD_NAME_PROPERTY_KEY, ERROR_PERSON_EDITABLE_FIELD_EXISTS, existingField.getFieldName()); 
+                    if(equalByKeys(existingField, newField)) {
+                        getErrorMap().putError(PERSON_EDITABLE_FIELD_NAME_PROPERTY_KEY, ERROR_PERSON_EDITABLE_FIELD_EXISTS, existingField.getFieldName());
+                        retval = false;
+                        break;
+                    }
                 }
             }
             

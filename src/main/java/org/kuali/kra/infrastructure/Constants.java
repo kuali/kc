@@ -113,7 +113,7 @@ public interface Constants {
     public static final String PROPOSAL_PERSON_INVESTIGATOR = "investigator";
     public static final String KEY_PERSONNEL_PANEL_ANCHOR = "KeyPersonnel";
     public static final String KEY_PERSONNEL_PANEL_NAME = "Key Personnel Information";
-    public static final String PERSON_EDITABLE_FIELD_NAME_PROPERTY_KEY = "fieldName";
+    public static final String PERSON_EDITABLE_FIELD_NAME_PROPERTY_KEY = "document.newMaintainableObject.fieldName";
     public static final String INVESTIGATOR_CREDIT_TYPE_CODE_PROPERTY_KEY = "invCreditTypeCode";
     public static final String EMPTY_STRING = "";
     public static final String PRINCIPAL_INVESTIGATOR_KEY = "newProposalPerson";
