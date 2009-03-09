@@ -1376,6 +1376,15 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
     
     /**
+     * This method...
+     * @param awardSponsorTerm
+     */
+    public void add(AwardSponsorTerm awardSponsorTerm) {
+        awardSponsorTerms.add(awardSponsorTerm);
+        awardSponsorTerm.setAward(this);
+    }
+    
+    /**
      * This method calculates the total value of a list of ValuableItems
      * @param valuableItems
      * @return The total value

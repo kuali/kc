@@ -29,6 +29,6 @@ public interface AwardSponsorTermRule extends BusinessRule {
      * @param awardSponsorTermRuleEvent
      * @return
      */
-    public boolean processSponsorTermBusinessRules(AwardSponsorTermRuleEvent 
+    public boolean processAddSponsorTermBusinessRules(AwardSponsorTermRuleEvent 
             awardSponsorTermRuleEvent);
 }

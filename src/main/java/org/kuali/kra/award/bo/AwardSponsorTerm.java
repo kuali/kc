@@ -41,6 +41,23 @@ public class AwardSponsorTerm extends KraPersistableBusinessObjectBase {
     private Integer sequenceNumber;
     private SponsorTerm sponsorTerm;
     
+    /**
+     * Constructs a AwardSponsorTerm.java.
+     */
+    public AwardSponsorTerm () {
+        super();
+    }
+    
+    
+    /**
+     * Constructs a AwardSponsorTerm.java.
+     * @param sponsorTermId
+     * @param sponsorTerm
+     */
+    public AwardSponsorTerm (Long sponsorTermId, SponsorTerm sponsorTerm) {
+        this.sponsorTermId = sponsorTermId;
+        this.sponsorTerm = sponsorTerm;
+    }
 
 
     /**
