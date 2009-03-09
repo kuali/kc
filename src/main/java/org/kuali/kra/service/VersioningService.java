@@ -61,17 +61,14 @@ public interface VersioningService {
     SequenceOwner createNewVersion(SequenceOwner oldVersion) throws VersionException;
 
     /**
-     * Cause new version of SequenceOwner object to be associated to new versionof specified 
-     * attachment BO is copied
+     * Cause new version of specified separately sequenced associate is copied
      * 
      * @param newVersion
      * @param oldAssociate
      * @return The newly versioned associate
      * @throws VersionException
      */
-    SeparatelySequenceableAssociate versionAssociate(SequenceOwner newVersion, 
-                                    SeparatelySequenceableAssociate oldAssociate) 
-                                    throws VersionException;
+    SeparatelySequenceableAssociate versionAssociate(SequenceOwner newVersion, SeparatelySequenceableAssociate oldAssociate) throws VersionException;
     
     /**
      * Cause new version of SequenceOwner object to be associated to new versions of
