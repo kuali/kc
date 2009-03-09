@@ -15,7 +15,7 @@
         	<tr>
                 <kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" /> 
                 <kul:htmlAttributeHeaderCell attributeEntry="${protocolFundingSourceAttributes.fundingSourceTypeCode}" />
-                <kul:htmlAttributeHeaderCell attributeEntry="${protocolFundingSourceAttributes.protocolFundingSourceId}" />
+                <kul:htmlAttributeHeaderCell attributeEntry="${protocolFundingSourceAttributes.fundingSource}" />
                 <kul:htmlAttributeHeaderCell attributeEntry="${protocolFundingSourceAttributes.fundingSourceName}" />
                 <kul:htmlAttributeHeaderCell attributeEntry="${protocolFundingSourceAttributes.fundingSourceTitle}" />
                 <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
