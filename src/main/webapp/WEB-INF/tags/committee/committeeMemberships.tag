@@ -11,8 +11,9 @@
     </c:if>
     <c:set var="description" value="Term ${committeeMembershipProperty}.termStartDate - ${committeeMembershipProperty}.termEndDate" /> 
     <c:set var="membershipIndex" value="${status.index}" />
+    <kul:checkErrors keyMatch="document.committeeList[0].committeeMemberships[${status.index}]*" auditMatch="document.committeeList[0].committeeMemberships[${status.index}]*" />
     <kul:tab tabTitle="${fn:substring(membership.personName, 0, 22)} (${membership.membershipType.description})"
-             tabErrorKey="document.committee.committeeMemberships[${membershipIndex}]*"
+             tabErrorKey=""
              auditCluster="requiredFieldsAuditErrors" 
              tabAuditKey="" 
              useRiceAuditMode="true"
