@@ -25,7 +25,7 @@ import org.junit.Test;
  * This class tests methods in Award.java class
  */
 public class AwardCostShareTest { 
-    private static final int AWARD_COST_SHARE_ATTRIBUTES_COUNT = 8;
+    private static final int AWARD_COST_SHARE_ATTRIBUTES_COUNT = 10;
     
     private AwardCostShare awardCostShareBo;
     private Award award = new Award();

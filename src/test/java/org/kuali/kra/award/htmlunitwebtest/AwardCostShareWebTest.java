@@ -180,7 +180,7 @@ public class AwardCostShareWebTest extends AwardTimeAndMoneyWebTest {
                         "document.awardList[0].awardCostShares[1].commitmentAmount","12345.00");
         
         HtmlPage awardTimeAndMoneyPageAfterRecalculate = 
-                clickOn(awardTimeAndMoneyPageAfterSave,"methodToCall.recalculateCostShareTotal.anchor");
+                clickOn(awardTimeAndMoneyPageAfterSave,"methodToCall.recalculateCostShareTotal.anchorCostShare");
         System.out.println(awardTimeAndMoneyPageAfterRecalculate.asText());
         assertContains(awardTimeAndMoneyPageAfterRecalculate,"22345");
     }

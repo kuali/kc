@@ -25,7 +25,9 @@
         <ref bean="AwardCostShare-costShareTypeCode" />
         <ref bean="AwardCostShare-source" />
         <ref bean="AwardCostShare-destination" />
-        <ref bean="AwardCostShare-commitmentAmount" />    
+        <ref bean="AwardCostShare-commitmentAmount" /> 
+        <ref bean="AwardCostShare-verificationDate" />
+        <ref bean="AwardCostShare-costShareMet" />   
       </list>
     </property>
   </bean>
@@ -216,6 +218,40 @@
     </property>
     <property name="summary" value="Commitment Amount" />
     <property name="description" value="Commitment Amount" />
+  </bean>
+  
+  <bean id="AwardCostShare-costShareMet" parent="AwardCostShare-costShareMet-parentBean" />
+
+  <bean id="AwardCostShare-costShareMet-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="costShareMet" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Cost Share Met" />
+    <property name="shortLabel" value="Cost Share Met" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="FixedPointValidationPattern"
+            p:precision="12"
+            p:scale="2" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="CurrencyControlDefinition"
+            p:formattedMaxLength="22"
+            p:size="16" />
+    </property>
+    <property name="summary" value="Cost Share Met" />
+    <property name="description" value="Cost Share Met" />
+  </bean>
+  
+  <bean id="AwardCostShare-verificationDate" parent="AwardCostShare-verificationDate-parentBean" />
+
+  <bean id="AwardCostShare-verificationDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="verificationDate" />
+    <property name="label" value="Verification Date" />
+    <property name="shortLabel" value="Verification Date" />
+    <property name="required" value="false" />
+    <property name="summary" value="Verification Date" />
+    <property name="description" value="Verification Date" />
   </bean>
   
 </beans>
