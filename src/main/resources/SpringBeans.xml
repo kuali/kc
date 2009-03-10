@@ -146,6 +146,7 @@
 				<value>copyPeriodsQuestion</value>
 				<value>sponsorLookupable</value>	
 				<value>protocolLookupable</value>	
+				<value>committeeLookupable</value>	
 			</set>
 		</property>
 	</bean>	
