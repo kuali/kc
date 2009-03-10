@@ -1156,12 +1156,26 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
     
     /**
-     * This method...
+     * This method calls getTotalAmount to calculate the total of all Commitment Amounts.
      * @return
      */
      public KualiDecimal getTotalCostShareCommitmentAmount() {
         return getTotalAmount(awardCostShares);
     }
+     
+     /**
+      * This method calculates the total Cost Share Met amount for all Award Cost Shares.
+      * @param valuableItems
+      * @return The total value
+      */
+     public KualiDecimal getTotalCostShareMetAmount() {
+         KualiDecimal returnVal = new KualiDecimal(0.00);
+         for(AwardCostShare awardCostShare : awardCostShares) {
+             KualiDecimal amount = awardCostShare.getCostShareMet() != null ? awardCostShare.getCostShareMet() : new KualiDecimal(0.00);
+             returnVal = returnVal.add(amount);
+         }
+         return returnVal;
+     }
     
     /**
      * This method totals Approved SubAward amounts
