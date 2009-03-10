@@ -56,9 +56,14 @@ public class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollec
     private List<String> investigatorRole = new ArrayList<String>();
     private List<String> personRole = new ArrayList<String>();
     private Map<String, String> baseLookupFields;
-    private Map<String, CritField> collectionFields;
+    private Map<String, CritField> personCollectionFields;
     private List<String> excludedFields = new ArrayList<String>();
-    private List<String> collectionFieldNames = new ArrayList<String>();
+    private List<String> collectionFieldNames = new ArrayList<String    >();
+    
+    public ProtocolDaoOjb() {
+        super();
+        initialization();
+    }
 
     /**
      * 
@@ -66,18 +71,16 @@ public class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollec
      */
     public List<Protocol> getProtocols(Map<String, String> fieldValues) {
         Criteria crit = new Criteria();
-        initialization();
         baseLookupFields = new HashMap<String, String>();
-        collectionFields = new HashMap<String, CritField>();
+        personCollectionFields = new HashMap<String, CritField>();
         setupCritMaps(fieldValues);
-        Protocol protocol = new Protocol();
-        for (Entry<String, String> entry : baseLookupFields.entrySet()) {
-            crit = getCollectionCriteriaFromMap(protocol, baseLookupFields);
+        if (!baseLookupFields.isEmpty()) {
+            crit = getCollectionCriteriaFromMap(new Protocol(), baseLookupFields);
         }
 
-        if (!collectionFields.isEmpty()) {
-            for (Entry<String, CritField> entry : collectionFields.entrySet()) {
-                setupCriteriaForCollections(entry.getKey(), crit, entry.getValue());
+        if (!personCollectionFields.isEmpty()) {
+            for (Entry<String, CritField> entry : personCollectionFields.entrySet()) {
+                crit.addExists(getPersonReportQuery(entry.getKey(), entry.getValue()));
             }
         }
 
@@ -136,28 +139,14 @@ public class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollec
     }
     
     /*
-     * set up criteria for collections in protocol with lookup field
-     */
-    private void setupCriteriaForCollections(String key, Criteria crit, CritField critField) {
-        if (isProtocolPersonField(key)) {
-            crit.addExists(getPersonReportQuery(key, critField));
-        } else {
-            crit.addLike(critField.getFieldName(), critField.getFieldValue());
-            if (StringUtils.isNotBlank(critField.getSecondCritName())) {
-                crit.addEqualTo(critField.getSecondCritName(), critField.getIndicatorValue());
-            }
-        }
-
-    }
-
-    /*
      * This is for personid & principalinvestigatorid.  They all from same table, so they
      * have to be handled this way.
      */
     private ReportQueryByCriteria getPersonReportQuery(String key, CritField critField) {
         Criteria crit = new Criteria();
         crit.addEqualToField(PROTOCOL_ID, Criteria.PARENT_QUERY_PREFIX + PROTOCOL_ID);
-        crit.addLike(critField.getFieldName(), critField.getFieldValue());
+        String nameValue = critField.getFieldValue().replace('*', '%');
+        crit.addLike(critField.getFieldName(), nameValue);
         if (StringUtils.isNotBlank(critField.getSecondCritName())) {
                 if (key.equals(PERSON_ID)) {
                     crit.addIn(critField.getSecondCritName(), personRole);
@@ -180,9 +169,11 @@ public class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollec
         for (Entry<String, String> entry : fieldValues.entrySet()) {
             if (!excludedFields.contains(entry.getKey()) && StringUtils.isNotBlank(entry.getValue())) {
                 if (collectionFieldNames.contains(entry.getKey())) {
-                    String nameValue = entry.getValue().replace('*', '%');
-                    collectionFields.put(entry.getKey(), getQueryCriteria(entry.getKey(), nameValue, findIndicator(entry.getKey(),
-                            fieldValues)));
+                    if (isProtocolPersonField (entry.getKey())) {
+                        personCollectionFields.put(entry.getKey(), getQueryCriteria(entry, findIndicator(entry.getKey(), fieldValues)));
+                    } else {
+                        setCololectionToBaseLookup(entry,getQueryCriteria(entry, findIndicator(entry.getKey(), fieldValues)));
+                    }
                 } else {
                     baseLookupFields.put(entry.getKey(), entry.getValue());
                 }
@@ -227,11 +218,9 @@ public class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollec
         String indicator = "";
         if (key.equals(FUNDING_SOURCE)) {
             indicator = findFundingSourceTypeCode(fieldValues);
-        }
-        else if (isProtocolPersonField(key)) {
+        } else if (isProtocolPersonField(key)) {
             indicator = findEmployeeIndicator(key, fieldValues);
-        }
-        else if (key.equals(PERFORMING_ORGANIZATION_ID)) {
+        } else if (key.equals(PERFORMING_ORGANIZATION_ID)) {
             indicator = "1";
         }
 
@@ -241,18 +230,28 @@ public class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollec
     /*
      * This is to get the proper enum CritField based on parameters.
      */
-    private CritField getQueryCriteria(String key, String nameValue, String indicator) {
+    private CritField getQueryCriteria(Entry <String, String>entry, String indicator) {
 
-        String searchKeyName = key;
-        if (isProtocolPersonField(key)) {
-            searchKeyName = key + indicator;
+        
+        String searchKeyName = entry.getKey();
+        if (isProtocolPersonField(entry.getKey())) {
+            searchKeyName = entry.getKey() + indicator;
         }
         CritField critField = Enum.valueOf(CritField.class, searchMap.get(searchKeyName));
-        critField.setFieldValue(nameValue);
+        critField.setFieldValue(entry.getValue());
         critField.setIndicatorValue(indicator);
         return critField;
     }
 
+    
+    private void setCololectionToBaseLookup (Entry <String, String>entry, CritField critField) {
+        baseLookupFields.put(critField.getFieldName(), critField.getFieldValue());
+        if (StringUtils.isNotBlank(critField.getSecondCritName())) {
+            baseLookupFields.put(critField.getSecondCritName(), critField.getIndicatorValue());
+        }
+
+    }
+    
     private boolean isProtocolPersonField (String fieldName) {
         return fieldName.equals(PERSON_ID) || fieldName.equals(PRINCIPAL_INVESTIGATOR_ID);    
     }
