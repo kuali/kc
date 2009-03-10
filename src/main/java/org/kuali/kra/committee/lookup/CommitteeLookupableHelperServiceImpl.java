@@ -20,9 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
-import org.kuali.kra.committee.dao.CommitteeLookupDao;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 
 public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
