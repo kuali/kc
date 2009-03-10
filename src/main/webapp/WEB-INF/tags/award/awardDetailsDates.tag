@@ -20,12 +20,12 @@
 <kul:tab tabTitle="Details & Dates" defaultOpen="false" tabErrorKey="document.award*">
 
 <!-- Institution -->
-<div class="tab-container" align="right">
-	<h3>
-		<span class="subhead-left">Institution</span>
-		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.award.bo.Award" altText="help"/></span>
-	</h3>
-</div>
+<div class="tab-container" align="center">
+
+<h3>
+	<span class="subhead-left">Institution</span>
+	<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.award.bo.Award" altText="help"/></span>
+</h3>
 <table cellpAdding="0" cellspacing="0" summary="">
   	<tr>
     	<th><div align="right">*Award ID:</div></th>
@@ -127,12 +127,10 @@
 </table>
 
 <!-- Sponsor -->
-<div class="tab-container" align="right">
-	<h3>
-		<span class="subhead-left">Sponsor</span>
-		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.Sponsor" altText="help"/></span>
-	</h3>
-</div>
+<h3>
+	<span class="subhead-left">Sponsor</span>
+	<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.Sponsor" altText="help"/></span>
+</h3>
 <table cellpadding="0" cellspacing="0" summary="">
     <tr>
         <th>
@@ -261,11 +259,9 @@
 </table>
 
 <!-- Dates -->
-<div class="tab-container">
-	<h3>
-		<span class="subhead-left">Dates</span>
-	</h3>
-</div>
+<h3>
+	<span class="subhead-left">Dates</span>
+</h3>
 <table cellpAdding="0" cellspacing="0" summary="">
 	<tr>
 		<th>
@@ -303,5 +299,7 @@
         </td>
     </tr>
 </table>
+
+</div>
 
 </kul:tab>
