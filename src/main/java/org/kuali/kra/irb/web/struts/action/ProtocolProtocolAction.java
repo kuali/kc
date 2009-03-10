@@ -63,8 +63,6 @@ public class ProtocolProtocolAction extends ProtocolAction {
     protected boolean isValidSave(ProtocolForm protocolForm) {    
         boolean rulePassed = true;
         protocolForm.getProtocolHelper().prepareRequiredFieldsForSave();
- //       rulePassed &= applyRules(new SaveProtocolLocationEvent(Constants.EMPTY_STRING,protocolForm.getProtocolDocument()));
- //       rulePassed &= applyRules(new SaveProtocolRequiredFieldsEvent(protocolForm.getProtocolDocument()));
         return rulePassed;
     }
 

@@ -112,20 +112,13 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
 
         boolean isValid = true;
 
-        // TODO : temporary comment out.  need to resolve 'copyprotocol' save after protocol required fields is copied issue.
-//        if (StringUtils.isNotBlank(document.getProtocol().getPrincipalInvestigatorId()) && (document.getProtocol().getPrincipalInvestigator()== null ||
-//              StringUtils.isBlank(document.getProtocol().getPrincipalInvestigator().getPersonName()) || 
-//              StringUtils.isBlank(document.getProtocol().getPrincipalInvestigator().getPersonId()))) {
-//            isValid = false;
-//            reportError(PROTOCOL_PIID_FORM_ELEMENT, KeyConstants.ERROR_PROTOCOL_PRINCIPAL_INVESTIGATOR_NAME_NOT_FOUND);
-//        } 
-        if   (StringUtils.isNotEmpty(document.getProtocol().getLeadUnitNumber()) &&
-              (StringUtils.isEmpty(document.getProtocol().getLeadUnitName()) && 
-                      document.getProtocol().getLeadUnitForValidation() == null)             ) {
+        if (StringUtils.isNotBlank(document.getProtocol().getLeadUnitNumber()) 
+                && (StringUtils.isBlank(document.getProtocol().getLeadUnitName())  
+                        && document.getProtocol().getLeadUnitForValidation() == null)) {
               isValid = false;
               reportError(PROTOCOL_LUN_FORM_ELEMENT, KeyConstants.ERROR_PROTOCOL_LEAD_UNIT_NUM_INVALID);
-        } else if   (document.getProtocol().getLeadUnitForValidation() == null &&  document.getProtocol().getLeadUnit() == null ) {
-              // TODO : does this really needed.  leadunitvalidation == null is already checked above
+        } else if (document.getProtocol().getLeadUnitForValidation() == null &&  document.getProtocol().getLeadUnit() == null) {
+              // TODO : is this really needed.  leadunitvalidation == null is already checked above
               // leadunit is 'required' also checked by Dictionaryservice validation?
               isValid = false;
               reportError(PROTOCOL_LUN_FORM_ELEMENT, KeyConstants.ERROR_PROTOCOL_LEAD_UNIT_NAME_NOT_FOUND);
