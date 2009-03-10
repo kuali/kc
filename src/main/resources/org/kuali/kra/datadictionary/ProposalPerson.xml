@@ -223,10 +223,9 @@
                 <description>FedrDelq</description>
             </attributeReference>
             
-            
             <attribute name="projectRole" >
-                <label>* Key Person Role</label>
-                <shortLabel>* Key Person Role</shortLabel>
+                <label>Key Person Role</label>
+                <shortLabel>Key Person Role</shortLabel>
                 <maxLength>60</maxLength>
                  <control>
                     <text size="16" />
