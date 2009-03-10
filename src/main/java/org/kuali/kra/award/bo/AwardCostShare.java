@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.bo;
 
+import java.sql.Date;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 
@@ -35,6 +36,8 @@ public class AwardCostShare extends KraPersistableBusinessObjectBase implements 
     private KualiDecimal costSharePercentage;
     @SuppressWarnings("unused")
     private Integer costShareTypeCode;
+    private Date verificationDate;
+    private KualiDecimal costShareMet;
     private String source;
     private String destination;
     private KualiDecimal commitmentAmount;
@@ -258,6 +261,8 @@ public class AwardCostShare extends KraPersistableBusinessObjectBase implements 
         hashMap.put("source", getSource());
         hashMap.put("destination", getDestination());
         hashMap.put("commitmentAmount", getCommitmentAmount());
+        hashMap.put("verificationDate", getVerificationDate());
+        hashMap.put("costShareMet", getCostShareMet());
         return hashMap;
 
 }
@@ -398,4 +403,36 @@ public class AwardCostShare extends KraPersistableBusinessObjectBase implements 
         return true;
     }
   //CHECKSTYLE_ON: NPathComplexity|MethodLength|CyclomaticComplexity|LocalFinalVariableName|JavaNCSS|NeedBraces|RightCurly
+
+    /**
+     * Gets the verificationDate attribute. 
+     * @return Returns the verificationDate.
+     */
+    public Date getVerificationDate() {
+        return verificationDate;
+    }
+
+    /**
+     * Sets the verificationDate attribute value.
+     * @param verificationDate The verificationDate to set.
+     */
+    public void setVerificationDate(Date verificationDate) {
+        this.verificationDate = verificationDate;
+    }
+
+    /**
+     * Gets the costShareMet attribute. 
+     * @return Returns the costShareMet.
+     */
+    public KualiDecimal getCostShareMet() {
+        return costShareMet;
+    }
+
+    /**
+     * Sets the costShareMet attribute value.
+     * @param costShareMet The costShareMet to set.
+     */
+    public void setCostShareMet(KualiDecimal costShareMet) {
+        this.costShareMet = costShareMet;
+    }
 }
