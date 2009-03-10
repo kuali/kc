@@ -24,7 +24,6 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
@@ -34,9 +33,10 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolPerson;
 import org.kuali.kra.irb.dao.ProtocolDao;
+import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.rice.kns.util.KNSConstants;
 
-public class ProtocolLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
     private static final String ROLODEX_ID = "rolodexId";
     private static final String UNIT_NUMBER = "unitNumber";
     private static final String PERSON_ID = "personId";
@@ -52,37 +52,11 @@ public class ProtocolLookupableHelperServiceImpl extends KualiLookupableHelperSe
 
     ProtocolDao protocolDao;
     
-    /**
-     * use 'protocolNumber' which is not a PK'
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getActionUrls(org.kuali.core.bo.BusinessObject)
-     */
-    @Override
-    public String getActionUrls(BusinessObject businessObject) {
-        // TODO : may need to add 'sequencenumber' to query string
-        return "<a href=\"../protocolProtocol.do?methodToCall=docHandler&command=initiate&docTypeName=ProtocolDocument&protocolNumber="+((Protocol)businessObject).getProtocolNumber()+"\">edit</a>";
-    }
-
-    /**
-     * To force to it to show action links, such as 'edit'.
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#performLookup(org.kuali.core.web.struts.form.LookupForm, java.util.Collection, boolean)
-     */
-    @Override
-    public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
-        lookupForm.setShowMaintenanceLinks(true);
-        return super.performLookup(lookupForm, resultTable, bounded);
-    }
-
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
 
         //need to set backlocation & docformkey here.  Otherwise, they are empty
-        for (Entry<String,String> entry : fieldValues.entrySet()) {
-            if (entry.getKey().equals(KNSConstants.BACK_LOCATION)) {
-                setBackLocation(entry.getValue());
-            } else if (entry.getKey().equals(KNSConstants.DOC_FORM_KEY)) {
-                setDocFormKey(entry.getValue());
-            }
-        }
+        super.setBackLocationDocFormKey(fieldValues);
         return protocolDao.getProtocols(fieldValues);
     }
 
@@ -250,5 +224,17 @@ public class ProtocolLookupableHelperServiceImpl extends KualiLookupableHelperSe
         return super.getInquiryUrl(inqBo, inqPropertyName);
     }
 
+    protected String getHtmlAction() {
+        return "protocolProtocol.do";
+    }
+    
+    protected String getDocumentTypeName() {
+        return "ProtocolDocument";
+    }
+    
+    protected String getKeyFieldName() {
+        return "protocolNumber";
+    }
 
+    
 }

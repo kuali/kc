@@ -136,7 +136,7 @@
         <property name="protocolAuthorizationService" ref="protocolAuthorizationService" />
     </bean>
 
-	<bean id="protocolLookupable" class="org.kuali.kra.irb.lookup.ProtocolLookupableImpl" scope="prototype">
+	<bean id="protocolLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" scope="prototype">
   		<property name="lookupableHelperService">
     		<ref bean="protocolLookupableHelperService" />
   		</property>  		
