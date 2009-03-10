@@ -57,56 +57,58 @@ public class AwardPaymentScheduleGenerationServiceImpl implements org.kuali.kra.
         }
     }
 
-    protected List<Date> generateSchedules(Award award, List<AwardReportTerm> awardReportTerms) throws ParseException{        
+    protected List<Date> generateSchedules(Award award, List<AwardReportTerm> awardReportTerms) throws ParseException{
         List<Date> dates = new ArrayList<Date>();
-        GregorianCalendar calendar = new GregorianCalendar();        
         java.util.Date startDate = null;
         java.util.Date endDate = null;
         
+        GregorianCalendar calendar = new GregorianCalendar();
+        
         for(AwardReportTerm awardReportTerm: awardReportTerms){
             if(StringUtils.equalsIgnoreCase(awardReportTerm.getReportClassCode(), "6")){
+                startDate = getStartDate(awardReportTerm);
+                endDate = getEndDate(awardReportTerm.getFrequencyBaseCode(),startDate);
                 
-                if(awardReportTerm.getFrequencyBaseCode()!=null){
-                    getStartDate(calendar, awardReportTerm);
-                    startDate = calendar.getTime();
-                    getEndDate(calendar, awardReportTerm.getFrequencyBaseCode(),startDate);                    
-                    endDate = calendar.getTime();
-                }
-                
-                if(startDate!=null){
-                    Frequency frequency = awardReportTerm.getFrequency();                                   
-                    calendar.setTime(startDate);
-                    if(endDate!=null && frequency.getRepeatFlag() && frequency.getNumberOfMonths()!=null){                        
-                        getUpdatedStartDate(calendar, frequency);                        
-                        startDate = calendar.getTime();                        
+                if(startDate!=null){                    
+                    calendar.setTime(startDate);                    
+                    if(endDate!=null && awardReportTerm.getFrequency().getRepeatFlag() && awardReportTerm.getFrequency().getNumberOfMonths()!=null){            
                         dates = scheduleService.getScheduledDates(startDate, endDate, new Time24HrFmt("00:00")
-                                    , new XMonthlyScheduleSequence(frequency.getNumberOfMonths()), calendar.get(Calendar.DAY_OF_MONTH));                        
-                    }else{
-                        getUpdatedStartDate(calendar, frequency);                      
-                        dates.add(calendar.getTime());
-                    }    
+                                    , new XMonthlyScheduleSequence(awardReportTerm.getFrequency().getNumberOfMonths()), calendar.get(Calendar.DAY_OF_MONTH));
+                    }else{            
+                        dates.add(startDate);
+                    }                        
                 }
                 
-            }
-            
+            }            
         }
         
         return dates;
     }
 
-    protected void getUpdatedStartDate(GregorianCalendar calendar, Frequency frequency) {
-        if(frequency.getNumberOfDays()!=null){
+    protected Date getUpdatedStartDate(Date startDate, Frequency frequency) {
+        GregorianCalendar calendar = new GregorianCalendar();
+        calendar.clear();
+        calendar.setTime(startDate);
+        if(frequency!= null && frequency.getNumberOfDays()!=null){
             calendar.add(Calendar.DAY_OF_YEAR,frequency.getNumberOfDays());
-        }else if(frequency.getAdvanceNumberOfDays()!=null){
+        }else if(frequency!= null && frequency.getAdvanceNumberOfDays()!=null){
             calendar.add(Calendar.DAY_OF_YEAR,-frequency.getAdvanceNumberOfDays());
-        }else if(frequency.getAdvanceNumberOfMonths()!=null){
+        }else if(frequency!= null && frequency.getAdvanceNumberOfMonths()!=null){
             calendar.add(Calendar.MONTH,-frequency.getAdvanceNumberOfMonths());
-        }else if(frequency.getAdvanceNumberOfMonths()!=null){
-            calendar.add(Calendar.MONTH,-frequency.getAdvanceNumberOfMonths());
-        }  
+        }
+        
+        return calendar.getTime();
     }
     
-    protected void getStartDate(GregorianCalendar calendar, AwardReportTerm awardReportTerm){
+    /**
+     * 
+     * This method determines and returns the start date based on the frequency base code.
+     * 
+     * @param awardReportTerm
+     * @return
+     */
+    protected Date getStartDate(AwardReportTerm awardReportTerm){
+        GregorianCalendar calendar = new GregorianCalendar();
         if(awardReportTerm.getFrequencyBaseCode().equals("1")){
             calendar.clear();
             calendar.set(2009, 3, 1);//temp hardcoded award execution date.
@@ -126,17 +128,32 @@ public class AwardPaymentScheduleGenerationServiceImpl implements org.kuali.kra.
             calendar.clear();
             calendar.setTimeInMillis(awardReportTerm.getDueDate().getTime());
         }
+        
+        return getUpdatedStartDate(calendar.getTime(), awardReportTerm.getFrequency());
     }
     
-    protected void getEndDate(GregorianCalendar calendar, String frequencyBaseCode, Date startDate){
+    /**
+     * 
+     * This method returns the end date based on start date and frequency base code.
+     * 
+     * If frequency base code is 4(Final Expiration Date), it adds 1 year to the start date and returns it.
+     * otherwise it returns the final expiration date itself.
+     * 
+     * @param frequencyBaseCode
+     * @param startDate
+     * @return
+     */
+    protected Date getEndDate(String frequencyBaseCode, Date startDate){
+        GregorianCalendar calendar = new GregorianCalendar();
         if(frequencyBaseCode.equals("4")){                        
             calendar.clear();
             calendar.setTime(startDate);   
             calendar.add(Calendar.YEAR, 1);            
         }else{
             calendar.clear();
-            calendar.set(2011, 4, 1);//temp hardcoded award expiration date.                                  
+            calendar.set(2011, 4, 1);//temp hardcoded award expiration date.
         }
+        return calendar.getTime();
     }
 
     /**
@@ -155,6 +172,13 @@ public class AwardPaymentScheduleGenerationServiceImpl implements org.kuali.kra.
         this.scheduleService = scheduleService;
     }
     
+    /**
+     * 
+     * This method collects all the AwardReportTerm objects in one collection and does a refresh reference object
+     * on all of them in one single transaction.
+     * 
+     * @param awardReportTerms
+     */
     protected void refreshAwardReportTerms(List<AwardReportTerm> awardReportTerms) {
         List<AwardReportTerm> persistableObjects = new ArrayList<AwardReportTerm>();
         List<String> referenceObjectNames = new ArrayList<String>();
