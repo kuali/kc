@@ -76,6 +76,12 @@ public class Committee extends KraPersistableBusinessObjectBase {
     private List<CommitteeMembership> committeeMemberships;
     private List<CommitteeSchedule> committeeSchedules;
     
+    // transient lookup fields
+    private String membershipRoleCode;
+    private String committeeChair;
+    private String unitName;
+    private String memberName;
+    private String researchAreaCode;
     /**
      * Constructs a Committee.
      */
@@ -245,5 +251,45 @@ public class Committee extends KraPersistableBusinessObjectBase {
         managedLists.add(this.committeeMemberships);
         managedLists.add(this.committeeSchedules);
         return managedLists;
+    }
+
+    public String getMembershipRoleCode() {
+        return membershipRoleCode;
+    }
+
+    public void setMembershipRoleCode(String membershipRoleCode) {
+        this.membershipRoleCode = membershipRoleCode;
+    }
+
+    public String getCommitteeChair() {
+        return committeeChair;
+    }
+
+    public void setCommitteeChair(String committeeChair) {
+        this.committeeChair = committeeChair;
+    }
+
+    public String getUnitName() {
+        return unitName;
+    }
+
+    public void setUnitName(String unitName) {
+        this.unitName = unitName;
+    }
+
+    public String getMemberName() {
+        return memberName;
+    }
+
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
+    }
+
+    public String getResearchAreaCode() {
+        return researchAreaCode;
+    }
+
+    public void setResearchAreaCode(String researchAreaCode) {
+        this.researchAreaCode = researchAreaCode;
     }
 }

@@ -86,4 +86,14 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="scheduleService" ref="scheduleService" />
 	</bean>
+	
+	<bean id="committeeLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" scope="prototype">
+  		<property name="lookupableHelperService">
+    		<ref bean="committeeLookupableHelperService" />
+  		</property>  		
+	</bean>	
+
+	<bean id="committeeLookupableHelperService" class="org.kuali.kra.committee.lookup.CommitteeLookupableHelperServiceImpl" 
+ 		scope="prototype" parent="lookupableHelperService">
+  	</bean>
 </beans>
