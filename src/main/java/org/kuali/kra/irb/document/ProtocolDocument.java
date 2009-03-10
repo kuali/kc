@@ -115,8 +115,8 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
-        managedLists.add(protocolList);
         managedLists.addAll(getProtocol().buildListOfDeletionAwareLists());
+        managedLists.add(protocolList);
         return managedLists;
 
     }
