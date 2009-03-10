@@ -158,10 +158,11 @@ public class ProtocolProtocolAction extends ProtocolAction {
             ProtocolReferenceService service = KraServiceLocator.getService(ProtocolReferenceService.class);
             
             service.addProtocolReference(protocolForm.getProtocolDocument().getProtocol(), newProtocolReference);
+            
+            protocolForm.setNewProtocolReference(new ProtocolReference());
           
         }
-          
-        protocolForm.setNewProtocolReference(new ProtocolReference());
+                  
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
     
