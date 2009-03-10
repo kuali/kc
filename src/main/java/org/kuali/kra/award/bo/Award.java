@@ -97,7 +97,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private String title;
     
     private Sponsor sponsor;
-
+    private Sponsor primeSponsor;
 
     private List<AwardComment> awardComments;
 //    private Map<Integer, AwardComment> commentMap;
@@ -121,8 +121,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      */
     public Award() {
         super();
-        initializeAwardWithDefaultValues();       
-        initializeCollections();        
+        initializeAwardWithDefaultValues();
+        initializeCollections();
     }
     
     /**
@@ -134,8 +134,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private void initializeAwardWithDefaultValues(){
         setAwardNumber(ONE);
         setSequenceNumber(1);
-        setSponsorCode(ONE);
-        setStatusCode(1);
         setApprovedEquipmentIndicator(YES_FLAG);
         setApprovedForeignTripIndicator(YES_FLAG);
         setSubContractIndicator(YES_FLAG);
@@ -145,9 +143,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         setScienceCodeIndicator(YES_FLAG);
         setSpecialReviewIndicator(YES_FLAG);
         setTransferSponsorIndicator(YES_FLAG);
-        setActivityTypeCode(1);
-        setAwardTypeCode(1);        
-        setTitle(AWARD_TITLE);   
+        setAwardTypeCode(1);
     }
     
     /**
@@ -1482,4 +1478,13 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public void setPaymentScheduleItems(List<AwardPaymentSchedule> paymentScheduleItems) {
         this.paymentScheduleItems = paymentScheduleItems;
     }
+
+    public Sponsor getPrimeSponsor() {
+        return primeSponsor;
+    }
+
+    public void setPrimeSponsor(Sponsor primeSponsor) {
+        this.primeSponsor = primeSponsor;
+    }
+    
 }
