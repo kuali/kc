@@ -129,7 +129,7 @@
             <foreignkey field-ref="reviewTypeCode" />
          </reference-descriptor>
          
-   		<collection-descriptor name="committeeMemberships" element-class-ref="org.kuali.kra.committee.bo.CommitteeMembership" auto-retrieve="true" auto-update="object" auto-delete="object">
+   		<collection-descriptor name="committeeMemberships" element-class-ref="org.kuali.kra.committee.bo.CommitteeMembership" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
    		    <inverse-foreignkey field-ref="id" />
    		</collection-descriptor>
    		
