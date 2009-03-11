@@ -7,17 +7,38 @@
     <c:set var="transparent" value="false" />
 
     <c:if test="${status.first}">
-      <c:set var="transparent" value="true" />
+        <c:set var="transparent" value="true" />
     </c:if>
     <c:set var="description" value="Term ${committeeMembershipProperty}.termStartDate - ${committeeMembershipProperty}.termEndDate" /> 
     <c:set var="membershipIndex" value="${status.index}" />
     <kul:checkErrors keyMatch="document.committeeList[0].committeeMemberships[${status.index}]*" auditMatch="document.committeeList[0].committeeMemberships[${status.index}]*" />
-    <kul:tab tabTitle="${fn:substring(membership.personName, 0, 22)} (${membership.membershipType.description})"
+
+    <%-- Create Tab Title --%>
+    <c:choose>
+        <c:when test="${empty membership.membershipType.description}">
+            <c:set var="tabTitleValue" value="${fn:substring(membership.personName, 0, 22)}" />
+        </c:when>
+        <c:otherwise>
+            <c:set var="tabTitleValue" value="${fn:substring(membership.personName, 0, 22)} (${membership.membershipType.description})" />
+        </c:otherwise>
+    </c:choose>
+    
+    <%-- Create Tab Description --%>
+    <c:choose>
+        <c:when test="${empty membership.termStartDate && empty membership.termEndDate}">
+            <c:set var="tabDescriptionValue" value=" " />
+        </c:when>
+        <c:otherwise>
+            <c:set var="tabDescriptionValue" value="Term ${membership.termStartDate} - ${membership.termEndDate}" />
+        </c:otherwise>
+    </c:choose>
+    
+    <kul:tab tabTitle="${tabTitleValue}"
              tabErrorKey=""
              auditCluster="requiredFieldsAuditErrors" 
              tabAuditKey="" 
              useRiceAuditMode="true"
-             tabDescription="Term ${membership.termStartDate} - ${membership.termEndDate}"
+             tabDescription="${tabDescriptionValue}"
              leftSideHtmlProperty="${committeeMembershipProperty}.delete" 
              leftSideHtmlAttribute="${committeeMembershipAttributes.delete}" 
              leftSideHtmlDisabled="false" 
@@ -30,10 +51,10 @@
                              <span class="subhead-left"><bean:write name="KualiForm" property="${committeeMembershipProperty}.personName" /></span>
                              <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.Committee" altText="help" /></span>
                          </h3>
-                         <kra-committee:committeeMembershipDetailsSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" />
-                         <kra-committee:committeeMembershipContactInformationSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" />
-                         <kra-committee:committeeMembershipRolesSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" />
-                         <kra-committee:committeeMembershipExpertiseSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" />
+                         <kra-committee:committeeMembershipDetailsSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" parentTabValue="${tabTitleValue}" />
+                         <kra-committee:committeeMembershipContactInformationSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" parentTabValue="${tabTitleValue}" />
+                         <kra-committee:committeeMembershipRolesSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" parentTabValue="${tabTitleValue}" />
+                         <kra-committee:committeeMembershipExpertiseSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" parentTabValue="${tabTitleValue}" />
                      </div>
                  </div>
              </div>
