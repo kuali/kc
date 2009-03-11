@@ -23,11 +23,14 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardReportTerm;
 import org.kuali.kra.award.bo.Frequency;
 import org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentSchedule;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.scheduling.sequence.XMonthlyScheduleSequence;
 import org.kuali.kra.scheduling.service.ScheduleService;
 import org.kuali.kra.scheduling.util.Time24HrFmt;
@@ -41,6 +44,7 @@ public class AwardPaymentScheduleGenerationServiceImpl implements org.kuali.kra.
     
     private ScheduleService scheduleService;
     private PersistenceService persistenceService;
+    private KualiConfigurationService kualiConfigurationService;
     
     public void generatePaymentSchedules(Award award, List<AwardReportTerm> awardReportTerms) throws ParseException{
         List<Date> dates = new ArrayList<Date>();
@@ -65,7 +69,8 @@ public class AwardPaymentScheduleGenerationServiceImpl implements org.kuali.kra.
         GregorianCalendar calendar = new GregorianCalendar();
         
         for(AwardReportTerm awardReportTerm: awardReportTerms){
-            if(StringUtils.equalsIgnoreCase(awardReportTerm.getReportClassCode(), "6")){
+            if(StringUtils.equalsIgnoreCase(awardReportTerm.getReportClassCode(), kualiConfigurationService.getParameter(Constants.PARAMETER_MODULE_AWARD
+                    ,Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES).getParameterValue())){
                 startDate = getStartDate(awardReportTerm);
                 endDate = getEndDate(awardReportTerm.getFrequencyBaseCode(),startDate);
                 
@@ -207,6 +212,22 @@ public class AwardPaymentScheduleGenerationServiceImpl implements org.kuali.kra.
      */
     public void setPersistenceService(PersistenceService persistenceService) {
         this.persistenceService = persistenceService;
+    }
+
+    /**
+     * Gets the kualiConfigurationService attribute. 
+     * @return Returns the kualiConfigurationService.
+     */
+    public KualiConfigurationService getKualiConfigurationService() {
+        return kualiConfigurationService;
+    }
+
+    /**
+     * Sets the kualiConfigurationService attribute value.
+     * @param kualiConfigurationService The kualiConfigurationService to set.
+     */
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
     }
 
 }
