@@ -113,8 +113,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         boolean isValid = true;
 
         if (StringUtils.isNotBlank(document.getProtocol().getLeadUnitNumber()) 
-                && (StringUtils.isBlank(document.getProtocol().getLeadUnitName())  
-                        && document.getProtocol().getLeadUnitForValidation() == null)) {
+                && document.getProtocol().getLeadUnitForValidation() == null) {
               isValid = false;
               reportError(PROTOCOL_LUN_FORM_ELEMENT, KeyConstants.ERROR_PROTOCOL_LEAD_UNIT_NUM_INVALID);
         } else if (document.getProtocol().getLeadUnitForValidation() == null &&  document.getProtocol().getLeadUnit() == null) {
