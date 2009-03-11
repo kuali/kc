@@ -32,6 +32,12 @@
     
     <kra-committee:committeeMemberships/>
 
+    <c:if test="${fn:length(KualiForm.document.committee.committeeMemberships) > 0}">
+        <c:set var="extraButtonSource" value="${ConfigProperties.externalizable.images.url}buttonsmall_deletesel.gif"/>
+        <c:set var="extraButtonProperty" value="methodToCall.deleteCommitteeMembership"/>
+        <c:set var="extraButtonAlt" value="Delete a Person"/>
+    </c:if>  
+
 	<kul:documentControls 
 	    transactionalDocument="false"
 		suppressRoutingControls="true"
