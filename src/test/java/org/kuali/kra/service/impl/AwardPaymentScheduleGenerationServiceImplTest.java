@@ -30,9 +30,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.core.bo.Parameter;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardReportTerm;
 import org.kuali.kra.award.bo.Frequency;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.scheduling.sequence.XMonthlyScheduleSequence;
 import org.kuali.kra.scheduling.service.ScheduleService;
 import org.kuali.kra.scheduling.util.Time24HrFmt;
@@ -65,6 +69,7 @@ public class AwardPaymentScheduleGenerationServiceImplTest {
     Calendar calendar;
     
     private Mockery context = new JUnit4Mockery();
+    private Mockery context2 = new JUnit4Mockery();
     
     @Before
     public void setUp() throws Exception {
@@ -169,13 +174,24 @@ public class AwardPaymentScheduleGenerationServiceImplTest {
         award.setAwardReportTerms(awardReportTerms);
         
         final ScheduleService scheduleService = context.mock(ScheduleService.class);
+        final KualiConfigurationService kualiConfigurationService = context.mock(KualiConfigurationService.class);
+        
+        final Parameter parameter = new Parameter();
+        parameter.setParameterName(KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES);
+        parameter.setParameterValue(REPORT_CLASS_CODE_CODE_SIX);
         
         context.checking(new Expectations() {{
             one(scheduleService).getScheduledDates(with(equal(START_DATE)), with(equal(END_DATE)), with(equal(new Time24HrFmt(ZERO_HOURS)))
                     , with(any(XMonthlyScheduleSequence.class)), with(equal(DAY_OF_MONTH)));will(returnValue(DATES));
         }});
         
+        context.checking(new Expectations(){{
+            one(kualiConfigurationService).getParameter(Constants.PARAMETER_MODULE_AWARD,Constants.PARAMETER_COMPONENT_DOCUMENT
+                    ,KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES);will(returnValue(parameter));
+        }});
+        
         awardPaymentScheduleGenerationServiceImpl.setScheduleService(scheduleService);
+        awardPaymentScheduleGenerationServiceImpl.setKualiConfigurationService(kualiConfigurationService);
         
         Assert.assertEquals(DATES
                 , awardPaymentScheduleGenerationServiceImpl.generateSchedules(award, awardReportTerms));
@@ -204,13 +220,24 @@ public class AwardPaymentScheduleGenerationServiceImplTest {
         award.setAwardReportTerms(awardReportTerms);
         
         final ScheduleService scheduleService = context.mock(ScheduleService.class);
+        final KualiConfigurationService kualiConfigurationService = context.mock(KualiConfigurationService.class);
+        
+        final Parameter parameter = new Parameter();
+        parameter.setParameterName(KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES);
+        parameter.setParameterValue(REPORT_CLASS_CODE_CODE_SIX);
         
         context.checking(new Expectations() {{
             never(scheduleService).getScheduledDates(START_DATE, END_DATE, new Time24HrFmt(ZERO_HOURS)
                 , new XMonthlyScheduleSequence(frequency.getNumberOfMonths()), DAY_OF_MONTH);will(returnValue(DATES));
         }});
         
+        context.checking(new Expectations(){{
+            one(kualiConfigurationService).getParameter(Constants.PARAMETER_MODULE_AWARD,Constants.PARAMETER_COMPONENT_DOCUMENT
+                    ,KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES);will(returnValue(parameter));
+        }});
+        
         awardPaymentScheduleGenerationServiceImpl.setScheduleService(scheduleService);
+        awardPaymentScheduleGenerationServiceImpl.setKualiConfigurationService(kualiConfigurationService);
         
         Assert.assertEquals(DATES, awardPaymentScheduleGenerationServiceImpl.generateSchedules(award, awardReportTerms));
     }
