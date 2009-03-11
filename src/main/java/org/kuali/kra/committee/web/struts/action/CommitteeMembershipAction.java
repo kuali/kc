@@ -24,6 +24,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.rule.event.AddCommitteeMembershipEvent;
 import org.kuali.kra.committee.rule.event.SaveCommitteeMembershipEvent;
 import org.kuali.kra.committee.service.CommitteeMembershipService;
@@ -31,7 +32,6 @@ import org.kuali.kra.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.committee.web.struts.form.MembershipHelper;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 
 /**
  * The CommitteeMembershipAction corresponds to the Members tab (web page).  It is
@@ -67,8 +67,8 @@ public class CommitteeMembershipAction extends CommitteeAction {
     }
    
     /**
-     * This method is linked to ProtocolPersonnelService to perform the action - Add Protocol Person. 
-     * Method is called in protocolAddPersonnelSection.tag 
+     * This method is linked to ProtocolPersonnelService to perform the action - Add Committee Membership. 
+     * Method is called in protocolAddCommitteeMembership.tag 
      * @param mapping
      * @param form
      * @param request
@@ -90,23 +90,23 @@ public class CommitteeMembershipAction extends CommitteeAction {
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
 
-//    /**
-//     * This method is linked to ProtocolPersonnelService to perform the action - Delete Protocol Person.
-//     * Method is called in ProtocolPersonnel.jsp
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward deleteProtocolPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
-//        getProtocolPersonnelService().deleteProtocolPerson(protocolDocument.getProtocol());
-//        return mapping.findForward(Constants.MAPPING_BASIC );
-//    }
-//
+    /**
+     * This method is linked to CommitteeMembershipService to perform the action - Delete Committee Membership.
+     * Method is called in CommitteeMembership.jsp
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteCommitteeMembership(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CommitteeForm committeeForm = (CommitteeForm) form;
+        CommitteeDocument committeeDocument = committeeForm.getCommitteeDocument();
+        getCommitteeMembershipService().deleteCommitteeMembership(committeeDocument.getCommittee());
+        return mapping.findForward(Constants.MAPPING_BASIC );
+    }
+
     /**
      * This method is clears the CommitteeMembership selection.
      * Method is called in protocolAddCommitteeMembership.tag
