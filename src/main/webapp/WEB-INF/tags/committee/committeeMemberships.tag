@@ -11,7 +11,6 @@
     </c:if>
     <c:set var="description" value="Term ${committeeMembershipProperty}.termStartDate - ${committeeMembershipProperty}.termEndDate" /> 
     <c:set var="membershipIndex" value="${status.index}" />
-    <kul:checkErrors keyMatch="document.committeeList[0].committeeMemberships[${status.index}]*" auditMatch="document.committeeList[0].committeeMemberships[${status.index}]*" />
 
     <%-- Create Tab Title --%>
     <c:choose>
@@ -35,6 +34,7 @@
     
     <kul:tab tabTitle="${tabTitleValue}"
              tabErrorKey=""
+             childTabErrorKey="${committeeMembershipProperty}.*"
              auditCluster="requiredFieldsAuditErrors" 
              tabAuditKey="" 
              useRiceAuditMode="true"
@@ -42,7 +42,7 @@
              leftSideHtmlProperty="${committeeMembershipProperty}.delete" 
              leftSideHtmlAttribute="${committeeMembershipAttributes.delete}" 
              leftSideHtmlDisabled="false" 
-             defaultOpen="${hasErrors}" 
+             defaultOpen="false" 
              transparentBackground="${transparent}">
              <div class="tab-container" align="center">
                  <div id="workarea">
