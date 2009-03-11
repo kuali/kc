@@ -19,7 +19,8 @@
 <%@ attribute name="spanForLongTabTitle" required="false" %>
 <%@ attribute name="tabDescription" required="false" %>
 <%@ attribute name="defaultOpen" required="true" %>
-<%@ attribute name="tabErrorKey" required="false" %>
+<%@ attribute name="tabErrorKey" required="false" description="The error path for errors whose message should be displayed in this tab.  Errors will cause the tab to be opened. Path can be wildcarded with and asterix.  Multiple paths must be separated with a comma and no white spaces." %>
+<%@ attribute name="childTabErrorKey" required="false" description="The error path for errors whose message should not be displayed in this tab.  Errors will cause the tab to be opened. Path can be wildcarded with and asterix.  Multiple paths must be separated with a comma and no white spaces." %>
 <%@ attribute name="auditCluster" required="false" %>
 <%@ attribute name="tabAuditKey" required="false" %>
 <%@ attribute name="tabItemCount" required="false" %>
@@ -63,9 +64,13 @@
 </c:choose>
 
 <!-- if the section has errors, override and set isOpen to true -->
-<c:if test="${!empty tabErrorKey or not empty tabAuditKey}">
-  <kul:checkErrors keyMatch="${tabErrorKey}" auditMatch="${tabAuditKey}"/>
-  <c:set var="isOpen" value="${hasErrors ? true : isOpen}"/>
+<c:if test="${!empty tabErrorKey or !empty tabAuditKey}">
+  <kul:checkErrors keyMatch="${tabErrorKey}" auditMatch="${tabAuditKey}" />
+  <c:set var="isOpen" value="${hasErrors ? true : isOpen}" />
+</c:if>
+<c:if test="${isOpen != 'true' and !empty childTabErrorKey}">
+  <kul:checkErrors keyMatch="${childTabErrorKey}" />
+  <c:set var="isOpen" value="${hasErrors ? true : isOpen}" />
 </c:if>
 
 <c:if test="${hidden}">
