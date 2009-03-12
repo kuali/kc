@@ -157,6 +157,7 @@ public final class KeyConstants {
     public static final String ERROR_IF_PROPOSALTYPE_IS_REVISION = "error.s2sopportunity.revisiontype";
     public static final String ERROR_IF_CFDANUMBER_AND_OPPORTUNITY_ID_IS_NULL = "error.s2sopportunity.cfdaNumber_opportunityId_null"; 
     public static final String ERROR_IF_REVISIONTYPE_IS_OTHER = "error.s2sopportunity.revisionTypeOther";
+    public static final String ERROR_REQUIRED_REVISIONTYPE = "error.required.s2sopportunity.revisionType";
     public static final String ERROR_IF_CFDANUMBER_IS_INVALID = "error.s2sopportunity.cfdaNumberInvalid";
     public static final String ERROR_IF_OPPORTUNITY_ID_IS_INVALID = "error.s2sopportunity.opportunityIdInvalid";
     public static final String ERROR_IF_PROPOSAL_TYPE_IS_NEW_AND_S2S_SUBMISSION_TYPE_IS_CHANGED_CORRECTED = "error.s2sopportunity.s2ssubmissiontype";    
@@ -171,6 +172,7 @@ public final class KeyConstants {
     public static final String ERROR_MANDATORY_FORM_NOT_AVAILABLE = "error.mandatory.form.not.available";
     public static final String ERROR_S2SOPPORTUNITY_NOTSELECTED = "error.s2sOpportunity.notSelected";
     public static final String ERROR_RESUBMISSION_PROPOSALTYPE_IS_NEW = "error.resubmission.proposalType.is.new";
+    public static final String ERROR_RESUBMISSION_INVALID_PROPOSALTYPE_SUBMISSIONTYPE = "error.resubmission.invalidProposalTypeSubmissionType";
     public static final String ERROR_RESUBMISSION_OPPORTUNITY_IS_APPLICATION = "error.resubmission.s2sOpportunity.isApplication";
     public static final String ERROR_NOT_SELECTED_SUBMISSION_TYPE = "error.submissionType.notSelected";
     // Grants.gov System Parameters

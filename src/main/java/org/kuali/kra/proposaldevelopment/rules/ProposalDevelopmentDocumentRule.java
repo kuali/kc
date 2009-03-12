@@ -368,14 +368,24 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     */
     private boolean processProposalGrantsGovBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         boolean valid = true;
-                
+        String proposalTypeCodeRevision = getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                                                Constants.PARAMETER_COMPONENT_DOCUMENT, 
+                                                KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION).getParameterValue();
+        
+        if(proposalDevelopmentDocument.getS2sOpportunity()!= null && proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId()!= null && 
+                StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getProposalTypeCode(), proposalTypeCodeRevision) && 
+                StringUtils.isBlank(proposalDevelopmentDocument.getS2sOpportunity().getRevisionCode())) { 
+            reportError("s2sOpportunity.revisionCode", KeyConstants.ERROR_REQUIRED_REVISIONTYPE);
+            valid &= false;
+        }
+        
         if(proposalDevelopmentDocument.getS2sOpportunity()!= null && proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId()!=null && StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getS2sOpportunity().getRevisionCode(), getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.S2S_REVISIONTYPE_OTHER).getParameterValue()) && (proposalDevelopmentDocument.getS2sOpportunity().getRevisionOtherDescription()==null||StringUtils.equals(proposalDevelopmentDocument.getS2sOpportunity().getRevisionOtherDescription().trim(), ""))){
-            reportError("s2sOpportunity.revisionOtherDescription",KeyConstants.ERROR_IF_REVISIONTYPE_IS_OTHER);
+            reportError("s2sOpportunity.revisionOtherDescription", KeyConstants.ERROR_IF_REVISIONTYPE_IS_OTHER);
             valid &= false;
         }
         
         if(proposalDevelopmentDocument.getS2sOpportunity()!= null && proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId()!=null && !StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getS2sOpportunity().getRevisionCode(), getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, KeyConstants.S2S_REVISIONTYPE_OTHER).getParameterValue()) && (proposalDevelopmentDocument.getS2sOpportunity().getRevisionOtherDescription()!=null && !StringUtils.equals(proposalDevelopmentDocument.getS2sOpportunity().getRevisionOtherDescription().trim(), ""))){
-            reportError("s2sOpportunity.revisionOtherDescription",KeyConstants.ERROR_IF_REVISIONTYPE_IS_NOT_OTHER_SPECIFY_NOT_BLANK);
+            reportError("s2sOpportunity.revisionOtherDescription", KeyConstants.ERROR_IF_REVISIONTYPE_IS_NOT_OTHER_SPECIFY_NOT_BLANK);
             valid &= false;
         }        
         return valid;
