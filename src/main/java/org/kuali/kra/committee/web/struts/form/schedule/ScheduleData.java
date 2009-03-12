@@ -29,6 +29,12 @@ public class ScheduleData {
     
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScheduleData.class);
     
+    public static final String NONE = "display: none; background:#f4f4f4; border:solid; border-color:#CCCCCC; border-width:1px; padding:5px";
+    
+    public static final String BLOCK = "display: block; background:#f4f4f4; border:solid; border-color:#CCCCCC; border-width:1px; padding:5px";
+    
+    public static final String defaultTime = "12:00";
+    
     private Date scheduleStartDate;
     
     private Time12HrFmt time;
@@ -57,7 +63,7 @@ public class ScheduleData {
         super();
         this.setScheduleStartDate(new Date(new java.util.Date().getTime()));
         
-        this.setTime(new Time12HrFmt("12:00",MERIDIEM.PM));
+        this.setTime(new Time12HrFmt(defaultTime,MERIDIEM.PM));
         
         this.setRecurrenceType(StyleKey.NEVER.toString());
         this.setStyleClasses(new HashMap<String,String>());
@@ -168,13 +174,11 @@ public class ScheduleData {
     public void populateStyleClass(){
         
         for(StyleKey str: StyleKey.values()) {
-            
-            this.getStyleClasses().put(str.toString(), "display: none; background:#f4f4f4; border:solid; border-color:#CCCCCC; border-width:1px; padding:5px");
+            getStyleClasses().put(str.toString(), NONE);
         }
         for(StyleKey str: StyleKey.values()) {
             if (str.equalsString(getRecurrenceType())) {
-                LOG.info("Stylekey :" + str);
-                this.getStyleClasses().put(str.toString(), "display: block; background:#f4f4f4; border:solid; border-color:#CCCCCC; border-width:1px; padding:5px");
+                getStyleClasses().put(str.toString(), BLOCK);
                 break;
             }
         }      
