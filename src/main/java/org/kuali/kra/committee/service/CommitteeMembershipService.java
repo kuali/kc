@@ -17,6 +17,7 @@ package org.kuali.kra.committee.service;
 
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 
 public interface CommitteeMembershipService {
     /**
@@ -32,5 +33,12 @@ public interface CommitteeMembershipService {
      */
     void deleteCommitteeMembership(Committee committee);
     
+    /**
+     * This method adds a CommitteeMembershipRole to the list of CommitteeMembershipRoles of a 
+     * committee member.
+     * @param committeeMembership to which the role is to be added
+     * @param committeeMembershipRole that is to be added
+     */
+    void addCommitteeMembershipRole(CommitteeMembership committeeMembership, CommitteeMembershipRole committeeMembershipRole);
 
 }

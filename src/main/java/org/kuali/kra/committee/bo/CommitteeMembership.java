@@ -16,7 +16,9 @@
 package org.kuali.kra.committee.bo;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
@@ -25,11 +27,17 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.irb.bo.ProtocolPersonRolodex;
 
+/**
+ * 
+ * This class implements the committee membership object.
+ * 
+ * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ */
 public class CommitteeMembership extends KraPersistableBusinessObjectBase {
 
     @Id
     @Column(name = "COMM_MEMBERSHIPS_ID")
-    private Long committeeMembershipsId;
+    private Long committeeMembershipId;
 
     @Column(name = "ID")
     private Long id;
@@ -72,6 +80,8 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase {
 
     @Column(name = "TRAINING_NOTES")
     private String trainingNotes;
+    
+    private List<CommitteeMembershipRole> membershipRoles;
 
     private CommitteeMembershipType membershipType;
 
@@ -81,14 +91,15 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase {
     private boolean delete;
 
     public CommitteeMembership() {
+        setMembershipRoles(new ArrayList<CommitteeMembershipRole>());
     }
 
-    public Long getCommitteeMembershipsId() {
-        return committeeMembershipsId;
+    public Long getCommitteeMembershipId() {
+        return committeeMembershipId;
     }
 
-    public void setCommitteeMembershipsId(Long committeeMembershipsId) {
-        this.committeeMembershipsId = committeeMembershipsId;
+    public void setCommitteeMembershipId(Long committeeMembershipId) {
+        this.committeeMembershipId = committeeMembershipId;
     }
 
     public Long getId() {
@@ -203,6 +214,14 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase {
         this.trainingNotes = trainingNotes;
     }
 
+    public void setMembershipRoles(List<CommitteeMembershipRole> membershipRoles) {
+        this.membershipRoles = membershipRoles;
+    }
+
+    public List<CommitteeMembershipRole> getMembershipRoles() {
+        return membershipRoles;
+    }
+
     public CommitteeMembershipType getMembershipType() {
         return membershipType;
     }
@@ -238,7 +257,7 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase {
     @Override
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("committeeMembershipsId", getCommitteeMembershipsId());
+        hashMap.put("committeeMembershipId", getCommitteeMembershipId());
         hashMap.put("committeeId", getCommitteeId());
         hashMap.put("personId", getPersonId());
         hashMap.put("rolodexId", getRolodexId());
@@ -253,6 +272,14 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase {
         hashMap.put("contactNotes", getContactNotes());
         hashMap.put("trainingNotes", getTrainingNotes());
         return hashMap;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add(this.membershipRoles);
+        return managedLists;
     }
 
     /**
