@@ -46,6 +46,10 @@ public class AwardPaymentScheduleGenerationServiceImpl implements org.kuali.kra.
     private PersistenceService persistenceService;
     private KualiConfigurationService kualiConfigurationService;
     
+    /**
+     * 
+     * @see org.kuali.kra.service.AwardPaymentScheduleGenerationService#generatePaymentSchedules(org.kuali.kra.award.bo.Award, java.util.List)
+     */
     public void generatePaymentSchedules(Award award, List<AwardReportTerm> awardReportTerms) throws ParseException{
         List<Date> dates = new ArrayList<Date>();
         AwardPaymentSchedule newAwardPaymentSchedule;
@@ -61,6 +65,16 @@ public class AwardPaymentScheduleGenerationServiceImpl implements org.kuali.kra.
         }
     }
 
+    /**
+     * 
+     * This is a helper method. This method calls evaluates the frequency and frequency base and generates dates either by calling the scheduling service or
+     * without that.
+     * 
+     * @param award
+     * @param awardReportTerms
+     * @return
+     * @throws ParseException
+     */
     protected List<Date> generateSchedules(Award award, List<AwardReportTerm> awardReportTerms) throws ParseException{
         List<Date> dates = new ArrayList<Date>();
         java.util.Date startDate = null;
@@ -75,7 +89,7 @@ public class AwardPaymentScheduleGenerationServiceImpl implements org.kuali.kra.
                 endDate = getEndDate(awardReportTerm.getFrequencyBaseCode(),startDate);
                 
                 if(startDate!=null){                    
-                    calendar.setTime(startDate);                    
+                    calendar.setTime(startDate);
                     if(endDate!=null && awardReportTerm.getFrequency().getRepeatFlag() && awardReportTerm.getFrequency().getNumberOfMonths()!=null){            
                         dates = scheduleService.getScheduledDates(startDate, endDate, new Time24HrFmt("00:00")
                                     , new XMonthlyScheduleSequence(awardReportTerm.getFrequency().getNumberOfMonths()), calendar.get(Calendar.DAY_OF_MONTH));
@@ -89,21 +103,6 @@ public class AwardPaymentScheduleGenerationServiceImpl implements org.kuali.kra.
         
         return dates;
     }
-
-    protected Date getUpdatedStartDate(Date startDate, Frequency frequency) {
-        GregorianCalendar calendar = new GregorianCalendar();
-        calendar.clear();
-        calendar.setTime(startDate);
-        if(frequency!= null && frequency.getNumberOfDays()!=null){
-            calendar.add(Calendar.DAY_OF_YEAR,frequency.getNumberOfDays());
-        }else if(frequency!= null && frequency.getAdvanceNumberOfDays()!=null){
-            calendar.add(Calendar.DAY_OF_YEAR,-frequency.getAdvanceNumberOfDays());
-        }else if(frequency!= null && frequency.getAdvanceNumberOfMonths()!=null){
-            calendar.add(Calendar.MONTH,-frequency.getAdvanceNumberOfMonths());
-        }
-        
-        return calendar.getTime();
-    }
     
     /**
      * 
@@ -114,6 +113,7 @@ public class AwardPaymentScheduleGenerationServiceImpl implements org.kuali.kra.
      */
     protected Date getStartDate(AwardReportTerm awardReportTerm){
         GregorianCalendar calendar = new GregorianCalendar();
+        java.util.Date baseDate;
         if(awardReportTerm.getFrequencyBaseCode().equals("1")){
             calendar.clear();
             calendar.set(2009, 3, 1);//temp hardcoded award execution date.
@@ -134,7 +134,60 @@ public class AwardPaymentScheduleGenerationServiceImpl implements org.kuali.kra.
             calendar.setTimeInMillis(awardReportTerm.getDueDate().getTime());
         }
         
-        return getUpdatedStartDate(calendar.getTime(), awardReportTerm.getFrequency());
+        baseDate = calendar.getTime();
+        
+        return getStartDateFromTheBaseDate(baseDate, awardReportTerm.getFrequency());
+    }
+
+    /**
+     * 
+     * This is a helper method that updates the base date based on frequency if required to get the start date.
+     * 
+     * @param startDate
+     * @param frequency
+     * @return
+     */
+    protected Date getStartDateFromTheBaseDate(Date baseDate, Frequency frequency) {
+        GregorianCalendar calendar = new GregorianCalendar();
+        calendar.clear();
+        calendar.setTime(baseDate);
+        addOffSetPeriodToStartDate(frequency, calendar);
+        
+        addNumberOfMonthsToStartDate(frequency, calendar);
+        
+        return calendar.getTime();
+    }
+
+    /**
+     * numberOfDays,AdvanceNumberOfDays and AdvanceNumberOfMonths fields of Frequency BO represent any offset from the base date, if present.
+     * 
+     * Only 1 out of the three can be not null for any frequency. This method determines it and adds the required offset to the base date.
+     * 
+     * @param frequency
+     * @param calendar
+     */
+    protected void addOffSetPeriodToStartDate(Frequency frequency, Calendar calendar) {
+        if(frequency!= null && frequency.getNumberOfDays()!=null){
+            calendar.add(Calendar.DAY_OF_YEAR,frequency.getNumberOfDays());
+        }else if(frequency!= null && frequency.getAdvanceNumberOfDays()!=null){
+            calendar.add(Calendar.DAY_OF_YEAR,-frequency.getAdvanceNumberOfDays());
+        }else if(frequency!= null && frequency.getAdvanceNumberOfMonths()!=null){
+            calendar.add(Calendar.MONTH,-frequency.getAdvanceNumberOfMonths());
+        }
+    }
+
+    /**
+     * If the frequency is x monthly, numberOfMonths field in Frequency BO specifies the same.
+     * 
+     * This method adds the number of months from Frequency BO to base date to get the first date.
+     * 
+     * @param frequency
+     * @param calendar
+     */
+    protected void addNumberOfMonthsToStartDate(Frequency frequency, Calendar calendar) {
+        if(frequency.getNumberOfMonths()!=null){
+            calendar.add(Calendar.MONTH, frequency.getNumberOfMonths());
+        }
     }
     
     /**
@@ -193,7 +246,7 @@ public class AwardPaymentScheduleGenerationServiceImpl implements org.kuali.kra.
             referenceObjectNames.add("frequency");            
         }
         
-        if(persistableObjects.size()>0 && referenceObjectNames.size()>0 ){            
+        if(persistableObjects.size()>0 && referenceObjectNames.size()>0 ){
             getPersistenceService().retrieveReferenceObjects(persistableObjects, referenceObjectNames);
         }
     }
