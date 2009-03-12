@@ -182,14 +182,16 @@
 			        
 			       <table cellpadding=0 cellspacing=0 summary="" style="width:100%;border:none;">
       				<tr>								
-						<td colspan="4" width="100%" valign="middle">
+						<td colspan="4" width="100%" valign="middle">&nbsp;
 						<div align="center" >
+						<kra:section permission="modifyBudgets">
 							<html:image property="methodToCall.applyToLaterPeriods.line${budgetLineItemNumber}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-ApplyPeriods.gif' />				
 							<c:if test="${!(budgetCategoryTypeCode == 'P' && not empty KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetPersonnelDetailsList)}" >
 							<html:image property="methodToCall.syncToPeriodCostLimit.line${budgetLineItemNumber}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-synctocostlimit.gif' />
-							</c:if>									
+							</c:if>
+						</kra:section>									
 						</div>
 						</td>								
 					</tr>
