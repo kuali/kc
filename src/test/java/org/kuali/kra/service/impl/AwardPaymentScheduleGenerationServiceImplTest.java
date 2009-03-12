@@ -63,6 +63,7 @@ public class AwardPaymentScheduleGenerationServiceImplTest {
     public static final String FREQUENCY_BASE_CODE_FOUR = "4";
     public static final String FREQUENCY_BASE_CODE_TWO = "2";
     public static final String REPORT_CLASS_CODE_CODE_SIX = "6";
+    public static final int PERIOD_IN_YEARS = 1;
     
     Award award;
     List<AwardReportTerm> awardReportTerms;
@@ -112,6 +113,7 @@ public class AwardPaymentScheduleGenerationServiceImplTest {
     public final void testGetEndDate(){
         calendar.clear();
         calendar.set(START_DATE_YEAR_2009, START_DATE_MONTH_JULY, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
+        awardPaymentScheduleGenerationServiceImpl.setPeriodInYears(PERIOD_IN_YEARS);
         java.util.Date endDate = awardPaymentScheduleGenerationServiceImpl.getEndDate(FREQUENCY_BASE_CODE_FOUR, calendar.getTime());
         calendar.add(Calendar.YEAR, 1);        
         Assert.assertEquals(calendar.getTime(),endDate);
@@ -277,6 +279,7 @@ public class AwardPaymentScheduleGenerationServiceImplTest {
         
         awardPaymentScheduleGenerationServiceImpl.setScheduleService(scheduleService);
         awardPaymentScheduleGenerationServiceImpl.setKualiConfigurationService(kualiConfigurationService);
+        awardPaymentScheduleGenerationServiceImpl.setPeriodInYears(PERIOD_IN_YEARS);
         
         Assert.assertEquals(DATES
                 , awardPaymentScheduleGenerationServiceImpl.generateSchedules(award, awardReportTerms));
@@ -323,6 +326,7 @@ public class AwardPaymentScheduleGenerationServiceImplTest {
         
         awardPaymentScheduleGenerationServiceImpl.setScheduleService(scheduleService);
         awardPaymentScheduleGenerationServiceImpl.setKualiConfigurationService(kualiConfigurationService);
+        awardPaymentScheduleGenerationServiceImpl.setPeriodInYears(PERIOD_IN_YEARS);
         
         Assert.assertEquals(DATES, awardPaymentScheduleGenerationServiceImpl.generateSchedules(award, awardReportTerms));
     }

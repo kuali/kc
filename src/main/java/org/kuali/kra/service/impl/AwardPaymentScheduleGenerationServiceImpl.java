@@ -45,6 +45,7 @@ public class AwardPaymentScheduleGenerationServiceImpl implements org.kuali.kra.
     private ScheduleService scheduleService;
     private PersistenceService persistenceService;
     private KualiConfigurationService kualiConfigurationService;
+    private int periodInYears;
     
     /**
      * 
@@ -55,6 +56,11 @@ public class AwardPaymentScheduleGenerationServiceImpl implements org.kuali.kra.
         AwardPaymentSchedule newAwardPaymentSchedule;
         refreshAwardReportTerms(awardReportTerms);
         dates = generateSchedules(award,awardReportTerms);
+        
+        setPeriodInYears(Integer.parseInt(
+                kualiConfigurationService.getParameter(Constants.PARAMETER_MODULE_AWARD,Constants.PARAMETER_COMPONENT_DOCUMENT
+                ,KeyConstants.PERIOD_IN_YEARS_WHEN_FREQUENCY_BASE_IS_FINAL_EXPIRATION_DATE).getParameterValue()));
+        
         for(Date date: dates){
             newAwardPaymentSchedule = new AwardPaymentSchedule();
             java.sql.Date sqldate = new java.sql.Date(date.getTime());
@@ -206,7 +212,7 @@ public class AwardPaymentScheduleGenerationServiceImpl implements org.kuali.kra.
         if(frequencyBaseCode.equals("4")){                        
             calendar.clear();
             calendar.setTime(startDate);   
-            calendar.add(Calendar.YEAR, 1);            
+            calendar.add(Calendar.YEAR, getPeriodInYears());            
         }else{
             calendar.clear();
             calendar.set(2011, 4, 1);//temp hardcoded award expiration date.
@@ -281,6 +287,22 @@ public class AwardPaymentScheduleGenerationServiceImpl implements org.kuali.kra.
      */
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
+    }
+
+    /**
+     * Gets the periodInYears attribute. 
+     * @return Returns the periodInYears.
+     */
+    public int getPeriodInYears() {
+        return periodInYears;
+    }
+
+    /**
+     * Sets the periodInYears attribute value.
+     * @param periodInYears The periodInYears to set.
+     */
+    public void setPeriodInYears(int periodInYears) {
+        this.periodInYears = periodInYears;
     }
 
 }
