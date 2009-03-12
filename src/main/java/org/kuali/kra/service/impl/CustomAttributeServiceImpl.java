@@ -119,7 +119,7 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
         
         // Not sure to delete all the content, but there is no other options
         workflowDocument.clearAttributeContent();  
-        WorkflowAttributeDefinitionVO customDataDef = new WorkflowAttributeDefinitionVO("CustomDataAttribute");
+        WorkflowAttributeDefinitionVO customDataDef = new WorkflowAttributeDefinitionVO(attributeName);
         
         Map<String, CustomAttributeDocument>customAttributeDocuments = document.getCustomAttributeDocuments();
         if (customAttributeDocuments != null) {
@@ -131,9 +131,8 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
             }
         }
         workflowDocument.addAttributeDefinition(customDataDef);
-        workflowDocument.saveRoutingData(); 
-        
-}
+        workflowDocument.saveRoutingData();    
+    }
 
     /**
      * Accessor for <code>{@link BusinessObjectService}</code>
