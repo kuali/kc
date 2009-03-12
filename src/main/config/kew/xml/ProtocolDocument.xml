@@ -1,29 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
-<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
-<documentType>
-<name>ProtocolDocument</name>
-<description>Create a Protocol</description>
-<label>KRA Protocol</label>
-<postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
-<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
-<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
-<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
-<docHandler>${kuali.docHandler.url.prefix}/protocolProtocol.do?methodToCall=docHandler</docHandler>
-<active>true</active>
-<routingVersion>2</routingVersion>
-<routePaths>
-<routePath>
-<start name="Initiated" />
-</routePath>
-</routePaths>
-<routeNodes>
-<start name="Initiated">
-<activationType>P</activationType>
-<mandatoryRoute>false</mandatoryRoute>
-<finalApproval>false</finalApproval>
-</start>
-</routeNodes>
-</documentType>
-</documentTypes>
+   
+   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+      <documentType>
+         <name>ProtocolDocument</name>
+         <description>Create a Protocol</description>
+         <label>KRA Protocol</label>
+         <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+         <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+         <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+         <defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+         <docHandler>${kuali.docHandler.url.prefix}/protocolProtocol.do?methodToCall=docHandler</docHandler>
+         <active>true</active>
+         <routingVersion>2</routingVersion>
+         <routePaths>
+            <routePath>
+               <start name="Initiated" />
+            </routePath>
+         </routePaths>
+         <routeNodes>
+            <start name="Initiated">
+               <activationType>P</activationType>
+               <mandatoryRoute>false</mandatoryRoute>
+               <finalApproval>false</finalApproval>
+            </start>
+         </routeNodes>
+      </documentType>
+   </documentTypes>
+
+   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+       <ruleAttribute>
+            <name>IRBCustomDataAttribute</name>
+            <className>edu.iu.uis.eden.routetemplate.xmlrouting.StandardGenericXMLRuleAttribute</className>
+            <label>IRBCustomDataAttribute</label>
+            <description>IRBCustomDataAttribute</description>
+            <type>RuleXmlAttribute</type>
+            <routingConfig>
+                <fieldDef name="instructorName" title="Instructor Name" workflowType="RULE">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <validation required="false" />
+                    <fieldEvaluation>
+                        <xpathexpression>string(//xmlRouting/field[@name='instructorName']/value) = wf:ruledata('instructorName')</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+                <fieldDef name="courseName" title="Course Name" workflowType="RULE">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <validation required="false" />
+                    <fieldEvaluation>
+                        <xpathexpression>string(//xmlRouting/field[@name='courseName']/value) = wf:ruledata('courseName')</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+            </routingConfig>
+        </ruleAttribute>
+    </ruleAttributes>
 </data>
