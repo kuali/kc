@@ -52,6 +52,7 @@ import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 public class CommitteeForm extends KraTransactionalDocumentFormBase {
 
     private MembershipHelper membershipHelper;
+    private MembershipRolesHelper membershipRolesHelper;
      
     @SuppressWarnings("unused")
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeForm.class);
@@ -81,6 +82,7 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
     public void initialize() {
         initializeHeaderNavigationTabs();
         setMembershipHelper(new MembershipHelper());
+        setMembershipRolesHelper(new MembershipRolesHelper());
         setCommitteeScheduleHelper(new CommitteeScheduleHelper(this));
     }
 
@@ -211,6 +213,14 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
     }
     
     
+    public MembershipRolesHelper getMembershipRolesHelper() {
+        return membershipRolesHelper;
+    }
+
+    public void setMembershipRolesHelper(MembershipRolesHelper membershipRolesHelper) {
+        this.membershipRolesHelper = membershipRolesHelper;
+    }
+
     public CommitteeScheduleHelper getCommitteeScheduleHelper() {
         return committeeScheduleHelper;
     }
