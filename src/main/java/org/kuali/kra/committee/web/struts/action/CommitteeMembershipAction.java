@@ -24,6 +24,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.rule.event.AddCommitteeMembershipEvent;
 import org.kuali.kra.committee.rule.event.SaveCommitteeMembershipEvent;
@@ -125,19 +126,30 @@ public class CommitteeMembershipAction extends CommitteeAction {
         return mapping.findForward(MAPPING_BASIC);
     }
     
-//    
-//    /**
-//     * This method is linked to ProtocolPersonnelService to perform the action
-//     * Add ProtocolUnit to Person.
-//     * Method is called in personUnitsSection.tag
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward addProtocolPersonUnit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    /**
+     * This method is linked to ProtocolPersonnelService to perform the action
+     * Add ProtocolUnit to Person.
+     * Method is called in personUnitsSection.tag
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward addCommitteeMembershipRole(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    CommitteeForm committeeForm = (CommitteeForm) form;
+    CommitteeMembershipRole newCommitteeMembershipRole = committeeForm.getMembershipRolesHelper().getNewCommitteeMembershipRole();
+    int selectedMembershipIndex = 0;
+    
+    // check any business rules
+    boolean rulePassed = true; //applyRules(new AddCommitteeMembershipRoleEvent(Constants.EMPTY_STRING, committeeForm.getCommitteeDocument(), newCommitteeMembershipRole));
+    if (rulePassed) {
+        getCommitteeMembershipService().addCommitteeMembershipRole(committeeForm.getCommitteeDocument().getCommittee().getCommitteeMemberships().get(selectedMembershipIndex), newCommitteeMembershipRole);
+        committeeForm.getMembershipRolesHelper().setNewCommitteeMembershipRole(new CommitteeMembershipRole());
+    }
+    
+    return mapping.findForward(Constants.MAPPING_BASIC );
 //        ProtocolForm protocolForm = (ProtocolForm) form;
 //        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
 //        int selectedPersonIndex = getSelectedPersonIndex(request, protocolDocument);
@@ -153,8 +165,8 @@ public class CommitteeMembershipAction extends CommitteeAction {
 //        }
 //
 //        return mapping.findForward(MAPPING_BASIC);
-//    }
-//    
+    }
+    
 //    /**
 //     * This method is linked to ProtocolPersonnelService to perform the action.
 //     * Delete ProtocolUnit from Person unit list.

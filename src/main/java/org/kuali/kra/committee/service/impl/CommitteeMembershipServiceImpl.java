@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.service.CommitteeMembershipService;
 
 public class CommitteeMembershipServiceImpl implements CommitteeMembershipService {
@@ -31,6 +32,8 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
 
     private static final String REFERENCE_PERSON = "person";
     private static final String REFERENCE_ROLODEX = "rolodex";
+    private static final String REFERENCE_MEMBERSHIP_TYPE = "membershipType";
+    private static final String REFERENCE_MEMBERSHIP_ROLE = "membershipRole";
 
     private BusinessObjectService businessObjectService;
     
@@ -58,6 +61,8 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
         }else {
             committeeMembership.refreshReferenceObject(REFERENCE_ROLODEX);
         }
+        committeeMembership.refreshReferenceObject(REFERENCE_MEMBERSHIP_TYPE);
+
         
         committee.getCommitteeMemberships().add(committeeMembership);
     }
@@ -73,6 +78,19 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
             }
         }
         committee.getCommitteeMemberships().removeAll(deletedCommitteememberships);
+    }
+
+    /**
+     * @see org.kuali.kra.committee.service.CommitteeMembershipService#addCommitteeMembershipRole(org.kuali.kra.committee.bo.CommitteeMembership, org.kuali.kra.committee.bo.CommitteeMembershipRole)
+     */
+    public void addCommitteeMembershipRole(CommitteeMembership committeeMembership, CommitteeMembershipRole committeeMembershipRole) {
+        committeeMembershipRole.setCommitteeMembershipId(committeeMembership.getCommitteeMembershipId());
+        committeeMembershipRole.setMembershipId("0");
+        committeeMembershipRole.setSequenceNumber(0);
+
+        committeeMembershipRole.refreshReferenceObject(REFERENCE_MEMBERSHIP_ROLE);
+        
+        committeeMembership.getMembershipRoles().add(committeeMembershipRole);
     }
    
 }
