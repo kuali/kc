@@ -114,8 +114,8 @@ public class CustomDataAction {
      * @param form
      * @throws Exception
      */
-    public static void setCustomAttributeContent(KualiDocumentFormBase form) throws Exception {
+    public static void setCustomAttributeContent(KualiDocumentFormBase form, String attributeName) throws Exception {
         ResearchDocumentBase doc = (ResearchDocumentBase) form.getDocument();
-        getService(CustomAttributeService.class).setCustomAttributeKeyValue(doc, "CustomDataAttribute", form.getWorkflowDocument().getInitiatorNetworkId());
+        getService(CustomAttributeService.class).setCustomAttributeKeyValue(doc, attributeName, form.getWorkflowDocument().getInitiatorNetworkId());
     }
 }

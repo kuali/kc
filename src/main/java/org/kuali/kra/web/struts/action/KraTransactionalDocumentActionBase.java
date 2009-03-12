@@ -422,6 +422,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         if (isInitialSave(originalStatus)) {
             initialDocumentSave(docForm); 
         }
+        postDocumentSave(docForm);
 
         return actionForward;
     }
@@ -433,6 +434,16 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
      * @throws Exception
      */
     protected void preDocumentSave(KualiDocumentFormBase form) throws Exception {
+        // do nothing
+    }
+    
+    /**
+     * Any processing that must be performed after the save operation goes here.
+     * Typically overridden by a subclass.
+     * @param form the Form
+     * @throws Exception
+     */
+    protected void postDocumentSave(KualiDocumentFormBase form) throws Exception {
         // do nothing
     }
     
