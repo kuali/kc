@@ -296,6 +296,8 @@ public final class KeyConstants {
     public static final String MIT_IDC_VALIDATION_ENABLED = "mit.idc.validation.enabled";
     public static final String MIT_IDC_VALIDATION_ENABLED_VALUE_FOR_COMPARISON = "1";
     public static final String REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES = "reportClassForPaymentsAndInvoices";
+    public static final String PERIOD_IN_YEARS_WHEN_FREQUENCY_BASE_IS_FINAL_EXPIRATION_DATE
+        = "scheduleGenerationPeriodInYearsWhenFrequencyBaseCodeIsFinalExpirationDate";
     public static final String CONTACT_TYPE_OTHER = "contactTypeOther";
     
     //Award Validation Error Messages
