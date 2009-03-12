@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.committee.web.struts.form.schedule.util;
 
-import java.util.List;
-
-import org.apache.struts.util.LabelValueBean;
 import org.kuali.kra.committee.web.struts.form.schedule.DayOfWeek;
 import org.kuali.kra.committee.web.struts.form.schedule.Months;
 import org.kuali.kra.committee.web.struts.form.schedule.WeekOfMonth;
@@ -27,12 +24,6 @@ public class ScheduleOptionsUtil {
 
     @SuppressWarnings("unused")
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScheduleOptionsUtil.class);
-    
-    public static void populate(List<LabelValueBean> list, String [] values) {        
-        for(String value: values) {
-            list.add(new LabelValueBean(value, value));
-        }
-    }
 
     public static CronSpecialChars getMonthOfWeek(String month) {
         String abbr = Months.valueOf(month).getAbbr();        
