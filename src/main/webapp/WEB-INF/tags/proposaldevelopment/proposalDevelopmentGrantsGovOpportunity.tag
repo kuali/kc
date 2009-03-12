@@ -96,8 +96,26 @@
                          </div>
                      </th>
                      <td>
-                         <kul:htmlControlAttribute property="document.s2sOpportunity.revisionCode" 
-                                                   attributeEntry="${s2sOpportunity.revisionCode}" />            
+                     
+                         <jsp:useBean id="revisionTypeParamMap" class="java.util.HashMap"/>
+						 <c:set target="${revisionTypeParamMap}" property="businessObjectClass" value="org.kuali.kra.bo.S2sRevisionType" />
+						 <c:set target="${revisionTypeParamMap}" property="keyAttributeName" value="s2sRevisionTypeCode" />
+						 <c:set target="${revisionTypeParamMap}" property="labelAttributeName" value="description" />
+						 <c:set target="${revisionTypeParamMap}" property="includeKeyInDescription" value="false" />
+                     
+						 <html:select property="document.s2sOpportunity.revisionCode" tabindex="0" >                                                   
+                         <c:forEach items="${krafn:getOptionList('org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder', revisionTypeParamMap)}" var="option">
+		        		 	 <c:choose>                    	
+	        					<c:when test="${KualiForm.document.s2sOpportunity.revisionCode == option.key}">
+		            				<option value="${option.key}" selected>${option.label}</option>
+		            			</c:when>
+		            			<c:otherwise>
+	            					<option value="${option.key}">${option.label}</option>
+	            				</c:otherwise>
+	            			 </c:choose>                    
+	        			 </c:forEach>                         
+                         </html:select>                        
+                                                         
                          <kul:htmlControlAttribute property="document.s2sOpportunity.revisionOtherDescription" 
                                                    attributeEntry="${s2sOpportunity.revisionOtherDescription}" />            
                      </td>
@@ -162,8 +180,9 @@
                         </div>
                     </th>
                     <td>
-                        <kul:htmlControlAttribute property="document.s2sOpportunity.instructionUrl" 
-                                                  attributeEntry="${s2sOpportunity.instructionUrl}" readOnly="true" />
+						<input type="hidden" name="document.s2sOpportunity.instructionUrl" value="${KualiForm.document.s2sOpportunity.instructionUrl}" />
+                        <html:link href="${KualiForm.document.s2sOpportunity.instructionUrl}" target="_blank">
+                        	<c:out value="${KualiForm.document.s2sOpportunity.instructionUrl}"/> </html:link>
                     </td>
                   </tr>
     
@@ -174,8 +193,9 @@
                        </div>
                   </th>
                   <td>
-                      <kul:htmlControlAttribute property="document.s2sOpportunity.schemaUrl" 
-                                                attributeEntry="${s2sOpportunity.schemaUrl}" readOnly="true" />
+						<input type="hidden" name="document.s2sOpportunity.schemaUrl" value="${KualiForm.document.s2sOpportunity.schemaUrl}" />
+                        <html:link href="${KualiForm.document.s2sOpportunity.schemaUrl}" target="_blank">
+                        	<c:out value="${KualiForm.document.s2sOpportunity.schemaUrl}"/> </html:link>                                                
                   </td>
                  </tr> 
 
