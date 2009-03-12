@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesFinder;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 
 import static java.lang.Class.forName;
@@ -109,7 +110,8 @@ public class JstlFunctions {
         if (retval != null && params != null) {
             for (Map.Entry<String, String> entry : params.entrySet()) {
                 try {
-                    setProperty(retval, entry.getKey(), entry.getValue());
+                    //setProperty(retval, entry.getKey(), entry.getValue());
+                    BeanUtils.setProperty(retval, entry.getKey(), entry.getValue());
                 }
                 catch (Exception e) {
                     LOG.warn("Could not set property " +  entry.getKey() + " in " + buildTraceMessage(e));
