@@ -27,5 +27,13 @@ import org.kuali.kra.award.bo.AwardReportTerm;
  */
 public interface AwardPaymentScheduleGenerationService {
 
-    public void generatePaymentSchedules(Award award, List<AwardReportTerm> awardReportTerms) throws ParseException;
+    /**
+     * 
+     * This is an abstract method that generates the payment schedules.
+     * 
+     * @param award
+     * @param awardReportTerms
+     * @throws ParseException
+     */
+    void generatePaymentSchedules(Award award, List<AwardReportTerm> awardReportTerms) throws ParseException;
 }
