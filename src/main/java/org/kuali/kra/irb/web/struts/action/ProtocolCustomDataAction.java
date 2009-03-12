@@ -35,6 +35,8 @@ import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 public class ProtocolCustomDataAction extends ProtocolAction {
 
     private static final Log LOG = LogFactory.getLog(ProtocolCustomDataAction.class);
+    
+    private static final String CUSTOM_ATTRIBUTE_NAME = "IRBCustomDataAttribute";
 
     /**
      * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -60,11 +62,11 @@ public class ProtocolCustomDataAction extends ProtocolAction {
     }
 
     /**
-     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#preDocumentSave(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#postDocumentSave(org.kuali.core.web.struts.form.KualiDocumentFormBase)
      */
     @Override
-    public void preDocumentSave(KualiDocumentFormBase form) throws Exception {
-        super.preDocumentSave(form);
-        CustomDataAction.setCustomAttributeContent(form);
+    public void postDocumentSave(KualiDocumentFormBase form) throws Exception {
+        super.postDocumentSave(form);
+        CustomDataAction.setCustomAttributeContent(form, CUSTOM_ATTRIBUTE_NAME);
     }
 }
