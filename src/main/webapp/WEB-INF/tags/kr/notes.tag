@@ -28,9 +28,16 @@
 
 <c:set var="noteColSpan" value="6" />
 
-<%-- allow any user with read access to the proposal to add a note --%>
+<%-- any user with read access to a doc should be able to add notes --%>
 <c:set var="readOnly" value="false" />
-<c:set var="allowsAttachments" value="true" />
+<c:choose>
+	<c:when test="${fn:endsWith(KualiForm.document.class.name, 'ProposalDevelopmentDocument')}">
+		<c:set var="allowsAttachments" value="${KualiForm.document.allowsNoteAttachments}" />
+	</c:when>
+	<c:otherwise>
+		<c:set var="allowsAttachments" value="true" />
+	</c:otherwise>
+</c:choose>
 
 <c:if test="${empty noteType}">
 	<%-- default to document header notes this default should probably be set somewhere else --%>
@@ -62,7 +69,7 @@
     <div class="tab-container" align=center id="G4">
     <p align=left><jsp:doBody/>
 	<div class="h2-container">
-	<h2>Notes</h2>
+	<h2>${tabHeading}</h2>
 	</div>
         <table cellpadding="0" cellspacing="0" class="datatable" summary="view/add notes">
             <tbody>
