@@ -102,6 +102,7 @@ public class AwardDocument extends ResearchDocumentBase implements  Copyable, Se
         managedLists.add(award.getAwardReportTerms());
         managedLists.add(getAward().getAwardSponsorTerms());
         managedLists.add(award.getPaymentScheduleItems());
+        managedLists.add(award.getAwardTransferringSponsors());
 
         managedLists.add(awardList);
         
