@@ -81,8 +81,8 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
      */
     public void initialize() {
         initializeHeaderNavigationTabs();
-        setMembershipHelper(new MembershipHelper());
-        setMembershipRolesHelper(new MembershipRolesHelper());
+        setMembershipHelper(new MembershipHelper(this));
+        setMembershipRolesHelper(new MembershipRolesHelper(this));
         setCommitteeScheduleHelper(new CommitteeScheduleHelper(this));
     }
 

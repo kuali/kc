@@ -19,9 +19,16 @@ import org.kuali.kra.committee.bo.CommitteeMembership;
 
 public class MembershipHelper {
     
+    /**
+     * Each Helper must contain a reference to its document form
+     * so that it can access the actual document.
+     */
+    private CommitteeForm form;
+
     private CommitteeMembership newCommitteeMembership;
 
-    public MembershipHelper() {
+    public MembershipHelper(CommitteeForm form) {
+        setForm(form);
         setNewCommitteeMembership(new CommitteeMembership());
     }
     
@@ -34,5 +41,13 @@ public class MembershipHelper {
 
     public void setNewCommitteeMembership(CommitteeMembership newCommitteeMembership) {
         this.newCommitteeMembership = newCommitteeMembership;
+    }
+
+    public CommitteeForm getForm() {
+        return form;
+    }
+
+    public void setForm(CommitteeForm form) {
+        this.form = form;
     }
 }
