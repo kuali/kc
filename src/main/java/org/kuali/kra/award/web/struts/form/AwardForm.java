@@ -83,6 +83,8 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     private PaymentScheduleBean paymentScheduleBean;
     private ApprovedForeignTravelBean approvedForeignTravelBean;
     
+    private boolean awardAuditActivated;
+    
     
     /**
      * 
@@ -446,6 +448,23 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     public void setPaymentScheduleBean(PaymentScheduleBean paymentScheduleBean) {
         this.paymentScheduleBean = paymentScheduleBean;
     }
+    
+    /**
+     * Gets the awardAuditActivated attribute. 
+     * @return Returns the awardAuditActivated.
+     */
+    public boolean isAwardAuditActivated() {
+        return awardAuditActivated;
+    }
+
+    /**
+     * Sets the awardAuditActivated attribute value.
+     * @param awardAuditActivated The awardAuditActivated to set.
+     */
+    public void setAwardAuditActivated(boolean awardAuditActivated) {
+        this.awardAuditActivated = awardAuditActivated;
+    }
+    
 
     public DetailsAndDatesFormHelper getDetailsAndDatesFormHelper() {
         return detailsAndDatesFormHelper;

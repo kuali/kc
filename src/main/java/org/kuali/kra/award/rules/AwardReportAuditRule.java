@@ -33,30 +33,53 @@ import org.kuali.kra.infrastructure.KeyConstants;
  */
 public class AwardReportAuditRule implements DocumentAuditRule {
 
+    private static final String DOT = ".";
+    private static final String REPORTS_AUDIT_ERRORS = "reportsAuditErrors";
+    private static final int ZERO = 0;
+    private List<AuditError> auditErrors;
+    
     /**
      * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.core.document.Document)
      */
     @SuppressWarnings("unchecked")
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
-
         AwardDocument awardDocument = (AwardDocument)document;
-        List<AuditError> auditErrors = new ArrayList<AuditError>();
+        auditErrors = new ArrayList<AuditError>();
         
-        
-        if (awardDocument.getAward().getAwardReportTerms().size() == 0) {
+        boolean emptyAwardReportTerms = awardDocument.getAward().getAwardReportTerms().size() == ZERO;
+        if (emptyAwardReportTerms) {
             valid = false;
-            auditErrors.add(new AuditError(Constants.REPORT_TERMS_AUDIT_RULES_ERROR_KEY, 
-                                            KeyConstants.ERROR_EMPTY_REPORT_TERMS, 
-                                            Constants.MAPPING_AWARD_PAYMENT_REPORTS_AND_TERMS_PAGE + "." + Constants.REPORTS_PANEL_ANCHOR));
+            addErrorToAuditErrors();
         } 
-        
-        if (auditErrors.size() > 0) {
-            GlobalVariables.getAuditErrorMap().put("reportsAuditErrors", new AuditCluster(Constants.REPORTS_PANEL_NAME,
-                                                                                            auditErrors, Constants.AUDIT_ERRORS));
-        }
+        reportAndCreateAuditCluster();
         
         return valid;
+    }
+    
+    /**
+     * This method creates and adds the Audit Error to the List<AuditError> auditError.
+     * @param description
+     */
+    protected void addErrorToAuditErrors() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(Constants.MAPPING_AWARD_PAYMENT_REPORTS_AND_TERMS_PAGE);
+        sb.append(DOT);
+        sb.append(Constants.REPORTS_PANEL_ANCHOR);
+        auditErrors.add(new AuditError(Constants.REPORT_TERMS_AUDIT_RULES_ERROR_KEY, 
+                                        KeyConstants.ERROR_EMPTY_REPORT_TERMS, 
+                                        sb.toString()));   
+    }
+    
+    /**
+     * This method creates and adds the AuditCluster to the Global AuditErrorMap.
+     */
+    @SuppressWarnings("unchecked")
+    protected void reportAndCreateAuditCluster() {
+        if (auditErrors.size() > ZERO) {
+            GlobalVariables.getAuditErrorMap().put(REPORTS_AUDIT_ERRORS, new AuditCluster(Constants.REPORTS_PANEL_NAME,
+                                                                                          auditErrors, Constants.AUDIT_ERRORS));
+        }
     }
 
 }

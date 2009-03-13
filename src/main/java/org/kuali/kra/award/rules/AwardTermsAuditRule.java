@@ -40,26 +40,27 @@ public class AwardTermsAuditRule implements DocumentAuditRule {
     private static final int FIVE = 5;
     private static final int ZERO = 0;
     private static final String TERMS_AUDIT_ERRORS = "termsAuditErrors";
+    private static final String DESCRIPTION = "description";
+    private static final String SPONSOR_TERM_TYPE_CODE = "sponsorTermTypeCode";
+    private static final String DOT = ".";
     private List<AuditError> auditErrors;
     private List<KeyLabelPair> sponsorTermTypes;
     
     /**
      * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.core.document.Document)
      */
-    @SuppressWarnings("unchecked")
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
         AwardDocument awardDocument = (AwardDocument) document;
         auditErrors = new ArrayList<AuditError>();
         setSponsorTermTypes();
-        //List<KeyLabelPair> sponsorTermTypes = (ArrayList) getSponsorTermTypesFromDatabase();
         List<AwardSponsorTerm> awardSponsorTerms = awardDocument.getAward().getAwardSponsorTerms();
         
-        for(KeyLabelPair keyLabelPair : sponsorTermTypes) {
-            boolean sponsorTermTypeExists = isSponsorTermTypeInAwardSponsorTerms(keyLabelPair.getKey().toString(), awardSponsorTerms);
+        for(KeyLabelPair sponsorTermType : sponsorTermTypes) {
+            boolean sponsorTermTypeExists = isSponsorTermTypeInAwardSponsorTerms(sponsorTermType.getKey().toString(), awardSponsorTerms);
             if(!sponsorTermTypeExists){
-                valid=false;
-                addErrorToAuditErrors(keyLabelPair.getLabel().toString());
+                valid&=false;
+                addErrorToAuditErrors(sponsorTermType.getLabel().toString());
             }
         }
         reportAndCreateAuditCluster();
@@ -95,6 +96,7 @@ public class AwardTermsAuditRule implements DocumentAuditRule {
         for(AwardSponsorTerm awardSponsorTerm : awardSponsorTerms){
               if(awardSponsorTerm.getSponsorTermTypeCode().equals(key)){
                   valid = true;
+                  break;
               }
         }
         return valid;
@@ -107,9 +109,13 @@ public class AwardTermsAuditRule implements DocumentAuditRule {
     protected void addErrorToAuditErrors(String description) {
         String[] params = new String[FIVE];
         params[ZERO] = description;
+        StringBuilder sb = new StringBuilder();
+        sb.append(Constants.MAPPING_AWARD_PAYMENT_REPORTS_AND_TERMS_PAGE);
+        sb.append(DOT);
+        sb.append(Constants.TERMS_PANEL_ANCHOR);
         auditErrors.add(new AuditError(Constants.TERMS_AUDIT_RULES_ERROR_KEY, 
                                         KeyConstants.ERROR_EMPTY_TERMS, 
-                                        Constants.MAPPING_AWARD_PAYMENT_REPORTS_AND_TERMS_PAGE + "." + Constants.TERMS_PANEL_ANCHOR,
+                                        sb.toString(),
                                         params));   
     }
     
@@ -133,8 +139,8 @@ public class AwardTermsAuditRule implements DocumentAuditRule {
     protected List<KeyLabelPair> getSponsorTermTypesFromDatabase(){
         PersistableBusinessObjectValuesFinder persistableBusinessObjectValuesFinder = new PersistableBusinessObjectValuesFinder();
         persistableBusinessObjectValuesFinder.setBusinessObjectClass(SponsorTermType.class);
-        persistableBusinessObjectValuesFinder.setKeyAttributeName("sponsorTermTypeCode");
-        persistableBusinessObjectValuesFinder.setLabelAttributeName("description");
+        persistableBusinessObjectValuesFinder.setKeyAttributeName(SPONSOR_TERM_TYPE_CODE);
+        persistableBusinessObjectValuesFinder.setLabelAttributeName(DESCRIPTION);
         return persistableBusinessObjectValuesFinder.getKeyValues();
     }
 
