@@ -29,6 +29,10 @@ public class MonthsWeekTest extends TestCase{
     public static final String FOURTH = "fourth";
     public static final String LAST = "last";
     
+    /**
+     * This method tests getKeyValues() method's return value.
+     * @throws Exception
+     */
     @SuppressWarnings("unchecked")
     @Test
     public void testValues() throws Exception {
