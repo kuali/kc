@@ -25,6 +25,9 @@ public class ScheduleDataTest extends TestCase {
     
     public static final String RECURRENCE_TYPE = "WEEKLY";
     
+    /**
+     * This method test's the style class Map. 
+     */
     @Test
     public void testPopulateStyleClass() {
         
