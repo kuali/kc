@@ -26,6 +26,24 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class CommitteeScheduleWebFilterTest extends CommitteeScheduleWebTestBase  {
     
+    public static final String DAILY = "DAILY";
+    
+    public static final String SCHEDULEDATA_RECURRENCECTYPE = "scheduleData.recurrenceType";
+    
+    public static final String SCHEDULEDATA_DAILYSCHEDULE_SCHEDULEENDDATE = "scheduleData.dailySchedule.scheduleEndDate";
+    
+    public static final String METHODTOCALL_ADDEVENT_ANCHOR = "methodToCall.addEvent.anchor";
+    
+    public static final String SCHEDULEDATA_FILTERSTARTDATE = "scheduleData.filterStartDate";
+    
+    public static final String SCHEDULEDATA_FILERENDDATE = "scheduleData.filerEndDate";
+    
+    public static final String METHODTOCALL_FILTER_COMMITTEESCHEDULEDATES_ANCHORSCHEDULE = "methodToCall.filterCommitteeScheduleDates.anchorSchedule";
+    
+    public static final String METHODTOCALL_RESETCOMMITTEESCHEDULEDATES_ANCHORSCHEDULE = "methodToCall.resetCommitteeScheduleDates.anchorSchedule";
+    
+    public static final String PLACE_DAVIS_103 = "Davis 103";
+    
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -36,6 +54,10 @@ public class CommitteeScheduleWebFilterTest extends CommitteeScheduleWebTestBase
         super.tearDown();
     }
     
+    /**
+     * This method is test's filter dates.
+     * @throws Exception
+     */
     @Test
     public void testFilter() throws Exception {
         
@@ -44,31 +66,31 @@ public class CommitteeScheduleWebFilterTest extends CommitteeScheduleWebTestBase
         String scheduleDate = formatDate(dt);        
         setFields(schedulePage, scheduleDate);        
         String endDate = formatDate(DateUtils.addDays(dt, 2));        
-        setFieldValue(schedulePage, "scheduleData.recurrenceType", "DAILY");       
-        setFieldValue(schedulePage, "scheduleData.dailySchedule.scheduleEndDate", endDate);
+        setFieldValue(schedulePage, SCHEDULEDATA_RECURRENCECTYPE, DAILY);       
+        setFieldValue(schedulePage, SCHEDULEDATA_DAILYSCHEDULE_SCHEDULEENDDATE, endDate);
         
-        HtmlPage pageAfterAdd = clickOnByName(schedulePage,"methodToCall.addEvent.anchor", true);
+        HtmlPage pageAfterAdd = clickOnByName(schedulePage,METHODTOCALL_ADDEVENT_ANCHOR, true);
         
         assertFalse(hasError(pageAfterAdd));        
         assertRecord(pageAfterAdd, DateUtils.addDays(dt, 0));        
         assertRecord(pageAfterAdd, DateUtils.addDays(dt, 1));        
         assertRecord(pageAfterAdd, DateUtils.addDays(dt, 2));
                
-        setFieldValue(pageAfterAdd, "scheduleData.filterStartDate", scheduleDate);    
-        setFieldValue(pageAfterAdd, "scheduleData.filerEndDate", scheduleDate); 
+        setFieldValue(pageAfterAdd, SCHEDULEDATA_FILTERSTARTDATE, scheduleDate);    
+        setFieldValue(pageAfterAdd, SCHEDULEDATA_FILERENDDATE, scheduleDate); 
         
-        HtmlPage filteredPage = clickOnByName(pageAfterAdd,"methodToCall.filterCommitteeScheduleDates.anchorSchedule", true);
+        HtmlPage filteredPage = clickOnByName(pageAfterAdd,METHODTOCALL_FILTER_COMMITTEESCHEDULEDATES_ANCHORSCHEDULE, true);
                                                            
         assertRecord(filteredPage, DateUtils.addDays(dt, 0));
         
         String textOfPage = filteredPage.asText();
-        String place = "Davis 103";
+        String place = PLACE_DAVIS_103;
         
         int count = getWordCount(textOfPage,place);
         
         assertEquals(2, count);
                       
-        HtmlPage resetFilter = clickOnByName(filteredPage,"methodToCall.resetCommitteeScheduleDates.anchorSchedule", true);
+        HtmlPage resetFilter = clickOnByName(filteredPage,METHODTOCALL_RESETCOMMITTEESCHEDULEDATES_ANCHORSCHEDULE, true);
         
         assertRecord(resetFilter, DateUtils.addDays(dt, 0));        
         assertRecord(resetFilter, DateUtils.addDays(dt, 1));        

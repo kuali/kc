@@ -38,6 +38,28 @@ public class CommitteeScheduleWebTestBase extends CommitteeWebTestBase {
     
     private static int MY_COMMITTEE_ID = 32767;
     
+    private static final String SCHEDULEDATA_SCHEDULESTARTDATE = "scheduleData.scheduleStartDate";
+    
+    private static final String SCHEDULEDATA_TIME_TIME = "scheduleData.time.time";
+    
+    private static final String SCHEDULEDATA_PLACE = "scheduleData.place";
+    
+    private static final String METHODTOCALL_SAVE = "methodToCall.headerTab.headerDispatch.save.navigateTo.committeeSchedule.x";
+    
+    private static final String TIME_10_10 = "10:10";
+    
+    private static final String PLACE_DAVIS_103 = "Davis 103";
+    
+    private static final String ADD_TO_SCHEDULE = "Add to Schedule";
+    
+    private static final String ZERO = "0";
+    
+    private static final String SLASH = "/";
+    
+    private enum WEEKDAY {SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY};
+    
+    private enum MONTH {JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER};
+    
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -48,6 +70,12 @@ public class CommitteeScheduleWebTestBase extends CommitteeWebTestBase {
         super.tearDown();
     }
 
+    /**
+     * This method counts the occurrence of word in string.
+     * @param str
+     * @param substr
+     * @return
+     */
     protected int getWordCount(String str, String substr){
         String temp=str;
         int count=0;
@@ -60,6 +88,11 @@ public class CommitteeScheduleWebTestBase extends CommitteeWebTestBase {
         return count;
     }
     
+    /**
+     * This method checks if date passed as param is Monday.
+     * @param date
+     * @return
+     */
     protected boolean isMonday(Date date) {
         Calendar cl = new GregorianCalendar();
         cl.setTime(date);
@@ -69,13 +102,22 @@ public class CommitteeScheduleWebTestBase extends CommitteeWebTestBase {
         return retVal;   
     }
     
-    protected void setFields(HtmlPage page, String date) {
-    
-        setFieldValue(page, "scheduleData.scheduleStartDate", date);     
-        setFieldValue(page, "scheduleData.time.time", "10:10");      
-        setFieldValue(page, "scheduleData.place", "Davis 103");
+    /**
+     * This method sets required fields to test.
+     * @param page
+     * @param date
+     */
+    protected void setFields(HtmlPage page, String date) {    
+        setFieldValue(page, SCHEDULEDATA_SCHEDULESTARTDATE, date);     
+        setFieldValue(page, SCHEDULEDATA_TIME_TIME, TIME_10_10);      
+        setFieldValue(page, SCHEDULEDATA_PLACE, PLACE_DAVIS_103);
     }
     
+    /**
+     * This method asserts record inserted after adding event.
+     * @param page
+     * @param date
+     */
     protected void assertRecord(HtmlPage page, Date date) {
         String datefmt = formatDate(date);
         assertContains(page,datefmt);
@@ -87,21 +129,30 @@ public class CommitteeScheduleWebTestBase extends CommitteeWebTestBase {
         assertContains(page, dayOfWeek);
     }
     
+    /**
+     * This method sets prerequisite for test methods.
+     * @return
+     * @throws Exception
+     */
     protected HtmlPage prerequisite() throws Exception  {
-        
         HtmlPage committeePage = buildCommitteePage();        
         setDefaultRequiredFields(committeePage);
         setFieldValue(committeePage, COMMITTEE_ID_ID, new Integer(MY_COMMITTEE_ID++).toString());
         committeePage = saveDoc(committeePage);
         assertFalse(hasError(committeePage)); 
         
-        HtmlPage schedulePage = clickOn(committeePage, "methodToCall.headerTab.headerDispatch.save.navigateTo.committeeSchedule.x");   
+        HtmlPage schedulePage = clickOn(committeePage, METHODTOCALL_SAVE);   
         
         assertFalse(hasError(schedulePage));
-        assertContains(schedulePage,"Add to Schedule");
+        assertContains(schedulePage,ADD_TO_SCHEDULE);
         return schedulePage;
     }
     
+    /**
+     * This method formats given date to mm/dd/yyyy.
+     * @param date
+     * @return
+     */
     protected String formatDate(Date date) {
         Calendar cl = new GregorianCalendar();
         cl.setTime(date);        
@@ -109,90 +160,100 @@ public class CommitteeScheduleWebTestBase extends CommitteeWebTestBase {
         int month = cl.get(Calendar.MONTH);
         month += 1;
         if(month < 10)
-            sb.append("0").append(month).append("/");
+            sb.append(ZERO).append(month).append(SLASH);
         else
-            sb.append(month).append("/");
+            sb.append(month).append(SLASH);
         
         int day = cl.get(Calendar.DATE);
         if(day < 10)
-            sb.append("0").append(day).append("/");
+            sb.append(ZERO).append(day).append(SLASH);
         else
-            sb.append(day).append("/");
+            sb.append(day).append(SLASH);
         int year = cl.get(Calendar.YEAR);
         sb.append(year);
         return sb.toString();
     }
     
+    /**
+     * This method finds week's day of date.
+     * @param date
+     * @return
+     */
     protected String findDayOfWeek(Date date) {
         Calendar cl = new GregorianCalendar();
         cl.setTime(date);
         String dayOfWeek = null;        
         switch (cl.get(Calendar.DAY_OF_WEEK)) {
             case Calendar.SUNDAY:
-                dayOfWeek = "SUNDAY";
+                dayOfWeek = WEEKDAY.SUNDAY.toString();
                 break;
             case Calendar.MONDAY:
-                dayOfWeek = "MONDAY";
+                dayOfWeek = WEEKDAY.MONDAY.toString();
                 break;
             case Calendar.TUESDAY:
-                dayOfWeek = "TUESDAY";
+                dayOfWeek = WEEKDAY.TUESDAY.toString();
                 break;
             case Calendar.WEDNESDAY:
-                dayOfWeek = "WEDNESDAY";
+                dayOfWeek = WEEKDAY.WEDNESDAY.toString();
                 break;
             case Calendar.THURSDAY:
-                dayOfWeek = "THURSDAY";
+                dayOfWeek = WEEKDAY.THURSDAY.toString();
                 break;
             case Calendar.FRIDAY:
-                dayOfWeek = "FRIDAY";
+                dayOfWeek = WEEKDAY.FRIDAY.toString();
                 break;
             case Calendar.SATURDAY:
-                dayOfWeek = "SATURDAY";
+                dayOfWeek = WEEKDAY.SATURDAY.toString();
                 break;
         }
         return dayOfWeek;
     }
     
+    /**
+     * This method finds month of year for date.
+     * @param date
+     * @return
+     */
     protected String findMonth(Date date) {
         Calendar cl = new GregorianCalendar();
         cl.setTime(date);
         String month = null;
         switch (cl.get(Calendar.MONTH)) {
             case 0:
-                month = "JANUARY";
+                month = MONTH.JANUARY.toString();
                 break;
             case 1:
-                month = "FEBRUARY";
+                month = MONTH.FEBRUARY.toString();
                 break;
             case 2:
-                month = "MARCH";
+                month = MONTH.MARCH.toString();
                 break;
             case 3:
-                month = "APRIL";
+                month = MONTH.APRIL.toString();
                 break;    
             case 4:
-                month = "MAY";
+                month = MONTH.MAY.toString();
                 break; 
             case 5:
-                month = "JUNE";
+                month = MONTH.JUNE.toString();
                 break;
             case 6:
-                month = "JULY";
+                month = MONTH.JULY.toString();
                 break;
             case 7:
-                month = "AUGUST";
+                month = MONTH.AUGUST.toString();
                 break;
             case 8:
-                month = "SEPTEMBER";
+                month = MONTH.SEPTEMBER.toString();
                 break;
             case 9:
-                month = "OCTOBER";
+                month = MONTH.OCTOBER.toString();
                 break;    
             case 10:
-                month = "NOVEMBER";
+                month = MONTH.NOVEMBER.toString();
                 break;
             case 11:
-                month = "DECEMBER";
+                month = MONTH.DECEMBER.toString();
                 break;
         }
         

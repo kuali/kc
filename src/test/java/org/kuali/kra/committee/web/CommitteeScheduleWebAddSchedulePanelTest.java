@@ -28,6 +28,48 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class CommitteeScheduleWebAddSchedulePanelTest extends CommitteeScheduleWebTestBase {
     
+    public static final String METHODTOCALL_ADDEVENT_ANCHOR = "methodToCall.addEvent.anchor";
+    
+    public static final String SCHEDULEDATA_RECURRENCECTYPE = "scheduleData.recurrenceType";
+    
+    public static final String SCHEDULEDATA_DAILYSCHEDULE_SCHEDULEENDDATE = "scheduleData.dailySchedule.scheduleEndDate";
+    
+    public static final String DAILY = "DAILY";
+    
+    public static final String SCHEDULEDATA_DAILYSCHEDULE_DAYOPTION = "scheduleData.dailySchedule.dayOption";
+    
+    public static final String XDAY = "XDAY";
+    
+    public static final String WEEKLY = "WEEKLY";
+    
+    public static final String  SCHEDULEDATA_WEEKLYSCHEDULE_SCHEDULEENDDATE = "scheduleData.weeklySchedule.scheduleEndDate";
+    
+    public static final String MONTHLY = "MONTHLY";
+    
+    public static final String SCHEDULEDATE_MONTHLYSCHEDULE_DAY = "scheduleData.monthlySchedule.day";
+    
+    public static final String SCHEDULEDATA_MONTHLYSCHEDULE_SHCEDULEENDDATE = "scheduleData.monthlySchedule.scheduleEndDate";
+    
+    public static final String SCHEDULEDATA_MONTHLYSCHEDULE_MONTHOPTION = "scheduleData.monthlySchedule.monthOption";
+    
+    public static final String XDAYOFWEEKANDXMONTH = "XDAYOFWEEKANDXMONTH";
+    
+    public static final String YEARLY = "YEARLY";
+    
+    public static final String SCHEDULEDATA_YEARLYSCHEDULE_YEAROPTION = "scheduleData.yearlySchedule.yearOption";
+    
+    public static final String SCHEDULEDATA_YEARLYSCHEDULE_SELECCTEDOPTION1MONTH = "scheduleData.yearlySchedule.selectedOption1Month";
+    
+    public static final String SCHEDULEDATA_YEARLYSCHEDULE_SELECCTEDOPTION2MONTH = "scheduleData.yearlySchedule.selectedOption2Month";
+    
+    public static final String SCHEDULEDATA_YEARLYSCHEDULE_DAY = "scheduleData.yearlySchedule.day";
+    
+    public static final String SCHEDULEDATA_YEARLYSCHEDULE_SCHEDULEENDDATE = "scheduleData.yearlySchedule.scheduleEndDate";
+    
+    public static final String CMPLX = "CMPLX";
+    
+    public static final String METHODTOCALL_LOADRECURRENCE_ANCHORSCHEDULE = "methodToCall.loadRecurrence.anchorSchedule"; 
+    
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -38,6 +80,10 @@ public class CommitteeScheduleWebAddSchedulePanelTest extends CommitteeScheduleW
         super.tearDown();
     }
     
+    /**
+     * This method test Never recurrence.
+     * @throws Exception
+     */
     @Test
     public void testCommitteeScheduleNeverRecurrance() throws Exception {
         
@@ -46,12 +92,16 @@ public class CommitteeScheduleWebAddSchedulePanelTest extends CommitteeScheduleW
         String scheduleDate = formatDate(dt);        
         setFields(schedulePage, scheduleDate);
         
-        HtmlPage pageAfterAdd = clickOnByName(schedulePage,"methodToCall.addEvent.anchor", true);
+        HtmlPage pageAfterAdd = clickOnByName(schedulePage,METHODTOCALL_ADDEVENT_ANCHOR, true);
         
         assertFalse(hasError(pageAfterAdd));        
         assertRecord(pageAfterAdd, dt);  
     }
 
+    /**
+     * This method test's Daily recurrence option1.
+     * @throws Exception
+     */
     @Test
     public void testCommitteeScheduleDailyRecurranceOption1() throws Exception {
         
@@ -60,10 +110,10 @@ public class CommitteeScheduleWebAddSchedulePanelTest extends CommitteeScheduleW
         String scheduleDate = formatDate(dt);      
         setFields(schedulePage, scheduleDate);    
         String endDate = formatDate(DateUtils.addDays(new Date(), 3));     
-        setFieldValue(schedulePage, "scheduleData.recurrenceType", "DAILY");      
-        setFieldValue(schedulePage, "scheduleData.dailySchedule.scheduleEndDate", endDate);
+        setFieldValue(schedulePage, SCHEDULEDATA_RECURRENCECTYPE, DAILY);      
+        setFieldValue(schedulePage, SCHEDULEDATA_DAILYSCHEDULE_SCHEDULEENDDATE, endDate);
         
-        HtmlPage pageAfterAdd = clickOnByName(schedulePage,"methodToCall.addEvent.anchor", true);
+        HtmlPage pageAfterAdd = clickOnByName(schedulePage,METHODTOCALL_ADDEVENT_ANCHOR, true);
         
         assertFalse(hasError(pageAfterAdd));      
         assertRecord(pageAfterAdd, dt);    
@@ -71,6 +121,10 @@ public class CommitteeScheduleWebAddSchedulePanelTest extends CommitteeScheduleW
         assertRecord(pageAfterAdd, DateUtils.addDays(dt, 2));
     }
 
+    /**
+     * This method test Daily recurrence option 2.
+     * @throws Exception
+     */
     @Test
     public void testCommitteeScheduleDailyRecurranceOption2() throws Exception {
         
@@ -79,11 +133,11 @@ public class CommitteeScheduleWebAddSchedulePanelTest extends CommitteeScheduleW
         String scheduleDate = formatDate(dt);
         setFields(schedulePage, scheduleDate);
         String endDate = formatDate(DateUtils.addDays(new Date(), 3));
-        setFieldValue(schedulePage, "scheduleData.recurrenceType", "DAILY");
-        setFieldValue(schedulePage, "scheduleData.dailySchedule.dayOption", "XDAY");
-        setFieldValue(schedulePage, "scheduleData.dailySchedule.scheduleEndDate", endDate);
+        setFieldValue(schedulePage, SCHEDULEDATA_RECURRENCECTYPE, DAILY);
+        setFieldValue(schedulePage, SCHEDULEDATA_DAILYSCHEDULE_DAYOPTION, XDAY);
+        setFieldValue(schedulePage, SCHEDULEDATA_DAILYSCHEDULE_SCHEDULEENDDATE, endDate);
         
-        HtmlPage pageAfterAdd = clickOnByName(schedulePage,"methodToCall.addEvent.anchor", true);
+        HtmlPage pageAfterAdd = clickOnByName(schedulePage,METHODTOCALL_ADDEVENT_ANCHOR, true);
         
         assertFalse(hasError(pageAfterAdd));
         assertRecord(pageAfterAdd, dt);
@@ -91,6 +145,10 @@ public class CommitteeScheduleWebAddSchedulePanelTest extends CommitteeScheduleW
         assertRecord(pageAfterAdd, DateUtils.addDays(dt, 2));
     }
     
+    /**
+     * This method test's Weekly recurrence.
+     * @throws Exception
+     */
     @Test
     public void testCommitteeScheduleWeeklyRecurrance() throws Exception {
         
@@ -99,10 +157,10 @@ public class CommitteeScheduleWebAddSchedulePanelTest extends CommitteeScheduleW
         String scheduleDate = formatDate(dt);
         setFields(schedulePage, scheduleDate);
         String endDate = formatDate(DateUtils.addDays(new Date(), 7));
-        setFieldValue(schedulePage, "scheduleData.recurrenceType", "WEEKLY");
-        setFieldValue(schedulePage, "scheduleData.weeklySchedule.scheduleEndDate", endDate);
+        setFieldValue(schedulePage, SCHEDULEDATA_RECURRENCECTYPE, WEEKLY);
+        setFieldValue(schedulePage, SCHEDULEDATA_WEEKLYSCHEDULE_SCHEDULEENDDATE, endDate);
         
-        HtmlPage pageAfterAdd = clickOnByName(schedulePage,"methodToCall.addEvent.anchor", true);
+        HtmlPage pageAfterAdd = clickOnByName(schedulePage,METHODTOCALL_ADDEVENT_ANCHOR, true);
         
         assertFalse(hasError(pageAfterAdd));
 
@@ -117,6 +175,10 @@ public class CommitteeScheduleWebAddSchedulePanelTest extends CommitteeScheduleW
 
     }
     
+    /**
+     * This method test's Monthly recurrence option 1.
+     * @throws Exception
+     */
     @Test
     public void testCommitteeScheduleMonthlyRecurranceOption1() throws Exception {
         
@@ -125,22 +187,26 @@ public class CommitteeScheduleWebAddSchedulePanelTest extends CommitteeScheduleW
         String scheduleDate = formatDate(dt);        
         setFields(schedulePage, scheduleDate);       
         String endDate = formatDate(DateUtils.addDays(new Date(), 7));      
-        setFieldValue(schedulePage, "scheduleData.recurrenceType", "MONTHLY");
+        setFieldValue(schedulePage, SCHEDULEDATA_RECURRENCECTYPE, MONTHLY);
         
         Calendar cl = new GregorianCalendar();
         cl.setTime(dt);
         Integer date = cl.get(Calendar.DATE);        
         
-        setFieldValue(schedulePage, "scheduleData.monthlySchedule.day", date.toString());       
-        setFieldValue(schedulePage, "scheduleData.monthlySchedule.scheduleEndDate", endDate);
+        setFieldValue(schedulePage, SCHEDULEDATE_MONTHLYSCHEDULE_DAY, date.toString());       
+        setFieldValue(schedulePage, SCHEDULEDATA_MONTHLYSCHEDULE_SHCEDULEENDDATE, endDate);
         
-        HtmlPage pageAfterAdd = clickOnByName(schedulePage,"methodToCall.addEvent.anchor", true);
+        HtmlPage pageAfterAdd = clickOnByName(schedulePage,METHODTOCALL_ADDEVENT_ANCHOR, true);
         
         assertFalse(hasError(pageAfterAdd));        
         assertRecord(pageAfterAdd, dt);
 
     }
 
+    /**
+     * This method test's Monthly recurrence option 2.
+     * @throws Exception
+     */
     @Test
     public void testCommitteeScheduleMonthlyRecurranceOption2() throws Exception {
         
@@ -155,11 +221,11 @@ public class CommitteeScheduleWebAddSchedulePanelTest extends CommitteeScheduleW
         String scheduleDate = formatDate(dt);        
         setFields(schedulePage, scheduleDate);      
         String endDate = formatDate(DateUtils.addDays(dt, 10));       
-        setFieldValue(schedulePage, "scheduleData.recurrenceType", "MONTHLY");       
-        setFieldValue(schedulePage, "scheduleData.monthlySchedule.monthOption", "XDAYOFWEEKANDXMONTH");             
-        setFieldValue(schedulePage, "scheduleData.monthlySchedule.scheduleEndDate", endDate);
+        setFieldValue(schedulePage, SCHEDULEDATA_RECURRENCECTYPE, MONTHLY);       
+        setFieldValue(schedulePage, SCHEDULEDATA_MONTHLYSCHEDULE_MONTHOPTION, XDAYOFWEEKANDXMONTH);             
+        setFieldValue(schedulePage, SCHEDULEDATA_MONTHLYSCHEDULE_SHCEDULEENDDATE, endDate);
         
-        HtmlPage pageAfterAdd = clickOnByName(schedulePage,"methodToCall.addEvent.anchor", true);
+        HtmlPage pageAfterAdd = clickOnByName(schedulePage,METHODTOCALL_ADDEVENT_ANCHOR, true);
         
         assertFalse(hasError(pageAfterAdd));  
         
@@ -174,6 +240,10 @@ public class CommitteeScheduleWebAddSchedulePanelTest extends CommitteeScheduleW
 
     }
 
+    /**
+     * This method test Yearly recurrence option 1.
+     * @throws Exception
+     */
     @Test
     public void testCommitteeScheduleYearlyRecurranceOption1() throws Exception {
         
@@ -188,19 +258,23 @@ public class CommitteeScheduleWebAddSchedulePanelTest extends CommitteeScheduleW
         String scheduleDate = formatDate(dt);        
         setFields(schedulePage, scheduleDate);      
         String endDate = formatDate(DateUtils.addDays(dt, 10));    
-        setFieldValue(schedulePage, "scheduleData.recurrenceType", "YEARLY");       
-        setFieldValue(schedulePage, "scheduleData.yearlySchedule.yearOption", "XDAY");              
-        setFieldValue(schedulePage, "scheduleData.yearlySchedule.selectedOption1Month", month);  
-        setFieldValue(schedulePage, "scheduleData.yearlySchedule.day", date.toString());        
-        setFieldValue(schedulePage, "scheduleData.yearlySchedule.scheduleEndDate", endDate);
+        setFieldValue(schedulePage, SCHEDULEDATA_RECURRENCECTYPE, YEARLY);       
+        setFieldValue(schedulePage, SCHEDULEDATA_YEARLYSCHEDULE_YEAROPTION, XDAY);              
+        setFieldValue(schedulePage, SCHEDULEDATA_YEARLYSCHEDULE_SELECCTEDOPTION1MONTH, month);  
+        setFieldValue(schedulePage, SCHEDULEDATA_YEARLYSCHEDULE_DAY, date.toString());        
+        setFieldValue(schedulePage, SCHEDULEDATA_YEARLYSCHEDULE_SCHEDULEENDDATE, endDate);
         
-        HtmlPage pageAfterAdd = clickOnByName(schedulePage,"methodToCall.addEvent.anchor", true);
+        HtmlPage pageAfterAdd = clickOnByName(schedulePage,METHODTOCALL_ADDEVENT_ANCHOR, true);
         
         assertFalse(hasError(pageAfterAdd));             
         assertRecord(pageAfterAdd, dt);
 
     }
     
+    /**
+     * This method test's Yearly recurrence option 2.
+     * @throws Exception
+     */
     @Test
     public void testCommitteeScheduleYearlyRecurranceOption2() throws Exception {
         
@@ -216,12 +290,12 @@ public class CommitteeScheduleWebAddSchedulePanelTest extends CommitteeScheduleW
         String scheduleDate = formatDate(dt);       
         setFields(schedulePage, scheduleDate);       
         String endDate = formatDate(DateUtils.addDays(dt, 10));       
-        setFieldValue(schedulePage, "scheduleData.recurrenceType", "YEARLY");        
-        setFieldValue(schedulePage, "scheduleData.yearlySchedule.yearOption", "CMPLX");                 
-        setFieldValue(schedulePage, "scheduleData.yearlySchedule.selectedOption2Month", month);      
-        setFieldValue(schedulePage, "scheduleData.yearlySchedule.scheduleEndDate", endDate);
+        setFieldValue(schedulePage, SCHEDULEDATA_RECURRENCECTYPE, YEARLY);        
+        setFieldValue(schedulePage, SCHEDULEDATA_YEARLYSCHEDULE_YEAROPTION, CMPLX);                 
+        setFieldValue(schedulePage, SCHEDULEDATA_YEARLYSCHEDULE_SELECCTEDOPTION2MONTH, month);      
+        setFieldValue(schedulePage, SCHEDULEDATA_YEARLYSCHEDULE_SCHEDULEENDDATE, endDate);
         
-        HtmlPage pageAfterAdd = clickOnByName(schedulePage,"methodToCall.addEvent.anchor", true);
+        HtmlPage pageAfterAdd = clickOnByName(schedulePage,METHODTOCALL_ADDEVENT_ANCHOR, true);
         
         assertFalse(hasError(pageAfterAdd));     
         
@@ -236,6 +310,10 @@ public class CommitteeScheduleWebAddSchedulePanelTest extends CommitteeScheduleW
 
     }
 
+    /**
+     * This method test's reload button.
+     * @throws Exception
+     */
     @Test
     public void testCommitteeScheduleReload() throws Exception {
         
@@ -243,13 +321,13 @@ public class CommitteeScheduleWebAddSchedulePanelTest extends CommitteeScheduleW
         Date dt = new Date();        
         String scheduleDate = formatDate(dt);        
         setFields(schedulePage, scheduleDate);
-        setFieldValue(schedulePage, "scheduleData.recurrenceType", "YEARLY");  
+        setFieldValue(schedulePage, SCHEDULEDATA_RECURRENCECTYPE, YEARLY);  
         
-        HtmlPage pageAfterAdd1 = clickOnByName(schedulePage,"methodToCall.loadRecurrence.anchorSchedule", true);
+        HtmlPage pageAfterAdd1 = clickOnByName(schedulePage,METHODTOCALL_LOADRECURRENCE_ANCHORSCHEDULE, true);
         assertFalse(hasError(pageAfterAdd1));
         
-        setFieldValue(schedulePage, "scheduleData.recurrenceType", "MONTHLY");
-        HtmlPage pageAfterAdd2 = clickOnByName(schedulePage,"methodToCall.loadRecurrence.anchorSchedule", true);
+        setFieldValue(schedulePage, SCHEDULEDATA_RECURRENCECTYPE, MONTHLY);
+        HtmlPage pageAfterAdd2 = clickOnByName(schedulePage,METHODTOCALL_LOADRECURRENCE_ANCHORSCHEDULE, true);
         assertFalse(hasError(pageAfterAdd2));          
     }
 

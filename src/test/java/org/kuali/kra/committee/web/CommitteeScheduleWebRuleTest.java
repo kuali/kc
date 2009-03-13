@@ -26,6 +26,22 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class CommitteeScheduleWebRuleTest extends CommitteeScheduleWebTestBase {
     
+    public static final String DAILY = "DAILY";
+    
+    public static final String SCHEDULEDATA_RECURRENCECTYPE = "scheduleData.recurrenceType";
+    
+    public static final String SCHEDULEDATA_DAILYSCHEDULE_SCHEDULEENDDATE = "scheduleData.dailySchedule.scheduleEndDate";
+    
+    public static final String METHODTOCALL_ADDEVENT_ANCHOR = "methodToCall.addEvent.anchor";
+    
+    public static final String DOCUMENT_COMMITTEE_COMMITTEESCHEDULE_0_SCHEDULEDDATE = "document.committee.committeeSchedules[0].scheduledDate";
+    
+    public static final String IS_IN_CONFLICT_WITH_OTHER_MEETING_SCHEDULE = " is in conflict with other meeting schedule";
+    
+    public static final String DATE_MUST_BE_BEFORE_ENDING_ON_DATE = "Date must be before Ending On date";
+    
+    public static final String IS_SKIPPED_IN_RECURRENCE = " is skipped in recurrence, meeting already scheduled for the date.";
+    
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -36,6 +52,10 @@ public class CommitteeScheduleWebRuleTest extends CommitteeScheduleWebTestBase {
         super.tearDown();
     }
     
+    /**
+     * This method test's date conflict rule in Schedule panel.
+     * @throws Exception
+     */
     @Test
     public void testSchedulePanelDateConflict() throws Exception {
         
@@ -44,10 +64,10 @@ public class CommitteeScheduleWebRuleTest extends CommitteeScheduleWebTestBase {
         String scheduleDate = formatDate(dt);        
         setFields(schedulePage, scheduleDate);        
         String endDate = formatDate(DateUtils.addDays(dt, 2));        
-        setFieldValue(schedulePage, "scheduleData.recurrenceType", "DAILY");       
-        setFieldValue(schedulePage, "scheduleData.dailySchedule.scheduleEndDate", endDate);
+        setFieldValue(schedulePage, SCHEDULEDATA_RECURRENCECTYPE, DAILY);       
+        setFieldValue(schedulePage, SCHEDULEDATA_DAILYSCHEDULE_SCHEDULEENDDATE, endDate);
         
-        HtmlPage pageAfterAdd = clickOnByName(schedulePage,"methodToCall.addEvent.anchor", true);
+        HtmlPage pageAfterAdd = clickOnByName(schedulePage,METHODTOCALL_ADDEVENT_ANCHOR, true);
         
         assertFalse(hasError(pageAfterAdd));        
         assertRecord(pageAfterAdd, DateUtils.addDays(dt, 0));        
@@ -56,16 +76,20 @@ public class CommitteeScheduleWebRuleTest extends CommitteeScheduleWebTestBase {
         
         Date testDate = DateUtils.addDays(new Date(), 0);        
         String strDate = formatDate(testDate);        
-        setFieldValue(pageAfterAdd, "document.committee.committeeSchedules[0].scheduledDate", strDate);              
+        setFieldValue(pageAfterAdd, DOCUMENT_COMMITTEE_COMMITTEESCHEDULE_0_SCHEDULEDDATE, strDate);              
         
         HtmlPage pageAfterSave = saveDoc(pageAfterAdd);
         
         StringBuilder sb = new StringBuilder();
         java.sql.Date sqlDate = new java.sql.Date(testDate.getTime());
-        sb.append(sqlDate.toString()).append(" is in conflict with other meeting schedule");
+        sb.append(sqlDate.toString()).append(IS_IN_CONFLICT_WITH_OTHER_MEETING_SCHEDULE);
         assertContains(pageAfterSave, sb.toString());
     }     
 
+    /**
+     * This method test's start and end date rule.
+     * @throws Exception
+     */
     @Test
     public void testStartDateEndDateRule() throws Exception {
         
@@ -74,14 +98,18 @@ public class CommitteeScheduleWebRuleTest extends CommitteeScheduleWebTestBase {
         String scheduleDate = formatDate(dt);        
         setFields(schedulePage, scheduleDate);        
         String endDate = scheduleDate;        
-        setFieldValue(schedulePage, "scheduleData.recurrenceType", "DAILY");       
-        setFieldValue(schedulePage, "scheduleData.dailySchedule.scheduleEndDate", endDate);
+        setFieldValue(schedulePage, SCHEDULEDATA_RECURRENCECTYPE, DAILY);       
+        setFieldValue(schedulePage, SCHEDULEDATA_DAILYSCHEDULE_SCHEDULEENDDATE, endDate);
         
-        HtmlPage pageAfterAdd = clickOnByName(schedulePage,"methodToCall.addEvent.anchor", true);
+        HtmlPage pageAfterAdd = clickOnByName(schedulePage,METHODTOCALL_ADDEVENT_ANCHOR, true);
         
-        assertContains(pageAfterAdd, "Date must be before Ending On date");
+        assertContains(pageAfterAdd, DATE_MUST_BE_BEFORE_ENDING_ON_DATE);
     }
  
+    /**
+     * This method test's soft error message during date conflict in Add to Schedule panel.
+     * @throws Exception
+     */
     @Test
     public void testDateWarnings() throws Exception {
         
@@ -90,21 +118,21 @@ public class CommitteeScheduleWebRuleTest extends CommitteeScheduleWebTestBase {
         String scheduleDate = formatDate(dt);        
         setFields(schedulePage, scheduleDate);        
         String endDate = formatDate(DateUtils.addDays(dt, 2));        
-        setFieldValue(schedulePage, "scheduleData.recurrenceType", "DAILY");       
-        setFieldValue(schedulePage, "scheduleData.dailySchedule.scheduleEndDate", endDate);
+        setFieldValue(schedulePage, SCHEDULEDATA_RECURRENCECTYPE, DAILY);       
+        setFieldValue(schedulePage, SCHEDULEDATA_DAILYSCHEDULE_SCHEDULEENDDATE, endDate);
         
-        HtmlPage pageAfterAdd = clickOnByName(schedulePage,"methodToCall.addEvent.anchor", true);
+        HtmlPage pageAfterAdd = clickOnByName(schedulePage,METHODTOCALL_ADDEVENT_ANCHOR, true);
         
         assertFalse(hasError(pageAfterAdd));        
         assertRecord(pageAfterAdd, DateUtils.addDays(dt, 0));        
         assertRecord(pageAfterAdd, DateUtils.addDays(dt, 1));        
         assertRecord(pageAfterAdd, DateUtils.addDays(dt, 2));
                
-        HtmlPage pageAfterSecondAdd = clickOnByName(pageAfterAdd,"methodToCall.addEvent.anchor", true);
+        HtmlPage pageAfterSecondAdd = clickOnByName(pageAfterAdd,METHODTOCALL_ADDEVENT_ANCHOR, true);
         
         java.sql.Date sqlDate = new java.sql.Date(dt.getTime());
         StringBuffer sb = new StringBuffer();
-        sb.append(sqlDate.toString()).append(" is skipped in recurrence, meeting already scheduled for the date.");
+        sb.append(sqlDate.toString()).append(IS_SKIPPED_IN_RECURRENCE);
         assertContains(pageAfterSecondAdd, sb.toString());
     }
    
