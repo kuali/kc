@@ -25,6 +25,9 @@ import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt.MERIDIEM;
 import org.kuali.kra.committee.web.struts.form.schedule.util.ScheduleOptionsUtil;
 import org.kuali.kra.scheduling.expr.util.CronSpecialChars;
 
+/**
+ * This class is form data helper class used to store UI based date for recurrence.
+ */
 public class ScheduleData {
     
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScheduleData.class);
@@ -33,7 +36,7 @@ public class ScheduleData {
     
     public static final String BLOCK = "display: block; background:#f4f4f4; border:solid; border-color:#CCCCCC; border-width:1px; padding:5px";
     
-    public static final String defaultTime = "12:00";
+    public static final String DEFAULTTIME = "12:00";
     
     private Date scheduleStartDate;
     
@@ -63,7 +66,7 @@ public class ScheduleData {
         super();
         this.setScheduleStartDate(new Date(new java.util.Date().getTime()));
         
-        this.setTime(new Time12HrFmt(defaultTime,MERIDIEM.PM));
+        this.setTime(new Time12HrFmt(DEFAULTTIME,MERIDIEM.PM));
         
         this.setRecurrenceType(StyleKey.NEVER.toString());
         this.setStyleClasses(new HashMap<String,String>());
@@ -171,6 +174,9 @@ public class ScheduleData {
         this.datesInConflict = datesInConflict;
     }
     
+    /**
+     * Util method to support css style class.
+     */
     public void populateStyleClass(){
         
         for(StyleKey str: StyleKey.values()) {
@@ -183,7 +189,7 @@ public class ScheduleData {
             }
         }      
     }
-    
+
     public static CronSpecialChars getMonthOfWeek(String month) {
         return ScheduleOptionsUtil.getMonthOfWeek(month);
     }

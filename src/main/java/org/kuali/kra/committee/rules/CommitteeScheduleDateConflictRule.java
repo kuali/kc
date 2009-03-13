@@ -25,7 +25,7 @@ import org.kuali.core.util.DateUtils;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.rule.AddCommitteeScheduleDateConflictRule;
 import org.kuali.kra.committee.rule.event.AddCommitteeScheduleDateConflictEvent;
-import org.kuali.kra.committee.rule.event.CommitteeScheduleEvent.event;
+import org.kuali.kra.committee.rule.event.CommitteeScheduleEvent.Event;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
@@ -38,10 +38,13 @@ public class CommitteeScheduleDateConflictRule extends ResearchDocumentRuleBase 
     
     public static final String DATES_IN_CONFLICT_ERROR_KEY = "datesInConflict";
     
+    /**
+     * @see org.kuali.kra.committee.rule.AddCommitteeScheduleDateConflictRule#processAddCommitteeScheduleRuleBusinessRules(org.kuali.kra.committee.rule.event.AddCommitteeScheduleDateConflictEvent)
+     */
     public boolean processAddCommitteeScheduleRuleBusinessRules(AddCommitteeScheduleDateConflictEvent addCommitteeScheduleEvent) {
         
         boolean rulePassed = true;   
-        event type = addCommitteeScheduleEvent.getType();        
+        Event type = addCommitteeScheduleEvent.getType();        
         switch (type) {
             case HARDERROR:
                 rulePassed = processHardErrors(addCommitteeScheduleEvent);
@@ -53,6 +56,11 @@ public class CommitteeScheduleDateConflictRule extends ResearchDocumentRuleBase 
         return rulePassed;
     }
     
+    /**
+     * This method process hard error in date conflict.
+     * @param addCommitteeScheduleEvent
+     * @return
+     */
     private boolean processHardErrors(AddCommitteeScheduleDateConflictEvent addCommitteeScheduleEvent) {
         boolean rulePassed = true;
         List<CommitteeSchedule> committeeSchedules = addCommitteeScheduleEvent.getCommitteeSchedules();   
@@ -65,6 +73,12 @@ public class CommitteeScheduleDateConflictRule extends ResearchDocumentRuleBase 
         return rulePassed;
     }
     
+    /**
+     * Helper method to find if dates in schedule are not conflicting.
+     * @param committeeSchedules is list of CommitteeSchedule.
+     * @param Date in conflict are added to conflictDates list. 
+     * @return true if no conflict else false.
+     */
     private boolean parseUniqueDateSet(List<CommitteeSchedule> committeeSchedules, List<Date> conflictDates){
         boolean retVal = true;
         boolean flag = true;
@@ -80,6 +94,11 @@ public class CommitteeScheduleDateConflictRule extends ResearchDocumentRuleBase 
         return retVal;
     }
     
+    /**
+     * Helper method to identify potential conflicts and adds error message to map.
+     * @param committeeSchedules
+     * @param conflictDates
+     */
     private void identifyPotentialConflicts(List<CommitteeSchedule> committeeSchedules, List<Date> conflictDates) {
         Date scheduleDate = null;
         int count = 0;
@@ -95,6 +114,11 @@ public class CommitteeScheduleDateConflictRule extends ResearchDocumentRuleBase 
         }
     }
     
+    /**
+     * This method process date conflict for soft error message.
+     * @param addCommitteeScheduleEvent
+     * @return
+     */
     private boolean processSoftErrors(AddCommitteeScheduleDateConflictEvent addCommitteeScheduleEvent) {
         boolean rulePassed = true;
         List<Date> datesInConflict = addCommitteeScheduleEvent.getScheduleData().getDatesInConflict();

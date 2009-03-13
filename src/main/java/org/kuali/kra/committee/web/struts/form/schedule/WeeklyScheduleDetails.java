@@ -16,6 +16,9 @@
 package org.kuali.kra.committee.web.struts.form.schedule;
 
 
+/**
+ * This class holds weekly recurrence UI data.
+ */
 public class WeeklyScheduleDetails extends ScheduleDetails {
     
     private int week;

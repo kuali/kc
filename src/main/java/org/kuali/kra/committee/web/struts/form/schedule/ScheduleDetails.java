@@ -18,6 +18,9 @@ package org.kuali.kra.committee.web.struts.form.schedule;
 import java.sql.Date;
 
 
+/**
+ * This class holds common UI data of all types of recurrence.
+ */
 public class ScheduleDetails {
     
     @SuppressWarnings("unused")

@@ -16,6 +16,9 @@
 package org.kuali.kra.committee.web.struts.form.schedule;
 
 
+/**
+ * This class holds yearly recurrence UI data.
+ */
 public class YearlyScheduleDetails extends ScheduleDetails {
     
     private int day;
@@ -28,17 +31,11 @@ public class YearlyScheduleDetails extends ScheduleDetails {
     
     public static enum yearOptionValues {XDAY,CMPLX};
     
-    //private List<LabelValueBean> months;
-    
     private String selectedOption1Month;
     
     private String selectedOption2Month;
-   
-    //private List<LabelValueBean> monthsweek;
     
     private String selectedMonthsWeek;
-    
-    //private List<LabelValueBean> dayofweek;
     
     private String selectedDayOfWeek; 
     
@@ -49,18 +46,12 @@ public class YearlyScheduleDetails extends ScheduleDetails {
         this.setDay(6);
         this.setOption1Year(1);
         this.setOption2Year(1);
-        
-        //this.setMonths(new ArrayList<LabelValueBean>());
-        //ScheduleOptionsUtil.populate(months, ScheduleOptionsUtil.mths);
+
         this.setSelectedOption1Month(Months.JANUARY.toString());
         this.setSelectedOption2Month(Months.JANUARY.toString());
-        
-        //this.setMonthsweek(new ArrayList<LabelValueBean>());
-        //ScheduleOptionsUtil.populate(monthsweek, ScheduleOptionsUtil.mthsweek);
+
         this.setSelectedMonthsWeek(WeekOfMonth.first.toString());
-        
-        //this.setDayofweek(new ArrayList<LabelValueBean>());
-        //ScheduleOptionsUtil.populate(dayofweek, ScheduleOptionsUtil.dyofweek);
+
         this.setSelectedDayOfWeek(DayOfWeek.Monday.toString());
     }
 
@@ -95,14 +86,6 @@ public class YearlyScheduleDetails extends ScheduleDetails {
     public void setYearOption(String yearOption) {
         this.yearOption = yearOption;
     }
-
-/*    public List<LabelValueBean> getMonths() {
-        return months;
-    }
-
-    public void setMonths(List<LabelValueBean> months) {
-        this.months = months;
-    }*/
     
     public String getSelectedOption1Month() {
         return selectedOption1Month;
@@ -120,14 +103,6 @@ public class YearlyScheduleDetails extends ScheduleDetails {
     public String getSelectedOption2Month() {
         return selectedOption2Month;
     }
-    
-/*    public List<LabelValueBean> getMonthsweek() {
-        return monthsweek;
-    }
-
-    public void setMonthsweek(List<LabelValueBean> monthsweek) {
-        this.monthsweek = monthsweek;
-    }*/
 
     public String getSelectedMonthsWeek() {
         return selectedMonthsWeek;
@@ -136,14 +111,6 @@ public class YearlyScheduleDetails extends ScheduleDetails {
     public void setSelectedMonthsWeek(String selectedMonthsWeek) {
         this.selectedMonthsWeek = selectedMonthsWeek;
     }
-
-/*    public List<LabelValueBean> getDayofweek() {
-        return dayofweek;
-    }
-
-    public void setDayofweek(List<LabelValueBean> dayofweek) {
-        this.dayofweek = dayofweek;
-    }*/
 
     public String getSelectedDayOfWeek() {
         return selectedDayOfWeek;
