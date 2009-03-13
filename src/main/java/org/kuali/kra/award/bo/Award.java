@@ -17,7 +17,6 @@ package org.kuali.kra.award.bo;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -114,6 +113,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private List<AwardApprovedEquipment> approvedEquipmentItems;
     private List<AwardApprovedForeignTravel> approvedForeignTravelTrips;
     private List<AwardPaymentSchedule> paymentScheduleItems;
+    private List<AwardTransferringSponsor> awardTransferringSponsors;
 
     /**
      * 
@@ -143,7 +143,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         setScienceCodeIndicator(YES_FLAG);
         setSpecialReviewIndicator(YES_FLAG);
         setTransferSponsorIndicator(YES_FLAG);
-        setAwardTypeCode(1);
     }
     
     /**
@@ -1312,6 +1311,11 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         paymentScheduleItem.setAward(this);
     }
     
+    public void addAwardTransferringSponsor(Sponsor sponsor) {
+        AwardTransferringSponsor awardTransferringSponsor = new AwardTransferringSponsor(this, sponsor);
+        awardTransferringSponsors.add(0, awardTransferringSponsor);
+    }
+    
     protected void initializeCollections() {
         setAwardCostShares(new ArrayList<AwardCostShare>());
         setAwardComments(new ArrayList<AwardComment>());
@@ -1324,6 +1328,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         approvedForeignTravelTrips = new ArrayList<AwardApprovedForeignTravel>();
         setAwardSponsorTerms(new ArrayList<AwardSponsorTerm>());
         paymentScheduleItems = new ArrayList<AwardPaymentSchedule>();
+        awardTransferringSponsors = new ArrayList<AwardTransferringSponsor>();
     }
 
     /**
@@ -1393,6 +1398,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         awardSponsorTerms.add(awardSponsorTerm);
         awardSponsorTerm.setAward(this);
     }
+    
+    
     
     /**
      * This method calculates the total value of a list of ValuableItems
@@ -1485,6 +1492,14 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
 
     public void setPrimeSponsor(Sponsor primeSponsor) {
         this.primeSponsor = primeSponsor;
+    }
+
+    public List<AwardTransferringSponsor> getAwardTransferringSponsors() {
+        return awardTransferringSponsors;
+    }
+
+    public void setAwardTransferringSponsors(List<AwardTransferringSponsor> awardTransferringSponsors) {
+        this.awardTransferringSponsors = awardTransferringSponsors;
     }
     
 }

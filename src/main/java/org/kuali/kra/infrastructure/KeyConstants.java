@@ -256,6 +256,9 @@ public final class KeyConstants {
     //Award Payment Schedule    
     public static final String ERROR_AWARD_PAYMENT_SCHEDULE_DUE_DATE_REQUIRED = "error.required";
     
+    // Award Details and Dates
+    public static final String ERROR_INVALID_AWARD_TRANSFERRING_SPONSOR = "error.sponsor.invalid";
+    
     //Award Cost Share
     public static final String ERROR_FISCAL_YEAR_RANGE = "error.awardCostShare.fiscalYear.range";
     public static final String ERROR_SOURCE_DESTINATION = "error.awardCostShare.source.destination";

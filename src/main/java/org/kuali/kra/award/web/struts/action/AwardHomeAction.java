@@ -23,14 +23,16 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.award.bo.Award;
-import org.kuali.kra.award.bo.AwardFandaRate;
-import org.kuali.kra.award.bo.AwardScienceKeyword;
-import org.kuali.kra.award.bo.AwardCostShare;
 import org.kuali.kra.award.bo.AwardApprovedSubaward;
+import org.kuali.kra.award.bo.AwardScienceKeyword;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.web.struts.form.AwardForm;
+import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KeywordsService;
 
@@ -193,6 +195,52 @@ public class AwardHomeAction extends AwardAction {
         AwardDocument awardDocument = awardForm.getAwardDocument();
         KeywordsService keywordsService = KraServiceLocator.getService(KeywordsService.class);
         keywordsService.deleteKeyword(awardDocument.getAward()); 
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * 
+     * This method adds a new AwardTransferringSponsor to the list. 
+     * It uses {@link KeywordsService} to process the request 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward addAwardTransferringSponsor(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        Sponsor awardTransferringSponsor = awardForm.getDetailsAndDatesFormHelper().getNewAwardTransferringSponsor();
+        // TODO Temporary hack, move to rules
+        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
+        Sponsor dbSponsor = (Sponsor) boService.retrieve(awardTransferringSponsor);
+        //awardTransferringSponsor.refreshRe
+        if (dbSponsor == null) {
+            GlobalVariables.getErrorMap().putError("detailsAndDatesFormHelper.newAwardTransferringSponsor.sponsorCode", 
+                    KeyConstants.ERROR_INVALID_AWARD_TRANSFERRING_SPONSOR);
+        } else {
+            awardForm.getAwardDocument().getAward().addAwardTransferringSponsor(awardTransferringSponsor);
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * 
+     * This method removes an AwardTransferringSponsor from the list. 
+     * It uses {@link KeywordsService} to process the request 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteAwardTransferringSponsor(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        awardForm.getAwardDocument().getAward().getAwardTransferringSponsors().remove(getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
