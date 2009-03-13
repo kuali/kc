@@ -36,6 +36,10 @@ public class MonthTest extends TestCase{
     public static final String NOVEMBER = "NOVEMBER";  
     public static final String DECEMBER = "DECEMBER";
     
+    /**
+     * This method tests getKeyValues() method's return value.
+     * @throws Exception
+     */
     @SuppressWarnings("unchecked")
     @Test
     public void testValues() throws Exception {
