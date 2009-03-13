@@ -31,6 +31,10 @@ public class WeekDayTest extends TestCase{
     public static final String FRIDAY = "Friday";
     public static final String SATURDAY = "Saturday";
     
+    /**
+     * This method tests getKeyValues() method's return value.
+     * @throws Exception
+     */
     @SuppressWarnings("unchecked")
     @Test
     public void testValues() throws Exception {
