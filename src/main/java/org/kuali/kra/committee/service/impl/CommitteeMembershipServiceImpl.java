@@ -83,7 +83,9 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
     /**
      * @see org.kuali.kra.committee.service.CommitteeMembershipService#addCommitteeMembershipRole(org.kuali.kra.committee.bo.CommitteeMembership, org.kuali.kra.committee.bo.CommitteeMembershipRole)
      */
-    public void addCommitteeMembershipRole(CommitteeMembership committeeMembership, CommitteeMembershipRole committeeMembershipRole) {
+    public void addCommitteeMembershipRole(Committee committee, int selectedMembershipIndex, CommitteeMembershipRole committeeMembershipRole) {
+        CommitteeMembership committeeMembership = committee.getCommitteeMemberships().get(selectedMembershipIndex);
+        
         committeeMembershipRole.setCommitteeMembershipId(committeeMembership.getCommitteeMembershipId());
         committeeMembershipRole.setMembershipId("0");
         committeeMembershipRole.setSequenceNumber(0);
@@ -93,4 +95,12 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
         committeeMembership.getMembershipRoles().add(committeeMembershipRole);
     }
    
+    /**
+     * @see org.kuali.kra.committee.service.CommitteeMembershipService#deleteCommitteeMembershipRole(org.kuali.kra.committee.bo.Committee, int, int)
+     */
+    public void deleteCommitteeMembershipRole(Committee committee, int selectedMembershipIndex, int lineNumber) {
+        CommitteeMembership committeeMembership = committee.getCommitteeMemberships().get(selectedMembershipIndex);
+        CommitteeMembershipRole membershipRole = committeeMembership.getMembershipRoles().get(lineNumber);
+        committeeMembership.getMembershipRoles().remove(membershipRole);
+    }
 }

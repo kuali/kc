@@ -34,15 +34,15 @@
                                 </th>
                                 
                                 <td align="left" valign="middle" class="infoline">
-                                    <div align="center">
-                                        <kul:htmlControlAttribute property="membershipRolesHelper.newCommitteeMembershipRole.membershipRoleCode" 
+                                    <div align="left">
+                                        <kul:htmlControlAttribute property="membershipRolesHelper.newCommitteeMembershipRoles[${memberIndex}].membershipRoleCode" 
                                                                   attributeEntry="${membershipRoleAttributes.membershipRoleCode}" />
                                     </div>
                                 </td>
                                 
                                 <td align="left" valign="middle" class="infoline">
                                     <div align="center">
-                                        <kul:htmlControlAttribute property="membershipRolesHelper.newCommitteeMembershipRole.startDate" 
+                                        <kul:htmlControlAttribute property="membershipRolesHelper.newCommitteeMembershipRoles[${memberIndex}].startDate" 
                                                                   attributeEntry="${membershipRoleAttributes.startDate}" 
                                                                   datePicker="true" />
                                     </div>
@@ -50,7 +50,7 @@
                                 
                                 <td align="left" valign="middle" class="infoline">
                                     <div align="center">
-                                        <kul:htmlControlAttribute property="membershipRolesHelper.newCommitteeMembershipRole.endDate" 
+                                        <kul:htmlControlAttribute property="membershipRolesHelper.newCommitteeMembershipRoles[${memberIndex}].endDate" 
                                                                   attributeEntry="${membershipRoleAttributes.endDate}" 
                                                                   datePicker="true" />
                                     </div>
@@ -58,36 +58,56 @@
 
                                <td align="left" valign="middle" class="infoline">
                                    <div align=center>
-                                       <html:image property="methodToCall.addCommitteeMembershipRole.anchor${tabKey}"
-                                       src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+                                       <html:image property="methodToCall.addCommitteeMembershipRole.${committeeMembership}"
+                                                   src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
+                                                   styleClass="tinybutton"/>
                                     </div>
                                 </td>
                             </tr>
                         </c:if>
                         <%-- New data --%>
-                        
-                        <%-- Existing data 
-                        <c:forEach var="membershipRole" items="${committeeMembership}.membershipRoles" varStatus="status">
-                           <tr>
-                               <th class="infoline">
-                                   <c:out value="${status.index+1}" />
-                               </th>
-                               <td align="left" valign="middle>
-                                   <div align="center>
-                                       <kul:htmlControlAttribute property="document.committeeList[0].committeeMemberships[${memberIndex}].membershipRoles[${status.index}].membershipRoleCode" attributeEntry="${membershipRoleAttributes.membershipRoleCode}" readOnly="true" />
-                                   </div>
-                               </td>
-                               <td align="left" valign="middle>
-                                   <div align="center>
-                                       <kul:htmlControlAttribute property="document.committeeList[0].committeeMemberships[${memberIndex}].membershipRoles[${status.index}].startDate" attributeEntry="${membershipRoleAttributes.startDate}" readOnly="${readOnly}" />
-                                   </div>
-                               </td>
-                               <td align="left" valign="middle>
-                                   <div align="center>
-                                       <kul:htmlControlAttribute property="document.committeeList[0].committeeMemberships[${memberIndex}].membershipRoles[${status.index}].endDate" attributeEntry="${membershipRoleAttributes.endDate}" readOnly="${readOnly}" />
-                                   </div>
-                               </td>
-                           </tr>
+
+                        <%-- Existing data --%>
+                        <c:forEach var="membershipRole" items="${KualiForm.document.committeeList[0].committeeMemberships[memberIndex].membershipRoles}" varStatus="status">
+                            <tr>
+                                <th class="infoline">
+                                    <c:out value="${status.index+1}" />
+                                </th>
+                                <td align="left" valign="middle">
+                                    <div align="left">
+                                        <kul:htmlControlAttribute property="${committeeMembership}.membershipRoles[${status.index}].membershipRoleCode" 
+                                                                  attributeEntry="${membershipRoleAttributes.membershipRoleCode}" 
+                                                                  readOnlyAlternateDisplay="${membershipRole.membershipRole.description}" 
+                                                                  readOnly="true" />
+                                    </div>
+                                </td>
+                                <td align="left" valign="middle">
+                                    <div align="center">
+                                        <kul:htmlControlAttribute property="${committeeMembership}.membershipRoles[${status.index}].startDate" 
+                                                                  attributeEntry="${membershipRoleAttributes.startDate}" 
+                                                                  readOnly="${readOnly}"
+                                                                  datePicker="true" />
+                                    </div>
+                                </td>
+                                <td align="left" valign="middle">
+                                    <div align="center">
+                                        <kul:htmlControlAttribute property="${committeeMembership}.membershipRoles[${status.index}].endDate" 
+                                                                  attributeEntry="${membershipRoleAttributes.endDate}" 
+                                                                  readOnly="${readOnly}"
+                                                                  datePicker="true" />
+                                    </div>
+                                </td>
+ 
+                                <c:if test="${!readOnly}">
+                                    <td align="left" valign="middle">
+                                        <div align="center">                    
+                                            <html:image property="methodToCall.deleteCommitteeMembershipRole.${committeeMembership}.line${status.index}"
+                                                        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' 
+                                                        styleClass="tinybutton"/>
+                                        </div>
+                                    </td>
+                                </c:if>
+                            </tr>
                         </c:forEach>
                         <%-- Existing data --%>
                         

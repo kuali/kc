@@ -18,6 +18,8 @@ package org.kuali.kra.committee.service;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
+import org.kuali.kra.irb.bo.Protocol;
+import org.kuali.kra.irb.bo.ProtocolPerson;
 
 public interface CommitteeMembershipService {
     /**
@@ -36,9 +38,17 @@ public interface CommitteeMembershipService {
     /**
      * This method adds a CommitteeMembershipRole to the list of CommitteeMembershipRoles of a 
      * committee member.
-     * @param committeeMembership to which the role is to be added
-     * @param committeeMembershipRole that is to be added
+     * @param committee- the committee that contains the CommitteeMembership to which the role is to be added.
+     * @param selectedmembershipIndex - the index position of the CommitteeMembership to which the role is to be added. 
+     * @param committeeMembershipRole - the role that is to be added
      */
-    void addCommitteeMembershipRole(CommitteeMembership committeeMembership, CommitteeMembershipRole committeeMembershipRole);
+    void addCommitteeMembershipRole(Committee committee, int selectedMembershipIndex, CommitteeMembershipRole committeeMembershipRole);
 
+    /**
+     * This method deletes a CommitteeMembershipRole from the list of CommitteeMembershipRoles
+     * @param committee - the committee that contains the CommitteeMembership from which the role is to be deleted.
+     * @param selectedMembershipIndex - the index position of the CommitteeMembership from which the role is to be deleted.
+     * @param lineNumber - the position of the ComitteeMembershipRole to be deleted
+     */
+    void deleteCommitteeMembershipRole(Committee committee, int selectedMembershipIndex, int lineNumber);
 }
