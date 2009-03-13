@@ -52,16 +52,10 @@ public class BudgetRatesAction extends BudgetAction {
             GlobalVariables.setKualiForm((KualiForm)form);
         }
         budgetDocument.setRateSynced(false);
-        for (BudgetProposalRate budgetProposalRate : budgetDocument.getBudgetProposalRates()) {
-            //if (budgetProposalRate.getActivityTypeCode().equals(budgetDocument.getProposal().getActivityTypeCode()) ) {
-//                if (budgetProposalRate.getRateClassCode().equals("4") && budgetProposalRate.getRateTypeCode().equals("2")) {
-//                    budgetProposalRate.setVersionNumber(null);
-//                }
-            //}
-        } 
 
-        super.save(mapping, form, request, response);
-        return mapping.findForward("rates_save");
+        ActionForward forward = super.save(mapping, form, request, response);
+        if (!(budgetForm.getMethodToCall().equals("save") && budgetForm.isAuditActivated())) forward = mapping.findForward("rates_save");
+        return forward;
     }
     
     /**
