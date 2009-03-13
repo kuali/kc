@@ -15,7 +15,13 @@
  */
 package org.kuali.kra.committee.web.struts.action;
 
+import static org.apache.commons.lang.StringUtils.isNotBlank;
+import static org.apache.commons.lang.StringUtils.substringBetween;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
+import static org.kuali.rice.kns.util.KNSConstants.METHOD_TO_CALL_ATTRIBUTE;
+
+import java.util.List;
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.document.CommitteeDocument;
@@ -139,54 +146,40 @@ public class CommitteeMembershipAction extends CommitteeAction {
      */
     public ActionForward addCommitteeMembershipRole(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     CommitteeForm committeeForm = (CommitteeForm) form;
-    CommitteeMembershipRole newCommitteeMembershipRole = committeeForm.getMembershipRolesHelper().getNewCommitteeMembershipRole();
-    int selectedMembershipIndex = 0;
+    Committee committee = committeeForm.getCommitteeDocument().getCommittee();
+    int selectedMembershipIndex = getSelectedMembershipIndex(request);
+    CommitteeMembershipRole newCommitteeMembershipRole = committeeForm.getMembershipRolesHelper().getNewCommitteeMembershipRoles().get(selectedMembershipIndex);
     
     // check any business rules
     boolean rulePassed = true; //applyRules(new AddCommitteeMembershipRoleEvent(Constants.EMPTY_STRING, committeeForm.getCommitteeDocument(), newCommitteeMembershipRole));
+
     if (rulePassed) {
-        getCommitteeMembershipService().addCommitteeMembershipRole(committeeForm.getCommitteeDocument().getCommittee().getCommitteeMemberships().get(selectedMembershipIndex), newCommitteeMembershipRole);
-        committeeForm.getMembershipRolesHelper().setNewCommitteeMembershipRole(new CommitteeMembershipRole());
+        getCommitteeMembershipService().addCommitteeMembershipRole(committee, selectedMembershipIndex, newCommitteeMembershipRole);
+        // TODO: cniesen - ? committeeForm.getMembershipRolesHelper().setNewCommitteeMembershipRole(new CommitteeMembershipRole());
     }
     
     return mapping.findForward(Constants.MAPPING_BASIC );
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
-//        int selectedPersonIndex = getSelectedPersonIndex(request, protocolDocument);
-//
-//        ProtocolPerson protocolPerson = protocolDocument.getProtocol().getProtocolPerson(selectedPersonIndex);
-//        
-//        ProtocolUnit newProtocolPersonUnit = protocolForm.getNewProtocolPersonUnits().get(selectedPersonIndex);
-//        boolean rulePassed = applyRules(new AddProtocolUnitEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument(), 
-//                newProtocolPersonUnit, selectedPersonIndex));
-//
-//        if (rulePassed) {
-//            getProtocolPersonnelService().addProtocolPersonUnit(protocolForm.getNewProtocolPersonUnits(), protocolPerson, selectedPersonIndex);
-//        }
-//
-//        return mapping.findForward(MAPPING_BASIC);
     }
     
-//    /**
-//     * This method is linked to ProtocolPersonnelService to perform the action.
-//     * Delete ProtocolUnit from Person unit list.
-//     * Method is called in personUnitsSection.tag
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward deleteProtocolPersonUnit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
-//        int selectedPersonIndex = getSelectedPersonIndex(request, protocolDocument);
-//        ProtocolPerson protocolPerson = protocolDocument.getProtocol().getProtocolPerson(selectedPersonIndex);
-//        getProtocolPersonnelService().deleteProtocolPersonUnit(protocolDocument.getProtocol(), protocolPerson, selectedPersonIndex, getSelectedLine(request));
-//
-//        return mapping.findForward(MAPPING_BASIC);
-//    }
+    /**
+     * This method is linked to ProtocolPersonnelService to perform the action.
+     * Delete ProtocolUnit from Person unit list.
+     * Method is called in personUnitsSection.tag
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteCommitteeMembershipRole(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CommitteeForm committeeForm = (CommitteeForm) form;
+        Committee committee = committeeForm.getCommitteeDocument().getCommittee();
+        
+        getCommitteeMembershipService().deleteCommitteeMembershipRole(committee, getSelectedMembershipIndex(request), getSelectedLine(request));
+
+        return mapping.findForward(MAPPING_BASIC);
+    }
 //    
 //    /**
 //     * This method is to update protocol person details view based on modified person role. 
@@ -217,23 +210,22 @@ public class CommitteeMembershipAction extends CommitteeAction {
         return (CommitteeMembershipService)KraServiceLocator.getService("committeeMembershipService");
     }
 
-//    /**
-//     * This method is to get selected person index.
-//     * Each person data is displayed in individual panel.
-//     * Person index is required to identify the person to perform an action.
-//     * @param request
-//     * @param document
-//     * @return
-//     */
-//    protected int getSelectedPersonIndex(HttpServletRequest request, ProtocolDocument document) {
-//        int selectedPersonIndex = -1;
-//        String parameterName = (String) request.getAttribute(METHOD_TO_CALL_ATTRIBUTE);
-//        if (isNotBlank(parameterName)) {
-//            selectedPersonIndex = Integer.parseInt(substringBetween(parameterName, "protocolPersons[", "]."));
-//        }
-//        return selectedPersonIndex;
-//    }
-//    
+    /**
+     * This method is to get selected membership index.
+     * Each membership data is displayed in individual panel.
+     * Membership index is required to identify the membership to perform an action.
+     * @param request
+     * @return index
+     */
+    protected int getSelectedMembershipIndex(HttpServletRequest request) {
+        int selectedMembershipIndex = -1;
+        String parameterName = (String) request.getAttribute(METHOD_TO_CALL_ATTRIBUTE);
+        if (isNotBlank(parameterName)) {
+            selectedMembershipIndex = Integer.parseInt(substringBetween(parameterName, "committeeMemberships[", "]."));
+        }
+        return selectedMembershipIndex;
+    }
+    
 //    /**
 //     * This method is to get list of protocol persons
 //     * @param form

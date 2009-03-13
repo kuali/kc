@@ -16,7 +16,6 @@
                                 </div>
                             </th>
                             <td align="left">
-                                ${parentTabName} <br>
                                 <kul:htmlControlAttribute property="${committeeMembership}.personName" 
                                                           attributeEntry="${committeeMembershipAttributes.personName}" 
                                                           readOnly="true" />
