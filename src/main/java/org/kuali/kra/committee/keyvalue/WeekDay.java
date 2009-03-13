@@ -34,6 +34,10 @@ public class WeekDay extends KeyValuesBase {
     public WeekDay() {
     }
 
+    /**
+     * Creates and return List of week days.
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     */
     @SuppressWarnings("unchecked")
     public List getKeyValues() {
         List keyValues = new ArrayList();

@@ -32,6 +32,10 @@ public class MonthsWeek extends KeyValuesBase {
     public MonthsWeek() {
     }
 
+    /**
+     * Creates and return List of week of month.
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     */
     @SuppressWarnings("unchecked")
     public List getKeyValues() {
         List keyValues = new ArrayList();
