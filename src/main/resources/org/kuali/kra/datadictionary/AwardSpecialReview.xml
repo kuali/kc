@@ -40,6 +40,7 @@
 				<ref bean="AwardSpecialReview-protocolNumber" />
 				<ref bean="AwardSpecialReview-applicationDate" />
 				<ref bean="AwardSpecialReview-approvalDate" />
+				<ref bean="AwardSpecialReview-expirationDate" />
 				<ref bean="AwardSpecialReview-comments" />
 				<ref bean="AwardSpecialReview-versionNumber" />
 			</list>
@@ -69,151 +70,30 @@
 	<bean id="AwardSpecialReview-specialReviewNumber" parent="AwardSpecialReview-specialReviewNumber-parentBean" />
 	<bean id="AwardSpecialReview-specialReviewNumber-parentBean" abstract="true" parent="SpecialReviewReference-specialReviewNumber-parentBean">
 	</bean>
-	<!--<bean id="AwardSpecialReview-specialReviewNumber-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="specialReviewNumber" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Special Review Number" />
-		<property name="shortLabel" value="Special Review Number" />
-		<property name="maxLength" value="22" />
-		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
-		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
-		</property>
-		<property name="summary" value="Special Review Number" />
-		<property name="description" value="Special Review Number" />
-	</bean>-->
-
 	<bean id="AwardSpecialReview-specialReviewCode" parent="AwardSpecialReview-specialReviewCode-parentBean" />
 	<bean id="AwardSpecialReview-specialReviewCode-parentBean" abstract="true" parent="SpecialReviewReference-specialReviewCode">
 	</bean>
-	
-	<!--<bean id="AwardSpecialReview-specialReviewCode-parentBean" abstract="true" parent="AttributeDefinition" >
-	    <property name="name" value="specialReviewCode" />
-	    <property name="forceUppercase" value="false" />
-	    <property name="label" value="Type" />
-	    <property name="shortLabel" value="Special Review Code" />
-	    <property name="maxLength" value="3" />
-	    <property name="validationPattern" >
-	      <bean parent="AlphaNumericValidationPattern" />
-	    </property>
-	    <property name="required" value="true" />
-	    <property name="control" >
-	      <bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.bo.SpecialReview"
-	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-	            p:includeKeyInLabel="false"
-	            p:keyAttribute="specialReviewCode"
-	            p:labelAttribute="description" />
-	    </property>
-	    <property name="summary" value="Special Review Code" />
-	    <property name="description" value="The type indicates which special review, if any, is relevant to the document (proposal/award/irb)." />
-	</bean>-->
-
 	<bean id="AwardSpecialReview-approvalTypeCode" parent="AwardSpecialReview-approvalTypeCode-parentBean" />
 	<bean id="AwardSpecialReview-approvalTypeCode-parentBean" abstract="true" parent="SpecialReviewReference-approvalTypeCode" />
-	<!--<bean id="AwardSpecialReview-approvalTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
-	    <property name="name" value="approvalTypeCode" />s
-	    <property name="forceUppercase" value="false" />
-	    <property name="label" value="Approval Status" />
-	    <property name="shortLabel" value="Approval Type Code" />
-	    <property name="maxLength" value="3" />
-	    <property name="validationPattern" >
-	      <bean parent="AlphaNumericValidationPattern" />
-	    </property>
-	    <property name="required" value="true" />
-	    <property name="control" >
-	      <bean parent="SelectControlDefinition"
-	            p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.SpecialReviewApprovalTypeValuesFinder"
-	            p:includeKeyInLabel="false" />
-	    </property>
-	    <property name="summary" value="Approval Type Code" />
-	    <property name="description" value="The approval status indicates if the special review relevant to the document (proposal/award/irb) is pending approval, or already approved." />
-	</bean>-->
 
 	<bean id="AwardSpecialReview-protocolNumber" parent="AwardSpecialReview-protocolNumber-parentBean" />
 	<bean id="AwardSpecialReview-protocolNumber-parentBean" abstract="true" parent="SpecialReviewReference-protocolNumber" />
-	<!--<bean id="AwardSpecialReview-protocolNumber-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="protocolNumber" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Protocol Number" />
-		<property name="shortLabel" value="Protocol Number" />
-		<property name="maxLength" value="20" />
-		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
-		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
-		</property>
-		<property name="summary" value="Protocol Number" />
-		<property name="description" value="Protocol Number" />
-	</bean>-->
 
 	<bean id="AwardSpecialReview-applicationDate" parent="AwardSpecialReview-applicationDate-parentBean" />
-	<bean id="AwardSpecialReview-applicationDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
-		<property name="name" value="applicationDate" />
-		<property name="label" value="Application Date" />
-		<property name="shortLabel" value="Application Date" />
-		<property name="summary" value="Application Date" />
-		<property name="description" value="Application Date" />
-	</bean>
+	<bean id="AwardSpecialReview-applicationDate-parentBean" abstract="true" parent="SpecialReviewReference-applicationDate" />
 
 	<bean id="AwardSpecialReview-approvalDate" parent="AwardSpecialReview-approvalDate-parentBean" />
-	<bean id="AwardSpecialReview-approvalDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
-		<property name="name" value="approvalDate" />
-		<property name="label" value="Approval Date" />
-		<property name="shortLabel" value="Approval Date" />
-		<property name="summary" value="Approval Date" />
-		<property name="description" value="Approval Date" />
-	</bean>
+	<bean id="AwardSpecialReview-approvalDate-parentBean" abstract="true" parent="SpecialReviewReference-approvalDate" />
+
+	<bean id="AwardSpecialReview-expirationDate" parent="AwardSpecialReview-expirationDate-parentBean" />
+	<bean id="AwardSpecialReview-expirationDate-parentBean" abstract="true" parent="SpecialReviewReference-expirationDate" />
 
 	<bean id="AwardSpecialReview-comments" parent="AwardSpecialReview-comments-parentBean" />
 	<bean id="AwardSpecialReview-comments-parentBean" abstract="true" parent="SpecialReviewReference-comments" />
-	<!--<bean id="AwardSpecialReview-comments-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="comments" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Comments" />
-		<property name="shortLabel" value="Comments" />
-		<property name="maxLength" value="2000" />
-		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
-		</property>
-		<property name="control" >
-			<bean parent="TextareaControlDefinition"
-            p:rows="3"
-            p:cols="30" />
-		</property>
-		<property name="summary" value="Comments" />
-		<property name="description" value="Comments" />
-	</bean>-->
 
 	<bean id="AwardSpecialReview-specialReviewExemptions" parent="AwardSpecialReview-specialReviewExemptions-parentBean" />
 	<bean id="AwardSpecialReview-specialReviewExemptions-parentBean" abstract="true" parent="SpecialReviewReference-specialReviewExemptions" />
 	
-	<!--<bean id="AwardSpecialReview-specialReviewExemptions-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="specialReviewExemptions" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="SpecialReviewExemptions" />
-		<property name="shortLabel" value="SpecialReviewExemptions" />
-		<property name="maxLength" value="10" />
-		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
-		</property>
-		<property name="control" >
-			<bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.bo.ExemptionType"
-	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-	            p:includeKeyInLabel="false"
-	            p:keyAttribute="exemptionTypeCode"
-	            p:labelAttribute="description" />
-		</property>
-		<property name="summary" value="Special Review Exemptions" />
-		<property name="description" value="Special Review Exemptions" />
-	</bean>-->
-
 	<bean id="AwardSpecialReview-versionNumber" parent="AwardSpecialReview-versionNumber-parentBean" />
 	<bean id="AwardSpecialReview-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
 	</bean>
@@ -244,6 +124,8 @@
 								p:attributeName="applicationDate" />
 							<bean parent="FieldDefinition"
 								p:attributeName="approvalDate" />
+							<bean parent="FieldDefinition"
+								p:attributeName="expirationDate" />
 							<bean parent="FieldDefinition"
 								p:attributeName="comments" />
 						</list>
@@ -281,6 +163,8 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="approvalDate" />
 				<bean parent="FieldDefinition"
+					p:attributeName="expirationDate" />
+				<bean parent="FieldDefinition"
 					p:attributeName="comments" />
 			</list>
 		</property>
@@ -301,6 +185,8 @@
 					p:attributeName="applicationDate" />
 				<bean parent="FieldDefinition"
 					p:attributeName="approvalDate" />
+				<bean parent="FieldDefinition"
+					p:attributeName="expirationDate" />
 				<bean parent="FieldDefinition"
 					p:attributeName="comments" />
 			</list>
