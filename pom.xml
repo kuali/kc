@@ -541,6 +541,18 @@
   					<scope>test</scope>
 				</dependency>
 				<dependency>
+  					<groupId>org.jmock</groupId>
+  					<artifactId>jmock-legacy</artifactId>
+  					<version>2.5.0</version>
+  					<scope>test</scope>
+				</dependency>
+				<dependency>
+  					<groupId>org.objenesis</groupId>
+  					<artifactId>objenesis</artifactId>
+  					<version>1.0</version>
+  					<scope>test</scope>
+				</dependency>				
+				<dependency>
                     <groupId>atomikos</groupId>
                     <artifactId>transactions</artifactId>
                     <version>3.2.1</version>
