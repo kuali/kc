@@ -134,4 +134,8 @@ public class CommitteeMembershipRole extends KraPersistableBusinessObjectBase{
         hashMap.put("endDate", getEndDate());
         return hashMap;
     }
+    
+    public void init(CommitteeMembership committeeMembership) {
+        setMembershipId(committeeMembership.getMembershipId());
+    }
 }

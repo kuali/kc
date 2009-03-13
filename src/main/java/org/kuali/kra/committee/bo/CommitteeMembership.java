@@ -216,6 +216,9 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase {
 
     public void setMembershipRoles(List<CommitteeMembershipRole> membershipRoles) {
         this.membershipRoles = membershipRoles;
+        for (CommitteeMembershipRole role: membershipRoles) {
+            role.init(this);
+        }
     }
 
     public List<CommitteeMembershipRole> getMembershipRoles() {
@@ -271,6 +274,9 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase {
         hashMap.put("comments", getComments());
         hashMap.put("contactNotes", getContactNotes());
         hashMap.put("trainingNotes", getTrainingNotes());
+        hashMap.put("Role Count", getMembershipRoles().size());
+        hashMap.put("Role isEmpty", getMembershipRoles().isEmpty());
+        hashMap.put("Role is null", (getMembershipRoles() == null) ? true : false);
         return hashMap;
     }
 

@@ -15,22 +15,43 @@
  */
 package org.kuali.kra.committee.web.struts.form;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 
 public class MembershipRolesHelper {
     
-    private CommitteeMembershipRole newCommitteeMembershipRole;
+    /**
+     * Each Helper must contain a reference to its document form
+     * so that it can access the actual document.
+     */
+    private CommitteeForm form;
+
+    private List<CommitteeMembershipRole> newCommitteeMembershipRoles;
     
-    public MembershipRolesHelper() {
-        setNewCommitteeMembershipRole(new CommitteeMembershipRole());
+    public MembershipRolesHelper(CommitteeForm form) {
+        setForm(form);
+        setNewCommitteeMembershipRoles(new ArrayList<CommitteeMembershipRole>());
     }
 
-    public CommitteeMembershipRole getNewCommitteeMembershipRole() {
-        return newCommitteeMembershipRole;
+    public List<CommitteeMembershipRole> getNewCommitteeMembershipRoles() {
+        if (getForm().getCommitteeDocument().getCommittee().getCommitteeMemberships().size() > this.newCommitteeMembershipRoles.size()) {
+            this.newCommitteeMembershipRoles.add(this.newCommitteeMembershipRoles.size(), new CommitteeMembershipRole());
+        }
+        return newCommitteeMembershipRoles;
     }
 
-    public void setNewCommitteeMembershipRole(CommitteeMembershipRole newCommitteeMembershipRole) {
-        this.newCommitteeMembershipRole = newCommitteeMembershipRole;
+    public void setNewCommitteeMembershipRoles(List <CommitteeMembershipRole> newCommitteeMembershipRoles) {
+        this.newCommitteeMembershipRoles = newCommitteeMembershipRoles;
+    }
+
+    public CommitteeForm getForm() {
+        return form;
+    }
+
+    public void setForm(CommitteeForm form) {
+        this.form = form;
     }
 
 }
