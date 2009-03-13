@@ -23,6 +23,10 @@ import org.kuali.kra.scheduling.expr.util.CronSpecialChars;
 
 public class ScheduleOptionsUtilTest extends TestCase {
     
+    /**
+     * This method test's MonthOfWeek method.
+     * @throws Exception
+     */
     @Test
     public void testMonthOfWeek() throws Exception {
         
@@ -33,6 +37,10 @@ public class ScheduleOptionsUtilTest extends TestCase {
         assertEquals(CronSpecialChars.AUG,spChar2);
     }
     
+    /**
+     * This method test's DayOfWeek method.
+     * @throws Exception
+     */
     @Test
     public void testDayOfWeek() throws Exception {
         CronSpecialChars spChar1 = ScheduleOptionsUtil.getDayOfWeek("Monday");
@@ -42,6 +50,10 @@ public class ScheduleOptionsUtilTest extends TestCase {
         assertEquals(CronSpecialChars.THU,spChar2);
     }
     
+    /**
+     * This method test's WeekOfMonth method.
+     * @throws Exception
+     */
     @Test
     public void testWeekOfMonth() throws Exception {
         CronSpecialChars spChar1 = ScheduleOptionsUtil.getWeekOfMonth("second");
@@ -51,6 +63,10 @@ public class ScheduleOptionsUtilTest extends TestCase {
         assertEquals(CronSpecialChars.LAST,spChar2);        
     }
     
+    /**
+     * This method test's ConvertToWeekDays method.
+     * @throws Exception
+     */
     @Test
     public void testConvertToWeekdays() throws Exception {
         String [] daysOfWeek = {"Sunday", "Monday", "Tuesday", "Wednesday"};
