@@ -50,6 +50,10 @@ public class Month extends KeyValuesBase {
     public Month() {
     }
 
+    /**
+     * Creates and return List of months.
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     */
     @SuppressWarnings("unchecked")
     public List getKeyValues() {
         List keyValues = new ArrayList();
