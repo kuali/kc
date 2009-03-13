@@ -39,6 +39,7 @@
 				<ref bean="SpecialReviewReference-protocolNumber" />
 				<ref bean="SpecialReviewReference-applicationDate" />
 				<ref bean="SpecialReviewReference-approvalDate" />
+				<ref bean="SpecialReviewReference-expirationDate" />
 				<ref bean="SpecialReviewReference-comments" />
 				<ref bean="SpecialReviewReference-versionNumber" />
 			</list>
@@ -145,6 +146,15 @@
 		<property name="description" value="Approval Date" />
 	</bean>
 
+	<bean id="SpecialReviewReference-expirationDate" parent="SpecialReviewReference-expirationDate-parentBean" />
+	<bean id="SpecialReviewReference-expirationDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+		<property name="name" value="expirationDate" />
+		<property name="label" value="Expiration Date" />
+		<property name="shortLabel" value="Expiration Date" />
+		<property name="summary" value="Expiration Date" />
+		<property name="description" value="Expiration Date" />
+	</bean>
+
 	<bean id="SpecialReviewReference-comments" parent="SpecialReviewReference-comments-parentBean" />
 	<bean id="SpecialReviewReference-comments-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="comments" />
@@ -214,6 +224,8 @@
 							<bean parent="FieldDefinition"
 								p:attributeName="approvalDate" />
 							<bean parent="FieldDefinition"
+								p:attributeName="expirationDate" />
+							<bean parent="FieldDefinition"
 								p:attributeName="comments" />
 						</list>
 					</property>
@@ -247,6 +259,8 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="approvalDate" />
 				<bean parent="FieldDefinition"
+					p:attributeName="expirationDate" />
+				<bean parent="FieldDefinition"
 					p:attributeName="comments" />
 			</list>
 		</property>
@@ -264,6 +278,8 @@
 					p:attributeName="applicationDate" />
 				<bean parent="FieldDefinition"
 					p:attributeName="approvalDate" />
+				<bean parent="FieldDefinition"
+					p:attributeName="expirationDate" />
 				<bean parent="FieldDefinition"
 					p:attributeName="comments" />
 			</list>
