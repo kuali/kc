@@ -17,7 +17,7 @@
 
 <c:set var="awardAttributes" value="${DataDictionary.Award.attributes}" />
 
-<kul:tab tabTitle="Details & Dates" defaultOpen="false" tabErrorKey="document.award*">
+<kul:tab tabTitle="Details & Dates" defaultOpen="false" tabErrorKey="document.award*,detailsAndDatesFormHelper*">
 
 <!-- Institution -->
 <div class="tab-container" align="center">
@@ -31,23 +31,10 @@
     	<th><div align="right">*Award ID:</div></th>
     	<td>${KualiForm.awardDocument.award.awardId}</td>
     	<th>
-    		<div align="right">Account Type:</div>
+    		<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.accountTypeCode}" /></div>
 		</th>
     	<td>
-    		<select name="x1">
-        		<option value="0">select</option>
-        		<option value="1" selected>Regular</option>
-        		<option value="2">Fabricated Equipment</option>
-        		<option value="3">Draper Fellowship</option>
-        		<option value="4">Core Grant Administration</option>
-        		<option value="5">Gift</option>
-        		<option value="6">Conversion Account</option>
-        		<option value="7">Off-campus account</option>
-        		<option value="8">SBIR</option>
-        		<option value="9">STTR</option>
-        		<option value="10">No Account</option>
-        		<option value="11">Service Facilities</option>
-     		</select>
+    		<kul:htmlControlAttribute property="document.awardList[0].accountTypeCode" attributeEntry="${awardAttributes.accountTypeCode}" />
 		</td>
   	</tr>
   	<tr>
@@ -59,7 +46,7 @@
     		<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.activityTypeCode}" /></div>
     	</th>
     	<td>
-    		<kul:htmlControlAttribute property="awardDocument.award.activityTypeCode" attributeEntry="${awardAttributes.activityTypeCode}" />
+    		<kul:htmlControlAttribute property="document.awardList[0].activityTypeCode" attributeEntry="${awardAttributes.activityTypeCode}" />
 		</td>
   	</tr>
   	<tr>
@@ -67,32 +54,13 @@
     		<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.accountNumber}" /></div>
       	</th>
     	<td align="left" valign="middle">
-    		<kul:htmlControlAttribute property="awardDocument.award.accountNumber" attributeEntry="${awardAttributes.accountNumber}" />
+    		<kul:htmlControlAttribute property="document.awardList[0].accountNumber" attributeEntry="${awardAttributes.accountNumber}" />
     	</td>
     	<th>
-    		<div align="right">
-        		<label for="label7"></label>
-        		<label for="label">*Award Type:</label>
-        		<label for="basis of payment"></label>
-      		</div>
+    		<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.awardTypeCode}" /></div>
       	</th>
     	<td>
-    		<select name="z1">
-        		<option value="0">select</option>
-        		<option value="1">Budget Office WBS </option>
-        		<option value="2">Consortium Expenditures </option>
-        		<option value="3">Consortium Membership</option>
-        		<option value="4">Contract </option>
-        		<option value="5">Cooperative Agreement </option>
-        		<option value="6">Facilities Agreement</option>
-        		<option value="7">Fellowship </option>
-        		<option value="8">Gift </option>
-        		<option value="9" selected>Grant </option>
-        		<option value="10">Indefinite Delivery Contract </option>
-        		<option value="11">NIH Training Grant </option>
-        		<option value="12">Other Transaction Agreement </option>
-        		<option value="13">Student Financial Aid</option>
-      		</select>
+    		<kul:htmlControlAttribute property="document.awardList[0].awardTypeCode" attributeEntry="${awardAttributes.awardTypeCode}" />
       	</td>
   	</tr>
   	<tr>
@@ -102,7 +70,7 @@
       		</div>
       	</th>
     	<td>
-    		<kul:htmlControlAttribute property="awardDocument.award.statusCode" attributeEntry="${awardAttributes.statusCode}" />
+    		<kul:htmlControlAttribute property="document.awardList[0].statusCode" attributeEntry="${awardAttributes.statusCode}" />
       	</td>
     	<th>&nbsp;</th>
     	<td align="left" valign="middle">&nbsp;</td>
@@ -117,8 +85,8 @@
         	<table style="border:none; width:100%;">
         		<tr>
             		<td style="border:none; width:100%;">
-            			<kul:htmlControlAttribute property="awardDocument.award.title" attributeEntry="${awardAttributes.title}" />
-                    	<kra:expandedTextArea textAreaFieldName="awardDocument.award.title" action="awardHome" textAreaLabel="${awardAttributes.title.label}" />
+            			<kul:htmlControlAttribute property="document.awardList[0].title" attributeEntry="${awardAttributes.title}" />
+                    	<kra:expandedTextArea textAreaFieldName="document.awardList[0].title" action="awardHome" textAreaLabel="${awardAttributes.title.label}" />
         			</td>
             	</tr>
         	</table>
@@ -137,17 +105,17 @@
             <div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.sponsorCode}" /></div>
         </th>
         <td>
-        	<kul:htmlControlAttribute property="document.award.sponsorCode" attributeEntry="${awardAttributes.sponsorCode}" onblur="loadSponsorName('document.award.sponsorCode', 'sponsorName');" />
-        	<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:document.award.sponsorCode,sponsorName:document.award.sponsor.sponsorName" anchor="${tabKey}" />
-            <kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="document.sponsorCode:sponsorCode" anchor="${tabKey}" />
+        	<kul:htmlControlAttribute property="document.awardList[0].sponsorCode" attributeEntry="${awardAttributes.sponsorCode}" onblur="loadSponsorName('document.awardList[0].sponsorCode', 'sponsorName');" />
+        	<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:document.awardList[0].sponsorCode,sponsorName:document.awardList[0].sponsor.sponsorName" anchor="${tabKey}" />
+            <kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="document.awardList[0].sponsorCode:sponsorCode" anchor="${tabKey}" />
         	<div id="sponsorName.div" >
-            	<c:if test="${!empty KualiForm.document.award.sponsorCode}">
+            	<c:if test="${!empty KualiForm.document.awardList[0].sponsorCode}">
             		<c:choose>
-						<c:when test="${empty KualiForm.document.award.sponsor}">
+						<c:when test="${empty KualiForm.document.awardList[0].sponsor}">
 	                    	<span style='color: red;'>not found</span>
 	               		</c:when>
 	                  	<c:otherwise>
-							<c:out value="${KualiForm.document.award.sponsor.sponsorName}" />
+							<c:out value="${KualiForm.document.awardList[0].sponsor.sponsorName}" />
 						</c:otherwise>
 					</c:choose>
             	</c:if>
@@ -157,17 +125,17 @@
             <div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.primeSponsorCode}" /></div>
         </th>
         <td>
-        	<kul:htmlControlAttribute property="document.award.primeSponsorCode" attributeEntry="${awardAttributes.primeSponsorCode}" onblur="loadSponsorName('document.award.primeSponsorCode', 'primeSponsorName');" />
-        	<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:document.award.primeSponsorCode,sponsorName:document.award.primeSponsor.sponsorName" anchor="${tabKey}" />
-            <kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="document.primeSponsorCode:sponsorCode" anchor="${tabKey}" />
+        	<kul:htmlControlAttribute property="document.awardList[0].primeSponsorCode" attributeEntry="${awardAttributes.primeSponsorCode}" onblur="loadSponsorName('document.awardList[0].primeSponsorCode', 'primeSponsorName');" />
+        	<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:document.awardList[0].primeSponsorCode,sponsorName:document.awardList[0].primeSponsor.sponsorName" anchor="${tabKey}" />
+            <kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="document.awardList[0].primeSponsorCode:sponsorCode" anchor="${tabKey}" />
             <div id="primeSponsorName.div">
-            	<c:if test="${!empty KualiForm.document.award.primeSponsorCode}">
+            	<c:if test="${!empty KualiForm.document.awardList[0].primeSponsorCode}">
             		<c:choose>
-						<c:when test="${empty KualiForm.document.award.primeSponsor}">
+						<c:when test="${empty KualiForm.document.awardList[0].primeSponsor}">
 	                    	<span style='color: red;'>not found</span>
 	               		</c:when>
 	                  	<c:otherwise>
-							<c:out value="${KualiForm.document.award.primeSponsor.sponsorName}" />
+							<c:out value="${KualiForm.document.awardList[0].primeSponsor.sponsorName}" />
 						</c:otherwise>
 					</c:choose>
             	</c:if>
@@ -179,13 +147,13 @@
             <div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.sponsorAwardNumber}" /></div>
         </th>
         <td>
-        	<kul:htmlControlAttribute property="document.award.sponsorAwardNumber" attributeEntry="${awardAttributes.sponsorAwardNumber}" />
+        	<kul:htmlControlAttribute property="document.awardList[0].sponsorAwardNumber" attributeEntry="${awardAttributes.sponsorAwardNumber}" />
         </td>
         <th>
             <div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.cfdaNumber}" /></div>
         </th>
         <td>
-            <kul:htmlControlAttribute property="document.award.cfdaNumber" attributeEntry="${awardAttributes.cfdaNumber}" />
+            <kul:htmlControlAttribute property="document.awardList[0].cfdaNumber" attributeEntry="${awardAttributes.cfdaNumber}" />
 		</td>
     </tr>
     <tr>
@@ -193,12 +161,12 @@
             <div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.modificationNumber}" /></div>
         </th>
         <td align="left" valign="middle">
-            <kul:htmlControlAttribute property="document.award.modificationNumber" attributeEntry="${awardAttributes.modificationNumber}" />
+            <kul:htmlControlAttribute property="document.awardList[0].modificationNumber" attributeEntry="${awardAttributes.modificationNumber}" />
         </td>
         <th align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.nsfCode}" />
         </th>
         <td align="left" valign="middle">
-        	<kul:htmlControlAttribute property="document.award.nsfCode" attributeEntry="${awardAttributes.nsfCode}" />
+        	<kul:htmlControlAttribute property="document.awardList[0].nsfCode" attributeEntry="${awardAttributes.nsfCode}" />
         </td>
     </tr>
 </table>
@@ -226,36 +194,45 @@
             </div>
         </th>
         <td class="infoline">
-            <input name="sftid" type=text onchange="dataChanged()" value="" size="80" id="sftid"/>
-            <input name="image23" type="image" class="nobord" src="../images/searchicon.gif" alt="lookup">
-            <input name="image23" type="image" class="nobord" src="../images/book_open.png" alt="inquiry">
+        	<kul:htmlControlAttribute property="detailsAndDatesFormHelper.newAwardTransferringSponsor.sponsorCode" attributeEntry="${awardAttributes.sponsorCode}" onblur="loadSponsorName('detailsAndDatesFormHelper.newAwardTransferringSponsor.sponsorCode', 'newAwardTransferringSponsorName');" />
+            <kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:detailsAndDatesFormHelper.newAwardTransferringSponsor.sponsorCode,sponsorName:detailsAndDatesFormHelper.newAwardTransferringSponsor.sponsor.sponsorName" anchor="${tabKey}" />
+            <kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="detailsAndDatesFormHelper.newAwardTransferringSponsor.sponsorCode:sponsorCode" anchor="${tabKey}" />
+            <div id="newAwardTransferringSponsorName.div">
+            	<c:if test="${!empty KualiForm.detailsAndDatesFormHelper.newAwardTransferringSponsor.sponsorCode}">
+            		<c:choose>
+						<c:when test="${empty KualiForm.detailsAndDatesFormHelper.newAwardTransferringSponsor}">
+	                    	<span style='color: red;'>not found</span>
+	               		</c:when>
+	                  	<c:otherwise>
+							<c:out value="${KualiForm.detailsAndDatesFormHelper.newAwardTransferringSponsor.sponsorName}" />
+						</c:otherwise>
+					</c:choose>
+            	</c:if>
+			</div>
         </td>
-        <td class="infoline" style="text-align:center;">
-            <input name="image231" type="image" class="nobord" src="../images/tinybutton-add1.gif" alt="add">
-        </td>
-    </tr>
-    <tr>
-        <th>
-            1
-        </th>
-        <td>
-            000627 : Department of Health and Human Services
-        </td>
-        <td style="text-align:center;">
-            <input name="image2311" type="image" class="nobord" src="../images/tinybutton-delete1.gif" alt="delete">
-        </td>
-    </tr>
-    <tr>
-        <th>
-            2
-        </th>
-        <td>
-            003839 : National Eye Institute
-        </td>
-        <td style="text-align:center;">
-            <input name="image2312" type="image" class="nobord" src="../images/tinybutton-delete1.gif" alt="delete">
+        <td width="10%" class="infoline">
+        	<div align="center">&nbsp;
+            	<html:image property="methodToCall.addAwardTransferringSponsor.anchor${tabKey}"
+					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+			</div>
         </td>
     </tr>
+    <c:forEach var="awardTransferringSponsor" items="${KualiForm.document.awardList[0].awardTransferringSponsors}" varStatus="status">
+		<tr>
+			<th width="5%">
+				${status.index + 1}
+			</th>
+	       	<td>
+				${awardTransferringSponsor.sponsorCode} : ${awardTransferringSponsor.sponsor.sponsorName}
+			</td>
+			<td width="10%">
+				<div align="center">&nbsp;
+					<html:image property="methodToCall.deleteAwardTransferringSponsor.line${status.index}.anchor${currentTabIndex}"
+						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+				</div>
+	    	</td>
+		</tr>
+    </c:forEach> 
 </table>
 
 <!-- Dates -->
@@ -268,34 +245,27 @@
 			<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.beginDate}" /></div>
         </th>
         <td align="left" valign="middle">
-        	<kul:htmlControlAttribute property="document.award.beginDate" attributeEntry="${awardAttributes.beginDate}" datePicker="true" />
+        	<kul:htmlControlAttribute property="document.awardList[0].beginDate" attributeEntry="${awardAttributes.beginDate}" datePicker="true" />
 		</td>
         <th>
 			<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.awardEffectiveDate}" /></div>
         </th>
         <td align="left" valign="middle">
-        	<kul:htmlControlAttribute property="document.award.awardEffectiveDate" attributeEntry="${awardAttributes.awardEffectiveDate}" datePicker="true" />
+        	<kul:htmlControlAttribute property="document.awardList[0].awardEffectiveDate" attributeEntry="${awardAttributes.awardEffectiveDate}" datePicker="true" />
         </td>
     </tr>
     <tr>
-        <th>
-        	<div align="right">
-            	<label for="account type">*Project End Date:</label>
-            </div>
+    	<th>
+			<div align="right">* Project End Date:</div>
         </th>
-        <td align=left valign=middle>
-        	<span>
-            	<input name="ed" type="text" value="12/31/2013" size=12>
-            </span>
-            <span>
-            	<a href="#" onClick="cal.select(document.forms['example'].date1,'anchor1','MM/dd/yyyy'); return false;" name="anchor1" id="anchor4"> <img src="../images/cal.gif" alt="select date" width=16 height=16 align=absmiddle></a>
-            </span>
+        <td align="left" valign="middle">
+        	<kul:htmlControlAttribute property="document.awardList[0].preAwardEffectiveDate" attributeEntry="${awardAttributes.preAwardEffectiveDate}" datePicker="true" />
         </td>
         <th>
         	<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.awardExecutionDate}" /></div>
         </th>
         <td align="left" valign="middle">
-            <kul:htmlControlAttribute property="document.award.awardExecutionDate" attributeEntry="${awardAttributes.awardExecutionDate}" datePicker="true" />
+            <kul:htmlControlAttribute property="document.awardList[0].awardExecutionDate" attributeEntry="${awardAttributes.awardExecutionDate}" datePicker="true" />
         </td>
     </tr>
 </table>
