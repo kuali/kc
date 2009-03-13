@@ -25,21 +25,41 @@ public class ScheduleOptionsUtil {
     @SuppressWarnings("unused")
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScheduleOptionsUtil.class);
 
+    /**
+     * This method returns CronSpecialChars of a month.
+     * @param month
+     * @return
+     */
     public static CronSpecialChars getMonthOfWeek(String month) {
         String abbr = Months.valueOf(month).getAbbr();        
         return CronSpecialChars.valueOf(abbr);
     }
     
+    /**
+     * This method returns CronSpecialChars of a day of week.
+     * @param dayOfWeek
+     * @return
+     */
     public static CronSpecialChars getDayOfWeek(String dayOfWeek) {
         String abbr = DayOfWeek.valueOf(dayOfWeek).getAbbr();
         return CronSpecialChars.valueOf(abbr);
     } 
     
+    /**
+     * This method returns CronSpecialChars of month of week.
+     * @param monthsWeek
+     * @return
+     */
     public static CronSpecialChars getWeekOfMonth(String monthsWeek) {
         String number = WeekOfMonth.valueOf(monthsWeek).getNumber();
         return CronSpecialChars.valueOf(number);
     }
     
+    /**
+     * This method returns CronSpecialChars[] of days of week.
+     * @param daysOfWeek
+     * @return
+     */
     public static CronSpecialChars[] convertToWeekdays(String [] daysOfWeek){        
         CronSpecialChars [] weekdays = new CronSpecialChars[daysOfWeek.length];
         int i = 0;

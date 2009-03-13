@@ -28,28 +28,40 @@ public abstract class CommitteeScheduleEventBase extends KraDocumentEventBase im
     
     private List<CommitteeSchedule> committeeSchedules;
     
-    private event type;
+    private Event type;
     
-    protected CommitteeScheduleEventBase(String description, String errorPathPrefix, Document document, ScheduleData scheduleData, List<CommitteeSchedule> committeeSchedules, event type) {
+    protected CommitteeScheduleEventBase(String description, String errorPathPrefix, Document document, ScheduleData scheduleData, List<CommitteeSchedule> committeeSchedules, Event type) {
         super(description, errorPathPrefix, document);
         this.scheduleData = scheduleData;
         this.committeeSchedules = committeeSchedules;
         this.type = type;
     }
     
+    /**
+     * @see org.kuali.kra.rule.event.KraDocumentEventBase#logEvent()
+     */
     @Override
     protected void logEvent() {
     }
     
+    /**
+     * @see org.kuali.kra.committee.rule.event.CommitteeScheduleEvent#getScheduleData()
+     */
     public ScheduleData getScheduleData() {
         return this.scheduleData;
     }
     
+    /**
+     * @see org.kuali.kra.committee.rule.event.CommitteeScheduleEvent#getCommitteeSchedules()
+     */
     public List<CommitteeSchedule> getCommitteeSchedules(){
         return this.committeeSchedules;
     }
     
-    public event getType() {
+    /**
+     * @see org.kuali.kra.committee.rule.event.CommitteeScheduleEvent#getType()
+     */
+    public Event getType() {
         return this.type;
     }
 }

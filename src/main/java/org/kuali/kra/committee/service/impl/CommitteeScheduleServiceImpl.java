@@ -52,6 +52,12 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
     @SuppressWarnings("unused")
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeScheduleServiceImpl.class);
     
+    private static final String COLON = ":";
+    
+    private static final String DESCRIPTION = "description";
+    
+    private static final String SCHEDULED = "Scheduled";
+    
     private BusinessObjectService businessObjectService;
 
     private ScheduleService scheduleService;
@@ -64,10 +70,17 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
         this.businessObjectService = businessObjectService;
     }    
     
+    /**
+     * Set the Schedule Service.
+     * @param scheduleService
+     */
     public void setScheduleService(ScheduleService scheduleService) {
         this.scheduleService = scheduleService;
     }
 
+    /**
+     * @see org.kuali.kra.committee.service.CommitteeScheduleService#isCommitteeScheduleDeletable(org.kuali.kra.committee.bo.CommitteeSchedule)
+     */
     public Boolean isCommitteeScheduleDeletable(CommitteeSchedule committeeSchedule){
         
         boolean retVal = false;
@@ -79,6 +92,11 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
         return retVal;
     }
     
+    /**
+     * Helper method to check if schedule date is in past.
+     * @param committeeSchedule
+     * @return
+     */
     private Boolean isScheduleDateInPast(CommitteeSchedule committeeSchedule){
         boolean retVal = true;
         Date dt = new Date();
@@ -90,6 +108,11 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
         return retVal;
     }
     
+    /**
+     * Helper method to check if Protocol is assigned to CommitteeSchedule.
+     * @param committeeSchedule
+     * @return
+     */
     private Boolean isProtocolAssignedToScheduleDate(CommitteeSchedule committeeSchedule){
         boolean retVal = true;
         List<Protocol> list = committeeSchedule.getProtocols();
@@ -98,6 +121,9 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
         return retVal;
     }
 
+    /**
+     * @see org.kuali.kra.committee.service.CommitteeScheduleService#addSchedule(org.kuali.kra.committee.web.struts.form.schedule.ScheduleData, org.kuali.kra.committee.bo.Committee)
+     */
     public void addSchedule(ScheduleData scheduleData, Committee committee) throws ParseException {
         
         List<Date> dates = null;
@@ -183,16 +209,30 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
 
     }
     
+    /**
+     * Helper method to convert date and minutes into Time24HrFmt object.
+     * @param date
+     * @param min
+     * @return
+     * @throws ParseException
+     */
     private Time24HrFmt getTime24hFmt(Date date, int min) throws ParseException{
         Date dt  = DateUtils.round(date, Calendar.DAY_OF_MONTH);            
         dt = DateUtils.addMinutes(dt, min);
         Calendar cl = new GregorianCalendar();
         cl.setTime(dt);
         StringBuffer sb = new StringBuffer();
-        String str = sb.append(cl.get(Calendar.HOUR_OF_DAY)).append(":").append(cl.get(Calendar.MINUTE)).toString();       
+        String str = sb.append(cl.get(Calendar.HOUR_OF_DAY)).append(COLON).append(cl.get(Calendar.MINUTE)).toString();       
         return new Time24HrFmt(str); 
     }
   
+    /**
+     * Helper method to add schedule to list.
+     * @param dates
+     * @param committee
+     * @param location
+     * @param skippedDates
+     */
     private void addScheduleDatesToCommittee(List<Date> dates, Committee committee, String location, List<java.sql.Date> skippedDates){
         for(Date date: dates) {
             java.sql.Date sqldate = new java.sql.Date(date.getTime());
@@ -220,6 +260,12 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
         }
     }
     
+    /**
+     * Helper method to test if date is available (non conflicting).
+     * @param committeeSchedules
+     * @param date
+     * @return
+     */
     private Boolean isDateAvailable(List<CommitteeSchedule>committeeSchedules, java.sql.Date date){
         boolean retVal = true;
         for(CommitteeSchedule committeeSchedule: committeeSchedules) {
@@ -231,15 +277,25 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
         return retVal;
     }
     
+    /**
+     * Helper method to calculate advanced submission days.
+     * @param startDate
+     * @param days
+     * @return
+     */
     private java.sql.Date calculateAdvancedSubmissionDays(Date startDate, Integer days){
         Date deadlineDate = DateUtils.addDays(startDate, -days);
         return new java.sql.Date(deadlineDate.getTime());
     }
     
+    /**
+     * Helper method to retrieve default ScheduleStatus object.
+     * @return
+     */
     @SuppressWarnings("unchecked")
     private ScheduleStatus getDefaultScheduleStatus(){
         Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("description", "Scheduled");
+        fieldValues.put(DESCRIPTION, SCHEDULED);
         List<ScheduleStatus> scheduleStatuses = (List<ScheduleStatus>)businessObjectService.findMatching(ScheduleStatus.class, fieldValues);
         return scheduleStatuses.get(0);
     }

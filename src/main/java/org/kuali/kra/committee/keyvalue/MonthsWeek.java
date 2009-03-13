@@ -24,9 +24,13 @@ import org.kuali.core.web.ui.KeyLabelPair;
 public class MonthsWeek extends KeyValuesBase {
 
     public static final String FIRST =  "first";
+    
     public static final String SECOND = "second";
+    
     public static final String THIRD = "third";
+    
     public static final String FOURTH = "fourth";
+    
     public static final String LAST = "last";
     
     public MonthsWeek() {

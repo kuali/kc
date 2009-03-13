@@ -28,7 +28,7 @@ import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.rule.event.AddCommitteeScheduleDateConflictEvent;
 import org.kuali.kra.committee.rule.event.AddCommitteeScheduleStartAndEndDateEvent;
-import org.kuali.kra.committee.rule.event.CommitteeScheduleEvent.event;
+import org.kuali.kra.committee.rule.event.CommitteeScheduleEvent.Event;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
@@ -69,32 +69,47 @@ public class CommitteeScheduleAction extends CommitteeAction {
         CommitteeForm committeeForm = (CommitteeForm) form;
         List<CommitteeSchedule> committeeSchedules = committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules();
         
-        if(applyRules(new AddCommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules, event.HARDERROR))){
+        if(applyRules(new AddCommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules, Event.HARDERROR))){
             actionForward = super.save(mapping, form, request, response);
         }
         
         return actionForward;
     }    
     
+    /**
+     * This method us UI hook to add new schedules to list of schedules.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward addEvent(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         CommitteeForm committeeForm = (CommitteeForm) form;
-        
         ScheduleData scheduleData = committeeForm.getScheduleData();
-        scheduleData.printf();//TODO remove
         
-        if(applyRules(new AddCommitteeScheduleStartAndEndDateEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, event.HARDERROR))){
+        if(applyRules(new AddCommitteeScheduleStartAndEndDateEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, Event.HARDERROR))){
             CommitteeScheduleService service  = getCommitteeScheduleService();
             service.addSchedule(scheduleData, committeeForm.getCommitteeDocument().getCommittee());
             
-            applyRules(new AddCommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, event.SOFTERROR));
+            applyRules(new AddCommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, Event.SOFTERROR));
         }        
-        //TODO comment it: Changes style class selection, which will trigger selected type of recurrence
         scheduleData.populateStyleClass();        
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
 
+    /**
+     * This method is UI hook to delete CommitteeSchedule from list.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward deleteCommitteeSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         CommitteeForm committeeForm = (CommitteeForm) form;          
@@ -113,6 +128,15 @@ public class CommitteeScheduleAction extends CommitteeAction {
         return mapping.findForward(Constants.MAPPING_BASIC );
     }    
     
+    /**
+     * This method is UI hook to filter dates in between start and end date.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward filterCommitteeScheduleDates(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         CommitteeForm committeeForm = (CommitteeForm) form;  
@@ -123,6 +147,15 @@ public class CommitteeScheduleAction extends CommitteeAction {
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
 
+    /**
+     * This method is UI hook to reset filtered dates.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward resetCommitteeScheduleDates(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         CommitteeForm committeeForm = (CommitteeForm) form;        
@@ -130,14 +163,26 @@ public class CommitteeScheduleAction extends CommitteeAction {
         return mapping.findForward(Constants.MAPPING_BASIC );
     } 
     
+    /**
+     * This method is UI hook to load recurrence, in case javascript is turned off on browser.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward loadRecurrence(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         CommitteeForm committeeForm = (CommitteeForm) form;
-        //TODO comment it: Changes style class selection, which will trigger selected type of recurrence
         committeeForm.getScheduleData().populateStyleClass();
         return mapping.findForward(Constants.MAPPING_BASIC );
     }  
     
+    /**
+     * This method retrieve CommitteeScheduleService.
+     * @return
+     */
     private CommitteeScheduleService getCommitteeScheduleService(){
         return KraServiceLocator.getService(CommitteeScheduleService.class);
     }

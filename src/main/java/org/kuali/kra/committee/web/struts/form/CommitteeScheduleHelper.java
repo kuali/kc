@@ -38,10 +38,18 @@ public class CommitteeScheduleHelper {
         this.form = form;
     }
     
+    /**
+     * This method is UI view hook.
+     */
     public void prepareView() {
         prepareCommitteeScheduleDeleteView();
     }
     
+    /**
+     * This method prepares view to filter dates between start and end date.
+     * @param startDate
+     * @param endDate
+     */
     public void prepareFilterDatesView(Date startDate, Date endDate) {
         List<CommitteeSchedule> committeeSchedules = form.getCommitteeDocument().getCommittee().getCommitteeSchedules();
         startDate = DateUtils.addDays(startDate, -1);
@@ -56,6 +64,9 @@ public class CommitteeScheduleHelper {
         }
     }
     
+    /**
+     * This method prepares view to reset filtered dates.
+     */
     public void resetFilterDatesView() {
         List<CommitteeSchedule> committeeSchedules = form.getCommitteeDocument().getCommittee().getCommitteeSchedules();
         for(CommitteeSchedule committeeSchedule : committeeSchedules) {
@@ -63,6 +74,9 @@ public class CommitteeScheduleHelper {
         }
     }
     
+    /**
+     * Helper method prepares view for deleteable CommitteeSchedules.
+     */
     private void prepareCommitteeScheduleDeleteView(){
         
         List<CommitteeSchedule> committeeSchedules = form.getCommitteeDocument().getCommittee().getCommitteeSchedules();
@@ -74,6 +88,10 @@ public class CommitteeScheduleHelper {
         }    
     }
     
+    /**
+     * This method returns CommitteeScheduleService.
+     * @return
+     */
     private CommitteeScheduleService getCommitteeScheduleService() {
         return KraServiceLocator.getService(CommitteeScheduleService.class);
     }
