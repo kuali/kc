@@ -25,7 +25,37 @@ import org.junit.Test;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class CommitteeScheduleWebCommitteeSchedulePanel extends CommitteeScheduleWebTestBase {
-
+    
+    public static final String DAILY = "DAILY";
+    
+    public static final String SCHEDULEDATA_RECURRENCECTYPE = "scheduleData.recurrenceType";
+    
+    public static final String SCHEDULEDATA_DAILYSCHEDULE_SCHEDULEENDDATE = "scheduleData.dailySchedule.scheduleEndDate";
+    
+    public static final String METHODTOCALL_ADDEVENT_ANCHOR = "methodToCall.addEvent.anchor";
+    
+    public static final String DOCUMENT_COMMITTEE_COMMITTEESCHEDULES_0_SCHEDULEDDATE = "document.committee.committeeSchedules[0].scheduledDate";
+    
+    public static final String DOCUMENT_COMMITTEE_COMMITTEESCHEDULES_0_PROTOCOLSUBDEADLINE = "document.committee.committeeSchedules[0].protocolSubDeadline";
+    
+    public static final String DOCUMENT_COMMITTEE_COMMITTEESCHEDULES_0_SCHEDULESTATUSCODE = "document.committee.committeeSchedules[0].scheduleStatusCode";
+    
+    public static final String DOCUMENT_COMMITTEE_COMMITTEESCHEDULES_0_PLACE = "document.committee.committeeSchedules[0].place";
+    
+    public static final String DOCUMENT_COMMITTEE_COMMITTEESCHEDULES_0_VIWETIME_TIME = "document.committee.committeeSchedules[0].viewTime.time";
+   
+    public static final String THREE = "3";
+    
+    public static final String SACRAMENTO = "Sacramento";
+    
+    public static final String TIME_10_30 = "10:30";
+    
+    public static final String METHODTOCALL_DELETECOMMITTEESCHEDULE_LINE_2_ANCHOR_0 = "methodToCall.deleteCommitteeSchedule.line2.anchor0";
+    
+    public static final String METHODTOCALL_PROCESSANSWER_BUTTON = "methodToCall.processAnswer.button0";
+    
+    public static final String AGENDA_CLOSED = "Agenda Closed";
+    
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -36,6 +66,10 @@ public class CommitteeScheduleWebCommitteeSchedulePanel extends CommitteeSchedul
         super.tearDown();
     }
 
+    /**
+     * This method test's form save. 
+     * @throws Exception
+     */
     @Test
     public void testSchedulePanelSave() throws Exception {
         
@@ -44,10 +78,10 @@ public class CommitteeScheduleWebCommitteeSchedulePanel extends CommitteeSchedul
         String scheduleDate = formatDate(dt);        
         setFields(schedulePage, scheduleDate);        
         String endDate = formatDate(DateUtils.addDays(dt, 2));        
-        setFieldValue(schedulePage, "scheduleData.recurrenceType", "DAILY");       
-        setFieldValue(schedulePage, "scheduleData.dailySchedule.scheduleEndDate", endDate);
+        setFieldValue(schedulePage, SCHEDULEDATA_RECURRENCECTYPE, DAILY);       
+        setFieldValue(schedulePage, SCHEDULEDATA_DAILYSCHEDULE_SCHEDULEENDDATE, endDate);
         
-        HtmlPage pageAfterAdd = clickOnByName(schedulePage,"methodToCall.addEvent.anchor", true);
+        HtmlPage pageAfterAdd = clickOnByName(schedulePage,METHODTOCALL_ADDEVENT_ANCHOR, true);
         
         assertFalse(hasError(pageAfterAdd));        
         assertRecord(pageAfterAdd, DateUtils.addDays(dt, 0));        
@@ -56,21 +90,25 @@ public class CommitteeScheduleWebCommitteeSchedulePanel extends CommitteeSchedul
         
         Date testDate = DateUtils.addDays(new Date(), 5);        
         String strDate = formatDate(testDate);        
-        setFieldValue(pageAfterAdd, "document.committee.committeeSchedules[0].scheduledDate", strDate);        
+        setFieldValue(pageAfterAdd, DOCUMENT_COMMITTEE_COMMITTEESCHEDULES_0_SCHEDULEDDATE, strDate);        
         String deadlineDate = formatDate(DateUtils.addDays(testDate, -1));        
-        setFieldValue(pageAfterAdd, "document.committee.committeeSchedules[0].protocolSubDeadline", deadlineDate);        
-        setFieldValue(pageAfterAdd, "document.committee.committeeSchedules[0].scheduleStatusCode", "3");        
-        setFieldValue(pageAfterAdd, "document.committee.committeeSchedules[0].place", "Sacramento");        
-        setFieldValue(pageAfterAdd, "document.committee.committeeSchedules[0].viewTime.time", "10:30");
+        setFieldValue(pageAfterAdd, DOCUMENT_COMMITTEE_COMMITTEESCHEDULES_0_PROTOCOLSUBDEADLINE, deadlineDate);        
+        setFieldValue(pageAfterAdd, DOCUMENT_COMMITTEE_COMMITTEESCHEDULES_0_SCHEDULESTATUSCODE, THREE);        
+        setFieldValue(pageAfterAdd, DOCUMENT_COMMITTEE_COMMITTEESCHEDULES_0_PLACE, SACRAMENTO);        
+        setFieldValue(pageAfterAdd, DOCUMENT_COMMITTEE_COMMITTEESCHEDULES_0_VIWETIME_TIME, TIME_10_30);
         
         HtmlPage pageAfterSave = saveDoc(pageAfterAdd);
 
         assertRecord(pageAfterSave, testDate);        
-        assertContains(pageAfterSave,"Agenda Closed");
-        assertContains(pageAfterSave,"Sacramento");
-        assertContains(pageAfterSave,"10:30");
+        assertContains(pageAfterSave,AGENDA_CLOSED);
+        assertContains(pageAfterSave,SACRAMENTO);
+        assertContains(pageAfterSave,TIME_10_30);
     }
 
+    /**
+     * This method test's delete button in schedule panel.
+     * @throws Exception
+     */
     @Test
     public void testScheduleDelete() throws Exception {
         
@@ -79,10 +117,10 @@ public class CommitteeScheduleWebCommitteeSchedulePanel extends CommitteeSchedul
         String scheduleDate = formatDate(dt);        
         setFields(schedulePage, scheduleDate);        
         String endDate = formatDate(DateUtils.addDays(dt, 3));        
-        setFieldValue(schedulePage, "scheduleData.recurrenceType", "DAILY");       
-        setFieldValue(schedulePage, "scheduleData.dailySchedule.scheduleEndDate", endDate);
+        setFieldValue(schedulePage, SCHEDULEDATA_RECURRENCECTYPE, DAILY);       
+        setFieldValue(schedulePage, SCHEDULEDATA_DAILYSCHEDULE_SCHEDULEENDDATE, endDate);
         
-        HtmlPage pageAfterAdd = clickOnByName(schedulePage,"methodToCall.addEvent.anchor", true);
+        HtmlPage pageAfterAdd = clickOnByName(schedulePage,METHODTOCALL_ADDEVENT_ANCHOR, true);
         
         assertFalse(hasError(pageAfterAdd));        
         assertRecord(pageAfterAdd, DateUtils.addDays(dt, 0));        
@@ -90,8 +128,8 @@ public class CommitteeScheduleWebCommitteeSchedulePanel extends CommitteeSchedul
         assertRecord(pageAfterAdd, DateUtils.addDays(dt, 2));
         assertRecord(pageAfterAdd, DateUtils.addDays(dt, 3));
         
-        HtmlPage deletePage = clickOnByName(pageAfterAdd,"methodToCall.deleteCommitteeSchedule.line2.anchor0", true);        
-        HtmlPage confirmPage = clickOnByName(deletePage,"methodToCall.processAnswer.button0", true);
+        HtmlPage deletePage = clickOnByName(pageAfterAdd,METHODTOCALL_DELETECOMMITTEESCHEDULE_LINE_2_ANCHOR_0, true);        
+        HtmlPage confirmPage = clickOnByName(deletePage,METHODTOCALL_PROCESSANSWER_BUTTON, true);
         HtmlPage savePage = saveDoc(confirmPage);
         
         assertRecord(savePage, DateUtils.addDays(dt, 0));        
