@@ -92,12 +92,11 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        AwardForm awardForm = (AwardForm) form;
-        AwardDocument document = awardForm.getAwardDocument();     
+        AwardForm awardForm = (AwardForm) form;   
         ActionForward forward = super.save(mapping, form, request, response);
 
         if (awardForm.getMethodToCall().equals("save") && awardForm.isAwardAuditActivated()) {
-            forward = mapping.findForward("actions");
+            forward = mapping.findForward(Constants.MAPPING_AWARD_ACTIONS_PAGE);
         }
 
         return forward;
