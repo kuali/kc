@@ -37,6 +37,9 @@ import org.kuali.kra.committee.web.struts.form.schedule.DayOfWeek;
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.kra.irb.bo.Protocol;
 
+/**
+ * This is BO class to support CommitteeScheulde. It has three transient field to support UI.
+ */
 @Entity 
 @Table(name="COMM_SCHEDULE")
 public class CommitteeSchedule extends KraPersistableBusinessObjectBase { 
@@ -103,7 +106,7 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
     @JoinColumn(name="SCHEDULE_STATUS_CODE", insertable=false, updatable=false)
     private ScheduleStatus scheduleStatus;
     
-    //TODO revisit required during meeting management
+    //TODO revisit required during meeting management to map Protocol
     private List<Protocol> protocols;
 
     public CommitteeSchedule() { 
@@ -149,6 +152,11 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
 		this.place = place;
 	}
 
+	/**
+	 * This method is BO persistent accessor method, which adds Time to Date on each call. 
+	 * In support to UI.
+	 * @return
+	 */
 	public Timestamp getTime() {
 	    java.util.Date dt = new java.util.Date(this.time.getTime());
 	    dt = DateUtils.round(dt, Calendar.DAY_OF_MONTH);
@@ -245,6 +253,10 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
         //Do nothing, struts needs it on refresh
     }
     
+    /**
+     * This UI support method to find day Of week from BO's persistent field scheduledDate.
+     * @return
+     */
     public String getDayOfWeek() {
         Calendar cl = new GregorianCalendar();
         cl.setTime(scheduledDate);
