@@ -59,6 +59,6 @@ public class ScheduleStatusTest extends BoAttributeTestBase<ScheduleStatus> {
     @SuppressWarnings("unchecked")
     @Override
     protected Map getToStringMapper() {
-       return getBo().toStringMapper();
+       return getT().toStringMapper();
     }
 }

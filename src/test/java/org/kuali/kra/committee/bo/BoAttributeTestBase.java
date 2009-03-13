@@ -114,7 +114,7 @@ public abstract class BoAttributeTestBase<T extends KraPersistableBusinessObject
      * 
      * @return
      */
-    public T getBo() {
+    public T getT() {
         return bo;
     }
 

@@ -119,7 +119,7 @@ public class CommitteeScheduleTest extends BoAttributeTestBase<CommitteeSchedule
     @SuppressWarnings("unchecked")
     @Override
     protected Map<String, Object> getToStringMapper() {
-        return getBo().toStringMapper();
+        return getT().toStringMapper();
     }
     
     /**
