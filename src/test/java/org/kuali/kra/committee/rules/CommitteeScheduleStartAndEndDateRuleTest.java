@@ -56,6 +56,10 @@ public class CommitteeScheduleStartAndEndDateRuleTest extends KraTestBase {
         super.setUp();
     }
     
+    /**
+     * This method test's rule for user's NEVER selection. 
+     * @throws Exception
+     */
     @Test
     public void testNever() throws Exception {
         
@@ -64,6 +68,10 @@ public class CommitteeScheduleStartAndEndDateRuleTest extends KraTestBase {
         testAssertTrue();
     }
     
+    /**
+     * This method test's rule for user's DAILY selection. 
+     * @throws Exception
+     */
     @Test
     public void testDailyForTrue() throws Exception {
         
@@ -76,6 +84,10 @@ public class CommitteeScheduleStartAndEndDateRuleTest extends KraTestBase {
         testAssertTrue();
     }
     
+    /**
+     * This method test's rule for user's DAILY selection. 
+     * @throws Exception
+     */
     @Test
     public void testDailyForFalse() throws Exception {
         
@@ -88,6 +100,10 @@ public class CommitteeScheduleStartAndEndDateRuleTest extends KraTestBase {
         assertMessages(DAILY);
     }
     
+    /**
+     * This method test's rule for user's WEEKLY selection.
+     * @throws Exception
+     */
     @Test
     public void testWeeklyForTrue() throws Exception {
         
@@ -100,6 +116,10 @@ public class CommitteeScheduleStartAndEndDateRuleTest extends KraTestBase {
         testAssertTrue();
     }
 
+    /**
+     * This method test's rule for user's WEEKLY selection.
+     * @throws Exception
+     */
     @Test
     public void testWeeklyForFalse() throws Exception {
         
@@ -112,6 +132,10 @@ public class CommitteeScheduleStartAndEndDateRuleTest extends KraTestBase {
         assertMessages(WEEKLY);
     }
 
+    /**
+     * This method test's rule for user's MONTHLY selection.
+     * @throws Exception
+     */
     @Test
     public void testMonthlyForTrue() throws Exception {
         
@@ -124,6 +148,10 @@ public class CommitteeScheduleStartAndEndDateRuleTest extends KraTestBase {
         testAssertTrue();
     }
 
+    /**
+     * This method test's rule for user's MONTHLY selection.
+     * @throws Exception
+     */
     @Test
     public void testMonthlyForFalse() throws Exception {
         
@@ -136,6 +164,10 @@ public class CommitteeScheduleStartAndEndDateRuleTest extends KraTestBase {
         assertMessages(MONTHLY);
     }    
 
+    /**
+     * This method test's rule for user's YEARLY selection.
+     * @throws Exception
+     */
     @Test
     public void testYearlyForTrue() throws Exception {
         
@@ -148,6 +180,10 @@ public class CommitteeScheduleStartAndEndDateRuleTest extends KraTestBase {
         testAssertTrue();
     }
 
+    /**
+     * This method test's rule for user's YEARLY selection.
+     * @throws Exception
+     */
     @Test
     public void testYearlyForFalse() throws Exception {
         
@@ -161,6 +197,10 @@ public class CommitteeScheduleStartAndEndDateRuleTest extends KraTestBase {
         assertMessages(YEARLY);
     } 
     
+    /**
+     * This method is helper method to assert messages.
+     * @param key
+     */
     private void assertMessages(String key) {
         TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(START_DATE);
         assertTrue(errors.size() == 1);    
@@ -173,16 +213,26 @@ public class CommitteeScheduleStartAndEndDateRuleTest extends KraTestBase {
         assertEquals(message.getErrorKey(), KeyConstants.ERROR_COMMITTEESCHEDULE_BLANK);
     }
     
+    /**
+     * This method is helper method to assert true condition.
+     */
     private void testAssertTrue() {
         boolean val = new CommitteeScheduleStartAndEndDateRule().processAddCommitteeScheduleRuleBusinessRules(event);
         assertTrue(val);
     }
     
+    /**
+     * This method is helper method to assert false condition.
+     */
     private void testAssertFalse() {
         boolean val = new CommitteeScheduleStartAndEndDateRule().processAddCommitteeScheduleRuleBusinessRules(event);
         assertFalse(val);
     }
     
+    /**
+     * This method is prerequisite helper method.
+     * @param key
+     */
     private void prerequisite(StyleKey key) {
         scheduleData = new ScheduleData();
         scheduleData.setRecurrenceType(key.toString());
