@@ -57,7 +57,8 @@ public class ScheduleStatus extends KraPersistableBusinessObjectBase {
 		this.description = description;
 	}
 
-	@Override 
+	@SuppressWarnings("unchecked")
+    @Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
 		hashMap.put("scheduleStatusCode", getScheduleStatusCode());
