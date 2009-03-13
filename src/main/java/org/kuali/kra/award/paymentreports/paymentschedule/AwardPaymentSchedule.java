@@ -51,7 +51,13 @@ public class AwardPaymentSchedule extends KraPersistableBusinessObjectBase {
      */
     public AwardPaymentSchedule() { 
 
-    } 
+    }
+    
+    public AwardPaymentSchedule(Date dueDate, String awardNumber, Integer sequenceNumber){
+        this.awardNumber = awardNumber;
+        this.sequenceNumber = sequenceNumber; 
+        this.dueDate = dueDate;
+    }
     
     public Long getAwardPaymentScheduleId() {
         return awardPaymentScheduleId;
@@ -178,6 +184,67 @@ public class AwardPaymentSchedule extends KraPersistableBusinessObjectBase {
      */
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int PRIME = 31;
+        int result = 1;
+        result = PRIME * result + ((awardNumber == null) ? 0 : awardNumber.hashCode());
+        result = PRIME * result + ((dueDate == null) ? 0 : dueDate.hashCode());
+        result = PRIME * result + ((sequenceNumber == null) ? 0 : sequenceNumber.hashCode());
+        return result;
+    }
+
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj){
+            return true;
+        }   
+        if (obj == null){
+            return false;
+        }   
+        if (!(obj instanceof AwardPaymentSchedule)){
+            return false;
+        }
+        return equals((AwardPaymentSchedule) obj);
+    }
+    
+    /**
+     * 
+     * Convenience method to check equality of another AwardPaymentSchedule
+     * @param awardPaymentSchedule
+     * @return
+     */
+    public boolean equals(AwardPaymentSchedule awardPaymentSchedule) {
+        if (awardNumber == null) {
+            if (awardPaymentSchedule.awardNumber != null){
+                return false;
+            }   
+        }else if (!awardNumber.equals(awardPaymentSchedule.awardNumber)){
+            return false;
+        }   
+        if (dueDate == null) {
+            if (awardPaymentSchedule.dueDate != null){
+                return false;
+            }   
+        }else if (!dueDate.equals(awardPaymentSchedule.dueDate)){
+            return false;
+        }   
+        if (sequenceNumber == null) {
+            if (awardPaymentSchedule.sequenceNumber != null){
+                return false;
+            }   
+        }else if (!sequenceNumber.equals(awardPaymentSchedule.sequenceNumber)){
+            return false;
+        }   
+        return true;
     }
     
 }
