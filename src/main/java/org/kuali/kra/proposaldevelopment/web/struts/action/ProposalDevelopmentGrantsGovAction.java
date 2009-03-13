@@ -247,4 +247,23 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         }
         return super.performLookup(mapping, form, request, response);
     }
+    
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        final ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        final ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
+        
+        String proposalTypeCodeRevision = getConfigurationService().getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                Constants.PARAMETER_COMPONENT_DOCUMENT, 
+                KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION).getParameterValue();
+
+        if(proposalDevelopmentDocument.getS2sOpportunity()!= null && proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId()!= null && 
+                StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getProposalTypeCode(), proposalTypeCodeRevision) && 
+                StringUtils.isBlank(proposalDevelopmentDocument.getS2sOpportunity().getRevisionCode())) { 
+            GlobalVariables.getErrorMap().putError("document.s2sOpportunity.revisionCode", KeyConstants.ERROR_REQUIRED_REVISIONTYPE);
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        } 
+
+        return super.save(mapping, form, request, response);
+    }
 }
