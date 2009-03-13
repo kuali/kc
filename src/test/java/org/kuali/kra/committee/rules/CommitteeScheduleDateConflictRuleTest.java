@@ -58,9 +58,14 @@ public class CommitteeScheduleDateConflictRuleTest extends KraTestBase {
         List<CommitteeSchedule> list = prerequisiteHardError();
         
         event = new AddCommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING,  null, null, list, CommitteeScheduleEvent.event.HARDERROR);
-        testAssertTrue();
+        boolean val = executeRule();
+        assertTrue(val);
     }
     
+    /**
+     * This method test Hard Error section of Date Conflict Rule.
+     * @throws Exception
+     */
     @Test
     public void testHardErrorFalse() throws Exception {
         
@@ -71,9 +76,14 @@ public class CommitteeScheduleDateConflictRuleTest extends KraTestBase {
         list.add(temp);
         
         event = new AddCommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING,  null, null, list, CommitteeScheduleEvent.event.HARDERROR);
-        testAssertFalse();
+        boolean val = executeRule();
+        assertFalse(val);
     }    
     
+    /**
+     * This method is helper method to Hard Error test cases to set prerequisite.
+     * @return
+     */
     public List<CommitteeSchedule> prerequisiteHardError() {
         List<CommitteeSchedule> list = new ArrayList<CommitteeSchedule>();
         CommitteeSchedule temp  = new CommitteeSchedule();
@@ -87,40 +97,51 @@ public class CommitteeScheduleDateConflictRuleTest extends KraTestBase {
         return list;
     }
     
+    /**
+     * This method test Soft Error section of Date Conflict Rule for no conflict in dates.
+     * @throws Exception
+     */
     @Test
     public void testSoftErrorTrue() throws Exception {
         
-        prerequisite();
+        prerequisiteSoftError();
         event = new AddCommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING,  null, scheduleData, null, CommitteeScheduleEvent.event.SOFTERROR);
-        testAssertTrue();
+        boolean val = executeRule();
+        assertTrue(val);
     }
 
+    /**
+     * This method test Soft Error section of Date Conflict Rule for conflict in dates.
+     * @throws Exception
+     */
     @Test
     public void testSoftErrorFalse() throws Exception {
         
-        prerequisite();
+        prerequisiteSoftError();
         scheduleData.getDatesInConflict().add(new java.sql.Date(new Date().getTime()));
         event = new AddCommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING,  null, scheduleData, null, CommitteeScheduleEvent.event.SOFTERROR);
-        testAssertTrue();
+        boolean val = executeRule();
+        assertTrue(val);
                 
         Map<String, Collection<SoftError>> map = rule.getSoftErrors();
         assertNotNull(map.get(CommitteeScheduleDateConflictRule.DATES_IN_CONFLICT_ERROR_KEY));
             
     }
     
-    private void testAssertTrue() {
+    /**
+     * This method executes rule.
+     * @return
+     */
+    private boolean executeRule() {
         rule = new CommitteeScheduleDateConflictRule();
         boolean val = rule.processAddCommitteeScheduleRuleBusinessRules(event);
-        assertTrue(val);
+        return val;
     }
     
-    private void testAssertFalse() {
-        rule = new CommitteeScheduleDateConflictRule();
-        boolean val = rule.processAddCommitteeScheduleRuleBusinessRules(event);
-        assertFalse(val);
-    }
-    
-    private void prerequisite() {
+    /**
+     * This method is helper method to Soft Error test cases to set prerequisite.
+     */
+    private void prerequisiteSoftError() {
         scheduleData = new ScheduleData();   
         scheduleData.setDatesInConflict(new ArrayList<java.sql.Date>());
     }
