@@ -69,7 +69,6 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 public class BudgetAction extends ProposalActionBase {
     private static final Log LOG = LogFactory.getLog(BudgetAction.class);
-    private static final String PERSONNEL_CATEGORY_TYPE_DESC = "Personnel";
     
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -252,14 +251,21 @@ public class BudgetAction extends ProposalActionBase {
         return mapping.findForward(Constants.BUDGET_PERSONNEL_PAGE);
     }
 
+    private String getPersonnelBudgetCategoryTypeCode() {
+        KualiConfigurationService kualiConfigurationService = KraServiceLocator.getService(KualiConfigurationService.class);
+        return kualiConfigurationService.getParameter(Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL).getParameterValue();
+    }
+    
     protected void populatePersonnelCategoryTypeCodes(BudgetForm budgetForm) {
         BudgetDocument budgetDocument = budgetForm.getDocument();
         
         BudgetCategoryTypeValuesFinder budgetCategoryTypeValuesFinder = new BudgetCategoryTypeValuesFinder();
-        List<KeyLabelPair> budgetCategoryTypes = new ArrayList<KeyLabelPair>();      
+        List<KeyLabelPair> budgetCategoryTypes = new ArrayList<KeyLabelPair>();   
+        String personnelBudgetCategoryTypeCode = getPersonnelBudgetCategoryTypeCode();
         
         for(KeyLabelPair budgetCategoryType: budgetCategoryTypeValuesFinder.getKeyValues()){
-            if(budgetCategoryType.getLabel().equalsIgnoreCase(PERSONNEL_CATEGORY_TYPE_DESC)) {
+            String budgetCategoryTypeCode = (String) budgetCategoryType.getKey();
+            if(StringUtils.isNotBlank(budgetCategoryTypeCode) && StringUtils.equalsIgnoreCase(budgetCategoryTypeCode, personnelBudgetCategoryTypeCode)) {
                 budgetCategoryTypes.add(budgetCategoryType);
                 BudgetLineItem newBudgetLineItem = new BudgetLineItem();
                 budgetForm.getNewBudgetLineItems().add(newBudgetLineItem);
@@ -273,9 +279,11 @@ public class BudgetAction extends ProposalActionBase {
         
         BudgetCategoryTypeValuesFinder budgetCategoryTypeValuesFinder = new BudgetCategoryTypeValuesFinder();
         List<KeyLabelPair> budgetCategoryTypes = new ArrayList<KeyLabelPair>();      
+        String personnelBudgetCategoryTypeCode = getPersonnelBudgetCategoryTypeCode();
         
         for(KeyLabelPair budgetCategoryType: budgetCategoryTypeValuesFinder.getKeyValues()){
-            if(!budgetCategoryType.getLabel().equalsIgnoreCase(PERSONNEL_CATEGORY_TYPE_DESC)) {
+            String budgetCategoryTypeCode = (String) budgetCategoryType.getKey();
+            if(StringUtils.isNotBlank(budgetCategoryTypeCode) && !StringUtils.equalsIgnoreCase(budgetCategoryTypeCode, personnelBudgetCategoryTypeCode)) {
                 budgetCategoryTypes.add(budgetCategoryType);
                 BudgetLineItem newBudgetLineItem = new BudgetLineItem();
                 budgetForm.getNewBudgetLineItems().add(newBudgetLineItem);

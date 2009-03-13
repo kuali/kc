@@ -311,4 +311,7 @@ public interface Constants {
     public static final String SPONSOR_HIERARCHY_SEPARATOR_P1P = "#1#";
     
     public static final String SUBAWARD_FILE_NOT_EXTRACTED = "newSubAward.subAwardFile.notExtracted";
+    
+    public static final boolean GRANTS_GOV_LINK_TARGET_POPUP = true;
+    public static final String BUDGET_CATEGORY_TYPE_PERSONNEL = "budgetCategoryType.personnel";
 }
