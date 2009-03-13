@@ -497,9 +497,9 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             ActionForward actionForward = super.route(mapping, form, request, response);
             return actionForward;
         }else   {
-        GlobalVariables.getErrorMap().clear(); // clear error from isValidSubmission()    
-        GlobalVariables.getErrorMap().putError("datavalidation",KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
-        return mapping.findForward((RiceConstants.MAPPING_BASIC));
+            GlobalVariables.getErrorMap().clear(); // clear error from isValidSubmission()    
+            GlobalVariables.getErrorMap().putError("datavalidation",KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
+            return mapping.findForward((RiceConstants.MAPPING_BASIC));
          }
         
 }
@@ -544,13 +544,11 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         
         /*
          * If this proposal is a continuation from another proposal, it is illegal for
-         * it to be a New Proposal Type.
+         * it to have a New Proposal Type and Application Submission Type.
          */
-        if ((proposalDevelopmentDocument.getContinuedFrom() != null) && isNewProposalType(proposalDevelopmentDocument)) {
+        if ((proposalDevelopmentDocument.getContinuedFrom() != null) && isNewProposalType(proposalDevelopmentDocument) && isSubmissionApplication(proposalDevelopmentDocument)) {
             state = ERROR;
-            if (isNewProposalType(proposalDevelopmentDocument)) {
-                GlobalVariables.getErrorMap().putError("noKey", KeyConstants.ERROR_RESUBMISSION_PROPOSALTYPE_IS_NEW);
-            }
+            GlobalVariables.getErrorMap().putError("someKey", KeyConstants.ERROR_RESUBMISSION_INVALID_PROPOSALTYPE_SUBMISSIONTYPE);
         }
         else {
             /* 

@@ -77,14 +77,14 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
             }
         }
         
-        if(proposalDevelopmentDocument.getProposalTypeCode()!=null && 
-                StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getProposalTypeCode(),kualiConfigurationService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW).getParameterValue()) && 
-                proposalDevelopmentDocument.getS2sOpportunity()!=null &&
-                proposalDevelopmentDocument.getS2sOpportunity().getS2sSubmissionTypeCode()!=null &&
-                StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getS2sOpportunity().getS2sSubmissionTypeCode().toString(), kualiConfigurationService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.S2S_SUBMISSIONTYPE_CHANGEDCORRECTED).getParameterValue())){            
-            auditErrors.add(new AuditError(Constants.ORIGINAL_PROPOSAL_ID_KEY, KeyConstants.ERROR_IF_PROPOSAL_TYPE_IS_NEW_AND_S2S_SUBMISSION_TYPE_IS_CHANGED_CORRECTED, Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
-            valid &= false;
-        }
+//        if(proposalDevelopmentDocument.getProposalTypeCode()!=null && 
+//                StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getProposalTypeCode(),kualiConfigurationService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW).getParameterValue()) && 
+//                proposalDevelopmentDocument.getS2sOpportunity()!= null &&
+//                proposalDevelopmentDocument.getS2sOpportunity().getS2sSubmissionTypeCode()!= null &&
+//                StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getS2sOpportunity().getS2sSubmissionTypeCode().toString(), kualiConfigurationService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, KeyConstants.S2S_SUBMISSIONTYPE_CHANGEDCORRECTED).getParameterValue())){             
+//            auditErrors.add(new AuditError(Constants.ORIGINAL_PROPOSAL_ID_KEY, KeyConstants.ERROR_IF_PROPOSAL_TYPE_IS_NEW_AND_S2S_SUBMISSION_TYPE_IS_CHANGED_CORRECTED, Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
+//            valid &= false;
+//        }
         
         if (auditErrors.size() > 0) {
             GlobalVariables.getAuditErrorMap().put("sponsorProgramInformationAuditErrors", new AuditCluster(Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_NAME, auditErrors, Constants.GRANTSGOV_ERRORS));
