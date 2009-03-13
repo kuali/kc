@@ -36,13 +36,13 @@ public class CommitteeScheduleTest extends BoAttributeTestBase<CommitteeSchedule
     private static final Date date = new Date(new java.util.Date().getTime()); 
     
     private static final String FIELD_ID = "id";
-    private static final Long FIELD_ID_VALUE = 1l; 
+    private static final Long FIELD_ID_VALUE = 1L; 
 
     private static final String FIELD_SCHEDULEID = "scheduleId"; 
     private static final String FIELD_SCHEDULEID_VALUE = "1"; 
 
     private static final String FIELD_COMMITTEEID = "committeeId";
-    private static final Long FIELD_COMMITTEEID_VALUE = 1l;
+    private static final Long FIELD_COMMITTEEID_VALUE = 1L;
 
     private static final String FIELD_SCHEDULEDDATE = "scheduledDate";
     private static final Date FIELD_SCHEDULEDDATE_VALUE = date; 
