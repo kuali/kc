@@ -19,6 +19,13 @@ import org.kuali.kra.committee.rule.event.AddCommitteeScheduleDateConflictEvent;
 
 public interface AddCommitteeScheduleDateConflictRule {    
     
+    /**
+     * This method implementer must process CommitteeSchedule's date conflict rule.
+     * <br/>
+     * Rule: New dates added to schedule must not conflict with schedule dates.
+     * @param addCommitteeScheduleEvent
+     * @return
+     */
     public boolean processAddCommitteeScheduleRuleBusinessRules(AddCommitteeScheduleDateConflictEvent addCommitteeScheduleEvent);
     
 }

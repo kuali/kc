@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.committee.web.struts.form.schedule;
 
+/**
+ * This class holds monthly recurrence UI data.
+ */
 public class MonthlyScheduleDetails extends ScheduleDetails {
     
     private int day;
@@ -27,11 +30,7 @@ public class MonthlyScheduleDetails extends ScheduleDetails {
     
     public static enum optionValues {XDAYANDXMONTH, XDAYOFWEEKANDXMONTH};
     
-    //private List<LabelValueBean> monthsweek;
-    
     private String selectedMonthsWeek;
-    
-    //private List<LabelValueBean> dayofweek;
     
     private String selectedDayOfWeek;    
     
@@ -41,13 +40,9 @@ public class MonthlyScheduleDetails extends ScheduleDetails {
         this.setDay(6);
         this.setOption1Month(1);
         this.setOption2Month(1);
-        
-        //this.setMonthsweek(new ArrayList<LabelValueBean>());
-        //ScheduleOptionsUtil.populate(monthsweek, ScheduleOptionsUtil.mthsweek);
+
         this.setSelectedMonthsWeek(WeekOfMonth.first.toString());
-        
-        //this.setDayofweek(new ArrayList<LabelValueBean>());
-        //ScheduleOptionsUtil.populate(dayofweek, ScheduleOptionsUtil.dyofweek);
+
         this.setSelectedDayOfWeek(DayOfWeek.Monday.toString());
     }
 
@@ -83,14 +78,6 @@ public class MonthlyScheduleDetails extends ScheduleDetails {
         return monthOption;
     }
 
-/*    public void setMonthsweek(List<LabelValueBean> monthsweek) {
-        this.monthsweek = monthsweek;
-    }
-
-    public List<LabelValueBean> getMonthsweek() {
-        return monthsweek;
-    }*/
-
     public void setSelectedMonthsWeek(String selectedMonthsWeek) {
         this.selectedMonthsWeek = selectedMonthsWeek;
     }
@@ -98,14 +85,6 @@ public class MonthlyScheduleDetails extends ScheduleDetails {
     public String getSelectedMonthsWeek() {
         return selectedMonthsWeek;
     }
-
-/*    public void setDayofweek(List<LabelValueBean> dayofweek) {
-        this.dayofweek = dayofweek;
-    }
-
-    public List<LabelValueBean> getDayofweek() {
-        return dayofweek;
-    }*/
 
     public void setSelectedDayOfWeek(String selectedDayOfWeek) {
         this.selectedDayOfWeek = selectedDayOfWeek;

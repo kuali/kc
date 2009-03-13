@@ -26,21 +26,27 @@ import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 
 public class AddCommitteeScheduleStartAndEndDateEvent extends CommitteeScheduleEventBase {
     
-    public static final String msg = "adding CommitteeSchedule to document ";
+    public static final String MSG = "adding CommitteeSchedule to document ";
     
-    public AddCommitteeScheduleStartAndEndDateEvent(String errorPathPrefix, CommitteeDocument document, ScheduleData scheduleData, List<CommitteeSchedule> committeeSchedules, event type) {
-        super(msg + getDocumentId(document), errorPathPrefix, document, scheduleData, committeeSchedules, type);
+    public AddCommitteeScheduleStartAndEndDateEvent(String errorPathPrefix, CommitteeDocument document, ScheduleData scheduleData, List<CommitteeSchedule> committeeSchedules, Event type) {
+        super(MSG + getDocumentId(document), errorPathPrefix, document, scheduleData, committeeSchedules, type);
     }
     
-    public AddCommitteeScheduleStartAndEndDateEvent(String errorPathPrefix, Document document, ScheduleData scheduleData, List<CommitteeSchedule> committeeSchedules, event type) {
+    public AddCommitteeScheduleStartAndEndDateEvent(String errorPathPrefix, Document document, ScheduleData scheduleData, List<CommitteeSchedule> committeeSchedules, Event type) {
         this(errorPathPrefix, (CommitteeDocument)document, scheduleData, committeeSchedules, type);
     }
 
+    /**
+     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
+     */
     @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
         return AddCommitteeScheduleStartAndEndDateRule.class;
     }
 
+    /**
+     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
+     */
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((AddCommitteeScheduleStartAndEndDateRule)rule).processAddCommitteeScheduleRuleBusinessRules(this);
     }

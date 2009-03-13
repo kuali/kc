@@ -24,10 +24,6 @@ import java.util.GregorianCalendar;
 public class Time12HrFmt implements Serializable {
 
     private static final long serialVersionUID = -5569353959041715547L;
-
-    private String time;
-    
-    private String meridiem;
     
     public static final String COLON = ":";
     
@@ -35,13 +31,17 @@ public class Time12HrFmt implements Serializable {
     
     public enum MERIDIEM {AM, PM};
     
-    public static final String msg1 = "Time format exception, expects hh:mm";
+    public static final String MSG1 = "Time format exception, expects hh:mm";
     
-    public static final String msg2 = "Time format exception, expects hh as 0-12 & mm as 0-59";
+    public static final String MSG2 = "Time format exception, expects hh as 0-12 & mm as 0-59";
     
-    public static final String msg3 = "Time format exception, expects hh as 0-12";
+    public static final String MSG3 = "Time format exception, expects hh as 0-12";
     
-    public static final String msg4 = "Time format exception, expects mm as 0-59";
+    public static final String MSG4 = "Time format exception, expects mm as 0-59";
+    
+    private String time;
+    
+    private String meridiem;
     
     public Time12HrFmt(Timestamp day) {                
         parseTimeTo12HrFmt(day);        
@@ -92,9 +92,9 @@ public class Time12HrFmt implements Serializable {
     
     private String parseStringTime(String time) throws ParseException {
 
-        String[] result = time.split(":");        
+        String[] result = time.split(COLON);        
         if(result.length != 2)
-            throw new ParseException(msg1, 0);
+            throw new ParseException(MSG1, 0);
         
         Integer hrs;
         Integer mins;
@@ -103,15 +103,15 @@ public class Time12HrFmt implements Serializable {
             hrs = new Integer(result[0]);
             mins = new Integer(result[1]);
         }catch (NumberFormatException e) {
-            throw new ParseException(msg2, 0);
+            throw new ParseException(MSG2, 0);
         }
         
         if(!(hrs >= 1 && hrs <= 12)) {
-            throw new ParseException(msg3, 0);
+            throw new ParseException(MSG3, 0);
         }
         
         if(!(mins >= 0 && mins <= 59)) {
-            throw new ParseException(msg4, 0);
+            throw new ParseException(MSG4, 0);
         }
         
         String str = buildDisplayView(hrs, mins);

@@ -170,7 +170,7 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase
     }
     
     /**
-     * @see org.kuali.kra.irb.rule.SaveCommitteeMembershipRule#processSaveCommitteeMembershipBusinessRules(org.kuali.kra.irb.rule.event.SaveCommitteeMembershipEvent)
+     * @see org.kuali.kra.irb.rule.SaveCommitteeMembershipRule#processSaveCommitteeMembershipBusinessRules(org.kuali.kra.irb.rule.event.Event)
      */
     public boolean processSaveCommitteeMembershipBusinessRules(SaveCommitteeMembershipEvent saveCommitteeMembershipEvent) {
         return new CommitteeMembershipRule().processSaveCommitteeMembershipBusinessRules(saveCommitteeMembershipEvent);

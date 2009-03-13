@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.committee.web.struts.form.schedule;
 
+/**
+ * This class holds daily recurrence UI data.  
+ */
 public class DailyScheduleDetails extends ScheduleDetails {
     
     @SuppressWarnings("unused")
