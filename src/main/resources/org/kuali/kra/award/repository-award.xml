@@ -118,12 +118,18 @@
 		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="sponsorCode" />
         </reference-descriptor>
+        <reference-descriptor name="primeSponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="primeSponsorCode" />
+        </reference-descriptor>
         <collection-descriptor name="awardSponsorTerms" proxy="true" element-class-ref="org.kuali.kra.award.bo.AwardSponsorTerm" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="awardId" />
     	</collection-descriptor>
     	<collection-descriptor name="paymentScheduleItems" proxy="true" element-class-ref="org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentSchedule" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="awardId" />
-    	</collection-descriptor>    	
+    	</collection-descriptor>
+    	<collection-descriptor name="awardTransferringSponsors" proxy="true" element-class-ref="org.kuali.kra.award.bo.AwardTransferringSponsor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        	<inverse-foreignkey field-ref="awardId" />
+    	</collection-descriptor>
 	</class-descriptor>	
 	
 	<class-descriptor class="org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipment" table="AWARD_APPROVED_EQUIPMENT">
@@ -827,5 +833,28 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />		
 	</class-descriptor>
 	
+	<class-descriptor class="org.kuali.kra.award.bo.AwardTransferringSponsor" table="AWARD_TRANSFERRING_SPONSOR">
+		<field-descriptor name="awardTransferringSponsorId" column="AWARD_TRANSFERRING_SPONSOR_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_AWARD_TRANS_SPONSOR_ID" autoincrement="true" />
+		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" access="anonymous" />
+		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="sponsorCode" column="SPONSOR_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="sponsorCode"/>
+		</reference-descriptor>
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.award.bo.AwardType" table="AWARD_TYPE">
+		<field-descriptor name="awardTypeCode" column="AWARD_TYPE_CODE" jdbc-type="INTEGER" primarykey="true" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>
 	
 </descriptor-repository>

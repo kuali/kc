@@ -32,6 +32,7 @@ import org.kuali.kra.award.bo.AwardReportTermRecipient;
 import org.kuali.kra.award.bo.AwardSpecialReview;
 import org.kuali.kra.award.bo.AwardSpecialReviewExemption;
 import org.kuali.kra.award.bo.ReportClass;
+import org.kuali.kra.award.detailsdates.DetailsAndDatesFormHelper;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.paymentreports.paymentschedule.PaymentScheduleBean;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.ApprovedEquipmentBean;
@@ -76,6 +77,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     private CostShareFormHelper costShareFormHelper;
     private SponsorTermFormHelper sponsorTermFormHelper;
     private ApprovedSubawardFormHelper approvedSubawardFormHelper;
+    private DetailsAndDatesFormHelper detailsAndDatesFormHelper;
     
     private ReportClass reportClassForPaymentsAndInvoices;
     private PaymentScheduleBean paymentScheduleBean;
@@ -113,6 +115,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase
         approvedEquipmentBean = new ApprovedEquipmentBean(this);
         paymentScheduleBean = new PaymentScheduleBean(this);
         approvedForeignTravelBean = new ApprovedForeignTravelBean(this);
+        detailsAndDatesFormHelper = new DetailsAndDatesFormHelper(this);
         //sponsorTermTypes = new ArrayList<KeyLabelPair>();
     }    
     
@@ -428,7 +431,6 @@ public class AwardForm extends KraTransactionalDocumentFormBase
         this.sponsorTermFormHelper = sponsorTermFormHelper;
     }
 
-
     /**
      * Gets the paymentScheduleBean attribute. 
      * @return Returns the paymentScheduleBean.
@@ -436,8 +438,6 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     public PaymentScheduleBean getPaymentScheduleBean() {
         return paymentScheduleBean;
     }
-
-
 
     /**
      * Sets the paymentScheduleBean attribute value.
@@ -447,4 +447,12 @@ public class AwardForm extends KraTransactionalDocumentFormBase
         this.paymentScheduleBean = paymentScheduleBean;
     }
 
+    public DetailsAndDatesFormHelper getDetailsAndDatesFormHelper() {
+        return detailsAndDatesFormHelper;
+    }
+
+    public void setDetailsAndDatesFormHelper(DetailsAndDatesFormHelper detailsAndDatesFormHelper) {
+        this.detailsAndDatesFormHelper = detailsAndDatesFormHelper;
+    }
+    
 }
