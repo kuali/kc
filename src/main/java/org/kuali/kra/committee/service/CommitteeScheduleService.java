@@ -24,8 +24,25 @@ import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 
 public interface CommitteeScheduleService {
     
+    /**
+     * This method implementer must check if passed CommitteeSchedule is deleteable.
+     * <br/>
+     * Rule:
+     * <br/>
+     * Any past schedule date must not be allowed to delete.
+     * <br/>
+     * Allow delete if NO Protocol is assigned to CommitteeSchedule.
+     * @param committeeSchedule
+     * @return
+     */
     public Boolean isCommitteeScheduleDeletable(CommitteeSchedule committeeSchedule);
     
+    /**
+     * This method implementer must add new non conflicting schedule dates to existing Committee.CommitteeSchdule list.
+     * @param scheduleData
+     * @param committee
+     * @throws ParseException
+     */
     public void addSchedule(ScheduleData scheduleData, Committee committee) throws ParseException;
     
 }

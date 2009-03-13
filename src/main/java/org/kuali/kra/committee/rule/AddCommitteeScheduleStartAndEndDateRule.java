@@ -20,6 +20,13 @@ import org.kuali.kra.committee.rule.event.AddCommitteeScheduleStartAndEndDateEve
 
 public interface AddCommitteeScheduleStartAndEndDateRule extends BusinessRule {
     
+    /**
+     * This method implementer must process CommitteeSchedule's date conflict rule.
+     * <br/>
+     * Rule: Start date must be before add date in recurrence. Only exception is NEVER.
+     * @param addCommitteeScheduleEvent
+     * @return
+     */
     public boolean processAddCommitteeScheduleRuleBusinessRules(AddCommitteeScheduleStartAndEndDateEvent addCommitteeScheduleEvent);
     
 }

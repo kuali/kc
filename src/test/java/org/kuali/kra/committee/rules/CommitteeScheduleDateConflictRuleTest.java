@@ -57,7 +57,7 @@ public class CommitteeScheduleDateConflictRuleTest extends KraTestBase {
         
         List<CommitteeSchedule> list = prerequisiteHardError();
         
-        event = new AddCommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING,  null, null, list, CommitteeScheduleEvent.event.HARDERROR);
+        event = new AddCommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING,  null, null, list, CommitteeScheduleEvent.Event.HARDERROR);
         boolean val = executeRule();
         assertTrue(val);
     }
@@ -75,7 +75,7 @@ public class CommitteeScheduleDateConflictRuleTest extends KraTestBase {
         temp.setScheduledDate(new java.sql.Date(new Date().getTime()));
         list.add(temp);
         
-        event = new AddCommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING,  null, null, list, CommitteeScheduleEvent.event.HARDERROR);
+        event = new AddCommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING,  null, null, list, CommitteeScheduleEvent.Event.HARDERROR);
         boolean val = executeRule();
         assertFalse(val);
     }    
@@ -105,7 +105,7 @@ public class CommitteeScheduleDateConflictRuleTest extends KraTestBase {
     public void testSoftErrorTrue() throws Exception {
         
         prerequisiteSoftError();
-        event = new AddCommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING,  null, scheduleData, null, CommitteeScheduleEvent.event.SOFTERROR);
+        event = new AddCommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING,  null, scheduleData, null, CommitteeScheduleEvent.Event.SOFTERROR);
         boolean val = executeRule();
         assertTrue(val);
     }
@@ -119,7 +119,7 @@ public class CommitteeScheduleDateConflictRuleTest extends KraTestBase {
         
         prerequisiteSoftError();
         scheduleData.getDatesInConflict().add(new java.sql.Date(new Date().getTime()));
-        event = new AddCommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING,  null, scheduleData, null, CommitteeScheduleEvent.event.SOFTERROR);
+        event = new AddCommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING,  null, scheduleData, null, CommitteeScheduleEvent.Event.SOFTERROR);
         boolean val = executeRule();
         assertTrue(val);
                 

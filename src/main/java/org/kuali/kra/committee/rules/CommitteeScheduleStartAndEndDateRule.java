@@ -26,7 +26,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 public class CommitteeScheduleStartAndEndDateRule extends ResearchDocumentRuleBase implements AddCommitteeScheduleStartAndEndDateRule {
     
-    private enum constants {scheduleData, dailySchedule, weeklySchedule, monthlySchedule, yearlySchedule, scheduleEndDate, scheduleStartDate, Date};
+    private enum Constants {scheduleData, dailySchedule, weeklySchedule, monthlySchedule, yearlySchedule, scheduleEndDate, scheduleStartDate, Date};
     
     public static final String ENDINGON = "Ending On";
     
@@ -36,11 +36,14 @@ public class CommitteeScheduleStartAndEndDateRule extends ResearchDocumentRuleBa
     
     public static final String BLANK = "";
     
+    /**
+     * @see org.kuali.kra.committee.rule.AddCommitteeScheduleStartAndEndDateRule#processAddCommitteeScheduleRuleBusinessRules(org.kuali.kra.committee.rule.event.AddCommitteeScheduleStartAndEndDateEvent)
+     */
     public boolean processAddCommitteeScheduleRuleBusinessRules(AddCommitteeScheduleStartAndEndDateEvent addCommitteeScheduleEvent) {
         
         StringBuilder endDateId = new StringBuilder();
         StringBuilder startDateId = new StringBuilder();
-        endDateId.append(constants.scheduleData).append(DOT);
+        endDateId.append(Constants.scheduleData).append(DOT);
         boolean rulePassed = true;
         ScheduleData scheduleData = addCommitteeScheduleEvent.getScheduleData();
         Date startDate = scheduleData.getScheduleStartDate();
@@ -52,33 +55,39 @@ public class CommitteeScheduleStartAndEndDateRule extends ResearchDocumentRuleBa
             case DAILY : 
                 endDate = scheduleData.getDailySchedule().getScheduleEndDate();
                 rulePassed = isStartDateBeforeEndDate(startDate, endDate);
-                endDateId.append(constants.dailySchedule);
+                endDateId.append(Constants.dailySchedule);
                 break;
             case WEEKLY :
                 endDate = scheduleData.getWeeklySchedule().getScheduleEndDate();
                 rulePassed = isStartDateBeforeEndDate(startDate, endDate);  
-                endDateId.append(constants.weeklySchedule);
+                endDateId.append(Constants.weeklySchedule);
                 break;
             case MONTHLY :
                 endDate = scheduleData.getMonthlySchedule().getScheduleEndDate();
                 rulePassed = isStartDateBeforeEndDate(startDate, endDate); 
-                endDateId.append(constants.monthlySchedule);
+                endDateId.append(Constants.monthlySchedule);
                 break;
             case YEARLY : 
                 endDate = scheduleData.getYearlySchedule().getScheduleEndDate();
                 rulePassed = isStartDateBeforeEndDate(startDate, endDate); 
-                endDateId.append(constants.yearlySchedule);
+                endDateId.append(Constants.yearlySchedule);
                 break;            
         }
         if(!rulePassed) {
-            endDateId.append(DOT).append(constants.scheduleEndDate);  
-            startDateId.append(constants.scheduleData).append(DOT).append(constants.scheduleStartDate);
+            endDateId.append(DOT).append(Constants.scheduleEndDate);  
+            startDateId.append(Constants.scheduleData).append(DOT).append(Constants.scheduleStartDate);
             reportError(startDateId.toString(), KeyConstants.ERROR_COMMITTEESCHEDULE_SCHEDULEDATES, DATE, ENDINGON);
             reportError(endDateId.toString(), KeyConstants.ERROR_COMMITTEESCHEDULE_BLANK, BLANK);
         }
         return rulePassed;
     }
     
+    /**
+     * Helper to identify if start date is before end date.
+     * @param startDate
+     * @param endDate
+     * @return
+     */
     private boolean isStartDateBeforeEndDate(Date startDate, Date endDate) {
         boolean retVal = false;
         if(startDate.before(endDate))
