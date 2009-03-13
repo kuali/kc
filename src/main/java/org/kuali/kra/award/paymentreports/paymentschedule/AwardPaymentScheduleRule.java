@@ -21,7 +21,7 @@ import org.kuali.core.rule.BusinessRule;
  * This interface defines the rule processing method
  */
 public interface AwardPaymentScheduleRule extends BusinessRule {
-    //public static final String PAYMENT_SCHEDULE_ITEMS_LIST_ERROR_KEY = "approvedEquipmentItems";
+    public static final String PAYMENT_SCHEDULE_ITEMS_LIST_ERROR_KEY = "paymentScheduleItems";
     
     /**
      * This method is used to validate AwardPaymentSchedule items in an Award

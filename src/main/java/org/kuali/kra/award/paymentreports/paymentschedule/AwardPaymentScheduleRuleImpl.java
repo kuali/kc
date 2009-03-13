@@ -17,29 +17,30 @@ package org.kuali.kra.award.paymentreports.paymentschedule;
 
 import java.util.List;
 
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 /**
- * The AwardApprovedEquipmentRuleImpl
+ * The AwardPaymentScheduleRuleImpl
  */
 public class AwardPaymentScheduleRuleImpl extends ResearchDocumentRuleBase 
                                             implements AwardPaymentScheduleRule {
-    
-    private static final String EQUIPMENT_AMOUNT_PROPERTY = "approvedEquipmentBean.newAwardApprovedEquipment.amount";
+        
     private static final String PAYMENT_SCHEDULE_DUE_DATE_PROPERTY = "paymentScheduleBean.newAwardPaymentSchedule.dueDate";
-    private static final String AMOUNT_ERROR_PARM = "Amount (Amount)";
     private static final String DUE_DATE_ERROR_PARM = "Due Date (Due Date)";
 
     /**
-     * @see org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentRule#processAwardApprovedEquipmentBusinessRules(org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentRuleEvent)
+     * 
+     * @see org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentScheduleRule#processAwardPaymentScheduleBusinessRules(
+     * org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentScheduleRuleEvent)
      */
     public boolean processAwardPaymentScheduleBusinessRules(AwardPaymentScheduleRuleEvent event) {
         return processCommonValidations(event);        
     }
     /**
      * 
-     * This method processes new AwardApprovedEquipment rules
+     * This method processes new AwardPaymentSchedule rules
      * 
      * @param event
      * @return
@@ -51,9 +52,8 @@ public class AwardPaymentScheduleRuleImpl extends ResearchDocumentRuleBase
     private boolean processCommonValidations(AwardPaymentScheduleRuleEvent event) {
         AwardPaymentSchedule paymentScheduleItem = event.getPaymentScheduleItemForValidation();
         boolean valid = true;
-        //boolean valid = isAmountValid(event.getErrorPathPrefix(), equipmentItem, event.getMinimumCapitalization());
-        //List<AwardApprovedEquipment> items = event.getAward().getApprovedEquipmentItems();
-        //valid &= isUnique(items, equipmentItem);
+        List<AwardPaymentSchedule> items = event.getAward().getPaymentScheduleItems();
+        valid &= isUnique(items, paymentScheduleItem);
         
         return valid;
     }
@@ -69,9 +69,9 @@ public class AwardPaymentScheduleRuleImpl extends ResearchDocumentRuleBase
      * @return
      */
     boolean isUnique(List<AwardPaymentSchedule> paymentScheduleItems, AwardPaymentSchedule paymentScheduleItem) {
-        /*boolean duplicateFound = false;
-        for(AwardApprovedEquipment listItem: equipmentItems) {
-            duplicateFound = equipmentItem != listItem && listItem.equals(equipmentItem);
+        boolean duplicateFound = false;
+        for(AwardPaymentSchedule listItem: paymentScheduleItems) {
+            duplicateFound = paymentScheduleItem != listItem && listItem.equals(paymentScheduleItem);
             if(duplicateFound) {
                 break;
             }
@@ -79,12 +79,11 @@ public class AwardPaymentScheduleRuleImpl extends ResearchDocumentRuleBase
         
         if(duplicateFound) {
             if(!hasDuplicateErrorBeenReported()) {
-                reportError(APPROVED_EQUIPMENT_ITEMS_LIST_ERROR_KEY, 
-                        KeyConstants.ERROR_AWARD_APPROVED_EQUIPMENT_ITEM_NOT_UNIQUE, ITEM_ERROR_PARM);
+                reportError(PAYMENT_SCHEDULE_ITEMS_LIST_ERROR_KEY, 
+                        KeyConstants.ERROR_AWARD_PAYMENT_SCHEDULE_ITEM_NOT_UNIQUE, DUE_DATE_ERROR_PARM);
             }
         }
-        return !duplicateFound;*/
-        return true;
+        return !duplicateFound;
     }
 
     /**
@@ -103,24 +102,7 @@ public class AwardPaymentScheduleRuleImpl extends ResearchDocumentRuleBase
         return itemValid;
     }
     
-    /**
-     * @param errorPath
-     * @param equipmentItem
-     * @param minimumCapitalization
-     * @return
-     *//*
-    boolean isAmountValid(String errorPath, AwardApprovedEquipment equipmentItem, MinimumCapitalizationInfo minimumCapitalization) {
-        KualiDecimal amount = equipmentItem.getAmount();
-        boolean amountValid = amount != null && amount.doubleValue() >= minimumCapitalization.getAmount();
-        if(!amountValid) {
-            reportSoftError(APPROVED_EQUIPMENT_ITEMS_LIST_ERROR_KEY, KeyConstants.ERROR_AWARD_APPROVED_EQUIPMENT_AMOUNT_VALID, 
-                                String.format("%-12.2f", minimumCapitalization.getAmount()).trim(), 
-                                                minimumCapitalization.getRequirementDriver());
-        }
-        return true;
-    }
-    
     private boolean hasDuplicateErrorBeenReported() {
-        return GlobalVariables.getErrorMap().containsMessageKey(KeyConstants.ERROR_AWARD_APPROVED_EQUIPMENT_ITEM_NOT_UNIQUE);
-    }*/
+        return GlobalVariables.getErrorMap().containsMessageKey(KeyConstants.ERROR_AWARD_PAYMENT_SCHEDULE_ITEM_NOT_UNIQUE);
+    }
 }
