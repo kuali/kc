@@ -28,6 +28,7 @@ import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.rule.event.AddCommitteeScheduleDateConflictEvent;
 import org.kuali.kra.committee.rule.event.AddCommitteeScheduleStartAndEndDateEvent;
+import org.kuali.kra.committee.rule.event.DeadlineCommitteeScheduleEvent;
 import org.kuali.kra.committee.rule.event.FilterCommitteeScheduleEvent;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleEvent.Event;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
@@ -71,7 +72,9 @@ public class CommitteeScheduleAction extends CommitteeAction {
         List<CommitteeSchedule> committeeSchedules = committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules();
         
         if(applyRules(new AddCommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules, Event.HARDERROR))){
-            actionForward = super.save(mapping, form, request, response);
+            if(applyRules(new DeadlineCommitteeScheduleEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules, Event.HARDERROR))) {
+                actionForward = super.save(mapping, form, request, response);
+            } 
         }
         
         return actionForward;
