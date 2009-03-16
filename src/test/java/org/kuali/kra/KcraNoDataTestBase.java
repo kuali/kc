@@ -96,6 +96,7 @@ public abstract class KcraNoDataTestBase extends KNSTestCase {
             super.startLifecycles(lifecycles);
         } catch(Exception e) {
             e.printStackTrace();
+            throw e;
         }
     }
 
