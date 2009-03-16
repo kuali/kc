@@ -45,7 +45,7 @@ public class CommitteeMembershipRole extends KraPersistableBusinessObjectBase{
     private Integer sequenceNumber;
 
     @Column(name = "MEMBERSHIP_ROLE_CODE")
-    private Integer membershipRoleCode;
+    private String membershipRoleCode;
 
     @Column(name = "START_DATE")
     private Date startDate; 
@@ -90,11 +90,11 @@ public class CommitteeMembershipRole extends KraPersistableBusinessObjectBase{
         this.sequenceNumber = sequenceNumber;
     }
 
-    public Integer getMembershipRoleCode() {
+    public String getMembershipRoleCode() {
         return membershipRoleCode;
     }
 
-    public void setMembershipRoleCode(Integer membershipRoleCode) {
+    public void setMembershipRoleCode(String membershipRoleCode) {
         this.membershipRoleCode = membershipRoleCode;
     }
 
