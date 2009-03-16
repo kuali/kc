@@ -372,6 +372,7 @@ public final class KeyConstants {
     public static final String ERROR_COMMITTEESCHEDULE_DATE_CONFLICT = "error.committeeSchedule.date.conflict"; 
     public static final String ERROR_COMMITTEESCHEDULE_DATES_SKIPPED = "error.committeeSchedule.dates.skipped";
     public static final String ERROR_COMMITTEESCHEDULE_FILTER_DATE = "error.committeeSchedule.filter.date";
+    public static final String ERROR_COMMITTEESCHEDULE_FILTER_STARTDATE_ENDDATE = "error.committeeSchedule.filter.start.end.date";
     
     private KeyConstants() {}
 }
