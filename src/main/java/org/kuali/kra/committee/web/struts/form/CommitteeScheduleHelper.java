@@ -72,6 +72,8 @@ public class CommitteeScheduleHelper {
         for(CommitteeSchedule committeeSchedule : committeeSchedules) {
                 committeeSchedule.setFilter(TRUE);            
         }
+        form.getScheduleData().setFilterStartDate(null);
+        form.getScheduleData().setFilerEndDate(null);
     }
     
     /**

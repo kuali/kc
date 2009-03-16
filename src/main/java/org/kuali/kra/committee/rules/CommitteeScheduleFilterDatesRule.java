@@ -19,6 +19,7 @@ import java.sql.Date;
 
 import org.kuali.kra.committee.rule.FilterCommitteeScheduleRule;
 import org.kuali.kra.committee.rule.event.FilterCommitteeScheduleEvent;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
@@ -47,6 +48,11 @@ public class CommitteeScheduleFilterDatesRule extends ResearchDocumentRuleBase i
         }
         if(null == endDate) {
             reportError(SCHEDULEDATE_FILTERENDDATE, KeyConstants.ERROR_COMMITTEESCHEDULE_FILTER_DATE, MSG[1]);
+            rulePassed = false;
+        }     
+        if(null != startDate && null != endDate && startDate.after(endDate)) {
+            reportError(SCHEDULEDATE_FILTERSTARTDATE, KeyConstants.ERROR_COMMITTEESCHEDULE_FILTER_STARTDATE_ENDDATE);
+            reportError(SCHEDULEDATE_FILTERENDDATE, KeyConstants.ERROR_COMMITTEESCHEDULE_FILTER_STARTDATE_ENDDATE);
             rulePassed = false;
         }
         
