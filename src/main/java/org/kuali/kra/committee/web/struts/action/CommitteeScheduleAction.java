@@ -28,6 +28,7 @@ import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.rule.event.AddCommitteeScheduleDateConflictEvent;
 import org.kuali.kra.committee.rule.event.AddCommitteeScheduleStartAndEndDateEvent;
+import org.kuali.kra.committee.rule.event.FilterCommitteeScheduleEvent;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleEvent.Event;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
@@ -140,10 +141,14 @@ public class CommitteeScheduleAction extends CommitteeAction {
     public ActionForward filterCommitteeScheduleDates(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         CommitteeForm committeeForm = (CommitteeForm) form;  
+        
+        
         ScheduleData scheduleData = committeeForm.getScheduleData();
-        Date startDate = scheduleData.getFilterStartDate();
-        Date endDate = scheduleData.getFilerEndDate();
-        committeeForm.getCommitteeScheduleHelper().prepareFilterDatesView(startDate, endDate);
+        if(applyRules(new FilterCommitteeScheduleEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, Event.HARDERROR))) {
+            Date startDate = scheduleData.getFilterStartDate();
+            Date endDate = scheduleData.getFilerEndDate();
+            committeeForm.getCommitteeScheduleHelper().prepareFilterDatesView(startDate, endDate);
+        }
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
 
