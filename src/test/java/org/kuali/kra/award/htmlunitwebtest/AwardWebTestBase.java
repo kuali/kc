@@ -23,6 +23,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.kuali.kra.KraWebTestBase;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.rice.test.data.PerSuiteUnitTestData;
+import org.kuali.rice.test.data.UnitTestData;
+import org.kuali.rice.test.data.UnitTestFile;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
@@ -35,14 +38,12 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * Base class for all htmlunit tests involving the Award Document Pages.
  * 
  */
-
 public abstract class AwardWebTestBase extends KraWebTestBase {
     protected static final String CONTACTS_LINK_NAME = "contacts.x";
     protected static final String SPECIAL_REVIEW_LINK_NAME = "specialReview.x";
     protected static final String CUSTOM_DATA_LINK_NAME = "customData.x";
     protected static final String PERMISSIONS_LINK_NAME = "permissions.x";
     protected static final String AWARD_ACTIONS_LINK_NAME = "awardActions.x";
-    protected static final String DOCUMENT_DESCRIPTION_ID = "document.documentHeader.documentDescription";
     protected static final String DEFAULT_DOCUMENT_DESCRIPTION = "Award Development Web Test";    
     protected static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
     protected static final String SOFT_ERRORS_FOUND_ON_PAGE = "Warnings found in this Section";
@@ -51,6 +52,26 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
     protected static final String METHOD_TO_CALL_PREFIX = "methodToCall.";
     protected static final String EXCEPTION_OR_SYSTEM_ERROR = "Error occurred while processing this request";
     protected static final String EMPTY_STRING = "";
+    
+    protected static final String DOCUMENT_DESCRIPTION_ID = "document.documentHeader.documentDescription";
+    protected static final String AWARD_ID_PREFIX = "document.awardList[0].";
+    protected static final String AWARD_TYPE_ID = AWARD_ID_PREFIX + "awardTypeCode";
+    protected static final String AWARD_TITLE_ID = AWARD_ID_PREFIX + "title";
+    protected static final String PREF_SPONSOR_CODE_ID = AWARD_ID_PREFIX + "primeSponsorCode";
+    protected static final String SPONSOR_CODE_ID = AWARD_ID_PREFIX + "sponsorCode";
+    protected static final String STATUS_CODE_ID = AWARD_ID_PREFIX + "statusCode";
+    protected static final String MOD_NUMBER_ID = AWARD_ID_PREFIX + "modificationNumber";
+    protected static final String SPONSOR_AWARD_NUMBER_ID = AWARD_ID_PREFIX + "sponsorAwardNumber";
+    protected static final String AWARD_EXEC_DATE_ID = AWARD_ID_PREFIX + "awardExecutionDate";
+    protected static final String AWARD_EFF_DATE_ID = AWARD_ID_PREFIX + "awardEffectiveDate";
+    protected static final String ACTIVITY_TYPE_CODE_ID = AWARD_ID_PREFIX + "activityTypeCode";
+    protected static final String BEGIN_DATE_ID = AWARD_ID_PREFIX + "beginDate";
+    
+    private static final String ONE = "1";
+    private static final String AWARD_TITLE = "Award Title";
+    private static final String GOOGLE_SPONSOR_CODE = "005979";
+    private static final String SPONSOR_AWARD_NUMBER = "1R01CA123456";
+    private static final String DATE_VALUE = "03/01/2009";
     
     private static final String POUND_SIGN = "#";
     private static final String COLON = ":";
@@ -82,12 +103,11 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
      * @throws IOException
      */
     protected final HtmlPage buildAwardDocumentPage() throws Exception {
-        HtmlPage retval = clickOn(getPortalPage(), "Create Award", "Kuali Portal Index");
-        retval = getInnerPages(retval).get(0);
-        System.out.println(retval.getTitleText());
-        assertTrue("Kuali :: Award Document".equals(retval.getTitleText()));
-        setDefaultRequiredFields(retval);
-        return retval;
+        HtmlPage createAwardPage = clickOn(getPortalPage(), "Create Award", "Kuali Portal Index");
+        createAwardPage = getInnerPages(createAwardPage).get(0);
+        assertTrue("Kuali :: Award Document".equals(createAwardPage.getTitleText()));
+        setDefaultRequiredFields(createAwardPage);
+        return createAwardPage;
     }
 
     /**
@@ -129,22 +149,21 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
      * @param page the Proposal Development web page.
      */
     protected void setDefaultRequiredFields(HtmlPage page) {
-        setRequiredFields(page, DEFAULT_DOCUMENT_DESCRIPTION);
+        setFieldValue(page, DOCUMENT_DESCRIPTION_ID, DEFAULT_DOCUMENT_DESCRIPTION);
+        setFieldValue(page, AWARD_TYPE_ID, ONE);
+        setFieldValue(page, AWARD_TITLE_ID, AWARD_TITLE);
+        setFieldValue(page, PREF_SPONSOR_CODE_ID, GOOGLE_SPONSOR_CODE);
+        setFieldValue(page, STATUS_CODE_ID, ONE);
+        setFieldValue(page, SPONSOR_CODE_ID, GOOGLE_SPONSOR_CODE);
+        setFieldValue(page, MOD_NUMBER_ID, ONE);
+        setFieldValue(page, SPONSOR_AWARD_NUMBER_ID, SPONSOR_AWARD_NUMBER);
+        setFieldValue(page, SPONSOR_AWARD_NUMBER_ID, SPONSOR_AWARD_NUMBER);
+        setFieldValue(page, AWARD_EXEC_DATE_ID, DATE_VALUE);
+        setFieldValue(page, AWARD_EFF_DATE_ID, DATE_VALUE);
+        setFieldValue(page, ACTIVITY_TYPE_CODE_ID, ONE);
+        setFieldValue(page, BEGIN_DATE_ID, DATE_VALUE);
     }
     
-    /**
-     * As we build the Award Home page further; the required fields will increase;
-     * So we have to add more fields to this method as and when the fields are added 
-     * on Award Home page.
-     * 
-     * Sets the required fields for a Award document.
-     * 
-     * @param page the Proposal Development web page.
-     * @param description the value for the description field.
-     */
-    protected void setRequiredFields(HtmlPage page, String description){
-        setFieldValue(page, DOCUMENT_DESCRIPTION_ID, description);        
-    }
     /**
      * 
      * This method is to test the <code>ExtendedTextArea</code> tag
