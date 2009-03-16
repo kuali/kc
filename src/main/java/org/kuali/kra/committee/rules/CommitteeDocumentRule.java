@@ -24,9 +24,11 @@ import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.rule.AddCommitteeMembershipRule;
 import org.kuali.kra.committee.rule.AddCommitteeScheduleDateConflictRule;
 import org.kuali.kra.committee.rule.AddCommitteeScheduleStartAndEndDateRule;
+import org.kuali.kra.committee.rule.FilterCommitteeScheduleRule;
 import org.kuali.kra.committee.rule.event.AddCommitteeMembershipEvent;
 import org.kuali.kra.committee.rule.event.AddCommitteeScheduleDateConflictEvent;
 import org.kuali.kra.committee.rule.event.AddCommitteeScheduleStartAndEndDateEvent;
+import org.kuali.kra.committee.rule.event.FilterCommitteeScheduleEvent;
 import org.kuali.kra.committee.rule.event.SaveCommitteeMembershipEvent;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.Constants;
@@ -43,7 +45,7 @@ import org.kuali.kra.service.UnitService;
  * another class within this package.
  */
 public class CommitteeDocumentRule extends ResearchDocumentRuleBase
-                                   implements AddCommitteeScheduleStartAndEndDateRule, AddCommitteeScheduleDateConflictRule, AddCommitteeMembershipRule, SaveCommitteeMembershipRule {
+                                   implements AddCommitteeScheduleStartAndEndDateRule, AddCommitteeScheduleDateConflictRule, AddCommitteeMembershipRule, SaveCommitteeMembershipRule, FilterCommitteeScheduleRule {
     
     static private final boolean VALIDATION_REQUIRED = true;
     
@@ -189,5 +191,12 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase
      */
     public boolean processAddCommitteeScheduleRuleBusinessRules(AddCommitteeScheduleDateConflictEvent addCommitteeScheduleEvent) {
         return new CommitteeScheduleDateConflictRule().processAddCommitteeScheduleRuleBusinessRules(addCommitteeScheduleEvent);
+    }
+
+    /**
+     * @see org.kuali.kra.committee.rule.FilterCommitteeScheduleRule#processCommitteeScheduleFilterBusinessRules(org.kuali.kra.committee.rule.event.FilterCommitteeScheduleEvent)
+     */
+    public boolean processCommitteeScheduleFilterBusinessRules(FilterCommitteeScheduleEvent filterCommitteeScheduleEvent) {
+        return new CommitteeScheduleFilterDatesRule().processCommitteeScheduleFilterBusinessRules(filterCommitteeScheduleEvent);
     }
 }
