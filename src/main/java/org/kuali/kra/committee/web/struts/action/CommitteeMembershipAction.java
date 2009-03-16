@@ -20,6 +20,7 @@ import static org.apache.commons.lang.StringUtils.substringBetween;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.rice.kns.util.KNSConstants.METHOD_TO_CALL_ATTRIBUTE;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -155,7 +156,7 @@ public class CommitteeMembershipAction extends CommitteeAction {
 
     if (rulePassed) {
         getCommitteeMembershipService().addCommitteeMembershipRole(committee, selectedMembershipIndex, newCommitteeMembershipRole);
-        // TODO: cniesen - ? committeeForm.getMembershipRolesHelper().setNewCommitteeMembershipRole(new CommitteeMembershipRole());
+        committeeForm.getMembershipRolesHelper().setNewCommitteeMembershipRoles(new ArrayList<CommitteeMembershipRole>());
     }
     
     return mapping.findForward(Constants.MAPPING_BASIC );
