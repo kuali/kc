@@ -21,6 +21,8 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import org.kuali.core.web.format.FormatException;
+
 public class Time12HrFmt implements Serializable {
 
     private static final long serialVersionUID = -5569353959041715547L;
@@ -33,9 +35,9 @@ public class Time12HrFmt implements Serializable {
     
     public static final String MSG1 = "Time format exception, expects hh:mm";
     
-    public static final String MSG2 = "Time format exception, expects hh as 0-12 & mm as 0-59";
+    public static final String MSG2 = "Time format exception, expects hh as 1-12 & mm as 0-59";
     
-    public static final String MSG3 = "Time format exception, expects hh as 0-12";
+    public static final String MSG3 = "Time format exception, expects hh as 1-12";
     
     public static final String MSG4 = "Time format exception, expects mm as 0-59";
     
@@ -94,7 +96,8 @@ public class Time12HrFmt implements Serializable {
 
         String[] result = time.split(COLON);        
         if(result.length != 2)
-            throw new ParseException(MSG1, 0);
+            throw new FormatException(MSG1, new ParseException(MSG1, 0));
+           
         
         Integer hrs;
         Integer mins;
@@ -103,15 +106,15 @@ public class Time12HrFmt implements Serializable {
             hrs = new Integer(result[0]);
             mins = new Integer(result[1]);
         }catch (NumberFormatException e) {
-            throw new ParseException(MSG2, 0);
+            throw new FormatException(MSG2, new ParseException(MSG2, 0));
         }
         
         if(!(hrs >= 1 && hrs <= 12)) {
-            throw new ParseException(MSG3, 0);
+            throw new FormatException(MSG3, new ParseException(MSG3, 0));
         }
         
         if(!(mins >= 0 && mins <= 59)) {
-            throw new ParseException(MSG4, 0);
+            throw new FormatException(MSG4, new ParseException(MSG4, 0));
         }
         
         String str = buildDisplayView(hrs, mins);
