@@ -67,7 +67,6 @@ public class MonthDayCronExpression extends CronExpression {
         exp.append(stDt.get(Calendar.MONTH) + 1).append(CronSpecialChars.SLASH).append(frequencyInMonth).append(
                 CronSpecialChars.SPACE);
         exp.append(CronSpecialChars.QUESTION);
-        System.out.println("Expression :" + exp.toString());
         return exp.toString();
     }
 
