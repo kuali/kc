@@ -45,7 +45,7 @@
 				p:parameterName="affiliationTypeMaintenanceHelp"
 				p:parameterDetailType="D" />
 			</property>
-		<property name="documentTypeName" value="Affiliation Type Maintenance Document" />
+		<property name="documentTypeName" value="AffiliationTypeMaintenanceDocument" />
 		<property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
 		<property name="documentTypeCode" value="AFFI" />
 		<property name="authorizations" >
