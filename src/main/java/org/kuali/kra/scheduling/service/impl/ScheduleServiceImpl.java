@@ -16,7 +16,9 @@
 package org.kuali.kra.scheduling.service.impl;
 
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.apache.commons.lang.time.DateUtils;
@@ -186,13 +188,23 @@ public class ScheduleServiceImpl implements ScheduleService {
      * @return wrapped date & time.
      */
     private Date wrapTime(Date date, Time24HrFmt time) {
-        java.sql.Date dt = new java.sql.Date(date.getTime());
-        Date utDt = new Date(dt.getTime());
-        if (null != time) {
-            utDt = DateUtils.addHours(utDt, new Integer(time.getHours()));
-            utDt = DateUtils.addHours(utDt, new Integer(time.getMinutes()));
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(date);
+        int hour = calendar.get(Calendar.HOUR);
+        int min = calendar.get(Calendar.MINUTE);
+        int am_pm = calendar.get(Calendar.AM_PM);
+        if(am_pm == Calendar.AM) {
+            date = DateUtils.addHours(date, -hour);
+            date = DateUtils.addMinutes(date, -min);
+        } else {
+            date = DateUtils.addHours(date, -hour-12);
+            date = DateUtils.addMinutes(date, -min);    
         }
-        return utDt;
+        if (null != time) {
+            date = DateUtils.addHours(date, new Integer(time.getHours()));
+            date = DateUtils.addMinutes(date, new Integer(time.getMinutes()));
+        }
+        return date;
     }
 
     /**
