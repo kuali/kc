@@ -173,7 +173,7 @@
         </reference-descriptor>
 
         <collection-descriptor name="membershipRoles" element-class-ref="org.kuali.kra.committee.bo.CommitteeMembershipRole" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-            <inverse-foreignkey field-ref="id" />
+            <inverse-foreignkey field-ref="committeeMembershipId" />
         </collection-descriptor>
     </class-descriptor>	
     
