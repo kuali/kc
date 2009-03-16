@@ -16,6 +16,8 @@
 package org.kuali.kra.award.htmlunitwebtest;
 
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.After;
 import org.junit.Before;
 
@@ -26,13 +28,14 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  */
 public class AwardPaymentsAndTermsWebTest extends AwardWebTestBase {
     protected static final String PAYMENT_REPORTS_AND_TERMS_LINK_NAME = "paymentReportsAndTerms.x";
+    private static final Log LOG = LogFactory.getLog(AwardPaymentsAndTermsWebTest.class);
     
-    protected HtmlPage paymentReportsAndTermsPage; 
+    protected HtmlPage paymentReportsAndTermsPage;
     
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        paymentReportsAndTermsPage = clickOnTab(getAwardHomePage(), PAYMENT_REPORTS_AND_TERMS_LINK_NAME);
+        paymentReportsAndTermsPage = clickOnTab(getAwardHomePage(), PAYMENT_REPORTS_AND_TERMS_LINK_NAME);        
     }
     
     @After
@@ -47,5 +50,11 @@ public class AwardPaymentsAndTermsWebTest extends AwardWebTestBase {
      */
     protected HtmlPage getAwardPaymentReportsAndTermsPage() {
         return paymentReportsAndTermsPage;
+    }
+    
+    protected void dumpPage() {
+        if(LOG.isDebugEnabled()) {
+            System.err.println(paymentReportsAndTermsPage);
+        }
     }
 }
