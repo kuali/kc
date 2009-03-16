@@ -85,6 +85,20 @@ public abstract class KcraNoDataTestBase extends KNSTestCase {
         return lifeCycles;
     }
 
+    /**
+     * This method is overridden because the lifecycle starting error thrown in setUpInternal method can be hidden by an 
+     * exception in the tearDown method.
+     * @see org.kuali.rice.test.RiceTestCase#startLifecycles(java.util.List)
+     */
+    @Override
+    protected void startLifecycles(List<Lifecycle> lifecycles) throws Exception {
+        try {
+            super.startLifecycles(lifecycles);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     protected BusinessObjectService getBusinessObjectService() throws Exception {
         if(businessObjectService == null) {
             businessObjectService = KNSServiceLocator.getBusinessObjectService();
