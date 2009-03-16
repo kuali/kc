@@ -213,7 +213,7 @@
 	    <property name="forceUppercase" value="false" />
 	    <property name="label" value="Min Members for Quorum" />
 	    <property name="shortLabel" value="Min Members for Quorum" />
-	    <property name="maxLength" value="12" />
+	    <property name="maxLength" value="3" />
 	    <property name="validationPattern" >
 	      <bean parent="NumericValidationPattern" />
 	    </property>
@@ -232,7 +232,7 @@
 	    <property name="forceUppercase" value="false" />
 	    <property name="label" value="Maximum Protocols" />
 	    <property name="shortLabel" value="Maximum Protocols" />
-	    <property name="maxLength" value="12" />
+	    <property name="maxLength" value="4" />
 	    <property name="validationPattern" >
 	      <bean parent="NumericValidationPattern" />
 	    </property>
@@ -251,7 +251,7 @@
 	    <property name="forceUppercase" value="false" />
 	    <property name="label" value="Adv Submission Days" />
 	    <property name="shortLabel" value="Adv Submission Days" />
-	    <property name="maxLength" value="12" />
+	    <property name="maxLength" value="3" />
 	    <property name="validationPattern" >
 	      <bean parent="NumericValidationPattern" />
 	    </property>
