@@ -59,13 +59,16 @@ import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
 import com.gargoylesoftware.htmlunit.html.HtmlTextArea;
 import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 
+/**
+ * This class is the KRA base class for web tests
+ */
 public abstract class KraWebTestBase extends KraTestBase {
-    private static final Logger LOG = Logger.getLogger(KraWebTestBase.class);
+    protected static final String HELP_PAGE_TITLE = "Kuali Research Administration Online Help";
+    static final Logger LOG = Logger.getLogger(KraWebTestBase.class);
+    private static final String QUICKSTART_USER = "quickstart";
 
-    protected static String HELP_PAGE_TITLE = "Kuali Research Administration Online Help";
-
-    protected WebClient webClient = null;
-    protected DocumentService documentService = null;
+    protected WebClient webClient;
+    protected DocumentService documentService;
 
     private HtmlPage portalPage;
 
@@ -77,7 +80,7 @@ public abstract class KraWebTestBase extends KraTestBase {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setUserSession(new UserSession("quickstart"));
+        GlobalVariables.setUserSession(new UserSession(QUICKSTART_USER));
         documentService = KNSServiceLocator.getDocumentService();
         webClient = new WebClient();
 
@@ -577,7 +580,11 @@ public abstract class KraWebTestBase extends KraTestBase {
      */
     protected final void setFieldValue(HtmlPage page, String fieldId, String fieldValue) {
         HtmlElement element = getElement(page, fieldId);
-        assertTrue(element != null);
+        if(element == null &&  page != null && LOG.isDebugEnabled()) {
+            LOG.debug(createExpectedFieldNotFoundMessage(page, fieldId));
+            LOG.debug(page.asXml());
+        }
+        assertTrue(createExpectedFieldNotFoundMessage(page, fieldId), element != null);
 
         if (element instanceof HtmlTextInput) {
             HtmlTextInput textField = (HtmlTextInput) element;
@@ -623,7 +630,11 @@ public abstract class KraWebTestBase extends KraTestBase {
             }
         }
         else {
-            assertTrue("Unknown control field", false);
+            if(page != null && LOG.isDebugEnabled()) {
+                LOG.debug(String.format("Unknown control field %s on page titled %s", page.getTitleText(), fieldId));
+                LOG.debug(page.asXml());
+            }
+            fail("Unknown control field: " + fieldId);
         }
     }
 
@@ -935,7 +946,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return
      */
     protected String getLoginUserName() {
-        return "quickstart";
+        return QUICKSTART_USER;
     }
     
     /**
@@ -1221,7 +1232,9 @@ public abstract class KraWebTestBase extends KraTestBase {
             List<HtmlPage> innerPages = getInnerPages(page);
             for (HtmlPage innerPage : innerPages) {
                 element = getElementByTitle(innerPage, title);
-                if (element != null) break;
+                if (element != null) {
+                    break;
+                }
             }
         }
         return element;
@@ -1754,5 +1767,9 @@ public abstract class KraWebTestBase extends KraTestBase {
                 break;
             }
         }
+    }
+    
+    private String createExpectedFieldNotFoundMessage(HtmlPage page, String fieldId) {
+        return String.format("Expected field %s was not found on page titled %s", fieldId, page.getTitleText());
     }
 }

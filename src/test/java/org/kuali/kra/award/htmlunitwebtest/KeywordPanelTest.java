@@ -44,10 +44,10 @@ public class KeywordPanelTest extends AwardHomeWebTest{
     @Test
     public void testKeywordPanel() throws Exception {
 
-        HtmlPage proposalPage = getAwardHomePage();
-
-        setRequiredFields(proposalPage, DEFAULT_DOCUMENT_DESCRIPTION);
-        final HtmlPage pageAfterInitSave = saveAndVerifyData(proposalPage);
+        HtmlPage awardHomePage = getAwardHomePage();
+        setFieldValue(awardHomePage, DOCUMENT_DESCRIPTION_ID, DEFAULT_DOCUMENT_DESCRIPTION);
+        
+        final HtmlPage pageAfterInitSave = saveAndVerifyData(awardHomePage);
         HtmlPage pageKeywordLookup = scienceKeywordLookupTest(pageAfterInitSave);
         final HtmlPage pageAfterKeywordLookup = saveAndVerifyData(pageKeywordLookup);
         final ScriptResult scriptResult = pageAfterKeywordLookup.executeJavaScriptIfPossible(JS_SELECT_ALL, "onSubmit", pageAfterKeywordLookup.getDocumentHtmlElement());

@@ -114,7 +114,8 @@ import org.kuali.rice.test.data.UnitTestFile;
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_SPONSOR_TERM.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_AWARD_BASIS_OF_PAYMENT.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_AWARD_METHOD_OF_PAYMENT.sql", delimiter = ";")
-                
+                ,@UnitTestFile(filename = "classpath:sql/dml/load_AWARD_STATUS.sql", delimiter = ";")
+                ,@UnitTestFile(filename = "classpath:sql/dml/load_DUMMY_AWARD_TYPES.sql", delimiter = ";")
             }
         )
     )
