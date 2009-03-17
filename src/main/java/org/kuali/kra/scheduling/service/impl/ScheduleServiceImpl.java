@@ -36,11 +36,13 @@ import org.kuali.kra.scheduling.sequence.DefaultScheduleSequence;
 import org.kuali.kra.scheduling.sequence.ScheduleSequence;
 import org.kuali.kra.scheduling.service.ScheduleService;
 import org.kuali.kra.scheduling.util.Time24HrFmt;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class is thread safe implementation of ScheduleService interface. Primary function of this service implementation is to
  * return generated schedule dates using parameters passed.
  */
+@Transactional
 public class ScheduleServiceImpl implements ScheduleService {
 
     @SuppressWarnings("unused")
