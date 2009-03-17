@@ -21,40 +21,28 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.rule.event.DocumentAuditEvent;
-import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.web.struts.action.AuditModeAction;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.kra.web.struts.action.AuditActionHelper;
 
 /**
  * This class implements the activate and deactivate action methods for Audit Mode.
  */
 public class ProposalDevelopmentAuditModeAction extends ProposalDevelopmentAction implements AuditModeAction {
-
-    /**
-     * @see org.kuali.core.web.struts.action.AuditModeAction#activate(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
+    
+    /** {@inheritDoc} */
     public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        proposalDevelopmentForm.setAuditActivated(true);
-
-        KraServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(proposalDevelopmentForm.getDocument()));
-
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        final AuditActionHelper auditHelper = new AuditActionHelper();
+        
+        final ActionForward forward = auditHelper.setAuditMode(mapping, (ProposalDevelopmentForm) form, true);
+        auditHelper.auditConditionally((ProposalDevelopmentForm) form);
+        return forward;
     }
 
-    /**
-     * @see org.kuali.core.web.struts.action.AuditModeAction#deactivate(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
+    /** {@inheritDoc} */
     public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        proposalDevelopmentForm.setAuditActivated(false);
-
-        return mapping.findForward((Constants.MAPPING_BASIC));
+        return new AuditActionHelper().setAuditMode(mapping, (ProposalDevelopmentForm) form, false);
     }
-
 }

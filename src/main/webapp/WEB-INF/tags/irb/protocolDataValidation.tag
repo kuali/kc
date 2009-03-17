@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
+<%-- FIXME: We should find a way to generalize all of these data validation tags rather than copying and pasting logic with minor modifications--%>
 <c:set var="categories" value="Validation Errors,Warnings" />
 
 <kul:tabTop tabTitle="Data Validation" defaultOpen="${KualiForm.auditActivated}"  
@@ -31,7 +31,6 @@
                     <ul>
                       <li>errors that prevent submission into routing</li>
                       <li>warnings that serve as alerts to  possible data issues but will not prevent submission into routing</li>
-                      <li>errors that prevent submission to grants.gov</li>
                     </ul>
 						<p align="center">
 							<c:choose>

@@ -92,6 +92,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
     /**
      * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.core.document.Document)
      */
+    @Override
     public boolean processRunAuditBusinessRules(Document document){
         boolean retval = true;
         

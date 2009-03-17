@@ -41,6 +41,7 @@ import org.kuali.kra.award.web.struts.action.SponsorTermFormHelper;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.kra.web.struts.form.MultiLookupFormBase;
 import org.kuali.kra.web.struts.form.SpecialReviewFormBase;
@@ -53,7 +54,8 @@ import edu.iu.uis.eden.clientapp.IDocHandler;
  */
 public class AwardForm extends KraTransactionalDocumentFormBase 
                                         implements MultiLookupFormBase,
-                                                    SpecialReviewFormBase<AwardSpecialReviewExemption> {
+                                                    SpecialReviewFormBase<AwardSpecialReviewExemption>,
+                                                    Auditable {
     
     public static final String SAVE = "save";
     public static final String RELOAD = "reload";
@@ -83,7 +85,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     private PaymentScheduleBean paymentScheduleBean;
     private ApprovedForeignTravelBean approvedForeignTravelBean;
     
-    private boolean awardAuditActivated;
+    private boolean auditActivated;
     
     
     /**
@@ -220,10 +222,12 @@ public class AwardForm extends KraTransactionalDocumentFormBase
         this.newAwardFandaRate = newAwardFandaRate;
     }
     
-    protected void setSaveDocumentControl(DocumentActionFlags tempDocumentActionFlags, Map editMode) {
+    @Override
+    protected void setSaveDocumentControl(DocumentActionFlags tempDocumentActionFlags, @SuppressWarnings("unchecked") Map editMode) {
         tempDocumentActionFlags.setCanSave(true);
     }
     
+    @Override
     protected String getLockRegion() {
         return KraAuthorizationConstants.LOCK_DESCRIPTOR_AWARD;
     }
@@ -449,22 +453,15 @@ public class AwardForm extends KraTransactionalDocumentFormBase
         this.paymentScheduleBean = paymentScheduleBean;
     }
     
-    /**
-     * Gets the awardAuditActivated attribute. 
-     * @return Returns the awardAuditActivated.
-     */
-    public boolean isAwardAuditActivated() {
-        return awardAuditActivated;
+    /** {@inheritDoc} */
+    public boolean isAuditActivated() {
+        return this.auditActivated;
     }
 
-    /**
-     * Sets the awardAuditActivated attribute value.
-     * @param awardAuditActivated The awardAuditActivated to set.
-     */
-    public void setAwardAuditActivated(boolean awardAuditActivated) {
-        this.awardAuditActivated = awardAuditActivated;
+    /** {@inheritDoc} */
+    public void setAuditActivated(boolean auditActivated) {
+        this.auditActivated = auditActivated;
     }
-    
 
     public DetailsAndDatesFormHelper getDetailsAndDatesFormHelper() {
         return detailsAndDatesFormHelper;

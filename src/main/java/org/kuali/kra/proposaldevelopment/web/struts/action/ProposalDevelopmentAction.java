@@ -72,6 +72,7 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.service.PrintService;
 import org.kuali.kra.s2s.service.S2SService;
+import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.ProposalActionBase;
 import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -124,8 +125,9 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
                     Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.KEYWORD_PANEL_DISPLAY);        
             request.getSession().setAttribute(Constants.KEYWORD_PANEL_DISPLAY, keywordPanelDisplay);
             // TODO: not sure it's should be here - for audit error display.
+            
+            new AuditActionHelper().auditConditionally(proposalDevelopmentForm);
             if (proposalDevelopmentForm.isAuditActivated()) {
-                getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(proposalDevelopmentForm.getDocument()));
                 if (document != null && 
                     document.getS2sOpportunity() != null ) {
                     getService(S2SService.class).validateApplication(document.getS2sOpportunity().getProposalNumber());            
@@ -362,11 +364,8 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
      * @return ActionForward to forward to ("auditMode")
      */
     public ActionForward auditMode(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        if (proposalDevelopmentForm.isAuditActivated()) {
-            getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(proposalDevelopmentForm.getDocument()));
-        }
-         return mapping.findForward("auditMode");
+        new AuditActionHelper().auditConditionally((ProposalDevelopmentForm) form);
+        return mapping.findForward("auditMode");
     }
     
     /**
