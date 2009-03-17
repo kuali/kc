@@ -34,7 +34,7 @@
     
     <kul:tab tabTitle="${tabTitleValue}"
              tabErrorKey=""
-             childTabErrorKey="${committeeMembershipProperty}.*"
+             innerTabErrorKey="${committeeMembershipProperty}.*"
              auditCluster="requiredFieldsAuditErrors" 
              tabAuditKey="" 
              useRiceAuditMode="true"
