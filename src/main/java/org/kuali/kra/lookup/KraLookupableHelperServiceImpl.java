@@ -24,6 +24,7 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.LookupForm;
+import org.kuali.core.web.ui.Field;
 import org.kuali.rice.kns.util.KNSConstants;
 
 public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
@@ -61,6 +62,23 @@ public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelp
         }
     }
  
+    /**
+     * 
+     * This method is to set up field definitions for lookup fields.  
+     * These fields does not have a reference object defined for it in repository & bo.
+     * @param field
+     * @param keyName
+     * @param className
+     */
+    protected void updateLookupField(Field field, String keyName, String className) {
+        field.setFieldConversions(keyName+":"+field.getPropertyName());
+        field.setLookupParameters(field.getPropertyName()+":"+keyName);
+        field.setInquiryParameters(field.getPropertyName()+":"+keyName);
+        field.setQuickFinderClassNameImpl(className);
+        
+    }
+
+    
     // TODO : 3 methods should be implemented by child class
     // maybe define this class/methods as abstract ?
     // or maybe defined in interface

@@ -32,5 +32,5 @@
 %>
 
 <div valign="center">
-	<a href='${pageContext.request.contextPath}/DocCopyHandler.do?command=displayDocSearchView&docId=<%=request.getParameter("docId")%>' <%=target%> >Copy Proposal</a>
+	<a href='${pageContext.request.contextPath}/DocCopyHandler.do?command=displayDocSearchView&docId=<%=request.getParameter("docId")%>&documentTypeName=ProposalDevelopmentDocument' <%=target%> >Copy Proposal</a>
 </div>
