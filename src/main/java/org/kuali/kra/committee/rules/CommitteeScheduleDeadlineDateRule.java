@@ -26,7 +26,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 public class CommitteeScheduleDeadlineDateRule extends ResearchDocumentRuleBase implements  DeadlineCommitteeScheduleRule{
             
-    public static final String ID = "document.committee.committeeSchedules[%1$s].protocolSubDeadline";
+    public static final String ID = "document.committeeList[0].committeeSchedules[%1$s].protocolSubDeadline";
     
     /**
      * @see org.kuali.kra.committee.rule.DeadlineCommitteeScheduleRule#processCommitteeScheduleDeadlineBusinessRules(org.kuali.kra.committee.rule.event.DeadlineCommitteeScheduleEvent)
