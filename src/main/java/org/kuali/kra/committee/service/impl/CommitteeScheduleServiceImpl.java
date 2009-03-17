@@ -42,11 +42,13 @@ import org.kuali.kra.scheduling.sequence.ScheduleSequence;
 import org.kuali.kra.scheduling.sequence.WeekScheduleSequence;
 import org.kuali.kra.scheduling.service.ScheduleService;
 import org.kuali.kra.scheduling.util.Time24HrFmt;
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
  * The Committee Service implementation.
  */
+@Transactional
 public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
     
     @SuppressWarnings("unused")
