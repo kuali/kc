@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.web.struts.action;
+package org.kuali.kra.web.struts.action;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +26,12 @@ import org.kuali.rice.kns.util.KNSConstants;
 
 import edu.iu.uis.eden.routing.web.ClientAppDocHandlerRedirectAction;
 
+/**
+ * 
+ * This class is for copy document.
+ * currently, PD & protocol provide 'copy' function.
+ */
+        
 public class CustomDocHandlerRedirectAction extends ClientAppDocHandlerRedirectAction {
 
     @Override
@@ -34,7 +40,11 @@ public class CustomDocHandlerRedirectAction extends ClientAppDocHandlerRedirectA
         
         String docHandler = returnForward.getPath();
         docHandler = docHandler.replace(KNSConstants.DOC_HANDLER_METHOD, Constants.HEADER_TAB);
-        docHandler += "&" + KNSConstants.METHOD_TO_CALL_PATH + "=methodToCall.headerTab.headerDispatch.reload.navigateTo.actions.x=Proposal Actions";
+        if (("ProposalDevelopmentDocument").equals(request.getParameter("documentTypeName"))) {
+            docHandler += "&" + KNSConstants.METHOD_TO_CALL_PATH + "=methodToCall.headerTab.headerDispatch.reload.navigateTo.actions.x=Proposal Actions";
+        } else if (("ProtocolDocument").equals(request.getParameter("documentTypeName"))) {
+            docHandler += "&" + KNSConstants.METHOD_TO_CALL_PATH + "=methodToCall.headerTab.headerDispatch.reload.navigateTo.protocolActions.x=Protocol Actions";
+        }
           
         returnForward = new ActionForward(docHandler, returnForward.getRedirect());
         return returnForward;

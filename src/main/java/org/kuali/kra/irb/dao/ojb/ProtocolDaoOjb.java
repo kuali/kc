@@ -36,20 +36,11 @@ import org.kuali.core.util.OjbCollectionAware;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolPerson;
 import org.kuali.kra.irb.dao.ProtocolDao;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.kra.irb.lookup.ProtocolLookupConstants;
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, ProtocolDao {
 
-    private static final String PROTOCOL_ID = "protocolId";
-    private static final String PERSON_ID = "personId";
-    private static final String PRINCIPAL_INVESTIGATOR_ID = "principalInvestigatorId";
-    private static final String PERSON_EMPLOYEE_INDICATOR = "personEmployeeIndicator";
-    private static final String INVESTIGATOR_EMPLOYEE_INDICATOR = "investigatorEmployeeIndicator";
-    private static final String FUNDING_SOURCE_TYPE_CODE ="fundingSourceTypeCode";
-    private static final String FUNDING_SOURCE ="fundingSource";
-    private static final String RESEARCH_AREA_CODE = "researchAreaCode";
-    private static final String PERFORMING_ORGANIZATION_ID = "performingOrganizationId";
     private LookupDao lookupDao;
     private DataDictionaryService dataDictionaryService;
     private Map<String, String> searchMap = new HashMap<String, String>();
@@ -83,9 +74,9 @@ public class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollec
                 crit.addExists(getPersonReportQuery(entry.getKey(), entry.getValue()));
             }
         }
-
-        Query q = QueryFactory.newQuery(Protocol.class, crit);
-
+ 
+        Query q = QueryFactory.newReportQuery(Protocol.class, crit, true);
+      
         return (List) getPersistenceBrokerTemplate().getCollectionByQuery(q);
     }
 
@@ -100,32 +91,35 @@ public class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollec
         initRoleLists();
     }
 
+    /*
+     * 
+     * This method to set up the list of fields that should not be included in the query criteria.
+     */
     private void initExcludedFields() {
         excludedFields.add(KNSConstants.BACK_LOCATION);
         excludedFields.add(KNSConstants.DOC_FORM_KEY);
-        excludedFields.add(PERSON_EMPLOYEE_INDICATOR);
-        excludedFields.add(INVESTIGATOR_EMPLOYEE_INDICATOR);
-        excludedFields.add(FUNDING_SOURCE_TYPE_CODE);
+        excludedFields.add(ProtocolLookupConstants.Property.PERSON_EMPLOYEE_INDICATOR);
+        excludedFields.add(ProtocolLookupConstants.Property.INVESTIGATOR_EMPLOYEE_INDICATOR);
+        excludedFields.add(ProtocolLookupConstants.Property.FUNDING_SOURCE_TYPE_CODE);
     }
     
     private void initCollectionFields() {
-        collectionFieldNames.add(PERSON_ID);
-        collectionFieldNames.add(PRINCIPAL_INVESTIGATOR_ID);
-        collectionFieldNames.add(FUNDING_SOURCE);
-        collectionFieldNames.add(RESEARCH_AREA_CODE);
-        collectionFieldNames.add(PERFORMING_ORGANIZATION_ID);
-        // collectionFieldNames.add(FUNDING_SOURCE_TYPE_CODE);
+        collectionFieldNames.add(ProtocolLookupConstants.Property.PERSON_ID);
+        collectionFieldNames.add(ProtocolLookupConstants.Property.PRINCIPAL_INVESTIGATOR_ID);
+        collectionFieldNames.add(ProtocolLookupConstants.Property.FUNDING_SOURCE);
+        collectionFieldNames.add(ProtocolLookupConstants.Property.RESEARCH_AREA_CODE);
+        collectionFieldNames.add(ProtocolLookupConstants.Property.PERFORMING_ORGANIZATION_ID);
     }
     
     private void initEnumSearchMap() {
         // map to enum
-        searchMap.put("personIdY", "EMPLOYEEPERSON");
-        searchMap.put("personIdN", "ROLODEXPERSON");
-        searchMap.put("principalInvestigatorIdY", "EMPLOYEEINVESTIGATOR");
-        searchMap.put("principalInvestigatorIdN", "ROLODEXINVESTIGATOR");
-        searchMap.put(FUNDING_SOURCE, "FUNDINGSOURCE");
-        searchMap.put(PERFORMING_ORGANIZATION_ID, "ORGANIZATION");
-        searchMap.put(RESEARCH_AREA_CODE, "RESEARCHAREA");        
+        searchMap.put(ProtocolLookupConstants.Key.EMPLOYEE_PERSON, "EMPLOYEEPERSON");
+        searchMap.put(ProtocolLookupConstants.Key.ROLODEX_PERSON, "ROLODEXPERSON");
+        searchMap.put(ProtocolLookupConstants.Key.EMPLOYEE_INVESTIGATOR, "EMPLOYEEINVESTIGATOR");
+        searchMap.put(ProtocolLookupConstants.Key.ROLODEX_INVESTIGATOR, "ROLODEXINVESTIGATOR");
+        searchMap.put(ProtocolLookupConstants.Property.FUNDING_SOURCE, "FUNDINGSOURCE");
+        searchMap.put(ProtocolLookupConstants.Property.PERFORMING_ORGANIZATION_ID, "ORGANIZATION");
+        searchMap.put(ProtocolLookupConstants.Property.RESEARCH_AREA_CODE, "RESEARCHAREA");        
     }
 
     private void initRoleLists() {
@@ -144,11 +138,11 @@ public class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollec
      */
     private ReportQueryByCriteria getPersonReportQuery(String key, CritField critField) {
         Criteria crit = new Criteria();
-        crit.addEqualToField(PROTOCOL_ID, Criteria.PARENT_QUERY_PREFIX + PROTOCOL_ID);
+        crit.addEqualToField(ProtocolLookupConstants.Property.PROTOCOL_ID, Criteria.PARENT_QUERY_PREFIX + ProtocolLookupConstants.Property.PROTOCOL_ID);
         String nameValue = critField.getFieldValue().replace('*', '%');
         crit.addLike(critField.getFieldName(), nameValue);
         if (StringUtils.isNotBlank(critField.getSecondCritName())) {
-                if (key.equals(PERSON_ID)) {
+                if (key.equals(ProtocolLookupConstants.Property.PERSON_ID)) {
                     crit.addIn(critField.getSecondCritName(), personRole);
                 } else {
                     crit.addIn(critField.getSecondCritName(), investigatorRole);
@@ -187,7 +181,7 @@ public class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollec
     private String findFundingSourceTypeCode(Map<String, String> fieldValues) {
         String fundingSourceTypeCode = "";
         for (Entry<String, String> entry : fieldValues.entrySet()) {
-            if (entry.getKey().equals(FUNDING_SOURCE_TYPE_CODE)) {
+            if (entry.getKey().equals(ProtocolLookupConstants.Property.FUNDING_SOURCE_TYPE_CODE)) {
                 fundingSourceTypeCode = entry.getValue();
                 break;
             }
@@ -201,8 +195,10 @@ public class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollec
     private String findEmployeeIndicator(String key, Map<String, String> fieldValues) {
         String empIndicator="";
         for (Entry<String, String> entry : fieldValues.entrySet()) {
-            if ((key.equals(PRINCIPAL_INVESTIGATOR_ID) && entry.getKey().equals(INVESTIGATOR_EMPLOYEE_INDICATOR))
-                    || (key.equals(PERSON_ID) && entry.getKey().equals(PERSON_EMPLOYEE_INDICATOR))) {
+            if ((key.equals(ProtocolLookupConstants.Property.PRINCIPAL_INVESTIGATOR_ID) 
+                    && entry.getKey().equals(ProtocolLookupConstants.Property.INVESTIGATOR_EMPLOYEE_INDICATOR))
+                    || (key.equals(ProtocolLookupConstants.Property.PERSON_ID) 
+                            && entry.getKey().equals(ProtocolLookupConstants.Property.PERSON_EMPLOYEE_INDICATOR))) {
                 empIndicator = entry.getValue();
             }
         }
@@ -216,11 +212,11 @@ public class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollec
      */
     private String findIndicator(String key, Map<String, String> fieldValues) {
         String indicator = "";
-        if (key.equals(FUNDING_SOURCE)) {
+        if (key.equals(ProtocolLookupConstants.Property.FUNDING_SOURCE)) {
             indicator = findFundingSourceTypeCode(fieldValues);
         } else if (isProtocolPersonField(key)) {
             indicator = findEmployeeIndicator(key, fieldValues);
-        } else if (key.equals(PERFORMING_ORGANIZATION_ID)) {
+        } else if (key.equals(ProtocolLookupConstants.Property.PERFORMING_ORGANIZATION_ID)) {
             indicator = "1";
         }
 
@@ -253,7 +249,7 @@ public class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollec
     }
     
     private boolean isProtocolPersonField (String fieldName) {
-        return fieldName.equals(PERSON_ID) || fieldName.equals(PRINCIPAL_INVESTIGATOR_ID);    
+        return fieldName.equals(ProtocolLookupConstants.Property.PERSON_ID) || fieldName.equals(ProtocolLookupConstants.Property.PRINCIPAL_INVESTIGATOR_ID);    
     }
     
     /**
@@ -262,10 +258,10 @@ public class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollec
      */
     public enum CritField {
 
-        EMPLOYEEPERSON("personId", "protocolPersonRoleId"), 
-        ROLODEXPERSON("rolodexId", "protocolPersonRoleId"), 
-        EMPLOYEEINVESTIGATOR("personId", "protocolPersonRoleId"), 
-        ROLODEXINVESTIGATOR("rolodexId", "protocolPersonRoleId"), 
+        EMPLOYEEPERSON(ProtocolLookupConstants.Property.PERSON_ID, ProtocolLookupConstants.Property.PROTOCOL_PERSON_ROLE_ID), 
+        ROLODEXPERSON(ProtocolLookupConstants.Property.ROLODEX_ID, ProtocolLookupConstants.Property.PROTOCOL_PERSON_ROLE_ID), 
+        EMPLOYEEINVESTIGATOR(ProtocolLookupConstants.Property.PERSON_ID, ProtocolLookupConstants.Property.PROTOCOL_PERSON_ROLE_ID), 
+        ROLODEXINVESTIGATOR(ProtocolLookupConstants.Property.ROLODEX_ID, ProtocolLookupConstants.Property.PROTOCOL_PERSON_ROLE_ID), 
         FUNDINGSOURCE("protocolFundingSources.fundingSource","protocolFundingSources.fundingSourceTypeCode"), 
         ORGANIZATION("protocolLocations.organizationId","protocolLocations.protocolOrganizationTypeCode"), 
         RESEARCHAREA("protocolResearchAreas.researchAreaCode", "");
