@@ -61,7 +61,7 @@
                 <label>Deadline Type Code</label>
                 <shortLabel>Deadline Type Code</shortLabel>
 
-                <maxLength>3</maxLength>
+                <maxLength>1</maxLength>
 
                 <control>
                     <text size="4" />
