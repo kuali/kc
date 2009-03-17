@@ -21,7 +21,7 @@
 <c:set var="kraAttributeReferenceDummyAttributes" value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
 <c:set var="committeeScheduleAttributeReferenceDummy" value="${DataDictionary.CommitteeScheduleAttributeReferenceDummy.attributes}" />
 <div id="workarea">
-<kul:tab tabTitle="Schedule" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="document.committee.committeeSchedules*,scheduleData*,datesInConflict*" auditCluster="requiredFieldsAuditErrors"  tabAuditKey="" useRiceAuditMode="true">
+<kul:tab tabTitle="Schedule" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="document.committee.committeeSchedules*,scheduleData*,datesInConflict*,document.committeeList[0].committeeSchedules*" auditCluster="requiredFieldsAuditErrors"  tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
 		
 		<kra:softError softErrorKey="datesInConflict" />
@@ -169,38 +169,38 @@
 					</th>
 	                <td align="left" valign="middle">
 	                	<div align="center"> 
-	                	<kul:htmlControlAttribute property="document.committee.committeeSchedules[${status.index}].scheduledDate" 
+	                	<kul:htmlControlAttribute property="document.committeeList[0].committeeSchedules[${status.index}].scheduledDate" 
 	                								datePicker="true"	attributeEntry="${committeeScheduleAttributes.scheduledDate}"  /> </div>
 					</td>
 
 	                <td align="left" valign="middle">
 	                	<div align="center"> 
-	                	<kul:htmlControlAttribute property="document.committee.committeeSchedules[${status.index}].dayOfWeek" 
+	                	<kul:htmlControlAttribute property="document.committeeList[0].committeeSchedules[${status.index}].dayOfWeek" 
 	                								readOnly="true" attributeEntry="${committeeScheduleAttributes.dayOfWeek}"  /> </div>
 					</td>
 
 	                <td align="left" valign="middle">
 	                	<div align="center"> 
-	                	<kul:htmlControlAttribute property="document.committee.committeeSchedules[${status.index}].protocolSubDeadline" 
+	                	<kul:htmlControlAttribute property="document.committeeList[0].committeeSchedules[${status.index}].protocolSubDeadline" 
 	                									datePicker="true"	attributeEntry="${committeeScheduleAttributes.protocolSubDeadline}"  /> </div>
 					</td>
 
 	                <td align="left" valign="middle">
 	                	<div align="center"> 
-	                	<kul:htmlControlAttribute property="document.committee.committeeSchedules[${status.index}].scheduleStatusCode" 
+	                	<kul:htmlControlAttribute property="document.committeeList[0].committeeSchedules[${status.index}].scheduleStatusCode" 
 	                								attributeEntry="${committeeScheduleAttributes.scheduleStatusCode}" /> </div>
 					</td>
 
 	                <td align="left" valign="middle">
 	                	<div align="center"> 
-	                	<kul:htmlControlAttribute property="document.committee.committeeSchedules[${status.index}].place" 
-	                								attributeEntry="${committeeScheduleAttributes.place}" /> </div>
+	                	<kul:htmlControlAttribute property="document.committeeList[0].committeeSchedules[${status.index}].place" 
+                         attributeEntry="${committeeScheduleAttributes.place}" /> </div>
 					</td>
 
 	                <td nobr><div align="center">
-						<kul:htmlControlAttribute property="document.committee.committeeSchedules[${status.index}].viewTime.time" 
+						<kul:htmlControlAttribute property="document.committeeList[0].committeeSchedules[${status.index}].viewTime.time" 
 	                								attributeEntry="${committeeScheduleAttributeReferenceDummy.time}" />  						
- 						<kul:htmlControlAttribute property="document.committee.committeeSchedules[${status.index}].viewTime.meridiem" 
+ 						<kul:htmlControlAttribute property="document.committeeList[0].committeeSchedules[${status.index}].viewTime.meridiem" 
 	                								attributeEntry="${committeeScheduleAttributeReferenceDummy.meridiem}" /> 
 	                									
  							

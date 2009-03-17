@@ -34,7 +34,7 @@ public class CommitteeScheduleDateConflictRule extends ResearchDocumentRuleBase 
     @SuppressWarnings("unused")
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeScheduleDateConflictRule.class);
     
-    public static final String ID = "document.committee.committeeSchedules[%1$s].scheduledDate";
+    public static final String ID = "document.committeeList[0].committeeSchedules[%1$s].scheduledDate";
     
     public static final String DATES_IN_CONFLICT_ERROR_KEY = "datesInConflict";
     
