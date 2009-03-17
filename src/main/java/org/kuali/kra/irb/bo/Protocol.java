@@ -569,6 +569,15 @@ public class Protocol extends KraPersistableBusinessObjectBase{
     }
 
     public ProtocolUnit getLeadUnitForValidation() {
+        // TODO : for refactoring document rule
+        if (leadUnitForValidation == null && getPrincipalInvestigator() != null) {
+            for (ProtocolUnit protocolUnit : getPrincipalInvestigator().getProtocolUnits()) {
+                if (protocolUnit.getLeadUnitFlag()) {
+                    leadUnitForValidation = protocolUnit;
+                    break;
+                }                
+            }
+        }
         return leadUnitForValidation;
     }
 

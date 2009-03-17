@@ -28,6 +28,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.document.Document;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -46,7 +47,11 @@ import org.kuali.kra.irb.service.ProtocolProtocolService;
 import org.kuali.kra.irb.service.ProtocolReferenceService;
 import org.kuali.kra.irb.service.ProtocolResearchAreaService;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
+import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSConstants;
+
+import edu.iu.uis.eden.clientapp.IDocHandler;
 
 /**
  * The ProtocolProtocolAction corresponds to the Protocol tab (web page).  It is
@@ -62,8 +67,8 @@ public class ProtocolProtocolAction extends ProtocolAction {
         boolean rulePassed = true;
         protocolForm.getProtocolHelper().prepareRequiredFieldsForSave();
         return rulePassed;
-    }
-
+    }    
+    
     /**
      * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
      * org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -85,6 +90,23 @@ public class ProtocolProtocolAction extends ProtocolAction {
         return actionForward;
     }
     
+    @Override
+    public ActionForward headerTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProtocolForm protocolform = (ProtocolForm) form;
+        
+        String command = request.getParameter("command");
+        String docId = request.getParameter("docId");
+
+        if(StringUtils.isNotEmpty(command) && command.equals("displayDocSearchView") && StringUtils.isNotEmpty(docId)) {
+            //copy link from protocol lookup - Copy Action
+            Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docId);
+            protocolform.setDocument(retrievedDocument);
+        }
+        
+        return super.headerTab(mapping, form, request, response);
+    }
+
+
     /**
      * @see org.kuali.kra.irb.web.struts.action.ProtocolAction#processMultipleLookupResults(org.kuali.kra.irb.document.ProtocolDocument,
      * java.lang.Class, java.util.Collection)
