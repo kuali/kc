@@ -16,15 +16,13 @@
 package org.kuali.kra.irb.lookup;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.web.struts.form.LookupForm;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
 import org.kuali.kra.bo.Person;
@@ -33,18 +31,10 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolPerson;
 import org.kuali.kra.irb.dao.ProtocolDao;
+import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
-import org.kuali.rice.kns.util.KNSConstants;
 
 public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
-    private static final String ROLODEX_ID = "rolodexId";
-    private static final String UNIT_NUMBER = "unitNumber";
-    private static final String PERSON_ID = "personId";
-    private static final String COLUMN = ":";
-    private static final String PRINCIPAL_INVESTIGATOR_ID = "principalInvestigatorId";
-    private static final String FUNDING_SOURCE = "fundingSource";
-    private static final String FUNDING_SOURCE_TYPE_CODE = "fundingSourceTypeCode";
-    private static final String RESEARCH_AREA_CODE = "researchAreaCode";
     private List <String> searchFieldNames = new ArrayList <String> ();
     private Map <String, String> searchMap = new HashMap<String, String>();
     private Map <String, String> indicatorNames = new HashMap<String, String>();
@@ -61,6 +51,14 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
     }
 
     
+    @Override
+    public String getActionUrls(BusinessObject businessObject) {
+        String editLink =  super.getActionUrls(businessObject);
+        ProtocolDocument document = ((Protocol)businessObject).getProtocolDocument();
+        return editLink + "&nbsp<a href=\"../DocCopyHandler.do?docId="+document.getDocumentNumber()+"&command=displayDocSearchView&documentTypeName=ProtocolDocument\">copy</a>";
+    }
+
+
     /**
      * This override is reset field definition for several lookup fields.
      * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getRows()
@@ -70,7 +68,7 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
         List<Row> rows =  super.getRows();
         initMappingValues();
         Map <String, String> indicatorMap = new HashMap<String, String>();
-        indicatorMap.put(RESEARCH_AREA_CODE, "");
+        indicatorMap.put(ProtocolLookupConstants.Property.RESEARCH_AREA_CODE, "");
         for (Row row : rows) {
             for (Field field : row.getFields()) {
                 if (indicatorNames.containsKey(field.getPropertyName())) {
@@ -85,28 +83,28 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
     }
     
     private void initMappingValues() {
-        indicatorNames.put("personEmployeeIndicator", PERSON_ID);
-        indicatorNames.put("investigatorEmployeeIndicator", PRINCIPAL_INVESTIGATOR_ID);
-        indicatorNames.put(FUNDING_SOURCE_TYPE_CODE,FUNDING_SOURCE);
+        indicatorNames.put(ProtocolLookupConstants.Property.PERSON_EMPLOYEE_INDICATOR, ProtocolLookupConstants.Property.PERSON_ID);
+        indicatorNames.put(ProtocolLookupConstants.Property.INVESTIGATOR_EMPLOYEE_INDICATOR , ProtocolLookupConstants.Property.PRINCIPAL_INVESTIGATOR_ID);
+        indicatorNames.put(ProtocolLookupConstants.Property.FUNDING_SOURCE_TYPE_CODE,ProtocolLookupConstants.Property.FUNDING_SOURCE);
         
         // map to enum
-        searchMap.put("personIdY", "EMPLOYEEPERSON");
-        searchMap.put("personIdN", "ROLODEXPERSON");
-        searchMap.put("principalInvestigatorIdY", "EMPLOYEEINVESTIGATOR");
-        searchMap.put("principalInvestigatorIdN", "ROLODEXINVESTIGATOR");
-        searchMap.put("fundingSource1", "SPONSOR");
-        searchMap.put("fundingSource2", "UNIT");
-        // the rest fundingsource not ready yet
-        searchMap.put("fundingSource3", "UNIT");
-        searchMap.put("fundingSource4", "UNIT");
-        searchMap.put("fundingSource5", "UNIT");
-        searchMap.put("fundingSource6", "UNIT");
-        searchMap.put(RESEARCH_AREA_CODE, "RESEARCHAREA");
+        searchMap.put(ProtocolLookupConstants.Key.EMPLOYEE_PERSON, "EMPLOYEEPERSON");
+        searchMap.put(ProtocolLookupConstants.Key.ROLODEX_PERSON, "ROLODEXPERSON");
+        searchMap.put(ProtocolLookupConstants.Key.EMPLOYEE_INVESTIGATOR, "EMPLOYEEPERSON");
+        searchMap.put(ProtocolLookupConstants.Key.ROLODEX_INVESTIGATOR, "ROLODEXPERSON");
+        searchMap.put(ProtocolLookupConstants.Key.FUNDING_SOURCE_SPONSOR, "SPONSOR");
+        searchMap.put(ProtocolLookupConstants.Key.FUNDING_SOURCE_UNIT, "UNIT");
+        searchMap.put(ProtocolLookupConstants.Key.FUNDING_SOURCE_PROPOSAL, "PROPOSAL");
+        searchMap.put(ProtocolLookupConstants.Key.FUNDING_SOURCE_AWARD, "AWARD");
+        // TODO : the rest fundingsource not ready yet
+        searchMap.put(ProtocolLookupConstants.Key.FUNDING_SOURCE_OTHER, "UNIT");
+        searchMap.put(ProtocolLookupConstants.Key.FUNDING_SOURCE_INSTITUTE_PROPOSALE, "UNIT");
+        searchMap.put(ProtocolLookupConstants.Property.RESEARCH_AREA_CODE, "RESEARCHAREA");
         
-        searchFieldNames.add(PERSON_ID);
-        searchFieldNames.add(PRINCIPAL_INVESTIGATOR_ID);
-        searchFieldNames.add(FUNDING_SOURCE);
-        searchFieldNames.add(RESEARCH_AREA_CODE);
+        searchFieldNames.add(ProtocolLookupConstants.Property.PERSON_ID);
+        searchFieldNames.add(ProtocolLookupConstants.Property.PRINCIPAL_INVESTIGATOR_ID);
+        searchFieldNames.add(ProtocolLookupConstants.Property.FUNDING_SOURCE);
+        searchFieldNames.add(ProtocolLookupConstants.Property.RESEARCH_AREA_CODE);
        
     }
     
@@ -116,7 +114,7 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
     private void setupIndicator(Field field) {
         field.setFieldType(Field.DROPDOWN_REFRESH);
         if (StringUtils.isBlank(field.getPropertyValue())) {
-            if (field.getPropertyName().equals(FUNDING_SOURCE_TYPE_CODE)) {
+            if (field.getPropertyName().equals(ProtocolLookupConstants.Property.FUNDING_SOURCE_TYPE_CODE)) {
                 field.setPropertyValue("1");                
             } else {
                 field.setPropertyValue("Y");                
@@ -130,37 +128,30 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
      */
     private void updateField(Field field, String searchKeyName) {
         LookupProperty lookupProperty = Enum.valueOf(LookupProperty.class, searchKeyName);
-
-        field.setFieldConversions(lookupProperty.getKeyName()+COLUMN+lookupProperty.getFieldName());
-        field.setLookupParameters(lookupProperty.getFieldName()+COLUMN+lookupProperty.getKeyName());
-        field.setInquiryParameters(lookupProperty.getFieldName()+COLUMN+lookupProperty.getKeyName());
-        field.setQuickFinderClassNameImpl(lookupProperty.getClassName());
-                   
+        super.updateLookupField(field,lookupProperty.getKeyName(),lookupProperty.getClassName());                   
     }
 
     /**
      * 
-     * This class is to set up keyname,fieldname, classname for lookup field that has search icon
+     * This class is to set up keyname, classname for lookup field that has search icon
      * Some of the fields has multiple lookup classes.
      */
     public enum LookupProperty {
 
-        EMPLOYEEPERSON(PERSON_ID,PERSON_ID,"org.kuali.kra.bo.Person"),
-        ROLODEXPERSON(ROLODEX_ID,PERSON_ID,"org.kuali.kra.bo.Rolodex"),
-        EMPLOYEEINVESTIGATOR(PERSON_ID,PRINCIPAL_INVESTIGATOR_ID,"org.kuali.kra.bo.Person"),
-        ROLODEXINVESTIGATOR(ROLODEX_ID,PRINCIPAL_INVESTIGATOR_ID,"org.kuali.kra.bo.Rolodex"),
-        SPONSOR("sponsorCode",FUNDING_SOURCE,"org.kuali.kra.bo.Sponsor"),
-        UNIT(UNIT_NUMBER,FUNDING_SOURCE,"org.kuali.kra.bo.Unit"),
-        RESEARCHAREA(RESEARCH_AREA_CODE,RESEARCH_AREA_CODE,"org.kuali.kra.bo.ResearchArea");
+        EMPLOYEEPERSON(ProtocolLookupConstants.Property.PERSON_ID,"org.kuali.kra.bo.Person"),
+        ROLODEXPERSON(ProtocolLookupConstants.Property.ROLODEX_ID,"org.kuali.kra.bo.Rolodex"),
+        SPONSOR(ProtocolLookupConstants.Property.SPONSOR_CODE,"org.kuali.kra.bo.Sponsor"),
+        UNIT(ProtocolLookupConstants.Property.UNIT_NUMBER,"org.kuali.kra.bo.Unit"),
+        PROPOSAL(ProtocolLookupConstants.Property.PROPOSAL_NUMBER,"org.kuali.kra.irb.bo.LookupableDevelopmentProposal"),
+        AWARD(ProtocolLookupConstants.Property.AWARD_NUMBER,"org.kuali.kra.award.bo.Award"),
+        RESEARCHAREA(ProtocolLookupConstants.Property.RESEARCH_AREA_CODE,"org.kuali.kra.bo.ResearchArea");
 
         private String keyName;
-        private String fieldName;
         private String className;
         
         
-        private LookupProperty(String keyName, String fieldName, String className){
+        private LookupProperty(String keyName, String className){
           this.keyName = keyName;
-          this.fieldName = fieldName;
           this.className = className;
         }
 
@@ -169,12 +160,6 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
         }
         public void setKeyName(String keyName) {
             this.keyName = keyName;
-        }
-        public String getFieldName() {
-            return fieldName;
-        }
-        public void setFieldName(String fieldName) {
-            this.fieldName = fieldName;
         }
         public String getClassName() {
             return className;
@@ -204,19 +189,20 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
         if (propertyName.equals("leadUnitNumber")) {
            inqBo = new Unit();
             ((Unit) inqBo).setUnitNumber(((Protocol) bo).getLeadUnitNumber());
-            inqPropertyName = UNIT_NUMBER;
-        } else if (propertyName.equals(PRINCIPAL_INVESTIGATOR_ID)) {
+            inqPropertyName = ProtocolLookupConstants.Property.UNIT_NUMBER;
+        } else if (propertyName.equals(ProtocolLookupConstants.Property.PRINCIPAL_INVESTIGATOR_ID)) {
             Protocol protocol = (Protocol) bo;
             ProtocolPerson principalInvestigator = protocol.getPrincipalInvestigator();
             if (principalInvestigator != null) {
                 if (StringUtils.isNotBlank(principalInvestigator.getPersonId())) {
                     inqBo = new Person();
                     ((Person) inqBo).setPersonId(principalInvestigator.getPersonId());
-                    inqPropertyName = PERSON_ID;
+                    inqPropertyName = ProtocolLookupConstants.Property.PERSON_ID;
                 } else {
                     if (principalInvestigator.getRolodexId() != null) {
+                        inqBo = new Rolodex();
                         ((Rolodex) inqBo).setRolodexId(principalInvestigator.getRolodexId());
-                        inqPropertyName = ROLODEX_ID;
+                        inqPropertyName = ProtocolLookupConstants.Property.ROLODEX_ID;
                     }
                 }
             }

@@ -1,10 +1,18 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+<c:set var="openFlag" value="false" />
+<c:forEach items="${param}" var="par">
+    <c:if test="${fn:startsWith(par.key, 'command')==true and fn:startsWith(par.value, 'displayDocSearchView')==true}">
+        <c:set var="openFlag" value="true" />
+    </c:if>
+</c:forEach>
+
+
 <c:set var="protocolDocumentAttributes" value="${DataDictionary.ProtocolDocument.attributes}" />
 <c:set var="protocolAttributes" value="${DataDictionary.Protocol.attributes}" />
 <c:set var="action" value="protocolActions" />
 
-<kul:tabTop tabTitle="Copy to New Document" defaultOpen="false" tabErrorKey="">
+<kul:tabTop tabTitle="Copy to New Document" defaultOpen="${openFlag}" tabErrorKey="">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Copy to New Document</span>

@@ -156,7 +156,7 @@
       </action>
       
       <action path="/DocCopyHandler" name="DocHandlerForm" scope="request" parameter="methodToCall"
-        type="org.kuali.kra.proposaldevelopment.web.struts.action.CustomDocHandlerRedirectAction" >
+        type="org.kuali.kra.web.struts.action.CustomDocHandlerRedirectAction" >
         <forward name="documentLocked" path="/WEB-INF/jsp/DocumentLocked.jsp" />
         <forward name="requiredStateError" path="/WEB-INF/jsp/DocumentLocked.jsp"/>
         <forward name="finalStateError" path="/WEB-INF/jsp/DocumentLocked.jsp"/>
