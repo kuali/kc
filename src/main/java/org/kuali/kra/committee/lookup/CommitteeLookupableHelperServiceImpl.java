@@ -21,6 +21,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.web.ui.Field;
+import org.kuali.core.web.ui.Row;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 
 public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
@@ -54,6 +56,21 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
         return baseLookupFields;
     }
     
+    @Override
+    public List<Row> getRows() {
+        List<Row> rows =  super.getRows();
+        for (Row row : rows) {
+            for (Field field : row.getFields()) {
+                if (field.getPropertyName().equals("researchAreaCode")) {
+                    super.updateLookupField(field,"researchAreaCode","org.kuali.kra.bo.ResearchArea");
+                } else if (field.getPropertyName().equals(MEMBERSHIP_NAME)) {
+                    super.updateLookupField(field,"personName","org.kuali.kra.committee.bo.CommitteeMembership");
+                }
+            }
+        }
+        return rows;
+    }
+
     protected String getHtmlAction() {
         return "committeeCommittee.do";
     }
