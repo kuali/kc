@@ -93,7 +93,10 @@ public class Time12HrFmt implements Serializable {
     }
     
     private String parseStringTime(String time) throws ParseException {
-
+        
+        if(null == time)
+            throw new FormatException(MSG1, new ParseException(MSG1, 0));
+        
         String[] result = time.split(COLON);        
         if(result.length != 2)
             throw new FormatException(MSG1, new ParseException(MSG1, 0));
