@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,23 +25,18 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.document.Document;
-import org.kuali.core.rule.event.DocumentAuditEvent;
 import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.award.bo.AwardReportTerm;
 import org.kuali.kra.award.bo.AwardReportTermRecipient;
 import org.kuali.kra.award.bo.ReportClass;
-import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
-import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.service.AwardReportsService;
 import org.kuali.kra.service.AwardSponsorTermService;
+import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -78,12 +71,8 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         ActionForward actionForward = super.execute(mapping, form, request, response);
-        AwardForm awardForm = (AwardForm) form;
-        AwardDocument document = awardForm.getAwardDocument();     
-            if (awardForm.isAwardAuditActivated()) {
-                getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(document));
-            }
-            return actionForward;
+        new AuditActionHelper().auditConditionally((AwardForm)form);
+        return actionForward;
     }
     
     /**
@@ -95,7 +84,7 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
         AwardForm awardForm = (AwardForm) form;   
         ActionForward forward = super.save(mapping, form, request, response);
 
-        if (awardForm.getMethodToCall().equals("save") && awardForm.isAwardAuditActivated()) {
+        if (awardForm.getMethodToCall().equals("save") && awardForm.isAuditActivated()) {
             forward = mapping.findForward(Constants.MAPPING_AWARD_ACTIONS_PAGE);
         }
 
@@ -106,7 +95,7 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
     /**
      * 
      * This method builds the string for the ActionForward 
-     * @param forward
+     * @param forwardPath
      * @param docIdRequestParameter
      * @return
      */
@@ -188,8 +177,7 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
         awardForm.getSponsorTermFormHelper().setNewSponsorTerms(awardSponsorTermService.getEmptyNewSponsorTerms(sponsorTermTypes));
         
         AwardReportsService awardReportsService = KraServiceLocator.getService(AwardReportsService.class);  
-        HashMap<String,Object> initializedObjects = new HashMap<String, Object>();
-        initializedObjects = awardReportsService.initializeObjectsForReportsAndPayments(
+        HashMap<String,Object> initializedObjects = awardReportsService.initializeObjectsForReportsAndPayments(
                                                     awardForm.getAwardDocument().getAward());
         awardForm.setReportClasses((List<KeyLabelPair>) initializedObjects.get(
                                       Constants.REPORT_CLASSES_KEY_FOR_INITIALIZE_OBJECTS));

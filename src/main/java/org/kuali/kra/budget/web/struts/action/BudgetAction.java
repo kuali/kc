@@ -55,6 +55,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.ProposalActionBase;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
@@ -108,12 +109,10 @@ public class BudgetAction extends ProposalActionBase {
                 ((BudgetForm)form).suppressButtonsForTotalPage();
             }               
         }
-        // check if audit rule check is done from PD
-        if (((BudgetForm)form).isAuditActivated()) {
-            KraServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(((BudgetForm)form).getBudgetDocument()));
-        }
-        
         BudgetForm budgetForm = (BudgetForm) form;
+        new AuditActionHelper().auditConditionally(budgetForm);
+        
+        
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         if(budgetDocument != null) {
             budgetDocument.setRateClassTypesReloaded(false);

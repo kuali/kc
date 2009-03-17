@@ -36,13 +36,14 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.bo.ProtocolReference;
 import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 
 /**
  * This class...
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolForm extends KraTransactionalDocumentFormBase implements PermissionsForm, CustomDataForm {
+public class ProtocolForm extends KraTransactionalDocumentFormBase implements PermissionsForm, CustomDataForm, Auditable {
     
     private static final long serialVersionUID = -7633960906991275328L;
     
@@ -51,6 +52,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     private PermissionsHelper permissionsHelper;
     private ParticipantsHelper participantsHelper;
     private CustomDataHelper customDataHelper = new CustomDataHelper(this);
+    private boolean auditActivated;
     
     private ProtocolReference newProtocolReference;
     
@@ -225,5 +227,15 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
 
     public void setCustomDataHelper(CustomDataHelper customDataHelper) {
         this.customDataHelper = customDataHelper;
+    }
+    
+    /** {@inheritDoc} */
+    public boolean isAuditActivated() {
+        return this.auditActivated;
+    }
+
+    /** {@inheritDoc} */
+    public void setAuditActivated(boolean auditActivated) {
+        this.auditActivated = auditActivated;
     }
 }
