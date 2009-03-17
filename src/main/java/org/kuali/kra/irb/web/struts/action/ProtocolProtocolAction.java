@@ -54,8 +54,6 @@ import org.kuali.rice.kns.util.KNSConstants;
  */
 public class ProtocolProtocolAction extends ProtocolAction {
     
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolProtocolAction.class);
-    
     /**
      * @see org.kuali.kra.irb.web.struts.action.ProtocolAction#isValidSave(org.kuali.kra.irb.web.struts.form.ProtocolForm)
      */
@@ -67,7 +65,8 @@ public class ProtocolProtocolAction extends ProtocolAction {
     }
 
     /**
-     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
+     * org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -76,8 +75,10 @@ public class ProtocolProtocolAction extends ProtocolAction {
         
         // Following is for protocol lookup - edit protocol 
         String commandParam = request.getParameter(KNSConstants.PARAMETER_COMMAND);
-        if (StringUtils.isNotBlank(commandParam) && commandParam.equals("initiate") && StringUtils.isNotBlank(request.getParameter(Constants.PROPERTY_PROTOCOL_NUMBER))) {
-            getProtocolProtocolService().loadProtocolForEdit(((ProtocolForm)form).getProtocolDocument(), request.getParameter(Constants.PROPERTY_PROTOCOL_NUMBER));
+        if (StringUtils.isNotBlank(commandParam) && commandParam.equals("initiate")
+            && StringUtils.isNotBlank(request.getParameter(Constants.PROPERTY_PROTOCOL_NUMBER))) {
+            getProtocolProtocolService().loadProtocolForEdit(((ProtocolForm)form).getProtocolDocument(),
+                request.getParameter(Constants.PROPERTY_PROTOCOL_NUMBER));
         }
         ((ProtocolForm)form).getProtocolHelper().prepareView();
         
@@ -85,10 +86,12 @@ public class ProtocolProtocolAction extends ProtocolAction {
     }
     
     /**
-     * @see org.kuali.kra.irb.web.struts.action.ProtocolAction#processMultipleLookupResults(org.kuali.kra.irb.document.ProtocolDocument, java.lang.Class, java.util.Collection)
+     * @see org.kuali.kra.irb.web.struts.action.ProtocolAction#processMultipleLookupResults(org.kuali.kra.irb.document.ProtocolDocument,
+     * java.lang.Class, java.util.Collection)
      */
     @Override
-    protected void processMultipleLookupResults(ProtocolDocument protocolDocument, Class lookupResultsBOClass, Collection<PersistableBusinessObject> selectedBOs) {
+    protected void processMultipleLookupResults(ProtocolDocument protocolDocument,
+            Class<?> lookupResultsBOClass, Collection<PersistableBusinessObject> selectedBOs) {
         if (lookupResultsBOClass.isAssignableFrom(ResearchArea.class)) {
             ProtocolResearchAreaService service = (ProtocolResearchAreaService)KraServiceLocator.getService("protocolResearchAreaService");
             service.addProtocolResearchArea(protocolDocument.getProtocol(), selectedBOs);
@@ -149,7 +152,8 @@ public class ProtocolProtocolAction extends ProtocolAction {
      * @return
      * @throws Exception
      */
-    public ActionForward addProtocolReference(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward addProtocolReference(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolReference newProtocolReference = protocolForm.getNewProtocolReference();
         
@@ -176,7 +180,8 @@ public class ProtocolProtocolAction extends ProtocolAction {
      * @return
      * @throws Exception
      */
-    public ActionForward deleteProtocolReference(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward deleteProtocolReference(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         
         protocolForm.getProtocolDocument().getProtocol().getProtocolReferences().remove(getLineToDelete(request));  
@@ -193,7 +198,8 @@ public class ProtocolProtocolAction extends ProtocolAction {
      * @return
      * @throws Exception
      */
-    public ActionForward deleteProtocolResearchArea(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward deleteProtocolResearchArea(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         
         protocolForm.getProtocolDocument().getProtocol().getProtocolResearchAreas().remove(getLineToDelete(request));
@@ -211,7 +217,8 @@ public class ProtocolProtocolAction extends ProtocolAction {
      * @return
      * @throws Exception
      */
-    public ActionForward addProtocolLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward addProtocolLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolLocation newProtocolLocation = protocolForm.getProtocolHelper().getNewProtocolLocation();
         
@@ -233,7 +240,8 @@ public class ProtocolProtocolAction extends ProtocolAction {
      * @return
      * @throws Exception
      */
-    public ActionForward deleteProtocolLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward deleteProtocolLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         protocolForm.getProtocolDocument().getProtocol().getProtocolLocations().remove(getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_BASIC );
@@ -249,7 +257,8 @@ public class ProtocolProtocolAction extends ProtocolAction {
      * @return
      * @throws Exception
      */
-    public ActionForward clearProtocolLocationAddress(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward clearProtocolLocationAddress(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         getProtocolLocationService().clearProtocolLocationAddress(protocolForm.getProtocolDocument().getProtocol(), getSelectedLine(request));
         return mapping.findForward(Constants.MAPPING_BASIC );

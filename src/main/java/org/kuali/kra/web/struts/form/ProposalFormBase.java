@@ -30,7 +30,7 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
 /**
  * This class contains methods common to ProposalDevelopment and Budget forms.
  */
-public abstract class ProposalFormBase extends KraTransactionalDocumentFormBase {
+public abstract class ProposalFormBase extends KraTransactionalDocumentFormBase implements Auditable {
     
     private String newBudgetVersionName;
     private Integer finalBudgetVersion;
@@ -123,12 +123,13 @@ public abstract class ProposalFormBase extends KraTransactionalDocumentFormBase 
         return "";
     }
 
+    /** {@inheritDoc} */
     public boolean isAuditActivated() {
-        return auditActivated;
+        return this.auditActivated;
     }
 
+    /** {@inheritDoc} */
     public void setAuditActivated(boolean auditActivated) {
         this.auditActivated = auditActivated;
     }
-
 }

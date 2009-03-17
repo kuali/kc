@@ -15,11 +15,7 @@
  */
 package org.kuali.kra.irb.web.struts.action;
 
-import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
 import java.util.Collection;
-import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,7 +32,6 @@ import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.common.customattributes.CustomDataAction;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -45,9 +40,9 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.document.authorization.ProtocolTask;
 import org.kuali.kra.irb.service.ProtocolAuthorizationService;
-import org.kuali.kra.irb.service.ProtocolFundingSourceService;
 import org.kuali.kra.irb.service.ProtocolPersonTrainingService;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
+import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -61,7 +56,14 @@ import edu.iu.uis.eden.clientapp.IDocHandler;
  */
 public abstract class ProtocolAction extends KraTransactionalDocumentActionBase {
     
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolAction.class);
+    /** {@inheritDoc} */
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        final ActionForward forward = super.execute(mapping, form, request, response);
+        new AuditActionHelper().auditConditionally((ProtocolForm) form);
+        return forward;
+    }
     
     public ActionForward protocol(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ((ProtocolForm)form).getProtocolHelper().prepareView();
@@ -89,7 +91,8 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping,
+     * org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public final ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -105,6 +108,10 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
             if (isValidSave(protocolForm)) {
                 actionForward = super.save(mapping, form, request, response);
             }
+        }
+        
+        if (protocolForm.getMethodToCall().equals("save") && protocolForm.isAuditActivated()) {
+            actionForward = mapping.findForward("protocolActions");
         }
 
         return actionForward;
@@ -137,6 +144,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         protocolAuthService.addRole(username, RoleConstants.PROTOCOL_AGGREGATOR, doc.getProtocol());
     }
 
+    /** {@inheritDoc} */
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -153,10 +161,11 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
             
             if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
                 
-                Class lookupResultsBOClass = Class.forName(protocolForm.getLookupResultsBOClassName());
+                Class<?> lookupResultsBOClass = Class.forName(protocolForm.getLookupResultsBOClassName());
                 String userName = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
                 LookupResultsService service = KraServiceLocator.getService(LookupResultsService.class);
-                Collection<PersistableBusinessObject> selectedBOs = service.retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, userName);
+                Collection<PersistableBusinessObject> selectedBOs
+                    = service.retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, userName);
                 
                 processMultipleLookupResults(protocolDocument, lookupResultsBOClass, selectedBOs);
             }
@@ -175,17 +184,14 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
      * @param lookupResultsBOClass the class of the BOs that are returned by the Lookup
      * @param selectedBOs the selected BOs
      */
-    protected void processMultipleLookupResults(ProtocolDocument protocolDocument, Class lookupResultsBOClass, Collection<PersistableBusinessObject> selectedBOs) {
+    protected void processMultipleLookupResults(ProtocolDocument protocolDocument,
+        Class<?> lookupResultsBOClass, Collection<PersistableBusinessObject> selectedBOs) {
         // do nothing
-    }
-    
-    @Override
-    public ActionForward headerTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return super.headerTab(mapping, form, request, response);
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping,
+     * org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -219,7 +225,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
      * @return the Kuali Rule Service
      */
     private KualiRuleService getKualiRuleService() {
-        return getService(KualiRuleService.class);
+        return KraServiceLocator.getService(KualiRuleService.class);
     }
     
     /**

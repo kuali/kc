@@ -271,7 +271,7 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
      * @return List of AuditError instances
      */
     private List<AuditError> getAuditErrors() {
-        List<AuditError> auditErrors = auditErrors = new ArrayList<AuditError>();
+        List<AuditError> auditErrors = new ArrayList<AuditError>();
         
         if (!getAuditErrorMap().containsKey("keyPersonnelAuditErrors")) {
             getAuditErrorMap().put("keyPersonnelAuditErrors", new AuditCluster(KEY_PERSONNEL_PANEL_NAME, auditErrors, AUDIT_ERRORS));

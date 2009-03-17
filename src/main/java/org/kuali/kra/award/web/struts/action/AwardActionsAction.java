@@ -23,7 +23,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.web.struts.action.AuditModeAction;
 import org.kuali.kra.award.web.struts.form.AwardForm;
-import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.web.struts.action.AuditActionHelper;
 
 /**
  * 
@@ -31,28 +31,15 @@ import org.kuali.kra.infrastructure.Constants;
  */
 public class AwardActionsAction extends AwardAction implements AuditModeAction {    
     
- 
-    /**
-     * @see org.kuali.core.web.struts.action.AuditModeAction#activate(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
+    /** {@inheritDoc} */
     public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        AwardForm awardForm = (AwardForm) form;
-        awardForm.setAwardAuditActivated(true);     
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return new AuditActionHelper().setAuditMode(mapping, (AwardForm) form, true);
     }
 
-    /**
-     * @see org.kuali.core.web.struts.action.AuditModeAction#deactivate(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
+    /** {@inheritDoc} */
     public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        AwardForm awardForm = (AwardForm) form;
-        awardForm.setAwardAuditActivated(false);
-
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return new AuditActionHelper().setAuditMode(mapping, (AwardForm) form, false);
     }
-   
 }

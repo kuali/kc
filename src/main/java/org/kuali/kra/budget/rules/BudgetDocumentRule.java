@@ -433,7 +433,7 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
      * @return List of AuditError instances
      */
     private List<AuditError> getAuditErrors() {
-        List<AuditError> auditErrors = auditErrors = new ArrayList<AuditError>();
+        List<AuditError> auditErrors = new ArrayList<AuditError>();
         
         if (!getAuditErrorMap().containsKey("budgetPersonnelAuditErrors")) {
             getAuditErrorMap().put("budgetPersonnelAuditErrors", new AuditCluster("Budget Personnel Information", auditErrors, AUDIT_ERRORS));

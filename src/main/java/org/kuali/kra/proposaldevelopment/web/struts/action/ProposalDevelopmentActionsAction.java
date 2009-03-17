@@ -74,6 +74,7 @@ import org.kuali.kra.s2s.bo.S2sSubmissionHistory;
 import org.kuali.kra.s2s.service.PrintService;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.service.KraPersistenceStructureService;
+import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -387,29 +388,17 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return nextWebPage;
     }
 
-    /**
-     * @see org.kuali.core.web.struts.action.AuditModeAction#activate(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
+    /** {@inheritDoc} */
     public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        proposalDevelopmentForm.setAuditActivated(true);     
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return new AuditActionHelper().setAuditMode(mapping, (ProposalDevelopmentForm) form, true);
     }
 
-    /**
-     * @see org.kuali.core.web.struts.action.AuditModeAction#deactivate(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
+    /** {@inheritDoc} */
     public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        proposalDevelopmentForm.setAuditActivated(false);
-
-        return mapping.findForward((Constants.MAPPING_BASIC));
+        return new AuditActionHelper().setAuditMode(mapping, (ProposalDevelopmentForm) form, false);
     }
-
     
     public ActionForward reject(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String NodeName = null;
@@ -556,8 +545,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
              * from its execute() method.  It will stay this way for the time being because I this is
              * what the code did before it was refactored.
              */
-            KualiRuleService ruleService = KraServiceLocator.getService(KualiRuleService.class);
-            boolean auditPassed = ruleService.applyRules(new DocumentAuditEvent(proposalDevelopmentDocument));
+            boolean auditPassed = new AuditActionHelper().auditUnconditionally(proposalDevelopmentDocument);
             
             /*
              * Check for S2S validation if we have a Grants.gov Opportunity.  If there is no Grants.gov
