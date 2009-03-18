@@ -29,7 +29,7 @@ import org.kuali.kra.service.UnitService;
  */
 public class ProtocolUnitRule extends ResearchDocumentRuleBase implements AddProtocolUnitRule {
 
-    private static final String ERROR_PROPERTY_NEW_PERSON_UNIT = "newProtocolPersonUnits"; 
+    private static final String ERROR_PROPERTY_NEW_PERSON_UNIT = "personnelHelper.newProtocolPersonUnits"; 
     private static final String ERROR_PROPERTY_UNIT_NUMBER = ".unitNumber"; 
     private String ERROR_PROPERTY_PERSON_INDEX = "[personIndex]";
     private String PERSON_INDEX = "personIndex";

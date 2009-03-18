@@ -4,7 +4,7 @@
 <c:set var="protocolAttributes" value="${DataDictionary.Protocol.attributes}" />
 <c:set var="protocolReferenceAttributes" value="${DataDictionary.ProtocolReference.attributes}" />
 <c:set var="protocolReferenceTypeAttributes" value="${DataDictionary.ProtocolReferenceType.attributes}" />  
-<c:set var="textAreaFieldName" value="document.protocol.description" />
+<c:set var="textAreaFieldName" value="document.protocolList[0].description" />
 <c:set var="textAreaFieldName1" value="newProtocolReference.comments" />
 <c:set var="action" value="protocolProtocol" />
 <c:set var="className" value="org.kuali.kra.irb.document.ProtocolDocument" />
@@ -12,7 +12,7 @@
 <c:set var="researchAreasAttributes" value="${DataDictionary.ResearchAreas.attributes}" />
 <c:set var="readOnly" value="${!KualiForm.protocolHelper.modifyProtocol}" />
 
-<kul:tab tabTitle="Additional Information" defaultOpen="false" tabErrorKey="document.protocol.fda*,document.protocol.billable*,document.protocol.referenceNumber*,document.protocol.description*,document.protocol.protocolReferences*,newProtocolReference*" auditCluster="" tabAuditKey="" useRiceAuditMode="true">
+<kul:tab tabTitle="Additional Information" defaultOpen="false" tabErrorKey="document.protocolList[0].fda*,document.protocolList[0].billable*,document.protocolList[0].referenceNumber*,document.protocolList[0].description*,document.protocolList[0].protocolReferences*,newProtocolReference*" auditCluster="" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Additional Information</span>
@@ -26,13 +26,13 @@
                     <kul:htmlAttributeLabel attributeEntry="${protocolAttributes.fdaApplicationNumber}" />
                   </div></th>
                 <td width="26%">
-                	<kul:htmlControlAttribute property="document.protocol.fdaApplicationNumber" attributeEntry="${protocolAttributes.fdaApplicationNumber}" readOnly="${readOnly}" />
+                	<kul:htmlControlAttribute property="document.protocolList[0].fdaApplicationNumber" attributeEntry="${protocolAttributes.fdaApplicationNumber}" readOnly="${readOnly}" />
                 </td>
                 <th width="23%"><div align="right">
 					<kul:htmlAttributeLabel attributeEntry="${protocolAttributes.billable}" />
  				  </div></th>
                 <td width="18%" align=left valign=middle>
-                	<kul:htmlControlAttribute property="document.protocol.billable" attributeEntry="${protocolAttributes.billable}" disabled="${KualiForm.protocolHelper.billableReadOnly}"/>
+                	<kul:htmlControlAttribute property="document.protocolList[0].billable" attributeEntry="${protocolAttributes.billable}" disabled="${KualiForm.protocolHelper.billableReadOnly}"/>
                 </td>
               </tr>
               <tr>
@@ -40,13 +40,13 @@
                     ${KualiForm.protocolHelper.referenceId1Label}:
                   </div></th>
                 <td align=left valign=middle><span> <span>
-                  	<kul:htmlControlAttribute property="document.protocol.referenceNumber1" attributeEntry="${protocolAttributes.referenceNumber1}" readOnly="${readOnly}" />
+                  	<kul:htmlControlAttribute property="document.protocolList[0].referenceNumber1" attributeEntry="${protocolAttributes.referenceNumber1}" readOnly="${readOnly}" />
                  </span></span></td>
                 <th><div align="right">
                     ${KualiForm.protocolHelper.referenceId2Label}:
                   </div></th>
                 <td align=left valign=middle><span>
-                  <kul:htmlControlAttribute property="document.protocol.referenceNumber2" attributeEntry="${protocolAttributes.referenceNumber2}" readOnly="${readOnly}" />
+                  <kul:htmlControlAttribute property="document.protocolList[0].referenceNumber2" attributeEntry="${protocolAttributes.referenceNumber2}" readOnly="${readOnly}" />
                  </span></td>
               </tr>
               <tr>
@@ -59,7 +59,7 @@
                         <tr>
                             <td style="border:none;">
 
-								<kul:htmlControlAttribute property="document.protocol.description" attributeEntry="${protocolAttributes.description}" readOnly="${readOnly}" />
+								<kul:htmlControlAttribute property="document.protocolList[0].description" attributeEntry="${protocolAttributes.description}" readOnly="${readOnly}" />
                                 <c:if test="${!readOnly}">
                                     <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${protocolAttributes.description.label}" />
                                 </c:if>
@@ -139,32 +139,32 @@
 			<%-- End of New data --%>
 			
 			<%-- Existing data --%>
-        	<c:forEach var="protocolReference" items="${KualiForm.document.protocol.protocolReferences}" varStatus="status">
+        	<c:forEach var="protocolReference" items="${KualiForm.document.protocolList[0].protocolReferences}" varStatus="status">
 	             <tr>
 					<th class="infoline" rowspan="2">
 						<c:out value="${status.index+1}" />
 					</th>
 	                <td align="left" valign="middle">
 	                	<div align="center"> 
-	                	<kul:htmlControlAttribute property="document.protocol.protocolReferences[${status.index}].protocolReferenceType.description" 
+	                	<kul:htmlControlAttribute property="document.protocolList[0].protocolReferences[${status.index}].protocolReferenceType.description" 
 	                													readOnly="true"	attributeEntry="${protocolReferenceTypeAttributes.description}"  /> </div>
 					</td>
 
 	                <td align="left" valign="middle">
 	                	<div align="center"> 
-	                	<kul:htmlControlAttribute property="document.protocol.protocolReferences[${status.index}].referenceKey" 
+	                	<kul:htmlControlAttribute property="document.protocolList[0].protocolReferences[${status.index}].referenceKey" 
 	                													readOnly="true"	attributeEntry="${protocolReferenceAttributes.referenceKey}"  /> </div>
 					</td>
 
 	                <td align="left" valign="middle">
 	                	<div align="center"> 
-	                	<kul:htmlControlAttribute property="document.protocol.protocolReferences[${status.index}].applicationDate" 
+	                	<kul:htmlControlAttribute property="document.protocolList[0].protocolReferences[${status.index}].applicationDate" 
 	                													readOnly="true"	attributeEntry="${protocolReferenceAttributes.applicationDate}"  /> </div>
 					</td>
 
 	                <td align="left" valign="middle">
 	                	<div align="center"> 
-	                	<kul:htmlControlAttribute property="document.protocol.protocolReferences[${status.index}].approvalDate" 
+	                	<kul:htmlControlAttribute property="document.protocolList[0].protocolReferences[${status.index}].approvalDate" 
 	                													readOnly="true"	attributeEntry="${protocolReferenceAttributes.approvalDate}"  /> </div>
 					</td>
 					
@@ -184,7 +184,6 @@
                     
                     <th style="text-align:left;">Comment:</th>
                     <td colspan="3" style="vertical-align:bottom">
-                    		                		
                     	<table style="border:none; width:100%;" cellpadding="0" cellspacing="0">
                             <tr>
                                 <td style="border:none;">	
@@ -198,6 +197,7 @@
                                 </td>
                             </tr>
                         </table>	                		
+                    		                		
 	                													                    
                     </td>
                 </tr>	            
@@ -228,7 +228,7 @@
              <c:if test="${!readOnly}">
 	            <tr>
 	              <th width="10%" class="infoline">add:</th>
-	              <td width="70%" class="infoline">${KualiForm.document.protocol.newDescription}
+	              <td width="70%" class="infoline">${KualiForm.document.protocolList[0].newDescription}
 	              		<kul:multipleValueLookup boClassName="org.kuali.kra.bo.ResearchArea" 
 	              		lookedUpCollectionName="protocolResearchAreas"
 	              		anchor="${tabKey}"/>
@@ -240,13 +240,13 @@
 	            </tr>
 	        </c:if>
 
-            <logic:iterate name="KualiForm" id="protocolResearchAreas" property="document.protocol.protocolResearchAreas" indexId="ctr" >
+            <logic:iterate name="KualiForm" id="protocolResearchAreas" property="document.protocolList[0].protocolResearchAreas" indexId="ctr" >
               <tr>
                 <td class="infoline"><div align="center">
                 	${ctr+1} 
                 </div></td>
                 <td>
-                	${KualiForm.document.protocol.protocolResearchAreas[ctr].researchAreas.researchAreaCode}:${KualiForm.document.protocol.protocolResearchAreas[ctr].researchAreas.description}
+                	${KualiForm.document.protocolList[0].protocolResearchAreas[ctr].researchAreas.researchAreaCode}:${KualiForm.document.protocolList[0].protocolResearchAreas[ctr].researchAreas.description}
                 </td>
                 <c:if test="${!readOnly}">
 	                <td><div align="center">

@@ -38,8 +38,8 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  */
 public class ProtocolPersonnelRule extends ResearchDocumentRuleBase implements AddProtocolPersonnelRule, SaveProtocolPersonnelRule, UpdateProtocolPersonnelRule {
 
-    private static final String ERROR_PROPERTY_NEW_PERSON = "newProtocolPerson"; 
-    private static final String ERROR_PROPERTY_EXISTING_PERSON = "document.protocol.protocolPersons";
+    private static final String ERROR_PROPERTY_NEW_PERSON = "personnelHelper.newProtocolPerson"; 
+    private static final String ERROR_PROPERTY_EXISTING_PERSON = "document.protocolList[0].protocolPersons";
     private static final String ERROR_PROPERTY_PERSON_ROLE = ".protocolPersonRoleId"; 
     private static final String ERROR_PROPERTY_PERSON_UNIT = ".protocolPersonUnit"; 
     private String ERROR_PROPERTY_PERSON_INDEX = "[personIndex]";

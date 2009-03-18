@@ -71,7 +71,7 @@ public class ProtocolProtocolServiceTest extends ProtocolWebTestBase{
     @Test
     public void testLoadProtocolForEdit() throws Exception{
         assertContains(protocolPage,SAVE_SUCCESS_MESSAGE);        
-        String protocolNumber = getFieldValue(protocolPage, "document.protocol.protocolNumber");
+        String protocolNumber = getFieldValue(protocolPage, "document.protocolList[0].protocolNumber");
         ProtocolDocument protocolDoc = new ProtocolDocument();
         protocolProtocolService.loadProtocolForEdit(protocolDoc, protocolNumber); 
         assertNotNull(protocolDoc.getProtocol());

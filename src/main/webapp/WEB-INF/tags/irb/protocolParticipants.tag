@@ -71,7 +71,7 @@
 			<%-- New data --%>
 			
 			<%-- Existing data --%>
-        	<c:forEach var="protocolParticipant" items="${KualiForm.document.protocol.protocolParticipants}" varStatus="status">
+        	<c:forEach var="protocolParticipant" items="${KualiForm.document.protocolList[0].protocolParticipants}" varStatus="status">
 	             <tr>
 					<th class="infoline">
 						<c:out value="${status.index+1}" />
@@ -80,7 +80,7 @@
 	                    <div align="center"> ${protocolParticipant.participantType.description} </div>
 					</td>
 	                <td align="left" valign="middle">
-	                	<div align="center"> <kul:htmlControlAttribute property="document.protocol.protocolParticipants[${status.index}].participantCount" attributeEntry="${protocolParticipantAttributes.participantCount}" readOnly="${readOnly}" /> </div>
+	                	<div align="center"> <kul:htmlControlAttribute property="document.protocolList[0].protocolParticipants[${status.index}].participantCount" attributeEntry="${protocolParticipantAttributes.participantCount}" readOnly="${readOnly}" /> </div>
 	                </td>
 
                    <c:if test="${!readOnly}">

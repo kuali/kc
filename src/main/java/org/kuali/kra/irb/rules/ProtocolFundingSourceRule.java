@@ -33,7 +33,7 @@ public class ProtocolFundingSourceRule extends ResearchDocumentRuleBase implemen
         
         if (document.getProtocol().getNewFundingSource() == null) {            
             isValid = false;
-            reportError("document.protocol.newFundingSource.fundingSourceTypeCode", KeyConstants.ERROR_PROTOCOL_FUNDING_TYPE_NOT_FOUND);             
+            reportError("document.protocolList[0].newFundingSource.fundingSourceTypeCode", KeyConstants.ERROR_PROTOCOL_FUNDING_TYPE_NOT_FOUND);             
         }
         
         String fundingId =  document.getProtocol().getNewFundingSource().getFundingSource();
@@ -44,25 +44,25 @@ public class ProtocolFundingSourceRule extends ResearchDocumentRuleBase implemen
                 && StringUtils.isNotBlank(document.getProtocol().getNewFundingSource().getFundingSourceTypeCode().toString())) {
             if (StringUtils.isBlank(fundingName)) {
                 isValid=false;
-                reportError("document.protocol.newFundingSource.fundingSourceName", KeyConstants.ERROR_PROTOCOL_FUNDING_NAME_NOT_FOUND);     
+                reportError("document.protocolList[0].newFundingSource.fundingSourceName", KeyConstants.ERROR_PROTOCOL_FUNDING_NAME_NOT_FOUND);     
             }
             if (!getProtocolFundingSourceService().isValidIdForType(document.getProtocol().getNewFundingSource())) {
                 isValid = false;
-                reportError("document.protocol.newFundingSource.fundingSource", KeyConstants.ERROR_PROTOCOL_FUNDING_ID_INVALID_FOR_TYPE, document.getProtocol().getNewFundingSource().getFundingSourceType().getDescription(), fundingId);         
+                reportError("document.protocolList[0].newFundingSource.fundingSource", KeyConstants.ERROR_PROTOCOL_FUNDING_ID_INVALID_FOR_TYPE, document.getProtocol().getNewFundingSource().getFundingSourceType().getDescription(), fundingId);         
             }
         } else {
             if (StringUtils.isBlank(fundingId)) {
                 isValid = false;
-                reportError("document.protocol.newFundingSource.fundingSource", KeyConstants.ERROR_PROTOCOL_FUNDING_ID_NOT_FOUND); 
+                reportError("document.protocolList[0].newFundingSource.fundingSource", KeyConstants.ERROR_PROTOCOL_FUNDING_ID_NOT_FOUND); 
             }               
             if ( document.getProtocol().getNewFundingSource().getFundingSourceType() ==null ||
                     StringUtils.isBlank(document.getProtocol().getNewFundingSource().getFundingSourceType().getDescription())) {
                 isValid = false;
-                reportError("document.protocol.newFundingSource.fundingSourceTypeCode", KeyConstants.ERROR_PROTOCOL_FUNDING_TYPE_NOT_FOUND); 
+                reportError("document.protocolList[0].newFundingSource.fundingSourceTypeCode", KeyConstants.ERROR_PROTOCOL_FUNDING_TYPE_NOT_FOUND); 
             } 
             if ( StringUtils.isBlank(fundingName) ) {
                 isValid = false;
-                reportError("document.protocol.newFundingSource.fundingSourceName", KeyConstants.ERROR_PROTOCOL_FUNDING_NAME_NOT_FOUND);         
+                reportError("document.protocolList[0].newFundingSource.fundingSourceName", KeyConstants.ERROR_PROTOCOL_FUNDING_NAME_NOT_FOUND);         
             }
         }
         

@@ -2,13 +2,13 @@
 
 <c:set var="protocolDocumentAttributes" value="${DataDictionary.ProtocolDocument.attributes}" />
 <c:set var="protocolAttributes" value="${DataDictionary.Protocol.attributes}" />
-<c:set var="textAreaFieldName" value="document.protocol.title" />
+<c:set var="textAreaFieldName" value="document.protocolList[0].title" />
 <c:set var="action" value="protocol" />
 <c:set var="nonEmpFlag" value="false" />
 <c:set var="className" value="org.kuali.kra.protocol.document.ProtocolDocument" />
 <c:set var="readOnly" value="${!KualiForm.protocolHelper.modifyProtocol}" />
 
-<kul:tab tabTitle="Required Fields for Saving Document" defaultOpen="true" tabErrorKey="document.protocolList[0].principalInvestigatorId,document.protocolList[0].protocolTypeCode,document.protocolList[0].title,document.protocolList[0].leadUnitNumber,document.protocolHelper.personId,document.protocol.protocolTypeCode*,principalInvestigator*,protocolHelper.principalInvestigator*,document.protocol.title*,protocolHelper.leadUnitNumber*,document.ProtocolTypeCode*,document.activityTypeCode*,document.title" >
+<kul:tab tabTitle="Required Fields for Saving Document" defaultOpen="true" tabErrorKey="document.protocolList[0].principalInvestigatorId,document.protocolList[0].protocolTypeCode,document.protocolList[0].title,document.protocolList[0].leadUnitNumber,document.protocolHelper.personId,document.protocolList[0].protocolTypeCode*,principalInvestigator*,protocolHelper.principalInvestigator*,document.protocolList[0].title*,protocolHelper.leadUnitNumber*,document.ProtocolTypeCode*,document.activityTypeCode*,document.title" >
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Required Fields for Saving Document</span>
@@ -40,7 +40,7 @@
                 	    </c:if>   	
                 	    <table width="100%" border="0" style="border: medium none ;">
                 	    <tbody>
-						<c:if test="${empty KualiForm.document.protocol.protocolId}">  
+						<c:if test="${empty KualiForm.document.protocolList[0].protocolId}">  
 						<tr>
 						<td style="border: medium none ;">        					
 							<label> Employee Search</label>
@@ -110,7 +110,7 @@
                 <tr>
                 <td style="border: medium none ;">   
                         
-                    <c:if test="${empty KualiForm.document.protocol.protocolId}">
+                    <c:if test="${empty KualiForm.document.protocolList[0].protocolId}">
                     	<kul:htmlControlAttribute property="protocolHelper.leadUnitNumber" 
 						 attributeEntry="${protocolAttributes.leadUnitNumber}"  
 						 onblur="loadUnitNameTo('protocolHelper.leadUnitNumber','protocolHelper.leadUnitName');"/> 
@@ -146,8 +146,8 @@
 							</c:choose>                        
                         </c:if>
 					</div>
-					<c:if test="${!empty KualiForm.document.protocol.protocolId && !empty KualiForm.protocolHelper.leadUnitNumber}">
-                       - ${KualiForm.document.protocol.leadUnit.unitNumber}
+					<c:if test="${!empty KualiForm.document.protocolList[0].protocolId && !empty KualiForm.protocolHelper.leadUnitNumber}">
+                       - ${KualiForm.document.protocolList[0].leadUnit.unitNumber}
                     </c:if>
                     
                     </td>

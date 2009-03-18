@@ -16,7 +16,7 @@
 <%@ include file="/WEB-INF/jsp/irb/ProtocolPerson.jsp"%>
 
 <c:choose>
-	<c:when test="${empty KualiForm.document.protocol.protocolPersons[personIndex].personName}">
+	<c:when test="${empty KualiForm.document.protocolList[0].protocolPersons[personIndex].personName}">
 		<c:set var="parentTabName" value="" />
 	</c:when>
 	<c:otherwise>
