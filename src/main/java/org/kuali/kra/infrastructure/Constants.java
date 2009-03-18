@@ -72,6 +72,7 @@ public interface Constants {
     public static final String PARAMETER_MODULE_PROTOCOL = "KC-PROTOCOL";
     public static final String PARAMETER_MODULE_PROTOCOL_REFERENCEID1 = "irb.protocol.referenceID1";
     public static final String PARAMETER_MODULE_PROTOCOL_REFERENCEID2 = "irb.protocol.referenceID2";
+    public static final String PARAMETER_MODULE_PROTOCOL_BILLABLE = "irb.protocol.billable";
     public static final String PARAMETER_MODULE_PROPOSAL_DEVELOPMENT = "KRA-PD";
     public static final String PARAMETER_COMPONENT_DOCUMENT = "D";
     public static final String INSTITUTE_NARRATIVE_TYPE_GROUP_CODE = "O";
