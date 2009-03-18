@@ -32,6 +32,12 @@ import org.kuali.kra.bo.ResearchArea;
 @Table(name="PROTOCOL_RESEARCH_AREAS")
 public class ProtocolResearchArea extends KraPersistableBusinessObjectBase { 
 	
+    private static final long serialVersionUID = -1522011425745031200L;
+
+    @javax.persistence.Id 
+    @Column(name="ID")
+    private Long id; 
+
     @Column(name="PROTOCOL_ID")
 	private Long protocolId; 
     
@@ -55,7 +61,15 @@ public class ProtocolResearchArea extends KraPersistableBusinessObjectBase {
 	public ProtocolResearchArea() { 
 
 	} 
+    
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+	
 	public Long getProtocolId() {
 		return protocolId;
 	}
