@@ -334,8 +334,18 @@ public final class KeyConstants {
 
     //  Committee Messages
     public static final String ERROR_COMMITTEE_DUPLICATE_ID = "error.committee.duplicateId";
+
+    //CommitteeMembership Messages
     public static final String ERROR_COMMITTEE_MEMBERSHIP_PERSON_NOT_SPECIFIED = "error.committee.membership.person.not.specified";
     public static final String ERROR_COMMITTEE_MEMBERSHIP_PERSON_DUPLICATE = "error.committee.membership.person.duplicate";
+    public static final String ERROR_COMMITTEE_MEMBERSHIP_TERM_END_DATE_BEFORE_TERM_START_DATE = "error.committee.membership.termEndDate.before.termStartDate";
+    public static final String ERROR_COMMITTEE_MEMBERSHIP_ROLE_END_DATE_BEFORE_ROLE_START_DATE = "error.committee.membership.roleEndDate.before.roleStartDate";
+    public static final String ERROR_COMMITTEE_MEMBERSHIP_ROLE_START_DATE_OUTSIDE_TERM = "error.committee.membership.roleStartDate.outside.term";
+    public static final String ERROR_COMMITTEE_MEMBERSHIP_ROLE_END_DATE_OUTSIDE_TERM = "error.committee.membership.roleEndDate.outside.term";
+    public static final String ERROR_COMMITTEE_MEMBERSHIP_ROLE_MISSING = "error.committee.membership.role.missing";
+    public static final String ERROR_COMMITTEE_MEMBERSHIP_ROLE_DUPLICATE = "error.committee.membership.role.duplicate";
+    public static final String ERROR_COMMITTEE_MEMBERSHIP_EXPERTISE_MISSING = "error.committee.membership.expertise.missing";
+
     
     public static final String SOFT_ERRORS_KEY = "SOFT_ERRORS_KEY";
 

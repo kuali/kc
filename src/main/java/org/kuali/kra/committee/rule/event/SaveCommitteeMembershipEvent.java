@@ -20,7 +20,7 @@ import static org.kuali.kra.logging.BufferedLogger.info;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.committee.document.CommitteeDocument;
-import org.kuali.kra.committee.rules.SaveCommitteeMembershipRule;
+import org.kuali.kra.committee.rule.SaveCommitteeMembershipRule;
 
 /**
  * Event triggered when a committee membership is saved to a
