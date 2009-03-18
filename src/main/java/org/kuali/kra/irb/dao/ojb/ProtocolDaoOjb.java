@@ -75,7 +75,7 @@ public class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollec
             }
         }
  
-        Query q = QueryFactory.newReportQuery(Protocol.class, crit, true);
+        Query q = QueryFactory.newQuery(Protocol.class, crit, true);
       
         return (List) getPersistenceBrokerTemplate().getCollectionByQuery(q);
     }
