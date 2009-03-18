@@ -115,5 +115,5 @@
         </tbody>
     	</table>
     </div> 
-    <input type="hidden" name="lookup.leadUnit" value="${KualiForm.document.protocol.leadUnit.unitNumber}" />
+    <input type="hidden" name="lookup.leadUnit" value="${KualiForm.document.protocolList[0].leadUnit.unitNumber}" />
 </kul:tab>

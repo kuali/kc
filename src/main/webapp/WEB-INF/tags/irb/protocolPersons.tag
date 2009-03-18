@@ -17,8 +17,8 @@
 
 <c:set var="protocolPersonAttributes" value="${DataDictionary.ProtocolPerson.attributes}" />
 <div id="workarea">
-<c:forEach items="${KualiForm.document.protocol.protocolPersons}" var="person" varStatus="status">
-    <c:set var="protocolPersonProperty" value="document.protocol.protocolPersons[${status.index}]" />
+<c:forEach items="${KualiForm.document.protocolList[0].protocolPersons}" var="person" varStatus="status">
+    <c:set var="protocolPersonProperty" value="document.protocolList[0].protocolPersons[${status.index}]" />
     <c:set var="personUnitRequired" value="${person.protocolPersonRole.unitDetailsRequired}" />
     <c:set var="transparent" value="false" />
 
@@ -28,7 +28,7 @@
      	<c:set var="descri" value="${person.protocolPersonRole.description}" />
 		<c:set var="personIndex" value="${status.index}" />
 			<kul:tab tabTitle="${fn:substring(person.personName, 0, 22)}"
-					 tabErrorKey="document.protocol.protocolPersons[${personIndex}]*"
+					 tabErrorKey="document.protocolList[0].protocolPersons[${personIndex}]*"
 					 auditCluster="requiredFieldsAuditErrors" 
 					 tabAuditKey="" 
 					 useRiceAuditMode="true"
@@ -56,7 +56,7 @@
 			</kul:tab>
  </c:forEach>
 
-<c:if test="${fn:length(KualiForm.document.protocol.protocolPersons) > 0}">
+<c:if test="${fn:length(KualiForm.document.protocolList[0].protocolPersons) > 0}">
     <kul:panelFooter />
 </c:if>
 

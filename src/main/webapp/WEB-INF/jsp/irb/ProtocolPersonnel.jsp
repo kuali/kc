@@ -35,7 +35,7 @@
 	<c:set var="viewOnly" value="${not KualiForm.personnelHelper.modifyProtocol}" />
 	<kra-irb:protocolAddPersonnelSection/>
 	<kra-irb:protocolPersons/>
-  <c:if test="${not empty viewOnly && ! viewOnly and fn:length(KualiForm.document.protocol.protocolPersons) > 0}">
+  <c:if test="${not empty viewOnly && ! viewOnly and fn:length(KualiForm.document.protocolList[0].protocolPersons) > 0}">
   	<c:set var="extraButtonSource" value="${ConfigProperties.externalizable.images.url}buttonsmall_deletesel.gif"/>
   	<c:set var="extraButtonProperty" value="methodToCall.deleteProtocolPerson"/>
   	<c:set var="extraButtonAlt" value="Delete a Person"/>

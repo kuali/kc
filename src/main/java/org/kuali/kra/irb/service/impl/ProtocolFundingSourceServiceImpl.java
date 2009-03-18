@@ -189,14 +189,14 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
         
         if (StringUtils.hasText(boClassName)) {            
             if (boClassName.equalsIgnoreCase("Institute Proposal")) {
-               GlobalVariables.getErrorMap().putError("document.protocol.newFundingSource.fundingSourceTypeCode", "error.custom", "Lookup is Temporarily unavailable for Funding Type Institute Proposal");            
+               GlobalVariables.getErrorMap().putError("document.protocolList[0].newFundingSource.fundingSourceTypeCode", "error.custom", "Lookup is Temporarily unavailable for Funding Type Institute Proposal");            
                isValid = false;
            }  else if (boClassName.equalsIgnoreCase("Other")) {
-               GlobalVariables.getErrorMap().putError("document.protocol.newFundingSource.fundingSourceTypeCode", "error.custom", "Lookup is unavailable for Funding Type Other");            
+               GlobalVariables.getErrorMap().putError("document.protocolList[0].newFundingSource.fundingSourceTypeCode", "error.custom", "Lookup is unavailable for Funding Type Other");            
                isValid = false;
            }
        } else {
-           GlobalVariables.getErrorMap().putError("document.protocol.newFundingSource.fundingSourceTypeCode", "error.custom", "Funding Type must be select to perform Lookup");            
+           GlobalVariables.getErrorMap().putError("document.protocolList[0].newFundingSource.fundingSourceTypeCode", "error.custom", "Funding Type must be select to perform Lookup");            
            isValid = false;
         }   
         return isValid;
@@ -209,20 +209,20 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
         
            if (boClassName.equalsIgnoreCase(Unit.class.getSimpleName())) {
                boClassName = Unit.class.getName();
-               fieldConversions="unitNumber:document.protocol.newFundingSource.fundingSource,unitName:document.protocol.newFundingSource.fundingSourceName";
+               fieldConversions="unitNumber:document.protocolList[0].newFundingSource.fundingSource,unitName:document.protocolList[0].newFundingSource.fundingSourceName";
            } else if (boClassName.equalsIgnoreCase("Sponsor")) {
                boClassName = "org.kuali.kra.bo.Sponsor";
-               fieldConversions="sponsorCode:document.protocol.newFundingSource.fundingSource,sponsorName:document.protocol.newFundingSource.fundingSourceName";
+               fieldConversions="sponsorCode:document.protocolList[0].newFundingSource.fundingSource,sponsorName:document.protocolList[0].newFundingSource.fundingSourceName";
            } else if (boClassName.equalsIgnoreCase("Award")) {
                boClassName = "org.kuali.kra.award.bo.Award";
-               fieldConversions="awardNumber:document.protocol.newFundingSource.fundingSource,sponsor.sponsorName:document.protocol.newFundingSource.fundingSourceName,title:document.protocol.newFundingSource.fundingSourceTitle";
+               fieldConversions="awardNumber:document.protocolList[0].newFundingSource.fundingSource,sponsor.sponsorName:document.protocolList[0].newFundingSource.fundingSourceName,title:document.protocolList[0].newFundingSource.fundingSourceTitle";
            } else if (boClassName.equalsIgnoreCase("Development Proposal")) {
                boClassName = "org.kuali.kra.irb.bo.LookupableDevelopmentProposal";
-               fieldConversions="proposalNumber:document.protocol.newFundingSource.fundingSource,sponsor.sponsorName:document.protocol.newFundingSource.fundingSourceName,title:document.protocol.newFundingSource.fundingSourceTitle";
+               fieldConversions="proposalNumber:document.protocolList[0].newFundingSource.fundingSource,sponsor.sponsorName:document.protocolList[0].newFundingSource.fundingSourceName,title:document.protocolList[0].newFundingSource.fundingSourceTitle";
            } else if (boClassName.equalsIgnoreCase("Institute Proposal")) {
                //TODO readd when instituteProposal is impl'd
                 //   boClassName = "org.kuali.kra.bo.proposaldevelopment.document.ProposalDevelopmentDocument";
-                //   fieldConversions="proposalNumber:document.protocol.newFundingSource.fundingSource,sponsor.sponsorName:document.protocol.newFundingSource.fundingSourceName,title:document.protocol.newFundingSource.fundingSourceTitle";
+                //   fieldConversions="proposalNumber:document.protocolList[0].newFundingSource.fundingSource,sponsor.sponsorName:document.protocolList[0].newFundingSource.fundingSourceName,title:document.protocolList[0].newFundingSource.fundingSourceTitle";
            } 
            boAndFields.put(boClassName, fieldConversions);
 

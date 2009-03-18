@@ -46,9 +46,9 @@ public class ProtocolLocationWebTest extends ProtocolWebTestBase{
      * protocol location existing field / values
      */
     protected enum ProtocolLocationExistingValues {       
-        ORGANIZATION_ID("document.protocol.protocolLocations[0].organizationId", "000001"),
-        ROLODEX_ID("document.protocol.protocolLocations[0].rolodexId", "1"),
-        HUMANSUB_ASSURANCE("document.protocol.protocolLocations[0].organization.humanSubAssurance", "FWA00004881");
+        ORGANIZATION_ID("document.protocolList[0].protocolLocations[0].organizationId", "000001"),
+        ROLODEX_ID("document.protocolList[0].protocolLocations[0].rolodexId", "1"),
+        HUMANSUB_ASSURANCE("document.protocolList[0].protocolLocations[0].organization.humanSubAssurance", "FWA00004881");
                 
         private final String code;   
         private final String value;
