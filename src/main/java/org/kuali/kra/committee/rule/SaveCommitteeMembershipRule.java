@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.committee.rules;
+package org.kuali.kra.committee.rule;
 
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.committee.rule.event.SaveCommitteeMembershipEvent;

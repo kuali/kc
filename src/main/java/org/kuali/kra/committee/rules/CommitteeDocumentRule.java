@@ -26,6 +26,7 @@ import org.kuali.kra.committee.rule.AddCommitteeScheduleDateConflictRule;
 import org.kuali.kra.committee.rule.AddCommitteeScheduleStartAndEndDateRule;
 import org.kuali.kra.committee.rule.DeadlineCommitteeScheduleRule;
 import org.kuali.kra.committee.rule.FilterCommitteeScheduleRule;
+import org.kuali.kra.committee.rule.SaveCommitteeMembershipRule;
 import org.kuali.kra.committee.rule.event.AddCommitteeMembershipEvent;
 import org.kuali.kra.committee.rule.event.AddCommitteeScheduleDateConflictEvent;
 import org.kuali.kra.committee.rule.event.AddCommitteeScheduleStartAndEndDateEvent;
@@ -174,7 +175,7 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase
     }
     
     /**
-     * @see org.kuali.kra.irb.rule.SaveCommitteeMembershipRule#processSaveCommitteeMembershipBusinessRules(org.kuali.kra.irb.rule.event.Event)
+     * @see org.kuali.kra.committee.rule.SaveCommitteeMembershipRule#processSaveCommitteeMembershipBusinessRules(org.kuali.kra.irb.rule.event.Event)
      */
     public boolean processSaveCommitteeMembershipBusinessRules(SaveCommitteeMembershipEvent saveCommitteeMembershipEvent) {
         return new CommitteeMembershipRule().processSaveCommitteeMembershipBusinessRules(saveCommitteeMembershipEvent);

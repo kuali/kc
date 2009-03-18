@@ -10,7 +10,7 @@
             <kul:innerTab tabTitle="Roles" 
                           parentTab="${parentTabValue}" 
                           defaultOpen="false" 
-                          tabErrorKey="membershipRolesHelper.newCommitteeMembershipRole*,document.committeeList[0].committeeMemberships[${memberIndex}].committeeMembershipRole*">
+                          tabErrorKey="membershipRolesHelper.newCommitteeMembershipRoles[${memberIndex}].*,document.committeeList[0].committeeMemberships[${memberIndex}].membershipRoles*">
                 <div class="innerTab-container" align="left">
                     <table id="membership-role-table" cellpadding=0 cellspacing=0 class="datatable" summary="View/edit committee membership roles">
                     
