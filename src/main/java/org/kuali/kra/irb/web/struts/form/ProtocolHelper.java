@@ -66,13 +66,19 @@ public class ProtocolHelper {
     private ProtocolLocation newProtocolLocation;
     private String organizationName;
     
-    private String displayBillable;
+    //Must be set to true, in case if order of method call in prepareview() is altered, functionality of billable will not break. 
+    private boolean displayBillable = true;
 
     public ProtocolHelper(ProtocolForm form) {
         this.form = form;
         setNewProtocolLocation(new ProtocolLocation());
     }    
     
+    /**
+     * This method prepares view for rendering UI.
+     * Note: Order of following methods must not be altered.
+     * initializeConfigurationParams() must be before initializePermissions(getProtocol()) due to billable requirement. 
+     */
     public void prepareView() {
         prepareRequiredFields();
         syncFundingSources(getProtocol());
@@ -92,16 +98,24 @@ public class ProtocolHelper {
     private void initializeConfigurationParams() {        
         setReferenceId1Label(getParameterValue(Constants.PARAMETER_MODULE_PROTOCOL_REFERENCEID1));
         setReferenceId2Label(getParameterValue(Constants.PARAMETER_MODULE_PROTOCOL_REFERENCEID2));
-        setDisplayBillable(getParameterValue(Constants.PARAMETER_MODULE_PROTOCOL_BILLABLE));
+        boolean flag = (getParameterValue(Constants.PARAMETER_MODULE_PROTOCOL_BILLABLE).equalsIgnoreCase("Y") ? true : false);
+        setDisplayBillable(flag);
     }
 
     private void initializeTrainingSection() {
         setPersonTrainingSectionRequired(Boolean.parseBoolean(getParameterValue(Constants.PARAMETER_PROTOCOL_PERSON_TRAINING_SECTION)));
     }
     
+    /**
+     * This method initializes permission related to form.
+     * Note: Billable permission is only set if displayBillable is true.
+     * Reason: For Institution who does not bill.  
+     * @param protocol
+     */
     private void initializePermissions(Protocol protocol) {
         initializeModifyProtocolPermission(protocol);
-        initializeBillablePermission(protocol);   
+        if(displayBillable)
+            initializeBillablePermission(protocol);   
     }
 
     private void initializeModifyProtocolPermission(Protocol protocol) {
@@ -415,11 +429,11 @@ public class ProtocolHelper {
         return theService;
     }
     
-    public String getDisplayBillable() {
+    public boolean getDisplayBillable() {
         return displayBillable;
     }
 
-    public void setDisplayBillable(String displayBillable) {
+    public void setDisplayBillable(boolean displayBillable) {
         this.displayBillable = displayBillable;
     }
 }
