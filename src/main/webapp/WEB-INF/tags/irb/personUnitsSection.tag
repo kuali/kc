@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/irb/ProtocolPerson.jsp"%>
 <c:choose>
-	<c:when test="${empty KualiForm.document.protocol.protocolPersons[personIndex].personName}">
+	<c:when test="${empty KualiForm.document.protocolList[0].protocolPersons[personIndex].personName}">
 		<c:set var="parentTabName" value="" />
 	</c:when>
 	<c:otherwise>
@@ -26,7 +26,7 @@
 <table cellpadding=0 cellspacing=0 summary="">
  	<tr>
 		<td>
-			<kul:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="newProtocolPersonUnits[${personIndex}]*">
+			<kul:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="personnelHelper.newProtocolPersonUnits[${personIndex}]*">
 				<div class="innerTab-container" align="left">
 			        <table cellpadding="0" cellspacing="0" summary="">
               			<tbody id="G3">

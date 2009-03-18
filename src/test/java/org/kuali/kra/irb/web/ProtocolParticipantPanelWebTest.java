@@ -156,7 +156,7 @@ public class ProtocolParticipantPanelWebTest extends ProtocolWebTestBase {
         // change the details for that participant.
 
         setFieldValue(protocolPage,
-                      "document.protocol.protocolParticipants[0].participantCount",
+                      "document.protocolList[0].protocolParticipants[0].participantCount",
                       PARTICIPANT_STUDENTS_COUNT_VALUE2);
 
         // Save the document

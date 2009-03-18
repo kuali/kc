@@ -28,8 +28,8 @@ import org.kuali.kra.service.OrganizationService;
 
 public class ProtocolLocationRule extends ResearchDocumentRuleBase implements AddProtocolLocationRule {
 
-    private static final String ERROR_PROPERTY_ORGANIZATION_ID = "newProtocolLocation.organizationId"; 
-    private static final String ERROR_PROPERTY_ORGANIZATION_TYPE_CODE = "newProtocolLocation.protocolOrganizationTypeCode"; 
+    private static final String ERROR_PROPERTY_ORGANIZATION_ID = "protocolHelper.newProtocolLocation.organizationId"; 
+    private static final String ERROR_PROPERTY_ORGANIZATION_TYPE_CODE = "protocolHelper.newProtocolLocation.protocolOrganizationTypeCode"; 
     
     /**
      * Don't allow protocol location with an invalid organization id, organization type code, duplicate organization id
