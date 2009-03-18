@@ -16,7 +16,7 @@
 -->
 <!DOCTYPE dictionaryEntry PUBLIC
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+    "../dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
     <maintenanceDocument>
@@ -62,7 +62,8 @@
 					<maintainableField name="rolodexId" required="true"/>
 					<maintainableField name="sponsorName" required="true"/>
 					<maintainableField name="sponsorTypeCode" required="true"/>
-					<maintainableField name="state" required="false"/>                    
+					<maintainableField name="state" required="false"/>
+					<maintainableField name="versionNumber" />                    
                 </maintainableItems>
             </maintainableSection>
         </maintainableSections>
