@@ -20,15 +20,15 @@
 <script>
 	var roleStates = new Array();
 	var rs;
-	var cnt = 0;
+	var hasRole = false;
 	<c:forEach var="roleState" items="${KualiForm.permissionsHelper.editRoles.roleStates}" varStatus="status">
         rs = new PermissionsRoleState('${roleState.role.name}', '${roleState.role.displayName}', '${roleState.state}');
         roleStates[roleStates.length] = rs;
         if (rs.getState().toLowerCase() == 'true') {
-            cnt++;
+            hasRole = true;
         }
     </c:forEach>
-    if (cnt == 0 && ${KualiForm.permissionsHelper.unassignedRoleName != null}) {
+    if (!hasRole && ${KualiForm.permissionsHelper.unassignedRoleName != null}) {
         roleStates[roleStates.length] = new PermissionsRoleState('${KualiForm.permissionsHelper.unassignedRoleName}', '${KualiForm.permissionsHelper.unassignedRoleDisplayName}', 'true');
     }
         

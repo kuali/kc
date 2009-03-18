@@ -39,6 +39,8 @@ import org.kuali.kra.service.PersonService;
  */
 public abstract class PermissionsRuleBase extends ResearchDocumentRuleBase implements PermissionsRule {
     
+    private static final String USERNAME_FIELD_NAME = "userName";
+    
     /**
      * @see org.kuali.kra.common.permissions.rule.PermissionsRule#processAddPermissionsUserBusinessRules(org.kuali.core.document.Document, java.util.List, org.kuali.kra.common.permissions.bo.PermissionsUser)
      */
@@ -50,7 +52,7 @@ public abstract class PermissionsRuleBase extends ResearchDocumentRuleBase imple
             
         if (!isValidUser(newUser.getUserName())) {
             isValid = false;
-            this.reportError(Constants.PERMISSION_USERS_PROPERTY_KEY + ".userName", 
+            this.reportError(Constants.PERMISSION_USERS_PROPERTY_KEY + "." + USERNAME_FIELD_NAME, 
                              KeyConstants.ERROR_UNKNOWN_USERNAME);
         }
             
@@ -59,7 +61,7 @@ public abstract class PermissionsRuleBase extends ResearchDocumentRuleBase imple
             
         else if (isDuplicate(newUser.getUserName(), users)) {
             isValid = false;
-            this.reportError(Constants.PERMISSION_USERS_PROPERTY_KEY + ".userName", 
+            this.reportError(Constants.PERMISSION_USERS_PROPERTY_KEY + "." + USERNAME_FIELD_NAME, 
                              KeyConstants.ERROR_DUPLICATE_PERMISSIONS_USER);
         }
         
