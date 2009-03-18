@@ -43,20 +43,20 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
     protected static final String KUALI_PORTAL_INDEX = "Kuali Portal Index";
     
     //Test field for Additional Sub Panel
-    protected static final String PROTOCOL_ISBILLABLE_ID =  "document.protocol.billable";
+    protected static final String PROTOCOL_ISBILLABLE_ID =  "document.protocolList[0].billable";
     protected static final String PROTOCOL_ISBILLABLE =  "on";
     
-    protected static final String PROTOCOL_FDAAPPLICATIONNUMBER_ID = "document.protocol.fdaApplicationNumber";
+    protected static final String PROTOCOL_FDAAPPLICATIONNUMBER_ID = "document.protocolList[0].fdaApplicationNumber";
     protected static final String PROTOCOL_FDAAPPLICATIONNUMBER = "A11111";
     
-    protected static final String PROTOCOL_REFERENCENUMBER1_ID = "document.protocol.referenceNumber1";
+    protected static final String PROTOCOL_REFERENCENUMBER1_ID = "document.protocolList[0].referenceNumber1";
     protected static final String PROTOCOL_REFERENCENUMBER1 = "0000";
     
-    protected static final String PROTOCOL_REFERENCENUMBER2_ID = "document.protocol.referenceNumber2";
+    protected static final String PROTOCOL_REFERENCENUMBER2_ID = "document.protocolList[0].referenceNumber2";
     protected static final String PROTOCOL_REFERENCENUMBER2 = "0010";
     
-    protected static final String PROTOCOL_DESCRIPTION_ID =  "document.protocol.description";
-    protected static final String PROTOCOL_DESCRIPTION_TEXTAREA_ID = "methodToCall.kraUpdateTextArea.((#document.protocol.description:protocolProtocol:Summary/Keywords#))";
+    protected static final String PROTOCOL_DESCRIPTION_ID =  "document.protocolList[0].description";
+    protected static final String PROTOCOL_DESCRIPTION_TEXTAREA_ID = "methodToCall.kraUpdateTextArea.((#document.protocolList[0].description:protocolProtocol:Summary/Keywords#))";
 
     protected static final String PROTOCOL_COMMENT_ID =  "newProtocolReference.comments";
     protected static final String PROTOCOL_COMMENT_TEXTAREA_ID = "methodToCall.kraUpdateTextArea.((#newProtocolReference.comments:protocolProtocol:Comments:false#))";

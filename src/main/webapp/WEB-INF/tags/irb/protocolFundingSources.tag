@@ -3,7 +3,7 @@
 <c:set var="protocolFundingSourceAttributes" value="${DataDictionary.ProtocolFundingSource.attributes}" />
 <c:set var="fundingSourceTypeAttributes" value="${DataDictionary.FundingSourceType.attributes}" />
 
-<kul:tab tabTitle="Funding Sources" defaultOpen="false" tabErrorKey="document.protocol.protocolFundingSource*,document.protocol.newFundingSource*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.title" useRiceAuditMode="true">
+<kul:tab tabTitle="Funding Sources" defaultOpen="false" tabErrorKey="document.protocolList[0].protocolFundingSource*,document.protocolList[0].newFundingSource*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.title" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Funding Sources</span>
@@ -29,7 +29,7 @@
 <%-- --%>               
                 <td>
                     <div align="center">
-                        <kul:htmlControlAttribute property="document.protocol.newFundingSource.fundingSourceTypeCode" 
+                        <kul:htmlControlAttribute property="document.protocolList[0].newFundingSource.fundingSourceTypeCode" 
                                                   attributeEntry="${protocolFundingSourceAttributes.fundingSourceTypeCode}" />
                     </div>
                 </td> 
@@ -37,34 +37,34 @@
                 
                 <td>
                         <div align="center">
-                        <kul:htmlControlAttribute property="document.protocol.newFundingSource.fundingSource" 
+                        <kul:htmlControlAttribute property="document.protocolList[0].newFundingSource.fundingSource" 
                                                   attributeEntry="${protocolFundingSourceAttributes.fundingSource}"
                                                   onblur="loadFundingSourceNameTitle(
-                                                          'document.protocol.newFundingSource.fundingSourceTypeCode',
-                                                          'document.protocol.newFundingSource.fundingSource',
-                                                          'document.protocol.newFundingSource.fundingSourceName',
-                                                          'document.protocol.newFundingSource.fundingSourceTitle');" />
+                                                          'document.protocolList[0].newFundingSource.fundingSourceTypeCode',
+                                                          'document.protocolList[0].newFundingSource.fundingSource',
+                                                          'document.protocolList[0].newFundingSource.fundingSourceName',
+                                                          'document.protocolList[0].newFundingSource.fundingSourceTitle');" />
 
-<%--                          lookupKeyPath="document.protocol.newFundingSource.fundingSourceTypeType.description" 
+<%--                          lookupKeyPath="document.protocolList[0].newFundingSource.fundingSourceTypeType.description" 
  --%>                        
-                        <kul:fundingSourceLookup boClassName="${document.protocol.newFundingSource.fundingSourceType.description}" 
-                         fieldConversions="unitNumber:document.protocol.newFundingSource.fundingSource,unitName:document.protocol.newFundingSource.fundingSourceName" anchor="${currentTabIndex}"/> 
+                        <kul:fundingSourceLookup boClassName="${document.protocolList[0].newFundingSource.fundingSourceType.description}" 
+                         fieldConversions="unitNumber:document.protocolList[0].newFundingSource.fundingSource,unitName:document.protocolList[0].newFundingSource.fundingSourceName" anchor="${currentTabIndex}"/> 
                         </div>
                 
                 </td>
              
                 <td>
                     <div align="center">
-                    <kul:htmlControlAttribute property="document.protocol.newFundingSource.fundingSourceName" 
+                    <kul:htmlControlAttribute property="document.protocolList[0].newFundingSource.fundingSourceName" 
                                             attributeEntry="${protocolFundingSourceAttributes.fundingSourceName}" />
                     </div>
                 </td>
                 <td>
                 <div align="center">
-                    <kul:htmlControlAttribute property="document.protocol.newFundingSource.fundingSourceTitle" 
+                    <kul:htmlControlAttribute property="document.protocolList[0].newFundingSource.fundingSourceTitle" 
                                             readOnly="true"      attributeEntry="${protocolFundingSourceAttributes.fundingSourceTitle}" />
                 </div>
-                   <c:out value="${document.protocol.newFundingSource.fundingSourceTitle}" />
+                   <c:out value="${document.protocolList[0].newFundingSource.fundingSourceTitle}" />
                 </td>
 
                 <td class="infoline">
@@ -76,32 +76,32 @@
             </tr>
             
                         <%-- Existing data --%>
-            <c:forEach var="protocolFundingSource" items="${KualiForm.document.protocol.protocolFundingSources}" varStatus="status">
+            <c:forEach var="protocolFundingSource" items="${KualiForm.document.protocolList[0].protocolFundingSources}" varStatus="status">
                  <tr>
                     <th class="infoline">
                         <c:out value="${status.index+1}" />
                     </th>
                   <td align="left" valign="middle">
                     <div align="left">
-                        <kul:htmlControlAttribute property="document.protocol.protocolFundingSources[${status.index}].fundingSourceType.description" 
+                        <kul:htmlControlAttribute property="document.protocolList[0].protocolFundingSources[${status.index}].fundingSourceType.description" 
                                                   readOnly="true" attributeEntry="${fundingSourceTypeAttributes.description}" /> 
                     </div>
                   </td>
                   <td align="left" valign="middle">
                     <div align="left">
-                        <kul:htmlControlAttribute property="document.protocol.protocolFundingSources[${status.index}].fundingSource" 
+                        <kul:htmlControlAttribute property="document.protocolList[0].protocolFundingSources[${status.index}].fundingSource" 
                                                   readOnly="true" attributeEntry="${protocolFundingSourceAttributes.fundingSource}" /> 
                     </div>                  
                   </td>
                   <td align="left" valign="middle">
                     <div align="left">
-                        <kul:htmlControlAttribute property="document.protocol.protocolFundingSources[${status.index}].fundingSourceName" 
+                        <kul:htmlControlAttribute property="document.protocolList[0].protocolFundingSources[${status.index}].fundingSourceName" 
                                                   readOnly="true" attributeEntry="${fundingSourceTypeAttributes.description}" />
                     </div>
                   </td>
                   <td align="left" valign="middle">
                     <div align="left">
-                        <kul:htmlControlAttribute property="document.protocol.protocolFundingSources[${status.index}].fundingSourceTitle" 
+                        <kul:htmlControlAttribute property="document.protocolList[0].protocolFundingSources[${status.index}].fundingSourceTitle" 
                                                   readOnly="true" attributeEntry="${fundingSourceTypeAttributes.description}" />
                     </div>
                   </td>

@@ -60,7 +60,7 @@ public class ProtocolStatusAndDatesWebTest extends ProtocolWebTestBase{
     @Test
     public void testDatesAndStatusPanelInit() throws Exception{
         assertContains(protocolPage,SAVE_SUCCESS_MESSAGE);        
-        String protocolNumber = getFieldValue(protocolPage, "document.protocol.protocolNumber");
+        String protocolNumber = getFieldValue(protocolPage, "document.protocolList[0].protocolNumber");
         assertContains(protocolPage,"Protocol #: "+ protocolNumber +" Protocol Status: Pending/In Progress ");        
         assertContains(protocolPage,"Initial Approval Date: Last Approval Date: ");        
         assertContains(protocolPage,"Submission Date: Generated on Submission Expiration Date: ");   
