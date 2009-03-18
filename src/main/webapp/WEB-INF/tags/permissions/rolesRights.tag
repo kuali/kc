@@ -16,7 +16,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <kul:tabTop defaultOpen="true" tabTitle="Roles">
-    <c:forEach var="role" items="${KualiForm.proposalRoles}" varStatus="status">    
-	   <kra-permissions:roleRights roleName="${role.name}" permissions="${role.permissions}" />
+    <c:forEach var="role" items="${KualiForm.permissionsHelper.normalRoles}" varStatus="status">    
+	   <kra-permissions:roleRights roleName="${role.displayName}" permissions="${role.permissions}" />
     </c:forEach>
 </kul:tabTop>
