@@ -19,6 +19,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class CommitteeWebTest extends CommitteeWebTestBase {
@@ -78,7 +79,7 @@ public class CommitteeWebTest extends CommitteeWebTestBase {
         assertEquals(DEFAULT_NAME, getFieldValue(committeePage, COMMITTEE_NAME_ID));
         assertEquals(DEFAULT_MIN_MEMBERS_REQUIRED, getFieldValue(committeePage, COMMITTEE_MIN_MEMBERS_REQUIRED_ID));
         assertEquals(DEFAULT_ADV_SUBMISSION_DAYS_REQUIRED, getFieldValue(committeePage, COMMITTEE_ADV_SUBMISSION_DAYS_REQUIRED_ID));
-        assertEquals(MY_COMMITTEE_ID, getFieldValue(committeePage, COMMITTEE_ID_ID));
+        assertEquals(MY_COMMITTEE_ID, getValue(committeePage, "committeeId"));
         assertEquals(DEFAULT_DESCRIPTION, getFieldValue(committeePage, COMMITTEE_DESCRIPTION_ID));
         assertEquals(DEFAULT_SCHEDULE_DESCRIPTION, getFieldValue(committeePage, COMMITTEE_SCHEDULE_DESCRIPTION_ID));
     }
@@ -133,5 +134,11 @@ public class CommitteeWebTest extends CommitteeWebTestBase {
                                        COMMITTEE_SCHEDULE_DESCRIPTION_ID,
                                        DESCRIPTION_VALUE,
                                        DESCRIPTION_VALUE2);
+    }
+    
+    private Object getValue(HtmlPage page, String id) {
+        HtmlElement element = this.getElement(page, id);
+        assertNotNull(element);
+        return element.asText().trim();
     }
 }
