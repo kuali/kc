@@ -18,7 +18,10 @@ package org.kuali.kra.service;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -26,11 +29,13 @@ import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.kra.bo.AbstractSpecialReview;
 import org.kuali.kra.bo.AbstractSpecialReviewExemption;
 import org.kuali.kra.document.SpecialReviewHandler;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.service.impl.SpecialReviewServiceImpl;
 import org.kuali.kra.web.struts.form.SpecialReviewFormBase;
@@ -122,6 +127,49 @@ public class SpecialReviewServiceTest {
         
         
     }
+    
+    /**
+     * If special review has only two exemptions, but four are found
+     * in the database, the two unwanted exemptions must be deleted.
+     */
+    @Test
+    public void testDeleteExemptions() {
+        SpecialReview sr = new SpecialReview();
+        
+        String newExemptionTypeCodes[] = { "2", "4" };
+        sr.setNewExemptionTypeCodes(newExemptionTypeCodes);
+       
+        final SpecialReviewHandler srh = new SpecialReviewMockHandler();
+        srh.addSpecialReview(sr);
+        
+        final Map<String, Long> fieldValues = new HashMap<String, Long>();
+        fieldValues.put("specialReviewId", sr.getSpecialReviewId());
+        
+        final Collection<AbstractSpecialReviewExemption> returnList = new ArrayList<AbstractSpecialReviewExemption>();
+        final SpecialReviewExemption e1 = new SpecialReviewExemption();
+        e1.setExemptionTypeCode("1");
+        returnList.add(e1);
+        final SpecialReviewExemption e2 = new SpecialReviewExemption();
+        e2.setExemptionTypeCode("2");
+        returnList.add(e2);
+        final SpecialReviewExemption e3 = new SpecialReviewExemption();
+        e3.setExemptionTypeCode("3");
+        returnList.add(e3);
+        final SpecialReviewExemption e4 = new SpecialReviewExemption();
+        e4.setExemptionTypeCode("4");
+        returnList.add(e4);
+        
+        final BusinessObjectService bos = context.mock(BusinessObjectService.class);
+        context.checking(new Expectations() {{
+            one(bos).findMatching(SpecialReviewExemption.class, fieldValues); 
+            will(returnValue(returnList));
+            one(bos).delete(e1);
+            one(bos).delete(e3);
+        }});
+        srs.setBusinessObjectService(bos);
+        
+        srs.deleteExemptions(srh, "specialReviewId", SpecialReviewExemption.class);
+    }
 
     class SpecialReview extends AbstractSpecialReview<SpecialReviewExemption>{
         @Override
@@ -129,6 +177,11 @@ public class SpecialReviewServiceTest {
             SpecialReviewExemption specialReviewExemption = new SpecialReviewExemption();
             specialReviewExemption.setExemptionTypeCode(exemptionTypeCode);
             return specialReviewExemption;
+        }
+
+        @Override
+        public Long getSpecialReviewId() {
+            return 1L;
         }
     }
     class SpecialReviewExemption extends AbstractSpecialReviewExemption{

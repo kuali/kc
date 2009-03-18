@@ -108,7 +108,6 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
     }
     
     /**
-     * 
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
     @SuppressWarnings("unchecked")
@@ -118,7 +117,6 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         managedLists.addAll(getProtocol().buildListOfDeletionAwareLists());
         managedLists.add(protocolList);
         return managedLists;
-
     }
     
     /**

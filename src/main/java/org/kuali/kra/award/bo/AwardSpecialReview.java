@@ -117,5 +117,10 @@ public class AwardSpecialReview extends AbstractSpecialReview<AwardSpecialReview
             return false;
         return true;
     }
+
+    @Override
+    public Long getSpecialReviewId() {
+        return awardSpecialReviewId;
+    }
 	
 }
