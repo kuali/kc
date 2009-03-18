@@ -77,6 +77,16 @@
 	          	<property name="helpDefinition" >
 	            	<bean parent="HelpDefinition"
 	                  p:parameterNamespace="KC-IRB"
+	                  p:parameterName="specialReviewHelp"
+	                  p:parameterDetailType="D" />
+	          	</property>
+	          	<property name="headerTabDisplayName" value="Special Review" />
+	          	<property name="headerTabNavigateTo" value="specialReview" />
+        	</bean>
+        	<bean parent="HeaderNavigation">
+	          	<property name="helpDefinition" >
+	            	<bean parent="HelpDefinition"
+	                  p:parameterNamespace="KC-IRB"
 	                  p:parameterName="permissionsHelp"
 	                  p:parameterDetailType="D" />
 	          	</property>

@@ -30,20 +30,24 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ActionFormUtilMap;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kra.bo.AbstractSpecialReview;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
+import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.bo.ProtocolReference;
+import org.kuali.kra.irb.bo.ProtocolSpecialReviewExemption;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
+import org.kuali.kra.web.struts.form.SpecialReviewFormBase;
 
 /**
  * This class...
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolForm extends KraTransactionalDocumentFormBase implements PermissionsForm, CustomDataForm, Auditable {
+public class ProtocolForm extends KraTransactionalDocumentFormBase implements PermissionsForm, CustomDataForm, Auditable,  SpecialReviewFormBase<ProtocolSpecialReviewExemption> {
     
     private static final long serialVersionUID = -7633960906991275328L;
     
@@ -52,6 +56,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     private PermissionsHelper permissionsHelper;
     private ParticipantsHelper participantsHelper;
     private CustomDataHelper customDataHelper = new CustomDataHelper(this);
+    private SpecialReviewHelper specialReviewHelper;
     private boolean auditActivated;
     
     private ProtocolReference newProtocolReference;
@@ -77,6 +82,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         setPersonnelHelper(new PersonnelHelper(this));
         setPermissionsHelper(new PermissionsHelper(this));
         setParticipantsHelper(new ParticipantsHelper());
+        setSpecialReviewHelper(new SpecialReviewHelper(this));
         setNewProtocolReference(new ProtocolReference());
     }
 
@@ -131,6 +137,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         super.reset(mapping, request);
         this.setLookupResultsSequenceNumber(null);
         this.setLookupResultsBOClassName(null);
+        getSpecialReviewHelper().reset();
     }
 
 
@@ -237,5 +244,41 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     /** {@inheritDoc} */
     public void setAuditActivated(boolean auditActivated) {
         this.auditActivated = auditActivated;
+    }
+
+    public SpecialReviewHelper getSpecialReviewHelper() {
+        return specialReviewHelper;
+    }
+
+    public void setSpecialReviewHelper(SpecialReviewHelper specialReviewHelper) {
+        this.specialReviewHelper = specialReviewHelper;
+    }
+
+    /**
+     * @see org.kuali.kra.web.struts.form.SpecialReviewFormBase#getNewExemptionTypeCodes()
+     */
+    public String[] getNewExemptionTypeCodes() {
+        return specialReviewHelper.getNewExemptionTypeCodes();
+    }
+
+    /**
+     * @see org.kuali.kra.web.struts.form.SpecialReviewFormBase#getNewSpecialReview()
+     */
+    public AbstractSpecialReview<ProtocolSpecialReviewExemption> getNewSpecialReview() {
+        return specialReviewHelper.getNewSpecialReview();
+    }
+
+    /**
+     * @see org.kuali.kra.web.struts.form.SpecialReviewFormBase#getNewSpecialReviewExemptions()
+     */
+    public List<ProtocolSpecialReviewExemption> getNewSpecialReviewExemptions() {
+        return specialReviewHelper.getNewSpecialReviewExemptions();
+    }
+
+    /**
+     * @see org.kuali.kra.web.struts.form.SpecialReviewFormBase#getResearchDocument()
+     */
+    public ResearchDocumentBase getResearchDocument() {
+        return getProtocolDocument();
     }
 }

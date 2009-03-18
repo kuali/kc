@@ -18,6 +18,8 @@ package org.kuali.kra.service;
 import org.kuali.kra.bo.AbstractSpecialReview;
 import org.kuali.kra.bo.AbstractSpecialReviewExemption;
 import org.kuali.kra.document.SpecialReviewHandler;
+import org.kuali.kra.irb.bo.Protocol;
+import org.kuali.kra.irb.bo.ProtocolSpecialReviewExemption;
 import org.kuali.kra.web.struts.form.SpecialReviewFormBase;
 
 /**
@@ -44,4 +46,14 @@ public interface SpecialReviewService<T extends AbstractSpecialReview,E extends 
      * @param processSpecialReview
      */
     public void processBeforeSaveSpecialReview(SpecialReviewHandler<T> processSpecialReview);
+    
+    /**
+     * Delete exemptions.  Kuali Rice and OJB has difficulty properly deleting lists that
+     * are lists.  Due to that, this method will correctly delete any exemptions that are
+     * in the database that shouldn't be there.  
+     * @param specialReviewHandler the owner of the list of special reviews
+     * @param specialReviewIdFieldName the name of the property for the primary key id
+     * @param specialReviewExemptionClass the exemption classes to access in the database
+     */
+    public void deleteExemptions(SpecialReviewHandler<T> specialReviewHandler, String specialReviewIdFieldName, Class specialReviewExemptionClass);
 }

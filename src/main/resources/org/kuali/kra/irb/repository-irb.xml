@@ -81,7 +81,10 @@
    		<collection-descriptor name="protocolPersons" element-class-ref="org.kuali.kra.irb.bo.ProtocolPerson" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
 	  		<orderby name="protocolPersonId" sort="ASC" />
 			<inverse-foreignkey field-ref="protocolId" />
-		</collection-descriptor>    		
+		</collection-descriptor>    
+		<collection-descriptor name="specialReviews" element-class-ref="org.kuali.kra.irb.bo.ProtocolSpecialReview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="protocolId" />
+		</collection-descriptor>		
 
 	</class-descriptor>
 
@@ -393,5 +396,56 @@
             <foreignkey field-ref="sponsorCode"/>
         </reference-descriptor>      
     </class-descriptor>
+    
+    <class-descriptor class="org.kuali.kra.irb.bo.ProtocolSpecialReview" table="PROTOCOL_SPECIAL_REVIEW">
+		<field-descriptor name="protocolSpecialReviewId" column="PROTOCOL_SPECIAL_REVIEW_ID" jdbc-type="BIGINT" primarykey="true" 
+			autoincrement="true" sequence-name="SEQ_PROTOCOL_SPECIAL_REVIEW_ID"/>
+		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" access="anonymous"/>
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="specialReviewNumber" column="SPECIAL_REVIEW_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="specialReviewCode" column="SPECIAL_REVIEW_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="approvalTypeCode" column="APPROVAL_TYPE_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="applicationDate" column="APPLICATION_DATE" jdbc-type="DATE" />
+		<field-descriptor name="approvalDate" column="APPROVAL_DATE" jdbc-type="DATE" />
+		<field-descriptor name="expirationDate" column="EXPIRATION_DATE" jdbc-type="DATE"/>
+		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.bo.Protocol" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="protocolId"/>
+		</reference-descriptor>
+		<reference-descriptor name="specialReview" class-ref="org.kuali.kra.bo.SpecialReview" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="specialReviewCode"/>
+		</reference-descriptor>
+		<reference-descriptor name="specialReviewApprovalType" class-ref="org.kuali.kra.bo.SpecialReviewApprovalType" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="approvalTypeCode"/>
+		</reference-descriptor>
+		<reference-descriptor name="validSpecialReviewApproval" class-ref="org.kuali.kra.bo.ValidSpecialReviewApproval" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="approvalTypeCode"/>
+			<foreignkey field-ref="specialReviewCode"/>
+		</reference-descriptor>
+		<collection-descriptor name="specialReviewExemptions" proxy="true" element-class-ref="org.kuali.kra.irb.bo.ProtocolSpecialReviewExemption" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="protocolSpecialReviewId"/>
+		</collection-descriptor> 
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolSpecialReviewExemption" table="PROTOCOL_EXEMPT_NUMBER">
+		<field-descriptor name="protocolSpecialReviewExemptionId" column="PROTOCOL_EXEMPT_NUMBER_ID" jdbc-type="BIGINT" primarykey="true" 
+			autoincrement="true" sequence-name="SEQ_PROTOCOL_EXEMPT_NUMBER_ID"/>
+		<field-descriptor name="protocolSpecialReviewId" column="PROTOCOL_SPECIAL_REVIEW_ID" jdbc-type="BIGINT" access="anonymous"/>
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="exemptionTypeCode" column="EXEMPTION_TYPE_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<reference-descriptor name="protocolSpecialReview" class-ref="org.kuali.kra.irb.bo.ProtocolSpecialReview" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="protocolSpecialReviewId"/>
+		</reference-descriptor>
+		<reference-descriptor name="exemptionType" class-ref="org.kuali.kra.bo.ExemptionType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="exemptionTypeCode"/>
+		</reference-descriptor>
+	</class-descriptor>	
 
 </descriptor-repository>

@@ -198,6 +198,11 @@ class MockSpecialReview extends AbstractSpecialReview<MockSpecialReviewExemption
     public MockSpecialReviewExemption newSpecialReviewExemption(String exemptionTypeCode) {
         return new MockSpecialReviewExemption();
     }
+
+    @Override
+    public Long getSpecialReviewId() {
+        return null;
+    }
 }
 class MockSpecialReviewExemption extends AbstractSpecialReviewExemption{
 
