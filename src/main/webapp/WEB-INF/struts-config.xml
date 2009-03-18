@@ -21,8 +21,6 @@
     </form-beans>
 
     <global-exceptions>
-       	<!-- Begin required KNS exceptions -->
-       	<exception type="java.lang.Exception" key="error.global.application" path="/exception.do" />
         <!-- Begin required KNS exceptions -->
         <!-- Moved to /kualiExceptionIncidentReport.do -->
         <!--
