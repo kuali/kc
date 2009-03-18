@@ -22,8 +22,9 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.kra.bo.AbstractSpecialReview;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.Unit;
+import org.kuali.kra.document.SpecialReviewHandler;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.document.ProtocolDocument;
@@ -34,7 +35,7 @@ import org.kuali.kra.irb.service.ProtocolPersonnelService;
  * 
  * This class is Protocol Business Object.
  */
-public class Protocol extends KraPersistableBusinessObjectBase{
+public class Protocol extends KraPersistableBusinessObjectBase implements SpecialReviewHandler<ProtocolSpecialReview> {
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -54,7 +55,7 @@ public class Protocol extends KraPersistableBusinessObjectBase{
     private String referenceNumber1; 
     private String referenceNumber2; 
     private Boolean billable; 
-    private String specialReviewIndicator; 
+    private String specialReviewIndicator = "Y"; 
     private String vulnerableSubjectIndicator; 
     private String keyStudyPersonIndicator; 
     private String fundingSourceIndicator; 
@@ -100,9 +101,10 @@ public class Protocol extends KraPersistableBusinessObjectBase{
     private Integer fundingSourceTypeCode;
     private String leadUnitName;
 
-
-
     private List<ProtocolPerson> protocolPersons; 
+    
+    private List<ProtocolSpecialReview> specialReviews;
+    
     /**
      * 
      * Constructs an Protocol BO.
@@ -121,6 +123,7 @@ public class Protocol extends KraPersistableBusinessObjectBase{
         protocolPersons = new ArrayList<ProtocolPerson>(); 
         initializeProtocolLocation();
         protocolFundingSources = new ArrayList<ProtocolFundingSource>();        
+        specialReviews = new ArrayList<ProtocolSpecialReview>();
         // set statuscode default
         setProtocolStatusCode(Constants.DEFAULT_PROTOCOL_STATUS_CODE);
         this.refreshReferenceObject(Constants.PROPERTY_PROTOCOL_STATUS);
@@ -329,6 +332,7 @@ public class Protocol extends KraPersistableBusinessObjectBase{
         hashMap.put("correspondentIndicator", getCorrespondentIndicator());
         hashMap.put("referenceIndicator", getReferenceIndicator());
         hashMap.put("relatedProjectsIndicator", getRelatedProjectsIndicator());
+        hashMap.put("specialReviews", getSpecialReviews());
         return hashMap;
     }
 
@@ -454,6 +458,10 @@ public class Protocol extends KraPersistableBusinessObjectBase{
         managedLists.add(getProtocolRiskLevels());
         managedLists.add(getProtocolParticipants());
         managedLists.add(getProtocolPersons());
+        managedLists.add(getSpecialReviews());
+      //  for (AbstractSpecialReview specialReview : getSpecialReviews()) {
+        //    managedLists.addAll(specialReview.buildListOfDeletionAwareLists());
+       // }
         return managedLists;
     }
 
@@ -674,5 +682,32 @@ public class Protocol extends KraPersistableBusinessObjectBase{
         this.leadUnitName = leadUnitName;
     }
 
+    public void setSpecialReviews(List<ProtocolSpecialReview> specialReviews) {
+        this.specialReviews = specialReviews;
+        for (ProtocolSpecialReview specialReview : specialReviews) {
+            specialReview.init(this);
+        }
+    }
+    
+    /**
+     * @see org.kuali.kra.document.SpecialReviewHandler#addSpecialReview(org.kuali.kra.bo.AbstractSpecialReview)
+     */
+    public void addSpecialReview(ProtocolSpecialReview specialReview) {
+        specialReview.setProtocol(this);
+        getSpecialReviews().add(specialReview);
+    }
 
+    /**
+     * @see org.kuali.kra.document.SpecialReviewHandler#getSpecialReview(int)
+     */
+    public ProtocolSpecialReview getSpecialReview(int index) {
+        return getSpecialReviews().get(index);
+    }
+
+    /**
+     * @see org.kuali.kra.document.SpecialReviewHandler#getSpecialReviews()
+     */
+    public List<ProtocolSpecialReview> getSpecialReviews() {
+        return specialReviews;
+    }
 }

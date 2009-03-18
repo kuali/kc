@@ -17,7 +17,7 @@ package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
-public class ExemptionType   extends KraPersistableBusinessObjectBase {
+public class ExemptionType   extends KraPersistableBusinessObjectBase implements Comparable<ExemptionType> {
 
     private String exemptionTypeCode;
     private String description;
@@ -56,6 +56,10 @@ public class ExemptionType   extends KraPersistableBusinessObjectBase {
         propMap.put("updateTimestamp", this.getUpdateTimestamp());
         propMap.put("updateUser", this.getUpdateUser());
         return propMap;
+    }
+
+    public int compareTo(ExemptionType o) {
+        return this.description.compareTo(o.description);
     }
 
 }

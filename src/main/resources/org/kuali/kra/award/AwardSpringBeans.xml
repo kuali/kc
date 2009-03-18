@@ -58,6 +58,9 @@
 		<property name="kualiRuleService">
 			<ref bean="kualiRuleService" />
 		</property>
+		<property name="businessObjectService">
+		    <ref bean="businessObjectService" />
+		</property>
 	</bean>
 	<bean id="awardPaymentScheduleGenerationService" class="org.kuali.kra.service.impl.AwardPaymentScheduleGenerationServiceImpl">
 		<property name="scheduleService">

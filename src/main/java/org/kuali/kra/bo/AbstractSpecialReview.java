@@ -30,6 +30,8 @@ import org.kuali.kra.bo.ValidSpecialReviewApproval;
 import org.kuali.kra.bo.AbstractSpecialReviewExemption;
 import org.kuali.rice.KNSServiceLocator;
 
+import edu.emory.mathcs.backport.java.util.Collections;
+
 /**
  * This class is the base class for special review BO.
  */
@@ -53,6 +55,7 @@ public abstract class AbstractSpecialReview<T extends AbstractSpecialReviewExemp
     private ValidSpecialReviewApproval validSpecialReviewApproval;
     private List<T> specialReviewExemptions;
     private String[] exemptionTypeCodes;
+    private String[] newExemptionTypeCodes = null;
     private List<ExemptionType> exemptionTypes;
     
     public AbstractSpecialReview() {
@@ -194,7 +197,7 @@ public abstract class AbstractSpecialReview<T extends AbstractSpecialReviewExemp
      */
     @SuppressWarnings("unchecked")
     public String[] getExemptionTypeCodes() {
-        if(exemptionTypeCodes==null){
+        if(exemptionTypeCodes==null && specialReviewExemptions.size() > 0){
             exemptionTypeCodes = new String[specialReviewExemptions.size()];
             int i = 0;
             for (Iterator iterator = specialReviewExemptions.iterator(); iterator.hasNext();) {
@@ -213,6 +216,10 @@ public abstract class AbstractSpecialReview<T extends AbstractSpecialReviewExemp
     public void setExemptionTypeCodes(String... exemptionTypeCodes) {
         this.exemptionTypeCodes = exemptionTypeCodes;
     }
+    
+    public void clearExemptionTypeCodes() {
+        this.exemptionTypeCodes = null;
+    }
 
     /**
      * Gets the exemptionTypes attribute. 
@@ -228,6 +235,7 @@ public abstract class AbstractSpecialReview<T extends AbstractSpecialReviewExemp
     private void populateExemptionTypes() {
         KeyValuesService keyValueService = KNSServiceLocator.getKeyValuesService();
         exemptionTypes = (List)keyValueService.findAll(ExemptionType.class);
+        Collections.sort(exemptionTypes);
     }
 
     /**
@@ -357,4 +365,13 @@ public abstract class AbstractSpecialReview<T extends AbstractSpecialReviewExemp
         return true;
     }
 
+    public abstract Long getSpecialReviewId();
+
+    public void setNewExemptionTypeCodes(String[] newExemptionTypeCodes) {
+        this.newExemptionTypeCodes = newExemptionTypeCodes;
+    }
+
+    public String[] getNewExemptionTypeCodes() {
+        return newExemptionTypeCodes;
+    }
 }

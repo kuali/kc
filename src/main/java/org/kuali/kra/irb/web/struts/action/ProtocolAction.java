@@ -81,6 +81,11 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         return mapping.findForward("permissions");
     }
     
+    public ActionForward specialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ((ProtocolForm)form).getSpecialReviewHelper().prepareView();
+        return mapping.findForward("specialReview");
+    }
+    
     public ActionForward protocolActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return mapping.findForward("protocolActions");
     }
