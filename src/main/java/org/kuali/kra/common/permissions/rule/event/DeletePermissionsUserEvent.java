@@ -40,7 +40,7 @@ public class DeletePermissionsUserEvent extends KraDocumentEventBase {
     /**
      * Constructs an DeletePermissionsUserEvent.
      * @param document the document
-     * @param list the current list of users who have roles in the document
+     * @param users the current list of users who have roles in the document
      * @param index the index into the users of the user to delete
      */
     public DeletePermissionsUserEvent(Document document, List<User> users, int index) {

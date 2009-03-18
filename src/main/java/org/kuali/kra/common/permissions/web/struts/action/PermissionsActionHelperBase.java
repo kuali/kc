@@ -208,26 +208,30 @@ public abstract class PermissionsActionHelperBase {
     public final ActionForward deleteUser(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
        
+        ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
+        
         PermissionsForm permissionsForm = (PermissionsForm) form;
         PermissionsHelperBase permissionsHelper = permissionsForm.getPermissionsHelper();
         Document doc = permissionsForm.getDocument();
         
         // early exit if not authorized
         if (!permissionsHelper.canModifyPermissions()) {
-            return parentAction.processAuthorizationViolation(DELETE_USER_METHOD, mapping, form, request, response);
+            actionForward = parentAction.processAuthorizationViolation(DELETE_USER_METHOD, mapping, form, request, response);
+        }
+        else {
+        
+            // The lineNum is the index into "users" of the user to be deleted.
+            int lineNum = getLineToDelete(request);
+            List<User> users = permissionsForm.getPermissionsHelper().getUsers();
+            
+            boolean rulePassed = applyRules(new DeletePermissionsUserEvent(doc, users, lineNum));
+            if (rulePassed) {
+                // ask for a confirmation before deleting the user from the list
+                actionForward = parentAction.confirm(buildDeleteUserConfirmationQuestion(mapping, form, request, response), Constants.CONFIRM_DELETE_PERMISSIONS_USER_KEY, "");
+            }
         }
         
-        // The lineNum is the index into "users" of the user to be deleted.
-        int lineNum = getLineToDelete(request);
-        List<User> users = permissionsForm.getPermissionsHelper().getUsers();
-        
-        boolean rulePassed = applyRules(new DeletePermissionsUserEvent(doc, users, lineNum));
-        if (rulePassed) {
-            // ask for a confirmation before deleting the user from the list
-            return parentAction.confirm(buildDeleteUserConfirmationQuestion(mapping, form, request, response), Constants.CONFIRM_DELETE_PERMISSIONS_USER_KEY, "");
-        }
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return actionForward;
     }
     
     /**
