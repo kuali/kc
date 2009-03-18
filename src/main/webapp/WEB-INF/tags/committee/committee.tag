@@ -16,7 +16,16 @@
             <tr>
 		        <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.committeeId}" /></div></th>
                 <td>
-                    <kra:kraControlAttribute property="document.committeeList[0].committeeId" readOnly="${readOnly}" attributeEntry="${committeeAttributes.committeeId}" />
+                    <c:choose>
+	                    <c:when test="${empty KualiForm.document.committeeList[0].id}">
+	                    	<kra:kraControlAttribute property="document.committeeList[0].committeeId" readOnly="${readOnly}" attributeEntry="${committeeAttributes.committeeId}" />
+	                    </c:when>
+	                    <c:otherwise>
+	                      <span id="committeeId">
+	                          ${KualiForm.document.committeeList[0].committeeId}
+	                      </span>
+	                    </c:otherwise>
+                   </c:choose>
                 </td>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.committeeName}" /></div></th>
                 <td align="left" valign="middle">
