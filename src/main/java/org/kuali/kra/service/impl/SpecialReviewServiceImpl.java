@@ -15,9 +15,14 @@
  */
 package org.kuali.kra.service.impl;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.rule.event.KualiDocumentEvent;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.kra.bo.AbstractSpecialReview;
 import org.kuali.kra.bo.AbstractSpecialReviewExemption;
@@ -35,6 +40,9 @@ import org.kuali.kra.web.struts.form.SpecialReviewFormBase;
 public class SpecialReviewServiceImpl implements SpecialReviewService {
 
     private KualiRuleService kualiRuleService;
+    
+    private BusinessObjectService businessObjectService;
+    
     /**
      * Invoke all related rules associated with the Add Special Review Action and 
      * add the BO to the list which is a part of SpecialReviewManager
@@ -87,7 +95,6 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
         this.kualiRuleService = kualiRuleService;
     }
 
-
     /**
      * Perform all required tasks before save. Re-iterate the exemptionCode array, create SpecialReviewExemption BOs and 
      * attach to the list in the SpecialReview BO.
@@ -97,12 +104,14 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
         List<AbstractSpecialReview> specialReviews = processSpecialReview.getSpecialReviews();
         
         for (AbstractSpecialReview abstractSpecialReview : specialReviews) {
-            String[] exemptionCodes = abstractSpecialReview.getExemptionTypeCodes();
-            for (String exemptionTypeCode : exemptionCodes) {
-                AbstractSpecialReviewExemption specialReviewExemption = 
+            String[] exemptionCodes = abstractSpecialReview.getNewExemptionTypeCodes();
+            if (exemptionCodes != null) {
+                for (String exemptionTypeCode : exemptionCodes) {
+                    AbstractSpecialReviewExemption specialReviewExemption = 
                         getSpecialReviewExemptionType(abstractSpecialReview,exemptionTypeCode);
-                if(specialReviewExemption==null){
-                    abstractSpecialReview.addSpecialReviewExemption(exemptionTypeCode);
+                    if(specialReviewExemption==null){
+                        abstractSpecialReview.addSpecialReviewExemption(exemptionTypeCode);
+                    }
                 }
             }
             removeUnselectedExemptions(abstractSpecialReview,exemptionCodes);
@@ -121,8 +130,10 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
         for (int index = specialReviewExemptions.size()-1; index>=0 ; index--) {
             AbstractSpecialReviewExemption specialReviewExemption = specialReviewExemptions.get(index);
             boolean selected  = false;
-            for (int i = 0; i < exemptionCodes.length; i++) {
-                selected = selected || exemptionCodes[i].equals(specialReviewExemption.getExemptionTypeCode());
+            if (exemptionCodes != null) {
+                for (int i = 0; i < exemptionCodes.length; i++) {
+                    selected = selected || exemptionCodes[i].equals(specialReviewExemption.getExemptionTypeCode());
+                }
             }
             if(!selected){
                 specialReviewExemptions.remove(specialReviewExemption);
@@ -149,6 +160,47 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
             }
         }
         return selectedExemption;
+    }
+
+    /**
+     * @see org.kuali.kra.service.SpecialReviewService#deleteExemptions(org.kuali.kra.document.SpecialReviewHandler, java.lang.Class)
+     */
+    public void deleteExemptions(SpecialReviewHandler specialReviewHandler, String specialReviewIdFieldName, Class specialReviewExemptionClass) {
+        List<AbstractSpecialReview> specialReviews = specialReviewHandler.getSpecialReviews();
+        for (AbstractSpecialReview specialReview : specialReviews) {
+            Collection<AbstractSpecialReviewExemption> exemptions = getExemptionsInDatabase(specialReview.getSpecialReviewId(), specialReviewIdFieldName, specialReviewExemptionClass);
+            for (AbstractSpecialReviewExemption exemption : exemptions) {
+                if (!isInList(exemption, specialReview.getNewExemptionTypeCodes())) {
+                    businessObjectService.delete(exemption);
+                }
+            }
+            specialReview.clearExemptionTypeCodes();
+        }
+    }
+    
+    private Collection<AbstractSpecialReviewExemption> getExemptionsInDatabase(Long specialReviewId, String specialReviewIdFieldName, Class specialReviewExemptionClass) {
+        Map<String, Long> fieldValues = new HashMap<String, Long>();
+        fieldValues.put(specialReviewIdFieldName, specialReviewId);
+        return businessObjectService.findMatching(specialReviewExemptionClass, fieldValues);
+    }
+
+    private boolean isInList(AbstractSpecialReviewExemption exemption, String[] exemptionTypeCodes) {
+        if (exemptionTypeCodes != null) {
+            for (String exemptionTypeCode : exemptionTypeCodes) {
+                if (StringUtils.equals(exemption.getExemptionTypeCode(), exemptionTypeCode)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Inject the Business Object Service
+     * @param businessObjectService the Business Object Service
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
 }

@@ -22,11 +22,15 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.common.permissions.bo.PermissionsUser;
 import org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles;
 import org.kuali.kra.common.permissions.rule.PermissionsRule;
 import org.kuali.kra.common.permissions.web.bean.User;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.bo.ProtocolSpecialReview;
+import org.kuali.kra.irb.bo.ProtocolUnit;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.rule.AddProtocolFundingSourceRule;
 import org.kuali.kra.irb.rule.AddProtocolLocationRule;
@@ -45,16 +49,20 @@ import org.kuali.kra.irb.rule.event.AddProtocolUnitEvent;
 import org.kuali.kra.irb.rule.event.SaveProtocolPersonnelEvent;
 import org.kuali.kra.irb.rule.event.UpdateProtocolPersonnelEvent;
 import org.kuali.kra.rule.CustomAttributeRule;
+import org.kuali.kra.rule.SpecialReviewRule;
+import org.kuali.kra.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.kra.rules.KraCustomAttributeRule;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.rules.SpecialReviewRulesImpl;
+import org.kuali.kra.service.UnitService;
 
 /**
  * Main Business Rule class for <code>{@link ProtocolDocument}</code>. Responsible for delegating rules to independent rule classes.
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolParticipantRule, AddProtocolLocationRule, AddProtocolPersonnelRule, SaveProtocolPersonnelRule, AddProtocolFundingSourceRule, PermissionsRule, AddProtocolUnitRule, UpdateProtocolPersonnelRule, CustomAttributeRule {
+public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolParticipantRule, AddProtocolLocationRule, AddProtocolPersonnelRule, SaveProtocolPersonnelRule, AddProtocolFundingSourceRule, PermissionsRule, AddProtocolUnitRule, UpdateProtocolPersonnelRule, CustomAttributeRule, SpecialReviewRule<ProtocolSpecialReview> {
     private static final String PROTOCOL_PIID_FORM_ELEMENT="protocolHelper.personId";
     private static final String PROTOCOL_LUN_FORM_ELEMENT="protocolHelper.leadUnitNumber";
     private static final String ERROR_PROPERTY_ORGANIZATION_ID = "protocolHelper.newProtocolLocation.organizationId"; 
@@ -113,8 +121,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
 
         boolean isValid = true;
 
-        if (StringUtils.isNotBlank(document.getProtocol().getLeadUnitNumber()) 
-                && document.getProtocol().getLeadUnitForValidation() == null) {
+        if (isInvalidUnit(document.getProtocol().getLeadUnitNumber())) {
               isValid = false;
               reportError(PROTOCOL_LUN_FORM_ELEMENT, KeyConstants.ERROR_PROTOCOL_LEAD_UNIT_NUM_INVALID);
         } else if (document.getProtocol().getLeadUnitForValidation() == null &&  document.getProtocol().getLeadUnit() == null) {
@@ -124,6 +131,15 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
               reportError(PROTOCOL_LUN_FORM_ELEMENT, KeyConstants.ERROR_PROTOCOL_LEAD_UNIT_NAME_NOT_FOUND);
         }
         return isValid;
+    }
+        
+    private boolean isInvalidUnit(String unitNumber) {
+        if (StringUtils.isBlank(unitNumber)) {
+            return true;
+        }
+        UnitService unitService = KraServiceLocator.getService(UnitService.class);
+        Unit unit = unitService.getUnit(unitNumber);
+        return unit == null;
     }
 
     
@@ -236,6 +252,11 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
      */
     public boolean processCustomAttributeRules(SaveCustomAttributeEvent saveCustomAttributeEvent) {
         return new KraCustomAttributeRule().processCustomAttributeRules(saveCustomAttributeEvent);
+    }
+
+    public boolean processAddSpecialReviewEvent(AddSpecialReviewEvent<ProtocolSpecialReview> addSpecialReviewEvent) {
+        SpecialReviewRulesImpl ruleImpl = new SpecialReviewRulesImpl();
+        return ruleImpl.processAddSpecialReviewEvent(addSpecialReviewEvent);
     }
 
 }

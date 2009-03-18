@@ -53,6 +53,7 @@ public abstract class ProtocolWebTestBase extends KraWebTestBase {
     protected static final String PERMISSIONS_LINK_NAME = "permissions.x";
     protected static final String PROTOCOL_ACTIONS_LINK_NAME = "protocolActions.x";
     protected static final String CUSTOM_DATA_LINK_NAME = "customData.x";
+    protected static final String SPECIAL_REVIEW_LINK_NAME = "specialReview.x";
     
     /* check for save success - any errors found in the page */
     protected static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
