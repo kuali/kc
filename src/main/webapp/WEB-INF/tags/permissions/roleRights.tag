@@ -13,10 +13,21 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
+<%@ attribute name="roleName" required="true" %>
+<%@ attribute name="permissions" required="true" type="java.util.List" %>
 
-<kul:tabTop defaultOpen="true" tabTitle="Roles">
-    <c:forEach var="role" items="${KualiForm.permissionsHelper.normalRoles}" varStatus="status">    
-	   <kra-pd:roleRights roleName="${role.displayName}" permissions="${role.permissions}" />
-    </c:forEach>
-</kul:tabTop>
+<div class="tab-container" align="center" style="margin:0px; padding:0px; border-width:0px">
+	<h3>
+    	<span class="subhead-left">${roleName}</span>
+ 	</h3>
+ 
+ 	<table cellpadding="0" cellspacing="0" summary="">
+    	<c:forEach var="permission" items="${permissions}" varStatus="status">
+    		<tr>
+				<th align="right" valign="middle" width="40%">${permission.name}:</th>
+    			<td align="left" valign="middle">${permission.description}</td>
+    		</tr>
+	    </c:forEach>
+    </table>
+</div>
