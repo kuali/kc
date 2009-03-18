@@ -17,7 +17,7 @@
 
 <kra:infopage title="Rights" action="permissions" htmlFormAction="${KualiForm.actionName}Permissions">
 
-	<kra-permissions:roleRights />
+	<kra-permissions:rolesRights />
 	<kul:panelFooter />	
 		
 </kra:infopage>

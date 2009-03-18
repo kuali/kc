@@ -31,7 +31,7 @@
         
         <table cellpadding="0" cellspacing="0" summary="">
             <c:forEach var="assignedRole" items="${KualiForm.permissionsHelper.assignedRoles}" varStatus="status">
-			    <kra-pd:roleUsers id="${assignedRole.role.name}" roleName="${assignedRole.role.displayName}" userList="${assignedRole.userNames}" />
+			    <kra-permissions:roleUsers id="${assignedRole.role.name}" roleName="${assignedRole.role.displayName}" userList="${assignedRole.userNames}" />
         	</c:forEach>
         </table>
     </div> 
