@@ -65,6 +65,8 @@ public class ProtocolHelper {
     private boolean billableReadOnly = false;
     private ProtocolLocation newProtocolLocation;
     private String organizationName;
+    
+    private String displayBillable;
 
     public ProtocolHelper(ProtocolForm form) {
         this.form = form;
@@ -74,7 +76,7 @@ public class ProtocolHelper {
     public void prepareView() {
         prepareRequiredFields();
         syncFundingSources(getProtocol());
-        initializeReferenceLabels();
+        initializeConfigurationParams();
         initializeTrainingSection();
         initializePermissions(getProtocol());    
     }
@@ -87,12 +89,12 @@ public class ProtocolHelper {
         return document.getProtocol();
     }
     
-    private void initializeReferenceLabels() {
-        KualiConfigurationService configService = getService(KualiConfigurationService.class);
-        setReferenceId1Label((configService.getParameter(Constants.PARAMETER_MODULE_PROTOCOL, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PARAMETER_MODULE_PROTOCOL_REFERENCEID1)).getParameterValue());
-        setReferenceId2Label((configService.getParameter(Constants.PARAMETER_MODULE_PROTOCOL, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PARAMETER_MODULE_PROTOCOL_REFERENCEID2)).getParameterValue());
+    private void initializeConfigurationParams() {        
+        setReferenceId1Label(getParameterValue(Constants.PARAMETER_MODULE_PROTOCOL_REFERENCEID1));
+        setReferenceId2Label(getParameterValue(Constants.PARAMETER_MODULE_PROTOCOL_REFERENCEID2));
+        setDisplayBillable(getParameterValue(Constants.PARAMETER_MODULE_PROTOCOL_BILLABLE));
     }
-    
+
     private void initializeTrainingSection() {
         setPersonTrainingSectionRequired(Boolean.parseBoolean(getParameterValue(Constants.PARAMETER_PROTOCOL_PERSON_TRAINING_SECTION)));
     }
@@ -411,5 +413,13 @@ public class ProtocolHelper {
         ProtocolPersonnelService theService = 
             (ProtocolPersonnelService) KraServiceLocator.getService(ProtocolPersonnelService.class);
         return theService;
+    }
+    
+    public String getDisplayBillable() {
+        return displayBillable;
+    }
+
+    public void setDisplayBillable(String displayBillable) {
+        this.displayBillable = displayBillable;
     }
 }
