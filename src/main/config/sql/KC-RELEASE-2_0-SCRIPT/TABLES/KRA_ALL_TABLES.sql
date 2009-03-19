@@ -727,6 +727,7 @@ create table protocol_references (
   obj_id						varchar2 (36) default sys_guid() not null);
 
 CREATE TABLE PROTOCOL_RESEARCH_AREAS (
+  ID NUMBER(12) NOT null,
   PROTOCOL_ID NUMBER(12,0) NOT NULL,
   PROTOCOL_NUMBER     varchar2 (20)  NOT null,
   SEQUENCE_NUMBER     number (4, 0)    NOT null,
