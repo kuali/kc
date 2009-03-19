@@ -17,6 +17,7 @@ package org.kuali.kra.kim.service.impl;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.kra.kim.bo.KimQualifiedRolePerson;
 
@@ -35,7 +36,17 @@ public interface KimDao {
      * @return the list of qualified roles having the first qualified attribute
      */
     public Collection<KimQualifiedRolePerson> getPersonQualifiedRoles(Long personId, Map<String, String> qualifiedRoleAttributes);
-    
+
+    /**
+     * Gets a list of the persons (IDs) of a specified role based upon the given qualified attributes.
+     * As long as a qualified role has the first qualified attribute
+     * entry in the map, the role is returned.
+     * @param roleId the Role ID
+     * @param qualifiedRoleAttributes the qualified attributes (only the first is used)
+     * @return the list of persons (IDs) having the first qualified attribute
+     */
+    public Set<Long> getQualifiedRolePersonIds(Long roleId, Map<String, String> qualifiedRoleAttributes);
+
     /**
      * Do any of the given roles have the given permission?
      * @param roleIds the set of roles
