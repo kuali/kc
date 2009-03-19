@@ -15,10 +15,15 @@
  */
 package org.kuali.kra.kim.service.impl;
 
+import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 
+import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
@@ -56,6 +61,35 @@ public class KimDaoImpl extends PlatformAwareDaoBaseOjb implements KimDao {
         Query q = QueryFactory.newQuery(KimQualifiedRolePerson.class, crit);
         
         return getPersistenceBrokerTemplate().getCollectionByQuery(q);
+    }
+    
+    
+    public Set<Long> getQualifiedRolePersonIds(Long roleId, Map<String, String> qualifiedRoleAttributes) {
+        Set<Long> personIds = new HashSet<Long>();
+        
+        //This will be the Proposal Key
+        Entry<String, String> entry = qualifiedRoleAttributes.entrySet().iterator().next();
+        String attrName = entry.getKey();
+        String attrValue = entry.getValue();
+        
+        Criteria crit = new Criteria();
+        crit.addEqualTo("qualifiedRoleAttributes.attributeName", attrName);
+        crit.addEqualTo("qualifiedRoleAttributes.attributeValue", attrValue);
+        crit.addEqualTo("roleId", roleId);
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(KimQualifiedRolePerson.class, crit);
+        query.setAttributes(new String[] { "personId" });
+        
+        PersistenceBroker pbInstance = getPersistenceBroker(true);
+        Iterator iterator = pbInstance.getReportQueryIteratorByQuery(query);
+        while (iterator.hasNext()) {
+            Object[] result = (Object[])iterator.next();
+            BigDecimal personId = (BigDecimal) result[0];
+            if(personId != null) {
+                personIds.add(new Long(personId.longValue()));
+            }
+        }
+        releasePersistenceBroker(pbInstance);
+        return personIds;
     }
     
     /**

@@ -91,6 +91,7 @@ import org.kuali.kra.service.UnitService;
 import org.kuali.kra.web.struts.form.ProposalFormBase;
 
 import edu.iu.uis.eden.EdenConstants;
+import edu.iu.uis.eden.util.PerformanceLogger;
 
 /**
  * This class...
@@ -175,7 +176,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         proposalDevelopmentParameters = new HashMap<String, Parameter>();
         newProposalPersonRoleRendered = false;
         setNewProposalChangedData(new ProposalChangedData());
-        versionNumberForS2sOpportunity = null;        
+        versionNumberForS2sOpportunity = null;     
     }
 
     /**
@@ -664,6 +665,8 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      * @return
      */
     public List<ProposalAssignedRole> getProposalAssignedRoles() {
+        PerformanceLogger perfLog = new PerformanceLogger();
+        
         List<ProposalAssignedRole> assignedRoles = new ArrayList<ProposalAssignedRole>();
         
         Collection<KimRole> roles = getKimProposalRoles();
@@ -674,6 +677,8 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
                 assignedRoles.add(assignedRole);
             }
         }
+        //For perf testing: will be removed
+        perfLog.log("Time to execute getProposalAssignedRoles method.", true);
         return assignedRoles;
     }
     
@@ -1352,4 +1357,5 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         //Document to ProposalDevelopmentDocument everywhere
         return (ProposalDevelopmentDocument) super.getDocument();
     }
+
 }
