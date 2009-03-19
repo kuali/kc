@@ -51,7 +51,9 @@
 	-->
 
 	      <!--  JOTM JTA configuration -->
-      <bean id="jotm" class="org.springframework.transaction.jta.JotmFactoryBean" />
+      <bean id="jotm" class="org.springframework.transaction.jta.JotmFactoryBean">
+      		<property name="transactionTimeout" value="${transaction.timeout}"/>
+      </bean>
       
       <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" lazy-init="true">
             <property name="userTransaction">
