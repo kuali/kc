@@ -1100,4 +1100,11 @@ public class ServiceBase {
         qualifiedRoles.addAll(findMatching(KimQualifiedRoleGroup.class, "groupId", groupId));
         return qualifiedRoles;
     }
+    
+    public Set<Long> getQualifiedRolePersonIds(Long roleId, Map<String, String> qualifiedRoleAttributes) {
+        Set<Long> personIds = new HashSet<Long>();
+        KimDao personRoleDao = KraServiceLocator.getService(KimDao.class);
+        personIds = personRoleDao.getQualifiedRolePersonIds(roleId, qualifiedRoleAttributes);
+        return personIds;
+    } 
 }
