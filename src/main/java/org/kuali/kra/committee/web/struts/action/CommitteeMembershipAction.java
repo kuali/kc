@@ -35,6 +35,7 @@ import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.rule.event.AddCommitteeMembershipEvent;
+import org.kuali.kra.committee.rule.event.AddCommitteeMembershipRoleEvent;
 import org.kuali.kra.committee.rule.event.SaveCommitteeMembershipEvent;
 import org.kuali.kra.committee.service.CommitteeMembershipService;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
@@ -152,7 +153,7 @@ public class CommitteeMembershipAction extends CommitteeAction {
     CommitteeMembershipRole newCommitteeMembershipRole = committeeForm.getMembershipRolesHelper().getNewCommitteeMembershipRoles().get(selectedMembershipIndex);
     
     // check any business rules
-    boolean rulePassed = true; //applyRules(new AddCommitteeMembershipRoleEvent(Constants.EMPTY_STRING, committeeForm.getCommitteeDocument(), newCommitteeMembershipRole));
+    boolean rulePassed = applyRules(new AddCommitteeMembershipRoleEvent(Constants.EMPTY_STRING, committeeForm.getCommitteeDocument(), newCommitteeMembershipRole, selectedMembershipIndex));
 
     if (rulePassed) {
         getCommitteeMembershipService().addCommitteeMembershipRole(committee, selectedMembershipIndex, newCommitteeMembershipRole);

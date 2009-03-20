@@ -18,14 +18,15 @@ package org.kuali.kra.committee.rules;
 import java.sql.Date;
 import java.util.List;
 
-import org.apache.axis.utils.StringUtils;
-import org.kuali.kra.committee.bo.Committee;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.document.CommitteeDocument;
+import org.kuali.kra.committee.rule.AddCommitteeMembershipRoleRule;
 import org.kuali.kra.committee.rule.AddCommitteeMembershipRule;
 import org.kuali.kra.committee.rule.SaveCommitteeMembershipRule;
 import org.kuali.kra.committee.rule.event.AddCommitteeMembershipEvent;
+import org.kuali.kra.committee.rule.event.AddCommitteeMembershipRoleEvent;
 import org.kuali.kra.committee.rule.event.SaveCommitteeMembershipEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
 
@@ -37,6 +38,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
  */
 public class CommitteeMembershipRule extends CommitteeDocumentRule 
                                      implements AddCommitteeMembershipRule,
+                                                AddCommitteeMembershipRoleRule,
                                                 SaveCommitteeMembershipRule {
 
     final String PROPERTY_NAME_PREFIX = "document.committeeList[0].committeeMemberships[";
@@ -51,7 +53,7 @@ public class CommitteeMembershipRule extends CommitteeDocumentRule
      * Process the validation rules for an <code>{@link AddCommitteeMembershipEvent}</code>.
      * 
      * @param addProtocolParticipantEvent
-     * @return <code>true</code> if valid, <code>false</code> otherwise
+     * @return <code>true</code> if all validation rules are passed, <code>false</code> otherwise
      */
     public boolean processAddCommitteeMembershipBusinessRules(AddCommitteeMembershipEvent addCommitteeMembershipEvent) {
         final String PROPERTY_NAME_PERSON_NAME = "membershipHelper.newCommitteeMembership.personName";
@@ -85,13 +87,44 @@ public class CommitteeMembershipRule extends CommitteeDocumentRule
         return isDuplicate;        
     }
     
+//    public boolean processAddCommitteeMembershipRoleRules(AddCommitteeMembershipRoleEvent addCommitteeMembershipRuleEvent) {
+//        // TODO Auto-generated method stub
+//        return false;
+//    }
     /**
-     * @see org.kuali.kra.committee.rules.CommitteeDocumentRule#processSaveCommitteeMembershipBusinessRules(org.kuali.kra.committee.rule.event.SaveCommitteeMembershipEvent)
+     * Process the validation rules for an <code>{@link AddCommitteeMembershipEvent}</code>.
+     * 
+     * @param addProtocolParticipantEvent
+     * @return <code>true</code> if all validation rules are passed, <code>false</code> otherwise
      */
-    @Override
+    public boolean processAddCommitteeMembershipRoleBusinessRules(AddCommitteeMembershipRoleEvent addCommitteeMembershipRoleEvent) {
+        boolean isValid = true;
+        
+        CommitteeMembershipRole membershipRole = addCommitteeMembershipRoleEvent.getCommitteeMembershipRole();
+        String membershipRoleCode = membershipRole.getMembershipRoleCode();
+        int membershipIndex = addCommitteeMembershipRoleEvent.getMembershipIndex();
+        
+        if (StringUtils.isBlank(membershipRoleCode)) {
+            isValid = false;
+            reportError(PROPERTY_NAME_NEW_ROLE_PREFIX + membershipIndex + PROPERTY_NAME_ROLE_CODE, 
+                    KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_NOT_SPECIFIED);
+//        } else if (!isValidMembershipRoleCode(membershipRoleCode)) {
+//            isValid = false;
+//        } else if (!isDuplicate)
+//            isValid = false;
+        }
+        
+        return isValid;
+    }
+
+    /**
+     * Process the validation rules for an <code>{@link SaveCommitteeMembershipEvent}</code>.
+     * 
+     * @param saveProtocolParticipantEvent
+     * @return <code>true</code> if all validation rules are passed, <code>false</code> otherwise
+     */
     public boolean processSaveCommitteeMembershipBusinessRules(SaveCommitteeMembershipEvent saveCommitteeMembershipEvent) {
         boolean isValid = true;
-        //CommitteeMembership committeeMembership = saveCommitteeMembershipEvent.getCommitteeMembership();
         CommitteeDocument committeeDocument = (CommitteeDocument)saveCommitteeMembershipEvent.getDocument();
         List<CommitteeMembership> committeeMemberships = committeeDocument.getCommittee().getCommitteeMemberships();
         
@@ -107,6 +140,8 @@ public class CommitteeMembershipRule extends CommitteeDocumentRule
      * 
      * Date validation is done by the data dictionary.  
      * Validate that Term End date is greater than or equal to the Term Start date.
+     * 
+     * This method also displays the appropriate error message.
      * 
      * @param committeeMembership - the committeeMembership which contains the to be validated data
      * @param membershipIndex - the index position of the committeeMembership
@@ -138,14 +173,21 @@ public class CommitteeMembershipRule extends CommitteeDocumentRule
         isValid &= membershipRolesExists(membershipRoles, membershipIndex);
         
         for (CommitteeMembershipRole membershipRole : membershipRoles) {
-            isValid &= isValidRoleStartEndDates(membershipRole, membershipIndex, membershipRoles.indexOf(membershipRole));
-            isValid &= roleDatesWithinTermDates(committeeMembership, membershipRole, membershipIndex, membershipRoles.indexOf(membershipRole));
+            int roleIndex = membershipRoles.indexOf(membershipRole);
+            isValid &= isValidRoleStartEndDates(membershipRole, membershipIndex, roleIndex);
+            isValid &= roleDatesWithinTermDates(committeeMembership, membershipRole, membershipIndex, roleIndex);
+            // To keep the errors more comprehensible the role overlap check is done after other errors are resolved
+            if (isValid) {
+                isValid &= noRoleOverlap(committeeMembership, membershipRole, membershipIndex, roleIndex);
+            }
         }
         return isValid;
     }
 
     /**
      * Verify that a role exists
+     * 
+     * This method also displays the appropriate error message.
      * 
      * @param membershipRoles - list of CommitteeMembershipRoles for the committeeMembership
      * @param membershipIndex - the index position of the committeeMembership
@@ -162,10 +204,12 @@ public class CommitteeMembershipRule extends CommitteeDocumentRule
     }
 
     /**
-     * Verify the Role Start and Role End dates
+     * Verify the Role Start and Role End dates.
      * 
      * Date validation is done by the data dictionary.  
      * Validate that Role End date is greater than or equal to the Role Start date.
+     * 
+     * This method also displays the appropriate error message.
      * 
      * @param membershipRole - the membershipRole which contains the to be validated data
      * @param membershipIndex - the index position of the committeeMembership
@@ -185,7 +229,9 @@ public class CommitteeMembershipRule extends CommitteeDocumentRule
     }
 
     /**
-     * Verify that the role dates are within the term period
+     * Verify that the role dates are within the term period.
+     * 
+     * This method also displays the appropriate error message.
      * 
      * @param committeeMembership - the committeeMembership of whom the membershipRole is to be validated
      * @param membershipRole - the membershipRole which contains the to be validated data
@@ -212,13 +258,55 @@ public class CommitteeMembershipRule extends CommitteeDocumentRule
         return isValid;
     }
     
+    /**
+     * Check that the role does not have other entries whose time periods overlap.
+     * (A member may not have the same role for overlapping time periods.)
+     * 
+     * @param committeeMembership - the committeeMembership of whom the membershipRole is to be validated
+     * @param membershipRole - the membershipRole which contains the to be validated data
+     * @param membershipIndex - the index position of the committeeMembership
+     * @param indexOf - the index position of the membershipRole
+     * @return <code>true</code> if the role does not overlap with another role, <code>false</code> otherwise
+     */
     private boolean noRoleOverlap(CommitteeMembership committeeMembership, CommitteeMembershipRole membershipRole,
             int membershipIndex, int roleIndex) {
         boolean isValid = true;
-        // TODO: cniesen - continue implementation 
+        List<CommitteeMembershipRole> membershipRoles = committeeMembership.getMembershipRoles();
+
+        for (CommitteeMembershipRole tmpRole : membershipRoles) {
+            isValid &= !hasOverlapingRolePeriods(membershipRole, tmpRole, membershipIndex, roleIndex);
+        }
+        
         return isValid;
     }
 
+    /**
+     * Check if the start or end date of the checkRole is within the period of the otherRole.
+     * 
+     * This method also displays the appropriate error message.
+     * 
+     * @param checkRole - the role whose time start and end date is being verified
+     * @param otherRole - the role against which the verification is performed
+     * @return <code>true</code> if role periods overlap, <code>false</code> otherwise
+     */
+    private boolean hasOverlapingRolePeriods(CommitteeMembershipRole checkRole, CommitteeMembershipRole otherRole, int membershipIndex, int roleIndex) {
+        boolean isOverlaping = false;
+        
+        if (!checkRole.equals(otherRole)) {
+            if (isWithinPeriod(checkRole.getStartDate(), otherRole.getStartDate(), otherRole.getEndDate())) {
+                reportError(PROPERTY_NAME_PREFIX + membershipIndex + PROPERTY_NAME_ROLE_PREFIX + roleIndex + PROPERTY_NAME_ROLE_START_DATE, 
+                        KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_DUPLICATE);
+                isOverlaping = true;
+            }
+            if (isWithinPeriod(checkRole.getEndDate(), otherRole.getStartDate(), otherRole.getEndDate())) {
+                reportError(PROPERTY_NAME_PREFIX + membershipIndex + PROPERTY_NAME_ROLE_PREFIX + roleIndex + PROPERTY_NAME_ROLE_END_DATE, 
+                        KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_DUPLICATE);
+                isOverlaping = true;
+            }
+        }
+        return isOverlaping;
+    }
+    
     /**
      * Verify that end date is after start date.
      * 
@@ -227,11 +315,7 @@ public class CommitteeMembershipRule extends CommitteeDocumentRule
      * @return <code>true</code> if endDate is on or after startDate, <code>false</code> otherwise
      */
     private boolean isValidStartEndDate(Date startDate, Date endDate) {
-        if (endDate.before(startDate)) {
-            return false;
-        } else {
-            return true;
-        }
+        return !endDate.before(startDate);
     }
     
     /**
@@ -243,11 +327,7 @@ public class CommitteeMembershipRule extends CommitteeDocumentRule
      * @return <code>true</code> if date is within the period, <code>false</code> otherwise
      */
     private boolean isWithinPeriod(Date date, Date periodStart, Date periodEnd) {
-        if ((date.before(periodStart)) || (date.after(periodEnd))) {
-            return false;
-        } else {
-            return true;
-        }
+        return !(date.before(periodStart) || date.after(periodEnd));
     }
-    
+
 }

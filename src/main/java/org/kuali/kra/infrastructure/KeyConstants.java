@@ -339,6 +339,7 @@ public final class KeyConstants {
     public static final String ERROR_COMMITTEE_MEMBERSHIP_PERSON_NOT_SPECIFIED = "error.committee.membership.person.not.specified";
     public static final String ERROR_COMMITTEE_MEMBERSHIP_PERSON_DUPLICATE = "error.committee.membership.person.duplicate";
     public static final String ERROR_COMMITTEE_MEMBERSHIP_TERM_END_DATE_BEFORE_TERM_START_DATE = "error.committee.membership.termEndDate.before.termStartDate";
+    public static final String ERROR_COMMITTEE_MEMBERSHIP_ROLE_NOT_SPECIFIED = "error.committee.membership.role.not.specified";
     public static final String ERROR_COMMITTEE_MEMBERSHIP_ROLE_END_DATE_BEFORE_ROLE_START_DATE = "error.committee.membership.roleEndDate.before.roleStartDate";
     public static final String ERROR_COMMITTEE_MEMBERSHIP_ROLE_START_DATE_OUTSIDE_TERM = "error.committee.membership.roleStartDate.outside.term";
     public static final String ERROR_COMMITTEE_MEMBERSHIP_ROLE_END_DATE_OUTSIDE_TERM = "error.committee.membership.roleEndDate.outside.term";
