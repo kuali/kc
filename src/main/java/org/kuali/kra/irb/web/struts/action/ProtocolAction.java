@@ -41,6 +41,7 @@ import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.document.authorization.ProtocolTask;
 import org.kuali.kra.irb.service.ProtocolAuthorizationService;
 import org.kuali.kra.irb.service.ProtocolPersonTrainingService;
+import org.kuali.kra.irb.service.ProtocolPersonnelService;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
@@ -71,7 +72,8 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     }
 
     public ActionForward personnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        getProtocolPersonTrainingService().isPersonTrained(((ProtocolForm) form).getProtocolDocument().getProtocol().getProtocolPersons());
+        getProtocolPersonnelService().selectProtocolUnit(((ProtocolForm) form).getProtocolDocument().getProtocol().getProtocolPersons());
+        getProtocolPersonTrainingService().updatePersonTrained(((ProtocolForm) form).getProtocolDocument().getProtocol().getProtocolPersons());
         ((ProtocolForm)form).getPersonnelHelper().prepareView();
         return mapping.findForward("personnel");
     }
@@ -243,11 +245,19 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     }
 
     /**
-     * This method is to get protocol personnel service
-     * @return ProtocolPersonnelService
+     * This method is to get protocol personnel training service
+     * @return ProtocolPersonTrainingService
      */
     private ProtocolPersonTrainingService getProtocolPersonTrainingService() {
         return (ProtocolPersonTrainingService)KraServiceLocator.getService("protocolPersonTrainingService");
     }
     
+    /**
+     * This method is to get protocol personnel service
+     * @return ProtocolPersonnelService
+     */
+    private ProtocolPersonnelService getProtocolPersonnelService() {
+        return (ProtocolPersonnelService)KraServiceLocator.getService("protocolPersonnelService");
+    }
+
 }

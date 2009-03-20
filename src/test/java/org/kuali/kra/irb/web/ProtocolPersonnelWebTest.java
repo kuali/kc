@@ -43,7 +43,6 @@ public class ProtocolPersonnelWebTest extends ProtocolWebTestBase{
     private static final String CO_INVESTIGATOR_PERSON_ID = "000000002";
     private static final String CO_INVESTIGATOR_NAME = "Philip Berg";
     private static final String CO_INVESTIGATOR_ROLE_ID = "COI";
-    private static final String CORRESPONDENT_ROLE_ID = "CRC";
     private static final String NEW_PERSON_NAME_FIELD = "personnelHelper.newProtocolPerson.personName";
     private static final String NEW_PERSON_ROLE_ID_FIELD = "personnelHelper.newProtocolPerson.protocolPersonRoleId";
     private static final String ADD_PERSON_BUTTON = "methodToCall.addProtocolPerson";
@@ -187,31 +186,16 @@ public class ProtocolPersonnelWebTest extends ProtocolWebTestBase{
         assertFalse(personnelPage.asText().contains(CO_INVESTIGATOR_NAME));
     }
 
-    /**
-     * This method is to test role change
-     * Role PI can be changed to CO-I and vice versa
-     * Test change PI to CRC role and the system should validate that
-     * and throw appropriate error message.
-     * @throws Exception
-     */
-    @Test
-    public void testChangeRoleFailure() throws Exception {
-        HtmlPage personnelPage = getPersonnelPage();
-        setFieldValue(personnelPage, PERSON_PI_ROLE_ID_FIELD, CORRESPONDENT_ROLE_ID);
-        personnelPage = savePage(personnelPage);
-        assertContains(personnelPage, ERROR_ROLE_CHANGE_NOT_PERMITTED);                         
-    }
     
     /**
-     * This method test a valid role change
+     * This method test an exception
      * Change role of PI to CO-I and save.
-     * Here role change is valid and there is no error message
-     * though the page is not saved as we changed PI to CO-I and there
-     * should exists at least one PI for a protocol
+     * This should throw an exception indicating at least one PI should 
+     * be assigned for a protocol
      * @throws Exception
      */
     @Test
-    public void testChangeRoleSuccess() throws Exception {
+    public void testAtleastOnePI() throws Exception {
         HtmlPage personnelPage = getPersonnelPage();
         setFieldValue(personnelPage, PERSON_PI_ROLE_ID_FIELD, CO_INVESTIGATOR_ROLE_ID);
         personnelPage = savePage(personnelPage);

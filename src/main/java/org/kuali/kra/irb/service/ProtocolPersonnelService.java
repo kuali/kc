@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolPerson;
+import org.kuali.kra.irb.bo.ProtocolPersonRoleMapping;
 import org.kuali.kra.irb.bo.ProtocolUnit;
 
 
@@ -49,16 +50,16 @@ public interface ProtocolPersonnelService {
     /**
      * This method will delete ProtocolUnit from the List of protocol person units at specified position(selectedPersonIndex)
      * @param protocolPersonUnits - New list of protocol units for each person
-     * @param protocolPerson - Selected protocol person from the list
      * @param selectedPersonIndex - Unit is removed from specific person in the list
      * @param lineNumber - deleted line number
      */
-    public abstract void deleteProtocolPersonUnit(Protocol protocol, ProtocolPerson protocolPerson, int selectedPersonIndex, int lineNumber);
+    public abstract void deleteProtocolPersonUnit(Protocol protocol, int selectedPersonIndex, int lineNumber);
 
     /**
      * This method is used to update selected protocol lead unit in the list.
      * Each Protocol Person has index of selected lead unit
      * UI display is handled through selectedUnit index to group lead unit radio.
+     * Update selected unit in the list based on selectedUnit indicator in each protocolPerson
      * @param protocolPersons
      */
     public void updateProtocolUnit(List<ProtocolPerson> protocolPersons);
@@ -66,6 +67,7 @@ public interface ProtocolPersonnelService {
     /**
      * This method is to select protocol lead unit for each person.
      * UI display is handled through selectedUnit index to group lead unit radio.
+     * So we need to set this indicator for each person once we fetch all protocolPersons.
      * @param protocolPersons
      */
     public void selectProtocolUnit(List<ProtocolPerson> protocolPersons);
@@ -87,17 +89,6 @@ public interface ProtocolPersonnelService {
      */
     public boolean isDuplicatePerson(List<ProtocolPerson> protocolPersons, ProtocolPerson newProtocolPerson);
 
-    /**
-     * This method is triggered when user change a protocol role for a person.
-     * A role can be changed only to specific other roles defined.
-     * It is to check whether role change is permitted for the action performed
-     * Verify protocol role mapping to figure out whether that change is valid
-     * @param protocol
-     * @param selectedPersonIndex
-     * @return true / false
-     */
-    public boolean isRoleChangePermitted(ProtocolPerson protocolPerson);
-    
     /**
      * This method is to get principal investigator person
      * This method also helps to check whether at least one investigator exists in person list
@@ -129,5 +120,29 @@ public interface ProtocolPersonnelService {
      * @param protocolPersons
      */
     public void switchInvestigatorCoInvestigatorRole(List<ProtocolPerson> protocolPersons);
+    
+    /**
+     * This method is to get valid target person roles for a given source role.
+     * A role can be changed only to specific other roles defined.
+     * @param sourceRoleId
+     * @return
+     */
+    public List<ProtocolPersonRoleMapping> getPersonRoleMapping(String sourceRoleId);
+    
+
+    /**
+     * This method is to check whether new unit already exists in the list
+     * for a person
+     * @param protocolPerson
+     * @param newProtocolUnit
+     * @return true / false
+     */
+    public boolean isDuplicateUnit(ProtocolPerson protocolPerson, ProtocolUnit newProtocolUnit);
+    
+    /**
+     * This method is to update person unit based on change in person role.
+     * @param protocolPerson
+     */
+    public void syncPersonRoleAndUnit(ProtocolPerson protocolPerson);
 
 }

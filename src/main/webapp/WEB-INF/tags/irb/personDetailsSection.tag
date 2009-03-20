@@ -15,6 +15,8 @@
 --%>
 <%@ include file="/WEB-INF/jsp/irb/ProtocolPerson.jsp"%>
 
+<jsp:useBean id="paramMap" class="java.util.HashMap"/>
+<c:set target="${paramMap}" property="sourceRoleId" value="${KualiForm.document.protocolList[0].protocolPersons[personIndex].protocolPersonRoleId}" />
 <c:choose>
 	<c:when test="${empty KualiForm.document.protocolList[0].protocolPersons[personIndex].personName}">
 		<c:set var="parentTabName" value="" />
@@ -38,7 +40,18 @@
 								</div>
 								</th>
                   				<td colspan="3">
-              						<kul:htmlControlAttribute property="${protocolPerson}.protocolPersonRoleId" attributeEntry="${protocolPersonAttributes.protocolPersonRoleId}" />
+					                <html:select property="${protocolPerson}.protocolPersonRoleId" tabindex="0">
+					                <c:forEach items="${krafn:getOptionList('org.kuali.kra.irb.lookup.keyvalue.ProtocolPersonRoleValuesFinder', paramMap)}" var="option">
+					                <c:choose>
+					                    <c:when test="${KualiForm.document.protocol.protocolPersons[personIndex].protocolPersonRoleId == option.key}">
+					                    <option value="${option.key}" selected>${option.label}</option>
+					                    </c:when>
+					                    <c:otherwise>
+					                    <option value="${option.key}">${option.label}</option>
+					                    </c:otherwise>
+					                </c:choose>
+					                </c:forEach>
+					                </html:select>
             						<html:image property="methodToCall.updateProtocolPersonView.${protocolPerson}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-updateview.gif" title="Update View" alt="Update View" styleClass="tinybutton"/>
                    				</td>
                 				</tr>              

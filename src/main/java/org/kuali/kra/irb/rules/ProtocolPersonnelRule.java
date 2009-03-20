@@ -26,24 +26,24 @@ import org.kuali.kra.irb.bo.ProtocolUnit;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.rule.AddProtocolPersonnelRule;
 import org.kuali.kra.irb.rule.SaveProtocolPersonnelRule;
-import org.kuali.kra.irb.rule.UpdateProtocolPersonnelRule;
 import org.kuali.kra.irb.rule.event.AddProtocolPersonnelEvent;
 import org.kuali.kra.irb.rule.event.SaveProtocolPersonnelEvent;
-import org.kuali.kra.irb.rule.event.UpdateProtocolPersonnelEvent;
 import org.kuali.kra.irb.service.ProtocolPersonnelService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 /**
  * This class contains rules to validate protocol personnel.
  */
-public class ProtocolPersonnelRule extends ResearchDocumentRuleBase implements AddProtocolPersonnelRule, SaveProtocolPersonnelRule, UpdateProtocolPersonnelRule {
+public class ProtocolPersonnelRule extends ResearchDocumentRuleBase implements AddProtocolPersonnelRule, SaveProtocolPersonnelRule {
 
-    private static final String ERROR_PROPERTY_NEW_PERSON = "personnelHelper.newProtocolPerson"; 
+    private static final String ERROR_PROPERTY_NEW_PERSON = "newProtocolPerson"; 
     private static final String ERROR_PROPERTY_EXISTING_PERSON = "document.protocolList[0].protocolPersons";
     private static final String ERROR_PROPERTY_PERSON_ROLE = ".protocolPersonRoleId"; 
     private static final String ERROR_PROPERTY_PERSON_UNIT = ".protocolPersonUnit"; 
     private String ERROR_PROPERTY_PERSON_INDEX = "[personIndex]";
     private String PERSON_INDEX = "personIndex";
+    private ProtocolPersonnelService protocolPersonnelService;
+    private static final String REFERENCE_PERSON_ROLE = "protocolPersonRole";
     
     /**
      * @see org.kuali.kra.irb.rule.AddProtocolPersonnelRule#processAddProtocolPersonnelBusinessRules(org.kuali.kra.irb.rule.event.AddProtocolPersonnelEvent)
@@ -62,20 +62,39 @@ public class ProtocolPersonnelRule extends ResearchDocumentRuleBase implements A
     }
     
     /**
-     * This method is to check if Principal Investigator role is already assigned to a person
-     * get investigator person if existing so that this helps to display message in appropriate tab.
+     * This method is to check for duplicate investigator
      * @param protocolPerson
      * @param protocolPersons
-     * @return true / false
+     * @param newPerson
+     * @return
      */
     private boolean isDuplicateInvestigator(ProtocolPerson protocolPerson, List<ProtocolPerson> protocolPersons, boolean newPerson) {
         boolean investigatorDuplicate = false;
         if(getProtocolPersonnelService().isPrincipalInvestigator(protocolPerson)) {
-            ProtocolPerson principalInvestigator = getProtocolPersonnelService().getPrincipalInvestigator(protocolPersons);
-            if(principalInvestigator != null) {
-                investigatorDuplicate = true;
-                reportError(formatErrorPropertyName(newPerson, protocolPersons.indexOf(principalInvestigator), ERROR_PROPERTY_PERSON_ROLE), KeyConstants.ERROR_PROTOCOL_PERSONNEL_MULTIPLE_PI);
-            }
+            investigatorDuplicate = isDuplicatePI(protocolPersons, protocolPersons, true);
+        }
+        return investigatorDuplicate;
+    }
+    
+    /**
+     * This method is to check if Principal Investigator role is already assigned to a person
+     * get investigator person if existing so that this helps to display message in appropriate tab.
+     * Invoked before adding new person and before save.
+     * When adding new person, search the list if new person role is PI
+     * Before save search the list and identify PI. Filter the person list excluding identified PI.
+     * Search the filtered list to see if there is another person with PI role and if exists 
+     * add error key for that person to display appropriate error message.
+     * @param searchableProtocolPersons - filtered list of protocol persons. Filtered before save.
+     * @param allProtocolPersons - entire person list
+     * @param newPerson - to identify whether invoked during add or save
+     * @return
+     */
+    private boolean isDuplicatePI(List<ProtocolPerson> searchableProtocolPersons, List<ProtocolPerson> allProtocolPersons, boolean newPerson) {
+        boolean investigatorDuplicate = false;
+        ProtocolPerson principalInvestigator = getProtocolPersonnelService().getPrincipalInvestigator(searchableProtocolPersons);
+        if(principalInvestigator != null) {
+            investigatorDuplicate = true;
+            reportError(formatErrorPropertyName(newPerson, allProtocolPersons.indexOf(principalInvestigator), ERROR_PROPERTY_PERSON_ROLE), KeyConstants.ERROR_PROTOCOL_PERSONNEL_MULTIPLE_PI);
         }
         return investigatorDuplicate;
     }
@@ -140,7 +159,10 @@ public class ProtocolPersonnelRule extends ResearchDocumentRuleBase implements A
      * @return ProtocolPersonnelService
      */
     private ProtocolPersonnelService getProtocolPersonnelService() {
-        return KraServiceLocator.getService(ProtocolPersonnelService.class);
+        if(protocolPersonnelService == null) {
+            protocolPersonnelService = KraServiceLocator.getService(ProtocolPersonnelService.class);
+        }
+        return protocolPersonnelService;
     }
     
     /**
@@ -158,7 +180,6 @@ public class ProtocolPersonnelRule extends ResearchDocumentRuleBase implements A
     public boolean processSaveProtocolPersonnelBusinessRules(SaveProtocolPersonnelEvent saveProtocolPersonnelEvent) {
         boolean isValid = true;
         ProtocolDocument protocolDocument = (ProtocolDocument)saveProtocolPersonnelEvent.getDocument();
-        isValid &= isValidRoleChange(protocolDocument.getProtocol().getProtocolPersons());
         isValid &= isValidPrincipalInvestigator(protocolDocument.getProtocol().getProtocolPersons());
         isValid &= isValidPersonUnit(protocolDocument.getProtocol().getProtocolPersons());
         return isValid;
@@ -169,11 +190,15 @@ public class ProtocolPersonnelRule extends ResearchDocumentRuleBase implements A
      * Method is triggered during save to check the person list
      * Check to see if PI exists. If found check to see if there is a duplicate.
      * Only one PI is permitted for a protocol.
+     * PI and Co-I roles can switch. 
+     * If Co-I is changed to PI then PI role is changed to Co-I and vice versa.
+     * Perform switch before validating duplicate Investigator.
      * @param protocolPersons
      * @return
      */
     private boolean isValidPrincipalInvestigator(List<ProtocolPerson> protocolPersons) {
         boolean investigatorValid = true;
+        getProtocolPersonnelService().switchInvestigatorCoInvestigatorRole(protocolPersons);
         ProtocolPerson principalInvestigator = getProtocolPersonnelService().getPrincipalInvestigator(protocolPersons);
         if(principalInvestigator == null) {
             investigatorValid = false;
@@ -182,7 +207,7 @@ public class ProtocolPersonnelRule extends ResearchDocumentRuleBase implements A
             List<ProtocolPerson> existingProtocolPersons = new ArrayList<ProtocolPerson>();
             existingProtocolPersons.addAll(protocolPersons);
             existingProtocolPersons.remove(principalInvestigator);
-            investigatorValid = !isDuplicateInvestigator(principalInvestigator, existingProtocolPersons, false);
+            investigatorValid = !isDuplicatePI(existingProtocolPersons, protocolPersons, false); 
         }
         return investigatorValid;
     }
@@ -190,7 +215,8 @@ public class ProtocolPersonnelRule extends ResearchDocumentRuleBase implements A
     /**
      * This method is to check if at least one unit is defined for a person.
      * We need to figure out whether unit details is mandatory for the person.
-     * Check person role to find whether unit is required.
+     * Check person role to find whether unit is required. Roles might have changed before
+     * Save is trigger. So refresh person role to see if Unit Details is Required.
      * If unit(s) defined, check to see if one is marked as lead unit.
      * @param protocolPersons
      * @return true / false
@@ -198,36 +224,24 @@ public class ProtocolPersonnelRule extends ResearchDocumentRuleBase implements A
     private boolean isValidPersonUnit(List<ProtocolPerson> protocolPersons) {
         boolean personUnitValid = true;
         for(ProtocolPerson protocolPerson : protocolPersons) {
-            if(isUnitDetailsRequired(protocolPerson)) {
+            protocolPerson.refreshReferenceObject(REFERENCE_PERSON_ROLE);
+            if(protocolPerson.getProtocolPersonRole().isUnitDetailsRequired()) {
                 int personIndex = protocolPersons.indexOf(protocolPerson);
                 if(protocolPerson.getProtocolUnits().size() == 0) {
                     reportError(formatErrorPropertyName(false, personIndex, ERROR_PROPERTY_PERSON_UNIT), KeyConstants.ERROR_PROTOCOL_UNIT_NOT_FOUND);
+                    personUnitValid = false;
                 }else {
                     boolean leadUnitExists = isPersonLeadUnitExists(protocolPerson.getProtocolUnits());
                     if(!leadUnitExists) {
                         reportError(formatErrorPropertyName(false, personIndex, ERROR_PROPERTY_PERSON_UNIT), KeyConstants.ERROR_PROTOCOL_LEAD_UNIT_NOT_DEFINED);
+                        personUnitValid = false;
                     }
-                    personUnitValid &= leadUnitExists;
                 }
             }
         }
         return personUnitValid;
     }
     
-    /**
-     * This method is to check whether unit details should be configured for the 
-     * person based on person role.
-     * @param protocolPerson
-     * @return true / false
-     */
-    private boolean isUnitDetailsRequired(ProtocolPerson protocolPerson) {
-        if(protocolPerson.getProtocolPersonRole().isUnitDetailsRequired()) {
-            return true;
-        }else {
-            return false;
-        }
-    }
- 
     /**
      * This method is to check if lead unit exists in a protocol unit list
      * defined for a person
@@ -243,68 +257,6 @@ public class ProtocolPersonnelRule extends ResearchDocumentRuleBase implements A
             }
         }
         return unitExists;
-    }
-    
-    /**
-     * This method is to check whether role change is permitted for each person role
-     * Method triggered during save to check all persons in the list
-     * If role change is valid check to see if we need to switch Investigator and Co-Investigator
-     * roles.
-     * @param protocolPersons
-     * @return
-     */
-    private boolean isValidRoleChange(List<ProtocolPerson> protocolPersons) {
-        boolean roleChangeValid = true;
-        for(ProtocolPerson protocolPerson : protocolPersons) {
-            if(!protocolPerson.getPreviousPersonRoleId().equalsIgnoreCase(protocolPerson.getProtocolPersonRoleId())) {
-                int personIndex = protocolPersons.indexOf(protocolPerson);
-                roleChangeValid &= isRoleValid(protocolPerson, personIndex);
-            }
-        }
-        if(roleChangeValid) {
-            updateInvestigatorCoInvestigatorRole(protocolPersons);
-        }
-        return roleChangeValid;
-    }
-    
-    /**
-     * This method is to update investigator co-investigator roles when
-     * person switch roles.
-     * @param protocolPersons
-     */
-    private void updateInvestigatorCoInvestigatorRole(List<ProtocolPerson> protocolPersons) {
-        getProtocolPersonnelService().switchInvestigatorCoInvestigatorRole(protocolPersons);
-    }
-    
-    /**
-     * This method is to check if changed role is valid and permitted
-     * invoked from valid check during save and update view methods
-     * @param protocolPerson
-     * @param personIndex
-     * @return
-     */
-    private boolean isRoleValid(ProtocolPerson protocolPerson, int personIndex) {
-        if(!getProtocolPersonnelService().isRoleChangePermitted(protocolPerson)) {
-            reportError(formatErrorPropertyName(false, personIndex, ERROR_PROPERTY_PERSON_ROLE), KeyConstants.ERROR_ROLE_CHANGE_NOT_PERMITTED);
-            return false;
-        }
-        return true;
-    }
-
-
-    /**
-     * @see org.kuali.kra.irb.rule.UpdateProtocolPersonnelRule#processUpdateProtocolPersonnelBusinessRules(org.kuali.kra.irb.rule.event.UpdateProtocolPersonnelEvent)
-     */
-    public boolean processUpdateProtocolPersonnelBusinessRules(UpdateProtocolPersonnelEvent updateProtocolPersonnelEvent) {
-        boolean isValid = true;
-        int PersonIndex = updateProtocolPersonnelEvent.getPersonIndex();
-        List<ProtocolPerson> protocolPersons = ((ProtocolDocument)updateProtocolPersonnelEvent.getDocument()).getProtocol().getProtocolPersons(); 
-        ProtocolPerson protocolPerson = protocolPersons.get(PersonIndex);
-        isValid &= isRoleValid(protocolPerson, PersonIndex);
-        if(isValid) {
-            updateInvestigatorCoInvestigatorRole(protocolPersons);
-        }
-        return isValid;
     }
     
 }

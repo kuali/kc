@@ -45,8 +45,18 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     private static final int PI_CHANGED = 0;
     private static final int COI_CHANGED = 1;
     private static final int ROLE_UNCHANGED = -1;
+    private static final int RESET_SELECTED_UNIT_FOR_PERSON = 0;
     
     
+    /**
+     * Sets the protocolPersonTrainingService attribute value.
+     * 
+     * @param protocolPersonTrainingService The protocolPersonTrainingService to set.
+     */
+    public void setProtocolPersonTrainingService(ProtocolPersonTrainingService protocolPersonTrainingService) {
+        this.protocolPersonTrainingService = protocolPersonTrainingService;
+    }
+
     /**
      * @see org.kuali.kra.irb.service.ProtocolPersonnelService#addProtocolPerson(org.kuali.kra.irb.bo.Protocol, org.kuali.kra.irb.bo.ProtocolPerson)
      */
@@ -90,44 +100,24 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
 
         newProtocolPersonUnit.refreshReferenceObject(REFERENCE_UNIT);
         protocolPerson.addProtocolUnit(newProtocolPersonUnit);
-        setLeadUnitFlag(protocolPerson);
-
+        if(newProtocolPersonUnit.getLeadUnitFlag()) {
+            protocolPerson.setSelectedUnit(protocolPerson.getProtocolUnits().size() - 1);
+            setLeadUnit(protocolPerson);
+        }
         protocolPersonUnits.remove(selectedPersonIndex);
         protocolPersonUnits.add(selectedPersonIndex,new ProtocolUnit());
-        
     }
     
     /**
      * @see org.kuali.kra.irb.service.ProtocolPersonnelService#deleteProtocolPersonUnit(java.util.List, org.kuali.kra.irb.bo.ProtocolPerson, int)
      */
-    public void deleteProtocolPersonUnit(Protocol protocol, ProtocolPerson protocolPerson, int selectedPersonIndex, int lineNumber) {
+    public void deleteProtocolPersonUnit(Protocol protocol, int selectedPersonIndex, int lineNumber) {
         ProtocolPerson selectedPerson =  protocol.getProtocolPerson(selectedPersonIndex);
         ProtocolUnit protocolUnit = selectedPerson.getProtocolUnit(lineNumber);
-        selectedPerson.getProtocolUnits().remove(protocolUnit);
-    }
-    
-    /**
-     * @see org.kuali.kra.irb.service.ProtocolPersonnelService#isRoleChangePermitted(org.kuali.kra.irb.bo.Protocol, int)
-     */
-    public boolean isRoleChangePermitted(ProtocolPerson protocolPerson) {
-        boolean isRolePermitted = true;
-        if(!protocolPerson.getPreviousPersonRoleId().equalsIgnoreCase(protocolPerson.getProtocolPersonRoleId())) {
-            if(!isRolePermitted(getPersonRoleMapping(protocolPerson.getPreviousPersonRoleId()), protocolPerson)) {
-                isRolePermitted = false;
-            }
+        if(protocolUnit.getLeadUnitFlag()) {
+            selectedPerson.setSelectedUnit(RESET_SELECTED_UNIT_FOR_PERSON);
         }
-        return isRolePermitted;
-    }
-    
-    /**
-     * This method is to check whether role change is permitted based on role mapping
-     * and the role that has changed
-     * @param personRoleMappings
-     * @param selectedProtocolPerson
-     * @return true / false
-     */
-    private boolean isRolePermitted(List<ProtocolPersonRoleMapping> personRoleMappings, ProtocolPerson selectedProtocolPerson) {
-        return personRoleMappings.contains(selectedProtocolPerson.getProtocolPersonRoleId());
+        selectedPerson.getProtocolUnits().remove(protocolUnit);
     }
     
     /**
@@ -219,7 +209,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
      * @param sourceRoleId
      * @return Collection<PersonTraining>
      */
-    private List<ProtocolPersonRoleMapping> getPersonRoleMapping(String sourceRoleId) {
+    public List<ProtocolPersonRoleMapping> getPersonRoleMapping(String sourceRoleId) {
         List<ProtocolPersonRoleMapping> personRoleMappings = new ArrayList<ProtocolPersonRoleMapping>();
         Map<String, Object> matchingKeys = new HashMap<String, Object>();
         matchingKeys.put("sourceRoleId", sourceRoleId);
@@ -232,11 +222,40 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
      */
     public void updateProtocolUnit(List<ProtocolPerson> protocolPersons) {
         for(ProtocolPerson protocolPerson : protocolPersons) {
-            if(protocolPerson.getProtocolUnits().size() > 0) {
-                protocolPerson.resetAllProtocolLeadUnits();
-                setLeadUnitFlag(protocolPerson);
+            if(!isUnitDetailsRequired(protocolPerson)) {
+                protocolPerson.getProtocolUnits().removeAll(protocolPerson.getProtocolUnits());
+            }else {
+                setLeadUnit(protocolPerson);
             }
         }
+    }
+    
+    /**
+     * This method is to reset all existing lead units and set the current
+     * selected unit.
+     * @param protocolPerson
+     */
+    private void setLeadUnit(ProtocolPerson protocolPerson) {
+        if(protocolPerson.getProtocolUnits().size() > 0) {
+            protocolPerson.resetAllProtocolLeadUnits();
+            setLeadUnitFlag(protocolPerson);
+        }
+    }
+    
+    /**
+     * This method is to check whether unit details is requried for a person role.
+     * Refresh person role first so that if there is any change in the role before save the new 
+     * role will be set to that person.
+     * @param protocolPerson
+     * @return boolean true / false
+     */
+    private boolean isUnitDetailsRequired(ProtocolPerson protocolPerson) {
+        boolean unitDetailsRequried = true;
+        protocolPerson.refreshReferenceObject(REFERENCE_PERSON_ROLE);
+        if (!protocolPerson.getProtocolPersonRole().isUnitDetailsRequired()) {
+            unitDetailsRequried = false;
+        }
+        return unitDetailsRequried;
     }
     
     /**
@@ -275,6 +294,20 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
             }
         }
         return investigatorExists;
+    }
+
+    /**
+     * @see org.kuali.kra.irb.service.ProtocolPersonnelService#isDuplicateUnit(java.util.List, org.kuali.kra.irb.bo.ProtocolUnit)
+     */
+    public boolean isDuplicateUnit(ProtocolPerson protocolPerson, ProtocolUnit newProtocolUnit) {
+        boolean duplicateUnit = false;
+        for(ProtocolUnit protocolUnit : protocolPerson.getProtocolUnits()) {
+            if(protocolUnit.getUnitNumber().equalsIgnoreCase(newProtocolUnit.getUnitNumber())) {
+                duplicateUnit = true;
+                break;
+            }
+        }
+        return duplicateUnit;
     }
     
     /**
@@ -335,6 +368,15 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
         }
         
     }
+    
+    /**
+     * @see org.kuali.kra.irb.service.ProtocolPersonnelService#syncPersonRoleAndUnit(org.kuali.kra.irb.bo.ProtocolPerson)
+     */
+    public void syncPersonRoleAndUnit(ProtocolPerson protocolPerson) {
+        if(!isUnitDetailsRequired(protocolPerson)) {
+            protocolPerson.getProtocolUnits().removeAll(protocolPerson.getProtocolUnits());
+        }
+    }
 
     
     /**
@@ -378,15 +420,6 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
      */
     public ProtocolPersonTrainingService getProtocolPersonTrainingService() {
         return protocolPersonTrainingService;
-    }
-
-    /**
-     * Sets the protocolPersonTrainingService attribute value.
-     * 
-     * @param protocolPersonTrainingService The protocolPersonTrainingService to set.
-     */
-    public void setProtocolPersonTrainingService(ProtocolPersonTrainingService protocolPersonTrainingService) {
-        this.protocolPersonTrainingService = protocolPersonTrainingService;
     }
 
 }

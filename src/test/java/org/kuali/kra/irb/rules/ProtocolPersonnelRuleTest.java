@@ -122,24 +122,6 @@ public class ProtocolPersonnelRuleTest extends ProtocolRuleTestBase {
     }
 
     /**
-     * This method is to test invalid person role change
-     * Role PI can be changed to CO-I and vice versa
-     * Test change PI to CRC role and the system should validate that
-     * and throw appropriate error message.
-     * @throws Exception
-     */
-    @Test
-    public void testInvalidChangeRole() throws Exception {
-        ProtocolDocument document  = getNewProtocolDocument();
-        setProtocolRequiredFields(document);
-        document.getProtocol().getProtocolPerson(0).setProtocolPersonRoleId(CORRESPONDENT_ROLE_ID);
-        boolean rulesPassed = rule.processSaveProtocolPersonnelBusinessRules(getSaveProtocolPersonnelEvent(document));
-        assertFalse(rulesPassed);
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-        assertTrue(errorMap.containsMessageKey(KeyConstants.ERROR_ROLE_CHANGE_NOT_PERMITTED));
-    }
-
-    /**
      * This method is to get a person with Co-Investigator role
      * @return ProtocolPerson
      */

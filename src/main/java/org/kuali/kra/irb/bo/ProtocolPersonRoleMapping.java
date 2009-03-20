@@ -31,7 +31,9 @@ public class ProtocolPersonRoleMapping extends KraPersistableBusinessObjectBase 
     private Integer roleMappingId; 
     private String sourceRoleId; 
     private String targetRoleId; 
-	
+    private ProtocolPersonRole sourceRole;
+    private ProtocolPersonRole targetRole;
+    
 	public ProtocolPersonRoleMapping() { 
 
 	} 
@@ -75,6 +77,26 @@ public class ProtocolPersonRoleMapping extends KraPersistableBusinessObjectBase 
         hashMap.put("targetRoleId", getTargetRoleId());
 		return hashMap;
 	}
+
+
+    public ProtocolPersonRole getSourceRole() {
+        return sourceRole;
+    }
+
+
+    public void setSourceRole(ProtocolPersonRole sourceRole) {
+        this.sourceRole = sourceRole;
+    }
+
+
+    public ProtocolPersonRole getTargetRole() {
+        return targetRole;
+    }
+
+
+    public void setTargetRole(ProtocolPersonRole targetRole) {
+        this.targetRole = targetRole;
+    }
 
 	
 }

@@ -30,6 +30,8 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.service.ProtocolLocationService;
 import org.kuali.kra.irb.service.ProtocolPersonnelService;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 
 /**
  * 
@@ -457,12 +459,28 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         managedLists.add(getProtocolLocations());
         managedLists.add(getProtocolRiskLevels());
         managedLists.add(getProtocolParticipants());
+        managedLists.add(getProtocolUnits());
         managedLists.add(getProtocolPersons());
         managedLists.add(getSpecialReviews());
       //  for (AbstractSpecialReview specialReview : getSpecialReviews()) {
         //    managedLists.addAll(specialReview.buildListOfDeletionAwareLists());
        // }
         return managedLists;
+    }
+    
+    /**
+     * This method is to return all protocol units for each person.
+     * Purpose of this method is to use the list in buildListOfDeletionAwareLists.
+     * Looks like OJB is not searching beyond the first level. It doesn't delete
+     * from collection under ProtocolPerson.
+     * @return List<ProtocolUnit>
+     */
+    private List<ProtocolUnit> getProtocolUnits() {
+        List<ProtocolUnit> protocolUnits = new ArrayList<ProtocolUnit>();
+        for (ProtocolPerson protocolPerson : getProtocolPersons()) {
+            protocolUnits.addAll(protocolPerson.getProtocolUnits());
+        }
+        return protocolUnits;
     }
 
     /**
