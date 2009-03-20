@@ -29,13 +29,13 @@ import org.kuali.kra.irb.bo.ProtocolPerson;
 public interface ProtocolPersonTrainingService {
 
     /**
-     * This method is to check whether person has attended any training session.
-     * Refer to person training object and return boolean.
-     * This method is invoked to set the trained flag for each person in the list.
+     * This method is to set trained flag for each person
+     * This method is invoked while navigating to personnel page to set the trained flag for 
+     * each person in the list.
      * Hook this service method to external / other training session as required. 
      * @param protocolPersons
      */
-    public void isPersonTrained(List<ProtocolPerson> protocolPersons);
+    public void updatePersonTrained(List<ProtocolPerson> protocolPersons);
     
     /**
      * This method is to set trained flag for a person

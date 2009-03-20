@@ -37,8 +37,8 @@ public class PersonnelHelper {
      */
     private ProtocolForm form;
     
-    private boolean modifyProtocol = false;
-    ProtocolPerson newProtocolPerson;
+    private boolean modifyProtocol;
+    private ProtocolPerson newProtocolPerson;
     private List<ProtocolUnit> newProtocolPersonUnits;
    
     public PersonnelHelper(ProtocolForm form) {

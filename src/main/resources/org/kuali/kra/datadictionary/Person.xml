@@ -797,6 +797,8 @@
   <bean id="Person-countryCode" parent="Person-countryCode-parentBean" />
 
   <bean id="Person-countryCode-parentBean" abstract="true" parent="KraAttributeReferenceDummy-countryCode">
+    <property name="label" value="Country" />
+    <property name="shortLabel" value="Country" />
   </bean>
   <bean id="Person-postalCode" parent="Person-postalCode-parentBean" />
 

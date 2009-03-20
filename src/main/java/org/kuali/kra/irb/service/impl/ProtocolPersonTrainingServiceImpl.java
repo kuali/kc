@@ -37,7 +37,7 @@ public class ProtocolPersonTrainingServiceImpl implements ProtocolPersonTraining
     /**
      * @see org.kuali.kra.irb.service.ProtocolPersonTrainingService#isPersonTrained(java.lang.String)
      */
-    public void isPersonTrained(List<ProtocolPerson> protocolPersons) {
+    public void updatePersonTrained(List<ProtocolPerson> protocolPersons) {
         for(ProtocolPerson protocolPerson : protocolPersons) {
             setTrainedFlag(protocolPerson);
         }

@@ -15,16 +15,19 @@
  */
 package org.kuali.kra.irb.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolPerson;
 import org.kuali.kra.irb.bo.ProtocolUnit;
 import org.kuali.kra.irb.service.impl.ProtocolPersonnelServiceImpl;
+import org.kuali.kra.irb.service.mocks.MockProtocolPersonTrainingService;
 
 public class ProtocolPersonnelServiceTest {
     protected static final String PRINCIPAL_INVESTIGATOR_PERSON_ID = "000000001";
@@ -33,8 +36,21 @@ public class ProtocolPersonnelServiceTest {
     protected static final String CO_INVESTIGATOR_ROLE_ID = "COI";
     protected static final String PRINCIPAL_INVESTIGATOR_ROLE_ID = "PI";
     protected static final String PRINCIPAL_INVESTIGATOR_UNIT = "BL-BL";
+    protected static final String CO_INVESTIGATOR_UNIT = "000001";
     protected static final String CORRESPONDENT_ROLE_ID = "CRC";
     protected static final String PRINCIPAL_INVESTIGATOR_NAME = "CLINKSCALES";
+    protected static final String PERSON_ID = "personId";
+    private ProtocolPersonTrainingService protocolPersonTrainingService;
+    private ProtocolPersonnelServiceImpl protocolPersonnelService;
+    ProtocolPersonnelService service;
+
+    @Before
+    public void setUp() throws Exception {
+        protocolPersonTrainingService = buildPersonTrainingService(); 
+        protocolPersonnelService  = new ProtocolPersonnelServiceImpl();
+        protocolPersonnelService.setProtocolPersonTrainingService(protocolPersonTrainingService);
+        service = new ProtocolPersonnelServiceImpl();
+    }
     
     /**
      * This method is to add a new protocol person
@@ -42,9 +58,8 @@ public class ProtocolPersonnelServiceTest {
      */
     @Test
     public void testAddProtocolPerson() throws Exception {
-        ProtocolPersonnelService service  = new ProtocolPersonnelServiceImpl();
         Protocol protocol = new Protocol();
-        service.addProtocolPerson(protocol, getCoInvestigatorPerson() );
+        protocolPersonnelService.addProtocolPerson(protocol, getCoInvestigatorPerson() );
         assertEquals(1, protocol.getProtocolPersons().size());
     }
 
@@ -54,7 +69,6 @@ public class ProtocolPersonnelServiceTest {
      */
     @Test
     public void testDelProtocolPerson() throws Exception {
-        ProtocolPersonnelService service  = new ProtocolPersonnelServiceImpl();
         Protocol protocol = new Protocol();
         ProtocolPerson protocolPerson = getCoInvestigatorPerson();
         protocolPerson.setDelete(true);
@@ -70,7 +84,6 @@ public class ProtocolPersonnelServiceTest {
      */
     @Test
     public void testAddProtocolUnit() throws Exception {
-        ProtocolPersonnelService service  = new ProtocolPersonnelServiceImpl();
         Protocol protocol = new Protocol();
         ProtocolPerson protocolPerson = getCoInvestigatorPerson();
         List<ProtocolUnit> protocolPersonUnits = new ArrayList<ProtocolUnit>();
@@ -85,8 +98,7 @@ public class ProtocolPersonnelServiceTest {
      * @throws Exception
      */
     @Test
-    public void testPIExists() throws Exception {
-        ProtocolPersonnelService service  = new ProtocolPersonnelServiceImpl();
+    public void testIsPIExists() throws Exception {
         List<ProtocolPerson> protocolPersons = new ArrayList<ProtocolPerson>();
         protocolPersons.add(getPrincipalInvestigatorPerson());
         protocolPersons.add(getCoInvestigatorPerson());
@@ -100,7 +112,6 @@ public class ProtocolPersonnelServiceTest {
      */
     @Test
     public void testDuplicatePerson() throws Exception {
-        ProtocolPersonnelService service  = new ProtocolPersonnelServiceImpl();
         List<ProtocolPerson> protocolPersons = new ArrayList<ProtocolPerson>();
         protocolPersons.add(getPrincipalInvestigatorPerson());
         protocolPersons.add(getCoInvestigatorPerson());
@@ -114,7 +125,6 @@ public class ProtocolPersonnelServiceTest {
      */
     @Test
     public void testPIPerson() throws Exception {
-        ProtocolPersonnelService service  = new ProtocolPersonnelServiceImpl();
         List<ProtocolPerson> protocolPersons = new ArrayList<ProtocolPerson>();
         protocolPersons.add(getPrincipalInvestigatorPerson());
         protocolPersons.add(getCoInvestigatorPerson());
@@ -122,6 +132,48 @@ public class ProtocolPersonnelServiceTest {
         assertEquals(investigator.getProtocolPersonRoleId(), PRINCIPAL_INVESTIGATOR_ROLE_ID);
     }
 
+    /**
+     * This method is to test switch roles. PI and Co-Investigators roles can be switched.
+     * If a PI is set to Co-Investigator then existing Co-Investigator is set as PI
+     * @throws Exception
+     */
+    @Test
+    public void testSwitchInvestigatorCoInvestigatorRole() throws Exception {
+        List<ProtocolPerson> protocolPersons = getProtocolPersons();
+        assertEquals(protocolPersons.get(0).getProtocolPersonRoleId(), PRINCIPAL_INVESTIGATOR_ROLE_ID);
+        assertEquals(protocolPersons.get(1).getProtocolPersonRoleId(), CO_INVESTIGATOR_ROLE_ID);
+        protocolPersons.get(0).setProtocolPersonRoleId(CO_INVESTIGATOR_ROLE_ID);
+        service.switchInvestigatorCoInvestigatorRole(protocolPersons);
+        assertEquals(protocolPersons.get(0).getProtocolPersonRoleId(), CO_INVESTIGATOR_ROLE_ID);
+        assertEquals(protocolPersons.get(1).getProtocolPersonRoleId(), PRINCIPAL_INVESTIGATOR_ROLE_ID);
+    }
+    
+    /**
+     * This method to test select protocol unit function
+     * It is to select set the unit position with the lead unit flag on
+     * for a person.
+     * @throws Exception
+     */
+    @Test
+    public void testSelectProtocolUnit() throws Exception {
+        List<ProtocolPerson> protocolPersons = getProtocolPersons();
+        protocolPersons.get(0).setSelectedUnit(1); 
+        protocolPersons.get(0).getProtocolUnits().addAll(getProtocolUnits());
+        service.selectProtocolUnit(protocolPersons);
+        assertEquals(protocolPersons.get(0).getSelectedUnit(), 0);
+    }
+    
+    /**
+     * This method is to get a list of protocol persons
+     * @return
+     */
+    private List<ProtocolPerson> getProtocolPersons() {
+        List<ProtocolPerson> protocolPersons = new ArrayList<ProtocolPerson>();
+        protocolPersons.add(getPrincipalInvestigatorPerson());
+        protocolPersons.add(getCoInvestigatorPerson());
+        return protocolPersons;
+    }
+    
     /**
      * This method is to get a new protocol person
      * @return ProtocolPerson
@@ -151,7 +203,7 @@ public class ProtocolPersonnelServiceTest {
 
     /**
      * This method is to get protocol unit
-     * @return
+     * @return ProtocolUnit
      */
     private ProtocolUnit getProtocolUnit() {
         ProtocolUnit protocolUnit = new ProtocolUnit();
@@ -160,4 +212,28 @@ public class ProtocolPersonnelServiceTest {
         return protocolUnit;
     }
 
+    /**
+     * This method is to get a list of protocol units with lead unit flag set
+     * @return List<ProtocolUnit>
+     */
+    private List<ProtocolUnit> getProtocolUnits() {
+        List<ProtocolUnit> protocolUnits = new ArrayList<ProtocolUnit>();
+        ProtocolUnit protocolUnit = new ProtocolUnit();
+        protocolUnit.setUnitNumber(PRINCIPAL_INVESTIGATOR_UNIT);
+        protocolUnit.setLeadUnitFlag(true);
+        protocolUnits.add(protocolUnit);
+        protocolUnit = new ProtocolUnit();
+        protocolUnit.setUnitNumber(CO_INVESTIGATOR_UNIT);
+        protocolUnit.setLeadUnitFlag(false);
+        return protocolUnits;
+    }
+
+    /**
+     * This method is to build a mock of PersonTrainingService
+     * @return
+     */
+    private MockProtocolPersonTrainingService buildPersonTrainingService() {
+        MockProtocolPersonTrainingService personTrainingService = new MockProtocolPersonTrainingService();
+        return personTrainingService;
+    }
 }

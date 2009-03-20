@@ -18,9 +18,12 @@ package org.kuali.kra.irb.rules;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.bo.ProtocolPerson;
 import org.kuali.kra.irb.bo.ProtocolUnit;
+import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.rule.AddProtocolUnitRule;
 import org.kuali.kra.irb.rule.event.AddProtocolUnitEvent;
+import org.kuali.kra.irb.service.ProtocolPersonnelService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.UnitService;
 
@@ -42,7 +45,12 @@ public class ProtocolUnitRule extends ResearchDocumentRuleBase implements AddPro
 
         ProtocolUnit protocolUnit = addProtocolUnitEvent.getProtocolUnit();
         int personIndex = addProtocolUnitEvent.getPersonIndex();
-        isValid &= isEmptyProtocolUnit(protocolUnit, personIndex);
+        ProtocolPerson protocolPerson = ((ProtocolDocument) addProtocolUnitEvent.getDocument()).getProtocol().getProtocolPerson(personIndex);
+        isValid &= !isEmptyProtocolUnit(protocolUnit, personIndex);
+        if(isValid) {
+            isValid &= isValidProtocolUnit(protocolUnit, personIndex);
+            isValid &= !isDuplicateProtocolUnit(protocolPerson, protocolUnit, personIndex);
+        }
         return isValid;
     }
     
@@ -53,14 +61,28 @@ public class ProtocolUnitRule extends ResearchDocumentRuleBase implements AddPro
      * @return
      */
     private boolean isEmptyProtocolUnit(ProtocolUnit protocolUnit, int personIndex) {
-        boolean validUnit = true;
+        boolean isEmpty = false;
         if(StringUtils.isBlank(protocolUnit.getUnitNumber())) {
             reportError(formatErrorPropertyName(personIndex, ERROR_PROPERTY_UNIT_NUMBER), KeyConstants.ERROR_PROTOCOL_UNIT_INVALID);
-            validUnit = false;
-        }else {
-            validUnit = isValidProtocolUnit(protocolUnit, personIndex);
+            isEmpty = true;
         }
-        return validUnit;
+        return isEmpty;
+    }
+    
+    /**
+     * This method is to check whether new unit added already exists in the list
+     * @param protocolPerson
+     * @param protocolUnit
+     * @param personIndex
+     * @return
+     */
+    private boolean isDuplicateProtocolUnit(ProtocolPerson protocolPerson, ProtocolUnit protocolUnit, int personIndex) {
+        boolean duplicateUnit = false;
+        duplicateUnit = getProtocolPersonnelService().isDuplicateUnit(protocolPerson, protocolUnit);
+        if(duplicateUnit) {
+            reportError(formatErrorPropertyName(personIndex, ERROR_PROPERTY_UNIT_NUMBER), KeyConstants.ERROR_PROTOCOL_UNIT_DUPLICATE);
+        }
+        return duplicateUnit;
     }
     
     /**
@@ -102,4 +124,12 @@ public class ProtocolUnitRule extends ResearchDocumentRuleBase implements AddPro
         return KraServiceLocator.getService(UnitService.class);
     }
     
+    /**
+     * This method is to get protocol personnel service
+     * @return ProtocolPersonnelService
+     */
+    private ProtocolPersonnelService getProtocolPersonnelService() {
+        return KraServiceLocator.getService(ProtocolPersonnelService.class);
+    }
+
 }
