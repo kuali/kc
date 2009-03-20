@@ -59,7 +59,6 @@ public class ProtocolHelper {
 
     private String referenceId1Label;
     private String referenceId2Label;
-    private boolean personTrainingSectionRequired;
 
     private boolean modifyProtocol = false;
     private boolean billableReadOnly = false;
@@ -83,7 +82,6 @@ public class ProtocolHelper {
         prepareRequiredFields();
         syncFundingSources(getProtocol());
         initializeConfigurationParams();
-        initializeTrainingSection();
         initializePermissions(getProtocol());    
     }
     
@@ -102,10 +100,6 @@ public class ProtocolHelper {
         setDisplayBillable(flag);
     }
 
-    private void initializeTrainingSection() {
-        setPersonTrainingSectionRequired(Boolean.parseBoolean(getParameterValue(Constants.PARAMETER_PROTOCOL_PERSON_TRAINING_SECTION)));
-    }
-    
     /**
      * This method initializes permission related to form.
      * Note: Billable permission is only set if displayBillable is true.
@@ -170,13 +164,6 @@ public class ProtocolHelper {
          return user.getPersonUserIdentifier();
     }
 
-    public boolean isPersonTrainingSectionRequired() {
-        return personTrainingSectionRequired;
-    }
-
-    public void setPersonTrainingSectionRequired(boolean personTrainingSectionRequired) {
-        this.personTrainingSectionRequired = personTrainingSectionRequired;
-    }   
     public void syncFundingSources(Protocol protocol) {
         if (protocol != null) {
             ProtocolFundingSource fundingSource = protocol.getNewFundingSource();
@@ -314,7 +301,10 @@ public class ProtocolHelper {
         findAndSetLeadUnitFromFields();
 
         // since we are saving, we will always clear the PI and reset from field values
-        getProtocolPersonnelService().updatePrincipalInvestigator(getProtocol(),createPrincipalInvestigator());
+        /* check if PI is set otherwise it will throw exception */
+        if(!StringUtils.isBlank(getPrincipalInvestigatorId())) {
+            getProtocolPersonnelService().updatePrincipalInvestigator(getProtocol(),createPrincipalInvestigator());
+        }
         getProtocol().setLeadUnitForValidation(createLeadUnit());
 
     }

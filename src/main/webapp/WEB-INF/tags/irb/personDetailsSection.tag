@@ -66,7 +66,7 @@
                    				</td>
                 				</tr>
 
-    							<c:if test="${KualiForm.protocolHelper.personTrainingSectionRequired}">
+    							<c:if test="${KualiForm.personnelHelper.personTrainingSectionRequired}">
 	                				<tr>
 	                  					<th> 
 											<div align="right">
