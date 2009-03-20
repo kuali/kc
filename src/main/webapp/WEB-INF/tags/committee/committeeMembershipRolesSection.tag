@@ -58,7 +58,7 @@
 
                                <td align="left" valign="middle" class="infoline">
                                    <div align=center>
-                                       <html:image property="methodToCall.addCommitteeMembershipRole.${committeeMembership}"
+                                       <html:image property="methodToCall.addCommitteeMembershipRole.${committeeMembership}.line${memberIndex}"
                                                    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
                                                    styleClass="tinybutton"/>
                                     </div>
