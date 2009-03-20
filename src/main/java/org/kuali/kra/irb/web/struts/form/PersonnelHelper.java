@@ -15,11 +15,15 @@
  */
 package org.kuali.kra.irb.web.struts.form;
 
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.bo.Protocol;
@@ -40,7 +44,8 @@ public class PersonnelHelper {
     private boolean modifyProtocol;
     private ProtocolPerson newProtocolPerson;
     private List<ProtocolUnit> newProtocolPersonUnits;
-   
+    private boolean personTrainingSectionRequired;
+
     public PersonnelHelper(ProtocolForm form) {
         setForm(form); 
         setNewProtocolPerson(new ProtocolPerson());
@@ -49,6 +54,7 @@ public class PersonnelHelper {
     
     public void prepareView() {
         initializePermissions(getProtocol());    
+        initializeTrainingSection();
     }
     
     private Protocol getProtocol() {
@@ -108,5 +114,25 @@ public class PersonnelHelper {
         this.form = form;
     }
 
+    private void initializeTrainingSection() {
+        setPersonTrainingSectionRequired(Boolean.parseBoolean(getParameterValue(Constants.PARAMETER_PROTOCOL_PERSON_TRAINING_SECTION)));
+    }
+
+    /**
+     * This method is to get parameter value
+     * @return parameter value
+     */
+    private String getParameterValue(String parameterName) {
+        KualiConfigurationService configService = getService(KualiConfigurationService.class);
+        return (configService.getParameter(Constants.PARAMETER_MODULE_PROTOCOL, Constants.PARAMETER_COMPONENT_DOCUMENT, parameterName)).getParameterValue();        
+    }
+
+    public boolean isPersonTrainingSectionRequired() {
+        return personTrainingSectionRequired;
+    }
+
+    public void setPersonTrainingSectionRequired(boolean personTrainingSectionRequired) {
+        this.personTrainingSectionRequired = personTrainingSectionRequired;
+    }   
 
 }
