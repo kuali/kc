@@ -197,17 +197,6 @@
 		                      								  attributeEntry="${personAttributes.addressLine1}" 
 		                                                      readOnly="true"/> 
 		                    	</td>
-		                    	<th width="15%">
-									<div align="right">
-										<kul:htmlAttributeLabel attributeEntry="${personAttributes.city}"/>
-									</div>
-								</th>
-		                    	<td align="left" width="30%">
-		                    		<kul:htmlControlAttribute property="${person}.city" 
-		                    		attributeEntry="${personAttributes.city}" readOnly="true"/>
-		                    	</td>
-		                  	</tr>
-		                	<tr>
 		                    	<th> 
 									<div align="right">
 										<kul:htmlAttributeLabel attributeEntry="${personAttributes.addressLine2}"/>
@@ -217,15 +206,6 @@
 		                      		<kul:htmlControlAttribute property="${person}.addressLine2" 
 		                      								  attributeEntry="${personAttributes.addressLine2}" 
 		                                                      readOnly="true"/> 
-		                    	</td>
-		                    	<th width="15%">
-									<div align="right">
-										<kul:htmlAttributeLabel attributeEntry="${personAttributes.county}"/>
-									</div>
-								</th>
-		                    	<td align="left" width="30%">
-		                    		<kul:htmlControlAttribute property="${person}.county" 
-		                    		attributeEntry="${personAttributes.county}" readOnly="true"/>
 		                    	</td>
 		                  	</tr>
 		                	<tr>
@@ -241,6 +221,26 @@
 		                    	</td>
 		                    	<th width="15%">
 									<div align="right">
+										<kul:htmlAttributeLabel attributeEntry="${personAttributes.city}"/>
+									</div>
+								</th>
+		                    	<td align="left" width="30%">
+		                    		<kul:htmlControlAttribute property="${person}.city" 
+		                    		attributeEntry="${personAttributes.city}" readOnly="true"/>
+		                    	</td>
+		                  	</tr>
+		                	<tr>
+		                    	<th width="15%">
+									<div align="right">
+										<kul:htmlAttributeLabel attributeEntry="${personAttributes.county}"/>
+									</div>
+								</th>
+		                    	<td align="left" width="30%">
+		                    		<kul:htmlControlAttribute property="${person}.county" 
+		                    		attributeEntry="${personAttributes.county}" readOnly="true"/>
+		                    	</td>
+		                    	<th width="15%">
+									<div align="right">
 										<kul:htmlAttributeLabel attributeEntry="${personAttributes.state}"/>
 									</div>
 								</th>
@@ -249,7 +249,6 @@
 		                    		attributeEntry="${personAttributes.state}" readOnly="true"/>
 		                    	</td>
 		                  	</tr>
-
 		                	<tr>
 		                    	<th> 
 									<div align="right">
