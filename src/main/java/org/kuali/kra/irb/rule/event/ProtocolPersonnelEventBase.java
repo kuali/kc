@@ -33,21 +33,19 @@ public abstract class ProtocolPersonnelEventBase extends KraDocumentEventBase im
             ProtocolPerson protocolPerson) {
         super(description, errorPathPrefix, document);
         setProtocolPerson(protocolPerson);
-        this.protocolPerson = (ProtocolPerson) ObjectUtils.deepCopy(protocolPerson);
-
         logEvent();
     }
 
     protected ProtocolPersonnelEventBase(String description, String errorPathPrefix, ProtocolDocument document) {
         super(description, errorPathPrefix, document);
-        setProtocolPerson(protocolPerson);
+        //setProtocolPerson(protocolPerson);
         logEvent();
     }
     
     protected ProtocolPersonnelEventBase(String description, String errorPathPrefix, ProtocolDocument document,
             int personIndex) {
         super(description, errorPathPrefix, document);
-        setProtocolPerson(protocolPerson);
+        //setProtocolPerson(protocolPerson);
         this.personIndex = personIndex;
         logEvent();
     }

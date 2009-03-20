@@ -30,7 +30,6 @@ import org.kuali.kra.common.permissions.web.bean.User;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.bo.ProtocolSpecialReview;
-import org.kuali.kra.irb.bo.ProtocolUnit;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.rule.AddProtocolFundingSourceRule;
 import org.kuali.kra.irb.rule.AddProtocolLocationRule;
@@ -39,7 +38,6 @@ import org.kuali.kra.irb.rule.AddProtocolPersonnelRule;
 import org.kuali.kra.irb.rule.AddProtocolReferenceRule;
 import org.kuali.kra.irb.rule.AddProtocolUnitRule;
 import org.kuali.kra.irb.rule.SaveProtocolPersonnelRule;
-import org.kuali.kra.irb.rule.UpdateProtocolPersonnelRule;
 import org.kuali.kra.irb.rule.event.AddProtocolFundingSourceEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolLocationEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolParticipantEvent;
@@ -47,7 +45,6 @@ import org.kuali.kra.irb.rule.event.AddProtocolPersonnelEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolReferenceEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolUnitEvent;
 import org.kuali.kra.irb.rule.event.SaveProtocolPersonnelEvent;
-import org.kuali.kra.irb.rule.event.UpdateProtocolPersonnelEvent;
 import org.kuali.kra.rule.CustomAttributeRule;
 import org.kuali.kra.rule.SpecialReviewRule;
 import org.kuali.kra.rule.event.AddSpecialReviewEvent;
@@ -62,7 +59,7 @@ import org.kuali.kra.service.UnitService;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolParticipantRule, AddProtocolLocationRule, AddProtocolPersonnelRule, SaveProtocolPersonnelRule, AddProtocolFundingSourceRule, PermissionsRule, AddProtocolUnitRule, UpdateProtocolPersonnelRule, CustomAttributeRule, SpecialReviewRule<ProtocolSpecialReview> {
+public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolParticipantRule, AddProtocolLocationRule, AddProtocolPersonnelRule, SaveProtocolPersonnelRule, AddProtocolFundingSourceRule, PermissionsRule, AddProtocolUnitRule, CustomAttributeRule, SpecialReviewRule<ProtocolSpecialReview> {
     private static final String PROTOCOL_PIID_FORM_ELEMENT="protocolHelper.personId";
     private static final String PROTOCOL_LUN_FORM_ELEMENT="protocolHelper.leadUnitNumber";
     private static final String ERROR_PROPERTY_ORGANIZATION_ID = "protocolHelper.newProtocolLocation.organizationId"; 
@@ -238,15 +235,6 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         
     }
 
-    /**
-     * @see org.kuali.kra.irb.rule.UpdateProtocolPersonnelRule#processUpdateProtocolPersonnelBusinessRules(org.kuali.kra.irb.rule.event.UpdateProtocolPersonnelEvent)
-     */
-    public boolean processUpdateProtocolPersonnelBusinessRules(UpdateProtocolPersonnelEvent updateProtocolPersonnelEvent) {
-
-        return new ProtocolPersonnelRule().processUpdateProtocolPersonnelBusinessRules(updateProtocolPersonnelEvent);
-        
-    }
-    
     /**
      * @see org.kuali.kra.rule.CustomAttributeRule#processCustomAttributeRules(org.kuali.kra.rule.event.SaveCustomAttributeEvent)
      */

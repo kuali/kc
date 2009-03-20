@@ -36,8 +36,6 @@ import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.rule.event.AddProtocolPersonnelEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolUnitEvent;
 import org.kuali.kra.irb.rule.event.SaveProtocolPersonnelEvent;
-import org.kuali.kra.irb.rule.event.UpdateProtocolPersonnelEvent;
-import org.kuali.kra.irb.service.ProtocolPersonTrainingService;
 import org.kuali.kra.irb.service.ProtocolPersonnelService;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 
@@ -54,10 +52,8 @@ public class ProtocolPersonnelAction extends ProtocolAction {
      */
     @Override
     protected boolean isValidSave(ProtocolForm protocolForm) {    
+        getProtocolPersonnelService().updateProtocolUnit(getProtocolPersons(protocolForm));
         boolean rulePassed = applyRules(new SaveProtocolPersonnelEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument()));
-        if(rulePassed) {
-            getProtocolPersonnelService().updateProtocolUnit(getProtocolPersons(protocolForm));
-        }
         return rulePassed;
     }
     
@@ -66,8 +62,6 @@ public class ProtocolPersonnelAction extends ProtocolAction {
             throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
         getProtocolPersonnelService().selectProtocolUnit(getProtocolPersons(form));
-        //getProtocolPersonTrainingService().isPersonTrained(getProtocolPersons(form));
-        
         ((ProtocolForm)form).getPersonnelHelper().prepareView();
         
         return actionForward;
@@ -175,8 +169,7 @@ public class ProtocolPersonnelAction extends ProtocolAction {
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
         int selectedPersonIndex = getSelectedPersonIndex(request, protocolDocument);
-        ProtocolPerson protocolPerson = protocolDocument.getProtocol().getProtocolPerson(selectedPersonIndex);
-        getProtocolPersonnelService().deleteProtocolPersonUnit(protocolDocument.getProtocol(), protocolPerson, selectedPersonIndex, getSelectedLine(request));
+        getProtocolPersonnelService().deleteProtocolPersonUnit(protocolDocument.getProtocol(), selectedPersonIndex, getSelectedLine(request));
 
         return mapping.findForward(MAPPING_BASIC);
     }
@@ -194,11 +187,8 @@ public class ProtocolPersonnelAction extends ProtocolAction {
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
         int selectedPersonIndex = getSelectedPersonIndex(request, protocolDocument);
-        boolean rulePassed = applyRules(new UpdateProtocolPersonnelEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument(), selectedPersonIndex));
-        if(rulePassed) {
-            ProtocolPerson protocolPerson = protocolDocument.getProtocol().getProtocolPerson(selectedPersonIndex);
-            protocolPerson.refreshReferenceObject("protocolPersonRole");
-        }
+        getProtocolPersonnelService().switchInvestigatorCoInvestigatorRole(protocolDocument.getProtocol().getProtocolPersons());
+        getProtocolPersonnelService().syncPersonRoleAndUnit(protocolDocument.getProtocol().getProtocolPerson(selectedPersonIndex));
         return mapping.findForward(MAPPING_BASIC);
     }
 
