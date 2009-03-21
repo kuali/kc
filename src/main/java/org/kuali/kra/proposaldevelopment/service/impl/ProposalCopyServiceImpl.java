@@ -62,8 +62,10 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
+import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.service.PersonService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.KNSServiceLocator;
@@ -180,6 +182,10 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             // and we have a new proposal number.
             initializeAuthorization(newDoc);
             
+            if (criteria.getIncludeAttachments()) {
+                copyAttachments(doc, newDoc);
+            }
+            
 //          Copy over the budget(s) if required by the user.  newDoc must be saved so we know proposal number.
             if (criteria.getIncludeBudget()) {
                 copyBudget(doc, newDoc, criteria.getBudgetVersions());
@@ -252,11 +258,6 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         
         copyProposalProperties(src, dest);
         
-        // Copy over the attachments if required by the user.
-        
-        if (criteria.getIncludeAttachments()) {
-            copyAttachments(src, dest);
-        }
     }
 
     /**
@@ -741,35 +742,49 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     }
     
     /**
-     * Copy the Attachments (proposal, personal, and institutional) to the new document.
+     * Copy the Attachments (proposal, personal, and institutional) to the new document.  Does this
+     * by loading the actual attachments (since they are left out of the object graph under normal
+     * conditions, then copies the attachments (ProposalPersonBiographies, Narratives, and 
+     * InstituteAttachments).
      * 
      * @param src the source proposal development document, i.e. the original.
      * @param dest the destination proposal development document, i.e. the new document.
      */
     private void copyAttachments(ProposalDevelopmentDocument src, ProposalDevelopmentDocument dest) throws Exception {
         
-        // By default, attachment contents are not read when an attachment is read
-        // from the database.  This is for performance reasons due to the size of
-        // contents, i.e. they can be PDF files.  In order to perform the copy, we
-        // will load the contents into the source document.  The attachments will then
-        // be copied when the properties are copied below.
-        
+        NarrativeService narrativeService = dest.getNarrativeService();
+        ProposalPersonBiographyService propPersonBioService = dest.getProposalPersonBiographyService();
+ 
         loadAttachmentContents(src);
         
-        // Just copy over all of the data and we will make adjustments to it.
         
+        // Just copy over all of the data and we will make adjustments to it.
+
         List<DocProperty> properties = new ArrayList<DocProperty>();
         properties.add(getDocProperty("PropPersonBios"));
         copyProperties(src, dest, properties);
-        
+
+        /*
+        List<ProposalPersonBiography> propPersonBios = src.getPropPersonBios();
+        ProposalPersonBiography destPropPersonBio;
+        for (ProposalPersonBiography srcPropPersonBio : propPersonBios) {
+            destPropPersonBio = (ProposalPersonBiography)ObjectUtils.deepCopy(srcPropPersonBio);
+            propPersonBioService.addProposalPersonBiography(dest, destPropPersonBio);
+        }
+        */
         List<Narrative> narratives = src.getNarratives();
-        List<Narrative> newNarratives = copyNarratives(narratives, 1);
-        dest.setNarratives(newNarratives);
+        Narrative destNarrative;
+        for (Narrative srcNarrative : narratives) {
+            destNarrative = (Narrative)ObjectUtils.deepCopy(srcNarrative);
+            narrativeService.addNarrative(dest, destNarrative);
+        }
         
-        narratives = src.getInstituteAttachments();
-        dest.setInstituteAttachments(copyNarratives(narratives, newNarratives.size() + 1));
-        
-        // For the first adjustment, the Proposal Attachments must be set to "Incomplete".
+        List<Narrative> instituteAttachments = src.getInstituteAttachments();
+        Narrative destInstituteAttachment;
+        for (Narrative srcInstituteAttachment : instituteAttachments) {
+            destInstituteAttachment = (Narrative)ObjectUtils.deepCopy(srcInstituteAttachment);
+            narrativeService.addInstituteAttachment(dest, destInstituteAttachment);
+        }
         
         setProposalAttachmentsToIncomplete(dest);
     }
