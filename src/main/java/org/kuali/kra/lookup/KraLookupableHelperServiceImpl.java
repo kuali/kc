@@ -16,10 +16,10 @@
 package org.kuali.kra.lookup;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.util.ObjectUtils;
@@ -71,18 +71,27 @@ public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelp
      * @param className
      */
     protected void updateLookupField(Field field, String keyName, String className) {
-        field.setFieldConversions(keyName+":"+field.getPropertyName());
-        field.setLookupParameters(field.getPropertyName()+":"+keyName);
-        field.setInquiryParameters(field.getPropertyName()+":"+keyName);
-        field.setQuickFinderClassNameImpl(className);
+        if (StringUtils.isNotBlank(keyName) && StringUtils.isNotBlank(className)) {
+            field.setFieldConversions(keyName+":"+field.getPropertyName());
+            field.setLookupParameters(field.getPropertyName()+":"+keyName);
+            field.setInquiryParameters(field.getPropertyName()+":"+keyName);
+            field.setQuickFinderClassNameImpl(className);
+            if ("Not Available".equals(field.getPropertyValue())) {
+                field.setPropertyValue("");
+                field.setReadOnly(false);
+            }
+        } else {
+            field.setFieldConversions("");
+            field.setLookupParameters("");
+            field.setInquiryParameters("");
+            field.setQuickFinderClassNameImpl("");
+            field.setPropertyValue("Not Available");
+            field.setReadOnly(true);
+        }
         
     }
 
-    
-    // TODO : 3 methods should be implemented by child class
-    // maybe define this class/methods as abstract ?
-    // or maybe defined in interface
-    
+        
     /**
      * htmlaction for 'edit' link
      */
