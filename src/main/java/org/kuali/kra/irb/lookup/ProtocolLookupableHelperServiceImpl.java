@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
@@ -33,6 +34,7 @@ import org.kuali.kra.irb.bo.ProtocolPerson;
 import org.kuali.kra.irb.dao.ProtocolDao;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
+import org.kuali.rice.kns.util.KNSConstants;
 
 public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
     private List <String> searchFieldNames = new ArrayList <String> ();
@@ -44,7 +46,13 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
     
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-
+        // TODO : funding source temporarily unavailable. - remove after all are available
+        for (Entry<String,String> entry : fieldValues.entrySet()) {
+            if (entry.getKey().equals(ProtocolLookupConstants.Property.FUNDING_SOURCE) && "Not Available".equals(entry.getValue())) {
+                entry.setValue("");
+            } 
+        }
+        
         //need to set backlocation & docformkey here.  Otherwise, they are empty
         super.setBackLocationDocFormKey(fieldValues);
         return protocolDao.getProtocols(fieldValues);
@@ -97,8 +105,8 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
         searchMap.put(ProtocolLookupConstants.Key.FUNDING_SOURCE_PROPOSAL, "PROPOSAL");
         searchMap.put(ProtocolLookupConstants.Key.FUNDING_SOURCE_AWARD, "AWARD");
         // TODO : the rest fundingsource not ready yet
-        searchMap.put(ProtocolLookupConstants.Key.FUNDING_SOURCE_OTHER, "UNIT");
-        searchMap.put(ProtocolLookupConstants.Key.FUNDING_SOURCE_INSTITUTE_PROPOSALE, "UNIT");
+        searchMap.put(ProtocolLookupConstants.Key.FUNDING_SOURCE_OTHER, "NOTAVAILABLE");
+        searchMap.put(ProtocolLookupConstants.Key.FUNDING_SOURCE_INSTITUTE_PROPOSALE, "NOTAVAILABLE");
         searchMap.put(ProtocolLookupConstants.Property.RESEARCH_AREA_CODE, "RESEARCHAREA");
         
         searchFieldNames.add(ProtocolLookupConstants.Property.PERSON_ID);
@@ -144,7 +152,8 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
         UNIT(ProtocolLookupConstants.Property.UNIT_NUMBER,"org.kuali.kra.bo.Unit"),
         PROPOSAL(ProtocolLookupConstants.Property.PROPOSAL_NUMBER,"org.kuali.kra.irb.bo.LookupableDevelopmentProposal"),
         AWARD(ProtocolLookupConstants.Property.AWARD_NUMBER,"org.kuali.kra.award.bo.Award"),
-        RESEARCHAREA(ProtocolLookupConstants.Property.RESEARCH_AREA_CODE,"org.kuali.kra.bo.ResearchArea");
+        RESEARCHAREA(ProtocolLookupConstants.Property.RESEARCH_AREA_CODE,"org.kuali.kra.bo.ResearchArea"),
+        NOTAVAILABLE("","");
 
         private String keyName;
         private String className;
