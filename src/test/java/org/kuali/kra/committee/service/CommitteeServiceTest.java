@@ -20,6 +20,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.jmock.Expectations;
@@ -29,7 +30,9 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.committee.service.impl.CommitteeServiceImpl;
 
 /**
@@ -37,7 +40,9 @@ import org.kuali.kra.committee.service.impl.CommitteeServiceImpl;
  */
 @RunWith(JMock.class)
 public class CommitteeServiceTest {
-
+    
+    private static final String RESEARCH_AREA_CODE = "01.0101";
+    
     private Mockery context = new JUnit4Mockery();
     
     /**
@@ -96,5 +101,38 @@ public class CommitteeServiceTest {
         committeeService.setBusinessObjectService(businessObjectService);
         
         assertEquals(null, committeeService.getCommitteeById("999"));
+    }
+    
+    /**
+     * Verify that we can add a valid research area to a committee.
+     */
+    @Test
+    public void testAddResearchArea() {
+        CommitteeServiceImpl committeeService = new CommitteeServiceImpl();
+        Committee committee = new Committee();
+        
+        /*
+         * The CommitteServiceImpl will use the Business Object Service
+         * to query the database.  Since we "know" the internals to the
+         * CommitteeServiceImpl, we know data to be sent to the Business
+         * Object Service and we know that a ResearchArea will be returned.
+         */
+        final Map<String, Object> primaryKeys = new HashMap<String, Object>();
+        primaryKeys.put("researchAreaCode", RESEARCH_AREA_CODE);
+        
+        final ResearchArea researchArea = new ResearchArea();
+        researchArea.setResearchAreaCode(RESEARCH_AREA_CODE);
+        
+        final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
+        context.checking(new Expectations() {{
+            one(businessObjectService).findByPrimaryKey(ResearchArea.class, primaryKeys); will(returnValue(researchArea));
+        }});
+        committeeService.setBusinessObjectService(businessObjectService);
+        
+        committeeService.addResearchArea(committee, RESEARCH_AREA_CODE);
+        List<CommitteeResearchArea> researchAreas = committee.getCommitteeResearchAreas();
+        assertEquals(1, researchAreas.size());
+        
+        assertEquals(researchArea, researchAreas.get(0).getResearchArea());
     }
 }

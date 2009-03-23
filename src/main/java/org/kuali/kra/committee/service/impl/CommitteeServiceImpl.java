@@ -20,7 +20,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.committee.service.CommitteeService;
 
 /**
@@ -58,5 +60,22 @@ public class CommitteeServiceImpl implements CommitteeService {
             }
         }
         return committee;
+    }
+
+    /**
+     * @see org.kuali.kra.committee.service.CommitteeService#addResearchArea(org.kuali.kra.committee.bo.Committee, java.lang.String)
+     */
+    public void addResearchArea(Committee committee, String researchAreaCode) {
+        Map<String, String> primaryKeys = new HashMap<String, String>();
+        primaryKeys.put("researchAreaCode", researchAreaCode);
+        ResearchArea researchArea = (ResearchArea) businessObjectService.findByPrimaryKey(ResearchArea.class, primaryKeys);
+        if (researchArea != null) {  // Business rules should have detected invalid research area
+            CommitteeResearchArea committeeResearchArea = new CommitteeResearchArea();
+            committeeResearchArea.setCommittee(committee);
+            committeeResearchArea.setCommitteeId(committee.getId());
+            committeeResearchArea.setResearchArea(researchArea);
+            committeeResearchArea.setResearchAreaCode(researchAreaCode);
+            committee.getCommitteeResearchAreas().add(committeeResearchArea);
+        }
     }
 }
