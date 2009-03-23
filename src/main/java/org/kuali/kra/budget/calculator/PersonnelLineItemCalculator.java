@@ -18,7 +18,9 @@ package org.kuali.kra.budget.calculator;
 import static org.kuali.kra.logging.BufferedLogger.debug;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -64,17 +66,33 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
         return false;
     }
     
+    private Map<String, Boolean> saveApplyRateFlagsForReset() { 
+        Map<String, Boolean> applyRateFlags = new HashMap<String, Boolean>();
+        if(budgetPersonnelLineItem != null && CollectionUtils.isNotEmpty(budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts())) {
+            for(BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount : budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts()) {
+                applyRateFlags.put(budgetPersonnelCalculatedAmount.getRateClassCode() + budgetPersonnelCalculatedAmount.getRateTypeCode(), budgetPersonnelCalculatedAmount.getApplyRateFlag());
+            }
+        }
+        
+        return applyRateFlags;
+    }
+    
     @Override
     public void populateCalculatedAmountLineItems() {
        if (CollectionUtils.isEmpty(budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts())) { 
             budgetPersonnelLineItem.refreshReferenceObject("budgetPersonnelCalculatedAmounts");
        }
        Long versionNumber = -1L;
+       Map<String, Boolean> applyRateFlags = null;
        
        if (!isDocumentOhRateSameAsFormOhRate()){
            if (budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts().size() > 0) {
                versionNumber = budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts().get(0).getVersionNumber();
            }
+           
+           //Save applyRateFlag to set it back on the new Calculated Amounts
+           applyRateFlags = saveApplyRateFlagsForReset();
+           
            budgetPersonnelLineItem.setBudgetPersonnelCalculatedAmounts(new ArrayList<BudgetPersonnelCalculatedAmount>());
            setCalculatedAmounts(budgetDocument,budgetPersonnelLineItem);
            
@@ -92,6 +110,10 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
        for (BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount : budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts()) {
            budgetPersonnelCalculatedAmount.refreshReferenceObject("rateClass");
            budgetPersonnelCalculatedAmount.refreshReferenceObject("rateType");
+           
+           if(applyRateFlags != null && applyRateFlags.get(budgetPersonnelCalculatedAmount.getRateClassCode()+ budgetPersonnelCalculatedAmount.getRateTypeCode()) != null) {
+               budgetPersonnelCalculatedAmount.setApplyRateFlag(applyRateFlags.get(budgetPersonnelCalculatedAmount.getRateClassCode()+budgetPersonnelCalculatedAmount.getRateTypeCode()));
+           }
            debug(budgetPersonnelCalculatedAmount);
            debug(budgetPersonnelCalculatedAmount.getRateClass());
        }        
