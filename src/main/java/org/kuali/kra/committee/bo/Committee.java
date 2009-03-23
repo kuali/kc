@@ -76,6 +76,8 @@ public class Committee extends KraPersistableBusinessObjectBase {
     private List<CommitteeMembership> committeeMemberships;
     private List<CommitteeSchedule> committeeSchedules;
     
+    private List<CommitteeResearchArea> committeeResearchAreas;
+    
     // transient lookup fields
     private String membershipRoleCode;
     private String committeeChair;
@@ -86,6 +88,7 @@ public class Committee extends KraPersistableBusinessObjectBase {
      * Constructs a Committee.
      */
     public Committee() {
+        setCommitteeResearchAreas(new ArrayList<CommitteeResearchArea>());
         setCommitteeMemberships(new ArrayList<CommitteeMembership>());
         setCommitteeSchedules(new ArrayList<CommitteeSchedule>());
     }
@@ -226,6 +229,14 @@ public class Committee extends KraPersistableBusinessObjectBase {
         return committeeSchedules;
     }
     
+    public List<CommitteeResearchArea> getCommitteeResearchAreas() {
+        return committeeResearchAreas;
+    }
+
+    public void setCommitteeResearchAreas(List<CommitteeResearchArea> committeeResearchAreas) {
+        this.committeeResearchAreas = committeeResearchAreas;
+    }
+    
     @SuppressWarnings("unchecked")
     @Override
     protected LinkedHashMap toStringMapper() {
@@ -248,6 +259,7 @@ public class Committee extends KraPersistableBusinessObjectBase {
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add(getCommitteeResearchAreas());
         managedLists.add(this.committeeMemberships);
         managedLists.add(this.committeeSchedules);
         return managedLists;
@@ -292,4 +304,5 @@ public class Committee extends KraPersistableBusinessObjectBase {
     public void setResearchAreaCode(String researchAreaCode) {
         this.researchAreaCode = researchAreaCode;
     }
+
 }
