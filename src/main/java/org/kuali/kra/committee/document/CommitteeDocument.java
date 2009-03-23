@@ -99,6 +99,7 @@ public class CommitteeDocument extends ResearchDocumentBase implements Copyable,
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(committeeList);
+        managedLists.addAll(getCommittee().buildListOfDeletionAwareLists());
         return managedLists;
     }
     

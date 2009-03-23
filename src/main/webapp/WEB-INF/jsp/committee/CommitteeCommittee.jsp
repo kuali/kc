@@ -31,6 +31,7 @@
 <div align="right"><kul:help documentTypeName="CommitteeDocument" pageName="Committee" /></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <kra-committee:committee />
+<kra-committee:committeeResearchAreas />
 
 <kul:panelFooter />
 	<kul:documentControls 

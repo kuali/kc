@@ -22,9 +22,16 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.bo.ResearchArea;
+import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.document.CommitteeDocument;
+import org.kuali.kra.committee.document.authorization.CommitteeTask;
+import org.kuali.kra.committee.rule.event.AddCommitteeResearchAreaEvent;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**
@@ -47,15 +54,65 @@ public class CommitteeCommitteeAction extends CommitteeAction {
             ((CommitteeForm)form).getCommitteeDocument().setCommittee(getCommitteeService().getCommitteeById(request.getParameter(COMMITTEE_ID)));
         }
 
+        ((CommitteeForm) form).getCommitteeHelper().prepareView();
         ((CommitteeForm)form).getMembershipHelper().prepareView();
         
         return actionForward;
     }
+    
+    /**
+     * Add a Research Area to a Committee.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward addResearchArea(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+    throws Exception {
+        
+        CommitteeForm committeeForm = (CommitteeForm) form;
+        CommitteeDocument committeeDocument = committeeForm.getCommitteeDocument();
+        Committee committee = committeeDocument.getCommittee();
+        
+        CommitteeTask task = new CommitteeTask(TaskName.MODIFY_COMMITTEE, committee);
+        if (isAuthorized(task)) {
+            ResearchArea newResearchArea = committeeForm.getCommitteeHelper().getNewResearchArea();
+            boolean rulesPassed = applyRules(new AddCommitteeResearchAreaEvent(committeeDocument, newResearchArea.getResearchAreaCode()));
+            if (rulesPassed) {
+                getCommitteeService().addResearchArea(committee, newResearchArea.getResearchAreaCode());
+                committeeForm.getCommitteeHelper().setNewResearchArea(new ResearchArea());
+            }
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * Delete a Research Area from a Committee.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteResearchArea(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+    throws Exception {
+        
+        CommitteeForm committeeForm = (CommitteeForm) form;
+        CommitteeDocument committeeDocument = committeeForm.getCommitteeDocument();
+        Committee committee = committeeDocument.getCommittee();
+        
+        CommitteeTask task = new CommitteeTask(TaskName.MODIFY_COMMITTEE, committee);
+        if (isAuthorized(task)) {   
+            committee.getCommitteeResearchAreas().remove(getLineToDelete(request));
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
 
     private CommitteeService getCommitteeService() {
-        
         return (CommitteeService) KraServiceLocator.getService(CommitteeService.class);
-        
     }
 
 }

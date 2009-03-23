@@ -334,7 +334,9 @@ public final class KeyConstants {
 
     //  Committee Messages
     public static final String ERROR_COMMITTEE_DUPLICATE_ID = "error.committee.duplicateId";
-
+    public static final String ERROR_RESEARCH_AREA_INVALID = "error.researchArea.invalid";
+    public static final String ERROR_RESEARCH_AREA_DUPLICATE = "error.researchArea.duplicate";
+    
     //CommitteeMembership Messages
     public static final String ERROR_COMMITTEE_MEMBERSHIP_PERSON_NOT_SPECIFIED = "error.committee.membership.person.not.specified";
     public static final String ERROR_COMMITTEE_MEMBERSHIP_PERSON_DUPLICATE = "error.committee.membership.person.duplicate";
@@ -386,6 +388,7 @@ public final class KeyConstants {
     public static final String ERROR_COMMITTEESCHEDULE_FILTER_DATE = "error.committeeSchedule.filter.date";
     public static final String ERROR_COMMITTEESCHEDULE_FILTER_STARTDATE_ENDDATE = "error.committeeSchedule.filter.start.end.date";
     public static final String ERROR_COMMITTEESCHEDULE_DEADLINE = "error.committeeSchedule.dealine";
+   
     
     private KeyConstants() {}
 }
