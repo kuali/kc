@@ -379,11 +379,11 @@ public class SalaryCalculator {
         Boundary boundary = new Boundary(tempStartDate, endDate);
         salaryDetails = new SalaryDetails();
         salaryDetails.setBoundary(boundary);
-        if(budgetProposalRate!=null && budgetPerson.getEffectiveDate().before(budgetProposalRate.getStartDate())){
+        if(budgetProposalRate != null && budgetPerson != null && budgetPerson.getEffectiveDate().before(budgetProposalRate.getStartDate())){
             salaryDetails.calculateActualBaseSalary(budgetProposalRate.getApplicableRate());
             salaryDetails.setWorkingMonths(prevSalaryDetails.getWorkingMonths());
         }
-        if(budgetPerson!=null){
+        if(budgetPerson != null){
             //salaryDetails.setActualBaseSalary(budgetPerson.getCalculationBase());
             salaryDetails.setActualBaseSalary(getPrevSalaryBase(budgetPerson, boundary));
             populateAppointmentType(budgetPerson);
