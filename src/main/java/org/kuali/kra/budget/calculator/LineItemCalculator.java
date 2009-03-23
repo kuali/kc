@@ -18,7 +18,9 @@ package org.kuali.kra.budget.calculator;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -61,6 +63,17 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
         return false;        
     }
 
+    private Map<String, Boolean> saveApplyRateFlagsForReset() {
+        Map<String, Boolean> applyRateFlags = new HashMap<String, Boolean>();
+        if(bli != null && CollectionUtils.isNotEmpty(bli.getBudgetLineItemCalculatedAmounts())) {
+            for(BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : bli.getBudgetLineItemCalculatedAmounts()) {
+                applyRateFlags.put(budgetLineItemCalculatedAmount.getRateClassCode()+budgetLineItemCalculatedAmount.getRateTypeCode(), budgetLineItemCalculatedAmount.getApplyRateFlag());
+            }
+        }
+        
+        return applyRateFlags;
+    }
+
     public void populateCalculatedAmountLineItems() {
         if (bli.getBudgetLineItemCalculatedAmounts().size() <= 0) {
             bli.refreshReferenceObject("budgetLineItemCalculatedAmounts");
@@ -74,12 +87,20 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
             if (CollectionUtils.isNotEmpty(bli.getBudgetLineItemCalculatedAmounts())) {
                 versionNumber = bli.getBudgetLineItemCalculatedAmounts().get(0).getVersionNumber();
             }
+            //Save applyRateFlag to set it back on the new Calculated Amounts
+            Map<String, Boolean> applyRateFlags = saveApplyRateFlagsForReset();
+
             bli.setBudgetLineItemCalculatedAmounts(new ArrayList<BudgetLineItemCalculatedAmount>());
             
             setCalculatedAmounts(bd,bli);
-            if (versionNumber != null) {
-                for(BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : bli.getBudgetLineItemCalculatedAmounts()){
-                    budgetLineItemCalculatedAmount.setVersionNumber(versionNumber);
+            
+            for(BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : bli.getBudgetLineItemCalculatedAmounts()){
+                if (versionNumber != null) {
+                        budgetLineItemCalculatedAmount.setVersionNumber(versionNumber);
+                }
+                
+                if(applyRateFlags != null && applyRateFlags.get(budgetLineItemCalculatedAmount.getRateClassCode() + budgetLineItemCalculatedAmount.getRateTypeCode()) != null) {
+                    budgetLineItemCalculatedAmount.setApplyRateFlag(applyRateFlags.get(budgetLineItemCalculatedAmount.getRateClassCode() + budgetLineItemCalculatedAmount.getRateTypeCode()));
                 }
             }
         }
