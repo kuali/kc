@@ -465,6 +465,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         boolean success;
         
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument pdDoc = proposalDevelopmentForm.getDocument();
+        
         proposalDevelopmentForm.setAuditActivated(true);
         //success=KraServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(proposalDevelopmentForm.getDocument()));
         //HashMap map=GlobalVariables.getAuditErrorMap();
@@ -473,7 +475,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         String methodToCall = ((KualiForm) form).getMethodToCall();
         
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-        int status = isValidSubmission(proposalDevelopmentForm.getDocument());
+        int status = isValidSubmission(pdDoc);
 
        //if((map.size()==1) &&  map.containsKey("sponsorProgramInformationAuditWarnings"))
         if (status == WARNING) 
@@ -499,6 +501,11 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         }else   {
             GlobalVariables.getErrorMap().clear(); // clear error from isValidSubmission()    
             GlobalVariables.getErrorMap().putError("datavalidation",KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
+            
+            if ((pdDoc.getContinuedFrom() != null) && isNewProposalType(pdDoc) && isSubmissionApplication(pdDoc)) {
+                GlobalVariables.getErrorMap().putError("someKey", KeyConstants.ERROR_RESUBMISSION_INVALID_PROPOSALTYPE_SUBMISSIONTYPE);
+            }
+            
             return mapping.findForward((RiceConstants.MAPPING_BASIC));
          }
         
@@ -548,7 +555,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
          */
         if ((proposalDevelopmentDocument.getContinuedFrom() != null) && isNewProposalType(proposalDevelopmentDocument) && isSubmissionApplication(proposalDevelopmentDocument)) {
             state = ERROR;
-            GlobalVariables.getErrorMap().putError("someKey", KeyConstants.ERROR_RESUBMISSION_INVALID_PROPOSALTYPE_SUBMISSIONTYPE);
+            //GlobalVariables.getErrorMap().putError("someKey", KeyConstants.ERROR_RESUBMISSION_INVALID_PROPOSALTYPE_SUBMISSIONTYPE);
         }
         else {
             /* 
