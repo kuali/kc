@@ -62,24 +62,26 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
         proposalPersonBiography.getPropPerDocType().setDocumentTypeCode(proposalPersonBiography.getDocumentTypeCode());
         proposalPersonBiography.refreshReferenceObject("propPerDocType");
         FormFile personnelAttachmentFile = proposalPersonBiography.getPersonnelAttachmentFile();
-        proposalPersonBiography.setFileName(personnelAttachmentFile.getFileName());
-        try {
-            byte[] fileData = personnelAttachmentFile.getFileData();
-            if (fileData.length > 0) {
-                ProposalPersonBiographyAttachment personnelAttachment = new ProposalPersonBiographyAttachment();
-                personnelAttachment.setFileName(personnelAttachmentFile.getFileName());
-                personnelAttachment.setProposalNumber(proposalPersonBiography.getProposalNumber());
-                personnelAttachment.setProposalPersonNumber(proposalPersonBiography.getProposalPersonNumber());
-                personnelAttachment.setBiographyData(personnelAttachmentFile.getFileData());
-                personnelAttachment.setContentType(personnelAttachmentFile.getContentType());
-                if (proposalPersonBiography.getPersonnelAttachmentList().isEmpty())
-                    proposalPersonBiography.getPersonnelAttachmentList().add(personnelAttachment);
-                else
-                    proposalPersonBiography.getPersonnelAttachmentList().set(0, personnelAttachment);
+        if (personnelAttachmentFile != null) {
+            try {
+                byte[] fileData = personnelAttachmentFile.getFileData();
+                if (fileData.length > 0) {
+                    ProposalPersonBiographyAttachment personnelAttachment = new ProposalPersonBiographyAttachment();
+                    personnelAttachment.setFileName(personnelAttachmentFile.getFileName());
+                    personnelAttachment.setProposalNumber(proposalPersonBiography.getProposalNumber());
+                    personnelAttachment.setProposalPersonNumber(proposalPersonBiography.getProposalPersonNumber());
+                    personnelAttachment.setBiographyData(personnelAttachmentFile.getFileData());
+                    personnelAttachment.setContentType(personnelAttachmentFile.getContentType());
+                    proposalPersonBiography.setFileName(personnelAttachmentFile.getFileName());
+                    if (proposalPersonBiography.getPersonnelAttachmentList().isEmpty())
+                        proposalPersonBiography.getPersonnelAttachmentList().add(personnelAttachment);
+                    else
+                        proposalPersonBiography.getPersonnelAttachmentList().set(0, personnelAttachment);
+                }
             }
-        }
-        catch (Exception e) {
-            proposalPersonBiography.getPersonnelAttachmentList().clear();
+            catch (Exception e) {
+                proposalPersonBiography.getPersonnelAttachmentList().clear();
+            }
         }
         DocumentNextvalue documentNextvalue = proposaldevelopmentDocument.getDocumentNextvalueBo(Constants.PROP_PERSON_BIO_NUMBER);
         documentNextvalue.setDocumentKey(proposaldevelopmentDocument.getProposalNumber());
