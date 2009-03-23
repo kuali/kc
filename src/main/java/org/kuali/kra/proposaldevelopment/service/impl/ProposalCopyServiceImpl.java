@@ -757,21 +757,13 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
  
         loadAttachmentContents(src);
         
-        
-        // Just copy over all of the data and we will make adjustments to it.
-
-        List<DocProperty> properties = new ArrayList<DocProperty>();
-        properties.add(getDocProperty("PropPersonBios"));
-        copyProperties(src, dest, properties);
-
-        /*
         List<ProposalPersonBiography> propPersonBios = src.getPropPersonBios();
         ProposalPersonBiography destPropPersonBio;
         for (ProposalPersonBiography srcPropPersonBio : propPersonBios) {
             destPropPersonBio = (ProposalPersonBiography)ObjectUtils.deepCopy(srcPropPersonBio);
             propPersonBioService.addProposalPersonBiography(dest, destPropPersonBio);
         }
-        */
+
         List<Narrative> narratives = src.getNarratives();
         Narrative destNarrative;
         for (Narrative srcNarrative : narratives) {
