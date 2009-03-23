@@ -29,4 +29,11 @@ public interface CommitteeService {
      * @return the committee or null if not found
      */
     public Committee getCommitteeById(String committeeId);
+    
+    /**
+     * Add a research area to a committee.
+     * @param committee the committee
+     * @param researchAreaCode the type code of the research area to add
+     */
+    public void addResearchArea(Committee committee, String researchAreaCode);
 }

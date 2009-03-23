@@ -51,6 +51,7 @@ import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 @SuppressWarnings("serial")
 public class CommitteeForm extends KraTransactionalDocumentFormBase {
 
+    private CommitteeHelper committeeHelper;
     private MembershipHelper membershipHelper;
     private MembershipRolesHelper membershipRolesHelper;
      
@@ -81,6 +82,7 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
      */
     public void initialize() {
         initializeHeaderNavigationTabs();
+        setCommitteeHelper(new CommitteeHelper(this));
         setMembershipHelper(new MembershipHelper(this));
         setMembershipRolesHelper(new MembershipRolesHelper(this));
         setCommitteeScheduleHelper(new CommitteeScheduleHelper(this));
@@ -227,6 +229,14 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
 
     public void setCommitteeScheduleHelper(CommitteeScheduleHelper committeeScheduleHelper) {
         this.committeeScheduleHelper = committeeScheduleHelper;
-    }    
+    }
+
+    public CommitteeHelper getCommitteeHelper() {
+        return committeeHelper;
+    }
+
+    public void setCommitteeHelper(CommitteeHelper committeeHelper) {
+        this.committeeHelper = committeeHelper;
+    }  
 }
 

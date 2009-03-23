@@ -22,6 +22,7 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.rule.AddCommitteeMembershipRule;
+import org.kuali.kra.committee.rule.AddCommitteeResearchAreaRule;
 import org.kuali.kra.committee.rule.AddCommitteeScheduleDateConflictRule;
 import org.kuali.kra.committee.rule.AddCommitteeScheduleStartAndEndDateRule;
 import org.kuali.kra.committee.rule.DeadlineCommitteeScheduleRule;
@@ -48,7 +49,7 @@ import org.kuali.kra.service.UnitService;
  * another class within this package.
  */
 public class CommitteeDocumentRule extends ResearchDocumentRuleBase
-                                   implements AddCommitteeScheduleStartAndEndDateRule, AddCommitteeScheduleDateConflictRule, AddCommitteeMembershipRule, SaveCommitteeMembershipRule, FilterCommitteeScheduleRule, DeadlineCommitteeScheduleRule {
+                                   implements AddCommitteeScheduleStartAndEndDateRule, AddCommitteeScheduleDateConflictRule, AddCommitteeMembershipRule, SaveCommitteeMembershipRule, FilterCommitteeScheduleRule, DeadlineCommitteeScheduleRule, AddCommitteeResearchAreaRule {
     
     static private final boolean VALIDATION_REQUIRED = true;
     
@@ -208,5 +209,12 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase
      */
     public boolean processCommitteeScheduleDeadlineBusinessRules(DeadlineCommitteeScheduleEvent deadlineCommitteeScheduleEvent) {
         return new CommitteeScheduleDeadlineDateRule().processCommitteeScheduleDeadlineBusinessRules(deadlineCommitteeScheduleEvent);
+    }
+
+    /**
+     * @see org.kuali.kra.committee.rule.AddCommitteeResearchAreaRule#processAddCommitteeResearchAreaRules(org.kuali.kra.committee.bo.Committee, java.lang.String)
+     */
+    public boolean processAddCommitteeResearchAreaRules(Committee committee, String researchAreaCode) {
+        return new CommitteeResearchAreaRule().processAddCommitteeResearchAreaRules(committee, researchAreaCode);
     }
 }
