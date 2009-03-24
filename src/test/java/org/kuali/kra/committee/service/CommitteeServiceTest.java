@@ -41,7 +41,9 @@ import org.kuali.kra.committee.service.impl.CommitteeServiceImpl;
 @RunWith(JMock.class)
 public class CommitteeServiceTest {
     
-    private static final String RESEARCH_AREA_CODE = "01.0101";
+    private static final String RESEARCH_AREA_CODE_1 = "01.0101";
+    private static final String RESEARCH_AREA_CODE_2 = "01.0102";
+    private static final String RESEARCH_AREA_CODE_3 = "01.0103";
     
     private Mockery context = new JUnit4Mockery();
     
@@ -107,32 +109,38 @@ public class CommitteeServiceTest {
      * Verify that we can add a valid research area to a committee.
      */
     @Test
-    public void testAddResearchArea() {
+    public void testAddResearchAreas() {
         CommitteeServiceImpl committeeService = new CommitteeServiceImpl();
         Committee committee = new Committee();
         
-        /*
-         * The CommitteServiceImpl will use the Business Object Service
-         * to query the database.  Since we "know" the internals to the
-         * CommitteeServiceImpl, we know data to be sent to the Business
-         * Object Service and we know that a ResearchArea will be returned.
-         */
-        final Map<String, Object> primaryKeys = new HashMap<String, Object>();
-        primaryKeys.put("researchAreaCode", RESEARCH_AREA_CODE);
+        List<ResearchArea> researchAreas = new ArrayList<ResearchArea>();
+        ResearchArea researchArea1 = new ResearchArea();
+        researchArea1.setResearchAreaCode(RESEARCH_AREA_CODE_1);
+        researchAreas.add(researchArea1);
         
-        final ResearchArea researchArea = new ResearchArea();
-        researchArea.setResearchAreaCode(RESEARCH_AREA_CODE);
+        ResearchArea researchArea2 = new ResearchArea();
+        researchArea2.setResearchAreaCode(RESEARCH_AREA_CODE_2);
+        researchAreas.add(researchArea2);
         
-        final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
-        context.checking(new Expectations() {{
-            one(businessObjectService).findByPrimaryKey(ResearchArea.class, primaryKeys); will(returnValue(researchArea));
-        }});
-        committeeService.setBusinessObjectService(businessObjectService);
+        committeeService.addResearchAreas(committee, researchAreas);
+        List<CommitteeResearchArea> committeeResearchAreas = committee.getCommitteeResearchAreas();
+        assertEquals(2, committeeResearchAreas.size());
         
-        committeeService.addResearchArea(committee, RESEARCH_AREA_CODE);
-        List<CommitteeResearchArea> researchAreas = committee.getCommitteeResearchAreas();
-        assertEquals(1, researchAreas.size());
+        assertEquals(RESEARCH_AREA_CODE_1, committeeResearchAreas.get(0).getResearchAreaCode());
+        assertEquals(RESEARCH_AREA_CODE_2, committeeResearchAreas.get(1).getResearchAreaCode());
         
-        assertEquals(researchArea, researchAreas.get(0).getResearchArea());
+        // Try adding a new research along with two duplicates
+        
+        ResearchArea researchArea3 = new ResearchArea();
+        researchArea3.setResearchAreaCode(RESEARCH_AREA_CODE_3);
+        researchAreas.add(researchArea3);
+        
+        committeeService.addResearchAreas(committee, researchAreas);
+        committeeResearchAreas = committee.getCommitteeResearchAreas();
+        assertEquals(3, committeeResearchAreas.size());
+        
+        assertEquals(RESEARCH_AREA_CODE_1, committeeResearchAreas.get(0).getResearchAreaCode());
+        assertEquals(RESEARCH_AREA_CODE_2, committeeResearchAreas.get(1).getResearchAreaCode());
+        assertEquals(RESEARCH_AREA_CODE_3, committeeResearchAreas.get(2).getResearchAreaCode());
     }
 }

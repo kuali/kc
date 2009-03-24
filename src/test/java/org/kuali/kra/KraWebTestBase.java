@@ -552,8 +552,11 @@ public abstract class KraWebTestBase extends KraTestBase {
         // click on the search button
         HtmlImageInput searchBtn = (HtmlImageInput) getElement(lookupPage, "methodToCall.search", "search", "search");
         HtmlPage resultsPage = (HtmlPage) searchBtn.click();
-
+        
         HtmlImageInput selectAllBtn = (HtmlImageInput) getElement(resultsPage, "methodToCall.selectAll.(::;false;::).x", null, null);
+        if (selectAllBtn == null) {
+            selectAllBtn = (HtmlImageInput) getElement(resultsPage, "methodToCall.selectAll.(::;true;::).x", null, null);
+        }
         HtmlPage selectedPage = (HtmlPage) selectAllBtn.click();
 
         HtmlImageInput returnAllBtn = (HtmlImageInput) getElement(selectedPage, "methodToCall.prepareToReturnSelectedResults.x", null, null);

@@ -70,11 +70,8 @@ public class CommitteeResearchAreasWebTest extends CommitteeWebTestBase {
          * Do a specific lookup so we know what to look for back
          * on the committee web page.
          */
-        committeePage = lookup(committeePage, "researchAreaCode", "researchAreaCode", "01.0101");
-        HtmlElement addBtn = this.getElementByName(committeePage, "methodToCall.addResearchArea", true);
-        committeePage = clickOn(addBtn);
-        assertTrue(!hasError(committeePage));
-        
+        committeePage = multiLookup(committeePage, "committeeResearchAreas", "researchAreaCode", "01.0101");
+      
         /*
          * Verify that the table has three row (title, form, and new research area row),
          * and verify that the new research area is what we expected from the lookup.
@@ -117,9 +114,7 @@ public class CommitteeResearchAreasWebTest extends CommitteeWebTestBase {
          * Do a specific lookup so we know what to look for back
          * on the committee web page.
          */
-        committeePage = lookup(committeePage, "researchAreaCode", "researchAreaCode", "01.0101");
-        HtmlElement addBtn = this.getElementByName(committeePage, "methodToCall.addResearchArea", true);
-        committeePage = clickOn(addBtn);
+        committeePage = multiLookup(committeePage, "committeeResearchAreas", "researchAreaCode", "01.0101");
     
         /*
          * Save the research area to the database.
@@ -153,44 +148,5 @@ public class CommitteeResearchAreasWebTest extends CommitteeWebTestBase {
         
         table = getTable(committeePage, "researchAreaTableId");
         assertEquals(2, table.getRowCount());
-    }
-    
-    /**
-     * Verify the case where the user clicks on the add button without
-     * selecting a research area to add. We should get an error.
-     * @throws Exception
-     */
-    @Test
-    public void testAddNoResearchArea() throws Exception {
-       
-        HtmlPage committeePage = this.getCommitteePage();
-         
-        HtmlElement addBtn = this.getElementByName(committeePage, "methodToCall.addResearchArea", true);
-        committeePage = clickOn(addBtn);
-        assertTrue(hasError(committeePage));
-    }
-    
-    /**
-     * Verify the case where the user clicks tries to add a duplicate
-     * research area. An error should occur.
-     * @throws Exception
-     */
-    @Test
-    public void testAddDuplicateResearchArea() throws Exception {
-       
-        HtmlPage committeePage = this.getCommitteePage();
-         
-        /*
-         * Do a specific lookup so we can add the same research area a second time.
-         */
-        committeePage = lookup(committeePage, "researchAreaCode", "researchAreaCode", "01.0101");
-        HtmlElement addBtn = this.getElementByName(committeePage, "methodToCall.addResearchArea", true);
-        committeePage = clickOn(addBtn);
-        
-        committeePage = lookup(committeePage, "researchAreaCode", "researchAreaCode", "01.0101");
-        addBtn = this.getElementByName(committeePage, "methodToCall.addResearchArea", true);
-        committeePage = clickOn(addBtn);
-        
-        assertTrue(hasError(committeePage));
     }
 }
