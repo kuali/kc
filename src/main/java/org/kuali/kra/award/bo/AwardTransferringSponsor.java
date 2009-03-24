@@ -20,6 +20,11 @@ import java.util.LinkedHashMap;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.award.bo.Award;
 
+/**
+ * AwardTransferringSponsor business object
+ * 
+ * @author Kuali Coeus Development Team (kc.dev@kuali.org)
+ */
 public class AwardTransferringSponsor extends KraPersistableBusinessObjectBase { 
 	
     private static final long serialVersionUID = -3642740671361484212L;
@@ -105,12 +110,57 @@ public class AwardTransferringSponsor extends KraPersistableBusinessObjectBase {
 	protected LinkedHashMap<String,Object> toStringMapper() {
 		LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
 		hashMap.put("awardTransferringSponsorId", getAwardTransferringSponsorId());
-		hashMap.put("mitAwardNumber", getAwardNumber());
+		hashMap.put("awardNumber", getAwardNumber());
 		hashMap.put("sequenceNumber", getSequenceNumber());
 		hashMap.put("sponsorCode", getSponsorCode());
 		return hashMap;
 	}
-    
-    // TODO Equals and hashCode
+
+    @Override
+    public int hashCode() {
+        final int PRIME = 31;
+        int result = 1;
+        result = PRIME * result + ((awardNumber == null) ? 0 : awardNumber.hashCode());
+        result = PRIME * result + ((awardTransferringSponsorId == null) ? 0 : awardTransferringSponsorId.hashCode());
+        result = PRIME * result + ((sequenceNumber == null) ? 0 : sequenceNumber.hashCode());
+        result = PRIME * result + ((sponsorCode == null) ? 0 : sponsorCode.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final AwardTransferringSponsor other = (AwardTransferringSponsor) obj;
+        if (awardNumber == null) {
+            if (other.awardNumber != null)
+                return false;
+        }
+        else if (!awardNumber.equals(other.awardNumber))
+            return false;
+        if (awardTransferringSponsorId == null) {
+            if (other.awardTransferringSponsorId != null)
+                return false;
+        }
+        else if (!awardTransferringSponsorId.equals(other.awardTransferringSponsorId))
+            return false;
+        if (sequenceNumber == null) {
+            if (other.sequenceNumber != null)
+                return false;
+        }
+        else if (!sequenceNumber.equals(other.sequenceNumber))
+            return false;
+        if (sponsorCode == null) {
+            if (other.sponsorCode != null)
+                return false;
+        }
+        else if (!sponsorCode.equals(other.sponsorCode))
+            return false;
+        return true;
+    }
     
 }
