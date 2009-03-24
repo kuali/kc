@@ -70,8 +70,8 @@
 	<bean id="AwardPaymentSchedule-awardNumber-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="awardNumber" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Mit Award Number" />
-		<property name="shortLabel" value="Mit Award Number" />
+		<property name="label" value="Award Number" />
+		<property name="shortLabel" value="Award Number" />
 		<property name="maxLength" value="10" />
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
@@ -80,8 +80,8 @@
 			<bean parent="TextControlDefinition"
 				p:size="10" />
 		</property>
-		<property name="summary" value="Mit Award Number" />
-		<property name="description" value="Mit Award Number" />
+		<property name="summary" value="Award Number" />
+		<property name="description" value="Award Number" />
 	</bean>
 
 	<bean id="AwardPaymentSchedule-sequenceNumber" parent="AwardPaymentSchedule-sequenceNumber-parentBean" />
