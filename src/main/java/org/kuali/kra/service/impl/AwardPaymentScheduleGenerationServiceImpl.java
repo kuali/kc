@@ -34,13 +34,19 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.scheduling.sequence.XMonthlyScheduleSequence;
 import org.kuali.kra.scheduling.service.ScheduleService;
 import org.kuali.kra.scheduling.util.Time24HrFmt;
+import org.kuali.kra.service.AwardPaymentScheduleGenerationService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 
  * This is the AwardPaymentScheduleGenerationService class.
  */
 
-public class AwardPaymentScheduleGenerationServiceImpl implements org.kuali.kra.service.AwardPaymentScheduleGenerationService {
+@Transactional
+public class AwardPaymentScheduleGenerationServiceImpl implements AwardPaymentScheduleGenerationService {
+    
+    public static final String ZERO_HOURS = "00:00";
+    public static final String FREQUENCY_OBJECT_STRING = "frequency";
     
     private ScheduleService scheduleService;
     private PersistenceService persistenceService;
@@ -66,8 +72,7 @@ public class AwardPaymentScheduleGenerationServiceImpl implements org.kuali.kra.
             java.sql.Date sqldate = new java.sql.Date(date.getTime());
             newAwardPaymentSchedule.setDueDate(sqldate);
             newAwardPaymentSchedule.setAward(award);
-            
-            award.getPaymentScheduleItems().add(newAwardPaymentSchedule);
+            award.add(newAwardPaymentSchedule);
         }
     }
 
@@ -97,7 +102,7 @@ public class AwardPaymentScheduleGenerationServiceImpl implements org.kuali.kra.
                 if(startDate!=null){                    
                     calendar.setTime(startDate);
                     if(endDate!=null && awardReportTerm.getFrequency().getRepeatFlag() && awardReportTerm.getFrequency().getNumberOfMonths()!=null){            
-                        dates = scheduleService.getScheduledDates(startDate, endDate, new Time24HrFmt("00:00")
+                        dates = scheduleService.getScheduledDates(startDate, endDate, new Time24HrFmt(ZERO_HOURS)
                                     , new XMonthlyScheduleSequence(awardReportTerm.getFrequency().getNumberOfMonths()), calendar.get(Calendar.DAY_OF_MONTH));
                     }else{            
                         dates.add(startDate);
@@ -120,23 +125,18 @@ public class AwardPaymentScheduleGenerationServiceImpl implements org.kuali.kra.
     protected Date getStartDate(AwardReportTerm awardReportTerm){
         GregorianCalendar calendar = new GregorianCalendar();
         java.util.Date baseDate;
-        if(awardReportTerm.getFrequencyBaseCode().equals("1")){
-            calendar.clear();
+        calendar.clear();
+        if(awardReportTerm.getFrequencyBaseCode().equals("1")){            
             calendar.set(2009, 3, 1);//temp hardcoded award execution date.
-        }else if(awardReportTerm.getFrequencyBaseCode().equals("2")){                        
-            calendar.clear();
+        }else if(awardReportTerm.getFrequencyBaseCode().equals("2")){
             calendar.set(2009, 4, 1);//temp hardcoded award effective date.
         }else if(awardReportTerm.getFrequencyBaseCode().equals("3")){
-            calendar.clear();
             calendar.set(2009, 5, 1);//temp hardcoded award expiration date of obligation.
         }else if(awardReportTerm.getFrequencyBaseCode().equals("4")){
-            calendar.clear();
             calendar.set(2011, 4, 1);//temp hardcoded award expiration date.
         }else if(awardReportTerm.getFrequencyBaseCode().equals("5")){
-            calendar.clear();
             calendar.set(2009, 7, 1);//temp hardcoded award effective date of obligation.
         }else{
-            calendar.clear();
             calendar.setTimeInMillis(awardReportTerm.getDueDate().getTime());
         }
         
@@ -173,12 +173,14 @@ public class AwardPaymentScheduleGenerationServiceImpl implements org.kuali.kra.
      * @param calendar
      */
     protected void addOffSetPeriodToStartDate(Frequency frequency, Calendar calendar) {
-        if(frequency!= null && frequency.getNumberOfDays()!=null){
-            calendar.add(Calendar.DAY_OF_YEAR,frequency.getNumberOfDays());
-        }else if(frequency!= null && frequency.getAdvanceNumberOfDays()!=null){
-            calendar.add(Calendar.DAY_OF_YEAR,-frequency.getAdvanceNumberOfDays());
-        }else if(frequency!= null && frequency.getAdvanceNumberOfMonths()!=null){
-            calendar.add(Calendar.MONTH,-frequency.getAdvanceNumberOfMonths());
+        if(frequency!= null){
+            if(frequency.getNumberOfDays()!=null){
+                calendar.add(Calendar.DAY_OF_YEAR,frequency.getNumberOfDays());
+            }else if(frequency.getAdvanceNumberOfDays()!=null){
+                calendar.add(Calendar.DAY_OF_YEAR,-frequency.getAdvanceNumberOfDays());
+            }else if(frequency.getAdvanceNumberOfMonths()!=null){
+                calendar.add(Calendar.MONTH,-frequency.getAdvanceNumberOfMonths());
+            }    
         }
     }
 
@@ -209,12 +211,11 @@ public class AwardPaymentScheduleGenerationServiceImpl implements org.kuali.kra.
      */
     protected Date getEndDate(String frequencyBaseCode, Date startDate){
         GregorianCalendar calendar = new GregorianCalendar();
-        if(frequencyBaseCode.equals("4")){                        
-            calendar.clear();
+        calendar.clear();
+        if(frequencyBaseCode.equals("4")){
             calendar.setTime(startDate);   
             calendar.add(Calendar.YEAR, getPeriodInYears());            
         }else{
-            calendar.clear();
             calendar.set(2011, 4, 1);//temp hardcoded award expiration date.
         }
         return calendar.getTime();
@@ -249,10 +250,10 @@ public class AwardPaymentScheduleGenerationServiceImpl implements org.kuali.kra.
         
         for(AwardReportTerm awardReportTerm : awardReportTerms){
             persistableObjects.add(awardReportTerm);
-            referenceObjectNames.add("frequency");            
+            referenceObjectNames.add(FREQUENCY_OBJECT_STRING);            
         }
         
-        if(persistableObjects.size()>0 && referenceObjectNames.size()>0 ){
+        if(!awardReportTerms.isEmpty()){
             getPersistenceService().retrieveReferenceObjects(persistableObjects, referenceObjectNames);
         }
     }
