@@ -33,15 +33,17 @@ import org.kuali.kra.award.lookup.keyvalue.ReportClassValuesFinder;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.service.AwardReportsService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 
  * This is the implementation of <code>AwardReportsService</code> interface.
  */
+@Transactional
 public class AwardReportsServiceImpl implements AwardReportsService {
     
     private static final String SEMICOLON_AS_DELIMITOR = ";";
-    private static final String COMA_AS_DELIMITOR = ",";
+    private static final String COMMA_AS_DELIMITOR = ",";
     
     KualiConfigurationService kualiConfigurationService;
     BusinessObjectService businessObjectService;
@@ -120,12 +122,12 @@ public class AwardReportsServiceImpl implements AwardReportsService {
     @SuppressWarnings("all")
     protected HashMap<String, Object> addEmptyNewAwardReportTerms(
             HashMap<String, Object> hashMap, List<KeyLabelPair> reportClasses){
-        List<AwardReportTerm> newAwardReportTerm = new ArrayList<AwardReportTerm>();
-        for(KeyLabelPair keyLabelPair:reportClasses){
-            newAwardReportTerm.add(new AwardReportTerm());
+        List<AwardReportTerm> newAwardReportTerms = new ArrayList<AwardReportTerm>();
+        for(KeyLabelPair keyLabelPair : reportClasses){
+            newAwardReportTerms.add(new AwardReportTerm());
         }
         hashMap.put(
-                Constants.NEW_AWARD_REPORT_TERMS_LIST_KEY_FOR_INITIALIZE_OBJECTS,  newAwardReportTerm);
+                Constants.NEW_AWARD_REPORT_TERMS_LIST_KEY_FOR_INITIALIZE_OBJECTS,  newAwardReportTerms);
         return hashMap;
     }
     
@@ -145,7 +147,7 @@ public class AwardReportsServiceImpl implements AwardReportsService {
         List<AwardReportTermRecipient> newAwardReportTermRecipients 
             = new ArrayList<AwardReportTermRecipient>();        
         
-        for(int i=0;i<award.getAwardReportTerms().size();i++){
+        for(AwardReportTerm awardReportTerm : award.getAwardReportTerms()){    
             newAwardReportTermRecipients.add(new AwardReportTermRecipient());
         }
         
@@ -179,16 +181,18 @@ public class AwardReportsServiceImpl implements AwardReportsService {
         
         StringBuilder strBuilder = new StringBuilder();
         
-        for(int i=0;i<keyLabelPairList.size()-1; i++){
+        int lastElementIndex = keyLabelPairList.size()-1;
+        
+        for(int i = 0; i < lastElementIndex; i++){
             strBuilder.append(keyLabelPairList.get(i).key);
             strBuilder.append(SEMICOLON_AS_DELIMITOR);
             strBuilder.append(keyLabelPairList.get(i).label);
-            strBuilder.append(COMA_AS_DELIMITOR);
+            strBuilder.append(COMMA_AS_DELIMITOR);
         }
         
-        strBuilder.append(keyLabelPairList.get(keyLabelPairList.size()-1).key);
+        strBuilder.append(keyLabelPairList.get(lastElementIndex).key);
         strBuilder.append(SEMICOLON_AS_DELIMITOR);
-        strBuilder.append(keyLabelPairList.get(keyLabelPairList.size()-1).label);
+        strBuilder.append(keyLabelPairList.get(lastElementIndex).label);
         
         return strBuilder.toString();
     }

@@ -19,22 +19,19 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kra.award.bo.Award;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.award.AwardAssociate;
 
 /**
  * 
  * This class represents the AwardPaymentSchedule business object.
  */
-public class AwardPaymentSchedule extends KraPersistableBusinessObjectBase { 
+public class AwardPaymentSchedule extends AwardAssociate { 
     
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 1387310207139506329L;
-    private Long awardPaymentScheduleId;
-    private String awardNumber; 
-    private Integer sequenceNumber; 
+    private Long awardPaymentScheduleId; 
     private Date dueDate; 
     private KualiDecimal amount; 
     private Date submitDate; 
@@ -42,8 +39,6 @@ public class AwardPaymentSchedule extends KraPersistableBusinessObjectBase {
     private String invoiceNumber; 
     private String statusDescription;
     private String status;
-    
-    private Award award; 
     
     /**
      * 
@@ -54,8 +49,8 @@ public class AwardPaymentSchedule extends KraPersistableBusinessObjectBase {
     }
     
     public AwardPaymentSchedule(Date dueDate, String awardNumber, Integer sequenceNumber){
-        this.awardNumber = awardNumber;
-        this.sequenceNumber = sequenceNumber; 
+        setAwardNumber(awardNumber);
+        setSequenceNumber(sequenceNumber);
         this.dueDate = dueDate;
     }
     
@@ -66,14 +61,6 @@ public class AwardPaymentSchedule extends KraPersistableBusinessObjectBase {
     public void setAwardPaymentScheduleId(Long awardPaymentScheduleId) {
         this.awardPaymentScheduleId = awardPaymentScheduleId;
     }    
-
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
-
-    public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
-    }
 
     public Date getDueDate() {
         return dueDate;
@@ -123,27 +110,10 @@ public class AwardPaymentSchedule extends KraPersistableBusinessObjectBase {
         this.statusDescription = statusDescription;
     }
 
-    public Award getAward() {
-        return award;
-    }
-
-    public void setAward(Award award) {
-        this.award = award;
-        if(award == null) {
-            sequenceNumber = null;
-            awardNumber = null;
-        } else {
-            sequenceNumber = award.getSequenceNumber();
-            awardNumber = award.getAwardNumber();
-        }
-    }
-
     @Override 
     protected LinkedHashMap<String,Object> toStringMapper() {
         LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
-        hashMap.put("awardPaymentScheduleId", getAwardPaymentScheduleId());        
-        hashMap.put("awardNumber", getAwardNumber());
-        hashMap.put("sequenceNumber", getSequenceNumber());
+        hashMap.put("awardPaymentScheduleId", getAwardPaymentScheduleId());
         hashMap.put("dueDate", getDueDate());
         hashMap.put("amount", getAmount());
         hashMap.put("submitDate", getSubmitDate());
@@ -152,22 +122,6 @@ public class AwardPaymentSchedule extends KraPersistableBusinessObjectBase {
         hashMap.put("statusDescription", getStatusDescription());
         hashMap.put("status", getStatus());
         return hashMap;
-    }
-
-    /**
-     * Gets the awardNumber attribute. 
-     * @return Returns the awardNumber.
-     */
-    public String getAwardNumber() {
-        return awardNumber;
-    }
-
-    /**
-     * Sets the awardNumber attribute value.
-     * @param awardNumber The awardNumber to set.
-     */
-    public void setAwardNumber(String awardNumber) {
-        this.awardNumber = awardNumber;
     }
 
     /**
@@ -193,9 +147,9 @@ public class AwardPaymentSchedule extends KraPersistableBusinessObjectBase {
     public int hashCode() {
         final int PRIME = 31;
         int result = 1;
-        result = PRIME * result + ((awardNumber == null) ? 0 : awardNumber.hashCode());
+        result = PRIME * result + ((getAwardNumber() == null) ? 0 : getAwardNumber().hashCode());
         result = PRIME * result + ((dueDate == null) ? 0 : dueDate.hashCode());
-        result = PRIME * result + ((sequenceNumber == null) ? 0 : sequenceNumber.hashCode());
+        result = PRIME * result + ((getSequenceNumber() == null) ? 0 : getSequenceNumber().hashCode());
         return result;
     }
 
@@ -223,11 +177,11 @@ public class AwardPaymentSchedule extends KraPersistableBusinessObjectBase {
      * @return
      */
     public boolean equals(AwardPaymentSchedule awardPaymentSchedule) {
-        if (awardNumber == null) {
-            if (awardPaymentSchedule.awardNumber != null){
+        if (getAwardNumber() == null) {
+            if (awardPaymentSchedule.getAwardNumber() != null){
                 return false;
             }   
-        }else if (!awardNumber.equals(awardPaymentSchedule.awardNumber)){
+        }else if (!getAwardNumber().equals(awardPaymentSchedule.getAwardNumber())){
             return false;
         }   
         if (dueDate == null) {
@@ -237,11 +191,11 @@ public class AwardPaymentSchedule extends KraPersistableBusinessObjectBase {
         }else if (!dueDate.equals(awardPaymentSchedule.dueDate)){
             return false;
         }   
-        if (sequenceNumber == null) {
-            if (awardPaymentSchedule.sequenceNumber != null){
+        if (getSequenceNumber() == null) {
+            if (awardPaymentSchedule.getSequenceNumber() != null){
                 return false;
             }   
-        }else if (!sequenceNumber.equals(awardPaymentSchedule.sequenceNumber)){
+        }else if (!getSequenceNumber().equals(awardPaymentSchedule.getSequenceNumber())){
             return false;
         }   
         return true;

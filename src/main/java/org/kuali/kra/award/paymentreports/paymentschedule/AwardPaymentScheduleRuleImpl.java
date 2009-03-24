@@ -50,12 +50,9 @@ public class AwardPaymentScheduleRuleImpl extends ResearchDocumentRuleBase
     }
     
     private boolean processCommonValidations(AwardPaymentScheduleRuleEvent event) {
-        AwardPaymentSchedule paymentScheduleItem = event.getPaymentScheduleItemForValidation();
-        boolean valid = true;
+        AwardPaymentSchedule paymentScheduleItem = event.getPaymentScheduleItemForValidation();        
         List<AwardPaymentSchedule> items = event.getAward().getPaymentScheduleItems();
-        valid &= isUnique(items, paymentScheduleItem);
-        
-        return valid;
+        return isUnique(items, paymentScheduleItem);
     }
     
     /**
@@ -92,7 +89,7 @@ public class AwardPaymentScheduleRuleImpl extends ResearchDocumentRuleBase
      * @return
      */
     boolean areRequiredFieldsComplete(AwardPaymentSchedule paymentScheduleItem) {        
-        boolean itemValid = !(paymentScheduleItem.getDueDate() == null);
+        boolean itemValid = paymentScheduleItem.getDueDate() != null;
         
         if(!itemValid) {
             reportError(PAYMENT_SCHEDULE_DUE_DATE_PROPERTY, 
