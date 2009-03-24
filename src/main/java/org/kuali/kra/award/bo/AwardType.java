@@ -18,6 +18,11 @@ package org.kuali.kra.award.bo;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import java.util.LinkedHashMap;
 
+/**
+ * Award Type business object
+ * 
+ * @author Kuali Coeus development team (kc.dev@kuali.org)
+ */
 public class AwardType extends KraPersistableBusinessObjectBase { 
 	
     private static final long serialVersionUID = 1652576733758069217L;
@@ -52,7 +57,38 @@ public class AwardType extends KraPersistableBusinessObjectBase {
 		hashMap.put("description", getDescription());
 		return hashMap;
 	}
+
+    @Override
+    public int hashCode() {
+        final int PRIME = 31;
+        int result = 1;
+        result = PRIME * result + ((awardTypeCode == null) ? 0 : awardTypeCode.hashCode());
+        result = PRIME * result + ((description == null) ? 0 : description.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final AwardType other = (AwardType) obj;
+        if (awardTypeCode == null) {
+            if (other.awardTypeCode != null)
+                return false;
+        }
+        else if (!awardTypeCode.equals(other.awardTypeCode))
+            return false;
+        if (description == null) {
+            if (other.description != null)
+                return false;
+        }
+        else if (!description.equals(other.description))
+            return false;
+        return true;
+    }
     
-    // TODO Equals and hashCode
-	
 }
