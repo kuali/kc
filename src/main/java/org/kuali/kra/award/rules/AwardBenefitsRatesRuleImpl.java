@@ -92,14 +92,6 @@ public class AwardBenefitsRatesRuleImpl extends ResearchDocumentRuleBase impleme
     }
     
     /**
-     * This is a convenience method to use jmock to set the businessObjectService for unit testing.
-     * @param businessObjectService
-     */
-    void setBusinessObjectService(BusinessObjectService businessObjectService){
-        this.businessObjectService = businessObjectService;
-    }
-    
-    /**
      * This method returns the Kra business object service.
      * @return
      */
