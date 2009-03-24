@@ -30,7 +30,9 @@ import org.kuali.kra.award.bo.AwardCostShare;
 import org.kuali.kra.award.bo.AwardFandaRate;
 import org.kuali.kra.award.bo.AwardReportTerm;
 import org.kuali.kra.award.bo.AwardSpecialReview;
-import org.kuali.kra.award.bo.AwardSponsorTerm;
+import org.kuali.kra.award.detailsdates.AddAwardTransferringSponsorEvent;
+import org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRule;
+import org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRuleImpl;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder;
@@ -57,18 +59,10 @@ import org.kuali.kra.award.rule.event.AddAwardReportTermRecipientEvent;
 import org.kuali.kra.award.rule.event.AwardApprovedSubawardRuleEvent;
 import org.kuali.kra.award.rule.event.AwardBenefitsRatesRuleEvent;
 import org.kuali.kra.award.rule.event.AwardCostShareRuleEvent;
-import org.kuali.kra.award.rule.event.AwardSponsorTermRuleEvent;
+import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.rules.KeyPersonnelAuditRule;
-import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentGrantsGovAuditRule;
-import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentProposalRequiredFieldsAuditRule;
-import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentSponsorProgramInformationAuditRule;
-import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentYnqAuditRule;
-import org.kuali.kra.proposaldevelopment.rules.ProposalSpecialReviewAuditRule;
-import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.rule.SpecialReviewRule;
 import org.kuali.kra.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
@@ -83,7 +77,8 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
                                                                             AwardApprovedForeignTravelRule, 
                                                                             AddFandaRateRule,SpecialReviewRule<AwardSpecialReview>,
                                                                             AddAwardReportTermRule, 
-                                                                            AddAwardReportTermRecipientRule {
+                                                                            AddAwardReportTermRecipientRule,
+                                                                            AwardDetailsAndDatesRule {
     
     public static final String DOCUMENT_ERROR_PATH = "document";
     public static final String AWARD_ERROR_PATH = "awardList[0]";
@@ -134,6 +129,15 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     public boolean processAddAwardPaymentScheduleBusinessRules(AddAwardPaymentScheduleRuleEvent event) {
         return processAddPaymentScheduleBusinessRules(GlobalVariables.getErrorMap(), event);
     }
+    
+    /**
+     * @see org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRule#processAddAwardTransferringSponsorEvent
+     * (org.kuali.kra.award.rule.event.AddAwardTransferringSponsorEvent)
+     */
+    public boolean processAddAwardTransferringSponsorEvent(AddAwardTransferringSponsorEvent addAwardTransferringSponsorEvent) {
+        return new AwardDetailsAndDatesRuleImpl().processAddAwardTransferringSponsorEvent(addAwardTransferringSponsorEvent);
+    }
+    
     
     /**
      * 
