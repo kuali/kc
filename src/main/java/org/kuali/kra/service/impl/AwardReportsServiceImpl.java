@@ -44,7 +44,7 @@ public class AwardReportsServiceImpl implements AwardReportsService {
     
     private static final String SEMICOLON_AS_DELIMITOR = ";";
     private static final String COMMA_AS_DELIMITOR = ",";
-    
+    private static final String REPORT_CLASS_CODE_FIELD = "reportClassCode";
     KualiConfigurationService kualiConfigurationService;
     BusinessObjectService businessObjectService;
     
@@ -79,8 +79,8 @@ public class AwardReportsServiceImpl implements AwardReportsService {
         
         Map<String, String> primaryKeyField = new HashMap<String, String>();
         
-        primaryKeyField.put("reportClassCode",kualiConfigurationService.getParameter(Constants
-                .PARAMETER_MODULE_AWARD,Constants.PARAMETER_COMPONENT_DOCUMENT
+        primaryKeyField.put(REPORT_CLASS_CODE_FIELD, kualiConfigurationService.getParameter(Constants
+                .PARAMETER_MODULE_AWARD ,Constants.PARAMETER_COMPONENT_DOCUMENT
                 ,KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES).getParameterValue());        
         
         hashMap.put(Constants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES_PANEL, 
@@ -218,6 +218,15 @@ public class AwardReportsServiceImpl implements AwardReportsService {
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
+    
+    /**
+     * 
+     * This method...
+     * @return
+     */
+    protected KualiConfigurationService getKualiConfigurationService(){
+        return kualiConfigurationService;
+    }
 
     /**
      * 
@@ -226,6 +235,15 @@ public class AwardReportsServiceImpl implements AwardReportsService {
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+    
+    /**
+     * 
+     * This method...
+     * @return
+     */
+    protected BusinessObjectService getBusinessObjectService(){
+        return businessObjectService;
     }
 
 }

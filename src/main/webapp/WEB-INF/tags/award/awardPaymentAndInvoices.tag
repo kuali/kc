@@ -13,6 +13,8 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
+<%-- member of AwardPaymentReportsAndTerms.jsp --%>
+
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="awardPaymentAndInvoiceRequirementsCommentAttributes" value="${DataDictionary.AwardComment.attributes}" />
