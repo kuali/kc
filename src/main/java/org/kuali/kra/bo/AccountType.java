@@ -17,6 +17,11 @@ package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
+/**
+ * Account Type business object
+ * 
+ * @author Kuali Coeus development team (kc.dev@kuali.org)
+ */
 public class AccountType extends KraPersistableBusinessObjectBase { 
 
     private static final long serialVersionUID = -8445736738959087012L;

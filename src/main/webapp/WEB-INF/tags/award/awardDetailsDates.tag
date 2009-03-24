@@ -172,7 +172,7 @@
 </table>
 
 <!-- Sponsor Funding Transferred -->
-<table cellpAdding="0" cellspacing="0" summary="">
+<table cellpAdding="0" cellspacing="0" summary="" id="sponsor-funding-transferred-table">
 	<tr>
         <td colspan="3" class="tab-subhead1">
         	Sponsor Funding Transferred
