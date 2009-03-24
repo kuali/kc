@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.service.CommitteeMembershipService;
 
@@ -34,6 +35,7 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
     private static final String REFERENCE_ROLODEX = "rolodex";
     private static final String REFERENCE_MEMBERSHIP_TYPE = "membershipType";
     private static final String REFERENCE_MEMBERSHIP_ROLE = "membershipRole";
+    private static final String REFERENCE_RESEARCH_AREA = "researchArea";
 
     private BusinessObjectService businessObjectService;
     
@@ -102,5 +104,29 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
         CommitteeMembership committeeMembership = committee.getCommitteeMemberships().get(selectedMembershipIndex);
         CommitteeMembershipRole membershipRole = committeeMembership.getMembershipRoles().get(lineNumber);
         committeeMembership.getMembershipRoles().remove(membershipRole);
+    }
+    
+    /**
+     * @see org.kuali.kra.committee.service.CommitteeMembershipService#addCommitteeMembershipExpertise(org.kuali.kra.committee.bo.CommitteeMembership, org.kuali.kra.committee.bo.CommitteeMembershipExpertise)
+     */
+    public void addCommitteeMembershipExpertise(Committee committee, int selectedMembershipIndex, CommitteeMembershipExpertise committeeMembershipExpertise) {
+        CommitteeMembership committeeMembership = committee.getCommitteeMemberships().get(selectedMembershipIndex);
+        
+        committeeMembershipExpertise.setCommitteeMembershipId(committeeMembership.getCommitteeMembershipId());
+        committeeMembershipExpertise.setMembershipId("0");
+        committeeMembershipExpertise.setSequenceNumber(0);
+
+        committeeMembershipExpertise.refreshReferenceObject(REFERENCE_RESEARCH_AREA);
+        
+        committeeMembership.getMembershipExpertise().add(committeeMembershipExpertise);
+    }
+   
+    /**
+     * @see org.kuali.kra.committee.service.CommitteeMembershipService#deleteCommitteeMembershipExpertise(org.kuali.kra.committee.bo.Committee, int, int)
+     */
+    public void deleteCommitteeMembershipExpertise(Committee committee, int selectedMembershipIndex, int lineNumber) {
+        CommitteeMembership committeeMembership = committee.getCommitteeMemberships().get(selectedMembershipIndex);
+        CommitteeMembershipExpertise committeeMembershipExpertise = committeeMembership.getMembershipExpertise().get(lineNumber);
+        committeeMembership.getMembershipRoles().remove(committeeMembershipExpertise);
     }
 }
