@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -47,12 +48,43 @@ public class AwardPaymentScheduleGenerationServiceImpl implements AwardPaymentSc
     
     public static final String ZERO_HOURS = "00:00";
     public static final String FREQUENCY_OBJECT_STRING = "frequency";
+    public static final String FREQUENCY_BASE_CODE_FINAL_EXPIRATION_DATE = "4";
     
     private ScheduleService scheduleService;
     private PersistenceService persistenceService;
     private KualiConfigurationService kualiConfigurationService;
     private int periodInYears;
+    private HashMap<String, java.util.Date> mapOfDates;
+    private GregorianCalendar calendarClassLevel;
     
+    /**
+     * 
+     * Constructs a AwardPaymentScheduleGenerationServiceImpl.java.
+     */
+    public AwardPaymentScheduleGenerationServiceImpl(){
+        calendarClassLevel = new GregorianCalendar();
+        mapOfDates = new HashMap<String, java.util.Date>();
+        
+        calendarClassLevel.clear();
+        calendarClassLevel.set(2009, 3, 1);//temp hardcoded award effective date.
+        mapOfDates.put("1", calendarClassLevel.getTime()); 
+        
+        calendarClassLevel.clear();
+        calendarClassLevel.set(2009, 4, 1);//temp hardcoded award effective
+        mapOfDates.put("2", calendarClassLevel.getTime());
+        
+        calendarClassLevel.clear();
+        calendarClassLevel.set(2009, 5, 1);//temp hardcoded award expiration date of obligation.
+        mapOfDates.put("3", calendarClassLevel.getTime());
+        
+        calendarClassLevel.clear();
+        calendarClassLevel.set(2011, 4, 1);//temp hardcoded award expiration date.
+        mapOfDates.put(FREQUENCY_BASE_CODE_FINAL_EXPIRATION_DATE, calendarClassLevel.getTime());
+        
+        calendarClassLevel.clear();
+        calendarClassLevel.set(2009, 7, 1);//temp hardcoded award effective date of obligation.
+        mapOfDates.put("5", calendarClassLevel.getTime());
+    }
     /**
      * 
      * @see org.kuali.kra.service.AwardPaymentScheduleGenerationService#generatePaymentSchedules(org.kuali.kra.award.bo.Award, java.util.List)
@@ -123,26 +155,16 @@ public class AwardPaymentScheduleGenerationServiceImpl implements AwardPaymentSc
      * @return
      */
     protected Date getStartDate(AwardReportTerm awardReportTerm){
-        GregorianCalendar calendar = new GregorianCalendar();
-        java.util.Date baseDate;
+        Calendar calendar = new GregorianCalendar();
+        
         calendar.clear();
-        if(awardReportTerm.getFrequencyBaseCode().equals("1")){            
-            calendar.set(2009, 3, 1);//temp hardcoded award execution date.
-        }else if(awardReportTerm.getFrequencyBaseCode().equals("2")){
-            calendar.set(2009, 4, 1);//temp hardcoded award effective date.
-        }else if(awardReportTerm.getFrequencyBaseCode().equals("3")){
-            calendar.set(2009, 5, 1);//temp hardcoded award expiration date of obligation.
-        }else if(awardReportTerm.getFrequencyBaseCode().equals("4")){
-            calendar.set(2011, 4, 1);//temp hardcoded award expiration date.
-        }else if(awardReportTerm.getFrequencyBaseCode().equals("5")){
-            calendar.set(2009, 7, 1);//temp hardcoded award effective date of obligation.
+        if(mapOfDates.containsKey(awardReportTerm.getFrequencyBaseCode())){
+            calendar.setTime(mapOfDates.get(awardReportTerm.getFrequencyBaseCode()));
         }else{
             calendar.setTimeInMillis(awardReportTerm.getDueDate().getTime());
         }
         
-        baseDate = calendar.getTime();
-        
-        return getStartDateFromTheBaseDate(baseDate, awardReportTerm.getFrequency());
+        return getStartDateFromTheBaseDate(calendar, awardReportTerm.getFrequency());
     }
 
     /**
@@ -153,10 +175,8 @@ public class AwardPaymentScheduleGenerationServiceImpl implements AwardPaymentSc
      * @param frequency
      * @return
      */
-    protected Date getStartDateFromTheBaseDate(Date baseDate, Frequency frequency) {
-        GregorianCalendar calendar = new GregorianCalendar();
-        calendar.clear();
-        calendar.setTime(baseDate);
+    protected Date getStartDateFromTheBaseDate(Calendar calendar, Frequency frequency) {
+        
         addOffSetPeriodToStartDate(frequency, calendar);
         
         addNumberOfMonthsToStartDate(frequency, calendar);
@@ -212,11 +232,11 @@ public class AwardPaymentScheduleGenerationServiceImpl implements AwardPaymentSc
     protected Date getEndDate(String frequencyBaseCode, Date startDate){
         GregorianCalendar calendar = new GregorianCalendar();
         calendar.clear();
-        if(frequencyBaseCode.equals("4")){
+        if(frequencyBaseCode.equals(FREQUENCY_BASE_CODE_FINAL_EXPIRATION_DATE)){
             calendar.setTime(startDate);   
             calendar.add(Calendar.YEAR, getPeriodInYears());            
         }else{
-            calendar.set(2011, 4, 1);//temp hardcoded award expiration date.
+            calendar.setTime(mapOfDates.get(FREQUENCY_BASE_CODE_FINAL_EXPIRATION_DATE));
         }
         return calendar.getTime();
     }
