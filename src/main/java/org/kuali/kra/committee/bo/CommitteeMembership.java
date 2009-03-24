@@ -82,6 +82,7 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase {
     private String trainingNotes;
     
     private List<CommitteeMembershipRole> membershipRoles;
+    private List<CommitteeMembershipExpertise> membershipExpertise;
 
     private CommitteeMembershipType membershipType;
 
@@ -92,6 +93,7 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase {
 
     public CommitteeMembership() {
         setMembershipRoles(new ArrayList<CommitteeMembershipRole>());
+        setMembershipExpertise(new ArrayList<CommitteeMembershipExpertise>());
     }
 
     public Long getCommitteeMembershipId() {
@@ -223,6 +225,17 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase {
 
     public List<CommitteeMembershipRole> getMembershipRoles() {
         return membershipRoles;
+    }
+    
+    public void setMembershipExpertise(List<CommitteeMembershipExpertise> committeeMembershipExpertise) {
+        this.membershipExpertise = committeeMembershipExpertise;
+        for (CommitteeMembershipExpertise expertise: committeeMembershipExpertise) {
+            expertise.init(this);
+        }
+    }
+    
+    public List<CommitteeMembershipExpertise> getMembershipExpertise() {
+        return membershipExpertise;
     }
 
     public CommitteeMembershipType getMembershipType() {
