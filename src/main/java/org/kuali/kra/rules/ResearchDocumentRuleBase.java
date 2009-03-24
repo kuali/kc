@@ -57,6 +57,7 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
     public static final String DOCUMENT_ERROR_PATH = "document";
     public static final boolean VALIDATION_REQUIRED = true;
     public static final boolean CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME = false;
+    private BusinessObjectService businessObjectService;
 
 
     /**
@@ -256,7 +257,18 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
      * @return BusinessObjectService
      */
     protected final BusinessObjectService getBusinessObjectService() {
-        return getService(BusinessObjectService.class);
+        if (businessObjectService == null) {
+            businessObjectService = getService(BusinessObjectService.class);
+        }
+        return businessObjectService;
+    }
+    
+    /**
+     * This is a convenience method to use jmock to set the businessObjectService for unit testing.
+     * @param businessObjectService
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService){
+        this.businessObjectService = businessObjectService;
     }
     
     /**

@@ -24,15 +24,15 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardApprovedSubaward;
 import org.kuali.kra.award.bo.AwardScienceKeyword;
+import org.kuali.kra.award.bo.AwardTransferringSponsor;
+import org.kuali.kra.award.detailsdates.AddAwardTransferringSponsorEvent;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KeywordsService;
 
@@ -213,16 +213,14 @@ public class AwardHomeAction extends AwardAction {
             HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         Sponsor awardTransferringSponsor = awardForm.getDetailsAndDatesFormHelper().getNewAwardTransferringSponsor();
-        // TODO Temporary hack, move to rules
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
-        Sponsor dbSponsor = (Sponsor) boService.retrieve(awardTransferringSponsor);
-        //awardTransferringSponsor.refreshRe
-        if (dbSponsor == null) {
-            GlobalVariables.getErrorMap().putError("detailsAndDatesFormHelper.newAwardTransferringSponsor.sponsorCode", 
-                    KeyConstants.ERROR_INVALID_AWARD_TRANSFERRING_SPONSOR);
-        } else {
-            awardForm.getAwardDocument().getAward().addAwardTransferringSponsor(awardTransferringSponsor);
+        boolean rulePassed = getKualiRuleService().applyRules(
+                new AddAwardTransferringSponsorEvent("", awardForm.getAwardDocument(), 
+                        awardForm.getAwardDocument().getAward(), awardTransferringSponsor));
+        if (rulePassed) {
+            Sponsor dbSponsor = (Sponsor) getBusinessObjectService().retrieve(awardTransferringSponsor);
+            awardForm.getAwardDocument().getAward().addAwardTransferringSponsor(dbSponsor);
         }
+        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -242,6 +240,10 @@ public class AwardHomeAction extends AwardAction {
         AwardForm awardForm = (AwardForm) form;
         awardForm.getAwardDocument().getAward().getAwardTransferringSponsors().remove(getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    protected BusinessObjectService getBusinessObjectService() {
+        return KraServiceLocator.getService(BusinessObjectService.class);
     }
     
 }
