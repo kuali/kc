@@ -18,10 +18,10 @@
 <c:set var="action" value="committeeCommittee" />
 <c:set var="readOnly" value="${!KualiForm.committeeHelper.modifyCommittee}" />
 
-<kul:tab tabTitle="Research Areas" defaultOpen="true" tabErrorKey="committeeResearchAreas*">
+<kul:tab tabTitle="Area of Research" defaultOpen="true" tabErrorKey="committeeResearchAreas*">
 	<div class="tab-container" align="center">
     	<h3>
-    		<span class="subhead-left">Research Areas</span>
+    		<span class="subhead-left">Area of Research</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.ResearchArea" altText="help"/></span>
         </h3>
         
@@ -36,26 +36,14 @@
           		
           	<c:if test="${!readOnly}"> 
 	            <tr>
-		            <th width="10%" class="infoline">Add:</th>
+		            <th width="10%" class="infoline">add:</th>
 		            <td width="70%" class="infoline">
-		                <c:choose>
-		                    <c:when test="${empty KualiForm.committeeHelper.newResearchArea.description}">
-		                        (select)
-		                    </c:when>
-		                    <c:otherwise>
-		                        <c:out value="${KualiForm.committeeHelper.newResearchArea.description}"/>
-		              	    </c:otherwise>
-		              	</c:choose>
-		              	<kul:lookup boClassName="org.kuali.kra.bo.ResearchArea" 
-	                         fieldConversions="researchAreaCode:committeeHelper.newResearchArea.researchAreaCode,description:committeeHelper.newResearchArea.description" />
-					</td>
+		                (select)&nbsp;<kul:multipleValueLookup boClassName="org.kuali.kra.bo.ResearchArea" 
+	              		lookedUpCollectionName="committeeResearchAreas"
+	              		anchor="${tabKey}"/>
+				    </td>
 		
-		            <td align="left" valign="middle" class="infoline">
-						<div align="center">
-						    <html:image property="methodToCall.addResearchArea.anchor${tabKey}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
-						</div>
-	               </td>
+		            <td class="infoline" />
 	            </tr>
             </c:if>
             
@@ -65,7 +53,7 @@
 						<c:out value="${status.index+1}" />
 					</th>
 		            <td align="left" valign="middle">
-		               ${researchArea.researchArea.description}
+		               ${researchArea.researchArea.researchAreaCode}&nbsp;${researchArea.researchArea.description}
 					</td>
 					<c:if test="${!readOnly}">
 	                    <td>

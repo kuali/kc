@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.committee.service;
 
+import java.util.Collection;
+
+import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.committee.bo.Committee;
 
 /**
@@ -29,11 +32,11 @@ public interface CommitteeService {
      * @return the committee or null if not found
      */
     public Committee getCommitteeById(String committeeId);
-    
+   
     /**
-     * Add a research area to a committee.
-     * @param committee the committee
-     * @param researchAreaCode the type code of the research area to add
+     * Add the research areas to the committee.  Duplicates are not added.
+     * @param committee the committee to add to
+     * @param researchAreas the research areas to add
      */
-    public void addResearchArea(Committee committee, String researchAreaCode);
+    public void addResearchAreas(Committee committee, Collection<ResearchArea> researchAreas);
 }
