@@ -54,6 +54,7 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
     private CommitteeHelper committeeHelper;
     private MembershipHelper membershipHelper;
     private MembershipRolesHelper membershipRolesHelper;
+    private MembershipExpertiseHelper membershipExpertiseHelper;
      
     @SuppressWarnings("unused")
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeForm.class);
@@ -85,6 +86,7 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
         setCommitteeHelper(new CommitteeHelper(this));
         setMembershipHelper(new MembershipHelper(this));
         setMembershipRolesHelper(new MembershipRolesHelper(this));
+        setMembershipExpertiseHelper(new MembershipExpertiseHelper(this));
         setCommitteeScheduleHelper(new CommitteeScheduleHelper(this));
     }
 
@@ -221,6 +223,14 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
 
     public void setMembershipRolesHelper(MembershipRolesHelper membershipRolesHelper) {
         this.membershipRolesHelper = membershipRolesHelper;
+    }
+    
+    public MembershipExpertiseHelper getMembershipExpertiseHelper() {
+        return membershipExpertiseHelper;
+    }
+    
+    public void setMembershipExpertiseHelper(MembershipExpertiseHelper membershipExpertiseHelper) {
+        this.membershipExpertiseHelper = membershipExpertiseHelper;
     }
 
     public CommitteeScheduleHelper getCommitteeScheduleHelper() {

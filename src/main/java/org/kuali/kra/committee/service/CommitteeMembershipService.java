@@ -17,6 +17,7 @@ package org.kuali.kra.committee.service;
 
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolPerson;
@@ -38,7 +39,7 @@ public interface CommitteeMembershipService {
     /**
      * This method adds a CommitteeMembershipRole to the list of CommitteeMembershipRoles of a 
      * committee member.
-     * @param committee- the committee that contains the CommitteeMembership to which the role is to be added.
+     * @param committee - the committee that contains the CommitteeMembership to which the role is to be added.
      * @param selectedmembershipIndex - the index position of the CommitteeMembership to which the role is to be added. 
      * @param committeeMembershipRole - the role that is to be added
      */
@@ -51,4 +52,21 @@ public interface CommitteeMembershipService {
      * @param lineNumber - the position of the ComitteeMembershipRole to be deleted
      */
     void deleteCommitteeMembershipRole(Committee committee, int selectedMembershipIndex, int lineNumber);
+
+    /**
+     * This method adds a CommitteeMembershipExpertise to the list of CommitteeMembershipExpertise of a 
+     * committee member.
+     * @param committee - the committee that contains the CommitteeMembership to which the role is to be added.
+     * @param selectedmembershipIndex - the index position of the CommitteeMembership to which the role is to be added. 
+     * @param CommitteeMembershipExpertise - the expertise that is to be added
+     */
+    void addCommitteeMembershipExpertise(Committee committee, int selectedMembershipIndex, CommitteeMembershipExpertise committeeMembershipExpertise);
+
+    /**
+     * This method deletes a CommitteeMembershipExpertise from the list of CommitteeMembershipExpertise
+     * @param committee - the committee that contains the CommitteeMembership from which the role is to be deleted.
+     * @param selectedMembershipIndex - the index position of the CommitteeMembership from which the role is to be deleted.
+     * @param lineNumber - the position of the CommitteeMembershipExpertise to be deleted
+     */
+    void deleteCommitteeMembershipExpertise(Committee committee, int selectedMembershipIndex, int lineNumber);
 }
