@@ -19,6 +19,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.committee.bo.Committee;
@@ -63,19 +65,42 @@ public class CommitteeServiceImpl implements CommitteeService {
     }
 
     /**
-     * @see org.kuali.kra.committee.service.CommitteeService#addResearchArea(org.kuali.kra.committee.bo.Committee, java.lang.String)
+     * @see org.kuali.kra.committee.service.CommitteeService#addResearchAreas(org.kuali.kra.committee.bo.Committee, java.util.Collection)
      */
-    public void addResearchArea(Committee committee, String researchAreaCode) {
-        Map<String, String> primaryKeys = new HashMap<String, String>();
-        primaryKeys.put("researchAreaCode", researchAreaCode);
-        ResearchArea researchArea = (ResearchArea) businessObjectService.findByPrimaryKey(ResearchArea.class, primaryKeys);
-        if (researchArea != null) {  // Business rules should have detected invalid research area
-            CommitteeResearchArea committeeResearchArea = new CommitteeResearchArea();
-            committeeResearchArea.setCommittee(committee);
-            committeeResearchArea.setCommitteeId(committee.getId());
-            committeeResearchArea.setResearchArea(researchArea);
-            committeeResearchArea.setResearchAreaCode(researchAreaCode);
-            committee.getCommitteeResearchAreas().add(committeeResearchArea);
+    public void addResearchAreas(Committee committee, Collection<ResearchArea> researchAreas) {
+        for (ResearchArea researchArea : researchAreas) {
+            if (!hasResearchArea(committee, researchArea)) {
+                addCommitteeResearchArea(committee, researchArea);
+            }
         }
+    }
+    
+    /**
+     * Does the committee already have this research area?
+     * @param committee
+     * @param researchArea
+     * @return true if the committee has the research area; otherwise false
+     */
+    private boolean hasResearchArea(Committee committee, ResearchArea researchArea) {
+        for (CommitteeResearchArea committeeResearchArea : committee.getCommitteeResearchAreas()) {
+            if (StringUtils.equals(committeeResearchArea.getResearchAreaCode(), researchArea.getResearchAreaCode())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Add a research area to the committee.
+     * @param committee
+     * @param researchArea
+     */
+    private void addCommitteeResearchArea(Committee committee, ResearchArea researchArea) {
+        CommitteeResearchArea committeeResearchArea = new CommitteeResearchArea();
+        committeeResearchArea.setCommittee(committee);
+        committeeResearchArea.setCommitteeId(committee.getId());
+        committeeResearchArea.setResearchArea(researchArea);
+        committeeResearchArea.setResearchAreaCode(researchArea.getResearchAreaCode());
+        committee.getCommitteeResearchAreas().add(committeeResearchArea);
     }
 }

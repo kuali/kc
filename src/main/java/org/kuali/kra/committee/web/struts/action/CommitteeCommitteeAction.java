@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.committee.web.struts.action;
 
+import java.util.Collection;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,11 +24,11 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.document.authorization.CommitteeTask;
-import org.kuali.kra.committee.rule.event.AddCommitteeResearchAreaEvent;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.infrastructure.Constants;
@@ -44,6 +46,7 @@ public class CommitteeCommitteeAction extends CommitteeAction {
 
     @SuppressWarnings("unused")
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeCommitteeAction.class);
+    
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -61,31 +64,14 @@ public class CommitteeCommitteeAction extends CommitteeAction {
     }
     
     /**
-     * Add a Research Area to a Committee.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * @see org.kuali.kra.committee.web.struts.action.CommitteeAction#processMultipleLookupResults(org.kuali.kra.committee.document.CommitteeDocument, java.lang.Class, java.util.Collection)
      */
-    public ActionForward addResearchArea(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-    throws Exception {
-        
-        CommitteeForm committeeForm = (CommitteeForm) form;
-        CommitteeDocument committeeDocument = committeeForm.getCommitteeDocument();
-        Committee committee = committeeDocument.getCommittee();
-        
-        CommitteeTask task = new CommitteeTask(TaskName.MODIFY_COMMITTEE, committee);
-        if (isAuthorized(task)) {
-            ResearchArea newResearchArea = committeeForm.getCommitteeHelper().getNewResearchArea();
-            boolean rulesPassed = applyRules(new AddCommitteeResearchAreaEvent(committeeDocument, newResearchArea.getResearchAreaCode()));
-            if (rulesPassed) {
-                getCommitteeService().addResearchArea(committee, newResearchArea.getResearchAreaCode());
-                committeeForm.getCommitteeHelper().setNewResearchArea(new ResearchArea());
-            }
+    @Override
+    protected void processMultipleLookupResults(CommitteeDocument committeeDocument,
+            Class lookupResultsBOClass, Collection<PersistableBusinessObject> selectedBOs) {
+        if (lookupResultsBOClass.isAssignableFrom(ResearchArea.class)) {
+            getCommitteeService().addResearchAreas(committeeDocument.getCommittee(), (Collection) selectedBOs);
         }
-        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     /**
