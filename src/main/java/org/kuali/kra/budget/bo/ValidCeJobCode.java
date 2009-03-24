@@ -55,7 +55,7 @@ public class ValidCeJobCode extends KraPersistableBusinessObjectBase {
      * Sets the jobCodeReference attribute value.
      * @param jobCodeReference The jobCodeReference to set.
      */
-    public void setJobCodeBO(JobCode jobCodeReference) {
+    public void setJobCodeReference(JobCode jobCodeReference) {
         this.jobCodeReference = jobCodeReference;
     }
 
