@@ -143,7 +143,7 @@
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.committee.bo.CommitteeMembership" table="COMM_MEMBERSHIPS">
-        <field-descriptor name="committeeMembershipId" column="COMM_MEMBERSHIP_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMM_SCHEDULE_ID" autoincrement="true" />
+        <field-descriptor name="committeeMembershipId" column="COMM_MEMBERSHIP_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMMITTEE_ID" autoincrement="true" />
         <field-descriptor name="id" column="ID" jdbc-type="BIGINT" />
         <field-descriptor name="committeeId" column="COMMITTEE_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
@@ -178,10 +178,14 @@
         <collection-descriptor name="membershipRoles" element-class-ref="org.kuali.kra.committee.bo.CommitteeMembershipRole" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="committeeMembershipId" />
         </collection-descriptor>
+        
+        <collection-descriptor name="membershipExpertise" element-class-ref="org.kuali.kra.committee.bo.CommitteeMembershipExpertise" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="committeeMembershipId" />
+        </collection-descriptor>
     </class-descriptor>	
     
     <class-descriptor class="org.kuali.kra.committee.bo.CommitteeMembershipRole" table="COMM_MEMBER_ROLES">
-        <field-descriptor name="committeeMembershipRoleId" column="COMM_MEMBER_ROLES_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMM_SCHEDULE_ID" autoincrement="true" />
+        <field-descriptor name="committeeMembershipRoleId" column="COMM_MEMBER_ROLES_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMMITTEE_ID" autoincrement="true" />
         <field-descriptor name="committeeMembershipId" column="COMM_MEMBERSHIP_ID" jdbc-type="BIGINT" />
         <field-descriptor name="membershipId" column="MEMBERSHIP_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
@@ -195,6 +199,22 @@
 
         <reference-descriptor name="membershipRole" class-ref="org.kuali.kra.committee.bo.MembershipRole" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="membershipRoleCode"/>
+        </reference-descriptor>
+    </class-descriptor>
+    
+    <class-descriptor class="org.kuali.kra.committee.bo.CommitteeMembershipExpertise" table="COMM_MEMBER_EXPERTISE">
+        <field-descriptor name="committeeMembershipExpertiseId" column="COMM_MEMBER_EXPERTISE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMMITTEE_ID" autoincrement="true" />
+        <field-descriptor name="committeeMembershipId" column="COMM_MEMBERSHIP_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="membershipId" column="MEMBERSHIP_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+        <field-descriptor name="researchAreaCode" column="RESEARCH_AREA_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        
+        <reference-descriptor name="researchArea" class-ref="org.kuali.kra.bo.ResearchArea" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="researchAreaCode"/>
         </reference-descriptor>
     </class-descriptor>
     

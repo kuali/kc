@@ -198,7 +198,7 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
      */
     public ActionForward committeeMembership(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ((CommitteeForm)form).getMembershipHelper().prepareView();
-        return mapping.findForward("ProtocolcommitteeMembership");
+        return mapping.findForward("committeeMembership");
     }
 
     /**

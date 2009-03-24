@@ -32,6 +32,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.rule.event.AddCommitteeMembershipEvent;
@@ -136,9 +137,9 @@ public class CommitteeMembershipAction extends CommitteeAction {
     }
     
     /**
-     * This method is linked to ProtocolPersonnelService to perform the action
-     * Add ProtocolUnit to Person.
-     * Method is called in personUnitsSection.tag
+     * This method is linked to CommitteeMembershipService to perform the action.
+     * Add a CommitteeMembershipRole to a CommitteeMembership.
+     * Method is called in committeeMembershipRoleSection.tag
      * @param mapping
      * @param form
      * @param request
@@ -164,9 +165,9 @@ public class CommitteeMembershipAction extends CommitteeAction {
     }
     
     /**
-     * This method is linked to ProtocolPersonnelService to perform the action.
-     * Delete ProtocolUnit from Person unit list.
-     * Method is called in personUnitsSection.tag
+     * This method is linked to CommitteeMembershipService to perform the action.
+     * Delete a CommitteeMembershipRole from a CommitteeMembership.
+     * Method is called in committeeMembershipRoleSection.tag
      * @param mapping
      * @param form
      * @param request
@@ -182,6 +183,55 @@ public class CommitteeMembershipAction extends CommitteeAction {
 
         return mapping.findForward(MAPPING_BASIC);
     }
+
+    /**
+     * This method is linked to CommitteeMembershipService to perform the action.
+     * Add a CommitteeMembershipExpertise to a CommitteeMembership.
+     * Method is called in committeeMembershipExpertiseSection.tag
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward addCommitteeMembershipExpertise(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    CommitteeForm committeeForm = (CommitteeForm) form;
+    Committee committee = committeeForm.getCommitteeDocument().getCommittee();
+    int selectedMembershipIndex = getSelectedMembershipIndex(request);
+    CommitteeMembershipExpertise newCommitteeMembershipExpertise = committeeForm.getMembershipExpertiseHelper().getNewCommitteeMembershipExpertise().get(selectedMembershipIndex);
+    
+    // check any business rules
+    boolean rulePassed = true; // TODO: cniesen - applyRules(new AddCommitteeMembershipRoleEvent(Constants.EMPTY_STRING, committeeForm.getCommitteeDocument(), newCommitteeMembershipRole, selectedMembershipIndex));
+
+    if (rulePassed) {
+        getCommitteeMembershipService().addCommitteeMembershipExpertise(committee, selectedMembershipIndex, newCommitteeMembershipExpertise);
+        committeeForm.getMembershipExpertiseHelper().setNewCommitteeMembershipExpertise(new ArrayList<CommitteeMembershipExpertise>());
+    }
+    
+    return mapping.findForward(Constants.MAPPING_BASIC );
+    }
+    
+    /**
+     * This method is linked to CommitteeMembershipService to perform the action.
+     * Delete a CommitteeMembershipExpertise from a CommitteeMembership.
+     * Method is called in committeeMembershipExpertiseSection.tag
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteCommitteeMembershipExpertise(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CommitteeForm committeeForm = (CommitteeForm) form;
+        Committee committee = committeeForm.getCommitteeDocument().getCommittee();
+        
+        getCommitteeMembershipService().deleteCommitteeMembershipExpertise(committee, getSelectedMembershipIndex(request), getSelectedLine(request));
+
+        return mapping.findForward(MAPPING_BASIC);
+    }
+    
 //    
 //    /**
 //     * This method is to update protocol person details view based on modified person role. 
