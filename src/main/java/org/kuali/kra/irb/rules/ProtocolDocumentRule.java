@@ -27,8 +27,10 @@ import org.kuali.kra.common.permissions.bo.PermissionsUser;
 import org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles;
 import org.kuali.kra.common.permissions.rule.PermissionsRule;
 import org.kuali.kra.common.permissions.web.bean.User;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.bo.ProtocolParticipant;
 import org.kuali.kra.irb.bo.ProtocolSpecialReview;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.rule.AddProtocolFundingSourceRule;
@@ -62,7 +64,8 @@ import org.kuali.kra.service.UnitService;
 public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolParticipantRule, AddProtocolLocationRule, AddProtocolPersonnelRule, SaveProtocolPersonnelRule, AddProtocolFundingSourceRule, PermissionsRule, AddProtocolUnitRule, CustomAttributeRule, SpecialReviewRule<ProtocolSpecialReview> {
     private static final String PROTOCOL_PIID_FORM_ELEMENT="protocolHelper.personId";
     private static final String PROTOCOL_LUN_FORM_ELEMENT="protocolHelper.leadUnitNumber";
-    private static final String ERROR_PROPERTY_ORGANIZATION_ID = "protocolHelper.newProtocolLocation.organizationId"; 
+    private static final String ERROR_PROPERTY_ORGANIZATION_ID = "protocolHelper.newProtocolLocation.organizationId";
+
 
 // TODO : move these static constant up to parent 
     @Override
@@ -89,6 +92,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         boolean valid = true;
         valid &= processRequiredFieldsBusinessRules((ProtocolDocument) document);
         valid &= processProtocolLocationBusinessRules((ProtocolDocument) document);
+        valid &= processProtocolParticipantBusinessRules((ProtocolDocument) document);
         
         return valid;
     }
@@ -151,6 +155,30 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         if(CollectionUtils.isEmpty(document.getProtocol().getProtocolLocations())) {
             reportError(ERROR_PROPERTY_ORGANIZATION_ID, KeyConstants.ERROR_PROTOCOL_LOCATION_SHOULD_EXIST);
             isValid = false;
+        }
+        return isValid;
+    }
+
+    /**
+     * At least one organization must be entered.  
+     * If the default value is removed, another organization must be added before user 
+     * can save
+     * @param document
+     * @return <code>true</code> if document passed the protocol participant validation, 
+     *         <code>false</code> otherwise.
+     */
+    public boolean processProtocolParticipantBusinessRules(ProtocolDocument document) {
+        final String ERROR_PROPERTY_PREFIX = "document.protocolList[0].protocolParticipants[";
+        final String ERROR_PROPERTY_PARTICIPANT_COUNT = "].participantCount";
+        boolean isValid = true;
+        List<ProtocolParticipant> protocolParticipants = document.getProtocol().getProtocolParticipants();
+        for(ProtocolParticipant protocolParticipant: protocolParticipants) {
+            if ((protocolParticipant.getParticipantCount() != null) && (protocolParticipant.getParticipantCount() == 0)) {
+                int index = protocolParticipants.indexOf(protocolParticipant);
+                String errorPath = ERROR_PROPERTY_PREFIX + index + ERROR_PROPERTY_PARTICIPANT_COUNT;
+                reportError(errorPath, KeyConstants.ERROR_PROTOCOL_PARTICIPANT_COUNT_INVALID);
+                isValid = false;
+            }
         }
         return isValid;
     }
