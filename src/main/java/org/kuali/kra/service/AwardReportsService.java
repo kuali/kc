@@ -18,7 +18,6 @@ package org.kuali.kra.service;
 import java.util.HashMap;
 
 import org.kuali.kra.award.bo.Award;
-import org.kuali.kra.award.web.struts.form.AwardForm;
 
 /**
  * 
@@ -29,7 +28,7 @@ public interface AwardReportsService {
     /**
      * 
      * This method prepares the AwardReportTerm and related objects for the display of UI.
-     * This should get called everytime Payment, Reports and Terms page is loaded.
+     * This should get called every time Payment, Reports and Terms page is loaded.
      * 
      * @param award
      * @return
@@ -38,7 +37,7 @@ public interface AwardReportsService {
     
     /**
      * 
-     * This method gets called from the dwr script to populate to update frequency based on
+     * This method gets called from the DWR script to populate to update frequency based on
      * Report Class and Type.
      * 
      * @param reportClassCode
@@ -49,7 +48,7 @@ public interface AwardReportsService {
     
     /**
      * 
-     * This method gets called from the dwr script to populate Frequency Base based on
+     * This method gets called from the DWR script to populate Frequency Base based on
      * Frequency
      * 
      * @param frequencyCode
