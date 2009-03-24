@@ -58,6 +58,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
 import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
@@ -725,11 +726,14 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
             } 
         } 
         List<ProposalPersonUnit> units = new ArrayList<ProposalPersonUnit>();
+        List<ProposalPersonDegree> degrees = new ArrayList<ProposalPersonDegree>();
         for (ProposalPerson person : getProposalPersons()) {
-        units.addAll(person.getUnits());
+            units.addAll(person.getUnits());
+            degrees.addAll(person.getProposalPersonDegrees());
         }
 
         managedLists.add(units);
+        managedLists.add(degrees);
         managedLists.add(getProposalLocations());
         managedLists.add(getPropSpecialReviews());
         managedLists.add(getProposalPersons());
