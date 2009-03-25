@@ -171,13 +171,10 @@
     </tr>
 </table>
 
+
 <!-- Sponsor Funding Transferred -->
+<div class="innerTab-head">Sponsor Funding Transferred</div>
 <table cellpAdding="0" cellspacing="0" summary="" id="sponsor-funding-transferred-table">
-	<tr>
-        <td colspan="3" class="tab-subhead1">
-        	Sponsor Funding Transferred
-        </td>
-    </tr>
     <tr>
         <th style="text-align:center;">&nbsp; </th>
         <th style="text-align:center;">
@@ -189,7 +186,7 @@
     </tr>
     <tr>
         <th>
-            <div align=right>
+            <div align="right">
 	            <b>Add:</b>
             </div>
         </th>
