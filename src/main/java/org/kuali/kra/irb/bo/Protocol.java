@@ -22,7 +22,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kra.bo.AbstractSpecialReview;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.document.SpecialReviewHandler;
 import org.kuali.kra.infrastructure.Constants;
@@ -462,9 +461,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         managedLists.add(getProtocolUnits());
         managedLists.add(getProtocolPersons());
         managedLists.add(getSpecialReviews());
-      //  for (AbstractSpecialReview specialReview : getSpecialReviews()) {
-        //    managedLists.addAll(specialReview.buildListOfDeletionAwareLists());
-       // }
         return managedLists;
     }
     
