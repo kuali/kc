@@ -35,6 +35,11 @@
                                     <div align="left">
                                         <kul:htmlControlAttribute property="membershipExpertiseHelper.newCommitteeMembershipExpertise[${memberIndex}].researchAreaCode" 
                                                                   attributeEntry="${membershipExpertiseAttributes.researchAreaCode}" />
+                                        <kul:lookup boClassName="org.kuali.kra.bo.ResearchArea" 
+                                                    fieldConversions="researchAreaCode:membershipExpertiseHelper.newCommitteeMembershipExpertise[${memberIndex}].researchAreaCode,description:membershipExpertiseHelper.newCommitteeMembershipExpertise[${memberIndex}].researchArea.description" 
+                                                    anchor="${currentTabIndex}"/>
+                                        <br> 
+                                        ${KualiForm.membershipExpertiseHelper.newCommitteeMembershipExpertise[memberIndex].researchArea.description}
                                     </div>
                                 </td>
                                 
