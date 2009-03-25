@@ -169,10 +169,6 @@ public class BreakUpInterval{
                    
                }
                
-               //if no amount details then skip
-               if (rateAndCostList.size() == 0) {
-                   continue;
-               }
                
                //Calculate LA rate classes which get EB and vacation (rateClassType = 'Y')
                if (rateClassType.equals(RateClassType.LA_WITH_EB_VA.getRateClassType())) {
@@ -187,6 +183,12 @@ public class BreakUpInterval{
                            eBonLARateTypeCode, vAonLARateClassCode,vAonLARateTypeCode);
                    continue;
                }
+               
+               //if no amount details then skip
+               if (rateAndCostList.size() == 0) {
+                   continue;
+               }
+               
                for (RateAndCost rateAndCost : rateAndCostList) {
                    rateClassCode = rateAndCost.getRateClassCode();
                    rateTypeCode = rateAndCost.getRateTypeCode();
