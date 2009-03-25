@@ -22,7 +22,7 @@
 <c:set var="exemptionTypes" value="${KualiForm.specialReviewHelper.newSpecialReview.exemptionTypes}" />
 
 <div id="workarea">
-<kul:tab tabTitle="Special Review" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="document.protocol.specialReview*,newSpecialReview*,documentExemptNumber*" auditCluster="specialReviewAuditWarnings"  tabAuditKey="document.protocol.specialReview*" useRiceAuditMode="false">
+<kul:tab tabTitle="Special Review" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="document.protocolList[0].specialReview*,specialReviewHelper.newSpecialReview*,documentExemptNumber*" auditCluster="specialReviewAuditWarnings"  tabAuditKey="document.protocol.specialReview*" useRiceAuditMode="false">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Special Review</span>
@@ -49,7 +49,7 @@
              <tr>
                 <c:set var="textAreaFieldName" value="specialReviewHelper.newSpecialReview.comments" />
 				<th class="infoline">
-					<c:out value="Add:" />
+					Add:
 				</th>
 
                 <td align="left" valign="middle" class="infoline">
@@ -65,11 +65,7 @@
                 <td class="infoline">   
                 <div align="center">             	
                   <kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.protocolNumber" attributeEntry="${protocolSpecialReviewAttributes.protocolNumber}" />
-                    <!-- <img class="nobord" src="kr/static/images/searchicon.gif" alt="lookup">  
-                    <img class="nobord" src="kr/static/images/book_open.png" alt="inquiry"> -->
-                 <!--  <kul:lookup boClassName="org.kuali.kra.bo.Protocol" 
-                    fieldConversions="protocolNumber:specialReviewHelper.newSpecialReview.protocolNumber" anchor="${currentTabIndex}" /> --> 
-				</div>
+                </div>
 				</td>
                 <td align="left" valign="middle" class="infoline">
                     <nobr>
@@ -124,31 +120,31 @@
 						<c:out value="${status.index+1}" />
 					</th>
 	                <td align="left" valign="middle">
-	                	<div align="center"> <kul:htmlControlAttribute property="document.protocol.specialReview[${status.index}].specialReviewCode" readOnlyAlternateDisplay="${specialReview.specialReview.description}" attributeEntry="${protocolSpecialReviewAttributes.specialReviewCode}"  styleClass="fixed-size-select" readOnly="${readOnly}" />
+	                	<div align="center"> <kul:htmlControlAttribute property="document.protocolList[0].specialReview[${status.index}].specialReviewCode" readOnlyAlternateDisplay="${specialReview.specialReview.description}" attributeEntry="${protocolSpecialReviewAttributes.specialReviewCode}"  styleClass="fixed-size-select" readOnly="${readOnly}" />
 					</div>
 					</td>
 	                <td>
-	                <div align="center"> <kul:htmlControlAttribute property="document.protocol.specialReview[${status.index}].approvalTypeCode" readOnlyAlternateDisplay="${specialReview.specialReviewApprovalType.description}" attributeEntry="${protocolSpecialReviewAttributes.approvalTypeCode}" readOnly="${readOnly}" />
+	                <div align="center"> <kul:htmlControlAttribute property="document.protocolList[0].specialReview[${status.index}].approvalTypeCode" readOnlyAlternateDisplay="${specialReview.specialReviewApprovalType.description}" attributeEntry="${protocolSpecialReviewAttributes.approvalTypeCode}" readOnly="${readOnly}" />
 	                </div>
 	                </td>
 	                <td>     
 	                <div align="center">           	
-	                  <kul:htmlControlAttribute property="document.protocol.specialReview[${status.index}].protocolNumber" attributeEntry="${protocolSpecialReviewAttributes.protocolNumber}" readOnly="${readOnly}" />
+	                  <kul:htmlControlAttribute property="document.protocolList[0].specialReview[${status.index}].protocolNumber" attributeEntry="${protocolSpecialReviewAttributes.protocolNumber}" readOnly="${readOnly}" />
 					</div>
 					</td>
 	                <td align="left" valign="middle">
-	                <div align="center"><kul:htmlControlAttribute property="document.protocol.specialReview[${status.index}].applicationDate" attributeEntry="${protocolSpecialReviewAttributes.applicationDate}" datePicker="true" readOnly="${readOnly}" /></div>
+	                <div align="center"><kul:htmlControlAttribute property="document.protocolList[0].specialReview[${status.index}].applicationDate" attributeEntry="${protocolSpecialReviewAttributes.applicationDate}" datePicker="true" readOnly="${readOnly}" /></div>
 	                </td>
 	                <td align="left" valign="middle">
-	                <div align="center"><kul:htmlControlAttribute property="document.protocol.specialReview[${status.index}].approvalDate" attributeEntry="${protocolSpecialReviewAttributes.approvalDate}" datePicker="true" readOnly="${readOnly}" /></div>
+	                <div align="center"><kul:htmlControlAttribute property="document.protocolList[0].specialReview[${status.index}].approvalDate" attributeEntry="${protocolSpecialReviewAttributes.approvalDate}" datePicker="true" readOnly="${readOnly}" /></div>
 	                </td>
 	                <td align="left" valign="middle">
-	                <div align="center"><kul:htmlControlAttribute property="document.protocol.specialReview[${status.index}].expirationDate" attributeEntry="${protocolSpecialReviewAttributes.expirationDate}" datePicker="true" readOnly="${readOnly}" /></div>
+	                <div align="center"><kul:htmlControlAttribute property="document.protocolList[0].specialReview[${status.index}].expirationDate" attributeEntry="${protocolSpecialReviewAttributes.expirationDate}" datePicker="true" readOnly="${readOnly}" /></div>
 	                </td>
 	                <td align="left" valign="middle" class="infoline">
 	               		 <div align="center">
 	               		 	<c:set var="selected" value="" />
-	               		 	<c:set var="sltdExemptionTypeCodes" value="${KualiForm.document.protocol.specialReviews[status.index].exemptionTypeCodes}"/>
+	               		 	<c:set var="sltdExemptionTypeCodes" value="${KualiForm.document.protocolList[0].specialReviews[status.index].exemptionTypeCodes}"/>
 	               		 	<c:forEach var="key" items="${sltdExemptionTypeCodes}">
 						   		<c:set var="selected" value="${selected},${key}" />
 							</c:forEach>

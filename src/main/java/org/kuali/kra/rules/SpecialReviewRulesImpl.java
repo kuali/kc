@@ -26,6 +26,23 @@ import org.kuali.kra.rule.event.AddSpecialReviewEvent;
  */
 public class SpecialReviewRulesImpl extends ResearchDocumentRuleBase implements SpecialReviewRule {
 
+    private String rootErrorPath = "newSpecialReview";
+    
+    /**
+     * Constructs a SpecialReviewRulesImpl.java.
+     */
+    public SpecialReviewRulesImpl() {
+        
+    }
+   
+    /**
+     * Constructs a SpecialReviewRulesImpl.java.
+     * @param rootErrorPath
+     */
+    public SpecialReviewRulesImpl(String rootErrorPath) {
+        this.rootErrorPath = rootErrorPath;
+    }
+    
     /**
      * @see org.kuali.kra.rule.SpecialReviewRule#processAddSpecialReviewEvent(org.kuali.kra.rule.event.AddSpecialReviewEvent)
      */
@@ -33,21 +50,20 @@ public class SpecialReviewRulesImpl extends ResearchDocumentRuleBase implements 
     public boolean processAddSpecialReviewEvent(AddSpecialReviewEvent addSpecialReviewEvent) {
         AbstractSpecialReview specialReview = addSpecialReviewEvent.getSpecialReview();
         boolean rulePassed = true;
-        String errorPath = addSpecialReviewEvent.NEW_SPECIAL_REVIEW;
         String[] dateParams = {"Approval Date","Application Date"};
 
         if(StringUtils.isBlank(specialReview.getApprovalTypeCode())){
             rulePassed = false;
-            reportError(errorPath+".approvalTypeCode", KeyConstants.ERROR_REQUIRED_SELECT_APPROVAL_STATUS);
+            reportError(rootErrorPath+".approvalTypeCode", KeyConstants.ERROR_REQUIRED_SELECT_APPROVAL_STATUS);
         }
         if(StringUtils.isBlank(specialReview.getSpecialReviewCode())){
             rulePassed = false;
-            reportError(errorPath+".specialReviewCode", KeyConstants.ERROR_REQUIRED_SELECT_SPECIAL_REVIEW_CODE);
+            reportError(rootErrorPath+".specialReviewCode", KeyConstants.ERROR_REQUIRED_SELECT_SPECIAL_REVIEW_CODE);
         }
         if (specialReview.getApplicationDate() !=null && specialReview.getApprovalDate() != null && 
                 specialReview.getApprovalDate().before(specialReview.getApplicationDate())) {
             rulePassed = false;
-            reportError(errorPath+".approvalDate", KeyConstants.ERROR_APPROVAL_DATE_BEFORE_APPLICATION_DATE_SPECIALREVIEW,dateParams);
+            reportError(rootErrorPath+".approvalDate", KeyConstants.ERROR_APPROVAL_DATE_BEFORE_APPLICATION_DATE_SPECIALREVIEW,dateParams);
         }
         return rulePassed;
     }

@@ -65,7 +65,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
     private static final String PROTOCOL_PIID_FORM_ELEMENT="protocolHelper.personId";
     private static final String PROTOCOL_LUN_FORM_ELEMENT="protocolHelper.leadUnitNumber";
     private static final String ERROR_PROPERTY_ORGANIZATION_ID = "protocolHelper.newProtocolLocation.organizationId";
-
+    private static final String SPECIAL_REVIEW_ERROR_PATH = "specialReviewHelper.newSpecialReview";
 
 // TODO : move these static constant up to parent 
     @Override
@@ -270,8 +270,11 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         return new KraCustomAttributeRule().processCustomAttributeRules(saveCustomAttributeEvent);
     }
 
+    /**
+     * @see org.kuali.kra.rule.SpecialReviewRule#processAddSpecialReviewEvent(org.kuali.kra.rule.event.AddSpecialReviewEvent)
+     */
     public boolean processAddSpecialReviewEvent(AddSpecialReviewEvent<ProtocolSpecialReview> addSpecialReviewEvent) {
-        SpecialReviewRulesImpl ruleImpl = new SpecialReviewRulesImpl();
+        SpecialReviewRulesImpl ruleImpl = new SpecialReviewRulesImpl(SPECIAL_REVIEW_ERROR_PATH);
         return ruleImpl.processAddSpecialReviewEvent(addSpecialReviewEvent);
     }
 

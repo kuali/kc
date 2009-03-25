@@ -28,6 +28,5 @@
 
 <kra-irb:protocolSpecialReview /> 
 <kul:documentControls transactionalDocument="false" suppressRoutingControls="true" />
-<script language="javascript" src="scripts/kuali_application.js"></script>
 
 </kul:documentPage>

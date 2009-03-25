@@ -46,7 +46,7 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Protocol Exempt Number Id" />
 		<property name="shortLabel" value="Protocol Exempt Number Id" />
-		<property name="maxLength" value="22" />
+		<property name="maxLength" value="12" />
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
@@ -59,7 +59,9 @@
 	</bean>
 
 	<bean id="ProtocolSpecialReviewExemption-exemptionTypeCode" parent="ProtocolSpecialReviewExemption-exemptionTypeCode-parentBean" />
-	<bean id="ProtocolSpecialReviewExemption-exemptionTypeCode-parentBean" abstract="true" parent="SpecialReviewExemptionReference-exemptionTypeCode" />
+	<bean id="ProtocolSpecialReviewExemption-exemptionTypeCode-parentBean" abstract="true" parent="SpecialReviewExemptionReference-exemptionTypeCode">
+	    <property name="required" value="false" />
+	</bean>
 
 	<bean id="ProtocolSpecialReviewExemption-versionNumber" parent="ProtocolSpecialReviewExemption-versionNumber-parentBean" />
 	<bean id="ProtocolSpecialReviewExemption-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
