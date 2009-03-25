@@ -30,6 +30,6 @@ public interface AwardDetailsAndDatesRule extends BusinessRule {
      *
      * @return boolean
      */
-    public boolean processAddAwardTransferringSponsorEvent(AddAwardTransferringSponsorEvent addAwardTransferringSponsorEvent);
+    boolean processAddAwardTransferringSponsorEvent(AddAwardTransferringSponsorEvent addAwardTransferringSponsorEvent);
 
 }

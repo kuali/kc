@@ -17,7 +17,6 @@ package org.kuali.kra.award.detailsdates;
 
 import java.util.List;
 
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.award.bo.AwardTransferringSponsor;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -45,7 +44,7 @@ public class AwardDetailsAndDatesRuleImpl extends ResearchDocumentRuleBase imple
         }
         if (isDuplicateSponsor(sponsor, addAwardTransferringSponsorEvent.getAward().getAwardTransferringSponsors())) {
             valid = false;
-            GlobalVariables.getErrorMap().putError(SPONSOR_CODE_PROPERTY_NAME, KeyConstants.ERROR_DUPLICATE_AWARD_TRANSFERRING_SPONSOR);
+            reportError(SPONSOR_CODE_PROPERTY_NAME, KeyConstants.ERROR_DUPLICATE_AWARD_TRANSFERRING_SPONSOR);
         }
         return valid;
     }
