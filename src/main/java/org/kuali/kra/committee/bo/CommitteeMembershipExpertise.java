@@ -41,10 +41,10 @@ public class CommitteeMembershipExpertise extends KraPersistableBusinessObjectBa
     @Column(name = "RESEARCH_AREA_CODE")
     private String researchAreaCode; 
     
-    private ResearchArea researchArea; 
+    private ResearchArea researchArea;
     
     public CommitteeMembershipExpertise() { 
-
+        setResearchArea(new ResearchArea());
     } 
     
     public Long getCommitteeMembershipExpertiseId() {
@@ -91,7 +91,7 @@ public class CommitteeMembershipExpertise extends KraPersistableBusinessObjectBa
         return researchArea;
     }
 
-    public void setResearchAreas(ResearchArea researchArea) {
+    public void setResearchArea(ResearchArea researchArea) {
         this.researchArea = researchArea;
     }
 
