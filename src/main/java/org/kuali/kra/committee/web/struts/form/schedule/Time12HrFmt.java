@@ -21,8 +21,6 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import org.kuali.core.web.format.FormatException;
-
 public class Time12HrFmt implements Serializable {
 
     private static final long serialVersionUID = -5569353959041715547L;
@@ -58,9 +56,8 @@ public class Time12HrFmt implements Serializable {
         return time;
     }
 
-    public void setTime(String time) throws ParseException {
-        String tmpTime = parseStringTime(time);
-        this.time = tmpTime; 
+    public void setTime(String time) {     
+        this.time = time; 
     }
 
     public String getMeridiem() {
@@ -92,14 +89,16 @@ public class Time12HrFmt implements Serializable {
         this.time = str;
     }
     
+    @SuppressWarnings("unused")
+    @Deprecated
     private String parseStringTime(String time) throws ParseException {
         
         if(null == time)
-            throw new FormatException(MSG1, new ParseException(MSG1, 0));
+            throw new ParseException(MSG1, 0);
         
         String[] result = time.split(COLON);        
         if(result.length != 2)
-            throw new FormatException(MSG1, new ParseException(MSG1, 0));
+            throw new ParseException(MSG1, 0);
            
         
         Integer hrs;
@@ -109,15 +108,15 @@ public class Time12HrFmt implements Serializable {
             hrs = new Integer(result[0]);
             mins = new Integer(result[1]);
         }catch (NumberFormatException e) {
-            throw new FormatException(MSG2, new ParseException(MSG2, 0));
+            throw new ParseException(MSG2, 0);
         }
         
         if(!(hrs >= 1 && hrs <= 12)) {
-            throw new FormatException(MSG3, new ParseException(MSG3, 0));
+            throw new ParseException(MSG3, 0);
         }
         
         if(!(mins >= 0 && mins <= 59)) {
-            throw new FormatException(MSG4, new ParseException(MSG4, 0));
+            throw new ParseException(MSG4, 0);
         }
         
         String str = buildDisplayView(hrs, mins);
