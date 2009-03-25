@@ -118,7 +118,7 @@
 		<property name="shortLabel" value="Protocol Number" />
 		<property name="maxLength" value="20" />
 		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
+			<bean parent="AnyCharacterValidationPattern" />
 		</property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"

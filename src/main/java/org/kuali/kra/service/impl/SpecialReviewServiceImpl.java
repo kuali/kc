@@ -50,7 +50,7 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
      * org.kuali.kra.bo.AbstractSpecialReview)
      * 
      */
-    public void addSpecialReview(SpecialReviewHandler specialReviewManager, SpecialReviewFormBase specialReviewForm) {
+    public boolean addSpecialReview(SpecialReviewHandler specialReviewManager, SpecialReviewFormBase specialReviewForm) {
         AbstractSpecialReview newSpecialReview = specialReviewForm.getNewSpecialReview();
         String[] exemptionTypeCodes = specialReviewForm.getNewExemptionTypeCodes();
         if(exemptionTypeCodes!=null){
@@ -62,13 +62,15 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
         ResearchDocumentBase docBase = specialReviewForm.getResearchDocument();
         AddSpecialReviewEvent addSpecialReviewEvent =new AddSpecialReviewEvent(Constants.EMPTY_STRING, 
                 docBase, newSpecialReview); 
-        if(getKualiRuleService().applyRules(addSpecialReviewEvent)){
+        boolean rulesPassed = getKualiRuleService().applyRules(addSpecialReviewEvent);
+        if (rulesPassed) {
             if(docBase!=null){
                 newSpecialReview.setSpecialReviewNumber(docBase.getDocumentNextValue(
                         Constants.SPECIAL_REVIEW_NUMBER));
             }
             specialReviewManager.addSpecialReview(newSpecialReview);
         }
+        return rulesPassed;
     }
     
 

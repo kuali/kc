@@ -25,9 +25,7 @@ import java.util.LinkedHashMap;
  */
 @SuppressWarnings("serial")
 public class ProtocolSpecialReview extends AbstractSpecialReview<ProtocolSpecialReviewExemption> { 
-	
-    //TODO: protocolnumber, sequencenumber to be added
-    
+	  
     private Long protocolSpecialReviewId; 
 	private Protocol protocol; 
 
@@ -46,8 +44,9 @@ public class ProtocolSpecialReview extends AbstractSpecialReview<ProtocolSpecial
 	@SuppressWarnings("unchecked")
     @Override 
 	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = super.toStringMapper();
-		return hashMap;
+		LinkedHashMap map = super.toStringMapper();
+		map.put("protocolSpecialReviewId", getProtocolSpecialReviewId());
+		return map;
 	}
 
     /**
@@ -126,5 +125,4 @@ public class ProtocolSpecialReview extends AbstractSpecialReview<ProtocolSpecial
     public Long getSpecialReviewId() {
         return protocolSpecialReviewId;
     }
-	
 }

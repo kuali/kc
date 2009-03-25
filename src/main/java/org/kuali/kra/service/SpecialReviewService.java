@@ -31,8 +31,9 @@ public interface SpecialReviewService<T extends AbstractSpecialReview,E extends 
      * This method is for adding SpecialReview BO
      * @param processSpecialReview
      * @param specialReviewForm
+     * @return true if business rules passed; otherwise false
      */
-    public void addSpecialReview(SpecialReviewHandler<T> processSpecialReview,SpecialReviewFormBase<E> specialReviewForm);
+    public boolean addSpecialReview(SpecialReviewHandler<T> processSpecialReview,SpecialReviewFormBase<E> specialReviewForm);
     /**
      * 
      * This method is for deleting special review from SpecialReview list
