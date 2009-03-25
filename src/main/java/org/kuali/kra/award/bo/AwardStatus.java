@@ -54,11 +54,11 @@ public class AwardStatus extends KraPersistableBusinessObjectBase {
 	@SuppressWarnings("unchecked")
     @Override 
 	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("statusCode", getStatusCode());
-		hashMap.put("description", getDescription());
-		return hashMap;
-	}
+        LinkedHashMap hashMap = new LinkedHashMap();
+        hashMap.put("statusCode", getStatusCode());
+        hashMap.put("description", getDescription());
+        return hashMap;
+    }
 
     /**
      * @see java.lang.Object#hashCode()
@@ -77,25 +77,31 @@ public class AwardStatus extends KraPersistableBusinessObjectBase {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
+        }
         if (getClass() != obj.getClass())
             return false;
         AwardStatus other = (AwardStatus) obj;
         if (description == null) {
-            if (other.description != null)
+            if (other.description != null) {
                 return false;
+            }
         }
-        else if (!description.equals(other.description))
+        else if (!description.equals(other.description)) {
             return false;
+        }
         if (statusCode == null) {
-            if (other.statusCode != null)
+            if (other.statusCode != null) {
                 return false;
+            }
         }
-        else if (!statusCode.equals(other.statusCode))
+        else if (!statusCode.equals(other.statusCode)) {
             return false;
+        }
         return true;
     }
 	
