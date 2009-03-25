@@ -169,10 +169,11 @@ public class ProtocolSpecialReviewWebTest extends ProtocolWebTestBase {
         assertTrue(expectedValue + " was not selected", selected != null && selected.equals("selected"));
     }
     
+    @SuppressWarnings("unchecked")
     private HtmlElement getElementByValue(HtmlElement element, String value) {
-        Iterator iterator = element.getAllHtmlChildElements();
+        Iterator<HtmlElement> iterator = element.getAllHtmlChildElements();
         while (iterator.hasNext()) {
-            HtmlElement e = (HtmlElement) iterator.next();
+            HtmlElement e = iterator.next();
             String elementValue = e.getAttributeValue("value");
             if (elementValue.equals(value)) {
                 return e;
