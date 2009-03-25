@@ -12,7 +12,7 @@
 <c:set var="protocolAttributes" value="${DataDictionary.Protocol.attributes}" />
 <c:set var="action" value="protocolActions" />
 
-<kul:tabTop tabTitle="Copy to New Document" defaultOpen="${openFlag}" tabErrorKey="">
+<kul:tab tabTitle="Copy to New Document" defaultOpen="${openFlag}" tabErrorKey="">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Copy to New Document</span>
@@ -37,4 +37,4 @@
         	
         </table>
     </div>
-</kul:tabTop>
+</kul:tab>
