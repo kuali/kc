@@ -112,21 +112,9 @@
 	</bean>
 
   <bean id="Protocol-researchAreaCode" parent="Protocol-researchAreaCode-parentBean" />
-  <bean id="Protocol-researchAreaCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="researchAreaCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Research Area" />
-    <property name="shortLabel" value="Research Area" />
-    <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="8" />
-    </property>
-    <property name="summary" value="Research Areae" />
-    <property name="description" value="Research Area" />
+  <bean id="Protocol-researchAreaCode-parentBean" abstract="true" parent="ResearchAreas-researchAreaCode">
+    <property name="label" value="Area of Research" />
+    <property name="shortLabel" value="Area of Research" />
   </bean>
 
 	<bean id="Protocol-protocolNumber" parent="Protocol-protocolNumber-parentBean" />
