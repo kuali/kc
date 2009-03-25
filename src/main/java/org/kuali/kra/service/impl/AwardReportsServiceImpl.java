@@ -53,8 +53,9 @@ public class AwardReportsServiceImpl implements AwardReportsService {
      * @see org.kuali.kra.service.AwardReportsService#initializeObjectsForReportsAndPayments(
      * org.kuali.kra.award.bo.Award)
      */
-    public HashMap<String, Object> initializeObjectsForReportsAndPayments(Award award){
-        HashMap<String, Object> initializedObjects = new HashMap<String, Object>();
+    public Map<String, Object> initializeObjectsForReportsAndPayments(Award award){
+        
+        Map<String, Object> initializedObjects = new HashMap<String, Object>();
         
         initializedObjects = assignReportClassesForPanelHeaderDisplay(initializedObjects);
         
@@ -74,8 +75,8 @@ public class AwardReportsServiceImpl implements AwardReportsService {
      * @param hashMap
      * @return
      */
-    protected HashMap<String, Object> setReportClassForPaymentsAndInvoicesSubPanel(
-            HashMap<String, Object> hashMap){
+    protected Map<String, Object> setReportClassForPaymentsAndInvoicesSubPanel(
+            Map<String, Object> hashMap){
         
         Map<String, String> primaryKeyField = new HashMap<String, String>();
         
@@ -96,8 +97,8 @@ public class AwardReportsServiceImpl implements AwardReportsService {
      * @param hashMap
      * @return
      */
-    protected HashMap<String, Object> assignReportClassesForPanelHeaderDisplay(
-            HashMap<String, Object> hashMap){
+    protected Map<String, Object> assignReportClassesForPanelHeaderDisplay(
+            Map<String, Object> hashMap){
         
         ReportClassValuesFinder reportClassValuesFinder = new ReportClassValuesFinder();
         List<KeyLabelPair> reportClasses = new ArrayList<KeyLabelPair>();
@@ -120,8 +121,8 @@ public class AwardReportsServiceImpl implements AwardReportsService {
      * @return
      */
     @SuppressWarnings("all")
-    protected HashMap<String, Object> addEmptyNewAwardReportTerms(
-            HashMap<String, Object> hashMap, List<KeyLabelPair> reportClasses){
+    protected Map<String, Object> addEmptyNewAwardReportTerms(
+            Map<String, Object> hashMap, List<KeyLabelPair> reportClasses){
         List<AwardReportTerm> newAwardReportTerms = new ArrayList<AwardReportTerm>();
         for(KeyLabelPair keyLabelPair : reportClasses){
             newAwardReportTerms.add(new AwardReportTerm());
@@ -141,8 +142,9 @@ public class AwardReportsServiceImpl implements AwardReportsService {
     * @param hashMap
     * @return
     */
-    protected HashMap<String, Object> addEmptyNewAwardReportTermRecipients(
-            Award award, HashMap<String, Object> hashMap){
+    @SuppressWarnings("all")
+    protected Map<String, Object> addEmptyNewAwardReportTermRecipients(
+            Award award, Map<String, Object> hashMap){
         
         List<AwardReportTermRecipient> newAwardReportTermRecipients 
             = new ArrayList<AwardReportTermRecipient>();        

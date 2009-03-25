@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -177,7 +177,7 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
         awardForm.getSponsorTermFormHelper().setNewSponsorTerms(awardSponsorTermService.getEmptyNewSponsorTerms(sponsorTermTypes));
         
         AwardReportsService awardReportsService = KraServiceLocator.getService(AwardReportsService.class);  
-        HashMap<String,Object> initializedObjects = awardReportsService.initializeObjectsForReportsAndPayments(
+        Map<String,Object> initializedObjects = awardReportsService.initializeObjectsForReportsAndPayments(
                                                     awardForm.getAwardDocument().getAward());
         awardForm.setReportClasses((List<KeyLabelPair>) initializedObjects.get(
                                       Constants.REPORT_CLASSES_KEY_FOR_INITIALIZE_OBJECTS));

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.service;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import org.kuali.kra.award.bo.Award;
 
@@ -33,7 +33,7 @@ public interface AwardReportsService {
      * @param award
      * @return
      */
-    HashMap<String, Object> initializeObjectsForReportsAndPayments(Award award);
+    Map<String, Object> initializeObjectsForReportsAndPayments(Award award);
     
     /**
      * 
