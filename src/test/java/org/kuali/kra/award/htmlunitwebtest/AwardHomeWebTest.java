@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.award.htmlunitwebtest;
 
+import java.io.IOException;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,7 +45,9 @@ public class AwardHomeWebTest extends AwardWebTestBase {
     private static final String ADD_TRANSFERRING_SPONSOR_METHOD = "methodToCall.addAwardTransferringSponsor.anchorDetailsDates";
     private static final String DELETE_TRANSFERRING_SPONSOR_METHOD = "methodToCall.deleteAwardTransferringSponsor.line0.anchor2";
     private static final String TRANSFERRING_SPONSOR_TABLE = "sponsor-funding-transferred-table";
-
+    private static final int TRANSFERRING_SPONSOR_TABLE_ROWS_AFTER_ADDING = 3;
+    private static final int TRANSFERRING_SPONSOR_TABLE_ROWS_AFTER_DELETING = 2;
+    
     HtmlPage awardHomePage;
     
     /**
@@ -79,35 +83,44 @@ public class AwardHomeWebTest extends AwardWebTestBase {
     @Test
     public void testDetailsAndDatesPanel() throws Exception {
         
-        // Required fields already populated - finish populating optional fields
+        populateOptionalDetailsAndDatesFields();
+        
+        addAwardTransferringSponsor();
+        savePageAndVerifySave();
+        validateTableRows(TRANSFERRING_SPONSOR_TABLE, TRANSFERRING_SPONSOR_TABLE_ROWS_AFTER_ADDING);
+        
+        deleteFirstAwardTransferringSponsor();
+        
+        savePageAndVerifySave();
+        
+        awardHomePage = clickOn(awardHomePage, RESET_METHOD);
+        validateTableRows(TRANSFERRING_SPONSOR_TABLE, TRANSFERRING_SPONSOR_TABLE_ROWS_AFTER_DELETING);
+    }
+    
+    private void populateOptionalDetailsAndDatesFields() {
         setFieldValue(awardHomePage, ACCOUNT_TYPE_ID, ONE);
         setFieldValue(awardHomePage, ACCOUNT_ID, ONE);
         setFieldValue(awardHomePage, CFDA_NUMBER, TEST_CFDA_VALUE);
         setFieldValue(awardHomePage, NSF_CODE, TEST_NSF_CODE_VALUE);
-        
-        // Add a transferring sponsor
+    }
+    
+    private void addAwardTransferringSponsor() throws IOException {
         awardHomePage = lookup(awardHomePage, NEW_TRANSFERRING_SPONSOR_LOOKUP);
         awardHomePage = clickOn(awardHomePage, ADD_TRANSFERRING_SPONSOR_METHOD);
-        
-        // Verify the new row is there.
-        HtmlTable table = getTable(awardHomePage, TRANSFERRING_SPONSOR_TABLE);
-        assertTrue("row count is " + table.getRowCount(), table.getRowCount() == 3);
-        
-        // Save page
-        HtmlPage awardHomePageAfterSave = clickOn(awardHomePage, SAVE_METHOD);
-        assertContains(awardHomePageAfterSave, SAVE_SUCCESS_MESSAGE);
-        
-        // Delete transferring sponsor
-        awardHomePageAfterSave = clickOn(awardHomePageAfterSave, DELETE_TRANSFERRING_SPONSOR_METHOD);
-        
-        awardHomePageAfterSave = clickOn(awardHomePageAfterSave, SAVE_METHOD);
-        assertContains(awardHomePageAfterSave, SAVE_SUCCESS_MESSAGE);
-        
-        // Verify deletion
-        awardHomePageAfterSave = clickOn(awardHomePageAfterSave, RESET_METHOD);
-        
-        table = getTable(awardHomePageAfterSave, TRANSFERRING_SPONSOR_TABLE);
-        assertTrue("row count is " + table.getRowCount(), table.getRowCount() == 2);
+    }
+    
+    private void savePageAndVerifySave() throws IOException {
+        awardHomePage = clickOn(awardHomePage, SAVE_METHOD);
+        assertContains(awardHomePage, SAVE_SUCCESS_MESSAGE);
+    }
+    
+    private void deleteFirstAwardTransferringSponsor() throws IOException {
+        awardHomePage = clickOn(awardHomePage, DELETE_TRANSFERRING_SPONSOR_METHOD);
+    }
+    
+    private void validateTableRows(String tableName, int rows) {
+        HtmlTable table = getTable(awardHomePage, tableName);
+        assertTrue("row count is " + table.getRowCount(), table.getRowCount() == rows);
     }
     
 }
