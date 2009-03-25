@@ -28,6 +28,7 @@ import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.rule.event.AddCommitteeScheduleDateConflictEvent;
 import org.kuali.kra.committee.rule.event.AddCommitteeScheduleStartAndEndDateEvent;
+import org.kuali.kra.committee.rule.event.CommitteeScheduleTimeEvent;
 import org.kuali.kra.committee.rule.event.DeadlineCommitteeScheduleEvent;
 import org.kuali.kra.committee.rule.event.FilterCommitteeScheduleEvent;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleEvent.Event;
@@ -71,10 +72,12 @@ public class CommitteeScheduleAction extends CommitteeAction {
         CommitteeForm committeeForm = (CommitteeForm) form;
         List<CommitteeSchedule> committeeSchedules = committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules();
         
-        if(applyRules(new AddCommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules, Event.HARDERROR))){
-            if(applyRules(new DeadlineCommitteeScheduleEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules, Event.HARDERROR))) {
-                actionForward = super.save(mapping, form, request, response);
-            } 
+        if(applyRules(new CommitteeScheduleTimeEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules, Event.HARDERROR))) {
+            if(applyRules(new AddCommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules, Event.HARDERROR))){
+                if(applyRules(new DeadlineCommitteeScheduleEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules, Event.HARDERROR))) {
+                    actionForward = super.save(mapping, form, request, response);
+                } 
+            }
         }
         
         return actionForward;
@@ -94,12 +97,12 @@ public class CommitteeScheduleAction extends CommitteeAction {
         
         CommitteeForm committeeForm = (CommitteeForm) form;
         ScheduleData scheduleData = committeeForm.getScheduleData();
-        
-        if(applyRules(new AddCommitteeScheduleStartAndEndDateEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, Event.HARDERROR))){
-            CommitteeScheduleService service  = getCommitteeScheduleService();
-            service.addSchedule(scheduleData, committeeForm.getCommitteeDocument().getCommittee());
-            
-            applyRules(new AddCommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, Event.SOFTERROR));
+        if(applyRules(new CommitteeScheduleTimeEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, Event.HARDERROR))) {
+            if(applyRules(new AddCommitteeScheduleStartAndEndDateEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, Event.HARDERROR))){
+                CommitteeScheduleService service  = getCommitteeScheduleService();
+                service.addSchedule(scheduleData, committeeForm.getCommitteeDocument().getCommittee());            
+                applyRules(new AddCommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, Event.SOFTERROR));
+            }  
         }        
         scheduleData.populateStyleClass();        
         return mapping.findForward(Constants.MAPPING_BASIC );
