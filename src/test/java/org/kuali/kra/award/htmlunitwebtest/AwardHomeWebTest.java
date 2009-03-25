@@ -91,7 +91,7 @@ public class AwardHomeWebTest extends AwardWebTestBase {
         
         // Verify the new row is there.
         HtmlTable table = getTable(awardHomePage, TRANSFERRING_SPONSOR_TABLE);
-        assertTrue("row count is " + table.getRowCount(), table.getRowCount() == 4);
+        assertTrue("row count is " + table.getRowCount(), table.getRowCount() == 3);
         
         // Save page
         HtmlPage awardHomePageAfterSave = clickOn(awardHomePage, SAVE_METHOD);
@@ -107,7 +107,7 @@ public class AwardHomeWebTest extends AwardWebTestBase {
         awardHomePageAfterSave = clickOn(awardHomePageAfterSave, RESET_METHOD);
         
         table = getTable(awardHomePageAfterSave, TRANSFERRING_SPONSOR_TABLE);
-        assertTrue("row count is " + table.getRowCount(), table.getRowCount() == 3);
+        assertTrue("row count is " + table.getRowCount(), table.getRowCount() == 2);
     }
     
 }
