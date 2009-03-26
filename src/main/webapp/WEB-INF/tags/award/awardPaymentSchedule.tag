@@ -24,12 +24,8 @@
 
 <c:set var="awardPaymentScheduleAttributes" value="${DataDictionary.AwardPaymentSchedule.attributes}" />
 <c:set var="action" value="awardPaymentSchedule" />
-    	<h3>
-    		<span class="subhead-left"> Award Payment Schedule</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.award.bo.AwardPaymentSchedule" altText="help"/></span>
-        </h3>
-        
-        <table cellpadding="0" cellspacing="0" summary="">
+<kul:innerTab parentTab="Payment & Invoices" defaultOpen="true" tabTitle="Award Payment Schedule" tabErrorKey="paymentScheduleBean.newAwardPaymentSchedule.*,document.awardList[0].paymentScheduleItems*" noShowHideButton="true" >
+    	<table cellpadding="0" cellspacing="0" summary="">
           	<%-- Header --%>
           	<tr>
           		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" />
@@ -101,37 +97,37 @@
 					</th>                  
                   <td align="left" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.award.paymentScheduleItems[${status.index}].invoiceNumber" attributeEntry="${awardPaymentScheduleAttributes.invoiceNumber}" />
+                		<kul:htmlControlAttribute property="document.awardList[0].paymentScheduleItems[${status.index}].invoiceNumber" attributeEntry="${awardPaymentScheduleAttributes.invoiceNumber}" />
 					</div>
 				  </td>
                   <td align="left" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.award.paymentScheduleItems[${status.index}].dueDate" attributeEntry="${awardPaymentScheduleAttributes.dueDate}" />
+                		<kul:htmlControlAttribute property="document.awardList[0].paymentScheduleItems[${status.index}].dueDate" attributeEntry="${awardPaymentScheduleAttributes.dueDate}" />
 					</div>
 				  </td>
 				  <td align="left" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.award.paymentScheduleItems[${status.index}].submittedBy" attributeEntry="${awardPaymentScheduleAttributes.submittedBy}" />
+                		<kul:htmlControlAttribute property="document.awardList[0].paymentScheduleItems[${status.index}].submittedBy" attributeEntry="${awardPaymentScheduleAttributes.submittedBy}" />
 					</div>
 				  </td>
 				  <td align="left" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.award.paymentScheduleItems[${status.index}].status" attributeEntry="${awardPaymentScheduleAttributes.status}" />
+                		<kul:htmlControlAttribute property="document.awardList[0].paymentScheduleItems[${status.index}].status" attributeEntry="${awardPaymentScheduleAttributes.status}" />
 					</div>
 				  </td>
 				  <td align="left" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.award.paymentScheduleItems[${status.index}].submitDate" attributeEntry="${awardPaymentScheduleAttributes.submitDate}" datePicker="true" />
+                		<kul:htmlControlAttribute property="document.awardList[0].paymentScheduleItems[${status.index}].submitDate" attributeEntry="${awardPaymentScheduleAttributes.submitDate}" datePicker="true" />
 					</div>
 				  </td>
 				  <td align="left" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.award.paymentScheduleItems[${status.index}].statusDescription" attributeEntry="${awardPaymentScheduleAttributes.statusDescription}" />
+                		<kul:htmlControlAttribute property="document.awardList[0].paymentScheduleItems[${status.index}].statusDescription" attributeEntry="${awardPaymentScheduleAttributes.statusDescription}" />
 					</div>
 				  </td>
                   <td align="left" valign="middle">
 					<div align="center">
-                		<kul:htmlControlAttribute property="document.award.paymentScheduleItems[${status.index}].amount" attributeEntry="${awardPaymentScheduleAttributes.amount}" />
+                		<kul:htmlControlAttribute property="document.awardList[0].paymentScheduleItems[${status.index}].amount" attributeEntry="${awardPaymentScheduleAttributes.amount}" />
 					</div>
 				  </td>
 				  
@@ -147,3 +143,4 @@
             <%-- Existing data --%>
         </table>
 
+</kul:innerTab>
