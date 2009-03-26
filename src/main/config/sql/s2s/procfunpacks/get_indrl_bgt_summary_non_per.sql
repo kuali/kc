@@ -1,4 +1,4 @@
-CREATE OR REPLACE procedure get_indrl_bgt_summary_non_per
+create or replace procedure get_indrl_bgt_summary_non_per
    ( as_proposal_number IN osp$budget_per_details_for_edi.PROPOSAL_NUMBER%TYPE,
 	  ai_version			IN osp$budget_details.version_number%TYPE,
 	  ai_period  			IN osp$budget_per_details_for_edi.budget_period%TYPE,
@@ -49,7 +49,10 @@ if li_count > 0 then
 	and bd.budget_period = calamts.budget_period
 	and bd.line_item_number = calamts.line_item_number
 	and calamts.rate_class_code = rc.rate_class_code
-	and rc.rate_class_type in ('O')
+--	and rc.rate_class_type in ('O')
+  and ( rc.rate_class_type in ('O', 'I', 'X') or 
+        (rc.rate_class_type in ('E', 'V')  and (select count(1) from valid_calc_types vct where vct.dependent_rate_class_type = 'Y' and vct.rate_class_code = calamts.rate_class_code and vct.rate_type_code = calamts.rate_type_code) = 0) )
+
 	group by bc.description , ce.description || decode(bd.line_item_description, NULL, '', ' - ' || bd.line_item_description)
 	union
 		  select  bc.description category,
@@ -72,7 +75,10 @@ if li_count > 0 then
 					   and calamts.version_number = ai_version
 					   and calamts.budget_period = ai_period
 					   and calamts.rate_class_code = rc.rate_class_code
-				 	   and rc.rate_class_type='O')
+				-- 	   and rc.rate_class_type='O'
+              and ( rc.rate_class_type in ('O', 'I', 'X') or 
+                   (rc.rate_class_type in ('E', 'V')  and (select count(1) from valid_calc_types vct where vct.dependent_rate_class_type = 'Y' and vct.rate_class_code = calamts.rate_class_code and vct.rate_type_code = calamts.rate_type_code) = 0) )
+         )
 			group by bc.description , ce.description || decode(bd.line_item_description, NULL, '', ' - ' || bd.line_item_description)
 
 	union
@@ -91,7 +97,29 @@ if li_count > 0 then
 			and bd.budget_period = calamts.budget_period
 			and bd.line_item_number = calamts.line_item_number
 			and calamts.rate_class_code = rc.rate_class_code
-			and rc.rate_class_type in ('L')
+			and rc.rate_class_type in ('L') 
+
+  union
+      select 'Lab Allocation' category,
+      'Allocated Admin Support' description,
+      round(sum(calamts.calculated_cost),0) cost
+      from osp$budget_details bd,
+      osp$budget_details_cal_amts calamts,
+      osp$rate_class rc
+      where bd.proposal_number = as_proposal_number  
+      and bd.budget_period = ai_period 
+      and bd.version_number = ai_version  
+      and bd.proposal_number = calamts.proposal_number
+      and bd.version_number = calamts.version_number
+      and bd.budget_period = calamts.budget_period
+      and bd.line_item_number = calamts.line_item_number
+      and calamts.rate_class_code = rc.rate_class_code 
+      and (rc.rate_class_type = 'Y' or 
+              (  rc.rate_class_type in ('E', 'V') and 
+                 (select count(1) from valid_calc_types vct where vct.dependent_rate_class_type = 'Y' and vct.rate_class_code = calamts.rate_class_code and vct.rate_type_code = calamts.rate_type_code) > 0
+               ) 
+           )  
+      
 	order by 1 ;
 else
 -- ** this is a non-LA department
@@ -144,7 +172,5 @@ else
 	order by 1;
 end if;
 
-
 end;
 /
-

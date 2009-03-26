@@ -997,7 +997,9 @@ public class BudgetPrintServiceImpl implements BudgetPrintService {
                                     Or ohOrEbOrVacOrInflOrOth = new Or(ohOrEbOrVacOrInfl,equalsOthType);
                                     
                                     And liItemNumAndOhOrEbOrVacOrInflOrOth = new And(ohOrEbOrVacOrInflOrOth, equalsLiNum);
-                                    CoeusVector cvLICalAmounts = cvPeriodCalAmts.filter(liItemNumAndOhOrEbOrVacOrInflOrOth);
+                                    //CoeusVector cvLICalAmounts = cvPeriodCalAmts.filter(liItemNumAndOhOrEbOrVacOrInflOrOth); 
+                                    CoeusVector cvLICalAmounts = cvPeriodCalAmts.filter(equalsLiNum);
+
                                     double ohCost = cvLICalAmounts.sum("calculatedCost");
                                     ohCost = ((double)Math.round(ohCost*Math.pow(10.0, 2) )) / 100;
                                     value +=ohCost;
@@ -1066,6 +1068,7 @@ public class BudgetPrintServiceImpl implements BudgetPrintService {
                     boolean ohORebFlag = false;
                     if( cvPeriodCalAmts != null && cvPeriodCalAmts.size() > 0){
                         while (true) {
+                            ohORebFlag = false;
                             budgetDetailCalAmountsBean = (BudgetDetailCalAmountsBean)cvPeriodCalAmts.get(0);
                             rateClassCode = budgetDetailCalAmountsBean.getRateClassCode();
                             rateTypeCode = budgetDetailCalAmountsBean.getRateTypeCode();
@@ -1095,6 +1098,12 @@ public class BudgetPrintServiceImpl implements BudgetPrintService {
                                  * corresponding to the given rate class code 
                                  * and rate type code. Store it into cvCalAmtsExists */
                                 cvCalAmtsExists = cvCalAmts.filter(andRateClassType);
+                                
+                                if( (budgetDetailCalAmountsBean.getRateClassType().equals(RateClassType.OVERHEAD.getRateClassType()) ||
+                                        budgetDetailCalAmountsBean.getRateClassType().equals(RateClassType.EMPLOYEE_BENEFITS.getRateClassType())) ){
+                                        ohORebFlag = true;
+                                }
+                                
                                 if (cvCalAmtsExists.size() > 0) {
                                     budgetTotalBean = (BudgetTotalBean) cvCalAmtsExists.get(0);
                                     /** Remove the budgetTotalBean from indsrlCumData
@@ -1192,9 +1201,10 @@ public class BudgetPrintServiceImpl implements BudgetPrintService {
                     /** Sort the vector based on <CODE>rateClassCode</CODE> */
                     cvCalAmts.sort(RATE_CLASS_CODE, true);
                 }
-                for( int index = 0; index < cvCalAmts.size(); index++){
-                    indsrlCumData.addElement(cvCalAmts.get(index));
-                }
+                
+//                for( int index = 0; index < cvCalAmts.size(); index++){
+//                    indsrlCumData.addElement(cvCalAmts.get(index));
+//                }
                 
                 if( cvBudgetDetails != null &&  cvBudgetDetails.size() > 0 ){
                     boolean hasCostElement = false;
