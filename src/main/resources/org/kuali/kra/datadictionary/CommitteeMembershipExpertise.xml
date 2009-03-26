@@ -116,7 +116,7 @@
     </bean>
 
     <bean id="CommitteeMembershipExpertise-researchAreaCode" parent="CommitteeMembershipExpertise-researchAreaCode-parentBean" />
-    <bean id="CommitteeMembershipExpertise-researchAreaCode-parentBean" abstract="true" parent="ResearchAreas-researchAreaCode" >
+    <bean id="CommitteeMembershipExpertise-researchAreaCode-parentBean" abstract="true" parent="ResearchArea-researchAreaCode" >
         <property name="name" value="researchAreaCode" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Research Area Code" />
