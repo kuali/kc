@@ -145,7 +145,7 @@
 		</reference-descriptor>
 	</class-descriptor>
 		
-		<class-descriptor class="org.kuali.kra.irb.bo.ProtocolRiskLevel" table="PROTOCOL_RISK_LEVELS">
+	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolRiskLevel" table="PROTOCOL_RISK_LEVELS">
 		<field-descriptor name="protocolRiskLevelId" column="PROTOCOL_RISK_LEVELS_ID" jdbc-type="INTEGER" primarykey="true"  sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
 		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
@@ -159,7 +159,7 @@
 		<field-descriptor name="status" column="STATUS"  jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.document.ProtocolDocument" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.bo.Protocol" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protocolId"/>
 		</reference-descriptor>
 		<reference-descriptor name="riskLevel" class-ref="org.kuali.kra.bo.RiskLevel" auto-retrieve="true" auto-update="none" auto-delete="none"> 
