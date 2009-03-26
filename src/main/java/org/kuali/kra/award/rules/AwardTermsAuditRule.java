@@ -103,7 +103,7 @@ public class AwardTermsAuditRule implements DocumentAuditRule {
     }
     
     /**
-     * This method creates and adds the Audit Error to the List<AuditError> auditError.
+     * This method creates and adds the Audit Error to the <code>{@link List<AuditError>}</code> auditError.
      * @param description
      */
     protected void addErrorToAuditErrors(String description) {
