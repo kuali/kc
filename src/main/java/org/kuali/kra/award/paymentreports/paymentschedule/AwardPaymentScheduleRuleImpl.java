@@ -27,7 +27,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 public class AwardPaymentScheduleRuleImpl extends ResearchDocumentRuleBase 
                                             implements AwardPaymentScheduleRule {
         
-    private static final String PAYMENT_SCHEDULE_DUE_DATE_PROPERTY = "paymentScheduleBean.newAwardPaymentSchedule.dueDate";
+    private static final String PAYMENT_SCHEDULE_DUE_DATE_PROPERTY = "dueDate";
     private static final String DUE_DATE_ERROR_PARM = "Due Date (Due Date)";
 
     /**
