@@ -112,7 +112,7 @@
 	</bean>
 
   <bean id="Protocol-researchAreaCode" parent="Protocol-researchAreaCode-parentBean" />
-  <bean id="Protocol-researchAreaCode-parentBean" abstract="true" parent="ResearchAreas-researchAreaCode">
+  <bean id="Protocol-researchAreaCode-parentBean" abstract="true" parent="ResearchArea-researchAreaCode">
     <property name="label" value="Area of Research" />
     <property name="shortLabel" value="Area of Research" />
   </bean>
