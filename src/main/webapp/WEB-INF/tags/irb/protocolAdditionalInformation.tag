@@ -9,7 +9,7 @@
 <c:set var="action" value="protocolProtocol" />
 <c:set var="className" value="org.kuali.kra.irb.document.ProtocolDocument" />
 
-<c:set var="researchAreasAttributes" value="${DataDictionary.ResearchAreas.attributes}" />
+<c:set var="researchAreasAttributes" value="${DataDictionary.ResearchArea.attributes}" />
 <c:set var="readOnly" value="${!KualiForm.protocolHelper.modifyProtocol}" />
 
 <kul:tab tabTitle="Additional Information" defaultOpen="false" tabErrorKey="document.protocolList[0].fda*,document.protocolList[0].billable*,document.protocolList[0].referenceNumber*,document.protocolList[0].description*,document.protocolList[0].protocolReferences*,newProtocolReference*" auditCluster="" tabAuditKey="" useRiceAuditMode="true">
@@ -223,7 +223,7 @@
         <table cellpadding=0 cellspacing="0"  summary="">
              <tr>
               	<th><div align="left">&nbsp</div></th>  
-				<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${researchAreasAttributes.description}" noColon="true" /></div></th>
+				<th><kul:htmlAttributeLabel attributeEntry="${researchAreasAttributes.description}" noColon="true" /></th>
               	<c:if test="${!readOnly}">
               	    <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
               	</c:if>
@@ -247,7 +247,7 @@
             <logic:iterate name="KualiForm" id="protocolResearchAreas" property="document.protocolList[0].protocolResearchAreas" indexId="ctr" >
               <tr>
                 <td class="infoline"><div align="center">
-                	${ctr+1} 
+                	<b>${ctr+1}</b>
                 </div></td>
                 <td>
                 	${KualiForm.document.protocolList[0].protocolResearchAreas[ctr].researchAreas.researchAreaCode}:${KualiForm.document.protocolList[0].protocolResearchAreas[ctr].researchAreas.description}

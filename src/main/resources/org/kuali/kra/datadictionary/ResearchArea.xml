@@ -21,31 +21,31 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="ResearchAreas" parent="ResearchAreas-parentBean" />
-	<bean id="ResearchAreas-parentBean" abstract="true" parent="BusinessObjectEntry">
+	<bean id="ResearchArea" parent="ResearchArea-parentBean" />
+	<bean id="ResearchArea-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.bo.ResearchArea" />
 		<property name="inquiryDefinition" >
-			<ref bean="ResearchAreas-inquiryDefinition" />
+			<ref bean="ResearchArea-inquiryDefinition" />
 		</property>
 		<property name="lookupDefinition" >
-			<ref bean="ResearchAreas-lookupDefinition" />
+			<ref bean="ResearchArea-lookupDefinition" />
 		</property>
 		<property name="titleAttribute" value="researchAreaCode" />
 		<property name="attributes" >
 			<list>
-				<ref bean="ResearchAreas-researchAreaCode" />
-				<ref bean="ResearchAreas-parentResearchAreaCode" />
-				<ref bean="ResearchAreas-hasChildrenFlag" />
-				<ref bean="ResearchAreas-description" />
-				<ref bean="ResearchAreas-versionNumber" />
+				<ref bean="ResearchArea-researchAreaCode" />
+				<ref bean="ResearchArea-parentResearchAreaCode" />
+				<ref bean="ResearchArea-hasChildrenFlag" />
+				<ref bean="ResearchArea-description" />
+				<ref bean="ResearchArea-versionNumber" />
 			</list>
 		</property>
 	</bean>
 
 	<!-- Attribute Definitions -->
 	
-	<bean id="ResearchAreas-researchAreaCode" parent="ResearchAreas-researchAreaCode-parentBean" />
-	<bean id="ResearchAreas-researchAreaCode-parentBean" abstract="true" parent="AttributeDefinition" >
+	<bean id="ResearchArea-researchAreaCode" parent="ResearchArea-researchAreaCode-parentBean" />
+	<bean id="ResearchArea-researchAreaCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="researchAreaCode" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Research Area Code" />
@@ -62,8 +62,8 @@
 		<property name="description" value="Research Area Code" />
 	</bean>
 
-	<bean id="ResearchAreas-parentResearchAreaCode" parent="ResearchAreas-parentResearchAreaCode-parentBean" />
-	<bean id="ResearchAreas-parentResearchAreaCode-parentBean" abstract="true" parent="AttributeDefinition" >
+	<bean id="ResearchArea-parentResearchAreaCode" parent="ResearchArea-parentResearchAreaCode-parentBean" />
+	<bean id="ResearchArea-parentResearchAreaCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="parentResearchAreaCode" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Parent Research Area Code" />
@@ -80,8 +80,8 @@
 		<property name="description" value="Parent Research Area Code" />
 	</bean>
 
-	<bean id="ResearchAreas-hasChildrenFlag" parent="ResearchAreas-hasChildrenFlag-parentBean" />
-	<bean id="ResearchAreas-hasChildrenFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+	<bean id="ResearchArea-hasChildrenFlag" parent="ResearchArea-hasChildrenFlag-parentBean" />
+	<bean id="ResearchArea-hasChildrenFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
 		<property name="name" value="hasChildrenFlag" />
 		<property name="label" value="Has Children Flag" />
 		<property name="shortLabel" value="Has Children Flag" />
@@ -89,11 +89,11 @@
 		<property name="description" value="Has Children Flag" />
 	</bean>
 
-	<bean id="ResearchAreas-description" parent="ResearchAreas-description-parentBean" />
-	<bean id="ResearchAreas-description-parentBean" abstract="true" parent="AttributeDefinition" >
+	<bean id="ResearchArea-description" parent="ResearchArea-description-parentBean" />
+	<bean id="ResearchArea-description-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="description" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Description" />
+		<property name="label" value="Code/Description" />
 		<property name="shortLabel" value="Description" />
 		<property name="maxLength" value="200" />
 		<property name="validationPattern" >
@@ -107,13 +107,13 @@
 		<property name="description" value="Description" />
 	</bean>
 
-	<bean id="ResearchAreas-versionNumber" parent="ResearchAreas-versionNumber-parentBean" />
-	<bean id="ResearchAreas-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+	<bean id="ResearchArea-versionNumber" parent="ResearchArea-versionNumber-parentBean" />
+	<bean id="ResearchArea-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
 	</bean>
 
 	<!-- Business Object Inquiry Definition -->
-	<bean id="ResearchAreas-inquiryDefinition" parent="ResearchAreas-inquiryDefinition-parentBean" />
-	<bean id="ResearchAreas-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+	<bean id="ResearchArea-inquiryDefinition" parent="ResearchArea-inquiryDefinition-parentBean" />
+	<bean id="ResearchArea-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 		<property name="title" value="Research Area Code" />
 		<property name="inquirySections" >
 			<list>
@@ -139,8 +139,8 @@
 	</bean>
 
 	<!-- Business Object Lookup Definition -->
-	<bean id="ResearchAreas-lookupDefinition" parent="ResearchAreas-lookupDefinition-parentBean" />
-	<bean id="ResearchAreas-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+	<bean id="ResearchArea-lookupDefinition" parent="ResearchArea-lookupDefinition-parentBean" />
+	<bean id="ResearchArea-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Research Areas Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 		<property name="instructions" value="Look up a Research Areas" />
