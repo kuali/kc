@@ -60,6 +60,11 @@ select        DISTINCT
            and a.cost_element = g.cost_element
            and b.proposal_number = inv.proposal_number (+)
            and b.person_id = inv.person_id (+)
+           and upper(f.CATEGORY_TYPE) = 'P' 
+           
+           and ( d.rate_class_type in ('O', 'I', 'X') or 
+                 (d.rate_class_type in ('E', 'V')  and (select count(1) from valid_calc_types vct where vct.dependent_rate_class_type = 'Y' and vct.rate_class_code = c.rate_class_code and vct.rate_type_code = c.rate_type_code) = 0) )
+           
 
 ORDER by  proposal_number,
           version_number,
@@ -81,5 +86,4 @@ ORDER by  proposal_number,
           rate_class_code,
           rate_type_code,
           rate_class_type,
-          calculated_cost
-
+          calculated_cost;
