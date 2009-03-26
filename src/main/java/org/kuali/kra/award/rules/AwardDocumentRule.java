@@ -226,11 +226,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     }
     
     private boolean processAddPaymentScheduleBusinessRules(ErrorMap errorMap, AddAwardPaymentScheduleRuleEvent event) {
-        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
-        errorMap.addToErrorPath(AWARD_ERROR_PATH);        
         boolean success = new AwardPaymentScheduleRuleImpl().processAddAwardPaymentScheduleBusinessRules(event);
-        errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
-        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
         return success;
     }
 

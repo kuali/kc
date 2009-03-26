@@ -107,7 +107,7 @@ public class PaymentScheduleBean {
     
     AddAwardPaymentScheduleRuleEvent generateAddEvent() {        
         AddAwardPaymentScheduleRuleEvent event = new AddAwardPaymentScheduleRuleEvent(
-                                                            "newAwardPaymentSchedule",
+                                                            "paymentScheduleBean.newAwardPaymentSchedule",
                                                             getAwardDocument(),
                                                             getAward(),
                                                             getNewAwardPaymentSchedule());
