@@ -42,7 +42,6 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.core.bo.Parameter;
 import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
@@ -51,7 +50,6 @@ import org.kuali.core.util.ActionFormUtilMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.core.web.ui.HeaderField;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.Person;
@@ -135,9 +133,6 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     private List<Narrative> narratives;
     private boolean reject;
     private boolean saveAfterCopy;
-    private List<KeyLabelPair> exemptNumberList;
-    private String[] newExemptNumbers;
-    private List<String[]> documentExemptNumbers;
     private String optInUnitDetails;
     private String optInCertificationStatus;
     private ProposalChangedData newProposalChangedData;
@@ -220,6 +215,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         }
     }
     
+    @Override
     protected void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
         
@@ -276,11 +272,13 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         this.newProposalAbstract = newProposalAbstract;
     }
 
-    /* Reset method
+    /**
+     * Reset method
      * @param mapping
      * @param request
      * reset check box values in keyword panel and properties that much be read on each request.
      */
+    @Override
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         super.reset(mapping, request);
         
@@ -300,7 +298,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         ProposalDevelopmentDocument proposalDevelopmentDocument = this.getDocument();
         List<PropScienceKeyword> keywords = proposalDevelopmentDocument.getPropScienceKeywords();
         for(int i=0; i<keywords.size(); i++) {
-            PropScienceKeyword propScienceKeyword = (PropScienceKeyword)keywords.get(i);
+            PropScienceKeyword propScienceKeyword = keywords.get(i);
             propScienceKeyword.setSelectKeyword(false);
         }
 
@@ -311,10 +309,6 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         if (editRoles != null) {
             editRoles.clear();
         }
-        
-        // reset exempt numbers.
-        //setDocumentExemptNumbers(new ArrayList<String[]>());
-        resetExemptNumbers();
     }
 
 
@@ -510,7 +504,6 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     }
 
     public Map getCreditSplitTotals() {
-        //Map test=getKeyPersonnelService().calculateCreditSplitTotals(getDocument());
         return getKeyPersonnelService().calculateCreditSplitTotals(getDocument());
         
     }
@@ -932,10 +925,12 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         this.proposalUserEditRoles = proposalUserEditRoles;
     }
 
+    @Override
     public String getNewBudgetVersionName() {
         return newBudgetVersionName;
     }
 
+    @Override
     public void setNewBudgetVersionName(String newBudgetVersionName) {
         this.newBudgetVersionName = newBudgetVersionName;
     }
@@ -1134,47 +1129,6 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         this.creditSplitEnabled = creditSplitEnabled;
     }
 
-    public List<KeyLabelPair> getExemptNumberList() {
-        return exemptNumberList;
-    }
-
-    public void setExemptNumberList(List<KeyLabelPair> exemptNumberList) {
-        this.exemptNumberList = exemptNumberList;
-    }
-
-    public String[] getNewExemptNumbers() {
-        return newExemptNumbers;
-    }
-
-    public void setNewExemptNumbers(String[] newExemptNumbers) {
-        this.newExemptNumbers = newExemptNumbers;
-    }
-    
-    /**
-     * 
-     * This method is to reset the exempt numbers in proposalspecialreview.  
-     * If no exempt number is selected, then it's not in request parameter's list.  So,
-     * The old exempt number will not be reset to null.  This is just a way to reset it.
-     * TODO : any other option?
-     */
-    private void resetExemptNumbers() {
-        List <String[]> documentExemptNumbers = this.getDocumentExemptNumbers();
-        int  i =0;
-        if (documentExemptNumbers != null) {
-            for (String[] exemptNumbers : documentExemptNumbers) {
-                documentExemptNumbers.set(i++, null);
-            }
-        }
-    }
-
-    public List<String[]> getDocumentExemptNumbers() {
-        return documentExemptNumbers;
-    }
-
-    public void setDocumentExemptNumbers(List<String[]> documentExemptNumbers) {
-        this.documentExemptNumbers = documentExemptNumbers;
-    }
-
     public String getOptInUnitDetails() {
         return optInUnitDetails;
     }
@@ -1261,6 +1215,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     }
     
     // Set the document controls that should be available on the page
+    @Override
     protected void setSaveDocumentControl(DocumentActionFlags tempDocumentActionFlags, Map editMode) {
         tempDocumentActionFlags.setCanSave(false);
 
@@ -1276,6 +1231,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     }
     
     // Returns piece that should be locked for this form
+    @Override
     protected String getLockRegion() {
         String lockRegion = "";
         if (isProposalAction()) {

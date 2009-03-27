@@ -24,6 +24,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.web.format.Formatter;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
+import org.kuali.kra.infrastructure.ArrayFormatter;
 import org.kuali.kra.infrastructure.BudgetDecimalFormatter;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
@@ -52,6 +53,9 @@ public abstract class ProposalFormBase extends KraTransactionalDocumentFormBase 
     public ProposalFormBase() {
         super();
         Formatter.registerFormatter(BudgetDecimal.class, BudgetDecimalFormatter.class);
+        //only registering formatter for one array type - do not want to break something
+        //by override all array formatting behavior.
+        Formatter.registerFormatter(String[].class, ArrayFormatter.class);
     }
     
     public void reset(ActionMapping mapping, HttpServletRequest request) {

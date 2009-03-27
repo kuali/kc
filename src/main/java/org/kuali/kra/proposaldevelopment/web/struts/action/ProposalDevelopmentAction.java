@@ -144,16 +144,6 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
             else {
                 proposalDevelopmentForm.setAdditionalDocInfo2(new KeyLabelPair("DataDictionary.KraAttributeReferenceDummy.attributes.principalInvestigator", RiceConstants.EMPTY_STRING));
             }
-            
-            //if(isPrincipalInvestigator){
-            //}
-            
-            /*if(proposalDevelopmentForm.getDocument().getSponsorCode()!=null){
-                proposalDevelopmentForm.setAdditionalDocInfo1(new KeyLabelPair("datadictionary.Sponsor.attributes.sponsorCode.label",proposalDevelopmentForm.getDocument().getSponsorCode()));
-            }
-            if(proposalDevelopmentForm.getDocument().getPrincipalInvestigator()!=null){
-                proposalDevelopmentForm.setAdditionalDocInfo2(new KeyLabelPair("${Document.DataDictionary.ProposalDevelopmentDocument.attributes.sponsorCode.label}",proposalDevelopmentForm.getDocument().getPrincipalInvestigator().getFullName()));
-            }*/
     
             // setup any Proposal Development System Parameters that will be needed
             KualiConfigurationService configService = KraServiceLocator.getService(KualiConfigurationService.class);
@@ -300,8 +290,6 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
     }
 
     public ActionForward specialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        ((ProposalDevelopmentForm) form).setExemptNumberList(KraServiceLocator.getService(ProposalDevelopmentService.class).getExemptionTypeKeyValues());
-        KraServiceLocator.getService(ProposalDevelopmentService.class).populateExemptNumbersToForm((ProposalDevelopmentForm)form);
         return mapping.findForward(Constants.SPECIAL_REVIEW_PAGE);
     }
 

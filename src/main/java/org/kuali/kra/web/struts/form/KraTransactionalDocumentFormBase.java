@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.web.struts.form;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,8 +37,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.KNSServiceLocator;
   
 public abstract class KraTransactionalDocumentFormBase extends KualiTransactionalDocumentFormBase {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
-            .getLog(KraTransactionalDocumentFormBase.class);
 
     protected String actionName;
 
@@ -60,25 +59,12 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
     }
     
     /**
-     * Override reset to reset checkboxes if they are present on the requesting page
-     * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#reset(org.apache.struts.action.ActionMapping, javax.servlet.http.HttpServletRequest)
+     * {@inheritDoc}
      */
-    public void reset(ActionMapping mapping, HttpServletRequest request) {
+    @Override
+    public void reset(final ActionMapping mapping, final HttpServletRequest request) {
         super.reset(mapping, request);
-        if (request.getParameter("checkboxToReset") != null) {
-            String[] checkboxesToReset = request.getParameterValues("checkboxToReset");
-            if(checkboxesToReset != null && checkboxesToReset.length > 0) {
-                for (int i = 0; i < checkboxesToReset.length; i++) {
-                    String propertyName = (String) checkboxesToReset[i];
-                    try {
-                        PropertyUtils.setNestedProperty(this, propertyName, false);
-                    } catch (Exception e1) {
-                        LOG.error("Error occurred in reset " + e1.getMessage());
-                        throw new RuntimeException(e1.getMessage(), e1);
-                    }
-                }
-            }
-        }
+        ResetElementsHelper.resetElements(this, ResetElementsHelper.getElementsToReset(request));
     }
 
     /**
@@ -223,5 +209,4 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
     protected abstract String getLockRegion();
     
     protected abstract void setSaveDocumentControl(DocumentActionFlags tempDocumentActionFlags, Map editMode);
-
 }

@@ -55,6 +55,7 @@ import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
+import org.kuali.kra.proposaldevelopment.bo.ProposalExemptNumber;
 import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
@@ -736,6 +737,14 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         managedLists.add(degrees);
         managedLists.add(getProposalLocations());
         managedLists.add(getPropSpecialReviews());
+        
+        List<ProposalExemptNumber> proposalExemptNumbers = new ArrayList<ProposalExemptNumber>();
+        
+        for (ProposalSpecialReview review : getPropSpecialReviews()) {
+            proposalExemptNumbers.addAll(review.getProposalExemptNumbers());
+        }
+        managedLists.add(proposalExemptNumbers);
+        
         managedLists.add(getProposalPersons());
         managedLists.add(getPropScienceKeywords());
         managedLists.add(getProposalAbstracts());
