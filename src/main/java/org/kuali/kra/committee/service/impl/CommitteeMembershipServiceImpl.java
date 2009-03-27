@@ -127,6 +127,6 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
     public void deleteCommitteeMembershipExpertise(Committee committee, int selectedMembershipIndex, int lineNumber) {
         CommitteeMembership committeeMembership = committee.getCommitteeMemberships().get(selectedMembershipIndex);
         CommitteeMembershipExpertise committeeMembershipExpertise = committeeMembership.getMembershipExpertise().get(lineNumber);
-        committeeMembership.getMembershipRoles().remove(committeeMembershipExpertise);
+        committeeMembership.getMembershipExpertise().remove(committeeMembershipExpertise);
     }
 }
