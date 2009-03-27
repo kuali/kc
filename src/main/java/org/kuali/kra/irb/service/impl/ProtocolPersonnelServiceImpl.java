@@ -47,6 +47,10 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     private static final int ROLE_UNCHANGED = -1;
     private static final int RESET_SELECTED_UNIT_FOR_PERSON = 0;
     
+    private static final int AFFILIATION_TYPE_OTHER = 0;
+    private static final int AFFILIATION_TYPE_STUDENT_INVESTIGATOR = 1;
+    private static final int AFFILIATION_TYPE_FACULTY_SUPERVISOR = 2;
+    
     
     /**
      * Sets the protocolPersonTrainingService attribute value.
@@ -218,15 +222,16 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     }
 
     /**
-     * @see org.kuali.kra.irb.service.ProtocolPersonnelService#updateProtocolUnit(java.util.List)
+     * @see org.kuali.kra.irb.service.ProtocolPersonnelService#syncProtocolPersonRoleChanges(java.util.List)
      */
-    public void updateProtocolUnit(List<ProtocolPerson> protocolPersons) {
+    public void syncProtocolPersonRoleChanges(List<ProtocolPerson> protocolPersons) {
         for(ProtocolPerson protocolPerson : protocolPersons) {
             if(!isUnitDetailsRequired(protocolPerson)) {
                 protocolPerson.getProtocolUnits().removeAll(protocolPerson.getProtocolUnits());
             }else {
                 setLeadUnit(protocolPerson);
             }
+            syncPersonRoleAndAffiliation(protocolPerson);
         }
     }
     
@@ -258,6 +263,22 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
         return unitDetailsRequried;
     }
     
+    /**
+     * This method is to check whether Affiliation details is requried for a person role.
+     * We need to refresh Person Role to reflect recent changes.
+     * Person role refresh is taken care in isUnitDetailsRequired method which is
+     * invoked prior to this method.
+     * @param protocolPerson
+     * @return
+     */
+    private boolean isAffiliationDetailsRequired(ProtocolPerson protocolPerson) {
+        boolean affiliationDetailsRequried = true;
+        if (!protocolPerson.getProtocolPersonRole().isAffiliationDetailsRequired()) {
+            affiliationDetailsRequried = false;
+        }
+        return affiliationDetailsRequried;
+    }
+
     /**
      * This method is to set lead unit flag
      * @param protocolPerson
@@ -348,9 +369,22 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
             isInvestigator = true;
         }
         return isInvestigator;
-        
     }
     
+    /**
+     * This method is to check if the person has the role Co-Investigator
+     * @param protocolPerson
+     * @return true / false
+     */
+    private boolean isCoInvestigator(ProtocolPerson protocolPerson) {
+        boolean isCoI = false;
+        if(protocolPerson.getProtocolPersonRoleId().equalsIgnoreCase(getCoInvestigatorRole())) {
+            isCoI = true;
+        }
+        return isCoI;
+        
+    }
+
     /**
      * This method sets/updates the principal investigator person
      * @param protocol
@@ -378,6 +412,67 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
         }
     }
 
+    /**
+     * @see org.kuali.kra.irb.service.ProtocolPersonnelService#syncPersonRoleAndAffiliation(org.kuali.kra.irb.bo.ProtocolPerson)
+     */
+    public void syncPersonRoleAndAffiliation(ProtocolPerson protocolPerson) {
+        if(!isAffiliationDetailsRequired(protocolPerson)) {
+            protocolPerson.setAffiliationTypeCode(null);
+        }
+    }
+    
+    /**
+     * @see org.kuali.kra.irb.service.ProtocolPersonnelService#isValidStudentFacultyMatch(java.util.List)
+     */
+    public boolean isValidStudentFacultyMatch(List<ProtocolPerson> protocolPersons) {
+        boolean validInvestigator = true;
+        HashMap<Integer, Integer> investigatorAffiliation = new HashMap<Integer, Integer>();
+        for(ProtocolPerson protocolPerson : protocolPersons) {
+            if(isAffiliationStudentInvestigatorOrFacultySupervisor(protocolPerson)) {
+                updateAffiliationCount(protocolPerson, investigatorAffiliation);
+            }
+        }
+        Integer studentAffiliationCount = investigatorAffiliation.get(getStudentAffiliationType()) == null
+                                          ? 0 : investigatorAffiliation.get(getStudentAffiliationType());
+        Integer facultySupervisorAffiliationCount = investigatorAffiliation.get(getFacultySupervisorAffiliationType()) == null
+                                                    ? 0 : investigatorAffiliation.get(getFacultySupervisorAffiliationType());
+        if(studentAffiliationCount > 0 && studentAffiliationCount.compareTo(facultySupervisorAffiliationCount) != 0) {
+            validInvestigator = false;
+        }
+        return validInvestigator;
+    }
+    
+    /**
+     * This method is to check whether affiliation code is student investigator or
+     * faculty supervisor
+     * @param protocolPerson
+     * @return true / false
+     */
+    private boolean isAffiliationStudentInvestigatorOrFacultySupervisor(ProtocolPerson protocolPerson) {
+        if(protocolPerson.getAffiliationTypeCode() != null &&
+             ((protocolPerson.getAffiliationTypeCode().compareTo(getStudentAffiliationType()) == 0 || 
+                 protocolPerson.getAffiliationTypeCode().compareTo(getFacultySupervisorAffiliationType()) == 0))) {
+                 return true;
+        }
+        return false;
+    }
+
+    /**
+     * This method is to set the total count for each affiliation type
+     * @param protocolPerson
+     * @param investigatorAffiliation
+     */
+    private void updateAffiliationCount(ProtocolPerson protocolPerson, HashMap<Integer, Integer> investigatorAffiliation) {
+        Integer totalCountForAffiliation = 0;
+        totalCountForAffiliation = investigatorAffiliation.get(protocolPerson.getAffiliationTypeCode());
+        if(totalCountForAffiliation == null) {
+            investigatorAffiliation.put(protocolPerson.getAffiliationTypeCode(), 1);
+        }else {
+            investigatorAffiliation.remove(protocolPerson.getAffiliationTypeCode());
+            investigatorAffiliation.put(protocolPerson.getAffiliationTypeCode(), totalCountForAffiliation++);
+        }
+    }
+    
     
     /**
      * Gets the businessObjectService attribute.
@@ -411,6 +506,22 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
      */
     private String getCoInvestigatorRole() {
         return Constants.CO_INVESTIGATOR_ROLE;
+    }
+
+    /**
+     * This method is to get student investigator affiliation type
+     * @return Integer
+     */
+    private Integer getStudentAffiliationType() {
+        return Constants.AFFILIATION_STUDENT_INVESTIGATOR_TYPE;
+    }
+
+    /**
+     * This method is to get faculty supervisor affiliation type
+     * @return
+     */
+    private Integer getFacultySupervisorAffiliationType() {
+        return Constants.AFFILIATION_FACULTY_SUPERVISOR_TYPE;
     }
 
     /**

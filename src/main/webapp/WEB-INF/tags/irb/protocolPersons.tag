@@ -37,6 +37,7 @@
 			         leftSideHtmlAttribute="${protocolPersonAttributes.delete}" 
 			     	 leftSideHtmlDisabled="false" 
 			         defaultOpen="${hasErrors}" 
+					 useCurrentTabIndexAsKey="true"
 			         transparentBackground="${transparent}">
 					 <div class="tab-container" align="center">
 						<div id="workarea">
