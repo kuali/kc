@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/jsp/committee/committeeMember.jsp"%>
 
 <c:set var="membershipExpertiseAttributes" value="${DataDictionary.CommitteeMembershipExpertise.attributes}" />
-<%-- TODO: set readOnly to something like "${!KualiForm.protocolHelper.modifyProtocol}" --%>
+<%-- TODO: cniesen - set readOnly to something like "${!KualiForm.committeeHelper.modifyCommittee}" --%>
 <c:set var="readOnly" value="false" />
 
 <table cellpadding=0 cellspacing=0 summary="">
@@ -33,21 +33,15 @@
                                 
                                 <td align="left" valign="middle" class="infoline">
                                     <div align="left">
-                                        <kul:htmlControlAttribute property="membershipExpertiseHelper.newCommitteeMembershipExpertise[${memberIndex}].researchAreaCode" 
-                                                                  attributeEntry="${membershipExpertiseAttributes.researchAreaCode}" />
-                                        <kul:lookup boClassName="org.kuali.kra.bo.ResearchArea" 
-                                                    fieldConversions="researchAreaCode:membershipExpertiseHelper.newCommitteeMembershipExpertise[${memberIndex}].researchAreaCode,description:membershipExpertiseHelper.newCommitteeMembershipExpertise[${memberIndex}].researchArea.description" 
-                                                    anchor="${currentTabIndex}"/>
-                                        <br> 
-                                        ${KualiForm.membershipExpertiseHelper.newCommitteeMembershipExpertise[memberIndex].researchArea.description}
+                                        (select)
+                                        <kul:multipleValueLookup boClassName="org.kuali.kra.bo.ResearchArea" 
+                                                                 lookedUpCollectionName="committeeResearchAreas"
+                                                                 anchor="${currentTabIndex}"/>
                                     </div>
                                 </td>
                                 
-                               <td align="left" valign="middle" class="infoline">
-                                   <div align=center>
-                                       <html:image property="methodToCall.addCommitteeMembershipExpertise.${committeeMembership}.line${memberIndex}"
-                                                   src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
-                                                   styleClass="tinybutton"/>
+                                <td align="left" valign="middle" class="infoline">
+                                    <div align=center>
                                     </div>
                                 </td>
                             </tr>
@@ -62,10 +56,7 @@
                                 </th>
                                 <td align="left" valign="middle">
                                     <div align="left">
-                                        <kul:htmlControlAttribute property="${committeeMembership}.membershipExpertise[${status.index}].researchAreaCode" 
-                                                                  attributeEntry="${membershipExpertiseAttributes.researchAreaCode}" 
-                                                                  readOnlyAlternateDisplay="${membershipExpertise.researchArea.description}" 
-                                                                  readOnly="true" />
+                                        ${membershipExpertise.researchAreaCode} ${membershipExpertise.researchArea.description} 
                                     </div>
                                 </td>
  
