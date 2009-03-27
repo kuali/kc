@@ -41,6 +41,12 @@
 <%@ attribute name="styleClass" required="false"
 			  description="When a field has a css class applied to it, make sure that
 			  we carry it through."%>
+			  
+<%--These multi-select attributes are control specific and really should be defined in the DataDictionary files as control attributes--%>
+<%@ attribute name="isMultiSelect" required="false" type="java.lang.Boolean"
+			  description="When (attributeEntry.control.select == true), this attribute specifies whether to use a multi-select style control."%>
+<%@ attribute name="multiSelectSize" required="false" type="java.lang.Integer"
+			  description="When (attributeEntry.control.select == true && isMultiSelect == true), this attribute specifies the size of the control and is required for multi-select types."%>
 
 <kul:checkErrors keyMatch="${property}" auditMatch="${property}"/>
 <c:choose>
@@ -148,9 +154,8 @@
     <c:when test="${attributeEntry.control.select == true}">
             <c:set var="finderClass" value="${fn:replace(attributeEntry.control.valuesFinder,'.','|')}"/>
             <c:set var="businessObjectClass" value="${fn:replace(attributeEntry.control.businessObject,'.','|')}"/>
-
-            <html:select property="${property}" tabindex="${tabindex}" style="${textStyle}"  styleId="${property}" disabled="${disableField}" onblur="${onblur}" onchange="${onchange}" styleClass="${styleClass}">
-              <c:choose>
+			
+			  <c:choose>
               	<c:when test="${not empty businessObjectClass}">
                   <c:set var="methodAndParms" value="actionFormUtilMap.getOptionsMap${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${finderClass}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${businessObjectClass}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.keyAttribute}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.labelAttribute}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.includeKeyInLabel}"/>
               	</c:when>
@@ -158,8 +163,24 @@
                   <c:set var="methodAndParms" value="actionFormUtilMap.getOptionsMap${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${finderClass}"/>
               	</c:otherwise>
            	  </c:choose>
-              <html:optionsCollection property="${methodAndParms}" label="label" value="key"/>
-            </html:select>
+			
+			  <c:choose>
+                <c:when test="${isMultiSelect}">
+              	  <%-- makes no sense that the multiple attribute is not boolean --%>
+                  <html:select property="${property}" tabindex="${tabindex}" style="${textStyle}"  styleId="${property}" disabled="${disableField}" onblur="${onblur}" onchange="${onchange}" styleClass="${styleClass}" multiple="${multiSelect}" size="${multiSelectSize}">
+                    <html:optionsCollection property="${methodAndParms}" label="label" value="key"/>
+                  </html:select>
+                </c:when>
+                <c:otherwise>
+                  <html:select property="${property}" tabindex="${tabindex}" style="${textStyle}"  styleId="${property}" disabled="${disableField}" onblur="${onblur}" onchange="${onchange}" styleClass="${styleClass}">
+                    <html:optionsCollection property="${methodAndParms}" label="label" value="key"/>
+                  </html:select>
+                </c:otherwise>
+           	  </c:choose>
+
+            <c:if test="${disableField == false}">
+            	<input type="hidden" name="elementsToReset" value="${property}"/>
+            </c:if>
     </c:when>
 
     <%-- radio --%>
@@ -189,7 +210,8 @@
             	onchange="${onchange}" onclick="${onclick}" styleId="${property}"
             	styleClass="${styleClass}"/>
             	<c:if test="${disableField == false}">
-            <input type="hidden" name="checkboxToReset" value="${property}"/> </c:if>
+            		<input type="hidden" name="elementsToReset" value="${property}"/>
+            	</c:if>
     </c:when>
 
     <%-- hidden --%>

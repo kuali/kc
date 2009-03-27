@@ -15,8 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
-import static java.util.Collections.sort;
-import static org.kuali.kra.logging.BufferedLogger.*;
+import static org.kuali.kra.logging.BufferedLogger.debug;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -39,13 +38,8 @@ import org.kuali.core.service.PessimisticLockService;
 import org.kuali.core.util.AuditCluster;
 import org.kuali.core.util.AuditError;
 import org.kuali.core.util.GlobalVariables;
-
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.TypedArrayList;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.bo.ExemptionType;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Unit;
@@ -56,25 +50,18 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder;
-import org.kuali.kra.lookup.keyvalue.KeyLabelPairComparator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter;
-import org.kuali.kra.proposaldevelopment.bo.ProposalExemptNumber;
 import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.bo.ProposalOverview;
-import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.AddBudgetVersionEvent;
 import org.kuali.kra.proposaldevelopment.rules.BudgetVersionRule;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.KraPersistenceStructureService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.exception.WorkflowException;
-
-import static org.kuali.kra.logging.BufferedLogger.*;
 
 
 // TODO : extends PersistenceServiceStructureImplBase is a hack to temporarily resolve get class descriptor.
@@ -251,92 +238,6 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetVersion.getDocumentNumber());
         return KraServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(budgetDocument));
-
-    }
-
-    /**
-     * 
-     * @see org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService#getExemptionTypeKeyValues()
-     */
-    public List<KeyLabelPair> getExemptionTypeKeyValues() {
-        // TODO this is to get the key values pair for exempt numbers - any other options
-        // put in service ?
-        ExtendedPersistableBusinessObjectValuesFinder finder = new ExtendedPersistableBusinessObjectValuesFinder();
-        finder.setBusinessObjectClass(ExemptionType.class);
-        finder.setKeyAttributeName("exemptionTypeCode");
-        finder.setLabelAttributeName("description");
-        List<KeyLabelPair> exemptionTypes = finder.getKeyValues();
-        sort(exemptionTypes, new KeyLabelPairComparator());
-        return exemptionTypes;
-    }
-
-
-    public void populateExemptNumbersToForm(ProposalDevelopmentForm proposalDevelopmentForm) {
-        // initial load
-        List<ProposalSpecialReview> proposalSpecialReviews = proposalDevelopmentForm.getDocument()
-                .getPropSpecialReviews();
-        int i = 0;
-        List<String[]> documentExemptNumbers = proposalDevelopmentForm.getDocumentExemptNumbers();
-        for (ProposalSpecialReview proposalSpecialReview : proposalSpecialReviews) {
-            List<ProposalExemptNumber> proposalExemptNumbers = proposalSpecialReview.getProposalExemptNumbers();
-            String[] exemptNumbers = null;
-            //if (proposalExemptNumbers != null && proposalExemptNumbers.size() > 0) {
-                if (documentExemptNumbers == null  || documentExemptNumbers.size() - 1 < i ) {
-                    if (documentExemptNumbers == null) {
-                        documentExemptNumbers = new ArrayList<String[]>();
-                        proposalDevelopmentForm.setDocumentExemptNumbers(documentExemptNumbers);
-                    }
-                    documentExemptNumbers.add(exemptNumbers);
-                }
-                exemptNumbers = documentExemptNumbers.get(i++);
-                if ((exemptNumbers == null || exemptNumbers.length == 0) && proposalExemptNumbers != null
-                        && proposalExemptNumbers.size() > 0) {
-                    int idx = 0;
-                    if (exemptNumbers == null || exemptNumbers.length == 0) {
-                        exemptNumbers = new String[proposalExemptNumbers.size()];
-                        documentExemptNumbers.remove(i-1);
-                        documentExemptNumbers.add(i-1,exemptNumbers);
-                    }
-                    for (Object proposalExemptNumber : proposalExemptNumbers) {
-                        exemptNumbers[idx++] = (((ProposalExemptNumber) proposalExemptNumber).getExemptionTypeCode());
-                    }
-                }
-           // }
-        }
-
-    }
-
-
-    public void populateProposalExempNumbers(ProposalDevelopmentForm proposalDevelopmentForm) {
-        // initial load
-        List<ProposalSpecialReview> proposalSpecialReviews = proposalDevelopmentForm.getDocument()
-                .getPropSpecialReviews();
-        int i = 0;
-        List<String[]> documentExemptNumbers = proposalDevelopmentForm.getDocumentExemptNumbers();
-        for (ProposalSpecialReview proposalSpecialReview : proposalSpecialReviews) {
-            List newProposalExemptNumbers = new TypedArrayList(ProposalExemptNumber.class);
-            
-            if (documentExemptNumbers != null && documentExemptNumbers.size() > 0) {
-                String[] exemptNumbers = documentExemptNumbers.get(i++);
-                if (exemptNumbers !=null) {
-                    for (String exemptNumber : exemptNumbers) {
-                        if (StringUtils.isNotBlank(exemptNumber)) {
-                            ProposalExemptNumber proposalExemptNumber = new ProposalExemptNumber();
-                            proposalExemptNumber.setProposalNumber(proposalSpecialReview.getProposalNumber());
-                            proposalExemptNumber.setSpecialReviewNumber((proposalSpecialReview.getSpecialReviewNumber()));
-                            proposalExemptNumber.setExemptionTypeCode(exemptNumber);
-                            // TODO : below is to prevent optimistic locking issue. Tested to see if it is really needed.
-                            // if (proposalExemptNumber != null && proposalExemptNumbers.size() > newProposalExemptNumbers.size()) {
-                            // proposalExemptNumber.setVersionNumber(((ProposalExemptNumber)proposalExemptNumbers.get(proposalExemptNumbers.size()
-                            // - 1)).getVersionNumber());
-                            // }
-                            newProposalExemptNumbers.add(proposalExemptNumber);
-                        }
-                    }
-                }
-            }
-            proposalSpecialReview.setProposalExemptNumbers(newProposalExemptNumbers);
-        }
 
     }
 

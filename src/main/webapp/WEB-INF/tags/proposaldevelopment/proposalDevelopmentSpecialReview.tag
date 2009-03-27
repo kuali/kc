@@ -17,6 +17,8 @@
 
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
 <c:set var="proSpecialAttriburesAttributes" value="${DataDictionary.ProposalSpecialReview.attributes}" />
+<c:set var="exemptionTypeAttributes" value="${DataDictionary.ProposalExemptNumber.attributes}" />
+
 <c:set var="action" value="proposalDevelopmentSpecialReview" />
 <div id="workarea">
 <kul:tab tabTitle="Special Review" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="document.propSpecialReview*,newPropSpecialReview*,documentExemptNumber*,newExemptNumber*" auditCluster="specialReviewAuditWarnings"  tabAuditKey="document.propSpecialReview*" useRiceAuditMode="true">
@@ -61,10 +63,6 @@
                 <td class="infoline">   
                 <div align="center">             	
                   <kul:htmlControlAttribute property="newPropSpecialReview.protocolNumber" attributeEntry="${proSpecialAttriburesAttributes.protocolNumber}" />
-                    <!-- <img class="nobord" src="kr/static/images/searchicon.gif" alt="lookup">  
-                    <img class="nobord" src="kr/static/images/book_open.png" alt="inquiry"> -->
-                 <!--  <kul:lookup boClassName="org.kuali.kra.bo.Protocol" 
-                    fieldConversions="protocolNumber:newPropSpecialReview.protocolNumber" anchor="${currentTabIndex}" /> --> 
 				</div>
 				</td>
                 <td align="left" valign="middle" class="infoline">
@@ -93,17 +91,7 @@
                 
                 <td align="left" valign="middle" class="infoline">
                		 <div align="center">
-                    	<c:set var="selected" value="" />
-						<c:forEach var="key" items="${KualiForm.newExemptNumbers}">
-						   <c:set var="selected" value="${selected},${key}" />
-						</c:forEach>
-						<select name="newExemptNumbers" multiple="true" size="4"  style="${exemptNumberStyle}">
-							<c:forEach var="keyLabel" items="${KualiForm.exemptNumberList}">
-			  			    	<c:if test="${!empty keyLabel.key}" >
-	                                <option value="${keyLabel.key}" <c:if test="${fn:contains(selected, keyLabel.key)}"> selected="true" </c:if> >${keyLabel.label}</option>
-								</c:if>
-							</c:forEach>
-						</select>
+					 <kul:htmlControlAttribute property="newPropSpecialReview.exemptNumbers" attributeEntry="${exemptionTypeAttributes.exemptionTypeCode}" isMultiSelect="true" multiSelectSize="4" />
 					</div>	  			
                 </td>
                 <td align="left" valign="middle" class="infoline">
@@ -113,7 +101,7 @@
                 </div>
                 </td>
 				<td class="infoline">
-					<div align=center>
+					<div align=center>&nbsp;
 						<html:image property="methodToCall.addSpecialReview.anchor${tabKey}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
 					</div>
@@ -138,11 +126,6 @@
 	                <td>     
 	                <div align="center">           	
 	                  <kul:htmlControlAttribute property="document.propSpecialReview[${status.index}].protocolNumber" attributeEntry="${proSpecialAttriburesAttributes.protocolNumber}" />
-                    <!-- <input type="image" class="nobord" src="kr/static/images/searchicon.gif" alt="lookup">  
-                    <input type="image" class="nobord" src="kr/static/images/book_open.png" alt="inquiry">-->
-	                <!--  <kul:lookup boClassName="org.kuali.kra.bo.Protocol" 
-	                    fieldConversions="protocolNumber:document.propSpecialReview[${status.index}].protocolNumber"  anchor="${tabKey}"/> --> 
-					
 					</div>
 					</td>
 	                <td align="left" valign="middle">
@@ -154,39 +137,10 @@
 	                <td align="left" valign="middle">
 	                <div align="center"><kul:htmlControlAttribute property="document.propSpecialReview[${status.index}].expirationDate" attributeEntry="${proSpecialAttriburesAttributes.expirationDate}" datePicker="true"/></div>
 	                </td>
-
-                 <c:set var="exemptNumberStyle" value="" scope="request"/>
-          	     <c:set var="exemptNumberFieldName" value="documentExemptNumbers[${status.index}]" />
-			     <c:forEach items="${ErrorPropertyList}" var="key">
-				    <c:if test="${key eq exemptNumberFieldName}">
-					  <c:set var="exemptNumberStyle" value="background-color:#FFD5D5" scope="request"/>
-				    </c:if>
-			     </c:forEach>
  
                 <td align="left" valign="middle" class="infoline">
                 <div align="center">
-                    <c:set var="selected" value="" />
-                    <c:set var="selectedExemptText" value="" />
-						<c:forEach var="key" items="${KualiForm.documentExemptNumbers[status.index]}">
-						   <c:set var="selected" value="${selected},${key}" />
-						   <c:set var="selectedExemptText" value="${selectedExemptText},${KualiForm.exemptNumberList[key-1].label}" />
-						</c:forEach>
-						<c:choose> 
-						<c:when test="${readOnly}">
-							<c:if test="${not empty selectedExemptText}" >
-								<c:out value="${fn:substring(selectedExemptText, 1, fn:length(selectedExemptText))}" />
-							</c:if>
-						</c:when>
-						<c:otherwise>
-			  				<select name="documentExemptNumbers[${status.index}]" multiple="true" size="4"  style="${exemptNumberStyle}">
-								<c:forEach var="keyLabel" items="${KualiForm.exemptNumberList}">
-				  			    	<c:if test="${!empty keyLabel.key}" >
-		                                <option value="${keyLabel.key}" <c:if test="${fn:contains(selected, keyLabel.key)}"> selected="true" </c:if> >${keyLabel.label}</option>
-									</c:if>
-								</c:forEach>
-							</select>
-						</c:otherwise>
-						</c:choose>
+                    <kul:htmlControlAttribute property="document.propSpecialReview[${status.index}].exemptNumbers" attributeEntry="${exemptionTypeAttributes.exemptionTypeCode}" isMultiSelect="true" multiSelectSize="4" />
 					</div>	  			
                 </td>
 

@@ -1,21 +1,24 @@
 package org.kuali.kra.proposaldevelopment.bo;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.SpecialReview;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.ValidSpecialReviewApproval;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 
+/**
+ * Class representing a Proposal Special Review.
+ */
 public class ProposalSpecialReview extends KraPersistableBusinessObjectBase {
-    // TODO : temporarily change proposalnumber from string to integer to see if ojb willwork
+
+    private static final long serialVersionUID = -2375697998735262371L;
+
     private String proposalNumber;
     private Integer specialReviewNumber;
     private Date applicationDate;
@@ -29,14 +32,19 @@ public class ProposalSpecialReview extends KraPersistableBusinessObjectBase {
     private SpecialReviewApprovalType specialReviewApprovalType;
 
     private ValidSpecialReviewApproval validSpecialReviewApproval;
-    private List proposalExemptNumbers;
 
-    public ProposalSpecialReview() {
-        super();
-        proposalExemptNumbers = new TypedArrayList(ProposalExemptNumber.class);
+    private String[] exemptNumbers;
+    private List<ProposalExemptNumber> proposalExemptNumbers = new ArrayList<ProposalExemptNumber>();
+    
+    /** {@inheritDoc} */
+    @Override
+    public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+        super.afterLookup(persistenceBroker);
+        this.syncProposalExemptNumbersToExemptNumbers();
     }
+    
     public String getProposalNumber() {
-        return proposalNumber;
+        return this.proposalNumber;
     }
 
     public void setProposalNumber(String proposalNumber) {
@@ -44,7 +52,7 @@ public class ProposalSpecialReview extends KraPersistableBusinessObjectBase {
     }
 
     public Integer getSpecialReviewNumber() {
-        return specialReviewNumber;
+        return this.specialReviewNumber;
     }
 
     public void setSpecialReviewNumber(Integer specialReviewNumber) {
@@ -52,7 +60,7 @@ public class ProposalSpecialReview extends KraPersistableBusinessObjectBase {
     }
 
     public Date getApplicationDate() {
-        return applicationDate;
+        return this.applicationDate;
     }
 
     public void setApplicationDate(Date applicationDate) {
@@ -60,7 +68,7 @@ public class ProposalSpecialReview extends KraPersistableBusinessObjectBase {
     }
 
     public Date getApprovalDate() {
-        return approvalDate;
+        return this.approvalDate;
     }
 
     public void setApprovalDate(Date approvalDate) {
@@ -68,7 +76,7 @@ public class ProposalSpecialReview extends KraPersistableBusinessObjectBase {
     }
 
     public String getApprovalTypeCode() {
-        return approvalTypeCode;
+        return this.approvalTypeCode;
     }
 
     public void setApprovalTypeCode(String approvalTypeCode) {
@@ -76,7 +84,7 @@ public class ProposalSpecialReview extends KraPersistableBusinessObjectBase {
     }
 
     public String getComments() {
-        return comments;
+        return this.comments;
     }
 
     public void setComments(String comments) {
@@ -84,7 +92,7 @@ public class ProposalSpecialReview extends KraPersistableBusinessObjectBase {
     }
 
     public String getProtocolNumber() {
-        return protocolNumber;
+        return this.protocolNumber;
     }
 
     public void setProtocolNumber(String protocolNumber) {
@@ -92,38 +100,30 @@ public class ProposalSpecialReview extends KraPersistableBusinessObjectBase {
     }
 
     public String getSpecialReviewCode() {
-        return specialReviewCode;
+        return this.specialReviewCode;
     }
 
     public void setSpecialReviewCode(String specialReviewCode) {
         this.specialReviewCode = specialReviewCode;
     }
 
+    /** {@inheritDoc} */
     @Override
-    public List buildListOfDeletionAwareLists() {
-        List managedLists = super.buildListOfDeletionAwareLists();
-        
-        managedLists.add(getProposalExemptNumbers());
-           
-        return managedLists;
-    }
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = new LinkedHashMap();
-        hashMap.put("proposalNumber", getProposalNumber());
-        hashMap.put("specialReviewNumber", getSpecialReviewNumber());
-        hashMap.put("applicationDate", getApplicationDate());
-        hashMap.put("approvalDate", getApprovalDate());
-        hashMap.put("approvalTypeCode", getApprovalTypeCode());
-        hashMap.put("comments", getComments());
-        hashMap.put("protocolNumber", getProtocolNumber());
-        hashMap.put("specialReviewCode", getSpecialReviewCode());
+    protected LinkedHashMap<String, Object> toStringMapper() {
+        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
+        hashMap.put("proposalNumber", this.getProposalNumber());
+        hashMap.put("specialReviewNumber", this.getSpecialReviewNumber());
+        hashMap.put("applicationDate", this.getApplicationDate());
+        hashMap.put("approvalDate", this.getApprovalDate());
+        hashMap.put("approvalTypeCode", this.getApprovalTypeCode());
+        hashMap.put("comments", this.getComments());
+        hashMap.put("protocolNumber", this.getProtocolNumber());
+        hashMap.put("specialReviewCode", this.getSpecialReviewCode());
         return hashMap;
     }
 
     public ValidSpecialReviewApproval getValidSpecialReviewApproval() {
-        return validSpecialReviewApproval;
+        return this.validSpecialReviewApproval;
     }
 
     public void setValidSpecialReviewApproval(ValidSpecialReviewApproval validSpecialReviewApproval) {
@@ -131,7 +131,7 @@ public class ProposalSpecialReview extends KraPersistableBusinessObjectBase {
     }
 
     public SpecialReview getSpecialReview() {
-        return specialReview;
+        return this.specialReview;
     }
 
     public void setSpecialReview(SpecialReview specialReview) {
@@ -139,7 +139,7 @@ public class ProposalSpecialReview extends KraPersistableBusinessObjectBase {
     }
 
     public SpecialReviewApprovalType getSpecialReviewApprovalType() {
-        return specialReviewApprovalType;
+        return this.specialReviewApprovalType;
     }
 
     public void setSpecialReviewApprovalType(SpecialReviewApprovalType specialReviewApprovalType) {
@@ -147,20 +147,75 @@ public class ProposalSpecialReview extends KraPersistableBusinessObjectBase {
     }
 
     public Date getExpirationDate() {
-        return expirationDate;
+        return this.expirationDate;
     }
 
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
     }
     
-    public List getProposalExemptNumbers() {
-        return proposalExemptNumbers;
+    public List<ProposalExemptNumber> getProposalExemptNumbers() {
+        return this.proposalExemptNumbers;
     }
-    public void setProposalExemptNumbers(List proposalExemptNumbers) {
+    public void setProposalExemptNumbers(List<ProposalExemptNumber> proposalExemptNumbers) {
         this.proposalExemptNumbers = proposalExemptNumbers;
+        this.syncProposalExemptNumbersToExemptNumbers();
+
     }
     
+    public String[] getExemptNumbers() {
+        return this.exemptNumbers;
+    }
+
+    public void setExemptNumbers(String[] exemptNumbers) {
+        this.exemptNumbers = exemptNumbers;
+        this.syncExemptNumbersToProposalExemptNumbers();
+    }
     
+    /**
+     * This method syncs the exempt numbers (the selected exempt numbers)
+     * with the proposal exempt numbers (the persisted BOs).
+     * 
+     * This method is need to ensure that when a user selects exempt number(s)
+     * on the page the corresponding BOs are created so that they can be persisted.
+     */
+    private void syncExemptNumbersToProposalExemptNumbers() {
+        
+        if (this.exemptNumbers == null) {
+            return;
+        }
+        
+        this.proposalExemptNumbers = new ArrayList<ProposalExemptNumber>();
+        for (final String number : this.exemptNumbers) {
+            if (number != null) {
+                final ProposalExemptNumber exempt = new ProposalExemptNumber();
+                
+                exempt.setExemptionTypeCode(number);
+                exempt.setProposalNumber(this.getProposalNumber());
+                exempt.setSpecialReviewNumber(this.getSpecialReviewNumber());
+                
+                this.proposalExemptNumbers.add(exempt);
+            }
+        }
+    }
     
+    /**
+     * This method syncs the proposal exempt numbers (the persisted BOs)
+     * with the exempt numbers (the selected exempt numbers).
+     * 
+     * This method is need to ensure that when the page loads the currently
+     * selected exempt numbers are correctly highlighted on the page.
+     */
+    private void syncProposalExemptNumbersToExemptNumbers() {
+        
+        if (this.proposalExemptNumbers == null) {
+            return;
+        }
+        
+        this.exemptNumbers = new String[this.proposalExemptNumbers.size()];
+        
+        for (int i = 0; i < this.proposalExemptNumbers.size(); i++) {
+            this.exemptNumbers[i] = this.proposalExemptNumbers.get(i).getExemptionTypeCode();
+        }
+    }
 }
