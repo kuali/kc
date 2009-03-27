@@ -34,6 +34,8 @@
 				<ref bean="ProtocolPersonRole-protocolPersonRoleId" />
 				<ref bean="ProtocolPersonRole-description" />
 				<ref bean="ProtocolPersonRole-unitDetailsRequired" />
+				<ref bean="ProtocolPersonRole-affiliationDetailsRequired" />
+				<ref bean="ProtocolPersonRole-trainingDetailsRequired" />
 				<ref bean="ProtocolPersonRole-versionNumber" />
 			</list>
 		</property>
@@ -80,6 +82,16 @@
   	<bean id="ProtocolPersonRole-unitDetailsRequired" parent="ProtocolPersonRole-unitDetailsRequired-parentBean" />
   	<bean id="ProtocolPersonRole-unitDetailsRequired-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
     	<property name="name" value="unitDetailsRequired" />
+  	</bean>
+
+  	<bean id="ProtocolPersonRole-affiliationDetailsRequired" parent="ProtocolPersonRole-affiliationDetailsRequired-parentBean" />
+  	<bean id="ProtocolPersonRole-affiliationDetailsRequired-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    	<property name="name" value="affiliationDetailsRequired" />
+  	</bean>
+
+  	<bean id="ProtocolPersonRole-trainingDetailsRequired" parent="ProtocolPersonRole-trainingDetailsRequired-parentBean" />
+  	<bean id="ProtocolPersonRole-trainingDetailsRequired-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    	<property name="name" value="trainingDetailsRequired" />
   	</bean>
 
 	<bean id="ProtocolPersonRole-versionNumber" parent="ProtocolPersonRole-versionNumber-parentBean" />

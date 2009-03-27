@@ -25,6 +25,8 @@
 		<bean:define id="parentTabName" name="KualiForm" property="${protocolPerson}.personName"/>
 	</c:otherwise>
 </c:choose>
+<c:set var="personAffiliationRequired" value="${KualiForm.document.protocolList[0].protocolPersons[personIndex].protocolPersonRole.affiliationDetailsRequired}" />
+<c:set var="personTrainingRequired" value="${KualiForm.document.protocolList[0].protocolPersons[personIndex].protocolPersonRole.trainingDetailsRequired}" />
 
 <table cellpadding=0 cellspacing=0 summary="">
 	<tr>
@@ -54,19 +56,22 @@
 					                </html:select>
             						<html:image property="methodToCall.updateProtocolPersonView.${protocolPerson}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-updateview.gif" title="Update View" alt="Update View" styleClass="tinybutton"/>
                    				</td>
-                				</tr>              
-                				<tr>
-                  				<th> 
-								<div align="right">
-									<kul:htmlAttributeLabel attributeEntry="${protocolPersonAttributes.affiliationTypeCode}" />
-								</div>
-								</th>
-                  				<td colspan="3">
-              						<kul:htmlControlAttribute property="${protocolPerson}.affiliationTypeCode" attributeEntry="${protocolPersonAttributes.affiliationTypeCode}" />
-                   				</td>
-                				</tr>
+                				</tr>  
+            
+    							<c:if test="${personAffiliationRequired}">
+	                				<tr>
+	                  				<th> 
+									<div align="right">
+										<kul:htmlAttributeLabel attributeEntry="${protocolPersonAttributes.affiliationTypeCode}" />
+									</div>
+									</th>
+	                  				<td colspan="3">
+	              						<kul:htmlControlAttribute property="${protocolPerson}.affiliationTypeCode" attributeEntry="${protocolPersonAttributes.affiliationTypeCode}" />
+	                   				</td>
+	                				</tr>
+								</c:if>
 
-    							<c:if test="${KualiForm.personnelHelper.personTrainingSectionRequired}">
+    							<c:if test="${personTrainingRequired && KualiForm.personnelHelper.personTrainingSectionRequired}">
 	                				<tr>
 	                  					<th> 
 											<div align="right">

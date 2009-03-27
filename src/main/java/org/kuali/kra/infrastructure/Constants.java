@@ -347,6 +347,14 @@ public interface Constants {
     public static final String INACTIVE_STATUS_LITERAL = "Inactive";
     public static final String CONFIRM_DELETE_PROTOCOL_USER_KEY = "confirmDeleteProtocolUser";
     public static final String PROPERTY_PROTOCOL_NUMBER = "protocolNumber";
+    public static final Integer AFFILIATION_FACULTY_SUPERVISOR_TYPE = 5;
+    public static final Integer AFFILIATION_STUDENT_INVESTIGATOR_TYPE = 4;
+
+    //Protocol Personnel Audit Rules
+    public static final String PROTOCOL_PERSONNEL_PAGE = "personnel";
+    public static final String PROTOCOL_PERSONNEL_PANEL_ANCHOR = "Add Personnel:";
+    public static final String PROTOCOL_PERSONNEL_PANEL_NAME = "Personnel";
+    public static final String PROTOCOL_PRINCIPAL_INVESTIGATOR_KEY = "newProtocolPerson*";
 
     public static final String VIEW_ONLY = "viewOnly";
 

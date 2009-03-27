@@ -106,7 +106,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         boolean retval = true;
         
         retval &= super.processRunAuditBusinessRules(document);
-        
+        retval &= new ProtocolPersonnelAuditRule().processRunAuditBusinessRules(document);
         return retval;
     }
 
