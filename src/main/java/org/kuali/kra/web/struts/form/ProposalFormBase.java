@@ -33,6 +33,7 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  */
 public abstract class ProposalFormBase extends KraTransactionalDocumentFormBase {
     
+    private static final long serialVersionUID = -7013211193142134599L;
     private String newBudgetVersionName;
     private Integer finalBudgetVersion;
     private boolean auditActivated;
@@ -58,6 +59,7 @@ public abstract class ProposalFormBase extends KraTransactionalDocumentFormBase 
         Formatter.registerFormatter(String[].class, ArrayFormatter.class);
     }
     
+    @Override
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         super.reset(mapping, request);
         this.setLookupResultsSequenceNumber(null);

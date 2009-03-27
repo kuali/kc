@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.lookup.keyvalue;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder;
@@ -41,7 +40,7 @@ public class ExtendedPersistableBusinessObjectValuesFinder extends PersistableBu
      */
     @Override
     public List<KeyLabelPair> getKeyValues(){
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
+        List<KeyLabelPair> labels;
         
         labels = super.getKeyValues();
         labels.add(0, new KeyLabelPair(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));    

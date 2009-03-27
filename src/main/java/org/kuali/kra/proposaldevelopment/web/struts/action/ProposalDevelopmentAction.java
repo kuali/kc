@@ -345,7 +345,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
     }
 
     public ActionForward customData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        SortedMap<String, List> customAttributeGroups = new TreeMap<String, List>();
+        SortedMap<String, List<CustomAttributeDocument>> customAttributeGroups = new TreeMap<String, List<CustomAttributeDocument>>();
 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
