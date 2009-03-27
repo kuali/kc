@@ -20,15 +20,19 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.document.CommitteeDocument;
+import org.kuali.kra.committee.rule.AddCommitteeMembershipExpertiseRule;
 import org.kuali.kra.committee.rule.AddCommitteeMembershipRoleRule;
 import org.kuali.kra.committee.rule.AddCommitteeMembershipRule;
 import org.kuali.kra.committee.rule.SaveCommitteeMembershipRule;
 import org.kuali.kra.committee.rule.event.AddCommitteeMembershipEvent;
+import org.kuali.kra.committee.rule.event.AddCommitteeMembershipExpertiseEvent;
 import org.kuali.kra.committee.rule.event.AddCommitteeMembershipRoleEvent;
 import org.kuali.kra.committee.rule.event.SaveCommitteeMembershipEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 /**
  * 
@@ -36,9 +40,10 @@ import org.kuali.kra.infrastructure.KeyConstants;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class CommitteeMembershipRule extends CommitteeDocumentRule 
+public class CommitteeMembershipRule extends ResearchDocumentRuleBase 
                                      implements AddCommitteeMembershipRule,
                                                 AddCommitteeMembershipRoleRule,
+                                                AddCommitteeMembershipExpertiseRule,
                                                 SaveCommitteeMembershipRule {
 
     final String PROPERTY_NAME_PREFIX = "document.committeeList[0].committeeMemberships[";
@@ -48,6 +53,8 @@ public class CommitteeMembershipRule extends CommitteeDocumentRule
     final String PROPERTY_NAME_ROLE_CODE = "].membershipRoleCode";
     final String PROPERTY_NAME_ROLE_START_DATE = "].startDate";
     final String PROPERTY_NAME_ROLE_END_DATE = "].endDate";
+    final String PROPERTY_NAME_NEW_EXPERTISE_PREFIX = "membershipExpertiseHelper.newCommitteeMembershipExpertise[";
+    final String PROPERTY_NAME_RESEARCH_AREA_CODE = "].researchAreaCode";
 
     /**
      * Process the validation rules for an <code>{@link AddCommitteeMembershipEvent}</code>.
@@ -87,14 +94,10 @@ public class CommitteeMembershipRule extends CommitteeDocumentRule
         return isDuplicate;        
     }
     
-//    public boolean processAddCommitteeMembershipRoleRules(AddCommitteeMembershipRoleEvent addCommitteeMembershipRuleEvent) {
-//        // TODO Auto-generated method stub
-//        return false;
-//    }
     /**
-     * Process the validation rules for an <code>{@link AddCommitteeMembershipEvent}</code>.
+     * Process the validation rules for an <code>{@link addCommitteeMembershipRoleEvent}</code>.
      * 
-     * @param addProtocolParticipantEvent
+     * @param addCommitteeMembershipRoleEvent
      * @return <code>true</code> if all validation rules are passed, <code>false</code> otherwise
      */
     public boolean processAddCommitteeMembershipRoleBusinessRules(AddCommitteeMembershipRoleEvent addCommitteeMembershipRoleEvent) {
@@ -108,6 +111,34 @@ public class CommitteeMembershipRule extends CommitteeDocumentRule
             isValid = false;
             reportError(PROPERTY_NAME_NEW_ROLE_PREFIX + membershipIndex + PROPERTY_NAME_ROLE_CODE, 
                     KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_NOT_SPECIFIED);
+//        } else if (!isValidMembershipRoleCode(membershipRoleCode)) {
+//            isValid = false;
+//        } else if (!isDuplicate)
+//            isValid = false;
+        }
+        
+        return isValid;
+    }
+
+
+    /**
+     * Process the validation rules for an <code>{@link AddCommitteeMembershipExpertiseEvent}</code>.
+     * 
+     * @param addCommitteeMembershipExpertiseEvent
+     * @return <code>true</code> if all validation rules are passed, <code>false</code> otherwise
+     */
+    public boolean processAddCommitteeMembershipExpertiseBusinessRules(
+            AddCommitteeMembershipExpertiseEvent addCommitteeMembershipExpertiseEvent) {
+        boolean isValid = true;
+        
+        CommitteeMembershipExpertise membershipExpertise = addCommitteeMembershipExpertiseEvent.getCommitteeMembershipExpertise();
+        String researchAreaCode = membershipExpertise.getResearchAreaCode();
+        int membershipIndex = addCommitteeMembershipExpertiseEvent.getMembershipIndex();
+        
+        if (StringUtils.isBlank(researchAreaCode)) {
+            isValid = false;
+            reportError(PROPERTY_NAME_NEW_EXPERTISE_PREFIX + membershipIndex + PROPERTY_NAME_RESEARCH_AREA_CODE, 
+                    KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_EXPERTISE_NOT_SPECIFIED);
 //        } else if (!isValidMembershipRoleCode(membershipRoleCode)) {
 //            isValid = false;
 //        } else if (!isDuplicate)

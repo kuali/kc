@@ -20,37 +20,37 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.document.Document;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kra.committee.bo.CommitteeMembershipRole;
+import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 
-public abstract class CommitteeMembershipRoleEventBase extends KraDocumentEventBase 
-                                                       implements CommitteeMembershipRoleEvent {
+public abstract class CommitteeMembershipExpertiseEventBase extends KraDocumentEventBase 
+                                                            implements CommitteeMembershipExpertiseEvent {
 
 
-    private static final Log LOG = LogFactory.getLog(CommitteeMembershipRoleEventBase.class);
+    private static final Log LOG = LogFactory.getLog(CommitteeMembershipExpertiseEventBase.class);
 
-    private CommitteeMembershipRole committeeMembershipRole;
+    private CommitteeMembershipExpertise committeeMembershipExpertise;
     private int membershipIndex;
 
-    protected CommitteeMembershipRoleEventBase(String description, String errorPathPrefix, Document document,
-            CommitteeMembershipRole committeeMembershipRole, int membershipIndex) {
+    protected CommitteeMembershipExpertiseEventBase(String description, String errorPathPrefix, Document document,
+            CommitteeMembershipExpertise committeeMembershipExpertise, int membershipIndex) {
         super(description, errorPathPrefix, document);
 
         // by doing a deep copy, we are ensuring that the business rule class can't update
         // the original object by reference
-        this.committeeMembershipRole = (CommitteeMembershipRole) ObjectUtils.deepCopy(committeeMembershipRole);
+        this.committeeMembershipExpertise = (CommitteeMembershipExpertise) ObjectUtils.deepCopy(committeeMembershipExpertise);
         this.membershipIndex = membershipIndex;
 
         logEvent();
     }
 
     /**
-     * Get the <code>{@link CommitteeMembershipRole}</code> of this event.
+     * Get the <code>{@link CommitteeMembershipExpertise}</code> of this event.
      * 
-     * @return <code>CommitteeMembershipRole</code>
+     * @return <code>CommitteeMembershipExpertise</code>
      */
-    public CommitteeMembershipRole getCommitteeMembershipRole() {
-        return this.committeeMembershipRole;
+    public CommitteeMembershipExpertise getCommitteeMembershipExpertise() {
+        return this.committeeMembershipExpertise;
     }
 
     /**
@@ -72,11 +72,11 @@ public abstract class CommitteeMembershipRoleEventBase extends KraDocumentEventB
         logMessage.append(" with ");
 
         // vary logging detail as needed
-        if (getCommitteeMembershipRole() == null) {
-            logMessage.append("null committeeMembershipRole");
+        if (getCommitteeMembershipExpertise() == null) {
+            logMessage.append("null committeeMembershipExpertise");
         }
         else {
-            logMessage.append(getCommitteeMembershipRole().toString());
+            logMessage.append(getCommitteeMembershipExpertise().toString());
         }
 
         LOG.debug(logMessage);
