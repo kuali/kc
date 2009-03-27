@@ -46,6 +46,7 @@ public class CommitteeMembershipRule extends ResearchDocumentRuleBase
                                                 AddCommitteeMembershipExpertiseRule,
                                                 SaveCommitteeMembershipRule {
 
+    final String PROPERTY_NAME_PERSON_NAME = "membershipHelper.newCommitteeMembership.personName";
     final String PROPERTY_NAME_PREFIX = "document.committeeList[0].committeeMemberships[";
     final String PROPERTY_NAME_TERM_END_DATE = "].termEndDate";
     final String PROPERTY_NAME_NEW_ROLE_PREFIX = "membershipRolesHelper.newCommitteeMembershipRoles[";
@@ -63,35 +64,20 @@ public class CommitteeMembershipRule extends ResearchDocumentRuleBase
      * @return <code>true</code> if all validation rules are passed, <code>false</code> otherwise
      */
     public boolean processAddCommitteeMembershipBusinessRules(AddCommitteeMembershipEvent addCommitteeMembershipEvent) {
-        final String PROPERTY_NAME_PERSON_NAME = "membershipHelper.newCommitteeMembership.personName";
         boolean isValid = true;
+        
         CommitteeMembership committeeMembership = addCommitteeMembershipEvent.getCommitteeMembership();
+        CommitteeDocument committeeDocument = (CommitteeDocument) addCommitteeMembershipEvent.getDocument();
+        List<CommitteeMembership> committeeMemberships = committeeDocument.getCommittee().getCommitteeMemberships();
+        
         if ( (StringUtils.isEmpty(committeeMembership.getPersonId())) && (StringUtils.isEmpty(committeeMembership.getRolodexId())) ) { 
             isValid = false;
             reportError(PROPERTY_NAME_PERSON_NAME, KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_PERSON_NOT_SPECIFIED);
-        } else if (isDuplicate((CommitteeDocument) addCommitteeMembershipEvent.getDocument(), committeeMembership)){
+        } else if (committeeMemberships.contains(committeeMembership)){
             isValid = false;
             reportError(PROPERTY_NAME_PERSON_NAME, KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_PERSON_DUPLICATE);
         }
         return isValid;
-    }
-    
-    /**
-     * Check if the <code>{@link CommitteeMembership}</code> is already part of the <code {@link Committee}</code>.
-     * 
-     * @param committeeDocument to which the committee member is added
-     * @param newCommitteeMembership which should be added to the committee.
-     * @return <code>true</code> if it is a duplicate, <code>false</code> otherwise
-     */
-    private boolean isDuplicate(CommitteeDocument committeeDocument, CommitteeMembership newCommitteeMembership) {
-        boolean isDuplicate = false;
-        List<CommitteeMembership> committeeMemberships = committeeDocument.getCommittee().getCommitteeMemberships();
-        for (CommitteeMembership committeeMembership : committeeMemberships) {
-            if (committeeMembership.equals(newCommitteeMembership)) {
-                isDuplicate = true;
-            }
-        }
-        return isDuplicate;        
     }
     
     /**
@@ -105,16 +91,23 @@ public class CommitteeMembershipRule extends ResearchDocumentRuleBase
         
         CommitteeMembershipRole membershipRole = addCommitteeMembershipRoleEvent.getCommitteeMembershipRole();
         String membershipRoleCode = membershipRole.getMembershipRoleCode();
+
         int membershipIndex = addCommitteeMembershipRoleEvent.getMembershipIndex();
         
+        CommitteeDocument committeeDocument = (CommitteeDocument) addCommitteeMembershipRoleEvent.getDocument();
+        CommitteeMembership committeeMembership = committeeDocument.getCommittee().getCommitteeMemberships().get(membershipIndex);
+        List<CommitteeMembershipRole> membershipRoles = committeeMembership.getMembershipRoles();
+
         if (StringUtils.isBlank(membershipRoleCode)) {
             isValid = false;
             reportError(PROPERTY_NAME_NEW_ROLE_PREFIX + membershipIndex + PROPERTY_NAME_ROLE_CODE, 
                     KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_NOT_SPECIFIED);
 //        } else if (!isValidMembershipRoleCode(membershipRoleCode)) {
 //            isValid = false;
-//        } else if (!isDuplicate)
-//            isValid = false;
+        } else if (membershipRoles.contains(membershipRole)) {
+            isValid = false;
+            reportError(PROPERTY_NAME_NEW_ROLE_PREFIX + membershipIndex + PROPERTY_NAME_ROLE_CODE, 
+                    KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_ROLE_DUPLICATE);
         }
         
         return isValid;
@@ -133,21 +126,28 @@ public class CommitteeMembershipRule extends ResearchDocumentRuleBase
         
         CommitteeMembershipExpertise membershipExpertise = addCommitteeMembershipExpertiseEvent.getCommitteeMembershipExpertise();
         String researchAreaCode = membershipExpertise.getResearchAreaCode();
+        
         int membershipIndex = addCommitteeMembershipExpertiseEvent.getMembershipIndex();
         
+        CommitteeDocument committeeDocument = (CommitteeDocument) addCommitteeMembershipExpertiseEvent.getDocument();
+        CommitteeMembership committeeMembership = committeeDocument.getCommittee().getCommitteeMemberships().get(membershipIndex);
+        List<CommitteeMembershipExpertise> membershipExpertises = committeeMembership.getMembershipExpertise();
+
         if (StringUtils.isBlank(researchAreaCode)) {
             isValid = false;
             reportError(PROPERTY_NAME_NEW_EXPERTISE_PREFIX + membershipIndex + PROPERTY_NAME_RESEARCH_AREA_CODE, 
                     KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_EXPERTISE_NOT_SPECIFIED);
 //        } else if (!isValidMembershipRoleCode(membershipRoleCode)) {
 //            isValid = false;
-//        } else if (!isDuplicate)
-//            isValid = false;
+        } else if (membershipExpertises.contains(membershipExpertise)) {
+            isValid = false;
+            reportError(PROPERTY_NAME_NEW_EXPERTISE_PREFIX + membershipIndex + PROPERTY_NAME_RESEARCH_AREA_CODE, 
+                    KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_EXPERTISE_DUPLICATE);
         }
         
         return isValid;
     }
-
+    
     /**
      * Process the validation rules for an <code>{@link SaveCommitteeMembershipEvent}</code>.
      * 
