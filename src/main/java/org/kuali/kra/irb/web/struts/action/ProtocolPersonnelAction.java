@@ -52,7 +52,7 @@ public class ProtocolPersonnelAction extends ProtocolAction {
      */
     @Override
     protected boolean isValidSave(ProtocolForm protocolForm) {    
-        getProtocolPersonnelService().updateProtocolUnit(getProtocolPersons(protocolForm));
+        getProtocolPersonnelService().syncProtocolPersonRoleChanges(getProtocolPersons(protocolForm));
         boolean rulePassed = applyRules(new SaveProtocolPersonnelEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument()));
         return rulePassed;
     }
@@ -189,6 +189,7 @@ public class ProtocolPersonnelAction extends ProtocolAction {
         int selectedPersonIndex = getSelectedPersonIndex(request, protocolDocument);
         getProtocolPersonnelService().switchInvestigatorCoInvestigatorRole(protocolDocument.getProtocol().getProtocolPersons());
         getProtocolPersonnelService().syncPersonRoleAndUnit(protocolDocument.getProtocol().getProtocolPerson(selectedPersonIndex));
+        getProtocolPersonnelService().syncPersonRoleAndAffiliation(protocolDocument.getProtocol().getProtocolPerson(selectedPersonIndex));
         return mapping.findForward(MAPPING_BASIC);
     }
 

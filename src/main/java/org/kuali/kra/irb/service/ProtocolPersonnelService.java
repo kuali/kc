@@ -60,9 +60,10 @@ public interface ProtocolPersonnelService {
      * Each Protocol Person has index of selected lead unit
      * UI display is handled through selectedUnit index to group lead unit radio.
      * Update selected unit in the list based on selectedUnit indicator in each protocolPerson
+     * Also update affiliation type which is linked to person role.
      * @param protocolPersons
      */
-    public void updateProtocolUnit(List<ProtocolPerson> protocolPersons);
+    public void syncProtocolPersonRoleChanges(List<ProtocolPerson> protocolPersons);
 
     /**
      * This method is to select protocol lead unit for each person.
@@ -144,5 +145,22 @@ public interface ProtocolPersonnelService {
      * @param protocolPerson
      */
     public void syncPersonRoleAndUnit(ProtocolPerson protocolPerson);
+    
+    /**
+     * This method is to update person affiliation type based on change in person role.
+     * @param protocolPerson
+     */
+    public void syncPersonRoleAndAffiliation(ProtocolPerson protocolPerson);
+    
+    /**
+     * This method is to check whether Student Investigator and Faculty Supervisor combination is valid.
+     * If one PI or Co-Investigator has Student Investigator selected as Affiliation type then another PI or 
+     * Co-Investigator must have Faculty Supervisor check.  
+     * There may be multiple student investigators and faculty supervisors. 
+     * This check is done prior to submission 
+     * @param protocolPersons
+     * @return
+     */
+    public boolean isValidStudentFacultyMatch(List<ProtocolPerson> protocolPersons);
 
 }

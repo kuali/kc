@@ -28,6 +28,8 @@ public class ProtocolPersonRole extends KraPersistableBusinessObjectBase {
     private String protocolPersonRoleId; 
 	private String description; 
 	private boolean unitDetailsRequired;
+    private boolean affiliationDetailsRequired;
+    private boolean trainingDetailsRequired;
 	
 	public ProtocolPersonRole() { 
 
@@ -55,6 +57,8 @@ public class ProtocolPersonRole extends KraPersistableBusinessObjectBase {
 		hashMap.put("protocolPersonRoleId", getProtocolPersonRoleId());
 		hashMap.put("description", getDescription());
         hashMap.put("unitDetailsRequired", isUnitDetailsRequired());
+        hashMap.put("affiliationDetailsRequired", isAffiliationDetailsRequired());
+        hashMap.put("trainingDetailsRequired", isTrainingDetailsRequired());
 		return hashMap;
 	}
 
@@ -64,6 +68,22 @@ public class ProtocolPersonRole extends KraPersistableBusinessObjectBase {
 
     public void setUnitDetailsRequired(boolean unitDetailsRequired) {
         this.unitDetailsRequired = unitDetailsRequired;
+    }
+
+    public boolean isAffiliationDetailsRequired() {
+        return affiliationDetailsRequired;
+    }
+
+    public void setAffiliationDetailsRequired(boolean affiliationDetailsRequired) {
+        this.affiliationDetailsRequired = affiliationDetailsRequired;
+    }
+
+    public boolean isTrainingDetailsRequired() {
+        return trainingDetailsRequired;
+    }
+
+    public void setTrainingDetailsRequired(boolean trainingDetailsRequired) {
+        this.trainingDetailsRequired = trainingDetailsRequired;
     }
 	
 }
