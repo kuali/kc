@@ -20,23 +20,34 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.kuali.core.bo.Parameter;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardReportTerm;
+import org.kuali.kra.award.bo.ReportClass;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.ReportClassValuesFinder;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.service.AwardReportsService;
 
 /**
  * 
  * This class tests the methods in AwardReportsServiceImpl service method.
  */
+@RunWith(JMock.class)
 public class AwardReportsServiceImplTest extends AwardReportsServiceImpl{
 
     public static final String MOCK_EXPECTED_STRING = "1;test1,2;test2,3;test3,4;test4,5;test5";
@@ -45,10 +56,13 @@ public class AwardReportsServiceImplTest extends AwardReportsServiceImpl{
     public static final String DUMMY_REPORT_CLASS_CODE = "1";
     public static final String DUMMY_REPORT_CODE = "1";
     public static final String DUMMY_FREQUNCY_CODE = "1";
+    
     AwardReportsService awardReportsService;
     List<KeyLabelPair> keyLabelPairList;
     Map<String, Object> hashMap;
     Award award;
+    
+    private Mockery context = new JUnit4Mockery();
     
     @Before
     public void setUp() throws Exception {
@@ -149,8 +163,39 @@ public class AwardReportsServiceImplTest extends AwardReportsServiceImpl{
             }
          };
          
-         Assert.assertEquals(MOCK_EXPECTED_STRING,service.getFrequencyBaseCodes(DUMMY_FREQUNCY_CODE));
-                 
+         Assert.assertEquals(MOCK_EXPECTED_STRING,service.getFrequencyBaseCodes(DUMMY_FREQUNCY_CODE));                 
     }
+    
+    @Test
+    public final void testSetReportClassForPaymentsAndInvoicesSubPanelSuccess(){
+        AwardReportsServiceImpl service = new AwardReportsServiceImpl();
+        
+        final KualiConfigurationService kualiConfigurationService = context.mock(KualiConfigurationService.class);
+        final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
+        
+        final Parameter parameter = new Parameter();
+        parameter.setParameterName(KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES);
+        parameter.setParameterValue("6");
+        
+        context.checking(new Expectations() {{
+            one(kualiConfigurationService).getParameter(Constants
+                    .PARAMETER_MODULE_AWARD ,Constants.PARAMETER_COMPONENT_DOCUMENT
+                    ,KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES);will(returnValue(parameter));
+        }});
+        
+        final Map<String, String> primaryKeyField = new HashMap<String, String>();
+        final ReportClass reportClass = new ReportClass();
+        primaryKeyField.put(REPORT_CLASS_CODE_FIELD,parameter.getParameterValue());
+        
+        context.checking(new Expectations() {{
+            one(businessObjectService).findByPrimaryKey(ReportClass.class, primaryKeyField);will(returnValue(reportClass));
+        }});
 
+        service.setKualiConfigurationService(kualiConfigurationService);
+        service.setBusinessObjectService(businessObjectService);
+        
+        service.setReportClassForPaymentsAndInvoicesSubPanel(hashMap);
+        
+        Assert.assertTrue(hashMap.containsKey(Constants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES_PANEL));        
+    }
 }
