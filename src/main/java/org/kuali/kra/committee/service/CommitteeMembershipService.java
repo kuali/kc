@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.committee.service;
 
+import java.util.Collection;
+
+import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
@@ -54,13 +57,11 @@ public interface CommitteeMembershipService {
     void deleteCommitteeMembershipRole(Committee committee, int selectedMembershipIndex, int lineNumber);
 
     /**
-     * This method adds a CommitteeMembershipExpertise to the list of CommitteeMembershipExpertise of a 
-     * committee member.
-     * @param committee - the committee that contains the CommitteeMembership to which the role is to be added.
-     * @param selectedmembershipIndex - the index position of the CommitteeMembership to which the role is to be added. 
-     * @param CommitteeMembershipExpertise - the expertise that is to be added
+     * This method adds CommitteeMembershipExpertise to a committeeMembership
+     * @param committeeMembership - the CommitteeMembership to which the expertise is to be added.
+     * @param committeeMembershipExpertise - collection of expertise that is to be added
      */
-    void addCommitteeMembershipExpertise(Committee committee, int selectedMembershipIndex, CommitteeMembershipExpertise committeeMembershipExpertise);
+    void addCommitteeMembershipExpertise(CommitteeMembership committeeMembership, Collection<ResearchArea> researchAreas);
 
     /**
      * This method deletes a CommitteeMembershipExpertise from the list of CommitteeMembershipExpertise
