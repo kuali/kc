@@ -21,7 +21,6 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
-import org.kuali.kra.committee.rule.AddCommitteeMembershipExpertiseRule;
 import org.kuali.kra.committee.rule.AddCommitteeMembershipRoleRule;
 import org.kuali.kra.committee.rule.AddCommitteeMembershipRule;
 import org.kuali.kra.committee.rule.AddCommitteeScheduleDateConflictRule;
@@ -31,7 +30,6 @@ import org.kuali.kra.committee.rule.FilterCommitteeScheduleRule;
 import org.kuali.kra.committee.rule.SaveCommitteeMembershipRule;
 import org.kuali.kra.committee.rule.TimeCommitteeScheduleRule;
 import org.kuali.kra.committee.rule.event.AddCommitteeMembershipEvent;
-import org.kuali.kra.committee.rule.event.AddCommitteeMembershipExpertiseEvent;
 import org.kuali.kra.committee.rule.event.AddCommitteeMembershipRoleEvent;
 import org.kuali.kra.committee.rule.event.AddCommitteeScheduleDateConflictEvent;
 import org.kuali.kra.committee.rule.event.AddCommitteeScheduleStartAndEndDateEvent;
@@ -54,7 +52,7 @@ import org.kuali.kra.service.UnitService;
  * another class within this package.
  */
 public class CommitteeDocumentRule extends ResearchDocumentRuleBase
-                                   implements AddCommitteeScheduleStartAndEndDateRule, AddCommitteeScheduleDateConflictRule, AddCommitteeMembershipRule, AddCommitteeMembershipRoleRule, AddCommitteeMembershipExpertiseRule, SaveCommitteeMembershipRule, FilterCommitteeScheduleRule, DeadlineCommitteeScheduleRule, TimeCommitteeScheduleRule {
+                                   implements AddCommitteeScheduleStartAndEndDateRule, AddCommitteeScheduleDateConflictRule, AddCommitteeMembershipRule, AddCommitteeMembershipRoleRule, SaveCommitteeMembershipRule, FilterCommitteeScheduleRule, DeadlineCommitteeScheduleRule, TimeCommitteeScheduleRule {
     
     static private final boolean VALIDATION_REQUIRED = true;
     
@@ -185,14 +183,6 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase
      */
     public boolean processAddCommitteeMembershipRoleBusinessRules(AddCommitteeMembershipRoleEvent addCommitteeMembershipRoleEvent) {
         return new CommitteeMembershipRule().processAddCommitteeMembershipRoleBusinessRules(addCommitteeMembershipRoleEvent);
-    }
-
-    /**
-     * @see org.kuali.kra.committee.rule.AddCommitteeMembershipExpertiseRule#processAddCommitteeMembershipExpertiseBusinessRules(org.kuali.kra.committee.rule.event.AddCommitteeMembershipExpertiseEvent)
-     */
-    public boolean processAddCommitteeMembershipExpertiseBusinessRules(
-            AddCommitteeMembershipExpertiseEvent addCommitteeMembershipExpertiseEvent) {
-        return new CommitteeMembershipRule().processAddCommitteeMembershipExpertiseBusinessRules(addCommitteeMembershipExpertiseEvent);
     }
 
     /**

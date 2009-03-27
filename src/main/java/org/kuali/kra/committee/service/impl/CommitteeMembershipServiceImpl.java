@@ -16,10 +16,12 @@
 package org.kuali.kra.committee.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
@@ -107,18 +109,22 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
     }
     
     /**
-     * @see org.kuali.kra.committee.service.CommitteeMembershipService#addCommitteeMembershipExpertise(org.kuali.kra.committee.bo.CommitteeMembership, org.kuali.kra.committee.bo.CommitteeMembershipExpertise)
+     * @see org.kuali.kra.committee.service.CommitteeMembershipService#addCommitteeMembershipExpertise(org.kuali.kra.committee.bo.CommitteeMembership, java.util.Collection)
      */
-    public void addCommitteeMembershipExpertise(Committee committee, int selectedMembershipIndex, CommitteeMembershipExpertise committeeMembershipExpertise) {
-        CommitteeMembership committeeMembership = committee.getCommitteeMemberships().get(selectedMembershipIndex);
-        
-        committeeMembershipExpertise.setCommitteeMembershipId(committeeMembership.getCommitteeMembershipId());
-        committeeMembershipExpertise.setMembershipId("0");
-        committeeMembershipExpertise.setSequenceNumber(0);
+    public void addCommitteeMembershipExpertise(CommitteeMembership committeeMembership, Collection<ResearchArea> researchAreas) {
+        for (ResearchArea researchArea: researchAreas) {
+            CommitteeMembershipExpertise membershipExpertise = new CommitteeMembershipExpertise();
+            membershipExpertise.setResearchAreaCode(researchArea.getResearchAreaCode());
+            membershipExpertise.setCommitteeMembershipId(committeeMembership.getCommitteeMembershipId());
+            membershipExpertise.setMembershipId("0");
+            membershipExpertise.setSequenceNumber(0);
 
-        committeeMembershipExpertise.refreshReferenceObject(REFERENCE_RESEARCH_AREA);
-        
-        committeeMembership.getMembershipExpertise().add(committeeMembershipExpertise);
+            membershipExpertise.refreshReferenceObject(REFERENCE_RESEARCH_AREA);
+            
+            if (!committeeMembership.getMembershipExpertise().contains(membershipExpertise)) {
+                committeeMembership.getMembershipExpertise().add(membershipExpertise);
+            }
+        }
     }
    
     /**
