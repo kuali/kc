@@ -21,8 +21,6 @@ import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.rice.kns.util.KNSConstants.METHOD_TO_CALL_ATTRIBUTE;
 
 import java.util.ArrayList;
-import java.util.List;
-
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,12 +28,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.rule.event.AddCommitteeMembershipEvent;
+import org.kuali.kra.committee.rule.event.AddCommitteeMembershipExpertiseEvent;
 import org.kuali.kra.committee.rule.event.AddCommitteeMembershipRoleEvent;
 import org.kuali.kra.committee.rule.event.SaveCommitteeMembershipEvent;
 import org.kuali.kra.committee.service.CommitteeMembershipService;
@@ -202,7 +202,8 @@ public class CommitteeMembershipAction extends CommitteeAction {
     CommitteeMembershipExpertise newCommitteeMembershipExpertise = committeeForm.getMembershipExpertiseHelper().getNewCommitteeMembershipExpertise().get(selectedMembershipIndex);
     
     // check any business rules
-    boolean rulePassed = true; // TODO: cniesen - applyRules(new AddCommitteeMembershipRoleEvent(Constants.EMPTY_STRING, committeeForm.getCommitteeDocument(), newCommitteeMembershipRole, selectedMembershipIndex));
+    KualiDocumentEvent tmpEvent = new AddCommitteeMembershipExpertiseEvent(Constants.EMPTY_STRING, committeeForm.getCommitteeDocument(), newCommitteeMembershipExpertise, selectedMembershipIndex);
+    boolean rulePassed = applyRules(tmpEvent);
 
     if (rulePassed) {
         getCommitteeMembershipService().addCommitteeMembershipExpertise(committee, selectedMembershipIndex, newCommitteeMembershipExpertise);
@@ -232,28 +233,6 @@ public class CommitteeMembershipAction extends CommitteeAction {
         return mapping.findForward(MAPPING_BASIC);
     }
     
-//    
-//    /**
-//     * This method is to update protocol person details view based on modified person role. 
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward updateProtocolPersonView(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
-//        int selectedPersonIndex = getSelectedPersonIndex(request, protocolDocument);
-//        boolean rulePassed = applyRules(new UpdateProtocolPersonnelEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument(), selectedPersonIndex));
-//        if(rulePassed) {
-//            ProtocolPerson protocolPerson = protocolDocument.getProtocol().getProtocolPerson(selectedPersonIndex);
-//            protocolPerson.refreshReferenceObject("protocolPersonRole");
-//        }
-//        return mapping.findForward(MAPPING_BASIC);
-//    }
-
     /**
      * This method is to get committee membership service
      * @return CommitteeMembershipService

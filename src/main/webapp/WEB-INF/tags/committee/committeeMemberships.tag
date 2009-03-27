@@ -5,6 +5,7 @@
 <c:forEach items="${KualiForm.document.committee.committeeMemberships}" var="membership" varStatus="status">
     <c:set var="committeeMembershipProperty" value="document.committeeList[0].committeeMemberships[${status.index}]" />
     <c:set var="committeeMembershipRoleProperty" value="membershipRolesHelper.newCommitteeMembershipRoles[${status.index}]" />
+    <c:set var="committeeMembershipExpertiseProperty" value="membershipExpertiseHelper.newCommitteeMembershipExpertise[${status.index}]" />
     <c:set var="transparent" value="false" />
 
     <c:if test="${status.first}">
@@ -35,7 +36,7 @@
     
     <kul:tab tabTitle="${tabTitleValue}"
              tabErrorKey=""
-             innerTabErrorKey="${committeeMembershipProperty}.*,${committeeMembershipRoleProperty}.*"
+             innerTabErrorKey="${committeeMembershipProperty}.*,${committeeMembershipRoleProperty}.*,${committeeMembershipExpertiseProperty}.*"
              auditCluster="requiredFieldsAuditErrors" 
              tabAuditKey="" 
              useRiceAuditMode="true"

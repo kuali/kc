@@ -298,6 +298,7 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase {
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(this.membershipRoles);
+        managedLists.add(this.membershipExpertise);
         return managedLists;
     }
 
