@@ -57,11 +57,11 @@ public class AwardReportsServiceImpl implements AwardReportsService {
         
         Map<String, Object> initializedObjects = new HashMap<String, Object>();
         
-        initializedObjects = assignReportClassesForPanelHeaderDisplay(initializedObjects);
+        assignReportClassesForPanelHeaderDisplay(initializedObjects);
         
-        initializedObjects = addEmptyNewAwardReportTermRecipients(award, initializedObjects);
+        addEmptyNewAwardReportTermRecipients(award, initializedObjects);
         
-        initializedObjects = setReportClassForPaymentsAndInvoicesSubPanel(initializedObjects);
+        setReportClassForPaymentsAndInvoicesSubPanel(initializedObjects);
         
         return initializedObjects;
     }
@@ -75,9 +75,8 @@ public class AwardReportsServiceImpl implements AwardReportsService {
      * @param hashMap
      * @return
      */
-    protected Map<String, Object> setReportClassForPaymentsAndInvoicesSubPanel(
-            Map<String, Object> hashMap){
-        
+    protected void setReportClassForPaymentsAndInvoicesSubPanel(
+            Map<String, Object> hashMap){        
         Map<String, String> primaryKeyField = new HashMap<String, String>();
         
         primaryKeyField.put(REPORT_CLASS_CODE_FIELD, kualiConfigurationService.getParameter(Constants
@@ -86,7 +85,6 @@ public class AwardReportsServiceImpl implements AwardReportsService {
         
         hashMap.put(Constants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES_PANEL, 
                 (ReportClass) businessObjectService.findByPrimaryKey(ReportClass.class, primaryKeyField));
-        return hashMap;
     }
 
     /**
@@ -97,19 +95,17 @@ public class AwardReportsServiceImpl implements AwardReportsService {
      * @param hashMap
      * @return
      */
-    protected Map<String, Object> assignReportClassesForPanelHeaderDisplay(
+    protected void assignReportClassesForPanelHeaderDisplay(
             Map<String, Object> hashMap){
         
-        ReportClassValuesFinder reportClassValuesFinder = new ReportClassValuesFinder();
+        ReportClassValuesFinder reportClassValuesFinder = getReportClassValuesFinder();
         List<KeyLabelPair> reportClasses = new ArrayList<KeyLabelPair>();
         
         reportClasses = reportClassValuesFinder.getKeyValues();
         
         hashMap.put(Constants.REPORT_CLASSES_KEY_FOR_INITIALIZE_OBJECTS,  reportClasses);
         
-        hashMap = addEmptyNewAwardReportTerms(hashMap, reportClasses);
-        
-        return hashMap;                
+        addEmptyNewAwardReportTerms(hashMap, reportClasses);
     }
     
     /**
@@ -120,8 +116,8 @@ public class AwardReportsServiceImpl implements AwardReportsService {
      * @param reportClasses
      * @return
      */
-    @SuppressWarnings("all")
-    protected Map<String, Object> addEmptyNewAwardReportTerms(
+    @SuppressWarnings("all")    
+    protected void addEmptyNewAwardReportTerms(
             Map<String, Object> hashMap, List<KeyLabelPair> reportClasses){
         List<AwardReportTerm> newAwardReportTerms = new ArrayList<AwardReportTerm>();
         for(KeyLabelPair keyLabelPair : reportClasses){
@@ -129,7 +125,6 @@ public class AwardReportsServiceImpl implements AwardReportsService {
         }
         hashMap.put(
                 Constants.NEW_AWARD_REPORT_TERMS_LIST_KEY_FOR_INITIALIZE_OBJECTS,  newAwardReportTerms);
-        return hashMap;
     }
     
    /**
@@ -143,7 +138,7 @@ public class AwardReportsServiceImpl implements AwardReportsService {
     * @return
     */
     @SuppressWarnings("all")
-    protected Map<String, Object> addEmptyNewAwardReportTermRecipients(
+    protected void addEmptyNewAwardReportTermRecipients(
             Award award, Map<String, Object> hashMap){
         
         List<AwardReportTermRecipient> newAwardReportTermRecipients 
@@ -156,7 +151,6 @@ public class AwardReportsServiceImpl implements AwardReportsService {
         hashMap.put(Constants.NEW_AWARD_REPORT_TERM_RECIPIENTS_LIST_KEY_FOR_INITIALIZE_OBJECTS
                 ,  newAwardReportTermRecipients);
         
-        return hashMap;
     }
     
     /**
@@ -164,8 +158,8 @@ public class AwardReportsServiceImpl implements AwardReportsService {
      * @see org.kuali.kra.service.AwardReportsService#getFrequencyCodes(java.lang.String, java.lang.String)
      */
     public String getFrequencyCodes(String reportClassCode, String reportCode){        
-        FrequencyCodeValuesFinder frequencyCodeValuesFinder 
-            = new FrequencyCodeValuesFinder(reportClassCode, reportCode);
+        
+        FrequencyCodeValuesFinder frequencyCodeValuesFinder = getFrequencyCodeValuesFinder(reportClassCode, reportCode);
                 
         return processKeyLabelPairList(frequencyCodeValuesFinder.getKeyValues());
     }
@@ -205,9 +199,8 @@ public class AwardReportsServiceImpl implements AwardReportsService {
      * @see org.kuali.kra.service.AwardReportsService#getFrequencyBaseCodes(java.lang.String)
      */
     public String getFrequencyBaseCodes(String frequencyCode){        
-        FrequencyBaseCodeValuesFinder frequencyBaseCodeValuesFinder 
-            = new FrequencyBaseCodeValuesFinder(frequencyCode);        
-        
+        FrequencyBaseCodeValuesFinder frequencyBaseCodeValuesFinder = getFrequencyBaseCodeValuesFinder(frequencyCode);
+            
         return processKeyLabelPairList(frequencyBaseCodeValuesFinder.getKeyValues());
         
     }
@@ -246,6 +239,36 @@ public class AwardReportsServiceImpl implements AwardReportsService {
      */
     protected BusinessObjectService getBusinessObjectService(){
         return businessObjectService;
+    }
+    
+    /**
+     * 
+     * This method returns a new instance of FrequencyCodeValuesFinder which can be overriden in unit test to test the service method only.
+     * @param reportClassCode
+     * @param reportCode
+     * @return
+     */
+    protected FrequencyCodeValuesFinder getFrequencyCodeValuesFinder(String reportClassCode, String reportCode){
+        return new FrequencyCodeValuesFinder(reportClassCode, reportCode);
+    }
+    
+    /**
+     * 
+     * This method returns a new instance of FrequencyBaseCodeValuesFinder which can be overriden in unit test to test the service method only.
+     * @param frequencyCode
+     * @return
+     */
+    protected FrequencyBaseCodeValuesFinder getFrequencyBaseCodeValuesFinder(String frequencyCode){
+        return new FrequencyBaseCodeValuesFinder(frequencyCode);
+    }
+    
+    /**
+     * 
+     * This method returns a new instance of ReportClassValuesFinder which can be overriden in unit test to test the service method only. 
+     * @return
+     */
+    protected ReportClassValuesFinder getReportClassValuesFinder() {
+        return new ReportClassValuesFinder();
     }
 
 }
