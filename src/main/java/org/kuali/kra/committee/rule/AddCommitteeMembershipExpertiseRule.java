@@ -16,22 +16,22 @@
 package org.kuali.kra.committee.rule;
 
 import org.kuali.core.rule.BusinessRule;
-import org.kuali.kra.committee.rule.event.AddCommitteeMembershipEvent;
+import org.kuali.kra.committee.rule.event.AddCommitteeMembershipExpertiseEvent;
 
 /**
  * 
- * This interface addresses the adds rule for adding a new <code>CommitteeMembership</code>
+ * This interface addresses the adds rule for adding a new <code>CommitteeMembershipExpertise</code>
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public interface AddCommitteeMembershipRule extends BusinessRule {
-    
+public interface AddCommitteeMembershipExpertiseRule extends BusinessRule {
+
     /**
      * 
-     * Processes the validation rules for an <code>{@link AddCommitteeMembershipEvent}</code>
+     * Processes the validation rules for an <code>{@link AddCommitteeMembershipExpertiseEvent}</code>
      * 
-     * @param addCommitteeMembershipEvent
+     * @param addCommitteeMembershipExpertiseEvent
      * @return <code>true</code> if valid, <code>false</code> otherwise
      */
-    public boolean processAddCommitteeMembershipBusinessRules(AddCommitteeMembershipEvent addCommitteeMembershipEvent);
+    public boolean processAddCommitteeMembershipExpertiseBusinessRules(AddCommitteeMembershipExpertiseEvent addCommitteeMembershipExpertiseEvent);
 }

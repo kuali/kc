@@ -76,7 +76,7 @@ public class AddCommitteeMembershipEvent extends CommitteeMembershipEventBase {
      * @return <code>true</code> if all rules are satisfied, otherwise <code>false</code>
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((AddCommitteeMembershipRule) rule).processAddCommitteeMembershipRules(this);
+        return ((AddCommitteeMembershipRule) rule).processAddCommitteeMembershipBusinessRules(this);
     }
 
 }

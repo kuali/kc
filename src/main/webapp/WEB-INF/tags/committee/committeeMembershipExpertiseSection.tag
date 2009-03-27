@@ -10,7 +10,7 @@
             <kul:innerTab tabTitle="Expertise" 
                           parentTab="${parentTabValue}" 
                           defaultOpen="false" 
-                          tabErrorKey="membershipExpertiseHelper.newCommitteeMembershipExpertise[${memberIndex}].*">
+                          tabErrorKey="membershipExpertiseHelper.newCommitteeMembershipExpertise[${memberIndex}].*,document.committeeList[0].committeeMemberships[${memberIndex}].membershipExpertise*">
                 <div class="innerTab-container" align="left">
                     <table id="membership-expertise-table" cellpadding=0 cellspacing=0 class="datatable" summary="View/edit committee membership expertise">
                     
@@ -64,7 +64,7 @@
                                     <div align="left">
                                         <kul:htmlControlAttribute property="${committeeMembership}.membershipExpertise[${status.index}].researchAreaCode" 
                                                                   attributeEntry="${membershipExpertiseAttributes.researchAreaCode}" 
-                                                                  readOnlyAlternateDisplay="${membershipExpertise.researchAreaCode.description}" 
+                                                                  readOnlyAlternateDisplay="${membershipExpertise.researchArea.description}" 
                                                                   readOnly="true" />
                                     </div>
                                 </td>
