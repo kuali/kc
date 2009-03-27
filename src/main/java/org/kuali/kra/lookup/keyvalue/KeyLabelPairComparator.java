@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.lookup.keyvalue;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 import org.kuali.core.web.ui.KeyLabelPair;
@@ -26,8 +27,9 @@ import org.kuali.core.web.ui.KeyLabelPair;
  *  @author $Author: gmcgrego $
  *  @version $Revision: 1.2 $
  */
-public final class KeyLabelPairComparator implements Comparator<KeyLabelPair> {
+public final class KeyLabelPairComparator implements Comparator<KeyLabelPair>, Serializable {
     
+    private static final long serialVersionUID = -6968793748825904116L;
     private static final Comparator<KeyLabelPair> INSTANCE = new KeyLabelPairComparator();
     
     /**

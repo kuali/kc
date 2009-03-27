@@ -15,12 +15,10 @@
  */
 package org.kuali.kra.web.struts.form;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.bo.user.UniversalUser;
@@ -38,6 +36,7 @@ import org.kuali.rice.KNSServiceLocator;
   
 public abstract class KraTransactionalDocumentFormBase extends KualiTransactionalDocumentFormBase {
 
+    private static final long serialVersionUID = -4157508825605857883L;
     protected String actionName;
 
     public String getActionName() {
@@ -162,26 +161,26 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
         return false;
     }
 
-    private boolean isBudgetAction() {
-        boolean isBudgetAction = false;
-
-        if (StringUtils.isNotBlank(actionName) && (actionName.startsWith("Budget") || actionName.contains("BudgetVersions")) 
-                && StringUtils.isNotBlank(getMethodToCall()) 
-                && StringUtils.isEmpty(navigateTo) && !getMethodToCall().equalsIgnoreCase(Constants.HEADER_TAB)) { 
-            isBudgetAction = true;
-        }
-        else if (StringUtils.isNotEmpty(navigateTo) && (navigateTo.equalsIgnoreCase(Constants.BUDGET_VERSIONS_PAGE) 
-                || navigateTo.equalsIgnoreCase(Constants.BUDGET_PERIOD_PAGE) || navigateTo.equalsIgnoreCase(Constants.BUDGET_PERSONNEL_PAGE) 
-                || navigateTo.equalsIgnoreCase(Constants.BUDGET_EXPENSES_PAGE) || navigateTo.equalsIgnoreCase(Constants.BUDGET_RATES_PAGE) 
-                || navigateTo.equalsIgnoreCase(Constants.BUDGET_DIST_AND_INCOME_PAGE) || navigateTo.equalsIgnoreCase(Constants.BUDGET_MODULAR_PAGE) 
-                || navigateTo.equalsIgnoreCase(Constants.BUDGET_SUMMARY_TOTALS_PAGE) || navigateTo.equalsIgnoreCase(Constants.PROPOSAL_HIERARCHY_PAGE)  
-                || navigateTo.equalsIgnoreCase(Constants.BUDGET_ACTIONS_PAGE) || navigateTo.equalsIgnoreCase(Constants.PD_BUDGET_VERSIONS_PAGE))) {
-            isBudgetAction = true; 
-        }
-
-        return isBudgetAction;
-
-    }
+//    private boolean isBudgetAction() {
+//        boolean isBudgetAction = false;
+//
+//        if (StringUtils.isNotBlank(actionName) && (actionName.startsWith("Budget") || actionName.contains("BudgetVersions")) 
+//                && StringUtils.isNotBlank(getMethodToCall()) 
+//                && StringUtils.isEmpty(navigateTo) && !getMethodToCall().equalsIgnoreCase(Constants.HEADER_TAB)) { 
+//            isBudgetAction = true;
+//        }
+//        else if (StringUtils.isNotEmpty(navigateTo) && (navigateTo.equalsIgnoreCase(Constants.BUDGET_VERSIONS_PAGE) 
+//                || navigateTo.equalsIgnoreCase(Constants.BUDGET_PERIOD_PAGE) || navigateTo.equalsIgnoreCase(Constants.BUDGET_PERSONNEL_PAGE) 
+//                || navigateTo.equalsIgnoreCase(Constants.BUDGET_EXPENSES_PAGE) || navigateTo.equalsIgnoreCase(Constants.BUDGET_RATES_PAGE) 
+//                || navigateTo.equalsIgnoreCase(Constants.BUDGET_DIST_AND_INCOME_PAGE) || navigateTo.equalsIgnoreCase(Constants.BUDGET_MODULAR_PAGE) 
+//                || navigateTo.equalsIgnoreCase(Constants.BUDGET_SUMMARY_TOTALS_PAGE) || navigateTo.equalsIgnoreCase(Constants.PROPOSAL_HIERARCHY_PAGE)  
+//                || navigateTo.equalsIgnoreCase(Constants.BUDGET_ACTIONS_PAGE) || navigateTo.equalsIgnoreCase(Constants.PD_BUDGET_VERSIONS_PAGE))) {
+//            isBudgetAction = true; 
+//        }
+//
+//        return isBudgetAction;
+//
+//    }
 
     private String getNavigateToPage() {
         String navigateToPage = null;
