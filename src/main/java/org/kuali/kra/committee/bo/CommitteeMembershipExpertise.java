@@ -109,4 +109,25 @@ public class CommitteeMembershipExpertise extends KraPersistableBusinessObjectBa
     public void init(CommitteeMembership committeeMembership) {
         setMembershipId(committeeMembership.getMembershipId());
     }
+    
+    /**
+     * Indicates if the <code>CommitteeMemershipExpertise</code> is "equal to" this one. Equal is defined that the <code>researchAreaCode</code>
+     * are the same.
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        boolean isEquals = false;
+        
+        if (obj instanceof CommitteeMembershipExpertise) {
+            CommitteeMembershipExpertise committeeMembershipExpertise = (CommitteeMembershipExpertise) obj;
+            String researchAreaCode = committeeMembershipExpertise.researchAreaCode;
+
+            isEquals = ((researchAreaCode == null && this.researchArea == null) || (researchAreaCode != null && researchAreaCode.equals(this.researchAreaCode)));
+        }
+
+        return isEquals;
+    }
+
 }
