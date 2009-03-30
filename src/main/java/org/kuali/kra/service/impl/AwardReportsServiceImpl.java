@@ -41,12 +41,14 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class AwardReportsServiceImpl implements AwardReportsService {
+    protected static final String REPORT_CLASS_CODE_FIELD = "reportClassCode";
     
     private static final String SEMICOLON_AS_DELIMITOR = ";";
     private static final String COMMA_AS_DELIMITOR = ",";
-    private static final String REPORT_CLASS_CODE_FIELD = "reportClassCode";
+    
     KualiConfigurationService kualiConfigurationService;
     BusinessObjectService businessObjectService;
+    
     
     /**
      * 
@@ -79,12 +81,12 @@ public class AwardReportsServiceImpl implements AwardReportsService {
             Map<String, Object> hashMap){        
         Map<String, String> primaryKeyField = new HashMap<String, String>();
         
-        primaryKeyField.put(REPORT_CLASS_CODE_FIELD, kualiConfigurationService.getParameter(Constants
+        primaryKeyField.put(REPORT_CLASS_CODE_FIELD, getKualiConfigurationService().getParameter(Constants
                 .PARAMETER_MODULE_AWARD ,Constants.PARAMETER_COMPONENT_DOCUMENT
                 ,KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES).getParameterValue());        
         
         hashMap.put(Constants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES_PANEL, 
-                (ReportClass) businessObjectService.findByPrimaryKey(ReportClass.class, primaryKeyField));
+                (ReportClass) getBusinessObjectService().findByPrimaryKey(ReportClass.class, primaryKeyField));
     }
 
     /**
