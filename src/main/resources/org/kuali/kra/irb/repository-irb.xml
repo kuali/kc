@@ -378,7 +378,7 @@
 		<reference-descriptor name="rolodex" class-ref="org.kuali.kra.irb.bo.ProtocolPersonRolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="rolodexId"/>
 		</reference-descriptor>
-		<collection-descriptor name="protocolUnits" proxy="true" element-class-ref="org.kuali.kra.irb.bo.ProtocolUnit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<collection-descriptor name="protocolUnits" proxy="true" element-class-ref="org.kuali.kra.irb.bo.ProtocolUnit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="protocolPersonId"/>
 		</collection-descriptor>
 	</class-descriptor>
