@@ -47,11 +47,6 @@ public class ProtocolLocation extends KraPersistableBusinessObjectBase {
 	 * Constructs a ProtocolLocation.java.
 	 */
 	public ProtocolLocation() { 
-	    /**
-	     * Set default protocol organization type code.
-	     * Initially set Organization type code drop down to this value. 
-	     */
-	    setProtocolOrganizationTypeCode(Constants.DEFAULT_PROTOCOL_ORGANIZATION_TYPE_CODE);
 	} 
 	
 	public Integer getProtocolLocationId() {
