@@ -47,6 +47,7 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ActionFormUtilMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.core.web.ui.HeaderField;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
@@ -77,6 +78,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalState;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUser;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
@@ -499,10 +501,10 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         return personEditableFields;
     }
 
-//    public Map getCreditSplitTotals() {
-//        return getKeyPersonnelService().calculateCreditSplitTotals(getDocument());
-//        
-//    }
+    @SuppressWarnings("unchecked")
+    public Map<String, KualiDecimal> getCreditSplitTotals() {
+        return this.getKeyPersonnelService().calculateCreditSplitTotals(getDocument());    
+    }
 
 
     public ProposalPersonBiography getNewPropPersonBio() {
@@ -547,6 +549,10 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      */
     public void setCustomAttributeGroups(SortedMap<String, List<CustomAttributeDocument>> customAttributeGroups) {
         this.customAttributeGroups = customAttributeGroups;
+    }
+
+    private KeyPersonnelService getKeyPersonnelService() {
+        return getService(KeyPersonnelService.class);
     }
 
     /**
