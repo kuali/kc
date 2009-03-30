@@ -28,7 +28,7 @@
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.SpecialReview" altText="help"/></span>
         </div>
         
-        <table cellpadding=0 cellspacing=0 summary="">
+        <table cellpadding="0" cellspacing="0" summary="">
           	<tr>
           		<th><div align="left">&nbsp</div></th> 
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${proSpecialAttriburesAttributes.specialReviewCode}" noColon="true" /></div></th>
@@ -79,15 +79,6 @@
                 	<kul:htmlControlAttribute property="newPropSpecialReview.expirationDate" attributeEntry="${proSpecialAttriburesAttributes.expirationDate}" datePicker="true"/>
                </div>
                 </td>
-                
-                 <c:set var="exemptNumberStyle" value="" scope="request"/>
-          	  
-			     <c:forEach items="${ErrorPropertyList}" var="key">
-				    <c:if test="${key eq 'newExemptNumbers'}">
-					  <c:set var="exemptNumberStyle" value="background-color:#FFD5D5" scope="request"/>
-				    </c:if>
-			     </c:forEach>
-                
                 
                 <td align="left" valign="middle" class="infoline">
                		 <div align="center">
@@ -140,7 +131,8 @@
  
                 <td align="left" valign="middle" class="infoline">
                 <div align="center">
-                    <kul:htmlControlAttribute property="document.propSpecialReview[${status.index}].exemptNumbers" attributeEntry="${exemptionTypeAttributes.exemptionTypeCode}" isMultiSelect="true" multiSelectSize="4" />
+                	<%-- always make (readOnly = false) so that the select control will always appear even when (readOnly == true) but make disabled when the values should not be changed --%>
+                    <kul:htmlControlAttribute property="document.propSpecialReview[${status.index}].exemptNumbers" attributeEntry="${exemptionTypeAttributes.exemptionTypeCode}" isMultiSelect="true" multiSelectSize="4" readOnly="false" disabled="${readOnly}"/>
 					</div>	  			
                 </td>
 
