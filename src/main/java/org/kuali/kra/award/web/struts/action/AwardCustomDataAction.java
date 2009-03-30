@@ -15,10 +15,55 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.kra.award.web.struts.form.AwardForm;
+import org.kuali.kra.common.customattributes.CustomDataAction;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.irb.web.struts.form.ProtocolForm;
+import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
+
 /**
  * 
  * This class represents the Struts Action for Custom Data page(AwardCustomData.jsp)
  */
-public class AwardCustomDataAction extends AwardAction {    
+public class AwardCustomDataAction extends AwardAction {   
     
+    
+    private static final String CUSTOM_ATTRIBUTE_NAME = "AwardCustomDataAttribute";
+    
+    /**
+     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+
+        CustomDataAction.copyCustomDataToDocument(form);
+        
+        return super.execute(mapping, form, request, response);
+    }
+    
+    /**
+     * @see org.kuali.kra.irb.web.struts.action.AwardAction#isValidSave(org.kuali.kra.irb.web.struts.form.AwardForm)
+     */
+    @Override
+    protected boolean isValidSave(AwardForm awardForm) {
+        return super.isValidSave(awardForm) 
+                && applyRules(new SaveCustomAttributeEvent(Constants.EMPTY_STRING, awardForm.getAwardDocument()));
+    }
+    
+    /**
+     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#postDocumentSave(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     */
+    @Override
+    public void postDocumentSave(KualiDocumentFormBase form) throws Exception {
+        super.postDocumentSave(form);
+        CustomDataAction.setCustomAttributeContent(form, CUSTOM_ATTRIBUTE_NAME);
+    }
 }

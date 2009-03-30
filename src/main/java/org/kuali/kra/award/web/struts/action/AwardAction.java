@@ -25,6 +25,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.document.Document;
+import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.web.ui.KeyLabelPair;
@@ -32,8 +33,10 @@ import org.kuali.kra.award.bo.AwardReportTerm;
 import org.kuali.kra.award.bo.AwardReportTermRecipient;
 import org.kuali.kra.award.bo.ReportClass;
 import org.kuali.kra.award.web.struts.form.AwardForm;
+import org.kuali.kra.common.customattributes.CustomDataAction;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 import org.kuali.kra.service.AwardReportsService;
 import org.kuali.kra.service.AwardSponsorTermService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
@@ -83,12 +86,36 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
 
         AwardForm awardForm = (AwardForm) form;   
         ActionForward forward = super.save(mapping, form, request, response);
+        
+        if (isValidSave(awardForm)) {
+            forward = super.save(mapping, form, request, response);
+        }
 
         if (awardForm.getMethodToCall().equals("save") && awardForm.isAuditActivated()) {
             forward = mapping.findForward(Constants.MAPPING_AWARD_ACTIONS_PAGE);
         }
 
         return forward;
+    }
+    
+    /**
+     * Can the Award be saved?  This method is normally overridden by
+     * a subclass in order to invoke business rules to verify that the
+     * Award can be saved.
+     * @param awardForm the Award Form
+     * @return true if the award can be saved; otherwise false
+     */
+    protected boolean isValidSave(AwardForm awardForm) {
+        return true;
+    }
+    
+    /**
+     * Use the Kuali Rule Service to apply the rules for the given event.
+     * @param event the event to process
+     * @return true if success; false if there was a validation error
+     */
+    protected final boolean applyRules(KualiDocumentEvent event) {
+        return getKualiRuleService().applyRules(event);
     }
     
     
@@ -224,7 +251,7 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
      */
     public ActionForward customData(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) {        
-        return mapping.findForward(Constants.MAPPING_AWARD_CUSTOM_DATA_PAGE);
+        return CustomDataAction.customData(mapping, form, request, response);
     }
     
     /**
