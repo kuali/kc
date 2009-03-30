@@ -100,7 +100,7 @@ public class AwardReportsWebTest extends AwardPaymentsAndTermsWebTest {
         System.out.println("PAGEASTEXT: " + awardPaymentReportsAndTermsPageAfterSave.asText());
         assertContains(awardPaymentReportsAndTermsPageAfterSave,"Fiscal (1) ");
         
-        HtmlPage awardPaymentReportsAndTermsPageAfterDelete = clickOn(awardPaymentReportsAndTermsPageAfterSave,"methodToCall.deleteAwardReportTerm.line0.anchor3");
+        HtmlPage awardPaymentReportsAndTermsPageAfterDelete = clickOn(awardPaymentReportsAndTermsPageAfterSave,"methodToCall.deleteAwardReportTerm.line0.anchor4");
         HtmlPage awardPaymentReportsAndTermsPageAfterOneMoreSave = clickOn(awardPaymentReportsAndTermsPageAfterDelete, "methodToCall.save");
         assertDoesNotContain(awardPaymentReportsAndTermsPageAfterOneMoreSave, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);        
         assertDoesNotContain(awardPaymentReportsAndTermsPageAfterOneMoreSave, ERRORS_FOUND_ON_PAGE);        
@@ -154,7 +154,7 @@ public class AwardReportsWebTest extends AwardPaymentsAndTermsWebTest {
         assertContains(awardPaymentReportsAndTermsPageAfterSave,SAVE_SUCCESS_MESSAGE);
         assertContains(awardPaymentReportsAndTermsPageAfterSave,"Property (1) ");
                
-        HtmlPage awardPaymentReportsAndTermsPageAfterDelete = clickOn(awardPaymentReportsAndTermsPageAfterSave,"methodToCall.deleteAwardReportTerm.line0.anchor6");
+        HtmlPage awardPaymentReportsAndTermsPageAfterDelete = clickOn(awardPaymentReportsAndTermsPageAfterSave,"methodToCall.deleteAwardReportTerm.line0.anchor7");
         HtmlPage awardPaymentReportsAndTermsPageAfterOneMoreSave = clickOn(awardPaymentReportsAndTermsPageAfterDelete, "methodToCall.save");
         assertDoesNotContain(awardPaymentReportsAndTermsPageAfterOneMoreSave, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);        
         assertDoesNotContain(awardPaymentReportsAndTermsPageAfterOneMoreSave, ERRORS_FOUND_ON_PAGE);        
