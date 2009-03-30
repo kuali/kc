@@ -95,7 +95,7 @@
             <label>Sponsor Code </label>
             <shortLabel>Sponsor Code </shortLabel>
             <maxLength>6</maxLength>
-            <validationPattern><anyCharacter allowWhitespace="false" /></validationPattern>
+            <validationPattern><anyCharacter allowWhitespace="false" exactLength="6" /></validationPattern>
             <control>
                 <text size="6" />
             </control>
