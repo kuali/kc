@@ -83,7 +83,7 @@
                 <shortLabel>NSF Science Code</shortLabel>
 
                 <maxLength>15</maxLength>
-                <validationPattern><alphaNumeric /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="false" /></validationPattern>
 
                 <control>
                     <text size="10" />
