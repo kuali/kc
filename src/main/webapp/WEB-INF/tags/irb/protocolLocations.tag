@@ -58,7 +58,16 @@
 	                    <kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="protocolHelper.newProtocolLocation.organizationId:organizationId" anchor="${currentTabIndex}"/>
                 		<br />
                 		<div id="protocolHelper.organizationName.div" class="fineprint">
-                			${protocolHelper.organizationName}&nbsp;
+	                        <c:if test="${!empty KualiForm.protocolHelper.newProtocolLocation.organizationId}">
+	            				<c:choose>
+								    <c:when test="${empty KualiForm.protocolHelper.newProtocolLocation.organization}">
+		                    			<span style='color: red;'>not found</span>
+		               				</c:when>
+		                  			<c:otherwise>
+											<c:out value="${KualiForm.protocolHelper.newProtocolLocation.organization.organizationName}" />
+									</c:otherwise>  
+								</c:choose>                        
+	                        </c:if>
 						</div>
 	                </td>
 	                <td align="left" valign="middle" class="infoline">
