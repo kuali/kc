@@ -13,21 +13,25 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
+
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+
+<%--<c:set var="readOnly" value="${!KualiForm.customDataHelper.modifyCustomData}" scope="request" />--%>
+<c:set var="readOnly" value="false" scope="request" /><%--temp fix..Permissions have not been established for Award.  Shared tag files.--%>
 
 <kul:documentPage
 	showDocumentInfo="true"
-	htmlFormAction="awardCustomData"
-	documentTypeName="AwardDocument"
+	htmlFormAction="${KualiForm.actionName}CustomData"
+	documentTypeName="${KualiForm.documentTypeName}"
 	renderMultipart="false"
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="customData">
   	
-This is the Award Custom Data Page - Under Construction
+  	<div align="right"><kul:help documentTypeName="${KualiForm.documentTypeName}" pageName="Custom Data" /></div>
 
-
-<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
+	<kra-customdata:customDataTab name="${KualiForm.actionName}" />
+	<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 
 </kul:documentPage>
