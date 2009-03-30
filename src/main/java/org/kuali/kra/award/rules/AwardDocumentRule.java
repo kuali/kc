@@ -59,12 +59,14 @@ import org.kuali.kra.award.rule.event.AddAwardReportTermRecipientEvent;
 import org.kuali.kra.award.rule.event.AwardApprovedSubawardRuleEvent;
 import org.kuali.kra.award.rule.event.AwardBenefitsRatesRuleEvent;
 import org.kuali.kra.award.rule.event.AwardCostShareRuleEvent;
-import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.rule.CustomAttributeRule;
 import org.kuali.kra.rule.SpecialReviewRule;
 import org.kuali.kra.rule.event.AddSpecialReviewEvent;
+import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
+import org.kuali.kra.rules.KraCustomAttributeRule;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.rules.SpecialReviewRulesImpl;
 
@@ -78,7 +80,8 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
                                                                             AddFandaRateRule,SpecialReviewRule<AwardSpecialReview>,
                                                                             AddAwardReportTermRule, 
                                                                             AddAwardReportTermRecipientRule,
-                                                                            AwardDetailsAndDatesRule {
+                                                                            AwardDetailsAndDatesRule,
+                                                                            CustomAttributeRule{
     
     public static final String DOCUMENT_ERROR_PATH = "document";
     public static final String AWARD_ERROR_PATH = "awardList[0]";
@@ -613,4 +616,11 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         
         return success;
 }
+    
+    /**
+     * @see org.kuali.kra.rule.CustomAttributeRule#processCustomAttributeRules(org.kuali.kra.rule.event.SaveCustomAttributeEvent)
+     */
+    public boolean processCustomAttributeRules(SaveCustomAttributeEvent saveCustomAttributeEvent) {
+        return new KraCustomAttributeRule().processCustomAttributeRules(saveCustomAttributeEvent);
+    }
 }

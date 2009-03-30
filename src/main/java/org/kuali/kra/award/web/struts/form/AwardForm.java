@@ -38,6 +38,7 @@ import org.kuali.kra.award.paymentreports.paymentschedule.PaymentScheduleBean;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.ApprovedEquipmentBean;
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.ApprovedForeignTravelBean;
 import org.kuali.kra.award.web.struts.action.SponsorTermFormHelper;
+import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -55,7 +56,8 @@ import edu.iu.uis.eden.clientapp.IDocHandler;
 public class AwardForm extends KraTransactionalDocumentFormBase 
                                         implements MultiLookupFormBase,
                                                     SpecialReviewFormBase<AwardSpecialReviewExemption>,
-                                                    Auditable {
+                                                    Auditable,
+                                                    CustomDataForm{
     
     public static final String SAVE = "save";
     public static final String RELOAD = "reload";
@@ -86,6 +88,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     private ApprovedForeignTravelBean approvedForeignTravelBean;
     
     private boolean auditActivated;
+    private CustomDataHelper customDataHelper = new CustomDataHelper(this);
     
     
     /**
@@ -469,6 +472,34 @@ public class AwardForm extends KraTransactionalDocumentFormBase
 
     public void setDetailsAndDatesFormHelper(DetailsAndDatesFormHelper detailsAndDatesFormHelper) {
         this.detailsAndDatesFormHelper = detailsAndDatesFormHelper;
+    }
+    
+    /**
+     * This method returns a string representation of the document type
+     * @return
+     */
+    public String getDocumentTypeName() {
+        return "AwardDocument";
+    }
+    
+    public String getActionName() {
+        return "award";
+    }
+    
+    
+    /**
+     * @see org.kuali.kra.common.customattributes.CustomDataForm#getCustomDataHelper()
+     */
+    public CustomDataHelper getCustomDataHelper() {
+        return customDataHelper;
+    }
+
+    /**
+     * This method sets the custom data helper
+     * @param customDataHelper
+     */
+    public void setCustomDataHelper(CustomDataHelper customDataHelper) {
+        this.customDataHelper = customDataHelper;
     }
     
 }
