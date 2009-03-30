@@ -31,7 +31,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.SortedMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -52,6 +51,7 @@ import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.core.web.ui.HeaderField;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.PersonEditableField;
 import org.kuali.kra.bo.SponsorFormTemplateList;
@@ -77,7 +77,6 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalState;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUser;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
@@ -96,8 +95,10 @@ import edu.iu.uis.eden.util.PerformanceLogger;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class ProposalDevelopmentForm extends ProposalFormBase {
+    
+    private static final long serialVersionUID = 7928293162992415894L;
     private static final String MISSING_PARAM_MSG = "Couldn't find parameter ";
-    private static final String DELETE_SPECIAL_REVIEW_ACTION = "deleteSpecialReview";
+    //private static final String DELETE_SPECIAL_REVIEW_ACTION = "deleteSpecialReview";
     
     private boolean creditSplitEnabled;
     private String primeSponsorName;
@@ -110,7 +111,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     private String newPersonId;
     private Narrative newNarrative;
     private FormFile narrativeFile;
-    private Map personEditableFields;
+    private Map<String, Boolean> personEditableFields;
     private boolean showMaintenanceLinks;
     private ProposalAbstract newProposalAbstract;
     private ProposalPersonBiography newPropPersonBio;
@@ -118,8 +119,8 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     //private boolean auditActivated;
     private ProposalCopyCriteria copyCriteria;
     private Map<String, Parameter> proposalDevelopmentParameters;
-    private Integer answerYesNo;
-    private Integer answerYesNoNA;
+    //private Integer answerYesNo;
+    //private Integer answerYesNoNA;
     private ProposalUser newProposalUser;
     private String newBudgetVersionName;
     private List<ProposalUserRoles> proposalUserRolesList = null;
@@ -128,7 +129,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     private List<NarrativeUserRights> newNarrativeUserRights;
     private S2sOpportunity newS2sOpportunity;
     private List<S2sAppSubmission> newS2sAppSubmission;
-    private SortedMap<String, List> customAttributeGroups;
+    private SortedMap<String, List<CustomAttributeDocument>> customAttributeGroups;
     private Map<String, String[]> customAttributeValues;
     private List<Narrative> narratives;
     private boolean reject;
@@ -209,9 +210,9 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
             ((ActionFormUtilMap) getActionFormUtilMap()).clear();
         }       
       
-        ProposalCopyCriteria copyCriteria = this.getCopyCriteria();
-        if (copyCriteria != null) {
-            copyCriteria.setOriginalLeadUnitNumber(proposalDevelopmentDocument.getOwnedByUnitNumber());
+        ProposalCopyCriteria cCriteria = this.getCopyCriteria();
+        if (cCriteria != null) {
+            cCriteria.setOriginalLeadUnitNumber(proposalDevelopmentDocument.getOwnedByUnitNumber());
         }
     }
     
@@ -224,12 +225,6 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         HeaderField docStatus = new HeaderField("DataDictionary.DocumentHeader.attributes.financialDocumentStatusCode", proposalState == null? "" : proposalState.getDescription());
         
         getDocInfo().set(1, docStatus);
-    }
-
-    private void populateCurrentProposalColumnValues() {
-        DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
-        Set<String> attributeNames = dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName()).getAttributes().keySet();
-
     }
 
     public ProposalLocation getNewPropLocation() {
@@ -282,10 +277,10 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         super.reset(mapping, request);
         
-        ProposalCopyCriteria copyCriteria = this.getCopyCriteria();
-        if (copyCriteria != null) {
-            copyCriteria.setIncludeAttachments(false);
-            copyCriteria.setIncludeBudget(false);
+        ProposalCopyCriteria cCriteria = this.getCopyCriteria();
+        if (cCriteria != null) {
+            cCriteria.setIncludeAttachments(false);
+            cCriteria.setIncludeBudget(false);
         }
         
        // following reset the tab stats and will load as default when it returns from lookup.
@@ -472,12 +467,13 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     public void populatePersonEditableFields() {
         debug("Adding PersonEditableFields");
 
-        setPersonEditableFields(new HashMap());
+        setPersonEditableFields(new HashMap<String, Boolean>());
 
+        @SuppressWarnings("unchecked")
         Collection<PersonEditableField> fields = getBusinessObjectService().findAll(PersonEditableField.class);
         for (PersonEditableField field : fields) {
             debug("found field " + field.getFieldName());
-            getPersonEditableFields().put(field.getFieldName(), new Boolean(field.isActive()));
+            getPersonEditableFields().put(field.getFieldName(), Boolean.valueOf(field.isActive()));
         }
     }
 
@@ -486,7 +482,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      *
      * @param fields
      */
-    public void setPersonEditableFields(Map fields) {
+    public void setPersonEditableFields(Map<String, Boolean> fields) {
         personEditableFields = fields;
     }
 
@@ -496,17 +492,17 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      *
      * @return Map containing person editable fields
      */
-    public Map getPersonEditableFields() {
+    public Map<String, Boolean> getPersonEditableFields() {
         if (personEditableFields == null) {
             populatePersonEditableFields();
         }
         return personEditableFields;
     }
 
-    public Map getCreditSplitTotals() {
-        return getKeyPersonnelService().calculateCreditSplitTotals(getDocument());
-        
-    }
+//    public Map getCreditSplitTotals() {
+//        return getKeyPersonnelService().calculateCreditSplitTotals(getDocument());
+//        
+//    }
 
 
     public ProposalPersonBiography getNewPropPersonBio() {
@@ -549,12 +545,8 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      * Sets the customAttributeGroups attribute value.
      * @param customAttributeGroups The customAttributeGroups to set.
      */
-    public void setCustomAttributeGroups(SortedMap<String, List> customAttributeGroups) {
+    public void setCustomAttributeGroups(SortedMap<String, List<CustomAttributeDocument>> customAttributeGroups) {
         this.customAttributeGroups = customAttributeGroups;
-    }
-
-    private KeyPersonnelService getKeyPersonnelService() {
-        return getService(KeyPersonnelService.class);
     }
 
     /**
@@ -595,7 +587,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      * Gets the customAttributeGroups attribute.
      * @return Returns the customAttributeGroups.
      */
-    public Map<String, List> getCustomAttributeGroups() {
+    public Map<String, List<CustomAttributeDocument>> getCustomAttributeGroups() {
         return customAttributeGroups;
     }
 
@@ -691,12 +683,15 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         
         // Sort the list of names.
         
-        Collections.sort(names, new Comparator() {
-            public int compare(Object o1, Object o2) {
-                String name1 = (String) o1;
-                String name2 = (String) o2;
-                if (name1 == null && name2 == null) return 0;
-                if (name1 == null) return -1;
+        Collections.sort(names, new Comparator<String>() {
+            public int compare(String name1, String name2) {
+                if (name1 == null && name2 == null) {
+                    return 0;
+                }
+                
+                if (name1 == null) {
+                    return -1;
+                }
                 return name1.compareTo(name2);
             }
         });
@@ -784,6 +779,8 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("roleTypeCode", RoleConstants.PROPOSAL_ROLE_TYPE);
+        
+        @SuppressWarnings("unchecked")
         Collection<KimRole> roles = businessObjectService.findMatching(KimRole.class, fieldValues);
        
         /*
@@ -813,11 +810,9 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     private void sortProposalUsers() {
         // Sort the list of users by their full name.
         
-        Collections.sort(proposalUserRolesList, new Comparator() {
-            public int compare(Object o1, Object o2) {
-                ProposalUserRoles user1 = (ProposalUserRoles) o1;
-                ProposalUserRoles user2 = (ProposalUserRoles) o2;
-                return user1.getFullname().compareTo(user2.getFullname());
+        Collections.sort(proposalUserRolesList, new Comparator<ProposalUserRoles>() {
+            public int compare(ProposalUserRoles o1, ProposalUserRoles o2) {
+                return o1.getFullname().compareTo(o2.getFullname());
             }
         });
     }
@@ -833,20 +828,20 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     /**
      * Add a set of persons to the proposalUserRolesList for a given role.
      * 
-     * @param proposalUserRolesList the list to add to
+     * @param propUserRolesList the list to add to
      * @param roleName the name of role to query for persons assigned to that role
      */
-    private void addPersons(List<ProposalUserRoles> proposalUserRolesList, String roleName) {
+    private void addPersons(List<ProposalUserRoles> propUserRolesList, String roleName) {
         ProposalAuthorizationService proposalAuthService = KraServiceLocator.getService(ProposalAuthorizationService.class);
         ProposalDevelopmentDocument doc = this.getDocument();
         
         List<Person> persons = proposalAuthService.getPersonsInRole(doc, roleName);
         for (Person person : persons) {
-            ProposalUserRoles proposalUserRoles = findProposalUserRoles(proposalUserRolesList, person.getUserName());
+            ProposalUserRoles proposalUserRoles = findProposalUserRoles(propUserRolesList, person.getUserName());
             if (proposalUserRoles != null) {
                 proposalUserRoles.addRoleName(roleName);
             } else {
-                proposalUserRolesList.add(buildProposalUserRoles(person, roleName));
+                propUserRolesList.add(buildProposalUserRoles(person, roleName));
             }
         }
     }
@@ -854,12 +849,12 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     /**
      * Find a user in the list of proposalUserRolesList based upon the user's username.
      * 
-     * @param proposalUserRolesList the list to search
+     * @param propUserRolesList the list to search
      * @param username the user's username to search for
      * @return the proposalUserRoles or null if not found
      */
-    private ProposalUserRoles findProposalUserRoles(List<ProposalUserRoles> proposalUserRolesList, String username) {
-        for (ProposalUserRoles proposalUserRoles : proposalUserRolesList) {
+    private ProposalUserRoles findProposalUserRoles(List<ProposalUserRoles> propUserRolesList, String username) {
+        for (ProposalUserRoles proposalUserRoles : propUserRolesList) {
             if (StringUtils.equals(username, proposalUserRoles.getUsername())) {
                 return proposalUserRoles;
             }
@@ -1060,7 +1055,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         KualiWorkflowDocument wfDoc=doc.getDocumentHeader().getWorkflowDocument();
  
         if (showSubmitButton) {
-            if (wfDoc.stateIsEnroute() || wfDoc.stateIsFinal()) {
+            if (wfDoc.stateIsEnroute() || wfDoc.stateIsFinal() || wfDoc.stateIsProcessed()) {
                 String submitToGrantsGovImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_submittosponsor.gif";
                 addExtraButton("methodToCall.submitToSponsor", submitToGrantsGovImage, "Submit To Sponsor");
             }
@@ -1103,9 +1098,9 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     @Override
     public void processValidationFail() {
         try {
-            boolean creditSplitEnabled = getConfigurationService().getIndicatorParameter(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, CREDIT_SPLIT_ENABLED_RULE_NAME)
+            boolean cSplitEnabled = getConfigurationService().getIndicatorParameter(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, CREDIT_SPLIT_ENABLED_RULE_NAME)
                 && getDocument().getInvestigators().size() > 0;
-            setCreditSplitEnabled(creditSplitEnabled);
+            setCreditSplitEnabled(cSplitEnabled);
         }
         catch (Exception e) {
             warn(MISSING_PARAM_MSG, CREDIT_SPLIT_ENABLED_RULE_NAME);
@@ -1216,7 +1211,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     
     // Set the document controls that should be available on the page
     @Override
-    protected void setSaveDocumentControl(DocumentActionFlags tempDocumentActionFlags, Map editMode) {
+    protected void setSaveDocumentControl(DocumentActionFlags tempDocumentActionFlags, @SuppressWarnings("unchecked") Map editMode) {
         tempDocumentActionFlags.setCanSave(false);
 
         if (isProposalAction() && hasModifyProposalPermission(editMode)) {
