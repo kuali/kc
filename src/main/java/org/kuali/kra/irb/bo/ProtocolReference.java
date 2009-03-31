@@ -27,11 +27,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.irb.ProtocolAssociate;
 
 @Entity 
 @Table(name="PROTOCOL_REFERENCES")
-public class ProtocolReference extends KraPersistableBusinessObjectBase { 
+public class ProtocolReference extends ProtocolAssociate { 
 	
     @Id 
     @Column(name="PROTOCOL_REFERENCE_ID")
@@ -39,12 +39,6 @@ public class ProtocolReference extends KraPersistableBusinessObjectBase {
     
     @Column(name="PROTOCOL_ID")
 	private Long protocolId; 
-    
-    @Column(name="PROTOCOL_NUMBER")
-	private String protocolNumber; 
-    
-    @Column(name="SEQUENCE_NUMBER")
-	private Integer sequenceNumber;
     
     @Column(name="PROTOCOL_REFERENCE_NUMBER")
 	private Integer protocolReferenceNumber; 
@@ -86,22 +80,6 @@ public class ProtocolReference extends KraPersistableBusinessObjectBase {
 	
 	public void setProtocolId(Long protocolId) {
 		this.protocolId = protocolId;
-	}
-
-	public String getProtocolNumber() {
-		return protocolNumber;
-	}
-
-	public void setProtocolNumber(String protocolNumber) {
-		this.protocolNumber = protocolNumber;
-	}
-
-	public Integer getSequenceNumber() {
-		return sequenceNumber;
-	}
-
-	public void setSequenceNumber(Integer sequenceNumber) {
-		this.sequenceNumber = sequenceNumber;
 	}
 
 	public Integer getProtocolReferenceNumber() {
@@ -163,11 +141,9 @@ public class ProtocolReference extends KraPersistableBusinessObjectBase {
 	@SuppressWarnings("unchecked")
     @Override 
 	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
+		LinkedHashMap hashMap = super.toStringMapper();
 		hashMap.put("protocolReferenceId", getProtocolReferenceId());
 		hashMap.put("protocolId", getProtocolId());
-		hashMap.put("protocolNumber", getProtocolNumber());
-		hashMap.put("sequenceNumber", getSequenceNumber());
 		hashMap.put("protocolReferenceNumber", getProtocolReferenceNumber());
 		hashMap.put("protocolReferenceTypeCode", getProtocolReferenceTypeCode());
 		hashMap.put("referenceKey", getReferenceKey());

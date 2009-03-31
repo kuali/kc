@@ -24,13 +24,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.ResearchArea;
+import org.kuali.kra.irb.ProtocolAssociate;
 
 
 @javax.persistence.Entity 
 @Table(name="PROTOCOL_RESEARCH_AREAS")
-public class ProtocolResearchArea extends KraPersistableBusinessObjectBase { 
+public class ProtocolResearchArea extends ProtocolAssociate { 
 	
     private static final long serialVersionUID = -1522011425745031200L;
 
@@ -40,12 +40,6 @@ public class ProtocolResearchArea extends KraPersistableBusinessObjectBase {
 
     @Column(name="PROTOCOL_ID")
 	private Long protocolId; 
-    
-    @Column(name="PROTOCOL_NUMBER")
-	private String protocolNumber; 
-    
-    @Column(name="SEQUENCE_NUMBER")
-	private Integer sequenceNumber;
     
     @Column(name="RESEARCH_AREA_CODE")
 	private String researchAreaCode; 
@@ -78,22 +72,6 @@ public class ProtocolResearchArea extends KraPersistableBusinessObjectBase {
 		this.protocolId = protocolId;
 	}
 
-	public String getProtocolNumber() {
-		return protocolNumber;
-	}
-
-	public void setProtocolNumber(String protocolNumber) {
-		this.protocolNumber = protocolNumber;
-	}
-
-	public Integer getSequenceNumber() {
-		return sequenceNumber;
-	}
-
-	public void setSequenceNumber(Integer sequenceNumber) {
-		this.sequenceNumber = sequenceNumber;
-	}
-
 	public String getResearchAreaCode() {
 		return researchAreaCode;
 	}
@@ -121,10 +99,8 @@ public class ProtocolResearchArea extends KraPersistableBusinessObjectBase {
 	@SuppressWarnings("unchecked")
     @Override 
 	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();		
+		LinkedHashMap hashMap = super.toStringMapper();		
 		hashMap.put("protocolId", getProtocolId());
-		hashMap.put("protocolNumber", getProtocolNumber());
-		hashMap.put("sequenceNumber", getSequenceNumber());
 		hashMap.put("researchAreaCode", getResearchAreaCode());
 		return hashMap;
 	}
