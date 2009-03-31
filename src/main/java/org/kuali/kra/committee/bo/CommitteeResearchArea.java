@@ -30,7 +30,7 @@ import org.kuali.kra.bo.ResearchArea;
 
 @SuppressWarnings("serial")
 @javax.persistence.Entity
-@Table(name = "PROTOCOL_RESEARCH_AREAS")
+@Table(name = "COMM_RESEARCH_AREAS")
 public class CommitteeResearchArea extends KraPersistableBusinessObjectBase {
 
     @javax.persistence.Id
@@ -38,7 +38,7 @@ public class CommitteeResearchArea extends KraPersistableBusinessObjectBase {
     private Long id;
 
     @Column(name = "COMMITTEE_ID")
-    private Long committeeId;
+    private Long committeeId;  // Primary Key of Committee BO
 
     @Column(name = "RESEARCH_AREA_CODE")
     private String researchAreaCode;
