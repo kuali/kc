@@ -26,13 +26,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlTable;
 
-@PerSuiteUnitTestData(
-        @UnitTestData(
-            sqlFiles = {
-                @UnitTestFile(filename = "classpath:sql/dml/load_research_areas.sql", delimiter = ";")
-            }
-        )
-    )
 public class CommitteeResearchAreasWebTest extends CommitteeWebTestBase {
  
     /***********************************************************************

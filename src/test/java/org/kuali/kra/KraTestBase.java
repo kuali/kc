@@ -117,6 +117,7 @@ import org.kuali.rice.test.data.UnitTestFile;
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_ACCOUNT_TYPE.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_AWARD_STATUS.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_AWARD_TYPE.sql", delimiter = ";")
+                ,@UnitTestFile(filename = "classpath:sql/dml/load_research_areas.sql", delimiter = ";")
             }
         )
     )

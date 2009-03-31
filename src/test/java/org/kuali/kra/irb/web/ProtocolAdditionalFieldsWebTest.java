@@ -32,7 +32,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlTable;
  * This class tests additional fields data set. 
  */
 @PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
-        @UnitTestFile(filename = "classpath:sql/dml/load_research_areas.sql", delimiter = ";"),
         @UnitTestFile(filename = "classpath:sql/dml/load_protocol_reference_type.sql", delimiter = ";")}))
 public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
     
