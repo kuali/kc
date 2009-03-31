@@ -30,7 +30,7 @@ import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleTimeEvent;
-import org.kuali.kra.committee.rule.event.CommitteeScheduleEvent.Event;
+import org.kuali.kra.committee.rule.event.CommitteeScheduleEventBase.ErrorType;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.kra.infrastructure.Constants;
@@ -132,7 +132,7 @@ public class CommitteeScheduleTimeRuleTest {
         Time12HrFmt time = new Time12HrFmt(new Timestamp(new java.util.Date().getTime()));
         time.setMeridiem(Time12HrFmt.MERIDIEM.PM.toString());
         scheduleData.setTime(time);
-        event = new CommitteeScheduleTimeEvent(Constants.EMPTY_STRING, null, scheduleData, null, Event.HARDERROR);
+        event = new CommitteeScheduleTimeEvent(Constants.EMPTY_STRING, null, scheduleData, null, ErrorType.HARDERROR);
     }
     
     /**
@@ -204,7 +204,7 @@ public class CommitteeScheduleTimeRuleTest {
         Time12HrFmt time = new Time12HrFmt(new Timestamp(new java.util.Date().getTime()));
         time.setMeridiem(Time12HrFmt.MERIDIEM.PM.toString());
         committeeSchedules.get(0).setViewTime(time);
-        event = new CommitteeScheduleTimeEvent(Constants.EMPTY_STRING, null, null, committeeSchedules, Event.HARDERROR);
+        event = new CommitteeScheduleTimeEvent(Constants.EMPTY_STRING, null, null, committeeSchedules, ErrorType.HARDERROR);
     }
     
     /**
@@ -213,7 +213,7 @@ public class CommitteeScheduleTimeRuleTest {
      */
     private boolean executeRule() {
         rule = new CommitteeScheduleTimeRule();
-        boolean val = rule.processCommitteeScheduleTimeRules(event);
+        boolean val = rule.processRules(event);
         return val;
     }
 }

@@ -54,11 +54,17 @@ public class CommitteeScheduleDataDictionaryValidationRule {
         boolean retVal = false;
         StyleKey key = StyleKey.valueOf(scheduleData.getRecurrenceType());        
         switch (key) {
+            case NEVER :
+                 retVal = true;
+                 break;
             case DAILY : 
                 DailyScheduleDetails.optionValues dailyoption = DailyScheduleDetails.optionValues.valueOf(scheduleData.getDailySchedule().getDayOption());
                 switch (dailyoption) {
                     case XDAY: 
                         retVal = applyRules(ATTRIBUTE_NAME, new Integer(scheduleData.getDailySchedule().getDay()).toString(), ERROR_KEY_SCHEDULEDATA_DAILYSCHEDULE_DAY);
+                        break;
+                    case WEEKDAY:
+                        retVal = true;
                         break;
                 }
                 break;

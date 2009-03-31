@@ -23,13 +23,13 @@ import java.util.Set;
 
 import org.kuali.core.util.DateUtils;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.committee.rule.AddCommitteeScheduleDateConflictRule;
-import org.kuali.kra.committee.rule.event.AddCommitteeScheduleDateConflictEvent;
-import org.kuali.kra.committee.rule.event.CommitteeScheduleEvent.Event;
+import org.kuali.kra.committee.rule.event.CommitteeScheduleDateConflictEvent;
+import org.kuali.kra.committee.rule.event.CommitteeScheduleEventBase.ErrorType;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
-public class CommitteeScheduleDateConflictRule extends ResearchDocumentRuleBase implements AddCommitteeScheduleDateConflictRule {
+public class CommitteeScheduleDateConflictRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<CommitteeScheduleDateConflictEvent> {
     
     @SuppressWarnings("unused")
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeScheduleDateConflictRule.class);
@@ -38,13 +38,14 @@ public class CommitteeScheduleDateConflictRule extends ResearchDocumentRuleBase 
     
     public static final String DATES_IN_CONFLICT_ERROR_KEY = "datesInConflict";
     
+
     /**
-     * @see org.kuali.kra.committee.rule.AddCommitteeScheduleDateConflictRule#processAddCommitteeScheduleRuleBusinessRules(org.kuali.kra.committee.rule.event.AddCommitteeScheduleDateConflictEvent)
+     * @see org.kuali.kra.committee.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBase)
      */
-    public boolean processAddCommitteeScheduleRuleBusinessRules(AddCommitteeScheduleDateConflictEvent addCommitteeScheduleEvent) {
+    public boolean processRules(CommitteeScheduleDateConflictEvent addCommitteeScheduleEvent) {
         
         boolean rulePassed = true;   
-        Event type = addCommitteeScheduleEvent.getType();        
+        ErrorType type = addCommitteeScheduleEvent.getType();        
         switch (type) {
             case HARDERROR:
                 rulePassed = processHardErrors(addCommitteeScheduleEvent);
@@ -61,7 +62,7 @@ public class CommitteeScheduleDateConflictRule extends ResearchDocumentRuleBase 
      * @param addCommitteeScheduleEvent
      * @return
      */
-    private boolean processHardErrors(AddCommitteeScheduleDateConflictEvent addCommitteeScheduleEvent) {
+    private boolean processHardErrors(CommitteeScheduleDateConflictEvent addCommitteeScheduleEvent) {
         boolean rulePassed = true;
         List<CommitteeSchedule> committeeSchedules = addCommitteeScheduleEvent.getCommitteeSchedules();   
         List<Date> conflictDates = new LinkedList<Date>();
@@ -119,7 +120,7 @@ public class CommitteeScheduleDateConflictRule extends ResearchDocumentRuleBase 
      * @param addCommitteeScheduleEvent
      * @return
      */
-    private boolean processSoftErrors(AddCommitteeScheduleDateConflictEvent addCommitteeScheduleEvent) {
+    private boolean processSoftErrors(CommitteeScheduleDateConflictEvent addCommitteeScheduleEvent) {
         boolean rulePassed = true;
         List<Date> datesInConflict = addCommitteeScheduleEvent.getScheduleData().getDatesInConflict();
         for(Date date: datesInConflict) {

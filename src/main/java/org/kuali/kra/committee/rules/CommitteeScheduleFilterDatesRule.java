@@ -17,24 +17,23 @@ package org.kuali.kra.committee.rules;
 
 import java.sql.Date;
 
-import org.kuali.kra.committee.rule.FilterCommitteeScheduleRule;
-import org.kuali.kra.committee.rule.event.FilterCommitteeScheduleEvent;
+import org.kuali.kra.committee.rule.event.CommitteeScheduleFilterEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
-public class CommitteeScheduleFilterDatesRule extends ResearchDocumentRuleBase implements  FilterCommitteeScheduleRule{
+public class CommitteeScheduleFilterDatesRule extends ResearchDocumentRuleBase implements  BusinessRuleInterface<CommitteeScheduleFilterEvent>{
     
     public static final String SCHEDULEDATE_FILTERSTARTDATE = "scheduleData.filterStartDate";
     
     public static final String SCHEDULEDATE_FILTERENDDATE = "scheduleData.filerEndDate";
     
     public static final String [] MSG = {"Start date", "End date"}; 
-        
-    
+            
     /**
-     * @see org.kuali.kra.committee.rule.FilterCommitteeScheduleRule#processCommitteeScheduleFilterBusinessRules(org.kuali.kra.committee.rule.event.FilterCommitteeScheduleEvent)
+     * @see org.kuali.kra.committee.rule.FilterCommitteeScheduleRule#processRules(org.kuali.kra.committee.rule.event.CommitteeScheduleFilterEvent)
      */
-    public boolean processCommitteeScheduleFilterBusinessRules(FilterCommitteeScheduleEvent filterCommitteeScheduleEvent) {
+    public boolean processRules(CommitteeScheduleFilterEvent filterCommitteeScheduleEvent) {
         
         boolean rulePassed = true;
         

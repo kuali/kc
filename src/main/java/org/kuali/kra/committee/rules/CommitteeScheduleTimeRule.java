@@ -19,12 +19,12 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.committee.rule.TimeCommitteeScheduleRule;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleTimeEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
-public class CommitteeScheduleTimeRule extends ResearchDocumentRuleBase implements TimeCommitteeScheduleRule {
+public class CommitteeScheduleTimeRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<CommitteeScheduleTimeEvent> {
 
     public static final String MSG1 = "hh:mm";
 
@@ -43,24 +43,19 @@ public class CommitteeScheduleTimeRule extends ResearchDocumentRuleBase implemen
     /**
      * @see org.kuali.kra.committee.rule.FilterCommitteeScheduleRule#processRules(org.kuali.kra.committee.rule.event.FilterCommitteeScheduleEvent)
      */
-    public boolean processCommitteeScheduleTimeRules(CommitteeScheduleTimeEvent event) {
+    public boolean processRules(CommitteeScheduleTimeEvent event) {
 
         boolean rulePassed = true;
 
-        if (null != event.getScheduleData()) {
+        if(null != event.getScheduleData()) {
             rulePassed = processTime(event.getScheduleData().getTime().getTime(), ID2);
         }
-        if (null != event.getCommitteeSchedules()) {
+        if(null != event.getCommitteeSchedules()) {
             rulePassed = processCommitteeSchedule(event.getCommitteeSchedules());
         }
         return rulePassed;
     }
 
-    /**
-     * This method process time for CommitteeSchedule collection.
-     * @param committeeScheduleas
-     * @return
-     */
     private boolean processCommitteeSchedule(List<CommitteeSchedule> committeeScheduleas) {
 
         boolean rulePassed = true;
@@ -76,52 +71,44 @@ public class CommitteeScheduleTimeRule extends ResearchDocumentRuleBase implemen
         return rulePassed;
     }
 
-    /**
-     * This method parses time to required format (hh:mm).
-     * @param time
-     * @param id
-     * @return
-     */
     private boolean processTime(String time, String id) {
         boolean rulePassed = true;
-        if (StringUtils.isBlank(time)) {
-            rulePassed = createErrorReport(id, MSG1);
-        }
-        else {
-            String[] result = time.split(COLON);
-            if (result.length != 2) {
-                rulePassed = createErrorReport(id, MSG1);
-            }
-            else {
-                Integer hrs;
-                Integer mins;
-                try {
-                    hrs = new Integer(result[0]);
-                    mins = new Integer(result[1]);
 
-                    if (!(hrs >= 1 && hrs <= 12)) { 
-                        rulePassed = createErrorReport(id, MSG3);
-                    }
-                    else {
-                        if (!(mins >= 0 && mins <= 59)) { 
-                            rulePassed = createErrorReport(id, MSG4);
-                        }
-                    }
-                }
-                catch (NumberFormatException e) {
-                    rulePassed = createErrorReport(id, MSG2);
-                }
+        if (StringUtils.isBlank(time)) {               
+            rulePassed = createErrorReport(id, MSG1);
+            return rulePassed;
+        }
+
+        String[] result = time.split(COLON);
+        if (result.length != 2) {               
+            rulePassed = createErrorReport(id, MSG1);
+            return rulePassed;
+        }
+
+        Integer hrs;
+        Integer mins;
+
+        try {
+            hrs = new Integer(result[0]);
+            mins = new Integer(result[1]);
+
+            if (!(hrs >= 1 && hrs <= 12)) { 
+                rulePassed = createErrorReport(id, MSG3);
+                return rulePassed;
             }
+
+
+            if (!(mins >= 0 && mins <= 59)) {
+                rulePassed = createErrorReport(id, MSG4);
+                return rulePassed;
+            }
+        }
+        catch (NumberFormatException e) {
+            rulePassed = createErrorReport(id, MSG2);           
         }
         return rulePassed;
     }
 
-    /**
-     * This method adds error.
-     * @param id
-     * @param msg
-     * @return
-     */
     private boolean createErrorReport(String id, String msg) {
         reportError(id, KeyConstants.ERROR_COMMITTEESCHEDULE_VIEWTIME, msg);
         return false;
