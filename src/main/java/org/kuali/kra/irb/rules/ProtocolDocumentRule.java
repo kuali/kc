@@ -27,9 +27,9 @@ import org.kuali.kra.common.permissions.bo.PermissionsUser;
 import org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles;
 import org.kuali.kra.common.permissions.rule.PermissionsRule;
 import org.kuali.kra.common.permissions.web.bean.User;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolParticipant;
 import org.kuali.kra.irb.bo.ProtocolSpecialReview;
 import org.kuali.kra.irb.document.ProtocolDocument;
@@ -112,35 +112,63 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
 
     
     /**
-     * 
-     * This method validate whether leadunit is valid and principalinvestigator exist.
-     * refactored by copying from protocolrequiredfieldsrule.
-     * @param document
-     * @return
+     * Executes validation rule for the required fields on a {@link ProtocolDocument ProtocolDocument}.
+     * @param document the document
+     * @return true if validation passes false if not
+     * @throws NullPointerException if the document is null
      */
     public boolean processRequiredFieldsBusinessRules(ProtocolDocument document) {
 
+        if (document == null) {
+            throw new NullPointerException("the document was null");
+        }
+
         boolean isValid = true;
 
-        if (isInvalidUnit(document.getProtocol().getLeadUnitNumber())) {
+        if (!isValidUnit(document.getProtocol().getLeadUnitNumber())) {
               isValid = false;
               reportError(PROTOCOL_LUN_FORM_ELEMENT, KeyConstants.ERROR_PROTOCOL_LEAD_UNIT_NUM_INVALID);
-        } else if (document.getProtocol().getLeadUnitForValidation() == null &&  document.getProtocol().getLeadUnit() == null) {
-              // TODO : is this really needed.  leadunitvalidation == null is already checked above
-              // leadunit is 'required' also checked by Dictionaryservice validation?
+        } else if (!isValidUnitProperties(document.getProtocol())) {
               isValid = false;
               reportError(PROTOCOL_LUN_FORM_ELEMENT, KeyConstants.ERROR_PROTOCOL_LEAD_UNIT_NAME_NOT_FOUND);
         }
         return isValid;
     }
-        
-    private boolean isInvalidUnit(String unitNumber) {
+
+
+    /*
+     * Checks if the unit properties contained in a {@link Protocol Protocol} are valid.
+     * 
+     * @param protocol the {@link Protocol Protocol} @return true is valid false if not.
+     */
+
+    private boolean isValidUnitProperties(Protocol protocol) {
+
+           return protocol.getLeadUnitForValidation() != null &&  protocol.getLeadUnit() != null;
+
+    }
+
+
+    /*
+     * Checks if a {@link Unit Unit} is available for a given unit number.
+     *
+     * <p>
+     * This method will return false if passed in a blank unitNUmber
+     * </p>
+     *
+     * @param unitNumber the unitNumber
+     * @return true if unit exists in Unit table false if not.
+     */
+    private boolean isValidUnit(String unitNumber) {
+        boolean isValid = true;
         if (StringUtils.isBlank(unitNumber)) {
-            return true;
+            isValid = false;
+        } else {
+            UnitService unitService = KraServiceLocator.getService(UnitService.class);
+            Unit unit = unitService.getUnit(unitNumber);
+            isValid = unit != null;
         }
-        UnitService unitService = KraServiceLocator.getService(UnitService.class);
-        Unit unit = unitService.getUnit(unitNumber);
-        return unit == null;
+        return isValid;
     }
 
     
