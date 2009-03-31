@@ -23,24 +23,16 @@ import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.rule.AddCommitteeMembershipRoleRule;
 import org.kuali.kra.committee.rule.AddCommitteeMembershipRule;
-import org.kuali.kra.committee.rule.AddCommitteeScheduleDateConflictRule;
-import org.kuali.kra.committee.rule.AddCommitteeScheduleStartAndEndDateRule;
-import org.kuali.kra.committee.rule.DeadlineCommitteeScheduleRule;
-import org.kuali.kra.committee.rule.FilterCommitteeScheduleRule;
 import org.kuali.kra.committee.rule.SaveCommitteeMembershipRule;
-import org.kuali.kra.committee.rule.TimeCommitteeScheduleRule;
 import org.kuali.kra.committee.rule.event.AddCommitteeMembershipEvent;
 import org.kuali.kra.committee.rule.event.AddCommitteeMembershipRoleEvent;
-import org.kuali.kra.committee.rule.event.AddCommitteeScheduleDateConflictEvent;
-import org.kuali.kra.committee.rule.event.AddCommitteeScheduleStartAndEndDateEvent;
-import org.kuali.kra.committee.rule.event.CommitteeScheduleTimeEvent;
-import org.kuali.kra.committee.rule.event.DeadlineCommitteeScheduleEvent;
-import org.kuali.kra.committee.rule.event.FilterCommitteeScheduleEvent;
 import org.kuali.kra.committee.rule.event.SaveCommitteeMembershipEvent;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.rule.BusinessRuleInterface;
+import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.UnitService;
 
@@ -51,8 +43,8 @@ import org.kuali.kra.service.UnitService;
  * this class will act as a controller and forward the rules checking to 
  * another class within this package.
  */
-public class CommitteeDocumentRule extends ResearchDocumentRuleBase
-                                   implements AddCommitteeScheduleStartAndEndDateRule, AddCommitteeScheduleDateConflictRule, AddCommitteeMembershipRule, AddCommitteeMembershipRoleRule, SaveCommitteeMembershipRule, FilterCommitteeScheduleRule, DeadlineCommitteeScheduleRule, TimeCommitteeScheduleRule {
+@SuppressWarnings("unchecked")
+public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements BusinessRuleInterface, AddCommitteeMembershipRule, AddCommitteeMembershipRoleRule, SaveCommitteeMembershipRule {
     
     static private final boolean VALIDATION_REQUIRED = true;
     
@@ -194,38 +186,12 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase
     }
 
     /**
-     * @see org.kuali.kra.committee.rule.AddCommitteeScheduleStartAndEndDateRule#processAddCommitteeScheduleRuleBusinessRules(org.kuali.kra.committee.rule.event.AddCommitteeScheduleStartAndEndDateEvent)
+     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
      */
-    public boolean processAddCommitteeScheduleRuleBusinessRules(AddCommitteeScheduleStartAndEndDateEvent addCommitteeScheduleEvent) {
-        return new CommitteeScheduleStartAndEndDateRule().processAddCommitteeScheduleRuleBusinessRules(addCommitteeScheduleEvent);
-    }
-
-    /**
-     * @see org.kuali.kra.committee.rule.AddCommitteeScheduleDateConflictRule#processAddCommitteeScheduleRuleBusinessRules(org.kuali.kra.committee.rule.event.AddCommitteeScheduleDateConflictEvent)
-     */
-    public boolean processAddCommitteeScheduleRuleBusinessRules(AddCommitteeScheduleDateConflictEvent addCommitteeScheduleEvent) {
-        return new CommitteeScheduleDateConflictRule().processAddCommitteeScheduleRuleBusinessRules(addCommitteeScheduleEvent);
-    }
-
-    /**
-     * @see org.kuali.kra.committee.rule.FilterCommitteeScheduleRule#processCommitteeScheduleFilterBusinessRules(org.kuali.kra.committee.rule.event.FilterCommitteeScheduleEvent)
-     */
-    public boolean processCommitteeScheduleFilterBusinessRules(FilterCommitteeScheduleEvent filterCommitteeScheduleEvent) {
-        return new CommitteeScheduleFilterDatesRule().processCommitteeScheduleFilterBusinessRules(filterCommitteeScheduleEvent);
-    }
-
-    /**
-     * @see org.kuali.kra.committee.rule.DeadlineCommitteeScheduleRule#processCommitteeScheduleDeadlineBusinessRules(org.kuali.kra.committee.rule.event.DeadlineCommitteeScheduleEvent)
-     */
-    public boolean processCommitteeScheduleDeadlineBusinessRules(DeadlineCommitteeScheduleEvent deadlineCommitteeScheduleEvent) {
-        return new CommitteeScheduleDeadlineDateRule().processCommitteeScheduleDeadlineBusinessRules(deadlineCommitteeScheduleEvent);
-    }
-
-    /**
-     * @see org.kuali.kra.committee.rule.TimeCommitteeScheduleRule#processCommitteeScheduleTimeRules(org.kuali.kra.committee.rule.event.CommitteeScheduleTimeEvent)
-     */
-    public boolean processCommitteeScheduleTimeRules(CommitteeScheduleTimeEvent event) {
-        return new CommitteeScheduleTimeRule().processCommitteeScheduleTimeRules(event);
+    public boolean processRules(KraDocumentEventBaseExtension event) {
+        boolean retVal = false;
+        retVal = event.getRule().processRules(event);
+        return retVal;
     }
 
 }

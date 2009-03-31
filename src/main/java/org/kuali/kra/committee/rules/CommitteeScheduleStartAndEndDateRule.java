@@ -17,14 +17,14 @@ package org.kuali.kra.committee.rules;
 
 import java.sql.Date;
 
-import org.kuali.kra.committee.rule.AddCommitteeScheduleStartAndEndDateRule;
-import org.kuali.kra.committee.rule.event.AddCommitteeScheduleStartAndEndDateEvent;
+import org.kuali.kra.committee.rule.event.CommitteeScheduleStartAndEndDateEvent;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.committee.web.struts.form.schedule.StyleKey;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
-public class CommitteeScheduleStartAndEndDateRule extends ResearchDocumentRuleBase implements AddCommitteeScheduleStartAndEndDateRule {
+public class CommitteeScheduleStartAndEndDateRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<CommitteeScheduleStartAndEndDateEvent> {
     
     private enum Constants {scheduleData, dailySchedule, weeklySchedule, monthlySchedule, yearlySchedule, scheduleEndDate, scheduleStartDate, Date};
     
@@ -37,9 +37,9 @@ public class CommitteeScheduleStartAndEndDateRule extends ResearchDocumentRuleBa
     public static final String BLANK = "";
     
     /**
-     * @see org.kuali.kra.committee.rule.AddCommitteeScheduleStartAndEndDateRule#processAddCommitteeScheduleRuleBusinessRules(org.kuali.kra.committee.rule.event.AddCommitteeScheduleStartAndEndDateEvent)
+     * @see org.kuali.kra.committee.rule.AddCommitteeScheduleStartAndEndDateRule#processAddCommitteeScheduleRuleBusinessRules(org.kuali.kra.committee.rule.event.CommitteeScheduleStartAndEndDateEvent)
      */
-    public boolean processAddCommitteeScheduleRuleBusinessRules(AddCommitteeScheduleStartAndEndDateEvent addCommitteeScheduleEvent) {
+    public boolean processRules(CommitteeScheduleStartAndEndDateEvent addCommitteeScheduleEvent) {
         
         StringBuilder endDateId = new StringBuilder();
         StringBuilder startDateId = new StringBuilder();

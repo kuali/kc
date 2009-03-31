@@ -25,15 +25,13 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.question.ConfirmationQuestion;
-import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.committee.bo.CommitteeScheduleAttributeReferenceDummy;
-import org.kuali.kra.committee.rule.event.AddCommitteeScheduleDateConflictEvent;
-import org.kuali.kra.committee.rule.event.AddCommitteeScheduleStartAndEndDateEvent;
+import org.kuali.kra.committee.rule.event.CommitteeScheduleDateConflictEvent;
+import org.kuali.kra.committee.rule.event.CommitteeScheduleStartAndEndDateEvent;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleTimeEvent;
-import org.kuali.kra.committee.rule.event.DeadlineCommitteeScheduleEvent;
-import org.kuali.kra.committee.rule.event.FilterCommitteeScheduleEvent;
-import org.kuali.kra.committee.rule.event.CommitteeScheduleEvent.Event;
+import org.kuali.kra.committee.rule.event.CommitteeScheduleDeadlineEvent;
+import org.kuali.kra.committee.rule.event.CommitteeScheduleFilterEvent;
+import org.kuali.kra.committee.rule.event.CommitteeScheduleEventBase.ErrorType;
 import org.kuali.kra.committee.rules.CommitteeScheduleDataDictionaryValidationRule;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
@@ -75,9 +73,9 @@ public class CommitteeScheduleAction extends CommitteeAction {
         CommitteeForm committeeForm = (CommitteeForm) form;
         List<CommitteeSchedule> committeeSchedules = committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules();
         
-        if(applyRules(new CommitteeScheduleTimeEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules, Event.HARDERROR))) {
-            if(applyRules(new AddCommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules, Event.HARDERROR))){
-                if(applyRules(new DeadlineCommitteeScheduleEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules, Event.HARDERROR))) {
+        if(applyRules(new CommitteeScheduleTimeEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules, ErrorType.HARDERROR))) {
+            if(applyRules(new CommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules, ErrorType.HARDERROR))){
+                if(applyRules(new CommitteeScheduleDeadlineEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules, ErrorType.HARDERROR))) {
                     actionForward = super.save(mapping, form, request, response);
                 } 
             }
@@ -102,11 +100,11 @@ public class CommitteeScheduleAction extends CommitteeAction {
         ScheduleData scheduleData = committeeForm.getScheduleData();
         
         if(new CommitteeScheduleDataDictionaryValidationRule().applyRules(scheduleData)){
-            if(applyRules(new CommitteeScheduleTimeEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, Event.HARDERROR))) {
-                if(applyRules(new AddCommitteeScheduleStartAndEndDateEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, Event.HARDERROR))){
+            if(applyRules(new CommitteeScheduleTimeEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, ErrorType.HARDERROR))) {
+                if(applyRules(new CommitteeScheduleStartAndEndDateEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, ErrorType.HARDERROR))){
                     CommitteeScheduleService service  = getCommitteeScheduleService();
                     service.addSchedule(scheduleData, committeeForm.getCommitteeDocument().getCommittee());            
-                    applyRules(new AddCommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, Event.SOFTERROR));
+                    applyRules(new CommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, ErrorType.SOFTERROR));
                 }  
             }
         }
@@ -156,7 +154,7 @@ public class CommitteeScheduleAction extends CommitteeAction {
         
         
         ScheduleData scheduleData = committeeForm.getScheduleData();
-        if(applyRules(new FilterCommitteeScheduleEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, Event.HARDERROR))) {
+        if(applyRules(new CommitteeScheduleFilterEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, ErrorType.HARDERROR))) {
             Date startDate = scheduleData.getFilterStartDate();
             Date endDate = scheduleData.getFilerEndDate();
             committeeForm.getCommitteeScheduleHelper().prepareFilterDatesView(startDate, endDate);

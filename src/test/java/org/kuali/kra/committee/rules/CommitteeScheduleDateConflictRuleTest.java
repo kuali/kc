@@ -24,13 +24,12 @@ import java.util.Map;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.junit.Test;
-import org.kuali.core.UserSession;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.committee.rule.event.AddCommitteeScheduleDateConflictEvent;
-import org.kuali.kra.committee.rule.event.CommitteeScheduleEvent;
+import org.kuali.kra.committee.rule.event.CommitteeScheduleDateConflictEvent;
+import org.kuali.kra.committee.rule.event.CommitteeScheduleEventBase;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.SoftError;
@@ -39,7 +38,7 @@ public class CommitteeScheduleDateConflictRuleTest extends KraTestBase {
     
     private ScheduleData scheduleData;
     
-    private AddCommitteeScheduleDateConflictEvent event;
+    private CommitteeScheduleDateConflictEvent event;
     
     private CommitteeScheduleDateConflictRule rule;
     
@@ -47,7 +46,6 @@ public class CommitteeScheduleDateConflictRuleTest extends KraTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setUserSession(new UserSession("aslusar"));
         GlobalVariables.setErrorMap(new ErrorMap());
         GlobalVariables.setAuditErrorMap(new HashMap());  
     }
@@ -57,7 +55,7 @@ public class CommitteeScheduleDateConflictRuleTest extends KraTestBase {
         
         List<CommitteeSchedule> list = prerequisiteHardError();
         
-        event = new AddCommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING,  null, null, list, CommitteeScheduleEvent.Event.HARDERROR);
+        event = new CommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING,  null, null, list, CommitteeScheduleEventBase.ErrorType.HARDERROR);
         boolean val = executeRule();
         assertTrue(val);
     }
@@ -75,7 +73,7 @@ public class CommitteeScheduleDateConflictRuleTest extends KraTestBase {
         temp.setScheduledDate(new java.sql.Date(new Date().getTime()));
         list.add(temp);
         
-        event = new AddCommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING,  null, null, list, CommitteeScheduleEvent.Event.HARDERROR);
+        event = new CommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING,  null, null, list, CommitteeScheduleEventBase.ErrorType.HARDERROR);
         boolean val = executeRule();
         assertFalse(val);
     }    
@@ -105,7 +103,7 @@ public class CommitteeScheduleDateConflictRuleTest extends KraTestBase {
     public void testSoftErrorTrue() throws Exception {
         
         prerequisiteSoftError();
-        event = new AddCommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING,  null, scheduleData, null, CommitteeScheduleEvent.Event.SOFTERROR);
+        event = new CommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING,  null, scheduleData, null, CommitteeScheduleEventBase.ErrorType.SOFTERROR);
         boolean val = executeRule();
         assertTrue(val);
     }
@@ -119,7 +117,7 @@ public class CommitteeScheduleDateConflictRuleTest extends KraTestBase {
         
         prerequisiteSoftError();
         scheduleData.getDatesInConflict().add(new java.sql.Date(new Date().getTime()));
-        event = new AddCommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING,  null, scheduleData, null, CommitteeScheduleEvent.Event.SOFTERROR);
+        event = new CommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING,  null, scheduleData, null, CommitteeScheduleEventBase.ErrorType.SOFTERROR);
         boolean val = executeRule();
         assertTrue(val);
                 
@@ -134,7 +132,7 @@ public class CommitteeScheduleDateConflictRuleTest extends KraTestBase {
      */
     private boolean executeRule() {
         rule = new CommitteeScheduleDateConflictRule();
-        boolean val = rule.processAddCommitteeScheduleRuleBusinessRules(event);
+        boolean val = rule.processRules(event);
         return val;
     }
     

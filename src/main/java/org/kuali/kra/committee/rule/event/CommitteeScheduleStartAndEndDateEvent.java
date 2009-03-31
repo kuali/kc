@@ -18,36 +18,27 @@ package org.kuali.kra.committee.rule.event;
 import java.util.List;
 
 import org.kuali.core.document.Document;
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.CommitteeDocument;
-import org.kuali.kra.committee.rule.FilterCommitteeScheduleRule;
+import org.kuali.kra.committee.rules.CommitteeScheduleStartAndEndDateRule;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
+import org.kuali.kra.rule.BusinessRuleInterface;
 
-public class FilterCommitteeScheduleEvent extends CommitteeScheduleEventBase {
+public class CommitteeScheduleStartAndEndDateEvent extends CommitteeScheduleEventBase<CommitteeScheduleStartAndEndDateRule> {
     
     public static final String MSG = "adding CommitteeSchedule to document ";
-    
-    public FilterCommitteeScheduleEvent(String errorPathPrefix, CommitteeDocument document, ScheduleData scheduleData, List<CommitteeSchedule> committeeSchedules, Event type) {
+
+    public CommitteeScheduleStartAndEndDateEvent(String errorPathPrefix, CommitteeDocument document, ScheduleData scheduleData, List<CommitteeSchedule> committeeSchedules, ErrorType type) {
         super(MSG + getDocumentId(document), errorPathPrefix, document, scheduleData, committeeSchedules, type);
     }
     
-    public FilterCommitteeScheduleEvent(String errorPathPrefix, Document document, ScheduleData scheduleData, List<CommitteeSchedule> committeeSchedules, Event type) {
+    public CommitteeScheduleStartAndEndDateEvent(String errorPathPrefix, Document document, ScheduleData scheduleData, List<CommitteeSchedule> committeeSchedules, ErrorType type) {
         this(errorPathPrefix, (CommitteeDocument)document, scheduleData, committeeSchedules, type);
     }
 
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
     @SuppressWarnings("unchecked")
-    public Class getRuleInterfaceClass() {
-        return FilterCommitteeScheduleRule.class;
-    }
-
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
-     */
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((FilterCommitteeScheduleRule)rule).processCommitteeScheduleFilterBusinessRules(this);
+    @Override
+    public BusinessRuleInterface getRule() {
+        return new CommitteeScheduleStartAndEndDateRule();
     }
 }
