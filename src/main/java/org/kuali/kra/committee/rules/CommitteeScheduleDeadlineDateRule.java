@@ -19,19 +19,19 @@ import java.sql.Date;
 import java.util.List;
 
 import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.committee.rule.DeadlineCommitteeScheduleRule;
-import org.kuali.kra.committee.rule.event.DeadlineCommitteeScheduleEvent;
+import org.kuali.kra.committee.rule.event.CommitteeScheduleDeadlineEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
-public class CommitteeScheduleDeadlineDateRule extends ResearchDocumentRuleBase implements  DeadlineCommitteeScheduleRule{
-            
+public class CommitteeScheduleDeadlineDateRule extends ResearchDocumentRuleBase implements  BusinessRuleInterface<CommitteeScheduleDeadlineEvent>{
+    
     public static final String ID = "document.committeeList[0].committeeSchedules[%1$s].protocolSubDeadline";
     
     /**
-     * @see org.kuali.kra.committee.rule.DeadlineCommitteeScheduleRule#processCommitteeScheduleDeadlineBusinessRules(org.kuali.kra.committee.rule.event.DeadlineCommitteeScheduleEvent)
+     * @see org.kuali.kra.committee.rule.DeadlineCommitteeScheduleRule#processCommitteeScheduleDeadlineBusinessRules(org.kuali.kra.committee.rule.event.CommitteeScheduleDeadlineEvent)
      */
-    public boolean processCommitteeScheduleDeadlineBusinessRules(DeadlineCommitteeScheduleEvent deadlineCommitteeScheduleEvent) {
+    public boolean processRules(CommitteeScheduleDeadlineEvent deadlineCommitteeScheduleEvent) {
         
         boolean rulePassed = true;
         

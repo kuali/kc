@@ -20,17 +20,24 @@ import java.util.List;
 import org.kuali.core.document.Document;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
+import org.kuali.kra.rule.BusinessRuleInterface;
+import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 
-public abstract class CommitteeScheduleEventBase extends KraDocumentEventBase implements CommitteeScheduleEvent {
+@SuppressWarnings("unchecked")
+public abstract class CommitteeScheduleEventBase<Z extends BusinessRuleInterface> extends KraDocumentEventBaseExtension {
+    
+    /**
+     * Enum helps identify type of error to respond.
+     */
+    public enum ErrorType {HARDERROR, SOFTERROR};
     
     private ScheduleData scheduleData;
     
     private List<CommitteeSchedule> committeeSchedules;
     
-    private Event type;
+    private ErrorType type;
     
-    protected CommitteeScheduleEventBase(String description, String errorPathPrefix, Document document, ScheduleData scheduleData, List<CommitteeSchedule> committeeSchedules, Event type) {
+    public CommitteeScheduleEventBase(String description, String errorPathPrefix, Document document, ScheduleData scheduleData, List<CommitteeSchedule> committeeSchedules, ErrorType type) {        
         super(description, errorPathPrefix, document);
         this.scheduleData = scheduleData;
         this.committeeSchedules = committeeSchedules;
@@ -38,30 +45,27 @@ public abstract class CommitteeScheduleEventBase extends KraDocumentEventBase im
     }
     
     /**
-     * @see org.kuali.kra.rule.event.KraDocumentEventBase#logEvent()
-     */
-    @Override
-    protected void logEvent() {
-    }
-    
-    /**
-     * @see org.kuali.kra.committee.rule.event.CommitteeScheduleEvent#getScheduleData()
+     * This method should return instance of ScheduleDate.
+     * @return
      */
     public ScheduleData getScheduleData() {
         return this.scheduleData;
     }
     
     /**
-     * @see org.kuali.kra.committee.rule.event.CommitteeScheduleEvent#getCommitteeSchedules()
+     * This method should return instance of CommitteeSchedules.
+     * @return
      */
     public List<CommitteeSchedule> getCommitteeSchedules(){
         return this.committeeSchedules;
     }
     
     /**
-     * @see org.kuali.kra.committee.rule.event.CommitteeScheduleEvent#getType()
+     * This method should return CommitteeScheduleEvent.event.
+     * @return
      */
-    public Event getType() {
+    public ErrorType getType() {
         return this.type;
     }
+
 }
