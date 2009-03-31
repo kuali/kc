@@ -30,7 +30,7 @@
     <property name="shortLabel" value="intValue" />
     <property name="maxLength" value="2" />
 	<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
+	      <bean parent="Postive2DigitFieldLevelValidationPattern"/>
 	</property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -40,6 +40,10 @@
     <property name="description" value="intValue" />
   </bean>
 
+	
+	<!-- Validation Pattern -->
+	<bean id="Postive2DigitFieldLevelValidationPattern" class="org.kuali.kra.core.datadictionary.validation.Postive2DigitFieldLevelValidationPattern"/>
+	
 	<bean id="CommitteeScheduleAttributeReferenceDummy-monthsWeek" parent="CommitteeScheduleAttributeReferenceDummy-monthsWeek-parentBean" />
 	<bean id="CommitteeScheduleAttributeReferenceDummy-monthsWeek-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="monthsWeek" />
