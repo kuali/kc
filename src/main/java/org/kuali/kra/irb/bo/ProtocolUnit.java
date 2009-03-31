@@ -19,10 +19,10 @@ package org.kuali.kra.irb.bo;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.irb.ProtocolAssociate;
 
-public class ProtocolUnit extends KraPersistableBusinessObjectBase { 
+public class ProtocolUnit extends ProtocolAssociate { 
 	
 	/**
      * Comment for <code>serialVersionUID</code>
@@ -30,8 +30,6 @@ public class ProtocolUnit extends KraPersistableBusinessObjectBase {
     private static final long serialVersionUID = 8187880795930346699L;
     private Integer protocolUnitsId; 
     private Integer protocolPersonId; 
-	private String protocolNumber; 
-	private Integer sequenceNumber; 
 	private String unitNumber; 
 	private boolean leadUnitFlag; 
 	private String personId; 
@@ -60,22 +58,6 @@ public class ProtocolUnit extends KraPersistableBusinessObjectBase {
     public void setProtocolPersonId(Integer protocolPersonId) {
         this.protocolPersonId = protocolPersonId;
     }
-
-	public String getProtocolNumber() {
-		return protocolNumber;
-	}
-
-	public void setProtocolNumber(String protocolNumber) {
-		this.protocolNumber = protocolNumber;
-	}
-
-	public Integer getSequenceNumber() {
-		return sequenceNumber;
-	}
-
-	public void setSequenceNumber(Integer sequenceNumber) {
-		this.sequenceNumber = sequenceNumber;
-	}
 
 	public String getUnitNumber() {
 		return unitNumber;
@@ -111,11 +93,9 @@ public class ProtocolUnit extends KraPersistableBusinessObjectBase {
 
 	@Override 
 	protected LinkedHashMap<String,Object> toStringMapper() {
-	    LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
+	    LinkedHashMap<String,Object> hashMap = super.toStringMapper();
 		hashMap.put("protocolUnitsId", getProtocolUnitsId());
         hashMap.put("protocolPersonId", getProtocolPersonId());
-		hashMap.put("protocolNumber", getProtocolNumber());
-		hashMap.put("sequenceNumber", getSequenceNumber());
 		hashMap.put("unitNumber", getUnitNumber());
 		hashMap.put("leadUnitFlag", getLeadUnitFlag());
 		hashMap.put("personId", getPersonId());

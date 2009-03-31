@@ -17,15 +17,15 @@ package org.kuali.kra.irb.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.irb.ProtocolAssociate;
 
 /**
  * This class represents the Protocol Location Business Object.
  */
-public class ProtocolLocation extends KraPersistableBusinessObjectBase { 
+public class ProtocolLocation extends ProtocolAssociate { 
 	
 	/**
      * Comment for <code>serialVersionUID</code>
@@ -33,8 +33,6 @@ public class ProtocolLocation extends KraPersistableBusinessObjectBase {
     private static final long serialVersionUID = 6509347537504066578L;
     private Integer protocolLocationId; 
 	private Long protocolId; 
-	private String protocolNumber; 
-	private Integer sequenceNumber; 
 	private String protocolOrganizationTypeCode; 
 	private String organizationId; 
 	private Integer rolodexId; 
@@ -63,22 +61,6 @@ public class ProtocolLocation extends KraPersistableBusinessObjectBase {
 
 	public void setProtocolId(Long protocolId) {
 		this.protocolId = protocolId;
-	}
-
-	public String getProtocolNumber() {
-		return protocolNumber;
-	}
-
-	public void setProtocolNumber(String protocolNumber) {
-		this.protocolNumber = protocolNumber;
-	}
-
-	public Integer getSequenceNumber() {
-		return sequenceNumber;
-	}
-
-	public void setSequenceNumber(Integer sequenceNumber) {
-		this.sequenceNumber = sequenceNumber;
 	}
 
 	public String getProtocolOrganizationTypeCode() {
@@ -126,11 +108,9 @@ public class ProtocolLocation extends KraPersistableBusinessObjectBase {
 	 */
 	@Override 
 	protected LinkedHashMap<String,Object> toStringMapper() {
-		LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
+		LinkedHashMap<String,Object> hashMap = super.toStringMapper();
 		hashMap.put("protocolLocationId", getProtocolLocationId());
 		hashMap.put("protocolId", getProtocolId());
-		hashMap.put("protocolNumber", getProtocolNumber());
-		hashMap.put("sequenceNumber", getSequenceNumber());
 		hashMap.put("protocolOrganizationTypeCode", getProtocolOrganizationTypeCode());
 		hashMap.put("organizationId", getOrganizationId());
 		hashMap.put("rolodexId", getRolodexId());

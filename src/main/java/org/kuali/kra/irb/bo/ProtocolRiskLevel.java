@@ -19,21 +19,19 @@ package org.kuali.kra.irb.bo;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.RiskLevel;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.irb.ProtocolAssociate;
 import org.kuali.kra.irb.document.ProtocolDocument;
 
 /**
  * 
  * This is BO class of protocol risk levels. 
  */
-public class ProtocolRiskLevel extends KraPersistableBusinessObjectBase { 
+public class ProtocolRiskLevel extends ProtocolAssociate { 
 	
 	private Integer protocolRiskLevelId; 
 	private Long protocolId; 
-	private String protocolNumber; 
-	private Integer sequenceNumber; 
 	private String riskLevelCode; 
 	private String comments; 
 	private Date dateAssigned; 
@@ -63,22 +61,6 @@ public class ProtocolRiskLevel extends KraPersistableBusinessObjectBase {
 
 	public void setProtocolId(Long protocolId) {
 		this.protocolId = protocolId;
-	}
-
-	public String getProtocolNumber() {
-		return protocolNumber;
-	}
-
-	public void setProtocolNumber(String protocolNumber) {
-		this.protocolNumber = protocolNumber;
-	}
-
-	public Integer getSequenceNumber() {
-		return sequenceNumber;
-	}
-
-	public void setSequenceNumber(Integer sequenceNumber) {
-		this.sequenceNumber = sequenceNumber;
 	}
 
 	public String getRiskLevelCode() {
@@ -139,11 +121,9 @@ public class ProtocolRiskLevel extends KraPersistableBusinessObjectBase {
 
 	@Override 
 	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
+		LinkedHashMap hashMap = super.toStringMapper();
 		hashMap.put("protocolRiskLevelId", getProtocolRiskLevelId());
 		hashMap.put("protocolId", getProtocolId());
-		hashMap.put("protocolNumber", getProtocolNumber());
-		hashMap.put("sequenceNumber", getSequenceNumber());
 		hashMap.put("riskLevelCode", getRiskLevelCode());
 		hashMap.put("comments", getComments());
 		hashMap.put("dateAssigned", getDateAssigned());
@@ -161,11 +141,11 @@ public class ProtocolRiskLevel extends KraPersistableBusinessObjectBase {
         result = prime * result + ((dateUpdated == null) ? 0 : dateUpdated.hashCode());
         result = prime * result + ((protocol == null) ? 0 : protocol.hashCode());
         result = prime * result + ((protocolId == null) ? 0 : protocolId.hashCode());
-        result = prime * result + ((protocolNumber == null) ? 0 : protocolNumber.hashCode());
+        result = prime * result + ((getProtocolNumber() == null) ? 0 : getProtocolNumber().hashCode());
         result = prime * result + ((protocolRiskLevelId == null) ? 0 : protocolRiskLevelId.hashCode());
         result = prime * result + ((riskLevel == null) ? 0 : riskLevel.hashCode());
         result = prime * result + ((riskLevelCode == null) ? 0 : riskLevelCode.hashCode());
-        result = prime * result + ((sequenceNumber == null) ? 0 : sequenceNumber.hashCode());
+        result = prime * result + ((getSequenceNumber() == null) ? 0 : getSequenceNumber().hashCode());
         result = prime * result + ((status == null) ? 0 : status.hashCode());
         return result;
     }
@@ -185,11 +165,11 @@ public class ProtocolRiskLevel extends KraPersistableBusinessObjectBase {
         }
         else if (!protocolId.equals(other.protocolId))
             return false;
-        if (protocolNumber == null) {
-            if (other.protocolNumber != null)
+        if (getProtocolNumber() == null) {
+            if (other.getProtocolNumber() != null)
                 return false;
         }
-        else if (!protocolNumber.equals(other.protocolNumber))
+        else if (!getProtocolNumber().equals(other.getProtocolNumber()))
             return false;
         if (protocolRiskLevelId == null) {
             if (other.protocolRiskLevelId != null)
@@ -203,11 +183,11 @@ public class ProtocolRiskLevel extends KraPersistableBusinessObjectBase {
         }
         else if (!riskLevelCode.equals(other.riskLevelCode))
             return false;
-        if (sequenceNumber == null) {
-            if (other.sequenceNumber != null)
+        if (getSequenceNumber() == null) {
+            if (other.getSequenceNumber() != null)
                 return false;
         }
-        else if (!sequenceNumber.equals(other.sequenceNumber))
+        else if (!getSequenceNumber().equals(other.getSequenceNumber()))
             return false;
 
         return true;
