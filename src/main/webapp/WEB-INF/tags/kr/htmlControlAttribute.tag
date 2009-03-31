@@ -170,6 +170,10 @@
                   <html:select property="${property}" tabindex="${tabindex}" style="${textStyle}"  styleId="${property}" disabled="${disableField}" onblur="${onblur}" onchange="${onchange}" styleClass="${styleClass}" multiple="${multiSelect}" size="${multiSelectSize}">
                     <html:optionsCollection property="${methodAndParms}" label="label" value="key"/>
                   </html:select>
+                  <%-- this field may be needed on non-multi-select in the future. --%>
+                  <c:if test="${disableField == false}">
+            		<input type="hidden" name="elementsToReset" value="${property}"/>
+            	  </c:if>
                 </c:when>
                 <c:otherwise>
                   <html:select property="${property}" tabindex="${tabindex}" style="${textStyle}"  styleId="${property}" disabled="${disableField}" onblur="${onblur}" onchange="${onchange}" styleClass="${styleClass}">
@@ -177,10 +181,6 @@
                   </html:select>
                 </c:otherwise>
            	  </c:choose>
-
-            <c:if test="${disableField == false}">
-            	<input type="hidden" name="elementsToReset" value="${property}"/>
-            </c:if>
     </c:when>
 
     <%-- radio --%>
