@@ -22,6 +22,7 @@
     <maintenanceDocument>
         <businessObjectClass>org.kuali.kra.bo.Sponsor</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+        <businessRulesClass>org.kuali.kra.rules.SponsorMaintenanceDocumentRule</businessRulesClass>
 
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
