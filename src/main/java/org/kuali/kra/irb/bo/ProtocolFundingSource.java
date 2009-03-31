@@ -15,23 +15,20 @@
  */
 package org.kuali.kra.irb.bo;
 
+import java.util.LinkedHashMap;
+
 import org.kuali.kra.award.bo.Award;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
-
-import java.util.LinkedHashMap;
-import org.kuali.kra.irb.bo.Protocol;
-import org.kuali.kra.bo.FundingSourceType;
+import org.kuali.kra.irb.ProtocolAssociate;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.springframework.util.StringUtils;
 
-public class ProtocolFundingSource extends KraPersistableBusinessObjectBase {
+public class ProtocolFundingSource extends ProtocolAssociate {
 
     private Long protocolFundingSourceId;
     private Long protocolId;
-    private String protocolNumber;
-    private Integer sequenceNumber;
     private Integer fundingSourceTypeCode;
     private String fundingSource;
 
@@ -124,22 +121,6 @@ public class ProtocolFundingSource extends KraPersistableBusinessObjectBase {
         this.protocolId = protocolId;
     }
 
-    public String getProtocolNumber() {
-        return protocolNumber;
-    }
-
-    public void setProtocolNumber(String protocolNumber) {
-        this.protocolNumber = protocolNumber;
-    }
-
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
-
-    public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
-    }
-
     public Integer getFundingSourceTypeCode() {
         return fundingSourceTypeCode;
     }
@@ -186,11 +167,9 @@ public class ProtocolFundingSource extends KraPersistableBusinessObjectBase {
 
     @Override
     protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
+        LinkedHashMap<String, Object> hashMap = super.toStringMapper();
         hashMap.put("protocolFundingSourceId", getProtocolFundingSourceId());
         hashMap.put("protocolId", getProtocolId());
-        hashMap.put("protocolNumber", getProtocolNumber());
-        hashMap.put("sequenceNumber", getSequenceNumber());
         hashMap.put("fundingSourceTypeCode", getFundingSourceTypeCode());
         hashMap.put("fundingSource", getFundingSource());
         return hashMap;

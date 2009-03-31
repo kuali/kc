@@ -20,18 +20,16 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.bo.AffiliationType;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Person;
+import org.kuali.kra.irb.ProtocolAssociate;
 
-public class ProtocolPerson extends KraPersistableBusinessObjectBase { 
+public class ProtocolPerson extends ProtocolAssociate { 
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 3226064839786525909L;
     private Integer protocolPersonId; 
 	private Long protocolId; 
-	private String protocolNumber; 
-	private Integer sequenceNumber; 
 	private String personId; 
 	private String personName; 
 	private String protocolPersonRoleId; 
@@ -70,22 +68,6 @@ public class ProtocolPerson extends KraPersistableBusinessObjectBase {
 
 	public void setProtocolId(Long protocolId) {
 		this.protocolId = protocolId;
-	}
-
-	public String getProtocolNumber() {
-		return protocolNumber;
-	}
-
-	public void setProtocolNumber(String protocolNumber) {
-		this.protocolNumber = protocolNumber;
-	}
-
-	public Integer getSequenceNumber() {
-		return sequenceNumber;
-	}
-
-	public void setSequenceNumber(Integer sequenceNumber) {
-		this.sequenceNumber = sequenceNumber;
 	}
 
 	public String getPersonId() {
@@ -147,11 +129,9 @@ public class ProtocolPerson extends KraPersistableBusinessObjectBase {
 
 	@Override 
 	protected LinkedHashMap<String,Object> toStringMapper() {
-		LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
+		LinkedHashMap<String,Object> hashMap = super.toStringMapper();
 		hashMap.put("protocolPersonId", getProtocolPersonId());
 		hashMap.put("protocolId", getProtocolId());
-		hashMap.put("protocolNumber", getProtocolNumber());
-		hashMap.put("sequenceNumber", getSequenceNumber());
 		hashMap.put("personId", getPersonId());
 		hashMap.put("personName", getPersonName());
 		hashMap.put("protocolPersonRoleId", getProtocolPersonRoleId());
