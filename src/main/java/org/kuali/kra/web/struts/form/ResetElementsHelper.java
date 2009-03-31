@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.web.struts.form;
 
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -26,6 +26,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang.ClassUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -34,20 +35,23 @@ import org.apache.commons.logging.LogFactory;
  * This class contains methods to help reset an Objects properties to default values.
  */
 final class ResetElementsHelper {
-    
-    private static final Map<Class<?>, Object> RESET_VALUES;
+  
+    private static final Map<Class<?>, Object> WRAPPER_RESET_VALUES;
     static {
-        //null values are permitted in this map
-        //if fact, we may be better suited to use null for most reset
-        //values as the current values may be "valid" non-reset values
         final Map<Class<?>, Object> values = new HashMap<Class<?>, Object>();
         
         putResetValue(values, Boolean.class, Boolean.FALSE);
+        putResetValue(values, Byte.class, Byte.valueOf((byte) 0));
+        putResetValue(values, Short.class, Short.valueOf((short) 0));
         putResetValue(values, Integer.class, Integer.valueOf(0));
-        putResetValue(values, String.class, "");
+        putResetValue(values, Long.class, Long.valueOf(0L));
+        putResetValue(values, Float.class, Float.valueOf(0.0f));
+        putResetValue(values, Double.class, Double.valueOf(0.0d));
+        putResetValue(values, Character.class, Character.valueOf('\u0000'));
         
-        RESET_VALUES = Collections.unmodifiableMap(values);
+        WRAPPER_RESET_VALUES = Collections.unmodifiableMap(values);
     }
+    
     
     private static final String ELEMENTS_TO_RESET = "elementsToReset";
     private static final Log LOG = LogFactory.getLog(ResetElementsHelper.class);
@@ -97,25 +101,6 @@ final class ResetElementsHelper {
       
     /**
      * Gets the reset value of a given element.
-     * <p>
-     * Currently, this method only supports certain elements. This is a limitation of the current
-     * implementation of this method.  Other element type can easily be supported when we decide what we should reset them to.
-     * </p>
-     * Reset values:
-     * <ul>
-     *  <li>Boolean Type = Boolean.False</li>
-     *  <li>boolean Type = false</li>
-     *  <li>Integer Type = Integer.valueOf(0)</li>
-     *  <li>int Type = 0</li>
-     *  <li>String Type = ""</li>
-     *  <li>null Type == null</li>
-     * </ul>
-     * 
-     * <p>
-     * Another thing to consider since supporting many types may become unwieldy...  Maybe we need to refactor
-     * our BOs/Forms to deal better with nulls and then we can reset all types to their Java defaults.  This
-     * will make this class must less-likely to change.
-     * </p>
      * 
      * @param parent the parent object
      * @param element the name of a element to reset on the parent object.
@@ -128,40 +113,19 @@ final class ResetElementsHelper {
     private static Object getResetValue(final Object parent, final String element) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         assert !StringUtils.isBlank(element) : "the element is blank";
         
-        final Object o = PropertyUtils.getNestedProperty(parent, element);
+        final PropertyDescriptor descriptor = PropertyUtils.getPropertyDescriptor(parent, element);
         
-        if (o == null) {
-            return null;
+        if (descriptor == null) {
+            throw new ResetException("cannot find property [" + element + "] on parent type [" + parent.getClass().getName() + "]");
         }
         
-        //not handling Collection types yet...if there is a need please refactor
-        final Object value;
-        if (o.getClass().isArray()) {
-            Object[] array = ((Object[])o).clone();
-            Arrays.fill(array, getValue(o.getClass().getComponentType(), element));
-            value = array;
-        } else {
-            value = getValue(o.getClass(), element);
+        if (descriptor.getPropertyType().isPrimitive()) {
+            return WRAPPER_RESET_VALUES.get(ClassUtils.primitiveToWrapper(descriptor.getPropertyType()));
         }
-        return value;
-    }
-    
-    /**
-     * Gets the reset value of a class which is associated with the element name.
-     * 
-     * @param clazz the class
-     * @param element the element name
-     * @return the reset value
-     * @throws ResetException if the clazz is not a supported type
-     */
-    private static Object getValue(final Class<?> clazz, final String element) {
-        assert clazz != null : "the clazz is null";
-        assert element != null : "the element is null";
-        
-        if (RESET_VALUES.containsKey(clazz)) {
-            return RESET_VALUES.get(clazz);
-        }
-        throw new ResetException("the property [" + element + "] to reset is not a supported type [" + clazz.getName() + "]."); 
+        //either return a wrapper value or null in the case of any other type of object.
+        //it is important to return a non-null value for wrappers because we are using Auto-boxing so
+        //heavily in KC which causes a lot of Null Pointers
+        return WRAPPER_RESET_VALUES.get(descriptor.getPropertyType());
     }
     
     /**
