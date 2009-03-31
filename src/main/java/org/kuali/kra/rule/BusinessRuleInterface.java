@@ -13,19 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.committee.rule;
+package org.kuali.kra.rule;
 
 import org.kuali.core.rule.BusinessRule;
-import org.kuali.kra.committee.rule.event.FilterCommitteeScheduleEvent;
+import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 
-public interface FilterCommitteeScheduleRule extends BusinessRule {
+public interface BusinessRuleInterface<T extends KraDocumentEventBaseExtension> extends BusinessRule {
     
     /**
-     * This method implementer must test filter dates for not null.
-     * <br/>
-     * Rule: Filter start & end date cannot be null
-     * @param filterCommitteeScheduleEvent
+     * This method implementer must process rule for the event passed.
+     * @param event
      * @return
      */
-    public boolean processCommitteeScheduleFilterBusinessRules(FilterCommitteeScheduleEvent filterCommitteeScheduleEvent);
+    public boolean processRules(T event);
+    
 }

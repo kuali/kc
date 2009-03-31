@@ -16,15 +16,21 @@
 package org.kuali.kra.committee.rules;
 
 import java.util.Date;
+import java.util.HashMap;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 import org.apache.commons.lang.time.DateUtils;
+import org.junit.Before;
 import org.junit.Test;
+import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.committee.document.CommitteeDocument;
-import org.kuali.kra.committee.rule.event.AddCommitteeScheduleStartAndEndDateEvent;
+import org.kuali.kra.committee.rule.event.CommitteeScheduleStartAndEndDateEvent;
 import org.kuali.kra.committee.web.struts.form.schedule.DailyScheduleDetails;
 import org.kuali.kra.committee.web.struts.form.schedule.MonthlyScheduleDetails;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
@@ -33,13 +39,13 @@ import org.kuali.kra.committee.web.struts.form.schedule.WeeklyScheduleDetails;
 import org.kuali.kra.committee.web.struts.form.schedule.YearlyScheduleDetails;
 import org.kuali.kra.infrastructure.KeyConstants;
 
-public class CommitteeScheduleStartAndEndDateRuleTest extends KraTestBase {
+public class CommitteeScheduleStartAndEndDateRuleTest  {
     
     private CommitteeDocument document;
     
     private ScheduleData scheduleData;
     
-    private AddCommitteeScheduleStartAndEndDateEvent event;
+    private CommitteeScheduleStartAndEndDateEvent event;
     
     public static String DAILY = "scheduleData.dailySchedule.scheduleEndDate";
     
@@ -51,9 +57,11 @@ public class CommitteeScheduleStartAndEndDateRuleTest extends KraTestBase {
     
     public static String START_DATE = "scheduleData.scheduleStartDate";
     
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
+    @SuppressWarnings("unchecked")
+    @Before
+    public void setUp(){
+        GlobalVariables.setErrorMap(new ErrorMap());
+        GlobalVariables.setAuditErrorMap(new HashMap()); 
     }
     
     /**
@@ -217,7 +225,7 @@ public class CommitteeScheduleStartAndEndDateRuleTest extends KraTestBase {
      * This method is helper method to assert true condition.
      */
     private void testAssertTrue() {
-        boolean val = new CommitteeScheduleStartAndEndDateRule().processAddCommitteeScheduleRuleBusinessRules(event);
+        boolean val = new CommitteeScheduleStartAndEndDateRule().processRules(event);
         assertTrue(val);
     }
     
@@ -225,7 +233,7 @@ public class CommitteeScheduleStartAndEndDateRuleTest extends KraTestBase {
      * This method is helper method to assert false condition.
      */
     private void testAssertFalse() {
-        boolean val = new CommitteeScheduleStartAndEndDateRule().processAddCommitteeScheduleRuleBusinessRules(event);
+        boolean val = new CommitteeScheduleStartAndEndDateRule().processRules(event);
         assertFalse(val);
     }
     
@@ -237,6 +245,6 @@ public class CommitteeScheduleStartAndEndDateRuleTest extends KraTestBase {
         scheduleData = new ScheduleData();
         scheduleData.setRecurrenceType(key.toString());
         scheduleData.setScheduleStartDate(new java.sql.Date(new Date().getTime()));
-        event = new AddCommitteeScheduleStartAndEndDateEvent("", (CommitteeDocument)document, scheduleData, null, null);
+        event = new CommitteeScheduleStartAndEndDateEvent("", (CommitteeDocument)document, scheduleData, null, null);
     }
 }

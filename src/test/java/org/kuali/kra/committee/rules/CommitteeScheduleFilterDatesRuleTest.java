@@ -16,65 +16,53 @@
 package org.kuali.kra.committee.rules;
 
 import java.util.Date;
-import java.util.HashMap;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.junit.Test;
-import org.kuali.core.UserSession;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.kra.KraTestBase;
-import org.kuali.kra.committee.rule.event.FilterCommitteeScheduleEvent;
-import org.kuali.kra.committee.rule.event.CommitteeScheduleEvent.Event;
+import org.kuali.kra.committee.rule.event.CommitteeScheduleFilterEvent;
+import org.kuali.kra.committee.rule.event.CommitteeScheduleEventBase.ErrorType;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.rules.TemplateRuleTest;
 
-public class CommitteeScheduleFilterDatesRuleTest extends KraTestBase {
+public class CommitteeScheduleFilterDatesRuleTest { 
     
-    private ScheduleData scheduleData;
-    
-    private FilterCommitteeScheduleEvent event;
-    
-    private CommitteeScheduleFilterDatesRule rule;
-    
-    @SuppressWarnings("unchecked")
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
-        GlobalVariables.setUserSession(new UserSession("aslusar"));
-        GlobalVariables.setErrorMap(new ErrorMap());
-        GlobalVariables.setAuditErrorMap(new HashMap());  
-    }
-    
-    /**
-     * This method test filter dates for not null.
-     * @throws Exception
-     */
     @Test
-    public void testProcessRule() throws Exception {
-        
-        prerequisite();        
-        event = new FilterCommitteeScheduleEvent(Constants.EMPTY_STRING, null, scheduleData, null, Event.HARDERROR);
-        boolean val = executeRule();
-        assertTrue(val);
-    }
+    public void testTrue() {
     
+        new  TemplateRuleTest<CommitteeScheduleFilterEvent, CommitteeScheduleFilterDatesRule> (){
+            
+            @Override
+            protected void prerequisite() {
+                
+                ScheduleData scheduleData = new ScheduleData();   
+                scheduleData.setFilterStartDate(new java.sql.Date(new Date().getTime()));
+                scheduleData.setFilerEndDate(new java.sql.Date(new Date().getTime()));
+                
+                event = new CommitteeScheduleFilterEvent(Constants.EMPTY_STRING, null, scheduleData, null, ErrorType.HARDERROR);
+                rule = new CommitteeScheduleFilterDatesRule();
+                expectedReturnValue = true;
+            }
+        };
+    }
 
-    /**
-     * This method executes rule.
-     * @return
-     */
-    private boolean executeRule() {
-        rule = new CommitteeScheduleFilterDatesRule();
-        boolean val = rule.processCommitteeScheduleFilterBusinessRules(event);
-        return val;
-    }
+    @Test
+    public void testFalse() {
     
-    /**
-     * This method is helper method to test cases to set prerequisite.
-     */
-    private void prerequisite() {
-        scheduleData = new ScheduleData();   
-        scheduleData.setFilterStartDate(new java.sql.Date(new Date().getTime()));
-        scheduleData.setFilerEndDate(new java.sql.Date(new Date().getTime()));
+        new  TemplateRuleTest<CommitteeScheduleFilterEvent, CommitteeScheduleFilterDatesRule> (){
+            
+            @Override
+            protected void prerequisite() {
+                
+                ScheduleData scheduleData = new ScheduleData();   
+                scheduleData.setFilterStartDate(new java.sql.Date(new Date().getTime()));
+                Date endDate = DateUtils.addDays(new Date(), -1);
+                scheduleData.setFilerEndDate(new java.sql.Date(endDate.getTime()));
+                
+                event = new CommitteeScheduleFilterEvent(Constants.EMPTY_STRING, null, scheduleData, null, ErrorType.HARDERROR);
+                rule = new CommitteeScheduleFilterDatesRule();
+                expectedReturnValue = false;
+            }
+        };
     }
 }
