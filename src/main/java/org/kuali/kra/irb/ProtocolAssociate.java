@@ -22,6 +22,10 @@ import javax.persistence.MappedSuperclass;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+/**
+ * 
+ * This class is to maintain repetitive coeus legacy code, protocolNumber & sequenceNumber, for protocol Bos.
+ */
 @MappedSuperclass
 public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase {
     private static final long serialVersionUID = -8385115657304261423L;
