@@ -95,7 +95,11 @@
             <label>Sponsor Code </label>
             <shortLabel>Sponsor Code </shortLabel>
             <maxLength>6</maxLength>
-            <validationPattern><anyCharacter allowWhitespace="false" exactLength="6" /></validationPattern>
+            <!--
+            // performing validation in org.kuali.kra.rules.SponsorMaintenanceDocumentRule
+            // to provide more informative error messages
+            <validationPattern><alphaNumeric allowUnderscore="false" allowWhitespace="false" exactLength="6"/></validationPattern>
+            -->
             <control>
                 <text size="6" />
             </control>
