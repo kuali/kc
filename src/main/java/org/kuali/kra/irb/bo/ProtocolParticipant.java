@@ -16,8 +16,8 @@
 
 package org.kuali.kra.irb.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import java.util.LinkedHashMap;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,6 +27,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.kuali.kra.irb.ProtocolAssociate;
+
 /**
  * 
  * This class implements the protocol participant object.
@@ -35,7 +37,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "PROTOCOL_VULNERABLE_SUB")
-public class ProtocolParticipant extends KraPersistableBusinessObjectBase {
+public class ProtocolParticipant extends ProtocolAssociate {
 
     @Id
     @Column(name = "PROTOCOL_VULNERABLE_SUB_ID")
@@ -43,12 +45,6 @@ public class ProtocolParticipant extends KraPersistableBusinessObjectBase {
 
     @Column(name = "PROTOCOL_ID")
     private Long protocolId;
-
-    @Column(name = "PROTOCOL_NUMBER")
-    private String protocolNumber;
-
-    @Column(name = "SEQUENCE_NUMBER")
-    private Integer sequenceNumber;
 
     @Column(name = "VULNERABLE_SUBJECT_TYPE_CODE")
     private String participantTypeCode;
@@ -79,22 +75,6 @@ public class ProtocolParticipant extends KraPersistableBusinessObjectBase {
         this.protocolId = protocolId;
     }
 
-    public void setProtocolNumber(String protocolNumber) {
-        this.protocolNumber = protocolNumber;
-    }
-
-    public String getProtocolNumber() {
-        return protocolNumber;
-    }
-
-    public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
-    }
-
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
-
     public String getParticipantTypeCode() {
         return participantTypeCode;
     }
@@ -121,11 +101,9 @@ public class ProtocolParticipant extends KraPersistableBusinessObjectBase {
 
     @Override
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = new LinkedHashMap();
+        LinkedHashMap hashMap = super.toStringMapper();
         hashMap.put("protocolParticipantId", getProtocolParticipantId());
         hashMap.put("protocolId", getProtocolId());
-        hashMap.put("protocolNumber", getProtocolNumber());
-        hashMap.put("sequenceNumber", getSequenceNumber());
         hashMap.put("participantTypeCode", getParticipantTypeCode());
         hashMap.put("participantCount", getParticipantCount());
         return hashMap;
