@@ -35,11 +35,9 @@ public class CommitteeHelper {
     
     private CommitteeForm committeeForm;
     private boolean modifyCommittee = false;
-    private ResearchArea newResearchArea;
     
     public CommitteeHelper(CommitteeForm committeeForm) {
         this.committeeForm = committeeForm;
-        setNewResearchArea(new ResearchArea());
     }
     
     public Committee getCommittee() {
@@ -58,14 +56,6 @@ public class CommitteeHelper {
         return getTaskAuthorizationService().isAuthorized(getUserName(), task);
     }
 
-    public ResearchArea getNewResearchArea() {
-        return newResearchArea;
-    }
-
-    public void setNewResearchArea(ResearchArea newResearchArea) {
-        this.newResearchArea = newResearchArea;
-    }
-    
     protected TaskAuthorizationService getTaskAuthorizationService() {
         return KraServiceLocator.getService(TaskAuthorizationService.class);
     }
