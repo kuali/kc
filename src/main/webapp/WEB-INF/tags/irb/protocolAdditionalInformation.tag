@@ -11,6 +11,7 @@
 
 <c:set var="researchAreasAttributes" value="${DataDictionary.ResearchArea.attributes}" />
 <c:set var="readOnly" value="${!KualiForm.protocolHelper.modifyProtocol}" />
+<c:set var="commentDisplayLength" value="<%=org.kuali.kra.infrastructure.Constants.PROTOCOL_REFERENCE_COMMENT_LENGTH%>" />
 
 <kul:tab tabTitle="Additional Information" defaultOpen="false" tabErrorKey="document.protocolList[0].fda*,document.protocolList[0].billable*,document.protocolList[0].referenceNumber*,document.protocolList[0].description*,document.protocolList[0].protocolReferences*,newProtocolReference*" auditCluster="" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
@@ -189,7 +190,7 @@
                     <th style="text-align:left;">Comment:</th>
                     <td colspan="3" style="vertical-align:bottom">
                     		                		
-                        <kra:truncateComment textAreaFieldName="document.protocolList[0].protocolReferences[${status.index}].comments" action="${action}" textAreaLabel="${protocolReferenceAttributes.comments.label}" textValue="${KualiForm.document.protocolList[0].protocolReferences[status.index].comments}" displaySize="250"/>
+                        <kra:truncateComment textAreaFieldName="document.protocolList[0].protocolReferences[${status.index}].comments" action="${action}" textAreaLabel="${protocolReferenceAttributes.comments.label}" textValue="${KualiForm.document.protocolList[0].protocolReferences[status.index].comments}" displaySize="${commentDisplayLength}"/>
 	                													                    
                     </td>
                 </tr>	            
