@@ -123,28 +123,23 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
             throw new NullPointerException("the document was null");
         }
 
-        boolean isValid = true;
-
-        if (!isValidUnit(document.getProtocol().getLeadUnitNumber())) {
-              isValid = false;
-              reportError(PROTOCOL_LUN_FORM_ELEMENT, KeyConstants.ERROR_PROTOCOL_LEAD_UNIT_NUM_INVALID);
-        } else if (!isValidUnitProperties(document.getProtocol())) {
-              isValid = false;
-              reportError(PROTOCOL_LUN_FORM_ELEMENT, KeyConstants.ERROR_PROTOCOL_LEAD_UNIT_NAME_NOT_FOUND);
-        }
-        return isValid;
+        return isValidUnit(document.getProtocol().getLeadUnitNumber()) && isValidUnitProperties(document.getProtocol());
+        
     }
-
 
     /*
      * Checks if the unit properties contained in a {@link Protocol Protocol} are valid.
      * 
      * @param protocol the {@link Protocol Protocol} @return true is valid false if not.
      */
-
     private boolean isValidUnitProperties(Protocol protocol) {
 
-           return protocol.getLeadUnitForValidation() != null &&  protocol.getLeadUnit() != null;
+        boolean isValid = true;
+         if (protocol.getLeadUnitForValidation() == null ||  protocol.getLeadUnit() == null) {
+               isValid = false;
+               reportError(PROTOCOL_LUN_FORM_ELEMENT, KeyConstants.ERROR_PROTOCOL_LEAD_UNIT_NAME_NOT_FOUND);
+         }
+         return isValid;
 
     }
 
@@ -167,6 +162,9 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
             UnitService unitService = KraServiceLocator.getService(UnitService.class);
             Unit unit = unitService.getUnit(unitNumber);
             isValid = unit != null;
+        }
+        if (!isValid) {
+            reportError(PROTOCOL_LUN_FORM_ELEMENT, KeyConstants.ERROR_PROTOCOL_LEAD_UNIT_NUM_INVALID);
         }
         return isValid;
     }
