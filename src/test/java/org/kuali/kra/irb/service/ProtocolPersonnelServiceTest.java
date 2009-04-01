@@ -17,12 +17,14 @@ package org.kuali.kra.irb.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolPerson;
 import org.kuali.kra.irb.bo.ProtocolUnit;
@@ -149,6 +151,24 @@ public class ProtocolPersonnelServiceTest {
     }
     
     /**
+     * This method is to test student PI and faculty supervisor combination.
+     * If PI or Co-Investigator affiliation type is set to Student Investigator then
+     * there should exist a PI or Co-Investigator with affiliation type Faculty Supervisor.
+     * Test a valid condition first and then test for invalid combination.
+     * There is no affiliation set at first, so it should be valid.
+     * @throws Exception
+     */
+    @Test
+    public void testInValidStudentFacultyMatch() throws Exception {
+        List<ProtocolPerson> protocolPersons = getProtocolPersons();
+        boolean isInvalidMatch = service.isValidStudentFacultyMatch(protocolPersons);
+        assertTrue(isInvalidMatch);
+        protocolPersons.get(0).setAffiliationTypeCode(getStudentAffiliationType()); 
+        isInvalidMatch = service.isValidStudentFacultyMatch(protocolPersons);
+        assertFalse(isInvalidMatch);
+    }
+    
+    /**
      * This method to test select protocol unit function
      * It is to select set the unit position with the lead unit flag on
      * for a person.
@@ -236,4 +256,13 @@ public class ProtocolPersonnelServiceTest {
         MockProtocolPersonTrainingService personTrainingService = new MockProtocolPersonTrainingService();
         return personTrainingService;
     }
+
+    /**
+     * This method is to get student investigator affiliation type
+     * @return Integer
+     */
+    private Integer getStudentAffiliationType() {
+        return Constants.AFFILIATION_STUDENT_INVESTIGATOR_TYPE;
+    }
+
 }
