@@ -64,46 +64,47 @@ public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase
     /**
      * @see java.lang.Object#hashCode()
      */
-    @Override
-    public int hashCode() {
-        final int PRIME = 31;
-        int result = 1;
-        result = PRIME * result + ((protocolNumber == null) ? 0 : protocolNumber.hashCode());
-        result = PRIME * result + ((sequenceNumber == null) ? 0 : sequenceNumber.hashCode());
-        return result;
-    }
+// TODO : uncomment hashcode & equal methods when all bo implement their own hashcode & equal
+//    @Override
+//    public int hashCode() {
+//        final int PRIME = 31;
+//        int result = 1;
+//        result = PRIME * result + ((protocolNumber == null) ? 0 : protocolNumber.hashCode());
+//        result = PRIME * result + ((sequenceNumber == null) ? 0 : sequenceNumber.hashCode());
+//        return result;
+//    }
 
     /**
      * @see java.lang.Object#equals(java.lang.Object)
      */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (!(obj instanceof ProtocolAssociate)) {
-            return false;
-        }
-        ProtocolAssociate other = (ProtocolAssociate) obj;
-        if (protocolNumber == null) {
-            if (other.protocolNumber != null) {
-                return false;
-            }
-        } else if (!protocolNumber.equals(other.protocolNumber)) {
-            return false;
-        }
-        if (sequenceNumber == null) {
-            if (other.sequenceNumber != null) {
-                return false;
-            }
-        } else if (!sequenceNumber.equals(other.sequenceNumber)) {
-            return false;
-        }
-        return true;
-    }
+//    @Override
+//    public boolean equals(Object obj) {
+//        if (this == obj) {
+//            return true;
+//        }
+//        if (obj == null) {
+//            return false;
+//        }
+//        if (!(obj instanceof ProtocolAssociate)) {
+//            return false;
+//        }
+//        ProtocolAssociate other = (ProtocolAssociate) obj;
+//        if (protocolNumber == null) {
+//            if (other.protocolNumber != null) {
+//                return false;
+//            }
+//        } else if (!protocolNumber.equals(other.protocolNumber)) {
+//            return false;
+//        }
+//        if (sequenceNumber == null) {
+//            if (other.sequenceNumber != null) {
+//                return false;
+//            }
+//        } else if (!sequenceNumber.equals(other.sequenceNumber)) {
+//            return false;
+//        }
+//        return true;
+//    }
 
     public String getProtocolNumber() {
         return protocolNumber;
