@@ -138,25 +138,5 @@ public class CommitteeMembershipRole extends KraPersistableBusinessObjectBase{
     public void init(CommitteeMembership committeeMembership) {
         setMembershipId(committeeMembership.getMembershipId());
     }
-    
-    /**
-     * Indicates if the <code>CommitteeMemershipRole</code> is "equal to" this one. Equal is defined that the <code>membershipRoleCode</code>
-     * are the same.
-     * 
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj) {
-        boolean isEquals = false;
-        
-        if (obj instanceof CommitteeMembershipRole) {
-            CommitteeMembershipRole committeeMembershipRole = (CommitteeMembershipRole) obj;
-            String membershipRoleCode = committeeMembershipRole.membershipRoleCode;
-
-            isEquals = ((membershipRoleCode == null && this.membershipRoleCode == null) || (membershipRoleCode != null && membershipRoleCode.equals(this.membershipRoleCode)));
-        }
-
-        return isEquals;
-    }
 
 }

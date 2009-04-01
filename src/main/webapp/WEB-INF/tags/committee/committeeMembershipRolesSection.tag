@@ -69,12 +69,20 @@
 
                         <%-- Existing data --%>
                         <c:forEach var="membershipRole" items="${KualiForm.document.committeeList[0].committeeMemberships[memberIndex].membershipRoles}" varStatus="status">
+                            <c:set var="roleStyle" value="" scope="request"/>
+                            <c:set var="tmpErrProp" value="document.committeeList[0].committeeMemberships[${memberIndex}].membershipRoles[${status.index}].membershipRoleCode"/>
+                            <c:forEach items="${ErrorPropertyList}" var="key">
+                                <c:if test="${key eq tmpErrProp}">
+                                    <c:set var="roleStyle" value="background-color:#FFD5D5" scope="request"/>
+                                </c:if>
+                            </c:forEach>
+                            
                             <tr>
                                 <th class="infoline">
                                     <c:out value="${status.index+1}" />
                                 </th>
                                 <td align="left" valign="middle">
-                                    <div align="left">
+                                    <div align="left" style="${roleStyle}">
                                         <kul:htmlControlAttribute property="${committeeMembership}.membershipRoles[${status.index}].membershipRoleCode" 
                                                                   attributeEntry="${membershipRoleAttributes.membershipRoleCode}" 
                                                                   readOnlyAlternateDisplay="${membershipRole.membershipRole.description}" 
