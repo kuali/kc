@@ -48,10 +48,12 @@
 		<property name="user" value="${datasource.username}" />
 		<property name="password" value="${datasource.password}" />
 	</bean>
-	End Atomikos config -->
+	 End Atomikos config -->
 	
 	<!--  JOTM JTA configuration -->
-	<bean id="jotm" class="org.springframework.transaction.jta.JotmFactoryBean" />
+	<bean id="jotm" class="org.springframework.transaction.jta.JotmFactoryBean" >
+		<property name="defaultTimeout" value="${transaction.timeout}"/>
+	</bean> 
 	
 	<bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" lazy-init="true">
 		<property name="userTransaction">
