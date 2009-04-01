@@ -343,6 +343,7 @@ public interface Constants {
     public static final String PROPERTY_PROTOCOL_STATUS = "protocolStatus";
     public static final String PARAMETER_PROTOCOL_PERSON_TRAINING_SECTION = "protocolPersonTrainingSectionRequired";
     public static final Integer PROTOCOL_RISK_LEVEL_COMMENT_LENGTH = 40;
+    public static final Integer PROTOCOL_REFERENCE_COMMENT_LENGTH = 250;
     public static final String ACTIVE_STATUS_LITERAL = "Active";
     public static final String INACTIVE_STATUS_LITERAL = "Inactive";
     public static final String CONFIRM_DELETE_PROTOCOL_USER_KEY = "confirmDeleteProtocolUser";
