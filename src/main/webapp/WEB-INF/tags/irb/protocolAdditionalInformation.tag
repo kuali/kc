@@ -188,20 +188,8 @@
                     
                     <th style="text-align:left;">Comment:</th>
                     <td colspan="3" style="vertical-align:bottom">
-                    	<table style="border:none; width:100%;" cellpadding="0" cellspacing="0">
-                            <tr>
-                                <td style="border:none;">	
-                                                                								
-									<kul:htmlControlAttribute property="document.protocol.protocolReferences[${status.index}].comments" 
-	                											readOnly="true"	attributeEntry="${protocolReferenceAttributes.comments}"  />
-                                </td>
-
-                                <td style="border:none; width:20px; vertical-align:bottom;">              	
-                                	<kra:expandedTextArea textAreaFieldName="document.protocol.protocolReferences[${status.index}].comments" action="${action}" textAreaLabel="${protocolReferenceAttributes.comments.label}" viewOnly="true"/>
-                                </td>
-                            </tr>
-                        </table>	                		
                     		                		
+                        <kra:truncateComment textAreaFieldName="document.protocolList[0].protocolReferences[${status.index}].comments" action="${action}" textAreaLabel="${protocolReferenceAttributes.comments.label}" textValue="${KualiForm.document.protocolList[0].protocolReferences[status.index].comments}" displaySize="250"/>
 	                													                    
                     </td>
                 </tr>	            
