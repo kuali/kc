@@ -37,7 +37,6 @@ import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.rule.event.AddCommitteeMembershipEvent;
 import org.kuali.kra.committee.rule.event.AddCommitteeMembershipRoleEvent;
-import org.kuali.kra.committee.rule.event.SaveCommitteeMembershipEvent;
 import org.kuali.kra.committee.service.CommitteeMembershipService;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.committee.web.struts.form.MembershipHelper;
@@ -67,16 +66,6 @@ public class CommitteeMembershipAction extends CommitteeAction {
         return actionForward;
     }
     
-    /**
-     * @see org.kuali.kra.committee.web.struts.action.CommitteeAction#isValidSave(org.kuali.kra.committee.web.struts.form.CommitteeForm)
-     */
-    @Override
-    protected boolean isValidSave(CommitteeForm committeeForm) {
-        boolean rulePassed = true;
-        rulePassed &= applyRules(new SaveCommitteeMembershipEvent(Constants.EMPTY_STRING, committeeForm.getCommitteeDocument()));
-        return rulePassed;
-    }
-   
     /**
      * This method is linked to ProtocolPersonnelService to perform the action - Add Committee Membership. 
      * Method is called in protocolAddCommitteeMembership.tag 
