@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2008 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.bo.SchoolCode">
+
+        <inquiry>
+            <title>School Code</title>
+
+            <inquirySections><inquirySection title="School Code"><inquiryFields>
+                <field attributeName="schoolCode" forceInquiry="true" />
+                <field attributeName="description" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>School Code Lookup</title>
+			<menubar>
+				<![CDATA[<a href="index.jsp">Main</a>]]>
+			</menubar>
+            <instructions>Look up a School Code</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="schoolCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="schoolCode" required="false" />
+                <lookupField attributeName="description" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="schoolCode" forceInquiry="true" />
+                <field attributeName="description" forceInquiry="false"/>
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>schoolCode</titleAttribute>
+
+        <attributes>
+
+            <attribute name="schoolCode">
+                <label>School Code</label>
+                <shortLabel>School Code</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>School Code</summary>
+                <description>School Code</description>
+			</attribute>
+
+            <attributeReference name="description" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="description" />
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+		</attributes>
+    </businessObject>
+
+</dictionaryEntry>
