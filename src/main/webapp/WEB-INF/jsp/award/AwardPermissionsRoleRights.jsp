@@ -15,17 +15,11 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<kul:documentPage
-	showDocumentInfo="true"
-	htmlFormAction="${KualiForm.actionName}Permissions"
-	documentTypeName="${KualiForm.docTypeName}"
-	renderMultipart="false"
-	showTabButtons="true"
-	auditCount="0"
-  	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="permissions">
-  	
-  	<kra-permissions:permissionsPage name="${KualiForm.actionName}" documentTypeName="${KualiForm.docTypeName}" />
-  	
-</kul:documentPage>
+<c:out value="AwardPermissionsRolerights.jsp - assignedRoles action value is: ${KualiForm.actionName}" />
 
+<kra:infopage title="Rights" action="permissions" htmlFormAction="${KualiForm.actionName}Permissions">
+
+	<kra-permissions:rolesRights />
+	<kul:panelFooter />	
+		
+</kra:infopage>

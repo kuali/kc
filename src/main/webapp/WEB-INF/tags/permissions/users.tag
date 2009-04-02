@@ -114,6 +114,9 @@
         	</c:forEach>
         </tbody>
     	</table>
-    </div> 
-    <input type="hidden" name="lookup.leadUnit" value="${KualiForm.document.protocolList[0].leadUnit.unitNumber}" />
+    </div>
+    
+    <c:if test="${name == 'protocol'}" >    	
+    	<input type="hidden" name="lookup.leadUnit" value="${KualiForm.document.protocolList[0].leadUnit.unitNumber}" />
+    </c:if>
 </kul:tab>
