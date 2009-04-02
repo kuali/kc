@@ -30,6 +30,7 @@
   	
 <div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="Protocol Actions" /></div>
 <kra-irb:protocolDataValidation />
+<kra-irb:protocolSummaryViewPrintProtocol/>
 <kra-irb:protocolCopyProtocol />
 
 <kul:panelFooter />
