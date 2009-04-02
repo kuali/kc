@@ -171,6 +171,9 @@
           <forward name="customData" path="/WEB-INF/jsp/award/AwardCustomData.jsp" />
           <forward name="questions" path="/WEB-INF/jsp/award/AwardQuestions.jsp" />
           <forward name="permissions" path="/WEB-INF/jsp/award/AwardPermissions.jsp" />
+          <forward name="permissionsRoleRights" path="/WEB-INF/jsp/award/AwardPermissionsRoleRights.jsp" />
+          <forward name="permissionsEditRoles" path="/WEB-INF/jsp/award/AwardPermissionsEditRoles.jsp" />
+          <forward name="permissionsCloseEditRoles" path="/WEB-INF/jsp/award/AwardPermissionsCloseEditRoles.jsp" />
           <forward name="notesAndAttachments" path="/WEB-INF/jsp/award/AwardNotesAndAttachments.jsp" />
           <forward name="awardActions" path="/WEB-INF/jsp/award/AwardActions.jsp" />                    
       </action>
