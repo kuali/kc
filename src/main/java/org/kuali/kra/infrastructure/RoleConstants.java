@@ -28,6 +28,7 @@ public interface RoleConstants {
     public static final String OSP_ROLE_TYPE = "O";
     public static final String DEPARTMENT_ROLE_TYPE = "D";
     public static final String PROTOCOL_ROLE_TYPE = "R";
+    public static final String AWARD_ROLE_TYPE = "A";
     
     // The names of the standard roles as used by KIM to identify a role.
     
@@ -44,4 +45,11 @@ public interface RoleConstants {
     
     public static final String IRB_ADMINISTRATOR = "IRB Administrator";
     public static final String IRB_REVIEWER = "IRB Reviewer";
+    
+    public static final String AWARD_CREATOR = "Award Creator";
+    public static final String AWARD_AGGREGATOR = "Award Aggregator";
+    public static final String AWARD_VIEWER = "Award Viewer";
+    public static final String AWARD_UNASSIGNED = "Award Unassigned";
 }
+
+

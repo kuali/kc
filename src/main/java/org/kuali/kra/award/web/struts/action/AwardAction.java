@@ -278,7 +278,8 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
      * @return
      */
     public ActionForward permissions(ActionMapping mapping, ActionForm form
-            , HttpServletRequest request, HttpServletResponse response) {        
+            , HttpServletRequest request, HttpServletResponse response) {
+        ((AwardForm)form).getPermissionsHelper().prepareView();
         return mapping.findForward(Constants.MAPPING_AWARD_PERMISSIONS_PAGE);
     }
     
