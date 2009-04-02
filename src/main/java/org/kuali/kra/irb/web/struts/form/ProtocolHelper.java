@@ -357,17 +357,17 @@ public class ProtocolHelper {
         ProtocolPerson pi = null;
 
         pi = new ProtocolPerson();
-        pi.setPersonId(principalInvestigatorId);
         pi.setProtocolPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
         pi.setProtocolNumber("0");
         pi.setSequenceNumber(0);
         pi.refreshReferenceObject("protocolPersonRole");
         if (isNonEmployeeFlag()) {
             pi.refreshReferenceObject("rolodex");
+            pi.setRolodexId(Integer.valueOf(principalInvestigatorId));
         } else {
             pi.refreshReferenceObject("person");
+            pi.setPersonId(principalInvestigatorId);
         }
-        pi.setPersonId(getPrincipalInvestigatorId());
         pi.setPersonName(getPrincipalInvestigatorName());
 
         ProtocolUnit unit = createLeadUnit();
@@ -384,8 +384,13 @@ public class ProtocolHelper {
         ProtocolPerson pi = getProtocol().getPrincipalInvestigator();
         if (pi !=null){
             setPrincipalInvestigatorName(pi.getPersonName());
-            setPrincipalInvestigatorId(pi.getPersonId());
-            setNonEmployeeFlag(pi.isNonEmployee());
+            if (pi.isNonEmployee()) {
+                setPrincipalInvestigatorId(pi.getRolodexId().toString());
+                setNonEmployeeFlag(pi.isNonEmployee());
+            } else {
+                setPrincipalInvestigatorId(pi.getPersonId());
+            }
+            
             if (pi.getLeadUnit()!=null) {
                 setLeadUnitNumber(pi.getLeadUnit().getUnitNumber());
                 setLeadUnitName(pi.getLeadUnit().getUnitName());
