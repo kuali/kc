@@ -31,6 +31,7 @@ import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApp
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.bo.Sponsor;
+import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.document.SpecialReviewHandler;
 import org.kuali.kra.infrastructure.Constants;
@@ -40,7 +41,7 @@ import org.kuali.kra.infrastructure.Constants;
  * This class is Award Business Object.
  * It implements ProcessKeywords to process all operations related to AwardScenceKeywords.
  */
-public class Award extends KraPersistableBusinessObjectBase implements KeywordsManager<AwardScienceKeyword>,SpecialReviewHandler<AwardSpecialReview>{
+public class Award extends KraPersistableBusinessObjectBase implements KeywordsManager<AwardScienceKeyword>,SpecialReviewHandler<AwardSpecialReview>, Permissionable{
     public static final String AWARD_NAMESPACE_CODE = "KC-AWARD";
     
     private static final String ONE = "1";
@@ -1500,6 +1501,14 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
 
     public void setAwardTransferringSponsors(List<AwardTransferringSponsor> awardTransferringSponsors) {
         this.awardTransferringSponsors = awardTransferringSponsors;
+    }
+    
+    public String getDocumentNumberForPermission(){
+        return awardNumber;
+    }
+    
+    public String getDocumentKey(){
+        return Permissionable.AWARD_KEY;
     }
     
 }
