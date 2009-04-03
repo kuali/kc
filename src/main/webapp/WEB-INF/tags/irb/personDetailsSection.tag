@@ -27,6 +27,7 @@
 </c:choose>
 <c:set var="personAffiliationRequired" value="${KualiForm.document.protocolList[0].protocolPersons[personIndex].protocolPersonRole.affiliationDetailsRequired}" />
 <c:set var="personTrainingRequired" value="${KualiForm.document.protocolList[0].protocolPersons[personIndex].protocolPersonRole.trainingDetailsRequired}" />
+<c:set var="readOnly" value="${!KualiForm.personnelHelper.modifyProtocol}" />
 
 <table cellpadding=0 cellspacing=0 summary="">
 	<tr>
@@ -42,19 +43,27 @@
 								</div>
 								</th>
                   				<td colspan="3">
-					                <html:select property="${protocolPerson}.protocolPersonRoleId" tabindex="0">
-					                <c:forEach items="${krafn:getOptionList('org.kuali.kra.irb.lookup.keyvalue.ProtocolPersonRoleValuesFinder', paramMap)}" var="option">
-					                <c:choose>
-					                    <c:when test="${KualiForm.document.protocol.protocolPersons[personIndex].protocolPersonRoleId == option.key}">
-					                    <option value="${option.key}" selected>${option.label}</option>
-					                    </c:when>
-					                    <c:otherwise>
-					                    <option value="${option.key}">${option.label}</option>
-					                    </c:otherwise>
-					                </c:choose>
-					                </c:forEach>
-					                </html:select>
-            						<html:image property="methodToCall.updateProtocolPersonView.${protocolPerson}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-updateview.gif" title="Update View" alt="Update View" styleClass="tinybutton"/>
+
+									<c:choose>
+									    <c:when test="${readOnly}">
+									        ${KualiForm.document.protocolList[0].protocolPersons[personIndex].protocolPersonRole.description}
+									    </c:when>
+									    <c:otherwise>
+							                <html:select property="${protocolPerson}.protocolPersonRoleId" tabindex="0">
+							                <c:forEach items="${krafn:getOptionList('org.kuali.kra.irb.lookup.keyvalue.ProtocolPersonRoleValuesFinder', paramMap)}" var="option">
+							                <c:choose>
+							                    <c:when test="${KualiForm.document.protocol.protocolPersons[personIndex].protocolPersonRoleId == option.key}">
+							                    <option value="${option.key}" selected>${option.label}</option>
+							                    </c:when>
+							                    <c:otherwise>
+							                    <option value="${option.key}">${option.label}</option>
+							                    </c:otherwise>
+							                </c:choose>
+							                </c:forEach>
+							                </html:select>
+		            						<html:image property="methodToCall.updateProtocolPersonView.${protocolPerson}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-updateview.gif" title="Update View" alt="Update View" styleClass="tinybutton"/>
+	    								</c:otherwise>
+									</c:choose>
                    				</td>
                 				</tr>  
             
@@ -66,7 +75,14 @@
 									</div>
 									</th>
 	                  				<td colspan="3">
-	              						<kul:htmlControlAttribute property="${protocolPerson}.affiliationTypeCode" attributeEntry="${protocolPersonAttributes.affiliationTypeCode}" />
+										<c:choose>
+										    <c:when test="${readOnly}">
+										        ${KualiForm.document.protocolList[0].protocolPersons[personIndex].affiliationType.description}
+										    </c:when>
+										    <c:otherwise>
+		              							<kul:htmlControlAttribute property="${protocolPerson}.affiliationTypeCode" attributeEntry="${protocolPersonAttributes.affiliationTypeCode}" readOnly="${readOnly}"/>
+											</c:otherwise>
+										</c:choose>
 	                   				</td>
 	                				</tr>
 								</c:if>
