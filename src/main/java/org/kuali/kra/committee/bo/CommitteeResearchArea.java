@@ -37,8 +37,11 @@ public class CommitteeResearchArea extends KraPersistableBusinessObjectBase {
     @Column(name = "ID")
     private Long id;
 
+    @Column(name = "COMMITTEE_ID_FK")
+    private Long committeeIdFk;
+    
     @Column(name = "COMMITTEE_ID")
-    private Long committeeId;  // Primary Key of Committee BO
+    private String committeeId;  
 
     @Column(name = "RESEARCH_AREA_CODE")
     private String researchAreaCode;
@@ -63,11 +66,19 @@ public class CommitteeResearchArea extends KraPersistableBusinessObjectBase {
         this.id = id;
     }
 
-    public Long getCommitteeId() {
+    public Long getCommitteeIdFk() {
+        return committeeIdFk;
+    }
+
+    public void setCommitteeIdFk(Long committeeIdFk) {
+        this.committeeIdFk = committeeIdFk;
+    }
+    
+    public String getCommitteeId() {
         return committeeId;
     }
 
-    public void setCommitteeId(Long committeeId) {
+    public void setCommitteeId(String committeeId) {
         this.committeeId = committeeId;
     }
 
@@ -78,7 +89,6 @@ public class CommitteeResearchArea extends KraPersistableBusinessObjectBase {
     public void setResearchAreaCode(String researchAreaCode) {
         this.researchAreaCode = researchAreaCode;
     }
-
 
     public ResearchArea getResearchAreas() {
         return researchArea;
@@ -109,6 +119,7 @@ public class CommitteeResearchArea extends KraPersistableBusinessObjectBase {
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap hashMap = new LinkedHashMap();
         hashMap.put("id", getId());
+        hashMap.put("committeeIdFk", getCommitteeIdFk());
         hashMap.put("committeeId", getCommitteeId());
         hashMap.put("researchAreaCode", getResearchAreaCode());
         return hashMap;
