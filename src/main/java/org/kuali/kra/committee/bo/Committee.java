@@ -107,6 +107,9 @@ public class Committee extends KraPersistableBusinessObjectBase {
 
     public void setCommitteeId(String committeeId) {
         this.committeeId = committeeId;
+        for (CommitteeResearchArea ra : committeeResearchAreas) {
+            ra.setCommitteeId(committeeId);
+        }
     }
 
     public String getCommitteeName() {
