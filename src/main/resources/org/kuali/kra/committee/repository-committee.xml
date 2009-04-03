@@ -138,7 +138,7 @@
 		</collection-descriptor>  
 		
 		<collection-descriptor name="committeeResearchAreas" element-class-ref="org.kuali.kra.committee.bo.CommitteeResearchArea" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-			<inverse-foreignkey field-ref="committeeId" />
+			<inverse-foreignkey field-ref="committeeIdFk" />
 		</collection-descriptor>  
 	</class-descriptor>
 	
@@ -220,14 +220,15 @@
     
     <class-descriptor class="org.kuali.kra.committee.bo.CommitteeResearchArea" table="COMM_RESEARCH_AREAS">
 		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMM_RESEARCH_AREAS_ID" autoincrement="true"/>
-		<field-descriptor name="committeeId" column="COMMITTEE_ID" jdbc-type="BIGINT"/>
+		<field-descriptor name="committeeIdFk" column="COMMITTEE_ID_FK" jdbc-type="BIGINT"/>
+	    <field-descriptor name="committeeId" column="COMMITTEE_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="researchAreaCode" column="RESEARCH_AREA_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<reference-descriptor name="committee" class-ref="org.kuali.kra.committee.bo.Committee" auto-retrieve="false" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="committeeId"/>
+			<foreignkey field-ref="committeeIdFk"/>
 		</reference-descriptor>
 		<reference-descriptor name="researchArea" class-ref="org.kuali.kra.bo.ResearchArea" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="researchAreaCode"/>
