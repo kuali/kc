@@ -25,9 +25,11 @@ public class DailyScheduleDetails extends ScheduleDetails {
     
     private int defaultDay;
 
-    private int day;
+    private Integer day;
     
     private String dayOption;
+    
+    private String[] daysOfWeek; 
     
     public static enum optionValues {XDAY,WEEKDAY};
     
@@ -36,13 +38,19 @@ public class DailyScheduleDetails extends ScheduleDetails {
         this.setDefaultDay(1);
         this.setDay(this.getDefaultDay());
         this.setDayOption(optionValues.XDAY.toString());
+        this.daysOfWeek = new String[5];
+        this.getDaysOfWeek()[0] = DayOfWeek.Monday.name();
+        this.getDaysOfWeek()[1] = DayOfWeek.Tuesday.name();
+        this.getDaysOfWeek()[2] = DayOfWeek.Wednesday.name();
+        this.getDaysOfWeek()[3] = DayOfWeek.Thursday.name();
+        this.getDaysOfWeek()[4] = DayOfWeek.Friday.name();
     }
 
-    public void setDay(int day) {
+    public void setDay(Integer day) {
         this.day = day;
     }
 
-    public int getDay() {
+    public Integer getDay() {
         return day;
     }
 
@@ -61,5 +69,8 @@ public class DailyScheduleDetails extends ScheduleDetails {
     public String getDayOption() {
         return dayOption;
     }
-
+    
+    public String[] getDaysOfWeek() {
+        return daysOfWeek;
+    }
 }

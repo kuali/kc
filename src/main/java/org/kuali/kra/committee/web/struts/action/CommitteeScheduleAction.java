@@ -97,7 +97,7 @@ public class CommitteeScheduleAction extends CommitteeAction {
             HttpServletRequest request, HttpServletResponse response) throws Exception {
  
         CommitteeForm committeeForm = (CommitteeForm) form;
-        ScheduleData scheduleData = committeeForm.getScheduleData();
+        ScheduleData scheduleData = committeeForm.getCommitteeScheduleHelper().getScheduleData();
         
         if(new CommitteeScheduleDataDictionaryValidationRule().applyRules(scheduleData)){
             if(applyRules(new CommitteeScheduleTimeEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, ErrorType.HARDERROR))) {
@@ -153,7 +153,7 @@ public class CommitteeScheduleAction extends CommitteeAction {
         CommitteeForm committeeForm = (CommitteeForm) form;  
         
         
-        ScheduleData scheduleData = committeeForm.getScheduleData();
+        ScheduleData scheduleData = committeeForm.getCommitteeScheduleHelper().getScheduleData();
         if(applyRules(new CommitteeScheduleFilterEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, ErrorType.HARDERROR))) {
             Date startDate = scheduleData.getFilterStartDate();
             Date endDate = scheduleData.getFilerEndDate();
@@ -190,7 +190,7 @@ public class CommitteeScheduleAction extends CommitteeAction {
     public ActionForward loadRecurrence(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         CommitteeForm committeeForm = (CommitteeForm) form;
-        committeeForm.getScheduleData().populateStyleClass();
+        committeeForm.getCommitteeScheduleHelper().getScheduleData().populateStyleClass();
         return mapping.findForward(Constants.MAPPING_BASIC );
     }  
     

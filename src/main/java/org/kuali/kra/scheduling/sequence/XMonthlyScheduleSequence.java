@@ -59,7 +59,7 @@ public class XMonthlyScheduleSequence implements ScheduleSequence {
     @SuppressWarnings("unchecked")
     public List<Date> executeScheduleSequence(String expression, Date startDate, Date endDate) throws ParseException {
 
-        CronTrigger ct = new CronTrigger("t", "g", "j", "g", new Date(), null, expression);
+        CronTrigger ct = new CronTrigger(NAME, GROUP, JOBNAME, JOBGROUP, new Date(), null, expression);
         ct.setTimeZone(TimeZone.getDefault());
         List<Date> dates = TriggerUtils.computeFireTimesBetween(ct, null, startDate, endDate);
 

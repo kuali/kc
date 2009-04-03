@@ -38,7 +38,7 @@ public class CommitteeScheduleTimeRule extends ResearchDocumentRuleBase implemen
 
     public static final String ID1 = "document.committeeList[0].committeeSchedules[%1$s].viewTime.time";
 
-    public static final String ID2 = "scheduleData.time.time";
+    public static final String ID2 = "committeeScheduleHelper.scheduleData.time.time";
 
     /**
      * @see org.kuali.kra.committee.rule.FilterCommitteeScheduleRule#processRules(org.kuali.kra.committee.rule.event.FilterCommitteeScheduleEvent)

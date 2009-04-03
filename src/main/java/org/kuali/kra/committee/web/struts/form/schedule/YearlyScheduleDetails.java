@@ -21,11 +21,11 @@ package org.kuali.kra.committee.web.struts.form.schedule;
  */
 public class YearlyScheduleDetails extends ScheduleDetails {
     
-    private int day;
+    private Integer day;
     
-    private int option1Year;
+    private Integer option1Year;
     
-    private int option2Year;
+    private Integer option2Year;
     
     private String yearOption;
     
@@ -55,27 +55,27 @@ public class YearlyScheduleDetails extends ScheduleDetails {
         this.setSelectedDayOfWeek(DayOfWeek.Monday.toString());
     }
 
-    public int getDay() {
+    public Integer getDay() {
         return day;
     }
 
-    public void setDay(int day) {
+    public void setDay(Integer day) {
         this.day = day;
     }
     
-    public int getOption1Year() {
+    public Integer getOption1Year() {
         return option1Year;
     }
 
-    public void setOption1Year(int option1Year) {
+    public void setOption1Year(Integer option1Year) {
         this.option1Year = option1Year;
     }
 
-    public void setOption2Year(int option2Year) {
+    public void setOption2Year(Integer option2Year) {
         this.option2Year = option2Year;
     }
 
-    public int getOption2Year() {
+    public Integer getOption2Year() {
         return option2Year;
     }
     
