@@ -29,21 +29,21 @@ public class CommitteeScheduleDataDictionaryValidationRule {
         
     public static final String ATTRIBUTE_NAME = "intValue";
     
-    public static final String ERROR_KEY_SCHEDULEDATA_DAILYSCHEDULE_DAY = "scheduleData.dailySchedule.day";
+    public static final String ERROR_KEY_SCHEDULEDATA_DAILYSCHEDULE_DAY = "committeeScheduleHelper.scheduleData.dailySchedule.day";
     
-    public static final String ERROR_KEY_SCHEDULEDATA_WEEKLYSCHEDULE_DAY = "scheduleData.weeklySchedule.week";
+    public static final String ERROR_KEY_SCHEDULEDATA_WEEKLYSCHEDULE_DAY = "committeeScheduleHelper.scheduleData.weeklySchedule.week";
     
-    public static final String ERROR_KEY_SCHEDULEDATA_MONTHLYSCHEDULE_DAY = "scheduleData.monthlySchedule.day";
+    public static final String ERROR_KEY_SCHEDULEDATA_MONTHLYSCHEDULE_DAY = "committeeScheduleHelper.scheduleData.monthlySchedule.day";
     
-    public static final String ERROR_KEY_SCHEDULEDATA_MONTHLYSCHEDULE_OPTION1MONTH = "scheduleData.monthlySchedule.option1Month";
+    public static final String ERROR_KEY_SCHEDULEDATA_MONTHLYSCHEDULE_OPTION1MONTH = "committeeScheduleHelper.scheduleData.monthlySchedule.option1Month";
     
-    public static final String ERROR_KEY_SCHEDULEDATA_MONTHLYSCHEDULE_OPTION2MONTH = "scheduleData.monthlySchedule.option2Month";
+    public static final String ERROR_KEY_SCHEDULEDATA_MONTHLYSCHEDULE_OPTION2MONTH = "committeeScheduleHelper.scheduleData.monthlySchedule.option2Month";
     
-    public static final String ERROR_KEY_SCHEDULEDATA_YEARLYSCHEDULE_DAY = "scheduleData.yearlySchedule.day";
+    public static final String ERROR_KEY_SCHEDULEDATA_YEARLYSCHEDULE_DAY = "committeeScheduleHelper.scheduleData.yearlySchedule.day";
     
-    public static final String ERROR_KEY_SCHEDULEDATA_YEARLYSCHEDULE_OPTION1YEAR = "scheduleData.yearlySchedule.option1Year";
+    public static final String ERROR_KEY_SCHEDULEDATA_YEARLYSCHEDULE_OPTION1YEAR = "committeeScheduleHelper.scheduleData.yearlySchedule.option1Year";
     
-    public static final String ERROR_KEY_SCHEDULEDATA_YEARLYSCHEDULE_OPTION2YEAR = "scheduleData.yearlySchedule.option2Year";
+    public static final String ERROR_KEY_SCHEDULEDATA_YEARLYSCHEDULE_OPTION2YEAR = "committeeScheduleHelper.scheduleData.yearlySchedule.option2Year";
     
     /**
      * This method test scheduleData for day, week, month and yearly integer data field validation. 
@@ -61,7 +61,7 @@ public class CommitteeScheduleDataDictionaryValidationRule {
                 DailyScheduleDetails.optionValues dailyoption = DailyScheduleDetails.optionValues.valueOf(scheduleData.getDailySchedule().getDayOption());
                 switch (dailyoption) {
                     case XDAY: 
-                        retVal = applyRules(ATTRIBUTE_NAME, new Integer(scheduleData.getDailySchedule().getDay()).toString(), ERROR_KEY_SCHEDULEDATA_DAILYSCHEDULE_DAY);
+                        retVal = applyRules(ATTRIBUTE_NAME, scheduleData.getDailySchedule().getDay(), ERROR_KEY_SCHEDULEDATA_DAILYSCHEDULE_DAY);
                         break;
                     case WEEKDAY:
                         retVal = true;
@@ -69,18 +69,18 @@ public class CommitteeScheduleDataDictionaryValidationRule {
                 }
                 break;
             case WEEKLY :
-                retVal = applyRules(ATTRIBUTE_NAME, new Integer(scheduleData.getWeeklySchedule().getWeek()).toString(), ERROR_KEY_SCHEDULEDATA_WEEKLYSCHEDULE_DAY);
+                retVal = applyRules(ATTRIBUTE_NAME, scheduleData.getWeeklySchedule().getWeek(), ERROR_KEY_SCHEDULEDATA_WEEKLYSCHEDULE_DAY);
                 break;
             case MONTHLY :
                 MonthlyScheduleDetails.optionValues monthOption = MonthlyScheduleDetails.optionValues.valueOf(scheduleData.getMonthlySchedule().getMonthOption());
                 switch(monthOption) {
                     case XDAYANDXMONTH :
-                        retVal = applyRules(ATTRIBUTE_NAME, new Integer(scheduleData.getMonthlySchedule().getDay()).toString(), ERROR_KEY_SCHEDULEDATA_MONTHLYSCHEDULE_DAY);
+                        retVal = applyRules(ATTRIBUTE_NAME, scheduleData.getMonthlySchedule().getDay(), ERROR_KEY_SCHEDULEDATA_MONTHLYSCHEDULE_DAY);
                         if(retVal)
-                            retVal = applyRules(ATTRIBUTE_NAME, new Integer(scheduleData.getMonthlySchedule().getOption1Month()).toString(), ERROR_KEY_SCHEDULEDATA_MONTHLYSCHEDULE_OPTION1MONTH);
+                            retVal = applyRules(ATTRIBUTE_NAME, scheduleData.getMonthlySchedule().getOption1Month(), ERROR_KEY_SCHEDULEDATA_MONTHLYSCHEDULE_OPTION1MONTH);
                         break;
                     case XDAYOFWEEKANDXMONTH :
-                        retVal = applyRules(ATTRIBUTE_NAME, new Integer(scheduleData.getMonthlySchedule().getOption2Month()).toString(), ERROR_KEY_SCHEDULEDATA_MONTHLYSCHEDULE_OPTION2MONTH);
+                        retVal = applyRules(ATTRIBUTE_NAME, scheduleData.getMonthlySchedule().getOption2Month(), ERROR_KEY_SCHEDULEDATA_MONTHLYSCHEDULE_OPTION2MONTH);
                         break;
                 }
                 break;
@@ -88,12 +88,12 @@ public class CommitteeScheduleDataDictionaryValidationRule {
                 YearlyScheduleDetails.yearOptionValues yearOption = YearlyScheduleDetails.yearOptionValues.valueOf(scheduleData.getYearlySchedule().getYearOption());
                 switch(yearOption) {
                     case XDAY :
-                        retVal = applyRules(ATTRIBUTE_NAME, new Integer(scheduleData.getYearlySchedule().getDay()).toString(), ERROR_KEY_SCHEDULEDATA_YEARLYSCHEDULE_DAY);
+                        retVal = applyRules(ATTRIBUTE_NAME, scheduleData.getYearlySchedule().getDay(), ERROR_KEY_SCHEDULEDATA_YEARLYSCHEDULE_DAY);
                         if(retVal)
-                            retVal = applyRules(ATTRIBUTE_NAME, new Integer(scheduleData.getYearlySchedule().getOption1Year()).toString(), ERROR_KEY_SCHEDULEDATA_YEARLYSCHEDULE_OPTION1YEAR);
+                            retVal = applyRules(ATTRIBUTE_NAME, scheduleData.getYearlySchedule().getOption1Year(), ERROR_KEY_SCHEDULEDATA_YEARLYSCHEDULE_OPTION1YEAR);
                         break;
                     case CMPLX:
-                        retVal = applyRules(ATTRIBUTE_NAME, new Integer(scheduleData.getYearlySchedule().getOption2Year()).toString(), ERROR_KEY_SCHEDULEDATA_YEARLYSCHEDULE_OPTION2YEAR);
+                        retVal = applyRules(ATTRIBUTE_NAME, scheduleData.getYearlySchedule().getOption2Year(), ERROR_KEY_SCHEDULEDATA_YEARLYSCHEDULE_OPTION2YEAR);
                         break;
                 }
                 break;            
@@ -109,14 +109,24 @@ public class CommitteeScheduleDataDictionaryValidationRule {
      * @param errorKey
      * @return
      */
-    private  boolean applyRules(String attributeName, String value, String errorKey) {
+    private  boolean applyRules(String attributeName, Integer value, String errorKey) {
         boolean retVal = false;
-        getService().validateAttributeFormat(CommitteeScheduleAttributeReferenceDummy.class.getName(), attributeName, value, errorKey);        
+        getService().validateAttributeRequired(CommitteeScheduleAttributeReferenceDummy.class.getName(), attributeName, value, false, errorKey);
+        retVal = isError(errorKey);
+        if(retVal) {
+            getService().validateAttributeFormat(CommitteeScheduleAttributeReferenceDummy.class.getName(), attributeName, value.toString(), errorKey);
+            retVal = isError(errorKey);
+        }        
+        return retVal;
+    }
+    
+    private boolean isError(String errorKey) {
+        boolean retVal = false;
         if(null == GlobalVariables.getErrorMap().get(errorKey))
             retVal = true;
         return retVal;
     }
-
+    
     private DictionaryValidationService getService() {
         return KraServiceLocator.getService(DictionaryValidationService.class);
     }

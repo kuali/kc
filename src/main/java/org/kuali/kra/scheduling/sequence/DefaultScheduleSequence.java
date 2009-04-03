@@ -44,7 +44,7 @@ public class DefaultScheduleSequence implements ScheduleSequence {
     @SuppressWarnings("unchecked")
     public List<Date> executeScheduleSequence(String expression, Date startDate, Date endDate) throws ParseException {
 
-        CronTrigger ct = new CronTrigger("t", "g", "j", "g", startDate, null, expression);
+        CronTrigger ct = new CronTrigger(NAME, GROUP, JOBNAME, JOBGROUP, startDate, null, expression);
         return TriggerUtils.computeFireTimesBetween(ct, null, startDate, endDate);
     }
 

@@ -20,7 +20,15 @@ import java.util.Date;
 import java.util.List;
 
 public interface ScheduleSequence {
-
+        
+    public static final String NAME = "t";
+    
+    public static final String GROUP = "g";
+    
+    public static final String JOBNAME = "j";
+    
+    public static final String JOBGROUP = "g";
+    
     /**
      * This method expects to generate list of dates between start and end date using cron expression.
      * 

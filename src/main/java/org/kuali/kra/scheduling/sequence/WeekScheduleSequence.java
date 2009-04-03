@@ -21,6 +21,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TimeZone;
+
+import org.apache.commons.lang.ObjectUtils;
 import org.quartz.CronTrigger;
 import org.quartz.TriggerUtils;
 
@@ -63,7 +65,7 @@ public class WeekScheduleSequence implements ScheduleSequence {
     @SuppressWarnings("unchecked")
     public List<Date> executeScheduleSequence(String expression, Date startDate, Date endDate) throws ParseException {
 
-        CronTrigger ct = new CronTrigger("t", "g", "j", "g", new Date(), null, expression);
+        CronTrigger ct = new CronTrigger( NAME, GROUP, JOBNAME, JOBGROUP, new Date(), null, expression);
         ct.setTimeZone(TimeZone.getDefault());
         List<Date> dates = TriggerUtils.computeFireTimesBetween(ct, null, startDate, endDate);
 
@@ -104,21 +106,8 @@ public class WeekScheduleSequence implements ScheduleSequence {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        WeekScheduleSequence other = (WeekScheduleSequence) obj;
-        if (dayCount == null) {
-            if (other.dayCount != null)
-                return false;
-        }
-        else if (!dayCount.equals(other.dayCount))
-            return false;
-        if (frequency == null) {
-            if (other.frequency != null)
-                return false;
-        }
-        else if (!frequency.equals(other.frequency))
-            return false;
-        return true;
+        WeekScheduleSequence other = (WeekScheduleSequence) obj;        
+        return ObjectUtils.equals(dayCount, other.dayCount) &&
+        ObjectUtils.equals(frequency, other.frequency);
     }
-    
-    
 }

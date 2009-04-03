@@ -26,7 +26,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 public class CommitteeScheduleStartAndEndDateRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<CommitteeScheduleStartAndEndDateEvent> {
     
-    private enum Constants {scheduleData, dailySchedule, weeklySchedule, monthlySchedule, yearlySchedule, scheduleEndDate, scheduleStartDate, Date};
+    private enum Constants {committeeScheduleHelper, scheduleData, dailySchedule, weeklySchedule, monthlySchedule, yearlySchedule, scheduleEndDate, scheduleStartDate, Date};
     
     public static final String ENDINGON = "Ending On";
     
@@ -43,6 +43,7 @@ public class CommitteeScheduleStartAndEndDateRule extends ResearchDocumentRuleBa
         
         StringBuilder endDateId = new StringBuilder();
         StringBuilder startDateId = new StringBuilder();
+        endDateId.append(Constants.committeeScheduleHelper).append(DOT);
         endDateId.append(Constants.scheduleData).append(DOT);
         boolean rulePassed = true;
         ScheduleData scheduleData = addCommitteeScheduleEvent.getScheduleData();
@@ -75,7 +76,7 @@ public class CommitteeScheduleStartAndEndDateRule extends ResearchDocumentRuleBa
         }
         if(!rulePassed) {
             endDateId.append(DOT).append(Constants.scheduleEndDate);  
-            startDateId.append(Constants.scheduleData).append(DOT).append(Constants.scheduleStartDate);
+            startDateId.append(Constants.committeeScheduleHelper).append(DOT).append(Constants.scheduleData).append(DOT).append(Constants.scheduleStartDate);
             reportError(startDateId.toString(), KeyConstants.ERROR_COMMITTEESCHEDULE_SCHEDULEDATES, DATE, ENDINGON);
             reportError(endDateId.toString(), KeyConstants.ERROR_COMMITTEESCHEDULE_BLANK, BLANK);
         }

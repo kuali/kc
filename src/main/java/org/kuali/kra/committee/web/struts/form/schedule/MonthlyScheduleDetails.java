@@ -20,11 +20,11 @@ package org.kuali.kra.committee.web.struts.form.schedule;
  */
 public class MonthlyScheduleDetails extends ScheduleDetails {
     
-    private int day;
+    private Integer day;
     
-    private int option1Month;
+    private Integer option1Month;
     
-    private int option2Month;
+    private Integer option2Month;
     
     private String monthOption;
     
@@ -46,27 +46,27 @@ public class MonthlyScheduleDetails extends ScheduleDetails {
         this.setSelectedDayOfWeek(DayOfWeek.Monday.toString());
     }
 
-    public void setDay(int day) {
+    public void setDay(Integer day) {
         this.day = day;
     }
 
-    public int getDay() {
+    public Integer getDay() {
         return day;
     }
 
-    public void setOption1Month(int option1Month) {
+    public void setOption1Month(Integer option1Month) {
         this.option1Month = option1Month;
     }
 
-    public int getOption1Month() {
+    public Integer getOption1Month() {
         return option1Month;
     }
 
-    public void setOption2Month(int option2Month) {
+    public void setOption2Month(Integer option2Month) {
         this.option2Month = option2Month;
     }
 
-    public int getOption2Month() {
+    public Integer getOption2Month() {
         return option2Month;
     }
 

@@ -21,7 +21,7 @@ package org.kuali.kra.committee.web.struts.form.schedule;
  */
 public class WeeklyScheduleDetails extends ScheduleDetails {
     
-    private int week;
+    private Integer week;
     
     private String[] daysOfWeek;    
     
@@ -32,11 +32,11 @@ public class WeeklyScheduleDetails extends ScheduleDetails {
         this.getDaysOfWeek()[0] = DayOfWeek.Monday.name();
     }
 
-    public void setWeek(int week) {
+    public void setWeek(Integer week) {
         this.week = week;
     }
 
-    public int getWeek() {
+    public Integer getWeek() {
         return week;
     }
 
