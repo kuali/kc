@@ -23,12 +23,13 @@
 	</c:otherwise>
 </c:choose>
 <bean:define id="protocolPersonUnits" name="KualiForm" property="${protocolPerson}.protocolUnits" />
+<c:set var="readOnly" value="${!KualiForm.personnelHelper.modifyProtocol}" />
 <table cellpadding=0 cellspacing=0 summary="">
  	<tr>
 		<td>
 			<kul:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="personnelHelper.newProtocolPersonUnits[${personIndex}]*">
 				<div class="innerTab-container" align="left">
-			        <table cellpadding="0" cellspacing="0" summary="">
+			        <table class=tab cellpadding="0" cellspacing="0" summary="">
               			<tbody id="G3">
 			          	<%-- Header --%>
 			          	<tr>
@@ -36,47 +37,51 @@
 			          		<kul:htmlAttributeHeaderCell attributeEntry="${unitAttributes.unitName}" scope="col" align="center"/>
 			          		<kul:htmlAttributeHeaderCell attributeEntry="${protocolUnitsAttributes.unitNumber}" scope="col" align="center"/>
 			          		<kul:htmlAttributeHeaderCell attributeEntry="${protocolUnitsAttributes.leadUnitFlag}" scope="col" align="center"/>
-			          		<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" align="center"/>
+          					<c:if test="${!readOnly}">
+			          			<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" align="center"/>
+							</c:if>
 			          	</tr> 
 			          	<%-- Header --%>
 			          	
 			             <%-- New data --%>
-			             <tr>
-							<th class="infoline">
-								<c:out value="Add:" />
-							</th>
-			                <td align="left" valign="middle" class="infoline">
-		   						<div id="newProtocolPersonUnits[${personIndex}].unitName.div" class="same-line">
-		                    		<c:choose>
-		                    			<c:when test="${empty KualiForm.personnelHelper.newProtocolPersonUnits[personIndex].unitName}" >
-		                        			(select)
-		                      			</c:when>
-		                      			<c:otherwise>
-		                         			${KualiForm.personnelHelper.newProtocolPersonUnits[personIndex].unitName}
-		                      			</c:otherwise>
-		                    		</c:choose> 
-		                    	</div>
-		                    	&nbsp; <kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:personnelHelper.newProtocolPersonUnits[${personIndex}].unitNumber,unitName:personnelHelper.newProtocolPersonUnits[${personIndex}].unitName" />
-		                    	<span class="fineprint"></span> 
-							</td>
-			                <td align="left" valign="middle" class="infoline">
-								<div align=left>
-		                    		<kul:htmlControlAttribute attributeEntry="${unitAttributes.unitNumber}" property="personnelHelper.newProtocolPersonUnits[${personIndex}].unitNumber" />
-		                      	</div>
-		                        <span class="fineprint"></span> 
-							</td>
-			                <td align="left" valign="middle" class="infoline">
-								<div align=center>
-								<bean:define id="leadFlag" name="KualiForm" property="personnelHelper.newProtocolPersonUnits[${personIndex}].leadUnitFlag" />
-									<html:radio property="personnelHelper.newProtocolPersonUnits[${personIndex}].leadUnitFlag" value="true" />
-		                      	</div>
-							</td>
-		                    <td class="infoline">
-								<div align=center>
-									<html:image property="methodToCall.addProtocolPersonUnit.${protocolPerson}.line${status.index}" 
-									src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Unit" alt="Add Unit" styleClass="tinybutton"/></div>
-							</td>
-			            </tr>
+        				<kra:permission value="${KualiForm.personnelHelper.modifyProtocol}">
+				             <tr>
+								<th class="infoline">
+									<c:out value="Add:" />
+								</th>
+				                <td align="left" valign="middle" class="infoline">
+			   						<div id="newProtocolPersonUnits[${personIndex}].unitName.div" class="same-line">
+			                    		<c:choose>
+			                    			<c:when test="${empty KualiForm.personnelHelper.newProtocolPersonUnits[personIndex].unitName}" >
+			                        			(select)
+			                      			</c:when>
+			                      			<c:otherwise>
+			                         			${KualiForm.personnelHelper.newProtocolPersonUnits[personIndex].unitName}
+			                      			</c:otherwise>
+			                    		</c:choose> 
+			                    	</div>
+			                    	&nbsp; <kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:personnelHelper.newProtocolPersonUnits[${personIndex}].unitNumber,unitName:personnelHelper.newProtocolPersonUnits[${personIndex}].unitName" />
+			                    	<span class="fineprint"></span> 
+								</td>
+				                <td align="left" valign="middle" class="infoline">
+									<div align=left>
+			                    		<kul:htmlControlAttribute attributeEntry="${unitAttributes.unitNumber}" property="personnelHelper.newProtocolPersonUnits[${personIndex}].unitNumber" />
+			                      	</div>
+			                        <span class="fineprint"></span> 
+								</td>
+				                <td align="left" valign="middle" class="infoline">
+									<div align=center>
+										<bean:define id="leadFlag" name="KualiForm" property="personnelHelper.newProtocolPersonUnits[${personIndex}].leadUnitFlag" />
+										<html:radio property="personnelHelper.newProtocolPersonUnits[${personIndex}].leadUnitFlag" value="true"/>
+			                      	</div>
+								</td>
+			                    <td class="infoline">
+									<div align=center>
+										<html:image property="methodToCall.addProtocolPersonUnit.${protocolPerson}.line${status.index}" 
+										src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Unit" alt="Add Unit" styleClass="tinybutton"/></div>
+								</td>
+				            </tr>
+						</kra:permission>
 			            <%-- New data --%>
 			            
 			            <%-- Existing data --%>
@@ -97,16 +102,17 @@
 							  </td>
 			                  <td align="left" valign="middle">
 								<div align="center">
-									<html:radio property="${protocolPerson}.selectedUnit" value="${status.index}"/>
+									<html:radio property="${protocolPerson}.selectedUnit" value="${status.index}" disabled="${readOnly}"/>
 								</div>
 							  </td>
-							  <td class="infoline">
-								<div align="center">
-									<html:image property="methodToCall.deleteProtocolPersonUnit.${protocolPerson}.line${status.index}"
-									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
-								</div>
-			                  </td>
-			
+				  			  <c:if test="${!readOnly}">
+								  <td class="infoline">
+									<div align="center">
+										<html:image property="methodToCall.deleteProtocolPersonUnit.${protocolPerson}.line${status.index}"
+										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+									</div>
+				                  </td>
+		           			</c:if>
 				            </tr>
 			        	</c:forEach>
 			            <%-- Existing data --%>
