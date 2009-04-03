@@ -126,5 +126,19 @@
     <param name="filter.cas.edu.yale.its.tp.cas.client.filter.validateUrl">${app.host}/${app.context.name}/cas/serviceValidate</param>
 	<param name="filtermapping.cas.0">/*</param>
 	<param name="documentSearch.resultProcessor.class.name">org.kuali.kra.proposaldevelopment.document.search.ProposalDocumentSearchResultProcessor</param>
+	
+	<!-- Java mail properties -->
+    <param name="mail.from">mail.from@kuali.org</param>
+    <param name="mail.transport.protocol">smtp</param>
+    <param name="mail.smtp.host">host.server.address</param>
+    <param name="mail.smtp.port">host.server.port</param>
+    <param name="mail.smtp.user">userId</param>
+    <param name="mail.user.credentials">password</param>
+    <param name="mail.smtp.auth">false</param>
+    <--set it to '0' to disable s2s mail service-->
+    <param name="edu.coeus.mail.enabled">1</param>
+    <!-- possible options are, T for Test and P for Production-->
+    <param name="edu.coeus.mail.mode">T</param>
+    <param name="edu.coeus.mail.testReceiverId">kc.grants.gov@kuali.org</param>
 </config>
 
