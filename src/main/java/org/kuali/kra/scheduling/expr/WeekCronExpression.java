@@ -53,8 +53,8 @@ public class WeekCronExpression extends CronExpression {
         exp.append(SECONDS).append(CronSpecialChars.SPACE);
         exp.append(getTime().getMinutes()).append(CronSpecialChars.SPACE);
         exp.append(getTime().getHours()).append(CronSpecialChars.SPACE);
-        exp.append("?").append(CronSpecialChars.SPACE);
-        exp.append("*").append(CronSpecialChars.SPACE);
+        exp.append(CronSpecialChars.QUESTION).append(CronSpecialChars.SPACE);
+        exp.append(CronSpecialChars.STAR).append(CronSpecialChars.SPACE);
         exp.append(toStringWeekDays(weekdays, CronSpecialChars.COMMASEPRATOR));
         return exp.toString();
     }

@@ -64,7 +64,6 @@ public class MonthDayMultipleYearsCronExpression extends CronExpression {
         exp.append(day).append(CronSpecialChars.SPACE);
         exp.append(CronSpecialChars.STAR).append(CronSpecialChars.SPACE);
         exp.append(CronSpecialChars.QUESTION).append(CronSpecialChars.SPACE);        
-        System.out.println("Expression :" + exp.toString());
         return exp.toString();
     }
 

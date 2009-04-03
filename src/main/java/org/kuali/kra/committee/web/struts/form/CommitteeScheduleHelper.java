@@ -21,6 +21,7 @@ import java.util.List;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
+import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 
 public class CommitteeScheduleHelper {
@@ -32,10 +33,13 @@ public class CommitteeScheduleHelper {
     
     public static final Boolean FALSE = false;
     
+    private ScheduleData scheduleData;
+    
     private CommitteeForm form;
     
     public CommitteeScheduleHelper(CommitteeForm form) {
         this.form = form;
+        this.setScheduleData(new ScheduleData());
     }
     
     /**
@@ -44,6 +48,14 @@ public class CommitteeScheduleHelper {
     public void prepareView() {
         prepareCommitteeScheduleDeleteView();
     }
+    
+    public ScheduleData getScheduleData() {
+        return scheduleData;
+    }
+
+    public void setScheduleData(ScheduleData scheduleData) {
+        this.scheduleData = scheduleData;
+    }    
     
     /**
      * This method prepares view to filter dates between start and end date.
@@ -72,8 +84,8 @@ public class CommitteeScheduleHelper {
         for(CommitteeSchedule committeeSchedule : committeeSchedules) {
                 committeeSchedule.setFilter(TRUE);            
         }
-        form.getScheduleData().setFilterStartDate(null);
-        form.getScheduleData().setFilerEndDate(null);
+        getScheduleData().setFilterStartDate(null);
+        getScheduleData().setFilerEndDate(null);
     }
     
     /**

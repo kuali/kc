@@ -24,9 +24,9 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 public class CommitteeScheduleFilterDatesRule extends ResearchDocumentRuleBase implements  BusinessRuleInterface<CommitteeScheduleFilterEvent>{
     
-    public static final String SCHEDULEDATE_FILTERSTARTDATE = "scheduleData.filterStartDate";
+    public static final String SCHEDULEDATE_FILTERSTARTDATE = "committeeScheduleHelper.scheduleData.filterStartDate";
     
-    public static final String SCHEDULEDATE_FILTERENDDATE = "scheduleData.filerEndDate";
+    public static final String SCHEDULEDATE_FILTERENDDATE = "committeeScheduleHelper.scheduleData.filerEndDate";
     
     public static final String [] MSG = {"Start date", "End date"}; 
             
