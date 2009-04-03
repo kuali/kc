@@ -154,9 +154,10 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
                         dates = scheduleService.getScheduledDates(dt, dtEnd, time, day, null);
                         break;
                     case WEEKDAY : 
-                        dtEnd = scheduleData.getDailySchedule().getScheduleEndDate();
-                        day = scheduleData.getDailySchedule().getDay();
-                        dates = scheduleService.getScheduledDates(dt, dtEnd, time, day, null);
+                        dtEnd = scheduleData.getDailySchedule().getScheduleEndDate();                        
+                        weekdays = ScheduleData.convertToWeekdays(scheduleData.getDailySchedule().getDaysOfWeek());
+                        ScheduleSequence scheduleSequence = new WeekScheduleSequence(scheduleData.getWeeklySchedule().getWeek(),weekdays.length);
+                        dates = scheduleService.getScheduledDates(dt, dtEnd, time, weekdays, scheduleSequence);
                         break;
                 }
                 break;

@@ -29,6 +29,7 @@
     <property name="label" value="intValue" />
     <property name="shortLabel" value="intValue" />
     <property name="maxLength" value="2" />
+    <property name="required" value="true" />
 	<property name="validationPattern" >
 	      <bean parent="Postive2DigitFieldLevelValidationPattern"/>
 	</property>

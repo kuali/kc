@@ -63,7 +63,7 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
     private String lookupResultsSequenceNumber;
     private String lookupResultsBOClassName;
   
-    private ScheduleData scheduleData;
+    //private ScheduleData scheduleData;
     
     private CommitteeScheduleHelper committeeScheduleHelper;
 
@@ -74,7 +74,7 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
         super();
         this.setDocument(new CommitteeDocument());
 
-        this.setScheduleData(new ScheduleData());
+        //this.setScheduleData(new ScheduleData());
         initialize();
     }
 
@@ -200,13 +200,13 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
         return "";
     }
 
-    public ScheduleData getScheduleData() {
+/*    public ScheduleData getScheduleData() {
         return scheduleData;
     }
 
     public void setScheduleData(ScheduleData scheduleData) {
         this.scheduleData = scheduleData;
-    }
+    }*/
 
     public MembershipHelper getMembershipHelper() {
         return membershipHelper;

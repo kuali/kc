@@ -18,6 +18,8 @@ package org.kuali.kra.scheduling.util;
 import java.io.Serializable;
 import java.text.ParseException;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * This is util class helps facade time in 24 hour format.
  */
@@ -31,13 +33,13 @@ public class Time24HrFmt implements Serializable{
     
     public static final String splitChr = ":";
     
-    public static final String msg1 = "Time format exception, expects hh:mm";
+    public static final String MSG1 = "Time format exception, expects hh:mm";
     
-    public static final String msg2 = "Time format exception, expects hh as 0-23 & mm as 0-59";
+    public static final String MSG2 = "Time format exception, expects hh as 0-23 & mm as 0-59";
     
-    public static final String msg3 = "Time format exception, expects hh as 0-23";
+    public static final String MSG3 = "Time format exception, expects hh as 0-23";
     
-    public static final String msg4 = "Time format exception, expects mm as 0-59";
+    public static final String MSG4 = "Time format exception, expects mm as 0-59";
     
     /**
      * Constructs a Time24HrFmt.java.
@@ -69,7 +71,7 @@ public class Time24HrFmt implements Serializable{
         String[] result = time.split(splitChr);
         
         if(result.length != 2)
-            throw new ParseException(msg1, 0);
+            throw new ParseException(MSG1, 0);
         
         Integer hrs;
         Integer mins;
@@ -78,15 +80,15 @@ public class Time24HrFmt implements Serializable{
             hrs = new Integer(result[0]);
             mins = new Integer(result[1]);
         }catch (NumberFormatException e) {
-            throw new ParseException(msg2, 0);
+            throw new ParseException(MSG2, 0);
         }
         
         if(!(hrs >= 0 && hrs <= 23)) {
-            throw new ParseException(msg3, 0);
+            throw new ParseException(MSG3, 0);
         }
         
         if(!(mins >= 0 && mins <= 59)) {
-            throw new ParseException(msg4, 0);
+            throw new ParseException(MSG4, 0);
         }
         this.hours = result[0];
         this.minutes = result[1];
@@ -111,19 +113,8 @@ public class Time24HrFmt implements Serializable{
         if (getClass() != obj.getClass())
             return false;
         Time24HrFmt other = (Time24HrFmt) obj;
-        if (hours == null) {
-            if (other.hours != null)
-                return false;
-        }
-        else if (!hours.equals(other.hours))
-            return false;
-        if (minutes == null) {
-            if (other.minutes != null)
-                return false;
-        }
-        else if (!minutes.equals(other.minutes))
-            return false;
-        return true;
+        return StringUtils.equals(hours, other.hours) &&
+        StringUtils.equals(minutes, other.minutes);
     }
     
     @Override

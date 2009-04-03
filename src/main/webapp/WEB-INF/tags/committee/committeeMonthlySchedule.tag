@@ -14,35 +14,35 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<c:set var="styleClass" value="${KualiForm.scheduleData.styleClasses}" />
+<c:set var="styleClass" value="${KualiForm.committeeScheduleHelper.scheduleData.styleClasses}" />
 <c:set var="kraAttributeReferenceDummyAttributes" value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
 <c:set var="committeeScheduleAttributeReferenceDummy" value="${DataDictionary.CommitteeScheduleAttributeReferenceDummy.attributes}" />
- 
+
 	<div id="calendar_monthly_table" style="${styleClass['MONTHLY']}">
                      
-    	<html:radio property="scheduleData.monthlySchedule.monthOption" value="XDAYANDXMONTH" styleClass="radio"></html:radio>
+    	<html:radio property="committeeScheduleHelper.scheduleData.monthlySchedule.monthOption" value="XDAYANDXMONTH" styleClass="radio"></html:radio>
                      
         	&nbsp;Day&nbsp;		
-        	<kul:htmlControlAttribute property="scheduleData.monthlySchedule.day" attributeEntry="${committeeScheduleAttributeReferenceDummy.intValue}" />				                           
+        	<kul:htmlControlAttribute property="committeeScheduleHelper.scheduleData.monthlySchedule.day" attributeEntry="${committeeScheduleAttributeReferenceDummy.intValue}" />				                           
                      
             &nbsp;of every&nbsp;
-            <kul:htmlControlAttribute property="scheduleData.monthlySchedule.option1Month" attributeEntry="${committeeScheduleAttributeReferenceDummy.intValue}" />                      
+            <kul:htmlControlAttribute property="committeeScheduleHelper.scheduleData.monthlySchedule.option1Month" attributeEntry="${committeeScheduleAttributeReferenceDummy.intValue}" />                      
             &nbsp;month(s)
             <hr size="1" noshade>
                   
-   		<html:radio property="scheduleData.monthlySchedule.monthOption" value="XDAYOFWEEKANDXMONTH" styleClass="radio"></html:radio>
+   		<html:radio property="committeeScheduleHelper.scheduleData.monthlySchedule.monthOption" value="XDAYOFWEEKANDXMONTH" styleClass="radio"></html:radio>
                     
         	&nbsp;The&nbsp;
-			<kul:htmlControlAttribute property="scheduleData.monthlySchedule.selectedMonthsWeek" attributeEntry="${committeeScheduleAttributeReferenceDummy.monthsWeek}" />
+			<kul:htmlControlAttribute property="committeeScheduleHelper.scheduleData.monthlySchedule.selectedMonthsWeek" attributeEntry="${committeeScheduleAttributeReferenceDummy.monthsWeek}" />
 			
-			<kul:htmlControlAttribute property="scheduleData.monthlySchedule.selectedDayOfWeek"  attributeEntry="${committeeScheduleAttributeReferenceDummy.weekDay}" />
+			<kul:htmlControlAttribute property="committeeScheduleHelper.scheduleData.monthlySchedule.selectedDayOfWeek"  attributeEntry="${committeeScheduleAttributeReferenceDummy.weekDay}" />
 
 			&nbsp;of every&nbsp;
-            <kul:htmlControlAttribute property="scheduleData.monthlySchedule.option2Month" attributeEntry="${committeeScheduleAttributeReferenceDummy.intValue}" />
+            <kul:htmlControlAttribute property="committeeScheduleHelper.scheduleData.monthlySchedule.option2Month" attributeEntry="${committeeScheduleAttributeReferenceDummy.intValue}" />
             &nbsp;month(s)
             <hr size="1" noshade>
             Ending on
-            <kul:htmlControlAttribute property="scheduleData.monthlySchedule.scheduleEndDate" 
+            <kul:htmlControlAttribute property="committeeScheduleHelper.scheduleData.monthlySchedule.scheduleEndDate" 
 	                								datePicker="true"	attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}" /> 
             </span>
 	</div>
