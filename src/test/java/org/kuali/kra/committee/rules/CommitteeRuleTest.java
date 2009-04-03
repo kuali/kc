@@ -39,35 +39,19 @@ import edu.iu.uis.eden.exception.WorkflowException;
 /**
  * Test the Committee Rules.
  */
-@PerSuiteUnitTestData(
-    @UnitTestData(
-        sqlFiles = {
-            @UnitTestFile(filename = "classpath:sql/dml/load_committee_type.sql", delimiter = ";")
-           ,@UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";")
-        }
-    )
-)
-public class CommitteeRuleTest extends KraTestBase {
+public class CommitteeRuleTest extends CommitteeRuleTestBase {
 
-    protected DocumentService documentService = null;
     private CommitteeDocumentRule rule;
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setUserSession(new UserSession("aslusar"));
-        GlobalVariables.setErrorMap(new ErrorMap());
-        GlobalVariables.setAuditErrorMap(new HashMap());
-        documentService = KNSServiceLocator.getDocumentService();
         rule = new CommitteeDocumentRule();
     }
 
     @After
     public void tearDown() throws Exception {
-        GlobalVariables.setUserSession(null);
-        GlobalVariables.setErrorMap(null);
-        GlobalVariables.setAuditErrorMap(null);
-        documentService = null;
+        rule = null;
         super.tearDown();
     }
     
@@ -157,32 +141,4 @@ public class CommitteeRuleTest extends KraTestBase {
         assertTrue(errorMap.containsMessageKey(KeyConstants.ERROR_INVALID_UNIT));
     }
     
-    /**
-     * Set the required fields for a committee.
-     * @param document
-     */
-    private void setCommitteeProperties(CommitteeDocument document) {
-        Committee committee = document.getCommittee();
-        document.getDocumentHeader().setDocumentDescription("test");
-        committee.setCommitteeId("888");
-        committee.setCommitteeName("test");
-        committee.setCommitteeTypeCode("1");
-        committee.setHomeUnitNumber("000001");
-        committee.setCommitteeDescription("description");
-        committee.setMaxProtocols(5);
-        committee.setMinimumMembersRequired(4);
-        committee.setAdvancedSubmissionDaysRequired(3);
-        committee.setReviewTypeCode("1");
-        committee.setScheduleDescription("schedule description");
-    }
-    
-    /**
-     * Get a new Committee Document.
-     * 
-     * @return a new Committee Document.
-     * @throws WorkflowException
-     */
-    protected CommitteeDocument getNewCommitteeDocument() throws WorkflowException {
-        return (CommitteeDocument) documentService.getNewDocument("CommitteeDocument");
-    }
 }
