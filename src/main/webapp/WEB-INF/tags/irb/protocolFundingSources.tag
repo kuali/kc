@@ -2,8 +2,10 @@
 
 <c:set var="protocolFundingSourceAttributes" value="${DataDictionary.ProtocolFundingSource.attributes}" />
 <c:set var="fundingSourceTypeAttributes" value="${DataDictionary.FundingSourceType.attributes}" />
+<c:set var="readOnly" value="${!KualiForm.protocolHelper.modifyProtocol}" />
 
-<kul:tab tabTitle="Funding Sources" defaultOpen="false" tabErrorKey="document.protocolList[0].protocolFundingSource*,document.protocolList[0].newFundingSource*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.title" useRiceAuditMode="true">
+
+<kul:tab tabTitle="Funding Sources" defaultOpen="false" tabErrorKey="document.protocol.protocolFundingSource*,document.protocol.newFundingSource*,document.protocolList[0].newFundingSource.fundingSourceTypeCode*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.title" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Funding Sources</span>
@@ -21,59 +23,61 @@
                 <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
                 
             </tr>
-        	<tr>
-        	    <th class="infoline">
-        	       <c:out value="Add:" />
-                </th>  
-                               
-<%-- --%>               
-                <td>
-                    <div align="center">
-                        <kul:htmlControlAttribute property="document.protocolList[0].newFundingSource.fundingSourceTypeCode" 
-                                                  attributeEntry="${protocolFundingSourceAttributes.fundingSourceTypeCode}" />
-                    </div>
-                </td> 
-
-                
-                <td>
-                        <div align="center">
-                        <kul:htmlControlAttribute property="document.protocolList[0].newFundingSource.fundingSource" 
-                                                  attributeEntry="${protocolFundingSourceAttributes.fundingSource}"
-                                                  onblur="loadFundingSourceNameTitle(
-                                                          'document.protocolList[0].newFundingSource.fundingSourceTypeCode',
-                                                          'document.protocolList[0].newFundingSource.fundingSource',
-                                                          'document.protocolList[0].newFundingSource.fundingSourceName',
-                                                          'document.protocolList[0].newFundingSource.fundingSourceTitle');" />
-
-<%--                          lookupKeyPath="document.protocolList[0].newFundingSource.fundingSourceTypeType.description" 
- --%>                        
-                        <kul:fundingSourceLookup boClassName="${document.protocolList[0].newFundingSource.fundingSourceType.description}" 
-                         fieldConversions="unitNumber:document.protocolList[0].newFundingSource.fundingSource,unitName:document.protocolList[0].newFundingSource.fundingSourceName" anchor="${currentTabIndex}"/> 
-                        </div>
-                
-                </td>
-             
-                <td>
-                    <div align="center">
-                    <kul:htmlControlAttribute property="document.protocolList[0].newFundingSource.fundingSourceName" 
-                                            attributeEntry="${protocolFundingSourceAttributes.fundingSourceName}" />
-                    </div>
-                </td>
-                <td>
-                <div align="center">
-                    <kul:htmlControlAttribute property="document.protocolList[0].newFundingSource.fundingSourceTitle" 
-                                            readOnly="true"      attributeEntry="${protocolFundingSourceAttributes.fundingSourceTitle}" />
-                </div>
-                   <c:out value="${document.protocolList[0].newFundingSource.fundingSourceTitle}" />
-                </td>
-
-                <td class="infoline">
-                        <div align="center">
-                            <html:image property="methodToCall.addProtocolFundingSource.anchor${tabKey}"
-                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
-                        </div>
-                </td>
-            </tr>
+            <c:if test="${!readOnly}">
+	        	<tr>
+	        	    <th class="infoline">
+	        	       <c:out value="Add:" />
+	                </th>  
+	                               
+	<%-- --%>               
+	                <td>
+	                    <div align="center">
+	                        <kul:htmlControlAttribute property="document.protocolList[0].newFundingSource.fundingSourceTypeCode" 
+	                                                  attributeEntry="${protocolFundingSourceAttributes.fundingSourceTypeCode}" />
+	                    </div>
+	                </td> 
+	
+	                
+	                <td>
+	                        <div align="center">
+	                        <kul:htmlControlAttribute property="document.protocolList[0].newFundingSource.fundingSource" 
+	                                                  attributeEntry="${protocolFundingSourceAttributes.fundingSource}"
+	                                                  onblur="loadFundingSourceNameTitle(
+	                                                          'document.protocolList[0].newFundingSource.fundingSourceTypeCode',
+	                                                          'document.protocolList[0].newFundingSource.fundingSource',
+	                                                          'document.protocolList[0].newFundingSource.fundingSourceName',
+	                                                          'document.protocolList[0].newFundingSource.fundingSourceTitle');" />
+	
+	<%--                          lookupKeyPath="document.protocolList[0].newFundingSource.fundingSourceTypeType.description" 
+	 --%>                        
+	                        <kul:fundingSourceLookup boClassName="${document.protocolList[0].newFundingSource.fundingSourceType.description}" 
+	                         fieldConversions="unitNumber:document.protocolList[0].newFundingSource.fundingSource,unitName:document.protocolList[0].newFundingSource.fundingSourceName" anchor="${currentTabIndex}"/> 
+	                        </div>
+	                
+	                </td>
+	             
+	                <td>
+	                    <div align="center">
+	                    <kul:htmlControlAttribute property="document.protocolList[0].newFundingSource.fundingSourceName" 
+	                                            attributeEntry="${protocolFundingSourceAttributes.fundingSourceName}" />
+	                    </div>
+	                </td>
+	                <td>
+	                <div align="center">
+	                    <kul:htmlControlAttribute property="document.protocolList[0].newFundingSource.fundingSourceTitle" 
+	                                            readOnly="true"      attributeEntry="${protocolFundingSourceAttributes.fundingSourceTitle}" />
+	                </div>
+	                   <c:out value="${document.protocolList[0].newFundingSource.fundingSourceTitle}" />
+	                </td>
+	
+	                <td class="infoline">
+	                        <div align="center">
+	                            <html:image property="methodToCall.addProtocolFundingSource.anchor${tabKey}"
+	                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+	                        </div>
+	                </td>
+	            </tr>
+            </c:if>
             
                         <%-- Existing data --%>
             <c:forEach var="protocolFundingSource" items="${KualiForm.document.protocolList[0].protocolFundingSources}" varStatus="status">
@@ -107,11 +111,12 @@
                   </td>
                   <td>
                     <div align=center>&nbsp;
-<%--                        <kra:section permission="modifyProtocol">  --%>
-
+                        <c:if test="${!readOnly}">
                             <html:image property="methodToCall.deleteProtocolFundingSource.line${status.index}.anchor${currentTabIndex}"
                                 src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
-<%--                        </kra:section>  --%>
+                        </c:if>
+                           
+                        
                     </div>
                   </td>
                 </tr>
