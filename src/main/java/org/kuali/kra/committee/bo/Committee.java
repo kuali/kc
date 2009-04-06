@@ -263,7 +263,6 @@ public class Committee extends KraPersistableBusinessObjectBase {
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(getCommitteeResearchAreas());
-        managedLists.add(this.committeeMemberships);
         managedLists.add(this.committeeSchedules);
         return managedLists;
     }
