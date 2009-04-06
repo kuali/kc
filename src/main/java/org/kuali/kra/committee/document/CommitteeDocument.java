@@ -23,6 +23,9 @@ import org.kuali.core.document.Copyable;
 import org.kuali.core.document.SessionDocument;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
+import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.document.ResearchDocumentBase;
 
 /**
@@ -31,7 +34,7 @@ import org.kuali.kra.document.ResearchDocumentBase;
  */
 @SuppressWarnings("serial")
 public class CommitteeDocument extends ResearchDocumentBase implements Copyable, SessionDocument { 
-	
+
     /*
      * It may be seem strange, but we use a list in order to store a
      * single Committtee BO.  This is due to a problem for one-to-one
@@ -43,10 +46,10 @@ public class CommitteeDocument extends ResearchDocumentBase implements Copyable,
     /**
      * Constructs a CommitteeDocument object
      */
-	public CommitteeDocument() {
+    public CommitteeDocument() {
         committeeList.add(new Committee());
-	} 
-	
+    } 
+
     /**
      * @see org.kuali.kra.document.ResearchDocumentBase#initialize()
      */
@@ -97,8 +100,18 @@ public class CommitteeDocument extends ResearchDocumentBase implements Copyable,
     @SuppressWarnings("unchecked")
     @Override
     public List buildListOfDeletionAwareLists() {
+        List <CommitteeMembershipRole> roles = new ArrayList<CommitteeMembershipRole>();
+        List<CommitteeMembershipExpertise> expertise = new ArrayList<CommitteeMembershipExpertise>();
+        for (CommitteeMembership committeeMembership : getCommittee().getCommitteeMemberships()) {
+            roles.addAll(committeeMembership.getMembershipRoles());
+            expertise.addAll(committeeMembership.getMembershipExpertise());
+        }
+
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(committeeList);
+        managedLists.add(getCommittee().getCommitteeMemberships());
+        managedLists.add(roles);
+        managedLists.add(expertise);
         managedLists.addAll(getCommittee().buildListOfDeletionAwareLists());
         return managedLists;
     }

@@ -293,15 +293,6 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase {
         return hashMap;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public List buildListOfDeletionAwareLists() {
-        List managedLists = super.buildListOfDeletionAwareLists();
-        managedLists.add(this.membershipRoles);
-        managedLists.add(this.membershipExpertise);
-        return managedLists;
-    }
-
     /**
      * Indicates if the <code>CommitteeMemership</code> is "equal to" this one. Equal is defined that the personId and rolodexId are
      * the same.
