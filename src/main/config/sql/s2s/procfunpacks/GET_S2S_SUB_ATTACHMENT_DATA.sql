@@ -18,9 +18,9 @@ BEGIN
 li_mod_str := substr(AW_CONTENT_ID,1,3);
 if (instr(AW_CONTENT_ID,'M',-1,1))=1 then
     li_ModuleNumLength := (instr(AW_CONTENT_ID, '_') - 3);
-	
+
 	li_mod_num:=substr(AW_CONTENT_ID,3,li_ModuleNumLength);
-	
+
 	li_select_clause := 'select a.content_id CONTENT_ID,
 					 						 a.hash_code HASH_CODE,
 											 a.content_type CONTENT_TYPE,
@@ -44,13 +44,13 @@ elsif(instr(AW_CONTENT_ID,'ID'))=1 then
 	where a.content_id = '''||AW_CONTENT_ID||''' and
 		  a.PROPOSAL_NUMBER = '''||AW_PROPOSAL_NUMBER||''' and
 		  a.PROPOSAL_NUMBER = b.PROPOSAL_NUMBER and
-		  ''ID-''||b.PERSON_ID='''||li_person_id||''' and 
+		  ''ID-''||b.PERSON_ID='''||li_person_id||''' and
 		  ''BN-''||b.BIO_NUMBER ='''||li_bn||'''';
-elsif(instr(AW_CONTENT_ID,'cid:'))=1 then
+elsif((instr(AW_CONTENT_ID,'cid:'))=1 or (instr(AW_CONTENT_ID,'RR_Budget_P4:'))=1) then
 -- 	person_id:=substr(AW_CONTENT_ID,0,instr(AW_CONTENT_ID,'_')-1);
 -- 	bn_str:= substr(AW_CONTENT_ID,length(person_id)+2);
 -- 	bn:=substr(bn_str,0,instr(bn_str,'_')-1);
-	
+
 	li_select_clause := 'select ''Subaward_Budget_''||ROWNUM CONTENT_ID,
 					 						 a.hash_code HASH_CODE,
 											 a.content_type CONTENT_TYPE,
@@ -80,5 +80,3 @@ open cur_generic for li_select_clause;
 --	   DBMS_SQL.EXECUTE_AND_FETCH(cur);
 
 END;
-/
-
