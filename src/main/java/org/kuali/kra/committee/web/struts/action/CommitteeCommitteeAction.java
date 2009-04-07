@@ -67,10 +67,10 @@ public class CommitteeCommitteeAction extends CommitteeAction {
      * @see org.kuali.kra.committee.web.struts.action.CommitteeAction#processMultipleLookupResults(org.kuali.kra.committee.document.CommitteeDocument, java.lang.Class, java.util.Collection)
      */
     @Override
-    protected void processMultipleLookupResults(CommitteeDocument committeeDocument,
+    protected void processMultipleLookupResults(CommitteeForm committeeForm,
             Class lookupResultsBOClass, Collection<PersistableBusinessObject> selectedBOs) {
         if (lookupResultsBOClass.isAssignableFrom(ResearchArea.class)) {
-            getCommitteeService().addResearchAreas(committeeDocument.getCommittee(), (Collection) selectedBOs);
+            getCommitteeService().addResearchAreas(committeeForm.getCommitteeDocument().getCommittee(), (Collection) selectedBOs);
         }
     }
     

@@ -28,6 +28,10 @@ public class MembershipExpertiseHelper {
      */
     private CommitteeForm form;
 
+    // Needed when multipleValuesLookup populates a CommitteeMembership with the CommitteeMembershipExpertise,
+    // so it know which CommitteeMembership should get them.
+    private int memberIndex;
+
     private List<CommitteeMembershipExpertise> newCommitteeMembershipExpertise;
     
     public MembershipExpertiseHelper(CommitteeForm form) {
@@ -52,6 +56,14 @@ public class MembershipExpertiseHelper {
 
     public void setForm(CommitteeForm form) {
         this.form = form;
+    }
+
+    public void setMemberIndex(int memberIndex) {
+        this.memberIndex = memberIndex;
+    }
+
+    public int getMemberIndex() {
+        return memberIndex;
     }
 
 }

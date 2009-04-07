@@ -36,7 +36,7 @@
                                         (select)
                                         <kul:multipleValueLookup boClassName="org.kuali.kra.bo.ResearchArea" 
                                                                  lookedUpCollectionName="committeeResearchAreas"
-                                                                 anchor="${currentTabIndex}"/>
+                                                                 anchor="${currentTabIndex}.memberIndex${memberIndex}"/>
                                     </div>
                                 </td>
                                 
