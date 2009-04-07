@@ -24,21 +24,26 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiRuleService;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.award.bo.AwardReportTerm;
 import org.kuali.kra.award.bo.AwardReportTermRecipient;
 import org.kuali.kra.award.bo.ReportClass;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.common.customattributes.CustomDataAction;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.web.struts.form.ProtocolForm;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.service.AwardReportsService;
 import org.kuali.kra.service.AwardSponsorTermService;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.KNSServiceLocator;
@@ -96,6 +101,22 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
         }
 
         return forward;
+    }
+    
+    /**
+     * Create the original set of Award Users for a new Award Document.
+     * The creator the protocol is assigned to the AWARD_AGGREGATOR role.
+     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#initialDocumentSave(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     */
+    @Override
+    protected void initialDocumentSave(KualiDocumentFormBase form) throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        AwardDocument doc = awardForm.getAwardDocument();
+        
+        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        String username = user.getPersonUserIdentifier();
+        KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
+        kraAuthService.addRole(username, RoleConstants.AWARD_AGGREGATOR, doc.getAward());
     }
     
     /**

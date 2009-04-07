@@ -23,12 +23,12 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.document.authorization.AwardTask;
-import org.kuali.kra.award.service.AwardAuthorizationService;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.service.KraAuthorizationService;
 
 /**
  * The PermissionsHelper is used to manage the Permissions tab web page.
@@ -118,8 +118,8 @@ public class AwardPermissionsHelper extends PermissionsHelperBase {
      */
     @Override
     protected List<Person> getPersonsInRole(String roleName) {
-        AwardAuthorizationService awardAuthService = KraServiceLocator.getService(AwardAuthorizationService.class);
-        return awardAuthService.getPersonsInRole(getAward(), roleName);
+        KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
+        return kraAuthService.getPersonsInRole(getAward(), roleName);
     }
 
     /**
