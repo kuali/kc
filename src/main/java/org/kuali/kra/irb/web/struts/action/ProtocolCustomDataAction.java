@@ -45,6 +45,11 @@ public class ProtocolCustomDataAction extends ProtocolAction {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
+        /*
+         * Primarily, the customdata.tag is using 'customdatahelper.xxx' as field name, 
+         * but the field value is coming from document,  so this copy has to be done 
+         * every time custom data page is refreshed. 
+         */
         CustomDataAction.copyCustomDataToDocument(form);
 
         ((ProtocolForm)form).getCustomDataHelper().prepareView();
