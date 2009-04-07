@@ -21,7 +21,10 @@ import java.util.List;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.SessionDocument;
 import org.kuali.kra.award.bo.Award;
+import org.kuali.kra.award.service.AwardAuthorizationService;
+import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 
 /**
  * 
@@ -112,5 +115,15 @@ public class AwardDocument extends ResearchDocumentBase implements  Copyable, Se
     protected void init() {
         awardList = new ArrayList<Award>();
         awardList.add(new Award());
+    }
+    
+    /**
+     * @see org.kuali.kra.document.ResearchDocumentBase#getAllRolePersons()
+     */
+    @Override
+    protected List<RolePersons> getAllRolePersons() {
+        AwardAuthorizationService awardAuthService = 
+               (AwardAuthorizationService) KraServiceLocator.getService(AwardAuthorizationService.class); 
+        return awardAuthService.getAllRolePersons(getAward());
     }
 }
