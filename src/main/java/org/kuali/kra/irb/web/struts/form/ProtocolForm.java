@@ -57,6 +57,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     private ParticipantsHelper participantsHelper;
     private CustomDataHelper customDataHelper = new CustomDataHelper(this);
     private SpecialReviewHelper specialReviewHelper;
+    private ActionHelper actionHelper;
     private boolean auditActivated;
     
     private ProtocolReference newProtocolReference;
@@ -83,10 +84,13 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         setPermissionsHelper(new PermissionsHelper(this));
         setParticipantsHelper(new ParticipantsHelper());
         setSpecialReviewHelper(new SpecialReviewHelper(this));
+        setActionHelper(new ActionHelper(this));
         setNewProtocolReference(new ProtocolReference());
     }
 
     
+
+   
 
     public ProtocolDocument getProtocolDocument() {
         return (ProtocolDocument) this.getDocument();
@@ -280,5 +284,13 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
      */
     public ResearchDocumentBase getResearchDocument() {
         return getProtocolDocument();
+    }
+    
+    public ActionHelper getActionHelper() {
+        return actionHelper;
+    }
+    
+    private void setActionHelper(ActionHelper actionHelper) {
+        this.actionHelper = actionHelper;
     }
 }
