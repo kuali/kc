@@ -255,22 +255,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
      * @throws Exception
      */
     private void streamToResponse(AttachmentDataSource attachmentDataSource,HttpServletResponse response) throws Exception{
-        byte[] xbts = attachmentDataSource.getContent();
-        ByteArrayOutputStream baos = null;
-        try{
-            baos = new ByteArrayOutputStream(xbts.length);
-            baos.write(xbts);
-            WebUtils.saveMimeOutputStreamAsFile(response, attachmentDataSource.getContentType(), baos, attachmentDataSource.getFileName());
-        }finally{
-            try{
-                if(baos!=null){
-                    baos.close();
-                    baos = null;
-                }
-            }catch(IOException ioEx){
-                LOG.warn(ioEx.getMessage(), ioEx);
-            }
-        }
+        this.streamToResponse(attachmentDataSource.getContent(), attachmentDataSource.getFileName(), attachmentDataSource.getContentType(), response);
     }
 
     /**
