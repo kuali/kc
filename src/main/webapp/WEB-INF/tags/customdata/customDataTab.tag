@@ -17,8 +17,6 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ attribute name="name" required="true" %>
 
-<c:set var="action" value="${name}CustomData" />
-
 <div id="workarea">
 	<c:set var="fieldCount" value="0" />
 	<c:forEach items="${KualiForm.customDataHelper.customAttributeGroups}" var="customAttributeGroup" varStatus="groupStatus">
