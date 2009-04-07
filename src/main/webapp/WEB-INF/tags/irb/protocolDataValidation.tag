@@ -17,7 +17,7 @@
 <%-- FIXME: We should find a way to generalize all of these data validation tags rather than copying and pasting logic with minor modifications--%>
 <c:set var="categories" value="Validation Errors,Warnings" />
 
-<kul:tabTop tabTitle="Data Validation" defaultOpen="${KualiForm.auditActivated}"  
+<kul:tab tabTitle="Data Validation" defaultOpen="${KualiForm.auditActivated}"  
             tabErrorKey="">
 	<div class="tab-container"  align="center">
 		<h3> 
@@ -50,4 +50,4 @@
 			</table>
 		</c:if>
 	</div>
-</kul:tabTop>
+</kul:tab>
