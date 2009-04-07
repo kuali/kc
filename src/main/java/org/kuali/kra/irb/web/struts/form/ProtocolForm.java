@@ -227,10 +227,6 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     public String getActionName() {
         return "protocol";
     }
-    
-    public String getDocumentTypeName() {
-        return "ProtocolDocument";
-    }
 
     public CustomDataHelper getCustomDataHelper() {
         return customDataHelper;
