@@ -89,13 +89,13 @@ public class ProtocolParticipantServiceTest {
         int participantSize = protocol.getProtocolParticipants().size();
         assertTrue("participant size is " + participantSize, participantSize == 4);
         String participantCode1 = protocol.getProtocolParticipant(0).getParticipantTypeCode();
-        assertTrue("participant type code of participant 1 is " + participantCode1, participantCode1 == "1");
+        assertTrue("participant type code of participant 1 is " + participantCode1, "1".equals(participantCode1));
         String participantCode2 = protocol.getProtocolParticipant(1).getParticipantTypeCode();
-        assertTrue("participant type code of participant 2 is " + participantCode2, participantCode2 == "2");
+        assertTrue("participant type code of participant 2 is " + participantCode2, "2".equals(participantCode2));
         String participantCode3 = protocol.getProtocolParticipant(2).getParticipantTypeCode();
-        assertTrue("participant type code of participant 3 is " + participantCode3, participantCode3 == "3");
+        assertTrue("participant type code of participant 3 is " + participantCode3, "3".equals(participantCode3));
         String participantCode4 = protocol.getProtocolParticipant(3).getParticipantTypeCode();
-        assertTrue("participant type code of participant 4 is " + participantCode4, participantCode4 == "4");
+        assertTrue("participant type code of participant 4 is " + participantCode4, "4".equals(participantCode4));
         
     }
 
