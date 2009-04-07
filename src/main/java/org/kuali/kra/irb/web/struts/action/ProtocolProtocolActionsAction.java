@@ -79,4 +79,9 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             throws Exception {
         return new AuditActionHelper().setAuditMode(mapping, (ProtocolForm) form, false);
     }
+    
+    public ActionForward refreshScheduleDates(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
 }

@@ -29,6 +29,7 @@
   	headerTabActive="protocolActions">
   	
 <div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="Protocol Actions" /></div>
+<kra-irb:protocolRequestAction />
 <kra-irb:protocolDataValidation />
 <kra-irb:protocolSummaryViewPrint/>
 <kra-irb:protocolCopyProtocol />

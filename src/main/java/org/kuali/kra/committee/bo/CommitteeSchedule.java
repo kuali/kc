@@ -168,6 +168,10 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
 	public void setTime(Timestamp time) {
 		this.time = time;
 	}
+	
+	public Timestamp getActualTime() {
+	    return time;
+	}
 
 	public Date getProtocolSubDeadline() {
 		return protocolSubDeadline;
