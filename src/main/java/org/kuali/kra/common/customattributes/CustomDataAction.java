@@ -46,6 +46,8 @@ import org.kuali.rice.kns.util.KNSPropertyConstants;
  */
 public class CustomDataAction {
     
+    private static final String MAPPING_CUSTOM_DATA = "customData";
+    
     /**
      * Invoked when the "Custom Data" tab is clicked on.  In other words, the
      * end-user is navigating to the "Custom Data" tab.  The custom attribute
@@ -68,14 +70,13 @@ public class CustomDataAction {
             String documentNumber = doc.getDocumentNumber();
             for(Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:customAttributeDocuments.entrySet()) {
                 CustomAttributeDocument customAttributeDocument = customAttributeDocumentEntry.getValue();
-                Map<String, Object> primaryKeys = new HashMap<String, Object>();
-                primaryKeys.put(KNSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
-                primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeDocument.getCustomAttributeId());
-        
-                CustomAttributeDocValue customAttributeDocValue = (CustomAttributeDocValue) KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
+                CustomAttributeDocValue customAttributeDocValue = 
+                          getCustomAttributeDocValue(documentNumber, customAttributeDocument.getCustomAttributeId());
                 if (customAttributeDocValue != null) {
                     customAttributeDocument.getCustomAttribute().setValue(customAttributeDocValue.getValue());
-                    customDataForm.getCustomDataHelper().getCustomAttributeValues().put("id" + customAttributeDocument.getCustomAttributeId().toString(), new String[]{customAttributeDocValue.getValue()});
+                    customDataForm.getCustomDataHelper().getCustomAttributeValues()
+                         .put("id" + customAttributeDocument.getCustomAttributeId().toString(), 
+                              new String[]{customAttributeDocValue.getValue()});
                 }
         
                 String groupName = customAttributeDocument.getCustomAttribute().getGroupName();
@@ -90,7 +91,28 @@ public class CustomDataAction {
         
             customDataForm.getCustomDataHelper().setCustomAttributeGroups(customAttributeGroups);
         }
-        return mapping.findForward("customData");
+        return mapping.findForward(MAPPING_CUSTOM_DATA);
+    }
+    
+    /**
+     * Get the Custom Attribute Doc value.
+     * @param documentNumber
+     * @param customAttributeId
+     * @return
+     */
+    private static CustomAttributeDocValue getCustomAttributeDocValue(String documentNumber, Integer customAttributeId) {
+        Map<String, Object> primaryKeys = new HashMap<String, Object>();
+        primaryKeys.put(KNSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+        primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeId);
+        return (CustomAttributeDocValue) getBusinessObjectService().findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
+    }
+    
+    /**
+     * Get the Business Object Service.
+     * @return
+     */
+    private static BusinessObjectService getBusinessObjectService() {
+        return KraServiceLocator.getService(BusinessObjectService.class);
     }
     
     /**

@@ -20,14 +20,14 @@
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="${KualiForm.actionName}CustomData"
-	documentTypeName="${KualiForm.documentTypeName}"
+	documentTypeName="${KualiForm.docTypeName}"
 	renderMultipart="false"
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="customData">
   	
-  	<div align="right"><kul:help documentTypeName="${KualiForm.documentTypeName}" pageName="Custom Data" /></div>
+  	<div align="right"><kul:help documentTypeName="${KualiForm.docTypeName}" pageName="Custom Data" /></div>
 
 	<kra-customdata:customDataTab name="${KualiForm.actionName}" />
 	<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />

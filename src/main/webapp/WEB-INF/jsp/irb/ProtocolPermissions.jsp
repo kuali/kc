@@ -18,13 +18,13 @@
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="${KualiForm.actionName}Permissions"
-	documentTypeName="${KualiForm.documentTypeName}"
+	documentTypeName="${KualiForm.docTypeName}"
 	renderMultipart="false"
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="permissions">
   	
-  	<kra-permissions:permissionsPage name="${KualiForm.actionName}" documentTypeName="${KualiForm.documentTypeName}" />
+  	<kra-permissions:permissionsPage name="${KualiForm.actionName}" documentTypeName="${KualiForm.docTypeName}" />
   	
 </kul:documentPage>
