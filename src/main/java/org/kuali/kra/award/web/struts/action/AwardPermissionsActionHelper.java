@@ -17,9 +17,9 @@ package org.kuali.kra.award.web.struts.action;
 
 import org.kuali.core.document.Document;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.service.AwardAuthorizationService;
 import org.kuali.kra.common.permissions.web.struts.action.PermissionsActionHelperBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.KraAuthorizationService;
 
 /**
  * The Award Permissions Action Helper performs all of the presentation logic
@@ -42,7 +42,7 @@ public class AwardPermissionsActionHelper extends PermissionsActionHelperBase {
     @Override
     protected void addUserToRoleInDatabase(Document document, String userName, String roleName) {
         AwardDocument awardDocument = (AwardDocument) document;
-        getAwardAuthorizationService().addRole(userName, roleName, awardDocument.getAward());
+        getKraAuthorizationService().addRole(userName, roleName, awardDocument.getAward());
     }
     
     /**
@@ -51,14 +51,14 @@ public class AwardPermissionsActionHelper extends PermissionsActionHelperBase {
     @Override
     protected void removeUserFromRoleInDatabase(Document document, String userName, String roleName) {
         AwardDocument awardDocument = (AwardDocument) document;
-        getAwardAuthorizationService().removeRole(userName, roleName, awardDocument.getAward());
+        getKraAuthorizationService().removeRole(userName, roleName, awardDocument.getAward());
     }
     
     /**
      * Get the Award Authorization Service.
      * @return the Award Authorization Service
      */
-    private AwardAuthorizationService getAwardAuthorizationService() {
-        return KraServiceLocator.getService(AwardAuthorizationService.class);
+    private KraAuthorizationService getKraAuthorizationService() {
+        return KraServiceLocator.getService(KraAuthorizationService.class);
     }
 }
