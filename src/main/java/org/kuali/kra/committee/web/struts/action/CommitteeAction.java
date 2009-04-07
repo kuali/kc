@@ -104,27 +104,26 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         super.refresh(mapping, form, request, response);
-        
+
         CommitteeForm committeeForm = (CommitteeForm) form;
-        CommitteeDocument committeeDocument = committeeForm.getCommitteeDocument();
-                     
+
         // KNS UI hook for lookup resultset, check to see if we are coming back from a lookup
         if (Constants.MULTIPLE_VALUE.equals(committeeForm.getRefreshCaller())) {
             // Multivalue lookup. Note that the multivalue keyword lookup results are returned persisted to avoid using session.
             // Since URLs have a max length of 2000 chars, field conversions can not be done.
             String lookupResultsSequenceNumber = committeeForm.getLookupResultsSequenceNumber();
-            
+
             if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
-                
+
                 Class lookupResultsBOClass = Class.forName(committeeForm.getLookupResultsBOClassName());
                 String userName = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
                 LookupResultsService service = KraServiceLocator.getService(LookupResultsService.class);
                 Collection<PersistableBusinessObject> selectedBOs = service.retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, userName);
-                
-                processMultipleLookupResults(committeeDocument, lookupResultsBOClass, selectedBOs);
+
+                processMultipleLookupResults(committeeForm, lookupResultsBOClass, selectedBOs);
             }
         }
-        
+
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
     
@@ -134,15 +133,15 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
      * Based upon the class, the Committee can be updated accordingly.  This is necessary since there may be
      * more than one multi-lookup on a web page.
      * 
-     * @param committeeDocument the Committee Document
+     * @param committeeForm the Committee Form
      * @param lookupResultsBOClass the class of the BOs that are returned by the Lookup
      * @param selectedBOs the selected BOs
      */
     @SuppressWarnings("unchecked")
-    protected void processMultipleLookupResults(CommitteeDocument committeeDocument, Class lookupResultsBOClass, Collection<PersistableBusinessObject> selectedBOs) {
+    protected void processMultipleLookupResults(CommitteeForm committeeForm, Class lookupResultsBOClass, Collection<PersistableBusinessObject> selectedBOs) {
         // do nothing
     }
-
+    
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
