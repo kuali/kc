@@ -26,6 +26,7 @@ import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -42,6 +43,7 @@ import org.kuali.kra.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.committee.web.struts.form.MembershipHelper;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * The CommitteeMembershipAction corresponds to the Members tab (web page).  It is
@@ -76,7 +78,8 @@ public class CommitteeMembershipAction extends CommitteeAction {
      * @return
      * @throws Exception
      */
-    public ActionForward addCommitteeMembership(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward addCommitteeMembership(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         CommitteeForm committeeForm = (CommitteeForm) form;
         CommitteeMembership newCommitteeMembership = committeeForm.getMembershipHelper().getNewCommitteeMembership();
         
@@ -100,7 +103,8 @@ public class CommitteeMembershipAction extends CommitteeAction {
      * @return
      * @throws Exception
      */
-    public ActionForward deleteCommitteeMembership(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward deleteCommitteeMembership(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         CommitteeForm committeeForm = (CommitteeForm) form;
         CommitteeDocument committeeDocument = committeeForm.getCommitteeDocument();
         getCommitteeMembershipService().deleteCommitteeMembership(committeeDocument.getCommittee());
@@ -118,7 +122,8 @@ public class CommitteeMembershipAction extends CommitteeAction {
      * @return
      * @throws Exception
      */
-    public ActionForward clearCommitteeMembership(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward clearCommitteeMembership(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         CommitteeForm committeeForm = (CommitteeForm) form;
         MembershipHelper membershipHelper = committeeForm.getMembershipHelper();
         membershipHelper.setNewCommitteeMembership(new CommitteeMembership());
@@ -136,14 +141,16 @@ public class CommitteeMembershipAction extends CommitteeAction {
      * @return
      * @throws Exception
      */
-    public ActionForward addCommitteeMembershipRole(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward addCommitteeMembershipRole(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
     CommitteeForm committeeForm = (CommitteeForm) form;
     Committee committee = committeeForm.getCommitteeDocument().getCommittee();
     int selectedMembershipIndex = getSelectedMembershipIndex(request);
     CommitteeMembershipRole newCommitteeMembershipRole = committeeForm.getMembershipRolesHelper().getNewCommitteeMembershipRoles().get(selectedMembershipIndex);
     
     // check any business rules
-    boolean rulePassed = applyRules(new AddCommitteeMembershipRoleEvent(Constants.EMPTY_STRING, committeeForm.getCommitteeDocument(), newCommitteeMembershipRole, selectedMembershipIndex));
+    boolean rulePassed = applyRules(new AddCommitteeMembershipRoleEvent(Constants.EMPTY_STRING, committeeForm.getCommitteeDocument(), 
+                                    newCommitteeMembershipRole, selectedMembershipIndex));
 
     if (rulePassed) {
         getCommitteeMembershipService().addCommitteeMembershipRole(committee, selectedMembershipIndex, newCommitteeMembershipRole);
@@ -164,7 +171,8 @@ public class CommitteeMembershipAction extends CommitteeAction {
      * @return
      * @throws Exception
      */
-    public ActionForward deleteCommitteeMembershipRole(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward deleteCommitteeMembershipRole(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         CommitteeForm committeeForm = (CommitteeForm) form;
         Committee committee = committeeForm.getCommitteeDocument().getCommittee();
         
@@ -173,6 +181,21 @@ public class CommitteeMembershipAction extends CommitteeAction {
         return mapping.findForward(MAPPING_BASIC);
     }
 
+    /**
+     * 
+     * @see org.kuali.core.web.struts.action.KualiAction#performLookup(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward performLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String memberIndex = StringUtils.substringBetween(parameterName, "memberIndex", ".");
+        if (StringUtils.isNotBlank(memberIndex)) {
+            ((CommitteeForm)form).getMembershipExpertiseHelper().setMemberIndex(Integer.parseInt(memberIndex));
+        }
+        return super.performLookup(mapping, form, request, response);
+    }
+    
     /**
      * This method is linked to CommitteeMembershipService to perform the action.
      * Add CommitteeMembershipExpertise to a CommitteeMembership.
@@ -184,11 +207,10 @@ public class CommitteeMembershipAction extends CommitteeAction {
      * @return
      * @throws Exception
      */
-    @Override
-    protected void processMultipleLookupResults(CommitteeDocument committeeDocument,
+    protected void processMultipleLookupResults(CommitteeForm committeeForm,
             Class lookupResultsBOClass, Collection<PersistableBusinessObject> selectedBOs) {
-        int membershipIndex = 0;
-        CommitteeMembership committeeMembership = committeeDocument.getCommittee().getCommitteeMemberships().get(membershipIndex);
+        int membershipIndex = committeeForm.getMembershipExpertiseHelper().getMemberIndex();
+        CommitteeMembership committeeMembership = committeeForm.getCommitteeDocument().getCommittee().getCommitteeMemberships().get(membershipIndex);
         if (lookupResultsBOClass.isAssignableFrom(ResearchArea.class)) {
             getCommitteeMembershipService().addCommitteeMembershipExpertise(committeeMembership, (Collection) selectedBOs);
         }
@@ -205,7 +227,8 @@ public class CommitteeMembershipAction extends CommitteeAction {
      * @return
      * @throws Exception
      */
-    public ActionForward deleteCommitteeMembershipExpertise(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward deleteCommitteeMembershipExpertise(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         CommitteeForm committeeForm = (CommitteeForm) form;
         Committee committee = committeeForm.getCommitteeDocument().getCommittee();
         
@@ -238,12 +261,4 @@ public class CommitteeMembershipAction extends CommitteeAction {
         return selectedMembershipIndex;
     }
     
-//    /**
-//     * This method is to get list of protocol persons
-//     * @param form
-//     * @return
-//     */
-//    private List<ProtocolPerson> getProtocolPersons(ActionForm form) {
-//        return ((ProtocolForm) form).getProtocolDocument().getProtocol().getProtocolPersons();
-//    }
 }
