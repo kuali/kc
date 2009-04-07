@@ -13535,7 +13535,7 @@ INSERT INTO FP_DOC_TYPE_T (FDOC_TYP_CD,FDOC_NM,FDOC_TYP_ACTIVE_CD) VALUES ('COMT
 
 COMMIT;
 INSERT INTO KIM_ROLE_TYPE_T(ROLE_TYPE_CODE, DESCRIPTION) VALUES('A', 'AWARD');
-
+																																																		
 insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(37,'VIEW_AGENDA','View Agenda', 2);
 insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(38,'VIEW_COMMITTEE','View all committees in a unit', 2);
 insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(39,'VIEW_MEMBER_DETAILS','View membership details for a member in a committee', 2);
