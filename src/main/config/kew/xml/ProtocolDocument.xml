@@ -5,7 +5,7 @@
       <documentType>
          <name>ProtocolDocument</name>
          <description>Create a Protocol</description>
-         <label>KRA Protocol</label>
+         <label>KC Protocol</label>
          <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
          <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
          <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
