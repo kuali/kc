@@ -22,6 +22,7 @@ import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.irb.ProtocolAssociate;
+import org.kuali.kra.irb.service.impl.ProtocolFundingSourceServiceImpl.FundingSourceLookup;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.springframework.util.StringUtils;
 
@@ -43,6 +44,18 @@ public class ProtocolFundingSource extends ProtocolAssociate {
     private ProposalDevelopmentDocument fundingProposal;
     private Award fundingAward;
     
+    public ProtocolFundingSource() {
+    }
+    
+    public ProtocolFundingSource(String fundingSource, FundingSourceType fundingSourceType,String fundingSourceName,String fundingSourceTitle) {
+        this.fundingSource = fundingSource;
+        this.fundingSourceType= fundingSourceType;
+        this.fundingSourceName = fundingSourceName;
+        this.fundingSourceTitle = fundingSourceTitle;
+        if  (fundingSourceType != null) {
+            this.fundingSourceTypeCode= fundingSourceType.getFundingSourceTypeCode();
+        }
+    }
     
     public Unit getFundingUnit() {
         return fundingUnit;
@@ -61,8 +74,7 @@ public class ProtocolFundingSource extends ProtocolAssociate {
     }
 
     public ProposalDevelopmentDocument getFundingProposal() {
-        if ((getFundingSourceType().getDescription().compareTo("Development Proposal")==0 ||
-                getFundingSourceType().getDescription().compareTo(   "Institute Proposal")==0)
+        if (FundingSourceLookup.PROPOSAL_DEVELOPMENT.getFundingTypeCode()==getFundingSourceType().getFundingSourceTypeCode() 
                 && StringUtils.hasText(getFundingSource())) {
             this.refreshReferenceObject("fundingProposal");
         }
@@ -101,9 +113,7 @@ public class ProtocolFundingSource extends ProtocolAssociate {
         this.fundingSourceName = fundingSourceName;
     }
 
-    public ProtocolFundingSource() {
 
-    }
 
     public Long getProtocolFundingSourceId() {
         return protocolFundingSourceId;

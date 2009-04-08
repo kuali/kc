@@ -83,8 +83,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     
     private boolean nonEmployeeFlag;
     
-    //TODO move newfundingsource to helper...
-    private ProtocolFundingSource newFundingSource;
     private List<ProtocolFundingSource> protocolFundingSources; 
 
     // this is a transient filed for validation purposes only.
@@ -613,14 +611,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
 
     public void setLeadUnitForValidation(ProtocolUnit leadUnitForValidation) {
         this.leadUnitForValidation = leadUnitForValidation;
-    }
-    
-    public ProtocolFundingSource getNewFundingSource() {
-        return newFundingSource;
-    }
-
-    public void setNewFundingSource(ProtocolFundingSource newFundingSource) {
-        this.newFundingSource = newFundingSource;
     }
 
     public List<ProtocolFundingSource> getProtocolFundingSources() {

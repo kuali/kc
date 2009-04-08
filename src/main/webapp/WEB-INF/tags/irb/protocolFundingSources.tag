@@ -5,7 +5,7 @@
 <c:set var="readOnly" value="${!KualiForm.protocolHelper.modifyProtocol}" />
 
 
-<kul:tab tabTitle="Funding Sources" defaultOpen="false" tabErrorKey="document.protocol.protocolFundingSource*,document.protocol.newFundingSource*,document.protocolList[0].newFundingSource.fundingSourceTypeCode*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.title" useRiceAuditMode="true">
+<kul:tab tabTitle="Funding Sources" defaultOpen="false" tabErrorKey="document.protocol.protocolFundingSource*,protocolHelper.newFundingSource*,protocolHelper.newFundingSource.fundingSourceTypeCode*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.title" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Funding Sources</span>
@@ -32,7 +32,7 @@
 	<%-- --%>               
 	                <td>
 	                    <div align="center">
-	                        <kul:htmlControlAttribute property="document.protocolList[0].newFundingSource.fundingSourceTypeCode" 
+	                        <kul:htmlControlAttribute property="protocolHelper.newFundingSource.fundingSourceTypeCode" 
 	                                                  attributeEntry="${protocolFundingSourceAttributes.fundingSourceTypeCode}" />
 	                    </div>
 	                </td> 
@@ -40,13 +40,13 @@
 	                
 	                <td>
 	                        <div align="center">
-	                        <kul:htmlControlAttribute property="document.protocolList[0].newFundingSource.fundingSource" 
+	                        <kul:htmlControlAttribute property="protocolHelper.newFundingSource.fundingSource" 
 	                                                  attributeEntry="${protocolFundingSourceAttributes.fundingSource}"
 	                                                  onblur="loadFundingSourceNameTitle(
-	                                                          'document.protocolList[0].newFundingSource.fundingSourceTypeCode',
-	                                                          'document.protocolList[0].newFundingSource.fundingSource',
-	                                                          'document.protocolList[0].newFundingSource.fundingSourceName',
-	                                                          'document.protocolList[0].newFundingSource.fundingSourceTitle');" />
+	                                                          'protocolHelper.newFundingSource.fundingSourceTypeCode',
+	                                                          'protocolHelper.newFundingSource.fundingSource',
+	                                                          'protocolHelper.newFundingSource.fundingSourceName',
+	                                                          'protocolHelper.newFundingSource.fundingSourceTitle');" />
 	
 	<%--                          lookupKeyPath="document.protocolList[0].newFundingSource.fundingSourceTypeType.description" 
 	 --%>                        
@@ -58,13 +58,13 @@
 	             
 	                <td>
 	                    <div align="center">
-	                    <kul:htmlControlAttribute property="document.protocolList[0].newFundingSource.fundingSourceName" 
+	                    <kul:htmlControlAttribute property="protocolHelper.newFundingSource.fundingSourceName" 
 	                                            attributeEntry="${protocolFundingSourceAttributes.fundingSourceName}" />
 	                    </div>
 	                </td>
 	                <td>
 	                <div align="center">
-	                    <kul:htmlControlAttribute property="document.protocolList[0].newFundingSource.fundingSourceTitle" 
+	                    <kul:htmlControlAttribute property="protocolHelper.newFundingSource.fundingSourceTitle" 
 	                                            readOnly="true"      attributeEntry="${protocolFundingSourceAttributes.fundingSourceTitle}" />
 	                </div>
 	                   <c:out value="${document.protocolList[0].newFundingSource.fundingSourceTitle}" />

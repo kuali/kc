@@ -32,6 +32,7 @@ import org.kuali.core.document.Document;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.bo.ProtocolFundingSource;
 import org.kuali.kra.irb.bo.ProtocolLocation;
 import org.kuali.kra.irb.bo.ProtocolParticipant;
 import org.kuali.kra.irb.bo.ProtocolReference;
@@ -318,14 +319,20 @@ public class ProtocolProtocolAction extends ProtocolAction {
                                                   HttpServletRequest request, 
                                                   HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolFundingSource fundingSource = protocolForm.getProtocolHelper().getNewFundingSource();
         AddProtocolFundingSourceEvent event = 
-            new AddProtocolFundingSourceEvent(Constants.EMPTY_STRING,protocolForm.getDocument());
+            new AddProtocolFundingSourceEvent(Constants.EMPTY_STRING,
+                    protocolForm.getDocument(), 
+                    fundingSource);
+
         
         if(applyRules(event)) {
             ((ProtocolForm)form).getProtocolHelper().syncFundingSources(protocolForm.getDocument().getProtocol());
-            getProtocolFundingSourceService().addProtocolFundingSource(protocolForm.getDocument().getProtocol());
-        }
-        
+            getProtocolFundingSourceService().addProtocolFundingSource(protocolForm.getDocument().getProtocol(), 
+                    protocolForm.getProtocolHelper().getNewFundingSource());
+            protocolForm.getProtocolHelper().setNewFundingSource(new ProtocolFundingSource());
+        }        
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -362,31 +369,32 @@ public class ProtocolProtocolAction extends ProtocolAction {
     public ActionForward performFundingSourceLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
+        ActionForward returnAction = null;
+        
         String fieldConversions="";
         String boClassName = null;
-        if (((ProtocolForm)form).getDocument().getProtocol().getNewFundingSource().getFundingSourceType() != null) {
-            boClassName = ((ProtocolForm)form).getDocument().getProtocol().getNewFundingSource().getFundingSourceType().getDescription();
-        }
-        HashMap<String, String> map = getProtocolFundingSourceService().getLookupParameters(boClassName);
-
-        boolean isValid = getProtocolFundingSourceService().isValidLookup(boClassName);
-        
-        if (!map.isEmpty()) {
-            boClassName = map.keySet().iterator().next();
-            fieldConversions = map.get(boClassName);
-        } else {
-            isValid=false;
+        if (((ProtocolForm)form).getProtocolHelper().getNewFundingSource().getFundingSourceType() != null) {
+            boClassName = ((ProtocolForm)form).getProtocolHelper().getNewFundingSource().getFundingSourceType().getDescription();
         }
 
-        if (!isValid) {
-             return mapping.findForward(MAPPING_BASIC);             
-        }        
-                
-        String fullParameter = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
-        String updatedParameter = getProtocolFundingSourceService().updateLookupParameter( fullParameter,  boClassName,  fieldConversions);
-
-        request.setAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE, updatedParameter);
-        return super.performLookup( mapping,  form,  request, response);
+        if ( !getProtocolFundingSourceService().isValidLookup(boClassName)) {
+            returnAction =  mapping.findForward(MAPPING_BASIC);             
+        } else {            
+            HashMap<String, String> map = getProtocolFundingSourceService().getLookupParameters(boClassName);
+            
+            if (!map.isEmpty()) {
+                boClassName = map.keySet().iterator().next();
+                fieldConversions = map.get(boClassName);
+                String fullParameter = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+                String updatedParameter = getProtocolFundingSourceService().updateLookupParameter( fullParameter,  boClassName,  fieldConversions);
+    
+                request.setAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE, updatedParameter);
+                returnAction = super.performLookup( mapping,  form,  request, response);
+            } else {
+                returnAction = mapping.findForward(MAPPING_BASIC);             
+            }  
+        }
+        return returnAction;
     }
     
     
@@ -394,18 +402,12 @@ public class ProtocolProtocolAction extends ProtocolAction {
      * This method is to get protocol location service
      * @return ProtocolLocationService
      */
-    protected ProtocolFundingSourceService getProtocolFundingSourceService() {
-        
-        ProtocolFundingSourceService protocolFundingSourceService = 
-            (ProtocolFundingSourceService) KraServiceLocator.getService("protocolFundingSourceService");
-        
-        return protocolFundingSourceService;
+    protected ProtocolFundingSourceService getProtocolFundingSourceService() {        
+        return (ProtocolFundingSourceService) KraServiceLocator.getService(ProtocolFundingSourceService.class);
     }
     
-    private ProtocolProtocolService getProtocolProtocolService() {
-        
-        return (ProtocolProtocolService) KraServiceLocator.getService("protocolProtocolService");
-        
+    private ProtocolProtocolService getProtocolProtocolService() {        
+        return (ProtocolProtocolService) KraServiceLocator.getService(ProtocolProtocolService.class);        
     }
  
     
