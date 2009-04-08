@@ -27,14 +27,8 @@ public interface ProtocolFundingSourceService {
      * This method adds ProtocolFundingSource to the List of ProtocolFundingSources.
      * @param protocol which contains list of ProtocolFundingSources.
      */
-    public abstract void addProtocolFundingSource(Protocol protocol);
+    public abstract void addProtocolFundingSource(Protocol protocol, ProtocolFundingSource fundingSource);
     
-    /**
-     * This method adds a default ProtocolFundingSource to the List of ProtocolFundingSources.
-     * i.e. Initialize protocol FundingSource with a default organization
-     * @param protocol which contains list of ProtocolFundingSources.
-     */
-    public abstract void addDefaultProtocolFundingSource(Protocol protocol);
 
     /**
      * This method deletes ProtocolFundingSource from the List at specified position(lineNumber)
@@ -44,7 +38,7 @@ public interface ProtocolFundingSourceService {
     public abstract void deleteProtocolFundingSource(Protocol protocol, int lineNumber);
 
     
-    public abstract ProtocolFundingSource getNameAndTitle(String sourceId, String sourceType, String sourceName, String sourceTitle);
+    public abstract ProtocolFundingSource calculateProtocolFundingSource(String sourceId, String sourceType, String sourceName, String sourceTitle);
     
     /**
      * 
@@ -54,6 +48,12 @@ public interface ProtocolFundingSourceService {
      */
     public boolean isValidIdForType(ProtocolFundingSource source);
     
+    /**
+     * 
+     * This method verifies that funding source lookup is available for FundingSourceType
+     * @param boClassName
+     * @return
+     */
     public boolean isValidLookup(String boClassName);
 
     public HashMap<String, String> getLookupParameters(String boName);

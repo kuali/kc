@@ -18,7 +18,9 @@ package org.kuali.kra.irb.rules;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.irb.bo.ProtocolFundingSource;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.rule.AddProtocolFundingSourceRule;
 import org.kuali.kra.irb.rule.event.AddProtocolFundingSourceEvent;
@@ -29,45 +31,46 @@ public class ProtocolFundingSourceRule extends ResearchDocumentRuleBase implemen
         
     public boolean processAddProtocolFundingSourceBusinessRules(AddProtocolFundingSourceEvent addProtocolFundingSourceEvent) {
         boolean isValid = true;
-        ProtocolDocument document = (ProtocolDocument) addProtocolFundingSourceEvent.getDocument();
-        
-        if (document.getProtocol().getNewFundingSource() == null) {            
+
+        ProtocolFundingSource fundingSrc = addProtocolFundingSourceEvent.getFundingSource();
+        if (fundingSrc == null) {            
             isValid = false;
-            reportError("document.protocolList[0].newFundingSource.fundingSourceTypeCode", KeyConstants.ERROR_PROTOCOL_FUNDING_TYPE_NOT_FOUND);             
-        }
-        
-        String fundingId =  document.getProtocol().getNewFundingSource().getFundingSource();
-        String fundingName =  document.getProtocol().getNewFundingSource().getFundingSourceName();
-        
-        if (StringUtils.isNotBlank(fundingId) 
-                && document.getProtocol().getNewFundingSource().getFundingSourceTypeCode() != null
-                && StringUtils.isNotBlank(document.getProtocol().getNewFundingSource().getFundingSourceTypeCode().toString())) {
-            if (StringUtils.isBlank(fundingName)) {
-                isValid=false;
-                reportError("document.protocolList[0].newFundingSource.fundingSourceName", KeyConstants.ERROR_PROTOCOL_FUNDING_NAME_NOT_FOUND);     
-            }
-            if (!getProtocolFundingSourceService().isValidIdForType(document.getProtocol().getNewFundingSource())) {
-                isValid = false;
-                reportError("document.protocolList[0].newFundingSource.fundingSource", KeyConstants.ERROR_PROTOCOL_FUNDING_ID_INVALID_FOR_TYPE, document.getProtocol().getNewFundingSource().getFundingSourceType().getDescription(), fundingId);         
-            }
+            reportError(Constants.PROTO_FUNDING_SRC_TYPE_CODE_FIELD, KeyConstants.ERROR_PROTOCOL_FUNDING_TYPE_NOT_FOUND);             
         } else {
-            if (StringUtils.isBlank(fundingId)) {
-                isValid = false;
-                reportError("document.protocolList[0].newFundingSource.fundingSource", KeyConstants.ERROR_PROTOCOL_FUNDING_ID_NOT_FOUND); 
-            }               
-            if ( document.getProtocol().getNewFundingSource().getFundingSourceType() ==null ||
-                    StringUtils.isBlank(document.getProtocol().getNewFundingSource().getFundingSourceType().getDescription())) {
-                isValid = false;
-                reportError("document.protocolList[0].newFundingSource.fundingSourceTypeCode", KeyConstants.ERROR_PROTOCOL_FUNDING_TYPE_NOT_FOUND); 
-            } 
-            if ( StringUtils.isBlank(fundingName) ) {
-                isValid = false;
-                reportError("document.protocolList[0].newFundingSource.fundingSourceName", KeyConstants.ERROR_PROTOCOL_FUNDING_NAME_NOT_FOUND);         
-            }
+            isValid = checkFundingSource(fundingSrc);
         }
         
         return isValid;
     }
+    
+    private boolean checkFundingSource(ProtocolFundingSource fundingSrc) {
+        boolean isValid = true;
+        String fundingId =  fundingSrc.getFundingSource();
+        String fundingName =  fundingSrc.getFundingSourceName();
+
+        if (!getProtocolFundingSourceService().isValidIdForType(fundingSrc)) {
+            isValid = false;
+            reportError(Constants.PROTO_FUNDING_SRC_ID_FIELD, KeyConstants.ERROR_PROTOCOL_FUNDING_ID_INVALID_FOR_TYPE, 
+                        fundingSrc.getFundingSourceType().getDescription(), fundingId);         
+        }
+        
+        if (StringUtils.isBlank(fundingId)) {
+            isValid = false;
+            reportError(Constants.PROTO_FUNDING_SRC_ID_FIELD, KeyConstants.ERROR_PROTOCOL_FUNDING_ID_NOT_FOUND); 
+        }               
+        if ( fundingSrc.getFundingSourceType() ==null 
+             || StringUtils.isBlank(fundingSrc.getFundingSourceType().getDescription())) {
+            isValid = false;
+            reportError(Constants.PROTO_FUNDING_SRC_TYPE_CODE_FIELD, KeyConstants.ERROR_PROTOCOL_FUNDING_TYPE_NOT_FOUND); 
+        } 
+        if ( StringUtils.isBlank(fundingName) ) {
+            isValid = false;
+            reportError(Constants.PROTO_FUNDING_SRC_NAME_FIELD, KeyConstants.ERROR_PROTOCOL_FUNDING_NAME_NOT_FOUND);         
+        }
+
+        return isValid;
+    }
+    
 
     private ProtocolFundingSourceService getProtocolFundingSourceService() {
         return getService(ProtocolFundingSourceService.class);
