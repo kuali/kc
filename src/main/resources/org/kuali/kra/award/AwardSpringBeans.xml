@@ -52,6 +52,8 @@
 	
 	<bean id="awardSponsorTermService" class="org.kuali.kra.service.impl.AwardSponsorTermServiceImpl">
 	</bean>
+	<bean id="awardDirectFandADistributionService" class="org.kuali.kra.service.impl.AwardDirectFandADistributionServiceImpl">
+	</bean>
 	<bean id="keywordsService" class="org.kuali.kra.service.impl.KeywordsServiceImpl">
 	</bean>
 	<bean id="specialReviewService" class="org.kuali.kra.service.impl.SpecialReviewServiceImpl">

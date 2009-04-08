@@ -1,0 +1,80 @@
+/*
+ * Copyright 2006-2008 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl1.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.kuali.kra.award.rule.event;
+
+import org.apache.log4j.Logger;
+import org.kuali.core.rule.BusinessRule;
+import org.kuali.kra.award.bo.AwardDirectFandADistribution;
+import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.rule.AwardDirectFandADistributionRule;
+import org.kuali.kra.rule.event.KraDocumentEventBase;
+
+/**
+ * This class represents the rule event for Award Direct F and A Distribution tab.
+ */
+public class AwardDirectFandADistributionRuleEvent extends KraDocumentEventBase {
+
+    private static final Logger LOG = Logger.getLogger(AwardDirectFandADistributionRuleEvent.class);
+    
+    AwardDirectFandADistribution awardDirectFandADistribution;
+    
+    public AwardDirectFandADistributionRuleEvent(String errorPathPrefix, 
+                                                        AwardDocument awardDocument, AwardDirectFandADistribution awardDirectFandADistribution) {
+            super("Direct F and A Distribution", errorPathPrefix, awardDocument);
+            this.awardDirectFandADistribution = awardDirectFandADistribution;
+    }
+    
+    /**
+     * Convenience method to return an AwardDocument
+     * @return
+     */
+    public AwardDocument getAwardDocument() {
+        return (AwardDocument) getDocument();
+    }
+    
+    /**
+     * This method returns the equipment item for validation
+     * @return
+     */
+    public AwardDirectFandADistribution getAwardDirectFandADistributionForValidation() {
+        return awardDirectFandADistribution;
+    }
+    
+    
+    /**
+     * @see org.kuali.kra.rule.event.KraDocumentEventBase#logEvent()
+     */
+    @Override
+    protected void logEvent() {
+        LOG.info("Logging AwardDirectFandADistributionRuleEvent");
+    }
+
+    /**
+     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
+     */
+    @SuppressWarnings("unchecked")
+    public Class getRuleInterfaceClass() {
+        return AwardDirectFandADistributionRule.class;
+    }
+
+    /**
+     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
+     */
+    public boolean invokeRuleMethod(BusinessRule rule) {
+        return ((AwardDirectFandADistributionRule)rule).processAddAwardDirectFandADistributionBusinessRules(this);
+    }
+
+}

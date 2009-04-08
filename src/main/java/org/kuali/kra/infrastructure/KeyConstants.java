@@ -277,6 +277,12 @@ public final class KeyConstants {
     //Award Cost Share Confirmation Questions
     public static final String QUESTION_DELETE_COST_SHARE = "document.question.deleteCostShare.text";
     
+    //Award Direc F and A Distribution
+    public static final String ERROR_START_DATE_PRECEDES_END_DATE = "error.awardDirectFandADistribution.invalid.start.end.dates";
+    public static final String ERROR_OVERLAPPING_DATE_RANGES = "error.awardDirectFandADistribution.date.ranges.overlap";
+    public static final String ERROR_TARGET_START_DATE = "error.awardDirectFandADistribution.invalid.start.date";
+    public static final String ERROR_TARGET_END_DATE = "error.awardDirectFandADistribution.invalid.end.date";
+    
     //Award Indirect Cost Rate
     public static final String ERROR_REQUIRED_APPLICABLE_INDIRECT_COST_RATE = "error.required.applicable.indirect.cost.rate";
     public static final String ERROR_APPLICABLE_INDIRECT_COST_RATE_CAN_NOT_BE_NEGATIVE = "error.applicable.indirect.cost.rate.can.not.be.negative";

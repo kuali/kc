@@ -107,6 +107,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private List<AwardFandaRate> awardFandaRate;
     private List<AwardReportTerm> awardReportTerms;
     private List<AwardSponsorTerm> awardSponsorTerms;
+    private List<AwardDirectFandADistribution> awardDirectFandADistributions;
 
     private List<AwardApprovedSubaward> awardApprovedSubawards;
     
@@ -116,6 +117,10 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private List<AwardApprovedForeignTravel> approvedForeignTravelTrips;
     private List<AwardPaymentSchedule> paymentScheduleItems;
     private List<AwardTransferringSponsor> awardTransferringSponsors;
+    
+    //temporary fields for Direct F and A Distribution on Time and Money Page
+    private KualiDecimal obligatedTotal;
+    private KualiDecimal anticipatedTotal;
 
     /**
      * 
@@ -145,6 +150,9 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         setScienceCodeIndicator(YES_FLAG);
         setSpecialReviewIndicator(YES_FLAG);
         setTransferSponsorIndicator(YES_FLAG);
+        //initialize temp values for Direct F and A Distribution on Time and Money Page
+        setObligatedTotal(new KualiDecimal(10000.00));
+        setAnticipatedTotal(new KualiDecimal(125000.00));
     }
     
     /**
@@ -1173,6 +1181,53 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
          }
          return returnVal;
      }
+     
+     /**
+      * This method calculates the total Direct Cost Amount for all Direct F and A Distributions.
+      * @return The total value
+      */
+     public KualiDecimal getTotalDirectFandADistributionDirectCostAmount() {
+         KualiDecimal returnVal = new KualiDecimal(0.00);
+         for(AwardDirectFandADistribution awardDirectFandADistribution : awardDirectFandADistributions) {
+             KualiDecimal amount;
+             if(awardDirectFandADistribution.getDirectCost() != null) {
+                 amount = awardDirectFandADistribution.getDirectCost();
+             }else {
+                 amount = new KualiDecimal(0.00);
+             }
+             returnVal = returnVal.add(amount);
+         }
+         return returnVal;
+     }
+     
+     /**
+      * This method calculates the total Direct Cost Amount for all Direct F and A Distributions.
+      * @return The total value
+      */
+     public KualiDecimal getTotalDirectFandADistributionIndirectCostAmount() {
+         KualiDecimal returnVal = new KualiDecimal(0.00);
+         for(AwardDirectFandADistribution awardDirectFandADistribution : awardDirectFandADistributions) {
+             KualiDecimal amount;
+             if(awardDirectFandADistribution.getIndirectCost() != null) {
+                 amount = awardDirectFandADistribution.getIndirectCost();
+             }else {
+                 amount = new KualiDecimal(0.00);
+             }
+             returnVal = returnVal.add(amount);
+         }
+         return returnVal;
+     }
+     
+     /**
+      * This method calculates the total Direct Cost Amount for all Direct F and A Distributions.
+      * @return The total value
+      */
+     public KualiDecimal getTotalDirectFandADistributionAnticipatedCostAmount() {
+         KualiDecimal returnVal = new KualiDecimal(0.00);
+         returnVal = returnVal.add(getTotalDirectFandADistributionDirectCostAmount());
+         returnVal = returnVal.add(getTotalDirectFandADistributionIndirectCostAmount());
+         return returnVal;
+     }
     
     /**
      * This method totals Approved SubAward amounts
@@ -1331,6 +1386,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         setAwardSponsorTerms(new ArrayList<AwardSponsorTerm>());
         paymentScheduleItems = new ArrayList<AwardPaymentSchedule>();
         awardTransferringSponsors = new ArrayList<AwardTransferringSponsor>();
+        awardDirectFandADistributions = new ArrayList<AwardDirectFandADistribution>();
     }
 
     /**
@@ -1399,6 +1455,37 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public void add(AwardSponsorTerm awardSponsorTerm) {
         awardSponsorTerms.add(awardSponsorTerm);
         awardSponsorTerm.setAward(this);
+    }
+    
+    /**
+     * This method adds AwardDirectFandADistribution to end of list.
+     * @param awardDirectFandADistribution
+     */
+    public void add(AwardDirectFandADistribution awardDirectFandADistribution) {
+        awardDirectFandADistributions.add(awardDirectFandADistribution);
+        awardDirectFandADistribution.setAward(this);
+        awardDirectFandADistribution.setBudgetPeriod(awardDirectFandADistributions.size());
+    }
+    
+    /**
+     * This method adds AwardDirectFandADistribution to the given index in the list.
+     * @param awardDirectFandADistribution
+     */
+    public void add(int index, AwardDirectFandADistribution awardDirectFandADistribution) {
+        awardDirectFandADistributions.add(index, awardDirectFandADistribution);
+        awardDirectFandADistribution.setAward(this);
+        awardDirectFandADistribution.setBudgetPeriod(index + 1);
+        updateDirectFandADistributionBudgetPeriods(index + 1);
+    }
+    
+    /**
+     * This method updates the budget periods in the Award after insertion of new Award Direct F and A Distribution into list.
+     * @param index
+     */
+    public void updateDirectFandADistributionBudgetPeriods(int index) {
+        for(int newIndex = index; newIndex < awardDirectFandADistributions.size(); newIndex++){
+            awardDirectFandADistributions.get(newIndex).setBudgetPeriod(newIndex + 1);
+        }
     }
     
     
@@ -1502,6 +1589,71 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
 
     public void setAwardTransferringSponsors(List<AwardTransferringSponsor> awardTransferringSponsors) {
         this.awardTransferringSponsors = awardTransferringSponsors;
+    }
+
+    /**
+     * Gets the awardDirectFandADistribution attribute. 
+     * @return Returns the awardDirectFandADistribution.
+     */
+    public List<AwardDirectFandADistribution> getAwardDirectFandADistributions() {
+        return awardDirectFandADistributions;
+    }
+
+    /**
+     * Sets the awardDirectFandADistribution attribute value.
+     * @param awardDirectFandADistribution The awardDirectFandADistribution to set.
+     */
+    public void setAwardDirectFandADistributions(List<AwardDirectFandADistribution> awardDirectFandADistributions) {
+        this.awardDirectFandADistributions = awardDirectFandADistributions;
+    }
+
+    /**
+     * Gets the indirectCostIndicator attribute. 
+     * @return Returns the indirectCostIndicator.
+     */
+    public String getIndirectCostIndicator() {
+        return indirectCostIndicator;
+    }
+
+    /**
+     * Sets the indirectCostIndicator attribute value.
+     * @param indirectCostIndicator The indirectCostIndicator to set.
+     */
+    public void setIndirectCostIndicator(String indirectCostIndicator) {
+        this.indirectCostIndicator = indirectCostIndicator;
+    }
+
+
+    /**
+     * Gets the obligatedTotal attribute. 
+     * @return Returns the obligatedTotal.
+     */
+    public KualiDecimal getObligatedTotal() {
+        return obligatedTotal;
+    }
+
+    /**
+     * Sets the obligatedTotal attribute value.
+     * @param obligatedTotal The obligatedTotal to set.
+     */
+    public void setObligatedTotal(KualiDecimal obligatedTotal) {
+        this.obligatedTotal = obligatedTotal;
+    }
+
+    /**
+     * Gets the anticipatedTotal attribute. 
+     * @return Returns the anticipatedTotal.
+     */
+    public KualiDecimal getAnticipatedTotal() {
+        return anticipatedTotal;
+    }
+
+    /**
+     * Sets the anticipatedTotal attribute value.
+     * @param anticipatedTotal The anticipatedTotal to set.
+     */
+    public void setAnticipatedTotal(KualiDecimal anticipatedTotal) {
+        this.anticipatedTotal = anticipatedTotal;
     }
     
     public String getDocumentNumberForPermission(){
