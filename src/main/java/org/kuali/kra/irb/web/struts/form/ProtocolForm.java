@@ -55,9 +55,10 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     private PersonnelHelper personnelHelper;
     private PermissionsHelper permissionsHelper;
     private ParticipantsHelper participantsHelper;
-    private CustomDataHelper customDataHelper = new CustomDataHelper(this);
+    private CustomDataHelper customDataHelper;
     private SpecialReviewHelper specialReviewHelper;
     private ActionHelper actionHelper;
+    private NotesAndAttachmentsHelper notesAndAttachmentsHelper;
     private boolean auditActivated;
     
     private ProtocolReference newProtocolReference;
@@ -83,17 +84,20 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         setPersonnelHelper(new PersonnelHelper(this));
         setPermissionsHelper(new PermissionsHelper(this));
         setParticipantsHelper(new ParticipantsHelper());
+        setCustomDataHelper(new CustomDataHelper(this));
         setSpecialReviewHelper(new SpecialReviewHelper(this));
         setActionHelper(new ActionHelper(this));
+        setNotesAndAttachmentsHelper(new NotesAndAttachmentsHelper(this));
         setNewProtocolReference(new ProtocolReference());
     }
-
     
-
-   
-
-    public ProtocolDocument getProtocolDocument() {
-        return (ProtocolDocument) this.getDocument();
+    /**
+     * Gets a {@link ProtocolDocument ProtocolDocument}.
+     * @return {@link ProtocolDocument ProtocolDocument}
+     */
+    @Override
+    public ProtocolDocument getDocument() {
+        return (ProtocolDocument) super.getDocument();
     }
 
     /**
@@ -255,6 +259,22 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     }
 
     /**
+     * Gets the Notes And Attachments Helper.
+     * @return Notes And Attachments Helper
+     */
+    public NotesAndAttachmentsHelper getNotesAndAttachmentsHelper() {
+        return notesAndAttachmentsHelper;
+    }
+
+    /**
+     * Sets the Notes And Attachments Helper.
+     * @param notesAndAttachmentsHelper the Notes And Attachments Helper
+     */
+    public void setNotesAndAttachmentsHelper(NotesAndAttachmentsHelper notesAndAttachmentsHelper) {
+        this.notesAndAttachmentsHelper = notesAndAttachmentsHelper;
+    }
+
+    /**
      * @see org.kuali.kra.web.struts.form.SpecialReviewFormBase#getNewExemptionTypeCodes()
      */
     public String[] getNewExemptionTypeCodes() {
@@ -279,7 +299,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
      * @see org.kuali.kra.web.struts.form.SpecialReviewFormBase#getResearchDocument()
      */
     public ResearchDocumentBase getResearchDocument() {
-        return getProtocolDocument();
+        return this.getDocument();
     }
     
     public ActionHelper getActionHelper() {

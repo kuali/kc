@@ -72,8 +72,8 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     }
 
     public ActionForward personnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        getProtocolPersonnelService().selectProtocolUnit(((ProtocolForm) form).getProtocolDocument().getProtocol().getProtocolPersons());
-        getProtocolPersonTrainingService().updatePersonTrained(((ProtocolForm) form).getProtocolDocument().getProtocol().getProtocolPersons());
+        getProtocolPersonnelService().selectProtocolUnit(((ProtocolForm) form).getDocument().getProtocol().getProtocolPersons());
+        getProtocolPersonTrainingService().updatePersonTrained(((ProtocolForm) form).getDocument().getProtocol().getProtocolPersons());
         ((ProtocolForm)form).getPersonnelHelper().prepareView();
         return mapping.findForward("personnel");
     }
@@ -81,6 +81,19 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     public ActionForward permissions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ((ProtocolForm)form).getPermissionsHelper().prepareView();
         return mapping.findForward("permissions");
+    }
+    
+    /**
+     * This method gets called upon navigation to Notes and attachments tab.
+     * @param mapping the Action Mapping
+     * @param form the Action Form
+     * @param request the Http Request
+     * @param response Http Response
+     * @return the Action Forward
+     */
+    public ActionForward notesAndAttachments(ActionMapping mapping, ActionForm form
+            , HttpServletRequest request, HttpServletResponse response) {        
+        return mapping.findForward("notesAndAttachments");
     }
     
     public ActionForward specialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -108,7 +121,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolDocument doc = protocolForm.getProtocolDocument();
+        ProtocolDocument doc = protocolForm.getDocument();
         
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL, doc.getProtocol());
         if (isAuthorized(task)) {
@@ -143,7 +156,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     @Override
     protected void initialDocumentSave(KualiDocumentFormBase form) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolDocument doc = protocolForm.getProtocolDocument();
+        ProtocolDocument doc = protocolForm.getDocument();
         
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
         String username = user.getPersonUserIdentifier();
@@ -158,7 +171,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         super.refresh(mapping, form, request, response);
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
+        ProtocolDocument protocolDocument = protocolForm.getDocument();
                      
         // KNS UI hook for lookup resultset, check to see if we are coming back from a lookup
         if (Constants.MULTIPLE_VALUE.equals(protocolForm.getRefreshCaller())) {
@@ -219,7 +232,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         }
 
         if (IDocHandler.INITIATE_COMMAND.equals(protocolForm.getCommand())) {
-            protocolForm.getProtocolDocument().initialize();
+            protocolForm.getDocument().initialize();
         }else{
             protocolForm.initialize();
         }

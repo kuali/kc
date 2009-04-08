@@ -172,6 +172,26 @@
     <property name="summary" value="Email Address" />
     <property name="description" value="Email Address" />
   </bean>
+  
+  <bean id="KraAttributeReferenceDummy-phoneNumber" parent="KraAttributeReferenceDummy-phoneNumber-parentBean" />
+
+  <bean id="KraAttributeReferenceDummy-phoneNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="phoneNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Phone Number" />
+    <property name="shortLabel" value="Phone Number" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="PhoneNumberValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+    <property name="summary" value="Phone Number" />
+    <property name="description" value="Phone Number" />
+  </bean>
+  
   <bean id="KraAttributeReferenceDummy-updateUser" parent="KraAttributeReferenceDummy-updateUser-parentBean" />
 
   <bean id="KraAttributeReferenceDummy-updateUser-parentBean" abstract="true" parent="AttributeDefinition">

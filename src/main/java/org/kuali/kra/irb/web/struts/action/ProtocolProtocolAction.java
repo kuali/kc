@@ -82,7 +82,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
         String commandParam = request.getParameter(KNSConstants.PARAMETER_COMMAND);
         if (StringUtils.isNotBlank(commandParam) && commandParam.equals("initiate")
             && StringUtils.isNotBlank(request.getParameter(Constants.PROPERTY_PROTOCOL_NUMBER))) {
-            getProtocolProtocolService().loadProtocolForEdit(((ProtocolForm)form).getProtocolDocument(),
+            getProtocolProtocolService().loadProtocolForEdit(((ProtocolForm)form).getDocument(),
                 request.getParameter(Constants.PROPERTY_PROTOCOL_NUMBER));
         }
         ((ProtocolForm)form).getProtocolHelper().prepareView();
@@ -137,8 +137,8 @@ public class ProtocolProtocolAction extends ProtocolAction {
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolParticipant newProtocolParticipant = protocolForm.getParticipantsHelper().getNewProtocolParticipant();
         
-        if(applyRules(new AddProtocolParticipantEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument(), newProtocolParticipant))) {
-            getProtocolParticipantService().addProtocolParticipant(protocolForm.getProtocolDocument().getProtocol(), newProtocolParticipant);
+        if(applyRules(new AddProtocolParticipantEvent(Constants.EMPTY_STRING, protocolForm.getDocument(), newProtocolParticipant))) {
+            getProtocolParticipantService().addProtocolParticipant(protocolForm.getDocument().getProtocol(), newProtocolParticipant);
             protocolForm.getParticipantsHelper().setNewProtocolParticipant(new ProtocolParticipant());
         }
               
@@ -160,7 +160,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
     public ActionForward deleteProtocolParticipant(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        protocolForm.getProtocolDocument().getProtocol().getProtocolParticipants().remove(getLineToDelete(request));        
+        protocolForm.getDocument().getProtocol().getProtocolParticipants().remove(getLineToDelete(request));        
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -179,11 +179,11 @@ public class ProtocolProtocolAction extends ProtocolAction {
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolReference newProtocolReference = protocolForm.getNewProtocolReference();
         
-        if(applyRules(new AddProtocolReferenceEvent(Constants.EMPTY_STRING,protocolForm.getProtocolDocument(),newProtocolReference))) {
+        if(applyRules(new AddProtocolReferenceEvent(Constants.EMPTY_STRING,protocolForm.getDocument(),newProtocolReference))) {
       
             ProtocolReferenceService service = KraServiceLocator.getService(ProtocolReferenceService.class);
             
-            service.addProtocolReference(protocolForm.getProtocolDocument().getProtocol(), newProtocolReference);
+            service.addProtocolReference(protocolForm.getDocument().getProtocol(), newProtocolReference);
             
             protocolForm.setNewProtocolReference(new ProtocolReference());
           
@@ -206,7 +206,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         
-        protocolForm.getProtocolDocument().getProtocol().getProtocolReferences().remove(getLineToDelete(request));  
+        protocolForm.getDocument().getProtocol().getProtocolReferences().remove(getLineToDelete(request));  
    
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
@@ -224,7 +224,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         
-        protocolForm.getProtocolDocument().getProtocol().getProtocolResearchAreas().remove(getLineToDelete(request));
+        protocolForm.getDocument().getProtocol().getProtocolResearchAreas().remove(getLineToDelete(request));
    
         return mapping.findForward(Constants.MAPPING_BASIC );
     }    
@@ -244,8 +244,8 @@ public class ProtocolProtocolAction extends ProtocolAction {
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolLocation newProtocolLocation = protocolForm.getProtocolHelper().getNewProtocolLocation();
         
-        if(applyRules(new AddProtocolLocationEvent(Constants.EMPTY_STRING,protocolForm.getProtocolDocument(),newProtocolLocation))) {
-            getProtocolLocationService().addProtocolLocation(protocolForm.getProtocolDocument().getProtocol(), newProtocolLocation);
+        if(applyRules(new AddProtocolLocationEvent(Constants.EMPTY_STRING,protocolForm.getDocument(),newProtocolLocation))) {
+            getProtocolLocationService().addProtocolLocation(protocolForm.getDocument().getProtocol(), newProtocolLocation);
             protocolForm.getProtocolHelper().setNewProtocolLocation(new ProtocolLocation());
         }
         
@@ -265,7 +265,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
     public ActionForward deleteProtocolLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        protocolForm.getProtocolDocument().getProtocol().getProtocolLocations().remove(getLineToDelete(request));
+        protocolForm.getDocument().getProtocol().getProtocolLocations().remove(getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
 
@@ -282,7 +282,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
     public ActionForward clearProtocolLocationAddress(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        getProtocolLocationService().clearProtocolLocationAddress(protocolForm.getProtocolDocument().getProtocol(), getSelectedLine(request));
+        getProtocolLocationService().clearProtocolLocationAddress(protocolForm.getDocument().getProtocol(), getSelectedLine(request));
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
     
@@ -319,11 +319,11 @@ public class ProtocolProtocolAction extends ProtocolAction {
                                                   HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         AddProtocolFundingSourceEvent event = 
-            new AddProtocolFundingSourceEvent(Constants.EMPTY_STRING,protocolForm.getProtocolDocument());
+            new AddProtocolFundingSourceEvent(Constants.EMPTY_STRING,protocolForm.getDocument());
         
         if(applyRules(event)) {
-            ((ProtocolForm)form).getProtocolHelper().syncFundingSources(protocolForm.getProtocolDocument().getProtocol());
-            getProtocolFundingSourceService().addProtocolFundingSource(protocolForm.getProtocolDocument().getProtocol());
+            ((ProtocolForm)form).getProtocolHelper().syncFundingSources(protocolForm.getDocument().getProtocol());
+            getProtocolFundingSourceService().addProtocolFundingSource(protocolForm.getDocument().getProtocol());
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -344,7 +344,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
                                                      HttpServletRequest request, 
                                                      HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        protocolForm.getProtocolDocument().getProtocol().getProtocolFundingSources().remove(getLineToDelete(request));
+        protocolForm.getDocument().getProtocol().getProtocolFundingSources().remove(getLineToDelete(request));
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -364,8 +364,8 @@ public class ProtocolProtocolAction extends ProtocolAction {
         
         String fieldConversions="";
         String boClassName = null;
-        if (((ProtocolForm)form).getProtocolDocument().getProtocol().getNewFundingSource().getFundingSourceType() != null) {
-            boClassName = ((ProtocolForm)form).getProtocolDocument().getProtocol().getNewFundingSource().getFundingSourceType().getDescription();
+        if (((ProtocolForm)form).getDocument().getProtocol().getNewFundingSource().getFundingSourceType() != null) {
+            boClassName = ((ProtocolForm)form).getDocument().getProtocol().getNewFundingSource().getFundingSourceType().getDescription();
         }
         HashMap<String, String> map = getProtocolFundingSourceService().getLookupParameters(boClassName);
 
