@@ -109,7 +109,7 @@
 
 	  <p>
 	  	<html:image property="methodToCall.addEvent.anchor${tabKey}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-addevent.gif' styleClass="tinybutton"/>
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-addevent.gif' styleClass="tinybutton" onclick="clearCommitteeScheduleRecurrenceData();"/>
 	  </p>	
 
 		<%--Schedule Sub Panel Display --%>
