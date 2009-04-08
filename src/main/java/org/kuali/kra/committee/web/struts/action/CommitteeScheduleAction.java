@@ -71,6 +71,7 @@ public class CommitteeScheduleAction extends CommitteeAction {
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         
         CommitteeForm committeeForm = (CommitteeForm) form;
+        ScheduleData scheduleData = committeeForm.getCommitteeScheduleHelper().getScheduleData();
         List<CommitteeSchedule> committeeSchedules = committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules();
         
         if(applyRules(new CommitteeScheduleTimeEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules, ErrorType.HARDERROR))) {
@@ -80,7 +81,7 @@ public class CommitteeScheduleAction extends CommitteeAction {
                 } 
             }
         }
-        
+        scheduleData.populateStyleClass(); 
         return actionForward;
     }    
     
