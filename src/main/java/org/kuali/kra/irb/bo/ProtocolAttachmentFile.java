@@ -55,7 +55,7 @@ public class ProtocolAttachmentFile extends KraPersistableBusinessObjectBase {
     private ProtocolAttachmentFile(String name, String type, byte[] data) {
         this.name = name;
         this.type = type;
-        this.data = (data == null) ? null : Arrays.copyOf(data, data.length);
+        this.data = (data == null) ? null : data.clone();
     }
     
     /**
