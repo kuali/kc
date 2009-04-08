@@ -28,7 +28,6 @@ import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.committee.document.CommitteeDocument;
-import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
@@ -199,14 +198,6 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
     protected String getLockRegion() {
         return "";
     }
-
-/*    public ScheduleData getScheduleData() {
-        return scheduleData;
-    }
-
-    public void setScheduleData(ScheduleData scheduleData) {
-        this.scheduleData = scheduleData;
-    }*/
 
     public MembershipHelper getMembershipHelper() {
         return membershipHelper;
