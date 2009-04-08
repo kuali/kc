@@ -23,15 +23,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import oracle.sql.DATE;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.infrastructure.KraServiceLocator;
