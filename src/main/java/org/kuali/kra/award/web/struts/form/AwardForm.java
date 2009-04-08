@@ -84,6 +84,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     private SponsorTermFormHelper sponsorTermFormHelper;
     private ApprovedSubawardFormHelper approvedSubawardFormHelper;
     private DetailsAndDatesFormHelper detailsAndDatesFormHelper;
+    private DirectFandADistributionFormHelper directFandADistributionFormHelper;
     
     private ReportClass reportClassForPaymentsAndInvoices;
     private PaymentScheduleBean paymentScheduleBean;
@@ -127,6 +128,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase
         paymentScheduleBean = new PaymentScheduleBean(this);
         approvedForeignTravelBean = new ApprovedForeignTravelBean(this);
         detailsAndDatesFormHelper = new DetailsAndDatesFormHelper(this);
+        directFandADistributionFormHelper = new DirectFandADistributionFormHelper(this);
         setPermissionsHelper(new AwardPermissionsHelper(this));
         //sponsorTermTypes = new ArrayList<KeyLabelPair>();
     }    
@@ -386,47 +388,6 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     }    
 
 
-
-    /**
-     * Gets the awardSponsorTermsTypes attribute. 
-     * @return Returns the awardSponsorTermsTypes.
-     */
-    //public List<KeyLabelPair> getSponsorTermTypes() {
-    //    return sponsorTermTypes;
-    //}
-
-
-
-    /**
-     * Sets the awardSponsorTermsTypes attribute value.
-     * @param awardSponsorTermsTypes The awardSponsorTermsTypes to set.
-     */
-    //public void setSponsorTermTypes(List<KeyLabelPair> sponsorTermTypes) {
-    //    this.sponsorTermTypes = sponsorTermTypes;
-    //}
-
-
-
-    /**
-     * Gets the newSponsorTerms attribute. 
-     * @return Returns the newSponsorTerms.
-     */
-    //public List<SponsorTerm> getNewSponsorTerms() {
-     //   return newSponsorTerms;
-    //}
-
-
-
-    /**
-     * Sets the newAwardSponsorTerms attribute value.
-     * @param newAwardSponsorTerms The newAwardSponsorTerms to set.
-     */
-    //public void setNewSponsorTerms(List<SponsorTerm> newSponsorTerms) {
-     //   this.newSponsorTerms = newSponsorTerms;
-    //}
-
-
-
     /**
      * Gets the sponsorTermFormHelper attribute. 
      * @return Returns the sponsorTermFormHelper.
@@ -525,6 +486,26 @@ public class AwardForm extends KraTransactionalDocumentFormBase
      */
     public void setCustomDataHelper(CustomDataHelper customDataHelper) {
         this.customDataHelper = customDataHelper;
+    }
+
+
+
+    /**
+     * Gets the directFandADistributionFormHelper attribute. 
+     * @return Returns the directFandADistributionFormHelper.
+     */
+    public DirectFandADistributionFormHelper getDirectFandADistributionFormHelper() {
+        return directFandADistributionFormHelper;
+    }
+
+
+
+    /**
+     * Sets the directFandADistributionFormHelper attribute value.
+     * @param directFandADistributionFormHelper The directFandADistributionFormHelper to set.
+     */
+    public void setDirectFandADistributionFormHelper(DirectFandADistributionFormHelper directFandADistributionFormHelper) {
+        this.directFandADistributionFormHelper = directFandADistributionFormHelper;
     }
     
 }

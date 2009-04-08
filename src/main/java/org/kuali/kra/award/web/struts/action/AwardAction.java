@@ -40,6 +40,7 @@ import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.common.customattributes.CustomDataAction;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.AwardDirectFandADistributionService;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.service.AwardReportsService;
 import org.kuali.kra.service.AwardSponsorTermService;
@@ -194,8 +195,32 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
      * @return
      */
     public ActionForward timeAndMoney(ActionMapping mapping, ActionForm form
-            , HttpServletRequest request, HttpServletResponse response) {        
+            , HttpServletRequest request, HttpServletResponse response) { 
+        AwardForm awardForm = (AwardForm) form;
+        if(isNewAward(awardForm)){
+            AwardDirectFandADistributionService awardDirectFandADistributionService = getAwardDirectFandADistributionService();
+            awardForm.getAwardDocument().getAward().setAwardDirectFandADistributions
+                                (awardDirectFandADistributionService.generateDefaultAwardDirectFandADistributionPeriods(form));
+        }
         return mapping.findForward(Constants.MAPPING_AWARD_TIME_AND_MONEY_PAGE);
+    }
+    
+    /**
+     * This method tests if the award is new by checking the size of AwardDirectFandADistributions on the Award.
+     * @param awardForm
+     * @return
+     */
+    public boolean isNewAward(AwardForm awardForm) {
+        return awardForm.getAwardDocument().getAward().getAwardDirectFandADistributions().size() == 0;
+    }
+    
+    /**
+     * 
+     * This method is a helper method to retrieve AwardSponsorTermService.
+     * @return
+     */
+    protected AwardDirectFandADistributionService getAwardDirectFandADistributionService() {
+        return KraServiceLocator.getService(AwardDirectFandADistributionService.class);
     }
     
     /**
