@@ -35,6 +35,7 @@ import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.document.SpecialReviewHandler;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.RoleConstants;
 
 /**
  * 
@@ -1509,6 +1510,13 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     
     public String getDocumentKey(){
         return Permissionable.AWARD_KEY;
+    }
+    
+    public String[] getRoleNames(){
+        String[] roleNames = { RoleConstants.AWARD_AGGREGATOR, 
+                RoleConstants.AWARD_VIEWER};
+        
+        return roleNames;
     }
     
 }

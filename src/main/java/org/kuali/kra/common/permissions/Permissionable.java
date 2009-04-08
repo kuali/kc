@@ -27,4 +27,7 @@ public interface Permissionable {
     
     public String getDocumentKey();
     
+    public String[] getRoleNames();
+    
+    
 }
