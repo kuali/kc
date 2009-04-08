@@ -117,11 +117,12 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private List<AwardApprovedForeignTravel> approvedForeignTravelTrips;
     private List<AwardPaymentSchedule> paymentScheduleItems;
     private List<AwardTransferringSponsor> awardTransferringSponsors;
-    
-    //temporary fields for Direct F and A Distribution on Time and Money Page
+    private List<AwardAmountInfo> awardAmountInfos;
+
+	//temporary fields for Direct F and A Distribution on Time and Money Page
     private KualiDecimal obligatedTotal;
     private KualiDecimal anticipatedTotal;
-
+    
     /**
      * 
      * Constructs an Award BO.
@@ -1387,6 +1388,11 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         paymentScheduleItems = new ArrayList<AwardPaymentSchedule>();
         awardTransferringSponsors = new ArrayList<AwardTransferringSponsor>();
         awardDirectFandADistributions = new ArrayList<AwardDirectFandADistribution>();
+        awardAmountInfos = new ArrayList<AwardAmountInfo>();
+        AwardAmountInfo awardAmountInfo = new AwardAmountInfo();
+        awardAmountInfo.setAward(this);
+        awardAmountInfo.setAmountSequenceNumber(1);
+        awardAmountInfos.add(awardAmountInfo);
     }
 
     /**
@@ -1670,5 +1676,13 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         
         return roleNames;
     }
-    
+
+    public List<AwardAmountInfo> getAwardAmountInfos() {
+        return awardAmountInfos;
+    }
+
+    public void setAwardAmountInfos(List<AwardAmountInfo> awardAmountInfos) {
+        this.awardAmountInfos = awardAmountInfos;
+    }
+
 }
