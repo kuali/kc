@@ -13,6 +13,9 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
+
+<!-- <!DOCTYPE descriptor-repository PUBLIC "-//Apache Software Foundation//DTD OJB Repository//EN" "../../../../repository.dtd">-->
+
 <descriptor-repository version="1.0">
 
 	<class-descriptor class="org.kuali.kra.irb.document.ProtocolDocument" table="PROTOCOL_DOCUMENT">
@@ -21,12 +24,12 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    	<collection-descriptor name="protocolList" proxy="true" element-class-ref="org.kuali.kra.irb.bo.Protocol" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        	<inverse-foreignkey field-ref="documentNumber" />
-    	</collection-descriptor>
     	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<foreignkey field-ref="documentNumber" />
     	</reference-descriptor>
+    	<collection-descriptor name="protocolList" proxy="true" element-class-ref="org.kuali.kra.irb.bo.Protocol" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        	<inverse-foreignkey field-ref="documentNumber" />
+    	</collection-descriptor>
     	<!-- GENERATE NEXT VALUE -->
    		<collection-descriptor name="documentNextvalues" element-class-ref="org.kuali.kra.bo.DocumentNextvalue" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="documentKey" /> 
@@ -90,7 +93,12 @@
 		<collection-descriptor name="specialReviews" element-class-ref="org.kuali.kra.irb.bo.ProtocolSpecialReview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="protocolId" />
 		</collection-descriptor>		
-
+		<collection-descriptor name="attachmentProtocols" element-class-ref="org.kuali.kra.irb.bo.ProtocolAttachmentProtocol" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="protocolId" />
+		</collection-descriptor>
+		<collection-descriptor name="attachmentPersonnels" element-class-ref="org.kuali.kra.irb.bo.ProtocolAttachmentPersonnel" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="protocolId" />
+		</collection-descriptor>		
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolStatus" table="PROTOCOL_STATUS">
@@ -460,7 +468,7 @@
 		<reference-descriptor name="exemptionType" class-ref="org.kuali.kra.bo.ExemptionType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="exemptionTypeCode"/>
 		</reference-descriptor>
-	</class-descriptor>	
+	</class-descriptor>
 	
 	 <class-descriptor class="org.kuali.kra.irb.bo.ProtocolSubmissionType" table="SUBMISSION_TYPE">
 		<field-descriptor name="submissionTypeCode" column="SUBMISSION_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
@@ -480,4 +488,125 @@
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
 
+	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolAttachmentStatus" table="PROTOCOL_ATTACHMENT_STATUS">
+		<field-descriptor name="code" column="STATUS_CD" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolAttachmentType" table="PROTOCOL_ATTACHMENT_TYPE">
+		<field-descriptor name="code" column="TYPE_CD" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolAttachmentGroup" table="PROTOCOL_ATTACHMENT_GROUP">
+		<field-descriptor name="code" column="GROUP_CD" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolAttachmentFile" table="PROTOCOL_ATTACHMENT_FILE">
+		<field-descriptor name="id" column="PA_FILE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
+		<field-descriptor name="name" column="FILE_NAME" jdbc-type="VARCHAR" />
+		<field-descriptor name="type" column="CONTENT_TYPE" jdbc-type="VARCHAR" />
+		<field-descriptor name="data" column="FILE_DATA" jdbc-type="BLOB" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolAttachmentTypeGroup" table="PROTOCOL_ATTACHMENT_TYPE_GROUP">
+		<field-descriptor name="id" column="TYPE_GROUP_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
+		<field-descriptor name="typeCode" column="TYPE_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="groupCode" column="GROUP_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		
+		<reference-descriptor name="type" class-ref="org.kuali.kra.irb.bo.ProtocolAttachmentType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="typeCode"/>
+		</reference-descriptor>
+		
+		<reference-descriptor name="group" class-ref="org.kuali.kra.irb.bo.ProtocolAttachmentGroup" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="groupCode"/>
+		</reference-descriptor>
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolAttachmentProtocol" table="PROTOCOL_ATTACHMENT_PROTOCOL">
+		<field-descriptor name="id" column="PA_PROTOCOL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
+		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="typeCode" column="TYPE_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="attachmentVersionNumber" column="VERSION_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="documentId" column="DOCUMENT_ID" jdbc-type="INTEGER" />
+		<field-descriptor name="fileId" column="FILE_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="statusCode" column="STATUS_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="contactName" column="CONTACT_NAME" jdbc-type="VARCHAR" />
+		<field-descriptor name="contactEmailAddress" column="EMAIL_ADDRESS" jdbc-type="VARCHAR" />
+		<field-descriptor name="contactPhoneNumber" column="PHONE_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="comments" column="comments" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		
+		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.bo.Protocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="protocolId"/>
+		</reference-descriptor>
+		
+		<reference-descriptor name="type" class-ref="org.kuali.kra.irb.bo.ProtocolAttachmentType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="typeCode"/>
+		</reference-descriptor>
+		
+		<reference-descriptor name="file" class-ref="org.kuali.kra.irb.bo.ProtocolAttachmentFile" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="fileId"/>
+		</reference-descriptor>
+		
+		<reference-descriptor name="status" class-ref="org.kuali.kra.irb.bo.ProtocolAttachmentStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="statusCode"/>
+		</reference-descriptor>
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.irb.bo.ProtocolAttachmentPersonnel" table="PROTOCOL_ATTACHMENT_PERSONNEL">
+		<field-descriptor name="id" column="PA_PERSONNEL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
+		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="typeCode" column="TYPE_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="attachmentVersionNumber" column="VERSION_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="documentId" column="DOCUMENT_ID" jdbc-type="INTEGER" />
+		<field-descriptor name="fileId" column="FILE_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		
+		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.bo.Protocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="protocolId"/>
+		</reference-descriptor>
+		
+		<reference-descriptor name="type" class-ref="org.kuali.kra.irb.bo.ProtocolAttachmentType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="typeCode"/>
+		</reference-descriptor>
+		
+		<reference-descriptor name="file" class-ref="org.kuali.kra.irb.bo.ProtocolAttachmentFile" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="fileId"/>
+		</reference-descriptor>
+		
+		<reference-descriptor name="person" class-ref="org.kuali.kra.bo.Person" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="personId"/>
+		</reference-descriptor>
+	</class-descriptor>
 </descriptor-repository>

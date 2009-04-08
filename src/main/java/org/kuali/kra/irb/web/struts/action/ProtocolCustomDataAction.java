@@ -63,7 +63,7 @@ public class ProtocolCustomDataAction extends ProtocolAction {
     @Override
     protected boolean isValidSave(ProtocolForm protocolForm) {
         return super.isValidSave(protocolForm) && 
-               applyRules(new SaveCustomAttributeEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument()));
+               applyRules(new SaveCustomAttributeEvent(Constants.EMPTY_STRING, protocolForm.getDocument()));
     }
 
     /**
