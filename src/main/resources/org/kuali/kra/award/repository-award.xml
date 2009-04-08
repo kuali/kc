@@ -33,7 +33,7 @@
 	<class-descriptor class="org.kuali.kra.award.bo.Award" table="AWARD">
 		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQUENCE_AWARD_ID" />		
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" access="anonymous" />
-		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
 		<field-descriptor name="sponsorCode" column="SPONSOR_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="statusCode" column="STATUS_CODE" jdbc-type="INTEGER"/>
@@ -130,9 +130,12 @@
     	<collection-descriptor name="awardTransferringSponsors" proxy="true" element-class-ref="org.kuali.kra.award.bo.AwardTransferringSponsor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="awardId" />
     	</collection-descriptor>
-    	<collection-descriptor name="awardDirectFandADistributions" proxy="true" element-class-ref="org.kuali.kra.award.bo.AwardDirectFandADistribution" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<collection-descriptor name="awardDirectFandADistributions" proxy="true" element-class-ref="org.kuali.kra.award.bo.AwardDirectFandADistribution" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="awardId" />
     	</collection-descriptor>
+    	<collection-descriptor name="awardAmountInfos" proxy="true" element-class-ref="org.kuali.kra.award.bo.AwardAmountInfo" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+            <inverse-foreignkey field-ref="awardId" />
+        </collection-descriptor>
 	</class-descriptor>	
 	
 	<class-descriptor class="org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipment" table="AWARD_APPROVED_EQUIPMENT">
@@ -860,7 +863,7 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>
-	
+
 	<class-descriptor class="org.kuali.kra.award.bo.AwardDirectFandADistribution" table="AWARD_AMT_FNA_DISTRIBUTION">
 		<field-descriptor name="awardDirectFandADistributionId" column="AWARD_AMT_FNA_DISTRIBUTION_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_AWARD_AMT_FNA_DSTRBTN_ID" />
 		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" access="anonymous"/>
@@ -877,6 +880,46 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<!-- TODO foreign key reference-descriptor amountSequenceNumber to AMOUNT_INFO table KCAWD-118 -->
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.award.bo.AwardAmountInfo" table="AWARD_AMOUNT_INFO">
+		<field-descriptor name="awardAmountInfoId" column="AWARD_AMOUNT_INFO_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQUENCE_AWARD_ID" autoincrement="true" />
+		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" access="anonymous" />
+		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="amountSequenceNumber" column="AMOUNT_SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="anticipatedTotalAmount" column="ANTICIPATED_TOTAL_AMOUNT" jdbc-type="DECIMAL" />
+		<field-descriptor name="antDistributableAmount" column="ANT_DISTRIBUTABLE_AMOUNT" jdbc-type="DECIMAL" />
+		<field-descriptor name="finalExpirationDate" column="FINAL_EXPIRATION_DATE" jdbc-type="DATE" />
+		<field-descriptor name="currentFundEffectiveDate" column="CURRENT_FUND_EFFECTIVE_DATE" jdbc-type="DATE" />
+		<field-descriptor name="amountObligatedToDate" column="AMOUNT_OBLIGATED_TO_DATE" jdbc-type="DECIMAL" />
+		<field-descriptor name="obliDistributableAmount" column="OBLI_DISTRIBUTABLE_AMOUNT" jdbc-type="DECIMAL" />
+		<field-descriptor name="obligationExpirationDate" column="OBLIGATION_EXPIRATION_DATE" jdbc-type="DATE" />
+		<field-descriptor name="transactionId" column="TRANSACTION_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="entryType" column="ENTRY_TYPE" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="eomProcessFlag" column="EOM_PROCESS_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="anticipatedChange" column="ANTICIPATED_CHANGE" jdbc-type="DECIMAL" />
+		<field-descriptor name="obligatedChange" column="OBLIGATED_CHANGE" jdbc-type="DECIMAL" />
+		<field-descriptor name="obligatedChangeDirect" column="OBLIGATED_CHANGE_DIRECT" jdbc-type="DECIMAL" />
+		<field-descriptor name="obligatedChangeIndirect" column="OBLIGATED_CHANGE_INDIRECT" jdbc-type="DECIMAL" />
+		<field-descriptor name="anticipatedChangeDirect" column="ANTICIPATED_CHANGE_DIRECT" jdbc-type="DECIMAL" />
+		<field-descriptor name="anticipatedChangeIndirect" column="ANTICIPATED_CHANGE_INDIRECT" jdbc-type="DECIMAL" />
+		<field-descriptor name="anticipatedTotalDirect" column="ANTICIPATED_TOTAL_DIRECT" jdbc-type="DECIMAL" />
+		<field-descriptor name="anticipatedTotalIndirect" column="ANTICIPATED_TOTAL_INDIRECT" jdbc-type="DECIMAL" />
+		<field-descriptor name="obligatedTotalDirect" column="OBLIGATED_TOTAL_DIRECT" jdbc-type="DECIMAL" />
+		<field-descriptor name="obligatedTotalIndirect" column="OBLIGATED_TOTAL_INDIRECT" jdbc-type="DECIMAL" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<!-- 
+		<collection-descriptor name="awardBudgetInfo" proxy="true" element-class-ref="org.kuali.kra.award.bo.AwardBudgetInfo" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+			<inverse-foreignkey field-ref="awardAmountInfoId"/>
+		</collection-descriptor>
+		<collection-descriptor name="awardAmtFnaDistribution" proxy="true" element-class-ref="org.kuali.kra.award.bo.AwardAmtFnaDistribution" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+			<inverse-foreignkey field-ref="awardAmountInfoId"/>
+		</collection-descriptor>
+		-->
 	</class-descriptor>
 	
 </descriptor-repository>

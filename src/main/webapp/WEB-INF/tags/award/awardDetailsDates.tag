@@ -16,6 +16,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="awardAttributes" value="${DataDictionary.Award.attributes}" />
+<c:set var="awardAmountInfoAttributes" value="${DataDictionary.AwardAmountInfo.attributes}" />
 
 <kul:tab tabTitle="Details & Dates" defaultOpen="false" tabErrorKey="document.award*,detailsAndDatesFormHelper*">
 
@@ -253,10 +254,10 @@
     </tr>
     <tr>
     	<th>
-			<div align="right">* Project End Date:</div>
+			<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.finalExpirationDate}" /></div>
         </th>
         <td align="left" valign="middle">
-        	<kul:htmlControlAttribute property="document.awardList[0].preAwardEffectiveDate" attributeEntry="${awardAttributes.preAwardEffectiveDate}" datePicker="true" />
+        	<kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[0].finalExpirationDate" attributeEntry="${awardAmountInfoAttributes.finalExpirationDate}" datePicker="true" />
         </td>
         <th>
         	<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.awardExecutionDate}" /></div>
