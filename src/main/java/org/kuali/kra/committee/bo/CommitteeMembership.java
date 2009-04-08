@@ -49,7 +49,7 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase {
     private String personId;
 
     @Column(name = "ROLODEX_ID")
-    private String rolodexId;
+    private Integer rolodexId;
 
     @Column(name = "PERSON_NAME")
     private String personName;
@@ -128,11 +128,11 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase {
         this.personId = personId;
     }
 
-    public String getRolodexId() {
+    public Integer getRolodexId() {
         return rolodexId;
     }
 
-    public void setRolodexId(String rolodexId) {
+    public void setRolodexId(Integer rolodexId) {
         this.rolodexId = rolodexId;
     }
 
@@ -302,23 +302,17 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase {
     @Override
     public boolean equals(Object obj) {
         boolean isEquals = false;
+        
         if (obj instanceof CommitteeMembership) {
             CommitteeMembership committeeMembership = (CommitteeMembership) obj;
 
-            if ((idEquals(committeeMembership.personId, this.personId))
-                    && (idEquals(committeeMembership.rolodexId, this.rolodexId))) {
+            if (this.personId != null && this.personId.equals(committeeMembership.personId)
+                    || this.rolodexId != null && this.rolodexId.equals(committeeMembership.rolodexId)){
                 isEquals = true;
             }
         }
+        
         return isEquals;
     }
 
-    private boolean idEquals(String id1, String id2) {
-        if ((id1 == null && id2 == null) || (id1 != null && (id1.equals(id2)))) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
 }

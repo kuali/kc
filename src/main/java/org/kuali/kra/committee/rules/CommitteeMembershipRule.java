@@ -58,7 +58,7 @@ public class CommitteeMembershipRule extends ResearchDocumentRuleBase
         CommitteeDocument committeeDocument = (CommitteeDocument) addCommitteeMembershipEvent.getDocument();
         List<CommitteeMembership> committeeMemberships = committeeDocument.getCommittee().getCommitteeMemberships();
         
-        if ((StringUtils.isEmpty(committeeMembership.getPersonId())) && (StringUtils.isEmpty(committeeMembership.getRolodexId()))) { 
+        if ((StringUtils.isEmpty(committeeMembership.getPersonId())) && (committeeMembership.getRolodexId() == null)) { 
             isValid = false;
             reportError(PROPERTY_NAME_PERSON_NAME, KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_PERSON_NOT_SPECIFIED);
         } else if (committeeMemberships.contains(committeeMembership)){
