@@ -17,6 +17,8 @@ package org.kuali.kra.irb.bo;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -105,6 +107,8 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     private List<ProtocolPerson> protocolPersons; 
     
     private List<ProtocolSpecialReview> specialReviews;
+    private List<ProtocolAttachmentProtocol> attachmentProtocols;
+    private List<ProtocolAttachmentPersonnel> attachmentPersonnels;
     
     /**
      * 
@@ -334,6 +338,8 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         hashMap.put("referenceIndicator", getReferenceIndicator());
         hashMap.put("relatedProjectsIndicator", getRelatedProjectsIndicator());
         hashMap.put("specialReviews", getSpecialReviews());
+        hashMap.put("attachmentProtocols", getAttachmentProtocols());
+        hashMap.put("attachmentPersonnels", getAttachmentPersonnels());
         return hashMap;
     }
 
@@ -461,6 +467,8 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         managedLists.add(getProtocolUnits());
         managedLists.add(getProtocolPersons());
         managedLists.add(getSpecialReviews());
+        managedLists.add(getAttachmentProtocols());
+        managedLists.add(getAttachmentPersonnels());
         return managedLists;
     }
     
@@ -723,5 +731,100 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
      */
     public List<ProtocolSpecialReview> getSpecialReviews() {
         return specialReviews;
+    }
+    
+    /**
+     * Gets the attachment protocols. Cannot return {@code null}.
+     * @return the attachment protocols
+     */
+    public List<ProtocolAttachmentProtocol> getAttachmentProtocols() {
+        
+        if (this.attachmentProtocols == null) {
+            this.attachmentProtocols = new ArrayList<ProtocolAttachmentProtocol>();
+        }
+        return this.attachmentProtocols;
+    }
+    
+    /**
+     * Gets an attachment protocol.
+     * @param index the index
+     * @return an attachment protocol
+     */
+    public ProtocolAttachmentProtocol getAttachmentProtocol(int index) {
+        return this.attachmentProtocols.get(index);
+    }
+
+    /**
+     * Sets the attachment protocols.
+     * @param attachmentProtocols the attachment protocols
+     */
+    public void setAttachmentProtocols(List<ProtocolAttachmentProtocol> attachmentProtocols) {
+        this.attachmentProtocols = attachmentProtocols;
+    }
+
+    /**
+     * Gets the attachment personnels. Cannot return {@code null}.
+     * @return the attachment personnels
+     */
+    public List<ProtocolAttachmentPersonnel> getAttachmentPersonnels() {
+        if (this.attachmentPersonnels == null) {
+            this.attachmentPersonnels = new ArrayList<ProtocolAttachmentPersonnel>();
+        }
+        
+        return this.attachmentPersonnels;
+    }
+    
+    /**
+     * Gets an attachment personnel.
+     * @param index the index
+     * @return an attachment personnel
+     */
+    public ProtocolAttachmentPersonnel getAttachmentPersonnel(int index) {
+        return this.attachmentPersonnels.get(index);
+    }
+
+    /**
+     * Sets the attachment personnels.
+     * @param attachmentPersonnels the attachment personnels
+     */
+    public void setAttachmentPersonnels(List<ProtocolAttachmentPersonnel> attachmentPersonnels) {
+        this.attachmentPersonnels = attachmentPersonnels;
+    }
+    
+    /**
+     * add an attachment personnel.
+     * @param attachmentPersonnel the attachment personnel
+     * @throws NullPointerException if attachmentPersonnel is null
+     */
+    public void addAttachmentPersonnel(ProtocolAttachmentPersonnel attachmentPersonnel) {
+        this.addAttachmentToList(attachmentPersonnel, this.getAttachmentPersonnels());
+    }
+    
+    /**
+     * adds an attachment protocol.
+     * @param attachmentProtocol the attachment protocol
+     * @throws NullPointerException if attachmentProtocol is null
+     */
+    public void addAttachmentProtocol(ProtocolAttachmentProtocol attachmentProtocol) {
+        this.addAttachmentToList(attachmentProtocol, this.getAttachmentProtocols());
+    }
+    
+    /**
+     * Adds an attachment to a Collection.
+     * @param <T> the type of attachment
+     * @param attachment the attachment.
+     * @param toList the list.
+     * @throws NullPointerException if the attachment or the list is null.
+     */
+    private <T extends ProtocolAttachmentBase> void addAttachmentToList(T attachment, Collection<T> toList) {
+        if (attachment == null) {
+            throw new NullPointerException("the attachment is null");
+        }
+        
+        if (toList == null) {
+            throw new NullPointerException("the toList is null");
+        }
+        
+        toList.add(attachment);
     }
 }

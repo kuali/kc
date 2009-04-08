@@ -54,7 +54,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ApplicationTask task = new ApplicationTask(TaskName.CREATE_PROTOCOL);
         if (isAuthorized(task)) {
             ProtocolCopyService protocolCopyService = KraServiceLocator.getService(ProtocolCopyService.class);
-            String newDocId = protocolCopyService.copyProtocol(protocolForm.getProtocolDocument());
+            String newDocId = protocolCopyService.copyProtocol(protocolForm.getDocument());
             
             // Switch over to the new protocol document and
             // go to the Protocol tab web page.
