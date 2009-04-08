@@ -50,7 +50,7 @@
 			<ref bean="kimQualifiedRoleService" />
 		</property>
 	</bean>
-
+	
 	<bean id="protocolReferenceService" class="org.kuali.kra.irb.service.impl.ProtocolReferenceServiceImpl">
 	</bean>	
 
@@ -96,6 +96,10 @@
             <ref bean="businessObjectService" />
         </property>
 	</bean>	
+	
+	<bean id="protocolNotesAndAttachmentsService" class="org.kuali.kra.irb.service.impl.ProtocolNotesAndAttachmentsServiceImpl">
+        <constructor-arg index="0" ref="businessObjectService"/>
+	</bean>
 
     <!-- Protocol Task Authorizers -->
     

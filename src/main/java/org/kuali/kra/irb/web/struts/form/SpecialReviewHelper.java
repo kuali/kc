@@ -63,7 +63,7 @@ public class SpecialReviewHelper {
     }
     
     private Protocol getProtocol() {
-        ProtocolDocument document = form.getProtocolDocument();
+        ProtocolDocument document = form.getDocument();
         if (document == null || document.getProtocol() == null) {
             throw new IllegalArgumentException("invalid (null) ProtocolDocument in ProtocolForm");
         }

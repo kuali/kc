@@ -61,7 +61,7 @@ public class ProtocolSpecialReviewAction extends ProtocolAction {
      */
     public ActionForward addSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm)form;
-        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+        Protocol protocol = protocolForm.getDocument().getProtocol();
         if (getSpecialReviewService().addSpecialReview(protocol,protocolForm)) {
             protocolForm.getSpecialReviewHelper().setNewSpecialReview(new ProtocolSpecialReview());
         }
@@ -79,7 +79,7 @@ public class ProtocolSpecialReviewAction extends ProtocolAction {
      */
     public ActionForward deleteSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm)form;
-        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+        Protocol protocol = protocolForm.getDocument().getProtocol();
         getSpecialReviewService().deleteSpecialReview(protocol,getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -91,7 +91,7 @@ public class ProtocolSpecialReviewAction extends ProtocolAction {
     protected void preDocumentSave(KualiDocumentFormBase form) throws Exception {
         super.preDocumentSave(form);
         ProtocolForm protocolForm = (ProtocolForm)form;
-        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+        Protocol protocol = protocolForm.getDocument().getProtocol();
         getSpecialReviewService().processBeforeSaveSpecialReview(protocol);
     }
     
@@ -99,7 +99,7 @@ public class ProtocolSpecialReviewAction extends ProtocolAction {
     protected void postDocumentSave(KualiDocumentFormBase form) throws Exception {
         super.postDocumentSave(form);
         ProtocolForm protocolForm = (ProtocolForm)form;
-        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+        Protocol protocol = protocolForm.getDocument().getProtocol();
         getSpecialReviewService().deleteExemptions(protocol, PRIMARY_KEY_FIELD_NAME, ProtocolSpecialReviewExemption.class);
     }
     

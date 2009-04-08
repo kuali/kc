@@ -58,7 +58,7 @@ public class PersonnelHelper {
     }
     
     private Protocol getProtocol() {
-        ProtocolDocument document = form.getProtocolDocument();
+        ProtocolDocument document = form.getDocument();
         if (document == null || document.getProtocol() == null) {
             throw new IllegalArgumentException("invalid (null) ProtocolDocument in ProtocolForm");
         }
@@ -96,7 +96,7 @@ public class PersonnelHelper {
     }
 
     public List<ProtocolUnit> getNewProtocolPersonUnits() {
-        if (getForm().getProtocolDocument().getProtocol().getProtocolPersons().size() > this.newProtocolPersonUnits.size()) {
+        if (getForm().getDocument().getProtocol().getProtocolPersons().size() > this.newProtocolPersonUnits.size()) {
             this.newProtocolPersonUnits.add(this.newProtocolPersonUnits.size(), new ProtocolUnit());
         }
         return newProtocolPersonUnits;

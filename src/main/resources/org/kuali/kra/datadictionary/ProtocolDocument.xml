@@ -94,6 +94,16 @@
 	          	<property name="headerTabNavigateTo" value="permissions" />
         	</bean>
         	<bean parent="HeaderNavigation">
+          		<property name="helpDefinition" >
+            		<bean parent="HelpDefinition"
+                  		p:parameterNamespace="KC-IRB"
+                  		p:parameterName="protocolNoteAndAttachmentsHelp"
+                  		p:parameterDetailType="D" />
+          		</property>
+          		<property name="headerTabDisplayName" value="Notes &amp; Attachments" />
+          		<property name="headerTabNavigateTo" value="notesAndAttachments" />
+        	</bean>
+        	<bean parent="HeaderNavigation">
 	          	<property name="helpDefinition" >
 	            	<bean parent="HelpDefinition"
 	                  p:parameterNamespace="KC-IRB"
