@@ -23,123 +23,123 @@ import org.kuali.kra.bo.AffiliationType;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.irb.ProtocolAssociate;
 
-public class ProtocolPerson extends ProtocolAssociate { 
+public class ProtocolPerson extends ProtocolAssociate {
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 3226064839786525909L;
-    private Integer protocolPersonId; 
-	private Long protocolId; 
-	private String personId; 
-	private String personName; 
-	private String protocolPersonRoleId; 
-	private Integer rolodexId; 
-	private Integer affiliationTypeCode; 
-	
-	private AffiliationType affiliationType; 
-	private ProtocolPersonRole protocolPersonRole; 
-	
-	private Person person;
-	private ProtocolPersonRolodex rolodex;
-	
+    private Integer protocolPersonId;
+    private Long protocolId;
+    private String personId;
+    private String personName;
+    private String protocolPersonRoleId;
+    private Integer rolodexId;
+    private Integer affiliationTypeCode;
+
+    private AffiliationType affiliationType;
+    private ProtocolPersonRole protocolPersonRole;
+
+    private Person person;
+    private ProtocolPersonRolodex rolodex;
+
     private boolean delete;
     private boolean trained;
-    
+
     private List<ProtocolUnit> protocolUnits;
-    
+
     private int selectedUnit;
-    private String previousPersonRoleId; 
+    private String previousPersonRoleId;
 
-	public ProtocolPerson() { 
-	    protocolUnits = new ArrayList<ProtocolUnit>();
-	} 
-	
-	public Integer getProtocolPersonId() {
-		return protocolPersonId;
-	}
+    public ProtocolPerson() {
+        protocolUnits = new ArrayList<ProtocolUnit>();
+    }
 
-	public void setProtocolPersonId(Integer protocolPersonId) {
-		this.protocolPersonId = protocolPersonId;
-	}
+    public Integer getProtocolPersonId() {
+        return protocolPersonId;
+    }
 
-	public Long getProtocolId() {
-		return protocolId;
-	}
+    public void setProtocolPersonId(Integer protocolPersonId) {
+        this.protocolPersonId = protocolPersonId;
+    }
 
-	public void setProtocolId(Long protocolId) {
-		this.protocolId = protocolId;
-	}
+    public Long getProtocolId() {
+        return protocolId;
+    }
 
-	public String getPersonId() {
-		return personId;
-	}
+    public void setProtocolId(Long protocolId) {
+        this.protocolId = protocolId;
+    }
 
-	public void setPersonId(String personId) {
-		this.personId = personId;
-	}
+    public String getPersonId() {
+        return personId;
+    }
 
-	public String getPersonName() {
-		return personName;
-	}
+    public void setPersonId(String personId) {
+        this.personId = personId;
+    }
 
-	public void setPersonName(String personName) {
-		this.personName = personName;
-	}
+    public String getPersonName() {
+        return personName;
+    }
 
-	public String getProtocolPersonRoleId() {
-		return protocolPersonRoleId;
-	}
+    public void setPersonName(String personName) {
+        this.personName = personName;
+    }
 
-	public void setProtocolPersonRoleId(String protocolPersonRoleId) {
+    public String getProtocolPersonRoleId() {
+        return protocolPersonRoleId;
+    }
+
+    public void setProtocolPersonRoleId(String protocolPersonRoleId) {
         setPreviousPersonRoleId(this.protocolPersonRoleId);
-		this.protocolPersonRoleId = protocolPersonRoleId;
-	}
+        this.protocolPersonRoleId = protocolPersonRoleId;
+    }
 
-	public Integer getRolodexId() {
-		return rolodexId;
-	}
+    public Integer getRolodexId() {
+        return rolodexId;
+    }
 
-	public void setRolodexId(Integer rolodexId) {
-		this.rolodexId = rolodexId;
-	}
+    public void setRolodexId(Integer rolodexId) {
+        this.rolodexId = rolodexId;
+    }
 
-	public Integer getAffiliationTypeCode() {
-		return affiliationTypeCode;
-	}
+    public Integer getAffiliationTypeCode() {
+        return affiliationTypeCode;
+    }
 
-	public void setAffiliationTypeCode(Integer affiliationTypeCode) {
-		this.affiliationTypeCode = affiliationTypeCode;
-	}
+    public void setAffiliationTypeCode(Integer affiliationTypeCode) {
+        this.affiliationTypeCode = affiliationTypeCode;
+    }
 
-	public AffiliationType getAffiliationType() {
-		return affiliationType;
-	}
+    public AffiliationType getAffiliationType() {
+        return affiliationType;
+    }
 
-	public void setAffiliationType(AffiliationType affiliationType) {
-		this.affiliationType = affiliationType;
-	}
+    public void setAffiliationType(AffiliationType affiliationType) {
+        this.affiliationType = affiliationType;
+    }
 
-	public ProtocolPersonRole getProtocolPersonRole() {
-		return protocolPersonRole;
-	}
+    public ProtocolPersonRole getProtocolPersonRole() {
+        return protocolPersonRole;
+    }
 
-	public void setProtocolPersonRoles(ProtocolPersonRole protocolPersonRole) {
-		this.protocolPersonRole = protocolPersonRole;
-	}
+    public void setProtocolPersonRoles(ProtocolPersonRole protocolPersonRole) {
+        this.protocolPersonRole = protocolPersonRole;
+    }
 
-	@Override 
-	protected LinkedHashMap<String,Object> toStringMapper() {
-		LinkedHashMap<String,Object> hashMap = super.toStringMapper();
-		hashMap.put("protocolPersonId", getProtocolPersonId());
-		hashMap.put("protocolId", getProtocolId());
-		hashMap.put("personId", getPersonId());
-		hashMap.put("personName", getPersonName());
-		hashMap.put("protocolPersonRoleId", getProtocolPersonRoleId());
-		hashMap.put("rolodexId", getRolodexId());
-		hashMap.put("affiliationTypeCode", getAffiliationTypeCode());
-		return hashMap;
-	}
-	
+    @Override
+    protected LinkedHashMap<String, Object> toStringMapper() {
+        LinkedHashMap<String, Object> hashMap = super.toStringMapper();
+        hashMap.put("protocolPersonId", getProtocolPersonId());
+        hashMap.put("protocolId", getProtocolId());
+        hashMap.put("personId", getPersonId());
+        hashMap.put("personName", getPersonName());
+        hashMap.put("protocolPersonRoleId", getProtocolPersonRoleId());
+        hashMap.put("rolodexId", getRolodexId());
+        hashMap.put("affiliationTypeCode", getAffiliationTypeCode());
+        return hashMap;
+    }
+
     public Person getPerson() {
         return person;
     }
@@ -165,16 +165,17 @@ public class ProtocolPerson extends ProtocolAssociate {
     }
 
     /**
-     * This method is linked to personnel service to check whether person has attended 
-     * any training session.
+     * This method is linked to personnel service to check whether person has attended any training session.
+     * 
      * @return boolean
      */
     public boolean isTrained() {
-        return trained; 
+        return trained;
     }
 
     /**
-     * This method is to check whether protocol units is required 
+     * This method is to check whether protocol units is required
+     * 
      * @return boolean
      */
     public boolean isUnitRequired() {
@@ -192,15 +193,16 @@ public class ProtocolPerson extends ProtocolAssociate {
     public void setProtocolUnits(List<ProtocolUnit> protocolUnits) {
         this.protocolUnits = protocolUnits;
     }
-    
+
     /**
      * This method adds a new unit to the collection of person units
+     * 
      * @param protocolUnit
      */
     public void addProtocolUnit(ProtocolUnit protocolUnit) {
         getProtocolUnits().add(protocolUnit);
     }
-    
+
     /**
      * Gets index i from the protocol units list.
      * 
@@ -210,7 +212,7 @@ public class ProtocolPerson extends ProtocolAssociate {
     public ProtocolUnit getProtocolUnit(int index) {
         return getProtocolUnits().get(index);
     }
-    
+
     public int getSelectedUnit() {
         return selectedUnit;
     }
@@ -218,24 +220,24 @@ public class ProtocolPerson extends ProtocolAssociate {
     public void setSelectedUnit(int selectedUnit) {
         this.selectedUnit = selectedUnit;
     }
-    
+
     /**
      * This method is to reset all lead unit flag in protocol unit.
      */
     public void resetAllProtocolLeadUnits() {
-        for(ProtocolUnit protocolUnit : getProtocolUnits()) {
+        for (ProtocolUnit protocolUnit : getProtocolUnits()) {
             protocolUnit.setLeadUnitFlag(false);
         }
     }
-    
+
     /**
      * This method is to build and return a unique key for protocol person
+     * 
      * @return String
      */
     public String getPersonUniqueKey() {
-        return new StringBuilder(getPersonId() == null ? getRolodexId().toString() : getPersonId())
-        .append(getProtocolPersonRoleId())
-        .toString();
+        return new StringBuilder(getPersonId() == null ? getRolodexId().toString() : getPersonId()).append(
+                getProtocolPersonRoleId()).toString();
     }
 
     public String getPreviousPersonRoleId() {
@@ -245,11 +247,11 @@ public class ProtocolPerson extends ProtocolAssociate {
     public void setPreviousPersonRoleId(String previousPersonRoleId) {
         this.previousPersonRoleId = previousPersonRoleId;
     }
-    
+
     /**
-     * This method checks whether person is an employee or not
-     * non employee details are updated in rolodex
-     * a value in rolodex indicates that the person is non employee
+     * This method checks whether person is an employee or not non employee details are updated in rolodex a value in rolodex
+     * indicates that the person is non employee
+     * 
      * @return true / false
      */
     public boolean isNonEmployee() {
@@ -258,11 +260,12 @@ public class ProtocolPerson extends ProtocolAssociate {
 
     /**
      * This method is to find lead unit from unit list
+     * 
      * @return ProtocolUnit (lead unit)
      */
     public ProtocolUnit getLeadUnit() {
         ProtocolUnit leadUnit = null;
-        for ( ProtocolUnit unit : getProtocolUnits() ) {
+        for (ProtocolUnit unit : getProtocolUnits()) {
             if (unit.getLeadUnitFlag()) {
                 leadUnit = unit;
                 break;
@@ -278,5 +281,5 @@ public class ProtocolPerson extends ProtocolAssociate {
         for (ProtocolUnit unit : protocolUnits) {
             unit.init(this);
         }
-    }    
+    }
 }

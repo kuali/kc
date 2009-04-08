@@ -20,6 +20,7 @@ import static org.kuali.kra.logging.BufferedLogger.info;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
+import org.kuali.kra.irb.bo.ProtocolFundingSource;
 import org.kuali.kra.irb.rule.AddProtocolFundingSourceRule;
 import org.kuali.kra.irb.rules.ProtocolFundingSourceRule;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
@@ -28,14 +29,17 @@ public class AddProtocolFundingSourceEvent extends KraDocumentEventBase {
     
     private static final org.apache.commons.logging.Log LOG = 
         org.apache.commons.logging.LogFactory.getLog(AddProtocolFundingSourceEvent.class);
+    
+    private ProtocolFundingSource fundingSource;
 
     protected AddProtocolFundingSourceEvent(String description, String errorPathPrefix, Document document) {
         super(description, errorPathPrefix, document);
         // TODO Auto-generated constructor stub
     }
     
-    public AddProtocolFundingSourceEvent(String description,  Document document) {
+    public AddProtocolFundingSourceEvent(String description,  Document document, ProtocolFundingSource fundingSource) {
         super(description, "", document);
+        this.fundingSource = fundingSource;
         // TODO Auto-generated constructor stub
     }
 
@@ -64,6 +68,10 @@ public class AddProtocolFundingSourceEvent extends KraDocumentEventBase {
         info("Calling processAddProtocolFundingSourceBusinessRules on ", rule.getClass().getSimpleName());
         return ((AddProtocolFundingSourceRule) rule).processAddProtocolFundingSourceBusinessRules(this);
         
+    }
+
+    public ProtocolFundingSource getFundingSource() {
+        return fundingSource;
     }
 
 }

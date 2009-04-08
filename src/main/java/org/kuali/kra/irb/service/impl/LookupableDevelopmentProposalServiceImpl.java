@@ -13,49 +13,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.service.impl;
+package org.kuali.kra.irb.service.impl;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kra.bo.FundingSourceType;
-import org.kuali.kra.service.FundingSourceTypeService;
+import org.kuali.kra.bo.Unit;
+import org.kuali.kra.irb.bo.LookupableDevelopmentProposal;
+import org.kuali.kra.irb.service.LookupableDevelopmentProposalService;
 
-/**
- * 
- * @see org.kuali.kra.service.FundingSourceTypeService
- */
-public class FundingSourceTypeServiceImpl implements FundingSourceTypeService {
+public class LookupableDevelopmentProposalServiceImpl implements LookupableDevelopmentProposalService {
 
     private BusinessObjectService businessObjectService;
 
-    
+    /** {@inheritDoc} 
+     * 
+     * @see org.kuali.kra.irb.service.LookupableDevelopmentProposalService#getLookupableDevelopmentProposal(java.lang.String)
+     */
+    public LookupableDevelopmentProposal getLookupableDevelopmentProposal(String proposalNumber) {
+        LookupableDevelopmentProposal devProposal = null;
+
+        Map<String, String> primaryKeys = new HashMap<String, String>();
+        if (StringUtils.isNotEmpty(proposalNumber)) {
+            primaryKeys.put("proposalNumber", proposalNumber);
+            devProposal = (LookupableDevelopmentProposal)businessObjectService.findByPrimaryKey(LookupableDevelopmentProposal.class, primaryKeys);
+        }
+
+        return devProposal;
+    }
+
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 
-
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
-    }
-
-
-    /**
-     * 
-     * @see org.kuali.kra.service.FundingSourceTypeService#getFundingSourceType(java.lang.String)
-     */
-    public FundingSourceType getFundingSourceType(String sourceTypeId) {
-
-        FundingSourceType sourceType = null;
-
-        Map<String, String> primaryKeys = new HashMap<String, String>();
-        if (StringUtils.isNotEmpty(sourceTypeId)) {
-            primaryKeys.put("fundingSourceTypeCode", sourceTypeId);
-            sourceType = (FundingSourceType)businessObjectService.findByPrimaryKey(FundingSourceType.class, primaryKeys);
-        }
-        return sourceType;
     }
 
 }

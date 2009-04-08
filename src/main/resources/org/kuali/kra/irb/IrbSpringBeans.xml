@@ -66,6 +66,12 @@
             <ref bean="businessObjectService" />
         </property>
     </bean> 
+
+    <bean id="lookupableDevelopmentProposalService" class="org.kuali.kra.irb.service.impl.LookupableDevelopmentProposalServiceImpl">
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+    </bean> 
     
     <bean id="protocolFundingSourceService" class="org.kuali.kra.irb.service.impl.ProtocolFundingSourceServiceImpl">
         <property name="businessObjectService">
@@ -76,7 +82,13 @@
         </property>
         <property name="sponsorService">
             <ref bean="sponsorService" />
-        </property>        
+        </property>       
+        <property name="awardService">
+            <ref bean="awardService" />
+        </property>    
+        <property name="lookupableDevelopmentProposalService">
+            <ref bean="lookupableDevelopmentProposalService" />
+        </property>            
         <property name="fundingSourceTypeService">
             <ref bean="fundingSourceTypeService" />
         </property>

@@ -64,6 +64,7 @@ public class ProtocolHelper {
     private boolean billableReadOnly = false;
     private ProtocolLocation newProtocolLocation;
     private String organizationName;
+    private ProtocolFundingSource newFundingSource;
     
     //Must be set to true, in case if order of method call in prepareview() is altered, functionality of billable will not break. 
     private boolean displayBillable = true;
@@ -166,26 +167,25 @@ public class ProtocolHelper {
 
     public void syncFundingSources(Protocol protocol) {
         if (protocol != null) {
-            ProtocolFundingSource fundingSource = protocol.getNewFundingSource();
-            if (fundingSource != null) {
+            if (newFundingSource != null) {
                 
-                if (fundingSource.getFundingSourceType() != null
-                        && fundingSource.getFundingSourceType().getFundingSourceTypeCode() != null
-                        && StringUtils.isNotEmpty(fundingSource.getFundingSource()) ) {
+                if (newFundingSource.getFundingSourceType() != null
+                        && newFundingSource.getFundingSourceType().getFundingSourceTypeCode() != null
+                        && StringUtils.isNotEmpty(newFundingSource.getFundingSource()) ) {
 
-                    ProtocolFundingSource syncedSource = getProtocolFundingSourceService().getNameAndTitle(
-                            fundingSource.getFundingSourceType().getFundingSourceTypeCode().toString(),
-                            fundingSource.getFundingSource(), fundingSource.getFundingSourceName(),
-                            fundingSource.getFundingSourceTitle());
-                    fundingSource.setFundingSourceName(syncedSource.getFundingSourceName());
-                    fundingSource.setFundingSourceTitle(syncedSource.getFundingSourceTitle());
+                    ProtocolFundingSource syncedSource = getProtocolFundingSourceService().calculateProtocolFundingSource(
+                            newFundingSource.getFundingSourceType().getFundingSourceTypeCode().toString(),
+                            newFundingSource.getFundingSource(), newFundingSource.getFundingSourceName(),
+                            newFundingSource.getFundingSourceTitle());
+                    newFundingSource.setFundingSourceName(syncedSource.getFundingSourceName());
+                    newFundingSource.setFundingSourceTitle(syncedSource.getFundingSourceTitle());
                 }
             }
             for (ProtocolFundingSource source : protocol.getProtocolFundingSources()) {
                 if (source.getFundingSourceType() != null && source.getFundingSourceType().getFundingSourceTypeCode() != null
                         && source.getFundingSource() != null) {
 
-                    ProtocolFundingSource syncedSource = getProtocolFundingSourceService().getNameAndTitle(
+                    ProtocolFundingSource syncedSource = getProtocolFundingSourceService().calculateProtocolFundingSource(
                             source.getFundingSourceType().getFundingSourceTypeCode().toString(), source.getFundingSource(),
                             source.getFundingSourceName(), source.getFundingSourceTitle());
                     source.setFundingSourceName(syncedSource.getFundingSourceName());
@@ -430,5 +430,13 @@ public class ProtocolHelper {
 
     public void setDisplayBillable(boolean displayBillable) {
         this.displayBillable = displayBillable;
+    }
+
+    public ProtocolFundingSource getNewFundingSource() {
+        return newFundingSource;
+    }
+
+    public void setNewFundingSource(ProtocolFundingSource newFundingSource) {
+        this.newFundingSource = newFundingSource;
     }
 }

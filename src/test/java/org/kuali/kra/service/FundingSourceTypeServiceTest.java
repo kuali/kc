@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.service;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Assert;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,9 +28,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.bo.FundingSourceType;
-import org.kuali.kra.bo.Organization;
 import org.kuali.kra.service.impl.FundingSourceTypeServiceImpl;
-import org.kuali.kra.service.impl.OrganizationServiceImpl;
 
 
 /**
@@ -41,11 +39,12 @@ import org.kuali.kra.service.impl.OrganizationServiceImpl;
  */
 @RunWith(JMock.class)
 public class FundingSourceTypeServiceTest {
-    private Mockery context = new JUnit4Mockery();
     
     private static final String FUNDING_TYPE_ID = "fundingSourceTypeCode";
     private static final String FUNDING_TYPE_VALID_ID_VALUE = "1";
     private static final String FUNDING_TYPE_INVALID_ID_VALUE = "100001";
+
+    private Mockery context = new JUnit4Mockery();
 
     /**
      * Verify that the correct FundingSourceType is returned if it is found.
@@ -81,7 +80,7 @@ public class FundingSourceTypeServiceTest {
         }});
         funSrcTypeServiceImpl.setBusinessObjectService(businessObjectService);
         
-        assertEquals(fundingSourceType, funSrcTypeServiceImpl.getFundingSourceType(typeIdValue));
+        Assert.assertEquals(fundingSourceType, funSrcTypeServiceImpl.getFundingSourceType(typeIdValue));
     }
     
     private FundingSourceType getFundingSourceType(boolean isValid) {
