@@ -1,3 +1,49 @@
+function clearCommitteeScheduleRecurrenceData() {
+	var list = document.getElementsByName("committeeScheduleHelper.scheduleData.recurrenceType");
+	for(var i= 0; i < list.length; i++) {
+		var element = list[i];
+		if(element.value == 'NEVER' && element.checked) {
+			document.getElementById("committeeScheduleHelper.scheduleData.dailySchedule.day").value = 1;
+			document.getElementById("committeeScheduleHelper.scheduleData.weeklySchedule.week").value = 1;
+			document.getElementById("committeeScheduleHelper.scheduleData.monthlySchedule.day").value = 1;
+			document.getElementById("committeeScheduleHelper.scheduleData.monthlySchedule.option1Month").value = 1;
+			document.getElementById("committeeScheduleHelper.scheduleData.monthlySchedule.option2Month").value = 1;
+			document.getElementById("committeeScheduleHelper.scheduleData.yearlySchedule.day").value = 1;
+			document.getElementById("committeeScheduleHelper.scheduleData.yearlySchedule.option1Year").value = 1;
+			document.getElementById("committeeScheduleHelper.scheduleData.yearlySchedule.option2Year").value = 1;
+		}
+		if(element.value == 'DAILY' && element.checked) {
+			document.getElementById("committeeScheduleHelper.scheduleData.weeklySchedule.week").value = 1;
+			document.getElementById("committeeScheduleHelper.scheduleData.monthlySchedule.day").value = 1;
+			document.getElementById("committeeScheduleHelper.scheduleData.monthlySchedule.option1Month").value = 1;
+			document.getElementById("committeeScheduleHelper.scheduleData.monthlySchedule.option2Month").value = 1;
+			document.getElementById("committeeScheduleHelper.scheduleData.yearlySchedule.day").value = 1;
+			document.getElementById("committeeScheduleHelper.scheduleData.yearlySchedule.option1Year").value = 1;
+			document.getElementById("committeeScheduleHelper.scheduleData.yearlySchedule.option2Year").value = 1;
+		}
+		if(element.value == 'WEEKLY' && element.checked) {
+			document.getElementById("committeeScheduleHelper.scheduleData.dailySchedule.day").value = 1;
+			document.getElementById("committeeScheduleHelper.scheduleData.monthlySchedule.day").value = 1;
+			document.getElementById("committeeScheduleHelper.scheduleData.monthlySchedule.option1Month").value = 1;
+			document.getElementById("committeeScheduleHelper.scheduleData.monthlySchedule.option2Month").value = 1;
+			document.getElementById("committeeScheduleHelper.scheduleData.yearlySchedule.day").value = 1;
+			document.getElementById("committeeScheduleHelper.scheduleData.yearlySchedule.option1Year").value = 1;
+			document.getElementById("committeeScheduleHelper.scheduleData.yearlySchedule.option2Year").value = 1;
+		}
+		if(element.value == 'MONTHLY' && element.checked) {
+			document.getElementById("committeeScheduleHelper.scheduleData.dailySchedule.day").value = 1;
+			document.getElementById("committeeScheduleHelper.scheduleData.weeklySchedule.week").value = 1;
+			document.getElementById("committeeScheduleHelper.scheduleData.yearlySchedule.day").value = 1;
+			document.getElementById("committeeScheduleHelper.scheduleData.yearlySchedule.option1Year").value = 1;
+			document.getElementById("committeeScheduleHelper.scheduleData.yearlySchedule.option2Year").value = 1;
+		}
+		if(element.value == 'YEARLY' && element.checked) {
+			document.getElementById("committeeScheduleHelper.scheduleData.yearlySchedule.day").value = 1;
+			document.getElementById("committeeScheduleHelper.scheduleData.yearlySchedule.option1Year").value = 1;
+			document.getElementById("committeeScheduleHelper.scheduleData.yearlySchedule.option2Year").value = 1;
+		}		
+	}
+}
 
 function showTable(id) {
     if (document.getElementById) {
