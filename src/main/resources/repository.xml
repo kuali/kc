@@ -2953,6 +2953,16 @@
 			<inverse-foreignkey field-ref="riskLevelCode"/>
 		</collection-descriptor>
 -->
+
+	<class-descriptor class="org.kuali.kra.bo.Training" table="TRAINING">
+		<field-descriptor name="trainingCode" column="TRAINING_CODE" jdbc-type="INTEGER" primarykey="true" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>
+	
 	</class-descriptor>		
 		<class-descriptor class="org.kuali.kra.bo.PersonTraining" table="PERSON_TRAINING">
 		<field-descriptor name="personTrainingId" column="PERSON_TRAINING_ID" jdbc-type="INTEGER" primarykey="true" />
