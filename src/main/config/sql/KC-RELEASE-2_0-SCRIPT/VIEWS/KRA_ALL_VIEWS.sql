@@ -531,6 +531,14 @@ CREATE OR REPLACE VIEW OSP$PERSON_TRAINING AS SELECT
 	UPDATE_TIMESTAMP, 
 	UPDATE_USER
 FROM PERSON_TRAINING;
+CREATE OR REPLACE VIEW osp$proto_corresp_type AS SELECT
+  proto_corresp_type_code,
+  description,
+  module_id,
+  update_timestamp,
+  update_user
+FROM proto_corresp_type;
+
 CREATE OR REPLACE VIEW OSP$PROTOCOL
 AS
    SELECT
@@ -561,6 +569,28 @@ AS
     UPDATE_USER
      FROM
     PROTOCOL;
+    
+CREATE OR REPLACE VIEW osp$protocol_actions AS SELECT
+  protocol_number,
+  sequence_number,
+  action_id,
+  submission_number,
+  comments,
+  update_timestamp,
+  update_user,
+  action_date
+FROM protocol_actions;  
+
+CREATE OR REPLACE VIEW osp$protocol_correspondence AS SELECT
+  protocol_number,
+  sequence_number,
+  action_id,
+  proto_corresp_type_code,
+  correspondence,
+  update_timestamp,
+  update_user
+FROM protocol_correspondence; 
+
 CREATE OR REPLACE VIEW OSP$PROTOCOL_FUNDING_SOURCE AS SELECT 
     PROTOCOL_NUMBER, 
     SEQUENCE_NUMBER, 
@@ -678,6 +708,26 @@ AS SELECT PROTOCOL_NUMBER,
           UPDATE_USER
 FROM PROTOCOL_SPECIAL_REVIEW;
 
+CREATE OR REPLACE VIEW osp$protocol_submission AS SELECT
+  protocol_number,
+  sequence_number,
+  submission_number,
+  schedule_id,
+  committee_id,
+  submission_type_code,
+  submission_type_qual_code,
+  protocol_review_type_code,
+  submission_status_code,
+  submission_date,
+  comments,
+  yes_vote_count,
+  no_vote_count,
+  abstainer_count,
+  voting_comments,
+  update_timestamp,
+  update_user
+FROM protocol_submission;
+
 CREATE OR REPLACE VIEW OSP$PROTOCOL_TYPE
 AS
    SELECT
@@ -750,6 +800,13 @@ CREATE OR REPLACE VIEW osp$schedule_status AS SELECT
   update_timestamp,
   update_user
 FROM schedule_status;
+
+CREATE OR REPLACE VIEW osp$submission_status AS SELECT
+  submission_status_code,
+  description,
+  update_timestamp,
+  update_user
+FROM submission_status;
 
 CREATE OR REPLACE VIEW OSP$SUBMISSION_TYPE AS SELECT
   SUBMISSION_TYPE_CODE,
@@ -976,6 +1033,13 @@ AS SELECT
 	A.UPDATE_USER
 FROM AWARD_TEMPLATE_REPORT_TERMS A,AWARD_TEMPL_REP_TERMS_RECNT B
 WHERE A.TEMPLATE_REPORT_TERMS_ID = B.TEMPLATE_REPORT_TERMS_ID;		
+
+CREATE OR REPLACE VIEW OSP$TRAINING AS SELECT 
+    TRAINING_CODE, 
+    DESCRIPTION, 
+    UPDATE_TIMESTAMP, 
+    UPDATE_USER
+FROM TRAINING;
 
 CREATE OR REPLACE VIEW OSP$VALID_CLASS_REPORT_FREQ AS SELECT 
 	REPORT_CLASS_CODE, 
