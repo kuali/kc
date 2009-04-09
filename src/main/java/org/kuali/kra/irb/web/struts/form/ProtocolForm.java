@@ -39,6 +39,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.bo.ProtocolReference;
 import org.kuali.kra.irb.bo.ProtocolSpecialReviewExemption;
 import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.kra.irb.personnel.PersonnelHelper;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.kra.web.struts.form.SpecialReviewFormBase;

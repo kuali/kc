@@ -18,12 +18,12 @@ package org.kuali.kra.irb.rules;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.bo.ProtocolPerson;
 import org.kuali.kra.irb.bo.ProtocolUnit;
 import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.kra.irb.personnel.ProtocolPerson;
+import org.kuali.kra.irb.personnel.ProtocolPersonnelService;
 import org.kuali.kra.irb.rule.AddProtocolUnitRule;
 import org.kuali.kra.irb.rule.event.AddProtocolUnitEvent;
-import org.kuali.kra.irb.service.ProtocolPersonnelService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.UnitService;
 
