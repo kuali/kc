@@ -50,6 +50,7 @@ import org.kuali.kra.service.UnitService;
 public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements BusinessRuleInterface, AddCommitteeMembershipRule, AddCommitteeMembershipRoleRule {
     
     private final String PROPERTY_NAME_PREFIX = "document.committeeList[0].committeeMemberships[";
+    private final String PROPERTY_NAME_TERM_START_DATE = "].termStartDate";
     private final String PROPERTY_NAME_TERM_END_DATE = "].termEndDate";
     private final String PROPERTY_NAME_NEW_ROLE_PREFIX = "membershipRolesHelper.newCommitteeMembershipRoles[";
     private final String PROPERTY_NAME_ROLE_PREFIX = "].membershipRoles[";
@@ -169,16 +170,56 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
     
     private boolean validateCommitteeMemberships(CommitteeDocument committeeDocument) {
         boolean isValid = true;
+        List<CommitteeMembership> committeeMemberships = committeeDocument.getCommittee().getCommitteeMemberships(); 
         
-        for(CommitteeMembership committeeMembership : committeeDocument.getCommittee().getCommitteeMemberships()) {
-            int membershipIndex = committeeDocument.getCommittee().getCommitteeMemberships().indexOf(committeeMembership); 
+        for(CommitteeMembership committeeMembership : committeeMemberships) {
+            int membershipIndex = committeeMemberships.indexOf(committeeMembership); 
             isValid &= isValidTermStartEndDates(committeeMembership, membershipIndex);
             isValid &= isValidRoles(committeeMembership, membershipIndex);
             isValid &= hasExpertise(committeeMembership, membershipIndex);
+            // To keep the errors more comprehensible the role overlap check is done after other errors are resolved
+            if (isValid) {
+                isValid &= hasNoTermOverlap(committeeMemberships, committeeMembership, membershipIndex);
+            }
+
         }
         return isValid;
     }
     
+    /**
+     * Check that the person does not have other entries whose term overlap.
+     * (A member may not have the same role for overlapping time periods.)
+     *
+     * Checks are done only against records that are ahead of this one since these
+     * have passes validations and therefore have valid term dates.
+     * This method also displays the appropriate error message.
+     * 
+     * @param committeeMemberships - the committee memberships of the current committee
+     * @param committeeMembership - the committee membership which contains the to be validated data
+     * @param membershipIndex - the index position of the committeeMembership
+     * @return <code>true</code> if the role does not overlap with another role, <code>false</code> otherwise
+     */
+    private boolean hasNoTermOverlap(List<CommitteeMembership> committeeMemberships, CommitteeMembership committeeMembership, int membershipIndex) {
+        boolean isValid = true;
+
+        for (int i=0; i < membershipIndex; i++) {
+            CommitteeMembership tmpMember = committeeMemberships.get(i);
+            if (tmpMember.isSamePerson(committeeMembership)) {
+                if (isWithinPeriod(committeeMembership.getTermStartDate(), tmpMember.getTermStartDate(), tmpMember.getTermEndDate())) {
+                    isValid = false;
+                    reportError(PROPERTY_NAME_PREFIX + membershipIndex + PROPERTY_NAME_TERM_START_DATE, KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_PERSON_DUPLICATE,
+                            tmpMember.getTermStartDate().toString(), tmpMember.getTermEndDate().toString());
+                } else if (isWithinPeriod(committeeMembership.getTermEndDate(), tmpMember.getTermStartDate(), tmpMember.getTermEndDate())) {
+                    isValid = false;
+                    reportError(PROPERTY_NAME_PREFIX + membershipIndex + PROPERTY_NAME_TERM_END_DATE, KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_PERSON_DUPLICATE,
+                            tmpMember.getTermStartDate().toString(), tmpMember.getTermEndDate().toString());
+                } 
+            }
+        }
+        
+        return isValid;
+    }
+
     /**
      * Verify the Term Start and Term End dates
      * 
