@@ -17,18 +17,14 @@ package org.kuali.kra.proposaldevelopment.service.impl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.AuthenticationUserId;
-import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Person;
@@ -39,13 +35,12 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.dao.AttachmentDao;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.NarrativeAuthZService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
-import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.PersonService;
 
 /**
@@ -166,10 +161,10 @@ public class NarrativeServiceImpl implements NarrativeService {
                                RoleConstants.VIEWER,
                                RoleConstants.UNASSIGNED };
         
-        ProposalAuthorizationService proposalAuthorizationService = KraServiceLocator.getService(ProposalAuthorizationService.class);
+        KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
         List<Person> allPersons = new ArrayList<Person>();
         for (String roleName : roleNames) {
-            List<Person> persons = proposalAuthorizationService.getPersonsInRole(proposalDevelopmentDocument, roleName);
+            List<Person> persons = kraAuthorizationService.getPersonsInRole(proposalDevelopmentDocument, roleName);
             for (Person person : persons) {
                 if (!isPersonInList(person, allPersons)) {
                     allPersons.add(person);

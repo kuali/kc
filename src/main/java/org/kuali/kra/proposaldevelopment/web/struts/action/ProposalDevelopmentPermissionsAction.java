@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
-import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -49,9 +49,9 @@ import org.kuali.kra.proposaldevelopment.rule.event.AddProposalUserEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.DeleteProposalUserEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.EditUserProposalRolesEvent;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
-import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 
 /**
@@ -105,16 +105,16 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
     }
     
     private void deleteProposalUser(ProposalUserRoles proposalUser, ProposalDevelopmentDocument doc) {
-        ProposalAuthorizationService proposalAuthorizationService = KraServiceLocator.getService(ProposalAuthorizationService.class);
+        KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
         String username = proposalUser.getUsername();
         List<String> roleNames = proposalUser.getRoleNames();
         for (String roleName :roleNames) {
-            proposalAuthorizationService.removeRole(username, roleName, doc);
+            kraAuthorizationService.removeRole(username, roleName, doc);
         }
     }
     
     private void saveProposalUser(ProposalUserRoles proposalUser, ProposalDevelopmentDocument doc) {
-        ProposalAuthorizationService proposalAuthorizationService = KraServiceLocator.getService(ProposalAuthorizationService.class);
+        KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
         
         String username = proposalUser.getUsername();
         
@@ -122,7 +122,7 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
         
         List<String> roleNames = proposalUser.getRoleNames();
         for (String roleName :roleNames) {
-            proposalAuthorizationService.addRole(username, roleName, doc);
+            kraAuthorizationService.addRole(username, roleName, doc);
         }
     }
     
@@ -326,7 +326,7 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
        
         ActionForward actionForward = null;
         
-        ProposalAuthorizationService proposalAuthorizationService = KraServiceLocator.getService(ProposalAuthorizationService.class);
+        KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
         

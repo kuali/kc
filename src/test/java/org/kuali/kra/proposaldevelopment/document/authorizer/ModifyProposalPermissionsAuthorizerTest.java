@@ -19,7 +19,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.jmock.Expectations;
-import org.jmock.MockObjectTestCase;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -30,7 +29,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
-import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.rice.lifecycle.Lifecycle;
 
@@ -51,14 +50,14 @@ public class ModifyProposalPermissionsAuthorizerTest extends KraTestBase {
         task = new ProposalTask(TaskName.MODIFY_PROPOSAL_ROLES, doc);
         ModifyProposalPermissionsAuthorizer mpa = new ModifyProposalPermissionsAuthorizer();
 
-        final ProposalAuthorizationService authorizationService = context.mock(ProposalAuthorizationService.class);
+        final KraAuthorizationService authorizationService = context.mock(KraAuthorizationService.class);
         context.checking(new Expectations() {{
             one(authorizationService).hasPermission(TaskName.MODIFY_PROPOSAL_ROLES, 
                                                     doc, 
                                                     PermissionConstants.MAINTAIN_PROPOSAL_ACCESS); 
             will(returnValue(true));
         }});
-        mpa.setProposalAuthorizationService(authorizationService);
+        mpa.setKraAuthorizationService(authorizationService);
         
         final KraWorkflowService workflowService = context.mock(KraWorkflowService.class);
         context.checking(new Expectations() {{
@@ -79,14 +78,14 @@ public class ModifyProposalPermissionsAuthorizerTest extends KraTestBase {
         task = new ProposalTask(TaskName.MODIFY_PROPOSAL_ROLES, doc);
         ModifyProposalPermissionsAuthorizer mpa = new ModifyProposalPermissionsAuthorizer();
 
-        final ProposalAuthorizationService authorizationService = context.mock(ProposalAuthorizationService.class);
+        final KraAuthorizationService authorizationService = context.mock(KraAuthorizationService.class);
         context.checking(new Expectations() {{
             one(authorizationService).hasPermission(TaskName.MODIFY_PROPOSAL_ROLES, 
                                                     doc, 
                                                     PermissionConstants.MAINTAIN_PROPOSAL_ACCESS); 
             will(returnValue(true));
         }});
-        mpa.setProposalAuthorizationService(authorizationService);
+        mpa.setKraAuthorizationService(authorizationService);
         
         final KraWorkflowService workflowService = context.mock(KraWorkflowService.class);
         context.checking(new Expectations() {{
@@ -107,14 +106,14 @@ public class ModifyProposalPermissionsAuthorizerTest extends KraTestBase {
         task = new ProposalTask(TaskName.MODIFY_PROPOSAL_ROLES, doc);
         ModifyProposalPermissionsAuthorizer mpa = new ModifyProposalPermissionsAuthorizer();
 
-        final ProposalAuthorizationService authorizationService = context.mock(ProposalAuthorizationService.class);
+        final KraAuthorizationService authorizationService = context.mock(KraAuthorizationService.class);
         context.checking(new Expectations() {{
             one(authorizationService).hasPermission(TaskName.MODIFY_PROPOSAL_ROLES, 
                                                     doc, 
                                                     PermissionConstants.MAINTAIN_PROPOSAL_ACCESS); 
             will(returnValue(true));
         }});
-        mpa.setProposalAuthorizationService(authorizationService);
+        mpa.setKraAuthorizationService(authorizationService);
         
         final KraWorkflowService workflowService = context.mock(KraWorkflowService.class);
         context.checking(new Expectations() {{
@@ -136,14 +135,14 @@ public class ModifyProposalPermissionsAuthorizerTest extends KraTestBase {
         task = new ProposalTask(TaskName.MODIFY_PROPOSAL_ROLES, doc);
         ModifyProposalPermissionsAuthorizer mpa = new ModifyProposalPermissionsAuthorizer();
 
-        final ProposalAuthorizationService authorizationService = context.mock(ProposalAuthorizationService.class);
+        final KraAuthorizationService authorizationService = context.mock(KraAuthorizationService.class);
         context.checking(new Expectations() {{
             one(authorizationService).hasPermission(TaskName.MODIFY_PROPOSAL_ROLES, 
                                                     doc, 
                                                     PermissionConstants.MAINTAIN_PROPOSAL_ACCESS); 
             will(returnValue(false));
         }});
-        mpa.setProposalAuthorizationService(authorizationService);
+        mpa.setKraAuthorizationService(authorizationService);
         
         final KraWorkflowService workflowService = context.mock(KraWorkflowService.class);
         context.checking(new Expectations() {{

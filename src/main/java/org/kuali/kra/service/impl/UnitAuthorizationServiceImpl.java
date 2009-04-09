@@ -25,7 +25,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.kim.pojo.QualifiedRole;
 import org.kuali.kra.kim.service.PersonService;
 import org.kuali.kra.kim.service.RoleService;
-import org.kuali.kra.proposaldevelopment.service.impl.ProposalAuthorizationServiceImpl;
 import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.kra.service.UnitService;
@@ -36,7 +35,7 @@ import org.kuali.kra.service.UnitService;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalAuthorizationServiceImpl.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KraAuthorizationServiceImpl.class);
 
     private static final String UNIT_NUMBER_KEY = "kra.unitNumber";
     private static final String SUBUNITS_KEY = "kra.subunits";

@@ -25,10 +25,9 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.UnitAclEntry;
-import org.kuali.kra.proposaldevelopment.bo.ProposalRoleTemplate;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.service.ProposalRoleTemplateService;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.PersonService;
 
 /**
@@ -38,16 +37,16 @@ public class ProposalRoleTemplateServiceImpl implements ProposalRoleTemplateServ
     
     private static final String PROPOSAL_ROLE_TYPE = "P";
     
-    private ProposalAuthorizationService proposalAuthorizationService;
+    private KraAuthorizationService kraAuthorizationService;
     private BusinessObjectService businessObjectService;
     private PersonService personService;
     
     /**
-     * Set the Proposal Authorization Service.  Injected by the Spring Framework.
-     * @param proposalAuthorizationService the proposal authorization service
+     * Set the Kra Authorization Service.  Injected by the Spring Framework.
+     * @param kraAuthorizationService the proposal authorization service
      */
-    public void setProposalAuthorizationService(ProposalAuthorizationService proposalAuthorizationService) {
-        this.proposalAuthorizationService = proposalAuthorizationService;
+    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+        this.kraAuthorizationService = kraAuthorizationService;
     }
     
     /**
@@ -77,7 +76,7 @@ public class ProposalRoleTemplateServiceImpl implements ProposalRoleTemplateServ
             String personId = proposalRoleTemplate.getPersonId();
             String username = personService.getPerson(personId).getUserName();
             if (username != null && !StringUtils.equals(username, creatorUsername)) {
-                proposalAuthorizationService.addRole(username, proposalRoleTemplate.getRoleName(), doc);
+                kraAuthorizationService.addRole(username, proposalRoleTemplate.getRoleName(), doc);
             }
         }
     }

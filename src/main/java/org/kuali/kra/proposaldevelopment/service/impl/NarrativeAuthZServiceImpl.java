@@ -30,7 +30,7 @@ import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.NarrativeAuthZService;
-import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.SystemAuthorizationService;
 
 /**
@@ -39,7 +39,7 @@ import org.kuali.kra.service.SystemAuthorizationService;
 public class NarrativeAuthZServiceImpl implements NarrativeAuthZService {
     private BusinessObjectService businessObjectService;
     private SystemAuthorizationService systemAuthorizationService;
-    private ProposalAuthorizationService proposalAuthorizationService;
+    private KraAuthorizationService kraAuthorizationService;
 
     /**
      * @see org.kuali.kra.proposaldevelopment.service.NarrativeAuthZService#authorize(org.kuali.kra.proposaldevelopment.bo.Narrative)
@@ -85,10 +85,10 @@ public class NarrativeAuthZServiceImpl implements NarrativeAuthZService {
      */
     public NarrativeRight getDefaultNarrativeRight(String username, ProposalDevelopmentDocument doc) {
         NarrativeRight right;
-        if (proposalAuthorizationService.hasPermission(username, doc, PermissionConstants.MODIFY_NARRATIVE)) {
+        if (kraAuthorizationService.hasPermission(username, doc, PermissionConstants.MODIFY_NARRATIVE)) {
             right = NarrativeRight.MODIFY_NARRATIVE_RIGHT;
         }
-        else if (proposalAuthorizationService.hasPermission(username, doc, PermissionConstants.VIEW_NARRATIVE)) {
+        else if (kraAuthorizationService.hasPermission(username, doc, PermissionConstants.VIEW_NARRATIVE)) {
             right = NarrativeRight.VIEW_NARRATIVE_RIGHT;
         }
         else {
@@ -157,10 +157,10 @@ public class NarrativeAuthZServiceImpl implements NarrativeAuthZService {
     }
     
     /**
-     * Set the Proposal Authorization Service.  Injected by the Spring Framework.
-     * @param proposalAuthorizationService the Proposal Authorization Service
+     * Set the Kra Authorization Service.  Injected by the Spring Framework.
+     * @param kraAuthorizationService the Kra Authorization Service
      */
-    public void setProposalAuthorizationService(ProposalAuthorizationService proposalAuthorizationService) {
-        this.proposalAuthorizationService = proposalAuthorizationService;
+    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+        this.kraAuthorizationService = kraAuthorizationService;
     }
 }
