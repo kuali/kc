@@ -659,6 +659,15 @@ CREATE TABLE PERSON_TRAINING (
 	VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL, 
 	OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL);
 
+create table proto_corresp_type (
+  proto_corresp_type_code  varchar2 (3)    not null,
+  description              varchar2 (200)  not null,
+  module_id 			   varchar2(1) default 'Y' not null,
+  update_timestamp         date          not null,
+  update_user              varchar2 (8)  not null,
+  ver_nbr 				  	 number(8,0) DEFAULT 1 NOT NULL, 
+  obj_id				  	 varchar2(36) DEFAULT SYS_GUID() NOT NULL);
+  
 CREATE TABLE PROTOCOL ( 
 	PROTOCOL_ID NUMBER(12,0) NOT NULL,
 	DOCUMENT_NUMBER NUMBER(10) NOT NULL,
@@ -689,6 +698,19 @@ CREATE TABLE PROTOCOL (
 	UPDATE_USER VARCHAR2(60) NOT NULL,
 	VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL, 
 	OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL);
+
+create table protocol_actions (
+  action_id                  number (6)     not null,
+  protocol_id 			     number(12,0)   not NULL,
+  protocol_number            varchar2 (20)  not null,
+  sequence_number            number (4)     not null,  
+  submission_number          number (4),
+  comments                   varchar2 (2000),
+  update_timestamp           date           not null,
+  update_user                varchar2 (8)   not null,
+  action_date                date           default null,
+  ver_nbr 				     number(8,0)    default 1 NOT NULL, 
+  obj_id				     varchar2(36)   default SYS_GUID() NOT NULL);
 
 CREATE TABLE PROTOCOL_ATTACHMENT_FILE
    (PA_FILE_ID NUMBER NOT NULL ENABLE, 
@@ -764,6 +786,19 @@ CREATE TABLE PROTOCOL_ATTACHMENT_TYPE_GROUP
     OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL ENABLE,
     UPDATE_TIMESTAMP DATE NOT NULL ENABLE,
     UPDATE_USER VARCHAR2(10) NOT NULL ENABLE);
+
+create table protocol_correspondence (
+  id					   number(12,0)  not null,
+  protocol_id 			   number(12,0)  not NULL,
+  protocol_number          varchar2 (20) not null,
+  sequence_number          number (4)    not null,
+  action_id                number (6)    not null,
+  proto_corresp_type_code  varchar2 (3)    not null,
+  correspondence           blob          default empty_blob(),
+  update_timestamp         date          not null,
+  update_user              varchar2 (8)  not null,
+  ver_nbr 				   number(8,0) DEFAULT 1 NOT NULL, 
+  obj_id				   varchar2(36) DEFAULT SYS_GUID() NOT NULL);
 
 CREATE TABLE PROTOCOL_DOCUMENT(
 DOCUMENT_NUMBER NUMBER(10) NOT NULL,
@@ -932,6 +967,30 @@ CREATE TABLE PROTOCOL_STATUS (
 	VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL, 
 	OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL);
 
+create table protocol_submission (
+  submission_number          number (4)     not null,  
+  protocol_number            varchar2 (20)  not null,
+  sequence_number            number (4)     not null,  
+  schedule_id                varchar2 (10),
+  committee_id               varchar2 (15),
+  submission_type_code       varchar2 (3)     not null,
+  submission_type_qual_code  varchar2 (3),
+  submission_status_code     varchar2 (3)     not null,  
+  protocol_id 				 number(12,0)   not null,
+  comm_schedule_id			 number(12)     not null,
+  committee_id_new		 	 number(12)     not null,
+  protocol_review_type_code  varchar2(3) not NULL,  
+  submission_date            date           not null,
+  comments                   varchar2 (2000),
+  yes_vote_count             number (3),
+  no_vote_count              number (3),
+  abstainer_count            number (3),
+  voting_comments            varchar2 (2000),
+  update_timestamp           date,
+  update_user                varchar2 (8),
+  ver_nbr 				  	 number(8,0) DEFAULT 1 NOT NULL, 
+  obj_id				  	 varchar2(36) DEFAULT SYS_GUID() NOT NULL);
+
 CREATE TABLE PROTOCOL_TYPE ( 
 	PROTOCOL_TYPE_CODE VARCHAR2(3) NOT NULL, 
 	DESCRIPTION VARCHAR2(200) NOT NULL, 
@@ -1029,6 +1088,14 @@ create table schedule_status (
   VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL, 
   OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL);
 
+create table submission_status (
+  submission_status_code  varchar2 (3)    not null,
+  description             varchar2 (200)  not null,
+  update_timestamp        date          not null,
+  update_user             varchar2 (8)  not null,
+  ver_nbr 				  number(8,0) DEFAULT 1 NOT NULL, 
+  obj_id				  varchar2(36) DEFAULT SYS_GUID() NOT NULL);
+
 CREATE TABLE SUBMISSION_TYPE ( 
     SUBMISSION_TYPE_CODE VARCHAR2(3) NOT NULL, 
     DESCRIPTION VARCHAR2(200) NOT NULL, 
@@ -1045,6 +1112,14 @@ CREATE TABLE SUBMISSION_TYPE_QUALIFIER (
     VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL, 
     OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL);
     
+CREATE TABLE TRAINING ( 
+    TRAINING_CODE NUMBER(4,0) NOT NULL, 
+    DESCRIPTION VARCHAR2(200) NOT NULL, 
+    UPDATE_TIMESTAMP DATE NOT NULL, 
+    UPDATE_USER VARCHAR2(60) NOT NULL, 
+    VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL, 
+    OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL);
+
 CREATE TABLE VALID_CLASS_REPORT_FREQ ( 
 	VALID_CLASS_REPORT_FREQ_ID NUMBER(12,0) NOT NULL, 
 	REPORT_CLASS_CODE VARCHAR2(3) NOT NULL, 
