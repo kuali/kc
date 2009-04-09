@@ -294,22 +294,18 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Indicates if the <code>CommitteeMemership</code> is "equal to" this one. Equal is defined that the personId and rolodexId are
-     * the same.
+     * Indicates if the committee memberships are of the same person (i.e. the personId and rolodexId are
+     * the same).
      * 
-     * @see java.lang.Object#equals(java.lang.Object)
+     * @param committeeMembership - the committee membership to compare against
+     * @return <code>true</code> if both committee membership belong to the same person, <code>false</code> otherwise
      */
-    @Override
-    public boolean equals(Object obj) {
+    public boolean isSamePerson(CommitteeMembership committeeMembership) {
         boolean isEquals = false;
         
-        if (obj instanceof CommitteeMembership) {
-            CommitteeMembership committeeMembership = (CommitteeMembership) obj;
-
-            if (this.personId != null && this.personId.equals(committeeMembership.personId)
-                    || this.rolodexId != null && this.rolodexId.equals(committeeMembership.rolodexId)){
-                isEquals = true;
-            }
+        if (this.personId != null && this.personId.equals(committeeMembership.personId)
+                || this.rolodexId != null && this.rolodexId.equals(committeeMembership.rolodexId)){
+            isEquals = true;
         }
         
         return isEquals;
