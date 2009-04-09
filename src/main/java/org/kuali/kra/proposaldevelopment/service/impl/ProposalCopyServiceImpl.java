@@ -63,7 +63,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
-import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
 import org.kuali.kra.service.PersonService;
 import org.kuali.kra.service.UnitService;
@@ -740,8 +740,8 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     private void initializeAuthorization(ProposalDevelopmentDocument doc) {
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
         String username = user.getPersonUserIdentifier();
-        ProposalAuthorizationService proposalAuthService = KraServiceLocator.getService(ProposalAuthorizationService.class);
-        proposalAuthService.addRole(username, RoleConstants.AGGREGATOR, doc);
+        KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
+        kraAuthService.addRole(username, RoleConstants.AGGREGATOR, doc);
     }
     
     /**

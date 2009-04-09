@@ -187,10 +187,27 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
         String[] roleNames = permissionable.getRoleNames();
         
         for (String roleName : roleNames) {
-            List<String> usernames = getUserNames(permissionable, roleName);
-            RolePersons rolePersons = new RolePersons();
-            rolePersons.setAggregator(usernames);
-            rolePersonsList.add(rolePersons);
+            if(roleName.contains(RoleConstants.AGGREGATOR)){
+                List<String> usernames = getUserNames(permissionable, roleName);
+                RolePersons rolePersons = new RolePersons();
+                rolePersons.setAggregator(usernames);
+                rolePersonsList.add(rolePersons);    
+            }else if(roleName.contains(RoleConstants.VIEWER)){
+                List<String> usernames = getUserNames(permissionable, roleName);
+                RolePersons rolePersons = new RolePersons();
+                rolePersons.setViewer(usernames);
+                rolePersonsList.add(rolePersons);    
+            }else if(roleName.contains(RoleConstants.NARRATIVE_WRITER)){
+                List<String> usernames = getUserNames(permissionable, roleName);
+                RolePersons rolePersons = new RolePersons();
+                rolePersons.setNarrativewriter(usernames);
+                rolePersonsList.add(rolePersons);    
+            }else if(roleName.contains(RoleConstants.BUDGET_CREATOR)){
+                List<String> usernames = getUserNames(permissionable, roleName);
+                RolePersons rolePersons = new RolePersons();
+                rolePersons.setBudgetcreator(usernames);
+                rolePersonsList.add(rolePersons);    
+            }
         }
         
         return rolePersonsList;

@@ -28,7 +28,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
+import org.kuali.kra.service.KraAuthorizationService;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -110,9 +110,9 @@ public class HtmlUnitUtilTest extends KraTestBase {
     private void initializeAuthorization(ProposalDevelopmentDocument doc) {
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
         String username = user.getPersonUserIdentifier();
-        ProposalAuthorizationService proposalAuthService = KraServiceLocator.getService(ProposalAuthorizationService.class);
-        proposalAuthService.addRole(username, RoleConstants.AGGREGATOR, doc);
-        proposalAuthService.addRole("jtester", RoleConstants.AGGREGATOR, doc);
+        KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
+        kraAuthorizationService.addRole(username, RoleConstants.AGGREGATOR, doc);
+        kraAuthorizationService.addRole("jtester", RoleConstants.AGGREGATOR, doc);
     }
 
     public ProposalDevelopmentDocument getDocument() {

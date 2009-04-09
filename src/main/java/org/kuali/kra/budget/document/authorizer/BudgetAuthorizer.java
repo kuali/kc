@@ -17,7 +17,7 @@ package org.kuali.kra.budget.document.authorizer;
 
 import org.kuali.kra.authorization.TaskAuthorizerImpl;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
+import org.kuali.kra.service.KraAuthorizationService;
 
 /**
  * Base class for Narrative Authorizers.
@@ -25,15 +25,15 @@ import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
  */
 public abstract class BudgetAuthorizer extends TaskAuthorizerImpl {
     
-    private ProposalAuthorizationService proposalAuthorizationService;
+    private KraAuthorizationService kraAuthorizationService;
     
 
     /**
-     * Set the Proposal Authorization Service.  Injected by the Spring Framework.
-     * @param proposalAuthorizationService the Proposal Authorization Service
+     * Set the Kra Authorization Service.  Injected by the Spring Framework.
+     * @param kraAuthorizationService the Kra Authorization Service
      */
-    public final void setProposalAuthorizationService(ProposalAuthorizationService proposalAuthorizationService) {
-        this.proposalAuthorizationService = proposalAuthorizationService;
+    public final void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+        this.kraAuthorizationService = kraAuthorizationService;
     }
     
     /**
@@ -44,6 +44,6 @@ public abstract class BudgetAuthorizer extends TaskAuthorizerImpl {
      * @return true if the person has the permission; otherwise false
      */
     protected final boolean hasProposalPermission(String username, ProposalDevelopmentDocument doc, String permissionName) {
-        return proposalAuthorizationService.hasPermission(username, doc, permissionName);
+        return kraAuthorizationService.hasPermission(username, doc, permissionName);
     }
 }
