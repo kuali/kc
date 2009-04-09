@@ -15,6 +15,8 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+
+
 <c:set var="attributes" value="${DataDictionary.ProtocolSubmitAction.attributes}" />
 <c:set var="action" value="protocolProtocolAction" />
 
@@ -67,7 +69,9 @@
                         </div>
                     </th>
                     <td>
-                        <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.committeeId" attributeEntry="${attributes.committeeId}" />
+                        <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.committeeId" 
+                                                  attributeEntry="${attributes.committeeId}" 
+                                                  onchange="loadScheduleDates('actionHelper.protocolSubmitAction.committeeId', 'actionHelper.protocolSubmitAction.scheduleId');" />
                     </td>
                     <th width="20%"> 
                         <div align="right">

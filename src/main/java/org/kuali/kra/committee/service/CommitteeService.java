@@ -16,7 +16,9 @@
 package org.kuali.kra.committee.service;
 
 import java.util.Collection;
+import java.util.List;
 
+import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.committee.bo.Committee;
 
@@ -39,4 +41,23 @@ public interface CommitteeService {
      * @param researchAreas the research areas to add
      */
     public void addResearchAreas(Committee committee, Collection<ResearchArea> researchAreas);
+
+    /**
+     * Get the valid upcoming committee dates for scheduling a protocol.
+     * This method is used by CommitteeScheduleValuesFinder.
+     * @param id the committee's unique id
+     * @return list of key/value pairs with the dates  
+     */
+    public List<KeyLabelPair> getValidCommitteeDates(String committeeId);
+    
+    /**
+     * Get the valid upcoming committee dates for scheduling a protocol.
+     * This method is used exclusively by DWR for obtaining a list to show
+     * to the end user in a drop-down menu.  To handle the conversion from
+     * Java to JavaScript, the list is returned as a comma separated string.
+     * The format is: <key1>,<description1>,<key2>,<description2>,...
+     * @param committeeId the committee's unique id
+     * @return the string representation of schedule dates
+     */
+    public String getValidCommitteeDatesForAjax(String committeeId);
 }
