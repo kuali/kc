@@ -56,11 +56,11 @@ public class CommitteeMembershipExpertise extends KraPersistableBusinessObjectBa
     }
 
     public Long getCommitteeMembershipId() {
-        return committeeMembershipExpertiseId;
+        return committeeMembershipId;
     }
 
-    public void setCommitteeMembershipId(Long committeeMembershipExpertiseId) {
-        this.committeeMembershipExpertiseId = committeeMembershipExpertiseId;
+    public void setCommitteeMembershipId(Long committeeMembershipId) {
+        this.committeeMembershipId = committeeMembershipId;
     }
 
     public String getMembershipId() {
