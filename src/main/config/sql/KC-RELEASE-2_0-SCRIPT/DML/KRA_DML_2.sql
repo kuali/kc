@@ -960,3 +960,77 @@ VALUES ( 4, 'Superceded', sysdate, user );
 INSERT INTO PROTOCOL_ATTACHMENT_STATUS ( STATUS_CD, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
 VALUES ( 5, 'Expired', sysdate, user ); 
 commit;
+
+set escape \
+INSERT INTO TRAINING ( TRAINING_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
+VALUES ( 1, 'Rochester Training Booklet - Human Subjects', sysdate, user ); 
+INSERT INTO TRAINING ( TRAINING_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
+VALUES ( 2, 'MIT Human Subjects Training via Traincasters', sysdate, user ); 
+INSERT INTO TRAINING ( TRAINING_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
+VALUES ( 3, 'NIH Training - Human Subjects', sysdate, user ); 
+INSERT INTO TRAINING ( TRAINING_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
+VALUES ( 4, 'Johns Hopkins - Human Subjects', sysdate, user ); 
+INSERT INTO TRAINING ( TRAINING_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
+VALUES ( 5, 'Massachusetts General Hospital - Human Subjects', sysdate, user ); 
+INSERT INTO TRAINING ( TRAINING_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
+VALUES ( 6, 'Stanford - Human Subjects', sysdate, user ); 
+INSERT INTO TRAINING ( TRAINING_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
+VALUES ( 7, 'Beth Israel Deaconess Medical Center - Human Subjects', sysdate, user ); 
+INSERT INTO TRAINING ( TRAINING_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
+VALUES ( 8, 'Massachusetts Eye \& Ear Infirmary - Human Subjects', sysdate, user ); 
+INSERT INTO TRAINING ( TRAINING_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
+VALUES ( 9, 'University of Miami CITI Ethics Training program', sysdate, user ); 
+
+
+INSERT INTO FP_DOC_TYPE_T (FDOC_TYP_CD,FDOC_NM,FDOC_TYP_ACTIVE_CD) VALUES ('TRAI','TRAINING','Y');
+
+commit;
+
+INSERT INTO PROTO_CORRESP_TYPE (proto_corresp_type_code, description, module_id, update_timestamp, update_user) VALUES ('1','Approval Letter','Y',sysdate,'KRADEV');
+INSERT INTO PROTO_CORRESP_TYPE (proto_corresp_type_code, description, module_id, update_timestamp, update_user) VALUES ('2','Rejection Letter','Y',sysdate,'KRADEV');
+INSERT INTO PROTO_CORRESP_TYPE (proto_corresp_type_code, description, module_id, update_timestamp, update_user) VALUES ('3','Notice Of Deferral','Y',sysdate,'KRADEV');
+INSERT INTO PROTO_CORRESP_TYPE (proto_corresp_type_code, description, module_id, update_timestamp, update_user) VALUES ('4','Substantive Revisions Required Letter','Y',sysdate,'KRADEV');
+INSERT INTO PROTO_CORRESP_TYPE (proto_corresp_type_code, description, module_id, update_timestamp, update_user) VALUES ('5','Expedited Approval Letter','Y',sysdate,'KRADEV');
+INSERT INTO PROTO_CORRESP_TYPE (proto_corresp_type_code, description, module_id, update_timestamp, update_user) VALUES ('6','Specific Minor Revisions Letter','Y',sysdate,'KRADEV');
+INSERT INTO PROTO_CORRESP_TYPE (proto_corresp_type_code, description, module_id, update_timestamp, update_user) VALUES ('7','Suspension notice','Y',sysdate,'KRADEV');
+INSERT INTO PROTO_CORRESP_TYPE (proto_corresp_type_code, description, module_id, update_timestamp, update_user) VALUES ('8','Termination Notice','Y',sysdate,'KRADEV');
+INSERT INTO PROTO_CORRESP_TYPE (proto_corresp_type_code, description, module_id, update_timestamp, update_user) VALUES ('9','Agenda Report','Y',sysdate,'KRADEV');
+INSERT INTO PROTO_CORRESP_TYPE (proto_corresp_type_code, description, module_id, update_timestamp, update_user) VALUES ('10','Schedule Minutes','Y',sysdate,'KRADEV');
+INSERT INTO PROTO_CORRESP_TYPE (proto_corresp_type_code, description, module_id, update_timestamp, update_user) VALUES ('110','Schedule Optional Report #1','Y',sysdate,'KRADEV');
+INSERT INTO PROTO_CORRESP_TYPE (proto_corresp_type_code, description, module_id, update_timestamp, update_user) VALUES ('12','Schedule Optional Report #2','Y',sysdate,'KRADEV');
+INSERT INTO PROTO_CORRESP_TYPE (proto_corresp_type_code, description, module_id, update_timestamp, update_user) VALUES ('13','Protocol Optional Report #1','Y',sysdate,'KRADEV');
+INSERT INTO PROTO_CORRESP_TYPE (proto_corresp_type_code, description, module_id, update_timestamp, update_user) VALUES ('20','Renewal Reminder Letter #1','Y',sysdate,'KRADEV');
+INSERT INTO PROTO_CORRESP_TYPE (proto_corresp_type_code, description, module_id, update_timestamp, update_user) VALUES ('21','Renewal Reminder Letter #2','Y',sysdate,'KRADEV');
+INSERT INTO PROTO_CORRESP_TYPE (proto_corresp_type_code, description, module_id, update_timestamp, update_user) VALUES ('22','Renewal Reminder Letter #3','Y',sysdate,'KRADEV');
+INSERT INTO PROTO_CORRESP_TYPE (proto_corresp_type_code, description, module_id, update_timestamp, update_user) VALUES ('23','Reminder to IRB Notification #1','Y',sysdate,'KRADEV');
+INSERT INTO PROTO_CORRESP_TYPE (proto_corresp_type_code, description, module_id, update_timestamp, update_user) VALUES ('24','Reminder to IRB Notification #2','Y',sysdate,'KRADEV');
+INSERT INTO PROTO_CORRESP_TYPE (proto_corresp_type_code, description, module_id, update_timestamp, update_user) VALUES ('25','Reminder to IRB Notification #3','Y',sysdate,'KRADEV');
+INSERT INTO PROTO_CORRESP_TYPE (proto_corresp_type_code, description, module_id, update_timestamp, update_user) VALUES ('26','Closure Notice','Y',sysdate,'KRADEV');
+INSERT INTO PROTO_CORRESP_TYPE (proto_corresp_type_code, description, module_id, update_timestamp, update_user) VALUES ('17','Grant Exemption Notice','Y',sysdate,'KRADEV');
+INSERT INTO PROTO_CORRESP_TYPE (proto_corresp_type_code, description, module_id, update_timestamp, update_user) VALUES ('14','Protocol Optional Report #2','Y',sysdate,'KRADEV');
+INSERT INTO PROTO_CORRESP_TYPE (proto_corresp_type_code, description, module_id, update_timestamp, update_user) VALUES ('15','Committee Roster Report','Y',sysdate,'KRADEV');
+INSERT INTO PROTO_CORRESP_TYPE (proto_corresp_type_code, description, module_id, update_timestamp, update_user) VALUES ('16','Withdrawal Notice','Y',sysdate,'KRADEV');
+INSERT INTO PROTO_CORRESP_TYPE (proto_corresp_type_code, description, module_id, update_timestamp, update_user) VALUES ('18','Protocol Submission Report #1','Y',sysdate,'KRADEV');
+INSERT INTO PROTO_CORRESP_TYPE (proto_corresp_type_code, description, module_id, update_timestamp, update_user) VALUES ('19','Protocol Submission Report #2','Y',sysdate,'KRADEV');
+
+commit;
+
+INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('100','Submitted to Committee',sysdate,'KRADEV');
+INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('101','In Agenda',sysdate,'KRADEV');
+INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('102','Pending',sysdate,'KRADEV');
+INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('200','Complete',sysdate,'KRADEV');
+INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('201','Substantive Revisions Required',sysdate,'KRADEV');
+INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('202','Specific Minor Revisions Requested',sysdate,'KRADEV');
+INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('203','Approved',sysdate,'KRADEV');
+INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('204','Exemption Granted',sysdate,'KRADEV');
+INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('205','Disapproved',sysdate,'KRADEV');
+INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('206','Deferred',sysdate,'KRADEV');
+INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('207','Closed',sysdate,'KRADEV');
+INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('208','Terminated',sysdate,'KRADEV');
+INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('209','Suspended',sysdate,'KRADEV');
+INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('210','Withdrawn',sysdate,'KRADEV');
+INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('211','Closed for Enrollment',sysdate,'KRADEV');
+INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('212','IRB Acknowledgement',sysdate,'KRADEV');
+INSERT INTO SUBMISSION_STATUS (submission_status_code, description, update_timestamp, update_user) VALUES ('104','IRB review not required',sysdate,'KRADEV');  
+
+commit;
