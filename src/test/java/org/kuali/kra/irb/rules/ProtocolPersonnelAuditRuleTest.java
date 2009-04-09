@@ -22,6 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.kra.irb.personnel.ProtocolPersonnelAuditRule;
 
 /**
  * This class is to test protocol personnel audit rule error message
