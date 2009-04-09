@@ -41,7 +41,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
+import org.kuali.kra.service.KraAuthorizationService;
 
 import edu.emory.mathcs.backport.java.util.AbstractMap.SimpleEntry;
 import edu.emory.mathcs.backport.java.util.AbstractMap.SimpleImmutableEntry;
@@ -151,8 +151,8 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
     protected boolean hasPermission(ProposalDevelopmentDocument doc, String permissionName) {
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
         String username = user.getPersonUserIdentifier();
-        ProposalAuthorizationService proposalAuthService = KraServiceLocator.getService(ProposalAuthorizationService.class);
-        return proposalAuthService.hasPermission(username, doc, permissionName);
+        KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
+        return kraAuthorizationService.hasPermission(username, doc, permissionName);
     }
     
     /**
@@ -164,8 +164,8 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
     protected boolean hasRole(ProposalDevelopmentDocument doc, String roleName) {
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
         String username = user.getPersonUserIdentifier();
-        ProposalAuthorizationService proposalAuthService = KraServiceLocator.getService(ProposalAuthorizationService.class);
-        return proposalAuthService.hasRole(username, doc, roleName);
+        KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
+        return kraAuthorizationService.hasRole(username, doc, roleName);
     }
 
     /**
@@ -176,8 +176,8 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
      * @return true if user has permission; otherwise false
      */
     protected boolean hasPermission(String username, ProposalDevelopmentDocument doc, String permissionName) {
-        ProposalAuthorizationService proposalAuthService = KraServiceLocator.getService(ProposalAuthorizationService.class);
-        return proposalAuthService.hasPermission(username, doc, permissionName);
+        KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
+        return kraAuthorizationService.hasPermission(username, doc, permissionName);
     }
     
     /**
@@ -188,8 +188,8 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
      * @return true if user has role; otherwise false
      */
     protected boolean hasRole(String username, ProposalDevelopmentDocument doc, String roleName) {
-        ProposalAuthorizationService proposalAuthService = KraServiceLocator.getService(ProposalAuthorizationService.class);
-        return proposalAuthService.hasRole(username, doc, roleName);   
+        KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
+        return kraAuthorizationService.hasRole(username, doc, roleName);   
     }
     
     /**

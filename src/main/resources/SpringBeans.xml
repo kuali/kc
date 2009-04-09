@@ -405,8 +405,8 @@
 		<property name="systemAuthorizationService">
 			<ref bean="systemAuthorizationService" />
 		</property>
-		<property name="proposalAuthorizationService">
-			<ref bean="proposalAuthorizationService" />
+		<property name="kraAuthorizationService">
+			<ref bean="kraAuthorizationService" />
 		</property>
 	</bean>
 
@@ -582,21 +582,6 @@
 		</property>
 	</bean>
 	
-	<bean id="proposalAuthorizationService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalAuthorizationServiceImpl">
-		<property name="unitAuthorizationService">
-			<ref bean="unitAuthorizationService" />
-		</property>
-		<property name="personService">
-			<ref bean="personService" />
-		</property>
-		<property name="kimPersonService">
-			<ref bean="kimPersonService" />
-		</property>
-		<property name="kimQualifiedRoleService">
-			<ref bean="kimQualifiedRoleService" />
-		</property>
-	</bean>
-	
 	<bean id="kraAuthorizationService" class="org.kuali.kra.service.impl.KraAuthorizationServiceImpl">
 		<property name="unitAuthorizationService">
 			<ref bean="unitAuthorizationService" />
@@ -610,7 +595,7 @@
 		<property name="kimQualifiedRoleService">
 			<ref bean="kimQualifiedRoleService" />
 		</property>
-	</bean>
+	</bean>	
 
 	<bean id="researchDocumentService" class="org.kuali.kra.service.impl.ResearchDocumentServiceImpl">
 		<property name="routeHeaderService">
@@ -673,7 +658,7 @@
 
     <bean id="parentProposalAuthorizer" abstract="true">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
-        <property name="proposalAuthorizationService" ref="proposalAuthorizationService" />
+        <property name="kraAuthorizationService" ref="kraAuthorizationService" />
         <property name="kraWorkflowService" ref="kraWorkflowService" />
         <property name="personService" ref="personService" />
     </bean>
@@ -1213,8 +1198,8 @@
     </bean>
 	
 	<bean id="proposalRoleTemplateService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalRoleTemplateServiceImpl">
-        <property name="proposalAuthorizationService">
-            <ref bean="proposalAuthorizationService" />
+        <property name="kraAuthorizationService">
+            <ref bean="kraAuthorizationService" />
         </property>
         <property name="personService">
             <ref bean="personService" />

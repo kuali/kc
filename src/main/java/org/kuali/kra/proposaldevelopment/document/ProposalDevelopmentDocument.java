@@ -27,34 +27,29 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.SessionDocument;
 import org.kuali.core.document.authorization.PessimisticLock;
-import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.core.workflow.DocumentInitiator;
-import org.kuali.core.workflow.KualiDocumentXmlMaterializer;
-import org.kuali.core.workflow.KualiTransactionalDocumentInformation;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
-import org.kuali.kra.bo.SponsorFormTemplate;
-import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetVersionCollection;
+import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -71,7 +66,6 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalState;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.bo.YnqGroupName;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
-import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStateService;
@@ -80,11 +74,11 @@ import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.bo.S2sSubmissionHistory;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.YnqService;
-import org.kuali.kra.workflow.KraDocumentXMLMaterializer;
 import org.kuali.rice.KNSServiceLocator;
 
-public class ProposalDevelopmentDocument extends ResearchDocumentBase implements BudgetVersionCollection, Copyable, SessionDocument {
+public class ProposalDevelopmentDocument extends ResearchDocumentBase implements BudgetVersionCollection, Copyable, SessionDocument, Permissionable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalDevelopmentDocument.class);
     
     private String proposalNumber;
@@ -1433,8 +1427,8 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     }
 
     protected List<RolePersons> getAllRolePersons() {
-        ProposalAuthorizationService proposalAuthService = (ProposalAuthorizationService) KraServiceLocator.getService(ProposalAuthorizationService.class); 
-        return proposalAuthService.getAllRolePersons(this);
+        KraAuthorizationService kraAuthService = (KraAuthorizationService) KraServiceLocator.getService(KraAuthorizationService.class); 
+        return kraAuthService.getAllRolePersons(this);
     }
   
     public boolean isNih() {
@@ -1531,6 +1525,25 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     public void setPostSubmissionStatusCode(Integer postSubmissionStatusCode) {
         this.postSubmissionStatusCode = postSubmissionStatusCode;
+    }
+    
+    public String getDocumentNumberForPermission(){
+        return proposalNumber;
+    }
+    
+    public String getDocumentKey(){
+        return Permissionable.PROPOSAL_KEY;
+    }
+    
+    public String[] getRoleNames(){
+        String[] roleNames = { RoleConstants.AGGREGATOR, 
+                RoleConstants.BUDGET_CREATOR, 
+                RoleConstants.NARRATIVE_WRITER, 
+                RoleConstants.VIEWER, 
+                "approver"
+        };
+        
+        return roleNames;
     }
 
     
