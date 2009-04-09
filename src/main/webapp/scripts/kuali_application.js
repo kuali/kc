@@ -1517,3 +1517,28 @@ function loadFrequencyBaseCode(frequencyCodeFieldName, frequencyBaseCodeFieldNam
 	}
 
 }
+
+function loadScheduleDates(committeeElementId, scheduleElementId) {
+	var committeeId = DWRUtil.getValue(committeeElementId);
+	var scheduleElement = document.getElementsByName(scheduleElementId);
+	var dwrReply = {
+		callback:function(data) {
+			if ( data == null ) {
+			    scheduleElement[0].innerHTML = "";
+			} else {
+				var dateOptions = data.split(",");
+				var scheduleElement = document.getElementsByName(scheduleElementId);
+				var options = '';
+				for (var i = 0; i < dateOptions.length; i += 2) {
+				    options += '<option value="' + dateOptions[i] + '">' + dateOptions[i+1] + '</option>';
+				}
+				scheduleElement[0].innerHTML = options;
+			}
+		},
+		errorHandler:function( errorMessage ) {
+			window.status = errorMessage;	
+			scheduleElement[0].innerHTML = "";	
+		}
+	};
+	CommitteeService.getValidCommitteeDatesForAjax(committeeId, dwrReply);
+}

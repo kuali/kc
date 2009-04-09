@@ -15,33 +15,43 @@
  */
 package org.kuali.kra.committee.service.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeResearchArea;
+import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 
 /**
  * The Committee Service implementation.
  */
 public class CommitteeServiceImpl implements CommitteeService {
 
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+    private static SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
+
     private BusinessObjectService businessObjectService;
-    
+
     /**
      * Set the Business Object Service.
+     * 
      * @param businessObjectService the Business Object Service
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
+
     /**
      * @see org.kuali.kra.committee.service.CommitteeService#getCommitteeById(java.lang.String)
      */
@@ -54,9 +64,8 @@ public class CommitteeServiceImpl implements CommitteeService {
             Collection<Committee> committees = businessObjectService.findMatching(Committee.class, fieldValues);
             if (committees.size() > 0) {
                 /*
-                 * There is a database unique constraint that prevents more than
-                 * committee from having the same committee ID.  Therefore, the
-                 * returned collection will always have zero or one entry.
+                 * There is a database unique constraint that prevents more than committee from having the same committee ID.
+                 * Therefore, the returned collection will always have zero or one entry.
                  */
                 committee = committees.iterator().next();
             }
@@ -65,7 +74,8 @@ public class CommitteeServiceImpl implements CommitteeService {
     }
 
     /**
-     * @see org.kuali.kra.committee.service.CommitteeService#addResearchAreas(org.kuali.kra.committee.bo.Committee, java.util.Collection)
+     * @see org.kuali.kra.committee.service.CommitteeService#addResearchAreas(org.kuali.kra.committee.bo.Committee,
+     *      java.util.Collection)
      */
     public void addResearchAreas(Committee committee, Collection<ResearchArea> researchAreas) {
         for (ResearchArea researchArea : researchAreas) {
@@ -74,9 +84,10 @@ public class CommitteeServiceImpl implements CommitteeService {
             }
         }
     }
-    
+
     /**
      * Does the committee already have this research area?
+     * 
      * @param committee
      * @param researchArea
      * @return true if the committee has the research area; otherwise false
@@ -92,6 +103,7 @@ public class CommitteeServiceImpl implements CommitteeService {
 
     /**
      * Add a research area to the committee.
+     * 
      * @param committee
      * @param researchArea
      */
@@ -103,5 +115,60 @@ public class CommitteeServiceImpl implements CommitteeService {
         committeeResearchArea.setResearchArea(researchArea);
         committeeResearchArea.setResearchAreaCode(researchArea.getResearchAreaCode());
         committee.getCommitteeResearchAreas().add(committeeResearchArea);
+    }
+
+    /**
+     * @see org.kuali.kra.committee.service.CommitteeService#getValidCommitteeDates(java.lang.String)
+     */
+    public List<KeyLabelPair> getValidCommitteeDates(String committeeId) {
+        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        keyValues.add(new KeyLabelPair("", "select"));
+        Committee committee = getCommitteeById(committeeId);
+        if (committee != null) {
+            List<CommitteeSchedule> schedules = committee.getCommitteeSchedules();
+            for (CommitteeSchedule schedule : schedules) {
+                if (isOkayToScheduleReview(committee, schedule)) {
+                    keyValues.add(new KeyLabelPair(schedule.getScheduleId(), getDescription(schedule)));
+                }
+            }
+        }
+        return keyValues;
+    }
+
+    /**
+     * Is it OK to schedule a review for the given committee and schedule?
+     * @param committee
+     * @param schedule
+     * @return
+     */
+    private boolean isOkayToScheduleReview(Committee committee, CommitteeSchedule schedule) {
+        Date now = new Date(System.currentTimeMillis());
+        return true;
+
+    }
+
+    /**
+     * Get the date/place/time description that will be displayed in 
+     * the drop-down menu for the user.
+     * @param schedule
+     * @return
+     */
+    private String getDescription(CommitteeSchedule schedule) {
+        Date date = schedule.getScheduledDate();
+        long time = schedule.getActualTime().getTime() - date.getTime();
+        Date t = new Date(time);
+        return dateFormat.format(date) + " " + schedule.getPlace() + " " + timeFormat.format(schedule.getActualTime());
+    }
+
+    /**
+     * @see org.kuali.kra.committee.service.CommitteeService#getValidCommitteeDatesForAjax(java.lang.String)
+     */
+    public String getValidCommitteeDatesForAjax(String committeeId) {
+        StringBuffer ajaxList = new StringBuffer();
+        List<KeyLabelPair> dates = getValidCommitteeDates(committeeId);
+        for (KeyLabelPair date : dates) {
+            ajaxList.append(date.getKey() + "," + date.getLabel() + ",");
+        }
+        return ajaxList.substring(0, ajaxList.length() - 1);
     }
 }
