@@ -171,7 +171,7 @@
             <foreignkey field-ref="personId"/>
         </reference-descriptor>
         
-        <reference-descriptor name="rolodex" class-ref="org.kuali.kra.irb.bo.ProtocolPersonRolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="rolodex" class-ref="org.kuali.kra.irb.personnel.ProtocolPersonRolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="rolodexId"/>
         </reference-descriptor>
 

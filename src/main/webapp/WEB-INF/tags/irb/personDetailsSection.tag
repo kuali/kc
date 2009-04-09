@@ -50,7 +50,7 @@
 									    </c:when>
 									    <c:otherwise>
 							                <html:select property="${protocolPerson}.protocolPersonRoleId" tabindex="0">
-							                <c:forEach items="${krafn:getOptionList('org.kuali.kra.irb.lookup.keyvalue.ProtocolPersonRoleValuesFinder', paramMap)}" var="option">
+							                <c:forEach items="${krafn:getOptionList('org.kuali.kra.irb.personnel.ProtocolPersonRoleValuesFinder', paramMap)}" var="option">
 							                <c:choose>
 							                    <c:when test="${KualiForm.document.protocol.protocolPersons[personIndex].protocolPersonRoleId == option.key}">
 							                    <option value="${option.key}" selected>${option.label}</option>

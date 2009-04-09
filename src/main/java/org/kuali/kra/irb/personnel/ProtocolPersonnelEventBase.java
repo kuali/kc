@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.rule.event;
+package org.kuali.kra.irb.personnel;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kra.irb.bo.ProtocolPerson;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 

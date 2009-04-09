@@ -28,7 +28,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.document.ProtocolDocument;
-import org.kuali.kra.irb.service.ProtocolPersonnelService;
+import org.kuali.kra.irb.personnel.ProtocolPersonnelService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 

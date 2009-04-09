@@ -201,6 +201,20 @@
           <forward name="committeeSchedule" path="/WEB-INF/jsp/committee/CommitteeSchedule.jsp" />
       </action>
       
+      <!--  KRA IRB Personnel Mapping -->
+      <action path="/personnel" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolPersonnel.jsp" type="org.kuali.kra.irb.personnel.ProtocolPersonnelAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/irb/ProtocolPersonnel.jsp" />
+          <forward name="protocol" path="/WEB-INF/jsp/irb/ProtocolProtocol.jsp" />
+          <forward name="personnel" path="/WEB-INF/jsp/irb/ProtocolPersonnel.jsp" />
+          <forward name="permissions" path="/WEB-INF/jsp/irb/ProtocolPermissions.jsp" />
+          <forward name="permissionsRoleRights" path="/WEB-INF/jsp/irb/ProtocolPermissionsRoleRights.jsp" />
+      	  <forward name="permissionsEditRoles" path="/WEB-INF/jsp/irb/ProtocolPermissionsEditRoles.jsp" />
+      	  <forward name="permissionsCloseEditRoles" path="/WEB-INF/jsp/irb/ProtocolPermissionsCloseEditRoles.jsp" />
+          <forward name="protocolActions" path="/WEB-INF/jsp/irb/ProtocolProtocolActions.jsp" />
+          <forward name="customData" path="/WEB-INF/jsp/irb/ProtocolCustomData.jsp" />
+          <forward name="specialReview" path="/WEB-INF/jsp/irb/ProtocolSpecialReview.jsp" />
+      </action>
+
     </action-mappings>
 
     <controller processorClass="org.kuali.kra.web.struts.action.KraRequestProcessor" />

@@ -31,10 +31,10 @@ import org.kuali.core.web.ui.Row;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.bo.Protocol;
-import org.kuali.kra.irb.bo.ProtocolPerson;
 import org.kuali.kra.irb.dao.ProtocolDao;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.lookup.ProtocolLookupableHelperServiceImpl;
+import org.kuali.kra.irb.personnel.ProtocolPerson;
 
 public class ProtocolLookupHelperServiceTest extends KraTestBase {
 

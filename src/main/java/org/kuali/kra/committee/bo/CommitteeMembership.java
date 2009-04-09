@@ -25,7 +25,7 @@ import javax.persistence.Id;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Person;
-import org.kuali.kra.irb.bo.ProtocolPersonRolodex;
+import org.kuali.kra.irb.personnel.ProtocolPersonRolodex;
 
 /**
  * 
