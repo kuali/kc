@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.web.struts.action;
+package org.kuali.kra.irb.personnel;
 
 import static org.apache.commons.lang.StringUtils.isNotBlank;
 import static org.apache.commons.lang.StringUtils.substringBetween;
@@ -30,13 +30,10 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.bo.ProtocolPerson;
 import org.kuali.kra.irb.bo.ProtocolUnit;
 import org.kuali.kra.irb.document.ProtocolDocument;
-import org.kuali.kra.irb.rule.event.AddProtocolPersonnelEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolUnitEvent;
-import org.kuali.kra.irb.rule.event.SaveProtocolPersonnelEvent;
-import org.kuali.kra.irb.service.ProtocolPersonnelService;
+import org.kuali.kra.irb.web.struts.action.ProtocolAction;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 
 /**

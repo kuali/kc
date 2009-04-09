@@ -13,14 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.rule.event;
+package org.kuali.kra.irb.personnel;
 
 import static org.kuali.kra.logging.BufferedLogger.info;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.irb.document.ProtocolDocument;
-import org.kuali.kra.irb.rule.SaveProtocolPersonnelRule;
 
 /**
  * Event triggered when a protocol personnel is saved to a

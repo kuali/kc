@@ -17,8 +17,8 @@ package org.kuali.kra.irb.service.mocks;
 
 import java.util.List;
 
-import org.kuali.kra.irb.bo.ProtocolPerson;
-import org.kuali.kra.irb.service.ProtocolPersonTrainingService;
+import org.kuali.kra.irb.personnel.ProtocolPerson;
+import org.kuali.kra.irb.personnel.ProtocolPersonTrainingService;
 
 /**
  * A Mock for the ProtocolPersonTrainingService.
@@ -26,7 +26,7 @@ import org.kuali.kra.irb.service.ProtocolPersonTrainingService;
 public class MockProtocolPersonTrainingService implements ProtocolPersonTrainingService {
     
     /**
-     * @see org.kuali.kra.irb.service.ProtocolPersonTrainingService#updatePersonTrained(java.util.List)
+     * @see org.kuali.kra.irb.personnel.ProtocolPersonTrainingService#updatePersonTrained(java.util.List)
      */
     public void updatePersonTrained(List<ProtocolPerson> protocolPersons) {
         for(ProtocolPerson protocolPerson : protocolPersons) {
@@ -35,7 +35,7 @@ public class MockProtocolPersonTrainingService implements ProtocolPersonTraining
     }
     
     /**
-     * @see org.kuali.kra.irb.service.ProtocolPersonTrainingService#setTrainedFlag(org.kuali.kra.irb.bo.ProtocolPerson)
+     * @see org.kuali.kra.irb.personnel.ProtocolPersonTrainingService#setTrainedFlag(org.kuali.kra.irb.personnel.ProtocolPerson)
      */
     public void setTrainedFlag(ProtocolPerson protocolPerson) {
         protocolPerson.setTrained(true);

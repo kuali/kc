@@ -94,7 +94,7 @@
         </property>
     </bean>
     
-	<bean id="protocolPersonnelService" class="org.kuali.kra.irb.service.impl.ProtocolPersonnelServiceImpl">
+	<bean id="protocolPersonnelService" class="org.kuali.kra.irb.personnel.ProtocolPersonnelServiceImpl">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
@@ -103,7 +103,7 @@
         </property>        
 	</bean>	
 
-	<bean id="protocolPersonTrainingService" class="org.kuali.kra.irb.service.impl.ProtocolPersonTrainingServiceImpl">
+	<bean id="protocolPersonTrainingService" class="org.kuali.kra.irb.personnel.ProtocolPersonTrainingServiceImpl">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>

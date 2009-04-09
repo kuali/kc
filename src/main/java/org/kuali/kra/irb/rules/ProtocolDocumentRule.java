@@ -33,20 +33,21 @@ import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolParticipant;
 import org.kuali.kra.irb.bo.ProtocolSpecialReview;
 import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.kra.irb.personnel.AddProtocolPersonnelEvent;
+import org.kuali.kra.irb.personnel.AddProtocolPersonnelRule;
+import org.kuali.kra.irb.personnel.ProtocolPersonnelRule;
+import org.kuali.kra.irb.personnel.SaveProtocolPersonnelEvent;
+import org.kuali.kra.irb.personnel.SaveProtocolPersonnelRule;
 import org.kuali.kra.irb.rule.AddProtocolFundingSourceRule;
 import org.kuali.kra.irb.rule.AddProtocolLocationRule;
 import org.kuali.kra.irb.rule.AddProtocolParticipantRule;
-import org.kuali.kra.irb.rule.AddProtocolPersonnelRule;
 import org.kuali.kra.irb.rule.AddProtocolReferenceRule;
 import org.kuali.kra.irb.rule.AddProtocolUnitRule;
-import org.kuali.kra.irb.rule.SaveProtocolPersonnelRule;
 import org.kuali.kra.irb.rule.event.AddProtocolFundingSourceEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolLocationEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolParticipantEvent;
-import org.kuali.kra.irb.rule.event.AddProtocolPersonnelEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolReferenceEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolUnitEvent;
-import org.kuali.kra.irb.rule.event.SaveProtocolPersonnelEvent;
 import org.kuali.kra.rule.CustomAttributeRule;
 import org.kuali.kra.rule.SpecialReviewRule;
 import org.kuali.kra.rule.event.AddSpecialReviewEvent;
@@ -232,7 +233,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
     }
     
     /**
-     * @see org.kuali.kra.irb.rule.AddProtocolPersonnelRule#processAddProtocolPersonnelBusinessRules(org.kuali.kra.irb.rule.event.AddProtocolPersonnelEvent)
+     * @see org.kuali.kra.irb.personnel.AddProtocolPersonnelRule#processAddProtocolPersonnelBusinessRules(org.kuali.kra.irb.personnel.AddProtocolPersonnelEvent)
      */
     public boolean processAddProtocolPersonnelBusinessRules(AddProtocolPersonnelEvent addProtocolPersonnelEvent) {
 
@@ -241,7 +242,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
     }
 
     /**
-     * @see org.kuali.kra.irb.rule.SaveProtocolPersonnelRule#processSaveProtocolPersonnelBusinessRules(org.kuali.kra.irb.rule.event.SaveProtocolPersonnelEvent)
+     * @see org.kuali.kra.irb.personnel.SaveProtocolPersonnelRule#processSaveProtocolPersonnelBusinessRules(org.kuali.kra.irb.personnel.SaveProtocolPersonnelEvent)
      */
     public boolean processSaveProtocolPersonnelBusinessRules(SaveProtocolPersonnelEvent saveProtocolPersonnelEvent) {
 

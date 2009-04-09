@@ -112,10 +112,14 @@
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
-		</property>
+	    <property name="control" >
+	      <bean parent="SelectControlDefinition"
+	            p:businessObjectClass="org.kuali.kra.bo.Training"
+	            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
+	            p:includeKeyInLabel="false"
+	            p:keyAttribute="trainingCode"
+	            p:labelAttribute="description" />
+	    </property>
 		<property name="summary" value="Training Code" />
 		<property name="description" value="Training Code" />
 	</bean>
