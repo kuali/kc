@@ -83,11 +83,11 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalUser;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
-import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.bo.S2sSubmissionHistory;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.PersonService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.kra.web.struts.form.ProposalFormBase;
@@ -871,10 +871,10 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      * @param roleName the name of role to query for persons assigned to that role
      */
     private void addPersons(List<ProposalUserRoles> proposalUserRolesList, String roleName) {
-        ProposalAuthorizationService proposalAuthService = KraServiceLocator.getService(ProposalAuthorizationService.class);
+        KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
         ProposalDevelopmentDocument doc = this.getProposalDevelopmentDocument();
         
-        List<Person> persons = proposalAuthService.getPersonsInRole(doc, roleName);
+        List<Person> persons = kraAuthorizationService.getPersonsInRole(doc, roleName);
         for (Person person : persons) {
             ProposalUserRoles proposalUserRoles = findProposalUserRoles(proposalUserRolesList, person.getUserName());
             if (proposalUserRoles != null) {
@@ -1230,8 +1230,8 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     
     public boolean isSubmissionStatusReadOnly() {
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
-        ProposalAuthorizationService proposalAuthService = KraServiceLocator.getService(ProposalAuthorizationService.class);
-        boolean canModify = proposalAuthService.hasPermission(user.getPersonUserIdentifier(), this.getProposalDevelopmentDocument(), PermissionConstants.MODIFY_PROPOSAL);
+        KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
+        boolean canModify = kraAuthorizationService.hasPermission(user.getPersonUserIdentifier(), this.getProposalDevelopmentDocument(), PermissionConstants.MODIFY_PROPOSAL);
         if (canModify) { return false; }
         List<KualiGroup> groups = user.getGroups();
         for (KualiGroup group: groups) {

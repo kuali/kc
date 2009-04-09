@@ -23,7 +23,7 @@ import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
+import org.kuali.kra.service.KraAuthorizationService;
 
 /**
  * Base class for Narrative Authorizers.
@@ -31,15 +31,15 @@ import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
  */
 public abstract class NarrativeAuthorizer extends TaskAuthorizerImpl {
     
-    private ProposalAuthorizationService proposalAuthorizationService;
+    private KraAuthorizationService kraAuthorizationService;
     
 
     /**
-     * Set the Proposal Authorization Service.  Injected by the Spring Framework.
-     * @param proposalAuthorizationService the Proposal Authorization Service
+     * Set the Kra Authorization Service.  Injected by the Spring Framework.
+     * @param kraAuthorizationService the Kra Authorization Service
      */
-    public final void setProposalAuthorizationService(ProposalAuthorizationService proposalAuthorizationService) {
-        this.proposalAuthorizationService = proposalAuthorizationService;
+    public final void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+        this.kraAuthorizationService = kraAuthorizationService;
     }
     
     /**
@@ -50,7 +50,7 @@ public abstract class NarrativeAuthorizer extends TaskAuthorizerImpl {
      * @return true if the person has the permission; otherwise false
      */
     protected final boolean hasProposalPermission(String username, ProposalDevelopmentDocument doc, String permissionName) {
-        return proposalAuthorizationService.hasPermission(username, doc, permissionName);
+        return kraAuthorizationService.hasPermission(username, doc, permissionName);
     }
     
     /**
