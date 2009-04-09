@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.web.struts.form;
+package org.kuali.kra.irb.personnel;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
@@ -27,10 +27,10 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.bo.Protocol;
-import org.kuali.kra.irb.bo.ProtocolPerson;
 import org.kuali.kra.irb.bo.ProtocolUnit;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.document.authorization.ProtocolTask;
+import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 import org.kuali.kra.service.TaskAuthorizationService;
 
 public class PersonnelHelper {

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.bo;
+package org.kuali.kra.irb.personnel;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -22,6 +22,8 @@ import java.util.List;
 import org.kuali.kra.bo.AffiliationType;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.irb.ProtocolAssociate;
+import org.kuali.kra.irb.bo.Protocol;
+import org.kuali.kra.irb.bo.ProtocolUnit;
 
 public class ProtocolPerson extends ProtocolAssociate {
     /**

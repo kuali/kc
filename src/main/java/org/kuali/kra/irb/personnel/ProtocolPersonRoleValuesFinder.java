@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.lookup.keyvalue;
+package org.kuali.kra.irb.personnel;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
@@ -22,8 +22,6 @@ import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kra.irb.bo.ProtocolPersonRoleMapping;
-import org.kuali.kra.irb.service.ProtocolPersonnelService;
 
 /**
  * This class is to get valid values for protocol person role

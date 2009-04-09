@@ -21,7 +21,7 @@
 
 	<bean id="ProtocolPersonRole" parent="ProtocolPersonRole-parentBean" />
 	<bean id="ProtocolPersonRole-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.irb.bo.ProtocolPersonRole" />
+		<property name="businessObjectClass" value="org.kuali.kra.irb.personnel.ProtocolPersonRole" />
 		<property name="inquiryDefinition" >
 			<ref bean="ProtocolPersonRole-inquiryDefinition" />
 		</property>

@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.rule;
+package org.kuali.kra.irb.personnel;
 
 import org.kuali.core.rule.BusinessRule;
-import org.kuali.kra.irb.rule.event.SaveProtocolPersonnelEvent;
 
 
 /**

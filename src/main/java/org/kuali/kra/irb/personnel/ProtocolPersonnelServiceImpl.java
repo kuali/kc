@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.service.impl;
+package org.kuali.kra.irb.personnel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,11 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.bo.Protocol;
-import org.kuali.kra.irb.bo.ProtocolPerson;
-import org.kuali.kra.irb.bo.ProtocolPersonRoleMapping;
 import org.kuali.kra.irb.bo.ProtocolUnit;
-import org.kuali.kra.irb.service.ProtocolPersonTrainingService;
-import org.kuali.kra.irb.service.ProtocolPersonnelService;
 
 
 public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
@@ -62,7 +58,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     }
 
     /**
-     * @see org.kuali.kra.irb.service.ProtocolPersonnelService#addProtocolPerson(org.kuali.kra.irb.bo.Protocol, org.kuali.kra.irb.bo.ProtocolPerson)
+     * @see org.kuali.kra.irb.personnel.ProtocolPersonnelService#addProtocolPerson(org.kuali.kra.irb.bo.Protocol, org.kuali.kra.irb.personnel.ProtocolPerson)
      */
     public void addProtocolPerson(Protocol protocol, ProtocolPerson protocolPerson) {
         
@@ -82,7 +78,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     }
 
     /**
-     * @see org.kuali.kra.irb.service.ProtocolPersonnelService#deleteProtocolPerson(org.kuali.kra.irb.bo.Protocol, int)
+     * @see org.kuali.kra.irb.personnel.ProtocolPersonnelService#deleteProtocolPerson(org.kuali.kra.irb.bo.Protocol, int)
      */
     public void deleteProtocolPerson(Protocol protocol) {
         List<ProtocolPerson> deletedPersons = new ArrayList<ProtocolPerson>();
@@ -95,7 +91,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     }
     
     /**
-     * @see org.kuali.kra.irb.service.ProtocolPersonnelService#addProtocolPersonUnit(org.kuali.kra.irb.bo.Protocol, org.kuali.kra.irb.bo.ProtocolPerson)
+     * @see org.kuali.kra.irb.personnel.ProtocolPersonnelService#addProtocolPersonUnit(org.kuali.kra.irb.bo.Protocol, org.kuali.kra.irb.personnel.ProtocolPerson)
      */
     public void addProtocolPersonUnit(List<ProtocolUnit> protocolPersonUnits, ProtocolPerson protocolPerson, int selectedPersonIndex) {
         ProtocolUnit newProtocolPersonUnit = protocolPersonUnits.get(selectedPersonIndex);
@@ -113,7 +109,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     }
     
     /**
-     * @see org.kuali.kra.irb.service.ProtocolPersonnelService#deleteProtocolPersonUnit(java.util.List, org.kuali.kra.irb.bo.ProtocolPerson, int)
+     * @see org.kuali.kra.irb.personnel.ProtocolPersonnelService#deleteProtocolPersonUnit(java.util.List, org.kuali.kra.irb.personnel.ProtocolPerson, int)
      */
     public void deleteProtocolPersonUnit(Protocol protocol, int selectedPersonIndex, int lineNumber) {
         ProtocolPerson selectedPerson =  protocol.getProtocolPerson(selectedPersonIndex);
@@ -125,7 +121,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     }
     
     /**
-     * @see org.kuali.kra.irb.service.ProtocolPersonnelService#switchInvestigatorCoInvestigatorRole(java.util.List)
+     * @see org.kuali.kra.irb.personnel.ProtocolPersonnelService#switchInvestigatorCoInvestigatorRole(java.util.List)
      */
     public void switchInvestigatorCoInvestigatorRole(List<ProtocolPerson> protocolPersons) {
         ProtocolPerson investigator = null;
@@ -222,7 +218,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     }
 
     /**
-     * @see org.kuali.kra.irb.service.ProtocolPersonnelService#syncProtocolPersonRoleChanges(java.util.List)
+     * @see org.kuali.kra.irb.personnel.ProtocolPersonnelService#syncProtocolPersonRoleChanges(java.util.List)
      */
     public void syncProtocolPersonRoleChanges(List<ProtocolPerson> protocolPersons) {
         for(ProtocolPerson protocolPerson : protocolPersons) {
@@ -288,7 +284,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     }
     
     /**
-     * @see org.kuali.kra.irb.service.ProtocolPersonnelService#selectProtocolUnit(java.util.List)
+     * @see org.kuali.kra.irb.personnel.ProtocolPersonnelService#selectProtocolUnit(java.util.List)
      */
     public void selectProtocolUnit(List<ProtocolPerson> protocolPersons) {
         for(ProtocolPerson protocolPerson : protocolPersons) {
@@ -304,7 +300,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     }
     
     /**
-     * @see org.kuali.kra.irb.service.ProtocolPersonnelService#isPIExists()
+     * @see org.kuali.kra.irb.personnel.ProtocolPersonnelService#isPIExists()
      */
     public boolean isPIExists(List<ProtocolPerson> protocolPersons) {
         boolean investigatorExists = false;
@@ -318,7 +314,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     }
 
     /**
-     * @see org.kuali.kra.irb.service.ProtocolPersonnelService#isDuplicateUnit(java.util.List, org.kuali.kra.irb.bo.ProtocolUnit)
+     * @see org.kuali.kra.irb.personnel.ProtocolPersonnelService#isDuplicateUnit(java.util.List, org.kuali.kra.irb.bo.ProtocolUnit)
      */
     public boolean isDuplicateUnit(ProtocolPerson protocolPerson, ProtocolUnit newProtocolUnit) {
         boolean duplicateUnit = false;
@@ -332,7 +328,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     }
     
     /**
-     * @see org.kuali.kra.irb.service.ProtocolPersonnelService#isDuplicatePerson(java.util.List, org.kuali.kra.irb.bo.ProtocolPerson)
+     * @see org.kuali.kra.irb.personnel.ProtocolPersonnelService#isDuplicatePerson(java.util.List, org.kuali.kra.irb.personnel.ProtocolPerson)
      */
     public boolean isDuplicatePerson(List<ProtocolPerson> protocolPersons, ProtocolPerson newProtocolPerson) {
         boolean duplicatePerson = false;
@@ -345,7 +341,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     }
 
     /**
-     * @see org.kuali.kra.irb.service.ProtocolPersonnelService#getPrincipalInvestigator(java.util.List)
+     * @see org.kuali.kra.irb.personnel.ProtocolPersonnelService#getPrincipalInvestigator(java.util.List)
      */
     public ProtocolPerson getPrincipalInvestigator(List<ProtocolPerson> protocolPersons) {
         ProtocolPerson principalInvestigator = null;
@@ -404,7 +400,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     }
     
     /**
-     * @see org.kuali.kra.irb.service.ProtocolPersonnelService#syncPersonRoleAndUnit(org.kuali.kra.irb.bo.ProtocolPerson)
+     * @see org.kuali.kra.irb.personnel.ProtocolPersonnelService#syncPersonRoleAndUnit(org.kuali.kra.irb.personnel.ProtocolPerson)
      */
     public void syncPersonRoleAndUnit(ProtocolPerson protocolPerson) {
         if(!isUnitDetailsRequired(protocolPerson)) {
@@ -413,7 +409,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     }
 
     /**
-     * @see org.kuali.kra.irb.service.ProtocolPersonnelService#syncPersonRoleAndAffiliation(org.kuali.kra.irb.bo.ProtocolPerson)
+     * @see org.kuali.kra.irb.personnel.ProtocolPersonnelService#syncPersonRoleAndAffiliation(org.kuali.kra.irb.personnel.ProtocolPerson)
      */
     public void syncPersonRoleAndAffiliation(ProtocolPerson protocolPerson) {
         if(!isAffiliationDetailsRequired(protocolPerson)) {
@@ -422,7 +418,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     }
     
     /**
-     * @see org.kuali.kra.irb.service.ProtocolPersonnelService#isValidStudentFacultyMatch(java.util.List)
+     * @see org.kuali.kra.irb.personnel.ProtocolPersonnelService#isValidStudentFacultyMatch(java.util.List)
      */
     public boolean isValidStudentFacultyMatch(List<ProtocolPerson> protocolPersons) {
         boolean validInvestigator = true;

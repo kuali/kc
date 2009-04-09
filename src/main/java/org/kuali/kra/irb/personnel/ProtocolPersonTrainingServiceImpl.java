@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.service.impl;
+package org.kuali.kra.irb.personnel;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -23,8 +23,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.bo.PersonTraining;
-import org.kuali.kra.irb.bo.ProtocolPerson;
-import org.kuali.kra.irb.service.ProtocolPersonTrainingService;
 
 
 public class ProtocolPersonTrainingServiceImpl implements ProtocolPersonTrainingService {
@@ -35,7 +33,7 @@ public class ProtocolPersonTrainingServiceImpl implements ProtocolPersonTraining
     
     
     /**
-     * @see org.kuali.kra.irb.service.ProtocolPersonTrainingService#isPersonTrained(java.lang.String)
+     * @see org.kuali.kra.irb.personnel.ProtocolPersonTrainingService#isPersonTrained(java.lang.String)
      */
     public void updatePersonTrained(List<ProtocolPerson> protocolPersons) {
         for(ProtocolPerson protocolPerson : protocolPersons) {
@@ -44,7 +42,7 @@ public class ProtocolPersonTrainingServiceImpl implements ProtocolPersonTraining
     }
     
     /**
-     * @see org.kuali.kra.irb.service.ProtocolPersonTrainingService#setTrainedFlag(org.kuali.kra.irb.bo.ProtocolPerson)
+     * @see org.kuali.kra.irb.personnel.ProtocolPersonTrainingService#setTrainedFlag(org.kuali.kra.irb.personnel.ProtocolPerson)
      */
     public void setTrainedFlag(ProtocolPerson protocolPerson) {
         if (StringUtils.isNotEmpty(protocolPerson.getPersonId())) {

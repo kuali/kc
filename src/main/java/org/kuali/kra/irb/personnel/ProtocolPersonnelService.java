@@ -13,13 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.service;
+package org.kuali.kra.irb.personnel;
 
 import java.util.List;
 
 import org.kuali.kra.irb.bo.Protocol;
-import org.kuali.kra.irb.bo.ProtocolPerson;
-import org.kuali.kra.irb.bo.ProtocolPersonRoleMapping;
 import org.kuali.kra.irb.bo.ProtocolUnit;
 
 

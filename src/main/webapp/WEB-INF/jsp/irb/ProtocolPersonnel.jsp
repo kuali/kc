@@ -22,7 +22,7 @@
 
 <kul:documentPage
 	showDocumentInfo="true"
-	htmlFormAction="protocolPersonnel"
+	htmlFormAction="personnel"
 	documentTypeName="ProtocolDocument"
 	renderMultipart="false"
 	showTabButtons="true"

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.rules;
+package org.kuali.kra.irb.personnel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,14 +21,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.bo.ProtocolPerson;
 import org.kuali.kra.irb.bo.ProtocolUnit;
 import org.kuali.kra.irb.document.ProtocolDocument;
-import org.kuali.kra.irb.rule.AddProtocolPersonnelRule;
-import org.kuali.kra.irb.rule.SaveProtocolPersonnelRule;
-import org.kuali.kra.irb.rule.event.AddProtocolPersonnelEvent;
-import org.kuali.kra.irb.rule.event.SaveProtocolPersonnelEvent;
-import org.kuali.kra.irb.service.ProtocolPersonnelService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 /**
@@ -46,7 +40,7 @@ public class ProtocolPersonnelRule extends ResearchDocumentRuleBase implements A
     private static final String REFERENCE_PERSON_ROLE = "protocolPersonRole";
     
     /**
-     * @see org.kuali.kra.irb.rule.AddProtocolPersonnelRule#processAddProtocolPersonnelBusinessRules(org.kuali.kra.irb.rule.event.AddProtocolPersonnelEvent)
+     * @see org.kuali.kra.irb.personnel.AddProtocolPersonnelRule#processAddProtocolPersonnelBusinessRules(org.kuali.kra.irb.personnel.AddProtocolPersonnelEvent)
      */
     public boolean processAddProtocolPersonnelBusinessRules(AddProtocolPersonnelEvent addProtocolPersonnelEvent) {
         boolean isValid = true;
@@ -175,7 +169,7 @@ public class ProtocolPersonnelRule extends ResearchDocumentRuleBase implements A
     }
 
     /**
-     * @see org.kuali.kra.irb.rule.SaveProtocolPersonnelRule#processSaveProtocolPersonnelBusinessRules(org.kuali.kra.irb.rule.event.SaveProtocolPersonnelEvent)
+     * @see org.kuali.kra.irb.personnel.SaveProtocolPersonnelRule#processSaveProtocolPersonnelBusinessRules(org.kuali.kra.irb.personnel.SaveProtocolPersonnelEvent)
      */
     public boolean processSaveProtocolPersonnelBusinessRules(SaveProtocolPersonnelEvent saveProtocolPersonnelEvent) {
         boolean isValid = true;
