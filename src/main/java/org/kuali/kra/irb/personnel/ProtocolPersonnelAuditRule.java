@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.rules;
+package org.kuali.kra.irb.personnel;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
@@ -28,7 +28,6 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.document.ProtocolDocument;
-import org.kuali.kra.irb.personnel.ProtocolPersonnelService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 
