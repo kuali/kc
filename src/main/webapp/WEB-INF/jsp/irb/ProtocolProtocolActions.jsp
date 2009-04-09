@@ -44,4 +44,6 @@
 		viewOnly="${KualiForm.editingMode['viewOnly']}"
 		/>
 
+<script language="javascript" src="dwr/interface/CommitteeService.js"></script>
+
 </kul:documentPage>

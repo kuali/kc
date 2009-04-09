@@ -31,70 +31,42 @@ import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 
 /**
- * Finds the available set of supported Abstract Types.  See
- * the method <code>getKeyValues()</code> for a full description.
+ * Finds the available set of dates where a protocol can be scheduled
+ * for a review by a committee.
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class CommitteeScheduleValuesFinder extends KeyValuesBase {
     
-    private static SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
-    private static SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
     /**
      * @return the list of &lt;key, value&gt; pairs of committees.  The first entry
      * is always &lt;"", "select:"&gt;.
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "select"));
-        
-        Committee committee = getCommittee(getCommitteeId());
-        if (committee != null) {
-            List<CommitteeSchedule> schedules = committee.getCommitteeSchedules();
-            for (CommitteeSchedule schedule : schedules) {
-                if (isOkayToScheduleReview(committee, schedule)) {
-                    keyValues.add(new KeyLabelPair(schedule.getScheduleId(), getDescription(schedule)));
-                }
-            }
-        }
-        return keyValues;
+        return getCommitteeService().getValidCommitteeDates(getCommitteeId());
     }
     
-    private boolean isOkayToScheduleReview(Committee committee, CommitteeSchedule schedule) {
-        Date now = new Date(System.currentTimeMillis());
-        return true;
-        
+    /**
+     * Get the Committee Service.
+     * @return the Committee Service
+     */
+    private CommitteeService getCommitteeService() {
+        return KraServiceLocator.getService(CommitteeService.class);
     }
 
-    private String getDescription(CommitteeSchedule schedule) {
-        Date date = schedule.getScheduledDate();
-        long time = schedule.getActualTime().getTime() - date.getTime();
-        Date t = new Date(time);
-        return dateFormat.format(date) + " " + 
-               schedule.getPlace() + " " + 
-               timeFormat.format(schedule.getActualTime());
-    }
-
-    @SuppressWarnings("unchecked")
-    private Committee getCommittee(String committeeId) {
-        Committee committee = null;
-        if (!StringUtils.isBlank(committeeId)) {
-            BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class); 
-            Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put("committeeId", committeeId);
-            Collection<Committee> committees = businessObjectService.findMatching(Committee.class, fieldValues);
-            if (committees.size() == 1) {
-                committee = committees.iterator().next();
-            }
-        }
-        return committee;
-    }
-    
+    /**
+     * Get the committee id.  Currently we are only concerned with
+     * scheduling protocols.  The committee id is found in via the ProtocolForm.
+     * Keep in mind that the user selects the committee via a drop-down and
+     * thus the selected committee id is placed into the form.
+     * @return
+     */
     private String getCommitteeId() {
         String committeeId = "";
         KualiForm form = GlobalVariables.getKualiForm();
