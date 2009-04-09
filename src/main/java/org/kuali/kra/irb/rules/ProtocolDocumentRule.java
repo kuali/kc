@@ -35,6 +35,7 @@ import org.kuali.kra.irb.bo.ProtocolSpecialReview;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.personnel.AddProtocolPersonnelEvent;
 import org.kuali.kra.irb.personnel.AddProtocolPersonnelRule;
+import org.kuali.kra.irb.personnel.ProtocolPersonnelAuditRule;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelRule;
 import org.kuali.kra.irb.personnel.SaveProtocolPersonnelEvent;
 import org.kuali.kra.irb.personnel.SaveProtocolPersonnelRule;
