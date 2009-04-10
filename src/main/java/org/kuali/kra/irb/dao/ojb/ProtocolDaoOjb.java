@@ -33,7 +33,11 @@ import org.kuali.core.dao.LookupDao;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.OjbCollectionAware;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.bo.Protocol;
+import org.kuali.kra.irb.bo.ProtocolFundingSource;
+import org.kuali.kra.irb.bo.ProtocolLocation;
+import org.kuali.kra.irb.bo.ProtocolResearchArea;
 import org.kuali.kra.irb.dao.ProtocolDao;
 import org.kuali.kra.irb.lookup.ProtocolLookupConstants;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
@@ -46,10 +50,10 @@ public class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollec
     private Map<String, String> searchMap = new HashMap<String, String>();
     private List<String> investigatorRole = new ArrayList<String>();
     private List<String> personRole = new ArrayList<String>();
-    private Map<String, String> baseLookupFields;
-    private Map<String, CritField> personCollectionFields;
+    private Map<String, String> baseLookupFieldValues;
+    private Map<String, CritField> collectionFieldValues;
     private List<String> excludedFields = new ArrayList<String>();
-    private List<String> collectionFieldNames = new ArrayList<String    >();
+    private List<String> collectionFieldNames = new ArrayList<String>();
     
     public ProtocolDaoOjb() {
         super();
@@ -62,22 +66,22 @@ public class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollec
      */
     public List<Protocol> getProtocols(Map<String, String> fieldValues) {
         Criteria crit = new Criteria();
-        baseLookupFields = new HashMap<String, String>();
-        personCollectionFields = new HashMap<String, CritField>();
+        baseLookupFieldValues = new HashMap<String, String>();
+        collectionFieldValues = new HashMap<String, CritField>();
         setupCritMaps(fieldValues);
-        if (!baseLookupFields.isEmpty()) {
-            crit = getCollectionCriteriaFromMap(new Protocol(), baseLookupFields);
+        if (!baseLookupFieldValues.isEmpty()) {
+            crit = getCollectionCriteriaFromMap(new Protocol(), baseLookupFieldValues);
         }
 
-        if (!personCollectionFields.isEmpty()) {
-            for (Entry<String, CritField> entry : personCollectionFields.entrySet()) {
-                crit.addExists(getPersonReportQuery(entry.getKey(), entry.getValue()));
+        if (!collectionFieldValues.isEmpty()) {
+            for (Entry<String, CritField> entry : collectionFieldValues.entrySet()) {
+                crit.addExists(getCollectionReportQuery(entry.getKey(), entry.getValue()));
             }
         }
  
         Query q = QueryFactory.newQuery(Protocol.class, crit, true);
       
-        return (List) getPersistenceBrokerTemplate().getCollectionByQuery(q);
+        return (List<Protocol>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
     }
 
 
@@ -98,62 +102,72 @@ public class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollec
     private void initExcludedFields() {
         excludedFields.add(KNSConstants.BACK_LOCATION);
         excludedFields.add(KNSConstants.DOC_FORM_KEY);
-        excludedFields.add(ProtocolLookupConstants.Property.PERSON_EMPLOYEE_INDICATOR);
-        excludedFields.add(ProtocolLookupConstants.Property.INVESTIGATOR_EMPLOYEE_INDICATOR);
-        excludedFields.add(ProtocolLookupConstants.Property.FUNDING_SOURCE_TYPE_CODE);
     }
     
+    /*
+     * set up the list to include the property that will be used to map to collection classes
+     */
     private void initCollectionFields() {
-        collectionFieldNames.add(ProtocolLookupConstants.Property.PERSON_ID);
-        collectionFieldNames.add(ProtocolLookupConstants.Property.PRINCIPAL_INVESTIGATOR_ID);
+        collectionFieldNames.add(ProtocolLookupConstants.Property.KEY_PERSON);
+        collectionFieldNames.add(ProtocolLookupConstants.Property.INVESTIGATOR);
         collectionFieldNames.add(ProtocolLookupConstants.Property.FUNDING_SOURCE);
         collectionFieldNames.add(ProtocolLookupConstants.Property.RESEARCH_AREA_CODE);
         collectionFieldNames.add(ProtocolLookupConstants.Property.PERFORMING_ORGANIZATION_ID);
     }
     
+    /*
+     * set up key->enum lookup map
+     */
     private void initEnumSearchMap() {
         // map to enum
-        searchMap.put(ProtocolLookupConstants.Key.EMPLOYEE_PERSON, "EMPLOYEEPERSON");
-        searchMap.put(ProtocolLookupConstants.Key.ROLODEX_PERSON, "ROLODEXPERSON");
-        searchMap.put(ProtocolLookupConstants.Key.EMPLOYEE_INVESTIGATOR, "EMPLOYEEINVESTIGATOR");
-        searchMap.put(ProtocolLookupConstants.Key.ROLODEX_INVESTIGATOR, "ROLODEXINVESTIGATOR");
+        searchMap.put(ProtocolLookupConstants.Property.KEY_PERSON, "KEYPERSON");
+        searchMap.put(ProtocolLookupConstants.Property.INVESTIGATOR, "INVESTIGATOR");
         searchMap.put(ProtocolLookupConstants.Property.FUNDING_SOURCE, "FUNDINGSOURCE");
         searchMap.put(ProtocolLookupConstants.Property.PERFORMING_ORGANIZATION_ID, "ORGANIZATION");
         searchMap.put(ProtocolLookupConstants.Property.RESEARCH_AREA_CODE, "RESEARCHAREA");        
     }
 
+    /*
+     * investigator include PI & COI roles, key person includes SP/CA/CRC
+     */
     private void initRoleLists() {
-        // TODO : only principal investigator
         investigatorRole.add("PI");
-        // investigatorRole.add("COI");
-        // TODO : what should be in personRole ?
+        investigatorRole.add("COI");
         personRole.add("SP");
         personRole.add("CA");
         personRole.add("CRC");        
     }
-    
+
     /*
-     * This is for personid & principalinvestigatorid.  They all from same table, so they
-     * have to be handled this way.
+     * this is to set up criteria that will check existence in collection tables.
      */
-    private ReportQueryByCriteria getPersonReportQuery(String key, CritField critField) {
+    private ReportQueryByCriteria getCollectionReportQuery(String key, CritField critField) {
         Criteria crit = new Criteria();
         crit.addEqualToField(ProtocolLookupConstants.Property.PROTOCOL_ID, Criteria.PARENT_QUERY_PREFIX + ProtocolLookupConstants.Property.PROTOCOL_ID);
         String nameValue = critField.getFieldValue().replace('*', '%');
-        crit.addLike(critField.getFieldName(), nameValue);
-        if (StringUtils.isNotBlank(critField.getSecondCritName())) {
-                if (key.equals(ProtocolLookupConstants.Property.PERSON_ID)) {
-                    crit.addIn(critField.getSecondCritName(), personRole);
-                } else {
-                    crit.addIn(critField.getSecondCritName(), investigatorRole);
-                    
-                }
+        // need to use upper case
+        String propertyName = getDbPlatform().getUpperCaseFunction() + "("+critField.getCritFieldName()+")";
+        crit.addLike(propertyName, nameValue.toUpperCase());
+
+        ReportQueryByCriteria reportQueryByCriteria = null;
+        if (isProtocolPersonField (key)) {
+            addPersonRoleId(key, crit);
+        } else if (key.equals(ProtocolLookupConstants.Property.PERFORMING_ORGANIZATION_ID)){
+            crit.addLike(ProtocolLookupConstants.Property.PROTOCOL_ORGANIZATION_TYPE_CODE, ProtocolLookupConstants.Property.PERFORMING_ORGANIZATION_CODE);
         }
-
-        return QueryFactory.newReportQuery(ProtocolPerson.class, crit);
-
+        return QueryFactory.newReportQuery(critField.getClazz(), crit);
     }
-
+    
+    /*
+     * This is for personid & principalinvestigatorid.  
+     */
+    private void addPersonRoleId(String key, Criteria crit) {
+                if (key.equals(ProtocolLookupConstants.Property.KEY_PERSON)) {
+                    crit.addIn(ProtocolLookupConstants.Property.PROTOCOL_PERSON_ROLE_ID, personRole);
+                } else {
+                    crit.addIn(ProtocolLookupConstants.Property.PROTOCOL_PERSON_ROLE_ID, investigatorRole);                    
+                }
+    }
     
     /*
      * filter excluded field.  Also group fields to base lookup and collection lookup fields.
@@ -163,133 +177,49 @@ public class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollec
         for (Entry<String, String> entry : fieldValues.entrySet()) {
             if (!excludedFields.contains(entry.getKey()) && StringUtils.isNotBlank(entry.getValue())) {
                 if (collectionFieldNames.contains(entry.getKey())) {
-                    if (isProtocolPersonField (entry.getKey())) {
-                        personCollectionFields.put(entry.getKey(), getQueryCriteria(entry, findIndicator(entry.getKey(), fieldValues)));
-                    } else {
-                        setCololectionToBaseLookup(entry,getQueryCriteria(entry, findIndicator(entry.getKey(), fieldValues)));
-                    }
+                    collectionFieldValues.put(entry.getKey(), getCriteriaEnum(entry));
                 } else {
-                    baseLookupFields.put(entry.getKey(), entry.getValue());
+                    baseLookupFieldValues.put(entry.getKey(), entry.getValue());
                 }
             }
         }
     }
 
     /*
-     * find funding source type code specified
-     */
-    private String findFundingSourceTypeCode(Map<String, String> fieldValues) {
-        String fundingSourceTypeCode = "";
-        for (Entry<String, String> entry : fieldValues.entrySet()) {
-            if (entry.getKey().equals(ProtocolLookupConstants.Property.FUNDING_SOURCE_TYPE_CODE)) {
-                fundingSourceTypeCode = entry.getValue();
-                break;
-            }
-        }
-        return fundingSourceTypeCode;
-    }
-
-    /*
-     * find employee indicator for person and principal investigator
-     */
-    private String findEmployeeIndicator(String key, Map<String, String> fieldValues) {
-        String empIndicator="";
-        for (Entry<String, String> entry : fieldValues.entrySet()) {
-            if ((key.equals(ProtocolLookupConstants.Property.PRINCIPAL_INVESTIGATOR_ID) 
-                    && entry.getKey().equals(ProtocolLookupConstants.Property.INVESTIGATOR_EMPLOYEE_INDICATOR))
-                    || (key.equals(ProtocolLookupConstants.Property.PERSON_ID) 
-                            && entry.getKey().equals(ProtocolLookupConstants.Property.PERSON_EMPLOYEE_INDICATOR))) {
-                empIndicator = entry.getValue();
-            }
-        }
-        return empIndicator;
-
-    }
-
-    /*
-     * get employee indicator/fundingsourcetypecode. and also set organizationtypecode to "1"
-     * for performing organization.
-     */
-    private String findIndicator(String key, Map<String, String> fieldValues) {
-        String indicator = "";
-        if (key.equals(ProtocolLookupConstants.Property.FUNDING_SOURCE)) {
-            indicator = findFundingSourceTypeCode(fieldValues);
-        } else if (isProtocolPersonField(key)) {
-            indicator = findEmployeeIndicator(key, fieldValues);
-        } else if (key.equals(ProtocolLookupConstants.Property.PERFORMING_ORGANIZATION_ID)) {
-            indicator = "1";
-        }
-
-        return indicator;
-    }
-
-    /*
      * This is to get the proper enum CritField based on parameters.
      */
-    private CritField getQueryCriteria(Entry <String, String>entry, String indicator) {
-
+    private CritField getCriteriaEnum(Entry <String, String>entry) {
         
         String searchKeyName = entry.getKey();
-        if (isProtocolPersonField(entry.getKey())) {
-            searchKeyName = entry.getKey() + indicator;
-        }
         CritField critField = Enum.valueOf(CritField.class, searchMap.get(searchKeyName));
         critField.setFieldValue(entry.getValue());
-        critField.setIndicatorValue(indicator);
         return critField;
     }
 
-    
-    private void setCololectionToBaseLookup (Entry <String, String>entry, CritField critField) {
-        baseLookupFields.put(critField.getFieldName(), critField.getFieldValue());
-        if (StringUtils.isNotBlank(critField.getSecondCritName())) {
-            baseLookupFields.put(critField.getSecondCritName(), critField.getIndicatorValue());
-        }
-
-    }
-    
+        
     private boolean isProtocolPersonField (String fieldName) {
-        return fieldName.equals(ProtocolLookupConstants.Property.PERSON_ID) || fieldName.equals(ProtocolLookupConstants.Property.PRINCIPAL_INVESTIGATOR_ID);    
+        return fieldName.equals(ProtocolLookupConstants.Property.KEY_PERSON) || fieldName.equals(ProtocolLookupConstants.Property.INVESTIGATOR);    
     }
     
     /**
      * 
-     * This class set up the criteria field name and some value for criteria set up to use later.
+     * This class set up the criteria field name and class for ojb criteria set up to use later.
      */
     public enum CritField {
 
-        EMPLOYEEPERSON(ProtocolLookupConstants.Property.PERSON_ID, ProtocolLookupConstants.Property.PROTOCOL_PERSON_ROLE_ID), 
-        ROLODEXPERSON(ProtocolLookupConstants.Property.ROLODEX_ID, ProtocolLookupConstants.Property.PROTOCOL_PERSON_ROLE_ID), 
-        EMPLOYEEINVESTIGATOR(ProtocolLookupConstants.Property.PERSON_ID, ProtocolLookupConstants.Property.PROTOCOL_PERSON_ROLE_ID), 
-        ROLODEXINVESTIGATOR(ProtocolLookupConstants.Property.ROLODEX_ID, ProtocolLookupConstants.Property.PROTOCOL_PERSON_ROLE_ID), 
-        FUNDINGSOURCE("protocolFundingSources.fundingSource","protocolFundingSources.fundingSourceTypeCode"), 
-        ORGANIZATION("protocolLocations.organizationId","protocolLocations.protocolOrganizationTypeCode"), 
-        RESEARCHAREA("protocolResearchAreas.researchAreaCode", "");
+        KEYPERSON(ProtocolLookupConstants.Property.PERSON_NAME, ProtocolPerson.class), 
+        INVESTIGATOR(ProtocolLookupConstants.Property.PERSON_NAME, ProtocolPerson.class), 
+        FUNDINGSOURCE(ProtocolLookupConstants.Property.FUNDING_SOURCE,ProtocolFundingSource.class), 
+        ORGANIZATION(ProtocolLookupConstants.Property.ORGANIZATION_ID, ProtocolLocation.class), 
+        RESEARCHAREA(ProtocolLookupConstants.Property.RESEARCH_AREA_CODE,ProtocolResearchArea.class);
 
-        private String secondCritName;
-        private String fieldName;
+        private String critFieldName;
         private String fieldValue;
-        private String indicatorValue;
+        private Class<? extends KraPersistableBusinessObjectBase> clazz;
 
-        private CritField(String fieldName, String secondCritName) {
-            this.secondCritName = secondCritName;
-            this.fieldName = fieldName;
-        }
-
-        public String getSecondCritName() {
-            return secondCritName;
-        }
-
-        public void setSecondCritName(String secondCritName) {
-            this.secondCritName = secondCritName;
-        }
-
-        public String getFieldName() {
-            return fieldName;
-        }
-
-        public void setFieldName(String fieldName) {
-            this.fieldName = fieldName;
+        private CritField(String critFieldName, Class<? extends KraPersistableBusinessObjectBase> clazz) {
+            this.critFieldName = critFieldName;
+            this.clazz = clazz;
         }
 
         public String getFieldValue() {
@@ -300,16 +230,25 @@ public class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollec
             this.fieldValue = fieldValue;
         }
 
-        public String getIndicatorValue() {
-            return indicatorValue;
+        public String getCritFieldName() {
+            return critFieldName;
         }
 
-        public void setIndicatorValue(String indicatorValue) {
-            this.indicatorValue = indicatorValue;
+        public void setCritFieldName(String critFieldName) {
+            this.critFieldName = critFieldName;
         }
+
+        public Class<? extends KraPersistableBusinessObjectBase> getClazz() {
+            return clazz;
+        }
+
+        public void setClazz(Class<? extends KraPersistableBusinessObjectBase> clazz) {
+            this.clazz = clazz;
+        }
+
     }
 
-    /**
+    /*
      * 
      * Builds up criteria object based on the object and map.
      * This method is copied from lookdaoojb, but not published in lookupdao, so can't access it directly.

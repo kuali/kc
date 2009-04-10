@@ -90,14 +90,12 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     private String principalInvestigatorId;
     
     // lookup field
-    private String personId;
+    private String keyPerson;
+    private String investigator;
     private String fundingSource;
     
-    private String personEmployeeIndicator;
-    private String investigatorEmployeeIndicator;
     private String performingOrganizationId;
     private String researchAreaCode;
-    private Integer fundingSourceTypeCode;
     private String leadUnitName;
 
     private List<ProtocolPerson> protocolPersons; 
@@ -630,36 +628,12 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         this.researchAreaCode = researchAreaCode;
     }
 
-    public String getPersonId() {
-        return personId;
-    }
-
-    public void setPersonId(String personId) {
-        this.personId = personId;
-    }
-
     public String getFundingSource() {
         return fundingSource;
     }
 
     public void setFundingSource(String fundingSource) {
         this.fundingSource = fundingSource;
-    }
-
-    public String getPersonEmployeeIndicator() {
-        return personEmployeeIndicator;
-    }
-
-    public void setPersonEmployeeIndicator(String personEmployeeIndicator) {
-        this.personEmployeeIndicator = personEmployeeIndicator;
-    }
-
-    public String getInvestigatorEmployeeIndicator() {
-        return investigatorEmployeeIndicator;
-    }
-
-    public void setInvestigatorEmployeeIndicator(String investigatorEmployeeIndicator) {
-        this.investigatorEmployeeIndicator = investigatorEmployeeIndicator;
     }
 
     public String getPerformingOrganizationId() {
@@ -670,15 +644,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         this.performingOrganizationId = performingOrganizationId;
     }
 
-    public Integer getFundingSourceTypeCode() {
-        return fundingSourceTypeCode;
-    }
-
-    public void setFundingSourceTypeCode(Integer fundingSourceTypeCode) {
-        this.fundingSourceTypeCode = fundingSourceTypeCode;
-    }
-
-    public String getLeadUnitName() {
+   public String getLeadUnitName() {
         // TODO : for lookup 
         if (StringUtils.isBlank(leadUnitName)) {
             if (getLeadUnit() != null) {
@@ -814,5 +780,26 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         }
         
         toList.add(attachment);
+    }
+
+    public String getKeyPerson() {
+        return keyPerson;
+    }
+
+    public void setKeyPerson(String keyPerson) {
+        this.keyPerson = keyPerson;
+    }
+
+    public String getInvestigator() {
+        if (StringUtils.isBlank(principalInvestigatorId)) {
+            if (getPrincipalInvestigator() != null) {
+                investigator = getPrincipalInvestigator().getPersonName();
+            }
+        }
+        return investigator;
+    }
+
+    public void setInvestigator(String investigator) {
+        this.investigator = investigator;
     }
 }
