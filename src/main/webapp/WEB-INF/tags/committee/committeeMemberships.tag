@@ -9,10 +9,8 @@
     <c:set var="transparent" value="false" />
 
     <c:if test="${status.first}">
-        <c:set var="transparent" value="true" />
-    </c:if>
-    <c:set var="description" value="Term ${committeeMembershipProperty}.termStartDate - ${committeeMembershipProperty}.termEndDate" /> 
-    <c:set var="membershipIndex" value="${status.index}" />
+		<c:set var="transparent" value="true" />
+	</c:if>
 
     <%-- Create Tab Title --%>
     <c:choose>
@@ -30,7 +28,7 @@
             <c:set var="tabDescriptionValue" value=" " />
         </c:when>
         <c:otherwise>
-            <c:set var="tabDescriptionValue" value="Term ${membership.termStartDate} - ${membership.termEndDate}" />
+            <c:set var="tabDescriptionValue" value="Term ${membership.formattedTermStartDate} - ${membership.formattedTermEndDate}" />
         </c:otherwise>
     </c:choose>
     
