@@ -68,6 +68,7 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
     protected static final String BEGIN_DATE_ID = AWARD_ID_PREFIX + "beginDate";
     protected static final String PROJECT_END_DATE_ID = AWARD_ID_PREFIX + "awardAmountInfos[0].finalExpirationDate";
     
+    protected static final String SAVE_PAGE = "methodToCall.save";
     private static final String ONE = "1";
     private static final String AWARD_TITLE = "Award Title";
     private static final String GOOGLE_SPONSOR_CODE = "005979";
@@ -217,6 +218,45 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
         HtmlPage awardHomePage = this.getAwardHomePage();
         HtmlPage awardActionsPage = clickOnTab(awardHomePage, AWARD_ACTIONS_LINK_NAME);
         return awardActionsPage;
+    }
+    
+    /**
+     * Get the Permissions Web Page. To do this, we first get the Award  
+     * Web Page and fill in the required fields with some default values.  We can 
+     * then navigate to the Permissions Web Page.
+     * 
+     * @return the Permissions Web Page.
+     * @throws Exception
+     */
+    protected HtmlPage getPermissionsPage() throws Exception {
+        HtmlPage awardPage = getAwardHomePage();
+        this.setDefaultRequiredFields(awardPage);
+        awardPage = savePage(awardPage);
+        validateSavedPage(awardPage);
+        return clickOnTab(awardPage, PERMISSIONS_LINK_NAME);
+    }
+    
+    /**
+     * This method is to save a given page
+     * @param page
+     * @return saved page
+     * @throws Exception
+     */
+    protected HtmlPage savePage(HtmlPage page) throws Exception {
+        HtmlPage savedPage = clickOn(page, SAVE_PAGE);
+        return savedPage;
+    }
+    
+    /**
+     * This method is to validate a saved page. Check to see if there are no errors in the page
+     * and save success message is displayed
+     * @param page
+     * @return
+     * @throws Exception
+     */
+    protected void validateSavedPage(HtmlPage page) throws Exception {
+        assertDoesNotContain(page, ERRORS_FOUND_ON_PAGE);
+        assertContains(page,SAVE_SUCCESS_MESSAGE);        
     }
     
     protected HtmlPage getTabPage(String tabPageLinkName) throws Exception {
