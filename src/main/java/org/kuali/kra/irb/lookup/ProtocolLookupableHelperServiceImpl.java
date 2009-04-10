@@ -15,15 +15,10 @@
  */
 package org.kuali.kra.irb.lookup;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
 import org.kuali.kra.bo.Person;
@@ -34,26 +29,15 @@ import org.kuali.kra.irb.dao.ProtocolDao;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
-import org.kuali.rice.kns.util.KNSConstants;
 
-public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
-    private List <String> searchFieldNames = new ArrayList <String> ();
-    private Map <String, String> searchMap = new HashMap<String, String>();
-    private Map <String, String> indicatorNames = new HashMap<String, String>();
-    
+public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {    
 
+    private static final String RESEARCH_AREA_CLASS_PATH = "org.kuali.kra.bo.ResearchArea";
     ProtocolDao protocolDao;
-    
+
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        // TODO : funding source temporarily unavailable. - remove after all are available
-        for (Entry<String,String> entry : fieldValues.entrySet()) {
-            if (entry.getKey().equals(ProtocolLookupConstants.Property.FUNDING_SOURCE) && "Not Available".equals(entry.getValue())) {
-                entry.setValue("");
-            } 
-        }
-        
-        //need to set backlocation & docformkey here.  Otherwise, they are empty
+        // need to set backlocation & docformkey here. Otherwise, they are empty
         super.setBackLocationDocFormKey(fieldValues);
         return protocolDao.getProtocols(fieldValues);
     }
@@ -62,126 +46,34 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
     @Override
     public String getActionUrls(BusinessObject businessObject) {
         String editLink =  super.getActionUrls(businessObject);
-        ProtocolDocument document = ((Protocol)businessObject).getProtocolDocument();
-        return editLink + "&nbsp<a href=\"../DocCopyHandler.do?docId="+document.getDocumentNumber()+"&command=displayDocSearchView&documentTypeName=ProtocolDocument\">copy</a>";
+        ProtocolDocument document = ((Protocol) businessObject).getProtocolDocument();
+        return editLink + "&nbsp<a href=\"../DocCopyHandler.do?docId="+document.getDocumentNumber()
+            +"&command=displayDocSearchView&documentTypeName="+getDocumentTypeName()+"\">copy</a>";
     }
 
 
     /**
-     * This override is reset field definition for several lookup fields.
+     * This override is reset field definition for research area lookup fields & investigator label.
      * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getRows()
      */
     @Override
     public List<Row> getRows() {
         List<Row> rows =  super.getRows();
-        initMappingValues();
-        Map <String, String> indicatorMap = new HashMap<String, String>();
-        indicatorMap.put(ProtocolLookupConstants.Property.RESEARCH_AREA_CODE, "");
         for (Row row : rows) {
             for (Field field : row.getFields()) {
-                if (indicatorNames.containsKey(field.getPropertyName())) {
-                    setupIndicator(field);
-                    indicatorMap.put(indicatorNames.get(field.getPropertyName()), field.getPropertyValue());
-                } else if (searchFieldNames.contains(field.getPropertyName())) {
-                    updateField(field, searchMap.get(field.getPropertyName()+indicatorMap.get(field.getPropertyName())));
+                if (field.getPropertyName().equals(ProtocolLookupConstants.Property.RESEARCH_AREA_CODE)) {
+                    super.updateLookupField(field,ProtocolLookupConstants.Property.RESEARCH_AREA_CODE,RESEARCH_AREA_CLASS_PATH);
                 }
             }
         }
         return rows;
     }
-    
-    private void initMappingValues() {
-        indicatorNames.put(ProtocolLookupConstants.Property.PERSON_EMPLOYEE_INDICATOR, ProtocolLookupConstants.Property.PERSON_ID);
-        indicatorNames.put(ProtocolLookupConstants.Property.INVESTIGATOR_EMPLOYEE_INDICATOR , ProtocolLookupConstants.Property.PRINCIPAL_INVESTIGATOR_ID);
-        indicatorNames.put(ProtocolLookupConstants.Property.FUNDING_SOURCE_TYPE_CODE,ProtocolLookupConstants.Property.FUNDING_SOURCE);
-        
-        // map to enum
-        searchMap.put(ProtocolLookupConstants.Key.EMPLOYEE_PERSON, "EMPLOYEEPERSON");
-        searchMap.put(ProtocolLookupConstants.Key.ROLODEX_PERSON, "ROLODEXPERSON");
-        searchMap.put(ProtocolLookupConstants.Key.EMPLOYEE_INVESTIGATOR, "EMPLOYEEPERSON");
-        searchMap.put(ProtocolLookupConstants.Key.ROLODEX_INVESTIGATOR, "ROLODEXPERSON");
-        searchMap.put(ProtocolLookupConstants.Key.FUNDING_SOURCE_SPONSOR, "SPONSOR");
-        searchMap.put(ProtocolLookupConstants.Key.FUNDING_SOURCE_UNIT, "UNIT");
-        searchMap.put(ProtocolLookupConstants.Key.FUNDING_SOURCE_PROPOSAL, "PROPOSAL");
-        searchMap.put(ProtocolLookupConstants.Key.FUNDING_SOURCE_AWARD, "AWARD");
-        // TODO : the rest fundingsource not ready yet
-        searchMap.put(ProtocolLookupConstants.Key.FUNDING_SOURCE_OTHER, "NOTAVAILABLE");
-        searchMap.put(ProtocolLookupConstants.Key.FUNDING_SOURCE_INSTITUTE_PROPOSALE, "NOTAVAILABLE");
-        searchMap.put(ProtocolLookupConstants.Property.RESEARCH_AREA_CODE, "RESEARCHAREA");
-        
-        searchFieldNames.add(ProtocolLookupConstants.Property.PERSON_ID);
-        searchFieldNames.add(ProtocolLookupConstants.Property.PRINCIPAL_INVESTIGATOR_ID);
-        searchFieldNames.add(ProtocolLookupConstants.Property.FUNDING_SOURCE);
-        searchFieldNames.add(ProtocolLookupConstants.Property.RESEARCH_AREA_CODE);
-       
-    }
-    
-    /*
-     * set up indicator fields and make it dropdown_fresh, so the lookup page will be refreshed if dropdown selection is changed.
-     */
-    private void setupIndicator(Field field) {
-        field.setFieldType(Field.DROPDOWN_REFRESH);
-        if (StringUtils.isBlank(field.getPropertyValue())) {
-            if (field.getPropertyName().equals(ProtocolLookupConstants.Property.FUNDING_SOURCE_TYPE_CODE)) {
-                field.setPropertyValue("1");                
-            } else {
-                field.setPropertyValue("Y");                
-            }
-        }
-    }
-    
-    /*
-     * update the lookup field definition.  This is critical in protocol lookup because some lookup field 
-     * has multiple lookup classes based options selected. 
-     */
-    private void updateField(Field field, String searchKeyName) {
-        LookupProperty lookupProperty = Enum.valueOf(LookupProperty.class, searchKeyName);
-        super.updateLookupField(field,lookupProperty.getKeyName(),lookupProperty.getClassName());                   
-    }
-
+             
     /**
      * 
-     * This class is to set up keyname, classname for lookup field that has search icon
-     * Some of the fields has multiple lookup classes.
+     * This is spring bean will be used to get search results.
+     * @param protocolDao
      */
-    public enum LookupProperty {
-
-        EMPLOYEEPERSON(ProtocolLookupConstants.Property.PERSON_ID,"org.kuali.kra.bo.Person"),
-        ROLODEXPERSON(ProtocolLookupConstants.Property.ROLODEX_ID,"org.kuali.kra.bo.Rolodex"),
-        SPONSOR(ProtocolLookupConstants.Property.SPONSOR_CODE,"org.kuali.kra.bo.Sponsor"),
-        UNIT(ProtocolLookupConstants.Property.UNIT_NUMBER,"org.kuali.kra.bo.Unit"),
-        PROPOSAL(ProtocolLookupConstants.Property.PROPOSAL_NUMBER,"org.kuali.kra.irb.bo.LookupableDevelopmentProposal"),
-        AWARD(ProtocolLookupConstants.Property.AWARD_NUMBER,"org.kuali.kra.award.bo.Award"),
-        RESEARCHAREA(ProtocolLookupConstants.Property.RESEARCH_AREA_CODE,"org.kuali.kra.bo.ResearchArea"),
-        NOTAVAILABLE("","");
-
-        private String keyName;
-        private String className;
-        
-        
-        private LookupProperty(String keyName, String className){
-          this.keyName = keyName;
-          this.className = className;
-        }
-
-        public String getKeyName() {
-            return keyName;
-        }
-        public void setKeyName(String keyName) {
-            this.keyName = keyName;
-        }
-        public String getClassName() {
-            return className;
-        }
-        public void setClassName(String className) {
-            this.className = className;
-        }
-      }
-    
-    public ProtocolDao getProtocolDao() {
-        return protocolDao;
-    }
-
     public void setProtocolDao(ProtocolDao protocolDao) {
         this.protocolDao = protocolDao;
     }
@@ -195,11 +87,11 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
 
         BusinessObject inqBo = bo;
         String inqPropertyName = propertyName;
-        if (propertyName.equals("leadUnitNumber")) {
+        if (propertyName.equals(ProtocolLookupConstants.Property.LEAD_UNIT_NUMBER)) {
            inqBo = new Unit();
             ((Unit) inqBo).setUnitNumber(((Protocol) bo).getLeadUnitNumber());
             inqPropertyName = ProtocolLookupConstants.Property.UNIT_NUMBER;
-        } else if (propertyName.equals(ProtocolLookupConstants.Property.PRINCIPAL_INVESTIGATOR_ID)) {
+        } else if (propertyName.equals(ProtocolLookupConstants.Property.INVESTIGATOR)) {
             Protocol protocol = (Protocol) bo;
             ProtocolPerson principalInvestigator = protocol.getPrincipalInvestigator();
             if (principalInvestigator != null) {
