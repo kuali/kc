@@ -28,7 +28,7 @@
 		<property name="lookupDefinition" >
 			<ref bean="Committee-lookupDefinition" />
 		</property>
-		<property name="titleAttribute" value="CommitteeCode" />
+		<property name="titleAttribute" value="committeeId" />
 		<property name="attributes" >
 			<list>
 				<ref bean="CommitteeAttribute-CommitteeId" />
@@ -284,7 +284,7 @@
     <bean id="CommitteeAttribute-MemberName" parent="CommitteeAttribute-MemberName-parentBean" />
 	<bean id="CommitteeAttribute-MemberName-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="memberName" />
-		<property name="forceUppercase" value="false" />
+		<property name="forceUppercase" value="true" />
 		<property name="label" value="Member Name" />
 		<property name="shortLabel" value="Member Name" />
 		<property name="maxLength" value="60" />
@@ -364,19 +364,26 @@
 	<!-- Business Object Inquiry Definition -->
 	<bean id="Committee-inquiryDefinition" parent="Committee-inquiryDefinition-parentBean" />
 	<bean id="Committee-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-		<property name="title" value="Committee  Code" />
+		<property name="title" value="Committee ID" />
 		<property name="inquirySections" >
 			<list>
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Committee  Code" />
+					<property name="title" value="Committee ID" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list>
 							<bean parent="FieldDefinition"
-								p:attributeName="committeeId" 
-								p:forceInquiry="true" />
+								p:attributeName="committeeId" />
 							<bean parent="FieldDefinition"
 								p:attributeName="committeeName" />
+				            <bean parent="FieldDefinition"
+					            p:attributeName="homeUnitNumber" />
+				            <bean parent="FieldDefinition"
+					            p:attributeName="committeeTypeCode" />
+				            <bean parent="FieldDefinition"
+					            p:attributeName="committeeDescription" />
+				            <bean parent="FieldDefinition"
+					            p:attributeName="reviewTypeCode" />
 						</list>
 					</property>
 				</bean>

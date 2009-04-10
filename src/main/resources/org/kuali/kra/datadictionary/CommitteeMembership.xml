@@ -147,7 +147,7 @@
     <bean id="CommitteeMembership-personName" parent="CommitteeMembership-personName-parentBean" />
     <bean id="CommitteeMembership-personName-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="personName" />
-        <property name="forceUppercase" value="false" />
+        <property name="forceUppercase" value="true" />
         <property name="label" value="Person Name" />
         <property name="shortLabel" value="Person Name" />
         <property name="maxLength" value="90" />

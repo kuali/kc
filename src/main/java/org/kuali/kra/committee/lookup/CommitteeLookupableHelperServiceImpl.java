@@ -15,14 +15,17 @@
  */
 package org.kuali.kra.committee.lookup;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
+import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 
 public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
@@ -34,9 +37,7 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
 
-        // super.setBackLocationDocFormKey(fieldValues);
-        return super.getSearchResults(setupCritMaps(fieldValues));
-        //return committeeLookupDao.getCommittees(fieldValues);
+        return getUniqueList(super.getSearchResults(setupCritMaps(fieldValues)));
     }
 
     private Map<String,String> setupCritMaps(Map<String, String> fieldValues) {
@@ -46,9 +47,9 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
             if (entry.getKey().equals(MEMBERSHIP_NAME)) {
                 baseLookupFields.put("committeeMemberships.personName",entry.getValue());
             } else if (entry.getKey().equals(MEMBERSHIP_ROLE_CODE)) {
-                baseLookupFields.put("committeeMemberships.committeeMembershipRoles.membershipRoleCode",entry.getValue());
+                baseLookupFields.put("committeeMemberships.membershipRoles.membershipRoleCode",entry.getValue());
             } else if (entry.getKey().equals(RESEARCH_AREA_CODE)) {
-                baseLookupFields.put("committeeMemberships.committeeExpertise.researchAreaCode",entry.getValue());
+                baseLookupFields.put("committeeResearchAreas.researchAreaCode",entry.getValue());
             } else {
                 baseLookupFields.put(entry.getKey(),entry.getValue());                
             }
@@ -61,8 +62,8 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
         List<Row> rows =  super.getRows();
         for (Row row : rows) {
             for (Field field : row.getFields()) {
-                if (field.getPropertyName().equals("researchAreaCode")) {
-                    super.updateLookupField(field,"researchAreaCode","org.kuali.kra.bo.ResearchArea");
+                if (field.getPropertyName().equals(RESEARCH_AREA_CODE)) {
+                    super.updateLookupField(field,RESEARCH_AREA_CODE,"org.kuali.kra.bo.ResearchArea");
                 } else if (field.getPropertyName().equals(MEMBERSHIP_NAME)) {
                     super.updateLookupField(field,"personName","org.kuali.kra.committee.bo.CommitteeMembership");
                 }
@@ -71,6 +72,39 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
         return rows;
     }
 
+    /**
+     * TODO : This is a hack for now to set up committeechair.
+     * Don't want to loop again thru the resultset and set committeechair.
+     * @see org.kuali.kra.lookup.KraLookupableHelperServiceImpl#getActionUrls(org.kuali.core.bo.BusinessObject)
+     */
+    @Override
+    public String getActionUrls(BusinessObject businessObject) {
+
+        ((Committee)businessObject).getCommitteeChair();     
+        return super.getActionUrls(businessObject);
+    }
+
+    /*
+     * remove duplicates from the search results
+     */
+    private List<? extends BusinessObject> getUniqueList(List<? extends BusinessObject> searchResults) {
+
+        // Maybe should use comparator to remove duplicates ?
+        List <Committee> uniqueResults = new ArrayList <Committee>();
+        List <String> committeeIds = new ArrayList <String>();
+        if (CollectionUtils.isNotEmpty(searchResults)) {
+            for (Committee committee : (List <Committee>)searchResults) {
+                if (!committeeIds.contains(committee.getCommitteeId())) {
+                    uniqueResults.add(committee);
+                    committeeIds.add(committee.getCommitteeId());
+                }
+            }
+        }
+
+        return uniqueResults ;
+    }
+
+    
     protected String getHtmlAction() {
         return "committeeCommittee.do";
     }
