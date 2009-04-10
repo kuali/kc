@@ -22,6 +22,8 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Id;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.committee.document.CommitteeDocument;
@@ -276,9 +278,30 @@ public class Committee extends KraPersistableBusinessObjectBase {
     }
 
     public String getCommitteeChair() {
+        if (StringUtils.isBlank(committeeChair) && CollectionUtils.isNotEmpty(getCommitteeMemberships())) {
+            for (CommitteeMembership committeeMembership : getCommitteeMemberships()) {
+                if (isChairPerson(committeeMembership)) {
+                    setCommitteeChair(committeeMembership.getPersonName());
+                    break;                    
+                }
+                
+            }
+        }
         return committeeChair;
     }
 
+    private boolean isChairPerson(CommitteeMembership committeeMembership) {
+        
+        boolean isChairRoleFound = false;
+        for (CommitteeMembershipRole committeeMembershipRole : committeeMembership.getMembershipRoles()) {
+            if (committeeMembershipRole.getMembershipRoleCode().equals("1")) {
+                isChairRoleFound = true;
+                break;
+            }
+        }
+        return isChairRoleFound;
+    }
+    
     public void setCommitteeChair(String committeeChair) {
         this.committeeChair = committeeChair;
     }
