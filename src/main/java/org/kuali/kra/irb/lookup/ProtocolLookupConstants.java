@@ -21,34 +21,23 @@ package org.kuali.kra.irb.lookup;
  */
 public interface ProtocolLookupConstants {
     
-    public static class Key {
-        public static final String FUNDING_SOURCE_SPONSOR = "fundingSource1";
-        public static final String FUNDING_SOURCE_UNIT = "fundingSource2";
-        public static final String FUNDING_SOURCE_OTHER = "fundingSource3";
-        public static final String FUNDING_SOURCE_PROPOSAL = "fundingSource4";
-        public static final String FUNDING_SOURCE_INSTITUTE_PROPOSALE = "fundingSource5";
-        public static final String FUNDING_SOURCE_AWARD = "fundingSource6";
-        public static final String EMPLOYEE_PERSON = "personIdY";
-        public static final String ROLODEX_PERSON = "personIdN";
-        public static final String EMPLOYEE_INVESTIGATOR = "principalInvestigatorIdY";
-        public static final String ROLODEX_INVESTIGATOR = "principalInvestigatorIdN";
-    }
     public static class Property {
 
         public static final String ROLODEX_ID = "rolodexId";
         public static final String UNIT_NUMBER = "unitNumber";
-        public static final String PROPOSAL_NUMBER = "proposalNumber";
-        public static final String AWARD_NUMBER = "awardNumber";
         public static final String PERSON_ID = "personId";
-        public static final String SPONSOR_CODE = "sponsorCode";
-        public static final String PRINCIPAL_INVESTIGATOR_ID = "principalInvestigatorId";
+        public static final String KEY_PERSON = "keyPerson";
+        public static final String INVESTIGATOR = "investigator";
         public static final String FUNDING_SOURCE = "fundingSource";
         public static final String FUNDING_SOURCE_TYPE_CODE = "fundingSourceTypeCode";
         public static final String RESEARCH_AREA_CODE = "researchAreaCode";
         public static final String PROTOCOL_ID = "protocolId";
-        public static final String PERSON_EMPLOYEE_INDICATOR = "personEmployeeIndicator";
-        public static final String INVESTIGATOR_EMPLOYEE_INDICATOR = "investigatorEmployeeIndicator";
         public static final String PERFORMING_ORGANIZATION_ID = "performingOrganizationId";
         public static final String PROTOCOL_PERSON_ROLE_ID = "protocolPersonRoleId";
+        public static final String PROTOCOL_ORGANIZATION_TYPE_CODE = "protocolOrganizationTypeCode";
+        public static final String PERFORMING_ORGANIZATION_CODE = "1";
+        public static final String PERSON_NAME = "personName";
+        public static final String ORGANIZATION_ID = "organizationId";
+        public static final String LEAD_UNIT_NUMBER = "leadUnitNumber";
     }
 }
