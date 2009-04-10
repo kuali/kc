@@ -16,6 +16,7 @@
 package org.kuali.kra.committee.bo;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -172,12 +173,22 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase {
         return termStartDate;
     }
 
+    public String getFormattedTermStartDate() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        return dateFormat.format(termStartDate);
+    }
+
     public void setTermStartDate(Date termStartDate) {
         this.termStartDate = termStartDate;
     }
 
     public Date getTermEndDate() {
         return termEndDate;
+    }
+
+    public String getFormattedTermEndDate() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        return dateFormat.format(termEndDate);
     }
 
     public void setTermEndDate(Date termEndDate) {

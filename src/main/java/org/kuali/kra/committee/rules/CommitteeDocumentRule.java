@@ -208,11 +208,11 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
                 if (isWithinPeriod(committeeMembership.getTermStartDate(), tmpMember.getTermStartDate(), tmpMember.getTermEndDate())) {
                     isValid = false;
                     reportError(PROPERTY_NAME_PREFIX + membershipIndex + PROPERTY_NAME_TERM_START_DATE, KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_PERSON_DUPLICATE,
-                            tmpMember.getTermStartDate().toString(), tmpMember.getTermEndDate().toString());
+                            tmpMember.getFormattedTermStartDate(), tmpMember.getFormattedTermEndDate());
                 } else if (isWithinPeriod(committeeMembership.getTermEndDate(), tmpMember.getTermStartDate(), tmpMember.getTermEndDate())) {
                     isValid = false;
                     reportError(PROPERTY_NAME_PREFIX + membershipIndex + PROPERTY_NAME_TERM_END_DATE, KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_PERSON_DUPLICATE,
-                            tmpMember.getTermStartDate().toString(), tmpMember.getTermEndDate().toString());
+                            tmpMember.getFormattedTermStartDate(), tmpMember.getFormattedTermEndDate());
                 } 
             }
         }
