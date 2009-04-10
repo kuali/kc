@@ -135,7 +135,7 @@
     <param name="mail.smtp.user">userId</param>
     <param name="mail.user.credentials">password</param>
     <param name="mail.smtp.auth">false</param>
-    <--set it to '0' to disable s2s mail service-->
+    <!--set it to '0' to disable s2s mail service-->
     <param name="edu.coeus.mail.enabled">1</param>
     <!-- possible options are, T for Test and P for Production-->
     <param name="edu.coeus.mail.mode">T</param>
