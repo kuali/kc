@@ -708,7 +708,7 @@ create table protocol_actions (
   comments                   varchar2 (2000),
   update_timestamp           date           not null,
   update_user                varchar2 (8)   not null,
-  action_date                date           default null,
+  action_date                date,
   ver_nbr 				     number(8,0)    default 1 NOT NULL, 
   obj_id				     varchar2(36)   default SYS_GUID() NOT NULL);
 
