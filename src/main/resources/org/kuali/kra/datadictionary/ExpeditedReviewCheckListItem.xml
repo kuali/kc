@@ -1,0 +1,107 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ExpeditedReviewCheckListItem" parent="ExpeditedReviewCheckListItem-parentBean" />
+  <bean id="ExpeditedReviewCheckListItem-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.irb.bo.ExpeditedReviewCheckListItem" />
+    <property name="inquiryDefinition" >
+      <ref bean="ExpeditedReviewCheckListItem-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ExpeditedReviewCheckListItem-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="expeditedReviewCheckListCode" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ExpeditedReviewCheckListItem-expeditedReviewCheckListCode" />
+        <ref bean="ExpeditedReviewCheckListItem-description" />
+        <ref bean="ExpeditedReviewCheckListItem-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+  <!-- Attribute Definitions -->
+
+  <bean id="ExpeditedReviewCheckListItem-expeditedReviewCheckListCode" parent="ExpeditedReviewCheckListItem-expeditedReviewCheckListCode-parentBean" />
+  <bean id="ExpeditedReviewCheckListItem-expeditedReviewCheckListCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="expeditedReviewCheckListCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Expedited Review CheckList Code" />
+    <property name="shortLabel" value="Expedited Review CheckList Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="4" />
+    </property>
+    <property name="summary" value="Expedited Review CheckList Code" />
+    <property name="description" value="Expedited Review CheckList Code" />
+  </bean>
+  
+  <bean id="ExpeditedReviewCheckListItem-description" parent="ExpeditedReviewCheckListItem-description-parentBean" />
+  <bean id="ExpeditedReviewCheckListItem-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+      <property name="maxLength" value="2000" />
+  </bean>
+  
+  <bean id="ExpeditedReviewCheckListItem-versionNumber" parent="ExpeditedReviewCheckListItem-versionNumber-parentBean" />
+  <bean id="ExpeditedReviewCheckListItem-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+  <!-- Business Object Inquiry Definition -->
+
+  <bean id="ExpeditedReviewCheckListItem-inquiryDefinition" parent="ExpeditedReviewCheckListItem-inquiryDefinition-parentBean" />
+  <bean id="ExpeditedReviewCheckListItem-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Expedited Review CheckList" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Expedited Review CheckList" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="expeditedReviewCheckListCode"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Business Object Lookup Definition -->
+
+  <bean id="ExpeditedReviewCheckListItem-lookupDefinition" parent="ExpeditedReviewCheckListItem-lookupDefinition-parentBean" />
+  <bean id="ExpeditedReviewCheckListItem-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Expedited Review CheckList Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up an Expedited Review CheckList" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="expeditedReviewCheckListCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="expeditedReviewCheckListCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+  </bean>
+</beans>

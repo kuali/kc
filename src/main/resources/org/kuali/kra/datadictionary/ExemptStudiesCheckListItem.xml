@@ -1,0 +1,107 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ExemptStudiesCheckListItem" parent="ExemptStudiesCheckListItem-parentBean" />
+  <bean id="ExemptStudiesCheckListItem-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.irb.bo.ExemptStudiesCheckListItem" />
+    <property name="inquiryDefinition" >
+      <ref bean="ExemptStudiesCheckListItem-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ExemptStudiesCheckListItem-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="exemptStudiesCheckListCode" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ExemptStudiesCheckListItem-exemptStudiesCheckListCode" />
+        <ref bean="ExemptStudiesCheckListItem-description" />
+        <ref bean="ExemptStudiesCheckListItem-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+  <!-- Attribute Definitions -->
+
+  <bean id="ExemptStudiesCheckListItem-exemptStudiesCheckListCode" parent="ExemptStudiesCheckListItem-exemptStudiesCheckListCode-parentBean" />
+  <bean id="ExemptStudiesCheckListItem-exemptStudiesCheckListCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="exemptStudiesCheckListCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Exempt Studies CheckList Code" />
+    <property name="shortLabel" value="Exempt Studies CheckList Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="4" />
+    </property>
+    <property name="summary" value="Exempt Studies CheckList Code" />
+    <property name="description" value="Exempt Studies CheckList Code" />
+  </bean>
+  
+  <bean id="ExemptStudiesCheckListItem-description" parent="ExemptStudiesCheckListItem-description-parentBean" />
+  <bean id="ExemptStudiesCheckListItem-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+      <property name="maxLength" value="2000" />
+  </bean>
+  
+  <bean id="ExemptStudiesCheckListItem-versionNumber" parent="ExemptStudiesCheckListItem-versionNumber-parentBean" />
+  <bean id="ExemptStudiesCheckListItem-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+  <!-- Business Object Inquiry Definition -->
+
+  <bean id="ExemptStudiesCheckListItem-inquiryDefinition" parent="ExemptStudiesCheckListItem-inquiryDefinition-parentBean" />
+  <bean id="ExemptStudiesCheckListItem-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Exempt Studies CheckList" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Exempt Studies CheckList" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="exemptStudiesCheckListCode"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Business Object Lookup Definition -->
+
+  <bean id="ExemptStudiesCheckListItem-lookupDefinition" parent="ExemptStudiesCheckListItem-lookupDefinition-parentBean" />
+  <bean id="ExemptStudiesCheckListItem-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Exempt Studies Check List" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up an Exempt Studies CheckList" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="exemptStudiesCheckListCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="exemptStudiesCheckListCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+  </bean>
+</beans>
