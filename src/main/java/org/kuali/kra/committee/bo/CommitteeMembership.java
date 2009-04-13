@@ -305,6 +305,22 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase {
     }
 
     /**
+     * Returns if the committee membership is active or inactive.
+     * (Current date within term dates.)
+     *  
+     * @return <code>active</code> if the current date is within the committee membership's term, <code>inactive</code> otherwise
+     * @throws NullPointerException - if either the termStartDate or termEndDate are null.
+     */
+    public String getStatus() {
+        java.util.Date currentDate = new java.util.Date();
+        if (currentDate.before(getTermStartDate()) || currentDate.after(getTermEndDate())) {
+            return "inactive";
+        } else {
+            return "active";
+        }
+    }
+    
+    /**
      * Indicates if the committee memberships are of the same person (i.e. the personId and rolodexId are
      * the same).
      * 

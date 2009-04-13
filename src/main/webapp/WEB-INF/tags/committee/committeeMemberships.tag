@@ -12,22 +12,14 @@
 		<c:set var="transparent" value="true" />
 	</c:if>
 
-    <%-- Create Tab Title --%>
-    <c:choose>
-        <c:when test="${empty membership.membershipType.description}">
-            <c:set var="tabTitleValue" value="${fn:substring(membership.personName, 0, 22)}" />
-        </c:when>
-        <c:otherwise>
-            <c:set var="tabTitleValue" value="${fn:substring(membership.personName, 0, 22)} (${membership.membershipType.description})" />
-        </c:otherwise>
-    </c:choose>
-    
-    <%-- Create Tab Description --%>
+    <%-- Create Tab Title & Description --%>
     <c:choose>
         <c:when test="${empty membership.termStartDate && empty membership.termEndDate}">
+            <c:set var="tabTitleValue" value="${fn:substring(membership.personName, 0, 22)}" />
             <c:set var="tabDescriptionValue" value=" " />
         </c:when>
         <c:otherwise>
+            <c:set var="tabTitleValue" value="${fn:substring(membership.personName, 0, 22)} (${membership.status})" />
             <c:set var="tabDescriptionValue" value="Term ${membership.formattedTermStartDate} - ${membership.formattedTermEndDate}" />
         </c:otherwise>
     </c:choose>
