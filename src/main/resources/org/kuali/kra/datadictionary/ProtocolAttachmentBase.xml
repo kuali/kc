@@ -1,0 +1,259 @@
+<!--
+ Copyright 2006-2008 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="ProtocolAttachmentBase" abstract="true" parent="ProtocolAttachmentBase-parentBean" />
+	<bean id="ProtocolAttachmentBase-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase" />
+		<property name="inquiryDefinition" >
+			<ref bean="ProtocolAttachmentBase-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition" >
+			<ref bean="ProtocolAttachmentBase-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="id" />
+		<property name="attributes" >
+			<list>
+				<ref bean="ProtocolAttachmentBase-id" />
+				<ref bean="ProtocolAttachmentBase-protocolId" />
+				<ref bean="ProtocolAttachmentBase-typeCode" />
+				<ref bean="ProtocolAttachmentBase-attachmentVersionNumber" />
+				<ref bean="ProtocolAttachmentBase-documentId" />
+				<ref bean="ProtocolAttachmentBase-fileId" />
+				<ref bean="ProtocolAttachmentBase-description" />
+				<ref bean="ProtocolAttachmentBase-versionNumber" />
+				<ref bean="ProtocolAttachmentBase-updateUser" />
+				<ref bean="ProtocolAttachmentBase-updateTimestamp" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="ProtocolAttachmentBase-id" parent="ProtocolAttachmentBase-id-parentBean" />
+	<bean id="ProtocolAttachmentBase-id-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="id" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Attachment Id" />
+		<property name="shortLabel" value="Attachment Id" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="15" />
+		</property>
+		<property name="summary" value="Attachment Id" />
+		<property name="description" value="Attachment Id" />
+	</bean>
+
+	<bean id="ProtocolAttachmentBase-protocolId" parent="ProtocolAttachmentBase-protocolId-parentBean" />
+	<bean id="ProtocolAttachmentBase-protocolId-parentBean" abstract="true" parent="Protocol-protocolId"/>
+
+	<bean id="ProtocolAttachmentBase-typeCode" parent="ProtocolAttachmentBase-typeCode-parentBean" />
+	<bean id="ProtocolAttachmentBase-typeCode-parentBean" abstract="true" parent="ProtocolAttachmentType-code">
+		<property name="name" value="typeCode" />
+		<property name="label" value="Attachment Type" />
+        <property name="shortLabel" value="Attachment Type" />
+        <property name="summary" value="Attachment Type" />
+        <property name="description" value="Attachment Type" />
+        <property name="required" value="true" />
+	    <property name="control" >
+	      <bean parent="SelectControlDefinition"
+	            p:businessObjectClass="org.kuali.kra.irb.noteattachment.ProtocolAttachmentType"
+	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+	            p:includeKeyInLabel="false"
+	            p:keyAttribute="code"
+	            p:labelAttribute="description" />
+	      <!--<bean parent="SelectControlDefinition"
+	            p:valuesFinderClass="org.kuali.kra.irb.noteattachment.ProtocolAttachmentTypeByGroupValuesFinder" />-->
+	    </property>
+	</bean>
+	
+	<bean id="ProtocolAttachmentBase-attachmentVersionNumber" parent="ProtocolAttachmentBase-attachmentVersionNumber-parentBean" />
+	<bean id="ProtocolAttachmentBase-attachmentVersionNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="attachmentVersionNumber" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Attachment Version Number" />
+		<property name="shortLabel" value="Attachment Version Number" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="5" />
+		</property>
+		<property name="summary" value="Attachment Version Number" />
+		<property name="description" value="Attachment Version Number" />
+	</bean>
+	
+	<bean id="ProtocolAttachmentBase-documentId" parent="ProtocolAttachmentBase-documentId-parentBean" />
+	<bean id="ProtocolAttachmentBase-documentId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="documentId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Document Id" />
+		<property name="shortLabel" value="Document Id" />
+		<property name="maxLength" value="4" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="5" />
+		</property>
+		<property name="summary" value="Document Id" />
+		<property name="description" value="Document Id" />
+	</bean>
+	
+	<bean id="ProtocolAttachmentBase-fileId" parent="ProtocolAttachmentBase-fileId-parentBean" />
+	<bean id="ProtocolAttachmentBase-fileId-parentBean" abstract="true" parent="ProtocolAttachmentFile-id">
+		<property name="required" value="true" />
+		<property name="name" value="fileId" />
+		<property name="label" value="File Name" />
+		<property name="shortLabel" value="File Name" />
+		<property name="summary" value="File Name" />
+		<property name="description" value="File Name" />
+	</bean>
+	
+	<bean id="ProtocolAttachmentBase-description" parent="ProtocolAttachmentBase-description-parentBean" />
+	<bean id="ProtocolAttachmentBase-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+		<property name="required" value="true" />
+		<property name="control" >
+			<bean parent="TextareaControlDefinition"
+	            p:rows="3"
+	            p:cols="38"/> 
+        </property>
+	</bean>
+	
+	<bean id="ProtocolAttachmentBase-versionNumber" parent="ProtocolAttachmentBase-versionNumber-parentBean" />
+	<bean id="ProtocolAttachmentBase-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
+	
+	<bean id="ProtocolAttachmentBase-updateUser" parent="ProtocolAttachmentBase-updateUser-parentBean" />
+	<bean id="ProtocolAttachmentBase-updateUser-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateUser">
+	  <property name="label" value="Uploaded By" />
+	  <property name="shortLabel" value="Uploaded By" />
+	  <property name="summary" value="Uploaded By" />
+	  <property name="description" value="Uploaded By" />
+	</bean>
+	
+	<bean id="ProtocolAttachmentBase-updateTimestamp" parent="ProtocolAttachmentBase-updateTimestamp-parentBean" />
+	<bean id="ProtocolAttachmentBase-updateTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateTimestamp">
+      <property name="label" value="Posted Timestamp" />
+	  <property name="shortLabel" value="Posted Timestamp" />
+	  <property name="summary" value="Posted Timestamp" />
+	  <property name="description" value="Posted Timestamp" />
+	</bean>
+  
+	<!-- Business Object Inquiry Definition -->
+	<bean id="ProtocolAttachmentBase-inquiryDefinition" parent="ProtocolAttachmentBase-inquiryDefinition-parentBean" />
+	<bean id="ProtocolAttachmentBase-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Id" />
+		<property name="inquirySections" >
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Id" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields" >
+						<list>
+							<bean parent="FieldDefinition"
+								p:attributeName="id" 
+								p:forceInquiry="true" />
+							<bean parent="FieldDefinition"
+								p:attributeName="protocolId" />
+							<bean parent="FieldDefinition"
+								p:attributeName="typeCode" />
+							<bean parent="FieldDefinition"
+								p:attributeName="attachmentVersionNumber" />
+							<bean parent="FieldDefinition"
+								p:attributeName="documentId" />
+							<bean parent="FieldDefinition"
+								p:attributeName="fileId" />
+							<bean parent="FieldDefinition"
+								p:attributeName="description" />
+							<bean parent="FieldDefinition"
+								p:attributeName="updateUser" />
+							<bean parent="FieldDefinition"
+								p:attributeName="updateTimestamp" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+		<!-- Business Object Lookup Definition -->
+	<bean id="ProtocolAttachmentBase-lookupDefinition" parent="ProtocolAttachmentBase-lookupDefinition-parentBean" />
+	<bean id="ProtocolAttachmentBase-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Protocol AttachmentLookup" />
+        <property name="lookupableID" value="ProtocolAttachmentBaseLookupable" />
+		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+		<property name="instructions" value="Look up a Protocol Attachment Base" />
+		<property name="defaultSort" >
+			<bean parent="SortDefinition" >
+		</bean>
+		</property>
+		<property name="lookupFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					p:attributeName="id" 
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition"
+					p:attributeName="protocolId" />
+				<bean parent="FieldDefinition"
+					p:attributeName="typeCode" />
+				<bean parent="FieldDefinition"
+					p:attributeName="attachmentVersionNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="documentId" />
+				<bean parent="FieldDefinition"
+					p:attributeName="fileId" />
+				<bean parent="FieldDefinition"
+					p:attributeName="description" />
+				<bean parent="FieldDefinition"
+					p:attributeName="updateUser" />
+				<bean parent="FieldDefinition"
+					p:attributeName="updateTimestamp" />
+			</list>
+		</property>
+		<property name="resultFields" >
+			<list>
+				<bean parent="FieldDefinition"
+					p:attributeName="id" 
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition"
+					p:attributeName="protocolId" />
+				<bean parent="FieldDefinition"
+					p:attributeName="typeCode" />
+				<bean parent="FieldDefinition"
+					p:attributeName="attachmentVersionNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="documentId" />
+				<bean parent="FieldDefinition"
+					p:attributeName="fileId" />
+				<bean parent="FieldDefinition"
+					p:attributeName="description" />
+				<bean parent="FieldDefinition"
+					p:attributeName="updateUser" />
+				<bean parent="FieldDefinition"
+					p:attributeName="updateTimestamp" />
+			</list>
+		</property>
+	</bean>
+</beans>
