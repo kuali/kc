@@ -139,25 +139,38 @@ public class ProtocolAttachmentHelper {
     }
     
     /**
-     * Adds the "new" ProtocolAttachmentProtocol to the Protocol Document.
+     * Adds the "new" ProtocolAttachmentProtocol to the Protocol Document.  Before
+     * adding this method executes validation.  If the validation fails the attachment is not added.
      */
     public void addNewProtocolAttachmentProtocol() {
         
+        final AddProtocolAttachmentProtocolRule rule = new AddProtocolAttachmentProtocolRuleImpl();
+        final AddProtocolAttachmentProtocolEvent event = new AddProtocolAttachmentProtocolEvent(this.form.getDocument(), this.newAttachmentProtocol);
+        
+        if (!rule.processAddProtocolAttachmentProtocolRules(event)) {
+            return;
+        }
+        
         this.getProtocol().addAttachmentProtocol(this.newAttachmentProtocol);
-        
         this.notesService.saveAttatchment(this.newAttachmentProtocol);
-        
         this.initAttachmentProtocol();
     }
     
     /**
-     * Adds the "new" ProtocolAttachmentPersonnel to the Protocol Document.
+     * Adds the "new" ProtocolAttachmentPersonnel to the Protocol Document.  Before
+     * adding this method executes validation.  If the validation fails the attachment is not added.
      */
-    public void addNewProtocolAttachmentPersonnel() {      
+    public void addNewProtocolAttachmentPersonnel() {
+        
+        final AddProtocolAttachmentPersonnelRule rule = new AddProtocolAttachmentPersonnelRuleImpl();
+        final AddProtocolAttachmentPersonnelEvent event = new AddProtocolAttachmentPersonnelEvent(this.form.getDocument(), this.newAttachmentPersonnel);
+        
+        if (!rule.processAddProtocolAttachmentPersonnelRules(event)) {
+            return;
+        }
+        
         this.getProtocol().addAttachmentPersonnel(this.newAttachmentPersonnel);
-        
         this.notesService.saveAttatchment(this.newAttachmentPersonnel);
-        
         this.initAttachmentPersonnel();
     }
     
@@ -242,10 +255,16 @@ public class ProtocolAttachmentHelper {
         return forList != null && index >= 0 && index <= forList.size() - 1;
     }
     
+    /**
+     * initializes a new attachment protocol setting the protocol id.
+     */
     private void initAttachmentProtocol() {
         this.setNewAttachmentProtocol(new ProtocolAttachmentProtocol(this.getProtocol().getProtocolId()));
     }
     
+    /**
+     * initializes a new attachment personnel setting the protocol id.
+     */
     private void initAttachmentPersonnel() {
         this.setNewAttachmentPersonnel(new ProtocolAttachmentPersonnel(this.getProtocol().getProtocolId()));
     }
