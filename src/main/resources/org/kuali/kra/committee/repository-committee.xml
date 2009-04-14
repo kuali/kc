@@ -52,6 +52,10 @@
 			<foreignkey field-ref="scheduleStatusCode"/>
 		</reference-descriptor>		
 		
+		<collection-descriptor name="committeeScheduleAttendances" proxy="true" element-class-ref="org.kuali.kra.committee.bo.CommitteeScheduleAttendance" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        	<inverse-foreignkey field-ref="id" />
+    	</collection-descriptor>
+		
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kra.committee.bo.CommitteeType" table="COMMITTEE_TYPE">
@@ -235,4 +239,30 @@
 		</reference-descriptor>
 	</class-descriptor>
 
+	<class-descriptor class="org.kuali.kra.committee.bo.CommitteeScheduleAttendance" table="COMM_SCHEDULE_ATTENDANCE">
+		<field-descriptor name="id" column="ID" jdbc-type="INTEGER" primarykey="true" />
+		<field-descriptor name="scheduleIdNew" column="SCHEDULE_ID_NEW" jdbc-type="INTEGER" access="anonymous"/>
+		<field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER" access="anonymous"/>
+		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" access="anonymous"/>
+		<field-descriptor name="scheduleId" column="SCHEDULE_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="guestFlag" column="GUEST_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="alternateFlag" column="ALTERNATE_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="alternateFor" column="ALTERNATE_FOR" jdbc-type="VARCHAR" />
+		<field-descriptor name="nonEmployeeFlag" column="NON_EMPLOYEE_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="person" class-ref="org.kuali.kra.bo.Person" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="personId"/>
+		</reference-descriptor>
+		<reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="rolodexId"/>
+		</reference-descriptor>
+		<reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.committee.bo.CommitteeSchedule" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="scheduleIdNew"/>
+		</reference-descriptor>
+	</class-descriptor>
+		
 </descriptor-repository>
