@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.bo;
+package org.kuali.kra.irb.noteattachment;
 
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
- * This class represents the Protocol Attachment Status.
+ * This class represents the Protocol Attachment Type.
  */
-public class ProtocolAttachmentStatus extends KraPersistableBusinessObjectBase {
+public class ProtocolAttachmentType extends KraPersistableBusinessObjectBase {
     
     private static final long serialVersionUID = 2053606476193782286L;
 
@@ -30,32 +30,32 @@ public class ProtocolAttachmentStatus extends KraPersistableBusinessObjectBase {
     private String description;
 
     /**
-     * Gets the protocol attachment status code.
-     * @return the protocol attachment status code
+     * Gets the protocol attachment type code.
+     * @return the protocol attachment type code
      */
     public String getCode() {
         return this.code;
     }
 
     /**
-     * Sets the protocol attachment status code.
-     * @param code the protocol attachment status code
+     * Sets the protocol attachment type code.
+     * @param code the protocol attachment type code
      */
     public void setCode(String code) {
         this.code = code;
     }
 
     /**
-     * Gets the protocol attachment status description.
-     * @return the protocol attachment status description
+     * Gets the protocol attachment type description.
+     * @return the protocol attachment type description
      */
     public String getDescription() {
         return this.description;
     }
 
     /**
-     * Sets the protocol attachment status description.
-     * @param description the protocol attachment status description
+     * Sets the protocol attachment type description.
+     * @param description the protocol attachment type description
      */
     public void setDescription(String description) {
         this.description = description;
@@ -89,10 +89,10 @@ public class ProtocolAttachmentStatus extends KraPersistableBusinessObjectBase {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof ProtocolAttachmentStatus)) {
+        if (!(obj instanceof ProtocolAttachmentType)) {
             return false;
         }
-        ProtocolAttachmentStatus other = (ProtocolAttachmentStatus) obj;
+        ProtocolAttachmentType other = (ProtocolAttachmentType) obj;
         if (this.code == null) {
             if (other.code != null) {
                 return false;

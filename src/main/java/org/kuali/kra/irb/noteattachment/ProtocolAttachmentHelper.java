@@ -13,24 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.web.struts.form;
+package org.kuali.kra.irb.noteattachment;
 
 import java.util.List;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.bo.Protocol;
-import org.kuali.kra.irb.bo.ProtocolAttachmentFile;
-import org.kuali.kra.irb.bo.ProtocolAttachmentPersonnel;
-import org.kuali.kra.irb.bo.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.document.ProtocolDocument;
-import org.kuali.kra.irb.service.ProtocolNotesAndAttachmentsService;
+import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 
 /**
- * This is the "Helper" class so ProtocolNotesAndAttachments.
+ * This is the "Helper" class for ProtocolNoteAndAttachment.
  */
-public class NotesAndAttachmentsHelper {
+public class ProtocolAttachmentHelper {
     
-    private final ProtocolNotesAndAttachmentsService notesService;
+    private final ProtocolAttachmentService notesService;
     
     /**
      * Each Helper must contain a reference to its document form
@@ -47,8 +44,8 @@ public class NotesAndAttachmentsHelper {
      * @param form the form
      * @throws NullPointerException if the form is null
      */
-    NotesAndAttachmentsHelper(final ProtocolForm form) {
-        this(form, KraServiceLocator.getService(ProtocolNotesAndAttachmentsService.class));
+    public ProtocolAttachmentHelper(final ProtocolForm form) {
+        this(form, KraServiceLocator.getService(ProtocolAttachmentService.class));
     }
     
     /**
@@ -57,7 +54,7 @@ public class NotesAndAttachmentsHelper {
      * @param notesService the notesService
      * @throws NullPointerException if the form or notesService is null
      */
-    NotesAndAttachmentsHelper(final ProtocolForm form, final ProtocolNotesAndAttachmentsService notesService) {
+    ProtocolAttachmentHelper(final ProtocolForm form, final ProtocolAttachmentService notesService) {
         if (form == null) {
             throw new NullPointerException("the form was null");
         }
@@ -156,13 +153,10 @@ public class NotesAndAttachmentsHelper {
     /**
      * Adds the "new" ProtocolAttachmentPersonnel to the Protocol Document.
      */
-    public void addNewProtocolAttachmentPersonnel() {
-        this.newAttachmentPersonnel.setType(this.notesService.getTypeFromCode(this.newAttachmentPersonnel.getTypeCode()));
-        this.newAttachmentPersonnel.setFile(ProtocolAttachmentFile.createFromFormFile(this.newAttachmentPersonnel.getNewFile()));
-        this.newAttachmentProtocol.setAttachmentVersionNumber(Integer.valueOf(1));
-        this.newAttachmentProtocol.setDocumentId(Integer.valueOf(1));
-        
+    public void addNewProtocolAttachmentPersonnel() {      
         this.getProtocol().addAttachmentPersonnel(this.newAttachmentPersonnel);
+        
+        this.notesService.saveAttatchment(this.newAttachmentPersonnel);
         
         this.initAttachmentPersonnel();
     }
@@ -200,6 +194,41 @@ public class NotesAndAttachmentsHelper {
         }
         
         return this.getProtocol().getAttachmentProtocols().get(attachmentNumber);
+    }
+    
+    /**
+     * Deletes the "existing" ProtocolAttachmentPersonnel from the Protocol Document.
+     * If attachmentNumber is not valid then this method does returns false.  This is because
+     * the item to delete comes from the client and may not be a valid item.
+     * 
+     * @param attachmentNumber the item to delete.
+     * @return whether a delete successfully executed.
+     */
+    public boolean deleteExistingAttachmentPersonnel(int attachmentNumber) {
+
+        if (!this.validIndexForList(attachmentNumber, this.getProtocol().getAttachmentPersonnels())) {
+            return false;
+        }
+        
+        this.getProtocol().getAttachmentPersonnels().remove(attachmentNumber);
+        return true;
+    }
+    
+    /**
+     * Retrieves the "existing" ProtocolAttachmentPersonnel from the Protocol Document.
+     * If attachmentNumber is not valid then this method returns {@code null}.  This is because
+     * the item to retrieve comes from the client and may not be a valid item.
+     * 
+     * @param attachmentNumber the item to delete.
+     * @return the ProtocolAttachmentPersonnel
+     */
+    public ProtocolAttachmentPersonnel retrieveExistingAttachmentPersonnel(int attachmentNumber) {
+        
+        if (!this.validIndexForList(attachmentNumber, this.getProtocol().getAttachmentPersonnels())) {
+            return null;
+        }
+        
+        return this.getProtocol().getAttachmentPersonnels().get(attachmentNumber);
     }
     
     /**

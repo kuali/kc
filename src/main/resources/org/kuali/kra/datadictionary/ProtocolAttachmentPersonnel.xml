@@ -19,100 +19,118 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <bean id="ProtocolAttachmentGroup" parent="ProtocolAttachmentGroup-parentBean" />
-    <bean id="ProtocolAttachmentGroup-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.irb.bo.ProtocolAttachmentGroup" />
-        <property name="inquiryDefinition" >
-            <ref bean="ProtocolAttachmentGroup-inquiryDefinition" />
-        </property>
-        <property name="lookupDefinition" >
-            <ref bean="ProtocolAttachmentGroup-lookupDefinition" />
-        </property>
-        <property name="titleAttribute" value="code" />
-        <property name="attributes" >
-            <list>
-                <ref bean="ProtocolAttachmentGroup-code" />
-                <ref bean="ProtocolAttachmentGroup-description" />
-                <ref bean="ProtocolAttachmentGroup-versionNumber" />
-            </list>
-        </property>
-    </bean>
+	<bean id="ProtocolAttachmentPersonnel" parent="ProtocolAttachmentPersonnel-parentBean" />
+	<bean id="ProtocolAttachmentPersonnel-parentBean" abstract="true" parent="ProtocolAttachmentBase">
+		<property name="businessObjectClass" value="org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel" />
+		<property name="inquiryDefinition" >
+			<ref bean="ProtocolAttachmentPersonnel-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition" >
+			<ref bean="ProtocolAttachmentPersonnel-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="id" />
+		<property name="attributes" >
+			<list>
+				<ref bean="ProtocolAttachmentPersonnel-id" />
+				<ref bean="ProtocolAttachmentPersonnel-protocolId" />
+				<ref bean="ProtocolAttachmentPersonnel-typeCode" />
+				<ref bean="ProtocolAttachmentPersonnel-attachmentVersionNumber" />
+				<ref bean="ProtocolAttachmentPersonnel-documentId" />
+				<ref bean="ProtocolAttachmentPersonnel-fileId" />
+				<ref bean="ProtocolAttachmentPersonnel-description" />
+				<ref bean="ProtocolAttachmentPersonnel-personId" />
+				<ref bean="ProtocolAttachmentPersonnel-versionNumber" />
+				<ref bean="ProtocolAttachmentPersonnel-updateUser" />
+				<ref bean="ProtocolAttachmentPersonnel-updateTimestamp" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="ProtocolAttachmentPersonnel-id" parent="ProtocolAttachmentPersonnel-id-parentBean" />
+	<bean id="ProtocolAttachmentPersonnel-id-parentBean" abstract="true" parent="ProtocolAttachmentBase-id" />
 
-    <!-- Attribute Definitions -->
-    <bean id="ProtocolAttachmentGroup-code" parent="ProtocolAttachmentGroup-code-parentBean" />
-    <bean id="ProtocolAttachmentGroup-code-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="code" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Code" />
-        <property name="shortLabel" value="Code" />
-        <property name="maxLength" value="3" />
-        <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="5" />
-        </property>
-        <property name="summary" value="Code" />
-        <property name="description" value="Code" />
-    </bean>
-    
-    <bean id="ProtocolAttachmentGroup-description" parent="ProtocolAttachmentGroup-description-parentBean" />
-    <bean id="ProtocolAttachmentGroup-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description" />
+	<bean id="ProtocolAttachmentPersonnel-protocolId" parent="ProtocolAttachmentPersonnel-protocolId-parentBean" />
+	<bean id="ProtocolAttachmentPersonnel-protocolId-parentBean" abstract="true" parent="ProtocolAttachmentBase-protocolId"/>
 
-    <bean id="ProtocolAttachmentGroup-versionNumber" parent="ProtocolAttachmentGroup-versionNumber-parentBean" />
-    <bean id="ProtocolAttachmentGroup-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
+	<bean id="ProtocolAttachmentPersonnel-typeCode" parent="ProtocolAttachmentPersonnel-typeCode-parentBean" />
+	<bean id="ProtocolAttachmentPersonnel-typeCode-parentBean" abstract="true" parent="ProtocolAttachmentBase-typeCode"/>
+	
+	<bean id="ProtocolAttachmentPersonnel-attachmentVersionNumber" parent="ProtocolAttachmentPersonnel-attachmentVersionNumber-parentBean" />
+	<bean id="ProtocolAttachmentPersonnel-attachmentVersionNumber-parentBean" abstract="true" parent="ProtocolAttachmentBase-attachmentVersionNumber" />
+	
+	<bean id="ProtocolAttachmentPersonnel-documentId" parent="ProtocolAttachmentPersonnel-documentId-parentBean" />
+	<bean id="ProtocolAttachmentPersonnel-documentId-parentBean" abstract="true" parent="ProtocolAttachmentBase-documentId" />
+	
+	<bean id="ProtocolAttachmentPersonnel-fileId" parent="ProtocolAttachmentPersonnel-fileId-parentBean" />
+	<bean id="ProtocolAttachmentPersonnel-fileId-parentBean" abstract="true" parent="ProtocolAttachmentBase-fileId"/>
 
-    <!-- Business Object Inquiry Definition -->
-    <bean id="ProtocolAttachmentGroup-inquiryDefinition" parent="ProtocolAttachmentGroup-inquiryDefinition-parentBean" />
-    <bean id="ProtocolAttachmentGroup-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-        <property name="title" value="Code" />
-        <property name="inquirySections" >
-            <list>
-                <bean parent="InquirySectionDefinition">
-                    <property name="title" value="Code" />
-                    <property name="numberOfColumns" value="1" />
-                    <property name="inquiryFields" >
-                        <list>
-                            <bean parent="FieldDefinition"
-                                p:attributeName="code" 
-                                p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="description" />
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
-    <!-- Business Object Lookup Definition -->
-    <bean id="ProtocolAttachmentGroup-lookupDefinition" parent="ProtocolAttachmentGroup-lookupDefinition-parentBean" />
-    <bean id="ProtocolAttachmentGroup-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Protocol Attachment Group Lookup" />
-        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="instructions" value="Look up a Protocol Attachment Group" />
-        <property name="defaultSort" >
-            <bean parent="SortDefinition" >
-        </bean>
-        </property>
-        <property name="lookupFields" >
-            <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="code" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="description" />
-            </list>
-        </property>
-        <property name="resultFields" >
-            <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="code" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="description" />
-            </list>
-        </property>
-    </bean>
+	<bean id="ProtocolAttachmentPersonnel-description" parent="ProtocolAttachmentPersonnel-description-parentBean" />
+	<bean id="ProtocolAttachmentPersonnel-description-parentBean" abstract="true" parent="ProtocolAttachmentBase-description"/>
+	
+	<bean id="ProtocolAttachmentPersonnel-personId" parent="ProtocolAttachmentPersonnel-personId-parentBean" />
+	<bean id="ProtocolAttachmentPersonnel-personId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="personId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Person" />
+		<property name="shortLabel" value="Person" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="15" />
+		</property>
+		<property name="summary" value="Person" />
+		<property name="description" value="Person" />
+	</bean>
+	
+	<bean id="ProtocolAttachmentPersonnel-versionNumber" parent="ProtocolAttachmentPersonnel-versionNumber-parentBean" />
+	<bean id="ProtocolAttachmentPersonnel-versionNumber-parentBean" abstract="true" parent="ProtocolAttachmentBase-versionNumber" />
+	
+	<bean id="ProtocolAttachmentPersonnel-updateUser" parent="ProtocolAttachmentPersonnel-updateUser-parentBean" />
+	<bean id="ProtocolAttachmentPersonnel-updateUser-parentBean" abstract="true" parent="ProtocolAttachmentBase-updateUser"/>
+	
+	<bean id="ProtocolAttachmentPersonnel-updateTimestamp" parent="ProtocolAttachmentPersonnel-updateTimestamp-parentBean" />
+	<bean id="ProtocolAttachmentPersonnel-updateTimestamp-parentBean" abstract="true" parent="ProtocolAttachmentBase-updateTimestamp"/>
+  
+	<!-- Business Object Inquiry Definition -->
+	<bean id="ProtocolAttachmentPersonnel-inquiryDefinition" parent="ProtocolAttachmentPersonnel-inquiryDefinition-parentBean" />
+	<bean id="ProtocolAttachmentPersonnel-inquiryDefinition-parentBean" abstract="true" parent="ProtocolAttachmentBase-inquiryDefinition">
+		<property name="inquirySections" >
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Id" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields" >
+						<list merge="true">
+							<bean parent="FieldDefinition"
+								p:attributeName="personId" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+		<!-- Business Object Lookup Definition -->
+	<bean id="ProtocolAttachmentPersonnel-lookupDefinition" parent="ProtocolAttachmentPersonnel-lookupDefinition-parentBean" />
+	<bean id="ProtocolAttachmentPersonnel-lookupDefinition-parentBean" abstract="true" parent="ProtocolAttachmentBase-lookupDefinition">
+		<property name="title" value="Protocol Attachment Lookup" />
+        <property name="lookupableID" value="ProtocolAttachmentPersonnelLookupable" />
+		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+		<property name="instructions" value="Look up a Personnel Attachment" />
+		<property name="lookupFields" >
+			<list merge="true">
+				<bean parent="FieldDefinition"
+					p:attributeName="personId" />
+			</list>
+		</property>
+		<property name="resultFields" >
+			<list merge="true">
+				<bean parent="FieldDefinition"
+					p:attributeName="personId" />
+			</list>
+		</property>
+	</bean>
 </beans>

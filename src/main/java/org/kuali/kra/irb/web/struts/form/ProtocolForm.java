@@ -39,6 +39,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.bo.ProtocolReference;
 import org.kuali.kra.irb.bo.ProtocolSpecialReviewExemption;
 import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.kra.irb.noteattachment.ProtocolAttachmentHelper;
 import org.kuali.kra.irb.personnel.PersonnelHelper;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
@@ -59,7 +60,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     private CustomDataHelper customDataHelper;
     private SpecialReviewHelper specialReviewHelper;
     private ActionHelper actionHelper;
-    private NotesAndAttachmentsHelper notesAndAttachmentsHelper;
+    private ProtocolAttachmentHelper notesAndAttachmentsHelper;
     private boolean auditActivated;
     
     private ProtocolReference newProtocolReference;
@@ -88,7 +89,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         setCustomDataHelper(new CustomDataHelper(this));
         setSpecialReviewHelper(new SpecialReviewHelper(this));
         setActionHelper(new ActionHelper(this));
-        setNotesAndAttachmentsHelper(new NotesAndAttachmentsHelper(this));
+        setNotesAndAttachmentsHelper(new ProtocolAttachmentHelper(this));
         setNewProtocolReference(new ProtocolReference());
     }
     
@@ -263,7 +264,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
      * Gets the Notes And Attachments Helper.
      * @return Notes And Attachments Helper
      */
-    public NotesAndAttachmentsHelper getNotesAndAttachmentsHelper() {
+    public ProtocolAttachmentHelper getNotesAndAttachmentsHelper() {
         return notesAndAttachmentsHelper;
     }
 
@@ -271,7 +272,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
      * Sets the Notes And Attachments Helper.
      * @param notesAndAttachmentsHelper the Notes And Attachments Helper
      */
-    public void setNotesAndAttachmentsHelper(NotesAndAttachmentsHelper notesAndAttachmentsHelper) {
+    public void setNotesAndAttachmentsHelper(ProtocolAttachmentHelper notesAndAttachmentsHelper) {
         this.notesAndAttachmentsHelper = notesAndAttachmentsHelper;
     }
 

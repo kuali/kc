@@ -21,7 +21,7 @@
 
     <bean id="ProtocolAttachmentType" parent="ProtocolAttachmentType-parentBean" />
     <bean id="ProtocolAttachmentType-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.irb.bo.ProtocolAttachmentType" />
+        <property name="businessObjectClass" value="org.kuali.kra.irb.noteattachment.ProtocolAttachmentType" />
         <property name="inquiryDefinition" >
             <ref bean="ProtocolAttachmentType-inquiryDefinition" />
         </property>

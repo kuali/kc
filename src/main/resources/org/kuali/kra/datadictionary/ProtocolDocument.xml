@@ -101,7 +101,7 @@
                   		p:parameterDetailType="D" />
           		</property>
           		<property name="headerTabDisplayName" value="Notes &amp; Attachments" />
-          		<property name="headerTabNavigateTo" value="notesAndAttachments" />
+          		<property name="headerTabNavigateTo" value="noteAndAttachment" />
         	</bean>
         	<bean parent="HeaderNavigation">
 	          	<property name="helpDefinition" >

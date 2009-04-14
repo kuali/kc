@@ -16,11 +16,9 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="protocolAttachmentProtocolAttributes" value="${DataDictionary.ProtocolAttachmentProtocol.attributes}" />
-<c:set var="protocolAttachmentPersonnnelAttributes" value="${DataDictionary.ProtocolAttachmentPersonnnel.attributes}" />
-<c:set var="protocolAttachmentTypeAttributes" value="${DataDictionary.ProtocolAttachmentType.attributes}" />
 <c:set var="notesAndAttachmentsHelper" value="${KualiForm.notesAndAttachmentsHelper}" />
 <c:set var="readOnly" value="${!KualiForm.notesAndAttachmentsHelper.modifyProtocol}" />
-<c:set var="action" value="protocolNotesAndAttachments" />
+<c:set var="action" value="protocolNoteAndAttachment" />
 <c:set var="attachmentProtocols" value="${KualiForm.document.protocol.attachmentProtocols}"/>
 
 <kul:tab tabTitle="Protocol Attachments(${fn:length(KualiForm.document.protocol.attachmentProtocols)})" defaultOpen="true" tabErrorKey="" transparentBackground="true">
@@ -38,7 +36,16 @@
          		</th>
          		<td align="left" valign="middle" class="infoline">
                 	<div align="left">
-                		<kul:htmlControlAttribute property="notesAndAttachmentsHelper.newAttachmentProtocol.typeCode" attributeEntry="${protocolAttachmentProtocolAttributes.typeCode}"/>
+               			<%-- attachment type finder logic start--%>
+							<jsp:useBean id="typeParams" class="java.util.HashMap"/>
+							<c:set target="${typeParams}" property="groupCode" value="1" />
+							<c:set target="${typeParams}" property="filterTypes" value="${KualiForm.document.protocol.attachmentProtocols}" />
+							<c:set var="options" value="${krafn:getOptionList('org.kuali.kra.irb.noteattachment.ProtocolAttachmentTypeByGroupValuesFinder', typeParams)}" />
+						<%-- attachment type finder logic end --%>
+               				
+               			<html:select property="notesAndAttachmentsHelper.newAttachmentProtocol.typeCode">
+               				<html:options collection="options" labelProperty="label" property="key" />
+               			</html:select>
 	            	</div>
 				</td>
 				<th>
@@ -164,7 +171,7 @@
 			         		</th>
 			         		<td align="left" valign="middle" class="infoline">
 			                	<div align="left">
-			                		<kul:htmlControlAttribute property="document.protocol.attachmentProtocol[${status.index}].typeCode" attributeEntry="${protocolAttachmentProtocolAttributes.typeCode}"/>
+			                		<kul:htmlControlAttribute property="document.protocol.attachmentProtocol[${status.index}].typeCode" attributeEntry="${protocolAttachmentProtocolAttributes.typeCode}" readOnly="true" readOnlyAlternateDisplay="${attachmentProtocol.type.description}"/>
 				            	</div>
 							</td>
 							<th>

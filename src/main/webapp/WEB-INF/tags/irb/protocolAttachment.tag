@@ -16,5 +16,5 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <div id="workarea">
 	<kra-irb:protocolAttachmentProtocol />
-	<%--<kra-irb:protocolAttachmentPersonnel />--%>
+	<kra-irb:protocolAttachmentPersonnel />
 <!--</div>-->
