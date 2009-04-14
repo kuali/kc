@@ -15,35 +15,35 @@
  */
 package org.kuali.kra.lookup.keyvalue;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder;
 import org.kuali.core.web.ui.KeyLabelPair;
 
 /**
  * This class extends the PersistableBusinessObjectValuesFinder - the Generic ValuesFinder - 
  * to add a "select" entry.
+ * 
+ * <p>
+ * It's a shame that rice is so tightly coupled to {@link PersistableBusinessObjectValuesFinder PersistableBusinessObjectValuesFinder}
+ * It makes the design of these value finders very rigid.
+ * </p>
  */
 public class ExtendedPersistableBusinessObjectValuesFinder extends PersistableBusinessObjectValuesFinder {
-
-    private static final Log LOG = LogFactory.getLog(ExtendedPersistableBusinessObjectValuesFinder.class);
 
     /**
      * Build the list of KeyLabelPairs using the key (keyAttributeName) and
      * label (labelAttributeName) of the list of all business objects found
      * for the BO class specified along with a "select" entry.
+     * 
+     * {@inheritDoc}
      */
+    @Override
     public List<KeyLabelPair> getKeyValues(){
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
-       
-        Object key = "";
-        String label = "select";
+        List<KeyLabelPair> labels;
         
         labels = super.getKeyValues();
-        labels.add(0, new KeyLabelPair(key,label));    
+        labels.add(0, new KeyLabelPair(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));    
         
         return labels;
     }
