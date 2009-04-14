@@ -379,6 +379,18 @@ FROM comm_schedule a
 INNER JOIN committee b
 ON a.committee_id = b.id;
 
+CREATE OR REPLACE VIEW osp$comm_schedule_attendance AS SELECT 
+  schedule_id,
+  person_id,
+  guest_flag,
+  alternate_flag,
+  alternate_for,
+  non_employee_flag,
+  comments,
+  update_timestamp,
+  update_user
+FROM comm_schedule_attendance;  
+
 CREATE OR REPLACE VIEW osp$comm_schedule_frequency AS SELECT 
   frequency_code,
   description,
