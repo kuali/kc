@@ -17,6 +17,7 @@ package org.kuali.kra.committee.bo;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.LinkedHashMap;
@@ -106,10 +107,13 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
     @JoinColumn(name="SCHEDULE_STATUS_CODE", insertable=false, updatable=false)
     private ScheduleStatus scheduleStatus;
     
+    private List<CommitteeScheduleAttendance> committeeScheduleAttendances;        
+    
     //TODO revisit required during meeting management to map Protocol
     private List<Protocol> protocols;
 
     public CommitteeSchedule() { 
+        setCommitteeScheduleAttendances(new ArrayList<CommitteeScheduleAttendance>()); 
 	} 
 	
     public Long getId() {
@@ -325,6 +329,14 @@ public class CommitteeSchedule extends KraPersistableBusinessObjectBase {
         this.protocols = protocols;
     }
     
+    public List<CommitteeScheduleAttendance> getCommitteeScheduleAttendances() {
+        return committeeScheduleAttendances;
+    }
+
+    public void setCommitteeScheduleAttendances(List<CommitteeScheduleAttendance> committeeScheduleAttendances) {
+        this.committeeScheduleAttendances = committeeScheduleAttendances;
+    }
+
     @SuppressWarnings("unchecked")
     @Override 
 	protected LinkedHashMap toStringMapper() {

@@ -24,6 +24,12 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.Person;
+import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.committee.bo.CommitteeMembershipType;
+import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.committee.bo.CommitteeScheduleAttendance;
 import org.kuali.kra.document.SpecialReviewHandler;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -107,6 +113,9 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     private List<ProtocolAttachmentProtocol> attachmentProtocols;
     private List<ProtocolAttachmentPersonnel> attachmentPersonnels;
     
+    
+    private ProtocolSubmission protocolSubmission;
+    
     /**
      * 
      * Constructs an Protocol BO.
@@ -129,6 +138,8 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         // set statuscode default
         setProtocolStatusCode(Constants.DEFAULT_PROTOCOL_STATUS_CODE);
         this.refreshReferenceObject(Constants.PROPERTY_PROTOCOL_STATUS);
+        
+        populateTempViewDate();
     }
 
     public Long getProtocolId() {
@@ -804,5 +815,77 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
 
     public void setInvestigator(String investigator) {
         this.investigator = investigator;
+    }
+    
+    private void populateTempViewDate() {
+        this.protocolSubmission = new ProtocolSubmission();
+        
+        Committee committee = new Committee();
+        committee.setId(1l);
+        committee.setCommitteeId("Comm-1");
+        committee.setCommitteeName("Test By Kiltesh");
+        this.protocolSubmission.setCommittee(committee);
+        
+        this.protocolSubmission.setSubmissionDate(new java.sql.Date(new java.util.Date().getTime()));
+        
+        ProtocolSubmissionType submissionType = new ProtocolSubmissionType();
+        submissionType.setDescription("Initial Protocol Application for Approval ");
+        this.protocolSubmission.setProtocolSubmissionType(submissionType);
+        
+        ProtocolReviewType review = new ProtocolReviewType();
+        review.setDescription("Full");
+        this.protocolSubmission.setProtocolReviewType(review);
+        
+        ProtocolSubmissionQualifierType qual = new ProtocolSubmissionQualifierType();
+        qual.setDescription("Lorem Ipsum Dolor ");
+        this.protocolSubmission.setProtocolSubmissionQualifierType(qual);
+        
+        ProtocolSubmissionStatus substatus = new ProtocolSubmissionStatus();
+        substatus.setDescription("Approved");
+        this.protocolSubmission.setSubmissionStatus(substatus);
+        
+        CommitteeMembershipType committeeMembershipType1 = new CommitteeMembershipType();
+        committeeMembershipType1.setDescription("Primary");
+        CommitteeMembershipType committeeMembershipType2 = new CommitteeMembershipType();
+        committeeMembershipType2.setDescription("Secondary");
+        
+        CommitteeMembership committeeMembership1 = new CommitteeMembership();
+        committeeMembership1.setPersonName("Bryan Hutchinson");
+        committeeMembership1.setMembershipType(committeeMembershipType1);
+        CommitteeMembership committeeMembership2 = new CommitteeMembership();
+        committeeMembership2.setPersonName("Kiltesh Patel");
+        committeeMembership2.setMembershipType(committeeMembershipType2);
+        
+        List<CommitteeMembership>  list = new ArrayList<CommitteeMembership>();
+        list.add(committeeMembership1);
+        list.add(committeeMembership2);
+        
+        committee.setCommitteeMemberships(list);
+        
+        this.protocolSubmission.setYesVoteCount(2);
+        this.protocolSubmission.setNoVoteCount(3);
+        this.protocolSubmission.setAbstainerCount(1);
+        this.protocolSubmission.setVotingComments("Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
+        		"Suspendisse purus. Nullam et justo. In volutpat odio sit amet pede. Pellentesque ipsum dui, convallis in, mollis a, lacinia vel, diam. " +
+        		"Phasellus molestie neque at sapien condimentum massa nunc");
+        
+        CommitteeSchedule committeeSchedule= new CommitteeSchedule();        
+        CommitteeScheduleAttendance committeeScheduleAttendance = new CommitteeScheduleAttendance();        
+        Person p1 = new Person();
+        p1.setLastName("Mendez");
+        p1.setLastName("Tom");
+        committeeScheduleAttendance.setPerson(p1);
+        List<CommitteeScheduleAttendance> cslist = new ArrayList<CommitteeScheduleAttendance>();
+        cslist.add(committeeScheduleAttendance);
+        committeeSchedule.setCommitteeScheduleAttendances(cslist);        
+        this.protocolSubmission.setCommitteeSchedule(committeeSchedule);
+    }
+    
+    public ProtocolSubmission getProtocolSubmission() {
+        return protocolSubmission;
+    }
+
+    public void setProtocolSubmission(ProtocolSubmission protocolSubmission) {
+        this.protocolSubmission = protocolSubmission;
     }
 }
