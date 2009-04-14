@@ -365,7 +365,10 @@ public interface Constants {
     public static final String PROTOCOL_PRINCIPAL_INVESTIGATOR_KEY = "newProtocolPerson*";
 
     public static final String VIEW_ONLY = "viewOnly";
-
+    
+    //Protocol Summary Print View
+    public static final Integer PROTOCOL_SUMMARY_VOTINGCOMMENTS = 250;
+    
     // Committee
     public static final String COMMITTEE_PROPERTY_KEY = "committee";
     
