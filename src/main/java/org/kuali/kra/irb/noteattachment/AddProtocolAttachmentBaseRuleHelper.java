@@ -58,7 +58,7 @@ class AddProtocolAttachmentBaseRuleHelper {
      */
     boolean validFile(final ProtocolAttachmentBase newAttachmentBase) {
         
-        if (newAttachmentBase.getNewFile() == null) {
+        if (newAttachmentBase.getNewFile() == null || StringUtils.isBlank(newAttachmentBase.getNewFile().getFileName())) {
             this.errorReporter.reportError(this.newFileProperty, KeyConstants.ERROR_PROTOCOL_ATTACHMENT_MISSING_FILE);
             return false;
         }
