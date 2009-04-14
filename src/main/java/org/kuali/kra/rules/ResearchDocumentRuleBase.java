@@ -18,15 +18,12 @@ package org.kuali.kra.rules;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.collections.keyvalue.DefaultMapEntry;
-import org.kuali.core.UserSession;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.DocumentAuditRule;
@@ -34,7 +31,6 @@ import org.kuali.core.rules.DocumentRuleBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.ExceptionUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
@@ -57,43 +53,36 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
     public static final String DOCUMENT_ERROR_PATH = "document";
     public static final boolean VALIDATION_REQUIRED = true;
     public static final boolean CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME = false;
+    private final ErrorReporter errorReporter = new ErrorReporter();
+
     private BusinessObjectService businessObjectService;
 
 
     /**
-     * Wrapper around global errorMap.put call, to allow better logging
-     * 
-     * @param propertyName
-     * @param errorKey
-     * @param errorParams
+     * Delegates to {@link ErrorReporter#reportError(String, String, String...) ErrorReporter#reportError(String, String, String...)}
+     * to keep api compatibility.
+     * @see ErrorReporter#reportError(String, String, String...)
      */
     protected void reportError(String propertyName, String errorKey, String... errorParams) {
-        LOG.debug("reportError(String, String, String) - start");
-
-        GlobalVariables.getErrorMap().putError(propertyName, errorKey, errorParams);
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("rule failure at " + ExceptionUtils.describeStackLevels(1, 2));
-        }
+        this.errorReporter.reportError(propertyName, errorKey, errorParams);
     }
     
-    
+    /**
+     * Delegates to {@link ErrorReporter#reportSoftError(String, String, String...) ErrorReporter#reportSoftError(String, String, String...)}
+     * to keep api compatibility.
+     * @see ErrorReporter#reportSoftError(String, String, String...)
+     */
     protected void reportSoftError(String propertyName, String errorKey, String... errorParams) {
-        addSoftError(propertyName, errorKey, errorParams);
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("rule failure at " + ExceptionUtils.describeStackLevels(1, 2));
-        }
+        this.errorReporter.reportSoftError(propertyName, errorKey, errorParams);
     }
 
-
-    @SuppressWarnings("unchecked")
+    /**
+     * Delegates to {@link ErrorReporter#getSoftErrors() ErrorReporter#getSoftErrors()}
+     * to keep api compatibility.
+     * @see ErrorReporter#getSoftErrors()
+     */
     public Map<String, Collection<SoftError>> getSoftErrors() {
-        UserSession session = GlobalVariables.getUserSession();
-        Object o = session.retrieveObject(KeyConstants.SOFT_ERRORS_KEY);
-        Map<String, Collection<SoftError>> softErrors =(Map<String, Collection<SoftError>>) o;
-        if(softErrors == null) {
-            softErrors = initializeSoftErrorMap();
-        }
-        return softErrors;
+        return this.errorReporter.getSoftErrors();
     }
 
     public boolean processRunAuditBusinessRules(Document document) {
@@ -272,32 +261,10 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
     }
     
     /**
-     * This method adds a soft error to the collection of soft errors
-     * @param errorKey
-     * @param errorParams
+     * Gets the error reporter.
+     * @return the error reporter
      */
-    private void addSoftError(String propertyName, String errorKey, String[] errorParams) {
-        Map<String, Collection<SoftError>> softErrorMap = getSoftErrors();
-        Collection<SoftError> errorsForProperty = softErrorMap.get(propertyName);
-        if(errorsForProperty == null) {
-            errorsForProperty = new HashSet<SoftError>();
-        }
-        errorsForProperty.add(new SoftError(errorKey, errorParams));
-        softErrorMap.put(propertyName, errorsForProperty);
-    }
-
-
-    private Map<String, Collection<SoftError>> initializeSoftErrorMap() {
-        Map<String, Collection<SoftError>> softErrorMap = Collections.synchronizedMap(new HashMap<String, Collection<SoftError>>() {
-            private static final long serialVersionUID = 709850431504932842L;
-
-            @Override
-            public Collection<SoftError> get(Object key) {
-                return super.remove(key);
-            }
-            
-        });
-        GlobalVariables.getUserSession().addObject(KeyConstants.SOFT_ERRORS_KEY, softErrorMap);
-        return softErrorMap;
+    public ErrorReporter getErrorReporter() {
+        return this.errorReporter;
     }
 }

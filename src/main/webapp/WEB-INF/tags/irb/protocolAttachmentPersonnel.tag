@@ -21,7 +21,7 @@
 <c:set var="action" value="protocolNoteAndAttachment" />
 <c:set var="attachmentPersonnels" value="${KualiForm.document.protocol.attachmentPersonnels}"/>
 
-<kul:tab tabTitle="Personnel Attachments(${fn:length(KualiForm.document.protocol.attachmentPersonnels)})" defaultOpen="true" tabErrorKey="" transparentBackground="false">
+<kul:tab tabTitle="Personnel Attachments(${fn:length(KualiForm.document.protocol.attachmentPersonnels)})" defaultOpen="true" tabErrorKey="notesAndAttachmentsHelper.newAttachmentPersonnel.*" transparentBackground="false">
 	<div class="tab-container" align="center">
    		<h3>
    			<span class="subhead-left">Add Personnel Attachment</span>
@@ -91,13 +91,20 @@
 				</td>
          		<td align="left" valign="middle" class="infoline">
                 	<div align="left">
+                		<c:set var="property" value="notesAndAttachmentsHelper.newAttachmentPersonnel.typeCode" />
+                		
                 		<%-- attachment type finder logic start--%>
-						<jsp:useBean id="typeParams" class="java.util.HashMap"/>
-						<c:set target="${typeParams}" property="groupCode" value="2" />
-						<c:set var="options" value="${krafn:getOptionList('org.kuali.kra.irb.noteattachment.ProtocolAttachmentTypeByGroupValuesFinder', typeParams)}" />
+							<jsp:useBean id="typeParams" class="java.util.HashMap"/>
+							<c:set target="${typeParams}" property="groupCode" value="2" />
+							<c:set var="options" value="${krafn:getOptionList('org.kuali.kra.irb.noteattachment.ProtocolAttachmentTypeByGroupValuesFinder', typeParams)}" />
 						<%-- attachment type finder logic end --%>
-               				
-               			<html:select property="notesAndAttachmentsHelper.newAttachmentProtocol.typeCode">
+               			
+               			<%-- attachment type error handling logic start--%>
+               				<kul:checkErrors keyMatch="${property}" auditMatch="${property}"/>
+               				<c:set var="textStyle" value="${hasErrors == true ? 'background-color:#FFD5D5' : ''}"/>
+               			<%-- attachment type error handling logic start--%>
+               			
+               			<html:select property="${property}">
                				<html:options collection="options" labelProperty="label" property="key" />
                			</html:select>
 	            	</div>
@@ -110,7 +117,15 @@
 				</td>
 				<td align="left" valign="middle" class="infoline">
               		<div align="left">
-              			<html:file property="notesAndAttachmentsHelper.newAttachmentPersonnel.newFile" />
+              		    <c:set var="property" value="notesAndAttachmentsHelper.newAttachmentPersonnel.newFile" />
+              		
+              		    <%-- attachment file error handling logic start--%>
+               				<kul:checkErrors keyMatch="${property}" auditMatch="${property}"/>
+               				<%-- highlighting does not work in firefox but does in ie... --%>
+               				<c:set var="textStyle" value="${hasErrors == true ? 'background-color:#FFD5D5' : ''}"/>
+               			<%-- attachment file error handling logic start--%>
+              		
+              			<html:file property="${property}" />
            			</div>
 				</td>
 				<td align="center" valign="middle" class="infoline">
