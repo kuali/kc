@@ -13,22 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.service.impl;
+package org.kuali.kra.irb.noteattachment;
 
 import java.util.Collections;
 
-import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kra.irb.bo.ProtocolAttachmentBase;
-import org.kuali.kra.irb.bo.ProtocolAttachmentFile;
-import org.kuali.kra.irb.bo.ProtocolAttachmentProtocol;
-import org.kuali.kra.irb.bo.ProtocolAttachmentStatus;
-import org.kuali.kra.irb.bo.ProtocolAttachmentType;
-import org.kuali.kra.irb.service.ProtocolNotesAndAttachmentsService;
+import org.kuali.kra.bo.Person;
 
 
-/** Implementation of {@link ProtocolNotesAndAttachmentsService ProtocolNotesAndAttachmentsService}. */
-public class ProtocolNotesAndAttachmentsServiceImpl implements ProtocolNotesAndAttachmentsService {
+/** Implementation of {@link ProtocolAttachmentService ProtocolNoteAndAttachmentService}. */
+class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
 
     private final BusinessObjectService boService;
     
@@ -36,8 +31,9 @@ public class ProtocolNotesAndAttachmentsServiceImpl implements ProtocolNotesAndA
      * Constructor than sets the dependencies.
      * 
      * @param boService the {@link BusinessObjectService BusinessObjectService}
+     * @throws NullPointerException if the boService is null
      */
-    public ProtocolNotesAndAttachmentsServiceImpl(final BusinessObjectService boService) {
+    public ProtocolAttachmentServiceImpl(final BusinessObjectService boService) {
         if (boService == null) {
             throw new NullPointerException("the boService was null");
         }
@@ -66,6 +62,20 @@ public class ProtocolNotesAndAttachmentsServiceImpl implements ProtocolNotesAndA
         }
         
         attachment.setStatus(this.getStatusFromCode(attachment.getStatusCode()));
+        this.setAndsaveAttachmentBase(attachment);
+    }
+    
+    /** {@inheritDoc} */
+    public void saveAttatchment(ProtocolAttachmentPersonnel attachment) {
+        if (attachment == null) {
+            throw new NullPointerException("the attachment is null");
+        }
+        
+        if (attachment.getNewFile() == null) {
+            throw new NullPointerException("the newFile is null");
+        }
+        
+        attachment.setPerson(this.getPerson(attachment.getPersonId()));
         this.setAndsaveAttachmentBase(attachment);
     }
     
@@ -103,7 +113,7 @@ public class ProtocolNotesAndAttachmentsServiceImpl implements ProtocolNotesAndA
      * @return the BO
      * @throws NullPointerException if the code or type is null.
      */
-    private <T extends BusinessObject> T getCodeType(final Class<T> type, final String code) {
+    private <T extends PersistableBusinessObject> T getCodeType(final Class<T> type, final String code) {
         if (type == null) {
             throw new NullPointerException("the type is null");
         }
@@ -116,5 +126,20 @@ public class ProtocolNotesAndAttachmentsServiceImpl implements ProtocolNotesAndA
         final T bo = (T) this.boService.findByPrimaryKey(type, Collections.singletonMap("code", code));
         
         return bo;
+    }
+    
+    /**
+     * Gets a Person BO from personId.
+     * 
+     * @param personId the person id
+     * @return the BO
+     * @throws NullPointerException if the code or type is null.
+     */
+    private Person getPerson(String personId) {
+        if (personId == null) {
+            throw new NullPointerException("the personId is null");
+        }
+        
+        return (Person) this.boService.findByPrimaryKey(Person.class, Collections.singletonMap("personId", personId));
     }
 }

@@ -109,7 +109,7 @@
         </property>
 	</bean>	
 	
-	<bean id="protocolNotesAndAttachmentsService" class="org.kuali.kra.irb.service.impl.ProtocolNotesAndAttachmentsServiceImpl">
+	<bean id="protocolAttachmentService" class="org.kuali.kra.irb.noteattachment.ProtocolAttachmentServiceImpl">
         <constructor-arg index="0" ref="businessObjectService"/>
 	</bean>
 

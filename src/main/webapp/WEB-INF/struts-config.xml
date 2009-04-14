@@ -187,18 +187,10 @@
           <forward name="permissionsRoleRights" path="/WEB-INF/jsp/irb/ProtocolPermissionsRoleRights.jsp" />
       	  <forward name="permissionsEditRoles" path="/WEB-INF/jsp/irb/ProtocolPermissionsEditRoles.jsp" />
       	  <forward name="permissionsCloseEditRoles" path="/WEB-INF/jsp/irb/ProtocolPermissionsCloseEditRoles.jsp" />
-      	  <forward name="notesAndAttachments" path="/WEB-INF/jsp/irb/ProtocolNotesAndAttachments.jsp" />
+      	  <forward name="noteAndAttachment" path="/WEB-INF/jsp/irb/ProtocolNoteAndAttachment.jsp" />
           <forward name="protocolActions" path="/WEB-INF/jsp/irb/ProtocolProtocolActions.jsp" />
           <forward name="customData" path="/WEB-INF/jsp/irb/ProtocolCustomData.jsp" />
           <forward name="specialReview" path="/WEB-INF/jsp/irb/ProtocolSpecialReview.jsp" />
-      </action>
-      
-      <!--  KRA Committee Mapping -->
-      <action path="/committee*" name="CommitteeForm" input="/WEB-INF/jsp/committee/Committee{1}.jsp" type="org.kuali.kra.committee.web.struts.action.Committee{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
-          <forward name="basic" path="/WEB-INF/jsp/committee/Committee{1}.jsp" />
-          <forward name="committee" path="/WEB-INF/jsp/committee/CommitteeCommittee.jsp" />
-          <forward name="committeeMembership" path="/WEB-INF/jsp/committee/CommitteeMembership.jsp" />
-          <forward name="committeeSchedule" path="/WEB-INF/jsp/committee/CommitteeSchedule.jsp" />
       </action>
       
       <!--  KRA IRB Personnel Mapping -->
@@ -210,9 +202,33 @@
           <forward name="permissionsRoleRights" path="/WEB-INF/jsp/irb/ProtocolPermissionsRoleRights.jsp" />
       	  <forward name="permissionsEditRoles" path="/WEB-INF/jsp/irb/ProtocolPermissionsEditRoles.jsp" />
       	  <forward name="permissionsCloseEditRoles" path="/WEB-INF/jsp/irb/ProtocolPermissionsCloseEditRoles.jsp" />
+      	  <forward name="noteAndAttachment" path="/WEB-INF/jsp/irb/ProtocolNoteAndAttachment.jsp" />
           <forward name="protocolActions" path="/WEB-INF/jsp/irb/ProtocolProtocolActions.jsp" />
           <forward name="customData" path="/WEB-INF/jsp/irb/ProtocolCustomData.jsp" />
           <forward name="specialReview" path="/WEB-INF/jsp/irb/ProtocolSpecialReview.jsp" />
+      </action>
+      
+            <!--  KRA IRB Note And Attachment Mapping -->
+      <action path="/protocolNoteAndAttachment" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolNoteAttachment.jsp" type="org.kuali.kra.irb.noteattachment.ProtocolNoteAndAttachmentAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+		<forward name="basic" path="/WEB-INF/jsp/irb/ProtocolNoteAndAttachment.jsp" />
+		<forward name="protocol" path="/WEB-INF/jsp/irb/ProtocolProtocol.jsp" />
+		<forward name="personnel" path="/WEB-INF/jsp/irb/ProtocolPersonnel.jsp" />
+		<forward name="permissions" path="/WEB-INF/jsp/irb/ProtocolPermissions.jsp" />
+		<forward name="permissionsRoleRights" path="/WEB-INF/jsp/irb/ProtocolPermissionsRoleRights.jsp" />
+		<forward name="permissionsEditRoles" path="/WEB-INF/jsp/irb/ProtocolPermissionsEditRoles.jsp" />
+		<forward name="permissionsCloseEditRoles" path="/WEB-INF/jsp/irb/ProtocolPermissionsCloseEditRoles.jsp" />
+		<forward name="noteAndAttachment" path="/WEB-INF/jsp/irb/ProtocolNoteAndAttachment.jsp" />
+		<forward name="protocolActions" path="/WEB-INF/jsp/irb/ProtocolProtocolActions.jsp" />
+		<forward name="customData" path="/WEB-INF/jsp/irb/ProtocolCustomData.jsp" />
+		<forward name="specialReview" path="/WEB-INF/jsp/irb/ProtocolSpecialReview.jsp" />
+      </action>
+      
+      <!--  KRA Committee Mapping -->
+      <action path="/committee*" name="CommitteeForm" input="/WEB-INF/jsp/committee/Committee{1}.jsp" type="org.kuali.kra.committee.web.struts.action.Committee{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/committee/Committee{1}.jsp" />
+          <forward name="committee" path="/WEB-INF/jsp/committee/CommitteeCommittee.jsp" />
+          <forward name="committeeMembership" path="/WEB-INF/jsp/committee/CommitteeMembership.jsp" />
+          <forward name="committeeSchedule" path="/WEB-INF/jsp/committee/CommitteeSchedule.jsp" />
       </action>
 
     </action-mappings>

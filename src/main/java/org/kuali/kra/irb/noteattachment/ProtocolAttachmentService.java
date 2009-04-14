@@ -13,16 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.service;
+package org.kuali.kra.irb.noteattachment;
 
-import org.kuali.kra.irb.bo.ProtocolAttachmentProtocol;
-import org.kuali.kra.irb.bo.ProtocolAttachmentStatus;
-import org.kuali.kra.irb.bo.ProtocolAttachmentType;
 
 /**
  * Contains the methods used for Protocol Notes and Attachments.
  */
-public interface ProtocolNotesAndAttachmentsService {
+public interface ProtocolAttachmentService {
 
     /**
      * Gets a {@link ProtocolAttachmentType ProtocolAttachmentType} from a code.
@@ -53,4 +50,14 @@ public interface ProtocolNotesAndAttachmentsService {
      * @throws NullPointerException if the attachment or attachment's new file is null
      */
     void saveAttatchment(ProtocolAttachmentProtocol attachment);
+    
+    /**
+     * Saves (persists) an {@link ProtocolAttachmentPersonnel ProtocolAttachmentPersonnel}.
+     * This method will modify the passed in attachment setting any missing properties. It
+     * also saves all BOs that the attachment contains (ex. the File).
+     * 
+     * @param attachment the attachment.
+     * @throws NullPointerException if the attachment or attachment's new file is null
+     */
+    void saveAttatchment(ProtocolAttachmentPersonnel attachment);
 }
