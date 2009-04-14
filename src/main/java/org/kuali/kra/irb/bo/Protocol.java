@@ -821,7 +821,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         this.protocolSubmission = new ProtocolSubmission();
         
         Committee committee = new Committee();
-        committee.setId(1l);
+        committee.setId(1L);
         committee.setCommitteeId("Comm-1");
         committee.setCommitteeName("Test By Kiltesh");
         this.protocolSubmission.setCommittee(committee);
