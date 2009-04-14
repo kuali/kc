@@ -867,13 +867,16 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         this.protocolSubmission.setAbstainerCount(1);
         this.protocolSubmission.setVotingComments("Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
         		"Suspendisse purus. Nullam et justo. In volutpat odio sit amet pede. Pellentesque ipsum dui, convallis in, mollis a, lacinia vel, diam. " +
-        		"Phasellus molestie neque at sapien condimentum massa nunc");
+        		"Phasellus molestie neque at sapien condimentum massa nunc" +
+        		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
+                "Suspendisse purus. Nullam et justo. In volutpat odio sit amet pede. Pellentesque ipsum dui, convallis in, mollis a, lacinia vel, diam. " +
+                "Phasellus molestie neque at sapien condimentum massa nunc");
         
         CommitteeSchedule committeeSchedule= new CommitteeSchedule();        
         CommitteeScheduleAttendance committeeScheduleAttendance = new CommitteeScheduleAttendance();        
         Person p1 = new Person();
         p1.setLastName("Mendez");
-        p1.setLastName("Tom");
+        p1.setFirstName("Tom");
         committeeScheduleAttendance.setPerson(p1);
         List<CommitteeScheduleAttendance> cslist = new ArrayList<CommitteeScheduleAttendance>();
         cslist.add(committeeScheduleAttendance);

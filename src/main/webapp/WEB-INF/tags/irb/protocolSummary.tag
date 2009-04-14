@@ -2,7 +2,7 @@
 
 <c:set var="protocolDocumentAttributes" value="${DataDictionary.ProtocolDocument.attributes}" />
 <c:set var="protocolAttributes" value="${DataDictionary.Protocol.attributes}" />
-<c:set var="action" value="protocolActions" />
+<c:set var="action" value="protocolProtocolActions" />
 <c:set var="textAreaFieldName" value="document.protocolList[0].protocolSubmission.votingComments" />
 <c:set var="protocol" value="${KualiForm.document.protocolList[0]}" />
 <c:set var="protocolPersonAttributes" value="${DataDictionary.ProtocolPerson.attributes}" />
@@ -19,6 +19,8 @@
 <c:set var="protocolTypeAttributes" value="${DataDictionary.ProtocolType.attributes}" />
 <c:set var="committeeMembershipTypeAttributes" value="${DataDictionary.CommitteeMembershipType.attributes}" />
 <c:set var="committeeMembershipAttributes" value="${DataDictionary.CommitteeMembership.attributes}" />
+<c:set var="personAttributes" value="${DataDictionary.Person.attributes}" />
+<c:set var="commentDisplayLength" value="<%=org.kuali.kra.infrastructure.Constants.PROTOCOL_SUMMARY_VOTINGCOMMENTS%>" />
 
     	<kul:innerTab parentTab="Summary, History, & Print" defaultOpen="false" tabTitle="View Summary (Notified Committee dd/mm/yyyy)">
             <table cellpadding="0" cellspacing="0">
@@ -265,17 +267,77 @@
                   <td><kul:htmlControlAttribute property="document.protocolList[0].protocolSubmission.noVoteCount" 
 									                							readOnly="true"	attributeEntry="${protocolSubmissionAttributes.noVoteCount}"/></td>
                   <th style="text-align:right;">Abstainers:</th>
-                  <td>Mendez, Tom</td>
+                  <td>
+                  	<c:forEach var="committeeScheduleAttendance" items="${protocol.protocolSubmission.committeeSchedule.committeeScheduleAttendances}" varStatus="status">
+                  	
+			                 <kul:htmlControlAttribute property="document.protocolList[0].protocolSubmission.committeeSchedule.committeeScheduleAttendances[${status.index}].person.lastName" 
+				                									readOnly="true"	attributeEntry="${personAttributes.lastName}"/>
+				                									,
+				             <kul:htmlControlAttribute property="document.protocolList[0].protocolSubmission.committeeSchedule.committeeScheduleAttendances[${status.index}].person.firstName" 
+				                									readOnly="true"	attributeEntry="${personAttributes.firstName}"/>
+    																&nbsp;	
+			        </c:forEach>                  
+                  </td>
                 </tr>
                 <tr>
                   <th style="text-align:right;">Comments:</th>
-                  <td colspan="3"><span style="border:none;">
-                    	<kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${protocolSubmissionAttributes.votingComments}" viewOnly="true"/> 
-                    <span style="border:none; width:20px; vertical-align:bottom;">
-                  </span></span></td>
+                  <td colspan="3"><span style="border:none;">                  
+                    <kra:truncateComment textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${protocolSubmissionAttributes.votingComments.label}" 
+    	                       	textValue="${KualiForm.document.protocolList[0].protocolSubmission.votingComments}" displaySize="${commentDisplayLength}"/>                  		                    			
+                    <span style="border:none; width:20px; vertical-align:bottom;">                    	
+                  	</span>
+                  </span></td>
                 </tr>
               </table>
 
+<p>-- or --</p>
+
+              <table  cellpadding="0" cellspacing="0"  summary="">
+                  <tr>
+                    <td class="tab-subhead" colspan="8"><!--<a href="#" id="A700" onclick="rend(this, false)"><img src="../images/tinybutton-show.gif" alt="show/hide this panel" width=45 height=15 border=0 align="absmiddle" id="F700"></a>-->
+                      Vote Summary </td>
+
+                </tr>
+                  <!--<tbody id="G700" style="display: none;">-->
+                  <tr>
+                    <th> No: </th>
+                    <td><kul:htmlControlAttribute property="document.protocolList[0].protocolSubmission.noVoteCount" 
+									                							readOnly="true"	attributeEntry="${protocolSubmissionAttributes.noVoteCount}"/></td>
+                    <th> Yes: </th>
+                    <td><kul:htmlControlAttribute property="document.protocolList[0].protocolSubmission.yesVoteCount" 
+									                							readOnly="true"	attributeEntry="${protocolSubmissionAttributes.yesVoteCount}"/></td>
+                    <th> Abstain: </th>
+                    <td><kul:htmlControlAttribute property="document.protocolList[0].protocolSubmission.abstainerCount" 
+									                							readOnly="true"	attributeEntry="${protocolSubmissionAttributes.abstainerCount}"/></td>
+                    <th style="text-align:right;"> Comments: </th>
+                    <td><table style="border:none; width:100%;" cellpadding="0" cellspacing="0">
+
+                      <tr>
+                        <td style="border:none;"> 
+							<kra:truncateComment textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${protocolSubmissionAttributes.votingComments.label}" 
+    	                       	textValue="${KualiForm.document.protocolList[0].protocolSubmission.votingComments}" displaySize="${commentDisplayLength}"/> 
+						</td>
+                      </tr>
+                    </table></td>
+                  </tr>
+                  <tr>
+                    <th colspan="7" style="text-align:right;">Abstainers:</th>
+                    <td>
+                  	<c:forEach var="committeeScheduleAttendance" items="${protocol.protocolSubmission.committeeSchedule.committeeScheduleAttendances}" varStatus="status">
+                  	
+			                 <kul:htmlControlAttribute property="document.protocolList[0].protocolSubmission.committeeSchedule.committeeScheduleAttendances[${status.index}].person.lastName" 
+				                									readOnly="true"	attributeEntry="${personAttributes.lastName}"  />
+				                									,
+				             <kul:htmlControlAttribute property="document.protocolList[0].protocolSubmission.committeeSchedule.committeeScheduleAttendances[${status.index}].person.firstName" 
+				                									readOnly="true"	attributeEntry="${personAttributes.firstName}"  />
+				                									&nbsp;
+    
+			        </c:forEach>                     
+                    </td>
+                  </tr>
+                  <!--</tbody>-->
+              </table>
+              <p/>
     			
     	</kul:innerTab>
 
