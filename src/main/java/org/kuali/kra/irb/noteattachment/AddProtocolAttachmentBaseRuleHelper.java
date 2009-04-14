@@ -23,7 +23,7 @@ import org.kuali.kra.rules.ErrorReporter;
  * This class contains methods to "help" in validating {@link ProtocolAttachmentBase ProtocolAttachmentBase}.
  * 
  * <p>
- * This class is not a super class other "ProtocolAttachment" rule classes because it would then require other class hierarchies
+ * This class is not a super class for other "ProtocolAttachment" rule classes because it would then require other class hierarchies
  * for other class types (like events) which really just creates class bloat.  In order to reuse the logic in this class rule classes
  * will use composition over inheritance.
  * </P>
