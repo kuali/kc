@@ -72,7 +72,7 @@ public final class JstlFunctions {
      */
     @SuppressWarnings("unchecked")
     public static List getOptionList(String valuesFinderClassName, Map params) {
-        return setupValuesFinder(valuesFinderClassName, (Map<String, String>) params).getKeyValues();
+        return setupValuesFinder(valuesFinderClassName, (Map<String, Object>) params).getKeyValues();
     }
     
     /**
@@ -94,7 +94,7 @@ public final class JstlFunctions {
      * @return KeyValuesFinder
      * @see PropertyUtils#setProperty(Object, String, Object)
      */
-    private static KeyValuesFinder setupValuesFinder(String valuesFinderClassName, Map<String, String> params) {
+    private static KeyValuesFinder setupValuesFinder(String valuesFinderClassName, Map<String, Object> params) {
         KeyValuesFinder retval = getKeyFinder(valuesFinderClassName);
         
         if(LOG.isDebugEnabled()) {
@@ -106,9 +106,9 @@ public final class JstlFunctions {
         return retval;
     }
 
-    private static void addParametersToFinder(Map<String, String> params, KeyValuesFinder finder) {
+    private static void addParametersToFinder(Map<String, Object> params, KeyValuesFinder finder) {
         if (finder != null && params != null) {
-            for (Map.Entry<String, String> entry : params.entrySet()) {
+            for (Map.Entry<String, Object> entry : params.entrySet()) {
                 try {
                     setProperty(finder, entry.getKey(), entry.getValue());
                 } catch (Exception e) {

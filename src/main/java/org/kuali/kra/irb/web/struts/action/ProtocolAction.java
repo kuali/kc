@@ -91,9 +91,9 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
      * @param response Http Response
      * @return the Action Forward
      */
-    public ActionForward notesAndAttachments(ActionMapping mapping, ActionForm form
+    public ActionForward noteAndAttachment(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) {        
-        return mapping.findForward("notesAndAttachments");
+        return mapping.findForward("noteAndAttachment");
     }
     
     public ActionForward specialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {

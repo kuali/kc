@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.bo;
+package org.kuali.kra.irb.noteattachment;
 
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
- * This class represents the Protocol Attachment Group.
+ * This class represents the Protocol Attachment Status.
  */
-public class ProtocolAttachmentGroup extends KraPersistableBusinessObjectBase {
+public class ProtocolAttachmentStatus extends KraPersistableBusinessObjectBase {
     
     private static final long serialVersionUID = 2053606476193782286L;
 
@@ -30,32 +30,32 @@ public class ProtocolAttachmentGroup extends KraPersistableBusinessObjectBase {
     private String description;
 
     /**
-     * Gets the protocol attachment group code.
-     * @return the protocol attachment group code
+     * Gets the protocol attachment status code.
+     * @return the protocol attachment status code
      */
     public String getCode() {
         return this.code;
     }
 
     /**
-     * Sets the protocol attachment group code.
-     * @param code the protocol attachment group code
+     * Sets the protocol attachment status code.
+     * @param code the protocol attachment status code
      */
     public void setCode(String code) {
         this.code = code;
     }
 
     /**
-     * Gets the protocol attachment group description.
-     * @return the protocol attachment group description
+     * Gets the protocol attachment status description.
+     * @return the protocol attachment status description
      */
     public String getDescription() {
         return this.description;
     }
 
     /**
-     * Sets the protocol attachment group description.
-     * @param description the protocol attachment group description
+     * Sets the protocol attachment status description.
+     * @param description the protocol attachment status description
      */
     public void setDescription(String description) {
         this.description = description;
@@ -89,10 +89,10 @@ public class ProtocolAttachmentGroup extends KraPersistableBusinessObjectBase {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof ProtocolAttachmentGroup)) {
+        if (!(obj instanceof ProtocolAttachmentStatus)) {
             return false;
         }
-        ProtocolAttachmentGroup other = (ProtocolAttachmentGroup) obj;
+        ProtocolAttachmentStatus other = (ProtocolAttachmentStatus) obj;
         if (this.code == null) {
             if (other.code != null) {
                 return false;

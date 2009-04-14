@@ -16,17 +16,17 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <kul:documentPage
 	showDocumentInfo="true"
-	htmlFormAction="protocolNotesAndAttachments"
+	htmlFormAction="protocolNoteAndAttachment"
 	documentTypeName="ProtocolDocument"
 	renderMultipart="true"
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="notesAndAttachments">
+  	headerTabActive="noteAndAttachment">
   	
 <div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="IRB - Notes & Attachments" /></div>
 
-<kra-irb:protocolAttachments /> 
+<kra-irb:protocolAttachment /> 
 
 <kul:panelFooter />
 	<kul:documentControls 
