@@ -15,27 +15,38 @@
  */
 package org.kuali.kra.lookup.keyvalue;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 import org.kuali.core.web.ui.KeyLabelPair;
 
 /**
- * Compares two <code>{@link KeyLabelPair}</code> instances. Useful when sorting a list of for 
+ * Compares two {@link KeyLabelPair KeyLabelPair} instances. Useful when sorting a list of for 
  *  a values finder
  *  
  *  @author $Author: gmcgrego $
  *  @version $Revision: 1.2 $
  */
-public class KeyLabelPairComparator implements Comparator<KeyLabelPair> {
-
+public final class KeyLabelPairComparator implements Comparator<KeyLabelPair>, Serializable {
+    
+    private static final long serialVersionUID = -6968793748825904116L;
+    private static final Comparator<KeyLabelPair> INSTANCE = new KeyLabelPairComparator();
+    
     /**
-     * Compares the label of <code>o1</code> to the label of </code>o2</code>
+     * Compares the label of <code>o1</code> to the label of </code>o2</code>.
      * 
-     * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+     * {@inheritDoc}
      */
     public int compare(KeyLabelPair o1, KeyLabelPair o2) {
         return o1.getLabel().compareTo(o2.getLabel());
     }
 
+    /**
+     * Gets an instance of a {@link KeyLabelPairComparator KeyLabelPairComparator}.
+     * @return an instance
+     */
+    public static Comparator<KeyLabelPair> getInstance() {
+        return INSTANCE;
+    }
 }
 
