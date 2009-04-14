@@ -138,6 +138,10 @@ alter table comm_schedule
   add constraint pk_comm_schedule_id
   primary key ( id );  
 
+ALTER TABLE comm_schedule_attendance 
+ADD CONSTRAINT pk_csa_id
+PRIMARY KEY (id);  
+
 alter table COMMENT_TYPE 
 ADD CONSTRAINT PK_COMMENT_TYPE 
 PRIMARY KEY(COMMENT_TYPE_CODE) ENABLE;
