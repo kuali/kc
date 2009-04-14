@@ -562,6 +562,22 @@ create table comm_schedule (
   VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL, 
   OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL);
 
+create table comm_schedule_attendance (
+  id				 number(12,0)  not null,	
+  schedule_id_new	 number(12,0)  not null,	
+  rolodex_id		 number(12,0)  not null,
+  person_id          varchar2 (9)  not null,
+  schedule_id        varchar2 (10) not null,
+  guest_flag         varchar2 (1)  not null,
+  alternate_flag     varchar2 (1)  not null,
+  alternate_for      varchar2 (9),
+  non_employee_flag  varchar2 (1)  not null,
+  comments           varchar2 (2000),
+  update_timestamp   date,
+  update_user        varchar2 (8),
+  ver_nbr 			 number(8,0) DEFAULT 1 NOT NULL, 
+  obj_id			 varchar2(36) DEFAULT SYS_GUID() NOT NULL);
+
 create table comm_schedule_frequency (
   frequency_code    number (3)    not null PRIMARY KEY,
   description       varchar2 (200)  not null,
