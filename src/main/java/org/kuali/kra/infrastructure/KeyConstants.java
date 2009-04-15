@@ -402,12 +402,11 @@ public final class KeyConstants {
     public static final String ERROR_PROTOCOLREFERENCE_PROTOCOLREFERENCEKEY = "error.required.for.protocolReference.protocolReferenceKey";
     
     //CommitteeSchedule Messages
-    public static final String ERROR_COMMITTEESCHEDULE_SCHEDULEDATES = "error.committeeSchedule.startDate.must.be.before.endDate";
+    public static final String ERROR_COMMITTEESCHEDULE_STARTANDENDDATE = "error.committeeSchedule.start.and.endDate";
     public static final String ERROR_COMMITTEESCHEDULE_BLANK = "error.committeeSchedule.blank";    
     public static final String ERROR_COMMITTEESCHEDULE_DATE_CONFLICT = "error.committeeSchedule.date.conflict"; 
     public static final String ERROR_COMMITTEESCHEDULE_DATES_SKIPPED = "error.committeeSchedule.dates.skipped";
     public static final String ERROR_COMMITTEESCHEDULE_FILTER_DATE = "error.committeeSchedule.filter.date";
-    public static final String ERROR_COMMITTEESCHEDULE_FILTER_STARTDATE_ENDDATE = "error.committeeSchedule.filter.start.end.date";
     public static final String ERROR_COMMITTEESCHEDULE_DEADLINE = "error.committeeSchedule.dealine";
     public static final String ERROR_COMMITTEESCHEDULE_VIEWTIME = "error.committeeSchedule.viewtime";
     
