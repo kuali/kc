@@ -1,4 +1,4 @@
-KC Release Version 1.0.1 Patch
+KC Release Version 1.1.1 Patch
 ------------------------------------
 
 KC database release bundle contains patched database objects (tables, constraints, bootstrap data)
