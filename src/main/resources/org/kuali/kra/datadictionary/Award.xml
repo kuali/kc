@@ -51,6 +51,7 @@
         <ref bean="Award-modificationNumber" />
         <ref bean="Award-cfdaNumber" />
         <ref bean="Award-beginDate" />
+        <ref bean="Award-projectEndDate" />
         <ref bean="Award-awardEffectiveDate" />
         <ref bean="Award-awardExecutionDate" />
         <ref bean="Award-accountTypeCode" />
@@ -644,6 +645,17 @@
     <property name="description" value="The date the project period will begin." />
   </bean>
   
+   <bean id="Award-projectEndDate" parent="Award-projectEndDate-parentBean" />
+  
+  <bean id="Award-projectEndDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
+    <property name="name" value="projectEndDate" />
+    <property name="label" value="Project End Date" />
+    <property name="shortLabel" value="Project End Date" />
+    <property name="required" value="true" />
+    <property name="summary" value="The End Date of the Project" />
+    <property name="description" value="The date the project period will End" />
+  </bean>
+  
   <bean id="Award-awardEffectiveDate" parent="Award-awardEffectiveDate-parentBean" />
   
   <bean id="Award-awardEffectiveDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
@@ -727,7 +739,7 @@
             p:precision="12"
             p:scale="2" />
     </property>
-    <property name="required" value="true" />
+    <property name="required" value="false" />
     <property name="control" >
       <bean parent="CurrencyControlDefinition"
             p:formattedMaxLength="22"
@@ -750,7 +762,7 @@
             p:precision="12"
             p:scale="2" />
     </property>
-    <property name="required" value="true" />
+    <property name="required" value="false" />
     <property name="control" >
       <bean parent="CurrencyControlDefinition"
             p:formattedMaxLength="22"

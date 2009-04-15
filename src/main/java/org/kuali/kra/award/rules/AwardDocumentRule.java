@@ -27,6 +27,7 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardApprovedSubaward;
 import org.kuali.kra.award.bo.AwardCostShare;
+import org.kuali.kra.award.bo.AwardDirectFandADistribution;
 import org.kuali.kra.award.bo.AwardFandaRate;
 import org.kuali.kra.award.bo.AwardReportTerm;
 import org.kuali.kra.award.bo.AwardSpecialReview;
@@ -192,6 +193,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         retval &= processApprovedEquipmentBusinessRules(errorMap, awardDocument);
         retval &= processApprovedForeignTravelBusinessRules(errorMap, awardDocument);
         retval &= processAwardReportTermBusinessRules(document);
+        retval &= processAwardDirectFandADistributionBusinessRules(document);
 
         return retval;
     }
@@ -269,6 +271,35 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
             errorMap.removeFromErrorPath(errorPath);
             i++;
         }
+        errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
+        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
+        return valid;
+    }
+    
+    /**
+    *
+    * process Direct F and A Distribution business rules.
+    * @param awardDocument
+    * @return
+    */
+    private boolean processAwardDirectFandADistributionBusinessRules(Document document) {
+        boolean valid = true;
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        AwardDocument awardDocument = (AwardDocument) document;
+        int i = 0;
+        List<AwardDirectFandADistribution> awardDirectFandADistributions = awardDocument.getAward().getAwardDirectFandADistributions();
+        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+        errorMap.addToErrorPath(AWARD_ERROR_PATH);
+        //for (AwardDirectFandADistribution awardDirectFandADistribution : awardDirectFandADistributions) {
+            String errorPath = "awardDirectFandADistribution[" + i + Constants.RIGHT_SQUARE_BRACKET;
+            errorMap.addToErrorPath(errorPath);
+            AwardDirectFandADistributionRuleEvent event = new AwardDirectFandADistributionRuleEvent(errorPath, 
+                                                                        awardDocument, 
+                                                                        awardDirectFandADistributions);
+            valid &= new AwardDirectFandADistributionRuleImpl().processAwardDirectFandADistributionBusinessRules(event);
+            errorMap.removeFromErrorPath(errorPath);
+            //i++;
+        //}
         errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
         return valid;

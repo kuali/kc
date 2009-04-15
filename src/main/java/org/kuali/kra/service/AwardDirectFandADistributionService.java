@@ -17,7 +17,7 @@ package org.kuali.kra.service;
 
 import java.util.List;
 
-import org.apache.struts.action.ActionForm;
+import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardDirectFandADistribution;
 
 /**
@@ -28,5 +28,5 @@ public interface AwardDirectFandADistributionService {
     /**
      * This method generates all of the periods for initial display in tab.
      */
-    List<AwardDirectFandADistribution> generateDefaultAwardDirectFandADistributionPeriods(ActionForm form);
+    List<AwardDirectFandADistribution> generateDefaultAwardDirectFandADistributionPeriods(Award award);
 }
