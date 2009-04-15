@@ -17,6 +17,7 @@ package org.kuali.kra.proposaldevelopment.bo;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.award.bo.ContactRole;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
@@ -27,7 +28,9 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * @author $Author: gmcgrego $
  * @version $Revision: 1.8 $
  */
-public class ProposalPersonRole extends KraPersistableBusinessObjectBase {
+public class ProposalPersonRole extends KraPersistableBusinessObjectBase implements ContactRole {
+    private static final long serialVersionUID = -2184772940618843909L;
+    
     private String proposalPersonRoleId;
     private String description;
     private String certificationRequired;
@@ -72,8 +75,8 @@ public class ProposalPersonRole extends KraPersistableBusinessObjectBase {
 
 
     @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap propMap = new LinkedHashMap();
+    protected LinkedHashMap<String, Object> toStringMapper() {
+        LinkedHashMap<String, Object> propMap = new LinkedHashMap<String, Object>();
         propMap.put("proposalPersonRoleId", getProposalPersonRoleId());
         propMap.put("description", getDescription());
         propMap.put("certificationRequired", getCertificationRequired());
@@ -113,6 +116,18 @@ public class ProposalPersonRole extends KraPersistableBusinessObjectBase {
     public void setCertificationRequired(String certificationRequired) {
         this.certificationRequired = certificationRequired;
     }
+
+    /**
+     * @see org.kuali.kra.award.bo.ContactRole#getRoleCode()
+     */
+    public String getRoleCode() {
+        return getProposalPersonRoleId();
+    }
+
+    /**
+     * @see org.kuali.kra.award.bo.ContactRole#getRoleDescription()
+     */
+    public String getRoleDescription() {
+        return getDescription();
+    }
 }
-
-

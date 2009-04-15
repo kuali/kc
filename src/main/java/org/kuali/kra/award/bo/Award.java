@@ -24,6 +24,9 @@ import java.util.Map;
 
 import org.apache.axis.utils.StringUtils;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kra.award.contacts.AwardPerson;
+import org.kuali.kra.award.contacts.SponsorContact;
+import org.kuali.kra.award.contacts.AwardUnitContact;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentSchedule;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipment;
@@ -42,7 +45,9 @@ import org.kuali.kra.infrastructure.RoleConstants;
  * This class is Award Business Object.
  * It implements ProcessKeywords to process all operations related to AwardScenceKeywords.
  */
-public class Award extends KraPersistableBusinessObjectBase implements KeywordsManager<AwardScienceKeyword>,SpecialReviewHandler<AwardSpecialReview>, Permissionable{
+public class Award extends KraPersistableBusinessObjectBase implements KeywordsManager<AwardScienceKeyword>,
+                                                                        SpecialReviewHandler<AwardSpecialReview>, 
+                                                                        Permissionable{
     public static final String AWARD_NAMESPACE_CODE = "KC-AWARD";
     
     private static final String ONE = "1";
@@ -112,6 +117,11 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private List<AwardApprovedSubaward> awardApprovedSubawards;
     
     private List<AwardScienceKeyword> keywords;
+    
+    private List<AwardPerson> projectPersons;
+    private List<AwardUnitContact> awardUnitContacts;
+    private List<SponsorContact> sponsorContacts;
+    
     private List<AwardSpecialReview> specialReviews;
     private List<AwardApprovedEquipment> approvedEquipmentItems;
     private List<AwardApprovedForeignTravel> approvedForeignTravelTrips;
@@ -292,6 +302,27 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     /**
      * @return
      */
+    public List<AwardUnitContact> getUnitContacts() {
+        return awardUnitContacts;
+    }
+    
+    /**
+     * @return
+     */
+    public List<AwardPerson> getProjectPersons() {
+        return projectPersons;
+    }
+    
+    /**
+     * @return
+     */
+    public int getAwardContactsCount() {
+        return awardUnitContacts.size();
+    }
+    
+    /**
+     * @return
+     */
     public int getApprovedEquipmentItemCount() {
         return approvedEquipmentItems.size();
     }
@@ -308,6 +339,13 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      */
     public List<AwardApprovedForeignTravel> getApprovedForeignTravelTrips() {
         return approvedForeignTravelTrips;
+    }
+    
+    /**
+     * @param awardUnitContacts
+     */
+    public void setUnitContacts(List<AwardUnitContact> awardUnitContacts) {
+        this.awardUnitContacts = awardUnitContacts;
     }
     
     /**
@@ -1369,6 +1407,37 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         approvedEquipmentItem.setAward(this);
     }
     
+    public void add(SponsorContact sponsorContact) {
+        sponsorContacts.add(sponsorContact);
+        sponsorContact.setAward(this);
+    }
+    
+    /**
+     * Add an Award Unit or Central Administration contact
+     * @param newAwardApprovedEquipment
+     */
+    public void add(AwardUnitContact awardUnitContact) {
+        awardUnitContacts.add(awardUnitContact);
+        awardUnitContact.setAward(this);
+    }
+    
+    /**
+     * @param sponsorContact
+     */
+    public void addSponsorContact(SponsorContact sponsorContact) {
+        sponsorContacts.add(sponsorContact);
+        sponsorContact.setAward(this);
+    }
+    
+    /**
+     * This method adds a Project Person to the award
+     * @param projectPerson
+     */
+    public void add(AwardPerson projectPerson) {
+        projectPersons.add(projectPerson);
+        projectPerson.setAward(this);
+    }
+    
     /**
      * Add an
      * @param newAwardPaymentSchedule
@@ -1396,6 +1465,11 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         setAwardSponsorTerms(new ArrayList<AwardSponsorTerm>());
         paymentScheduleItems = new ArrayList<AwardPaymentSchedule>();
         awardTransferringSponsors = new ArrayList<AwardTransferringSponsor>();
+        awardDirectFandADistributions = new ArrayList<AwardDirectFandADistribution>();
+        
+        projectPersons = new ArrayList<AwardPerson>();
+        awardUnitContacts = new ArrayList<AwardUnitContact>();
+        sponsorContacts = new ArrayList<SponsorContact>();
         awardDirectFandADistributions = new ArrayList<AwardDirectFandADistribution>();
         awardAmountInfos = new ArrayList<AwardAmountInfo>();
         AwardAmountInfo awardAmountInfo = new AwardAmountInfo();
@@ -1552,7 +1626,21 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         }
         return sponsor;
     }
-
+    
+    /**
+     * @return
+     */
+    public List<SponsorContact> getSponsorContacts() {
+        return sponsorContacts;
+    }
+    
+    /**
+     * @return
+     */
+    public void setSponsorContacts(List<SponsorContact> sponsorContacts) {
+        this.sponsorContacts = sponsorContacts;
+    }
+    
     public void setSponsor(Sponsor sponsor) {
         this.sponsor = sponsor;
         this.sponsorCode = sponsor != null ? sponsor.getSponsorCode() : null;
