@@ -37,6 +37,19 @@ public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase
     private Integer sequenceNumber;
 
     /**
+     * 
+     * Constructs a ProtocolAssociate.java.
+     * 
+     * Assures that the sequence number is always set. Note that 
+     * when protocol implements versioning,  the KC versioning API 
+     * will need to manage sequenceNumber.
+     * 
+     */
+    public ProtocolAssociate() {
+         setSequenceNumber(new Integer(0));
+    }
+    
+    /**
      * @return
      */
     public Integer getSequenceNumber() {
