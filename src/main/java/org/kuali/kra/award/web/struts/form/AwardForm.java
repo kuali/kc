@@ -32,6 +32,10 @@ import org.kuali.kra.award.bo.AwardReportTermRecipient;
 import org.kuali.kra.award.bo.AwardSpecialReview;
 import org.kuali.kra.award.bo.AwardSpecialReviewExemption;
 import org.kuali.kra.award.bo.ReportClass;
+import org.kuali.kra.award.contacts.AwardCentralAdminContactsBean;
+import org.kuali.kra.award.contacts.AwardProjectPersonnelBean;
+import org.kuali.kra.award.contacts.AwardSponsorContactsBean;
+import org.kuali.kra.award.contacts.AwardUnitContactsBean;
 import org.kuali.kra.award.detailsdates.DetailsAndDatesFormHelper;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.paymentreports.paymentschedule.PaymentScheduleBean;
@@ -80,6 +84,10 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     private List<KeyLabelPair> reportClasses;
     
     private ApprovedEquipmentBean approvedEquipmentBean;
+    private AwardProjectPersonnelBean projectPersonnelBean;
+    private AwardUnitContactsBean unitContactsBean;
+    private AwardCentralAdminContactsBean centralAdminContactsBean;
+    private AwardSponsorContactsBean sponsorContactsBean;
     private CostShareFormHelper costShareFormHelper;
     private SponsorTermFormHelper sponsorTermFormHelper;
     private ApprovedSubawardFormHelper approvedSubawardFormHelper;
@@ -104,8 +112,6 @@ public class AwardForm extends KraTransactionalDocumentFormBase
         this.setDocument(new AwardDocument());
         initialize();
     }
- 
-
     
     /**
      * 
@@ -122,11 +128,15 @@ public class AwardForm extends KraTransactionalDocumentFormBase
         newAwardSpecialReview = new AwardSpecialReview();
         newSpecialReviewExemptions = new ArrayList<AwardSpecialReviewExemption>();
         costShareFormHelper = new CostShareFormHelper(this);
+        centralAdminContactsBean = new AwardCentralAdminContactsBean(this);
         sponsorTermFormHelper = new SponsorTermFormHelper(this);
         approvedSubawardFormHelper = new ApprovedSubawardFormHelper(this);
         approvedEquipmentBean = new ApprovedEquipmentBean(this);
         paymentScheduleBean = new PaymentScheduleBean(this);
         approvedForeignTravelBean = new ApprovedForeignTravelBean(this);
+        projectPersonnelBean = new AwardProjectPersonnelBean(this);
+        unitContactsBean = new AwardUnitContactsBean(this);
+        sponsorContactsBean = new AwardSponsorContactsBean(this);
         detailsAndDatesFormHelper = new DetailsAndDatesFormHelper(this);
         directFandADistributionFormHelper = new DirectFandADistributionFormHelper(this);
         setPermissionsHelper(new AwardPermissionsHelper(this));
@@ -165,6 +175,13 @@ public class AwardForm extends KraTransactionalDocumentFormBase
      */
     public ApprovedForeignTravelBean getApprovedForeignTravelBean() {
         return approvedForeignTravelBean;
+    }
+    
+    /**
+     * @return
+     */
+    public AwardCentralAdminContactsBean getCentralAdminContactsBean() {
+        return centralAdminContactsBean;
     }
     
     /**
@@ -341,6 +358,25 @@ public class AwardForm extends KraTransactionalDocumentFormBase
         this.newExemptionTypeCodes = newExemptionTypeCodes;
     }
 
+    /**
+     * @return The selected lead unit
+     */
+    public String getSelectedLeadUnit() {
+        return projectPersonnelBean.getSelectedLeadUnit();
+    }
+    
+    public AwardSponsorContactsBean getSponsorContactsBean() {
+        return sponsorContactsBean;
+    }
+    
+    public AwardUnitContactsBean getUnitContactsBean() {
+        return unitContactsBean;
+    }
+    
+    public AwardProjectPersonnelBean getProjectPersonnelBean() {
+        return projectPersonnelBean;
+    }
+    
     public int getAwardReportTermPanelNumber() {
         return awardReportTermPanelNumber;
     }
@@ -399,6 +435,13 @@ public class AwardForm extends KraTransactionalDocumentFormBase
 
 
     /**
+     * @param unitName
+     */
+    public void setSelectedLeadUnit(String unitName) {
+        projectPersonnelBean.setSelectedLeadUnit(unitName);
+    }
+    
+    /**
      * Sets the sponsorTermFormHelper attribute value.
      * @param sponsorTermFormHelper The sponsorTermFormHelper to set.
      */
@@ -440,8 +483,6 @@ public class AwardForm extends KraTransactionalDocumentFormBase
         this.detailsAndDatesFormHelper = detailsAndDatesFormHelper;
     }
 
-
-
     /**
      * Gets the permissionsHelper attribute. 
      * @return Returns the awardPermissionsHelper.
@@ -449,8 +490,6 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     public AwardPermissionsHelper getPermissionsHelper() {
         return awardPermissionsHelper;
     }
-
-
 
     /**
      * Sets the awardPermissionsHelper attribute value.
@@ -471,7 +510,6 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     public String getActionName() {
         return "award";
     }
-    
     
     /**
      * @see org.kuali.kra.common.customattributes.CustomDataForm#getCustomDataHelper()
@@ -508,4 +546,11 @@ public class AwardForm extends KraTransactionalDocumentFormBase
         this.directFandADistributionFormHelper = directFandADistributionFormHelper;
     }
     
+    /**
+     * Sets the awardAuditActivated attribute value.
+     * @param awardAuditActivated The awardAuditActivated to set.
+     */
+    public void setAwardAuditActivated(boolean awardAuditActivated) {
+        this.auditActivated = awardAuditActivated;
+    }
 }

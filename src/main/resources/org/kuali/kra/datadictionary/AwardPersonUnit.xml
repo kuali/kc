@@ -1,0 +1,108 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="AwardPersonUnit" parent="AwardPersonUnit-parentBean" />
+  <bean id="AwardPersonUnit-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.award.contacts.AwardPersonUnit" />
+    <property name="titleAttribute" value="unit.unitName" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KRA-A"
+            p:parameterName="awardContactHelpUrl"
+            p:parameterDetailType="D" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="AwardPersonUnit-awardPersonUnitId" />
+        <ref bean="AwardPersonUnit-leadUnit" />
+        <ref bean="AwardPersonUnit-fullName" />        
+        <ref bean="AwardPersonUnit-unitName" />    
+        <ref bean="AwardPersonUnit-unitNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="AwardPersonUnit-awardPersonUnitId" parent="AwardPersonUnit-awardPersonUnitId-parentBean" />
+  <bean id="AwardPersonUnit-awardPersonUnitId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="awardPersonUnitId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="AwardPersonUnit ID" />
+    <property name="shortLabel" value="AwardPersonUnit ID" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="8" />
+    </property>
+    <property name="summary" value="AwardPersonUnit ID" />
+    <property name="description" value="AwardPersonUnit ID" />
+  </bean>
+  
+  <bean id="AwardPersonUnit-leadUnit" parent="AwardPersonUnit-leadUnit-parentBean" />
+  <bean id="AwardPersonUnit-leadUnit-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  	<property name="name" value="leadUnit" />
+    <property name="label" value="Lead Unit" />
+    <property name="shortLabel" value="Lead Unit" />
+    <property name="summary" value="Lead Unit flag" />
+    <property name="description" value="Lead Unit flag" />
+  </bean>
+  
+  <bean id="AwardPersonUnit-fullName" parent="AwardPersonUnit-fullName-parentBean" />
+  <bean id="AwardPersonUnit-fullName-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="fullName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Full Name" />
+    <property name="shortLabel" value="Full Name" />
+    <property name="maxLength" value="90" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="20" />
+    </property>
+    <property name="summary" value="Full Name" />
+    <property name="description" value="Full Name" />
+  </bean>
+  
+  <bean id="AwardPersonUnit-unitName" parent="AwardPersonUnit-unitName-parentBean" />
+  <bean id="AwardPersonUnit-unitName-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="unitName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Unit Name" />
+    <property name="shortLabel" value="Unit Name" />
+    <property name="maxLength" value="60" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="30" />
+    </property>
+    <property name="summary" value="Unit Name" />
+    <property name="description" value="Unit Name" />
+  </bean>
+  
+  <bean id="AwardPersonUnit-unitNumber" parent="AwardPersonUnit-unitNumber-parentBean" />
+  <bean id="AwardPersonUnit-unitNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="unitNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Unit Number" />
+    <property name="shortLabel" value="Unit Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="20" />
+    </property>
+    <property name="summary" value="Unit Number" />
+    <property name="description" value="Unit Number" />
+  </bean>
+  
+</beans>

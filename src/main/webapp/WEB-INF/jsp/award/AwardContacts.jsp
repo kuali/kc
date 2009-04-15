@@ -27,6 +27,24 @@
 
 This is the Award Contacts - Under Construction
 
+<%-- modeled after ProposalDevelopmentKeyPersonnel.jsp --%>
+<div align="right"><kul:help documentTypeName="AwardDocument" pageName="Award Contacts" /></div>
+
+<div id="workarea">
+	<kra-a:awardProjectPersonnel />
+	<kra-a:awardUnitContacts />
+	<kra-a:awardSponsorContacts />
+	<kra-a:awardCentralAdministrationContacts />
+</div>
+
+<kul:panelFooter />
+
+<SCRIPT type="text/javascript">
+	var kualiForm = document.forms['KualiForm'];
+	var kualiElements = kualiForm.elements;
+</SCRIPT>
+<script language="javascript" src="scripts/kuali_application.js"></script>
+<script language="javascript" src="dwr/interface/SponsorService.js"></script>
 
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 

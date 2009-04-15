@@ -15,10 +15,33 @@
  */
 package org.kuali.kra.bo;
 
+import java.io.Serializable;
+
 /**
  * Special Business Object for NonOrganizational types of <code>{@link Rolodex}</code> instances.
  * 
  */
-public class NonOrganizationalRolodex extends Rolodex {
+public class NonOrganizationalRolodex extends Rolodex implements Contactable {
+    private static final long serialVersionUID = -4699230471690515157L;
 
+    /**
+     * @see org.kuali.kra.bo.Contactable#getIdentifier()
+     */
+    public Serializable getIdentifier() {
+        return getRolodexId();
+    }
+
+    /**
+     * @see org.kuali.kra.bo.Contactable#setIdentifier(java.io.Serializable)
+     */
+    public void setIdentifier(Serializable identifier) {
+        setRolodexId((Integer) identifier);
+    }
+
+    /**
+     * @see org.kuali.kra.bo.Contactable#getContactOrganizationName()
+     */
+    public String getContactOrganizationName() {
+        return getOrganization();
+    }
 }

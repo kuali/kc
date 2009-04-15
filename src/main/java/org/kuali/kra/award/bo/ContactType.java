@@ -25,7 +25,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * This class represents the ContactType business object and is mapped
  * with CONTACT_TYPE table.
  */
-public class ContactType extends KraPersistableBusinessObjectBase { 
+public class ContactType extends KraPersistableBusinessObjectBase implements ContactRole { 
     
     /**
      * Comment for <code>serialVersionUID</code>
@@ -41,6 +41,16 @@ public class ContactType extends KraPersistableBusinessObjectBase {
 
     } 
     
+    /**
+     * Convenience constructor
+     * @param contactTypeCode
+     * @param description
+     */
+    public ContactType(String contactTypeCode, String description) {
+        this.contactTypeCode = contactTypeCode;
+        this.description = description;
+    }
+
     /**
      * 
      * This method...
@@ -88,28 +98,46 @@ public class ContactType extends KraPersistableBusinessObjectBase {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
+        final int PRIME = 31;
         int result = 1;
-        result = prime * result + ((contactTypeCode == null) ? 0 : contactTypeCode.hashCode());
+        result = PRIME * result + ((contactTypeCode == null) ? 0 : contactTypeCode.hashCode());
         return result;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        final ContactType other = (ContactType) obj;
-        if (contactTypeCode == null) {
-            if (other.contactTypeCode != null)
-                return false;
         }
-        else if (!contactTypeCode.equals(other.contactTypeCode))
+        if (obj == null) {
             return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        ContactType other = (ContactType) obj;
+        if (contactTypeCode == null) {
+            if (other.contactTypeCode != null) {
+                return false;
+            }
+        } else if (!contactTypeCode.equals(other.contactTypeCode)) {
+            return false;
+        }
         return true;
+    }
+
+    /**
+     * @see org.kuali.kra.award.bo.ContactRole#getRoleCode()
+     */
+    public String getRoleCode() {
+        return getContactTypeCode();
+    }
+
+    /**
+     * @see org.kuali.kra.award.bo.ContactRole#getRoleDescription()
+     */
+    public String getRoleDescription() {
+        return description;
     }
     
 }
