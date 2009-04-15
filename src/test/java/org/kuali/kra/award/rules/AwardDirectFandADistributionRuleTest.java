@@ -39,6 +39,7 @@ public class AwardDirectFandADistributionRuleTest {
     private static final int SIX = 6;
     private static final int THREE = 3;
     private static final int NEGATIVE_THREE = -3;
+    private static final int EIGHT = 8;
     AwardDirectFandADistributionRuleImpl awardDirectFandADistributionRuleImpl;
     List<AwardDirectFandADistribution> awardDirectFandADistributions;
     AwardDirectFandADistribution awardDirectFandADistribution;
@@ -74,7 +75,7 @@ public class AwardDirectFandADistributionRuleTest {
     }
     
     /**
-     * This method...
+     * This method tests case where dates ranges do not overlap.
      */
     @Test
     public final void testExistingDirectFandADistributionsDatesDontOverlap() {
@@ -82,7 +83,7 @@ public class AwardDirectFandADistributionRuleTest {
     }
     
     /**
-     * This method...
+     * This method tests case where dates ranges do overlap.
      */
     @Test
     public final void testExistingDirectFandADistributionsDatesDoOverlap() {
@@ -92,7 +93,7 @@ public class AwardDirectFandADistributionRuleTest {
     }
     
     /**
-     * This method...
+     * This method tests adding a date range that would result in overlapping date ranges.
      */
     @Test
     public final void testDoTargetDatesFallWithinExistingPeriodFails() {
@@ -102,7 +103,7 @@ public class AwardDirectFandADistributionRuleTest {
     }
     
     /**
-     * This method...
+     * This method tests adding a date range that would fall within an open period.
      */
     @Test
     public final void testDoTargetDatesFallWithinExistingPeriodPasses() {
@@ -114,7 +115,7 @@ public class AwardDirectFandADistributionRuleTest {
     }
     
     /**
-     * This method...
+     * This method tests that the start date must be before the end date.
      */
     @Test
     public final void testTargetStartAndEndDates() {
@@ -137,7 +138,8 @@ public class AwardDirectFandADistributionRuleTest {
     }
     
     /**
-     * This method...
+     * This method creates list of awardDirectFandADistributions and attaches to Award.  This is needed because a service is used to create the
+     * initial list.
      */
     public void createAndSetDefaultDatesForAwardDirectFandADistributions() {
         AwardDirectFandADistribution a0 = new AwardDirectFandADistribution();
@@ -165,7 +167,8 @@ public class AwardDirectFandADistributionRuleTest {
     }
     
     /**
-     * This method...
+     * This method creates a date gap between the first and second in the list of AwardDirectFandADistributions.  This is needed for adding
+     * a target in a valid date range.
      */
     public void createDateGapBetweenFirstAndSecondInList() {
         Calendar calendar = Calendar.getInstance();
@@ -175,19 +178,23 @@ public class AwardDirectFandADistributionRuleTest {
         award.getAwardDirectFandADistributions().get(1).setStartDate(new Date(calendar.getTime().getTime()));
     }
     
+    /**
+     * This method returns a date within the date range created by createDateGapBetweenFirstAndSecondInList().
+     * @return
+     */
     public AwardDirectFandADistribution getDateWithinGapPeriod() {
         AwardDirectFandADistribution awardDirectFandADistribution= new AwardDirectFandADistribution();
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MONTH, 8);
+        calendar.add(Calendar.MONTH, EIGHT);
         awardDirectFandADistribution.setStartDate(new Date(calendar.getTime().getTime()));
-        calendar.add(Calendar.MONTH, 3);
+        calendar.add(Calendar.MONTH, THREE);
         awardDirectFandADistribution.setEndDate(new Date(calendar.getTime().getTime()));
         return awardDirectFandADistribution;
         
     }
     
     /**
-     * This method creates an overlap
+     * This method creates an overlap of dates for testing rule method will fail.
      */
     public void createOverlapOfFirstAndSecondInList() {
         Calendar calendar = Calendar.getInstance();
