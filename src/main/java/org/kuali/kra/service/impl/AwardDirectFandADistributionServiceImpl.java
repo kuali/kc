@@ -20,12 +20,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import org.apache.struts.action.ActionForm;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardDirectFandADistribution;
-import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.web.struts.form.AwardForm;
-import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.service.AwardDirectFandADistributionService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,10 +35,7 @@ public class AwardDirectFandADistributionServiceImpl implements AwardDirectFandA
      * This method assigns all of the Default periods to Award Direct F and A Distribution panel based on project start and end dates.
      * @return
      */
-   public List<AwardDirectFandADistribution> generateDefaultAwardDirectFandADistributionPeriods(ActionForm form){
-       AwardForm awardForm = (AwardForm) form;
-       AwardDocument awardDocument = awardForm.getAwardDocument();
-       Award award = awardDocument.getAward();
+   public List<AwardDirectFandADistribution> generateDefaultAwardDirectFandADistributionPeriods(Award award){
        return buildListBasedOnProjectStartAndEndDates(award);
    }
    
@@ -54,7 +47,7 @@ public class AwardDirectFandADistributionServiceImpl implements AwardDirectFandA
    private List<AwardDirectFandADistribution> buildListBasedOnProjectStartAndEndDates(Award award) {
        List<AwardDirectFandADistribution> awardDirectFandADistributions = new ArrayList<AwardDirectFandADistribution>();
        Date projectStartDate = award.getBeginDate();
-       Date projectEndDate = award.getAwardExecutionDate();  //this date will change to project end date. 
+       Date projectEndDate = award.getProjectEndDate();
        boolean budgetPeriodExists = true;
        Calendar cl = Calendar.getInstance();
        Date periodStartDate = projectStartDate;

@@ -118,10 +118,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private List<AwardPaymentSchedule> paymentScheduleItems;
     private List<AwardTransferringSponsor> awardTransferringSponsors;
     private List<AwardAmountInfo> awardAmountInfos;
-
-	//temporary fields for Direct F and A Distribution on Time and Money Page
-    private KualiDecimal obligatedTotal;
-    private KualiDecimal anticipatedTotal;
     
     /**
      * 
@@ -151,9 +147,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         setScienceCodeIndicator(YES_FLAG);
         setSpecialReviewIndicator(YES_FLAG);
         setTransferSponsorIndicator(YES_FLAG);
-        //initialize temp values for Direct F and A Distribution on Time and Money Page
-        setObligatedTotal(new KualiDecimal(10000.00));
-        setAnticipatedTotal(new KualiDecimal(125000.00));
     }
     
     /**
@@ -422,6 +415,22 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      */
     public Date getBeginDate() {
         return beginDate;
+    }
+    
+    /**
+     * This method returns the project end date which is housed in the Amount Info list index[0] on the award.
+     * @return
+     */
+    public Date getProjectEndDate() {
+        return awardAmountInfos.get(0).getFinalExpirationDate();
+    }
+    
+    /**
+     * This method sets the project end date which is housed in the Amount Info list index[0] on the award.
+     * @return
+     */
+    public void setProjectEndDate(Date date) {
+        this.awardAmountInfos.get(0).setFinalExpirationDate(date);
     }
 
     /**
@@ -1635,15 +1644,10 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * @return Returns the obligatedTotal.
      */
     public KualiDecimal getObligatedTotal() {
-        return obligatedTotal;
-    }
-
-    /**
-     * Sets the obligatedTotal attribute value.
-     * @param obligatedTotal The obligatedTotal to set.
-     */
-    public void setObligatedTotal(KualiDecimal obligatedTotal) {
-        this.obligatedTotal = obligatedTotal;
+        KualiDecimal returnValue = new KualiDecimal(0.00);
+        returnValue = returnValue.add(awardAmountInfos.get(0).getObligatedTotalDirect());
+        returnValue = returnValue.add(awardAmountInfos.get(0).getObligatedTotalIndirect());
+        return returnValue;
     }
 
     /**
@@ -1651,15 +1655,10 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * @return Returns the anticipatedTotal.
      */
     public KualiDecimal getAnticipatedTotal() {
-        return anticipatedTotal;
-    }
-
-    /**
-     * Sets the anticipatedTotal attribute value.
-     * @param anticipatedTotal The anticipatedTotal to set.
-     */
-    public void setAnticipatedTotal(KualiDecimal anticipatedTotal) {
-        this.anticipatedTotal = anticipatedTotal;
+        KualiDecimal returnValue = new KualiDecimal(0.00);
+        returnValue = returnValue.add(awardAmountInfos.get(0).getAnticipatedTotalDirect());
+        returnValue = returnValue.add(awardAmountInfos.get(0).getAnticipatedTotalIndirect());
+        return returnValue;
     }
     
     public String getDocumentNumberForPermission(){

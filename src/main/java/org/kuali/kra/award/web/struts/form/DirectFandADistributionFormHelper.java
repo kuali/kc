@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.award.web.struts.form;
 
-import org.kuali.kra.award.bo.AwardCostShare;
 import org.kuali.kra.award.bo.AwardDirectFandADistribution;
 import org.kuali.kra.award.document.AwardDocument;
 

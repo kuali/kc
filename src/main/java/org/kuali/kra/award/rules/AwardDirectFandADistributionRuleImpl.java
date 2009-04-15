@@ -35,9 +35,30 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
     private static final String INVALID_TARGET_START_DATE = ".invalidStartDate";
     private static final String INVALID_TARGET_END_DATE = ".invalidEndDate";
     AwardDirectFandADistribution awardDirectFandADistribution;
+    List<AwardDirectFandADistribution> awardDirectFandADistributions;
     
     /**
-     * @see org.kuali.kra.award.rule.AwardCostShareRule#processCostShareBusinessRules(org.kuali.kra.award.rule.event.AwardCostShareRuleEvent)
+     *  @see org.kuali.kra.award.rule.AwardDirectFandADistributionRule#processAwardDirectFandADistributionRuleBusinessRules
+     * (org.kuali.kra.award.rule.event.AwardDirectFandADistributionRuleEvent)
+     */
+    public boolean processAwardDirectFandADistributionBusinessRules(AwardDirectFandADistributionRuleEvent awardDirectFandADistributionRuleEvent) {
+        this.awardDirectFandADistributions = awardDirectFandADistributionRuleEvent.getAwardDirectFandADistributionsForValidation();
+        boolean validExistingDateRanges = existingDirectFandADistributionsDatesDontOverlap(awardDirectFandADistributions);
+        boolean validStartDate = true;
+        boolean validEndDate = true;
+        if(awardDirectFandADistributions.size() > 0) {
+            this.awardDirectFandADistribution = awardDirectFandADistributions.get(0);
+            validStartDate = isTargetStartAfterProjectStartDate(awardDirectFandADistributionRuleEvent);
+            this.awardDirectFandADistribution = awardDirectFandADistributions.get(awardDirectFandADistributions.size() - 1);
+            validEndDate = isTargetEndDatePriorToProjectEndDate(awardDirectFandADistributionRuleEvent);
+        }
+        return validExistingDateRanges && validStartDate && validEndDate;
+    }
+    
+    
+    /**
+     * @see org.kuali.kra.award.rule.AwardDirectFandADistributionRule#processAddAwardDirectFandADistributionRuleBusinessRules
+     * (org.kuali.kra.award.rule.event.AwardDirectFandADistributionRuleEvent)
      */
     public boolean processAddAwardDirectFandADistributionBusinessRules(AwardDirectFandADistributionRuleEvent awardDirectFandADistributionRuleEvent) {
         this.awardDirectFandADistribution = awardDirectFandADistributionRuleEvent.getAwardDirectFandADistributionForValidation();
@@ -51,10 +72,59 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
     }
     
     /**
+     * This method tests for overlapping dates in existing AwardDirectFandADistribution list on the Award.
+     * @param awardDirectFandADistributions
+     * @return
+     */
+    boolean existingDirectFandADistributionsDatesDontOverlap(List<AwardDirectFandADistribution> awardDirectFandADistributions) {
+        boolean valid = true;
+        int currentIndex = 0;
+        for(AwardDirectFandADistribution awardDirectFandADistribution : awardDirectFandADistributions) {
+            if(targetOverlapsWithExistingPeriods(awardDirectFandADistribution, awardDirectFandADistributions, currentIndex)) {
+                valid = false;
+                reportError(NEW_AWARD_DIRECT_FNA_DISTRIBUTION+INVALID_DATES, 
+                        KeyConstants.ERROR_OVERLAPPING_EXISTING_DATES);
+                break;
+            }
+            currentIndex++;
+        }
+        return valid;
+    }
+    
+    /**
+     * This is a helper method for doExistingFandADistributionDatesOverlap.
+     * @param awardDirectFandADistribution
+     * @param awardDirectFandADistributions
+     * @param currentIndex
+     * @return
+     */
+    boolean targetOverlapsWithExistingPeriods(AwardDirectFandADistribution awardDirectFandADistribution,
+                                                        List<AwardDirectFandADistribution> awardDirectFandADistributions, int currentIndex) {
+        boolean invalid = false;
+        Date testStartDate;
+        Date testEndDate;
+        Date startDate = awardDirectFandADistribution.getStartDate();
+        Date endDate = awardDirectFandADistribution.getEndDate();
+        int newCurrentIndex = 0;
+        for(AwardDirectFandADistribution testAwardDirectFandADistribution : awardDirectFandADistributions) {
+            testStartDate = testAwardDirectFandADistribution.getStartDate();
+            testEndDate = testAwardDirectFandADistribution.getEndDate();
+            if(newCurrentIndex != currentIndex){
+                if (startDate.before(testEndDate) && startDate.after(testStartDate) || endDate.after(testStartDate) && endDate.before(testEndDate)) {
+                    invalid = true;
+                    break;
+                }
+            }
+            newCurrentIndex++;
+        }
+        return invalid;
+    }
+    
+    /**
      * This method tests that the period start date is prior to the period end date.
      * @return
      */
-    private boolean isStartDatePriorToEndDate() {
+    boolean isStartDatePriorToEndDate() {
         boolean valid = true;
         if (awardDirectFandADistribution.getStartDate().compareTo(awardDirectFandADistribution.getEndDate()) != -1){
             valid = false;
@@ -69,7 +139,7 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
      * @param awardDirectFandADistributions
      * @return
      */
-    private boolean doTargetDatesFallWithinOpenPeriod(List<AwardDirectFandADistribution> awardDirectFandADistributions) {
+   boolean doTargetDatesFallWithinOpenPeriod(List<AwardDirectFandADistribution> awardDirectFandADistributions) {
         boolean valid = true;
         for(AwardDirectFandADistribution testAwardDirectFandADistribution : awardDirectFandADistributions) {
             if(doDateRangesOverlap(testAwardDirectFandADistribution, awardDirectFandADistribution)){
@@ -88,7 +158,7 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
      * @param awardDirectFandADistribution
      * @return
      */
-    private boolean doDateRangesOverlap(AwardDirectFandADistribution testAwardDirectFandADistribution, 
+    boolean doDateRangesOverlap(AwardDirectFandADistribution testAwardDirectFandADistribution, 
                                                 AwardDirectFandADistribution awardDirectFandADistribution) {
         Date testStartDate = testAwardDirectFandADistribution.getStartDate();
         Date testEndDate = testAwardDirectFandADistribution.getEndDate();
@@ -102,7 +172,7 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
      * @param awardDirectFandADistributions
      * @return
      */
-    private boolean isTargetStartAfterProjectStartDate(AwardDirectFandADistributionRuleEvent awardDirectFandADistributionRuleEvent) {
+    boolean isTargetStartAfterProjectStartDate(AwardDirectFandADistributionRuleEvent awardDirectFandADistributionRuleEvent) {
         Date targetStartDate = awardDirectFandADistribution.getStartDate();
         Date projectStartDate = awardDirectFandADistributionRuleEvent.getAwardDocument().getAward().getBeginDate();
         boolean valid = true;
@@ -119,9 +189,9 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
      * @param awardDirectFandADistributions
      * @return
      */
-    private boolean isTargetEndDatePriorToProjectEndDate(AwardDirectFandADistributionRuleEvent awardDirectFandADistributionRuleEvent) {
+    boolean isTargetEndDatePriorToProjectEndDate(AwardDirectFandADistributionRuleEvent awardDirectFandADistributionRuleEvent) {
         Date targetEndDate = awardDirectFandADistribution.getEndDate();
-        Date projectEndDate = awardDirectFandADistributionRuleEvent.getAwardDocument().getAward().getAwardExecutionDate();
+        Date projectEndDate = awardDirectFandADistributionRuleEvent.getAwardDocument().getAward().getProjectEndDate();
         boolean valid = true;
         if (projectEndDate.before(targetEndDate)) {
             valid = false;
@@ -130,6 +200,42 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
             
         }
         return valid;
+    }
+
+
+    /**
+     * Gets the awardDirectFandADistribution attribute. 
+     * @return Returns the awardDirectFandADistribution.
+     */
+    public AwardDirectFandADistribution getAwardDirectFandADistribution() {
+        return awardDirectFandADistribution;
+    }
+
+
+    /**
+     * Sets the awardDirectFandADistribution attribute value.
+     * @param awardDirectFandADistribution The awardDirectFandADistribution to set.
+     */
+    public void setAwardDirectFandADistribution(AwardDirectFandADistribution awardDirectFandADistribution) {
+        this.awardDirectFandADistribution = awardDirectFandADistribution;
+    }
+
+
+    /**
+     * Gets the awardDirectFandADistributions attribute. 
+     * @return Returns the awardDirectFandADistributions.
+     */
+    public List<AwardDirectFandADistribution> getAwardDirectFandADistributions() {
+        return awardDirectFandADistributions;
+    }
+
+
+    /**
+     * Sets the awardDirectFandADistributions attribute value.
+     * @param awardDirectFandADistributions The awardDirectFandADistributions to set.
+     */
+    public void setAwardDirectFandADistributions(List<AwardDirectFandADistribution> awardDirectFandADistributions) {
+        this.awardDirectFandADistributions = awardDirectFandADistributions;
     }
     
     

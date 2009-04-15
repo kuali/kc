@@ -15,9 +15,11 @@
  */
 package org.kuali.kra.award.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import java.util.LinkedHashMap;
 import java.sql.Date;
+import java.util.LinkedHashMap;
+
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 // TODO gmcgrego - I created this class, but only needed to use finalExpirationDate.
 // So everything else isn't necessarily correct (ie Long -> KualiDecimal?).
@@ -51,16 +53,21 @@ public class AwardAmountInfo extends KraPersistableBusinessObjectBase {
     private Long obligatedChangeIndirect; 
     private Long anticipatedChangeDirect; 
     private Long anticipatedChangeIndirect; 
-    private Long anticipatedTotalDirect; 
-    private Long anticipatedTotalIndirect; 
-    private Long obligatedTotalDirect; 
-    private Long obligatedTotalIndirect; 
+    private KualiDecimal anticipatedTotalDirect; 
+    private KualiDecimal anticipatedTotalIndirect; 
+    private KualiDecimal obligatedTotalDirect; 
+    private KualiDecimal obligatedTotalIndirect; 
     
     private Award award; 
     // private AwardBudgetInfo awardBudgetInfo; 
     // private AwardAmtFnaDistribution awardAmtFnaDistribution; 
     
-    public AwardAmountInfo() { 
+    public AwardAmountInfo() {
+        setAnticipatedTotalDirect(new KualiDecimal(0.00));
+        setAnticipatedTotalIndirect(new KualiDecimal(0.00));
+        setObligatedTotalDirect(new KualiDecimal(0.00));
+        setObligatedTotalIndirect(new KualiDecimal(0.00));
+        
 
     } 
     
@@ -224,35 +231,35 @@ public class AwardAmountInfo extends KraPersistableBusinessObjectBase {
         this.anticipatedChangeIndirect = anticipatedChangeIndirect;
     }
 
-    public Long getAnticipatedTotalDirect() {
+    public KualiDecimal getAnticipatedTotalDirect() {
         return anticipatedTotalDirect;
     }
 
-    public void setAnticipatedTotalDirect(Long anticipatedTotalDirect) {
+    public void setAnticipatedTotalDirect(KualiDecimal anticipatedTotalDirect) {
         this.anticipatedTotalDirect = anticipatedTotalDirect;
     }
 
-    public Long getAnticipatedTotalIndirect() {
+    public KualiDecimal getAnticipatedTotalIndirect() {
         return anticipatedTotalIndirect;
     }
 
-    public void setAnticipatedTotalIndirect(Long anticipatedTotalIndirect) {
+    public void setAnticipatedTotalIndirect(KualiDecimal anticipatedTotalIndirect) {
         this.anticipatedTotalIndirect = anticipatedTotalIndirect;
     }
 
-    public Long getObligatedTotalDirect() {
+    public KualiDecimal getObligatedTotalDirect() {
         return obligatedTotalDirect;
     }
 
-    public void setObligatedTotalDirect(Long obligatedTotalDirect) {
+    public void setObligatedTotalDirect(KualiDecimal obligatedTotalDirect) {
         this.obligatedTotalDirect = obligatedTotalDirect;
     }
 
-    public Long getObligatedTotalIndirect() {
+    public KualiDecimal getObligatedTotalIndirect() {
         return obligatedTotalIndirect;
     }
 
-    public void setObligatedTotalIndirect(Long obligatedTotalIndirect) {
+    public void setObligatedTotalIndirect(KualiDecimal obligatedTotalIndirect) {
         this.obligatedTotalIndirect = obligatedTotalIndirect;
     }
 

@@ -58,7 +58,7 @@ public class AwardDirectFandADistributionActionHelper {
         AwardDirectFandADistribution newAwardDirectFandADistribution = directFandADistributionFormHelper.getNewAwardDirectFandADistribution();
         int index = 0;
       //this logic for case where the target date range falls into a valid period between the last element of the list and project end date.
-        if(canTargetBeInsertedIntoLastIndex(awardDirectFandADistributions, newAwardDirectFandADistribution, award.getAwardExecutionDate())){
+        if(canTargetBeInsertedIntoLastIndex(awardDirectFandADistributions, newAwardDirectFandADistribution, award.getProjectEndDate())){
             award.add(newAwardDirectFandADistribution);
             directFandADistributionFormHelper.init();
         }else {

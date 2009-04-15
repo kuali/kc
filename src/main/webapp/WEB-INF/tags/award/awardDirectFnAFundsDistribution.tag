@@ -21,7 +21,7 @@
 
 
 
-<kul:tab tabTitle="Direct/F&A Funds Distribution" defaultOpen="false" tabErrorKey="newAwardDirectFandADistribution.*,document.awardList[0].awardDirectFandADistributions*">
+<kul:tab tabTitle="Direct/F&A Funds Distribution" defaultOpen="false" tabErrorKey="newAwardDirectFandADistribution.*,document.awardList[0].awardDirectFandADistribution*">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Direct/F&A Funds Distribution</span>
@@ -32,9 +32,9 @@
 				<td  width="20%">          	  
             	  	 ${KualiForm.document.awardList[0].beginDate}           	 
             	</td>
-				<th width="30%" align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.awardExecutionDate}" useShortLabel="true" noColon="false" /></th>
+				<th width="30%" align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.projectEndDate}" useShortLabel="true" noColon="false" /></th>
 				<td width="20%">
-            	  	${KualiForm.document.awardList[0].awardExecutionDate}
+            	  	${KualiForm.document.awardList[0].projectEndDate}
             	</td>
 			</tr>
 			<tr>
