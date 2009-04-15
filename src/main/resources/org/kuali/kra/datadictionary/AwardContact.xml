@@ -1,0 +1,101 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="AwardContact" parent="AwardContact-parentBean" />
+
+  <bean id="AwardContact-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.award.contacts.AwardContact" />
+    <property name="titleAttribute" value="awardContact" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KRA-A"
+            p:parameterName="awardContactHelpUrl"
+            p:parameterDetailType="D" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="AwardContact-awardContactId" />
+        <ref bean="AwardContact-awardNumber" />
+        <ref bean="AwardContact-sequenceNumber" />
+        <ref bean="AwardContact-fullName" />   
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="AwardContact-awardContactId" parent="AwardContact-awardContactId-parentBean" />
+  <bean id="AwardContact-awardContactId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="awardContactId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Award Contact ID" />
+    <property name="shortLabel" value="Award Contact ID" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="8" />
+    </property>
+    <property name="summary" value="Award Contact ID" />
+    <property name="description" value="Award Contact ID" />
+  </bean>
+  
+  <bean id="AwardContact-awardNumber" parent="AwardContact-awardNumber-parentBean" />
+
+  <bean id="AwardContact-awardNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="awardNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Award Number" />
+    <property name="shortLabel" value="Award Number" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="10" />
+    </property>
+    <property name="summary" value="Award Number" />
+    <property name="description" value="Award Number" />
+  </bean>
+  
+  <bean id="AwardContact-sequenceNumber" parent="AwardContact-sequenceNumber-parentBean" />
+
+  <bean id="AwardContact-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="sequenceNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Sequence Number" />
+    <property name="shortLabel" value="Sequence Number" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="4" />
+    </property>
+    <property name="summary" value="Sequence Number" />
+    <property name="description" value="Sequence Number" />
+  </bean>
+  
+  <bean id="AwardContact-fullName" parent="AwardContact-fullName-parentBean" />
+  <bean id="AwardContact-fullName-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="fullName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Full Name" />
+    <property name="shortLabel" value="Full Name" />
+    <property name="maxLength" value="90" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="20" />
+    </property>
+    <property name="summary" value="Full Name" />
+    <property name="description" value="Full Name" />
+  </bean>
+</beans>
