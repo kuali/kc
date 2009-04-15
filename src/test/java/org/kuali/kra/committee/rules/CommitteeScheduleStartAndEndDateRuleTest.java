@@ -15,20 +15,17 @@
  */
 package org.kuali.kra.committee.rules;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Date;
 import java.util.HashMap;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleStartAndEndDateEvent;
 import org.kuali.kra.committee.web.struts.form.schedule.DailyScheduleDetails;
@@ -37,7 +34,6 @@ import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.committee.web.struts.form.schedule.StyleKey;
 import org.kuali.kra.committee.web.struts.form.schedule.WeeklyScheduleDetails;
 import org.kuali.kra.committee.web.struts.form.schedule.YearlyScheduleDetails;
-import org.kuali.kra.infrastructure.KeyConstants;
 
 public class CommitteeScheduleStartAndEndDateRuleTest  {
     
@@ -55,7 +51,7 @@ public class CommitteeScheduleStartAndEndDateRuleTest  {
     
     public static String YEARLY = "scheduleData.yearlySchedule.scheduleEndDate";
     
-    public static String START_DATE = "scheduleData.scheduleStartDate";
+    public static String START_DATE = "scheduleData.scheduleEndDate";
     
     @SuppressWarnings("unchecked")
     @Before
@@ -105,7 +101,6 @@ public class CommitteeScheduleStartAndEndDateRuleTest  {
         scheduleData.getDailySchedule().setScheduleEndDate(scheduleData.getScheduleStartDate());       
         
         testAssertFalse();
-        assertMessages(DAILY);
     }
     
     /**
@@ -137,7 +132,6 @@ public class CommitteeScheduleStartAndEndDateRuleTest  {
         scheduleData.getWeeklySchedule().setScheduleEndDate(scheduleData.getScheduleStartDate());
         
         testAssertFalse();
-        assertMessages(WEEKLY);
     }
 
     /**
@@ -169,7 +163,6 @@ public class CommitteeScheduleStartAndEndDateRuleTest  {
         scheduleData.getMonthlySchedule().setScheduleEndDate(scheduleData.getScheduleStartDate());
         
         testAssertFalse();
-        assertMessages(MONTHLY);
     }    
 
     /**
@@ -201,25 +194,7 @@ public class CommitteeScheduleStartAndEndDateRuleTest  {
         scheduleData.getYearlySchedule().setScheduleEndDate(scheduleData.getScheduleStartDate());
         
         testAssertFalse();
-
-        assertMessages(YEARLY);
     } 
-    
-    /**
-     * This method is helper method to assert messages.
-     * @param key
-     */
-    private void assertMessages(String key) {
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(START_DATE);
-        assertTrue(errors.size() == 1);    
-        ErrorMessage message = (ErrorMessage) errors.get(0);
-        assertEquals(message.getErrorKey(), KeyConstants.ERROR_COMMITTEESCHEDULE_SCHEDULEDATES);
-        
-        errors = GlobalVariables.getErrorMap().getMessages(key);
-        assertTrue(errors.size() == 1);
-        message = (ErrorMessage) errors.get(0);
-        assertEquals(message.getErrorKey(), KeyConstants.ERROR_COMMITTEESCHEDULE_BLANK);
-    }
     
     /**
      * This method is helper method to assert true condition.
