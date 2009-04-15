@@ -44,6 +44,7 @@ import org.kuali.kra.budget.bo.BudgetProjectIncome;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -241,6 +242,9 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         destDoc.setSponsorCode(srcDoc.getSponsorCode());
         destDoc.setRequestedStartDateInitial(srcDoc.getRequestedStartDateInitial());
         destDoc.setRequestedEndDateInitial(srcDoc.getRequestedEndDateInitial());
+        if (isProposalTypeRenewalRevisionContinuation(srcDoc.getProposalTypeCode())) {
+            destDoc.setSponsorProposalNumber(srcDoc.getSponsorProposalNumber());
+        }
     }
     
     /**
@@ -1114,4 +1118,19 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         this.kualiConfigurationService = kualiConfigurationService;
     }
     
+    /**
+     * Is the Proposal Type set to Renewal, Revision, or a Continuation?
+     * @param proposalTypeCode proposal type code
+     * @return true or false
+     */
+    private boolean isProposalTypeRenewalRevisionContinuation(String proposalTypeCode) {
+        String proposalTypeCodeRenewal = kualiConfigurationService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL).getParameterValue();
+        String proposalTypeCodeRevision = kualiConfigurationService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION).getParameterValue();
+        String proposalTypeCodeContinuation = kualiConfigurationService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION).getParameterValue();
+         
+        return !StringUtils.isEmpty(proposalTypeCode) &&
+               (proposalTypeCode.equals(proposalTypeCodeRenewal) ||
+                proposalTypeCode.equals(proposalTypeCodeRevision) ||
+                proposalTypeCode.equals(proposalTypeCodeContinuation));
+    }
 }
