@@ -4,12 +4,17 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+/**
+ * This class is a Unit
+ */
 public class Unit extends KraPersistableBusinessObjectBase {
-	private String unitNumber;
-	private String parentUnitNumber;
-	private String organizationId;
-	private String unitName;
-	private Unit parentUnit;
+    private static final long serialVersionUID = 476388156554589984L;
+    
+    private String unitNumber;
+    private String parentUnitNumber;
+    private String organizationId;
+    private String unitName;
+    private Unit parentUnit;
     private List<UnitAdministrator> unitAdministrators;
 
     private Organization organization;
@@ -19,53 +24,54 @@ public class Unit extends KraPersistableBusinessObjectBase {
         unitAdministrators = new ArrayList<UnitAdministrator>();
     }
 
-	public String getUnitNumber() {
-		return unitNumber;
-	}
+    public String getUnitNumber() {
+        return unitNumber;
+    }
 
-	public void setUnitNumber(String unitNumber) {
-		this.unitNumber = unitNumber;
-	}
+    public void setUnitNumber(String unitNumber) {
+        this.unitNumber = unitNumber;
+    }
 
 
-	public String getParentUnitNumber() {
-		return parentUnitNumber;
-	}
+    public String getParentUnitNumber() {
+        return parentUnitNumber;
+    }
 
-	public void setParentUnitNumber(String parentUnitNumber) {
-		this.parentUnitNumber = parentUnitNumber;
-	}
+    public void setParentUnitNumber(String parentUnitNumber) {
+        this.parentUnitNumber = parentUnitNumber;
+    }
 
-	public String getOrganizationId() {
+    public String getOrganizationId() {
         if (organizationId == null && this.getParentUnit() != null && this.getParentUnit().getUnitNumber() != null) {
             //will recurse up hierarchy until an Organization Id is found
             return this.getParentUnit().getOrganizationId();
         }
-		return organizationId;
-	}
+        return organizationId;
+    }
 
-	public void setOrganizationId(String organizationId) {
-		this.organizationId = organizationId;
-	}
+    public void setOrganizationId(String organizationId) {
+        this.organizationId = organizationId;
+    }
 
-	public String getUnitName() {
-		return unitName;
-	}
+    public String getUnitName() {
+        return unitName;
+    }
 
-	public void setUnitName(String unitName) {
-		this.unitName = unitName;
-	}
+    public void setUnitName(String unitName) {
+        this.unitName = unitName;
+    }
 
 
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("unitNumber", getUnitNumber());
-		hashMap.put("parentUnitNumber", getParentUnitNumber());
-		hashMap.put("organizationId", getOrganizationId());
-		hashMap.put("unitName", getUnitName());
-		return hashMap;
-	}
+    @SuppressWarnings("unchecked")
+    @Override 
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap hashMap = new LinkedHashMap();
+        hashMap.put("unitNumber", getUnitNumber());
+        hashMap.put("parentUnitNumber", getParentUnitNumber());
+        hashMap.put("organizationId", getOrganizationId());
+        hashMap.put("unitName", getUnitName());
+        return hashMap;
+    }
 
     /**
      * Gets the organization attribute. 
@@ -99,6 +105,7 @@ public class Unit extends KraPersistableBusinessObjectBase {
         this.unitAdministrators = unitAdministrators;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public List buildListOfDeletionAwareLists() {
         // TODO : need this ?
@@ -108,17 +115,39 @@ public class Unit extends KraPersistableBusinessObjectBase {
     }
     
     /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int PRIME = 31;
+        int result = 1;
+        result = PRIME * result + ((unitNumber == null) ? 0 : unitNumber.hashCode());
+        return result;
+    }
+
+    /**
      * @see java.lang.Object#equals(java.lang.Object)
      */
+    @Override
     public boolean equals(Object obj) {
-        if (obj == null)
-            return false;
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (!(obj instanceof Unit))
+        }
+        if (obj == null) {
             return false;
-        Unit unit = (Unit) obj;
-        return unitNumber.equals(unit.unitNumber);
+        }
+        if (!(obj instanceof Unit)) {
+            return false;
+        }
+        Unit other = (Unit) obj;
+        if (unitNumber == null) {
+            if (other.unitNumber != null) {
+                return false;
+            }
+        } else if (!unitNumber.equals(other.unitNumber)) {
+            return false;
+        }
+        return true;
     }
 
 }

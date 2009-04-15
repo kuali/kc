@@ -21,6 +21,7 @@ import java.util.List;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.SessionDocument;
 import org.kuali.kra.award.bo.Award;
+import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.service.AwardAuthorizationService;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.document.ResearchDocumentBase;
@@ -98,6 +99,13 @@ public class AwardDocument extends ResearchDocumentBase implements  Copyable, Se
         List managedLists = super.buildListOfDeletionAwareLists();       
         
         Award award = getAward();
+        
+        managedLists.add(award.getProjectPersons());
+        for(AwardPerson p: award.getProjectPersons()) {
+            managedLists.add(p.getUnits());
+        }
+        managedLists.add(award.getUnitContacts());
+        managedLists.add(award.getSponsorContacts());
         
         managedLists.add(award.getApprovedEquipmentItems());
         managedLists.add(award.getApprovedForeignTravelTrips());

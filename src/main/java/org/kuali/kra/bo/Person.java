@@ -15,8 +15,10 @@
  */
 package org.kuali.kra.bo;
 
+import java.io.Serializable;
 import java.util.LinkedHashMap;
 
+import org.apache.batik.util.UnitProcessor.UnitResolver;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kra.kim.bo.KimPerson;
@@ -28,7 +30,7 @@ import org.kuali.kra.kim.bo.KimPerson;
  * @see org.kuali.core.bo.PersistableBusinessObject
  * $Id: Person.java,v 1.15 2008-07-23 19:16:44 gmcgrego Exp $
  */
-public class Person extends KraPersistableBusinessObjectBase {
+public class Person extends KraPersistableBusinessObjectBase implements Contactable {
     private String personId;
     private String socialSecurityNumber;
     private String lastName;
@@ -877,6 +879,13 @@ public class Person extends KraPersistableBusinessObjectBase {
     public Boolean getOtherAcademicGroupFlag() {
         return this.otherAcademicGroupFlag;
     }
+    
+    /**
+     * @see org.kuali.kra.bo.Contactable#getOrganization()
+     */
+    public String getOrganization() {
+        return getUnit().getUnitName();
+    }
 
     /**
      * Sets the value of otherAcademicGroup
@@ -1331,4 +1340,42 @@ public class Person extends KraPersistableBusinessObjectBase {
         }
     }
 
+    /**
+     * @see org.kuali.kra.bo.Contactable#getIdentifier()
+     */
+    public Serializable getIdentifier() {
+        return personId;
+    }
+    
+    /**
+     * @see org.kuali.kra.bo.Contactable#getUnit()
+     */
+    public Unit getUnit() {
+        return homeUnitRef; 
+    }
+
+    /**
+     * @see org.kuali.kra.bo.Contactable#setIdentifier(java.io.Serializable)
+     */
+    public void setIdentifier(Serializable identifier) {
+        setPersonId((String) identifier);
+    }
+
+    /**
+     * @see org.kuali.kra.bo.Contactable#setUnit(org.kuali.kra.bo.Unit)
+     */
+    public void setUnit(Unit unit) {
+       setHomeUnitRef(unit); 
+    }
+
+    /**
+     * @see org.kuali.kra.bo.Contactable#getPhoneNumber()
+     */
+    public String getPhoneNumber() {
+        return officePhone;
+    }
+
+    public String getContactOrganizationName() {
+        return getUnit().getUnitName();
+    }
 }
