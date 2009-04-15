@@ -278,6 +278,7 @@ public final class KeyConstants {
     public static final String QUESTION_DELETE_COST_SHARE = "document.question.deleteCostShare.text";
     
     //Award Direc F and A Distribution
+    public static final String ERROR_OVERLAPPING_EXISTING_DATES = "error.awardDirectFandADistribution.overlapping.existing.dates";
     public static final String ERROR_START_DATE_PRECEDES_END_DATE = "error.awardDirectFandADistribution.invalid.start.end.dates";
     public static final String ERROR_OVERLAPPING_DATE_RANGES = "error.awardDirectFandADistribution.date.ranges.overlap";
     public static final String ERROR_TARGET_START_DATE = "error.awardDirectFandADistribution.invalid.start.date";

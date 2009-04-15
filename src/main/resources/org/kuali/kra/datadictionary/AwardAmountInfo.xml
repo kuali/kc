@@ -346,14 +346,18 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Anticipated Total Direct" />
         <property name="shortLabel" value="Anticipated Total Direct" />
-        <property name="maxLength" value="22" />
-        <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
+        <property name="maxLength" value="12" />
+    	<property name="validationPattern" >
+      		<bean parent="FixedPointValidationPattern"
+           	 	p:precision="12"
+           		 p:scale="2" />
+   		</property>
+    	<property name="required" value="false" />
+    	<property name="control" >
+     		 <bean parent="CurrencyControlDefinition"
+           		 p:formattedMaxLength="22"
+            	p:size="16" />
+    	</property>
         <property name="summary" value="Anticipated Total Direct" />
         <property name="description" value="Anticipated Total Direct" />
     </bean>
@@ -364,14 +368,18 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Anticipated Total Indirect" />
         <property name="shortLabel" value="Anticipated Total Indirect" />
-        <property name="maxLength" value="22" />
-        <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
+        <property name="maxLength" value="12" />
+    	<property name="validationPattern" >
+     		 <bean parent="FixedPointValidationPattern"
+          	  p:precision="12"
+          	  p:scale="2" />
+   	 	</property>
+    	<property name="required" value="false" />
+    	<property name="control" >
+      		<bean parent="CurrencyControlDefinition"
+           		 p:formattedMaxLength="22"
+           		 p:size="16" />
+    	</property>
         <property name="summary" value="Anticipated Total Indirect" />
         <property name="description" value="Anticipated Total Indirect" />
     </bean>
@@ -382,14 +390,18 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Obligated Total Direct" />
         <property name="shortLabel" value="Obligated Total Direct" />
-        <property name="maxLength" value="22" />
-        <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
+        <property name="maxLength" value="12" />
+    	<property name="validationPattern" >
+      		<bean parent="FixedPointValidationPattern"
+           		 p:precision="12"
+           		 p:scale="2" />
+    	</property>
+   		<property name="required" value="false" />
+    	<property name="control" >
+      		<bean parent="CurrencyControlDefinition"
+         		  p:formattedMaxLength="22"
+           		 p:size="16" />
+  		</property>
         <property name="summary" value="Obligated Total Direct" />
         <property name="description" value="Obligated Total Direct" />
     </bean>
@@ -400,14 +412,18 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Obligated Total Indirect" />
         <property name="shortLabel" value="Obligated Total Indirect" />
-        <property name="maxLength" value="22" />
-        <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
+       <property name="maxLength" value="12" />
+    	<property name="validationPattern" >
+      		<bean parent="FixedPointValidationPattern"
+           	 	p:precision="12"
+           		 p:scale="2" />
+   		</property>
+    	<property name="required" value="false" />
+    	<property name="control" >
+     		 <bean parent="CurrencyControlDefinition"
+           		 p:formattedMaxLength="22"
+            	p:size="16" />
+    	</property>
         <property name="summary" value="Obligated Total Indirect" />
         <property name="description" value="Obligated Total Indirect" />
     </bean>
