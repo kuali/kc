@@ -1,0 +1,163 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="AwardPerson" parent="AwardPerson-parentBean" />
+  <bean id="AwardPerson-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.award.contacts.AwardPerson" />
+    <property name="titleAttribute" value="awardContact" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KRA-A"
+            p:parameterName="awardContactHelpUrl"
+            p:parameterDetailType="D" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="AwardPerson-awardContactId" />
+        <ref bean="AwardPerson-awardNumber" />
+        <ref bean="AwardPerson-sequenceNumber" />
+        <ref bean="AwardPerson-faculty" />
+        <ref bean="AwardPerson-fullName" />
+        <ref bean="AwardPerson-academicYearEffort" />
+        <ref bean="AwardPerson-calendarYearEffort" />
+        <ref bean="AwardPerson-summerEffort" />
+        <ref bean="AwardPerson-totalEffort" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="AwardPerson-awardContactId" parent="AwardPerson-awardContactId-parentBean" />
+  <bean id="AwardPerson-awardContactId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="awardContactId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Award Contact ID" />
+    <property name="shortLabel" value="Award Contact ID" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="8" />
+    </property>
+    <property name="summary" value="Award Contact ID" />
+    <property name="description" value="Award Contact ID" />
+  </bean>
+  
+  <bean id="AwardPerson-awardNumber" parent="AwardPerson-awardNumber-parentBean" />
+
+  <bean id="AwardPerson-awardNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="awardNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Award Number" />
+    <property name="shortLabel" value="Award Number" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="10" />
+    </property>
+    <property name="summary" value="Award Number" />
+    <property name="description" value="Award Number" />
+  </bean>
+  
+  <bean id="AwardPerson-sequenceNumber" parent="AwardPerson-sequenceNumber-parentBean" />
+
+  <bean id="AwardPerson-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="sequenceNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Sequence Number" />
+    <property name="shortLabel" value="Sequence Number" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="4" />
+    </property>
+    <property name="summary" value="Sequence Number" />
+    <property name="description" value="Sequence Number" />
+  </bean>
+  
+  <bean id="AwardPerson-faculty" parent="AwardPerson-faculty-parentBean" />
+  <bean id="AwardPerson-faculty-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  	<property name="name" value="faculty" />
+    <property name="label" value="Faculty" />
+    <property name="shortLabel" value="Faculty" />
+    <property name="summary" value="Faculty flag" />
+    <property name="description" value="Faculty flag" />
+  </bean>
+  
+  <bean id="AwardPerson-fullName" parent="AwardPerson-fullName-parentBean" />
+  <bean id="AwardPerson-fullName-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="fullName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Full Name" />
+    <property name="shortLabel" value="Full Name" />
+    <property name="maxLength" value="90" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="20" />
+    </property>
+    <property name="summary" value="Full Name" />
+    <property name="description" value="Full Name" />
+  </bean>
+  
+  <bean id="AwardPerson-academicYearEffort" parent="AwardPerson-academicYearEffort-parentBean" />
+  <bean id="AwardPerson-academicYearEffort-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericRate">
+  	<property name="name" value="academicYearEffort" />
+    <property name="label" value="Academic Year Effort" />
+    <property name="shortLabel" value="Academic Year Effort" />
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="10" />
+    </property>
+    <property name="summary" value="Academic Year Effort" />
+    <property name="description" value="Academic Year Effort" />
+  </bean>
+  
+  <bean id="AwardPerson-calendarYearEffort" parent="AwardPerson-calendarYearEffort-parentBean" />
+  <bean id="AwardPerson-calendarYearEffort-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericRate">
+  	<property name="name" value="calendarYearEffort" />
+    <property name="label" value="Calendar Year Effort" />
+    <property name="shortLabel" value="Calendar Year Effort" />
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="10" />
+    </property>
+    <property name="summary" value="Calendar Year Effort" />
+    <property name="description" value="Calendar Year Effort" />
+  </bean>
+  
+  <bean id="AwardPerson-summerEffort" parent="AwardPerson-summerEffort-parentBean" />
+  <bean id="AwardPerson-summerEffort-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericRate">
+  	<property name="name" value="summerEffort" />
+    <property name="label" value="Summer Effort" />
+    <property name="shortLabel" value="Summer Effort" />
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="10" />
+    </property>
+    <property name="summary" value="Summer Effort" />
+    <property name="description" value="Summer Effort" />
+  </bean>
+  
+  <bean id="AwardPerson-totalEffort" parent="AwardPerson-totalEffort-parentBean" />
+  <bean id="AwardPerson-totalEffort-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericRate">
+  	<property name="name" value="totalEffort" />
+    <property name="label" value="Total Effort" />
+    <property name="shortLabel" value="Total Effort" />
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="10" />
+    </property>
+    <property name="summary" value="Total Effort" />
+    <property name="description" value="Total Effort" />
+  </bean>
+  
+</beans>

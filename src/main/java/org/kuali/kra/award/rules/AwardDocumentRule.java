@@ -31,6 +31,9 @@ import org.kuali.kra.award.bo.AwardDirectFandADistribution;
 import org.kuali.kra.award.bo.AwardFandaRate;
 import org.kuali.kra.award.bo.AwardReportTerm;
 import org.kuali.kra.award.bo.AwardSpecialReview;
+import org.kuali.kra.award.contacts.AwardProjectPersonsSaveRule;
+import org.kuali.kra.award.contacts.SaveAwardProjectPersonsRuleEvent;
+import org.kuali.kra.award.contacts.AwardProjectPersonsSaveRuleImpl;
 import org.kuali.kra.award.detailsdates.AddAwardTransferringSponsorEvent;
 import org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRule;
 import org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRuleImpl;
@@ -78,14 +81,16 @@ import org.kuali.kra.rules.SpecialReviewRulesImpl;
  * Responsible for delegating rules to independent rule classes.
  *
  */
-public class AwardDocumentRule extends ResearchDocumentRuleBase implements AwardPaymentScheduleRule, AwardApprovedEquipmentRule, 
+public class AwardDocumentRule extends ResearchDocumentRuleBase implements AwardPaymentScheduleRule, 
+                                                                            AwardApprovedEquipmentRule, 
                                                                             AwardApprovedForeignTravelRule, 
                                                                             AddFandaRateRule,SpecialReviewRule<AwardSpecialReview>,
                                                                             AddAwardReportTermRule, 
                                                                             AddAwardReportTermRecipientRule,
                                                                             AwardDetailsAndDatesRule,
                                                                             CustomAttributeRule,
-                                                                            AwardDirectFandADistributionRule{
+                                                                            AwardDirectFandADistributionRule, 
+                                                                            AwardProjectPersonsSaveRule {
     
     public static final String DOCUMENT_ERROR_PATH = "document";
     public static final String AWARD_ERROR_PATH = "awardList[0]";
@@ -154,6 +159,12 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         return new AwardDirectFandADistributionRuleImpl().processAddAwardDirectFandADistributionBusinessRules(awardDirectFandADistributionRuleEvent);
     }
     
+    /**
+     * @see org.kuali.kra.award.contacts.AwardProjectPersonsSaveRule#processSaveAwardProjectPersonsBusinessRules(org.kuali.kra.award.contacts.SaveAwardProjectPersonsRuleEvent)
+     */
+    public boolean processSaveAwardProjectPersonsBusinessRules(SaveAwardProjectPersonsRuleEvent event) {
+        return processSaveAwardProjectPersonsBusinessRules(GlobalVariables.getErrorMap(), (AwardDocument) event.getDocument());
+    }
     
     /**
      * 
@@ -194,7 +205,8 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         retval &= processApprovedForeignTravelBusinessRules(errorMap, awardDocument);
         retval &= processAwardReportTermBusinessRules(document);
         retval &= processAwardDirectFandADistributionBusinessRules(document);
-
+        retval &= processSaveAwardProjectPersonsBusinessRules(errorMap, awardDocument);
+        
         return retval;
     }
     
@@ -662,5 +674,16 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      */
     public boolean processCustomAttributeRules(SaveCustomAttributeEvent saveCustomAttributeEvent) {
         return new KraCustomAttributeRule().processCustomAttributeRules(saveCustomAttributeEvent);
+    }
+
+    private boolean processSaveAwardProjectPersonsBusinessRules(ErrorMap errorMap, AwardDocument document) {
+        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+        errorMap.addToErrorPath(AWARD_ERROR_PATH);
+        SaveAwardProjectPersonsRuleEvent event = new SaveAwardProjectPersonsRuleEvent("Project Persons", "projectPersons", document);
+        boolean success = new AwardProjectPersonsSaveRuleImpl().processSaveAwardProjectPersonsBusinessRules(event);
+        errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
+        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
+        
+        return success;
     }
 }
