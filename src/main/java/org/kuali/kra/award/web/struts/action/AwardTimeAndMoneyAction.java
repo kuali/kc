@@ -24,14 +24,11 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardCostShare;
 import org.kuali.kra.award.bo.AwardFandaRate;
-import org.kuali.kra.award.detailsdates.AddAwardTransferringSponsorEvent;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.rule.event.AddAwardFandaRateEvent;
 import org.kuali.kra.award.web.struts.form.AwardForm;
-import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.service.KeywordsService;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 
 /**
@@ -267,7 +264,7 @@ public class AwardTimeAndMoneyAction extends AwardAction {
      */
     public ActionForward addAwardDirectFandADistribution(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        awardDirectFandADistributionActionHelper.addAwardDirectFandADistribution(((AwardForm)form).getDirectFandADistributionFormHelper());    
+        awardDirectFandADistributionActionHelper.addAwardDirectFandADistribution(((AwardForm) form).getDirectFandADistributionFormHelper());    
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
