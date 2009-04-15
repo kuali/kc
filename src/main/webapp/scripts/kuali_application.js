@@ -61,9 +61,6 @@ function clearCommitteeScheduleRecurrenceData() {
 			document.getElementById("committeeScheduleHelper.scheduleData.monthlySchedule.day").value = 1;
 			document.getElementById("committeeScheduleHelper.scheduleData.monthlySchedule.option1Month").value = 1;
 			document.getElementById("committeeScheduleHelper.scheduleData.monthlySchedule.option2Month").value = 1;
-			document.getElementById("committeeScheduleHelper.scheduleData.yearlySchedule.day").value = 1;
-			document.getElementById("committeeScheduleHelper.scheduleData.yearlySchedule.option1Year").value = 1;
-			document.getElementById("committeeScheduleHelper.scheduleData.yearlySchedule.option2Year").value = 1;
 			var yearlylist = document.getElementsByName("committeeScheduleHelper.scheduleData.yearlySchedule.yearOption");
 			for(var j=0; j < yearlylist.length; j++) {
 				var yearlyelement = yearlylist[j];
