@@ -69,14 +69,12 @@
 		<property name="maintainableItems" >
 			<list>
 				<bean parent="MaintainableFieldDefinition"
-					p:name="personTrainingId"
-					p:required="true" />
+					p:name="personTrainingId" />
 				<bean parent="MaintainableFieldDefinition"
 					p:name="personId"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition"
-					p:name="trainingNumber"
-					p:required="true" />
+					p:name="trainingNumber" />
 				<bean parent="MaintainableFieldDefinition"
 					p:name="trainingCode"
 					p:required="true" />

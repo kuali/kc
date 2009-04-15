@@ -35,6 +35,7 @@
 				<ref bean="PersonTraining-personId" />
 				<ref bean="PersonTraining-trainingNumber" />
 				<ref bean="PersonTraining-trainingCode" />
+				<ref bean="PersonTraining-training.description" />
 				<ref bean="PersonTraining-dateRequested" />
 				<ref bean="PersonTraining-dateSubmitted" />
 				<ref bean="PersonTraining-dateAcknowledged" />
@@ -44,6 +45,47 @@
 				<ref bean="PersonTraining-versionNumber" />
 			</list>
 		</property>
+	    <property name="relationships" >
+	      <list>
+	        <bean parent="RelationshipDefinition">
+	          <property name="objectAttributeName" value="training" />
+	          <property name="primitiveAttributes" >
+	            <list>
+	              <bean parent="PrimitiveAttributeDefinition"
+	                    p:sourceName="trainingCode"
+	                    p:targetName="trainingCode" />
+	            </list>
+	          </property>
+	          <property name="supportAttributes" >
+	            <list>
+	              <bean parent="SupportAttributeDefinition"
+	                    p:identifier="true"
+	                    p:sourceName="training.description"
+	                    p:targetName="description" />
+	            </list>
+	          </property>
+	        </bean>
+	        <bean parent="RelationshipDefinition">
+	          <property name="objectAttributeName" value="person" />
+	          <property name="primitiveAttributes" >
+	            <list>
+	              <bean parent="PrimitiveAttributeDefinition"
+	                    p:sourceName="personId"
+	                    p:targetName="personId" />
+	            </list>
+	          </property>
+	          <property name="supportAttributes" >
+	            <list>
+	              <bean parent="SupportAttributeDefinition"
+	                    p:identifier="true"
+	                    p:sourceName="person.personId"
+	                    p:targetName="personId" />
+	            </list>
+	          </property>
+	        </bean>
+	      </list>
+	    </property>
+		
 	</bean>
 
 	<!-- Attribute Definitions -->
@@ -59,8 +101,7 @@
 			<bean parent="NumericValidationPattern" />
 		</property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      		<bean parent="HiddenControlDefinition" />
 		</property>
 		<property name="summary" value="Person Training Id" />
 		<property name="description" value="Person Training Id" />
@@ -95,8 +136,7 @@
 			<bean parent="NumericValidationPattern" />
 		</property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
+      		<bean parent="HiddenControlDefinition" />
 		</property>
 		<property name="summary" value="Training Number" />
 		<property name="description" value="Training Number" />
@@ -106,8 +146,8 @@
 	<bean id="PersonTraining-trainingCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="trainingCode" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Training Code" />
-		<property name="shortLabel" value="Training Code" />
+		<property name="label" value="Training" />
+		<property name="shortLabel" value="Training" />
 		<property name="maxLength" value="22" />
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
@@ -123,6 +163,14 @@
 		<property name="summary" value="Training Code" />
 		<property name="description" value="Training Code" />
 	</bean>
+
+  <bean id="PersonTraining-training.description" parent="PersonTraining-training.description-parentBean" />
+
+  <bean id="PersonTraining-training.description-parentBean" abstract="true" parent="Training-description">
+    <property name="name" value="training.description" />
+    <property name="label" value="Training" />
+    <property name="shortLabel" value="Training" />
+  </bean>
 
 	<bean id="PersonTraining-dateRequested" parent="PersonTraining-dateRequested-parentBean" />
 	<bean id="PersonTraining-dateRequested-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
@@ -219,8 +267,6 @@
 							<bean parent="FieldDefinition"
 								p:attributeName="personId" />
 							<bean parent="FieldDefinition"
-								p:attributeName="trainingNumber" />
-							<bean parent="FieldDefinition"
 								p:attributeName="trainingCode" />
 							<bean parent="FieldDefinition"
 								p:attributeName="dateRequested" />
@@ -259,8 +305,6 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="personId" />
 				<bean parent="FieldDefinition"
-					p:attributeName="trainingNumber" />
-				<bean parent="FieldDefinition"
 					p:attributeName="trainingCode" />
 				<bean parent="FieldDefinition"
 					p:attributeName="dateRequested" />
@@ -284,9 +328,7 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="personId" />
 				<bean parent="FieldDefinition"
-					p:attributeName="trainingNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="trainingCode" />
+					p:attributeName="training.description" />
 				<bean parent="FieldDefinition"
 					p:attributeName="dateRequested" />
 				<bean parent="FieldDefinition"
