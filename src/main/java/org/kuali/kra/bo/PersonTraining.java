@@ -58,6 +58,9 @@ public class PersonTraining extends KraPersistableBusinessObjectBase {
 	@Column(name="COMMENTS")
 	private String comments; 
 	
+	private Person person;
+	private Training training;
+		
 	public PersonTraining() { 
 
 	} 
@@ -157,5 +160,21 @@ public class PersonTraining extends KraPersistableBusinessObjectBase {
 		hashMap.put("comments", getComments());
 		return hashMap;
 	}
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
+    }
+
+    public Training getTraining() {
+        return training;
+    }
+
+    public void setTraining(Training training) {
+        this.training = training;
+    }
 	
 }
