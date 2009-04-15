@@ -23,9 +23,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.kuali.kra.KraWebTestBase;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.rice.test.data.PerSuiteUnitTestData;
-import org.kuali.rice.test.data.UnitTestData;
-import org.kuali.rice.test.data.UnitTestFile;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
@@ -74,6 +71,7 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
     private static final String GOOGLE_SPONSOR_CODE = "005979";
     private static final String SPONSOR_AWARD_NUMBER = "1R01CA123456";
     private static final String DATE_VALUE = "03/01/2009";
+    private static final String END_DATE_VALUE = "09/01/2010";
     
     private static final String POUND_SIGN = "#";
     private static final String COLON = ":";
@@ -164,7 +162,7 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
         setFieldValue(page, AWARD_EFF_DATE_ID, DATE_VALUE);
         setFieldValue(page, ACTIVITY_TYPE_CODE_ID, ONE);
         setFieldValue(page, BEGIN_DATE_ID, DATE_VALUE);
-        setFieldValue(page, PROJECT_END_DATE_ID, DATE_VALUE);
+        setFieldValue(page, PROJECT_END_DATE_ID, END_DATE_VALUE);
     }
     
     /**

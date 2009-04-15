@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.award.rule.event;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.award.bo.AwardDirectFandADistribution;
@@ -28,13 +30,23 @@ import org.kuali.kra.rule.event.KraDocumentEventBase;
 public class AwardDirectFandADistributionRuleEvent extends KraDocumentEventBase {
 
     private static final Logger LOG = Logger.getLogger(AwardDirectFandADistributionRuleEvent.class);
+    private static final String DIRECT_FNA_DISTRIBUTION = "Direct F and A Distribution";
     
     AwardDirectFandADistribution awardDirectFandADistribution;
+    List<AwardDirectFandADistribution> awardDirectFandADistributions;
+    int currentIndex;
     
     public AwardDirectFandADistributionRuleEvent(String errorPathPrefix, 
                                                         AwardDocument awardDocument, AwardDirectFandADistribution awardDirectFandADistribution) {
-            super("Direct F and A Distribution", errorPathPrefix, awardDocument);
+            super(DIRECT_FNA_DISTRIBUTION, errorPathPrefix, awardDocument);
             this.awardDirectFandADistribution = awardDirectFandADistribution;
+    }
+    
+    public AwardDirectFandADistributionRuleEvent(String errorPathPrefix, 
+                                                        AwardDocument awardDocument, 
+                                                            List<AwardDirectFandADistribution> awardDirectFandADistributions) {
+            super(DIRECT_FNA_DISTRIBUTION, errorPathPrefix, awardDocument);
+            this.awardDirectFandADistributions = awardDirectFandADistributions;
     }
     
     /**
@@ -46,11 +58,19 @@ public class AwardDirectFandADistributionRuleEvent extends KraDocumentEventBase 
     }
     
     /**
-     * This method returns the equipment item for validation
+     * This method returns the awardDirectFandADistribution for validation
      * @return
      */
     public AwardDirectFandADistribution getAwardDirectFandADistributionForValidation() {
         return awardDirectFandADistribution;
+    }
+    
+    /**
+     * This method returns the list of awardDirectFandADistributions for validation
+     * @return
+     */
+    public List<AwardDirectFandADistribution> getAwardDirectFandADistributionsForValidation() {
+        return awardDirectFandADistributions;
     }
     
     
@@ -75,6 +95,22 @@ public class AwardDirectFandADistributionRuleEvent extends KraDocumentEventBase 
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((AwardDirectFandADistributionRule)rule).processAddAwardDirectFandADistributionBusinessRules(this);
+    }
+
+    /**
+     * Gets the currentIndex attribute. 
+     * @return Returns the currentIndex.
+     */
+    public int getCurrentIndex() {
+        return currentIndex;
+    }
+
+    /**
+     * Sets the currentIndex attribute value.
+     * @param currentIndex The currentIndex to set.
+     */
+    public void setCurrentIndex(int currentIndex) {
+        this.currentIndex = currentIndex;
     }
 
 }

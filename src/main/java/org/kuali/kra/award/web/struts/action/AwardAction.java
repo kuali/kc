@@ -40,8 +40,8 @@ import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.common.customattributes.CustomDataAction;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.service.AwardDirectFandADistributionService;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.service.AwardDirectFandADistributionService;
 import org.kuali.kra.service.AwardReportsService;
 import org.kuali.kra.service.AwardSponsorTermService;
 import org.kuali.kra.service.KraAuthorizationService;
@@ -200,7 +200,8 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
         if(isNewAward(awardForm)){
             AwardDirectFandADistributionService awardDirectFandADistributionService = getAwardDirectFandADistributionService();
             awardForm.getAwardDocument().getAward().setAwardDirectFandADistributions
-                                (awardDirectFandADistributionService.generateDefaultAwardDirectFandADistributionPeriods(form));
+                                (awardDirectFandADistributionService.
+                                        generateDefaultAwardDirectFandADistributionPeriods(awardForm.getAwardDocument().getAward()));
         }
         return mapping.findForward(Constants.MAPPING_AWARD_TIME_AND_MONEY_PAGE);
     }
