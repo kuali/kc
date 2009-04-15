@@ -409,6 +409,8 @@ public final class KeyConstants {
     public static final String ERROR_COMMITTEESCHEDULE_FILTER_DATE = "error.committeeSchedule.filter.date";
     public static final String ERROR_COMMITTEESCHEDULE_DEADLINE = "error.committeeSchedule.dealine";
     public static final String ERROR_COMMITTEESCHEDULE_VIEWTIME = "error.committeeSchedule.viewtime";
+    public static final String ERROR_COMMITTEESCHEDULE_DAY = "error.committeeSchedule.day";
+    
     
     private KeyConstants() {}
 }

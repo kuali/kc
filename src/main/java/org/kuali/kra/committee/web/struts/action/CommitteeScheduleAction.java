@@ -27,10 +27,11 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleDateConflictEvent;
-import org.kuali.kra.committee.rule.event.CommitteeScheduleStartAndEndDateEvent;
-import org.kuali.kra.committee.rule.event.CommitteeScheduleTimeEvent;
+import org.kuali.kra.committee.rule.event.CommitteeScheduleDayEvent;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleDeadlineEvent;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleFilterEvent;
+import org.kuali.kra.committee.rule.event.CommitteeScheduleStartAndEndDateEvent;
+import org.kuali.kra.committee.rule.event.CommitteeScheduleTimeEvent;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleEventBase.ErrorType;
 import org.kuali.kra.committee.rules.CommitteeScheduleDataDictionaryValidationRule;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
@@ -100,13 +101,15 @@ public class CommitteeScheduleAction extends CommitteeAction {
         CommitteeForm committeeForm = (CommitteeForm) form;
         ScheduleData scheduleData = committeeForm.getCommitteeScheduleHelper().getScheduleData();
         
-        if(new CommitteeScheduleDataDictionaryValidationRule().applyRules(scheduleData)){
-            if(applyRules(new CommitteeScheduleTimeEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, ErrorType.HARDERROR))) {
-                if(applyRules(new CommitteeScheduleStartAndEndDateEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, ErrorType.HARDERROR))){
-                    CommitteeScheduleService service  = getCommitteeScheduleService();
-                    service.addSchedule(scheduleData, committeeForm.getCommitteeDocument().getCommittee());            
-                    applyRules(new CommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, ErrorType.SOFTERROR));
-                }  
+        if(new CommitteeScheduleDataDictionaryValidationRule().applyRules(scheduleData)) {
+            if(applyRules(new CommitteeScheduleDayEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, ErrorType.HARDERROR))) {
+                if(applyRules(new CommitteeScheduleTimeEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, ErrorType.HARDERROR))) {
+                    if(applyRules(new CommitteeScheduleStartAndEndDateEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, ErrorType.HARDERROR))){
+                        CommitteeScheduleService service  = getCommitteeScheduleService();
+                        service.addSchedule(scheduleData, committeeForm.getCommitteeDocument().getCommittee());            
+                        applyRules(new CommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, ErrorType.SOFTERROR));
+                    }  
+                }
             }
         }
         scheduleData.populateStyleClass();        
