@@ -122,6 +122,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
      */
     public Protocol() {
         super();
+        sequenceNumber = new Integer(0);
         billable = false;
         protocolRiskLevels = new ArrayList<ProtocolRiskLevel>();
         protocolParticipants = new TypedArrayList(ProtocolParticipant.class);
