@@ -290,16 +290,13 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         List<AwardDirectFandADistribution> awardDirectFandADistributions = awardDocument.getAward().getAwardDirectFandADistributions();
         errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
         errorMap.addToErrorPath(AWARD_ERROR_PATH);
-        //for (AwardDirectFandADistribution awardDirectFandADistribution : awardDirectFandADistributions) {
-            String errorPath = "awardDirectFandADistribution[" + i + Constants.RIGHT_SQUARE_BRACKET;
-            errorMap.addToErrorPath(errorPath);
-            AwardDirectFandADistributionRuleEvent event = new AwardDirectFandADistributionRuleEvent(errorPath, 
-                                                                        awardDocument, 
-                                                                        awardDirectFandADistributions);
-            valid &= new AwardDirectFandADistributionRuleImpl().processAwardDirectFandADistributionBusinessRules(event);
-            errorMap.removeFromErrorPath(errorPath);
-            //i++;
-        //}
+        String errorPath = "awardDirectFandADistribution[" + i + Constants.RIGHT_SQUARE_BRACKET;
+        errorMap.addToErrorPath(errorPath);
+        AwardDirectFandADistributionRuleEvent event = new AwardDirectFandADistributionRuleEvent(errorPath, 
+                                                               awardDocument, 
+                                                                   awardDirectFandADistributions);
+        valid &= new AwardDirectFandADistributionRuleImpl().processAwardDirectFandADistributionBusinessRules(event);
+        errorMap.removeFromErrorPath(errorPath);
         errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
         return valid;
