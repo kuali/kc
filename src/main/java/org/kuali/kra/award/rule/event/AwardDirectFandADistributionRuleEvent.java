@@ -36,12 +36,24 @@ public class AwardDirectFandADistributionRuleEvent extends KraDocumentEventBase 
     List<AwardDirectFandADistribution> awardDirectFandADistributions;
     int currentIndex;
     
+    /**
+     * Constructor for rule event for add rules.
+     * @param errorPathPrefix
+     * @param awardDocument
+     * @param awardDirectFandADistribution
+     */
     public AwardDirectFandADistributionRuleEvent(String errorPathPrefix, 
                                                         AwardDocument awardDocument, AwardDirectFandADistribution awardDirectFandADistribution) {
             super(DIRECT_FNA_DISTRIBUTION, errorPathPrefix, awardDocument);
             this.awardDirectFandADistribution = awardDirectFandADistribution;
     }
     
+    /**
+     * Constructor for rule event for save rules.
+     * @param errorPathPrefix
+     * @param awardDocument
+     * @param awardDirectFandADistributions
+     */
     public AwardDirectFandADistributionRuleEvent(String errorPathPrefix, 
                                                         AwardDocument awardDocument, 
                                                             List<AwardDirectFandADistribution> awardDirectFandADistributions) {
