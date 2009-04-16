@@ -1,0 +1,61 @@
+This guide contains the basic instructions for:
+
+- installing the out-of-the-box Kuali Coeus distribution
+- building the Kuali Coeus source
+- running the Kuali Coeus tests
+
+
+*** Installing the out-of-the-box Kuali Coeus distribution ***
+
+Requirements:
+
+	- Java 1.5
+	- Servlet 2.4 / JSP 2.0 Compatible Servlet Container such as Apache Tomcat 5.5
+	- Oracle database instance
+
+1. Run the database scripts using the instructions provided in db_scripts/ReadMe.txt
+
+2. Place binary/kra-config.xml in one of the configured default locations: {Userhome}/kuali/main/ptd OR /opt/sa_forms/java/ptd/kra/kra-config.xml.
+	* To use a different directory, open kra-ptd.war and edit the "config.location" parameter in /WEB-INF/classes/META-INF/kra-config.xml.
+
+3. Edit parameters in (the external) kra-config.xml as desired.
+	* You will at least need to fill in the following parameters with your database connection information: datasource.url, datasource.username, datasource.password.
+	* You will also need to change app.host to your server's host name (i.e. http://kuali.yourinstitution.edu:8080).
+	* Other commonly changed parameters are: app.code, app.context.name.
+
+4. Obtain ojdbc14.jar from an oracle client install ({OracleHome}/jdbc/lib) or the Oracle site (http://www.oracle.com) and copy it into the common jar file library.
+	* Example: For Tomcat 5.5, copy ojdbc14.jar into {tomcat install dir}/common/lib.
+
+5. Deploy binary/kra-ptd.war to your servlet container.
+
+6. The KRA application should now be accessible at: {app.host}/{app.context.name} (as specified in kra-config.xml).
+
+7. Login as 'quickstart'.
+
+
+*** Building the Kuali Coeus source ***
+
+Requirements:
+
+	- Java 1.5
+	- Maven 2
+
+1. From the command line, navigate to /kra_project and run this command: 'mvn -Dmaven.test.skip=true -Dwar=true package'. The .war will be in the /kra_project/target folder.
+
+
+*** Running the Kuali Coeus tests ***
+
+Requirements:
+
+	- Java 1.5
+	- Maven 2
+	- Oracle database instance
+
+1. The tests clear and repopulate several tables, so we recommend creating a unique database schema for running the tests, either by re-running kra_release_1.sql or copying an existing schema.
+
+2. Place binary/kra-test-config.xml in {Userhome}/kuali/test/dev
+
+3. Repeat step #3 under 'Installing the out-of-the-box KRA distribution' for kra-test-config.xml.
+
+4. From the command line, navigate to /kra_project and run this command: 'mvn test'.
+
