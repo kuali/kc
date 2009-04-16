@@ -28,12 +28,19 @@ import org.kuali.kra.rules.ErrorReporter;
  * will use composition over inheritance.
  * </P>
  */
-class AddProtocolAttachmentBaseRuleHelper {
+class ProtocolAttachmentBaseRuleHelper {
 
-    private final String newFileProperty;
-    private final String descriptionProperty;
-    private final String typeCodeProperty;
+    private String newFileProperty;
+    private String descriptionProperty;
+    private String typeCodeProperty;
     private final ErrorReporter errorReporter = new ErrorReporter();
+    
+    /**
+     * Creates helper deferring the setting of the prefix to later.
+     */
+    ProtocolAttachmentBaseRuleHelper() {
+        super();
+    }
     
     /**
      * Creates helper using prefix provided.
@@ -41,7 +48,16 @@ class AddProtocolAttachmentBaseRuleHelper {
      * @param propertyPrefix the prefix (ex: notesAndAttachmentsHelper.newAttachmentProtocol)
      * @throws IllegalArgumentException if the propertyPrefix is null
      */
-    AddProtocolAttachmentBaseRuleHelper(final String propertyPrefix) {
+    ProtocolAttachmentBaseRuleHelper(final String propertyPrefix) {
+        this.resetPropertyPrefix(propertyPrefix);
+    }
+    
+    /**
+     * Resets the property prefix.
+     * @param propertyPrefix the prefix (ex: notesAndAttachmentsHelper.newAttachmentProtocol)
+     * @throws IllegalArgumentException if the propertyPrefix is null
+     */
+    public void resetPropertyPrefix(final String propertyPrefix) {
         if (propertyPrefix == null) {
             throw new IllegalArgumentException("propertyPrefix is null");
         }
@@ -53,12 +69,14 @@ class AddProtocolAttachmentBaseRuleHelper {
     
     /**
      * Checks for a valid file.
-     * @param newAttachmentBase the attachment.
+     * @param attachmentBase the attachment.
      * @return true is valid.
      */
-    boolean validFile(final ProtocolAttachmentBase newAttachmentBase) {
+    boolean validFile(final ProtocolAttachmentBase attachmentBase) {
         
-        if (newAttachmentBase.getNewFile() == null || StringUtils.isBlank(newAttachmentBase.getNewFile().getFileName())) {
+        if ((attachmentBase.getNewFile() == null
+            || StringUtils.isBlank(attachmentBase.getNewFile().getFileName()))
+            && attachmentBase.getFileId() == null) {
             this.errorReporter.reportError(this.newFileProperty, KeyConstants.ERROR_PROTOCOL_ATTACHMENT_MISSING_FILE);
             return false;
         }
@@ -67,12 +85,12 @@ class AddProtocolAttachmentBaseRuleHelper {
     
     /**
      * Checks for a valid description.
-     * @param newAttachmentBase the attachment.
+     * @param attachmentBase the attachment.
      * @return true is valid.
      */
-    boolean validDescription(final ProtocolAttachmentBase newAttachmentBase) {
+    boolean validDescription(final ProtocolAttachmentBase attachmentBase) {
         
-        if (StringUtils.isBlank(newAttachmentBase.getDescription())) {
+        if (StringUtils.isBlank(attachmentBase.getDescription())) {
             this.errorReporter.reportError(this.descriptionProperty, KeyConstants.ERROR_PROTOCOL_ATTACHMENT_MISSING_DESCRIPTION);
             return false;
         }
@@ -81,12 +99,12 @@ class AddProtocolAttachmentBaseRuleHelper {
     
     /**
      * Checks for a valid type.
-     * @param newAttachmentBase the attachment.
+     * @param attachmentBase the attachment.
      * @return true is valid.
      */
-    boolean validType(final ProtocolAttachmentBase newAttachmentBase) {
+    boolean validType(final ProtocolAttachmentBase attachmentBase) {
         
-        if (StringUtils.isBlank(newAttachmentBase.getTypeCode())) {
+        if (StringUtils.isBlank(attachmentBase.getTypeCode())) {
             this.errorReporter.reportError(this.typeCodeProperty, KeyConstants.ERROR_PROTOCOL_ATTACHMENT_MISSING_TYPE);
             return false;
         }
