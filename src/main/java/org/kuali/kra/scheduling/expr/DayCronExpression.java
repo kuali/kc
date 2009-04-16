@@ -16,9 +16,7 @@
 package org.kuali.kra.scheduling.expr;
 
 import java.text.ParseException;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import org.kuali.kra.scheduling.expr.util.CronSpecialChars;
 import org.kuali.kra.scheduling.util.Time24HrFmt;
@@ -52,18 +50,14 @@ public class DayCronExpression extends CronExpression {
      */
     @Override
     public String getExpression() {
-        
-        Calendar stDt = new GregorianCalendar();
-        stDt.setTime(getStartDate());        
-        int stDt_dayOfMonth = stDt.get(Calendar.DAY_OF_MONTH);
-        
+ 
         StringBuilder exp = new StringBuilder();
         exp.append(SECONDS).append(CronSpecialChars.SPACE);
         exp.append(getTime().getMinutes()).append(CronSpecialChars.SPACE);
         exp.append(getTime().getHours()).append(CronSpecialChars.SPACE);
-        exp.append(stDt_dayOfMonth).append(CronSpecialChars.SLASH).append(frequency).append(CronSpecialChars.SPACE);
+        exp.append(CronSpecialChars.FIRST).append(CronSpecialChars.SLASH).append(frequency).append(CronSpecialChars.SPACE);
         exp.append(CronSpecialChars.STAR).append(CronSpecialChars.SPACE);
-        exp.append(CronSpecialChars.QUESTION);
+        exp.append(CronSpecialChars.QUESTION);        
         return exp.toString();
     }
 

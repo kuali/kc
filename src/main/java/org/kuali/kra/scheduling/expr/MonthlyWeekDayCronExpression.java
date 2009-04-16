@@ -16,9 +16,7 @@
 package org.kuali.kra.scheduling.expr;
 
 import java.text.ParseException;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import org.kuali.kra.scheduling.expr.util.CronSpecialChars;
 import org.kuali.kra.scheduling.util.Time24HrFmt;
@@ -62,16 +60,12 @@ public class MonthlyWeekDayCronExpression extends CronExpression {
 
     @Override
     public String getExpression() {
-
-        Calendar stDt = new GregorianCalendar();
-        stDt.setTime(getStartDate());
-
         StringBuilder exp = new StringBuilder();
         exp.append(SECONDS).append(CronSpecialChars.SPACE);
         exp.append(getTime().getMinutes()).append(CronSpecialChars.SPACE);
         exp.append(getTime().getHours()).append(CronSpecialChars.SPACE);
         exp.append(CronSpecialChars.QUESTION).append(CronSpecialChars.SPACE);
-        exp.append(stDt.get(Calendar.MONTH) + 1).append(CronSpecialChars.SLASH).append(frequencyInMonth).append(CronSpecialChars.SPACE);
+        exp.append(CronSpecialChars.FIRST).append(CronSpecialChars.SLASH).append(frequencyInMonth).append(CronSpecialChars.SPACE);
         if (!(weekOfMonth == CronSpecialChars.LAST))
             exp.append(dayOfWeek).append(CronSpecialChars.HASH).append(weekOfMonth);
         else
