@@ -1,14 +1,21 @@
-KC Release Version 1.1.1 Patch
-------------------------------------
-
-KC database release bundle contains patched database objects (tables, constraints, bootstrap data)
-required to launch/execute KRA application
-
-Pre-install system check
+KC Release Version 1.1.1
 ------------------------
 
-Edit KC-Release-1_1-1_1_1-Pre-install-check.bat (or .sh) file. set username/password and service name for oracle user.
-Execute KC-Release-1_1-1_1_1-Pre-install-check.bat
+KC database release bundle contains all SQL scripts needed to install a new schema 
+or upgrade existing KC schema with the database objects (tables, constraints, bootstrap data)
+required to launch/execute KRA application
+
+Pre-install system check for Upgrades Only
+------------------------------------------
+
+Run appropriate script (.bat or .sh):
+
+KC_Pre-Install_Check.bat username password DB_server_name
+
+    - username = The Database schema name to install database scripts to.
+    - password = the password for username
+    - DB_server_name = the name used to locate the database server where scripts are stored
+
 review files created beginning with install_kc_release-1_1_1-Patch_*.log for items requiring attention before patch is applied.
 
 Patch installation steps
