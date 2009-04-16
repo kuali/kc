@@ -29,7 +29,7 @@
   	headerTabActive="expenses"
   	extraTopButtons="${KualiForm.extraTopButtons}">
   	
-  	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Expenses" /></div>
+  	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Non-Personnel" /></div>
 		
 	<kra-b:budgetExpenses /> 
 	<kul:panelFooter />
