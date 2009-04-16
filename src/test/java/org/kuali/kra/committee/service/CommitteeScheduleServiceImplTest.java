@@ -268,10 +268,23 @@ public class CommitteeScheduleServiceImplTest  {
     public void testAddScheduleDailyRecurrenceWeekday() throws Exception {
         prerequisite();
         
-        dailyPrerequisite();
+        scheduleData.setRecurrenceType(StyleKey.DAILY.toString());      
+        scheduleData.setDailySchedule(new DailyScheduleDetails());
+        scheduleData.getDailySchedule().setScheduleEndDate(getDate(1));
         scheduleData.getDailySchedule().setDayOption(DailyScheduleDetails.optionValues.WEEKDAY.toString());
         
-        test(2);
+        context.checking(new Expectations() {{
+            Date dt = scheduleData.getScheduleStartDate();
+            Date endDt = scheduleData.getDailySchedule().getScheduleEndDate();
+            List<Date> dates = new LinkedList<Date>();
+            dates.add(new Date());
+            Time24HrFmt time  = new Time24HrFmt(TIME24HR_0_1); 
+            CronSpecialChars[] dow = ScheduleData.convertToWeekdays(scheduleData.getDailySchedule().getDaysOfWeek());
+            ScheduleSequence scheduleSequence = new WeekScheduleSequence(1,dow.length);
+            one(scheduleService).getScheduledDates(dt,endDt,time,dow,scheduleSequence);will(returnValue(dates));
+        }});
+        
+        test(1);
     }
     
     /**
