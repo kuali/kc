@@ -50,9 +50,6 @@ public class ScheduleServiceTest {
         List<Date> list = service.getScheduledDates(stDate, endDate, new Time24HrFmt(time_23_59), 1, null);
         assertEquals(3, list.size());
         
-        list = service.getScheduledDates(stDate, endDate, new Time24HrFmt(time_23_59), 2, null);
-        assertEquals(2, list.size());
-        
         list = service.getScheduledDates(stDate, endDate, new Time24HrFmt(time_23_59), 3, null);
         assertEquals(1, list.size());
     }
