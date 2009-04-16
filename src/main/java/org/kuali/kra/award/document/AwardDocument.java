@@ -22,10 +22,12 @@ import org.kuali.core.document.Copyable;
 import org.kuali.core.document.SessionDocument;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.contacts.AwardPerson;
+import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.service.AwardAuthorizationService;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 
 /**
  * 
@@ -101,9 +103,8 @@ public class AwardDocument extends ResearchDocumentBase implements  Copyable, Se
         Award award = getAward();
         
         managedLists.add(award.getProjectPersons());
-        for(AwardPerson p: award.getProjectPersons()) {
-            managedLists.add(p.getUnits());
-        }
+        
+        addAwardPersonUnitsCollection(managedLists, award);
         managedLists.add(award.getUnitContacts());
         managedLists.add(award.getSponsorContacts());
         
@@ -134,5 +135,14 @@ public class AwardDocument extends ResearchDocumentBase implements  Copyable, Se
         AwardAuthorizationService awardAuthService = 
                (AwardAuthorizationService) KraServiceLocator.getService(AwardAuthorizationService.class); 
         return awardAuthService.getAllRolePersons(getAward());
+    }
+    
+    @SuppressWarnings("unchecked")
+    private void addAwardPersonUnitsCollection(List managedLists, Award award) {
+        List<AwardPersonUnit> personUnits = new ArrayList<AwardPersonUnit>();
+        for(AwardPerson p: award.getProjectPersons()) {
+            personUnits.addAll(p.getUnits());
+        }
+        managedLists.add(personUnits);
     }
 }
