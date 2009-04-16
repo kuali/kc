@@ -1,158 +1,158 @@
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=Windows-1252">
-<title>Kuali Research Administration Online Help</title>
-<script language="JavaScript" src="navmanager.js"></script>
-<script language="JavaScript" src="common.js"></script>
-<script language="javascript">
-<!--
-	var g_defaultTopic = "WordDocuments/kualiresearchadministration10onlinehelp.htm";
-	var g_mainLayout = true;
-	function processCSH()
-	{
-		var strSearch = document.location.search;
-		strSearch = unescape(strSearch.substring(1, strSearch.length));
-		var url = getQueryVal(strSearch, "turl");
-		if (url && url != "")
-			g_defaultTopic = url;
-		var frm = window.g_Manager.Navigator.Right;
-		if (isOpera())
-		{
-			var doc = getFrameDocument(frm);
-			doc.location.href = g_defaultTopic;
-		}
-		else
-			frm.src = g_defaultTopic;
-		window.g_Manager.Navigator.SyncTOC();
-	}
-	function getSearchVal(strS, offset)
-	{
-		var endstr = strS.indexOf('&', offset);
-		if (endstr == -1)
-			endstr = strS.length + 1;
-		var val = strS.substring(offset, endstr);
-		var test = val.replace('+', ' ');
-		while (val.indexOf(test) == -1)
-		{
-			val = test;
-			test = val.replace('+', ' ');
-		}
-		return decodeURIComponent(test);
-	}
-	function getQueryVal(strS, name)
-	{
-		var arg = name + "=";
-		var alen = arg.length;
-		var clen = strS.length;
-		var i = 0;
-		while (i < clen)
-		{
-			var j = i + alen;
-			if (strS.substring(i, j) == arg)
-				return getSearchVal(strS, j);
-			i = strS.indexOf('&', i) + 1;
-			if (i == 0) break; 
-		}
-		return "";
-	}
-	function getElemById(id)
-	{
-		try
-		{
-			if (typeof document.all != "undefined")
-				return document.all(id);
-			else
-				return document.getElementById(id);
-		}
-		catch(e)
-		{
-		}
-		return null;
-	}
-	function getFrameDocument(frm)
-	{
-		var doc = null;
-		try
-		{
-			if (typeof frm.contentWindow != "undefined" && typeof frm.contentWindow.document != "undefined")
-				doc = frm.contentWindow.document;
-			else if (typeof frm.contentDocument != "undefined")
-				doc = frm.contentDocument;
-			else if (typeof frm.document != "undefined")
-			doc = frm.document;
-		}
-		catch(e)
-		{
-		}
-		return doc;
-	}
-	function getWindow(doc)
-	{
-		var wnd = null;
-		if (typeof doc.defaultView != "undefined")
-			wnd = doc.defaultView;
-		else if (typeof doc.contentWindow != "undefined")
-			wnd = doc.contentWindow;
-		else if (typeof doc.parentWindow != "undefined")
-			wnd = doc.parentWindow;
-		return wnd;
-	}
-	function isOpera()
-	{
-		var strUserAgent = navigator.userAgent.toLowerCase();
-		var res = strUserAgent.indexOf("opera") == -1 ? false : true;
-		return res;
-	}
-	function InitNavigationPanels()
-	{
-	    if (!window.g_Manager)
-	        window.g_Manager = new Object();
-	    if (!window.g_Manager.Navigator)
-	        window.g_Manager.Navigator = new d2hNavigationManager(getElemById("left"), getElemById("right"));
-	    if (!window.g_Manager.Favorites)
-	        window.g_Manager.Favorites = new d2hFavorites();
-	    processCSH();
-
-
-
-	}
-	function leftResize(evt)
-	{
-	    setTimeout("window.g_Manager.Navigator._onResizeLeft()", 10);
-	}
-	//adjusts frame border for specific browsers
-    function d2hAdjustFrameSet(elem)
-    {
-        if (isOpera())
-            elem.setAttribute("framespacing", "3");
-    }
-
-    function DestroyManager()
-	{
-	    window.g_Manager = null;
-	}--></script>
-</head>
-
-<frameset id="d2hMainLayout" border="0" frameSpacing="0" rows="29px, *">
-<frame  border="0" frameborder="no" name="nav_top" title="Topic navigation" src="_d2h_theme_nav_left_top.htm" noresize scrolling="no" marginwidth="0" marginheight="0" leftmargin="0" topmargin="0">
-<frameset border="7" frameSpacing="7" bordercolor="#C00000" frameborder="yes" cols="25%, 75%" onload="d2hAdjustFrameSet(this);InitNavigationPanels()" onunload="DestroyManager()">
-<frameset id="d2hLeftBottomLayout" border="0" frameSpacing="0" rows="27px, *">
-<frame  border="0" frameborder="no" style="" name="nav_bottom" title="Bottom topic navigation" src="_d2h_theme_nav_left_bottom.htm" scrolling="no" marginwidth="0" marginheight="0" leftmargin="0" topmargin="0">
-
-<frame id="left" name="left" title="Navigation panes" src="kraonlinehelp.htm-toc.htm" border="0" frameborder="no" style="" onresize="leftResize(event);">
-
-</frameset>
-<![if !IE]>
-<frame id="right" name="right" title="Topic text" src="about:blank">
-<![endif]>
-<!--[if IE]>
-<frame frameborder="no" id="right" name="right" title="Topic text" src="about:blank">
-<![endif]-->
-</frameset>
-</frameset>
-<noframes>
-<h2>Your browser does not support frames</h2><a href="kraonlinehelp.htm-toc.htm">Click here</a> to continue.
-</noframes>
-
-
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Windows-1252">
+<title>Kuali Research Administration Online Help</title>
+<script language="JavaScript" src="navmanager.js"></script>
+<script language="JavaScript" src="common.js"></script>
+<script language="javascript">
+<!--
+	var g_defaultTopic = "WordDocuments/kualiresearchadministrationkrareleaseversion11help.htm";
+	var g_mainLayout = true;
+	function processCSH()
+	{
+		var strSearch = document.location.search;
+		strSearch = unescape(strSearch.substring(1, strSearch.length));
+		var url = getQueryVal(strSearch, "turl");
+		if (url && url != "")
+			g_defaultTopic = url;
+		var frm = window.g_Manager.Navigator.Right;
+		if (isOpera())
+		{
+			var doc = getFrameDocument(frm);
+			doc.location.href = g_defaultTopic;
+		}
+		else
+			frm.src = g_defaultTopic;
+		window.g_Manager.Navigator.SyncTOC();
+	}
+	function getSearchVal(strS, offset)
+	{
+		var endstr = strS.indexOf('&', offset);
+		if (endstr == -1)
+			endstr = strS.length + 1;
+		var val = strS.substring(offset, endstr);
+		var test = val.replace('+', ' ');
+		while (val.indexOf(test) == -1)
+		{
+			val = test;
+			test = val.replace('+', ' ');
+		}
+		return decodeURIComponent(test);
+	}
+	function getQueryVal(strS, name)
+	{
+		var arg = name + "=";
+		var alen = arg.length;
+		var clen = strS.length;
+		var i = 0;
+		while (i < clen)
+		{
+			var j = i + alen;
+			if (strS.substring(i, j) == arg)
+				return getSearchVal(strS, j);
+			i = strS.indexOf('&', i) + 1;
+			if (i == 0) break; 
+		}
+		return "";
+	}
+	function getElemById(id)
+	{
+		try
+		{
+			if (typeof document.all != "undefined")
+				return document.all(id);
+			else
+				return document.getElementById(id);
+		}
+		catch(e)
+		{
+		}
+		return null;
+	}
+	function getFrameDocument(frm)
+	{
+		var doc = null;
+		try
+		{
+			if (typeof frm.contentWindow != "undefined" && typeof frm.contentWindow.document != "undefined")
+				doc = frm.contentWindow.document;
+			else if (typeof frm.contentDocument != "undefined")
+				doc = frm.contentDocument;
+			else if (typeof frm.document != "undefined")
+			doc = frm.document;
+		}
+		catch(e)
+		{
+		}
+		return doc;
+	}
+	function getWindow(doc)
+	{
+		var wnd = null;
+		if (typeof doc.defaultView != "undefined")
+			wnd = doc.defaultView;
+		else if (typeof doc.contentWindow != "undefined")
+			wnd = doc.contentWindow;
+		else if (typeof doc.parentWindow != "undefined")
+			wnd = doc.parentWindow;
+		return wnd;
+	}
+	function isOpera()
+	{
+		var strUserAgent = navigator.userAgent.toLowerCase();
+		var res = strUserAgent.indexOf("opera") == -1 ? false : true;
+		return res;
+	}
+	function InitNavigationPanels()
+	{
+	    if (!window.g_Manager)
+	        window.g_Manager = new Object();
+	    if (!window.g_Manager.Navigator)
+	        window.g_Manager.Navigator = new d2hNavigationManager(getElemById("left"), getElemById("right"));
+	    if (!window.g_Manager.Favorites)
+	        window.g_Manager.Favorites = new d2hFavorites();
+	    processCSH();
+
+
+
+	}
+	function leftResize(evt)
+	{
+	    setTimeout("window.g_Manager.Navigator._onResizeLeft()", 10);
+	}
+	//adjusts frame border for specific browsers
+    function d2hAdjustFrameSet(elem)
+    {
+        if (isOpera())
+            elem.setAttribute("framespacing", "3");
+    }
+
+    function DestroyManager()
+	{
+	    window.g_Manager = null;
+	}--></script>
+</head>
+
+<frameset id="d2hMainLayout" border="0" frameSpacing="0" rows="29px, *">
+<frame  border="0" frameborder="no" name="nav_top" title="Topic navigation" src="_d2h_theme_nav_left_top.htm" noresize scrolling="no" marginwidth="0" marginheight="0" leftmargin="0" topmargin="0">
+<frameset border="7" frameSpacing="7" bordercolor="#C00000" frameborder="yes" cols="25%, 75%" onload="d2hAdjustFrameSet(this);InitNavigationPanels()" onunload="DestroyManager()">
+<frameset id="d2hLeftBottomLayout" border="0" frameSpacing="0" rows="27px, *">
+<frame  border="0" frameborder="no" style="" name="nav_bottom" title="Bottom topic navigation" src="_d2h_theme_nav_left_bottom.htm" scrolling="no" marginwidth="0" marginheight="0" leftmargin="0" topmargin="0">
+
+<frame id="left" name="left" title="Navigation panes" src="kraonlinehelp.htm-toc.htm" border="0" frameborder="no" style="" onresize="leftResize(event);">
+
+</frameset>
+<![if !IE]>
+<frame id="right" name="right" title="Topic text" src="about:blank">
+<![endif]>
+<!--[if IE]>
+<frame frameborder="no" id="right" name="right" title="Topic text" src="about:blank">
+<![endif]-->
+</frameset>
+</frameset>
+<noframes>
+<h2>Your browser does not support frames</h2><a href="kraonlinehelp.htm-toc.htm">Click here</a> to continue.
+</noframes>
+
+
 </html>
