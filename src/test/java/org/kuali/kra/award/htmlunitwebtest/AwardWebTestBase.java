@@ -66,6 +66,9 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
     protected static final String PROJECT_END_DATE_ID = AWARD_ID_PREFIX + "awardAmountInfos[0].finalExpirationDate";
     
     protected static final String SAVE_PAGE = "methodToCall.save";
+    protected static final String CHECKED = "on";
+    protected static final String UNCHECKED = "off";
+    
     private static final String ONE = "1";
     private static final String AWARD_TITLE = "Award Title";
     private static final String GOOGLE_SPONSOR_CODE = "005979";

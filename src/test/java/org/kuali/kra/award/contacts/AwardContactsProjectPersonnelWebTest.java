@@ -15,9 +15,15 @@
  */
 package org.kuali.kra.award.contacts;
 
+import java.io.IOException;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
+import com.gargoylesoftware.htmlunit.html.HtmlImageInput;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 /**
  * This class tests the ApprovedEquipment panel
@@ -49,6 +55,40 @@ public class AwardContactsProjectPersonnelWebTest extends AwardContactsWebTest {
     @Test
     public void testAddingProjectPerson_Employee() throws Exception {
         addEmployeeContact();
+    }
+    
+    @Test
+    public void testAddingProjectPersonUnitToEmployee() throws Exception {
+        addEmployeeContact();
+        addUnit(true);
+    }
+
+    @Test
+    public void testSavingProjectPerson() throws Exception {
+        addEmployeeContact();
+        addUnit(true);
+        save(contactsPage);
+        checkForErrorsOnPage();
+    }
+    
+    private void addUnit(boolean leadUnit) throws Exception {
+        selectUnit();
+        setFieldValue(contactsPage, "projectPersonnelBean.newAwardPersonUnit.leadUnit", leadUnit ? CHECKED : UNCHECKED);
+        checkForErrorsOnPage();
+        addSelectedUnit();        
+    }
+
+    protected void addSelectedUnit() throws IOException {
+        HtmlForm form = (HtmlForm) contactsPage.getForms().get(0);
+        String addButtonName = getImageTagName(contactsPage, METHOD_TO_CALL_PREFIX + "addNewProjectPersonUnit");        
+        HtmlImageInput addButton = (HtmlImageInput) form.getInputByName(addButtonName);
+        contactsPage = (HtmlPage) addButton.click();
+        checkForErrorsOnPage();
+        assertContains(contactsPage, "CARDIOLOGY");        
+    }
+    
+    private void selectUnit() throws Exception {
+        contactsPage = lookup(contactsPage, "projectPersonnelBean.newUnitNumber", "unitNumber", "IN-CARD");
     }
 
     @Test
