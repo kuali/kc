@@ -23,7 +23,7 @@ import org.junit.runners.Suite.SuiteClasses;
 /**
  * This class runs just the unit tests
  */
-@Ignore("Not running because it would reult in duplicate tests being executed")
+@Ignore("Not running because it would result in duplicate tests being executed")
 @RunWith(value=Suite.class)
 @SuiteClasses(value={AwardPersonTest.class, 
                      AwardProjectPersonAddRuleImplTest.class, 
