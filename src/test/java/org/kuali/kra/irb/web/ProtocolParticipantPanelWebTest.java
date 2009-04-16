@@ -1,5 +1,3 @@
-// ToDo: cniesen - test if this web test is working.  Currently it does not run successful due to Rajeev's changes to the protocol personell.
-
 /*
  * Copyright 2006-2008 The Kuali Foundation
  *
