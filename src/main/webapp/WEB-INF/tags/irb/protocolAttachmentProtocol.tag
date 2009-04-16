@@ -31,7 +31,7 @@
          	<tr>
          		<th>
          			<div align="right">
-         				<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentProtocolAttributes.typeCode}" noColon="false" />
+         				<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentProtocolAttributes.typeCode}" noColon="false" forceRequired="true"/>
          			</div>
          		</th>
          		<td align="left" valign="middle" class="infoline">
@@ -57,7 +57,7 @@
 				</td>
 				<th>
 					<div align="right">
-						<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentProtocolAttributes.fileId}" noColon="false"  />
+						<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentProtocolAttributes.fileId}" noColon="false"  forceRequired="true"/>
 					</div>
 				</th>
        			<td align="left" valign="middle" class="infoline">
@@ -77,7 +77,7 @@
          	<tr>
          		<th>
          			<div align="right">
-         				<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentProtocolAttributes.statusCode}" noColon="false" />
+         				<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentProtocolAttributes.statusCode}" noColon="false" forceRequired="true"/>
          			</div>
          		</th>
          		<td align="left" valign="middle" class="infoline">
@@ -154,7 +154,7 @@
 				</td>
 				<th>
 					<div align="right">
-						<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentProtocolAttributes.description}" noColon="false" />
+						<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentProtocolAttributes.description}" noColon="false" forceRequired="true"/>
 					</div>
 				</th>
          		<td align="left" valign="middle" class="infoline">
@@ -175,7 +175,7 @@
 		</table>
 		
 		<c:forEach var="attachmentProtocol" items="${KualiForm.document.protocol.attachmentProtocols}" varStatus="status">
-			<kul:innerTab tabTitle="${attachmentProtocol.type.description} - ${attachmentProtocol.status.description}" parentTab="Protocol Attachments(${size})" defaultOpen="false" tabErrorKey="">
+			<kul:innerTab tabTitle="${attachmentProtocol.type.description} - ${attachmentProtocol.status.description}" parentTab="Protocol Attachments(${size})" defaultOpen="false" tabErrorKey="document.protocol.attachmentProtocol*">
 				<div class="innerTab-container" align="left">
             		<table class=tab cellpadding=0 cellspacing="0" summary="">
 						<tr>
@@ -206,7 +206,7 @@
 			         	<tr>
 			         		<th>
 			         			<div align="right">
-			         				<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentProtocolAttributes.statusCode}" noColon="false" />
+			         				<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentProtocolAttributes.statusCode}" noColon="false" forceRequired="true"/>
 			         			</div>
 			         		</th>
 			         		<td align="left" valign="middle" class="infoline">
@@ -283,7 +283,7 @@
 							</td>
 							<th>
 								<div align="right">
-									<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentProtocolAttributes.description}" noColon="false" />
+									<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentProtocolAttributes.description}" noColon="false" forceRequired="true"/>
 								</div>
 							</th>
 			         		<td align="left" valign="middle" class="infoline">
