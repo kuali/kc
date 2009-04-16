@@ -20,12 +20,22 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * This class decorates ScheduleSequence to trim dates outside start and end dates passed as parameter.
+ */
 public class TrimDatesScheduleSequenceDecorator extends ScheduleSequenceDecorator {
 
+    /**
+     * Constructs a TrimDatesScheduleSequenceDecorator.java.
+     * @param scheduleSequence
+     */
     public TrimDatesScheduleSequenceDecorator(ScheduleSequence scheduleSequence) {
         super(scheduleSequence);
     }
     
+    /**
+     * @see org.kuali.kra.scheduling.sequence.ScheduleSequence#executeScheduleSequence(java.lang.String, java.util.Date, java.util.Date)
+     */
     public List<Date> executeScheduleSequence(String expression, Date startDate, Date endDate) throws ParseException {
         List<Date> dates = scheduleSequence.executeScheduleSequence(expression, startDate, endDate);
         List<Date> trimmedDates = new ArrayList<Date>();
