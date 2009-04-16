@@ -21,7 +21,7 @@
 <c:set var="action" value="protocolNoteAndAttachment" />
 <c:set var="attachmentPersonnels" value="${KualiForm.document.protocol.attachmentPersonnels}"/>
 
-<kul:tab tabTitle="Personnel Attachments(${fn:length(KualiForm.document.protocol.attachmentPersonnels)})" defaultOpen="true" tabErrorKey="notesAndAttachmentsHelper.newAttachmentPersonnel.*" transparentBackground="false">
+<kul:tab tabTitle="Personnel Attachments(${fn:length(KualiForm.document.protocol.attachmentPersonnels)})" defaultOpen="true" tabErrorKey="notesAndAttachmentsHelper.newAttachmentPersonnel.*,document.protocol.attachmentPersonnel*" transparentBackground="false">
 	<div class="tab-container" align="center">
    		<h3>
    			<span class="subhead-left">Add Personnel Attachment</span>
@@ -44,22 +44,22 @@
          		</th>
          		<th>
          			<div align="center">
-         				<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentPersonnelAttributes.personId}" noColon="false" />
+         				<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentPersonnelAttributes.personId}" noColon="false" forceRequired="true"/>
          			</div>
          		</th>
          		<th>
          			<div align="center">
-         				<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentPersonnelAttributes.typeCode}" noColon="false" />
+         				<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentPersonnelAttributes.typeCode}" noColon="false" forceRequired="true"/>
          			</div>
          		</th>
          		<th>
 					<div align="center">
-						<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentPersonnelAttributes.description}" noColon="false" />
+						<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentPersonnelAttributes.description}" noColon="false" forceRequired="true"/>
 					</div>
 				</th>
          		<th>
 					<div align="center">
-						<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentPersonnelAttributes.fileId}" noColon="false"  />
+						<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentPersonnelAttributes.fileId}" noColon="false" forceRequired="true"/>
 					</div>
 				</th>
          		<th>

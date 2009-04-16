@@ -15,10 +15,7 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.document.ProtocolDocument;
-import org.kuali.kra.rules.ErrorReporter;
 
 
 /**
@@ -28,53 +25,20 @@ import org.kuali.kra.rules.ErrorReporter;
 class AddProtocolAttachmentProtocolRuleImpl implements AddProtocolAttachmentProtocolRule {
 
     private static final String PROPERTY_PREFIX = "notesAndAttachmentsHelper.newAttachmentProtocol";
-    private static final String STATUS_CODE = PROPERTY_PREFIX + ".statusCode";
-    private final AddProtocolAttachmentBaseRuleHelper helper = new AddProtocolAttachmentBaseRuleHelper(PROPERTY_PREFIX);
-    private final ErrorReporter errorReporter = new ErrorReporter();
+    private final ProtocolAttachmentBaseRuleHelper baseHelper = new ProtocolAttachmentBaseRuleHelper(PROPERTY_PREFIX);
+    private final ProtocolAttachmentProtocolRuleHelper protocolHelper = new ProtocolAttachmentProtocolRuleHelper(PROPERTY_PREFIX);
     
     /** {@inheritDoc} */
     public boolean processAddProtocolAttachmentProtocolRules(AddProtocolAttachmentProtocolEvent event) {      
         final ProtocolDocument document = (ProtocolDocument) event.getDocument();
         final ProtocolAttachmentProtocol newAttachmentProtocol = event.getNewAttachmentProtocol();
         
-        boolean valid = this.helper.validType(newAttachmentProtocol);
-        valid &= validStatus(newAttachmentProtocol);
-        valid &= this.helper.validFile(newAttachmentProtocol);
-        valid &= this.helper.validDescription(newAttachmentProtocol);
-        valid &= duplicateType(newAttachmentProtocol, document);
+        boolean valid = this.baseHelper.validType(newAttachmentProtocol);
+        valid &= this.protocolHelper.validStatus(newAttachmentProtocol);
+        valid &= this.baseHelper.validFile(newAttachmentProtocol);
+        valid &= this.baseHelper.validDescription(newAttachmentProtocol);
+        valid &= this.protocolHelper.duplicateType(newAttachmentProtocol, document);
         
         return valid;
-    }
-    
-    /**
-     * Checks for a valid status.
-     * @param newAttachmentProtocol the attachment.
-     * @return true is valid.
-     */
-    private boolean validStatus(final ProtocolAttachmentProtocol newAttachmentProtocol) {
-        
-        if (StringUtils.isBlank(newAttachmentProtocol.getStatusCode())) {
-            this.errorReporter.reportError(STATUS_CODE, KeyConstants.ERROR_PROTOCOL_ATTACHMENT_MISSING_STATUS);
-            return false;
-        }
-        return true;
-    }
-    
-    /**
-     * Checks that a type does not already exist for a document.
-     * @param newAttachmentProtocol the attachment.
-     * @param document the document
-     * @return true is valid.
-     */
-    private boolean duplicateType(final ProtocolAttachmentProtocol newAttachmentProtocol, final ProtocolDocument document) {
-        
-        for (ProtocolAttachmentProtocol attachment : document.getProtocol().getAttachmentProtocols()) {
-            if (attachment.getTypeCode().equals(newAttachmentProtocol.getTypeCode())) {
-                this.errorReporter.reportError(this.helper.getTypeCodeProperty(), KeyConstants.ERROR_PROTOCOL_ATTACHMENT_DUPLICATE_TYPE);
-                return false;
-            }
-        }
-        
-        return true;
     }
 }

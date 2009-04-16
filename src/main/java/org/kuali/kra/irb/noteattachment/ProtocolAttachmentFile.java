@@ -53,9 +53,9 @@ public class ProtocolAttachmentFile extends KraPersistableBusinessObjectBase {
      * @param data the data.
      */
     private ProtocolAttachmentFile(String name, String type, byte[] data) {
-        this.name = name;
-        this.type = type;
-        this.data = (data == null) ? null : data.clone();
+        this.setName(name);
+        this.setType(type);
+        this.setData(data);
     }
     
     /**
@@ -131,7 +131,7 @@ public class ProtocolAttachmentFile extends KraPersistableBusinessObjectBase {
      * @return the Protocol Attachment File data
      */
     public byte[] getData() {
-        return this.data;
+        return (this.data == null) ? null : this.data.clone();
     }
     
     /**
@@ -139,7 +139,7 @@ public class ProtocolAttachmentFile extends KraPersistableBusinessObjectBase {
      * @param data the Protocol Attachment File data
      */
     public void setData(byte[] data) {
-        this.data = data;
+        this.data = (data == null) ? null : data.clone();
     }
     
     /** {@inheritDoc} */
