@@ -79,7 +79,6 @@ public abstract class AwardContactsWebTest extends AwardWebTestBase {
     }
 
     protected void addSelectedContact() throws IOException {
-        System.err.println(contactsPage.asXml());
         HtmlForm form = (HtmlForm) contactsPage.getForms().get(0);
         String addButtonName = getImageTagName(contactsPage, getAddSelectedContactButtonContext());        
         HtmlImageInput addButton = (HtmlImageInput) form.getInputByName(addButtonName);
