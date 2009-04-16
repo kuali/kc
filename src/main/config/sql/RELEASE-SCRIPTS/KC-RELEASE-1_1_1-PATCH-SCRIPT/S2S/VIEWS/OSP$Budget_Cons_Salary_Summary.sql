@@ -101,9 +101,7 @@ from (
              AND E.RATE_CLASS_CODE = RB.RATE_CLASS_CODE
              AND E.RATE_TYPE_CODE = RB.RATE_TYPE_CODE
              AND d.rate_class_type in ('E', 'V')
-
           MINUS
-
           select A1.proposal_number proposal_number,
                  A1.version_number version_number,
                  A1.budget_period budget_period,
@@ -135,7 +133,6 @@ from (
                  rb.APPLIED_RATE sAPPLIED_RATE,
                  a2.CALCULATED_COST sCALCULATED_COST,
                  a2.CALCULATED_COST_SHARING sCALCULATED_COST_SHARING
-
             from OSP$BUDGET_SALARY_SUMMARY A1,
                  osp$budget_details_cal_amts a2,
                  osp$budget_rate_and_base rb,
@@ -162,7 +159,6 @@ from (
              and A2.rate_type_code = R.rate_type_code
              AND d.rate_class_type in ('E', 'V'))
 )
-
 group by
       proposal_number, version_number, budget_period, line_item_number, budget_category_code, cost_element,
       fdesc, gdesc, person_number, person_id, full_name, job_code, principal_investigator, percent_charged, percent_effort,

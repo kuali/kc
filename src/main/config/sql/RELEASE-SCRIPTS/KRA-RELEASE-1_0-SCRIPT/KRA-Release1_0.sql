@@ -1,31 +1,35 @@
-set feedback off;
---set term off;
-set heading off;
+set feedback off
+--set term off
+set heading off
 set escape \
 set define off
 
-spool install_kra_release-1.log;
+spool install_kra_release-1.0.log
 
 --set term on;
-select '************* START INSTALLING KRA DATABASE OBJECTS *************' from dual;
+Prompt ************* START INSTALLING KRA DATABASE OBJECTS *************
 --set term off;
 
 --set term on;
-select '************* START CREATING KRA TABLES *************' from dual;
+Prompt ************* START CREATING KRA TABLES *************
 --set term off;
 
 @DDL/KRA_ALL_TABLES
 
+--set term on;
+Prompt ************* START CREATING KRA TYPES *************
+--set term off;
+
 @TYPES/KRA_ALL_TYPES
 
 --set term on;
-select '************* START CREATING SEQUENCES *************' from dual;
+Prompt ************* START CREATING SEQUENCES *************
 --set term off;
 
 @SEQUENCES/KRA_ALL_SEQUENCES
 
 --set term on;
-select '************* START LOADING BOOTSTRAP DATA *************' from dual;
+Prompt ************* START LOADING BOOTSTRAP DATA *************
 --set term off;
 
 @DML/KRA_DML-1
@@ -35,20 +39,20 @@ select '************* START LOADING BOOTSTRAP DATA *************' from dual;
 COMMIT;
 
 --set term on;
-select '************* START CREATING CONSTRAINTS *************' from dual;
+Prompt ************* START CREATING CONSTRAINTS *************
 --set term off;
 
 @CONSTRAINTS/KRA_ALL_PRIMARY_KEYS
 @CONSTRAINTS/KRA_ALL_FOREIGN_KEYS
 
 --set term on;
-select '************* START CREATING INDEXES *************' from dual;
+Prompt ************* START CREATING INDEXES *************
 --set term off;
 
 REM @INDEXES/KRA_ALL_INDEXES
 
 --set term on;
-select '************* START LOADING S2S OBJECTS *************' from dual;
+Prompt ************* START LOADING S2S OBJECTS *************
 --set term off;
 
 
@@ -356,11 +360,15 @@ select '************* START LOADING S2S OBJECTS *************' from dual;
 @S2S/procfunpacks/getTotalProjEndDt.sql
 @S2S/procfunpacks/getTotalProjStartDt.sql
 
+Prompt Recompiling invalid objects
 
 begin DBMS_UTILITY.COMPILE_SCHEMA(USER); END;
 /
+
+select 'Invalid objects still remaining: ' || count(*) from user_objects where status = 'INVALID';
+
 --set term on;
-select '************* END KC DATABASE UPDATE *************' from dual;
+Prompt ************* END KC DATABASE UPDATE *************
 --set term off;
 
 exit

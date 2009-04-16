@@ -8,7 +8,7 @@ required to launch/execute KRA application
 Pre-install system check for Upgrades Only
 ------------------------------------------
 
-Run appropriate script (.bat or .sh):
+Run appropriate script (*.bat or *.sh):
 
 KC_Pre-Install_Check.bat username password DB_server_name
 
@@ -21,8 +21,8 @@ review files created beginning with install_kc_release-1_1_1-Patch_*.log for ite
 Patch installation steps
 ------------------------
 
-Edit KC-Release-1_1-1_1_1-Patch.bat (or .sh) file. Set username/password and service name for oracle user.
-Make sure above oracle user has following privileges
+Ensure oracle username is less than 8 characters
+Make sure oracle user has following privileges
 	* CREATE PROCEDURE  
 	* CREATE TABLE  
 	* CREATE TYPE  
@@ -34,11 +34,17 @@ Set path to oracle/bin
 	* Database structures and base bootstrap data are loaded using SQLPLUS 
 	* Bootstrap data for large object columns are loaded using SQLLDR
 
+Run appropriate script (*.bat or *.sh):
 
-Execute KC-Release-1_1-1_1_1-Patch.bat to load patched database objects
+KC_Install.bat Install_version username password DB_server_name
 
-Errors are listed in
-	* KC base object errors are listed in install_kc_release-1_1_1-Patch.log
-	* Log files below refer error loading bootstrap LOB data
+    - Install_Version = Choose one: new, 1.0, 1.1
+       - new = New install with an empty database schema
+       - 1.0 = upgrading from 1.0 KC version
+       - 1.1 = upgrading from 1.1 KC version
+    - username = The Database schema name to install database scripts to.
+    - password = the password for username
+    - DB_server_name = the name used to locate the database server where scripts are stored
 
+Review .log files for installation errors
 

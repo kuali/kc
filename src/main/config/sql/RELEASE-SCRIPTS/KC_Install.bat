@@ -9,7 +9,7 @@ if "%1" == "1.1" goto v11
 goto usage
 :new
 cd KRA-RELEASE-1_0-SCRIPT
-sqlplus %2/%3@%4 @KRA-Release1_0
+sqlplus %2/%3@%4 @KRA-Release1_0.sql
 
 sqlldr %2/%3@%4 control=DML/LOB-CTL/EXEMPTION_TYPE.ctl
 sqlldr %2/%3@%4 control=DML/LOB-CTL/EN_DOC_HDR_CNTNT_T.ctl
@@ -21,7 +21,7 @@ move *.log ..
 cd ..
 :v10
 cd KRA-RELEASE-1_1-SCRIPT
-sqlplus %2/%3@%4 @KRA-Release-1_1.sql
+sqlplus %2/%3@%4 @KRA-Release1_1.sql
 move *.log ..
 cd ..
 :v11
@@ -29,7 +29,7 @@ cd KC-RELEASE-1_1_1-PATCH-SCRIPT
 sqlplus %2/%3@%4 @KCRA-Release-1_1-1_1_1-Patch.sql
 move *.log ..
 cd ..
-Echo review log files for errors during database install.
+Echo Review log files for errors during database install.
 dir *.log
 goto end
 :usage

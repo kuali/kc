@@ -19,15 +19,13 @@ CREATE OR REPLACE VIEW OSP$V_SALARY_SUMMARY AS
                             null fringe_cost_sharing,
                             DECODE(inv.PRINCIPAL_INVESTIGATOR_FLAG, 'Y', '1', 'N', '2', NULL, '3', '4') AS PRINCIPAL_INVESTIGATOR, 
                             g.COST_ELEMENT, 
-                            g.description cost_element_desc
-                   
+                            g.description cost_element_desc                   
                     from osp$budget_details a,
                          osp$budget_personnel_details b,
                          osp$person p ,
                          osp$budget_category f,
                          osp$cost_element g ,
                          osp$eps_prop_investigators inv
-
                     where
                          a.proposal_number = b.proposal_number (+) and
                          a.version_number = b.version_number (+) and
