@@ -654,7 +654,7 @@
 						<c:choose>
 							<c:when test="${isFieldReadOnly}">
 								<c:if test="${empty fieldValue}" >
-									<c:out value="<%=((String) request.getAttribute("fileName"))%>" />&nbsp;
+									<c:out value="<%=((String) request.getAttribute(\"fileName\"))%>" />&nbsp;
 								</c:if>
 								<c:if test="${not empty fieldValue}" >
 									<kul:fieldShowReadOnly field="${field}" addHighlighting="${addHighlighting}" />
