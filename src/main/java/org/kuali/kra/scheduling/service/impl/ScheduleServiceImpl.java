@@ -34,6 +34,7 @@ import org.kuali.kra.scheduling.expr.YearMonthDayOfWeekCronExpression;
 import org.kuali.kra.scheduling.expr.util.CronSpecialChars;
 import org.kuali.kra.scheduling.sequence.DefaultScheduleSequence;
 import org.kuali.kra.scheduling.sequence.ScheduleSequence;
+import org.kuali.kra.scheduling.sequence.TrimDatesScheduleSequenceDecorator;
 import org.kuali.kra.scheduling.service.ScheduleService;
 import org.kuali.kra.scheduling.util.Time24HrFmt;
 import org.springframework.transaction.annotation.Transactional;
@@ -217,7 +218,7 @@ public class ScheduleServiceImpl implements ScheduleService {
      */
     private ScheduleSequence getScheduleSequence(ScheduleSequence scheduleSequence) {
         if (null == scheduleSequence) {
-            scheduleSequence = new DefaultScheduleSequence();
+            scheduleSequence = new TrimDatesScheduleSequenceDecorator(new DefaultScheduleSequence());
         }
         return scheduleSequence;
     }
