@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rules.ErrorReporter;
 
 /**
  * Implementation of {@link AddProtocolAttachmentPersonnelRule AddProtocolAttachmentPersonnelRule}.
@@ -26,35 +23,20 @@ import org.kuali.kra.rules.ErrorReporter;
 class AddProtocolAttachmentPersonnelRuleImpl implements AddProtocolAttachmentPersonnelRule {
 
     private static final String PROPERTY_PREFIX = "notesAndAttachmentsHelper.newAttachmentPersonnel";
-    private static final String PERSON_ID = PROPERTY_PREFIX + ".personId";
     
-    private final AddProtocolAttachmentBaseRuleHelper helper = new AddProtocolAttachmentBaseRuleHelper(PROPERTY_PREFIX);
-    private final ErrorReporter errorReporter = new ErrorReporter();
+    private final ProtocolAttachmentBaseRuleHelper baseHelper = new ProtocolAttachmentBaseRuleHelper(PROPERTY_PREFIX);
+    private final ProtocolAttachmentPersonnelRuleHelper personnelHelper = new ProtocolAttachmentPersonnelRuleHelper(PROPERTY_PREFIX);
 
     /** {@inheritDoc} */
     public boolean processAddProtocolAttachmentPersonnelRules(AddProtocolAttachmentPersonnelEvent event) {      
         
         final ProtocolAttachmentPersonnel newAttachmentPersonnel = event.getNewAttachmentPersonnel();
         
-        boolean valid = this.helper.validType(newAttachmentPersonnel);
-        valid &= validPerson(newAttachmentPersonnel);
-        valid &= this.helper.validFile(newAttachmentPersonnel);
-        valid &= this.helper.validDescription(newAttachmentPersonnel);
+        boolean valid = this.baseHelper.validType(newAttachmentPersonnel);
+        valid &= this.personnelHelper.validPerson(newAttachmentPersonnel);
+        valid &= this.baseHelper.validFile(newAttachmentPersonnel);
+        valid &= this.baseHelper.validDescription(newAttachmentPersonnel);
         
         return valid;
-    }
-    
-    /**
-     * Checks for a valid status.
-     * @param newAttachmentPersonnel the attachment.
-     * @return true is valid.
-     */
-    private boolean validPerson(final ProtocolAttachmentPersonnel newAttachmentPersonnel) {
-        
-        if (StringUtils.isBlank(newAttachmentPersonnel.getPersonId())) {
-            this.errorReporter.reportError(PERSON_ID, KeyConstants.ERROR_PROTOCOL_ATTACHMENT_MISSING_PERSON);
-            return false;
-        }
-        return true;
     }
 }

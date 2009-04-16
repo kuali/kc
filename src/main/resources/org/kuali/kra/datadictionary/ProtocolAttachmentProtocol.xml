@@ -78,7 +78,6 @@
         <property name="shortLabel" value="Status" />
         <property name="summary" value="Status" />
         <property name="description" value="Status" />
-        <property name="required" value="true" />
 	    <property name="control" >
 	      <bean parent="SelectControlDefinition"
 	            p:businessObjectClass="org.kuali.kra.irb.noteattachment.ProtocolAttachmentStatus"

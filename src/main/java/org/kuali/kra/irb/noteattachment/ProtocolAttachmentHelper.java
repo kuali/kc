@@ -144,6 +144,11 @@ public class ProtocolAttachmentHelper {
      */
     public void addNewProtocolAttachmentProtocol() {
         
+        /*
+         * Since this event isn't created by the framework and this rule isn't executed by the framework,
+         * is it necessary to even create a event?  Does the rule have to implement BusinessRule?  There
+         * doesn't seem to be many advantages to doing these things...
+         */
         final AddProtocolAttachmentProtocolRule rule = new AddProtocolAttachmentProtocolRuleImpl();
         final AddProtocolAttachmentProtocolEvent event = new AddProtocolAttachmentProtocolEvent(this.form.getDocument(), this.newAttachmentProtocol);
         
@@ -162,6 +167,11 @@ public class ProtocolAttachmentHelper {
      */
     public void addNewProtocolAttachmentPersonnel() {
         
+        /*
+         * Since this event isn't created by the framework and this rule isn't executed by the framework,
+         * is it necessary to even create a event?  Does the rule have to implement BusinessRule?  There
+         * doesn't seem to be many advantages to doing these things...
+         */
         final AddProtocolAttachmentPersonnelRule rule = new AddProtocolAttachmentPersonnelRuleImpl();
         final AddProtocolAttachmentPersonnelEvent event = new AddProtocolAttachmentPersonnelEvent(this.form.getDocument(), this.newAttachmentPersonnel);
         

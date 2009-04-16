@@ -33,6 +33,8 @@ import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolParticipant;
 import org.kuali.kra.irb.bo.ProtocolSpecialReview;
 import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.kra.irb.noteattachment.SaveProtocolAttachmentPersonnelRuleImpl;
+import org.kuali.kra.irb.noteattachment.SaveProtocolAttachmentProtocolRuleImpl;
 import org.kuali.kra.irb.personnel.AddProtocolPersonnelEvent;
 import org.kuali.kra.irb.personnel.AddProtocolPersonnelRule;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelAuditRule;
@@ -95,6 +97,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         valid &= processRequiredFieldsBusinessRules((ProtocolDocument) document);
         valid &= processProtocolLocationBusinessRules((ProtocolDocument) document);
         valid &= processProtocolParticipantBusinessRules((ProtocolDocument) document);
+        valid &= processNoteAndAttachmentSaveRules((ProtocolDocument) document);
         
         return valid;
     }
@@ -305,5 +308,19 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         SpecialReviewRulesImpl ruleImpl = new SpecialReviewRulesImpl(SPECIAL_REVIEW_ERROR_PATH);
         return ruleImpl.processAddSpecialReviewEvent(addSpecialReviewEvent);
     }
-
+    
+    /**
+     * Executes the notes and attachment related save rules.
+     * @param document the document.
+     * @return true if valid.
+     */
+    private boolean processNoteAndAttachmentSaveRules(ProtocolDocument document) {
+        assert document != null : "the document was null";
+        
+        boolean valid = true;
+        valid &= new SaveProtocolAttachmentPersonnelRuleImpl().processSaveProtocolAttachmentPersonnelRules(document);
+        valid &= new SaveProtocolAttachmentProtocolRuleImpl().processSaveProtocolAttachmentProtocolRules(document);
+     
+        return valid;
+    }
 }
