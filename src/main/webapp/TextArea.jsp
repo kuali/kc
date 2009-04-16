@@ -40,11 +40,11 @@
 	value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
 <c:if test="${empty textAreaFieldName}">
 	<c:set var="textAreaFieldName"
-		value="<%=request.getParameter("textAreaFieldName")%>" />
+		value="<%=request.getParameter(\"textAreaFieldName\")%>" />
 </c:if>
 <c:if test="${empty htmlFormAction}">
 	<c:set var="htmlFormAction"
-		value="<%=request.getParameter("htmlFormAction")%>" />
+		value="<%=request.getParameter(\"htmlFormAction\")%>" />
 </c:if>
 
 <html:form styleId="kualiForm" method="post"
