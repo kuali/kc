@@ -1,5 +1,4 @@
 CREATE OR REPLACE VIEW OSP$BUDGET_SALARY_SUMMARY AS
-
 select
        a.proposal_number, a.version_number, a.budget_period, a.line_item_number,
        a.budget_category_code, a.cost_element, f.description fdesc, g.description gdesc,
@@ -9,7 +8,6 @@ select
        decode(b.SALARY_REQUESTED, null, a.LINE_ITEM_cost, b.SALARY_REQUESTED) SALARY_REQUESTED ,  b.cost_sharing_amount,
        c.rate_class_code, c.rate_type_code, d.rate_class_type, c.calculated_cost, c.calculated_cost_sharing, rb.applied_rate,
        DECODE(inv.PRINCIPAL_INVESTIGATOR_FLAG, 'Y', '1', 'N', '2', NULL, '3', '4') PRINCIPAL_INVESTIGATOR
-
 from osp$budget_details a,
      osp$budget_personnel_details b,
      osp$person p ,
@@ -46,9 +44,7 @@ where
      (d.rate_class_type is null or d.rate_class_type in ('E', 'V', ''))  and
      b.proposal_number = inv.proposal_number (+) and
      b.person_id = inv.person_id (+) 
-
 MINUS
-
 select
        a.proposal_number, a.version_number, a.budget_period, a.line_item_number,
        a.budget_category_code, a.cost_element, f.description fdesc, g.description gdesc,
@@ -58,7 +54,6 @@ select
        decode(b.SALARY_REQUESTED, null, a.LINE_ITEM_cost, b.SALARY_REQUESTED) , b.cost_sharing_amount,
        c.rate_class_code, c.rate_type_code, d.rate_class_type, c.calculated_cost, c.calculated_cost_sharing, rb.applied_rate,
        DECODE(inv.PRINCIPAL_INVESTIGATOR_FLAG, 'Y', '1', 'N', '2', NULL, '3', '4') PRINCIPAL_INVESTIGATOR
-
 from osp$budget_details a,
      osp$budget_personnel_details b,
      osp$person p ,

@@ -25,7 +25,6 @@ select        DISTINCT
                d.rate_class_type,
                c.calculated_cost,
                DECODE(inv.PRINCIPAL_INVESTIGATOR_FLAG, 'Y', '1', 'N', '2', NULL, '3', '4') PRINCIPAL_INVESTIGATOR
-
           from osp$budget_details            a,
                osp$budget_personnel_details  b,
                osp$person                    p,
@@ -60,7 +59,6 @@ select        DISTINCT
            and a.cost_element = g.cost_element
            and b.proposal_number = inv.proposal_number (+)
            and b.person_id = inv.person_id (+)
-
 ORDER by  proposal_number,
           version_number,
           budget_period,
