@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.contacts;
 
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -22,6 +23,7 @@ import org.junit.runners.Suite.SuiteClasses;
 /**
  * This class runs just the unit tests
  */
+@Ignore("Not running because it would reult in duplicate tests being executed")
 @RunWith(value=Suite.class)
 @SuiteClasses(value={AwardPersonTest.class, 
                      AwardProjectPersonAddRuleImplTest.class, 
