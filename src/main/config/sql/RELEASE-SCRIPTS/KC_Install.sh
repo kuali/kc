@@ -29,7 +29,7 @@ function newInstall {
 
 function v10 {
 	cd KRA-RELEASE-1_1-SCRIPT
-	sqlplus $user/$pass@$db @KRA-Release-1_1.sql
+	sqlplus $user/$pass@$db @KRA-Release1_1.sql
 	mv *.log ..
 	cd ..
 	v11
