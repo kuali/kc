@@ -2,7 +2,6 @@
 if "%1" == "" goto USAGE
 if "%2" == "" goto USAGE
 if "%3" == "" goto USAGE
-goto usage
 cd KC-RELEASE-1_1_1-PATCH-SCRIPT
 sqlplus %1/%2@%3 @KCRA-Release-1_1-1_1_1-Pre-install-check.sql
 move *.log ..
