@@ -28,7 +28,10 @@ import org.kuali.kra.committee.rule.event.AddCommitteeMembershipRoleEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 
-public class CommitteeMembershipRuleTest extends CommitteeRuleTestBase {
+/**
+ * Test the Committee Membership Add Rules
+ */
+public class CommitteeMembershipAddRuleTest extends CommitteeRuleTestBase {
     private CommitteeMembershipRule rule;
     
     @Before
@@ -237,7 +240,7 @@ public class CommitteeMembershipRuleTest extends CommitteeRuleTestBase {
         assertTrue(rule.processAddCommitteeMembershipRoleBusinessRules(getAddCommitteeMembershipRoleEvent(committeeMembership, 
                 committeeMembershipRole)));
     }
-
+    
     /**
      * this method creates an <code>AddCommitteeMembershipEvent</code>
      * 
