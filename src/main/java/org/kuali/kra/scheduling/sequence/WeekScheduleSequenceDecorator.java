@@ -20,16 +20,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.TimeZone;
 
 import org.apache.commons.lang.ObjectUtils;
-import org.quartz.CronTrigger;
-import org.quartz.TriggerUtils;
 
 /**
- * This class is variation of DefaultSchduleSequence, it adds logic wrapper to dates returned by Quartz util.
- * <p>
- * Logic wrapper filters dates, to generate schedule for every week, every other week, etc ...
+ * This class decorates ScheduleSequence to add logic wrapper to filter dates, to generate schedule for every week, every other week, etc ...
  * <p>
  * This implementation is very specifically addressed to deal with week, biweekly, etc date filtering requirements. Implementation
  * uses org.quartz.TriggerUtils class to generate List of dates from Cron expression.
@@ -42,7 +37,7 @@ import org.quartz.TriggerUtils;
  * Any date expected before 02/01/09 10:09 will be ignored. Date 02/01/09 10:00 will be ignored.
  * Any date expected after  02/05/09 10:11 will be ignored. Date 02/05/09 12:00 will be ignored.
  */
-public class WeekScheduleSequence implements ScheduleSequence {
+public class WeekScheduleSequenceDecorator extends ScheduleSequenceDecorator {
 
     private Integer frequency;
 
@@ -53,8 +48,8 @@ public class WeekScheduleSequence implements ScheduleSequence {
      * @param frequency can be weekly, biweekly, etc...
      * @param dayCount can be no of days in week meeting is scheduled.
      */
-    public WeekScheduleSequence(Integer frequency, Integer dayCount) {
-        super();
+    public WeekScheduleSequenceDecorator(ScheduleSequence scheduleSequence, Integer frequency, Integer dayCount) {
+        super(scheduleSequence);
         this.frequency = frequency;
         this.dayCount = dayCount;
     }
@@ -62,12 +57,9 @@ public class WeekScheduleSequence implements ScheduleSequence {
     /**
      * @see org.kuali.kra.scheduling.sequence.ScheduleSequence#executeScheduleSequence(java.lang.String, java.util.Date, java.util.Date)
      */
-    @SuppressWarnings("unchecked")
     public List<Date> executeScheduleSequence(String expression, Date startDate, Date endDate) throws ParseException {
 
-        CronTrigger ct = new CronTrigger( NAME, GROUP, JOBNAME, JOBGROUP, new Date(), null, expression);
-        ct.setTimeZone(TimeZone.getDefault());
-        List<Date> dates = TriggerUtils.computeFireTimesBetween(ct, null, startDate, endDate);
+        List<Date> dates = scheduleSequence.executeScheduleSequence(expression, startDate, endDate);
 
         if (frequency != 1) {
 
@@ -106,7 +98,7 @@ public class WeekScheduleSequence implements ScheduleSequence {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        WeekScheduleSequence other = (WeekScheduleSequence) obj;        
+        WeekScheduleSequenceDecorator other = (WeekScheduleSequenceDecorator) obj;        
         return ObjectUtils.equals(dayCount, other.dayCount) &&
         ObjectUtils.equals(frequency, other.frequency);
     }
