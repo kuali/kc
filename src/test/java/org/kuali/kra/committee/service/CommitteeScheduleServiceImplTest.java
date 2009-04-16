@@ -52,8 +52,9 @@ import org.kuali.kra.committee.web.struts.form.schedule.YearlyScheduleDetails;
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt.MERIDIEM;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.scheduling.expr.util.CronSpecialChars;
+import org.kuali.kra.scheduling.sequence.DefaultScheduleSequence;
 import org.kuali.kra.scheduling.sequence.ScheduleSequence;
-import org.kuali.kra.scheduling.sequence.WeekScheduleSequence;
+import org.kuali.kra.scheduling.sequence.WeekScheduleSequenceDecorator;
 import org.kuali.kra.scheduling.service.ScheduleService;
 import org.kuali.kra.scheduling.util.Time24HrFmt;
 public class CommitteeScheduleServiceImplTest  {
@@ -253,7 +254,7 @@ public class CommitteeScheduleServiceImplTest  {
             dates.add(new Date());
             Time24HrFmt time  = new Time24HrFmt(TIME24HR_0_1); 
             CronSpecialChars[] dow = ScheduleData.convertToWeekdays(scheduleData.getWeeklySchedule().getDaysOfWeek());
-            ScheduleSequence scheduleSequence = new WeekScheduleSequence(scheduleData.getWeeklySchedule().getWeek(),dow.length);
+            ScheduleSequence scheduleSequence = new WeekScheduleSequenceDecorator(new DefaultScheduleSequence(),scheduleData.getWeeklySchedule().getWeek(),dow.length);
             one(scheduleService).getScheduledDates(dt,endDt,time,dow,scheduleSequence);will(returnValue(dates));
         }});
         
@@ -280,7 +281,7 @@ public class CommitteeScheduleServiceImplTest  {
             dates.add(new Date());
             Time24HrFmt time  = new Time24HrFmt(TIME24HR_0_1); 
             CronSpecialChars[] dow = ScheduleData.convertToWeekdays(scheduleData.getDailySchedule().getDaysOfWeek());
-            ScheduleSequence scheduleSequence = new WeekScheduleSequence(1,dow.length);
+            ScheduleSequence scheduleSequence = new WeekScheduleSequenceDecorator(new DefaultScheduleSequence(),1,dow.length);
             one(scheduleService).getScheduledDates(dt,endDt,time,dow,scheduleSequence);will(returnValue(dates));
         }});
         
