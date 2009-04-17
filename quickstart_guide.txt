@@ -16,6 +16,7 @@ Requirements:
 1. Run the database scripts using the instructions provided in db_scripts/ReadMe.txt
 
 2. Place binary/kra-config.xml in one of the configured default locations: {Userhome}/kuali/main/ptd OR /opt/sa_forms/java/ptd/kra/kra-config.xml.
+	* On Windows with Tomcat running as a service, the best location is usually c:\kuali\main\ptd
 	* To use a different directory, open kra-ptd.war and edit the "config.location" parameter in /WEB-INF/classes/META-INF/kra-config.xml.
 
 3. Edit parameters in (the external) kra-config.xml as desired.
