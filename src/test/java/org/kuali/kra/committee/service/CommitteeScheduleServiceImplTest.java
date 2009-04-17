@@ -324,7 +324,7 @@ public class CommitteeScheduleServiceImplTest  {
         test(1);
         java.sql.Date testDate = committee.getCommitteeSchedules().get(0).getProtocolSubDeadline();
         java.sql.Date expectedDate = new java.sql.Date(DateUtils.addDays(new Date(), -committee.getAdvancedSubmissionDaysRequired()).getTime());
-        assertEquals(expectedDate, testDate);
+        assertEquals(expectedDate.toString(), testDate.toString());
     }
     
     /**
