@@ -1,6 +1,7 @@
 #!/bin/sh
 
-function usage {
+usage ()
+{
 	echo "USAGE:"
 	echo "KC_Install.bat Install_version username password DB_server_name"
 	echo "   - Install_Version = Choose one: new, 1.0, 1.1"
@@ -12,7 +13,8 @@ function usage {
 	echo "   - DB_server_name = the name used to locate the database server where scripts are stored"
 }
 
-function newInstall {
+newInstall ()
+{
 	cd KRA-RELEASE-1_0-SCRIPT
 	sqlplus $user/$pass@$db @KRA-Release1_0.sql
 
@@ -27,7 +29,8 @@ function newInstall {
 	v10
 }
 
-function v10 {
+v10 ()
+{
 	cd KRA-RELEASE-1_1-SCRIPT
 	sqlplus $user/$pass@$db @KRA-Release1_1.sql
 	mv *.log ..
@@ -35,7 +38,8 @@ function v10 {
 	v11
 }
 
-function v11 {
+v11 ()
+{
 	cd KC-RELEASE-1_1_1-PATCH-SCRIPT
 	sqlplus $user/$pass@$db @KCRA-Release-1_1-1_1_1-Patch.sql
 	mv *.log ..

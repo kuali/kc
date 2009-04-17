@@ -1,6 +1,7 @@
 #!/bin/sh
 
-function usage {
+usage () 
+{
 	echo "USAGE:"
 	echo "./KC_Pre-Install_Check.sh username password DB_server_name"
 	echo "   - username = The Database schema name to install database scripts to."
