@@ -48,10 +48,15 @@ public class SaveProtocolAttachmentPersonnelRuleImpl {
             final ProtocolAttachmentPersonnel attachment = attachments.get(i);
             this.setPropertyPrefixes(BASE_PREFIX + "[" + i + "]");
             
+            /*
+             * may want to consider moving this series of validations to a single method since the same is done on add
+             * in AddProtocolAttachmentPersonnelRuleImpl
+             */
             valid &= this.baseHelper.validType(attachment);
             valid &= this.personnelHelper.validPerson(attachment);
             valid &= this.baseHelper.validFile(attachment);
             valid &= this.baseHelper.validDescription(attachment);
+            valid &= this.personnelHelper.duplicateTypePerson(attachment, document);
         }
         
         return valid;

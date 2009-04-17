@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
+import org.kuali.kra.irb.document.ProtocolDocument;
+
 
 /**
  * Implementation of {@link AddProtocolAttachmentPersonnelRule AddProtocolAttachmentPersonnelRule}.
@@ -29,13 +31,14 @@ class AddProtocolAttachmentPersonnelRuleImpl implements AddProtocolAttachmentPer
 
     /** {@inheritDoc} */
     public boolean processAddProtocolAttachmentPersonnelRules(AddProtocolAttachmentPersonnelEvent event) {      
-        
+        final ProtocolDocument document = (ProtocolDocument) event.getDocument();
         final ProtocolAttachmentPersonnel newAttachmentPersonnel = event.getNewAttachmentPersonnel();
         
         boolean valid = this.baseHelper.validType(newAttachmentPersonnel);
         valid &= this.personnelHelper.validPerson(newAttachmentPersonnel);
         valid &= this.baseHelper.validFile(newAttachmentPersonnel);
         valid &= this.baseHelper.validDescription(newAttachmentPersonnel);
+        valid &= this.personnelHelper.duplicateTypePerson(newAttachmentPersonnel, document);
         
         return valid;
     }
