@@ -1,0 +1,107 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ProtocolReviewerType" parent="ProtocolReviewerType-parentBean" />
+  <bean id="ProtocolReviewerType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.irb.bo.ProtocolReviewerType" />
+    <property name="inquiryDefinition" >
+      <ref bean="ProtocolReviewerType-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="ProtocolReviewerType-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="reviewerTypeCode" />
+    <property name="attributes" >
+      <list>
+        <ref bean="ProtocolReviewerType-reviewerTypeCode" />
+        <ref bean="ProtocolReviewerType-description" />
+        <ref bean="ProtocolReviewerType-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+  <!-- Attribute Definitions -->
+
+  <bean id="ProtocolReviewerType-reviewerTypeCode" parent="ProtocolReviewerType-reviewerTypeCode-parentBean" />
+  <bean id="ProtocolReviewerType-reviewerTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="reviewerTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Reviewer Type" />
+    <property name="shortLabel" value="Reviewer Type" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="3" />
+    </property>
+    <property name="summary" value="Reviewer Type" />
+    <property name="description" value="Reviewer Type" />
+  </bean>
+  
+  <bean id="ProtocolReviewerType-description" parent="ProtocolReviewerType-description-parentBean" />
+  <bean id="ProtocolReviewerType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+      <property name="maxLength" value="200" />
+  </bean>
+  
+  <bean id="ProtocolReviewerType-versionNumber" parent="ProtocolReviewerType-versionNumber-parentBean" />
+  <bean id="ProtocolReviewerType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+
+  <!-- Business Object Inquiry Definition -->
+
+  <bean id="ProtocolReviewerType-inquiryDefinition" parent="ProtocolReviewerType-inquiryDefinition-parentBean" />
+  <bean id="ProtocolReviewerType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Reviewer Type" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Reviewer Type" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="reviewerTypeCode"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Business Object Lookup Definition -->
+
+  <bean id="ProtocolReviewerType-lookupDefinition" parent="ProtocolReviewerType-lookupDefinition-parentBean" />
+  <bean id="ProtocolReviewerType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Reviewer Type" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="instructions" value="Look up a Reviewer Type" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="reviewerTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="reviewerTypeCode"
+              p:forceInquiry="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+  </bean>
+</beans>
