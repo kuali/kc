@@ -25,6 +25,7 @@ import org.kuali.kra.irb.document.ProtocolDocument;
 class AddProtocolAttachmentProtocolRuleImpl implements AddProtocolAttachmentProtocolRule {
 
     private static final String PROPERTY_PREFIX = "notesAndAttachmentsHelper.newAttachmentProtocol";
+    
     private final ProtocolAttachmentBaseRuleHelper baseHelper = new ProtocolAttachmentBaseRuleHelper(PROPERTY_PREFIX);
     private final ProtocolAttachmentProtocolRuleHelper protocolHelper = new ProtocolAttachmentProtocolRuleHelper(PROPERTY_PREFIX);
     

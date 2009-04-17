@@ -49,6 +49,10 @@ public class SaveProtocolAttachmentProtocolRuleImpl {
             final ProtocolAttachmentProtocol attachment = attachments.get(i);
             this.setPropertyPrefixes(BASE_PREFIX + "[" + i + "]");
             
+            /*
+             * may want to consider moving this series of validations to a single method since the same is done on add
+             * in AddProtocolAttachmentProtocolRuleImpl
+             */
             valid &= this.baseHelper.validType(attachment);
             valid &= this.protocolHelper.validStatus(attachment);
             valid &= this.baseHelper.validFile(attachment);

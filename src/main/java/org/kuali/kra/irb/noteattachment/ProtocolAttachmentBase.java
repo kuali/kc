@@ -241,6 +241,15 @@ public abstract class ProtocolAttachmentBase extends KraPersistableBusinessObjec
         this.newFile = newFile;
     }
     
+    /**
+     * The group code that the Protocol Attachment belongs to.
+     * The group code relates to {@link ProtocolAttachmentGroup ProtocolAttachmentGroup}.
+     * 
+     * @return the group code.
+     */
+    //this would be just as good as a static method except they cannot be abstract.
+    public abstract String getGroupCode();
+    
     /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
@@ -252,6 +261,7 @@ public abstract class ProtocolAttachmentBase extends KraPersistableBusinessObjec
         hashMap.put("id", this.getId());
         hashMap.put("protocolId", this.getProtocolId());
         hashMap.put("typeCode", this.getTypeCode());
+        hashMap.put("groupCode", this.getGroupCode());
         return hashMap;
     }
 }

@@ -21,7 +21,7 @@
 <c:set var="action" value="protocolNoteAndAttachment" />
 <c:set var="attachmentPersonnels" value="${KualiForm.document.protocol.attachmentPersonnels}"/>
 
-<kul:tab tabTitle="Personnel Attachments(${fn:length(KualiForm.document.protocol.attachmentPersonnels)})" defaultOpen="true" tabErrorKey="notesAndAttachmentsHelper.newAttachmentPersonnel.*,document.protocol.attachmentPersonnel*" transparentBackground="false">
+<kul:tab tabTitle="Personnel Attachments(${fn:length(KualiForm.document.protocol.attachmentPersonnels)})" defaultOpen="false" tabErrorKey="notesAndAttachmentsHelper.newAttachmentPersonnel.*,document.protocol.attachmentPersonnel*" transparentBackground="false">
 	<div class="tab-container" align="center">
    		<h3>
    			<span class="subhead-left">Add Personnel Attachment</span>
@@ -86,7 +86,23 @@
 				</td>
 				<td align="left" valign="middle" class="infoline">
                 	<div align="left">
-                		<kul:htmlControlAttribute property="notesAndAttachmentsHelper.newAttachmentPersonnel.personId" attributeEntry="${protocolAttachmentPersonnelAttributes.personId}" />
+                		<%--<kul:htmlControlAttribute property="notesAndAttachmentsHelper.newAttachmentPersonnel.personId" attributeEntry="${protocolAttachmentPersonnelAttributes.personId}" />--%>
+                		<c:set var="property" value="notesAndAttachmentsHelper.newAttachmentPersonnel.personId" />
+                		
+                		<%-- attachment type finder logic start--%>
+							<jsp:useBean id="typeParamsPerson" class="java.util.HashMap" />
+							<c:set target="${typeParamsPerson}" property="protocolId" value="${notesAndAttachmentsHelper.newAttachmentPersonnel.protocolId}" />
+							<c:set var="options" value="${krafn:getOptionList('org.kuali.kra.irb.personnel.ProtocolPersonValuesFinder', typeParamsPerson)}" />
+						<%-- attachment type finder logic end --%>
+               			
+               			<%-- attachment type error handling logic start--%>
+               				<kul:checkErrors keyMatch="${property}" auditMatch="${property}"/>
+               				<c:set var="textStyle" value="${hasErrors == true ? 'background-color:#FFD5D5' : ''}"/>
+               			<%-- attachment type error handling logic start--%>
+               			
+               			<html:select property="${property}">
+               				<html:options collection="options" labelProperty="label" property="key" />
+               			</html:select>
 	            	</div>
 				</td>
          		<td align="left" valign="middle" class="infoline">
@@ -94,9 +110,9 @@
                 		<c:set var="property" value="notesAndAttachmentsHelper.newAttachmentPersonnel.typeCode" />
                 		
                 		<%-- attachment type finder logic start--%>
-							<jsp:useBean id="typeParams" class="java.util.HashMap"/>
-							<c:set target="${typeParams}" property="groupCode" value="2" />
-							<c:set var="options" value="${krafn:getOptionList('org.kuali.kra.irb.noteattachment.ProtocolAttachmentTypeByGroupValuesFinder', typeParams)}" />
+							<jsp:useBean id="typeParamsType" class="java.util.HashMap"/>
+							<c:set target="${typeParamsType}" property="groupCode" value="${notesAndAttachmentsHelper.newAttachmentPersonnel.groupCode}" />
+							<c:set var="options" value="${krafn:getOptionList('org.kuali.kra.irb.noteattachment.ProtocolAttachmentTypeByGroupValuesFinder', typeParamsType)}" />
 						<%-- attachment type finder logic end --%>
                			
                			<%-- attachment type error handling logic start--%>
@@ -155,7 +171,7 @@
 					</td>
 					<td align="left" valign="middle" class="infoline">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="document.protocol.attachmentPersonnel[${status.index}].personId" attributeEntry="${protocolAttachmentPersonnelAttributes.personId}" readOnly="true"/>
+	                		<kul:htmlControlAttribute property="document.protocol.attachmentPersonnel[${status.index}].person.personName" attributeEntry="${protocolAttachmentPersonnelAttributes.personId}" readOnly="true"/>
 		            	</div>
 					</td>
 	         		<td align="left" valign="middle" class="infoline">

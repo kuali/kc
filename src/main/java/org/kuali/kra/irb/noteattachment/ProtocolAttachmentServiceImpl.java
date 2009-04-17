@@ -19,7 +19,7 @@ import java.util.Collections;
 
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.irb.personnel.ProtocolPerson;
 
 
 /** Implementation of {@link ProtocolAttachmentService ProtocolNoteAndAttachmentService}. */
@@ -135,11 +135,11 @@ class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
      * @return the BO
      * @throws NullPointerException if the code or type is null.
      */
-    private Person getPerson(String personId) {
+    private ProtocolPerson getPerson(String personId) {
         if (personId == null) {
             throw new NullPointerException("the personId is null");
         }
         
-        return (Person) this.boService.findByPrimaryKey(Person.class, Collections.singletonMap("personId", personId));
+        return (ProtocolPerson) this.boService.findByPrimaryKey(ProtocolPerson.class, Collections.singletonMap("protocolPersonId", personId));
     }
 }

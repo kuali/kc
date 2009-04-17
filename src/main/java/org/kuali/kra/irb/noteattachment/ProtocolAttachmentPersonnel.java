@@ -17,7 +17,7 @@ package org.kuali.kra.irb.noteattachment;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.bo.Person;
+import org.kuali.kra.irb.personnel.ProtocolPerson;
 
 /**
  * This class represents the Protocol Attachment Personnel.
@@ -25,9 +25,10 @@ import org.kuali.kra.bo.Person;
 public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase {
 
     private static final long serialVersionUID = -7115904344245464654L;
-
+    private static final String GROUP_CODE = "2";
+    
     private String personId;
-    private Person person;
+    private ProtocolPerson person;
     
     /**
      * empty ctor to satisfy JavaBean convention.
@@ -69,7 +70,7 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase {
      * Gets the Protocol Attachment Personnel Person.
      * @return the Protocol Attachment Personnel Person
      */
-    public Person getPerson() {
+    public ProtocolPerson getPerson() {
         return this.person;
     }
 
@@ -77,10 +78,16 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase {
      * Sets the Protocol Attachment Personnel Person.
      * @param person the Protocol Attachment Personnel Person
      */
-    public void setPerson(Person person) {
+    public void setPerson(ProtocolPerson person) {
         this.person = person;
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public String getGroupCode() {
+        return GROUP_CODE;
+    }
+    
     /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
