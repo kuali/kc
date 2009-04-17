@@ -21,7 +21,7 @@
 <c:set var="action" value="protocolNoteAndAttachment" />
 <c:set var="attachmentProtocols" value="${KualiForm.document.protocol.attachmentProtocols}"/>
 
-<kul:tab tabTitle="Protocol Attachments(${fn:length(KualiForm.document.protocol.attachmentProtocols)})" defaultOpen="true" tabErrorKey="notesAndAttachmentsHelper.newAttachmentProtocol.*" transparentBackground="true">
+<kul:tab tabTitle="Protocol Attachments(${fn:length(KualiForm.document.protocol.attachmentProtocols)})" defaultOpen="false" tabErrorKey="notesAndAttachmentsHelper.newAttachmentProtocol.*" transparentBackground="true">
 	<div class="tab-container" align="center">
    		<h3>
    			<span class="subhead-left">Add Protocol Attachment</span>
@@ -39,10 +39,10 @@
                 		<c:set var="property" value="notesAndAttachmentsHelper.newAttachmentProtocol.typeCode" />
                 	
                			<%-- attachment type finder logic start--%>
-							<jsp:useBean id="typeParams" class="java.util.HashMap"/>
-							<c:set target="${typeParams}" property="groupCode" value="1" />
-							<c:set target="${typeParams}" property="filterTypes" value="${KualiForm.document.protocol.attachmentProtocols}" />
-							<c:set var="options" value="${krafn:getOptionList('org.kuali.kra.irb.noteattachment.ProtocolAttachmentTypeByGroupValuesFinder', typeParams)}" />
+							<jsp:useBean id="typeParamsType" class="java.util.HashMap"/>
+							<c:set target="${typeParamsType}" property="groupCode" value="${notesAndAttachmentsHelper.newAttachmentProtocol.groupCode}" />
+							<c:set target="${typeParamsType}" property="filterTypes" value="${KualiForm.document.protocol.attachmentProtocols}" />
+							<c:set var="options" value="${krafn:getOptionList('org.kuali.kra.irb.noteattachment.ProtocolAttachmentTypeByGroupValuesFinder', typeParamsType)}" />
 						<%-- attachment type finder logic end --%>
 						
                			<%-- attachment type error handling logic start--%>

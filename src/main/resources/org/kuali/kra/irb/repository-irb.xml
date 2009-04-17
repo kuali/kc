@@ -570,7 +570,7 @@
 			<foreignkey field-ref="typeCode"/>
 		</reference-descriptor>
 		
-		<reference-descriptor name="file" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentFile" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="file" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentFile" auto-retrieve="true" auto-update="none" auto-delete="true"> 
 			<foreignkey field-ref="fileId"/>
 		</reference-descriptor>
 		
@@ -601,11 +601,11 @@
 			<foreignkey field-ref="typeCode"/>
 		</reference-descriptor>
 		
-		<reference-descriptor name="file" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentFile" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="file" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentFile" auto-retrieve="true" auto-update="none" auto-delete="true"> 
 			<foreignkey field-ref="fileId"/>
 		</reference-descriptor>
 		
-		<reference-descriptor name="person" class-ref="org.kuali.kra.bo.Person" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="person" class-ref="org.kuali.kra.irb.personnel.ProtocolPerson" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="personId"/>
 		</reference-descriptor>
 	</class-descriptor>
