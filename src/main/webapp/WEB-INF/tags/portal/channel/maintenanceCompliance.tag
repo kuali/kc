@@ -45,7 +45,7 @@
     <li>Protocol Follow-up Actions</li>
     <li>Protocol Organization Type</li>
     <li><portal:portalLink displayTitle="true" title="Protocol Review Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.irb.bo.ProtocolReviewType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-    <li>Protocol Reviewer Type</li>
+    <li><portal:portalLink displayTitle="true" title="Protocol Reviewer Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.irb.bo.ProtocolReviewerType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li><portal:portalLink displayTitle="true" title="Protocol Status" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.irb.bo.ProtocolStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li><portal:portalLink displayTitle="true" title="Protocol Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.irb.bo.ProtocolType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li><portal:portalLink displayTitle="true" title="Reference Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.irb.bo.ProtocolReferenceType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
