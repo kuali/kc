@@ -81,6 +81,7 @@ public class ConditionValuesFinder<T extends PersistableBusinessObject> extends 
     
     /**
      * Gets a String property on the passed in Object. The property can be a nested property.
+     * If the property is not a String the property.toString() is returned.
      * @param o the Object
      * @param name the property name
      * @return the property value.
@@ -92,10 +93,10 @@ public class ConditionValuesFinder<T extends PersistableBusinessObject> extends 
         
         try {
             final Object property = PropertyUtils.getNestedProperty(o, name);
-            if (property instanceof String) {
-                return (String) property;
-            } 
-            throw new PropertyException("property " + name + " not a String but a " + property.getClass().getName());
+            if (property == null) {
+                throw new PropertyException("property " + name + " is null.");
+            }
+            return property.toString();
         } catch (IllegalAccessException e) {
             throw new PropertyException(e);
         } catch (InvocationTargetException e) {

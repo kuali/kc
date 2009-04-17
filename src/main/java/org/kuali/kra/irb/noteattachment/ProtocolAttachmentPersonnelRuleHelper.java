@@ -17,6 +17,7 @@ package org.kuali.kra.irb.noteattachment;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.rules.ErrorReporter;
 
 /**
@@ -24,6 +25,7 @@ import org.kuali.kra.rules.ErrorReporter;
  */
 class ProtocolAttachmentPersonnelRuleHelper {
     
+    private ProtocolAttachmentBaseRuleHelper helper;
     private String personIdProperty;
     private final ErrorReporter errorReporter = new ErrorReporter();
     
@@ -54,6 +56,7 @@ class ProtocolAttachmentPersonnelRuleHelper {
             throw new IllegalArgumentException("propertyPrefix is null");
         }
         
+        this.helper = new ProtocolAttachmentBaseRuleHelper(propertyPrefix);
         this.personIdProperty = propertyPrefix + ".personId";
     }
     
@@ -68,6 +71,26 @@ class ProtocolAttachmentPersonnelRuleHelper {
             this.errorReporter.reportError(this.personIdProperty, KeyConstants.ERROR_PROTOCOL_ATTACHMENT_MISSING_PERSON);
             return false;
         }
+        return true;
+    }
+    
+    /**
+     * Checks that a type/person combination does not already exist for a document.
+     * @param attachmentPersonnel the attachment.
+     * @param document the document
+     * @return true is valid.
+     */
+    boolean duplicateTypePerson(final ProtocolAttachmentPersonnel attachmentPersonnel, final ProtocolDocument document) {
+        
+        for (ProtocolAttachmentPersonnel attachment : document.getProtocol().getAttachmentPersonnels()) {
+            if (!attachment.getId().equals(attachmentPersonnel.getId())
+                && attachment.getTypeCode().equals(attachmentPersonnel.getTypeCode())
+                && attachment.getPersonId().equals(attachmentPersonnel.getPersonId())) {
+                this.errorReporter.reportError(this.helper.getTypeCodeProperty(), KeyConstants.ERROR_PROTOCOL_ATTACHMENT_DUPLICATE_TYPE);
+                return false;
+            }
+        }
+        
         return true;
     }
     

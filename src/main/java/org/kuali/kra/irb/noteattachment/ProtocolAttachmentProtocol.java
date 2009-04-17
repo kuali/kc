@@ -23,6 +23,7 @@ import java.util.LinkedHashMap;
 public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
 
     private static final long serialVersionUID = -7115904344245464654L;
+    private static final String GROUP_CODE = "1";
     
     private String statusCode;
     private ProtocolAttachmentStatus status;
@@ -146,6 +147,12 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
      */
     public void setComments(String comments) {
         this.comments = comments;
+    }
+    
+    /** {@inheritDoc} */
+    @Override
+    public String getGroupCode() {
+        return GROUP_CODE;
     }
     
     /** {@inheritDoc} */
