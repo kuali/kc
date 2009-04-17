@@ -27,7 +27,6 @@ import org.kuali.kra.award.service.AwardAuthorizationService;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 
 /**
  * 
@@ -107,7 +106,7 @@ public class AwardDocument extends ResearchDocumentBase implements  Copyable, Se
         addAwardPersonUnitsCollection(managedLists, award);
         managedLists.add(award.getUnitContacts());
         managedLists.add(award.getSponsorContacts());
-        
+        managedLists.add(award.getAwardCostShares());
         managedLists.add(award.getApprovedEquipmentItems());
         managedLists.add(award.getApprovedForeignTravelTrips());
         managedLists.add(award.getAwardFandaRate());
