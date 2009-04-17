@@ -40,6 +40,7 @@ import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.scheduling.expr.util.CronSpecialChars;
 import org.kuali.kra.scheduling.sequence.DefaultScheduleSequence;
 import org.kuali.kra.scheduling.sequence.ScheduleSequence;
+import org.kuali.kra.scheduling.sequence.TrimDatesScheduleSequenceDecorator;
 import org.kuali.kra.scheduling.sequence.WeekScheduleSequenceDecorator;
 import org.kuali.kra.scheduling.service.ScheduleService;
 import org.kuali.kra.scheduling.util.Time24HrFmt;
@@ -157,7 +158,7 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
                     case WEEKDAY : 
                         dtEnd = scheduleData.getDailySchedule().getScheduleEndDate();                        
                         weekdays = ScheduleData.convertToWeekdays(scheduleData.getDailySchedule().getDaysOfWeek());
-                        ScheduleSequence scheduleSequence = new WeekScheduleSequenceDecorator(new DefaultScheduleSequence(),1,weekdays.length);
+                        ScheduleSequence scheduleSequence = new WeekScheduleSequenceDecorator(new TrimDatesScheduleSequenceDecorator(new DefaultScheduleSequence()),1,weekdays.length);
                         dates = scheduleService.getScheduledDates(dt, dtEnd, time, weekdays, scheduleSequence);
                         break;
                 }
@@ -165,7 +166,7 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
             case WEEKLY :
                 dtEnd = scheduleData.getWeeklySchedule().getScheduleEndDate();
                 weekdays = ScheduleData.convertToWeekdays(scheduleData.getWeeklySchedule().getDaysOfWeek());
-                ScheduleSequence scheduleSequence = new WeekScheduleSequenceDecorator(new DefaultScheduleSequence(),scheduleData.getWeeklySchedule().getWeek(),weekdays.length);
+                ScheduleSequence scheduleSequence = new WeekScheduleSequenceDecorator(new TrimDatesScheduleSequenceDecorator(new DefaultScheduleSequence()),scheduleData.getWeeklySchedule().getWeek(),weekdays.length);
                 dates = scheduleService.getScheduledDates(dt, dtEnd, time, weekdays, scheduleSequence);
                 break;
             case MONTHLY :
