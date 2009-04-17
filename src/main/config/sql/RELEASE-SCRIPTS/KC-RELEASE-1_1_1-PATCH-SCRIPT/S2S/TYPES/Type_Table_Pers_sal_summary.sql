@@ -1,6 +1,3 @@
-drop type table_pers_sal_summary;
-drop type type_pers_sal_summary;
-
 CREATE OR REPLACE TYPE TYPE_PERS_SAL_SUMMARY  AS OBJECT (
 	PROPOSAL_NUMBER		VARCHAR2(12), 
 	VERSION_NUMBER		NUMBER(3), 
