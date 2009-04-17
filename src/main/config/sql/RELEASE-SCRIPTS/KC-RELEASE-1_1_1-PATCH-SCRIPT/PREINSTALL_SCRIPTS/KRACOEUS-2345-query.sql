@@ -7,4 +7,6 @@ PROMPT character code for the records listed below.
 PROMPT
 
 select * from deadline_type where length(deadline_type_code) > 1;
+
+PROMPT Disregard ORA-00942 error if run against a new schema, check intended for upgrade installs only.
 spool off

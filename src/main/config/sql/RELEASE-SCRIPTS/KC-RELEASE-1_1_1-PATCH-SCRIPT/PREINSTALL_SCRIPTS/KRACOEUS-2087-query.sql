@@ -37,4 +37,7 @@ where p.proposal_number = s.proposal_number
 and p.document_number = d.doc_hdr_id 
 and d.doc_rte_stat_cd = 'S'
 and s.application_date is not null and s.expiration_date is not null and s.expiration_date < s.application_date;
+
+
+PROMPT Disregard ORA-00942 error if run against a new schema, check intended for upgrade installs only.
 spool off
