@@ -95,13 +95,12 @@ public class ProtocolDaoOjbTest extends KraTestBase {
         Map fieldValues = new HashMap();
         fieldValues.put(PROTOCOL_ID_PROPERTY, PROTOCOL_ID_VALUE);
         fieldValues.put(PROTOCOL_NUMBER_PROPERTY, PROTOCOL_NUMBER_VALUE);
-        fieldValues.put("personEmployeeIndicator", "Y");
-        fieldValues.put("personId", "000000006");
+        fieldValues.put("keyPerson", "a*");
         fieldValues.put("researchAreaCode", "01.0*");
         List<Protocol> protocols = getProtocolDao().getProtocols(fieldValues);
         assertEquals(protocols.size(), 1);
         
-        fieldValues.put("personId", "000000001");
+        fieldValues.put("keyPerson", "t*");
         fieldValues.put("researchAreaCode", "01.0*");
         protocols = getProtocolDao().getProtocols(fieldValues);
         assertEquals(protocols.size(), 0);
@@ -113,15 +112,13 @@ public class ProtocolDaoOjbTest extends KraTestBase {
         Map fieldValues = new HashMap();
         fieldValues.put(PROTOCOL_ID_PROPERTY, PROTOCOL_ID_VALUE);
         fieldValues.put(PROTOCOL_NUMBER_PROPERTY, PROTOCOL_NUMBER_VALUE);
-        fieldValues.put("personEmployeeIndicator", "Y");
-        fieldValues.put("personId", "000000006");
-        fieldValues.put("investigatorEmployeeIndicator", "Y");
-        fieldValues.put("principalInvestigatorId", "000000001");
+        fieldValues.put("keyPerson", "a*");
+        fieldValues.put("investigator", "t*");
         fieldValues.put("researchAreaCode", "01.0*");
         List<Protocol> protocols = getProtocolDao().getProtocols(fieldValues);
         assertEquals(protocols.size(), 1);
         
-        fieldValues.put("principalInvestigatorId", "000000006");
+        fieldValues.put("investigator", "a*");
         fieldValues.put("researchAreaCode", "01.0*");
         protocols = getProtocolDao().getProtocols(fieldValues);
         assertEquals(protocols.size(), 0);
@@ -133,10 +130,8 @@ public class ProtocolDaoOjbTest extends KraTestBase {
         Map fieldValues = new HashMap();
         fieldValues.put(PROTOCOL_ID_PROPERTY, PROTOCOL_ID_VALUE);
         fieldValues.put(PROTOCOL_NUMBER_PROPERTY, PROTOCOL_NUMBER_VALUE);
-        fieldValues.put("personEmployeeIndicator", "Y");
-        fieldValues.put("personId", "000000006");
-        fieldValues.put("investigatorEmployeeIndicator", "Y");
-        fieldValues.put("principalInvestigatorId", "000000001");
+        fieldValues.put("keyPerson", "a*");
+        fieldValues.put("investigator", "t*");
         fieldValues.put("performingOrganizationId", "000001");
         fieldValues.put("researchAreaCode", "01.0*");
         List<Protocol> protocols = getProtocolDao().getProtocols(fieldValues);
@@ -152,30 +147,18 @@ public class ProtocolDaoOjbTest extends KraTestBase {
         Map fieldValues = new HashMap();
         fieldValues.put(PROTOCOL_ID_PROPERTY, PROTOCOL_ID_VALUE);
         fieldValues.put(PROTOCOL_NUMBER_PROPERTY, PROTOCOL_NUMBER_VALUE);
-        fieldValues.put("personEmployeeIndicator", "Y");
-        fieldValues.put("personId", "000000006");
-        fieldValues.put("investigatorEmployeeIndicator", "Y");
-        fieldValues.put("principalInvestigatorId", "000000001");
+        fieldValues.put("keyPerson", "a*");
+        fieldValues.put("investigator", "t*");
         fieldValues.put("performingOrganizationId", "000001");
         fieldValues.put("researchAreaCode", "01.0*");
-        fieldValues.put("fundingSourceTypeCode", "1");
         fieldValues.put("fundingSource", "000610");
         List<Protocol> protocols = getProtocolDao().getProtocols(fieldValues);
         assertEquals(protocols.size(), 1);
         
-        fieldValues.put("fundingSourceTypeCode", "2");
-        protocols = getProtocolDao().getProtocols(fieldValues);
-        assertEquals(protocols.size(), 0);
-
-        fieldValues.put("fundingSourceTypeCode", "2");
         fieldValues.put("fundingSource", "000001");
         protocols = getProtocolDao().getProtocols(fieldValues);
         assertEquals(protocols.size(), 1);
         
-        fieldValues.put("fundingSourceTypeCode", "1");
-        protocols = getProtocolDao().getProtocols(fieldValues);
-        assertEquals(protocols.size(), 0);
-
     }
     
     private ProtocolDao getProtocolDao() {
