@@ -44,7 +44,7 @@ public class ProtocolLookupHelperServiceTest extends KraTestBase {
     private static final String UNIT_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.bo.Unit&unitNumber=000001&methodToCall=start";
     private static final String PERSON_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.bo.Person&personId=000000001&methodToCall=start";
     private static final String ROLODEX_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.bo.Rolodex&rolodexId=1727&methodToCall=start";
-    private static final int NUMBER_LOOKUP_CRITERIA_FIELDS = 18;
+    private static final int NUMBER_LOOKUP_CRITERIA_FIELDS = 15;
     private Mockery context = new JUnit4Mockery();
     @Before
     public void setUp() throws Exception {
@@ -66,24 +66,14 @@ public class ProtocolLookupHelperServiceTest extends KraTestBase {
      */
     @Test
     public void testGetRows() {
-        List <String> indicatorNames = new ArrayList<String>();
-        indicatorNames.add("personEmployeeIndicator");
-        indicatorNames.add("investigatorEmployeeIndicator");
-        indicatorNames.add("fundingSourceTypeCode");
 
         List<Row> rows = protocolLookupableHelperServiceImpl.getRows();
         assertEquals(rows.size(), NUMBER_LOOKUP_CRITERIA_FIELDS);
         for (Row row : rows) {
             for (Field field : row.getFields()) {
-                if (field.getPropertyName().equals("personId") || field.getPropertyName().equals("principalInvestigatorId")) {
-                    assertDropDownField(field, "personId","org.kuali.kra.bo.Person");
-                } else if (field.getPropertyName().equals("fundingSource")) {
-                    assertDropDownField(field, "sponsorCode","org.kuali.kra.bo.Sponsor");
-                } else if (field.getPropertyName().equals("researchAreaCode")) {
+                if (field.getPropertyName().equals("researchAreaCode")) {
                     assertDropDownField(field, "researchAreaCode","org.kuali.kra.bo.ResearchArea");
-                } else if (indicatorNames.contains(field.getPropertyName())) {
-                    assertEquals(field.getFieldType(), Field.DROPDOWN_REFRESH);
-                } 
+               } 
             }
         }
     }
@@ -112,14 +102,14 @@ public class ProtocolLookupHelperServiceTest extends KraTestBase {
         Protocol protocol = initProtocol();
         String inquiryUrl = protocolLookupableHelperServiceImpl.getInquiryUrl(protocol, "leadUnitNumber");
         assertEquals(inquiryUrl, UNIT_INQ_URL);
-        inquiryUrl = protocolLookupableHelperServiceImpl.getInquiryUrl(protocol, "principalInvestigatorId");
+        inquiryUrl = protocolLookupableHelperServiceImpl.getInquiryUrl(protocol, "investigator");
         assertEquals(inquiryUrl, PERSON_INQ_URL);
         ProtocolPerson protocolPerson = protocol.getProtocolPersons().get(0);
         protocolPerson.setPersonId("");
         protocolPerson.setRolodexId(new Integer(1727));
         protocol.getProtocolPersons().clear();
         protocol.getProtocolPersons().add(protocolPerson);
-        inquiryUrl = protocolLookupableHelperServiceImpl.getInquiryUrl(protocol, "principalInvestigatorId");
+        inquiryUrl = protocolLookupableHelperServiceImpl.getInquiryUrl(protocol, "investigator");
         assertEquals(inquiryUrl, ROLODEX_INQ_URL);
     }
     
