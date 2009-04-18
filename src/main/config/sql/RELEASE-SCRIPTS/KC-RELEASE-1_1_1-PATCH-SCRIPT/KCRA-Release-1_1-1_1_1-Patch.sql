@@ -58,6 +58,8 @@ REM @INDEXES/KCRA_INDEXES-1_1_1-Patch
 --set term on;
 Prompt ************* START LOADING S2S OBJECTS *************
 --set term off;
+
+@PROCFUNPACKS/KCRA_PROCFUNPACK-1_1_1-Patch.sql
 @S2S/TYPES/All_Types.sql
 @S2S/PROCFUNPACKS/All_ProcFunPacks.sql
 @S2S/VIEWS/All_Views.sql
