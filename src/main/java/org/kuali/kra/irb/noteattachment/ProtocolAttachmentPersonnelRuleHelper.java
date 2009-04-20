@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.rules.ErrorReporter;
@@ -25,10 +24,8 @@ import org.kuali.kra.rules.ErrorReporter;
  */
 class ProtocolAttachmentPersonnelRuleHelper {
     
-    private ProtocolAttachmentBaseRuleHelper helper;
-    private String personIdProperty;
     private final ErrorReporter errorReporter = new ErrorReporter();
-    
+    private String propertyPrefix;
     /**
      * Creates helper deferring the setting of the prefix to later.
      */
@@ -48,34 +45,19 @@ class ProtocolAttachmentPersonnelRuleHelper {
     
     /**
      * Resets the property prefix.
-     * @param propertyPrefix the prefix (ex: notesAndAttachmentsHelper.newAttachmentProtocol)
+     * @param aPropertyPrefix the prefix (ex: notesAndAttachmentsHelper.newAttachmentProtocol)
      * @throws IllegalArgumentException if the propertyPrefix is null
      */
-    public void resetPropertyPrefix(final String propertyPrefix) {
-        if (propertyPrefix == null) {
+    void resetPropertyPrefix(final String aPropertyPrefix) {
+        if (aPropertyPrefix == null) {
             throw new IllegalArgumentException("propertyPrefix is null");
         }
         
-        this.helper = new ProtocolAttachmentBaseRuleHelper(propertyPrefix);
-        this.personIdProperty = propertyPrefix + ".personId";
+        this.propertyPrefix = aPropertyPrefix;
     }
     
     /**
-     * Checks for a valid status.
-     * @param attachmentPersonnel the attachment.
-     * @return true is valid.
-     */
-    boolean validPerson(final ProtocolAttachmentPersonnel attachmentPersonnel) {
-        
-        if (StringUtils.isBlank(attachmentPersonnel.getPersonId())) {
-            this.errorReporter.reportError(this.personIdProperty, KeyConstants.ERROR_PROTOCOL_ATTACHMENT_MISSING_PERSON);
-            return false;
-        }
-        return true;
-    }
-    
-    /**
-     * Checks that a type/person combination does not already exist for a document.
+     * Checks that a type/person combination does not already exist for a document. Creates a hard error.
      * @param attachmentPersonnel the attachment.
      * @param document the document
      * @return true is valid.
@@ -86,19 +68,12 @@ class ProtocolAttachmentPersonnelRuleHelper {
             if (!attachment.getId().equals(attachmentPersonnel.getId())
                 && attachment.getTypeCode().equals(attachmentPersonnel.getTypeCode())
                 && attachment.getPersonId().equals(attachmentPersonnel.getPersonId())) {
-                this.errorReporter.reportError(this.helper.getTypeCodeProperty(), KeyConstants.ERROR_PROTOCOL_ATTACHMENT_DUPLICATE_TYPE);
+                this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentBase.PropertyName.TYPE_CODE,
+                    KeyConstants.ERROR_PROTOCOL_ATTACHMENT_DUPLICATE_TYPE);
                 return false;
             }
         }
         
         return true;
-    }
-    
-    /**
-     * Gets the Person Id Property.
-     * @return the Person Id Property
-     */
-    public String getPersonIdProperty() {
-        return this.personIdProperty;
     }
 }

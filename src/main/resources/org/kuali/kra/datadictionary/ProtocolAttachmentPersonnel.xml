@@ -74,6 +74,7 @@
 		<property name="label" value="Person" />
 		<property name="shortLabel" value="Person" />
 		<property name="maxLength" value="12" />
+		<property name="required" value="true" />
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>

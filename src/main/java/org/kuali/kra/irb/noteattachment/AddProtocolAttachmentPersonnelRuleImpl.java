@@ -23,20 +23,18 @@ import org.kuali.kra.irb.document.ProtocolDocument;
  * @see AddProtocolAttachmentPersonnelRule for details
  */
 class AddProtocolAttachmentPersonnelRuleImpl implements AddProtocolAttachmentPersonnelRule {
-
-    private static final String PROPERTY_PREFIX = "notesAndAttachmentsHelper.newAttachmentPersonnel";
     
-    private final ProtocolAttachmentBaseRuleHelper baseHelper = new ProtocolAttachmentBaseRuleHelper(PROPERTY_PREFIX);
-    private final ProtocolAttachmentPersonnelRuleHelper personnelHelper = new ProtocolAttachmentPersonnelRuleHelper(PROPERTY_PREFIX);
-
+    private final ProtocolAttachmentBaseRuleHelper baseHelper
+        = new ProtocolAttachmentBaseRuleHelper(NoteAndAttachmentPrefix.NEW_ATTACHMENT_PERSONNEL.getPrefixName());
+    private final ProtocolAttachmentPersonnelRuleHelper personnelHelper
+        = new ProtocolAttachmentPersonnelRuleHelper(NoteAndAttachmentPrefix.NEW_ATTACHMENT_PERSONNEL.getPrefixName());
+    
     /** {@inheritDoc} */
     public boolean processAddProtocolAttachmentPersonnelRules(AddProtocolAttachmentPersonnelEvent event) {      
         final ProtocolDocument document = (ProtocolDocument) event.getDocument();
         final ProtocolAttachmentPersonnel newAttachmentPersonnel = event.getNewAttachmentPersonnel();
         
-        boolean valid = this.baseHelper.validType(newAttachmentPersonnel);
-        valid &= this.personnelHelper.validPerson(newAttachmentPersonnel);
-        valid &= this.baseHelper.validFile(newAttachmentPersonnel);
+        boolean valid = this.baseHelper.validAgainstDictionary(newAttachmentPersonnel);
         valid &= this.baseHelper.validDescription(newAttachmentPersonnel);
         valid &= this.personnelHelper.duplicateTypePerson(newAttachmentPersonnel, document);
         

@@ -15,30 +15,22 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
-import org.kuali.kra.irb.document.ProtocolDocument;
-
-
 /**
  * Implementation of {@link AddProtocolAttachmentProtocolRule AddProtocolAttachmentProtocolRule}.
  * @see AddProtocolAttachmentProtocolRule for details
  */
 class AddProtocolAttachmentProtocolRuleImpl implements AddProtocolAttachmentProtocolRule {
-
-    private static final String PROPERTY_PREFIX = "notesAndAttachmentsHelper.newAttachmentProtocol";
     
-    private final ProtocolAttachmentBaseRuleHelper baseHelper = new ProtocolAttachmentBaseRuleHelper(PROPERTY_PREFIX);
-    private final ProtocolAttachmentProtocolRuleHelper protocolHelper = new ProtocolAttachmentProtocolRuleHelper(PROPERTY_PREFIX);
+    private final ProtocolAttachmentBaseRuleHelper baseHelper
+        = new ProtocolAttachmentBaseRuleHelper(NoteAndAttachmentPrefix.NEW_ATTACHMENT_PROTOCOL.getPrefixName());
     
     /** {@inheritDoc} */
     public boolean processAddProtocolAttachmentProtocolRules(AddProtocolAttachmentProtocolEvent event) {      
-        final ProtocolDocument document = (ProtocolDocument) event.getDocument();
+        
         final ProtocolAttachmentProtocol newAttachmentProtocol = event.getNewAttachmentProtocol();
         
-        boolean valid = this.baseHelper.validType(newAttachmentProtocol);
-        valid &= this.protocolHelper.validStatus(newAttachmentProtocol);
-        valid &= this.baseHelper.validFile(newAttachmentProtocol);
+        boolean valid = this.baseHelper.validAgainstDictionary(newAttachmentProtocol);
         valid &= this.baseHelper.validDescription(newAttachmentProtocol);
-        valid &= this.protocolHelper.duplicateType(newAttachmentProtocol, document);
         
         return valid;
     }

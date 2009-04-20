@@ -160,11 +160,46 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = super.toStringMapper();
 
-        hashMap.put("comments", this.getComments());
-        hashMap.put("contactEmailAddress", this.getContactEmailAddress());
-        hashMap.put("contactName", this.getContactName());
-        hashMap.put("contactPhoneNumber", this.getContactPhoneNumber());
-        hashMap.put("statusCode", this.getStatusCode());
+        hashMap.put(PropertyName.COMMENTS.getPropertyName(), this.getComments());
+        hashMap.put(PropertyName.EMAIL.getPropertyName(), this.getContactEmailAddress());
+        hashMap.put(PropertyName.CONTACT_NAME.getPropertyName(), this.getContactName());
+        hashMap.put(PropertyName.PHONE.getPropertyName(), this.getContactPhoneNumber());
+        hashMap.put(PropertyName.STATUS_CODE.getPropertyName(), this.getStatusCode());
         return hashMap;
+    }
+    
+    /**
+     * Contains all the property names in this class.
+     */
+    public static enum PropertyName {
+        COMMENTS("comments"), EMAIL("contactEmailAddress"), CONTACT_NAME("contactName"),
+        PHONE("contactPhoneNumber"), STATUS_CODE("statusCode");
+        
+        private final String name;
+        
+        /**
+         * Sets the enum properties.
+         * @param name the name.
+         */
+        PropertyName(final String name) {
+            this.name = name;
+        }
+        
+        /**
+         * Gets the property name.
+         * @return the the property name.
+         */
+        public String getPropertyName() {
+            return this.name;
+        }
+        
+        /**
+         * Gets the {@link #getPropertyName() propertyName()}.
+         * @return {@link #getPropertyName() propertyName()}
+         */
+        @Override
+        public String toString() {
+            return this.name;
+        }
     }
 }

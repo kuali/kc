@@ -17,6 +17,7 @@ package org.kuali.kra.rules;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -24,12 +25,15 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.collections.keyvalue.DefaultMapEntry;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.DocumentAuditRule;
 import org.kuali.core.rules.DocumentRuleBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DictionaryValidationService;
+import org.kuali.core.util.AuditCluster;
+import org.kuali.core.util.AuditError;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
@@ -65,6 +69,15 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
      */
     protected void reportError(String propertyName, String errorKey, String... errorParams) {
         this.errorReporter.reportError(propertyName, errorKey, errorParams);
+    }
+    
+    /**
+     * Delegates to {@link ErrorReporter#reportAuditError(AuditError, String, String, String) ErrorReporter#reportAuditError(AuditError, String, String, String)}
+     * to keep api compatibility.
+     * @see ErrorReporter#reportAuditError(AuditError, String, String, String)
+     */
+    protected void addAuditError(AuditError error, String errorKey, String clusterLabel, String clusterCategory) {
+        this.errorReporter.reportAuditError(error, errorKey, clusterLabel, clusterCategory);
     }
     
     /**

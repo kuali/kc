@@ -14,7 +14,7 @@
  limitations under the License.
 -->
 
-<!-- <!DOCTYPE descriptor-repository PUBLIC "-//Apache Software Foundation//DTD OJB Repository//EN" "../../../../repository.dtd">-->
+ <!-- <!DOCTYPE descriptor-repository PUBLIC "-//Apache Software Foundation//DTD OJB Repository//EN" "../../../../repository.dtd">-->
 
 <descriptor-repository version="1.0">
 
@@ -570,7 +570,7 @@
 			<foreignkey field-ref="typeCode"/>
 		</reference-descriptor>
 		
-		<reference-descriptor name="file" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentFile" auto-retrieve="true" auto-update="none" auto-delete="true"> 
+		<reference-descriptor name="file" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="true"> 
 			<foreignkey field-ref="fileId"/>
 		</reference-descriptor>
 		
@@ -601,7 +601,7 @@
 			<foreignkey field-ref="typeCode"/>
 		</reference-descriptor>
 		
-		<reference-descriptor name="file" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentFile" auto-retrieve="true" auto-update="none" auto-delete="true"> 
+		<reference-descriptor name="file" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="true"> 
 			<foreignkey field-ref="fileId"/>
 		</reference-descriptor>
 		
