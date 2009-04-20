@@ -158,7 +158,7 @@
         <field-descriptor name="paidMember" column="PAID_MEMBER_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
         <field-descriptor name="termStartDate" column="TERM_START_DATE" jdbc-type="DATE" />
         <field-descriptor name="termEndDate" column="TERM_END_DATE" jdbc-type="DATE" />
-        <field-descriptor name="membershipTypeCode" column="MEMBERSHIP_TYPE_CODE" jdbc-type="INTEGER" />
+        <field-descriptor name="membershipTypeCode" column="MEMBERSHIP_TYPE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
         <field-descriptor name="contactNotes" column="CONTACT_NOTES" jdbc-type="VARCHAR" />
         <field-descriptor name="trainingNotes" column="TRAINING_NOTES" jdbc-type="VARCHAR" />

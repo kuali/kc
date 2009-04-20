@@ -71,7 +71,7 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase {
     private Date termEndDate;
 
     @Column(name = "MEMBERSHIP_TYPE_CODE")
-    private Integer membershipTypeCode;
+    private String membershipTypeCode;
 
     @Column(name = "COMMENTS")
     private String comments;
@@ -195,11 +195,11 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase {
         this.termEndDate = termEndDate;
     }
 
-    public Integer getMembershipTypeCode() {
+    public String getMembershipTypeCode() {
         return membershipTypeCode;
     }
 
-    public void setMembershipTypeCode(Integer membershipTypeCode) {
+    public void setMembershipTypeCode(String membershipTypeCode) {
         this.membershipTypeCode = membershipTypeCode;
     }
 
