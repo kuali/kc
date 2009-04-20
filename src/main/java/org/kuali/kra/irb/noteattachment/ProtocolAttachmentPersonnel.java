@@ -92,7 +92,41 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase {
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = super.toStringMapper();
-        hashMap.put("personId", this.getPersonId());
+        hashMap.put(PropertyName.PERSON_ID.getPropertyName(), this.getPersonId());
         return hashMap;
+    }
+    
+    /**
+     * Contains all the property names in this class.
+     */
+    public static enum PropertyName {
+        PERSON_ID("personId");
+        
+        private final String name;
+        
+        /**
+         * Sets the enum properties.
+         * @param name the name.
+         */
+        PropertyName(final String name) {
+            this.name = name;
+        }
+        
+        /**
+         * Gets the property name.
+         * @return the the property name.
+         */
+        public String getPropertyName() {
+            return this.name;
+        }
+        
+        /**
+         * Gets the {@link #getPropertyName() propertyName()}.
+         * @return {@link #getPropertyName() propertyName()}
+         */
+        @Override
+        public String toString() {
+            return this.name;
+        }
     }
 }

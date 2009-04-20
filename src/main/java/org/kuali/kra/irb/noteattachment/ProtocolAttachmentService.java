@@ -27,7 +27,7 @@ public interface ProtocolAttachmentService {
      * @param code the code.
      * @return the {@link ProtocolAttachmentType ProtocolAttachmentType}.  If the code is not
      * found then null is returned.
-     * @throws NullPointerException if the code is null
+     * @throws IllegalArgumentException if the code is null
      */
     ProtocolAttachmentType getTypeFromCode(String code);
     
@@ -37,7 +37,7 @@ public interface ProtocolAttachmentService {
      * @param code the code.
      * @return the {@link ProtocolAttachmentStatus ProtocolAttachmentStatus}.    If the code is not
      * found then null is returned.
-     * @throws NullPointerException if the code is null
+     * @throws IllegalArgumentException if the code is null
      */
     ProtocolAttachmentStatus getStatusFromCode(String code);
     
@@ -47,7 +47,7 @@ public interface ProtocolAttachmentService {
      * also saves all BOs that the attachment contains (ex. the File).
      * 
      * @param attachment the attachment.
-     * @throws NullPointerException if the attachment or attachment's new file is null
+     * @throws IllegalArgumentException if the attachment or attachment's new file is null
      */
     void saveAttatchment(ProtocolAttachmentProtocol attachment);
     
@@ -57,7 +57,7 @@ public interface ProtocolAttachmentService {
      * also saves all BOs that the attachment contains (ex. the File).
      * 
      * @param attachment the attachment.
-     * @throws NullPointerException if the attachment or attachment's new file is null
+     * @throws IllegalArgumentException if the attachment or attachment's new file is null
      */
     void saveAttatchment(ProtocolAttachmentPersonnel attachment);
 }

@@ -42,7 +42,7 @@ public class ProtocolAttachmentHelper {
     /**
      * Constructs a helper setting the dependencies to default values.
      * @param form the form
-     * @throws NullPointerException if the form is null
+     * @throws IllegalArgumentException if the form is null
      */
     public ProtocolAttachmentHelper(final ProtocolForm form) {
         this(form, KraServiceLocator.getService(ProtocolAttachmentService.class));
@@ -52,48 +52,51 @@ public class ProtocolAttachmentHelper {
      * Constructs a helper.
      * @param form the form
      * @param notesService the notesService
-     * @throws NullPointerException if the form or notesService is null
+     * @throws IllegalArgumentException if the form or notesService is null
      */
     ProtocolAttachmentHelper(final ProtocolForm form, final ProtocolAttachmentService notesService) {
         if (form == null) {
-            throw new NullPointerException("the form was null");
+            throw new IllegalArgumentException("the form was null");
         }
         
         if (notesService == null) {
-            throw new NullPointerException("the notesService was null");
+            throw new IllegalArgumentException("the notesService was null");
         }
         
         this.form = form;
         this.notesService = notesService;
-        
-        this.initAttachmentProtocol();
-        this.initAttachmentPersonnel();
     }
     
     /**
      * Get the Protocol.
      * @return the Protocol
-     * @throws NullPointerException if the {@link ProtocolDocument ProtocolDocument}
+     * @throws IllegalArgumentException if the {@link ProtocolDocument ProtocolDocument}
      * or {@link Protocol Protocol} is {@code null}.
      */
     private Protocol getProtocol() {
 
         if (this.form.getDocument() == null) {
-            throw new NullPointerException("the document is null");
+            throw new IllegalArgumentException("the document is null");
         }
         
         if (this.form.getDocument().getProtocol() == null) {
-            throw new NullPointerException("the protocol is null");
+            throw new IllegalArgumentException("the protocol is null");
         }
 
         return this.form.getDocument().getProtocol();
     }
     
     /**
-     * Gets the new attachment protocol.
+     * Gets the new attachment protocol.  This method will not return null.
+     * Also, The ProtocolAttachmentProtocol should have a valid protocol Id at this point.
+     * 
      * @return the new attachment protocol
      */
     public ProtocolAttachmentProtocol getNewAttachmentProtocol() {
+        if (this.newAttachmentProtocol == null) {
+            this.initAttachmentProtocol();
+        }
+        
         return this.newAttachmentProtocol;
     }
 
@@ -106,10 +109,15 @@ public class ProtocolAttachmentHelper {
     }
 
     /**
-     * Gets the new attachment personnel.
+     * Gets the new attachment personnel. This method will not return null.
+     * Also, The ProtocolAttachmentPersonnel should have a valid protocol Id at this point.
      * @return the new attachment personnel
      */
     public ProtocolAttachmentPersonnel getNewAttachmentPersonnel() {
+        if (this.newAttachmentPersonnel == null) {
+            this.initAttachmentPersonnel();
+        }
+        
         return this.newAttachmentPersonnel;
     }
 

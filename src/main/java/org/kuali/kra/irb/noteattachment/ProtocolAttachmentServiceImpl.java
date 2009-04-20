@@ -17,6 +17,7 @@ package org.kuali.kra.irb.noteattachment;
 
 import java.util.Collections;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
@@ -31,11 +32,11 @@ class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
      * Constructor than sets the dependencies.
      * 
      * @param boService the {@link BusinessObjectService BusinessObjectService}
-     * @throws NullPointerException if the boService is null
+     * @throws IllegalArgumentException if the boService is null
      */
     public ProtocolAttachmentServiceImpl(final BusinessObjectService boService) {
         if (boService == null) {
-            throw new NullPointerException("the boService was null");
+            throw new IllegalArgumentException("the boService was null");
         }
         
         this.boService = boService;
@@ -53,30 +54,36 @@ class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
     
     /** {@inheritDoc} */
     public void saveAttatchment(ProtocolAttachmentProtocol attachment) {
-        if (attachment == null) {
-            throw new NullPointerException("the attachment is null");
-        }
+        this.validateAttatchmentBase(attachment);
         
-        if (attachment.getNewFile() == null) {
-            throw new NullPointerException("the newFile is null");
+        if (StringUtils.isNotEmpty(attachment.getStatusCode())) {
+            attachment.setStatus(this.getStatusFromCode(attachment.getStatusCode())); 
         }
-        
-        attachment.setStatus(this.getStatusFromCode(attachment.getStatusCode()));
         this.setAndsaveAttachmentBase(attachment);
     }
     
     /** {@inheritDoc} */
     public void saveAttatchment(ProtocolAttachmentPersonnel attachment) {
-        if (attachment == null) {
-            throw new NullPointerException("the attachment is null");
-        }
-        
-        if (attachment.getNewFile() == null) {
-            throw new NullPointerException("the newFile is null");
-        }
+        this.validateAttatchmentBase(attachment);
         
         attachment.setPerson(this.getPerson(attachment.getPersonId()));
         this.setAndsaveAttachmentBase(attachment);
+    }
+    
+    /**
+     * Validates an attachment.
+     * 
+     * @param attachment the attachment.
+     * @throws IllegalArgumentException if the attachment is invalid.
+     */
+    private void validateAttatchmentBase(ProtocolAttachmentBase attachment) {
+        if (attachment == null) {
+            throw new IllegalArgumentException("the attachment is null");
+        }
+        
+        if (attachment.getNewFile() == null) {
+            throw new IllegalArgumentException("the newFile is null");
+        }
     }
     
     /**
@@ -97,9 +104,6 @@ class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
         //bogus numbers
         attachment.setAttachmentVersionNumber(Integer.valueOf(1));
         attachment.setDocumentId(Integer.valueOf(1));
-        
-        this.boService.save(attachment.getFile());
-        attachment.setFileId(attachment.getFile().getId());
         this.boService.save(attachment);
     }
     
@@ -111,15 +115,15 @@ class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
      * @param type the type
      * @param code the code value
      * @return the BO
-     * @throws NullPointerException if the code or type is null.
+     * @throws IllegalArgumentException if the code or type is null.
      */
     private <T extends PersistableBusinessObject> T getCodeType(final Class<T> type, final String code) {
         if (type == null) {
-            throw new NullPointerException("the type is null");
+            throw new IllegalArgumentException("the type is null");
         }
         
         if (code == null) {
-            throw new NullPointerException("the code is null");
+            throw new IllegalArgumentException("the code is null");
         }
         
         @SuppressWarnings("unchecked")
@@ -133,11 +137,11 @@ class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
      * 
      * @param personId the person id
      * @return the BO
-     * @throws NullPointerException if the code or type is null.
+     * @throws IllegalArgumentException if the code or type is null.
      */
     private ProtocolPerson getPerson(String personId) {
         if (personId == null) {
-            throw new NullPointerException("the personId is null");
+            throw new IllegalArgumentException("the personId is null");
         }
         
         return (ProtocolPerson) this.boService.findByPrimaryKey(ProtocolPerson.class, Collections.singletonMap("protocolPersonId", personId));

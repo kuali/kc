@@ -13,6 +13,10 @@ VALUES ( 6, 'Children''s Assent Form', sysdate, user );
 INSERT INTO PROTOCOL_ATTACHMENT_TYPE ( TYPE_CD, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
 VALUES ( 7, 'HIPAA Research Authorization Form', sysdate, user ); 
 INSERT INTO PROTOCOL_ATTACHMENT_TYPE ( TYPE_CD, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
-VALUES ( 8, 'HIPAA Waiver of Research Authorization Form', sysdate, user ); 
+VALUES ( 8, 'HIPAA Waiver of Research Authorization Form', sysdate, user );
 INSERT INTO PROTOCOL_ATTACHMENT_TYPE ( TYPE_CD, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
-VALUES ( 9, 'Other Protocol Attachment', sysdate, user ); 
+VALUES ( 9, 'Adverse Event', sysdate, user );
+INSERT INTO PROTOCOL_ATTACHMENT_TYPE ( TYPE_CD, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
+VALUES ( 10, 'Biography', sysdate, user );
+INSERT INTO PROTOCOL_ATTACHMENT_TYPE ( TYPE_CD, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
+VALUES ( 11, 'Other', sysdate, user );

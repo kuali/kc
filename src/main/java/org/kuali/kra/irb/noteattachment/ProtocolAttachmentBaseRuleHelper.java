@@ -16,7 +16,9 @@
 package org.kuali.kra.irb.noteattachment;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ErrorReporter;
 
 /**
@@ -30,108 +32,100 @@ import org.kuali.kra.rules.ErrorReporter;
  */
 class ProtocolAttachmentBaseRuleHelper {
 
-    private String newFileProperty;
-    private String descriptionProperty;
-    private String typeCodeProperty;
+    private static final String OTHER_TYPE_CODE = "11";
+
+    
+    private final ProtocolAttachmentService attachmentService;
+    private final DictionaryValidationService validationService;
     private final ErrorReporter errorReporter = new ErrorReporter();
+    
+    private String propertyPrefix;
     
     /**
      * Creates helper deferring the setting of the prefix to later.
      */
     ProtocolAttachmentBaseRuleHelper() {
-        super();
+        this(KraServiceLocator.getService(ProtocolAttachmentService.class),
+            KraServiceLocator.getService(DictionaryValidationService.class));
     }
     
     /**
      * Creates helper using prefix provided.
      *  
-     * @param propertyPrefix the prefix (ex: notesAndAttachmentsHelper.newAttachmentProtocol)
+     * @param aPropertyPrefix the prefix (ex: notesAndAttachmentsHelper.newAttachmentProtocol)
      * @throws IllegalArgumentException if the propertyPrefix is null
      */
-    ProtocolAttachmentBaseRuleHelper(final String propertyPrefix) {
-        this.resetPropertyPrefix(propertyPrefix);
+    ProtocolAttachmentBaseRuleHelper(final String aPropertyPrefix) {
+        this();
+        this.resetPropertyPrefix(aPropertyPrefix);
+    }
+    
+    /**
+     * Creates helper deferring the setting of the prefix to later and setting used services.
+     * @param attachmentService the Attachment Service
+     * @throws IllegalArgumentException if the attachmentService is null
+     */
+    ProtocolAttachmentBaseRuleHelper(final ProtocolAttachmentService attachmentService,
+        final DictionaryValidationService validationService) {
+        if (attachmentService == null) {
+            throw new IllegalArgumentException("the attachmentService is null");
+        }
+        
+        if (validationService == null) {
+            throw new IllegalArgumentException("the validationService is null");
+        }
+        
+        this.attachmentService = attachmentService;
+        this.validationService = validationService;
     }
     
     /**
      * Resets the property prefix.
-     * @param propertyPrefix the prefix (ex: notesAndAttachmentsHelper.newAttachmentProtocol)
+     * @param aPropertyPrefix the prefix (ex: notesAndAttachmentsHelper.newAttachmentProtocol)
      * @throws IllegalArgumentException if the propertyPrefix is null
      */
-    public void resetPropertyPrefix(final String propertyPrefix) {
-        if (propertyPrefix == null) {
+    void resetPropertyPrefix(final String aPropertyPrefix) {
+        if (aPropertyPrefix == null) {
             throw new IllegalArgumentException("propertyPrefix is null");
         }
         
-        this.newFileProperty = propertyPrefix + ".newFile";
-        this.descriptionProperty = propertyPrefix + ".description";
-        this.typeCodeProperty = propertyPrefix + ".typeCode";
+        this.propertyPrefix = aPropertyPrefix;
     }
     
     /**
-     * Checks for a valid file.
-     * @param attachmentBase the attachment.
-     * @return true is valid.
-     */
-    boolean validFile(final ProtocolAttachmentBase attachmentBase) {
-        
-        if ((attachmentBase.getNewFile() == null
-            || StringUtils.isBlank(attachmentBase.getNewFile().getFileName()))
-            && attachmentBase.getFileId() == null) {
-            this.errorReporter.reportError(this.newFileProperty, KeyConstants.ERROR_PROTOCOL_ATTACHMENT_MISSING_FILE);
-            return false;
-        }
-        return true;
-    }
-    
-    /**
-     * Checks for a valid description.
+     * Checks for a valid description. Creates a hard error.
      * @param attachmentBase the attachment.
      * @return true is valid.
      */
     boolean validDescription(final ProtocolAttachmentBase attachmentBase) {
         
-        if (StringUtils.isBlank(attachmentBase.getDescription())) {
-            this.errorReporter.reportError(this.descriptionProperty, KeyConstants.ERROR_PROTOCOL_ATTACHMENT_MISSING_DESCRIPTION);
+        if (StringUtils.isBlank(attachmentBase.getDescription()) && OTHER_TYPE_CODE.equals(attachmentBase.getTypeCode())) {
+            final ProtocolAttachmentType type = this.attachmentService.getTypeFromCode(attachmentBase.getTypeCode());
+            this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentBase.PropertyName.DESCRIPTION,
+                KeyConstants.ERROR_PROTOCOL_ATTACHMENT_MISSING_DESC, type.getDescription());
             return false;
         }
         return true;
     }
     
+    
     /**
-     * Checks for a valid type.
+     * Executes the Data Dictionary Validation. Creates a hard error(s).
      * @param attachmentBase the attachment.
-     * @return true is valid.
+     * @return true if valid.
      */
-    boolean validType(final ProtocolAttachmentBase attachmentBase) {
-        
-        if (StringUtils.isBlank(attachmentBase.getTypeCode())) {
-            this.errorReporter.reportError(this.typeCodeProperty, KeyConstants.ERROR_PROTOCOL_ATTACHMENT_MISSING_TYPE);
-            return false;
+    boolean validAgainstDictionary(final ProtocolAttachmentBase attachmentBase) {
+        //Since the file id is generated by the DB I need to set a file id
+        //to satisfy the validation service if a file has been set.
+        final Long oldFileId = attachmentBase.getFileId();
+        if (attachmentBase.getNewFile() != null && StringUtils.isNotBlank(attachmentBase.getNewFile().getFileName())) {
+            attachmentBase.setFileId(Long.valueOf(0));
         }
-        return true;
-    }
-    
-    /**
-     * Gets the New File Property.
-     * @return the New File Property
-     */
-    public String getNewFileProperty() {
-        return this.newFileProperty;
-    }
-
-    /**
-     * Gets the Description Property.
-     * @return the Description Property
-     */
-    public String getDescriptionProperty() {
-        return this.descriptionProperty;
-    }
-
-    /**
-     * Gets the Type Code Property.
-     * @return the Type Code Property
-     */
-    public String getTypeCodeProperty() {
-        return this.typeCodeProperty;
+        
+        final boolean valid = this.validationService.isBusinessObjectValid(attachmentBase, this.propertyPrefix);
+        
+        //reset the file id back.
+        attachmentBase.setFileId(oldFileId);
+        return valid;
     }
 }
