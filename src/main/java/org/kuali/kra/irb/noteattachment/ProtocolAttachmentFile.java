@@ -104,7 +104,7 @@ public class ProtocolAttachmentFile extends KraPersistableBusinessObjectBase {
      */
     private static String removeFrontForLength(String aString, int aLength) {
         assert aString != null : "aString is null";
-        assert aLength < 0 : "aLength is negative";
+        assert aLength > 0 : "aLength is negative: " + aLength;
         
         if (aString.length() > aLength) {
             StringBuilder tempString = new StringBuilder(aString);
