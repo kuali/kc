@@ -109,7 +109,7 @@ public class CommitteeMembershipSaveRuleTest extends CommitteeRuleTestBase {
         /*
          * Create a committee membership with role and expertise.
          */
-        committeeMembership = createMembership("jtester", null, 1, "2009-01-15", "2009-01-14");
+        committeeMembership = createMembership("jtester", null, "1", "2009-01-15", "2009-01-14");
         addRole(committeeMembership, "1", null, null);
         addExpertise(committeeMembership, "000001");
         addMembership(document, committeeMembership);
@@ -153,7 +153,7 @@ public class CommitteeMembershipSaveRuleTest extends CommitteeRuleTestBase {
         /*
          * Create a committee membership with role and expertise.
          */
-        committeeMembership = createMembership("jtester", null, 1, "2009-01-10", "2009-01-20");
+        committeeMembership = createMembership("jtester", null, "1", "2009-01-10", "2009-01-20");
         addRole(committeeMembership, "1", "2009-01-08", "2009-01-22");
         addExpertise(committeeMembership, "000001");
         addMembership(document, committeeMembership);
@@ -195,7 +195,7 @@ public class CommitteeMembershipSaveRuleTest extends CommitteeRuleTestBase {
         /*
          * Create a committee membership with two roles and an expertise.
          */
-        committeeMembership = createMembership("jtester", null, 1, "2009-01-10", "2009-01-20");
+        committeeMembership = createMembership("jtester", null, "1", "2009-01-10", "2009-01-20");
         addRole(committeeMembership, "1", "2009-01-14", "2009-01-15");
         addRole(committeeMembership, "1", "2009-01-15", "2009-01-16");
         addExpertise(committeeMembership, "000001");
@@ -237,12 +237,12 @@ public class CommitteeMembershipSaveRuleTest extends CommitteeRuleTestBase {
         /*
          * Create two identical committee membership with role and expertise. 
          */
-        committeeMembership = createMembership("jtester", null, 1, "2009-01-10", "2009-01-15");
+        committeeMembership = createMembership("jtester", null, "1", "2009-01-10", "2009-01-15");
         addRole(committeeMembership, "1", "2009-01-10", "2009-01-15");
         addExpertise(committeeMembership, "000001");
         addMembership(document, committeeMembership);
 
-        committeeMembership = createMembership("jtester", null, 1, "2009-01-10", "2009-01-15");
+        committeeMembership = createMembership("jtester", null, "1", "2009-01-10", "2009-01-15");
         addRole(committeeMembership, "1", "2009-01-10", "2009-01-15");
         addExpertise(committeeMembership, "000001");
         addMembership(document, committeeMembership);
@@ -284,20 +284,20 @@ public class CommitteeMembershipSaveRuleTest extends CommitteeRuleTestBase {
         /*
          * Create three committee membership with role and expertise. 
          */
-        committeeMembership = createMembership("jtester", null, 1, "2009-01-01", "2009-01-10");
+        committeeMembership = createMembership("jtester", null, "1", "2009-01-01", "2009-01-10");
         addRole(committeeMembership, "1", "2009-01-01", "2009-01-10");
         addRole(committeeMembership, "2", "2009-01-01", "2009-01-10");
         addExpertise(committeeMembership, "000001");
         addExpertise(committeeMembership, "000002");
         addMembership(document, committeeMembership);
 
-        committeeMembership = createMembership("jtester", null, 1, "2009-01-11", "2009-01-20");
+        committeeMembership = createMembership("jtester", null, "1", "2009-01-11", "2009-01-20");
         addRole(committeeMembership, "1", "2009-01-11", "2009-01-15");
         addRole(committeeMembership, "1", "2009-01-16", "2009-01-20");
         addExpertise(committeeMembership, "000001");
         addMembership(document, committeeMembership);
         
-        committeeMembership = createMembership(null, 1, 1, "2009-01-01", "2009-01-20");
+        committeeMembership = createMembership(null, 1, "1", "2009-01-01", "2009-01-20");
         addRole(committeeMembership, "1", "2009-01-01", "2009-01-20");
         addRole(committeeMembership, "2", "2009-01-01", "2009-01-10");
         addExpertise(committeeMembership, "000001");
@@ -321,7 +321,7 @@ public class CommitteeMembershipSaveRuleTest extends CommitteeRuleTestBase {
      * @param termEndDate
      * @return CommitteeMembership
      */
-    private CommitteeMembership createMembership(String personID, Integer rolodexID, Integer membershipTypeCode, String termStartDate, String termEndDate) {
+    private CommitteeMembership createMembership(String personID, Integer rolodexID, String membershipTypeCode, String termStartDate, String termEndDate) {
         CommitteeMembership committeeMembership = new CommitteeMembership();
         committeeMembership.setPersonId(personID);
         committeeMembership.setRolodexId(rolodexID);
