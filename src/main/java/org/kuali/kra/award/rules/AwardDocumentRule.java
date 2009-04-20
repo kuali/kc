@@ -32,8 +32,8 @@ import org.kuali.kra.award.bo.AwardFandaRate;
 import org.kuali.kra.award.bo.AwardReportTerm;
 import org.kuali.kra.award.bo.AwardSpecialReview;
 import org.kuali.kra.award.contacts.AwardProjectPersonsSaveRule;
-import org.kuali.kra.award.contacts.SaveAwardProjectPersonsRuleEvent;
 import org.kuali.kra.award.contacts.AwardProjectPersonsSaveRuleImpl;
+import org.kuali.kra.award.contacts.SaveAwardProjectPersonsRuleEvent;
 import org.kuali.kra.award.detailsdates.AddAwardTransferringSponsorEvent;
 import org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRule;
 import org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRuleImpl;
@@ -65,6 +65,10 @@ import org.kuali.kra.award.rule.event.AwardApprovedSubawardRuleEvent;
 import org.kuali.kra.award.rule.event.AwardBenefitsRatesRuleEvent;
 import org.kuali.kra.award.rule.event.AwardCostShareRuleEvent;
 import org.kuali.kra.award.rule.event.AwardDirectFandADistributionRuleEvent;
+import org.kuali.kra.common.permissions.bo.PermissionsUser;
+import org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles;
+import org.kuali.kra.common.permissions.rule.PermissionsRule;
+import org.kuali.kra.common.permissions.web.bean.User;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -90,7 +94,8 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
                                                                             AwardDetailsAndDatesRule,
                                                                             CustomAttributeRule,
                                                                             AwardDirectFandADistributionRule, 
-                                                                            AwardProjectPersonsSaveRule {
+                                                                            AwardProjectPersonsSaveRule,
+                                                                            PermissionsRule {
     
     public static final String DOCUMENT_ERROR_PATH = "document";
     public static final String AWARD_ERROR_PATH = "awardList[0]";
@@ -174,6 +179,34 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         return super.processCustomRouteDocumentBusinessRules(document);
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.common.permissions.rule.PermissionsRule#processAddPermissionsUserBusinessRules(
+     * org.kuali.core.document.Document, java.util.List, org.kuali.kra.common.permissions.bo.PermissionsUser)
+     */
+    public boolean processAddPermissionsUserBusinessRules(Document document, List<User> users, PermissionsUser newUser) {
+        return new AwardPermissionsRule().processAddPermissionsUserBusinessRules(document, users, newUser);
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.common.permissions.rule.PermissionsRule#processDeletePermissionsUserBusinessRules(
+     * org.kuali.core.document.Document, java.util.List, int)
+     */
+    public boolean processDeletePermissionsUserBusinessRules(Document document, List<User> users, int index) {
+        return new AwardPermissionsRule().processDeletePermissionsUserBusinessRules(document, users, index);     
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.common.permissions.rule.PermissionsRule#processEditPermissionsUserRolesBusinessRules(
+     * org.kuali.core.document.Document, java.util.List, org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles)
+     */
+    public boolean processEditPermissionsUserRolesBusinessRules(Document document, List<User> users,
+            PermissionsUserEditRoles editRoles) {
+        return new AwardPermissionsRule().processEditPermissionsUserRolesBusinessRules(document, users, editRoles);
     }
 
     /**
