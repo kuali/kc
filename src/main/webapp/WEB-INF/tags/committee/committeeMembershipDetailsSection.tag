@@ -41,7 +41,7 @@
                             <td align="left">
                                 <kul:htmlControlAttribute property="${committeeMembership}.membershipTypeCode" 
                                                           attributeEntry="${committeeMembershipAttributes.membershipTypeCode}"
-                                                          readOnlyAlternateDisplay="${committeeMembership.membershipType.description}"
+                                                          readOnlyAlternateDisplay="${KualiForm.document.committeeList[0].committeeMemberships[memberIndex].membershipType.description}"
                                                           readOnly="${readOnly}" />
                                 <br />
                                 <kul:htmlControlAttribute property="${committeeMembership}.paidMember" 
