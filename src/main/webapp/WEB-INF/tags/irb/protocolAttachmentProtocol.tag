@@ -21,7 +21,7 @@
 <c:set var="action" value="protocolNoteAndAttachment" />
 <c:set var="attachmentProtocols" value="${KualiForm.document.protocolList[0].attachmentProtocols}"/>
 
-<kul:tab tabTitle="Protocol Attachments(${fn:length(KualiForm.document.protocolList[0].attachmentProtocols)})" defaultOpen="false" tabErrorKey="notesAndAttachmentsHelper.newAttachmentProtocol.*" transparentBackground="true">
+<kul:tab tabTitle="Protocol Attachments(${fn:length(KualiForm.document.protocolList[0].attachmentProtocols)})" defaultOpen="false" tabErrorKey="notesAndAttachmentsHelper.newAttachmentProtocol.*" transparentBackground="true" tabAuditKey="document.protocolList[0].attachmentProtocol*">
 	<div class="tab-container" align="center">
    		<h3>
    			<span class="subhead-left">Add Protocol Attachment</span>
@@ -174,7 +174,7 @@
 		</table>
 		
 		<c:forEach var="attachmentProtocol" items="${KualiForm.document.protocolList[0].attachmentProtocols}" varStatus="status">
-			<kul:innerTab tabTitle="${attachmentProtocol.type.description} - ${attachmentProtocol.status.description}" parentTab="Protocol Attachments(${size})" defaultOpen="false" tabErrorKey="document.protocolList[0].attachmentProtocols[${status.index}]*" useCurrentTabIndexAsKey="true">
+			<kul:innerTab tabTitle="${attachmentProtocol.type.description} - ${attachmentProtocol.status.description}" parentTab="Protocol Attachments(${size})" defaultOpen="false" tabErrorKey="document.protocolList[0].attachmentProtocols[${status.index}]*" useCurrentTabIndexAsKey="true" tabAuditKey="document.protocolList[0].attachmentProtocol[${status.index}]*" auditCluster="NoteAndAttachmentAuditErrors">
 				<div class="innerTab-container" align="left">
             		<table class=tab cellpadding=0 cellspacing="0" summary="">
 						<tr>
