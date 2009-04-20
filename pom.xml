@@ -256,7 +256,7 @@
 				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>
 					<artifactId>kra_s2s</artifactId>
-					<version>1.0.20</version>
+					<version>1.0.21</version>
 				</dependency>
 				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>
@@ -446,7 +446,7 @@
 				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>
 					<artifactId>kra_s2s</artifactId>
-					<version>1.0.20</version>
+					<version>1.0.21</version>
 				</dependency>
 				<dependency>
 					<groupId>jaxb</groupId>
