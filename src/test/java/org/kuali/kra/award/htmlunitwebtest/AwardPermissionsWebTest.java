@@ -225,7 +225,7 @@ public class AwardPermissionsWebTest extends AwardWebTestBase {
     public void testAddDuplicate() throws Exception {
         HtmlPage permissionsPage = getPermissionsPage();
        
-        permissionsPage = addUser(permissionsPage, TESTER_USERNAME, VIEWER_ROLENAME);
+        permissionsPage = addUser(permissionsPage, TESTER_USERNAME, VIEWER_ROLENAME);        
         assertTrue(!hasError(permissionsPage));
         
         permissionsPage = addUser(permissionsPage, TESTER_USERNAME, VIEWER_ROLENAME);
@@ -366,7 +366,7 @@ public class AwardPermissionsWebTest extends AwardWebTestBase {
         
         List<String> errors = getErrors(permissionsPage, USER_TAB_DIV);
         assertEquals(errors.size(), 1);
-        assertTrue(containsError(errors, "Must have at least one award Aggregator"));
+        assertTrue(containsError(errors, "Must have at least one Award Aggregator"));
     }
   
     /**
@@ -452,7 +452,7 @@ public class AwardPermissionsWebTest extends AwardWebTestBase {
 
         List<String> errors = getErrors(editRolesPage, ROLES_TAB_DIV);
         assertEquals(errors.size(), 1);
-        assertTrue(containsError(errors, "Do not select other roles when award Aggregator is selected"));
+        assertTrue(containsError(errors, "Do not select other roles when Award Aggregator is selected"));
     }
     
     /**
@@ -470,6 +470,7 @@ public class AwardPermissionsWebTest extends AwardWebTestBase {
         setFieldValue(editRolesPage, AGGREGATOR_FIELD_ID, "off");
         setFieldValue(editRolesPage, VIEWER_FIELD_ID, "on");
         editRolesPage = clickOn(editRolesPage, "save");
+        assertTrue(hasError(editRolesPage));
 
         List<String> errors = getErrors(editRolesPage, ROLES_TAB_DIV);
         assertEquals(errors.size(), 1);
