@@ -41,7 +41,7 @@ public class CommitteeMembershipServiceTest {
 
     private static final String PERSON_ID = "jtester";
     private static final Integer ROLODEX_ID = 1746;
-    private static final Integer MEMBERSHIP_TYPE_CD = 1;
+    private static final String MEMBERSHIP_TYPE_CD = "1";
     private static final Date TERM_START_DATE = Date.valueOf("2009-01-01");
     private static final Date TERM_END_DATE = Date.valueOf("2009-01-31");
     private static final String MEMBERSHIP_ROLE_CD_1 = "1";
@@ -177,9 +177,9 @@ public class CommitteeMembershipServiceTest {
     public CommitteeMembership getCommitteeMembershipPerson() {
         CommitteeMembership committeeMembership = new CommitteeMembership();
         committeeMembership.setPersonId(PERSON_ID);
-        committeeMembership.setTermStartDate(Date.valueOf("2009-01-01"));
-        committeeMembership.setTermEndDate(Date.valueOf("2009-01-31"));
-        committeeMembership.setMembershipTypeCode(1);
+        committeeMembership.setTermStartDate(TERM_START_DATE);
+        committeeMembership.setTermEndDate(TERM_END_DATE);
+        committeeMembership.setMembershipTypeCode(MEMBERSHIP_TYPE_CD);
         return committeeMembership;
     }
     
@@ -203,7 +203,7 @@ public class CommitteeMembershipServiceTest {
      * @param termEndDate
      * @return CommitteeMembership
      */
-    private CommitteeMembership getMembership(String personID, Integer rolodexID, Integer membershipTypeCode, Date termStartDate, Date termEndDate) {
+    private CommitteeMembership getMembership(String personID, Integer rolodexID, String membershipTypeCode, Date termStartDate, Date termEndDate) {
         CommitteeMembership committeeMembership = new CommitteeMembership();
         committeeMembership.setPersonId(personID);
         committeeMembership.setRolodexId(rolodexID);
