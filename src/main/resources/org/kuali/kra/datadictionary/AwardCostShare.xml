@@ -121,6 +121,11 @@
     <property name="label" value="Cost Share Percentage" />
     <property name="shortLabel" value="Percentage" />
     <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="FixedPointValidationPattern"
+            p:precision="5"
+            p:scale="2" />
+    </property>
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition"
