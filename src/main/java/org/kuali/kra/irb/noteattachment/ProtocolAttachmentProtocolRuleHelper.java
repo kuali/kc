@@ -29,8 +29,9 @@ class ProtocolAttachmentProtocolRuleHelper {
     
     //FIXME: probably should find a better place for these constants
     private static final String NOTES_ATTACHMENTS_CLUSTER_LABEL = "Notes & Attachments";
-    private static final String NOTES_AND_ATTACHMENT_AUDIT_ERRORS_KEY = "ProtocolAttachmentNotesAndAttachmentAuditErrors";
-
+    private static final String NOTES_AND_ATTACHMENT_AUDIT_ERRORS_KEY = "NoteAndAttachmentAuditErrors";
+    private static final String NOTE_AND_ATTACHMENT_LINK = "noteAndAttachment";
+    
     private static final String COMPLETE_STATUS_CODE = "2";
     
     private final ErrorReporter errorReporter = new ErrorReporter();
@@ -94,7 +95,7 @@ class ProtocolAttachmentProtocolRuleHelper {
     boolean validStatusForSubmission(final ProtocolAttachmentProtocol attachmentProtocol) {
         if (!COMPLETE_STATUS_CODE.equals(attachmentProtocol.getStatusCode())) {
             final AuditError error = new AuditError(this.propertyPrefix + "." + ProtocolAttachmentProtocol.PropertyName.STATUS_CODE.getPropertyName(),
-                KeyConstants.AUDIT_ERROR_PROTOCOL_ATTACHMENT_STATUS_COMPLETE, "noteAndAttachment");
+                KeyConstants.AUDIT_ERROR_PROTOCOL_ATTACHMENT_STATUS_COMPLETE, NOTE_AND_ATTACHMENT_LINK);
             this.errorReporter.reportAuditError(error, NOTES_AND_ATTACHMENT_AUDIT_ERRORS_KEY, NOTES_ATTACHMENTS_CLUSTER_LABEL, Constants.AUDIT_ERRORS);
             return false;
         }
