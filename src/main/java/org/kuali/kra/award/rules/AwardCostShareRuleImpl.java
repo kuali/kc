@@ -65,10 +65,12 @@ public class AwardCostShareRuleImpl extends ResearchDocumentRuleBase implements 
     */
     public boolean validateCostShareSourceAndDestinationForEquality(AwardCostShare awardCostShare){
         boolean valid = true;
-        if(awardCostShare.getSource().equals(awardCostShare.getDestination())) {
-            valid = false;
-            reportError(NEW_AWARD_COST_SHARE+".source", 
-                    KeyConstants.ERROR_SOURCE_DESTINATION);
+        if(awardCostShare.getSource() != null && awardCostShare.getDestination() != null){
+            if(awardCostShare.getSource().equals(awardCostShare.getDestination())) {
+                valid = false;
+                reportError(NEW_AWARD_COST_SHARE+".source", 
+                        KeyConstants.ERROR_SOURCE_DESTINATION);
+            }
         }
         return valid;
     }
@@ -81,11 +83,13 @@ public class AwardCostShareRuleImpl extends ResearchDocumentRuleBase implements 
     */
     public boolean validateCostShareFiscalYearRange(AwardCostShare awardCostShare){
         boolean valid = true;
-        int fiscalYear = Integer.parseInt(awardCostShare.getFiscalYear());
-        if(fiscalYear < Constants.MIN_FISCAL_YEAR || fiscalYear > Constants.MAX_FISCAL_YEAR) {
-            valid = false;
-            reportError(NEW_AWARD_COST_SHARE+".fiscalYear", 
-                    KeyConstants.ERROR_FISCAL_YEAR_RANGE);
+        if (awardCostShare.getFiscalYear() != null) {
+            int fiscalYear = Integer.parseInt(awardCostShare.getFiscalYear());
+            if(fiscalYear < Constants.MIN_FISCAL_YEAR || fiscalYear > Constants.MAX_FISCAL_YEAR) {
+                valid = false;
+                reportError(NEW_AWARD_COST_SHARE+".fiscalYear", 
+                        KeyConstants.ERROR_FISCAL_YEAR_RANGE);
+            }
         }
         return valid;
     }

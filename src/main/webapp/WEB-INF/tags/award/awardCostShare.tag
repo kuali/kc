@@ -21,7 +21,7 @@
 <c:set var="action" value="awardTimeAndMoney" />
 
 
-<kul:tab tabTitle="Cost Share" defaultOpen="false" tabErrorKey="newAwardCostShare.*,document.awardList[0].awardCostShares*">
+<kul:tab tabTitle="Cost Share" defaultOpen="false" tabErrorKey="newAwardCostShare.*,document.awardList[0].awardCostShare*">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Cost Share</span>
@@ -122,7 +122,7 @@
 	                </td>
 	                <td width="15%" valign="middle">
 					<div align="center">
-	                	<kul:htmlControlAttribute property="document.awardList[0].awardCostShares[${status.index}].verificationDate" attributeEntry="${awardCostShareAttributes.verificationDate}"/>
+	                	<kul:htmlControlAttribute property="document.awardList[0].awardCostShares[${status.index}].verificationDate" attributeEntry="${awardCostShareAttributes.verificationDate}" datePicker="true"/>
 					</div>
 	                </td>
 	                <td width="15%" valign="right">
