@@ -28,7 +28,8 @@
                             <td align="left">
                                 <kul:htmlControlAttribute property="${committeeMembership}.termStartDate" 
                                                           attributeEntry="${committeeMembershipAttributes.termStartDate}" 
-                                                          datePicker="true" />
+                                                          datePicker="true"
+                                                          readOnly="${readOnly}" />
                             </td>
                         </tr>
                         <tr>
@@ -39,10 +40,13 @@
                             </th>
                             <td align="left">
                                 <kul:htmlControlAttribute property="${committeeMembership}.membershipTypeCode" 
-                                                          attributeEntry="${committeeMembershipAttributes.membershipTypeCode}" />
+                                                          attributeEntry="${committeeMembershipAttributes.membershipTypeCode}"
+                                                          readOnlyAlternateDisplay="${committeeMembership.membershipType.description}"
+                                                          readOnly="${readOnly}" />
                                 <br />
                                 <kul:htmlControlAttribute property="${committeeMembership}.paidMember" 
-                                                          attributeEntry="${committeeMembershipAttributes.paidMember}" />
+                                                          attributeEntry="${committeeMembershipAttributes.paidMember}" 
+                                                          readOnly="${readOnly}" />
                                 (paid member)
                             </td>
                             <th align="left">
@@ -53,7 +57,8 @@
                             <td align="left">
                                 <kul:htmlControlAttribute property="${committeeMembership}.termEndDate" 
                                                           attributeEntry="${committeeMembershipAttributes.termEndDate}"
-                                                          datePicker="true" />
+                                                          datePicker="true"
+                                                          readOnly="${readOnly}" />
                             </td>
                         <tr>
                             <th align="left">
@@ -63,7 +68,8 @@
                             </th>
                             <td align="left">
                                 <kul:htmlControlAttribute property="${committeeMembership}.contactNotes" 
-                                                          attributeEntry="${committeeMembershipAttributes.contactNotes}" />
+                                                          attributeEntry="${committeeMembershipAttributes.contactNotes}" 
+                                                          readOnly="${readOnly}" />
                             </td>
                             <th align="left">
                                 <div align="right">
@@ -72,7 +78,8 @@
                             </th>
                             <td align="left">
                                 <kul:htmlControlAttribute property="${committeeMembership}.trainingNotes" 
-                                                          attributeEntry="${committeeMembershipAttributes.trainingNotes}" />
+                                                          attributeEntry="${committeeMembershipAttributes.trainingNotes}"
+                                                          readOnly="${readOnly}" />
                             </td>
                         </tr>
                     </table>

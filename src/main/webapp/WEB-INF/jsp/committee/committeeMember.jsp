@@ -6,3 +6,5 @@
 
 <c:set var="committeeMembershipAttributes" value="${DataDictionary.CommitteeMembership.attributes}" />
 <c:set var="personAttributes" value="${DataDictionary.Person.attributes}" />
+<c:set var="readOnly" value="${!KualiForm.committeeHelper.modifyCommittee}" />
+<c:set var="readOnly" value="true" />

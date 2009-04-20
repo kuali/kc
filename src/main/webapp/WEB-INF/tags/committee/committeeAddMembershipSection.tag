@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="committeeMembershipAttributes" value="${DataDictionary.CommitteeMembership.attributes}" />
 
-    <%--<kra:permission value="${KualiForm.personnelHelper.modifyProtocol}">--%>
+    <kra:permission value="${KualiForm.committeeHelper.modifyCommittee}">
         <kul:uncollapsable tabTitle="Add ${KualiForm.document.committee.committeeType.description} Member"
             tabErrorKey="membershipHelper.newCommitteeMembership.*" 
             auditCluster="committeeMembershipAuditErrors" 
@@ -47,5 +47,5 @@
                  styleClass="tinybutton"/>
           </div>
         </kul:uncollapsable>
-    <%--</kra:permission>--%>
+    </kra:permission>
     <br/>

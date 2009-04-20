@@ -1,8 +1,6 @@
 <%@ include file="/WEB-INF/jsp/committee/committeeMember.jsp"%>
 
 <c:set var="membershipRoleAttributes" value="${DataDictionary.CommitteeMembershipRole.attributes}" />
-<%-- TODO: cniesen - set readOnly to something like "${!KualiForm.protocolHelper.modifyProtocol}" --%>
-<c:set var="readOnly" value="false" />
 
 <table cellpadding=0 cellspacing=0 summary="">
     <tr>
