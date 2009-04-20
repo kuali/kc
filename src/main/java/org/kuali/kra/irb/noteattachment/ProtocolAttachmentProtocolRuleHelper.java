@@ -15,7 +15,8 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
-import org.apache.commons.lang.StringUtils;
+import org.kuali.core.util.AuditError;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.rules.ErrorReporter;
@@ -25,10 +26,15 @@ import org.kuali.kra.rules.ErrorReporter;
  * This class contains methods to "help" in validating {@link ProtocolAttachmentProtocol ProtocolAttachmentProtocol}.
  */
 class ProtocolAttachmentProtocolRuleHelper {
+    
+    //FIXME: probably should find a better place for these constants
+    private static final String NOTES_ATTACHMENTS_CLUSTER_LABEL = "Notes & Attachments";
+    private static final String NOTES_AND_ATTACHMENT_AUDIT_ERRORS_KEY = "ProtocolAttachmentNotesAndAttachmentAuditErrors";
 
-    private ProtocolAttachmentBaseRuleHelper helper;
-    private String statusCodeProperty;
+    private static final String COMPLETE_STATUS_CODE = "2";
+    
     private final ErrorReporter errorReporter = new ErrorReporter();
+    private String propertyPrefix;
     
     /**
      * Creates helper deferring the setting of the prefix to later.
@@ -49,44 +55,30 @@ class ProtocolAttachmentProtocolRuleHelper {
     
     /**
      * Resets the property prefix.
-     * @param propertyPrefix the prefix (ex: notesAndAttachmentsHelper.newAttachmentProtocol)
+     * @param aPropertyPrefix the prefix (ex: notesAndAttachmentsHelper.newAttachmentProtocol)
      * @throws IllegalArgumentException if the propertyPrefix is null
      */
-    public void resetPropertyPrefix(final String propertyPrefix) {
-        if (propertyPrefix == null) {
+    void resetPropertyPrefix(final String aPropertyPrefix) {
+        if (aPropertyPrefix == null) {
             throw new IllegalArgumentException("propertyPrefix is null");
         }
-        
-        this.helper = new ProtocolAttachmentBaseRuleHelper(propertyPrefix);
-        this.statusCodeProperty = propertyPrefix + ".statusCode";
+
+        this.propertyPrefix = aPropertyPrefix;
     }
     
     /**
-     * Checks for a valid status.
-     * @param attachmentProtocol the attachment.
-     * @return true is valid.
-     */
-    public boolean validStatus(final ProtocolAttachmentProtocol attachmentProtocol) {
-        
-        if (StringUtils.isBlank(attachmentProtocol.getStatusCode())) {
-            this.errorReporter.reportError(this.statusCodeProperty, KeyConstants.ERROR_PROTOCOL_ATTACHMENT_MISSING_STATUS);
-            return false;
-        }
-        return true;
-    }
-    
-    /**
-     * Checks that a type does not already exist for a document.
+     * Checks that a type does not already exist for a document. Creates a hard error.
      * @param attachmentProtocol the attachment.
      * @param document the document
      * @return true is valid.
      */
-    public boolean duplicateType(final ProtocolAttachmentProtocol attachmentProtocol, final ProtocolDocument document) {
+    boolean duplicateType(final ProtocolAttachmentProtocol attachmentProtocol, final ProtocolDocument document) {
         
         for (ProtocolAttachmentProtocol attachment : document.getProtocol().getAttachmentProtocols()) {
             if (!attachment.getId().equals(attachmentProtocol.getId())
                 && attachment.getTypeCode().equals(attachmentProtocol.getTypeCode())) {
-                this.errorReporter.reportError(this.helper.getTypeCodeProperty(), KeyConstants.ERROR_PROTOCOL_ATTACHMENT_DUPLICATE_TYPE);
+                this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentBase.PropertyName.TYPE_CODE,
+                    KeyConstants.ERROR_PROTOCOL_ATTACHMENT_DUPLICATE_TYPE);
                 return false;
             }
         }
@@ -95,10 +87,17 @@ class ProtocolAttachmentProtocolRuleHelper {
     }
     
     /**
-     * Gets the Status Code Property.
-     * @return the Status Code Property
+     * Checks that the status is marked complete. Creates an audit error.
+     * @param attachmentProtocol the attachment.
+     * @return true is valid.
      */
-    public String getStatusCodeProperty() {
-        return this.statusCodeProperty;
+    boolean validStatusForSubmission(final ProtocolAttachmentProtocol attachmentProtocol) {
+        if (!COMPLETE_STATUS_CODE.equals(attachmentProtocol.getStatusCode())) {
+            final AuditError error = new AuditError(this.propertyPrefix + "." + ProtocolAttachmentProtocol.PropertyName.STATUS_CODE.getPropertyName(),
+                KeyConstants.AUDIT_ERROR_PROTOCOL_ATTACHMENT_STATUS_COMPLETE, "noteAndAttachment");
+            this.errorReporter.reportAuditError(error, NOTES_AND_ATTACHMENT_AUDIT_ERRORS_KEY, NOTES_ATTACHMENTS_CLUSTER_LABEL, Constants.AUDIT_ERRORS);
+            return false;
+        }
+        return true;
     }
 }

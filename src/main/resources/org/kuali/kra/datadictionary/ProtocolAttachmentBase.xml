@@ -73,6 +73,8 @@
         <property name="shortLabel" value="Attachment Type" />
         <property name="summary" value="Attachment Type" />
         <property name="description" value="Attachment Type" />
+        <property name="maxLength" value="3" />
+        <property name="required" value="true" />
 	    <property name="control" >
 	      <bean parent="SelectControlDefinition"
 	            p:businessObjectClass="org.kuali.kra.irb.noteattachment.ProtocolAttachmentType"
@@ -128,6 +130,7 @@
 		<property name="shortLabel" value="File Name" />
 		<property name="summary" value="File Name" />
 		<property name="description" value="File Name" />
+		<property name="required" value="true" />
 	</bean>
 	
 	<bean id="ProtocolAttachmentBase-description" parent="ProtocolAttachmentBase-description-parentBean" />
@@ -135,7 +138,7 @@
 		<property name="control" >
 			<bean parent="TextareaControlDefinition"
 	            p:rows="3"
-	            p:cols="38"/> 
+	            p:cols="40"/> 
         </property>
 	</bean>
 	

@@ -35,6 +35,7 @@ import org.kuali.kra.irb.bo.ProtocolSpecialReview;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.noteattachment.SaveProtocolAttachmentPersonnelRuleImpl;
 import org.kuali.kra.irb.noteattachment.SaveProtocolAttachmentProtocolRuleImpl;
+import org.kuali.kra.irb.noteattachment.SubmitProtocolAttachmentProtocolRuleImpl;
 import org.kuali.kra.irb.personnel.AddProtocolPersonnelEvent;
 import org.kuali.kra.irb.personnel.AddProtocolPersonnelRule;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelAuditRule;
@@ -112,6 +113,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         
         retval &= super.processRunAuditBusinessRules(document);
         retval &= new ProtocolPersonnelAuditRule().processRunAuditBusinessRules(document);
+        retval &= this.processNoteAndAttachmentAuditRules((ProtocolDocument) document);
         return retval;
     }
 
@@ -320,6 +322,20 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         boolean valid = true;
         valid &= new SaveProtocolAttachmentPersonnelRuleImpl().processSaveProtocolAttachmentPersonnelRules(document);
         valid &= new SaveProtocolAttachmentProtocolRuleImpl().processSaveProtocolAttachmentProtocolRules(document);
+     
+        return valid;
+    }
+    
+    /**
+     * Executes the notes and attachment related audit rules.
+     * @param document the document.
+     * @return true if valid.
+     */
+    private boolean processNoteAndAttachmentAuditRules(ProtocolDocument document) {
+        assert document != null : "the document was null";
+        
+        boolean valid = true;
+        valid &= new SubmitProtocolAttachmentProtocolRuleImpl().processSubmitProtocolAttachmentProtocolRules(document);
      
         return valid;
     }

@@ -44,22 +44,22 @@
          		</th>
          		<th>
          			<div align="center">
-         				<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentPersonnelAttributes.personId}" noColon="false" forceRequired="true"/>
+         				<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentPersonnelAttributes.personId}" noColon="false"/>
          			</div>
          		</th>
          		<th>
          			<div align="center">
-         				<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentPersonnelAttributes.typeCode}" noColon="false" forceRequired="true"/>
+         				<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentPersonnelAttributes.typeCode}" noColon="false"/>
          			</div>
          		</th>
          		<th>
 					<div align="center">
-						<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentPersonnelAttributes.description}" noColon="false" forceRequired="true"/>
+						<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentPersonnelAttributes.description}" noColon="false"/>
 					</div>
 				</th>
          		<th>
 					<div align="center">
-						<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentPersonnelAttributes.fileId}" noColon="false" forceRequired="true"/>
+						<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentPersonnelAttributes.fileId}" noColon="false"/>
 					</div>
 				</th>
          		<th>
@@ -100,7 +100,7 @@
                				<c:set var="textStyle" value="${hasErrors == true ? 'background-color:#FFD5D5' : ''}"/>
                			<%-- attachment type error handling logic start--%>
                			
-               			<html:select property="${property}">
+               			<html:select property="${property}" style="${textStyle}">
                				<html:options collection="options" labelProperty="label" property="key" />
                			</html:select>
 	            	</div>
@@ -120,7 +120,7 @@
                				<c:set var="textStyle" value="${hasErrors == true ? 'background-color:#FFD5D5' : ''}"/>
                			<%-- attachment type error handling logic start--%>
                			
-               			<html:select property="${property}">
+               			<html:select property="${property}" style="${textStyle}">
                				<html:options collection="options" labelProperty="label" property="key" />
                			</html:select>
 	            	</div>
@@ -141,7 +141,7 @@
                				<c:set var="textStyle" value="${hasErrors == true ? 'background-color:#FFD5D5' : ''}"/>
                			<%-- attachment file error handling logic start--%>
               		
-              			<html:file property="${property}" />
+              			<html:file property="${property}" style="${textStyle}"/>
            			</div>
 				</td>
 				<td align="center" valign="middle" class="infoline">
@@ -161,27 +161,27 @@
 	         		</td>
 	         		<td align="left" valign="middle" class="infoline">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="document.protocol.attachmentPersonnel[${status.index}].updateTimestamp" attributeEntry="${protocolAttachmentPersonnelAttributes.updateTimestamp}" readOnly="true"/>
+	                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentPersonnel[${status.index}].updateTimestamp" attributeEntry="${protocolAttachmentPersonnelAttributes.updateTimestamp}" readOnly="true"/>
 		            	</div>
 					</td>
 	         		<td align="left" valign="middle" class="infoline">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="document.protocol.attachmentPersonnel[${status.index}].updateUser" attributeEntry="${protocolAttachmentPersonnelAttributes.updateUser}" readOnly="true"/>
+	                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentPersonnel[${status.index}].updateUser" attributeEntry="${protocolAttachmentPersonnelAttributes.updateUser}" readOnly="true"/>
 		            	</div>
 					</td>
 					<td align="left" valign="middle" class="infoline">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="document.protocol.attachmentPersonnel[${status.index}].person.personName" attributeEntry="${protocolAttachmentPersonnelAttributes.personId}" readOnly="true"/>
+	                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentPersonnel[${status.index}].person.personName" attributeEntry="${protocolAttachmentPersonnelAttributes.personId}" readOnly="true"/>
 		            	</div>
 					</td>
 	         		<td align="left" valign="middle" class="infoline">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="document.protocol.attachmentPersonnel[${status.index}].typeCode" attributeEntry="${protocolAttachmentPersonnelAttributes.typeCode}" readOnly="true" readOnlyAlternateDisplay="${attachmentPersonnel.type.description}"/>
+	                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentPersonnel[${status.index}].typeCode" attributeEntry="${protocolAttachmentPersonnelAttributes.typeCode}" readOnly="true" readOnlyAlternateDisplay="${attachmentPersonnel.type.description}"/>
 		            	</div>
 					</td>
 					<td align="left" valign="middle" class="infoline">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="document.protocol.attachmentPersonnel[${status.index}].description" attributeEntry="${protocolAttachmentPersonnelAttributes.description}" readOnly="true"/>
+	                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentPersonnel[${status.index}].description" attributeEntry="${protocolAttachmentPersonnelAttributes.description}" readOnly="true"/>
 		            	</div>
 					</td>
 	       			<td align="left" valign="middle" class="infoline">

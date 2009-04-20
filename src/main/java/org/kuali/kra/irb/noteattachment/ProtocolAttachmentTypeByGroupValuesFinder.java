@@ -30,6 +30,27 @@ import org.kuali.kra.lookup.keyvalue.SortedValuesFinder;
 
 
 /**
+ * This class can be used in a tag file like the following
+ * <pre>
+    <c:set var="property" value="notesAndAttachmentsHelper.newAttachmentProtocol.typeCode" />
+
+    <%-- attachment type finder logic start--%>
+        <jsp:useBean id="typeParamsType" class="java.util.HashMap"/>
+        <c:set target="${typeParamsType}" property="groupCode" value="${notesAndAttachmentsHelper.newAttachmentProtocol.groupCode}" />
+        <c:set target="${typeParamsType}" property="filterTypes" value="${KualiForm.document.protocol.attachmentProtocols}" />
+        <c:set var="options" value="${krafn:getOptionList('org.kuali.kra.irb.noteattachment.ProtocolAttachmentTypeByGroupValuesFinder', typeParamsType)}" />
+    <%-- attachment type finder logic end --%>
+    
+    <%-- attachment type error handling logic start--%>
+        <kul:checkErrors keyMatch="${property}" auditMatch="${property}"/>
+        <c:set var="textStyle" value="${hasErrors == true ? 'background-color:#FFD5D5' : ''}"/>
+    <%-- attachment type error handling logic start--%>
+    
+    <html:select property="${property}" style="${textStyle}">
+        <html:options collection="options" labelProperty="label" property="key" />
+    </html:select>
+ * </pre>
+ * 
  * See {@link #getKeyValues()}.
  */
 public class ProtocolAttachmentTypeByGroupValuesFinder extends KeyValuesBase {

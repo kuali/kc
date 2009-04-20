@@ -373,12 +373,12 @@ public final class KeyConstants {
     public static final String ERROR_PROTOCOL_INVESTIGATOR_INVALID = "error.protocol.investigator.invalid";
     
     //IRB Protocol Note And Attachment Validation Messages
-    public static final String ERROR_PROTOCOL_ATTACHMENT_MISSING_STATUS = "error.protocolAttachment.missing.status";
     public static final String ERROR_PROTOCOL_ATTACHMENT_MISSING_TYPE = "error.protocolAttachment.missing.type";
+    public static final String ERROR_PROTOCOL_ATTACHMENT_MISSING_DESC = "error.protocolAttachment.description.required";
     public static final String ERROR_PROTOCOL_ATTACHMENT_MISSING_FILE = "error.protocolAttachment.missing.file";
-    public static final String ERROR_PROTOCOL_ATTACHMENT_MISSING_DESCRIPTION = "error.protocolAttachment.missing.description";
     public static final String ERROR_PROTOCOL_ATTACHMENT_MISSING_PERSON = "error.protocolAttachment.missing.person";
     public static final String ERROR_PROTOCOL_ATTACHMENT_DUPLICATE_TYPE = "error.protocolAttachment.duplicate.type";
+    public static final String AUDIT_ERROR_PROTOCOL_ATTACHMENT_STATUS_COMPLETE = "error.protocolAttachment.not.complete";
     
     // IRB Protocol Funding Sources Validation Messages
     public static final String ERROR_PROTOCOL_FUNDING_TYPE_NOT_FOUND = "error.protocolFundingSource.fundingType.notFound";

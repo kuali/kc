@@ -78,6 +78,7 @@
         <property name="shortLabel" value="Status" />
         <property name="summary" value="Status" />
         <property name="description" value="Status" />
+        <property name="maxLength" value="3"/>
 	    <property name="control" >
 	      <bean parent="SelectControlDefinition"
 	            p:businessObjectClass="org.kuali.kra.irb.noteattachment.ProtocolAttachmentStatus"
@@ -100,7 +101,7 @@
 	  </property>
 	  <property name="control" >
 	    <bean parent="TextControlDefinition"
-	          p:size="30" />
+	          p:size="35" />
 	  </property>
 	  <property name="summary" value="Constact Name" />
 	  <property name="description" value="Constact Name" />
@@ -130,11 +131,12 @@
 	  <property name="label" value="Comments" />
 	  <property name="shortLabel" value="Comments" />
 	  <property name="summary" value="Comments" />
+	  <property name="maxLength" value="300" />
 	  <property name="description" value="Comments" />
 		<property name="control" >
 			<bean parent="TextareaControlDefinition"
 	            p:rows="3"
-	            p:cols="38"/> 
+	            p:cols="40"/>
         </property>
 	</bean>
 	

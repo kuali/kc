@@ -27,8 +27,14 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  */
 public class ProtocolAttachmentFile extends KraPersistableBusinessObjectBase {
     
+    /** the max file name length. length={@value}*/
+    public static final int MAX_FILE_NAME_LENGTH = 150;
+    
+    /** the max file type length. length={@value}*/
+    public static final int MAX_FILE_TYPE_LENGTH = 250;
+    
     private static final long serialVersionUID = 8999619585664343780L;
-
+    
     private Long id;
     private String name;
     private String type;
@@ -60,22 +66,52 @@ public class ProtocolAttachmentFile extends KraPersistableBusinessObjectBase {
     
     /**
      * factory method creating an instance from a {@link FormFile FormFile}.
+     * <p>
+     * If the file name's length > {@link #MAX_FILE_NAME_LENGTH} then the name will be
+     * modified.
+     * </p>
+     * 
+     * <p>
+     * If the file type's length > {@link #MAX_FILE_TYPE_LENGTH} then the type will be
+     * modified.
+     * </p>
      * @param formFile the {@link FormFile FormFile}
      * @return an instance
-     * @throws NullPointerException if the formfile is null.
+     * @throws IllegalArgumentException if the formfile is null.
      * @throws CreateException if unable to create from FormFile.
      */
     public static final ProtocolAttachmentFile createFromFormFile(FormFile formFile) {
         
         if (formFile == null) {
-            throw new NullPointerException("the formFile is null");
+            throw new IllegalArgumentException("the formFile is null");
         }
         
+        final String fName = removeFrontForLength(formFile.getFileName(), MAX_FILE_NAME_LENGTH);
+        final String fType = removeFrontForLength(formFile.getContentType(), MAX_FILE_TYPE_LENGTH);
+        
         try {
-            return new ProtocolAttachmentFile(formFile.getFileName(), formFile.getContentType(), formFile.getFileData());
+            return new ProtocolAttachmentFile(fName, fType, formFile.getFileData());
         } catch (IOException e) {
             throw new CreateException(e);
         }
+    }
+    
+    /**
+     * Removes the start of String in order to meet the passed in length.
+     * @param aString the string.
+     * @param aLength the length.
+     * @return the modified string.
+     */
+    private static String removeFrontForLength(String aString, int aLength) {
+        assert aString != null : "aString is null";
+        assert aLength < 0 : "aLength is negative";
+        
+        if (aString.length() > aLength) {
+            StringBuilder tempString = new StringBuilder(aString);
+            tempString.delete(0, tempString.length() - aLength);
+            return tempString.toString();
+        }
+        return aString;
     }
     
     /**
