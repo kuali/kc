@@ -19,15 +19,13 @@ import java.util.List;
 
 import org.kuali.kra.irb.document.ProtocolDocument;
 
-
 /**
- * Class handles rules for saving a {@link ProtocolAttachmentProtocol ProtocolAttachmentProtocol}.
+ * Class handles rules for submitting a {@link ProtocolAttachmentProtocol ProtocolAttachmentProtocol}.
  * This class does not have a corresponding event or Rule interface because it is just used-by the mega
- * {@link org.kuali.kra.irb.rules.ProtocolDocumentRule ProtocolDocumentRule} for save events.
+ * {@link org.kuali.kra.irb.rules.ProtocolDocumentRule ProtocolDocumentRule} for submit events.
  */
-public class SaveProtocolAttachmentProtocolRuleImpl {
-    
-    private final ProtocolAttachmentBaseRuleHelper baseHelper = new ProtocolAttachmentBaseRuleHelper();
+public class SubmitProtocolAttachmentProtocolRuleImpl {
+
     private final ProtocolAttachmentProtocolRuleHelper protocolHelper = new ProtocolAttachmentProtocolRuleHelper();
     
     /**
@@ -35,7 +33,7 @@ public class SaveProtocolAttachmentProtocolRuleImpl {
      * @param document the document
      * @return true if valid  
      */
-    public boolean processSaveProtocolAttachmentProtocolRules(final ProtocolDocument document) {      
+    public boolean processSubmitProtocolAttachmentProtocolRules(final ProtocolDocument document) {      
         
         if (document == null) {
             throw new IllegalArgumentException("the document was null");
@@ -47,12 +45,8 @@ public class SaveProtocolAttachmentProtocolRuleImpl {
         for (int i = 0; i < attachments.size(); i++) {
             final ProtocolAttachmentProtocol attachment = attachments.get(i);
             this.setPropertyPrefixes(NoteAndAttachmentPrefix.ATTACHMENT_PROTOCOL.getIndexedPrefix(i));
-            
-            /*
-             * may want to consider moving this series of validations to a single method since the same is done on add
-             * in AddProtocolAttachmentProtocolRuleImpl
-             */
-            valid &= this.baseHelper.validDescription(attachment);
+
+            valid &= this.protocolHelper.validStatusForSubmission(attachment);
         }
         return valid;
     }
@@ -62,7 +56,6 @@ public class SaveProtocolAttachmentProtocolRuleImpl {
      * @param prefix the prefix.
      */
     private void setPropertyPrefixes(String prefix) {
-        this.baseHelper.resetPropertyPrefix(prefix);
         this.protocolHelper.resetPropertyPrefix(prefix);
     }
 }

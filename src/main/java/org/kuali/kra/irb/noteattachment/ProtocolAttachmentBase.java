@@ -254,14 +254,49 @@ public abstract class ProtocolAttachmentBase extends KraPersistableBusinessObjec
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("attachmentVersionNumber", this.getAttachmentVersionNumber());
-        hashMap.put("description", this.getDescription());
-        hashMap.put("documentId", this.getDocumentId());
-        hashMap.put("fileId", this.getFileId());
-        hashMap.put("id", this.getId());
-        hashMap.put("protocolId", this.getProtocolId());
-        hashMap.put("typeCode", this.getTypeCode());
-        hashMap.put("groupCode", this.getGroupCode());
+        hashMap.put(PropertyName.ATTACHMENT_VERSION.getPropertyName(), this.getAttachmentVersionNumber());
+        hashMap.put(PropertyName.DESCRIPTION.getPropertyName(), this.getDescription());
+        hashMap.put(PropertyName.DOCUMENT_ID.getPropertyName(), this.getDocumentId());
+        hashMap.put(PropertyName.FILE_ID.getPropertyName(), this.getFileId());
+        hashMap.put(PropertyName.ID.getPropertyName(), this.getId());
+        hashMap.put(PropertyName.PROTOCOL_ID.getPropertyName(), this.getProtocolId());
+        hashMap.put(PropertyName.TYPE_CODE.getPropertyName(), this.getTypeCode());
+        hashMap.put(PropertyName.GROUP_CODE.getPropertyName(), this.getGroupCode());
         return hashMap;
+    }
+    
+    /**
+     * Contains all the property names in this class.
+     */
+    public static enum PropertyName {
+        ATTACHMENT_VERSION("attachmentVersionNumber"), DESCRIPTION("description"), DOCUMENT_ID("documentId"),
+        FILE_ID("fileId"), ID("id"), PROTOCOL_ID("protocolId"), TYPE_CODE("typeCode"), GROUP_CODE("groupCode");
+        
+        private final String name;
+        
+        /**
+         * Sets the enum properties.
+         * @param name the name.
+         */
+        PropertyName(final String name) {
+            this.name = name;
+        }
+        
+        /**
+         * Gets the property name.
+         * @return the the property name.
+         */
+        public String getPropertyName() {
+            return this.name;
+        }
+        
+        /**
+         * Gets the {@link #getPropertyName() propertyName()}.
+         * @return {@link #getPropertyName() propertyName()}
+         */
+        @Override
+        public String toString() {
+            return this.name;
+        }
     }
 }

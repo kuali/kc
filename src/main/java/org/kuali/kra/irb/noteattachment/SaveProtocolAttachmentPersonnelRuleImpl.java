@@ -26,7 +26,6 @@ import org.kuali.kra.irb.document.ProtocolDocument;
  */
 public class SaveProtocolAttachmentPersonnelRuleImpl {
   
-    private static final String BASE_PREFIX = "document.protocol.attachmentPersonnel";
     private final ProtocolAttachmentBaseRuleHelper baseHelper = new ProtocolAttachmentBaseRuleHelper();
     private final ProtocolAttachmentPersonnelRuleHelper personnelHelper = new ProtocolAttachmentPersonnelRuleHelper();
 
@@ -46,15 +45,12 @@ public class SaveProtocolAttachmentPersonnelRuleImpl {
         
         for (int i = 0; i < attachments.size(); i++) {
             final ProtocolAttachmentPersonnel attachment = attachments.get(i);
-            this.setPropertyPrefixes(BASE_PREFIX + "[" + i + "]");
+            this.setPropertyPrefixes(NoteAndAttachmentPrefix.ATTACHMENT_PERSONNEL.getIndexedPrefix(i));
             
             /*
              * may want to consider moving this series of validations to a single method since the same is done on add
              * in AddProtocolAttachmentPersonnelRuleImpl
              */
-            valid &= this.baseHelper.validType(attachment);
-            valid &= this.personnelHelper.validPerson(attachment);
-            valid &= this.baseHelper.validFile(attachment);
             valid &= this.baseHelper.validDescription(attachment);
             valid &= this.personnelHelper.duplicateTypePerson(attachment, document);
         }
