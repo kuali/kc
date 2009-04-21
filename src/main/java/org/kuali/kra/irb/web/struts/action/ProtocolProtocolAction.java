@@ -19,6 +19,7 @@ import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,6 +42,8 @@ import org.kuali.kra.irb.rule.event.AddProtocolFundingSourceEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolLocationEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolParticipantEvent;
 import org.kuali.kra.irb.rule.event.AddProtocolReferenceEvent;
+import org.kuali.kra.irb.rule.event.LookupProtocolFundingSourceEvent;
+import org.kuali.kra.irb.rule.event.ProtocolEventBase;
 import org.kuali.kra.irb.service.ProtocolFundingSourceService;
 import org.kuali.kra.irb.service.ProtocolLocationService;
 import org.kuali.kra.irb.service.ProtocolParticipantService;
@@ -48,11 +51,8 @@ import org.kuali.kra.irb.service.ProtocolProtocolService;
 import org.kuali.kra.irb.service.ProtocolReferenceService;
 import org.kuali.kra.irb.service.ProtocolResearchAreaService;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSConstants;
-
-import edu.iu.uis.eden.clientapp.IDocHandler;
 
 /**
  * The ProtocolProtocolAction corresponds to the Protocol tab (web page).  It is
@@ -319,11 +319,14 @@ public class ProtocolProtocolAction extends ProtocolAction {
                                                   HttpServletRequest request, 
                                                   HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument protocolDocument =protocolForm.getDocument();
         ProtocolFundingSource fundingSource = protocolForm.getProtocolHelper().getNewFundingSource();
+        List<ProtocolFundingSource> fundingSourceList = protocolDocument.getProtocol().getProtocolFundingSources();
         AddProtocolFundingSourceEvent event = 
             new AddProtocolFundingSourceEvent(Constants.EMPTY_STRING,
-                    protocolForm.getDocument(), 
-                    fundingSource);
+                    protocolDocument, 
+                    fundingSource,
+                    fundingSourceList);
 
         
         if(applyRules(event)) {
@@ -337,8 +340,8 @@ public class ProtocolProtocolAction extends ProtocolAction {
     }
     
     /**
-     * This method is linked to ProtocolLocationService to perform the action - Delete Protocol Location. 
-     * Method is called in protocolLocations.tag 
+     * This method is linked to ProtocolFundingSourceService to Delete a ProtocolFundingSource. 
+     * Method is called in protocolFundingSources.tag 
      * @param mapping
      * @param form
      * @param request
@@ -355,8 +358,58 @@ public class ProtocolProtocolAction extends ProtocolAction {
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+    
+    /**
+     * This method is linked to ProtocolFundingSourceService to View a ProtocolFundingSource. 
+     * Method is called in protocolFundingSources.tag 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward viewProtocolFundingSource(ActionMapping mapping, 
+                                                     ActionForm form, 
+                                                     HttpServletRequest request, 
+                                                     HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        
+        // Note that if the getSelectedLine doesn't find the line number in the new window's request attributes, 
+        // so we'll get it from the parameter list instead 
+        String line = request.getParameter("line");                
+        int lineNumber = getSelectedLine(request);
+        if (!(lineNumber >=0)) {
+            lineNumber = Integer.parseInt(line);
+        }
+        
+        ProtocolFundingSource protocolFundingSource = 
+            protocolForm.getDocument().getProtocol().getProtocolFundingSources().get(lineNumber);
+
+        String viewFundingSourceUrl = 
+            getProtocolFundingSourceService().getViewProtocolFundingSourceUrl(protocolFundingSource, this);
+                
+        if (StringUtils.isNotEmpty(viewFundingSourceUrl)) { 
+            return new ActionForward(viewFundingSourceUrl, true);
+        } else {
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+    }
+    
+    /**
+     * Exposing this to be used in ProtocolFundingSource Service so we can avoid 
+     * stacking funding source conditional logic in the action
+     * 
+     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#buildForwardUrl(java.lang.Long)
+     */
+    @Override
+    public String buildForwardUrl(Long routeHeaderId) {
+        return super.buildForwardUrl(routeHeaderId);
+    }
+
 
     /**
+     * 
      * Takes care of forwarding to the lookup action.
      * 
      * @param mapping
@@ -367,33 +420,34 @@ public class ProtocolProtocolAction extends ProtocolAction {
      * @throws Exception
      */
     public ActionForward performFundingSourceLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ActionForward returnAction = null;
-        
-        String fieldConversions="";
+            HttpServletResponse response) throws Exception {        
+        ActionForward returnAction = null;        
         String boClassName = null;
-        if (((ProtocolForm)form).getProtocolHelper().getNewFundingSource().getFundingSourceType() != null) {
-            boClassName = ((ProtocolForm)form).getProtocolHelper().getNewFundingSource().getFundingSourceType().getDescription();
+        
+        ProtocolForm protocolForm = (ProtocolForm)form;
+        if (protocolForm.getProtocolHelper().getNewFundingSource().getFundingSourceType() != null) {
+            boClassName = protocolForm.getProtocolHelper().getNewFundingSource().getFundingSourceType().getDescription();
         }
 
-        if ( !getProtocolFundingSourceService().isValidLookup(boClassName)) {
-            returnAction =  mapping.findForward(MAPPING_BASIC);             
-        } else {            
+        LookupProtocolFundingSourceEvent event = 
+            new LookupProtocolFundingSourceEvent(Constants.EMPTY_STRING, ((ProtocolForm)form).getDocument(),
+                    boClassName, ProtocolEventBase.ErrorType.HARDERROR );
+                        
+        if(applyRules(event)) {
             HashMap<String, String> map = getProtocolFundingSourceService().getLookupParameters(boClassName);
-            
-            if (!map.isEmpty()) {
-                boClassName = map.keySet().iterator().next();
-                fieldConversions = map.get(boClassName);
-                String fullParameter = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
-                String updatedParameter = getProtocolFundingSourceService().updateLookupParameter( fullParameter,  boClassName,  fieldConversions);
-    
-                request.setAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE, updatedParameter);
-                returnAction = super.performLookup( mapping,  form,  request, response);
-            } else {
-                returnAction = mapping.findForward(MAPPING_BASIC);             
-            }  
+
+            boClassName = map.keySet().iterator().next();
+            String fieldConversions = map.get(boClassName);
+            String fullParameter = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+            String updatedParameter = getProtocolFundingSourceService().updateLookupParameter(fullParameter, boClassName,
+                    fieldConversions);
+
+            request.setAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE, updatedParameter);
+            returnAction = super.performLookup(mapping, form, request, response);
+        } else {
+            returnAction =  mapping.findForward(MAPPING_BASIC);             
         }
+        
         return returnAction;
     }
     
