@@ -102,6 +102,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     }
     
     public ActionForward protocolActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ((ProtocolForm)form).getActionHelper().prepareView();
         return mapping.findForward("protocolActions");
     }
     

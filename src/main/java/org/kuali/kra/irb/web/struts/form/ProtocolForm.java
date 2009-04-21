@@ -69,6 +69,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     private String lookupResultsSequenceNumber;
     private String lookupResultsBOClassName;
     
+    private boolean javaScriptEnabled = true;
     
     public ProtocolForm() {
         super();
@@ -310,5 +311,13 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     
     private void setActionHelper(ActionHelper actionHelper) {
         this.actionHelper = actionHelper;
+    }
+
+    public boolean isJavaScriptEnabled() {
+        return javaScriptEnabled;
+    }
+
+    public void setJavaScriptEnabled(boolean javaScriptEnabled) {
+        this.javaScriptEnabled = javaScriptEnabled;
     }
 }

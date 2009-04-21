@@ -99,9 +99,11 @@
 			<include method="getFrequencyCodes" />
 			<include method="getFrequencyBaseCodes" />
 		</create>		
-		<create creator="spring" javascript="CommitteeService">
-		    <param name="beanName" value="committeeService" />
-			<include method="getValidCommitteeDatesForAjax" />
+		<create creator="spring" javascript="ProtocolActionAjaxService">
+		    <param name="beanName" value="protocolActionAjaxService" />
+			<include method="getValidCommitteeDates" />
+			<include method="getReviewers" />
+			<include method="getReviewerTypes" />
 		</create>
 	</allow>
 </dwr>

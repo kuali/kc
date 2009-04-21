@@ -44,6 +44,8 @@
 		viewOnly="${KualiForm.editingMode['viewOnly']}"
 		/>
 
-<script language="javascript" src="dwr/interface/CommitteeService.js"></script>
+<input id="javaScriptFlag" type="hidden" name="javaScriptEnabled" value="0" />
+<script language="javascript" src="dwr/interface/ProtocolActionAjaxService.js"></script>
+<script language="javascript">enableJavaScript()</script>
 
 </kul:documentPage>
