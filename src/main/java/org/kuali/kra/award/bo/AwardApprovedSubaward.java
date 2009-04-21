@@ -39,7 +39,9 @@ public class AwardApprovedSubaward extends KraPersistableBusinessObjectBase impl
     
 
 
-
+    public AwardApprovedSubaward() {
+        setAmount(new KualiDecimal(0.00));
+    }
 
     /**
      * This method...
