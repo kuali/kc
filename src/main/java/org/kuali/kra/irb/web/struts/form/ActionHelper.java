@@ -15,10 +15,11 @@
  */
 package org.kuali.kra.irb.web.struts.form;
 
-import org.kuali.kra.irb.bo.Protocol;
-import org.kuali.kra.irb.bo.ProtocolSubmitAction;
-import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.kra.irb.web.struts.bean.ProtocolSubmitAction;
 
+/**
+ * The form helper class for the Protocol Actions tab.
+ */
 public class ActionHelper {
 
     /**
@@ -28,33 +29,25 @@ public class ActionHelper {
     private ProtocolForm form;
     
     private ProtocolSubmitAction protocolSubmitAction;
-    
+   
     /**
      * Constructs an ActionHelper.
-     * @param form the form
+     * @param form the protocol form
      */
     public ActionHelper(ProtocolForm form) {
         this.form = form;
-        protocolSubmitAction = new ProtocolSubmitAction();
+        protocolSubmitAction = new ProtocolSubmitAction(this);
     }
     
     public void prepareView() {
-        
+        protocolSubmitAction.prepareView();
     }
     
     public ProtocolSubmitAction getProtocolSubmitAction() {
         return protocolSubmitAction;
     }
-    
-    /*
-     * Get the Protocol.
-     */
-    private Protocol getProtocol() {
-        ProtocolDocument document = form.getDocument();
-        if (document == null || document.getProtocol() == null) {
-            throw new IllegalArgumentException("invalid (null) ProtocolDocument in ProtocolForm");
-        }
-        return document.getProtocol();
+
+    public ProtocolForm getProtocolForm() {
+        return form;
     }
-    
 }

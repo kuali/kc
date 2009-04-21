@@ -18,6 +18,7 @@
       <list>
         <ref bean="ExpeditedReviewCheckListItem-expeditedReviewCheckListCode" />
         <ref bean="ExpeditedReviewCheckListItem-description" />
+        <ref bean="ExpeditedReviewCheckListItem-checked" />
         <ref bean="ExpeditedReviewCheckListItem-versionNumber" />
       </list>
     </property>
@@ -45,6 +46,20 @@
   <bean id="ExpeditedReviewCheckListItem-description" parent="ExpeditedReviewCheckListItem-description-parentBean" />
   <bean id="ExpeditedReviewCheckListItem-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
       <property name="maxLength" value="2000" />
+  </bean>
+  
+  <bean id="ExpeditedReviewCheckListItem-checked" parent="ExpeditedReviewCheckListItem-checked-parentBean" />
+  <bean id="ExpeditedReviewCheckListItem-checked-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="checked" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Check" />
+    <property name="shortLabel" value="Check" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="Check" />
+    <property name="description" value="Check" />
   </bean>
   
   <bean id="ExpeditedReviewCheckListItem-versionNumber" parent="ExpeditedReviewCheckListItem-versionNumber-parentBean" />

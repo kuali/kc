@@ -178,5 +178,14 @@
             <ref bean="businessObjectService" />
         </property>
 	</bean>	
+	
+	<bean id="checkListService" class="org.kuali.kra.irb.service.impl.CheckListServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+	
+	<bean id="protocolActionAjaxService" class="org.kuali.kra.irb.service.impl.ProtocolActionAjaxServiceImpl">
+		<property name="committeeService" ref="committeeService" />
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
 
 </beans>
