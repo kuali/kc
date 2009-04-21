@@ -17,6 +17,7 @@ package org.kuali.kra.award.rules;
 
 import java.util.List;
 
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.award.bo.AwardApprovedSubaward;
 import org.kuali.kra.award.rule.AwardApprovedSubawardRule;
 import org.kuali.kra.award.rule.event.AwardApprovedSubawardRuleEvent;
@@ -150,10 +151,8 @@ public class AwardApprovedSubawardRuleImpl extends ResearchDocumentRuleBase
     * @return Boolean
     */
     public boolean validateApprovedSubawardAmount(){
-        boolean valid = true;
-        int amount = awardApprovedSubaward.getAmount().intValue();
-        if(amount <= ZERO) {
-            valid = false;
+        boolean valid = awardApprovedSubaward.getAmount().isGreaterThan(new KualiDecimal(0.00));
+        if(!valid) {
             reportError(NEW_AWARD_APPROVED_SUBAWAD+".amount", 
                     KeyConstants.ERROR_AMOUNT_IS_ZERO);
         }
