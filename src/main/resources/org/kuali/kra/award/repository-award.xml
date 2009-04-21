@@ -142,6 +142,9 @@
     	<collection-descriptor name="awardAmountInfos" proxy="true" element-class-ref="org.kuali.kra.award.bo.AwardAmountInfo" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
             <inverse-foreignkey field-ref="awardId" />
         </collection-descriptor>
+        <reference-descriptor name="awardDocument" class-ref="org.kuali.kra.award.document.AwardDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="documentNumber" />
+        </reference-descriptor>
 	</class-descriptor>	
 	
 	<class-descriptor class="org.kuali.kra.award.contacts.AwardPerson" table="AWARD_PERSONS">

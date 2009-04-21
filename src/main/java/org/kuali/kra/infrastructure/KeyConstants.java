@@ -385,6 +385,7 @@ public final class KeyConstants {
     public static final String ERROR_PROTOCOL_FUNDING_ID_NOT_FOUND = "error.protocolFundingSource.fundingId.notFound";
     public static final String ERROR_PROTOCOL_FUNDING_ID_INVALID_FOR_TYPE = "error.protocolFundingSource.fundingId.invalidForType";
     public static final String ERROR_PROTOCOL_FUNDING_NAME_NOT_FOUND = "error.protocolFundingSource.fundingSourceName.notFound";
+    public static final String ERROR_PROTOCOL_FUNDING_DUPLICATE = "error.protocolFundingSource.fundingSource.duplicate";
     public static final String ERROR_PROTOCOL_FUNDING_NAME_INVALID = "error.protocolFundingSource.fundingSourceName.invalid";
     //public static final String ERROR_PROTOCOL_FUNDING_TITLE_NOT_FOUND = "error.protocolFundingSource.fundingSourceTitle.notFound";
     
