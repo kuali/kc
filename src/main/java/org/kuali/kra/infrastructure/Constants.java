@@ -374,4 +374,5 @@ public interface Constants {
     
     public static final String CONFIRM_DELETE_PERMISSIONS_USER_KEY = "confirmDeletePermissionsUser";
    
+    public static final String MAPPING_CHECKLIST_ITEM_DESCRIPITION = "checkListItemDescription";
 }

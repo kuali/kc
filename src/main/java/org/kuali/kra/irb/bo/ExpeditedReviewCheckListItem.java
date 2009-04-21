@@ -22,8 +22,14 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 @SuppressWarnings("serial")
 public class ExpeditedReviewCheckListItem extends KraPersistableBusinessObjectBase {
 
+    /**
+     * The maximum length of an abbreviated check list description.
+     */
+    public static final int ABBREV_LENGTH = 250;
+    
     private String expeditedReviewCheckListCode;
     private String description;
+    private transient boolean checked = false;
     
     public ExpeditedReviewCheckListItem() {
         
@@ -45,12 +51,35 @@ public class ExpeditedReviewCheckListItem extends KraPersistableBusinessObjectBa
         this.description = description;
     }
     
+    /**
+     * This is only used by JSP to obtain an abbreviated check list description.
+     * For descriptions are much too long and we can't display the entire text.
+     * @return the abbreviated description
+     */
+    public String getAbbrevDescription() {
+        if (description.length() < ABBREV_LENGTH) {
+            return description;
+        }
+        else {
+            return description.substring(0, ABBREV_LENGTH) + "...";
+        }
+    }
+    
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+    
+    public boolean getChecked() {
+        return checked;
+    }
+    
     @SuppressWarnings("unchecked")
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap map = new LinkedHashMap();
         map.put("expeditedReviewCheckListCode", getExpeditedReviewCheckListCode());
         map.put("description", getDescription());
+        map.put("checked", getChecked());
         return map;
     }
 }

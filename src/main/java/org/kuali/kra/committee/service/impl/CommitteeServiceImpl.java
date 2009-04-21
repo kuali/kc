@@ -28,10 +28,10 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 
 /**
  * The Committee Service implementation.
@@ -144,7 +144,6 @@ public class CommitteeServiceImpl implements CommitteeService {
     private boolean isOkayToScheduleReview(Committee committee, CommitteeSchedule schedule) {
         Date now = new Date(System.currentTimeMillis());
         return true;
-
     }
 
     /**
@@ -155,20 +154,50 @@ public class CommitteeServiceImpl implements CommitteeService {
      */
     private String getDescription(CommitteeSchedule schedule) {
         Date date = schedule.getScheduledDate();
-        long time = schedule.getActualTime().getTime() - date.getTime();
-        Date t = new Date(time);
-        return dateFormat.format(date) + " " + schedule.getPlace() + " " + timeFormat.format(schedule.getActualTime());
+        return dateFormat.format(date) + ", " + schedule.getPlace() + ", " + timeFormat.format(schedule.getActualTime());
     }
 
     /**
-     * @see org.kuali.kra.committee.service.CommitteeService#getValidCommitteeDatesForAjax(java.lang.String)
+     * @see org.kuali.kra.committee.service.CommitteeService#getActiveMembers(java.lang.String, java.lang.String)
      */
-    public String getValidCommitteeDatesForAjax(String committeeId) {
-        StringBuffer ajaxList = new StringBuffer();
-        List<KeyLabelPair> dates = getValidCommitteeDates(committeeId);
-        for (KeyLabelPair date : dates) {
-            ajaxList.append(date.getKey() + "," + date.getLabel() + ",");
+    public List<CommitteeMembership> getActiveMembers(String committeeId, String scheduleId) {
+        List<CommitteeMembership> activeMembers = new ArrayList<CommitteeMembership>();
+        Committee committee = getCommitteeById(committeeId);
+        CommitteeSchedule schedule = getCommitteeSchedule(committee, scheduleId);
+        List <CommitteeMembership> members = committee.getCommitteeMemberships();
+        for (CommitteeMembership member : members) {
+            if (isBetween(schedule.getScheduledDate(), member.getTermStartDate(), member.getTermEndDate())) {
+                activeMembers.add(member);
+            }
         }
-        return ajaxList.substring(0, ajaxList.length() - 1);
+        return activeMembers;
+    }
+    
+    /**
+     * Is the scheduled date between the term start and end dates, inclusively.
+     * @param scheduledDate the schedule date
+     * @param termStartDate the term's start date
+     * @param termEndDate the term's end date
+     * @return true or false
+     */
+    private boolean isBetween(Date scheduledDate, Date termStartDate, Date termEndDate) {
+        return scheduledDate.compareTo(termStartDate) >= 0 &&
+               scheduledDate.compareTo(termEndDate) <= 0;
+    }
+
+    /**
+     * Get the schedule for a committee.
+     * @param committee the committee
+     * @param scheduleId the schedule's id
+     * @return the schedule or null if not found
+     */
+    private CommitteeSchedule getCommitteeSchedule(Committee committee, String scheduleId) {
+        List<CommitteeSchedule> schedules = committee.getCommitteeSchedules();
+        for (CommitteeSchedule schedule : schedules) {
+            if (StringUtils.equals(schedule.getScheduleId(), scheduleId)) {
+                return schedule;
+            }
+        }
+        return null;
     }
 }
