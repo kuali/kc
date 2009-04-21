@@ -171,7 +171,7 @@
 			<foreignkey field-ref="roleCode"/> 
 		</reference-descriptor>
 		
-		<collection-descriptor name="units" proxy="true" element-class-ref="org.kuali.kra.award.contacts.AwardPersonUnit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="units" proxy="true" element-class-ref="org.kuali.kra.award.contacts.AwardPersonUnit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none"> 
             <inverse-foreignkey field-ref="awardContactId" />
         </collection-descriptor>	
 	</class-descriptor>
