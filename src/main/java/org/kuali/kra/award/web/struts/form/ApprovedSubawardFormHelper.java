@@ -33,6 +33,7 @@ public class ApprovedSubawardFormHelper {
      */
     ApprovedSubawardFormHelper(AwardForm parent) {
         this.parent = parent;
+        this.newAwardApprovedSubaward = new AwardApprovedSubaward();
     }
     
     /**

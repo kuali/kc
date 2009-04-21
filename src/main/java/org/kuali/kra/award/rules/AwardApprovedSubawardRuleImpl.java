@@ -31,8 +31,9 @@ public class AwardApprovedSubawardRuleImpl extends ResearchDocumentRuleBase
                                             implements AwardApprovedSubawardRule {
     
     private static final String NEW_AWARD_APPROVED_SUBAWAD = "newAwardApprovedSubaward";
+    private static final String ORGANIZATION_NAME = ".organizationName";
     
-    private static final Integer ZERO = 0;
+    //private static final Integer ZERO = 0;
     
     List<AwardApprovedSubaward> awardApprovedSubawards;
     AwardApprovedSubaward awardApprovedSubaward;
@@ -109,7 +110,7 @@ public class AwardApprovedSubawardRuleImpl extends ResearchDocumentRuleBase
         this.awardApprovedSubawards = awardApprovedSubawardRuleEvent.getAwardApprovedSubawards();
         this.awardApprovedSubaward = awardApprovedSubawardRuleEvent.getApprovedSubaward();
         this.errorPath = awardApprovedSubawardRuleEvent.getErrorPathPrefix();
-        boolean validOrganization = validateApprovedSubawardDuplicateOrganization();
+        boolean validOrganization = validateApprovedSubawardOrganization();
         boolean commonValidations = processCommonValidations();
         return commonValidations && validOrganization;
     }
@@ -125,9 +126,24 @@ public class AwardApprovedSubawardRuleImpl extends ResearchDocumentRuleBase
     }
     
     /**
+     * This method...
+     * @return
+     */
+    public boolean validateApprovedSubawardOrganization(){
+        boolean valid = true;
+        if(awardApprovedSubaward.getOrganizationName() == null) {
+            valid = false;
+            reportError(NEW_AWARD_APPROVED_SUBAWAD+ORGANIZATION_NAME, 
+                    KeyConstants.ERROR_ORGANIZATION_NAME_IS_NULL);
+        }else {
+            valid = validateApprovedSubawardDuplicateOrganization();
+        }
+        return valid;
+    }
+    
+    /**
     *
     * Test Approved Subawards for duplicate organizations
-    * @param AwardApprovedSubaward, ErrorMap, List AwardApprovedSubaward, currentIndex
     * @return Boolean
     */
     public boolean validateApprovedSubawardDuplicateOrganization(){
@@ -136,7 +152,7 @@ public class AwardApprovedSubawardRuleImpl extends ResearchDocumentRuleBase
               if(awardApprovedSubaward.getOrganizationName().equals
                       (loopAwardApprovedSubaward.getOrganizationName())){
                   valid = false;
-                  reportError(NEW_AWARD_APPROVED_SUBAWAD+".organizationName", 
+                  reportError(NEW_AWARD_APPROVED_SUBAWAD+ORGANIZATION_NAME, 
                           KeyConstants.ERROR_DUPLICATE_ORGANIZATION_NAME);
                   break;
               }
