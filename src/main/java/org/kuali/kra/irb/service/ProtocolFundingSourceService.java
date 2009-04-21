@@ -19,6 +19,8 @@ import java.util.HashMap;
 
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolFundingSource;
+import org.kuali.kra.irb.lookup.ProtocolLookupableHelperServiceImpl;
+import org.kuali.kra.irb.web.struts.action.ProtocolProtocolAction;
 
 public interface ProtocolFundingSourceService {
 
@@ -48,15 +50,12 @@ public interface ProtocolFundingSourceService {
      */
     public boolean isValidIdForType(ProtocolFundingSource source);
     
-    /**
-     * 
-     * This method verifies that funding source lookup is available for FundingSourceType
-     * @param boClassName
-     * @return
-     */
-    public boolean isValidLookup(String boClassName);
 
     public HashMap<String, String> getLookupParameters(String boName);
     
     public String updateLookupParameter(String parameter, String boClassName, String fieldConversions);
+    
+    public ProtocolLookupableHelperServiceImpl getProtocolLookupableHelperService();
+    
+    public String getViewProtocolFundingSourceUrl(ProtocolFundingSource protocolFundingSource, ProtocolProtocolAction action) throws Exception;
 }

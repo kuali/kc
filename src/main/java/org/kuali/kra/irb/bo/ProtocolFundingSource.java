@@ -191,4 +191,22 @@ public class ProtocolFundingSource extends ProtocolAssociate {
         setProtocol(protocol);
         setProtocolNumber(protocol.getProtocolNumber());
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+        boolean isEqual=true;
+        if (obj==null || !(obj instanceof ProtocolFundingSource)) {
+             return false;
+        }
+        
+        ProtocolFundingSource protocolFundingSource = (ProtocolFundingSource) obj;
+        if (!protocolFundingSource.getFundingSource().equalsIgnoreCase(getFundingSource())) {
+            isEqual=false;
+        } else if (protocolFundingSource.getFundingSourceTypeCode().intValue() != getFundingSourceTypeCode().intValue()) {
+            isEqual=false;
+        }
+        
+        
+        return isEqual;
+    }
 }
