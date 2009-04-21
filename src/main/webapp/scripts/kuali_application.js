@@ -1549,7 +1549,12 @@ function loadFrequencyBaseCode(frequencyCodeFieldName, frequencyBaseCodeFieldNam
 
 }
 
+/*
+ * Based upon the selected committe, load the scheduled dates for that committee
+ * into the drop-down menu for scheduled dates.
+ */
 function loadScheduleDates(committeeElementId, scheduleElementId) {
+    document.getElementById("reviewers").style.display = 'none';
 	var committeeId = DWRUtil.getValue(committeeElementId);
 	var scheduleElement = document.getElementsByName(scheduleElementId);
 	var dwrReply = {
@@ -1557,8 +1562,7 @@ function loadScheduleDates(committeeElementId, scheduleElementId) {
 			if ( data == null ) {
 			    scheduleElement[0].innerHTML = "";
 			} else {
-				var dateOptions = data.split(",");
-				var scheduleElement = document.getElementsByName(scheduleElementId);
+				var dateOptions = data.split(";");
 				var options = '';
 				for (var i = 0; i < dateOptions.length; i += 2) {
 				    options += '<option value="' + dateOptions[i] + '">' + dateOptions[i+1] + '</option>';
@@ -1571,5 +1575,161 @@ function loadScheduleDates(committeeElementId, scheduleElementId) {
 			scheduleElement[0].innerHTML = "";	
 		}
 	};
-	CommitteeService.getValidCommitteeDatesForAjax(committeeId, dwrReply);
+	ProtocolActionAjaxService.getValidCommitteeDates(committeeId, dwrReply);
+}
+
+var protocolCheckListItemDescriptionWindow = null;
+
+/*
+ * Display a description for a Check List item in a popup window.
+ */
+function protocolCheckListItemPop(methodName, lineNum, docFormKey, sessionDocument) {
+
+	var documentWebScope = "";
+	if (sessionDocument == true) {
+		documentWebScope = "session";
+	}
+
+	if (protocolCheckListItemDescriptionWindow != null) {
+	    protocolCheckListItemDescriptionWindow.close();
+	} 
+
+    protocolCheckListItemDescriptionWindow = window.open(extractUrlBase() +
+    	                               "/protocolProtocolActions.do?methodToCall=" + methodName +
+    	                               "&docFormKey=" + docFormKey + 
+    	                               "&documentWebScope=" + documentWebScope +
+    	                               "&line=" + lineNum,
+    	                               "CheckListItem", 
+    	                               "width=800, height=350, scrollbars=yes, resizable=yes");   
+}
+
+/*
+ * The Expedited Review and Exempt Studies CheckList are embedded within the
+ * web page but are initially invisible.  Based upon what is selected, either
+ * make one of the CheckList visible or both invisible.
+ */
+function updateCheckList(protocolReviewTypeCodeElementId) {
+	var protocolReviewTypeCode = DWRUtil.getValue(protocolReviewTypeCodeElementId);
+	if (protocolReviewTypeCode == "2") {
+	    document.getElementById('expeditedReviewCheckList').style.display = '';
+	}
+	else {
+	    document.getElementById('expeditedReviewCheckList').style.display = 'none';
+	}
+	if (protocolReviewTypeCode == "3") {
+	    document.getElementById('exemptStudiesCheckList').style.display = '';
+	}
+	else {
+	    document.getElementById('exemptStudiesCheckList').style.display = 'none';
+	}
+}
+
+/*
+ * Based upon the selected committee and scheduled date, display the list
+ * reviewers.
+ */
+function displayReviewers() {
+    var committeeId = DWRUtil.getValue('actionHelper.protocolSubmitAction.committeeId');
+    var scheduleId = DWRUtil.getValue('actionHelper.protocolSubmitAction.scheduleId');
+    if (scheduleId == "select") {
+    	document.getElementById("reviewers").style.display = 'none';
+    }
+    else {
+		var dwrReplyReviewers = {
+			callback:function(data) {
+				if ( data != null ) {
+					getReviewerTypes(data);
+				}
+			},
+			errorHandler:function( errorMessage ) {
+				window.status = errorMessage;
+			}
+		};
+		ProtocolActionAjaxService.getReviewers(committeeId, scheduleId, dwrReplyReviewers);
+	}
+}
+
+/*
+ * Get the set of reviewer types to display in the drop-down menu.
+ */
+function getReviewerTypes(reviewerData) {
+	var dwrReplyTypes = {
+		callback:function(data) {
+			if ( data != null ) {
+				updateReviewerHtml(reviewerData, data);
+			}
+		},
+		errorHandler:function( errorMessage ) {
+			window.status = errorMessage;	
+		}
+	};
+	ProtocolActionAjaxService.getReviewerTypes(dwrReplyTypes);
+}
+
+/*
+ * Update the HTML for the reviewers.  Half of the reviewers are shown on the
+ * left and half on the right.
+ */
+function updateReviewerHtml(reviewerData, reviewerTypesData) {
+	reviewerTypes = reviewerTypesData.split(";");
+	document.getElementById("reviewers").style.display = '';
+	var reviewersArr = reviewerData.split(";");
+	var arrLength = reviewersArr.length;
+	var numReviewers = Math.floor(reviewersArr.length / 2);
+	var numRows = Math.floor((numReviewers+1) / 2);
+	var reviewersTableLeft = document.getElementById("reviewersTableLeft");
+	var reviewersTableRight = document.getElementById("reviewersTableRight");
+	setReviewers(reviewersArr, 0, 2*numRows, reviewerTypes, reviewersTableLeft);
+	setReviewers(reviewersArr, 2*numRows, 2*numReviewers, reviewerTypes, reviewersTableRight);
+}
+
+/*
+ * Populates the inner HTML of a table, putting a table cell for each name stored in reviewersArr.
+ * Only every other index of reviewersArr is used, starting at beginIndex+1.
+ */
+function setReviewers(reviewers, beginIndex, endIndex, reviewerTypes, htmlElement) {
+	var html = '';
+	for (var i = beginIndex; i < endIndex; i += 2) {
+		reviewerIndex = i/2;
+		html += '<tr> ' +
+	            '    <td style="border: 0 none">' +
+	            '        <input type="checkbox" ' +
+	            '               name="actionHelper.protocolSubmitAction.reviewer[' + reviewerIndex + '].checked" ' +
+	            '                />' +
+	            '        <input type="hidden" value="actionHelper.protocolSubmitAction.reviewers[' + reviewerIndex + '].checked" name="checkboxToReset"/>' +
+	                     reviewers[i+1] +
+	            '    </td>' +
+	            '    <td style="border: 0 none">' +
+	                     makeReviewerTypesDropDown(reviewerTypes, reviewerIndex) +
+	            '        <input name="actionHelper.protocolSubmitAction.reviewer[' + reviewerIndex + '].personId" ' +
+	            '           value="' + reviewers[i] + '" type="hidden"> ' +
+	            '        <input name="actionHelper.protocolSubmitAction.reviewer[' + reviewerIndex + '].fullName" ' +
+	            '           value="' + reviewers[i+1] + '" type="hidden"> ' +
+	            '    </td>' +
+	            '</tr>';
+	}
+	htmlElement.innerHTML = html;
+}
+
+/*
+ * Create the select (drop-down menu) of reviewer types.
+ */
+function makeReviewerTypesDropDown(reviewerTypes, reviewerIndex) {
+    var html = '<select name="actionHelper.protocolSubmitAction.reviewer[' + reviewerIndex + '].reviewerTypeCode">' +
+	           '	<option value="" selected="selected">select</option>';
+    for (var i = 0; i < reviewerTypes.length; i += 2) {
+    	html += '	<option value="' + reviewerTypes[i] + '">' + reviewerTypes[i+1] + '</option>';
+    }
+    html += '</select>';
+    return html;
+}
+
+/*
+ * If JavaScript is enabled, this function will be executed. 
+ * By changing the value from "0" to "1", the server will know
+ * the JavaScript is enabled.
+ */
+function enableJavaScript() {
+	var element = document.getElementById("javaScriptFlag");
+	element.value = "1";
 }

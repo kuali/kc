@@ -26,6 +26,7 @@ import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.irb.bo.ProtocolReviewType;
 import org.kuali.kra.irb.service.ProtocolCopyService;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
@@ -36,6 +37,19 @@ import org.kuali.kra.web.struts.action.AuditActionHelper;
 public class ProtocolProtocolActionsAction extends ProtocolAction implements AuditModeAction {
 
     private static final String PROTOCOL_TAB = "protocol";
+    
+    /**
+     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        ActionForward actionForward = super.execute(mapping, form, request, response);
+
+        ((ProtocolForm)form).getActionHelper().prepareView();
+        
+        return actionForward;
+    }
     
     /**
      * Invoked when the "copy protocol" button is clicked.
@@ -80,8 +94,99 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return new AuditActionHelper().setAuditMode(mapping, (ProtocolForm) form, false);
     }
     
-    public ActionForward refreshScheduleDates(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    /**
+     * Refreshes the page.  We only need to redraw the page.  This method is
+     * used when JavaScript is disabled.  During a review submission action,
+     * the user will have to refresh the page.  For example, after a committee
+     * is selected, the page needs to be refreshed so that the available 
+     * scheduled dates for that committee can be displayed in the drop-down
+     * menu for the scheduled dates.  Please see ProtocolSubmitAction.prepareView()
+     * for how the Submit for Review works on a refresh.
+     * 
+     * @param mapping the mapping associated with this action.
+     * @param form the Protocol form.
+     * @param request the HTTP request
+     * @param response the HTTP response
+     * @return the name of the HTML page to display
+     * @throws Exception
+     */
+    public ActionForward refreshPage(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+      
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * Submit a protocol for review.
+     * 
+     * @param mapping the mapping associated with this action.
+     * @param form the Protocol form.
+     * @param request the HTTP request
+     * @param response the HTTP response
+     * @return the name of the HTML page to display
+     * @throws Exception
+     */
+    public ActionForward submitForReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * Display the description for an Expedited Review Check List Item.
+     * 
+     * @param mapping the mapping associated with this action.
+     * @param form the Protocol form.
+     * @param request the HTTP request
+     * @param response the HTTP response
+     * @return the name of the HTML page to display
+     * @throws Exception
+     */
+    public ActionForward getExpeditedReviewDescription(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        protocolForm.getActionHelper().getProtocolSubmitAction().setCheckListItemDescriptionInfo(ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE,
+                                                                                                 getLineNum(request));
+        
+        return mapping.findForward(Constants.MAPPING_CHECKLIST_ITEM_DESCRIPITION);
+    }
+    
+    /**
+     * Display the description for an Exempt Studies Check List Item.
+     * 
+     * @param mapping the mapping associated with this action.
+     * @param form the Protocol form.
+     * @param request the HTTP request
+     * @param response the HTTP response
+     * @return the name of the HTML page to display
+     * @throws Exception
+     */
+    public ActionForward getExemptStudiesDescription(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        protocolForm.getActionHelper().getProtocolSubmitAction().setCheckListItemDescriptionInfo(ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE,
+                                                                                                 getLineNum(request));
+        
+        return mapping.findForward(Constants.MAPPING_CHECKLIST_ITEM_DESCRIPITION);
+    }
+
+    /**
+     * Get the line number.
+     * 
+     * @param request the HTTP request
+     * @return the line number
+     */
+    private int getLineNum(HttpServletRequest request) {
+        
+        // If JavaScript is enabled, the line is returned to the web server
+        // as an HTTP parameter.  If not, it is embedded within the "methodToCall" syntax.
+        
+        String lineNumStr = request.getParameter("line");
+        try {
+            return Integer.parseInt(lineNumStr);
+        } catch (Exception ex) {
+            return this.getLineToDelete(request);
+        }
     }
 }
