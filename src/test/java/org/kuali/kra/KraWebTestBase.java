@@ -868,7 +868,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return true if there is an error; otherwise false
      */
     protected final boolean hasError(HtmlPage page) {
-        return page.asText().contains("error(s) found on page");
+        return page.asText().contains("error(s) found on page") || page.asText().contains("Errors Found in Document");
     }
 
     /**
