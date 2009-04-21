@@ -321,10 +321,12 @@ function loadFundingSourceNameTitle(fundingTypeCodeFieldName, fundingIdFieldName
 		var dwrReply = {
 			callback:function(data) {
 				if ( data != null ) {
-					if ( fundingNameFieldName != null && fundingNameFieldName != "" ) {
+					if ( fundingNameFieldName != null && fundingNameFieldName != "" && data.fundingSourceName!= null) {
 						setRecipientValue( fundingNameFieldName, data.fundingSourceName );
+					} else {
+						setRecipientValue( fundingNameFieldName,  wrapError( "not found" ), true );
 					}
-					if ( fundingTitleFieldName != null && fundingTitleFieldName != "" ) {
+					if ( fundingTitleFieldName != null && fundingTitleFieldName != "" && data.fundingSourceTitle!=null) {
 						setRecipientValue( fundingTitleFieldName, data.fundingSourceTitle );
 					}
 				} else {
@@ -1622,6 +1624,31 @@ function updateCheckList(protocolReviewTypeCodeElementId) {
 	else {
 	    document.getElementById('exemptStudiesCheckList').style.display = 'none';
 	}
+}
+
+/**
+ * Display the ProtocolFundingSource document or BO.
+ */
+var protocolFundingSourceWindow = null;
+
+function protocolFundingSourcePop(name, docFormKey, sessionDocument, line, currentTabIndex) {
+
+	var documentWebScope = "";
+	if (sessionDocument == true) {
+		documentWebScope = "session";
+	}
+
+	if (protocolFundingSourceWindow != null) {
+		protocolFundingSourceWindow.close();
+	} 
+
+	protocolFundingSourceWindow = window.open(extractUrlBase() +  
+			"/protocolProtocol.do?methodToCall=viewProtocolFundingSource&methodToCallAttribute=methodToCall.viewProtocolFundingSource.line="+line +".anchor"+currentTabIndex
+			+".x&line="+line 
+			+ "&currentTabIndex="+currentTabIndex
+			+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope,
+    	                               "protocolFundingSourceWindow", 
+    	                               "width=800, height=750, scrollbars=yes, resizable=yes");   
 }
 
 /*

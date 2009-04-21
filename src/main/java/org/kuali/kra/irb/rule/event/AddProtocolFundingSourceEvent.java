@@ -17,31 +17,38 @@ package org.kuali.kra.irb.rule.event;
 
 import static org.kuali.kra.logging.BufferedLogger.info;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.irb.bo.ProtocolFundingSource;
 import org.kuali.kra.irb.rule.AddProtocolFundingSourceRule;
 import org.kuali.kra.irb.rules.ProtocolFundingSourceRule;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
 
-public class AddProtocolFundingSourceEvent extends KraDocumentEventBase {
+public class AddProtocolFundingSourceEvent extends ProtocolEventBase<ProtocolFundingSourceRule> {
     
     private static final org.apache.commons.logging.Log LOG = 
         org.apache.commons.logging.LogFactory.getLog(AddProtocolFundingSourceEvent.class);
     
+    private static String MSG = "adding a funding source to a Protocol document ";
     private ProtocolFundingSource fundingSource;
+    private List<ProtocolFundingSource> protocolFundingSources;
+
+
 
     protected AddProtocolFundingSourceEvent(String description, String errorPathPrefix, Document document) {
-        super(description, errorPathPrefix, document);
-        // TODO Auto-generated constructor stub
+        super(MSG + getDocumentId(document), errorPathPrefix, document, ErrorType.HARDERROR);
     }
     
-    public AddProtocolFundingSourceEvent(String description,  Document document, ProtocolFundingSource fundingSource) {
-        super(description, "", document);
+    public AddProtocolFundingSourceEvent(String description,  Document document, ProtocolFundingSource fundingSource, 
+            List<ProtocolFundingSource> protocolFundingSources) {
+        super(description+": "+MSG + getDocumentId(document), "", document, ErrorType.HARDERROR);
+
+        this.protocolFundingSources = protocolFundingSources;
         this.fundingSource = fundingSource;
-        // TODO Auto-generated constructor stub
     }
+
 
     @Override
     protected void logEvent() {
@@ -74,4 +81,17 @@ public class AddProtocolFundingSourceEvent extends KraDocumentEventBase {
         return fundingSource;
     }
 
+    @Override
+    public ProtocolFundingSourceRule getRule() {
+        return new ProtocolFundingSourceRule();
+    }
+
+    public List<ProtocolFundingSource> getProtocolFundingSources() {
+        return protocolFundingSources;
+    }
+
+    public void setProtocolFundingSources(List<ProtocolFundingSource> protocolFundingSources) {
+        this.protocolFundingSources = protocolFundingSources;
+    }
+    
 }

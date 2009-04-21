@@ -74,24 +74,14 @@
     </bean> 
     
     <bean id="protocolFundingSourceService" class="org.kuali.kra.irb.service.impl.ProtocolFundingSourceServiceImpl">
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property>
-        <property name="unitService">
-            <ref bean="unitService" />
-        </property>
-        <property name="sponsorService">
-            <ref bean="sponsorService" />
-        </property>       
-        <property name="awardService">
-            <ref bean="awardService" />
-        </property>    
-        <property name="lookupableDevelopmentProposalService">
-            <ref bean="lookupableDevelopmentProposalService" />
-        </property>            
-        <property name="fundingSourceTypeService">
-            <ref bean="fundingSourceTypeService" />
-        </property>
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="unitService" ref="unitService" />
+        <property name="sponsorService" ref="sponsorService" />
+        <property name="awardService" ref="awardService" />
+        <property name="lookupableDevelopmentProposalService" ref="lookupableDevelopmentProposalService" />
+        <property name="fundingSourceTypeService" ref="fundingSourceTypeService" />
+        <property name="protocolLookupableHelperService" ref="protocolLookupableHelperService" />
+        <property name="documentService" ref="documentService" />
     </bean>
     
 	<bean id="protocolPersonnelService" class="org.kuali.kra.irb.personnel.ProtocolPersonnelServiceImpl">

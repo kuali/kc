@@ -38,10 +38,16 @@ public abstract class TemplateRuleTest<E extends KraDocumentEventBaseExtension, 
         GlobalVariables.setAuditErrorMap(new HashMap());  
         prerequisite(); 
         assertEquals(expectedReturnValue, rule.processRules(event));
+        checkRuleAssertions();
     }
     
+
     protected abstract void prerequisite();
 
+    public void checkRuleAssertions() {
+    ;
+    }
+    
     protected ErrorMap getErrorMap() {
         return GlobalVariables.getErrorMap();
     }

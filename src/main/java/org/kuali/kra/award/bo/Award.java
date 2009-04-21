@@ -1059,6 +1059,9 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * @return
      */
     public AwardDocument getAwardDocument() {
+        if(awardDocument == null) {
+            this.refreshReferenceObject("awardDocument");
+        }
         return awardDocument;
     }
 
