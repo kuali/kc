@@ -54,7 +54,7 @@ public class CommitteeValuesFinder extends KeyValuesBase {
         if (StringUtils.isBlank(committee.getCommitteeName())) {
             return committee.getCommitteeId();
         }
-        return committee.getCommitteeId() + " (" + committee.getCommitteeName() + ")";
+        return committee.getCommitteeName();
     }
 
     @SuppressWarnings("unchecked")
