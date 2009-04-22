@@ -90,28 +90,10 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
         boolean retVal = false;
         
         retVal = !isProtocolAssignedToScheduleDate(committeeSchedule);
-        
-        retVal = retVal && !isScheduleDateInPast(committeeSchedule);
 
         return retVal;
     }
-    
-    /**
-     * Helper method to check if schedule date is in past.
-     * @param committeeSchedule
-     * @return
-     */
-    private Boolean isScheduleDateInPast(CommitteeSchedule committeeSchedule){
-        boolean retVal = true;
-        Date dt = new Date();
-        dt = DateUtils.addDays(dt, -1);
-        java.sql.Date today = new java.sql.Date(dt.getTime());        
-        if(committeeSchedule.getScheduledDate().after(today)) {
-               retVal = false;
-        }        
-        return retVal;
-    }
-    
+       
     /**
      * Helper method to check if Protocol is assigned to CommitteeSchedule.
      * @param committeeSchedule
