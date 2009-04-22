@@ -41,8 +41,7 @@ public class ModifyAwardAuthorizer extends AwardAuthorizer {
             // We have to consider the case when we are saving the award for the first time.
             
             hasPermission = hasUnitPermission(username, PermissionConstants.CREATE_AWARD);
-        } 
-        else {
+        }else {
             /*
              * After the initial save, the award can only be modified has the required permission.
              */
