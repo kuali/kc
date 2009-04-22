@@ -75,12 +75,16 @@ public class CommitteeScheduleAction extends CommitteeAction {
         ScheduleData scheduleData = committeeForm.getCommitteeScheduleHelper().getScheduleData();
         List<CommitteeSchedule> committeeSchedules = committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules();
         
-        if(applyRules(new CommitteeScheduleTimeEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules, ErrorType.HARDERROR))) {
-            if(applyRules(new CommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules, ErrorType.HARDERROR))){
-                if(applyRules(new CommitteeScheduleDeadlineEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules, ErrorType.HARDERROR))) {
-                    actionForward = super.save(mapping, form, request, response);
-                } 
-            }
+        boolean flag = false;
+        
+        flag = applyRules(new CommitteeScheduleTimeEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules, ErrorType.HARDERROR));
+        
+        flag &= applyRules(new CommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules, ErrorType.HARDERROR));
+        
+        flag &= applyRules(new CommitteeScheduleDeadlineEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules, ErrorType.HARDERROR));
+        
+        if(flag) {
+            actionForward = super.save(mapping, form, request, response);
         }
         scheduleData.populateStyleClass(); 
         return actionForward;
