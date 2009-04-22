@@ -16,7 +16,9 @@
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
 import java.io.Serializable;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -37,6 +39,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.RiceConstants;
 import org.kuali.RicePropertyConstants;
+import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.bo.Note;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.DocumentAuditEvent;
@@ -207,7 +212,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         final ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
         final String originalStatus = getStatus(doc);
 
-		updateProposalDocument(proposalDevelopmentForm);
+        updateProposalDocument(proposalDevelopmentForm);
         ActionForward forward = super.save(mapping, form, request, response);
 
         // Special processing on the initial save of a proposal goes here!
@@ -240,8 +245,21 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
                   //refresh the reference
                 pdDocument.setBudgetVersionOverviews(updatedDocCopy.getBudgetVersionOverviews());
                 pdDocument.setBudgetStatus(updatedDocCopy.getBudgetStatus());
+                try {
+                    fixVersionNumbers(updatedDocCopy, pdDocument, new ArrayList<Object>());
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 pdDocument.setVersionNumber(updatedDocCopy.getVersionNumber());
                 pdDocument.getDocumentHeader().setVersionNumber(updatedDocCopy.getDocumentHeader().getVersionNumber());
+                int noteIndex = 0;
+                for(Object note: pdDocument.getDocumentHeader().getBoNotes()) {
+                    Note updatedNote = updatedDocCopy.getDocumentHeader().getBoNote(noteIndex);
+                    ((Note) note).setVersionNumber(updatedNote.getVersionNumber());
+                    noteIndex++;
+                }
                 for(DocumentNextvalue documentNextValue : pdDocument.getDocumentNextvalues()) {
                     DocumentNextvalue updatedDocumentNextvalue = updatedDocCopy.getDocumentNextvalueBo(documentNextValue.getPropertyName());
                     if(updatedDocumentNextvalue != null) {
@@ -249,10 +267,76 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
                     }
                 }
             }
+            pdForm.setDocument(pdDocument);
         }
+        
     }
     
+    private boolean isPropertyGetterMethod(Method method, Method methods[]) {
+        if (method.getName().startsWith("get") && method.getParameterTypes().length == 0) {
+            String setterName = method.getName().replaceFirst("get", "set");
+            for (Method m : methods) {
+                if (m.getName().equals(setterName)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     
+    private void fixVersionNumbers(Object srcObject, Object object, List<Object> list) throws Exception {
+        Class[] setterParamTypes = {Long.class};
+        if (object != null && object instanceof PersistableBusinessObject) {
+            if (list.contains(object)) return;
+            list.add(object);
+            
+            Method getterMethod = object.getClass().getMethod("getVersionNumber");
+            if(getterMethod != null) {
+                Long currentVersionNumber = null;
+                if(srcObject != null) 
+                    currentVersionNumber = (Long) getterMethod.invoke(srcObject, new Object[]{});
+                else
+                    currentVersionNumber = (Long) getterMethod.invoke(object, new Object[]{});
+                
+                Method setterMethod = object.getClass().getMethod("setVersionNumber", setterParamTypes);
+                if(currentVersionNumber != null) {
+                    setterMethod.invoke(object, currentVersionNumber);
+                }
+            }
+            
+            Method[] methods = object.getClass().getDeclaredMethods();
+            for (Method method : methods) {
+                if (isPropertyGetterMethod(method, methods)) {
+                    Object srcValue = null;
+                    if(srcObject != null) {
+                        srcValue = method.invoke(srcObject);
+                    }
+                    Object value = method.invoke(object);
+                    if (value != null && value instanceof Collection) {
+                        Collection c = (Collection) value;
+                        Object[] srcC = c.toArray();
+                        if(srcValue != null) {
+                            srcC = ((Collection) srcValue).toArray();
+                        } 
+                        
+                        Iterator iter = c.iterator();
+                        int count = 0;
+                        while (iter.hasNext()) {
+                            Object srcEntry = null;
+                            if(srcC.length > count) 
+                                srcEntry = srcC[count];
+                            Object entry = iter.next();
+                            fixVersionNumbers(srcEntry, entry, list);
+                            count++;
+                        }
+                    } else {
+                        fixVersionNumbers(srcValue, value, list);
+                    }   
+                }
+            }
+        }
+    }
+
     protected ProposalDevelopmentDocument getProposalDoc(String pdDocumentNumber) {
         BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
         Map<String, Object> keyMap = new HashMap<String, Object>();

@@ -31,6 +31,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.RiceConstants;
+import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.rule.event.DocumentAuditEvent;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
@@ -389,10 +390,13 @@ public class BudgetAction extends ProposalActionBase {
     public ActionForward returnToProposal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         final BudgetForm budgetForm = (BudgetForm) form;
-       
-        final ActionForward forward = this.save(mapping, form, request, response);
+        ActionForward forward = null;
         
-        if (!forward.getPath().contains(RiceConstants.QUESTION_ACTION)) {
+        if (!"TRUE".equals(budgetForm.getEditingMode().get(AuthorizationConstants.EditMode.VIEW_ONLY))) {
+            forward = this.save(mapping, form, request, response);
+        }
+        
+        if (forward == null || !forward.getPath().contains(RiceConstants.QUESTION_ACTION)) {
             return this.getReturnToProposalForward(budgetForm);
         }
         
