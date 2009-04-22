@@ -341,6 +341,12 @@ public final class KeyConstants {
     public static final String ERROR_PROTOCOL_TITLE_NOT_FOUND = "error.protocolRequiredFields.title.notFound";
     public static final String ERROR_PROTOCOL_TYPE_NOT_FOUND = "error.protocolRequiredFields.typeCode.notFound";
 
+    // IRB Protocol Actions Required Fields Validation Messages
+    public static final String ERROR_PROTOCOL_SUBMISSION_TYPE_NOT_SELECTED = "error.protocolRequiredFields.submissionTypeCode.notFound";
+    public static final String ERROR_PROTOCOL_SUBMISSION_TYPE_INVALID = "error.protocolRequiredFields.submissionTypeCode.invalid";
+    public static final String ERROR_PROTOCOL_REVIEW_TYPE_NOT_SELECTED = "error.protocolRequiredFields.reviewTypeCode.notFound";
+    public static final String ERROR_PROTOCOL_REVIEW_TYPE_INVALID = "error.protocolRequiredFields.reviewTypeCode.invalid";
+    
     //  Committee Messages
     public static final String ERROR_COMMITTEE_DUPLICATE_ID = "error.committee.duplicateId";
     
