@@ -34,7 +34,34 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="parentAwardAuthorizer" abstract="true">
+        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
+        <property name="kraWorkflowService" ref="kraWorkflowService" />
+        <property name="personService" ref="personService" />
+        <property name="kraAuthorizationService" ref="kraAuthorizationService" />
+    </bean>
 
+	<bean id="awardTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
+        <property name="groupName" value="award" />
+        <property name="taskAuthorizers">
+            <list>
+                <bean class="org.kuali.kra.award.document.authorizer.ModifyAwardAuthorizer" parent="parentAwardAuthorizer">
+                    <property name="taskName" value="modifyAward" />
+                </bean>
+                
+                <bean class="org.kuali.kra.award.document.authorizer.ViewAwardAuthorizer" parent="parentAwardAuthorizer">
+                    <property name="taskName" value="viewAward" />
+                </bean>
+                
+                <!--  Task Authorizer for modifying persons and their roles on an award -->
+                <bean class="org.kuali.kra.award.document.authorizer.ModifyAwardPermissionsAuthorizer" parent="parentAwardAuthorizer">
+                    <property name="taskName" value="modifyAwardRoles" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+    
 	<bean id="awardFandaRateService" class="org.kuali.kra.service.impl.AwardFandaRateServiceImpl">
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />

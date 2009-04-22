@@ -683,6 +683,9 @@
                  <bean class="org.kuali.kra.authorizer.CreateCommitteeAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="addCommittee" />
                 </bean>
+                <bean class="org.kuali.kra.authorizer.CreateAwardAuthorizer" parent="parentAuthorizer">
+                    <property name="taskName" value="createAward" />
+                </bean>
             </list>
         </property>
     </bean>
@@ -797,6 +800,7 @@
                 <ref bean="budgetTaskAuthorizers" />
                 <ref bean="protocolTaskAuthorizers" />
                 <ref bean="committeeTaskAuthorizers" />
+                <ref bean="awardTaskAuthorizers" />
             </list>
         </property>
     </bean>

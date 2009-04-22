@@ -34,7 +34,7 @@ import org.kuali.kra.service.KraAuthorizationService;
  * The PermissionsHelper is used to manage the Permissions tab web page.
  * It contains the data, forms, and methods needed to render the page.
  */
-public class AwardPermissionsHelper extends PermissionsHelperBase {
+public class PermissionsHelper extends PermissionsHelperBase {
     
     private static final String AGGREGATOR_NAME = "Aggregator";
     private static final String VIEWER_NAME = "Viewer";
@@ -55,7 +55,7 @@ public class AwardPermissionsHelper extends PermissionsHelperBase {
      * Constructs a PermissionsHelper.
      * @param form the form
      */
-    public AwardPermissionsHelper(AwardForm form) {
+    public PermissionsHelper(AwardForm form) {
         super(RoleConstants.AWARD_ROLE_TYPE);
         this.form = form;
     }   

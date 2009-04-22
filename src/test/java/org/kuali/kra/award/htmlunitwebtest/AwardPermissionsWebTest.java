@@ -482,13 +482,11 @@ public class AwardPermissionsWebTest extends AwardWebTestBase {
     @Test
     public void testEditLastAggregator() throws Exception {
         HtmlPage permissionsPage = getPermissionsPage();
-               
-        System.out.println("EditRolesPageAsTextBefore" + permissionsPage.asText());
+        
         HtmlTableRow row1 = findRowByUsername(permissionsPage, USER1_USERNAME);
         HtmlElement deleteBtn1 = getElementByName(row1, DELETE_BTN, true);
         permissionsPage = clickOn(deleteBtn1);        
-        HtmlElement btn = getElementByName(permissionsPage, "methodToCall.processAnswer.button0", true);
-        permissionsPage = clickOn(btn);
+        permissionsPage = clickOn(permissionsPage, YES_BTN_ID);        
         
         HtmlPage editRolesPage = gotoEditRoles(permissionsPage, QUICKSTART_USERNAME);
         setFieldValue(editRolesPage, AGGREGATOR_FIELD_ID, "off");
@@ -565,7 +563,26 @@ public class AwardPermissionsWebTest extends AwardWebTestBase {
     public void testClose() throws Exception {
         HtmlPage page = getPermissionsPage();
         String docNbr = this.getDocNbr(page);
+        
+        HtmlTableRow row1 = findRowByUsername(page, USER1_USERNAME);
+        HtmlElement deleteBtn1 = getElementByName(row1, DELETE_BTN, true);
+        page = clickOn(deleteBtn1);        
+        page = clickOn(page, YES_BTN_ID);
+        
+        HtmlTableRow row2 = findRowByUsername(page, TESTER_USERNAME);
+        HtmlElement deleteBtn2 = getElementByName(row2, DELETE_BTN, true);
+        page = clickOn(deleteBtn2);        
+        page = clickOn(page, YES_BTN_ID);
+        
+        HtmlTableRow row3 = findRowByUsername(page, USER2_USERNAME);
+        HtmlElement deleteBtn3 = getElementByName(row3, DELETE_BTN, true);
+        page = clickOn(deleteBtn3);        
+        page = clickOn(page, YES_BTN_ID);
+        
+        page = clickOn(page, "save");
+        
         page = addAllUsers(page);
+        
         HtmlPage confirmationPage = clickOn(page, "close");
         
         clickOn(confirmationPage, NO_BTN_ID);
