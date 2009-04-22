@@ -25,6 +25,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.question.ConfirmationQuestion;
+import org.kuali.core.service.DictionaryValidationService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleDateConflictEvent;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleDayEvent;
@@ -50,6 +52,15 @@ public class CommitteeScheduleAction extends CommitteeAction {
     
     private static final String DELETE_QUESTION_ID = "committeeSchedule.delete.question";
     
+    private static final String BASE_ERROR_PATH = "document";
+    
+    public static final boolean FALSE = false;
+    
+    /**
+     * Just some arbitrarily high max depth that's unlikely to occur in real life to prevent recursion problems
+     */
+    private int maxDictionaryValidationDepth = 100;
+
     /**
      * @see org.kuali.kra.committee.web.struts.action.CommitteeAction#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -82,6 +93,12 @@ public class CommitteeScheduleAction extends CommitteeAction {
         flag &= applyRules(new CommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules, ErrorType.HARDERROR));
         
         flag &= applyRules(new CommitteeScheduleDeadlineEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules, ErrorType.HARDERROR));
+        
+        GlobalVariables.getErrorMap().addToErrorPath(BASE_ERROR_PATH);
+
+        getService().validateDocumentAndUpdatableReferencesRecursively(committeeForm.getCommitteeDocument(), maxDictionaryValidationDepth, FALSE, FALSE);
+        
+        flag &= GlobalVariables.getErrorMap().isEmpty();
         
         if(flag) {
             actionForward = super.save(mapping, form, request, response);
@@ -208,5 +225,9 @@ public class CommitteeScheduleAction extends CommitteeAction {
      */
     private CommitteeScheduleService getCommitteeScheduleService(){
         return KraServiceLocator.getService(CommitteeScheduleService.class);
+    }
+    
+    private DictionaryValidationService getService() {
+        return KraServiceLocator.getService(DictionaryValidationService.class);
     }
 }
