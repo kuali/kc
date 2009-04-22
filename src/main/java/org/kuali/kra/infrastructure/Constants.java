@@ -349,7 +349,6 @@ public interface Constants {
     public static final String CONFIRM_DELETE_PROTOCOL_USER_KEY = "confirmDeleteProtocolUser";
     public static final String PROPERTY_PROTOCOL_NUMBER = "protocolNumber";
     
-    
     public static final String PROTO_FUNDING_SRC_TYPE_CODE_FIELD = "protocolHelper.newFundingSource.fundingSourceTypeCode";
     public static final String PROTO_FUNDING_SRC_NAME_FIELD = "protocolHelper.newFundingSource.fundingSourceName";
     public static final String PROTO_FUNDING_SRC_TITLE_FIELD = "protocolHelper.newFundingSource.fundingSourceTitle";
@@ -366,6 +365,9 @@ public interface Constants {
 
     public static final String VIEW_ONLY = "viewOnly";
     
+    // Protocol Action Rules
+    public static final String PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY = "actionHelper.protocolSubmitAction";
+
     //Protocol Summary Print View
     public static final Integer PROTOCOL_SUMMARY_VOTINGCOMMENTS = 250;
     

@@ -27,7 +27,9 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.bo.ProtocolReviewType;
+import org.kuali.kra.irb.rule.event.ProtocolSubmitActionEvent;
 import org.kuali.kra.irb.service.ProtocolCopyService;
+import org.kuali.kra.irb.web.struts.bean.ProtocolSubmitAction;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 
@@ -128,6 +130,13 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      */
     public ActionForward submitForReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolSubmitAction submitAction = protocolForm.getActionHelper().getProtocolSubmitAction();
+        if (applyRules(new ProtocolSubmitActionEvent(protocolForm.getProtocolDocument(), submitAction))) {
+            
+        }
+        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
