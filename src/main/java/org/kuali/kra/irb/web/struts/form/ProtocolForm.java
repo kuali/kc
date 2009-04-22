@@ -320,4 +320,8 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     public void setJavaScriptEnabled(boolean javaScriptEnabled) {
         this.javaScriptEnabled = javaScriptEnabled;
     }
+
+    public ProtocolDocument getProtocolDocument() {
+        return (ProtocolDocument) getDocument();
+    }
 }
