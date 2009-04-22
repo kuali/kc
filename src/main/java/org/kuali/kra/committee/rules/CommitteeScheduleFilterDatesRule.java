@@ -48,8 +48,13 @@ public class CommitteeScheduleFilterDatesRule extends ResearchDocumentRuleBase i
             reportError(SCHEDULEDATE_FILTERENDDATE, KeyConstants.ERROR_COMMITTEESCHEDULE_FILTER_DATE, MSG[1]);
             rulePassed = false;
         }     
-        if(null != startDate && null != endDate && startDate.after(endDate)) {
-            //reportError(SCHEDULEDATE_FILTERSTARTDATE, KeyConstants.ERROR_COMMITTEESCHEDULE_FILTER_STARTDATE_ENDDATE);
+        
+        if(rulePassed && startDate.toString().equals(endDate.toString())) {            
+            reportError(SCHEDULEDATE_FILTERENDDATE, KeyConstants.ERROR_COMMITTEESCHEDULE_STARTANDENDDATE_EQUAL);
+            rulePassed = false;
+        }
+        
+        if(rulePassed && startDate.after(endDate)) {            
             reportError(SCHEDULEDATE_FILTERENDDATE, KeyConstants.ERROR_COMMITTEESCHEDULE_STARTANDENDDATE);
             rulePassed = false;
         }

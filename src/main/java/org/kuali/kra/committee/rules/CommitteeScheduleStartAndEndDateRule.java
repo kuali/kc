@@ -44,34 +44,35 @@ public class CommitteeScheduleStartAndEndDateRule extends ResearchDocumentRuleBa
         ScheduleData scheduleData = addCommitteeScheduleEvent.getScheduleData();
         Date startDate = scheduleData.getScheduleStartDate();
         Date endDate = null;
+        String [] msg = new String[1];
         StyleKey key = StyleKey.valueOf(scheduleData.getRecurrenceType());        
         switch (key) {
             case NEVER :
                 break;
             case DAILY : 
                 endDate = scheduleData.getDailySchedule().getScheduleEndDate();
-                rulePassed = isStartDateBeforeEndDate(startDate, endDate);
+                rulePassed = !isStartDateEndDateAfterOrEquals(startDate, endDate, msg);
                 endDateId.append(Constants.dailySchedule);
                 break;
             case WEEKLY :
                 endDate = scheduleData.getWeeklySchedule().getScheduleEndDate();
-                rulePassed = isStartDateBeforeEndDate(startDate, endDate);  
+                rulePassed = !isStartDateEndDateAfterOrEquals(startDate, endDate, msg); 
                 endDateId.append(Constants.weeklySchedule);
                 break;
             case MONTHLY :
                 endDate = scheduleData.getMonthlySchedule().getScheduleEndDate();
-                rulePassed = isStartDateBeforeEndDate(startDate, endDate); 
+                rulePassed = !isStartDateEndDateAfterOrEquals(startDate, endDate, msg);
                 endDateId.append(Constants.monthlySchedule);
                 break;
             case YEARLY : 
                 endDate = scheduleData.getYearlySchedule().getScheduleEndDate();
-                rulePassed = isStartDateBeforeEndDate(startDate, endDate); 
+                rulePassed = !isStartDateEndDateAfterOrEquals(startDate, endDate, msg);
                 endDateId.append(Constants.yearlySchedule);
                 break;            
         }
         if(!rulePassed) {
             endDateId.append(DOT).append(Constants.scheduleEndDate);  
-            reportError(endDateId.toString(), KeyConstants.ERROR_COMMITTEESCHEDULE_STARTANDENDDATE);
+            reportError(endDateId.toString(), msg[0]);
         }
         return rulePassed;
     }
@@ -86,6 +87,19 @@ public class CommitteeScheduleStartAndEndDateRule extends ResearchDocumentRuleBa
         boolean retVal = false;
         if(startDate.before(endDate))
             retVal = true;
+        return retVal;
+    }
+    
+    private boolean isStartDateEndDateAfterOrEquals(Date startDate, Date endDate, String... msg) {
+        boolean retVal = false;
+        if(startDate.toString().equals(endDate.toString())) {
+            msg[0] = KeyConstants.ERROR_COMMITTEESCHEDULE_STARTANDENDDATE_EQUAL;
+            retVal = true;
+        }
+        if(!retVal && startDate.after(endDate)) {
+            msg[0] = KeyConstants.ERROR_COMMITTEESCHEDULE_STARTANDENDDATE;
+            retVal = true;
+        }       
         return retVal;
     }
 }

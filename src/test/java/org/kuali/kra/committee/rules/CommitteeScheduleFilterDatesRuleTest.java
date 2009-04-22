@@ -35,9 +35,10 @@ public class CommitteeScheduleFilterDatesRuleTest {
             @Override
             protected void prerequisite() {
                 
-                ScheduleData scheduleData = new ScheduleData();   
+                ScheduleData scheduleData = new ScheduleData();  
+                Date dt = DateUtils.addDays(new Date(), 1);  
                 scheduleData.setFilterStartDate(new java.sql.Date(new Date().getTime()));
-                scheduleData.setFilerEndDate(new java.sql.Date(new Date().getTime()));
+                scheduleData.setFilerEndDate(new java.sql.Date(dt.getTime()));
                 
                 event = new CommitteeScheduleFilterEvent(Constants.EMPTY_STRING, null, scheduleData, null, ErrorType.HARDERROR);
                 rule = new CommitteeScheduleFilterDatesRule();
