@@ -26,6 +26,6 @@ public class ModifyAwardPermissionsAuthorizer extends AwardAuthorizer {
 
     @Override
     public boolean isAuthorized(String userName, AwardTask task) {
-        return hasPermission(userName, task.getAward(), PermissionConstants.MAINTAIN_AWARD_ACCESS);
+        return hasPermission(userName, task.getAward(), PermissionConstants.MODIFY_AWARD);
     }
 }
