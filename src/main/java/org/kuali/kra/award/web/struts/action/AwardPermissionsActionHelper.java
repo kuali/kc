@@ -37,7 +37,8 @@ public class AwardPermissionsActionHelper extends PermissionsActionHelperBase {
     }
     
     /**
-     * @see org.kuali.kra.common.permissions.web.struts.action.PermissionsActionHelperBase#addUserToRoleInDatabase(org.kuali.core.document.Document, java.lang.String, java.lang.String)
+     * @see org.kuali.kra.common.permissions.web.struts.action.PermissionsActionHelperBase#addUserToRoleInDatabase(org.kuali.core.document.Document
+     * , java.lang.String, java.lang.String)
      */
     @Override
     protected void addUserToRoleInDatabase(Document document, String userName, String roleName) {
@@ -46,7 +47,8 @@ public class AwardPermissionsActionHelper extends PermissionsActionHelperBase {
     }
     
     /**
-     * @see org.kuali.kra.common.permissions.web.struts.action.PermissionsActionHelperBase#removeRoleFromUserInDatabase(org.kuali.core.document.Document, java.lang.String, java.lang.String)
+     * @see org.kuali.kra.common.permissions.web.struts.action.PermissionsActionHelperBase#removeRoleFromUserInDatabase(org.kuali.core.document.Document
+     * , java.lang.String, java.lang.String)
      */
     @Override
     protected void removeUserFromRoleInDatabase(Document document, String userName, String roleName) {

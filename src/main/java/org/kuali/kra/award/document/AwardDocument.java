@@ -23,10 +23,10 @@ import org.kuali.core.document.SessionDocument;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
-import org.kuali.kra.award.service.AwardAuthorizationService;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.KraAuthorizationService;
 
 /**
  * 
@@ -132,8 +132,8 @@ public class AwardDocument extends ResearchDocumentBase implements  Copyable, Se
      */
     @Override
     protected List<RolePersons> getAllRolePersons() {
-        AwardAuthorizationService awardAuthService = 
-               (AwardAuthorizationService) KraServiceLocator.getService(AwardAuthorizationService.class); 
+        KraAuthorizationService awardAuthService = 
+               (KraAuthorizationService) KraServiceLocator.getService(KraAuthorizationService.class); 
         return awardAuthService.getAllRolePersons(getAward());
     }
     
