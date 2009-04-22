@@ -133,7 +133,8 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     
     /**
      * 
-     * @see org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentScheduleRule#processAwardPaymentScheduleBusinessRules(org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentScheduleRuleEvent)
+     * @see org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentScheduleRule#processAwardPaymentScheduleBusinessRules(
+     * org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentScheduleRuleEvent)
      */
     public boolean processAwardPaymentScheduleBusinessRules(AwardPaymentScheduleRuleEvent event) {
         return processPaymentScheduleBusinessRules(GlobalVariables.getErrorMap(), event.getAwardDocument());
@@ -141,7 +142,8 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     
     /**
      * 
-     * @see org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentScheduleRule#processAddAwardPaymentScheduleBusinessRules(org.kuali.kra.award.paymentreports.paymentschedule.AddAwardPaymentScheduleRuleEvent)
+     * @see org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentScheduleRule#processAddAwardPaymentScheduleBusinessRules(
+     * org.kuali.kra.award.paymentreports.paymentschedule.AddAwardPaymentScheduleRuleEvent)
      */
     public boolean processAddAwardPaymentScheduleBusinessRules(AddAwardPaymentScheduleRuleEvent event) {
         return processAddPaymentScheduleBusinessRules(GlobalVariables.getErrorMap(), event);
