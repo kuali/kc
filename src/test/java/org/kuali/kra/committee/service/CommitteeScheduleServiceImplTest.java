@@ -459,7 +459,7 @@ public class CommitteeScheduleServiceImplTest  {
         Date newdate = DateUtils.addDays(new Date(), -1);
         committeeSchedule.setScheduledDate(new java.sql.Date(newdate.getTime()));
         flag = service.isCommitteeScheduleDeletable(committeeSchedule);
-        assertFalse(flag);
+        assertTrue(flag);
     }
     
     /**
