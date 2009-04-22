@@ -101,7 +101,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     private boolean auditActivated;
     private CustomDataHelper customDataHelper = new CustomDataHelper(this);
     
-    private AwardPermissionsHelper awardPermissionsHelper;
+    private PermissionsHelper permissionsHelper;
     
     /**
      * 
@@ -139,7 +139,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase
         sponsorContactsBean = new AwardSponsorContactsBean(this);
         detailsAndDatesFormHelper = new DetailsAndDatesFormHelper(this);
         directFandADistributionFormHelper = new DirectFandADistributionFormHelper(this);
-        setPermissionsHelper(new AwardPermissionsHelper(this));
+        setPermissionsHelper(new PermissionsHelper(this));
         //sponsorTermTypes = new ArrayList<KeyLabelPair>();
     }    
     
@@ -251,7 +251,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     
     @Override
     protected void setSaveDocumentControl(DocumentActionFlags tempDocumentActionFlags, @SuppressWarnings("unchecked") Map editMode) {
-        tempDocumentActionFlags.setCanSave(true);
+        
     }
     
     @Override
@@ -487,16 +487,16 @@ public class AwardForm extends KraTransactionalDocumentFormBase
      * Gets the permissionsHelper attribute. 
      * @return Returns the awardPermissionsHelper.
      */
-    public AwardPermissionsHelper getPermissionsHelper() {
-        return awardPermissionsHelper;
+    public PermissionsHelper getPermissionsHelper() {
+        return permissionsHelper;
     }
 
     /**
      * Sets the awardPermissionsHelper attribute value.
      * @param permissionsHelper The permissionsHelper to set.
      */
-    public void setPermissionsHelper(AwardPermissionsHelper awardPermissionsHelper) {
-        this.awardPermissionsHelper = awardPermissionsHelper;
+    public void setPermissionsHelper(PermissionsHelper awardPermissionsHelper) {
+        this.permissionsHelper = awardPermissionsHelper;
     }
     
     /**
