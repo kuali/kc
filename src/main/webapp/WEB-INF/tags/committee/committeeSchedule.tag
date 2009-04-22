@@ -73,9 +73,10 @@
                         Yearly&nbsp;</html:radio></span>
                         
                         <p style="text-align:center;">
+                        <noscript>
                         	<html:image property="methodToCall.loadRecurrence.anchor${tabKey}"
-									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-reload.gif' styleClass="tinybutton"/>
-                        	
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-refresh.gif' styleClass="tinybutton"/>
+                        </noscript>
                         </p>                        
                       </td>
 
