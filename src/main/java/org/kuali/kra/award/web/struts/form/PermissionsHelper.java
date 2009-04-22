@@ -96,8 +96,8 @@ public class PermissionsHelper extends PermissionsHelperBase {
      */
     @Override
     protected boolean isStandardRoleName(String roleName) {
-        return StringUtils.equals(roleName, RoleConstants.AWARD_AGGREGATOR) ||
-               StringUtils.equals(roleName, RoleConstants.AWARD_VIEWER);
+        return StringUtils.equals(roleName, RoleConstants.AWARD_AGGREGATOR) 
+                || StringUtils.equals(roleName, RoleConstants.AWARD_VIEWER);
     }
     
     /**
