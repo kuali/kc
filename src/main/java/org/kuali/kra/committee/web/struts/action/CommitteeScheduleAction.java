@@ -34,6 +34,7 @@ import org.kuali.kra.committee.rule.event.CommitteeScheduleDeadlineEvent;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleFilterEvent;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleStartAndEndDateEvent;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleTimeEvent;
+import org.kuali.kra.committee.rule.event.CommitteeScheduleWeekDayEvent;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleEventBase.ErrorType;
 import org.kuali.kra.committee.rules.CommitteeScheduleDataDictionaryValidationRule;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
@@ -85,24 +86,28 @@ public class CommitteeScheduleAction extends CommitteeAction {
         CommitteeForm committeeForm = (CommitteeForm) form;
         ScheduleData scheduleData = committeeForm.getCommitteeScheduleHelper().getScheduleData();
         List<CommitteeSchedule> committeeSchedules = committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules();
-        
-        boolean flag = false;
-        
-        flag = applyRules(new CommitteeScheduleTimeEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules, ErrorType.HARDERROR));
-        
-        flag &= applyRules(new CommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules, ErrorType.HARDERROR));
-        
-        flag &= applyRules(new CommitteeScheduleDeadlineEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules, ErrorType.HARDERROR));
-        
+      
         GlobalVariables.getErrorMap().addToErrorPath(BASE_ERROR_PATH);
 
-        getService().validateDocumentAndUpdatableReferencesRecursively(committeeForm.getCommitteeDocument(), maxDictionaryValidationDepth, FALSE, FALSE);
+        getService().validateDocumentAndUpdatableReferencesRecursively(committeeForm.getCommitteeDocument(), maxDictionaryValidationDepth, true, FALSE);
         
-        flag &= GlobalVariables.getErrorMap().isEmpty();
-        
-        if(flag) {
-            actionForward = super.save(mapping, form, request, response);
+        if(GlobalVariables.getErrorMap().isEmpty()) {
+            
+            GlobalVariables.getErrorMap().clearErrorPath();
+            
+            boolean flag = false;
+            
+            flag = applyRules(new CommitteeScheduleTimeEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules, ErrorType.HARDERROR));
+            
+            flag &= applyRules(new CommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules, ErrorType.HARDERROR));
+            
+            flag &= applyRules(new CommitteeScheduleDeadlineEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules, ErrorType.HARDERROR));
+            
+            if(flag) {
+                actionForward = super.save(mapping, form, request, response);
+            }
         }
+
         scheduleData.populateStyleClass(); 
         return actionForward;
     }    
@@ -121,18 +126,24 @@ public class CommitteeScheduleAction extends CommitteeAction {
  
         CommitteeForm committeeForm = (CommitteeForm) form;
         ScheduleData scheduleData = committeeForm.getCommitteeScheduleHelper().getScheduleData();
+        boolean flag = false;
         
-        if(new CommitteeScheduleDataDictionaryValidationRule().applyRules(scheduleData)) {
-            if(applyRules(new CommitteeScheduleDayEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, ErrorType.HARDERROR))) {
-                if(applyRules(new CommitteeScheduleTimeEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, ErrorType.HARDERROR))) {
-                    if(applyRules(new CommitteeScheduleStartAndEndDateEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, ErrorType.HARDERROR))){
-                        CommitteeScheduleService service  = getCommitteeScheduleService();
-                        service.addSchedule(scheduleData, committeeForm.getCommitteeDocument().getCommittee());            
-                        applyRules(new CommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, ErrorType.SOFTERROR));
-                    }  
-                }
-            }
+        flag = new CommitteeScheduleDataDictionaryValidationRule().applyRules(scheduleData);
+        
+        flag &= applyRules(new CommitteeScheduleWeekDayEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, ErrorType.HARDERROR));
+        
+        flag &= applyRules(new CommitteeScheduleDayEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, ErrorType.HARDERROR));
+        
+        flag &= applyRules(new CommitteeScheduleTimeEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, ErrorType.HARDERROR));
+        
+        flag &= applyRules(new CommitteeScheduleStartAndEndDateEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, ErrorType.HARDERROR));
+        
+        if(flag) {
+            CommitteeScheduleService service  = getCommitteeScheduleService();
+            service.addSchedule(scheduleData, committeeForm.getCommitteeDocument().getCommittee());            
+            applyRules(new CommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, ErrorType.SOFTERROR));
         }
+
         scheduleData.populateStyleClass();        
         return mapping.findForward(Constants.MAPPING_BASIC );
     }

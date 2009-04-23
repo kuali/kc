@@ -111,6 +111,7 @@
 	<bean id="CommSchedule-scheduledDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
 		<property name="name" value="scheduledDate" />
 		<property name="label" value="Scheduled Date" />
+		<property name="required" value="true" />
 		<property name="shortLabel" value="Scheduled Date" />
 		<property name="summary" value="Scheduled Date" />
 		<property name="description" value="Scheduled Date" />		
@@ -167,6 +168,7 @@
 	<bean id="CommSchedule-protocolSubDeadline-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
 		<property name="name" value="protocolSubDeadline" />
 		<property name="label" value="Protocol Sub Deadline" />
+		<property name="required" value="true" />
 		<property name="shortLabel" value="Protocol Sub Deadline" />
 		<property name="summary" value="Protocol Sub Deadline" />
 		<property name="description" value="Protocol Sub Deadline" />
