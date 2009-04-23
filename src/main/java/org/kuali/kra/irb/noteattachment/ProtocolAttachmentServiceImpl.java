@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
@@ -76,21 +75,23 @@ class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
     }
     
     /** {@inheritDoc} */
-    public void saveAttatchment(ProtocolAttachmentProtocol attachment) {
-        this.validateAttatchmentBase(attachment);
+    public void saveAttatchment(ProtocolAttachmentBase attachment) {
         
-        if (StringUtils.isNotEmpty(attachment.getStatusCode())) {
-            attachment.setStatus(this.getStatusFromCode(attachment.getStatusCode())); 
+        if (attachment == null) {
+            throw new IllegalArgumentException("the attachment is null");
         }
-        this.setAndsaveAttachmentBase(attachment);
-    }
-    
-    /** {@inheritDoc} */
-    public void saveAttatchment(ProtocolAttachmentPersonnel attachment) {
-        this.validateAttatchmentBase(attachment);
         
-        attachment.setPerson(this.getPerson(attachment.getPersonId()));
-        this.setAndsaveAttachmentBase(attachment);
+        if (attachment.getNewFile() == null) {
+            throw new IllegalArgumentException("the newFile is null");
+        }
+
+        attachment.setFile(ProtocolAttachmentFile.createFromFormFile(attachment.getNewFile()));
+        
+        //bogus numbers
+        attachment.setAttachmentVersionNumber(Integer.valueOf(1));
+        attachment.setDocumentId(Integer.valueOf(1));
+        
+        this.boService.save(attachment);
     }
     
     /** {@inheritDoc} */
@@ -101,44 +102,7 @@ class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
         
         return (ProtocolPerson) this.boService.findByPrimaryKey(ProtocolPerson.class, Collections.singletonMap("protocolPersonId", personId));
     }
-    
-    /**
-     * Validates an attachment.
-     * 
-     * @param attachment the attachment.
-     * @throws IllegalArgumentException if the attachment is invalid.
-     */
-    private void validateAttatchmentBase(ProtocolAttachmentBase attachment) {
-        if (attachment == null) {
-            throw new IllegalArgumentException("the attachment is null");
-        }
-        
-        if (attachment.getNewFile() == null) {
-            throw new IllegalArgumentException("the newFile is null");
-        }
-    }
-    
-    /**
-     * This method sets all of the common items between attachments and persists those items.
-     * Make sure before calling this method that all attachment specific properties are set.
-     * <p>
-     * This method will modify the passed in attachment.
-     * </p>
-     * @param attachment the attachment.
-     */
-    private void setAndsaveAttachmentBase(ProtocolAttachmentBase attachment) {
-        assert attachment != null : "the attachment is null";
-        assert attachment.getNewFile() != null : "the newFile is null";
-        
-        attachment.setType(this.getTypeFromCode(attachment.getTypeCode()));
-        attachment.setFile(ProtocolAttachmentFile.createFromFormFile(attachment.getNewFile()));
-        
-        //bogus numbers
-        attachment.setAttachmentVersionNumber(Integer.valueOf(1));
-        attachment.setDocumentId(Integer.valueOf(1));
-        this.boService.save(attachment);
-    }
-    
+   
     /**
      * Gets a "code" BO from a code.  This method will only work for a BO that has a property of "code" that is the
      * primary key.
