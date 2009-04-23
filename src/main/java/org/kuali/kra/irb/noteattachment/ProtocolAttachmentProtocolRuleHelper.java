@@ -15,10 +15,12 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.AuditError;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.rules.ErrorReporter;
 
 
@@ -34,6 +36,7 @@ class ProtocolAttachmentProtocolRuleHelper {
     
     private static final String COMPLETE_STATUS_CODE = "2";
     
+    private final ProtocolAttachmentService attachmentService;
     private final ErrorReporter errorReporter = new ErrorReporter();
     private String propertyPrefix;
     
@@ -41,17 +44,31 @@ class ProtocolAttachmentProtocolRuleHelper {
      * Creates helper deferring the setting of the prefix to later.
      */
     ProtocolAttachmentProtocolRuleHelper() {
-        super();
+        this(KraServiceLocator.getService(ProtocolAttachmentService.class));
     }
     
     /**
      * Creates helper using prefix provided.
      *  
-     * @param propertyPrefix the prefix (ex: notesAndAttachmentsHelper.newAttachmentProtocol)
+     * @param aPropertyPrefix the prefix (ex: notesAndAttachmentsHelper.newAttachmentProtocol)
      * @throws IllegalArgumentException if the propertyPrefix is null
      */
-    ProtocolAttachmentProtocolRuleHelper(final String propertyPrefix) {
-        this.resetPropertyPrefix(propertyPrefix);
+    ProtocolAttachmentProtocolRuleHelper(final String aPropertyPrefix) {
+        this();
+        this.resetPropertyPrefix(aPropertyPrefix);
+    }
+    
+    /**
+     * Creates helper deferring the setting of the prefix to later and setting used services.
+     * @param attachmentService the Attachment Service
+     * @throws IllegalArgumentException if the attachmentService is null
+     */
+    ProtocolAttachmentProtocolRuleHelper(final ProtocolAttachmentService attachmentService) {
+        if (attachmentService == null) {
+            throw new IllegalArgumentException("the attachmentService is null");
+        }
+        
+        this.attachmentService = attachmentService;
     }
     
     /**
@@ -70,12 +87,12 @@ class ProtocolAttachmentProtocolRuleHelper {
     /**
      * Checks that a type does not already exist for a document. Creates a hard error.
      * @param attachmentProtocol the attachment.
-     * @param document the document
+     * @param protocol the Protocol
      * @return true is valid.
      */
-    boolean duplicateType(final ProtocolAttachmentProtocol attachmentProtocol, final ProtocolDocument document) {
+    boolean duplicateType(final ProtocolAttachmentProtocol attachmentProtocol, final Protocol protocol) {
         
-        for (ProtocolAttachmentProtocol attachment : document.getProtocol().getAttachmentProtocols()) {
+        for (ProtocolAttachmentProtocol attachment : protocol.getAttachmentProtocols()) {
             if (!attachment.getId().equals(attachmentProtocol.getId())
                 && attachment.getTypeCode().equals(attachmentProtocol.getTypeCode())) {
                 this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentBase.PropertyName.TYPE_CODE,
@@ -84,6 +101,32 @@ class ProtocolAttachmentProtocolRuleHelper {
             }
         }
         
+        return true;
+    }
+    
+    /**
+     * Checks for a valid status. Creates a hard error.
+     * 
+     * <p>
+     * This method does not validate the existence of a status code.  This is
+     * because status is not a required field.
+     * </p>
+     * 
+     * @param attachmentProtocol the attachment.
+     * @return true is valid.
+     */
+    boolean validStatus(final ProtocolAttachmentProtocol attachmentProtocol) {
+        
+        if (StringUtils.isBlank(attachmentProtocol.getStatusCode())) {
+            return true;
+        }
+              
+        final ProtocolAttachmentStatus status = this.attachmentService.getStatusFromCode(attachmentProtocol.getStatusCode());
+        if (status == null) {
+            this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentProtocol.PropertyName.STATUS_CODE,
+                KeyConstants.ERROR_PROTOCOL_ATTACHMENT_INVALID_STATUS);
+            return false;
+        }
         return true;
     }
     

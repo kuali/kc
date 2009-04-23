@@ -23,18 +23,11 @@ import org.kuali.kra.rules.ErrorReporter;
 
 /**
  * This class contains methods to "help" in validating {@link ProtocolAttachmentBase ProtocolAttachmentBase}.
- * 
- * <p>
- * This class is not a super class for other "ProtocolAttachment" rule classes because it would then require other class hierarchies
- * for other class types (like events) which really just creates class bloat.  In order to reuse the logic in this class rule classes
- * will use composition over inheritance.
- * </P>
  */
 class ProtocolAttachmentBaseRuleHelper {
 
     private static final String OTHER_TYPE_CODE = "11";
 
-    
     private final ProtocolAttachmentService attachmentService;
     private final DictionaryValidationService validationService;
     private final ErrorReporter errorReporter = new ErrorReporter();
@@ -106,6 +99,37 @@ class ProtocolAttachmentBaseRuleHelper {
             return false;
         }
         return true;
+    }
+    
+    /**
+     * Checks for a valid type for a group. Creates a hard error.
+     * 
+     * <p>
+     * This method does not validate the existence of a type code.
+     * This validation is done by {@link #validAgainstDictionary(ProtocolAttachmentBase)}.
+     * If the type code is blank this method will return true.
+     * </p>
+     * 
+     * @param attachmentBase the attachment.
+     * @return true is valid.
+     */
+    boolean validTypeForGroup(final ProtocolAttachmentBase attachmentBase) {
+        
+        if (StringUtils.isBlank(attachmentBase.getTypeCode())) {
+            return true;
+        }
+        
+        for (ProtocolAttachmentType type : this.attachmentService.getTypesForGroup(attachmentBase.getGroupCode())) {
+            if (attachmentBase.getTypeCode().equals(type.getCode())) {
+                return true;
+            }
+        }
+        
+        final ProtocolAttachmentType type = this.attachmentService.getTypeFromCode(attachmentBase.getTypeCode());
+        this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentBase.PropertyName.TYPE_CODE,
+            KeyConstants.ERROR_PROTOCOL_ATTACHMENT_INVALID_TYPE, (type != null) ? type.getDescription() : "");
+        
+        return false;
     }
     
     

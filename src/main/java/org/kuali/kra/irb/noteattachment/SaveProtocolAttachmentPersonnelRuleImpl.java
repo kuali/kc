@@ -45,10 +45,13 @@ public class SaveProtocolAttachmentPersonnelRuleImpl {
         
         for (int i = 0; i < attachments.size(); i++) {
             final ProtocolAttachmentPersonnel attachment = attachments.get(i);
-            this.setPropertyPrefixes(NoteAndAttachmentPrefix.ATTACHMENT_PERSONNEL.getIndexedPrefix(i));
-
+            this.setPropertyPrefixes(NoteAndAttachmentPrefix.ATTACHMENT_PERSONNEL.getIndexedPrefix(i));         
+            
+            valid &= this.baseHelper.validAgainstDictionary(attachment);
+            valid &= this.baseHelper.validTypeForGroup(attachment);
             valid &= this.baseHelper.validDescription(attachment);
-            valid &= this.personnelHelper.duplicateTypePerson(attachment, document);
+            valid &= this.personnelHelper.duplicateTypePerson(attachment, document.getProtocol());
+            valid &= this.personnelHelper.availablePerson(attachment, document.getProtocol());
         }
         
         return valid;

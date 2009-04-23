@@ -246,6 +246,11 @@ public class ProtocolAttachmentFile extends KraPersistableBusinessObjectBase {
     public static class CreateException extends RuntimeException {
         
         /**
+         * Comment for <code>serialVersionUID</code>
+         */
+        private static final long serialVersionUID = -230592614193518930L;
+
+        /**
          * Wraps caused-by Throwable.
          * @param t the Throwable
          */

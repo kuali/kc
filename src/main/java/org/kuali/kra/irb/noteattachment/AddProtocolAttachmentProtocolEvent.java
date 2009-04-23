@@ -52,7 +52,7 @@ class AddProtocolAttachmentProtocolEvent extends KraDocumentEventBase {
     /** {@inheritDoc} */
     @Override
     protected void logEvent() {
-        LOG.debug("adding new: " + this.newAttachmentProtocol + " on doc # " + getDocument().getDocumentNumber());
+        LOG.debug("adding new: " + this.newAttachmentProtocol + " on doc # " + this.getDocument().getDocumentNumber());
     }
 
     /** {@inheritDoc} */
