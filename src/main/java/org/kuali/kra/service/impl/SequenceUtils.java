@@ -40,13 +40,20 @@ import org.kuali.kra.service.VersionException;
 import edu.emory.mathcs.backport.java.util.Collections;
 
 /**
- * This class provides Sequence support
+ * This class provides Sequence support to the VersioningService
  * 
- * Fan-out complexity exceeds 20 because reflection introduces so many exception and meta-data types
+ * Fan-out complexity exceeds 20 because <b>reflection</b> is used and that 
+ * introduces so many exception and meta-data types
  */
 public class SequenceUtils {
     private static final Log LOGGER = LogFactory.getLog(SequenceUtils.class);
 
+    /**
+     * This set acts to prevent circular sequencing; 
+     * i.e. BO A has a collection of BO B which has a collection of BO A's that have been sequenced
+     * 
+     * This means SequenceAssociates must override equals and hashCode!  
+     */
     private Set<SequenceAssociate> alreadySequencedAssociates;
 
     @SuppressWarnings("unchecked")
