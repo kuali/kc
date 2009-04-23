@@ -44,12 +44,12 @@
          		</th>
          		<th>
          			<div align="center">
-         				<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentPersonnelAttributes.personId}" noColon="false"/>
+         				<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentPersonnelAttributes['person.protocolPersonId']}" noColon="false"/>
          			</div>
          		</th>
          		<th>
          			<div align="center">
-         				<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentPersonnelAttributes.typeCode}" noColon="false"/>
+         				<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentPersonnelAttributes['type.code']}" noColon="false"/>
          			</div>
          		</th>
          		<th>
@@ -59,7 +59,7 @@
 				</th>
          		<th>
 					<div align="center">
-						<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentPersonnelAttributes.fileId}" noColon="false"/>
+						<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentPersonnelAttributes['file.id']}" noColon="false"/>
 					</div>
 				</th>
          		<th>
@@ -86,8 +86,7 @@
 				</td>
 				<td align="left" valign="middle" class="infoline">
                 	<div align="left">
-                		<%--<kul:htmlControlAttribute property="notesAndAttachmentsHelper.newAttachmentPersonnel.personId" attributeEntry="${protocolAttachmentPersonnelAttributes.personId}" />--%>
-                		<c:set var="property" value="notesAndAttachmentsHelper.newAttachmentPersonnel.personId" />
+                		<c:set var="property" value="notesAndAttachmentsHelper.newAttachmentPersonnel.person.protocolPersonId" />
                 		
                 		<%-- attachment type finder logic start--%>
 							<jsp:useBean id="typeParamsPerson" class="java.util.HashMap" />
@@ -107,7 +106,7 @@
 				</td>
          		<td align="left" valign="middle" class="infoline">
                 	<div align="left">
-                		<c:set var="property" value="notesAndAttachmentsHelper.newAttachmentPersonnel.typeCode" />
+                		<c:set var="property" value="notesAndAttachmentsHelper.newAttachmentPersonnel.type.code" />
                 		
                 		<%-- attachment type finder logic start--%>
 							<jsp:useBean id="typeParamsType" class="java.util.HashMap"/>
@@ -152,49 +151,49 @@
 				</td>
 			</tr>
 			
-			<c:forEach var="attachmentPersonnel" items="${KualiForm.document.protocol.attachmentPersonnels}" varStatus="status">
+			<c:forEach var="attachmentPersonnel" items="${KualiForm.document.protocol.attachmentPersonnels}" varStatus="itrStatus">
 				<tr>
 	         		<td>
 	         			<div align="center">
-	                		${status.index + 1}
+	                		${itrStatus.index + 1}
 		            	</div>
 	         		</td>
 	         		<td align="left" valign="middle" class="infoline">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentPersonnel[${status.index}].updateTimestamp" attributeEntry="${protocolAttachmentPersonnelAttributes.updateTimestamp}" readOnly="true"/>
+	                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentPersonnel[${itrStatus.index}].updateTimestamp" attributeEntry="${protocolAttachmentPersonnelAttributes.updateTimestamp}" readOnly="true"/>
 		            	</div>
 					</td>
 	         		<td align="left" valign="middle" class="infoline">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentPersonnel[${status.index}].updateUser" attributeEntry="${protocolAttachmentPersonnelAttributes.updateUser}" readOnly="true"/>
+	                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentPersonnel[${itrStatus.index}].updateUser" attributeEntry="${protocolAttachmentPersonnelAttributes.updateUser}" readOnly="true"/>
 		            	</div>
 					</td>
 					<td align="left" valign="middle" class="infoline">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentPersonnel[${status.index}].person.personName" attributeEntry="${protocolAttachmentPersonnelAttributes.personId}" readOnly="true"/>
+	                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentPersonnel[${itrStatus.index}].person.personName" attributeEntry="${protocolAttachmentPersonnelAttributes['person.protocolPersonId']}" readOnly="true"/>
 		            	</div>
 					</td>
 	         		<td align="left" valign="middle" class="infoline">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentPersonnel[${status.index}].typeCode" attributeEntry="${protocolAttachmentPersonnelAttributes.typeCode}" readOnly="true" readOnlyAlternateDisplay="${attachmentPersonnel.type.description}"/>
+	                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentPersonnel[${itrStatus.index}].type.code" attributeEntry="${protocolAttachmentPersonnelAttributes['type.code']}" readOnly="true" readOnlyAlternateDisplay="${attachmentPersonnel.type.description}"/>
 		            	</div>
 					</td>
 					<td align="left" valign="middle" class="infoline">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentPersonnel[${status.index}].description" attributeEntry="${protocolAttachmentPersonnelAttributes.description}" readOnly="true"/>
+	                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentPersonnel[${itrStatus.index}].description" attributeEntry="${protocolAttachmentPersonnelAttributes.description}" readOnly="true"/>
 		            	</div>
 					</td>
 	       			<td align="left" valign="middle" class="infoline">
-	           			<div align="left" id="attachmentPersonnelFileName${status.index}">
+	           			<div align="left" id="attachmentPersonnelFileName${itrStatus.index}">
 	              			${attachmentPersonnel.file.name}
 	           			</div>
 					</td>
 					<td align="center" valign="middle" class="infoline">
 						<div align="center">
-							<html:image property="methodToCall.viewAttachmentPersonnel.line${status.index}.anchor${currentTabIndex}"
+							<html:image property="methodToCall.viewAttachmentPersonnel.line${itrStatus.index}.anchor${currentTabIndex}"
 								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
 								alt="View Personnel Attachment" onclick="excludeSubmitRestriction = true;"/>
-							<html:image property="methodToCall.deleteAttachmentPersonnel.line${status.index}.anchor${currentTabIndex}"
+							<html:image property="methodToCall.deleteAttachmentPersonnel.line${itrStatus.index}.anchor${currentTabIndex}"
 								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"
 								alt="Delete Personnel Attachment"/>
 						</div>
