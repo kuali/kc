@@ -16,10 +16,15 @@
 package org.kuali.kra.award.contacts;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kra.award.bo.ContactRole;
+import org.kuali.kra.award.bo.ContactType;
 import org.kuali.kra.award.web.struts.form.AwardForm;
+import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitContactType;
 
 /**
@@ -31,19 +36,11 @@ public class AwardUnitContactsBean extends AwardContactsBean {
     }
 
     public void addUnitContact() {
-//        AddAwardApprovedEquipmentRuleEvent event = generateAddEvent();
-//        boolean success = getRuleService().applyRules(event);
-//        if(success){
+        boolean success = new AwardUnitContactAddRuleImpl().processAddAwardUnitContactBusinessRules(getAward(), getUnitContact());
+        if(success){
             getAward().add(getUnitContact());
             init();
-//        }
-    }
-
-    /**
-     * This method clears the new contact entry
-     */
-    public void clearNewUnitContact() {
-        init();
+        }
     }
     
     /**
@@ -52,18 +49,6 @@ public class AwardUnitContactsBean extends AwardContactsBean {
      */
     public void deleteUnitContact(int lineToDelete) {
         deleteUnitContact(getUnitContacts(), lineToDelete);                
-    }
-    
-    @Override
-    public List<ContactRole> getContactRoles() {
-        if(contactRoles == null) {
-            contactRoles = new ArrayList<ContactRole>();
-            contactRoles.add(ContactRoleFixtureFactory.MOCK_ACCOUNTANT);
-            contactRoles.add(ContactRoleFixtureFactory.MOCK_ADMIN_ASSISTANT);
-            contactRoles.add(ContactRoleFixtureFactory.MOCK_BUSINESS_MANAGER);
-        }
-        return contactRoles;
-//        return getContactRoles(ContactCategory.UNIT_CONTACTS);
     }
 
     /**
@@ -78,7 +63,13 @@ public class AwardUnitContactsBean extends AwardContactsBean {
      * @return The list; may be empty
      */
     public List<AwardUnitContact> getUnitContacts() {
-        return getAward().getUnitContacts();
+        List<AwardUnitContact> unitContacts = new ArrayList<AwardUnitContact>();
+        Unit unit = getAward().getLeadUnit();
+        if(unit != null) {
+            updateExistingLeadUnitContactsFromAward(unit);
+        }
+        unitContacts.addAll(findContactsForCategory(UnitContactType.CONTACT));
+        return unitContacts;
     }
     
     /**
@@ -98,10 +89,10 @@ public class AwardUnitContactsBean extends AwardContactsBean {
     protected void deleteUnitContact(List<AwardUnitContact> contacts, int lineToDelete) {
         if(contacts.size() > lineToDelete) {
             AwardUnitContact foundContact = contacts.get(lineToDelete);
-            getAward().getUnitContacts().remove(foundContact);
+            getAward().getAwardUnitContacts().remove(foundContact);
         }
     }
-    
+
     /**
      * Find the subset of unitContacts for a particular UnitContactType
      * @param contactType
@@ -109,7 +100,7 @@ public class AwardUnitContactsBean extends AwardContactsBean {
      */
     protected List<AwardUnitContact> findContactsForCategory(UnitContactType contactType) {
         List<AwardUnitContact> categorizedContacts = new ArrayList<AwardUnitContact>();
-        for(AwardUnitContact contact: getAward().getUnitContacts()) {
+        for(AwardUnitContact contact: getAward().getAwardUnitContacts()) {
             UnitContactType foundType = contact.getUnitContactType();
             if(foundType == contactType) {
                 categorizedContacts.add(contact);
@@ -118,8 +109,104 @@ public class AwardUnitContactsBean extends AwardContactsBean {
         return categorizedContacts;
     }
 
+    /**
+     * @see org.kuali.kra.award.contacts.AwardContactsBean#getContactRoleType()
+     */
+    @Override
+    protected Class<? extends ContactRole> getContactRoleType() {
+        return ContactType.class;
+    }
+
+    /**
+     * @see org.kuali.kra.award.contacts.AwardContactsBean#init()
+     */
     @Override
     protected void init() {
         newAwardContact = new AwardUnitContact(UnitContactType.CONTACT);
+    }
+    
+    /*
+     * Add lead unit contacts
+     */
+    private void addLeadUnitContacts(List<AwardUnitContact> existingUnitContacts, List<Person> allLeadUnitPersonnel) {
+        List<String> existingUnitContactPersonnel = new ArrayList<String>();
+        for(AwardUnitContact contact: existingUnitContacts) {
+            existingUnitContactPersonnel.add(contact.getPerson().getPersonId());
+        }
+        
+        List<AwardUnitContact> adds = new ArrayList<AwardUnitContact>();
+        for(Person person: allLeadUnitPersonnel) {
+            if(!existingUnitContactPersonnel.contains(person.getPersonId())) {
+                adds.add(createAwardContactForPerson(person));
+            }
+        }
+        getAward().getAwardUnitContacts().addAll(adds);
+    }
+    
+    /*
+     * create an AwardUnitContact from a person
+     */
+    private AwardUnitContact createAwardContactForPerson(Person person) {
+        AwardUnitContact awardUnitContact = new AwardUnitContact();
+        awardUnitContact.setAward(getAward());
+        awardUnitContact.setPersonId(person.getPersonId());
+        awardUnitContact.setFullName(person.getFullName());
+        awardUnitContact.setPerson(person);
+        awardUnitContact.setUnitContactType(UnitContactType.CONTACT);
+        return awardUnitContact;
+    }
+
+    /*
+     * Find lead unit contacts
+     */
+    private List<AwardUnitContact> findAwardUnitContactsFromLeadUnit(Unit leadUnit) {
+        List<AwardUnitContact> allUnitContacts = findContactsForCategory(UnitContactType.CONTACT);
+        List<AwardUnitContact> existingLeadUnitContacts = new ArrayList<AwardUnitContact>(); 
+        for(AwardUnitContact unitContact: allUnitContacts) {
+            if(leadUnit.getUnitNumber().equals(unitContact.getPerson().getHomeUnit())) {
+                existingLeadUnitContacts.add(unitContact);
+            }
+        }
+        return existingLeadUnitContacts;
+    }
+
+    private List<Person> findAllLeadUnitPersons(String unitNumber) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("homeUnit", unitNumber);
+        @SuppressWarnings("unchecked") List<Person> unitPeople = (List<Person>) getBusinessObjectService().findMatching(Person.class, fieldValues);
+        return unitPeople;
+    }
+
+    /*
+     * Remove lead unit contacts
+     */
+    private void removeLeadUnitContacts(List<AwardUnitContact> existingUnitContacts, List<Person> allLeadUnitPersonnel) {
+        List<AwardUnitContact> removals = new ArrayList<AwardUnitContact>();
+        for(AwardUnitContact existingContact: existingUnitContacts) {
+            boolean found = false;
+            for(Person p: allLeadUnitPersonnel) {
+                found = p.getPersonId().equals(existingContact.getPersonId());
+                if(found) {
+                    break;
+                }
+            }
+            if(!found) {
+                removals.add(existingContact);
+            }
+        }
+        if(removals.size() > 0) {
+            getAward().getAwardUnitContacts().removeAll(removals);
+        }
+    }
+
+    /*
+     * Finds any unit contacts from Lead Unit and removes them from Award
+     */
+    private void updateExistingLeadUnitContactsFromAward(Unit leadUnit) {
+        List<AwardUnitContact> existingLeadUnitContacts = findAwardUnitContactsFromLeadUnit(leadUnit);
+        List<Person> allLeadUnitPersonnel = findAllLeadUnitPersons(leadUnit.getUnitNumber());
+        removeLeadUnitContacts(existingLeadUnitContacts, allLeadUnitPersonnel);
+        addLeadUnitContacts(getAward().getAwardUnitContacts(), allLeadUnitPersonnel);        
+        
     }
 }

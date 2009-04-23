@@ -120,7 +120,7 @@
                 <td valign="middle">
                 	<div align="center">
                 		${awardPersonUnit.unit.unitName}&nbsp;
-                		<kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="'${awardContact.contact.unit.unitNumber}':unitNumber" anchor="${tabKey}" />
+                		<kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="'${awardPersonUnit.unit.unitNumber}':unitNumber" anchor="${tabKey}" />
                 	</div> 
 				</td>
 				<td valign="middle">

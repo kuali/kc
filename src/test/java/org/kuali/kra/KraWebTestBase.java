@@ -1762,7 +1762,7 @@ public abstract class KraWebTestBase extends KraTestBase {
         assertTrue(element instanceof HtmlSelect);
 
         HtmlSelect selectField = (HtmlSelect) element;
-        List<HtmlOption> options = selectField.getOptions();
+        @SuppressWarnings("unchecked") List<HtmlOption> options = selectField.getOptions();
         for (HtmlOption option : options) {
             String value = option.getValueAttribute();
             if (!value.equals("")) {
@@ -1770,6 +1770,21 @@ public abstract class KraWebTestBase extends KraTestBase {
                 break;
             }
         }
+    }
+    /**
+     * 
+     * Sets a select field to the value of the option specified by the optionOrdinalPosition
+     * @param page
+     * @param id
+     * @param optionOrdinalPosition
+     */
+    protected void selectSpecificOption(HtmlPage page, String id, int optionOrdinalPosition) {
+        HtmlElement element = getElement(page, id);
+        assertTrue(element instanceof HtmlSelect);
+
+        HtmlSelect selectField = (HtmlSelect) element;
+        @SuppressWarnings("unchecked") List<HtmlOption> options = selectField.getOptions();
+        selectField.setSelectedAttribute(options.get(optionOrdinalPosition).getValueAttribute(), true);
     }
     
     private String createExpectedFieldNotFoundMessage(HtmlPage page, String fieldId) {

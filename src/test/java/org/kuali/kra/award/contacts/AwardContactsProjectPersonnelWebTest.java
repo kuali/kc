@@ -29,6 +29,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  * This class tests the ApprovedEquipment panel
  */
 public class AwardContactsProjectPersonnelWebTest extends AwardContactsWebTest {
+    private static final String CONTACT_ROLE_CODE_ID = "projectPersonnelBean.contactRoleCode";
     private static final String ADD_NEW_CONTACT_BUTTON_CONTEXT = METHOD_TO_CALL_PREFIX + "addProjectPerson";
     private static final String CLEAR_NEW_CONTACT_BUTTON_CONTEXT = METHOD_TO_CALL_PREFIX + "clearNewProjectPerson";
     private static final String DELETE_CONTACT_BUTTON_CONTEXT = METHOD_TO_CALL_PREFIX + "deleteProjectPerson";
@@ -59,12 +60,14 @@ public class AwardContactsProjectPersonnelWebTest extends AwardContactsWebTest {
     
     @Test
     public void testAddingProjectPersonUnitToEmployee() throws Exception {
+        selectSpecificOption(contactsPage, CONTACT_ROLE_CODE_ID, 1);
         addEmployeeContact();
         addUnit(true);
     }
 
     @Test
     public void testSavingProjectPerson() throws Exception {
+        selectSpecificOption(contactsPage, CONTACT_ROLE_CODE_ID, 1);
         addEmployeeContact();
         addUnit(true);
         save(contactsPage);

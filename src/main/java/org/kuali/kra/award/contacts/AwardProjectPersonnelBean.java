@@ -61,7 +61,8 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
     /**
      * This method clears the new contact entry
      */
-    public void clearNewProjectPerson() {
+    @Override
+    public void clearNewContact() {
         initNewAwardPerson();
     }
 
@@ -77,7 +78,7 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
      * @param lineToDelete
      */
     public void deleteProjectPerson(int lineToDelete) {
-        List<AwardPerson> projectPersons = getAward().getProjectPersons(); 
+        List<AwardPerson> projectPersons = getProjectPersonnel(); 
         if(projectPersons.size() > lineToDelete) {
             projectPersons.remove(lineToDelete);
         }        
@@ -90,15 +91,6 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
      */
     public void deleteProjectPersonUnit(int projectPersonIndex, int unitIndex) {
         getAward().getProjectPersons().get(projectPersonIndex).getUnits().remove(unitIndex);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public List<ContactRole> getContactRoles() {
-        if(contactRoles == null) {
-            contactRoles = (List<ContactRole>) getBusinessObjectService().findAll(ProposalPersonRole.class);
-        }
-        return contactRoles;
     }
     
     /**
@@ -166,12 +158,6 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
         return getNewUnitNumber();
     }
     
-    @Override
-    public void setContactRoleCode(String contactRoleCode) {
-        ContactRole matchingRole = findMatchingContactRole(getContactRoles(), contactRoleCode);
-        newAwardContact.setContactRole(matchingRole);  
-    }
-    
     /**
      * Sets the newAwardPersonUnit attribute value.
      * @param newAwardPersonUnit The newAwardPersonUnit to set.
@@ -203,6 +189,18 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
         setLeadUnitSelectionStates(unitName);
     }
 
+
+    /**
+     * @see org.kuali.kra.award.contacts.AwardContactsBean#getContactRoleType()
+     */
+    @Override
+    protected Class<? extends ContactRole> getContactRoleType() {
+        return ProposalPersonRole.class;
+    }
+    
+    /**
+     * @see org.kuali.kra.award.contacts.AwardContactsBean#init()
+     */
     @Override
     protected void init() {
         initNewAwardPerson();

@@ -26,10 +26,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.contacts.AwardCentralAdminContactsBean;
-import org.kuali.kra.award.contacts.AwardPerson;
-import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.contacts.AwardProjectPersonnelBean;
 import org.kuali.kra.award.contacts.AwardSponsorContactsBean;
 import org.kuali.kra.award.contacts.AwardUnitContactsBean;
@@ -45,25 +42,6 @@ public class AwardContactsAction extends AwardAction {
     
     private static final String DELETE_PROJECT_PERSON_UNIT_PREFIX = "deleteProjectPersonUnit.";
     private static final String LINE_SUFFIX = ".line";
-
-    /**
-     * @see org.kuali.kra.award.web.struts.action.AwardAction#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-                                                                                                             throws Exception {
-        ActionForward fwd = super.save(mapping, form, request, response);
-        
-//        BusinessObjectService bos = getBusinessObjectService();
-//        Award award = ((AwardForm) form).getAwardDocument().getAward();
-//        for(AwardPerson p: award.getProjectPersons()) {
-//            for(AwardPersonUnit apu: p.getUnits()) {
-//                apu.setAwardContactId(p.getAwardContactId());
-//                bos.save(apu);
-//            }
-//        }
-        return fwd;
-    }
 
     public ActionForward addNewProjectPersonUnit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
                                                                                                                         throws Exception {
@@ -98,7 +76,7 @@ public class AwardContactsAction extends AwardAction {
     
     public ActionForward clearNewProjectPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
                                                                                                                         throws Exception {
-        getProjectPersonnelBean(form).clearNewProjectPerson();
+        getProjectPersonnelBean(form).clearNewContact();
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
 
@@ -110,19 +88,19 @@ public class AwardContactsAction extends AwardAction {
     
     public ActionForward clearNewCentralAdminContact(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
                                                                                                                         throws Exception {
-        getCentralAdminContactsBean(form).clearNewCentralAdminContact();
+        getCentralAdminContactsBean(form).clearNewContact();
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
     public ActionForward clearNewUnitContact(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
                                                                                                                         throws Exception {
-        getUnitContactsBean(form).clearNewUnitContact();
+        getUnitContactsBean(form).clearNewContact();
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
     public ActionForward clearNewSponsorContact(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
                                                                                                                         throws Exception {
-        getSponsorContactsBean(form).clearNewSponsorContact();
+        getSponsorContactsBean(form).clearNewContact();
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
@@ -149,7 +127,7 @@ public class AwardContactsAction extends AwardAction {
     public ActionForward deleteCentralAdminContact(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
                                                                                                                         throws Exception {
     
-        getCentralAdminContactsBean(form).deleteCentralAdminContact(getLineToDelete(request));
+        getCentralAdminContactsBean(form).deleteContact(getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     

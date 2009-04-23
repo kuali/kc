@@ -23,20 +23,20 @@ import org.kuali.kra.bo.Person;
 /**
  * This class models the SponsorContact
  */
-public class SponsorContact extends AwardContact {
+public class AwardSponsorContact extends AwardContact {
     private static final long serialVersionUID = 4554226190495156865L;
     
     private ContactType contactType;
     
-    public SponsorContact() {
+    public AwardSponsorContact() {
         super();
     }
     
-    public SponsorContact(NonOrganizationalRolodex rolodex, ContactRole contactRole) {
+    public AwardSponsorContact(NonOrganizationalRolodex rolodex, ContactRole contactRole) {
         super(rolodex, contactRole);
     }
 
-    public SponsorContact(Person person, ContactRole role) {
+    public AwardSponsorContact(Person person, ContactRole role) {
         super(person, role);
     }
 
