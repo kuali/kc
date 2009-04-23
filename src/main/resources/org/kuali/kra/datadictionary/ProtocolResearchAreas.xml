@@ -31,7 +31,6 @@
 		<property name="titleAttribute" value="protocolResearchAreasId" />
 		<property name="attributes" >
 			<list>
-				<ref bean="ProtocolResearchAreas-protocolId" />
 				<ref bean="ProtocolResearchAreas-protocolNumber" />
 				<ref bean="ProtocolResearchAreas-sequenceNumber" />
 				<ref bean="ProtocolResearchAreas-researchAreaCode" />
@@ -42,24 +41,6 @@
 
 	<!-- Attribute Definitions -->
 	
-	<bean id="ProtocolResearchAreas-protocolId" parent="ProtocolResearchAreas-protocolId-parentBean" />
-	<bean id="ProtocolResearchAreas-protocolId-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="protocolId" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Protocol Id" />
-		<property name="shortLabel" value="Protocol Id" />
-		<property name="maxLength" value="22" />
-		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
-		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
-		</property>
-		<property name="summary" value="Protocol Id" />
-		<property name="description" value="Protocol Id" />
-	</bean>
-
 	<bean id="ProtocolResearchAreas-protocolNumber" parent="ProtocolResearchAreas-protocolNumber-parentBean" />
 	<bean id="ProtocolResearchAreas-protocolNumber-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="protocolNumber" />
@@ -130,8 +111,6 @@
 					<property name="inquiryFields" >
 						<list>
 							<bean parent="FieldDefinition"
-								p:attributeName="protocolId" />
-							<bean parent="FieldDefinition"
 								p:attributeName="protocolNumber" />
 							<bean parent="FieldDefinition"
 								p:attributeName="sequenceNumber" />
@@ -157,8 +136,6 @@
 		<property name="lookupFields" >
 			<list>
 				<bean parent="FieldDefinition"
-					p:attributeName="protocolId" />
-				<bean parent="FieldDefinition"
 					p:attributeName="protocolNumber" />
 				<bean parent="FieldDefinition"
 					p:attributeName="sequenceNumber" />
@@ -168,8 +145,6 @@
 		</property>
 		<property name="resultFields" >
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="protocolId" />
 				<bean parent="FieldDefinition"
 					p:attributeName="protocolNumber" />
 				<bean parent="FieldDefinition"
