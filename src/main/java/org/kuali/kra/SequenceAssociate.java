@@ -18,6 +18,8 @@ package org.kuali.kra;
 /**
  * This interface applies to classes that are associated 
  * with a sequence owner; i.e. child BOs of an Award or Protocol
+ * 
+ * SequenceAssociates must override equals and hashCode!
  */
 public interface SequenceAssociate extends Sequenceable {
     /**
