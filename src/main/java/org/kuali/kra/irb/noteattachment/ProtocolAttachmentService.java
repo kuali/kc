@@ -15,6 +15,10 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
+import java.util.Collection;
+
+import org.kuali.kra.irb.personnel.ProtocolPerson;
+
 
 /**
  * Contains the methods used for Protocol Notes and Attachments.
@@ -30,6 +34,16 @@ public interface ProtocolAttachmentService {
      * @throws IllegalArgumentException if the code is null
      */
     ProtocolAttachmentType getTypeFromCode(String code);
+    
+    /**
+     * Gets a Collection of {@link ProtocolAttachmentType ProtocolAttachmentType} from a group code.
+     * 
+     * @param code the group code.
+     * @return a Collection of {@link ProtocolAttachmentType ProtocolAttachmentType}.  If no codes are
+     * found then an empty Collection is returned.
+     * @throws IllegalArgumentException if the code is null
+     */
+    Collection<ProtocolAttachmentType> getTypesForGroup(String code);
     
     /**
      * Gets a {@link ProtocolAttachmentStatus ProtocolAttachmentStatus} from a code.
@@ -60,4 +74,13 @@ public interface ProtocolAttachmentService {
      * @throws IllegalArgumentException if the attachment or attachment's new file is null
      */
     void saveAttatchment(ProtocolAttachmentPersonnel attachment);
+    
+    /**
+     * Gets a Person BO from personId.
+     * 
+     * @param personId the person id
+     * @return the BO
+     * @throws IllegalArgumentException if the code or type is null.
+     */
+    ProtocolPerson getPerson(Integer personId);
 }

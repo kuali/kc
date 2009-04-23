@@ -24,12 +24,17 @@ class AddProtocolAttachmentProtocolRuleImpl implements AddProtocolAttachmentProt
     private final ProtocolAttachmentBaseRuleHelper baseHelper
         = new ProtocolAttachmentBaseRuleHelper(NoteAndAttachmentPrefix.NEW_ATTACHMENT_PROTOCOL.getPrefixName());
     
+    private final ProtocolAttachmentProtocolRuleHelper protocolHelper
+    = new ProtocolAttachmentProtocolRuleHelper(NoteAndAttachmentPrefix.NEW_ATTACHMENT_PROTOCOL.getPrefixName());
+    
     /** {@inheritDoc} */
     public boolean processAddProtocolAttachmentProtocolRules(AddProtocolAttachmentProtocolEvent event) {      
         
         final ProtocolAttachmentProtocol newAttachmentProtocol = event.getNewAttachmentProtocol();
         
         boolean valid = this.baseHelper.validAgainstDictionary(newAttachmentProtocol);
+        valid &= this.protocolHelper.validStatus(newAttachmentProtocol);
+        valid &= this.baseHelper.validTypeForGroup(newAttachmentProtocol);
         valid &= this.baseHelper.validDescription(newAttachmentProtocol);
         
         return valid;

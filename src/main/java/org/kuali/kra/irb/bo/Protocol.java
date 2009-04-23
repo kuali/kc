@@ -474,10 +474,15 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         managedLists.add(getProtocolRiskLevels());
         managedLists.add(getProtocolParticipants());
         managedLists.add(getProtocolUnits());
+        managedLists.add(getAttachmentProtocols());
+        
+        //the attachment personnels must get added to the managed list
+        //BEFORE the ProtocolPersons otherwise deleting a ProtocolPerson
+        //may cause a DB constraint violation.
+        managedLists.add(getAttachmentPersonnels());
+        
         managedLists.add(getProtocolPersons());
         managedLists.add(getSpecialReviews());
-        managedLists.add(getAttachmentProtocols());
-        managedLists.add(getAttachmentPersonnels());
         return managedLists;
     }
     
@@ -564,7 +569,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
      * This method is to get protocol location service
      * @return ProtocolLocationService
      */
-    private ProtocolLocationService getProtocolLocationService() {
+    protected ProtocolLocationService getProtocolLocationService() {
         ProtocolLocationService protocolLocationService = (ProtocolLocationService)KraServiceLocator.getService("protocolLocationService");
         return protocolLocationService;
     }
@@ -766,7 +771,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
      * @throws NullPointerException if attachmentPersonnel is null
      */
     public void addAttachmentPersonnel(ProtocolAttachmentPersonnel attachmentPersonnel) {
-        this.addAttachmentToList(attachmentPersonnel, this.getAttachmentPersonnels());
+        ProtocolAttachmentBase.addAttachmentToCollection(attachmentPersonnel, this.getAttachmentPersonnels());
     }
     
     /**
@@ -775,26 +780,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
      * @throws NullPointerException if attachmentProtocol is null
      */
     public void addAttachmentProtocol(ProtocolAttachmentProtocol attachmentProtocol) {
-        this.addAttachmentToList(attachmentProtocol, this.getAttachmentProtocols());
-    }
-    
-    /**
-     * Adds an attachment to a Collection.
-     * @param <T> the type of attachment
-     * @param attachment the attachment.
-     * @param toList the list.
-     * @throws NullPointerException if the attachment or the list is null.
-     */
-    private <T extends ProtocolAttachmentBase> void addAttachmentToList(T attachment, Collection<T> toList) {
-        if (attachment == null) {
-            throw new NullPointerException("the attachment is null");
-        }
-        
-        if (toList == null) {
-            throw new NullPointerException("the toList is null");
-        }
-        
-        toList.add(attachment);
+        ProtocolAttachmentBase.addAttachmentToCollection(attachmentProtocol, this.getAttachmentProtocols());
     }
 
     public String getKeyPerson() {
