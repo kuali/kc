@@ -16,11 +16,13 @@
 package org.kuali.kra;
 
 /**
- * This interface applies to classes that are associated with a sequence owner; i.e. AwardApprovedEquipment
+ * This interface applies to classes that are associated 
+ * with a sequence owner; i.e. child BOs of an Award or Protocol
  */
 public interface SequenceAssociate extends Sequenceable {
     /**
-     * This sets the sequence owner on the associate; should no-op this associate is the sequence owner
+     * This sets the sequence owner on the associate. 
+     * Should no-op if this associate has no sequence owner 
      * @param owner
      */
     void setSequenceOwner(SequenceOwner newOwner);
