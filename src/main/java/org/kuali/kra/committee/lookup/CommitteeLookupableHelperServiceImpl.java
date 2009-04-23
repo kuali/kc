@@ -32,6 +32,7 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
 
     private static final String MEMBERSHIP_ROLE_CODE = "membershipRoleCode";
     private static final String MEMBERSHIP_NAME = "memberName";
+    private static final String PERSON_NAME = "personName";
     private static final String RESEARCH_AREA_CODE = "researchAreaCode";
 
     @Override
@@ -40,6 +41,9 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
         return getUniqueList(super.getSearchResults(setupCritMaps(fieldValues)));
     }
 
+    /*
+     * set up search criteria value map.  Especially for collection entity fields.
+     */
     private Map<String,String> setupCritMaps(Map<String, String> fieldValues) {
 
         Map <String,String> baseLookupFields = new HashMap<String,String>();
@@ -57,6 +61,10 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
         return baseLookupFields;
     }
     
+    /**
+     * Specifically, for drop down.
+     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getRows()
+     */
     @Override
     public List<Row> getRows() {
         List<Row> rows =  super.getRows();
@@ -65,23 +73,11 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
                 if (field.getPropertyName().equals(RESEARCH_AREA_CODE)) {
                     super.updateLookupField(field,RESEARCH_AREA_CODE,"org.kuali.kra.bo.ResearchArea");
                 } else if (field.getPropertyName().equals(MEMBERSHIP_NAME)) {
-                    super.updateLookupField(field,"personName","org.kuali.kra.committee.bo.CommitteeMembership");
+                    super.updateLookupField(field,PERSON_NAME,"org.kuali.kra.committee.bo.CommitteeMembership");
                 }
             }
         }
         return rows;
-    }
-
-    /**
-     * TODO : This is a hack for now to set up committeechair.
-     * Don't want to loop again thru the resultset and set committeechair.
-     * @see org.kuali.kra.lookup.KraLookupableHelperServiceImpl#getActionUrls(org.kuali.core.bo.BusinessObject)
-     */
-    @Override
-    public String getActionUrls(BusinessObject businessObject) {
-
-        ((Committee)businessObject).getCommitteeChair();     
-        return super.getActionUrls(businessObject);
     }
 
     /*
@@ -95,13 +91,13 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
         if (CollectionUtils.isNotEmpty(searchResults)) {
             for (Committee committee : (List <Committee>)searchResults) {
                 if (!committeeIds.contains(committee.getCommitteeId())) {
+                    committee.getCommitteeChair();
                     uniqueResults.add(committee);
                     committeeIds.add(committee.getCommitteeId());
                 }
             }
         }
-
-        return uniqueResults ;
+        return uniqueResults;
     }
 
     
