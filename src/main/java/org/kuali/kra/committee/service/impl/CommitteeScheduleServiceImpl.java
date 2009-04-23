@@ -18,6 +18,7 @@ package org.kuali.kra.committee.service.impl;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -148,6 +149,8 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
             case WEEKLY :
                 dtEnd = scheduleData.getWeeklySchedule().getScheduleEndDate();
                 weekdays = ScheduleData.convertToWeekdays(scheduleData.getWeeklySchedule().getDaysOfWeek());
+                System.out.println("Day of week" + Arrays.toString(weekdays));
+                
                 ScheduleSequence scheduleSequence = new WeekScheduleSequenceDecorator(new TrimDatesScheduleSequenceDecorator(new DefaultScheduleSequence()),scheduleData.getWeeklySchedule().getWeek(),weekdays.length);
                 dates = scheduleService.getScheduledDates(dt, dtEnd, time, weekdays, scheduleSequence);
                 break;

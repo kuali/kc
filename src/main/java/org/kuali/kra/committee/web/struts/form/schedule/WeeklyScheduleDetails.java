@@ -16,6 +16,7 @@
 package org.kuali.kra.committee.web.struts.form.schedule;
 
 
+
 /**
  * This class holds weekly recurrence UI data.
  */
@@ -28,8 +29,9 @@ public class WeeklyScheduleDetails extends ScheduleDetails {
     public WeeklyScheduleDetails() {
         super();
         this.setWeek(1);
-        this.setDaysOfWeek(new String[7]);
-        this.getDaysOfWeek()[0] = DayOfWeek.Monday.name();
+        this.daysOfWeek = new String[2];
+        this.daysOfWeek[0] = DayOfWeek.Monday.name();
+        this.daysOfWeek[1] = "Hidden";
     }
 
     public void setWeek(Integer week) {
@@ -41,11 +43,23 @@ public class WeeklyScheduleDetails extends ScheduleDetails {
     }
 
     public void setDaysOfWeek(String[] daysOfWeek) {
-        this.daysOfWeek = daysOfWeek;
+        this.daysOfWeek = (null != daysOfWeek? convertToWeekDays(daysOfWeek) : null);
     }
 
     public String[] getDaysOfWeek() {
         return daysOfWeek;
     }
-
+    
+    private String[] convertToWeekDays(String[] daysOfWeek) {     
+        if(daysOfWeek.length == 1 && daysOfWeek[0].equalsIgnoreCase("Hidden"))
+            return null;
+        String [] tmp = new String[daysOfWeek.length - 1];
+        int i = 0;
+        for(String dayOfWeek : daysOfWeek) {
+            if(dayOfWeek.equalsIgnoreCase("Hidden"))
+                continue;
+            tmp[i++] = dayOfWeek;
+        }
+        return tmp;
+    }
 }
