@@ -18,7 +18,8 @@ package org.kuali.kra;
 import java.util.List;
 
 /**
- * This interface specifies behavior for attachments
+ * This interface specifies behavior for sequence associates that should not be 
+ * deep copied when the SequenceOwner is versioned; i.e. attachment BOs
  */
 public interface SeparatelySequenceableAssociate extends Sequenceable {
     /**
