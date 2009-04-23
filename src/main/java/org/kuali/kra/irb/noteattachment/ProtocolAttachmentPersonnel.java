@@ -27,7 +27,6 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase {
     private static final long serialVersionUID = -7115904344245464654L;
     private static final String GROUP_CODE = "2";
     
-    private Integer personId;
     private ProtocolPerson person;
     
     /**
@@ -48,22 +47,6 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase {
      */
     public ProtocolAttachmentPersonnel(final Long protocolId) {
         super(protocolId);
-    }
-    
-    /**
-     * Gets the Protocol Attachment Personnel Person Id.
-     * @return the Protocol Attachment Personnel Person Id
-     */
-    public Integer getPersonId() {
-        return this.personId;
-    }
-
-    /**
-     * Sets the Protocol Attachment Personnel Person Id.
-     * @param personId the Protocol Attachment Personnel Person Id
-     */
-    public void setPersonId(Integer personId) {
-        this.personId = personId;
     }
 
     /**
@@ -92,7 +75,7 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase {
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = super.toStringMapper();
-        hashMap.put(PropertyName.PERSON_ID.getPropertyName(), this.getPersonId());
+        hashMap.put(PropertyName.PERSON.getPropertyName(), this.getPerson());
         return hashMap;
     }
     
@@ -100,7 +83,7 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase {
      * Contains all the property names in this class.
      */
     public static enum PropertyName {
-        PERSON_ID("personId");
+        PERSON("person");
         
         private final String name;
         

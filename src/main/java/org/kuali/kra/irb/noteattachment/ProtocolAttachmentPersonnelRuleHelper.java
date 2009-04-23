@@ -84,9 +84,9 @@ class ProtocolAttachmentPersonnelRuleHelper {
         
         for (ProtocolAttachmentPersonnel attachment : protocol.getAttachmentPersonnels()) {
             if (!attachment.getId().equals(attachmentPersonnel.getId())
-                && attachment.getTypeCode().equals(attachmentPersonnel.getTypeCode())
-                && attachment.getPersonId().equals(attachmentPersonnel.getPersonId())) {
-                this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentBase.PropertyName.TYPE_CODE,
+                && attachment.getType().equals(attachmentPersonnel.getType())
+                && attachment.getPerson().getProtocolPersonId().equals(attachmentPersonnel.getPerson().getProtocolPersonId())) {
+                this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentBase.PropertyName.TYPE,
                     KeyConstants.ERROR_PROTOCOL_ATTACHMENT_DUPLICATE_TYPE);
                 return false;
             }
@@ -104,14 +104,14 @@ class ProtocolAttachmentPersonnelRuleHelper {
     boolean availablePerson(final ProtocolAttachmentPersonnel attachmentPersonnel, final Protocol protocol) {
         boolean personAvilable = false;
         for (ProtocolPerson person : protocol.getProtocolPersons()) {
-            if (attachmentPersonnel.getPersonId().equals(person.getProtocolPersonId())) {
+            if (attachmentPersonnel.getPerson().getProtocolPersonId().equals(person.getProtocolPersonId())) {
                 personAvilable = true;
             }
         }
         
         if (!personAvilable) {
-            final ProtocolPerson person = this.attachmentService.getPerson(attachmentPersonnel.getPersonId());
-            this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentPersonnel.PropertyName.PERSON_ID,
+            final ProtocolPerson person = this.attachmentService.getPerson(attachmentPersonnel.getPerson().getProtocolPersonId());
+            this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentPersonnel.PropertyName.PERSON + ".protocolPersonId",
                 KeyConstants.ERROR_PROTOCOL_ATTACHMENT_INVALID_PERSON, (person != null) ? person.getPersonName() : "");
             return false;
         }

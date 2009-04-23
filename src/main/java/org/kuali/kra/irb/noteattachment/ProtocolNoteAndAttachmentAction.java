@@ -40,6 +40,20 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
     /** signifies that a response has already be handled therefore forwarding to obtain a response is not needed. */
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
     
+    /** 
+     * Refreshes the document.
+     * {@inheritDoc}
+     */
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        final ActionForward forward = super.execute(mapping, form, request, response);
+        //FIXME: may want to only refresh the items that can change...
+        ((ProtocolForm) form).getProtocolDocument().refresh();
+        
+        return forward;
+    }
+    
     /**
      * Method called when adding an attachment protocol.
      * 

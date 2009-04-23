@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.AuditError;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -94,8 +93,8 @@ class ProtocolAttachmentProtocolRuleHelper {
         
         for (ProtocolAttachmentProtocol attachment : protocol.getAttachmentProtocols()) {
             if (!attachment.getId().equals(attachmentProtocol.getId())
-                && attachment.getTypeCode().equals(attachmentProtocol.getTypeCode())) {
-                this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentBase.PropertyName.TYPE_CODE,
+                && attachment.getType().equals(attachmentProtocol.getType())) {
+                this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentBase.PropertyName.TYPE,
                     KeyConstants.ERROR_PROTOCOL_ATTACHMENT_DUPLICATE_TYPE);
                 return false;
             }
@@ -108,7 +107,7 @@ class ProtocolAttachmentProtocolRuleHelper {
      * Checks for a valid status. Creates a hard error.
      * 
      * <p>
-     * This method does not validate the existence of a status code.  This is
+     * This method does not validate the existence of a status.  This is
      * because status is not a required field.
      * </p>
      * 
@@ -117,13 +116,13 @@ class ProtocolAttachmentProtocolRuleHelper {
      */
     boolean validStatus(final ProtocolAttachmentProtocol attachmentProtocol) {
         
-        if (StringUtils.isBlank(attachmentProtocol.getStatusCode())) {
+        if (attachmentProtocol.getStatus() == null || attachmentProtocol.getStatus().getCode() == null) {
             return true;
         }
               
-        final ProtocolAttachmentStatus status = this.attachmentService.getStatusFromCode(attachmentProtocol.getStatusCode());
+        final ProtocolAttachmentStatus status = this.attachmentService.getStatusFromCode(attachmentProtocol.getStatus().getCode());
         if (status == null) {
-            this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentProtocol.PropertyName.STATUS_CODE,
+            this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentProtocol.PropertyName.STATUS + ".code",
                 KeyConstants.ERROR_PROTOCOL_ATTACHMENT_INVALID_STATUS);
             return false;
         }
@@ -136,8 +135,8 @@ class ProtocolAttachmentProtocolRuleHelper {
      * @return true is valid.
      */
     boolean validStatusForSubmission(final ProtocolAttachmentProtocol attachmentProtocol) {
-        if (!COMPLETE_STATUS_CODE.equals(attachmentProtocol.getStatusCode())) {
-            final AuditError error = new AuditError(this.propertyPrefix + "." + ProtocolAttachmentProtocol.PropertyName.STATUS_CODE.getPropertyName(),
+        if (attachmentProtocol.getStatus() != null && !COMPLETE_STATUS_CODE.equals(attachmentProtocol.getStatus().getCode())) {
+            final AuditError error = new AuditError(this.propertyPrefix + "." + ProtocolAttachmentProtocol.PropertyName.STATUS.getPropertyName() + ".code",
                 KeyConstants.AUDIT_ERROR_PROTOCOL_ATTACHMENT_STATUS_COMPLETE, NOTE_AND_ATTACHMENT_LINK);
             this.errorReporter.reportAuditError(error, NOTES_AND_ATTACHMENT_AUDIT_ERRORS_KEY, NOTES_ATTACHMENTS_CLUSTER_LABEL, Constants.AUDIT_ERRORS);
             return false;
