@@ -69,6 +69,11 @@ public class VersioningServiceImpl implements VersioningService {
         return newAssociates;
     }
 
+    /* 
+     * This method logs the versioning operation
+     * @param oldVersion
+     * @param newVersion
+     */
     private void logVersionOperation(Sequenceable oldVersion, Sequenceable newVersion) {
         if (LOGGER.isInfoEnabled()) {
             String className = oldVersion.getClass().getName();
@@ -83,6 +88,12 @@ public class VersioningServiceImpl implements VersioningService {
         }
     }
     
+    /* 
+     * This method logs the versioning operation
+     * @param oldVersion
+     * @param newVersion
+     * @param oldAssociate
+     */
     private void logVersionOperation(Sequenceable oldVersion, Sequenceable newVersion, SeparatelySequenceableAssociate oldAssociate) {
         if (LOGGER.isInfoEnabled()) {
             String className = oldVersion.getClass().getName();
@@ -99,6 +110,12 @@ public class VersioningServiceImpl implements VersioningService {
         }
     }
     
+    /**
+     * This method logs the versioning operation
+     * @param oldVersion
+     * @param newVersion
+     * @param associates
+     */
     private void logVersionOperation(Sequenceable oldVersion, Sequenceable newVersion, 
                                         List<? extends SeparatelySequenceableAssociate> associates) {
         if (LOGGER.isInfoEnabled()) {
