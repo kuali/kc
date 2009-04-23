@@ -17,21 +17,21 @@
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="awardContactAttributes" value="${DataDictionary.AwardContact.attributes}" />
+<c:set var="awardSponsorContactAttributes" value="${DataDictionary.AwardSponsorContact.attributes}" />
 
 <%-- kra:section permission="modifyAward" --%>
 <kul:tab defaultOpen="false" tabItemCount="${KualiForm.sponsorContactsBean.sponsorContactsCount}" 
-				tabTitle="Sponsor Contacts" tabErrorKey="newAwardContact*,document.awardList[0].awardContactsCount*" >
+				tabTitle="Sponsor Contacts" tabErrorKey="newAwardContact*,document.awardList[0].sponsorContacts*" >
 	<div class="tab-container" align="center">
 		<h3>
 			<span class="subhead-left">Sponsor Contacts</span>
-			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.award.bo.AwardContact" altText="help"/></span>
+			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.award.bo.AwardSponsorContact" altText="help"/></span>
 		</h3>
-	    <table id="contacts-table" cellpadding="0" cellspacing="0" summary="Unit Contacts">
+	    <table id="sponsor-contacts-table" cellpadding="0" cellspacing="0" summary="Sponsor Contacts">
 			<tr>
 				<th scope="row" width="5%">&nbsp;</th>
 				<th width="15%">Person</th>
-				<th width="15%">Organization</th>
+				<th width="15%">Unit</th>
 				<th width="20%">Project Role</th>
 				<th width="15%">Office Phone</th>
 				<th width="15%">Email</th>
@@ -43,18 +43,18 @@
 				<td nowrap class="grid" class="infoline">
 					<c:choose>                  
 						<c:when test="${empty KualiForm.sponsorContactsBean.newAwardContact.contact.identifier}">
-							<div>
-								<input type="text" size="20" value="" readonly="true"/>
-	          					<label>
-	          						<kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" fieldConversions="rolodexId:sponsorContactsBean.rolodexId" 
+							<div align="center">
+	        					<input type="text" size="20" value="" readonly="true"/>
+	              				<label>
+		  	 						<kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" fieldConversions="rolodexId:sponsorContactsBean.rolodexId" 
 	          									anchor="${tabKey}" lookupParameters="sponsorContactsBean.rolodexId:rolodexId"/>
-	          					</label>
-	          				</div>                 	
+		  	 					</label>
+		  	 				</div>
 						</c:when>
 						<c:otherwise>
 							<div align="center">
 	              				<label><kul:htmlControlAttribute property="sponsorContactsBean.newAwardContact.fullName" 
-	              							attributeEntry="${awardPersonAttributes.fullName}" readOnly="true"/></label>
+	              							attributeEntry="${awardSponsorContactAttributes.fullName}" readOnly="true"/></label>
 																				            			
 							</div>
 						</c:otherwise>
@@ -64,26 +64,18 @@
 	        		<div align="center">
 	        			<c:out value="${KualiForm.sponsorContactsBean.newAwardContact.contactOrganizationName}" />&nbsp;
 	        		</div>
-	        	</td>
-	        			
+				</td>
 	        	<td class="infoline" style="font-size: 80%">
 	        		<div align="center">
-		        		<html:select property="sponsorContactsBean.contactRoleCode" styleClass="fixed-size-300-select">
-		        			<c:forEach var="role" items="${KualiForm.sponsorContactsBean.contactRoles}">
-		        				<option value="${role.roleCode}"><c:out value="${role.roleDescription}" /></option>
-		        			</c:forEach>                		
-						</html:select>
+		        		<kul:htmlControlAttribute property="sponsorContactsBean.contactRoleCode" 
+	                									attributeEntry="${awardSponsorContactAttributes.contactRoleCode}" />
 					</div>
 	        	</td>
 	        	<td class="infoline">
-	        		<div align="center">
-	        			<c:out value="${KualiForm.sponsorContactsBean.newAwardContact.contact.phoneNumber}" />&nbsp;
-	        		</div>
+	        		<c:out value="${KualiForm.sponsorContactsBean.newAwardContact.contact.phoneNumber}" />&nbsp;
 	        	</td>
 	        	<td class="infoline">
-	        		<div align="center">
-	        			<c:out value="${KualiForm.sponsorContactsBean.newAwardContact.contact.emailAddress}" />&nbsp;
-	        		</div>
+	        		<c:out value="${KualiForm.sponsorContactsBean.newAwardContact.contact.emailAddress}" />&nbsp;
 	        	</td>
 	        	<td class="infoline">
 	        		<c:choose>
@@ -105,28 +97,22 @@
 					</th>
 	                <td valign="middle">
 	                	<div align="center">
+	                		<input type="hidden" name="sponsor_contact.identifier_${awardContactRowStatus.index}" value="${awardContact.contact.identifier}" />
 	                		${awardContact.fullName}&nbsp;
-	                		<kul:directInquiry boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" inquiryParameters="'${awardContact.contact.identifier}':rolodexId" anchor="${tabKey}" />
+	                		<kul:directInquiry boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" inquiryParameters="sponsor_contact.identifier_${awardContactRowStatus.index}:rolodexId" anchor="${tabKey}" />		                	
 						</div>
 					</td>
 	                <td valign="middle">
 	                	<div align="center">
-							${awardContact.contactOrganizationName}&nbsp;							
+							${awardContact.contactOrganizationName}&nbsp;
+							<kul:directInquiry boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" inquiryParameters="sponsor_contact.identifier_${awardContactRowStatus.index}:rolodexId" anchor="${tabKey}" />
 						</div>
 					</td>
 	                <td valign="middle">
 	                	<div align="center">
-	                	<html:select name="awardContact" property="contactRoleCode" styleClass="fixed-size-300-select">
-	                		<c:forEach var="role" items="${KualiForm.sponsorContactsBean.contactRoles}">
-		        				<c:if test="${awardContact.contactRoleCode != role.roleCode}">
-		        					<option value="${role.roleCode}"><c:out value="${role.roleDescription}" /></option>
-		        				</c:if>
-		        				<c:if test="${awardContact.contactRoleCode == role.roleCode}">
-		        					<option value="${role.roleCode}" selected="true"><c:out value="${role.roleDescription}" /></option>
-		        				</c:if>
-		        			</c:forEach>                		
-						</html:select>
-					</div>
+	                		<kul:htmlControlAttribute property="sponsorContactsBean.sponsorContacts[${awardContactRowStatus.index}].contactRoleCode" 
+	                									attributeEntry="${awardSponsorContactAttributes.contactRoleCode}" />
+	                	</div>
 					</td>
 					<td valign="middle">
 						<div align="center">
@@ -139,10 +125,10 @@
 						</div> 
 					</td>
 	                
-					<td class="infoline">
+					<td>
 						<div align="center">
 							<html:image property="methodToCall.deleteSponsorContact.line${awardContactRowStatus.index}.anchor${currentTabIndex}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton" />
 						</div>
 	                </td>
 	            </tr>
