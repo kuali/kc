@@ -38,9 +38,6 @@ public class ProtocolResearchArea extends ProtocolAssociate {
     @Column(name="ID")
     private Long id; 
 
-    @Column(name="PROTOCOL_ID")
-	private Long protocolId; 
-    
     @Column(name="RESEARCH_AREA_CODE")
 	private String researchAreaCode; 
 	
@@ -64,14 +61,6 @@ public class ProtocolResearchArea extends ProtocolAssociate {
         this.id = id;
     }
 	
-	public Long getProtocolId() {
-		return protocolId;
-	}
-
-	public void setProtocolId(Long protocolId) {
-		this.protocolId = protocolId;
-	}
-
 	public String getResearchAreaCode() {
 		return researchAreaCode;
 	}
@@ -100,13 +89,11 @@ public class ProtocolResearchArea extends ProtocolAssociate {
     @Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = super.toStringMapper();		
-		hashMap.put("protocolId", getProtocolId());
 		hashMap.put("researchAreaCode", getResearchAreaCode());
 		return hashMap;
 	}
 
     public void init(Protocol protocol) {
-        setProtocolId(protocol.getProtocolId());
         setProtocolNumber(protocol.getProtocolNumber());
         setProtocol(protocol);
     }

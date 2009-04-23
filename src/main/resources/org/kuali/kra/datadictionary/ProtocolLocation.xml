@@ -32,7 +32,6 @@
 		<property name="attributes" >
 			<list>
 				<ref bean="ProtocolLocation-protocolLocationId" />
-				<ref bean="ProtocolLocation-protocolId" />
 				<ref bean="ProtocolLocation-protocolNumber" />
 				<ref bean="ProtocolLocation-sequenceNumber" />
 				<ref bean="ProtocolLocation-protocolOrganizationTypeCode" />
@@ -61,24 +60,6 @@
 		</property>
 		<property name="summary" value="Protocol Location Id" />
 		<property name="description" value="Protocol Location Id" />
-	</bean>
-
-	<bean id="ProtocolLocation-protocolId" parent="ProtocolLocation-protocolId-parentBean" />
-	<bean id="ProtocolLocation-protocolId-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="protocolId" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Protocol Id" />
-		<property name="shortLabel" value="Protocol Id" />
-		<property name="maxLength" value="22" />
-		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
-		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
-		</property>
-		<property name="summary" value="Protocol Id" />
-		<property name="description" value="Protocol Id" />
 	</bean>
 
 	<bean id="ProtocolLocation-protocolNumber" parent="ProtocolLocation-protocolNumber-parentBean" />
@@ -196,8 +177,6 @@
 								p:attributeName="protocolLocationId" 
 								p:forceInquiry="true" />
 							<bean parent="FieldDefinition"
-								p:attributeName="protocolId" />
-							<bean parent="FieldDefinition"
 								p:attributeName="protocolNumber" />
 							<bean parent="FieldDefinition"
 								p:attributeName="sequenceNumber" />
@@ -230,8 +209,6 @@
 					p:attributeName="protocolLocationId" 
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
-					p:attributeName="protocolId" />
-				<bean parent="FieldDefinition"
 					p:attributeName="protocolNumber" />
 				<bean parent="FieldDefinition"
 					p:attributeName="sequenceNumber" />
@@ -248,8 +225,6 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="protocolLocationId" 
 					p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
-					p:attributeName="protocolId" />
 				<bean parent="FieldDefinition"
 					p:attributeName="protocolNumber" />
 				<bean parent="FieldDefinition"
