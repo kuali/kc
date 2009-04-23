@@ -79,11 +79,8 @@
 	        	</td>
 	        	<td class="infoline" style="font-size: 80%">
 	        		<div align="center">
-		        		<html:select property="projectPersonnelBean.contactRoleCode" styleClass="fixed-size-300-select">
-		        			<c:forEach var="role" items="${KualiForm.projectPersonnelBean.contactRoles}">
-		        				<option value="${role.roleCode}"><c:out value="${role.roleDescription}" /></option>
-		        			</c:forEach>                		
-						</html:select>
+		        		<kul:htmlControlAttribute property="projectPersonnelBean.contactRoleCode" 
+	                									attributeEntry="${awardPersonAttributes.contactRoleCode}" />
 					</div>
 	        	</td>
 	        	<td class="infoline">
@@ -115,22 +112,31 @@
 						<c:out value="${awardContactRowStatus.index + 1}" />
 					</th>
 	                <td valign="middle">
+	                	<input type="hidden" name="award_person.identifier_${awardContactRowStatus.index}" value="${awardContact.contact.identifier}" />
 	                	<div align="center">
 	                		${awardContact.fullName}&nbsp;
 	                		<c:choose>
 		                		<c:when test="${awardContact.employee}">
-		                			<kul:directInquiry boClassName="org.kuali.kra.bo.Person" inquiryParameters="'${awardContact.contact.identifier}':personId" anchor="${tabKey}" />
+		                			<kul:directInquiry boClassName="org.kuali.kra.bo.Person" inquiryParameters="award_person.identifier_${awardContactRowStatus.index}:personId" anchor="${tabKey}" />
 		                		</c:when>
 		                		<c:otherwise>
-		                			<kul:directInquiry boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" inquiryParameters="'${awardContact.contact.identifier}':rolodexId" anchor="${tabKey}" />
+		                			<kul:directInquiry boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" inquiryParameters="award_person.identifier_${awardContactRowStatus.index}:rolodexId" anchor="${tabKey}" />
 		                		</c:otherwise>
 		                	</c:choose>
 						</div>
 					</td>
 	                <td valign="middle">
 	                	<div align="center">
-		                	<c:out value="${awardContact.contactOrganizationName}" />&nbsp;
-		                	<kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="'${awardContact.contact.unit.unitNumber}':unitNumber" anchor="${tabKey}" />
+	                		<input type="hidden" name="award_person.orgNumber_${awardContactRowStatus.index}" value="${awardContact.organizationIdentifier}" />
+	                		<c:out value="${awardContact.contactOrganizationName}" />&nbsp;
+	                		<c:choose>
+		                		<c:when test="${awardContact.employee}">
+		                			<kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="award_person.orgNumber_${awardContactRowStatus.index}:unitNumber" anchor="${tabKey}" />
+		                		</c:when>
+		                		<c:otherwise>
+		                			<kul:directInquiry boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" inquiryParameters="award_person.identifier_${awardContactRowStatus.index}:rolodexId" anchor="${tabKey}" />
+		                		</c:otherwise>
+		                	</c:choose>		                	
 						</div>
 					</td>
 	                <td valign="middle">
@@ -149,7 +155,7 @@
 						</div> 
 					</td>
 	                
-					<td class="infoline">
+					<td>
 						<div align="center">
 							<html:image property="methodToCall.deleteProjectPerson.line${awardContactRowStatus.index}.anchor${currentTabIndex}"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>

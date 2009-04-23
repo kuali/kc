@@ -4,9 +4,34 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="SponsorContact" parent="SponsorContact-parentBean" />
-  <bean id="SponsorContact-parentBean" parent="AwardContact">
-	  <property name="businessObjectClass" value="org.kuali.kra.award.contacts.SponsorContact" />
-	  <property name="titleAttribute" value="sponsorContact" />	    
+  	<bean id="AwardSponsorContact" parent="AwardSponsorContact-parentBean" />
+  	<bean id="AwardSponsorContact-parentBean" parent="AwardContact">
+		<property name="businessObjectClass" value="org.kuali.kra.award.contacts.AwardSponsorContact" />
+		<property name="titleAttribute" value="AwardSponsorContact" />
+		<property name="attributes" >
+	      <list>
+	        <ref bean="AwardSponsorContact-contactRoleCode" />
+	      </list>
+	    </property>
+	</bean>
+	
+	<bean id="AwardSponsorContact-contactRoleCode" parent="AwardSponsorContact-contactRoleCode-parentBean" />
+	<bean id="AwardSponsorContact-contactRoleCode-parentBean" abstract="true" parent="AttributeDefinition" >
+	    <property name="name" value="contactRoleCode" />
+	    <property name="forceUppercase" value="false" />
+	    <property name="label" value="Project Role" />
+	    <property name="shortLabel" value="Project Role" />
+	    <property name="maxLength" value="3" />
+	    <property name="validationPattern" >
+	      <bean parent="AlphaNumericValidationPattern" />
+	    </property>
+	    <property name="required" value="true" />
+	    <property name="control" >
+	      <bean parent="SelectControlDefinition"
+	            p:valuesFinderClass="org.kuali.kra.award.contacts.AwardSponsorContactProjectRolesValuesFinder"
+	            p:includeKeyInLabel="false" />
+	    </property>
+	    <property name="summary" value="Project Role" />
+	    <property name="description" value="Project Role" />
 	</bean>
 </beans>

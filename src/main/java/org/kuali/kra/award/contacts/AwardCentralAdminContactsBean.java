@@ -15,10 +15,8 @@
  */
 package org.kuali.kra.award.contacts;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kra.award.bo.ContactRole;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.bo.UnitContactType;
 
@@ -31,12 +29,11 @@ public class AwardCentralAdminContactsBean extends AwardUnitContactsBean {
     }
 
     public void addCentralAdminContact() {
-//        AddAwardApprovedEquipmentRuleEvent event = generateAddEvent();
-//        boolean success = getRuleService().applyRules(event);
-//        if(success){
-            getAward().add(getCentralAdminContact());
+        boolean success = new AwardUnitContactAddRuleImpl().processAddAwardUnitContactBusinessRules(getAward(), getCentralAdminContact());
+        if(success){
+            getAward().add(getUnitContact());
             init();
-//        }
+        }
     }
 
     /**
@@ -47,34 +44,15 @@ public class AwardCentralAdminContactsBean extends AwardUnitContactsBean {
     }
     
     /**
-     * This method clears the new contact entry
-     */
-    public void clearNewCentralAdminContact() {
-        init();
-    }
-    
-    /**
      * Remove a Central Admin unit contact
      * @param lineToDelete
      */
-    public void deleteCentralAdminContact(int lineToDelete) {
+    public void deleteContact(int lineToDelete) {
         super.deleteUnitContact(getCentralAdminContacts(), lineToDelete);
     }
 
-    @Override
-    public List<ContactRole> getContactRoles() {
-        if(contactRoles == null) {
-            contactRoles = new ArrayList<ContactRole>();
-            contactRoles.add(ContactRoleFixtureFactory.MOCK_AUDITOR);
-            contactRoles.add(ContactRoleFixtureFactory.MOCK_FUND_ACCOUNTANT);
-            contactRoles.add(ContactRoleFixtureFactory.MOCK_SENIOR_ACCOUNTANT);            
-        }
-        return contactRoles;
-//        return getContactRoles(ContactCategory.UNIT_CONTACTS);
-    }
-
     /**
-     * This method finds the count of AwardContacts in the "Unit Contacts" category
+     * This method finds the count of AwardContacts in the "Central Administrator" category
      * @return The list; may be empty
      */
     public List<AwardUnitContact> getCentralAdminContacts() {

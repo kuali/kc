@@ -17,17 +17,18 @@
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="awardContactAttributes" value="${DataDictionary.AwardContact.attributes}" />
-
+<c:set var="awardCentralAdminAttributes" value="${DataDictionary.AwardCentralAdminContact.attributes}" />
+<c:set var="award" value="${KualiForm.document.award}" />
+ 
 <%-- kra:section permission="modifyAward" --%>
 <kul:tab defaultOpen="false" tabItemCount="${KualiForm.centralAdminContactsBean.centralAdminContactsCount}" 
-				tabTitle="Central Administration Contacts" tabErrorKey="newAwardContact*,document.awardList[0].awardContactsCount*" >
+				tabTitle="Central Administration Contacts" tabErrorKey="centralAdminContactsBean.newAwardContact,document.awardList[0].awardCentralAdminContacts*" >
 	<div class="tab-container" align="center">
 		<h3>
 			<span class="subhead-left">Central Administration Contacts</span>
-			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.award.bo.AwardContact" altText="help"/></span>
+			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.award.bo.AwardUnitContact" altText="help"/></span>
 		</h3>
-	    <table id="contacts-table" cellpadding="0" cellspacing="0" summary="Unit Contacts">
+	    <table id="central-admin-table" cellpadding="0" cellspacing="0" summary="Central Admin Contacts">
 			<tr>
 				<th scope="row" width="5%">&nbsp;</th>
 				<th width="15%">Person</th>
@@ -43,7 +44,7 @@
 				<td nowrap class="grid" class="infoline">
 					<c:choose>                  
 						<c:when test="${empty KualiForm.centralAdminContactsBean.newAwardContact.contact.identifier}">
-							<div>
+							<div align="center">
 	        					<input type="text" size="20" value="" readonly="true"/>
 	              				<label>
 	              					<kul:lookup boClassName="org.kuali.kra.bo.Person" fieldConversions="personId:centralAdminContactsBean.personId" anchor="${tabKey}" 
@@ -54,7 +55,7 @@
 						<c:otherwise>
 							<div align="center">
 	              				<label><kul:htmlControlAttribute property="centralAdminContactsBean.newAwardContact.fullName" 
-	              							attributeEntry="${awardPersonAttributes.fullName}" readOnly="true"/></label>
+	              							attributeEntry="${awardCentralAdminAttributes.fullName}" readOnly="true"/></label>
 																				            			
 							</div>
 						</c:otherwise>
@@ -67,11 +68,8 @@
 				</td>
 	        	<td class="infoline" style="font-size: 80%">
 	        		<div align="center">
-		        		<html:select property="centralAdminContactsBean.contactRoleCode" styleClass="fixed-size-300-select">
-		        			<c:forEach var="role" items="${KualiForm.centralAdminContactsBean.contactRoles}">
-		        				<option value="${role.roleCode}"><c:out value="${role.roleDescription}" /></option>
-		        			</c:forEach>                		
-						</html:select>
+		        		<kul:htmlControlAttribute property="centralAdminContactsBean.contactRoleCode" 
+	                									attributeEntry="${awardCentralAdminAttributes.contactRoleCode}" />
 					</div>
 	        	</td>
 	        	<td class="infoline">
@@ -100,35 +98,23 @@
 					</th>
 	                <td valign="middle">
 	                	<div align="center">
+	                		<input type="hidden" name="admin_contact.identifier_${awardContactRowStatus.index}" value="${awardContact.contact.identifier}" />
 	                		${awardContact.fullName}&nbsp;
-	                		<c:choose>
-		                		<c:when test="${awardContact.employee}">
-		                			<kul:directInquiry boClassName="org.kuali.kra.bo.Person" inquiryParameters="'${awardContact.contact.identifier}':personId" anchor="${tabKey}" />
-		                		</c:when>
-		                		<c:otherwise>
-		                			<kul:directInquiry boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" inquiryParameters="'${awardContact.contact.identifier}':rolodexId" anchor="${tabKey}" />
-		                		</c:otherwise>
-		                	</c:choose>
+	                		<kul:directInquiry boClassName="org.kuali.kra.bo.Person" inquiryParameters="admin_contact.identifier_${awardContactRowStatus.index}:personId" anchor="${tabKey}" />		                	
 						</div>
 					</td>
 	                <td valign="middle">
 	                	<div align="center">
+	                		<input type="hidden" name="admin_contact.orgNumber_${awardContactRowStatus.index}" value="${awardContact.organizationIdentifier}" />
 							${awardContact.contactOrganizationName}&nbsp;
+							<kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="admin_contact.orgNumber_${awardContactRowStatus.index}:unitNumber" anchor="${tabKey}" />
 						</div>
 					</td>
 	                <td valign="middle">
 	                	<div align="center">
-	                	<html:select name="awardContact" property="contactRoleCode" styleClass="fixed-size-300-select">
-	                		<c:forEach var="role" items="${KualiForm.centralAdminContactsBean.contactRoles}">
-		        				<c:if test="${awardContact.contactRoleCode != role.roleCode}">
-		        					<option value="${role.roleCode}"><c:out value="${role.roleDescription}" /></option>
-		        				</c:if>
-		        				<c:if test="${awardContact.contactRoleCode == role.roleCode}">
-		        					<option value="${role.roleCode}" selected="true"><c:out value="${role.roleDescription}" /></option>
-		        				</c:if>
-		        			</c:forEach>                		
-						</html:select>
-					</div>
+	                		<kul:htmlControlAttribute property="centralAdminContactsBean.centralAdminContacts[${awardContactRowStatus.index}].contactRoleCode" 
+	                									attributeEntry="${awardCentralAdminAttributes.contactRoleCode}" />
+	                	</div>
 					</td>
 					<td valign="middle">
 						<div align="center">
@@ -141,10 +127,10 @@
 						</div> 
 					</td>
 	                
-					<td class="infoline">
+					<td>
 						<div align="center">
 							<html:image property="methodToCall.deleteCentralAdminContact.line${awardContactRowStatus.index}.anchor${currentTabIndex}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton" />
 						</div>
 	                </td>
 	            </tr>

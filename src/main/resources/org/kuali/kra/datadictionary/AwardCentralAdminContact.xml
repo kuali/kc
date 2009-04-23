@@ -4,19 +4,19 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="AwardUnitContact" parent="AwardUnitContact-parentBean" />
-  	<bean id="AwardUnitContact-parentBean" parent="AwardContact">
-		<property name="businessObjectClass" value="org.kuali.kra.award.contacts.AwardUnitContact" />
-		<property name="titleAttribute" value="unitContact" />
+	<bean id="AwardCentralAdminContact" parent="AwardCentralAdminContact-parentBean" />
+  	<bean id="AwardCentralAdminContact-parentBean" parent="AwardContact">
+		<property name="businessObjectClass" value="org.kuali.kra.award.contacts.AwardCentralAdminContact" />
+		<property name="titleAttribute" value="centralAdminContact" />
 		<property name="attributes" >
 	      <list>
-	        <ref bean="AwardUnitContact-contactRoleCode" />
+	        <ref bean="AwardCentralAdminContact-contactRoleCode" />
 	      </list>
 	    </property>
 	</bean>
 	
-	<bean id="AwardUnitContact-contactRoleCode" parent="AwardUnitContact-contactRoleCode-parentBean" />
-	<bean id="AwardUnitContact-contactRoleCode-parentBean" abstract="true" parent="AttributeDefinition" >
+	<bean id="AwardCentralAdminContact-contactRoleCode" parent="AwardCentralAdminContact-contactRoleCode-parentBean" />
+	<bean id="AwardCentralAdminContact-contactRoleCode-parentBean" abstract="true" parent="AttributeDefinition" >
 	    <property name="name" value="contactRoleCode" />
 	    <property name="forceUppercase" value="false" />
 	    <property name="label" value="Project Role" />
@@ -28,7 +28,7 @@
 	    <property name="required" value="true" />
 	    <property name="control" >
 	      <bean parent="SelectControlDefinition"
-	            p:valuesFinderClass="org.kuali.kra.award.contacts.AwardUnitContactProjectRolesValuesFinder"
+	            p:valuesFinderClass="org.kuali.kra.award.contacts.AwardCentralAdminProjectRolesValuesFinder"
 	            p:includeKeyInLabel="false" />
 	    </property>
 	    <property name="summary" value="Project Role" />

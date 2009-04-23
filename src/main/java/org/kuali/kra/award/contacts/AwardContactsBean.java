@@ -36,14 +36,14 @@ public abstract class AwardContactsBean {
     private static final String PERSON_IDENTIFIER_FIELD = "personId";
     private static final String ROLODEX_IDENTIFIER_FIELD = "rolodexId";
     
-    protected List<ContactRole> contactRoles;
+    protected List<? extends ContactRole> contactRoles;
     protected AwardContact newAwardContact;
     protected AwardForm awardForm;
     
     protected Person person;
     protected NonOrganizationalRolodex rolodex;
     
-    private BusinessObjectService businessObjectService;
+    BusinessObjectService businessObjectService;
     private String personId;
 
     private Integer rolodexId;
@@ -53,10 +53,29 @@ public abstract class AwardContactsBean {
         init();
     }
     
-    public abstract List<ContactRole> getContactRoles();
+    /**
+     * This method clears the new contact entry
+     */
+    public void clearNewContact() {
+        init();
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List<? extends ContactRole> getContactRoles() {
+        if(contactRoles == null) {
+            contactRoles = (List<? extends ContactRole>) getBusinessObjectService().findAll(getContactRoleType());
+        }
+        return contactRoles;
+    }
+    
+    /**
+     * Subclasses specify the contact role type
+     * @return
+     */
+    protected abstract Class<? extends ContactRole> getContactRoleType();
     
     public String getContactRoleCode() {
-        return newAwardContact.getContactRole().getRoleCode();
+        return newAwardContact.getContactRole() != null ? newAwardContact.getContactRole().getRoleCode() : null;
     }
     
     public AwardContact getNewAwardContact() {
@@ -79,6 +98,9 @@ public abstract class AwardContactsBean {
         return rolodexId;
     }
 
+    /**
+     * @param contactRoleCode
+     */
     public void setContactRoleCode(String contactRoleCode) {
         ContactRole matchingRole = findMatchingContactRole(getContactRoles(), contactRoleCode);
         newAwardContact.setContactRole(matchingRole);  
@@ -114,7 +136,7 @@ public abstract class AwardContactsBean {
      * @param contactRoleCode
      * @return The matching AwardContactRole; may be null
      */
-    protected ContactRole findMatchingContactRole(Collection<ContactRole> roles, String contactRoleCode) {
+    protected ContactRole findMatchingContactRole(Collection<? extends ContactRole> roles, String contactRoleCode) {
         ContactRole matchingRole = null;
         for(ContactRole role: roles) {
             if(role.getRoleCode().equals(contactRoleCode)) {
@@ -143,6 +165,10 @@ public abstract class AwardContactsBean {
     
     protected AwardDocument getDocument() {
         return awardForm.getAwardDocument();
+    }
+
+    void setBusinessObjectService(BusinessObjectService bos) {
+        businessObjectService = bos;
     }
     
     private void setContactPerson(Person person) {
