@@ -17,6 +17,7 @@ package org.kuali.kra.committee.service.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,6 +30,7 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeService;
@@ -118,9 +120,9 @@ public class CommitteeServiceImpl implements CommitteeService {
     }
 
     /**
-     * @see org.kuali.kra.committee.service.CommitteeService#getValidCommitteeDates(java.lang.String)
+     * @see org.kuali.kra.committee.service.CommitteeService#getAvailableCommitteeDates(java.lang.String)
      */
-    public List<KeyLabelPair> getValidCommitteeDates(String committeeId) {
+    public List<KeyLabelPair> getAvailableCommitteeDates(String committeeId) {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", "select"));
         Committee committee = getCommitteeById(committeeId);
@@ -142,8 +144,23 @@ public class CommitteeServiceImpl implements CommitteeService {
      * @return
      */
     private boolean isOkayToScheduleReview(Committee committee, CommitteeSchedule schedule) {
-        Date now = new Date(System.currentTimeMillis());
-        return true;
+        Calendar now = getCalendar(new Date());
+        Calendar scheduleCalendar = getCalendar(schedule.getScheduledDate());
+        now.add(Calendar.DAY_OF_MONTH, committee.getAdvancedSubmissionDaysRequired());
+        return now.compareTo(scheduleCalendar) <= 0;
+    }
+    
+    /*
+     * Create a calendar without hour, minutes, seconds, or milliseconds.
+     */
+    private Calendar getCalendar(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar;
     }
 
     /**
@@ -158,31 +175,40 @@ public class CommitteeServiceImpl implements CommitteeService {
     }
 
     /**
-     * @see org.kuali.kra.committee.service.CommitteeService#getActiveMembers(java.lang.String, java.lang.String)
+     * @see org.kuali.kra.committee.service.CommitteeService#getAvailableMembers(java.lang.String, java.lang.String)
      */
-    public List<CommitteeMembership> getActiveMembers(String committeeId, String scheduleId) {
-        List<CommitteeMembership> activeMembers = new ArrayList<CommitteeMembership>();
+    public List<CommitteeMembership> getAvailableMembers(String committeeId, String scheduleId) {
+        List<CommitteeMembership> availableMembers = new ArrayList<CommitteeMembership>();
         Committee committee = getCommitteeById(committeeId);
         CommitteeSchedule schedule = getCommitteeSchedule(committee, scheduleId);
         List <CommitteeMembership> members = committee.getCommitteeMemberships();
         for (CommitteeMembership member : members) {
-            if (isBetween(schedule.getScheduledDate(), member.getTermStartDate(), member.getTermEndDate())) {
-                activeMembers.add(member);
+            if (isMemberAvailable(member, schedule.getScheduledDate())) {
+                availableMembers.add(member);
             }
         }
-        return activeMembers;
+        return availableMembers;
     }
     
     /**
-     * Is the scheduled date between the term start and end dates, inclusively.
-     * @param scheduledDate the schedule date
-     * @param termStartDate the term's start date
-     * @param termEndDate the term's end date
-     * @return true or false
+     * Is the member available for the given schedule meeting date?
+     * The member must have a role for that date.
+     * @param member the member
+     * @param scheduledDate the date of the meeting
+     * @return true if the member will be at the meeting; otherwise false
      */
-    private boolean isBetween(Date scheduledDate, Date termStartDate, Date termEndDate) {
-        return scheduledDate.compareTo(termStartDate) >= 0 &&
-               scheduledDate.compareTo(termEndDate) <= 0;
+    private boolean isMemberAvailable(CommitteeMembership member, Date scheduledDate) {
+        Calendar scheduleCalendar = getCalendar(scheduledDate);
+        List<CommitteeMembershipRole> roles = member.getMembershipRoles();
+        for (CommitteeMembershipRole role : roles) {
+            Calendar startCalendar = getCalendar(role.getStartDate());
+            Calendar endCalendar = getCalendar(role.getEndDate());
+            if (scheduleCalendar.compareTo(startCalendar) >= 0 &&
+                scheduleCalendar.compareTo(endCalendar) <= 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

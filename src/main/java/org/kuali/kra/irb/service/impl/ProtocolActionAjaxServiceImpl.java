@@ -51,7 +51,7 @@ public class ProtocolActionAjaxServiceImpl implements ProtocolActionAjaxService 
      */
     public String getValidCommitteeDates(String committeeId) {
         StringBuffer ajaxList = new StringBuffer();
-        List<KeyLabelPair> dates = committeeService.getValidCommitteeDates(committeeId);
+        List<KeyLabelPair> dates = committeeService.getAvailableCommitteeDates(committeeId);
         for (KeyLabelPair date : dates) {
             ajaxList.append(date.getKey() + ";" + date.getLabel() + ";");
         }
@@ -63,7 +63,7 @@ public class ProtocolActionAjaxServiceImpl implements ProtocolActionAjaxService 
      */
     public String getReviewers(String committeeId, String scheduleId) {
         StringBuffer ajaxList = new StringBuffer();
-        List<CommitteeMembership> members = committeeService.getActiveMembers(committeeId, scheduleId);
+        List<CommitteeMembership> members = committeeService.getAvailableMembers(committeeId, scheduleId);
         for (CommitteeMembership member : members) {
             ajaxList.append(member.getPersonId() + ";" + member.getPersonName() + ";");
         }

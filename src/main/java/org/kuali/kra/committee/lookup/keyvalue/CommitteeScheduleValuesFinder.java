@@ -49,7 +49,7 @@ public class CommitteeScheduleValuesFinder extends KeyValuesBase {
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List<KeyLabelPair> getKeyValues() {
-        return getCommitteeService().getValidCommitteeDates(getCommitteeId());
+        return getCommitteeService().getAvailableCommitteeDates(getCommitteeId());
     }
     
     /**
