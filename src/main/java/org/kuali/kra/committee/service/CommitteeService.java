@@ -49,7 +49,7 @@ public interface CommitteeService {
      * @param id the committee's unique id
      * @return list of key/value pairs with the dates  
      */
-    public List<KeyLabelPair> getValidCommitteeDates(String committeeId);
+    public List<KeyLabelPair> getAvailableCommitteeDates(String committeeId);
     
     /**
      * Get the active members scheduled for a future meeting (schedule) in a committee.
@@ -57,5 +57,5 @@ public interface CommitteeService {
      * @param scheduleId the schedule's id
      * @return the list of active members who will be at the meeting
      */
-    public List<CommitteeMembership> getActiveMembers(String committeeId, String scheduleId);
+    public List<CommitteeMembership> getAvailableMembers(String committeeId, String scheduleId);
 }
