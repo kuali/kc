@@ -73,7 +73,7 @@
 	
 	<bean id="ProtocolAttachmentProtocol-statusCode" parent="ProtocolAttachmentProtocol-statusCode-parentBean" />
 	<bean id="ProtocolAttachmentProtocol-statusCode-parentBean" abstract="true" parent="ProtocolAttachmentStatus-code">
-		<property name="name" value="statusCode" />
+		<property name="name" value="status.code" />
 		<property name="label" value="Status" />
         <property name="shortLabel" value="Status" />
         <property name="summary" value="Status" />
@@ -160,7 +160,7 @@
 					<property name="inquiryFields" >
 						<list merge="true">
 							<bean parent="FieldDefinition"
-								p:attributeName="statusCode" />
+								p:attributeName="status.code" />
 							<bean parent="FieldDefinition"
 								p:attributeName="contactName" />
 							<bean parent="FieldDefinition"
@@ -186,7 +186,7 @@
 		<property name="lookupFields" >
 			<list merge="true">
 				<bean parent="FieldDefinition"
-					p:attributeName="statusCode" />
+					p:attributeName="status.code" />
 				<bean parent="FieldDefinition"
 					p:attributeName="contactName" />
 				<bean parent="FieldDefinition"
@@ -200,7 +200,7 @@
 		<property name="resultFields" >
 			<list merge="true">
 				<bean parent="FieldDefinition"
-					p:attributeName="statusCode" />
+					p:attributeName="status.code" />
 				<bean parent="FieldDefinition"
 					p:attributeName="contactName" />
 				<bean parent="FieldDefinition"

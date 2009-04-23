@@ -128,7 +128,7 @@ public class ProtocolAttachmentTypeByGroupValuesFinder extends KeyValuesBase {
         }
         
         for (final ProtocolAttachmentBase attachment : this.filterTypes) {
-            if (attachment.getTypeCode().equals(typeCode)) {
+            if (attachment.getType().getCode().equals(typeCode)) {
                 return true;
             }
         }

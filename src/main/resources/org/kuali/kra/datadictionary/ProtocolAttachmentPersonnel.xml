@@ -68,16 +68,11 @@
 	<bean id="ProtocolAttachmentPersonnel-description-parentBean" abstract="true" parent="ProtocolAttachmentBase-description"/>
 	
 	<bean id="ProtocolAttachmentPersonnel-personId" parent="ProtocolAttachmentPersonnel-personId-parentBean" />
-	<bean id="ProtocolAttachmentPersonnel-personId-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="personId" />
-		<property name="forceUppercase" value="false" />
+	<bean id="ProtocolAttachmentPersonnel-personId-parentBean" abstract="true" parent="ProtocolPerson-protocolPersonId" >
+		<property name="name" value="person.protocolPersonId" />
 		<property name="label" value="Person" />
 		<property name="shortLabel" value="Person" />
-		<property name="maxLength" value="12" />
 		<property name="required" value="true" />
-		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
-		</property>
 	    <property name="control" >
 	      <bean parent="SelectControlDefinition"
 	            p:businessObjectClass="org.kuali.kra.irb.personnel.ProtocolPerson"
@@ -110,7 +105,7 @@
 					<property name="inquiryFields" >
 						<list merge="true">
 							<bean parent="FieldDefinition"
-								p:attributeName="personId" />
+								p:attributeName="person.protocolPersonId" />
 						</list>
 					</property>
 				</bean>
@@ -128,13 +123,13 @@
 		<property name="lookupFields" >
 			<list merge="true">
 				<bean parent="FieldDefinition"
-					p:attributeName="personId" />
+					p:attributeName="person.protocolPersonId" />
 			</list>
 		</property>
 		<property name="resultFields" >
 			<list merge="true">
 				<bean parent="FieldDefinition"
-					p:attributeName="personId" />
+					p:attributeName="person.protocolPersonId" />
 			</list>
 		</property>
 	</bean>

@@ -54,26 +54,16 @@ public interface ProtocolAttachmentService {
      * @throws IllegalArgumentException if the code is null
      */
     ProtocolAttachmentStatus getStatusFromCode(String code);
-    
+      
     /**
-     * Saves (persists) an {@link ProtocolAttachmentProtocol ProtocolAttachmentProtocol}.
+     * Saves (persists) an {@link ProtocolAttachmentBase ProtocolAttachmentBase}.
      * This method will modify the passed in attachment setting any missing properties. It
      * also saves all BOs that the attachment contains (ex. the File).
      * 
      * @param attachment the attachment.
      * @throws IllegalArgumentException if the attachment or attachment's new file is null
      */
-    void saveAttatchment(ProtocolAttachmentProtocol attachment);
-    
-    /**
-     * Saves (persists) an {@link ProtocolAttachmentPersonnel ProtocolAttachmentPersonnel}.
-     * This method will modify the passed in attachment setting any missing properties. It
-     * also saves all BOs that the attachment contains (ex. the File).
-     * 
-     * @param attachment the attachment.
-     * @throws IllegalArgumentException if the attachment or attachment's new file is null
-     */
-    void saveAttatchment(ProtocolAttachmentPersonnel attachment);
+    void saveAttatchment(ProtocolAttachmentBase attachment);
     
     /**
      * Gets a Person BO from personId.

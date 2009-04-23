@@ -111,7 +111,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
         
         for (final Iterator<ProtocolAttachmentPersonnel> i = toDelete.iterator(); i.hasNext();) {
             final ProtocolAttachmentPersonnel attachment = i.next();
-            if (attachment.getPersonId().equals(protocolPersonId)) {
+            if (attachment.getPerson().getProtocolPersonId().equals(protocolPersonId)) {
                 i.remove();
             }
         }

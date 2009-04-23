@@ -14,7 +14,7 @@
  limitations under the License.
 -->
 
- <!-- <!DOCTYPE descriptor-repository PUBLIC "-//Apache Software Foundation//DTD OJB Repository//EN" "../../../../repository.dtd">-->
+<!-- <!DOCTYPE descriptor-repository PUBLIC "-//Apache Software Foundation//DTD OJB Repository//EN" "../../../../repository.dtd">-->
 
 <descriptor-repository version="1.0">
 
@@ -547,12 +547,12 @@
 	<class-descriptor class="org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol" table="PROTOCOL_ATTACHMENT_PROTOCOL">
 		<field-descriptor name="id" column="PA_PROTOCOL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
 		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
-		<field-descriptor name="typeCode" column="TYPE_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="typeCode" column="TYPE_CD" jdbc-type="VARCHAR" access="anonymous" />
 		<field-descriptor name="attachmentVersionNumber" column="VERSION_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="documentId" column="DOCUMENT_ID" jdbc-type="INTEGER" />
-		<field-descriptor name="fileId" column="FILE_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="fileId" column="FILE_ID" jdbc-type="BIGINT" access="anonymous"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
-		<field-descriptor name="statusCode" column="STATUS_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="statusCode" column="STATUS_CD" jdbc-type="VARCHAR" access="anonymous" />
 		<field-descriptor name="contactName" column="CONTACT_NAME" jdbc-type="VARCHAR" />
 		<field-descriptor name="contactEmailAddress" column="EMAIL_ADDRESS" jdbc-type="VARCHAR" />
 		<field-descriptor name="contactPhoneNumber" column="PHONE_NUMBER" jdbc-type="VARCHAR" />
@@ -566,7 +566,7 @@
 			<foreignkey field-ref="protocolId"/>
 		</reference-descriptor>
 		
-		<reference-descriptor name="type" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="type" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentType" auto-retrieve="true" auto-update="link" auto-delete="link"> 
 			<foreignkey field-ref="typeCode"/>
 		</reference-descriptor>
 		
@@ -574,7 +574,7 @@
 			<foreignkey field-ref="fileId"/>
 		</reference-descriptor>
 		
-		<reference-descriptor name="status" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="status" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentStatus" auto-retrieve="true" auto-update="link" auto-delete="link"> 
 			<foreignkey field-ref="statusCode"/>
 		</reference-descriptor>
 	</class-descriptor>
@@ -582,12 +582,12 @@
 	<class-descriptor class="org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel" table="PROTOCOL_ATTACHMENT_PERSONNEL">
 		<field-descriptor name="id" column="PA_PERSONNEL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
 		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
-		<field-descriptor name="typeCode" column="TYPE_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="typeCode" column="TYPE_CD" jdbc-type="VARCHAR" access="anonymous" />
 		<field-descriptor name="attachmentVersionNumber" column="VERSION_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="documentId" column="DOCUMENT_ID" jdbc-type="INTEGER" />
-		<field-descriptor name="fileId" column="FILE_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="fileId" column="FILE_ID" jdbc-type="BIGINT" access="anonymous" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
-		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="INTEGER" />
+		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="INTEGER" access="anonymous" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
@@ -597,7 +597,7 @@
 			<foreignkey field-ref="protocolId"/>
 		</reference-descriptor>
 		
-		<reference-descriptor name="type" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="type" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentType" auto-retrieve="true" auto-update="link" auto-delete="link"> 
 			<foreignkey field-ref="typeCode"/>
 		</reference-descriptor>
 		
@@ -605,7 +605,7 @@
 			<foreignkey field-ref="fileId"/>
 		</reference-descriptor>
 		
-		<reference-descriptor name="person" class-ref="org.kuali.kra.irb.personnel.ProtocolPerson" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="person" class-ref="org.kuali.kra.irb.personnel.ProtocolPerson" auto-retrieve="true" auto-update="link" auto-delete="link"> 
 			<foreignkey field-ref="personId"/>
 		</reference-descriptor>
 	</class-descriptor>
