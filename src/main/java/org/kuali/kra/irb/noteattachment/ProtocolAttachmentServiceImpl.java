@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 
 import org.apache.commons.lang.StringUtils;
@@ -53,6 +55,27 @@ class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
     }
     
     /** {@inheritDoc} */
+    public Collection<ProtocolAttachmentType> getTypesForGroup(String code) {
+        if (code == null) {
+            throw new IllegalArgumentException("the code is null");
+        }
+        
+        @SuppressWarnings("unchecked")
+        final Collection<ProtocolAttachmentTypeGroup> typeGroups
+            = this.boService.findMatching(ProtocolAttachmentTypeGroup.class, Collections.singletonMap("groupCode", code));
+        if (typeGroups == null) {
+            return new ArrayList<ProtocolAttachmentType>();
+        }
+        
+        final Collection<ProtocolAttachmentType> types = new ArrayList<ProtocolAttachmentType>();
+        for (final ProtocolAttachmentTypeGroup typeGroup : typeGroups) {
+            types.add(typeGroup.getType());
+        }
+        
+        return types;
+    }
+    
+    /** {@inheritDoc} */
     public void saveAttatchment(ProtocolAttachmentProtocol attachment) {
         this.validateAttatchmentBase(attachment);
         
@@ -68,6 +91,15 @@ class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
         
         attachment.setPerson(this.getPerson(attachment.getPersonId()));
         this.setAndsaveAttachmentBase(attachment);
+    }
+    
+    /** {@inheritDoc} */
+    public ProtocolPerson getPerson(Integer personId) {
+        if (personId == null) {
+            throw new IllegalArgumentException("the personId is null");
+        }
+        
+        return (ProtocolPerson) this.boService.findByPrimaryKey(ProtocolPerson.class, Collections.singletonMap("protocolPersonId", personId));
     }
     
     /**
@@ -130,20 +162,5 @@ class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
         final T bo = (T) this.boService.findByPrimaryKey(type, Collections.singletonMap("code", code));
         
         return bo;
-    }
-    
-    /**
-     * Gets a Person BO from personId.
-     * 
-     * @param personId the person id
-     * @return the BO
-     * @throws IllegalArgumentException if the code or type is null.
-     */
-    private ProtocolPerson getPerson(String personId) {
-        if (personId == null) {
-            throw new IllegalArgumentException("the personId is null");
-        }
-        
-        return (ProtocolPerson) this.boService.findByPrimaryKey(ProtocolPerson.class, Collections.singletonMap("protocolPersonId", personId));
     }
 }
