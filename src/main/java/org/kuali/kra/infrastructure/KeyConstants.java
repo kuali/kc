@@ -346,7 +346,10 @@ public final class KeyConstants {
     public static final String ERROR_PROTOCOL_SUBMISSION_TYPE_INVALID = "error.protocolRequiredFields.submissionTypeCode.invalid";
     public static final String ERROR_PROTOCOL_REVIEW_TYPE_NOT_SELECTED = "error.protocolRequiredFields.reviewTypeCode.notFound";
     public static final String ERROR_PROTOCOL_REVIEW_TYPE_INVALID = "error.protocolRequiredFields.reviewTypeCode.invalid";
-    
+    public static final String ERROR_PROTOCOL_REVIEWER_NO_TYPE_BUT_REVIEWER_CHECKED = "error.protocolRequiredFields.reviewerTypeCode.notFoundButReviewerChecked";
+    public static final String ERROR_PROTOCOL_REVIEWER_NOT_CHECKED_BUT_TYPE_SELECTED = "error.protocolRequiredFields.reviewerTypeCode.selectedButReviewerUnchecked";
+    public static final String ERROR_PROTOCOL_REVIEWER_TYPE_INVALID = "error.protocolRequiredFields.reviewerTypeCode.invalid";
+
     //  Committee Messages
     public static final String ERROR_COMMITTEE_DUPLICATE_ID = "error.committee.duplicateId";
     

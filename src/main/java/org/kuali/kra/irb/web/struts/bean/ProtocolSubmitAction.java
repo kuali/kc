@@ -101,7 +101,7 @@ public class ProtocolSubmitAction {
     private void buildReviewers() {
         reviewers.clear();
         if (!StringUtils.isBlank(scheduleId)) {
-            List<CommitteeMembership> members = getCommitteeService().getActiveMembers(committeeId, scheduleId);
+            List<CommitteeMembership> members = getCommitteeService().getAvailableMembers(committeeId, scheduleId);
             for (CommitteeMembership member : members) {
                 ProtocolReviewerBean reviewer = new ProtocolReviewerBean();
                 reviewer.setPersonId(member.getPersonId());
