@@ -38,7 +38,7 @@ public interface Sequenceable extends Serializable {
      * association with older versions of associates.
      * 
      * This behavior comes into play whenever an associated object
-     * is versioned. In Many:Many relationships, unless the the original 
+     * is versioned. 
      * 
      * Typically, implementers will set primary key fields to null 
      * to trigger an INSERT during save.
