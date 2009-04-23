@@ -52,8 +52,6 @@ public class ProtocolResearchAreaServiceImpl implements ProtocolResearchAreaServ
     private ProtocolResearchArea createInstanceOfProtocolResearchAreas(Protocol protocol, ResearchArea researchAreas) {
         ProtocolResearchArea protocolResearchAreas = new ProtocolResearchArea();
         protocolResearchAreas.setProtocol(protocol);                            
-        if(null != protocol.getProtocolId())
-            protocolResearchAreas.setProtocolId(protocol.getProtocolId());
         
         if(null != protocol.getProtocolNumber())
             protocolResearchAreas.setProtocolNumber(protocol.getProtocolNumber());

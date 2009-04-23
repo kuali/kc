@@ -32,7 +32,6 @@ public class ProtocolLocation extends ProtocolAssociate {
      */
     private static final long serialVersionUID = 6509347537504066578L;
     private Integer protocolLocationId; 
-	private Long protocolId; 
 	private String protocolOrganizationTypeCode; 
 	private String organizationId; 
 	private Integer rolodexId; 
@@ -53,14 +52,6 @@ public class ProtocolLocation extends ProtocolAssociate {
 
 	public void setProtocolLocationId(Integer protocolLocationId) {
 		this.protocolLocationId = protocolLocationId;
-	}
-
-	public Long getProtocolId() {
-		return protocolId;
-	}
-
-	public void setProtocolId(Long protocolId) {
-		this.protocolId = protocolId;
 	}
 
 	public String getProtocolOrganizationTypeCode() {
@@ -110,7 +101,6 @@ public class ProtocolLocation extends ProtocolAssociate {
 	protected LinkedHashMap<String,Object> toStringMapper() {
 		LinkedHashMap<String,Object> hashMap = super.toStringMapper();
 		hashMap.put("protocolLocationId", getProtocolLocationId());
-		hashMap.put("protocolId", getProtocolId());
 		hashMap.put("protocolOrganizationTypeCode", getProtocolOrganizationTypeCode());
 		hashMap.put("organizationId", getOrganizationId());
 		hashMap.put("rolodexId", getRolodexId());
@@ -127,7 +117,6 @@ public class ProtocolLocation extends ProtocolAssociate {
 
     public void init(Protocol protocol) {
         setProtocolLocationId(null);
-        setProtocolId(protocol.getProtocolId());
         setProtocolNumber(protocol.getProtocolNumber());
     }
 
