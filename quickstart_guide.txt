@@ -19,7 +19,7 @@ Requirements:
 	* On Windows with Tomcat running as a service, the best location is usually c:\kuali\main\ptd
 	* To use a different directory, open kra-ptd.war and edit the "config.location" parameter in /WEB-INF/classes/META-INF/kra-config.xml.
 
-3. Edit parameters in (the external) kra-config.xml as desired.
+3. Edit parameters in kra-config.xml (that you just placed in step #2) as desired.
 	* You will at least need to fill in the following parameters with your database connection information: datasource.url, datasource.username, datasource.password.
 	* You will also need to change app.host to your server's host name (i.e. http://kuali.yourinstitution.edu:8080).
 	* Other commonly changed parameters are: app.code, app.context.name.
@@ -27,7 +27,7 @@ Requirements:
 4. Obtain ojdbc14.jar from an oracle client install ({OracleHome}/jdbc/lib) or the Oracle site (http://www.oracle.com) and copy it into the common jar file library.
 	* Example: For Tomcat 5.5, copy ojdbc14.jar into {tomcat install dir}/common/lib.
 
-5. Deploy binary/kra-ptd.war to your servlet container.
+5. Deploy binary/kra-ptd.war to your servlet container (see user guide for your particular servlet container).
 
 6. The KRA application should now be accessible at: {app.host}/{app.context.name} (as specified in kra-config.xml).
 
