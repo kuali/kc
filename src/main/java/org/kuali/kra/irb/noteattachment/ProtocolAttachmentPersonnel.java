@@ -27,7 +27,7 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase {
     private static final long serialVersionUID = -7115904344245464654L;
     private static final String GROUP_CODE = "2";
     
-    private String personId;
+    private Integer personId;
     private ProtocolPerson person;
     
     /**
@@ -54,7 +54,7 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase {
      * Gets the Protocol Attachment Personnel Person Id.
      * @return the Protocol Attachment Personnel Person Id
      */
-    public String getPersonId() {
+    public Integer getPersonId() {
         return this.personId;
     }
 
@@ -62,7 +62,7 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase {
      * Sets the Protocol Attachment Personnel Person Id.
      * @param personId the Protocol Attachment Personnel Person Id
      */
-    public void setPersonId(String personId) {
+    public void setPersonId(Integer personId) {
         this.personId = personId;
     }
 

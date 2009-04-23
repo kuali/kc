@@ -35,8 +35,10 @@ class AddProtocolAttachmentPersonnelRuleImpl implements AddProtocolAttachmentPer
         final ProtocolAttachmentPersonnel newAttachmentPersonnel = event.getNewAttachmentPersonnel();
         
         boolean valid = this.baseHelper.validAgainstDictionary(newAttachmentPersonnel);
+        valid &= this.baseHelper.validTypeForGroup(newAttachmentPersonnel);
         valid &= this.baseHelper.validDescription(newAttachmentPersonnel);
-        valid &= this.personnelHelper.duplicateTypePerson(newAttachmentPersonnel, document);
+        valid &= this.personnelHelper.duplicateTypePerson(newAttachmentPersonnel, document.getProtocol());
+        valid &= this.personnelHelper.availablePerson(newAttachmentPersonnel, document.getProtocol());
         
         return valid;
     }

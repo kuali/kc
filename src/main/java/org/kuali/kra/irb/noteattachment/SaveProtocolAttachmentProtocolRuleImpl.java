@@ -48,6 +48,9 @@ public class SaveProtocolAttachmentProtocolRuleImpl {
             final ProtocolAttachmentProtocol attachment = attachments.get(i);
             this.setPropertyPrefixes(NoteAndAttachmentPrefix.ATTACHMENT_PROTOCOL.getIndexedPrefix(i));
             
+            valid &= this.baseHelper.validAgainstDictionary(attachment);
+            valid &= this.protocolHelper.validStatus(attachment);
+            valid &= this.baseHelper.validTypeForGroup(attachment);
             valid &= this.baseHelper.validDescription(attachment);
         }
         return valid;

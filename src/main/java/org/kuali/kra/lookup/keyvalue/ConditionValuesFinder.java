@@ -81,7 +81,7 @@ public class ConditionValuesFinder<T extends PersistableBusinessObject> extends 
     
     /**
      * Gets a String property on the passed in Object. The property can be a nested property.
-     * If the property is not a String the property.toString() is returned.
+     * If the property is not a String then property.toString() is returned.
      * @param o the Object
      * @param name the property name
      * @return the property value.
@@ -107,7 +107,7 @@ public class ConditionValuesFinder<T extends PersistableBusinessObject> extends 
     }
     
     /**
-     * Gets the clazz.
+     * Gets the clazz to lookup the key/values on.
      * @return the clazz
      */
     public Class<T> getClazz() {
@@ -115,7 +115,7 @@ public class ConditionValuesFinder<T extends PersistableBusinessObject> extends 
     }
 
     /**
-     * Sets the clazz.
+     * Sets the clazz to lookup the key/values on.
      * @param clazz the clazz
      */
     public void setClazz(Class<T> clazz) {
@@ -123,7 +123,8 @@ public class ConditionValuesFinder<T extends PersistableBusinessObject> extends 
     }
 
     /**
-     * Gets the conditions.
+     * Gets the conditions to apply to the lookup.
+     * (ex: column1_name="foobar")
      * @return the conditions
      */
     public Map<String, Object> getConditions() {
@@ -131,7 +132,8 @@ public class ConditionValuesFinder<T extends PersistableBusinessObject> extends 
     }
 
     /**
-     * Sets the conditions.
+     * Sets the conditions to apply to the lookup.
+     * (ex: column1_name="foobar")
      * @param conditions the conditions
      */
     public void setConditions(Map<String, Object> conditions) {
@@ -139,7 +141,13 @@ public class ConditionValuesFinder<T extends PersistableBusinessObject> extends 
     }
 
     /**
-     * Gets the key.
+     * Gets the key (the property name of the key).
+     * 
+     * <p>
+     * The property can be a nested property.
+     * If the property is not a String then key.toString() is returned.
+     * </p>
+     * 
      * @return the key
      */
     public String getKey() {
@@ -149,13 +157,20 @@ public class ConditionValuesFinder<T extends PersistableBusinessObject> extends 
     /**
      * Sets the key.
      * @param key the key
+     * @see #getKey()
      */
     public void setKey(String key) {
         this.key = key;
     }
 
     /**
-     * Gets the value.
+     * Gets the value (the property name of the value).
+     * 
+     * <p>
+     * The property can be a nested property.
+     * If the property is not a String then value.toString() is returned.
+     * </p>
+     * 
      * @return the value
      */
     public String getValue() {
@@ -165,6 +180,7 @@ public class ConditionValuesFinder<T extends PersistableBusinessObject> extends 
     /**
      * Sets the value.
      * @param value the value
+     * @see #getValue()
      */
     public void setValue(String value) {
         this.value = value;

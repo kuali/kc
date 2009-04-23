@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
+import java.util.Collection;
 import java.util.LinkedHashMap;
 
 import org.apache.struts.upload.FormFile;
@@ -263,6 +264,25 @@ public abstract class ProtocolAttachmentBase extends KraPersistableBusinessObjec
         hashMap.put(PropertyName.TYPE_CODE.getPropertyName(), this.getTypeCode());
         hashMap.put(PropertyName.GROUP_CODE.getPropertyName(), this.getGroupCode());
         return hashMap;
+    }
+    
+    /**
+     * Adds an attachment to a Collection.
+     * @param <T> the type of attachment
+     * @param attachment the attachment.
+     * @param toCollection the Collection.
+     * @throws IllegalArgumentException if the attachment or the list is null.
+     */
+    public static <T extends ProtocolAttachmentBase> void addAttachmentToCollection(T attachment, Collection<T> toCollection) {
+        if (attachment == null) {
+            throw new IllegalArgumentException("the attachment is null");
+        }
+        
+        if (toCollection == null) {
+            throw new IllegalArgumentException("the toList is null");
+        }
+        
+        toCollection.add(attachment);
     }
     
     /**

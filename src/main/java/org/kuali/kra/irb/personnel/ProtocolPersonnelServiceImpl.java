@@ -16,7 +16,9 @@
 package org.kuali.kra.irb.personnel;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +27,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolUnit;
+import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 
 
 public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
@@ -84,9 +87,34 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
         for(ProtocolPerson protocolPerson : protocol.getProtocolPersons()) {
             if(protocolPerson.isDelete()) {
                 deletedPersons.add(protocolPerson);
+                this.deleteAssociatedPersonnelAttachments(protocolPerson.getProtocolPersonId(), protocol.getAttachmentPersonnels());
             }
         }
         protocol.getProtocolPersons().removeAll(deletedPersons);
+    }
+    
+    /**
+     * When deleting a Person, attachments associated with that person must also get deleted.
+     * 
+     * <p>
+     * Implementation note:  This method manually deletes personnel attachments from a Protocol
+     * because the Protocol contains the personnel attachments rather than the ProtocolPerson containing
+     * the personnel attachments.  If the ProtocolPerson contained the personnel attachments obj could be
+     * used to delete records.  The reason for the "Protocol"-"personnel attachment" relationship is
+     * to makes all "Protocol"-"note/attachment" relationships consistent.
+     * </p>
+     * 
+     * @param protocolPersonId the person id that is deleted.
+     * @param toDelete the Collection to delete from.
+     */
+    private void deleteAssociatedPersonnelAttachments(Integer protocolPersonId, Collection<ProtocolAttachmentPersonnel> toDelete) {
+        
+        for (final Iterator<ProtocolAttachmentPersonnel> i = toDelete.iterator(); i.hasNext();) {
+            final ProtocolAttachmentPersonnel attachment = i.next();
+            if (attachment.getPersonId().equals(protocolPersonId)) {
+                i.remove();
+            }
+        }
     }
     
     /**

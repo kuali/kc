@@ -107,7 +107,7 @@ public class ProtocolAttachmentTypeByGroupValuesFinder extends KeyValuesBase {
         
         final List<KeyLabelPair> filtered = new ArrayList<KeyLabelPair>();
         for (KeyLabelPair item : unfiltered) {
-            if (!containsType((String) item.getKey())) {
+            if (!this.containsType((String) item.getKey())) {
                 filtered.add(item);
             }
         }
@@ -156,7 +156,7 @@ public class ProtocolAttachmentTypeByGroupValuesFinder extends KeyValuesBase {
      * @return the types to filter
      */
     public Collection<ProtocolAttachmentBase> getFilterTypes() {
-        return new ArrayList<ProtocolAttachmentBase>(this.filterTypes);
+        return (this.filterTypes != null) ? new ArrayList<ProtocolAttachmentBase>(this.filterTypes) : null;
     }
 
     /**
@@ -164,7 +164,7 @@ public class ProtocolAttachmentTypeByGroupValuesFinder extends KeyValuesBase {
      * @param filterTypes the types to filter
      */
     public void setFilterTypes(final Collection<ProtocolAttachmentBase> filterTypes) {
-        this.filterTypes = new ArrayList<ProtocolAttachmentBase>(filterTypes);
+        this.filterTypes = (filterTypes != null) ? new ArrayList<ProtocolAttachmentBase>(filterTypes) : null;
     }
     
     /**
