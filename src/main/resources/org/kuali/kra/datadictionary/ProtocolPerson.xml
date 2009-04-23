@@ -32,7 +32,6 @@
 		<property name="attributes" >
 			<list>
 				<ref bean="ProtocolPerson-protocolPersonId" />
-				<ref bean="ProtocolPerson-protocolId" />
 				<ref bean="ProtocolPerson-protocolNumber" />
 				<ref bean="ProtocolPerson-sequenceNumber" />
 				<ref bean="ProtocolPerson-personId" />
@@ -65,24 +64,6 @@
 		</property>
 		<property name="summary" value="Protocol Person Id" />
 		<property name="description" value="Protocol Person Id" />
-	</bean>
-
-	<bean id="ProtocolPerson-protocolId" parent="ProtocolPerson-protocolId-parentBean" />
-	<bean id="ProtocolPerson-protocolId-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="protocolId" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Protocol Id" />
-		<property name="shortLabel" value="Protocol Id" />
-		<property name="maxLength" value="12" />
-		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
-		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
-		</property>
-		<property name="summary" value="Protocol Id" />
-		<property name="description" value="Protocol Id" />
 	</bean>
 
 	<bean id="ProtocolPerson-protocolNumber" parent="ProtocolPerson-protocolNumber-parentBean" />
@@ -241,8 +222,6 @@
 								p:attributeName="protocolPersonId" 
 								p:forceInquiry="true" />
 							<bean parent="FieldDefinition"
-								p:attributeName="protocolId" />
-							<bean parent="FieldDefinition"
 								p:attributeName="protocolNumber" />
 							<bean parent="FieldDefinition"
 								p:attributeName="sequenceNumber" />
@@ -279,8 +258,6 @@
 					p:attributeName="protocolPersonId" 
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
-					p:attributeName="protocolId" />
-				<bean parent="FieldDefinition"
 					p:attributeName="protocolNumber" />
 				<bean parent="FieldDefinition"
 					p:attributeName="sequenceNumber" />
@@ -301,8 +278,6 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="protocolPersonId" 
 					p:forceInquiry="true" />
-				<bean parent="FieldDefinition"
-					p:attributeName="protocolId" />
 				<bean parent="FieldDefinition"
 					p:attributeName="protocolNumber" />
 				<bean parent="FieldDefinition"

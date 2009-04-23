@@ -31,7 +31,6 @@ public class ProtocolPerson extends ProtocolAssociate {
      */
     private static final long serialVersionUID = 3226064839786525909L;
     private Integer protocolPersonId;
-    private Long protocolId;
     private String personId;
     private String personName;
     private String protocolPersonRoleId;
@@ -62,14 +61,6 @@ public class ProtocolPerson extends ProtocolAssociate {
 
     public void setProtocolPersonId(Integer protocolPersonId) {
         this.protocolPersonId = protocolPersonId;
-    }
-
-    public Long getProtocolId() {
-        return protocolId;
-    }
-
-    public void setProtocolId(Long protocolId) {
-        this.protocolId = protocolId;
     }
 
     public String getPersonId() {
@@ -133,7 +124,6 @@ public class ProtocolPerson extends ProtocolAssociate {
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = super.toStringMapper();
         hashMap.put("protocolPersonId", getProtocolPersonId());
-        hashMap.put("protocolId", getProtocolId());
         hashMap.put("personId", getPersonId());
         hashMap.put("personName", getPersonName());
         hashMap.put("protocolPersonRoleId", getProtocolPersonRoleId());
@@ -278,7 +268,7 @@ public class ProtocolPerson extends ProtocolAssociate {
 
     public void init(Protocol protocol) {
         setProtocolPersonId(null);
-        setProtocolId(protocol.getProtocolId());
+        //setProtocolId(protocol.getProtocolId());
         setProtocolNumber(protocol.getProtocolNumber());
         for (ProtocolUnit unit : protocolUnits) {
             unit.init(this);
