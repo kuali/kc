@@ -46,6 +46,9 @@
 	    <html:multibox property="committeeScheduleHelper.scheduleData.weeklySchedule.daysOfWeek" value="Saturday" styleClass="radio"></html:multibox>
 			Saturday&nbsp;&nbsp; 
 	  	
+	  	<html:hidden property="committeeScheduleHelper.scheduleData.weeklySchedule.daysOfWeek" value="Hidden" ></html:hidden>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	  	
 	  	<hr size="1" noshade>
 	    Ending on
 	    
