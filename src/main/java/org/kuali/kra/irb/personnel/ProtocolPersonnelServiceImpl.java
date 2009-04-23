@@ -65,7 +65,6 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
         //TODO - How to handle protocol number and sequence number
         protocolPerson.setProtocolNumber("0");
         protocolPerson.setSequenceNumber(0);
-        protocolPerson.setProtocolId(protocol.getProtocolId());
         //Refresh Person or Rolodex
         if(!StringUtils.isBlank(protocolPerson.getPersonId())) {
             protocolPerson.refreshReferenceObject(REFERENCE_PERSON);
