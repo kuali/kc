@@ -26,7 +26,7 @@ import org.kuali.kra.SequenceOwner;
  * to null.
  *  
  * All 1:1 and 1:M associations are copied and the new copies are assigned with the 
- * new SequenceOwner and their identifers are set to null. Many:Many associations are 
+ * new SequenceOwner and their persistence identity is reset. Many:Many associations are 
  * handled differently.
  * 
  * They are also copied as part of the deep copy process. Making them transient would 
@@ -37,17 +37,18 @@ import org.kuali.kra.SequenceOwner;
  * it should set to null to allow garbage collection of its associated references.
  * 
  * In a simple versioning not involving the update of a M:N associate, the M:N 
- * associates' identifiers are NOT set to null, but the new SequenceOwner 
+ * associates' persistence identifities are NOT cleared, but the new SequenceOwner 
  * is added to the collection of sequenceOwners in the newly copied M:N collection. When 
- * the new SequenceOwner (the bi-directional relationship owner) is saved, a new join 
- * table record will be added linking the new SequenceOwner to the existing M:N associate.
+ * the new SequenceOwner (the bi-directional relationship owner) is saved, it's expected 
+ * a new join table record will be added linking the new SequenceOwner to the existing M:N 
+ * associate.
  * 
  * In a versioning involving the update of one or more M:N associates, the M:N 
- * associates' identifiers are set to null (thus making them new versions) and the new 
+ * associates' persistence identifities are cleared, thus making them new versions, and the new 
  * SequenceOwner reference is added to the collection of sequenceOwners in the newly 
  * copied collection. When the new SequenceOwner is saved, the new M:N associate will also 
- * be saved, and a new join table record will be automatically added linking the new 
- * SequenceOwner to the new M:N associate.
+ * be saved, and it's expected a new join table record will be automatically added linking the 
+ * new SequenceOwner to the new M:N associate.
  */
 public interface VersioningService {
     /**
