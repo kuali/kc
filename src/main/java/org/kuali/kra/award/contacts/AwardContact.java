@@ -31,6 +31,10 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
  * This class defines an AwardContact
  */
 public abstract class AwardContact extends AwardAssociate {
+    private static final String ROLODEX_ID_FIELD_NAME = "rolodexId";
+
+    private static final String PERSON_ID_FIELD_NAME = "personId";
+
     private static final long serialVersionUID = 4386300861743037298L;
     
     /**
@@ -136,7 +140,7 @@ public abstract class AwardContact extends AwardAssociate {
                 refreshRolodex();
                 contact = rolodex;
             }
-        }
+        }        
         return contact; 
     }
 
@@ -144,9 +148,17 @@ public abstract class AwardContact extends AwardAssociate {
      * @return
      */
     public String getContactOrganizationName() {
-        return getContact() != null ? getContact().getContactOrganizationName() : null;
+        Contactable contact = getContact();
+        return contact != null ? contact.getContactOrganizationName() : null;
     }
 
+    /**
+     * @return
+     */
+    public String getOrganizationIdentifier() {
+        return getContact() != null ? getContact().getOrganizationIdentifier() : null;
+    }
+    
     /**
      * Gets the contactRole attribute. 
      * @return Returns the contactRole.
@@ -181,6 +193,9 @@ public abstract class AwardContact extends AwardAssociate {
      * @return Returns the person.
      */
     public Person getPerson() {
+        if(person == null && personId != null) {
+            refreshPerson();
+        }
         return person;
     }
     
@@ -351,8 +366,7 @@ public abstract class AwardContact extends AwardAssociate {
      * This method specifies the actual class implementing ContactRole
      * @return
      */
-    @SuppressWarnings("unchecked")
-    protected abstract Class getContactRoleType();
+    protected abstract Class<?extends ContactRole> getContactRoleType();
     
     /**
      * This method specifies the identifier of the actual type implementing ContactRole
@@ -400,13 +414,11 @@ public abstract class AwardContact extends AwardAssociate {
      * Refreshes the person from the personId
      */
     protected void refreshPerson() {
-        Person person;
         if(personId != null) {
-            person = (Person) getBusinessObjectService().findByPrimaryKey(Person.class, getIdentifierMap("personId", personId));
-        } else {
-            person = null;
+            if(this.person == null || !personId.equals(this.person.getPersonId())) {
+                setPerson((Person) getBusinessObjectService().findByPrimaryKey(Person.class, getIdentifierMap(PERSON_ID_FIELD_NAME, personId)));
+            }
         }
-        setPerson(person);
     }
     
     /*
@@ -415,7 +427,8 @@ public abstract class AwardContact extends AwardAssociate {
     protected void refreshRolodex() {
         NonOrganizationalRolodex rolodex;
         if(rolodexId != null) {
-            rolodex = (NonOrganizationalRolodex) getBusinessObjectService().findByPrimaryKey(Person.class, getIdentifierMap("rolodexId", rolodexId));
+            rolodex = (NonOrganizationalRolodex) getBusinessObjectService().findByPrimaryKey(NonOrganizationalRolodex.class, 
+                                                                                                getIdentifierMap(ROLODEX_ID_FIELD_NAME, rolodexId));
         } else {
             rolodex = null;
         }

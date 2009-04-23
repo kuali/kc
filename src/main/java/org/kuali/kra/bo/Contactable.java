@@ -52,6 +52,12 @@ public interface Contactable {
     String getContactOrganizationName();
     
     /**
+     * This method returns the contact's associated unit number
+     * @return
+     */
+    String getOrganizationIdentifier();
+    
+    /**
      * This method returns the contact's e-mail address. May return null.
      * @return
      */

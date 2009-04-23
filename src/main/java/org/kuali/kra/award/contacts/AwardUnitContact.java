@@ -16,9 +16,9 @@
 package org.kuali.kra.award.contacts;
 
 import org.kuali.kra.award.bo.ContactRole;
+import org.kuali.kra.award.bo.ContactType;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Person;
-import org.kuali.kra.bo.UnitAdministratorType;
 import org.kuali.kra.bo.UnitContactType;
 
 /**
@@ -27,20 +27,16 @@ import org.kuali.kra.bo.UnitContactType;
 public class AwardUnitContact extends AwardContact {
     private static final long serialVersionUID = -9168956728201616266L;
     
-    private UnitAdministratorType unitAdministratorType;
     private UnitContactType unitContactType;
-    
-    private transient String unitContactTypeName;
 
     public AwardUnitContact() {
         super();
     }
-
     public AwardUnitContact(NonOrganizationalRolodex rolodex, ContactRole role, UnitContactType unitContactType) {
         super(rolodex, role);
         this.unitContactType = unitContactType;
     }
-    
+
     public AwardUnitContact(Person person, ContactRole role, UnitContactType unitContactType) {
         super(person, role);
         this.unitContactType = unitContactType;
@@ -50,41 +46,8 @@ public class AwardUnitContact extends AwardContact {
         this.unitContactType = unitContactType;
     }
     
-    /**
-     * Gets the unitAdministratorType attribute. 
-     * @return Returns the unitAdministratorType.
-     */
-    public UnitAdministratorType getUnitAdministratorType() {
-        return unitAdministratorType;
-    }
-
     public UnitContactType getUnitContactType() {
         return unitContactType;
-    }
-    
-    /**
-     * Gets the unitContactTypeName attribute. 
-     * @return Returns the unitContactTypeName.
-     */
-    public String getUnitContactTypeName() {
-        return unitContactType != null ? unitContactType.name() : unitContactTypeName;
-    }
-
-    /**
-     * @see org.kuali.kra.award.contacts.AwardContact#setContactRole(org.kuali.kra.award.bo.ContactRole)
-     */
-    @Override
-    public void setContactRole(ContactRole contactRole) {
-        super.setContactRole(contactRole);
-        setUnitAdministratorType((UnitAdministratorType) contactRole); 
-    }
-    
-    /**
-     * Sets the unitAdministratorType attribute value.
-     * @param unitAdministratorType The unitAdministratorType to set.
-     */
-    public void setUnitAdministratorType(UnitAdministratorType unitAdministratorType) {
-        this.unitAdministratorType = unitAdministratorType;
     }
 
     public void setUnitContactType(UnitContactType contactType) {
@@ -92,27 +55,17 @@ public class AwardUnitContact extends AwardContact {
     }
 
     /**
-     * Sets the unitContactTypeName attribute value.
-     * @param unitContactTypeName The unitContactTypeName to set.
-     */
-    public void setUnitContactTypeName(String unitContactTypeName) {
-        this.unitContactTypeName = unitContactTypeName;
-        this.unitContactType = UnitContactType.valueOf(unitContactTypeName);
-    }
-
-    /**
      * @see org.kuali.kra.award.contacts.AwardContact#getContactRoleType()
      */
-    @SuppressWarnings("unchecked")
     @Override
-    protected Class getContactRoleType() {
-        return UnitAdministratorType.class;
+    protected Class<?extends ContactRole> getContactRoleType() {
+        return ContactType.class;
     }
     /**
      * @see org.kuali.kra.award.contacts.AwardContact#getContactRoleTypeIdentifier()
      */
     @Override
     protected String getContactRoleTypeIdentifier() {
-        return "unitAdministratorTypeCode";
+        return "CONTACT_TYPE_CODE";
     }
 }

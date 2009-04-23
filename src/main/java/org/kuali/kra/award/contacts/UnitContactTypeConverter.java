@@ -20,9 +20,9 @@ import org.apache.ojb.broker.accesslayer.conversions.FieldConversion;
 import org.kuali.kra.bo.UnitContactType;
 
 /**
- * This class converts the ContactType type
+ * This class converts the UnitType type
  */
-public class UnitTypeConverter implements FieldConversion {
+public class UnitContactTypeConverter implements FieldConversion {
     private static final long serialVersionUID = -3298305889586306843L;
     
     private static final String JAVA_TYPE_ERROR = "Java type not a UnitTypeConverter";

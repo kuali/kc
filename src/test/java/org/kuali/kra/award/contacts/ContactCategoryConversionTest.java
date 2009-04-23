@@ -27,11 +27,11 @@ import org.kuali.kra.bo.UnitContactType;
  */
 public class ContactCategoryConversionTest {
     private static final String UNSUPPORTED_ENUM_VALUE = "FOO_BAR";
-    private UnitTypeConverter converter;
+    private UnitContactTypeConverter converter;
     
     @Before
     public void setUp() {
-        converter = new UnitTypeConverter();
+        converter = new UnitContactTypeConverter();
     }
     
     @After

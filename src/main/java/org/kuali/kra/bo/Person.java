@@ -1375,7 +1375,17 @@ public class Person extends KraPersistableBusinessObjectBase implements Contacta
         return officePhone;
     }
 
+    /**
+     * @see org.kuali.kra.bo.Contactable#getContactOrganizationName()
+     */
     public String getContactOrganizationName() {
         return getUnit().getUnitName();
+    }
+
+    /**
+     * @see org.kuali.kra.bo.Contactable#getOrganizationIdentifier()
+     */
+    public String getOrganizationIdentifier() {
+        return homeUnit;
     }
 }

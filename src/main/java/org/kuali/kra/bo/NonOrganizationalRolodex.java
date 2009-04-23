@@ -44,4 +44,11 @@ public class NonOrganizationalRolodex extends Rolodex implements Contactable {
     public String getContactOrganizationName() {
         return getOrganization();
     }
+
+    /**
+     * @see org.kuali.kra.bo.Contactable#getOrganizationIdentifier()
+     */
+    public String getOrganizationIdentifier() {
+        return getOwnedByUnit();
+    }
 }

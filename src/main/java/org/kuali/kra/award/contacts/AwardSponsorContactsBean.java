@@ -15,11 +15,10 @@
  */
 package org.kuali.kra.award.contacts;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.ContactRole;
+import org.kuali.kra.award.bo.ContactType;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 
 /**
@@ -31,54 +30,32 @@ public class AwardSponsorContactsBean extends AwardContactsBean {
     }
 
     public void addSponsorContact() {
-//        AddAwardApprovedEquipmentRuleEvent event = generateAddEvent();
-//        boolean success = getRuleService().applyRules(event);
-//        if(success){
-            getAward().addSponsorContact(getSponsorContact());
+        boolean success = new AwardSponsorContactAddRuleImpl().processAddAwardSponsorContactBusinessRules(getAward(), getSponsorContact());
+        if(success){
+            getAward().add(getSponsorContact());
             init();
-//        }
+        }
     }
     
     /**
      * @return
      */
-    public SponsorContact getSponsorContact() {
-        return (SponsorContact) newAwardContact;
-    }
-
-    /**
-     * This method clears the new contact entry
-     */
-    public void clearNewSponsorContact() {
-        init();
+    public AwardSponsorContact getSponsorContact() {
+        return (AwardSponsorContact) newAwardContact;
     }
     
     public void deleteSponsorContact(int lineToDelete) {
-        List<SponsorContact> sponsorContacts = getSponsorContacts();
-        if(sponsorContacts.size() > lineToDelete) {
-            sponsorContacts.remove(lineToDelete);
+        List<AwardSponsorContact> awardSponsorContacts = getSponsorContacts();
+        if(awardSponsorContacts.size() > lineToDelete) {
+            awardSponsorContacts.remove(lineToDelete);
         }        
-    }
-
-    @Override
-    public List<ContactRole> getContactRoles() {
-        if(contactRoles == null) {
-            contactRoles = new ArrayList<ContactRole>();
-            contactRoles.add(ContactRoleFixtureFactory.MOCK_ADMINISTRATIVE_CONTACT1);
-            contactRoles.add(ContactRoleFixtureFactory.MOCK_ADMINISTRATIVE_CONTACT2);
-            contactRoles.add(ContactRoleFixtureFactory.MOCK_AWARD_OFFICE_CONTACT1);
-            contactRoles.add(ContactRoleFixtureFactory.MOCK_AWARD_OFFICE_CONTACT2);
-            contactRoles.add(ContactRoleFixtureFactory.MOCK_CLOSEOUT_CONTACT);
-        }
-        return contactRoles;
-//        return getContactRoles(ContactCategory.UNIT_CONTACTS);
     }
 
     /**
      * This method finds the count of AwardContacts in the "Sponsor Contacts" category
      * @return The list; may be empty
      */
-    public List<SponsorContact> getSponsorContacts() {
+    public List<AwardSponsorContact> getSponsorContacts() {
         return getAward().getSponsorContacts();
     }
     
@@ -92,6 +69,11 @@ public class AwardSponsorContactsBean extends AwardContactsBean {
 
     @Override
     protected void init() {
-        newAwardContact = new SponsorContact();
+        newAwardContact = new AwardSponsorContact();
+    }
+
+    @Override
+    protected Class<? extends ContactRole> getContactRoleType() {
+        return ContactType.class;
     }
 }

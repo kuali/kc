@@ -88,7 +88,7 @@
         <collection-descriptor name="projectPersons" proxy="true" element-class-ref="org.kuali.kra.award.contacts.AwardPerson" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="awardId"/>
         </collection-descriptor>
-         
+        
         <collection-descriptor name="awardCostShares" proxy="true" element-class-ref="org.kuali.kra.award.bo.AwardCostShare" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="awardId"/>
         </collection-descriptor>
@@ -145,6 +145,12 @@
         <reference-descriptor name="awardDocument" class-ref="org.kuali.kra.award.document.AwardDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="documentNumber" />
         </reference-descriptor>
+        <collection-descriptor name="awardUnitContacts" proxy="true" element-class-ref="org.kuali.kra.award.contacts.AwardUnitContact" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="awardId"/>
+        </collection-descriptor>
+        <collection-descriptor name="sponsorContacts" proxy="true" element-class-ref="org.kuali.kra.award.contacts.AwardSponsorContact" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="awardId"/>
+        </collection-descriptor>
 	</class-descriptor>	
 	
 	<class-descriptor class="org.kuali.kra.award.contacts.AwardPerson" table="AWARD_PERSONS">
@@ -230,23 +236,6 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />		 
 	</class-descriptor>
-	
-	<!-- 
-	<class-descriptor class="org.kuali.kra.award.contacts.AwardContact" table="AWARD_CONTACTS">
-		<field-descriptor name="approvedContactId" column="AWARD_APPROVED_EQUIPMENT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQUENCE_AWARD_ID" />
-		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" access="anonymous" />
-		<field-descriptor name="item" column="ITEM" jdbc-type="VARCHAR" nullable="false" />
-		<field-descriptor name="model" column="MODEL" jdbc-type="VARCHAR" nullable="true" />
-		<field-descriptor name="vendor" column="VENDOR" jdbc-type="VARCHAR" nullable="true" />
-		<field-descriptor name="amount" column="AMOUNT" jdbc-type="DECIMAL" nullable="false" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
-		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" nullable="false" />
-		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" nullable="false" />
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />		 
-	</class-descriptor>
-	-->
 	 
 	<class-descriptor class="org.kuali.kra.award.bo.AwardCostShare" table="AWARD_COST_SHARE">
 		<field-descriptor name="awardCostShareId" column="AWARD_COST_SHARE_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_AWARD_COST_SHARE_ID" />
@@ -489,6 +478,44 @@
 		<reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="rolodexId"/>
 		</reference-descriptor>	
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.award.contacts.AwardSponsorContact" table="AWARD_SPONSOR_CONTACTS">
+		<field-descriptor name="awardContactId" column="AWARD_SPONSOR_CONTACT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQUENCE_AWARD_ID" />
+		
+		<field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER" nullable="true" />
+		<field-descriptor name="fullName" column="FULL_NAME" jdbc-type="VARCHAR" nullable="false"  />
+		<field-descriptor name="roleCode" column="CONTACT_ROLE_CODE" jdbc-type="VARCHAR" nullable="false" />
+		
+		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" access="anonymous" />
+		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" nullable="false" />
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" nullable="false" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		
+		<reference-descriptor name="contactRole" class-ref="org.kuali.kra.award.bo.ContactType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="roleCode"/> 
+		</reference-descriptor>
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.award.contacts.AwardUnitContact" table="AWARD_UNIT_CONTACTS">
+		<field-descriptor name="awardContactId" column="AWARD_UNIT_CONTACT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQUENCE_AWARD_ID" />
+		
+		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" nullable="true" />
+		<field-descriptor name="fullName" column="FULL_NAME" jdbc-type="VARCHAR" nullable="false"  />
+		<field-descriptor name="roleCode" column="CONTACT_ROLE_CODE" jdbc-type="VARCHAR" nullable="false" />
+		
+		<field-descriptor name="unitContactType" column="UNIT_CONTACT_TYPE" jdbc-type="VARCHAR" nullable="false" conversion="org.kuali.kra.award.contacts.UnitContactTypeConverter"/>
+		
+		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" access="anonymous" />
+		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" nullable="false" />
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" nullable="false" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />		
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.award.bo.ReportClass" table="REPORT_CLASS">
