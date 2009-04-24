@@ -54,14 +54,13 @@ public class AwardApprovedForeignTravelRuleImpl extends ResearchDocumentRuleBase
      * @return
      */
     public boolean processAddAwardApprovedForeignTravelBusinessRules(AddAwardApprovedForeignTravelRuleEvent event) {
-        return areRequiredFieldsComplete(event.getForeignTravelForValidation()) && processCommonValidations(event);        
+        AwardApprovedForeignTravel foreignTravel = event.getForeignTravelForValidation();
+        return isAmountValid(event.getErrorPathPrefix(), foreignTravel) & areRequiredFieldsComplete(foreignTravel) & processCommonValidations(event);        
     }
     
     private boolean processCommonValidations(AwardApprovedForeignTravelRuleEvent event) {
         AwardApprovedForeignTravel foreignTravel = event.getForeignTravelForValidation();
-        boolean valid = isAmountValid(event.getErrorPathPrefix(), foreignTravel);
-        
-        valid &= isEndDateOnOrAfterStartDate(event);
+        boolean valid = isEndDateOnOrAfterStartDate(event);
         
         List<AwardApprovedForeignTravel> trips = event.getAward().getApprovedForeignTravelTrips();
         valid &= isUnique(trips, foreignTravel);
