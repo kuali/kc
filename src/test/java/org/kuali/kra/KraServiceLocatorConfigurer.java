@@ -95,7 +95,7 @@ public class KraServiceLocatorConfigurer extends KraServiceLocator {
         }
         ApplicationContext parentApplicationContext = getAppContextWithoutInitializing().getParent();
         if (parentApplicationContext instanceof ConfigurableApplicationContext || parentApplicationContext == null) {
-            setApplicationContext((ConfigurableApplicationContext) getAppContextWithoutInitializing().getParent());
+            setApplicationContext((ConfigurableApplicationContext) parentApplicationContext);
         }
     }
     
