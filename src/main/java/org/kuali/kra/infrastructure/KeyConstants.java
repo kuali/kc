@@ -50,7 +50,7 @@ public final class KeyConstants {
     public static final String ERROR_MISSING_PERSON_ROLE = "error.missingPersonRole";
     public static final String ERROR_PROPOSAL_PERSON_EXISTS = "error.proposalPersonExists";
     public static final String ERROR_TOTAL_CREDIT_SPLIT_UPBOUND = "error.totalCreditSplit.upbound";
-   public static final String ERROR_CREDIT_SPLIT_LOWBOUND = "error.creditSplit.lowbound";
+    public static final String ERROR_CREDIT_SPLIT_LOWBOUND = "error.creditSplit.lowbound";
     public static final String ERROR_CREDIT_SPLIT_UPBOUND = "error.creditSplit.upbound";
     public static final String ERROR_DELETE_LEAD_UNIT = "error.deleteLeadUnit";
     public static final String ERROR_ADD_EXISTING_UNIT = "error.addExistingUnit";
@@ -426,6 +426,9 @@ public final class KeyConstants {
     public static final String ERROR_COMMITTEESCHEDULE_VIEWTIME = "error.committeeSchedule.viewtime";
     public static final String ERROR_COMMITTEESCHEDULE_DAY = "error.committeeSchedule.day";
     public static final String ERROR_COMMITTEESCHEDULE_WEEKDAY = "error.committeeSchedule.weekday";
+    
+    // IRB Questions
+    public static final String QUESTION_PROTOCOL_CONFIRM_SUBMIT_FOR_REVIEW = "question.protocol.confirmExceedMaxProtocols";
     
     private KeyConstants() {}
 }
