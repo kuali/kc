@@ -18,8 +18,8 @@
 <%@ attribute name="topTab" required="true" type="java.lang.Boolean" description="is this the top tab on the page" %>
 
 <%@ attribute name="tabErrorKeys" required="false" type="java.lang.String" description="The tab error keys used by the data validation tab" %>
-<%@ attribute name="categories" required="false" type="java.lang.String" description="comma-separated string of validation categories (ex: Validation Errors,Warnings)" %>
-<%@ tag body-content="scriptless" description="The instructions for using the validation." example="You can activate a Validation check...</p><ul><li>errors</li><li>warnings</li></ul>" %>
+<%@ attribute name="categories" required="false" type="java.lang.String" description="comma-separated string of validation categories (ex: Validation Errors,Warnings). If not set a default will be used." %>
+<%@ tag body-content="scriptless" description="The instructions for using the validation. If not set a default will be used." example="You can activate a Validation check...</p><ul><li>errors</li><li>warnings</li></ul>" %>
 
 <c:set var="title" value="Data Validation" />
 
@@ -44,7 +44,7 @@
 									<p>You can activate a Validation check to determine any errors or incomplete information. The following Validations types will be determined:</p>
 									<ul>
 									  <li>errors that prevent submission into routing</li>
-									  <li>warnings that serve as alerts to  possible data issues but will not prevent submission into routing</li>
+									  <li>warnings that serve as alerts to possible data issues but will not prevent submission into routing</li>
 									</ul>
 								</c:when>
 								<c:otherwise>
@@ -64,9 +64,9 @@
 		<c:if test="${auditActivated}">
 			<c:set var="categories" value="${empty categories ? 'Validation Errors,Warnings' : categories}" />
 			<table cellpadding="0" cellspacing="0" summary="">
-			<c:forEach items="${fn:split(categories,',')}" var="category">
+			<c:forEach items="${categories}" var="category">
 				<kul:auditSet category="${category}" />
-			</c:forEach>			
+			</c:forEach>
 			</table>
 		</c:if>
 	</div>
