@@ -44,7 +44,7 @@ public class AwardApprovedForeignTravelRuleImpl extends ResearchDocumentRuleBase
     private static final String AMOUNT_ERROR_PARM = "Amount";
 
     public boolean processAwardApprovedForeignTravelBusinessRules(AwardApprovedForeignTravelRuleEvent event) {
-        return processCommonValidations(event);        
+        return processCommonValidations(APPROVED_FOREIGN_TRAVEL_LIST_ERROR_KEY, event);        
     }
     /**
      * 
@@ -55,15 +55,16 @@ public class AwardApprovedForeignTravelRuleImpl extends ResearchDocumentRuleBase
      */
     public boolean processAddAwardApprovedForeignTravelBusinessRules(AddAwardApprovedForeignTravelRuleEvent event) {
         AwardApprovedForeignTravel foreignTravel = event.getForeignTravelForValidation();
-        return isAmountValid(event.getErrorPathPrefix(), foreignTravel) & areRequiredFieldsComplete(foreignTravel) & processCommonValidations(event);        
+        return isAmountValid(event.getErrorPathPrefix(), foreignTravel) & areRequiredFieldsComplete(foreignTravel) & 
+                                processCommonValidations(NEW_TRAVEL_BASE, event);        
     }
     
-    private boolean processCommonValidations(AwardApprovedForeignTravelRuleEvent event) {
+    private boolean processCommonValidations(String errorPath, AwardApprovedForeignTravelRuleEvent event) {
         AwardApprovedForeignTravel foreignTravel = event.getForeignTravelForValidation();
         boolean valid = isEndDateOnOrAfterStartDate(event);
         
         List<AwardApprovedForeignTravel> trips = event.getAward().getApprovedForeignTravelTrips();
-        valid &= isUnique(trips, foreignTravel);
+        valid &= isUnique(errorPath, trips, foreignTravel);
         
         return valid;
     }
@@ -93,7 +94,7 @@ public class AwardApprovedForeignTravelRuleImpl extends ResearchDocumentRuleBase
      * @param equipmentItem
      * @return
      */
-    boolean isUnique(List<AwardApprovedForeignTravel> foreignTravelTrips, AwardApprovedForeignTravel foreignTravelTrip) {
+    boolean isUnique(String errorPath, List<AwardApprovedForeignTravel> foreignTravelTrips, AwardApprovedForeignTravel foreignTravelTrip) {
         boolean duplicateFound = false;
         for(AwardApprovedForeignTravel listItem: foreignTravelTrips) {
             duplicateFound = foreignTravelTrip != listItem && listItem.equals(foreignTravelTrip);
@@ -104,7 +105,7 @@ public class AwardApprovedForeignTravelRuleImpl extends ResearchDocumentRuleBase
         
         if(duplicateFound) {
             if(!hasDuplicateErrorBeenReported()) {
-                reportError(APPROVED_FOREIGN_TRAVEL_LIST_ERROR_KEY, ERROR_AWARD_APPROVED_FOREIGN_TRAVEL_NOT_UNIQUE, (String[]) null);
+                reportError(errorPath, ERROR_AWARD_APPROVED_FOREIGN_TRAVEL_NOT_UNIQUE, (String[]) null);
             }
         }
         return !duplicateFound;
@@ -155,6 +156,6 @@ public class AwardApprovedForeignTravelRuleImpl extends ResearchDocumentRuleBase
     }
     
     private boolean hasDuplicateErrorBeenReported() {
-        return GlobalVariables.getErrorMap().containsMessageKey(KeyConstants.ERROR_AWARD_APPROVED_EQUIPMENT_ITEM_NOT_UNIQUE);
+        return GlobalVariables.getErrorMap().containsMessageKey(ERROR_AWARD_APPROVED_FOREIGN_TRAVEL_NOT_UNIQUE);
     }
 }
