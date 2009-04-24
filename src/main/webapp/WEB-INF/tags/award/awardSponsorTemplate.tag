@@ -16,6 +16,6 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 
-<kul:tab tabTitle="Sponsor Template" defaultOpen="false" tabErrorKey="document.award*">
+<kul:tab tabTitle="Sponsor Template" defaultOpen="false" tabErrorKey="document.award.fillMeIn*">
 	Under construction
 </kul:tab>
