@@ -277,13 +277,13 @@ public class ProtocolAttachmentHelper {
      * initializes a new attachment protocol setting the protocol id.
      */
     private void initAttachmentProtocol() {
-        this.setNewAttachmentProtocol(new ProtocolAttachmentProtocol(this.getProtocol().getProtocolId()));
+        this.setNewAttachmentProtocol(new ProtocolAttachmentProtocol(this.getProtocol()));
     }
     
     /**
      * initializes a new attachment personnel setting the protocol id.
      */
     private void initAttachmentPersonnel() {
-        this.setNewAttachmentPersonnel(new ProtocolAttachmentPersonnel(this.getProtocol().getProtocolId()));
+        this.setNewAttachmentPersonnel(new ProtocolAttachmentPersonnel(this.getProtocol()));
     }
 }
