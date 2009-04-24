@@ -43,7 +43,7 @@ public class ApprovedForeignTravelBean extends SpecialApprovalBean {
      */
     public boolean addApprovedForeignTravel() {
         AddAwardApprovedForeignTravelRuleEvent event = generateAddEvent();
-        boolean success = getRuleService().applyRules(event);
+        boolean success = new AwardApprovedForeignTravelRuleImpl().processAddAwardApprovedForeignTravelBusinessRules(event);
         if(success){
             getAward().add(getNewApprovedForeignTravel());
             init();

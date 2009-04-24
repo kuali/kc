@@ -32,12 +32,4 @@ public interface AwardApprovedForeignTravelRule extends BusinessRule {
      * @return
      */
     boolean processAwardApprovedForeignTravelBusinessRules(AwardApprovedForeignTravelRuleEvent event);
-    
-    /**
-     * 
-     * This method is used to validate a new AwardApprovedForeignTravel to be added to an Award
-     * @param event
-     * @return
-     */
-    boolean processAddAwardApprovedForeignTravelBusinessRules(AddAwardApprovedForeignTravelRuleEvent event);
 }
