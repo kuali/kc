@@ -20,7 +20,7 @@ import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.document.AwardDocument;
 
 /**
- * This class is for rule validation when adding new item
+ * This class is for rule validation when adding new item. It's NOT used by the rule framework
  */
 public class AddAwardApprovedEquipmentRuleEvent extends AwardApprovedEquipmentRuleEvent {
 
@@ -37,10 +37,13 @@ public class AddAwardApprovedEquipmentRuleEvent extends AwardApprovedEquipmentRu
     }
 
     /**
-     * @see org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentRuleEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
+     * The rule impl is used here because the rule doesn't define the Add behavior
+     * 
+     * @see org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentRuleEvent
+     *  #invokeRuleMethod(org.kuali.core.rule.BusinessRule)
      */
     @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((AwardApprovedEquipmentRule)rule).processAddAwardApprovedEquipmentBusinessRules(this);
+        return ((AwardApprovedEquipmentRuleImpl)rule).processAddAwardApprovedEquipmentBusinessRules(this);
     }
 }

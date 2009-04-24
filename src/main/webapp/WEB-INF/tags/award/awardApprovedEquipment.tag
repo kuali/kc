@@ -18,7 +18,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <kul:innerTab parentTab="Special Approval" tabItemCount="${KualiForm.document.awardList[0].approvedEquipmentItemCount}" defaultOpen="false" 
-				tabTitle="Approved Equipment" tabErrorKey="newAwardApprovedEquipment*,document.awardList[0].approvedEquipmentItems*" >
+				tabTitle="Approved Equipment" tabErrorKey="approvedEquipmentBean.newAwardApprovedEquipment*,document.awardList[0].approvedEquipmentItems*" >
 	<c:set var="approvedEquipmentAttributes" value="${DataDictionary.AwardApprovedEquipment.attributes}" />	
 	
 	<kra:softError softErrorKey="approvedEquipmentItems" />
