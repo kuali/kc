@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.irb.web.struts.action;
 
+import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
+import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,6 +27,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.web.struts.action.AuditModeAction;
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.bo.ProtocolReviewType;
@@ -32,6 +36,8 @@ import org.kuali.kra.irb.service.ProtocolCopyService;
 import org.kuali.kra.irb.web.struts.bean.ProtocolSubmitAction;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
+import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
+import org.kuali.kra.web.struts.action.StrutsConfirmation;
 
 /**
  * The set of actions for the Protocol Actions tab.
@@ -39,6 +45,7 @@ import org.kuali.kra.web.struts.action.AuditActionHelper;
 public class ProtocolProtocolActionsAction extends ProtocolAction implements AuditModeAction {
 
     private static final String PROTOCOL_TAB = "protocol";
+    private static final String CONFIRM_SUBMIT_FOR_REVIEW_KEY = "confirmSubmitForReview";
     
     /**
      * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -134,12 +141,46 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolSubmitAction submitAction = protocolForm.getActionHelper().getProtocolSubmitAction();
         if (applyRules(new ProtocolSubmitActionEvent(protocolForm.getProtocolDocument(), submitAction))) {
-            
+            if (isCommitteeMeetingAssignedMaxProtocols(submitAction.getCommitteeId(), submitAction.getScheduleId())) {
+                return confirm(buildSubmitForReviewConfirmationQuestion(mapping, form, request, response), CONFIRM_SUBMIT_FOR_REVIEW_KEY, "");
+            }
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
+    /*
+     * Builds the confirmation question to verify if the user wants to submit the protocol for review.
+     */
+    private StrutsConfirmation buildSubmitForReviewConfirmationQuestion(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_SUBMIT_FOR_REVIEW_KEY, KeyConstants.QUESTION_PROTOCOL_CONFIRM_SUBMIT_FOR_REVIEW);
+    }
+
+    /**
+     * Method dispatched from <code>{@link KraTransactionalDocumentActionBase#confirm(StrutsQuestion, String, String)}</code> for when a "yes" condition is met.
+     * 
+     * @param mapping The mapping associated with this action.
+     * @param form The Protocol form.
+     * @param request the HTTP request
+     * @param response the HTTP response
+     * @return the destination (always the original Protocol Document web page that caused this action to be invoked)
+     * @throws Exception
+     * @see KraTransactionalDocumentActionBase#confirm(StrutsQuestion, String, String)
+     */
+    public ActionForward confirmSubmitForReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
+        
+        if (CONFIRM_SUBMIT_FOR_REVIEW_KEY.equals(question)) {
+        }
+        
+        return mapping.findForward(MAPPING_BASIC);
+    }        
+
+    private boolean isCommitteeMeetingAssignedMaxProtocols(String committeeId, String scheduleId) {
+        return false;
+    }
+
     /**
      * Display the description for an Expedited Review Check List Item.
      * 
