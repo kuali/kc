@@ -57,10 +57,10 @@ public class ProtocolFundingSourceRule extends ResearchDocumentRuleBase implemen
         String fundingId =  fundingSrc.getFundingSource();
         String fundingName =  fundingSrc.getFundingSourceName();
 
-        if (!getProtocolFundingSourceService().isValidIdForType(fundingSrc)) {
+        if (fundingSrc.getFundingSourceType() != null && !getProtocolFundingSourceService().isValidIdForType(fundingSrc)) {
             isValid = false;
             reportError(Constants.PROTO_FUNDING_SRC_ID_FIELD, KeyConstants.ERROR_PROTOCOL_FUNDING_ID_INVALID_FOR_TYPE, 
-                        fundingSrc.getFundingSourceType().getDescription(), fundingId);         
+                    fundingSrc.getFundingSourceType().getDescription(), fundingId);         
         }
         
         if (StringUtils.isBlank(fundingId)) {
