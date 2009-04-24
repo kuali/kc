@@ -30,6 +30,28 @@ public class ProtocolAttachmentType extends KraPersistableBusinessObjectBase {
     private String description;
 
     /**
+     * empty ctor to satisfy JavaBean convention.
+     */
+    public ProtocolAttachmentType() {
+        super();
+    }
+    
+    /**
+     * Convenience ctor to set the relevant properties of this class.
+     * 
+     * <p>
+     * This ctor does not validate any of the properties.
+     * </p>
+     * 
+     * @param code the code.
+     * @param description the description.
+     */
+    public ProtocolAttachmentType(String code, String description) {
+        this.code = code;
+        this.description = description;
+    }
+    
+    /**
      * Gets the protocol attachment type code.
      * @return the protocol attachment type code
      */

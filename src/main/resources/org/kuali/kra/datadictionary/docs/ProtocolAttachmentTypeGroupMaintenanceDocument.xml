@@ -72,10 +72,10 @@
                     p:name="id"
                     p:required="true" />-->
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="typeCode"
+                    p:name="type.code"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="groupCode"
+                    p:name="group.code"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
                     p:name="versionNumber" />

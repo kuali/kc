@@ -94,7 +94,7 @@ class ProtocolAttachmentProtocolRuleHelper {
         for (ProtocolAttachmentProtocol attachment : protocol.getAttachmentProtocols()) {
             if (!attachment.getId().equals(attachmentProtocol.getId())
                 && attachment.getType().equals(attachmentProtocol.getType())) {
-                this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentBase.PropertyName.TYPE,
+                this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentBase.PropertyName.TYPE + ".code",
                     KeyConstants.ERROR_PROTOCOL_ATTACHMENT_DUPLICATE_TYPE);
                 return false;
             }

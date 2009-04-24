@@ -60,7 +60,7 @@
     
     <bean id="ProtocolAttachmentTypeGroup-typeCode" parent="ProtocolAttachmentTypeGroup-typeCode-parentBean" />
     <bean id="ProtocolAttachmentTypeGroup-typeCode-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="typeCode" />
+        <property name="name" value="type.code" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Type Code" />
         <property name="shortLabel" value="Type Code" />
@@ -78,7 +78,7 @@
     
     <bean id="ProtocolAttachmentTypeGroup-groupCode" parent="ProtocolAttachmentTypeGroup-groupCode-parentBean" />
     <bean id="ProtocolAttachmentTypeGroup-groupCode-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="groupCode" />
+        <property name="name" value="group.code" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Group Code" />
         <property name="shortLabel" value="Group Code" />
@@ -112,10 +112,10 @@
                                 p:attributeName="id" 
                                 p:forceInquiry="true" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="typeCode" 
+                                p:attributeName="type.code" 
                                 p:forceInquiry="true" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="groupCode" 
+                                p:attributeName="group.code" 
                                 p:forceInquiry="true" />
                         </list>
                     </property>
@@ -140,10 +140,10 @@
                     p:attributeName="id" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="typeCode" 
+                    p:attributeName="type.code" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="groupCode" 
+                    p:attributeName="group.code" 
                     p:forceInquiry="true" />                
             </list>
         </property>
@@ -153,10 +153,10 @@
                     p:attributeName="id" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="typeCode" 
+                    p:attributeName="type.code" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="groupCode" 
+                    p:attributeName="group.code" 
                     p:forceInquiry="true" />
             </list>
         </property>
