@@ -49,7 +49,7 @@ public class ApprovedEquipmentBean extends SpecialApprovalBean {
      */
     public boolean addApprovedEquipmentItem() {
         AddAwardApprovedEquipmentRuleEvent event = generateAddEvent();
-        boolean success = getRuleService().applyRules(event);
+        boolean success = new AwardApprovedEquipmentRuleImpl().processAddAwardApprovedEquipmentBusinessRules(event);
         if(success){
             getAward().add(getNewAwardApprovedEquipment());
             init();
