@@ -182,6 +182,8 @@ public class ProtocolFundingSource extends ProtocolAssociate {
         hashMap.put("protocolId", getProtocolId());
         hashMap.put("fundingSourceTypeCode", getFundingSourceTypeCode());
         hashMap.put("fundingSource", getFundingSource());
+        hashMap.put("fundingSourceName", getFundingSourceName());
+        hashMap.put("fundingSourceTitle", getFundingSourceTitle());
         return hashMap;
     }
 
