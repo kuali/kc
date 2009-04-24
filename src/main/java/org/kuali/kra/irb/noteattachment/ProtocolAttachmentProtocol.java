@@ -17,6 +17,8 @@ package org.kuali.kra.irb.noteattachment;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.irb.bo.Protocol;
+
 /**
  * This class represents the Protocol Attachment Protocol.
  */
@@ -40,16 +42,16 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
     }
     
     /**
-     * Convenience ctor to set the protocol id.
+     * Convenience ctor to set the protocol.
      * 
      * <p>
      * This ctor does not validate any of the properties.
      * </p>
      * 
-     * @param protocolId the protocol Id.
+     * @param protocol the protocol.
      */
-    public ProtocolAttachmentProtocol(final Long protocolId) {
-        super(protocolId);
+    public ProtocolAttachmentProtocol(final Protocol protocol) {
+        super(protocol);
     }
     
     /**

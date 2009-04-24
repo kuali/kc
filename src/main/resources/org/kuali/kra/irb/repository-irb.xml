@@ -546,7 +546,7 @@
 	
 	<class-descriptor class="org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol" table="PROTOCOL_ATTACHMENT_PROTOCOL">
 		<field-descriptor name="id" column="PA_PROTOCOL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
-		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" access="anonymous"/>
 		<field-descriptor name="typeCode" column="TYPE_CD" jdbc-type="VARCHAR" access="anonymous" />
 		<field-descriptor name="attachmentVersionNumber" column="VERSION_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="documentId" column="DOCUMENT_ID" jdbc-type="INTEGER" />
@@ -562,7 +562,7 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		
-		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.bo.Protocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.bo.Protocol" auto-retrieve="true" auto-update="link" auto-delete="link"> 
 			<foreignkey field-ref="protocolId"/>
 		</reference-descriptor>
 		
@@ -581,7 +581,7 @@
 	
 	<class-descriptor class="org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel" table="PROTOCOL_ATTACHMENT_PERSONNEL">
 		<field-descriptor name="id" column="PA_PERSONNEL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
-		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" access="anonymous" />
 		<field-descriptor name="typeCode" column="TYPE_CD" jdbc-type="VARCHAR" access="anonymous" />
 		<field-descriptor name="attachmentVersionNumber" column="VERSION_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="documentId" column="DOCUMENT_ID" jdbc-type="INTEGER" />
@@ -593,7 +593,7 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		
-		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.bo.Protocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.bo.Protocol" auto-retrieve="true" auto-update="link" auto-delete="link"> 
 			<foreignkey field-ref="protocolId"/>
 		</reference-descriptor>
 		

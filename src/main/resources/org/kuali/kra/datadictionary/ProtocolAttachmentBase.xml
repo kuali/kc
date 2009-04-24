@@ -64,7 +64,10 @@
 	</bean>
 
 	<bean id="ProtocolAttachmentBase-protocolId" parent="ProtocolAttachmentBase-protocolId-parentBean" />
-	<bean id="ProtocolAttachmentBase-protocolId-parentBean" abstract="true" parent="Protocol-protocolId"/>
+	<bean id="ProtocolAttachmentBase-protocolId-parentBean" abstract="true" parent="Protocol-protocolId">
+		<property name="name" value="protocol.protocolId" />
+		<property name="required" value="true" />
+	</bean>
 
 	<bean id="ProtocolAttachmentBase-typeCode" parent="ProtocolAttachmentBase-typeCode-parentBean" />
 	<bean id="ProtocolAttachmentBase-typeCode-parentBean" abstract="true" parent="ProtocolAttachmentType-code">
@@ -176,7 +179,7 @@
 								p:attributeName="id" 
 								p:forceInquiry="true" />
 							<bean parent="FieldDefinition"
-								p:attributeName="protocolId" />
+								p:attributeName="protocol.protocolId" />
 							<bean parent="FieldDefinition"
 								p:attributeName="type.code" />
 							<bean parent="FieldDefinition"
@@ -215,7 +218,7 @@
 					p:attributeName="id" 
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
-					p:attributeName="protocolId" />
+					p:attributeName="protocol.protocolId" />
 				<bean parent="FieldDefinition"
 					p:attributeName="type.code" />
 				<bean parent="FieldDefinition"
@@ -238,7 +241,7 @@
 					p:attributeName="id" 
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
-					p:attributeName="protocolId" />
+					p:attributeName="protocol.protocolId" />
 				<bean parent="FieldDefinition"
 					p:attributeName="type.code" />
 				<bean parent="FieldDefinition"

@@ -17,6 +17,7 @@ package org.kuali.kra.irb.noteattachment;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 
 /**
@@ -37,16 +38,16 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase {
     }
     
     /**
-     * Convenience ctor to set the protocol id.
+     * Convenience ctor to set the protocol.
      * 
      * <p>
      * This ctor does not validate any of the properties.
      * </p>
      * 
-     * @param protocolId the protocol Id.
+     * @param protocol the protocol.
      */
-    public ProtocolAttachmentPersonnel(final Long protocolId) {
-        super(protocolId);
+    public ProtocolAttachmentPersonnel(final Protocol protocol) {
+        super(protocol);
     }
 
     /**
