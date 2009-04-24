@@ -31,7 +31,6 @@ public abstract class ProtocolAttachmentBase extends KraPersistableBusinessObjec
 
     private Long id;
     
-    private Long protocolId;
     private Protocol protocol;
     
     private ProtocolAttachmentType type;
@@ -52,16 +51,16 @@ public abstract class ProtocolAttachmentBase extends KraPersistableBusinessObjec
     }
     
     /**
-     * Convenience ctor to set the protocol id.
+     * Convenience ctor to set the protocol.
      * 
      * <p>
      * This ctor does not validate any of the properties.
      * </p>
      * 
-     * @param protocolId the protocol Id.
+     * @param protocol the protocol.
      */
-    public ProtocolAttachmentBase(final Long protocolId) {
-        this.protocolId = protocolId;
+    public ProtocolAttachmentBase(final Protocol protocol) {
+        this.protocol = protocol;
     }
     
     /**
@@ -79,23 +78,7 @@ public abstract class ProtocolAttachmentBase extends KraPersistableBusinessObjec
     public void setId(Long id) {
         this.id = id;
     }
-    
-    /**
-     * Gets the Protocol id.
-     * @return the Protocol id
-     */
-    public Long getProtocolId() {
-        return this.protocolId;
-    }
-    
-    /**
-     * Sets the Protocol id.
-     * @param protocolId the Protocol id
-     */
-    public void setProtocolId(Long protocolId) {
-        this.protocolId = protocolId;
-    }
-    
+       
     /**
      * Gets the Protocol.
      * @return the Protocol
@@ -226,7 +209,6 @@ public abstract class ProtocolAttachmentBase extends KraPersistableBusinessObjec
         hashMap.put(PropertyName.DOCUMENT_ID.getPropertyName(), this.getDocumentId());
         hashMap.put(PropertyName.FILE.getPropertyName(), this.getFile());
         hashMap.put(PropertyName.ID.getPropertyName(), this.getId());
-        hashMap.put(PropertyName.PROTOCOL_ID.getPropertyName(), this.getProtocolId());
         hashMap.put(PropertyName.TYPE.getPropertyName(), this.getType());
         hashMap.put(PropertyName.GROUP_CODE.getPropertyName(), this.getGroupCode());
         return hashMap;
@@ -256,7 +238,7 @@ public abstract class ProtocolAttachmentBase extends KraPersistableBusinessObjec
      */
     public static enum PropertyName {
         ATTACHMENT_VERSION("attachmentVersionNumber"), DESCRIPTION("description"), DOCUMENT_ID("documentId"),
-        FILE("file"), ID("id"), PROTOCOL_ID("protocolId"), TYPE("type"), GROUP_CODE("groupCode");
+        FILE("file"), ID("id"), PROTOCOL("protocol"), TYPE("type"), GROUP_CODE("groupCode");
         
         private final String name;
         
