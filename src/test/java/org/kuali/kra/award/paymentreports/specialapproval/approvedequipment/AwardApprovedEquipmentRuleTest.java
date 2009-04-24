@@ -18,6 +18,7 @@ package org.kuali.kra.award.paymentreports.specialapproval.approvedequipment;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -25,8 +26,10 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.core.UserSession;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kra.KraTestBase;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.rules.SoftError;
 
@@ -59,7 +62,7 @@ public class AwardApprovedEquipmentRuleTest {
     }
     
     @After
-    public void tearDown() {
+    public void tearDown() throws Exception {
         minimumCapitalizationInfo = null;
         award = null;
         approvedEquipmentRule = null;
@@ -106,7 +109,8 @@ public class AwardApprovedEquipmentRuleTest {
     public void testValidatingAmount_MinimumCapititalizationAmount() {
         AwardApprovedEquipment equipmentItem = createEquipmentItem(VENDOR, MODEL, WIDGET1, 1.00);
         approvedEquipmentRule.isAmountValid(AwardApprovedEquipmentRule.APPROVED_EQUIPMENT_ITEMS_LIST_ERROR_KEY, equipmentItem, minimumCapitalizationInfo);
-        List<SoftError> errors = new ArrayList<SoftError>(approvedEquipmentRule.getSoftErrors().get(AwardApprovedEquipmentRule.APPROVED_EQUIPMENT_ITEMS_LIST_ERROR_KEY));
+        List<SoftError> errors = new ArrayList<SoftError>(approvedEquipmentRule.getSoftErrors()
+                                                                    .get(AwardApprovedEquipmentRule.APPROVED_EQUIPMENT_ITEMS_LIST_ERROR_KEY));
         Assert.assertEquals(AMOUNT2_TEXT, errors.get(0).getErrorParms()[0]);
     }
     
@@ -171,6 +175,18 @@ public class AwardApprovedEquipmentRuleTest {
             @Override
             public Map<String, Collection<SoftError>> getSoftErrors() { 
                 return softErrors; 
+            }
+            @Override
+            protected void reportSoftError(String propertyName, String errorKey, String... errorParams) {
+                addSoftError(propertyName, errorKey, errorParams);
+            }
+            private void addSoftError(String propertyName, String errorKey, String[] errorParams) {
+                Collection<SoftError> errorsForProperty = softErrors.get(propertyName);
+                if(errorsForProperty == null) {
+                    errorsForProperty = new HashSet<SoftError>();
+                }
+                errorsForProperty.add(new SoftError(errorKey, errorParams));
+                softErrors.put(propertyName, errorsForProperty);
             }
         };
         return approvedEquipmentRule;
