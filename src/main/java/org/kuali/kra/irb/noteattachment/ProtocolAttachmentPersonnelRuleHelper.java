@@ -86,7 +86,7 @@ class ProtocolAttachmentPersonnelRuleHelper {
             if (!attachment.getId().equals(attachmentPersonnel.getId())
                 && attachment.getType().equals(attachmentPersonnel.getType())
                 && attachment.getPerson().getProtocolPersonId().equals(attachmentPersonnel.getPerson().getProtocolPersonId())) {
-                this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentBase.PropertyName.TYPE,
+                this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentBase.PropertyName.TYPE + ".code",
                     KeyConstants.ERROR_PROTOCOL_ATTACHMENT_DUPLICATE_TYPE);
                 return false;
             }

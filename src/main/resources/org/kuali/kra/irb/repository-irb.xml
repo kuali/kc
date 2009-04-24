@@ -528,18 +528,18 @@
 	
 	<class-descriptor class="org.kuali.kra.irb.noteattachment.ProtocolAttachmentTypeGroup" table="PROTOCOL_ATTACHMENT_TYPE_GROUP">
 		<field-descriptor name="id" column="TYPE_GROUP_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
-		<field-descriptor name="typeCode" column="TYPE_CD" jdbc-type="VARCHAR" />
-		<field-descriptor name="groupCode" column="GROUP_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="typeCode" column="TYPE_CD" jdbc-type="VARCHAR" access="anonymous"/>
+		<field-descriptor name="groupCode" column="GROUP_CD" jdbc-type="VARCHAR" access="anonymous"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		
-		<reference-descriptor name="type" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="type" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentType" auto-retrieve="true" auto-update="link" auto-delete="link"> 
 			<foreignkey field-ref="typeCode"/>
 		</reference-descriptor>
 		
-		<reference-descriptor name="group" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentGroup" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="group" class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentGroup" auto-retrieve="true" auto-update="link" auto-delete="link"> 
 			<foreignkey field-ref="groupCode"/>
 		</reference-descriptor>
 	</class-descriptor>
