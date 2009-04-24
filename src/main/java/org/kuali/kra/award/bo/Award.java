@@ -1683,7 +1683,12 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         this.paymentScheduleItems = paymentScheduleItems;
     }
 
+    // Note: following the pattern of Sponsor, this getter indirectly calls a service.
+    // Is there a better way?
     public Sponsor getPrimeSponsor() {
+        if(primeSponsor == null && !StringUtils.isEmpty(primeSponsorCode)) {
+            this.refreshReferenceObject("primeSponsor");
+        }
         return primeSponsor;
     }
 
