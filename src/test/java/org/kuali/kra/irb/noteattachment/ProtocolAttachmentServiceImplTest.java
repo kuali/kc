@@ -127,8 +127,7 @@ public class ProtocolAttachmentServiceImplTest {
             {
                 ProtocolAttachmentTypeGroup typeGroup = new ProtocolAttachmentTypeGroup();
                 typeGroup.setType(type);
-                typeGroup.setTypeCode("1");
-                typeGroup.setGroupCode("1");
+                typeGroup.setGroup(new ProtocolAttachmentGroup("1", "a group desc"));
                 oneOf(boService).findMatching(ProtocolAttachmentTypeGroup.class, Collections.singletonMap("groupCode", "1"));
                 will(returnValue(Collections.singletonList(typeGroup)));
             }

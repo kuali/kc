@@ -44,260 +44,259 @@ public class ProtocolAttachmentBaseRuleHelperTest {
         GlobalVariables.setAuditErrorMap(new HashMap());
         GlobalVariables.setErrorMap(new ErrorMap());
     }
-    @Test @Ignore public void wip() {}
     
-//    /**
-//     * Tests conditions related to a description being empty but valid.
-//     */
-//    @Test
-//    public void validDescriptionEmpty() {
-//        final ProtocolAttachmentService paService = this.context.mock(ProtocolAttachmentService.class); 
-//        final DictionaryValidationService ddService = this.context.mock(DictionaryValidationService.class);
-//        
-//        ProtocolAttachmentBaseRuleHelper helper = new ProtocolAttachmentBaseRuleHelper(paService, ddService);
-//        
-//        ProtocolAttachmentBase attachment = new ProtocolAttachmentProtocol();
-//        attachment.setTypeCode("3");
-//        
-//        boolean valid = helper.validDescription(attachment);
-//        
-//        this.context.assertIsSatisfied();
-//        
-//        Assert.assertThat("Should be valid", valid, is(true));
-//    }
-//
-//    /**
-//     * Tests conditions related to a description being non-empty and valid.
-//     */
-//    @Test
-//    public void validDescriptionNotEmpty() {
-//        final ProtocolAttachmentService paService = this.context.mock(ProtocolAttachmentService.class); 
-//        final DictionaryValidationService ddService = this.context.mock(DictionaryValidationService.class);
-//        
-//        ProtocolAttachmentBaseRuleHelper helper = new ProtocolAttachmentBaseRuleHelper(paService, ddService);
-//        
-//        ProtocolAttachmentBase attachment = new ProtocolAttachmentProtocol();
-//        attachment.setTypeCode("3");
-//        attachment.setDescription("a desc");
-//        
-//        boolean valid = helper.validDescription(attachment);
-//        
-//        this.context.assertIsSatisfied();
-//        
-//        Assert.assertThat("Should be valid", valid, is(true));
-//    }
-//    
-//    /**
-//     * Tests conditions related to a description being empty and invalid.
-//     */
-//    @Test
-//    public void invalidDescription() {
-//        final ProtocolAttachmentService paService = this.context.mock(ProtocolAttachmentService.class); 
-//        final DictionaryValidationService ddService = this.context.mock(DictionaryValidationService.class);
-//        
-//        ProtocolAttachmentBaseRuleHelper helper = new ProtocolAttachmentBaseRuleHelper(paService, ddService);
-//        
-//        ProtocolAttachmentBase attachment = new ProtocolAttachmentProtocol();
-//        attachment.setTypeCode("11");
-//        
-//        this.context.checking(new Expectations() {{
-//            ProtocolAttachmentType type = new ProtocolAttachmentType();
-//            type.setCode("11");
-//            type.setDescription("not Other");
-//            
-//            one(paService).getTypeFromCode("11");
-//            will(returnValue(type));
-//        }});
-//        
-//        boolean valid = helper.validDescription(attachment);
-//        
-//        this.context.assertIsSatisfied();
-//        
-//        Assert.assertThat("Should be not valid", valid, is(false));
-//    }
-//    
-//    /**
-//     * Tests a valid attachment according to the DD validation.
-//     */
-//    @Test
-//    public void validAttachmentAttachmentProtocolDD() {
-//        final ProtocolAttachmentService paService = this.context.mock(ProtocolAttachmentService.class); 
-//        final DictionaryValidationService ddService = this.context.mock(DictionaryValidationService.class);
-//        
-//        ProtocolAttachmentBaseRuleHelper helper = new ProtocolAttachmentBaseRuleHelper(paService, ddService);
-//        helper.resetPropertyPrefix("fooPrefix");
-//        
-//        final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
-//        attachment.setTypeCode("11");
-//        attachment.setAttachmentVersionNumber(1);
-//        attachment.setDocumentId(1);
-//        attachment.setProtocolId(1L);
-//        
-//        this.context.checking(new Expectations() {{         
-//            one(ddService).isBusinessObjectValid(attachment, "fooPrefix");
-//            will(returnValue(true));
-//        }});
-//        
-//        boolean valid = helper.validAgainstDictionary(attachment);
-//        
-//        this.context.assertIsSatisfied();
-//        
-//        Assert.assertThat("Should be valid", valid, is(true));
-//    }
-//    
-//    /**
-//     * Tests a valid type for group with blank code.
-//     */
-//    @Test
-//    public void validTypeForGroupBlankCode() {
-//        final ProtocolAttachmentService paService = this.context.mock(ProtocolAttachmentService.class); 
-//        final DictionaryValidationService ddService = this.context.mock(DictionaryValidationService.class);
-//        
-//        ProtocolAttachmentBaseRuleHelper helper = new ProtocolAttachmentBaseRuleHelper(paService, ddService);
-//        helper.resetPropertyPrefix("fooPrefix");
-//        
-//        final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
-//        attachment.setTypeCode(null);
-//                
-//        boolean valid = helper.validTypeForGroup(attachment);
-//        
-//        this.context.assertIsSatisfied();
-//        
-//        Assert.assertThat("Should be valid", valid, is(true));
-//    }
-//    
-//    /**
-//     * Tests a valid type for group with valid type code and type found.
-//     */
-//    @Test
-//    public void validTypeForGroupTypeFound() {
-//        final ProtocolAttachmentService paService = this.context.mock(ProtocolAttachmentService.class); 
-//        final DictionaryValidationService ddService = this.context.mock(DictionaryValidationService.class);
-//        
-//        ProtocolAttachmentBaseRuleHelper helper = new ProtocolAttachmentBaseRuleHelper(paService, ddService);
-//        helper.resetPropertyPrefix("fooPrefix");
-//        
-//        final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
-//        attachment.setTypeCode("11");
-//        
-//        this.context.checking(new Expectations() {{         
-//            Collection<ProtocolAttachmentType> types = new ArrayList<ProtocolAttachmentType>();
-//            ProtocolAttachmentType aType = new ProtocolAttachmentType();
-//            aType.setCode("11");
-//            types.add(aType);
-//            
-//            one(paService).getTypesForGroup(attachment.getGroupCode());
-//            will(returnValue(types));
-//        }});
-//        
-//        boolean valid = helper.validTypeForGroup(attachment);
-//        
-//        this.context.assertIsSatisfied();
-//        
-//        Assert.assertThat("Should be valid", valid, is(true));
-//    }
-//    
-//    /**
-//     * Tests invalid type for group with valid type code and type found but not for the given group.
-//     */
-//    @Test
-//    public void invalidTypeForGroupTypeFound() {
-//        final ProtocolAttachmentService paService = this.context.mock(ProtocolAttachmentService.class); 
-//        final DictionaryValidationService ddService = this.context.mock(DictionaryValidationService.class);
-//        
-//        ProtocolAttachmentBaseRuleHelper helper = new ProtocolAttachmentBaseRuleHelper(paService, ddService);
-//        helper.resetPropertyPrefix("fooPrefix");
-//        
-//        final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
-//        attachment.setTypeCode("11");
-//        
-//        this.context.checking(new Expectations() {{         
-//            
-//            Collection<ProtocolAttachmentType> types = new ArrayList<ProtocolAttachmentType>();
-//            {
-//                ProtocolAttachmentType aType = new ProtocolAttachmentType();
-//                aType.setCode("12");
-//                types.add(aType);
-//            }
-//            one(paService).getTypesForGroup(attachment.getGroupCode());
-//            will(returnValue(types));
-//            
-//            ProtocolAttachmentType aType2 = new ProtocolAttachmentType();
-//            aType2.setCode("11");
-//            aType2.setDescription("a desc");
-//            
-//            one(paService).getTypeFromCode("11");
-//            will(returnValue(aType2));
-//        }});
-//        
-//        boolean valid = helper.validTypeForGroup(attachment);
-//        
-//        this.context.assertIsSatisfied();
-//        
-//        Assert.assertThat("Should be valid", valid, is(false));
-//    }
-//    
-//    /**
-//     * Tests invalid type for group with valid type code and type NOT found.
-//     */
-//    @Test
-//    public void invalidTypeForGroupTypeNotFound() {
-//        final ProtocolAttachmentService paService = this.context.mock(ProtocolAttachmentService.class); 
-//        final DictionaryValidationService ddService = this.context.mock(DictionaryValidationService.class);
-//        
-//        ProtocolAttachmentBaseRuleHelper helper = new ProtocolAttachmentBaseRuleHelper(paService, ddService);
-//        helper.resetPropertyPrefix("fooPrefix");
-//        
-//        final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
-//        attachment.setTypeCode("11");
-//        
-//        this.context.checking(new Expectations() {{         
-//            Collection<ProtocolAttachmentType> types = new ArrayList<ProtocolAttachmentType>();
-//            ProtocolAttachmentType aType = new ProtocolAttachmentType();
-//            aType.setCode("12");
-//            types.add(aType);
-//            
-//            one(paService).getTypesForGroup(attachment.getGroupCode());
-//            will(returnValue(types));
-//            
-//            one(paService).getTypeFromCode("11");
-//            will(returnValue(null));
-//        }});
-//        
-//        boolean valid = helper.validTypeForGroup(attachment);
-//        
-//        this.context.assertIsSatisfied();
-//        
-//        Assert.assertThat("Should be valid", valid, is(false));
-//    }
-//    
-//    /**
-//     * Tests a invalid attachment according to the DD validation.
-//     */
-//    @Test
-//    public void invalidAttachmentDD() {
-//        final ProtocolAttachmentService paService = this.context.mock(ProtocolAttachmentService.class); 
-//        final DictionaryValidationService ddService = this.context.mock(DictionaryValidationService.class);
-//        
-//        ProtocolAttachmentBaseRuleHelper helper = new ProtocolAttachmentBaseRuleHelper(paService, ddService);
-//        helper.resetPropertyPrefix("fooPrefix");
-//        
-//        final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
-//        attachment.setTypeCode("11");
-//        attachment.setAttachmentVersionNumber(1);
-//        attachment.setDocumentId(1);
-//        attachment.setProtocolId(null);
-//        
-//        this.context.checking(new Expectations() {{         
-//            one(ddService).isBusinessObjectValid(attachment, "fooPrefix");
-//            will(returnValue(false));
-//        }});
-//        
-//        boolean valid = helper.validAgainstDictionary(attachment);
-//        
-//        this.context.assertIsSatisfied();
-//        
-//        Assert.assertThat("Should not be valid", valid, is(false));
-//    }
+    /**
+     * Tests conditions related to a description being empty but valid.
+     */
+    @Test
+    public void validDescriptionEmpty() {
+        final ProtocolAttachmentService paService = this.context.mock(ProtocolAttachmentService.class); 
+        final DictionaryValidationService ddService = this.context.mock(DictionaryValidationService.class);
+        
+        ProtocolAttachmentBaseRuleHelper helper = new ProtocolAttachmentBaseRuleHelper(paService, ddService);
+        
+        ProtocolAttachmentBase attachment = new ProtocolAttachmentProtocol();
+        attachment.setType(new ProtocolAttachmentType("3", "a desc"));
+        
+        boolean valid = helper.validDescription(attachment);
+        
+        this.context.assertIsSatisfied();
+        
+        Assert.assertThat("Should be valid", valid, is(true));
+    }
+
+    /**
+     * Tests conditions related to a description being non-empty and valid.
+     */
+    @Test
+    public void validDescriptionNotEmpty() {
+        final ProtocolAttachmentService paService = this.context.mock(ProtocolAttachmentService.class); 
+        final DictionaryValidationService ddService = this.context.mock(DictionaryValidationService.class);
+        
+        ProtocolAttachmentBaseRuleHelper helper = new ProtocolAttachmentBaseRuleHelper(paService, ddService);
+        
+        ProtocolAttachmentBase attachment = new ProtocolAttachmentProtocol();
+        attachment.setType(new ProtocolAttachmentType("3", "a desc"));
+        attachment.setDescription("a desc");
+        
+        boolean valid = helper.validDescription(attachment);
+        
+        this.context.assertIsSatisfied();
+        
+        Assert.assertThat("Should be valid", valid, is(true));
+    }
+    
+    /**
+     * Tests conditions related to a description being empty and invalid.
+     */
+    @Test
+    public void invalidDescription() {
+        final ProtocolAttachmentService paService = this.context.mock(ProtocolAttachmentService.class); 
+        final DictionaryValidationService ddService = this.context.mock(DictionaryValidationService.class);
+        
+        ProtocolAttachmentBaseRuleHelper helper = new ProtocolAttachmentBaseRuleHelper(paService, ddService);
+        
+        ProtocolAttachmentBase attachment = new ProtocolAttachmentProtocol();
+        attachment.setType(new ProtocolAttachmentType("11", "a desc"));
+        
+        this.context.checking(new Expectations() {{
+            ProtocolAttachmentType type = new ProtocolAttachmentType();
+            type.setCode("11");
+            type.setDescription("not Other");
+            
+            one(paService).getTypeFromCode("11");
+            will(returnValue(type));
+        }});
+        
+        boolean valid = helper.validDescription(attachment);
+        
+        this.context.assertIsSatisfied();
+        
+        Assert.assertThat("Should be not valid", valid, is(false));
+    }
+    
+    /**
+     * Tests a valid attachment according to the DD validation.
+     */
+    @Test
+    public void validAttachmentAttachmentProtocolDD() {
+        final ProtocolAttachmentService paService = this.context.mock(ProtocolAttachmentService.class); 
+        final DictionaryValidationService ddService = this.context.mock(DictionaryValidationService.class);
+        
+        ProtocolAttachmentBaseRuleHelper helper = new ProtocolAttachmentBaseRuleHelper(paService, ddService);
+        helper.resetPropertyPrefix("fooPrefix");
+        
+        final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
+        attachment.setType(new ProtocolAttachmentType("11", "a desc"));
+        attachment.setAttachmentVersionNumber(1);
+        attachment.setDocumentId(1);
+        attachment.setProtocolId(1L);
+        
+        this.context.checking(new Expectations() {{         
+            one(ddService).isBusinessObjectValid(attachment, "fooPrefix");
+            will(returnValue(true));
+        }});
+        
+        boolean valid = helper.validAgainstDictionary(attachment);
+        
+        this.context.assertIsSatisfied();
+        
+        Assert.assertThat("Should be valid", valid, is(true));
+    }
+    
+    /**
+     * Tests a valid type for group with blank code.
+     */
+    @Test
+    public void validTypeForGroupBlankCode() {
+        final ProtocolAttachmentService paService = this.context.mock(ProtocolAttachmentService.class); 
+        final DictionaryValidationService ddService = this.context.mock(DictionaryValidationService.class);
+        
+        ProtocolAttachmentBaseRuleHelper helper = new ProtocolAttachmentBaseRuleHelper(paService, ddService);
+        helper.resetPropertyPrefix("fooPrefix");
+        
+        final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
+        attachment.setType(new ProtocolAttachmentType(null, "a desc"));
+                
+        boolean valid = helper.validTypeForGroup(attachment);
+        
+        this.context.assertIsSatisfied();
+        
+        Assert.assertThat("Should be valid", valid, is(true));
+    }
+    
+    /**
+     * Tests a valid type for group with valid type code and type found.
+     */
+    @Test
+    public void validTypeForGroupTypeFound() {
+        final ProtocolAttachmentService paService = this.context.mock(ProtocolAttachmentService.class); 
+        final DictionaryValidationService ddService = this.context.mock(DictionaryValidationService.class);
+        
+        ProtocolAttachmentBaseRuleHelper helper = new ProtocolAttachmentBaseRuleHelper(paService, ddService);
+        helper.resetPropertyPrefix("fooPrefix");
+        
+        final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
+        attachment.setType(new ProtocolAttachmentType("11", "a desc"));
+        
+        this.context.checking(new Expectations() {{         
+            Collection<ProtocolAttachmentType> types = new ArrayList<ProtocolAttachmentType>();
+            ProtocolAttachmentType aType = new ProtocolAttachmentType();
+            aType.setCode("11");
+            types.add(aType);
+            
+            one(paService).getTypesForGroup(attachment.getGroupCode());
+            will(returnValue(types));
+        }});
+        
+        boolean valid = helper.validTypeForGroup(attachment);
+        
+        this.context.assertIsSatisfied();
+        
+        Assert.assertThat("Should be valid", valid, is(true));
+    }
+    
+    /**
+     * Tests invalid type for group with valid type code and type found but not for the given group.
+     */
+    @Test
+    public void invalidTypeForGroupTypeFound() {
+        final ProtocolAttachmentService paService = this.context.mock(ProtocolAttachmentService.class); 
+        final DictionaryValidationService ddService = this.context.mock(DictionaryValidationService.class);
+        
+        ProtocolAttachmentBaseRuleHelper helper = new ProtocolAttachmentBaseRuleHelper(paService, ddService);
+        helper.resetPropertyPrefix("fooPrefix");
+        
+        final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
+        attachment.setType(new ProtocolAttachmentType("11", "a desc"));
+        
+        this.context.checking(new Expectations() {{         
+            
+            Collection<ProtocolAttachmentType> types = new ArrayList<ProtocolAttachmentType>();
+            {
+                ProtocolAttachmentType aType = new ProtocolAttachmentType();
+                aType.setCode("12");
+                types.add(aType);
+            }
+            one(paService).getTypesForGroup(attachment.getGroupCode());
+            will(returnValue(types));
+            
+            ProtocolAttachmentType aType2 = new ProtocolAttachmentType();
+            aType2.setCode("11");
+            aType2.setDescription("a desc");
+            
+            one(paService).getTypeFromCode("11");
+            will(returnValue(aType2));
+        }});
+        
+        boolean valid = helper.validTypeForGroup(attachment);
+        
+        this.context.assertIsSatisfied();
+        
+        Assert.assertThat("Should be valid", valid, is(false));
+    }
+    
+    /**
+     * Tests invalid type for group with valid type code and type NOT found.
+     */
+    @Test
+    public void invalidTypeForGroupTypeNotFound() {
+        final ProtocolAttachmentService paService = this.context.mock(ProtocolAttachmentService.class); 
+        final DictionaryValidationService ddService = this.context.mock(DictionaryValidationService.class);
+        
+        ProtocolAttachmentBaseRuleHelper helper = new ProtocolAttachmentBaseRuleHelper(paService, ddService);
+        helper.resetPropertyPrefix("fooPrefix");
+        
+        final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
+        attachment.setType(new ProtocolAttachmentType("11", "a desc"));
+        
+        this.context.checking(new Expectations() {{         
+            Collection<ProtocolAttachmentType> types = new ArrayList<ProtocolAttachmentType>();
+            ProtocolAttachmentType aType = new ProtocolAttachmentType();
+            aType.setCode("12");
+            types.add(aType);
+            
+            one(paService).getTypesForGroup(attachment.getGroupCode());
+            will(returnValue(types));
+            
+            one(paService).getTypeFromCode("11");
+            will(returnValue(null));
+        }});
+        
+        boolean valid = helper.validTypeForGroup(attachment);
+        
+        this.context.assertIsSatisfied();
+        
+        Assert.assertThat("Should be valid", valid, is(false));
+    }
+    
+    /**
+     * Tests a invalid attachment according to the DD validation.
+     */
+    @Test
+    public void invalidAttachmentDD() {
+        final ProtocolAttachmentService paService = this.context.mock(ProtocolAttachmentService.class); 
+        final DictionaryValidationService ddService = this.context.mock(DictionaryValidationService.class);
+        
+        ProtocolAttachmentBaseRuleHelper helper = new ProtocolAttachmentBaseRuleHelper(paService, ddService);
+        helper.resetPropertyPrefix("fooPrefix");
+        
+        final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
+        attachment.setType(new ProtocolAttachmentType("11", "a desc"));
+        attachment.setAttachmentVersionNumber(1);
+        attachment.setDocumentId(1);
+        attachment.setProtocolId(null);
+        
+        this.context.checking(new Expectations() {{         
+            one(ddService).isBusinessObjectValid(attachment, "fooPrefix");
+            will(returnValue(false));
+        }});
+        
+        boolean valid = helper.validAgainstDictionary(attachment);
+        
+        this.context.assertIsSatisfied();
+        
+        Assert.assertThat("Should not be valid", valid, is(false));
+    }
     
 }

@@ -30,6 +30,28 @@ public class ProtocolAttachmentStatus extends KraPersistableBusinessObjectBase {
     private String description;
 
     /**
+     * empty ctor to satisfy JavaBean convention.
+     */
+    public ProtocolAttachmentStatus() {
+        super();
+    }
+    
+    /**
+     * Convenience ctor to set the relevant properties of this class.
+     * 
+     * <p>
+     * This ctor does not validate any of the properties.
+     * </p>
+     * 
+     * @param code the code.
+     * @param description the description.
+     */
+    public ProtocolAttachmentStatus(String code, String description) {
+        this.code = code;
+        this.description = description;
+    }
+    
+    /**
      * Gets the protocol attachment status code.
      * @return the protocol attachment status code
      */
