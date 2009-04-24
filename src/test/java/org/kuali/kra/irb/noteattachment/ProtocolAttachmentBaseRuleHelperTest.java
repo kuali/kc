@@ -31,6 +31,8 @@ import org.junit.Test;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kra.irb.bo.Protocol;
+import org.kuali.kra.irb.test.ProtocolTestUtil;
 
 /**
  * Tests the {@link ProtocolAttachmentBaseRuleHelper ProtocolAttachmentBaseRuleHelper} class.
@@ -130,7 +132,9 @@ public class ProtocolAttachmentBaseRuleHelperTest {
         attachment.setType(new ProtocolAttachmentType("11", "a desc"));
         attachment.setAttachmentVersionNumber(1);
         attachment.setDocumentId(1);
-        attachment.setProtocolId(1L);
+        Protocol protocol = ProtocolTestUtil.getProtocol(this.context);
+        protocol.setProtocolId(1L);
+        attachment.setProtocol(protocol);
         
         this.context.checking(new Expectations() {{         
             one(ddService).isBusinessObjectValid(attachment, "fooPrefix");
@@ -285,7 +289,7 @@ public class ProtocolAttachmentBaseRuleHelperTest {
         attachment.setType(new ProtocolAttachmentType("11", "a desc"));
         attachment.setAttachmentVersionNumber(1);
         attachment.setDocumentId(1);
-        attachment.setProtocolId(null);
+        attachment.setProtocol(null);
         
         this.context.checking(new Expectations() {{         
             one(ddService).isBusinessObjectValid(attachment, "fooPrefix");
