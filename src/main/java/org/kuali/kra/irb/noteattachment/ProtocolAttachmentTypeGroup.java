@@ -27,12 +27,30 @@ public class ProtocolAttachmentTypeGroup extends KraPersistableBusinessObjectBas
     private static final long serialVersionUID = 2053606476193782286L;
 
     private Long id;
-
-    private String typeCode;
     private ProtocolAttachmentType type;
- 
-    private String groupCode;
     private ProtocolAttachmentGroup group;
+
+    /**
+     * empty ctor to satisfy JavaBean convention.
+     */
+    public ProtocolAttachmentTypeGroup() {
+        super();
+    }
+    
+    /**
+     * Convenience ctor to set the relevant properties of this class.
+     * 
+     * <p>
+     * This ctor does not validate any of the properties.
+     * </p>
+     * 
+     * @param type the type.
+     * @param group the group.
+     */
+    public ProtocolAttachmentTypeGroup(ProtocolAttachmentType type, ProtocolAttachmentGroup group) {
+        this.type = type;
+        this.group = group;
+    }
     
     /**
      * Gets the protocol attachment type group id.
@@ -51,22 +69,6 @@ public class ProtocolAttachmentTypeGroup extends KraPersistableBusinessObjectBas
     }
 
     /**
-     * Gets the Protocol Attachment Type Code.
-     * @return Protocol Attachment Type Code
-     */
-    public String getTypeCode() {
-        return this.typeCode;
-    }
-
-    /**
-     * Sets the Protocol Attachment Type Code.
-     * @param typeCode Protocol Attachment Type Code
-     */
-    public void setTypeCode(String typeCode) {
-        this.typeCode = typeCode;
-    }
-
-    /**
      * Gets the Protocol Attachment Type.
      * @return Protocol Attachment Type
      */
@@ -80,22 +82,6 @@ public class ProtocolAttachmentTypeGroup extends KraPersistableBusinessObjectBas
      */
     public void setType(ProtocolAttachmentType type) {
         this.type = type;
-    }
-
-    /**
-     * Gets the Protocol Attachment Group Code.
-     * @return Protocol Attachment Group Code
-     */
-    public String getGroupCode() {
-        return this.groupCode;
-    }
-
-    /**
-     * Sets the Protocol Attachment Group Code.
-     * @param groupCode Protocol Attachment Group Code
-     */
-    public void setGroupCode(String groupCode) {
-        this.groupCode = groupCode;
     }
 
     /**
@@ -118,7 +104,9 @@ public class ProtocolAttachmentTypeGroup extends KraPersistableBusinessObjectBas
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("code", this.getId());
+        hashMap.put("id", this.getId());
+        hashMap.put("type", this.getType());
+        hashMap.put("group", this.getGroup());
         return hashMap;
     }
 
@@ -127,11 +115,9 @@ public class ProtocolAttachmentTypeGroup extends KraPersistableBusinessObjectBas
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((this.groupCode == null) ? 0 : this.groupCode.hashCode());
-        result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
         result = prime * result + ((this.group == null) ? 0 : this.group.hashCode());
+        result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
         result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
-        result = prime * result + ((this.typeCode == null) ? 0 : this.typeCode.hashCode());
         return result;
     }
 
@@ -148,11 +134,11 @@ public class ProtocolAttachmentTypeGroup extends KraPersistableBusinessObjectBas
             return false;
         }
         ProtocolAttachmentTypeGroup other = (ProtocolAttachmentTypeGroup) obj;
-        if (this.groupCode == null) {
-            if (other.groupCode != null) {
+        if (this.group == null) {
+            if (other.group != null) {
                 return false;
             }
-        } else if (!this.groupCode.equals(other.groupCode)) {
+        } else if (!this.group.equals(other.group)) {
             return false;
         }
         if (this.id == null) {
@@ -162,13 +148,6 @@ public class ProtocolAttachmentTypeGroup extends KraPersistableBusinessObjectBas
         } else if (!this.id.equals(other.id)) {
             return false;
         }
-        if (this.group == null) {
-            if (other.group != null) {
-                return false;
-            }
-        } else if (!this.group.equals(other.group)) {
-            return false;
-        }
         if (this.type == null) {
             if (other.type != null) {
                 return false;
@@ -176,13 +155,6 @@ public class ProtocolAttachmentTypeGroup extends KraPersistableBusinessObjectBas
         } else if (!this.type.equals(other.type)) {
             return false;
         }
-        if (this.typeCode == null) {
-            if (other.typeCode != null) {
-                return false;
-            }
-        } else if (!this.typeCode.equals(other.typeCode)) {
-            return false;
-        }
         return true;
-    } 
+    }
 }
