@@ -27,7 +27,7 @@
   	
 This is the Award Actions - Under Construction
 
-<kra-a:awardDataValidation />
+<kra:dataValidation auditActivated="${KualiForm.auditActivated}" tabErrorKeys="" topTab="false"/>
 
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 
