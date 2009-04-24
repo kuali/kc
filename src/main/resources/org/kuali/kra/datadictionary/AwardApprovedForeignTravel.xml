@@ -148,7 +148,7 @@
  
   <bean id="AwardApprovedForeignTravel-startDate" parent="AwardApprovedForeignTravel-startDate-parentBean" />
 
-  <bean id="AwardApprovedForeignTravel-startDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="AwardApprovedForeignTravel-startDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
     <property name="name" value="startDate" />
     <property name="label" value="Start Date" />
     <property name="shortLabel" value="Start Date" />
@@ -159,7 +159,7 @@
   
   <bean id="AwardApprovedForeignTravel-endDate" parent="AwardApprovedForeignTravel-endDate-parentBean" />
 
-  <bean id="AwardApprovedForeignTravel-endDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="AwardApprovedForeignTravel-endDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
     <property name="name" value="endDate" />
     <property name="label" value="End Date" />
     <property name="shortLabel" value="End Date" />
