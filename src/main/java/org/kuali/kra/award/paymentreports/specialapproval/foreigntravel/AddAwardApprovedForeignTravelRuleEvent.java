@@ -25,7 +25,10 @@ import org.kuali.kra.award.document.AwardDocument;
 public class AddAwardApprovedForeignTravelRuleEvent extends AwardApprovedForeignTravelRuleEvent {
 
     /**
-     * Constructs a AddAwardApprovedEquipmentRuleEvent.java.
+     * Constructs a AddAwardApprovedEquipmentRuleEvent
+     * 
+     * This event is NOT used by the rule framework, but is used to support adding
+     *  
      * @param errorPathPrefix
      * @param awardDocument
      * @param approvedEquipmentItem
@@ -37,10 +40,11 @@ public class AddAwardApprovedForeignTravelRuleEvent extends AwardApprovedForeign
     }
 
     /**
-     * @see org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRuleEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
+     * @see org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRuleEvent
+     *  #invokeRuleMethod(org.kuali.core.rule.BusinessRule)
      */
     @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((AwardApprovedForeignTravelRule) rule).processAddAwardApprovedForeignTravelBusinessRules(this);
+        return ((AwardApprovedForeignTravelRuleImpl) rule).processAddAwardApprovedForeignTravelBusinessRules(this);
     }
 }

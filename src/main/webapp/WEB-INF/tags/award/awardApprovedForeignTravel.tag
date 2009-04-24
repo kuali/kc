@@ -18,7 +18,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
  
 <kul:innerTab parentTab="Special Approval" tabItemCount="${KualiForm.document.awardList[0].approvedForeignTravelTripCount}" defaultOpen="false" 
-				tabTitle="Approved Foreign Travel" tabErrorKey="newAwardAwardApprovedForeignTravel*,document.awardList[0].approvedForeignTravelTrips*" >
+				tabTitle="Approved Foreign Travel" tabErrorKey="approvedForeignTravelBean.newApprovedForeignTravel*,document.awardList[0].approvedForeignTravelTrips*" >
 				
 	<c:set var="approvedForeignTravelAttributes" value="${DataDictionary.AwardApprovedForeignTravel.attributes}" />
 			
