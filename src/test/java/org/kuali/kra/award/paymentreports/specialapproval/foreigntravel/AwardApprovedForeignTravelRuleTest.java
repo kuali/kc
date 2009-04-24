@@ -50,6 +50,7 @@ public class AwardApprovedForeignTravelRuleTest {
     
     private static final String TRAVELER1_NAME = "Joe Smith";    
     private static final String TRAVELER2_NAME = "Jane Doe";
+    private static final String ERROR_PATH = "approvedForeignTravelBean.newApprovedForeignTravel.";
     
     private AwardApprovedForeignTravelRuleImpl approvedForeignTravelRule;
     private Award award;
@@ -82,7 +83,7 @@ public class AwardApprovedForeignTravelRuleTest {
     
     @Test
     public void testIsUnique_AddingToEmptyList() {
-        Assert.assertTrue(approvedForeignTravelRule.isUnique(award.getApprovedForeignTravelTrips(), trip1));
+        Assert.assertTrue(approvedForeignTravelRule.isUnique(ERROR_PATH, award.getApprovedForeignTravelTrips(), trip1));
     }
     
     @Test
@@ -96,13 +97,13 @@ public class AwardApprovedForeignTravelRuleTest {
     @Test
     public void testIsUnique_DuplicateTrip1() {
         award.add(trip1);
-        Assert.assertFalse(approvedForeignTravelRule.isUnique(award.getApprovedForeignTravelTrips(), new AwardApprovedForeignTravel(trip1)));
+        Assert.assertFalse(approvedForeignTravelRule.isUnique(ERROR_PATH, award.getApprovedForeignTravelTrips(), new AwardApprovedForeignTravel(trip1)));
     }
     
     @Test
     public void testIsUnique_DuplicateTrip2() {
         award.add(trip2);
-        Assert.assertFalse(approvedForeignTravelRule.isUnique(award.getApprovedForeignTravelTrips(), new AwardApprovedForeignTravel(trip2)));
+        Assert.assertFalse(approvedForeignTravelRule.isUnique(ERROR_PATH, award.getApprovedForeignTravelTrips(), new AwardApprovedForeignTravel(trip2)));
     }
     
     @Test
@@ -112,11 +113,11 @@ public class AwardApprovedForeignTravelRuleTest {
         anotherTrip.setTraveler(trip2.getTraveler());
         
         award.add(anotherTrip);        
-        Assert.assertTrue(approvedForeignTravelRule.isUnique(award.getApprovedForeignTravelTrips(), anotherTrip));
+        Assert.assertTrue(approvedForeignTravelRule.isUnique(ERROR_PATH, award.getApprovedForeignTravelTrips(), anotherTrip));
         
         Person newTraveler = getTraveler(3L, trip1.getTravelerName());
         anotherTrip.setTraveler(newTraveler);
-        Assert.assertFalse(approvedForeignTravelRule.isUnique(award.getApprovedForeignTravelTrips(), anotherTrip));
+        Assert.assertFalse(approvedForeignTravelRule.isUnique(ERROR_PATH, award.getApprovedForeignTravelTrips(), anotherTrip));
     }
     
     @Test
@@ -126,10 +127,10 @@ public class AwardApprovedForeignTravelRuleTest {
         anotherTrip.setDestination(trip2.getDestination());
         
         award.add(anotherTrip);        
-        Assert.assertTrue(approvedForeignTravelRule.isUnique(award.getApprovedForeignTravelTrips(), anotherTrip));
+        Assert.assertTrue(approvedForeignTravelRule.isUnique(ERROR_PATH, award.getApprovedForeignTravelTrips(), anotherTrip));
         
         anotherTrip.setDestination(trip1.getDestination());
-        Assert.assertFalse(approvedForeignTravelRule.isUnique(award.getApprovedForeignTravelTrips(), anotherTrip));
+        Assert.assertFalse(approvedForeignTravelRule.isUnique(ERROR_PATH, award.getApprovedForeignTravelTrips(), anotherTrip));
     }
     
     @Test
@@ -177,7 +178,7 @@ public class AwardApprovedForeignTravelRuleTest {
     private void checkExistingEntriesDontTriggerDuplicationError() {
         List<AwardApprovedForeignTravel> trips = award.getApprovedForeignTravelTrips();
         for(AwardApprovedForeignTravel trip : trips) {
-            Assert.assertTrue(approvedForeignTravelRule.isUnique(trips, trip));
+            Assert.assertTrue(approvedForeignTravelRule.isUnique(ERROR_PATH, trips, trip));
         }
     }
     
