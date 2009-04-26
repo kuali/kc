@@ -17,6 +17,7 @@ package org.kuali.kra.irb.personnel;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +34,7 @@ import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class PersonnelHelper {
+public class PersonnelHelper implements Serializable {
     
     /**
      * Each Helper must contain a reference to its document form
