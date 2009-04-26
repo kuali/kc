@@ -5,7 +5,7 @@
 <name>PersonEditableFieldMaintenanceDocument</name>
 <description>Create a New Person Editable Field</description>
 <label>Person Editable Field</label>
-<postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 <defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>

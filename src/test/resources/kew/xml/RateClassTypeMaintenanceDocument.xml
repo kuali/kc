@@ -5,7 +5,7 @@
 <name>RateClassTypeMaintenanceDocument</name>
 <description>Create/Edit a Rate Class Type</description>
 <label>Rate Class Type</label>
-<postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 <defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
