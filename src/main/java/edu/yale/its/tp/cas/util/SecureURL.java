@@ -15,8 +15,11 @@
  */
 package edu.yale.its.tp.cas.util;
 
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 
 /**
  * <p>A class housing some utility functions exposing secure URL validation
