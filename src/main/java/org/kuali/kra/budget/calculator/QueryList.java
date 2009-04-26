@@ -20,13 +20,18 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.text.Collator;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.calculator.query.*;
+import org.kuali.kra.budget.calculator.query.And;
+import org.kuali.kra.budget.calculator.query.Equals;
+import org.kuali.kra.budget.calculator.query.GreaterThan;
+import org.kuali.kra.budget.calculator.query.LesserThan;
+import org.kuali.kra.budget.calculator.query.Operator;
+import org.kuali.kra.budget.calculator.query.Or;
+import org.kuali.kra.budget.calculator.query.RelationalOperator;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 
 /**

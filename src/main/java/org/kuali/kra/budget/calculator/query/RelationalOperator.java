@@ -15,7 +15,9 @@
  */
 package org.kuali.kra.budget.calculator.query;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 
 public abstract class RelationalOperator implements Operator {

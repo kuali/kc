@@ -17,10 +17,10 @@ package org.kuali.kra.budget.rule.event;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.rule.BudgetCostShareAllocationRule;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 public class BudgetCostShareAllocationEvent extends KraDocumentEventBase {
     private static final Log LOG = LogFactory.getLog(BudgetCostShareAllocationEvent.class);
