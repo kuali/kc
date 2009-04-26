@@ -21,17 +21,10 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.RiceKeyConstants;
-import org.kuali.core.UserSession;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.util.ErrorMessage;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.budget.bo.CostElement;
-import org.kuali.kra.budget.bo.ValidCeRateType;
-import org.kuali.kra.budget.rules.ValidCeRateTypeMaintenanceDocumentRule;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class KraMaintenanceDocumentRuleBaseTest extends MaintenanceRuleTestBase {
     private KraMaintenanceDocumentRuleBase rule = null;

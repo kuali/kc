@@ -21,23 +21,22 @@ import java.sql.Date;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.UserSession;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.KNSServiceLocator;
-
-import edu.iu.uis.eden.clientapp.WorkflowInfo;
-import edu.iu.uis.eden.clientapp.vo.ActionRequestVO;
-import edu.iu.uis.eden.clientapp.vo.DocumentDetailVO;
-import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
-import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
-import edu.iu.uis.eden.clientapp.vo.UserIdVO;
+import org.kuali.rice.kew.dto.ActionRequestDTO;
+import org.kuali.rice.kew.dto.DocumentDetailDTO;
+import org.kuali.rice.kew.dto.ReportCriteriaDTO;
+import org.kuali.rice.kew.service.WorkflowInfo;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class ProposalDevelopmentDocumentRoutingTest extends KraTestBase {
     private DocumentService documentService = null;
+    
+    private static final String USER_PRINCIPLE_ID = "quickstart";
 
     @Before
     public void setUp() throws Exception {
@@ -80,29 +79,28 @@ public class ProposalDevelopmentDocumentRoutingTest extends KraTestBase {
         workflowDoc.complete("test");
 
         WorkflowInfo info = new WorkflowInfo();
-        NetworkIdVO networkId = new NetworkIdVO("quickstart");
-        ReportCriteriaVO reportCriteria = new ReportCriteriaVO(new Long(workflowDoc.getRouteHeaderId()));
-        reportCriteria.setTargetUsers(new UserIdVO[] { networkId });
+        ReportCriteriaDTO reportCriteria = new ReportCriteriaDTO(new Long(workflowDoc.getRouteHeaderId()));
+        reportCriteria.setTargetPrincipalIds(new String[] { USER_PRINCIPLE_ID });
         reportCriteria.setActivateRequests(true);
 
-        DocumentDetailVO results1 = info.routingReport(reportCriteria);
-        ActionRequestVO[] actionRequests = results1.getActionRequests();
+        DocumentDetailDTO results1 = info.routingReport(reportCriteria);
+        ActionRequestDTO[] actionRequests = results1.getActionRequests();
         assertNotNull(actionRequests);
         assertEquals(3, actionRequests.length);
         
-        for(ActionRequestVO actionRequest: actionRequests) {
+        for(ActionRequestDTO actionRequest: actionRequests) {
             if(actionRequest.getNodeName().equalsIgnoreCase("Initiated")) { 
                 assertEquals("U", actionRequest.getRecipientTypeCd());
-                assertNotNull(actionRequest.getUserVO().getNetworkId());
-                assertEquals("quickstart", actionRequest.getUserVO().getNetworkId());
+                assertNotNull(actionRequest.getPrincipalId());
+                assertEquals("quickstart", actionRequest.getPrincipalId());
             } else if(actionRequest.getNodeName().equalsIgnoreCase("FirstApproval")) {
                 assertEquals("U", actionRequest.getRecipientTypeCd());
-                assertNotNull(actionRequest.getUserVO().getNetworkId());
-                assertEquals("quickstart", actionRequest.getUserVO().getNetworkId()); 
+                assertNotNull(actionRequest.getPrincipalId());
+                assertEquals("quickstart", actionRequest.getPrincipalId()); 
             } else if(actionRequest.getNodeName().equalsIgnoreCase("SecondApproval")) {
                 assertEquals("U", actionRequest.getRecipientTypeCd());
-                assertNotNull(actionRequest.getUserVO().getNetworkId());
-                assertEquals("quickstart", actionRequest.getUserVO().getNetworkId());
+                assertNotNull(actionRequest.getPrincipalId());
+                assertEquals("quickstart", actionRequest.getPrincipalId());
             } else {
                 fail("Unexpected ActionRequest generated for ProposalDevelopmentDocument");
             }
