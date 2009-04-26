@@ -15,11 +15,10 @@
  */
 package org.kuali.kra.award.bo;
 
+import java.util.LinkedHashMap;
+
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Rolodex;
-
-import java.util.LinkedHashMap;
-//import java.sql.Date;
 
 public class AwardTemplateContact extends KraPersistableBusinessObjectBase { 
 	

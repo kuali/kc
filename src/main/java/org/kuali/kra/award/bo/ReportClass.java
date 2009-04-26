@@ -92,7 +92,7 @@ public class ReportClass extends KraPersistableBusinessObjectBase {
 
     /**
      * 
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @Override 
     protected LinkedHashMap<String,Object> toStringMapper() {

@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.axis.utils.StringUtils;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
@@ -41,6 +40,7 @@ import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.document.SpecialReviewHandler;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * 

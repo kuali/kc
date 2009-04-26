@@ -146,7 +146,7 @@ public class AwardReportTermRecipient extends AwardReportTermRecipientBase {
 //    
     /**
      * 
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @SuppressWarnings("unchecked")
     @Override 

@@ -18,8 +18,8 @@ package org.kuali.kra.award.bo;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 // TODO gmcgrego - I created this class, but only needed to use finalExpirationDate.
 // So everything else isn't necessarily correct (ie Long -> KualiDecimal?).
