@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.award.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import java.util.LinkedHashMap;
+
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Sponsor;
-import org.kuali.kra.award.bo.Award;
 
 /**
  * AwardTransferringSponsor business object

@@ -17,8 +17,8 @@ package org.kuali.kra.award.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class is the Business Object representation of an Award Approved Subaward
@@ -169,7 +169,7 @@ public class AwardApprovedSubaward extends KraPersistableBusinessObjectBase impl
     }
     
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
     protected LinkedHashMap<String,Object> toStringMapper() {
