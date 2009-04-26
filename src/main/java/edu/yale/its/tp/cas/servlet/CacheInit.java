@@ -15,11 +15,17 @@
  */
 package edu.yale.its.tp.cas.servlet;
 
-import java.io.*;
-import javax.servlet.*;
-import javax.servlet.http.*;
-import edu.yale.its.tp.cas.ticket.*;
-import edu.yale.its.tp.cas.auth.*;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+
+import edu.yale.its.tp.cas.ticket.GrantorCache;
+import edu.yale.its.tp.cas.ticket.LoginTicketCache;
+import edu.yale.its.tp.cas.ticket.ProxyGrantingTicket;
+import edu.yale.its.tp.cas.ticket.ProxyTicket;
+import edu.yale.its.tp.cas.ticket.ServiceTicket;
+import edu.yale.its.tp.cas.ticket.ServiceTicketCache;
+import edu.yale.its.tp.cas.ticket.TicketGrantingTicket;
 
 /**
  * Sets up shared ticket caches for the CAS web application.
