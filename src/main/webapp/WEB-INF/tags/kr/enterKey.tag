@@ -13,6 +13,11 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
+<%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
+
 <%@ attribute name="methodToCall" required="true"%>
 
-<input type="image" class="tinybutton" name="methodToCall.${methodToCall}" src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" width="0" height="0" border="0"/>
+<c:set var="methodToCallParam" value="methodToCall.${methodToCall}" />
+
+${kfunc:registerEditableProperty(KualiForm, methodToCallParam)}
+<input type="image" class="tinybutton" name="${methodToCallParam}" src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" width="0" height="0" border="0"/>

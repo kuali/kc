@@ -36,6 +36,7 @@
     <c:set var="tabindex" value="${KualiForm.nextArbitrarilyHighIndex}"/>
   </c:otherwise>
 </c:choose>
-
-<input type="image" tabindex="${tabindex}" name="methodToCall.performLookup.(!!${boClassName}!!).(((${fieldConversions}))).((#${lookupParameters}#)).((<${hideReturnLink}>)).(([${extraButtonSource}])).((*${extraButtonParams}*)).((^${suppressActions}^)).((&${readOnlyFields}&)).((/${referencesToRefresh}/)).((~${autoSearch}~)).anchor${anchor}"
+<c:set var="epMethodToCallAttribute" value="methodToCall.performLookup.(!!${boClassName}!!).(((${fieldConversions}))).((#${lookupParameters}#)).((<${hideReturnLink}>)).(([${extraButtonSource}])).((*${extraButtonParams}*)).((^${suppressActions}^)).((&${readOnlyFields}&)).((/${referencesToRefresh}/)).((~${autoSearch}~)).anchor${anchor}"/>
+${kfunc:registerEditableProperty(KualiForm, epMethodToCallAttribute)} 
+<input type="image" tabindex="${tabindex}" name="${epMethodToCallAttribute}"
    src="${ConfigProperties.kr.externalizable.images.url}searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Search ${fieldLabel}" title="Search ${fieldLabel}" />

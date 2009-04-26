@@ -162,8 +162,10 @@ function resizeTheRouteLogFrame() {
   for (i in parameterPairs) {
   
     parameters = parameterPairs[i].split(":");
-  	if (document.forms[0].elements[parameters[0]].value=="") {
-//    	queryString=queryString+"&"+parameters[1]+"=directInquiryParameterNotSpecified";
+  	if (document.forms[0].elements[parameters[0]].value=="") 
+  	{
+  		alert("Please enter a value in the appropriate field.");
+  		//queryString=queryString+"&"+parameters[1]+"=directInquiryParameterNotSpecified";
 		return false;
   	} else {
     	queryString=queryString+"&"+parameters[1]+"="+document.forms[0].elements[parameters[0]].value;

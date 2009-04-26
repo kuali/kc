@@ -34,7 +34,7 @@
 
     <table width="100%" border=0 cellpadding=0 cellspacing=0 class="headercell1">
       <tr>
-        <td><img src="images/wf-logo.gif" alt="OneStart Workflow" width=150 height=21 hspace=5 vspace=5></td>
+        <td><img src="images/wf-logo.gif" alt="Workflow" width=150 height=21 hspace=5 vspace=5></td>
         <td width="90%">
           <a href="MessageQueue.do?methodToCall=start">Message Queue</a>
         </td>
@@ -232,21 +232,21 @@
 				  		    </tr>
 
 				  		    <tr>
-				  		    	<td class="thnormal" align="right" width="20%">Message Entity:&nbsp;</td>
+				  		    	<td class="thnormal" align="right" width="20%">Service Namespace:&nbsp;</td>
 				  		    	<c:if test="${showOld}">
 					  		    	<td class="datacell">
-					  		    		<c:out value="${MessageQueueForm.messageQueueFromDatabase.messageEntity}" />
+					  		    		<c:out value="${MessageQueueForm.messageQueueFromDatabase.serviceNamespace}" />
 					  		    	</td>
 				  		    	</c:if>
 				  		    	<td class="datacell">
 				  		    		<c:choose>
 				  		    			<c:when test="${inEditMode}">
-													<html-el:text property="messageQueueFromForm.messageEntity" size="35" maxlength="50" />
+													<html-el:text property="messageQueueFromForm.serviceNamespace" size="35" maxlength="50" />
 													&nbsp;
-													<bean-el:message key="routequeue.help.messageEntity"/>
+													<bean-el:message key="routequeue.help.serviceNamespace"/>
 				  		    			</c:when>
 				  		    			<c:otherwise>
-				  		    				<c:out value="${MessageQueueForm.messageQueueFromForm.messageEntity}" />
+				  		    				<c:out value="${MessageQueueForm.messageQueueFromForm.serviceNamespace}" />
 				  		    			</c:otherwise>
 				  		    		</c:choose>
 				  		    	</td>

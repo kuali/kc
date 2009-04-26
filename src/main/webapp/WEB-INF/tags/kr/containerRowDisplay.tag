@@ -25,5 +25,6 @@
               description="the recursion depth number" %>
 <%@ attribute name="rowsHidden" required="false"
               description="boolean that indicates whether the rows should be hidden or all fields are hidden" %>
-              
-    <kul:rowDisplay rows="${rows}" numberOfColumns="${numberOfColumns}" skipTheOldNewBar="${skipTheOldNewBar}" depth="${depth}" rowsHidden="${rowsHidden}" />          
+<%@ attribute name="rowsReadOnly" required="false"
+              description="boolean that indicates whether the rows should be rendered as read-only (note that rows will automatically be rendered as readonly if it is an inquiry or if it is a maintenance document in readOnly mode" %>             
+    <kul:rowDisplay rows="${rows}" numberOfColumns="${numberOfColumns}" skipTheOldNewBar="${skipTheOldNewBar}" depth="${depth}" rowsHidden="${rowsHidden}" rowsReadOnly="${rowsReadOnly}"/>          

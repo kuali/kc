@@ -34,10 +34,12 @@
 <%@ attribute name="hideRequiredAsterisk" required="false" description="if set to true, this will hide the required asterisk symbol under all situations" %>
 <%@ attribute name="anchor" required="false" description="adds a named anchor inside the header cell" %>
 <%@ attribute name="nowrap" required="false" description="add the 'nowrap' clause to the TH" %>
+<%@ attribute name="useShortLabel" required="false" description="indicate to use shortLabel or not and default to true" %>
 
 <c:set var="scopeAttribute" value='scope="${scope}"'/>  <%-- this works for HTML output (but not for JSP execution) --%>
 <c:set var="alignAttribute" value='align="${align}"'/>
 <c:set var="widthAttribute" value='width="${width}"'/>
+<c:set var="isUseShortLabel" ><c:out value="${useShortLabel}" default="true"/></c:set>
 
 <th
     rowspan="${empty rowspan ? 1 : rowspan}"
@@ -54,13 +56,15 @@
         Should this be done with a CSS style instead?  --%>
     <c:choose>
         <c:when test="${empty attributeEntry && empty attributeEntryName}">
-            ${literalLabel}
+        <c:if test="${not empty labelFor}"><label for="${labelFor}"></c:if
+>${literalLabel}
+            <c:if test="${not empty labelFor}"></label></c:if>
         </c:when>
         <c:otherwise>
             <kul:htmlAttributeLabel
                 attributeEntry="${attributeEntry}"
                 attributeEntryName="${attributeEntryName}"
-                useShortLabel="true"
+                useShortLabel="${isUseShortLabel}"
                 noColon="${!horizontal}"
                 labelFor="${labelFor}"
                 forceRequired="${forceRequired}" 

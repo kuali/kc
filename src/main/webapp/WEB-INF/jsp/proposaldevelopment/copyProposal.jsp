@@ -13,15 +13,12 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
+<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <link href="en/css/kuali.css" rel="stylesheet" type="text/css">
 
-<%@page import="edu.iu.uis.eden.util.Utilities" %>
-<%@page import="edu.iu.uis.eden.EdenConstants" %>
-<%@page import="org.apache.commons.lang.StringUtils" %>
-
-<%
+<%--
 	String target = ""; 
-	String popUpNeeded = Utilities.getApplicationConstant(EdenConstants.ACTION_LIST_DOCUMENT_POPUP_KEY).trim();
+	String popUpNeeded = Constants.ACTION_LIST_DOCUMENT_POPUP_VALUE;
 	
 	if(StringUtils.isNotEmpty(popUpNeeded)) {
 		if(Boolean.parseBoolean(popUpNeeded) == true)  
@@ -29,8 +26,13 @@
 		else
 			target = " target='_parent'";
 	}
-%>
+--%>
 
+<c:set var="target" value="_blank" /> 
+<c:if test="${ActionListForm.documentPopup == Constants.ACTION_LIST_DOCUMENT_POPUP_VALUE}">
+   <c:set var="target" value="_parent" /> 
+ 
+ </c:if> 
 <div valign="center">
 	<a href='${pageContext.request.contextPath}/DocCopyHandler.do?command=displayDocSearchView&docId=<%=request.getParameter("docId")%>&documentTypeName=ProposalDevelopmentDocument' <%=target%> >Copy Proposal</a>
 </div>

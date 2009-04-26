@@ -1,12 +1,12 @@
 <%--
  Copyright 2005-2007 The Kuali Foundation.
- 
+
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
- 
+
  http://www.opensource.org/licenses/ecl1.php
- 
+
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,6 +20,9 @@
 <c:if test="${KualiForm.suppressActions!=true}">
     <c:set var="headerMenu" value="${KualiForm.lookupable.createNewUrl}   ${KualiForm.lookupable.htmlMenuBar}" />
 </c:if>
+<c:if test="${KualiForm.supplementalActionsEnabled==true}">
+    <c:set var="headerMenu" value="${headerMenu} ${KualiForm.lookupable.supplementalMenuBar}" />
+</c:if>
 <kul:page lookup="true" showDocumentInfo="false"
 	headerMenuBar="${headerMenu}"
 	headerTitle="Lookup" docTitle="" transactionalDocument="false"
@@ -30,10 +33,12 @@
     var kualiElements = kualiForm.elements;
   </SCRIPT>
 
-	<div class="headerarea-small" id="headerarea-small">
-	<h1><c:out value="${KualiForm.lookupable.title}" /><kul:help
-		resourceKey="lookupHelpText" altText="lookup help" /></h1>
-	</div>
+	<c:if test="${KualiForm.supplementalActionsEnabled==true}">
+		<div class="headerarea-small" id="headerarea-small">
+			<h1><c:out value="${KualiForm.lookupable.title}" /><kul:help
+				resourceKey="lookupHelpText" altText="lookup help" /></h1>
+		</div>
+	</c:if>
 	<kul:enterKey methodToCall="search" />
 
 	<html-el:hidden name="KualiForm" property="backLocation" />
@@ -48,16 +53,28 @@
 	<html-el:hidden name="KualiForm" property="readOnlyFields" />
 	<html-el:hidden name="KualiForm" property="referencesToRefresh" />
 	<html-el:hidden name="KualiForm" property="hasReturnableRow" />
-	
+	<html-el:hidden name="KualiForm" property="docNum" />
+	<html-el:hidden name="KualiForm" property="showMaintenanceLinks" />
+
 	<c:forEach items="${KualiForm.extraButtons}" varStatus="status">
 		<html-el:hidden name="KualiForm" property="extraButtons[${status.index}].extraButtonSource" />
 		<html-el:hidden name="KualiForm" property="extraButtons[${status.index}].extraButtonParams" />
 	</c:forEach>
-
-	<kul:errors errorTitle="Errors found in Search Criteria:" />
-	<kul:messages/>
+	<div class="right">
+		<div class="excol">
+		* required field
+		</div>
+	</div>
+    <div class="msg-excol">
+      <div class="left-errmsg">
+        <kul:errors errorTitle="Errors found in Search Criteria:" />
+        <kul:messages/>
+	  </div>
+    </div>
+    <br/>
 
 	<table width="100%">
+	  <c:if test="${KualiForm.lookupCriteriaEnabled}">
 		<tr>
 			<td width="1%"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="20"
 				height="20"></td>
@@ -83,30 +100,31 @@
 						src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_clear.gif" styleClass="tinybutton"
 						alt="clear" title="clear" border="0" /> <c:if test="${KualiForm.formKey!=''}">
 						<a
-							href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&docFormKey=${KualiForm.formKey}&anchor=${KualiForm.lookupAnchor}" />'  title="cancel"><img
-							src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" class="tinybutton" alt="cancel" title="cancel" 
+							href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&docFormKey=${KualiForm.formKey}&anchor=${KualiForm.lookupAnchor}&docNum=${KualiForm.docNum}" />'  title="cancel"><img
+							src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" class="tinybutton" alt="cancel" title="cancel"
 							border="0" /></a>
 					</c:if>
-					<!-- Optional extra buttons --> 					
+					<!-- Optional extra buttons -->
 					<c:forEach items="${KualiForm.extraButtons}" var="extraButton" varStatus="status">
 						<c:if test="${!empty extraButton.extraButtonSource && !empty extraButton.extraButtonParams}">
-							<a href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&refreshCaller=kualiLookupable&docFormKey=${KualiForm.formKey}&anchor=${KualiForm.lookupAnchor}" /><c:out value="${extraButton.extraButtonParams}" />'><img 
+							<a href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&refreshCaller=kualiLookupable&docFormKey=${KualiForm.formKey}&anchor=${KualiForm.lookupAnchor}&docNum=${KualiForm.docNum}" /><c:out value="${extraButton.extraButtonParams}" />'><img
 							    src='<c:out value="${extraButton.extraButtonSource}" />'
 								class="tinybutton" border="0" /></a>
-						</c:if> 
+						</c:if>
 					</c:forEach>
 					<c:if test="${KualiForm.multipleValues }">
 						<a
-							href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&docFormKey=${KualiForm.formKey}&anchor=${KualiForm.lookupAnchor}" />'>
+							href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&docFormKey=${KualiForm.formKey}&anchor=${KualiForm.lookupAnchor}&docNum=${KualiForm.docNum}" />'>
 						<img src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_retnovalue.gif" class="tinybutton"
 							border="0" /></a>
 						<a
-							href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&docFormKey=${KualiForm.formKey}&refreshCaller=multipleValues&searchResultKey=${searchResultKey}&searchResultDataKey=${searchResultDataKey}&anchor=${KualiForm.lookupAnchor}"/>'>
+							href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&docFormKey=${KualiForm.formKey}&refreshCaller=multipleValues&searchResultKey=${searchResultKey}&searchResultDataKey=${searchResultDataKey}&anchor=${KualiForm.lookupAnchor}&docNum=${KualiForm.docNum}"/>'>
 						<img src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_returnthese.gif" class="tinybutton"
 							border="0" /></a>
-					</c:if>						
+					</c:if>
 					</td>
 				</tr>
+			  </c:if>
 			</table>
 			</div>
 
@@ -117,13 +135,13 @@
 				<c:if
 					test="${KualiForm.formKey!='' && KualiForm.hideReturnLink != true && !KualiForm.multipleValues}">
 					<a
-						href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&docFormKey=${KualiForm.formKey}&anchor=${KualiForm.lookupAnchor}" />' title="return with no value">
+						href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&docFormKey=${KualiForm.formKey}&anchor=${KualiForm.lookupAnchor}&docNum=${KualiForm.docNum}" />' title="return with no value">
 					return with no value</a>
 				</c:if>
 			</logic-el:present></div>
 			<c:if test="${reqSearchResultsActualSize>0}">
 				<c:out value="${reqSearchResultsActualSize}" /> items found.  Please refine your search criteria to narrow down your search.
-          </c:if> 
+          </c:if>
 			<c:if test="${!empty reqSearchResultsActualSize }">
 			    <c:if test="${KualiForm.searchUsingOnlyPrimaryKeyValues}">
 			    	<bean-el:message key="lookup.using.primary.keys" arg0="${KualiForm.primaryKeyFieldLabels}"/>
@@ -133,14 +151,38 @@
     				<bean-el:message key="lookup.no.returnable.rows" />
     				<br/><br/>
     			</c:if>
-			    
+
 				<display:table class="datatable-100" cellspacing="0"
 				requestURIcontext="false" cellpadding="0" name="${reqSearchResults}"
 				id="row" export="true" pagesize="100"
-				requestURI="lookup.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&searchResultKey=${searchResultKey}&searchUsingOnlyPrimaryKeyValues=${KualiForm.searchUsingOnlyPrimaryKeyValues}">
+				requestURI="lookup.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&searchResultKey=${searchResultKey}&searchUsingOnlyPrimaryKeyValues=${KualiForm.searchUsingOnlyPrimaryKeyValues}&actionUrlsExist=${KualiForm.actionUrlsExist}">
+
+				<%-- the param['d-16544-e'] parameter below is NOT null when we are in exporting mode, so this check disables rendering of return/action URLs when we are exporting to CSV, excel, xml, etc. --%>
+				<c:if test="${param['d-16544-e'] == null}">
+					<logic:present name="KualiForm" property="formKey">
+						<c:if
+							test="${KualiForm.formKey!='' && KualiForm.hideReturnLink!=true && !KualiForm.multipleValues}">
+							<c:if test="${row.rowReturnable}">
+								<display:column class="infocell" property="returnUrl" media="html" title="Return Value"/>
+							</c:if>
+						</c:if>
+						<c:if test="${KualiForm.actionUrlsExist==true && KualiForm.suppressActions!=true && !KualiForm.multipleValues && KualiForm.showMaintenanceLinks}">
+							<c:choose>
+								<c:when test="${row.actionUrls!=''}">
+									<display:column class="infocell" property="actionUrls"
+										title="Actions" media="html" />
+								</c:when>
+								<c:otherwise>
+									<display:column class="infocell"
+										title="Actions" media="html">&nbsp;</display:column>
+								</c:otherwise>
+							</c:choose>
+						</c:if>
+					</logic:present>
+				</c:if>
 
 				<c:forEach items="${row.columns}" var="column" varStatus="loopStatus">
-          <c:set var="colClass" value="${ fn:startsWith(column.formatter, 'org.kuali.core.web.format.CurrencyFormatter') ? 'numbercell' : 'infocell' }" />
+          <c:set var="colClass" value="${ fn:startsWith(column.formatter, 'org.kuali.rice.kns.web.format.CurrencyFormatter') ? 'numbercell' : 'infocell' }" />
 					<c:choose>
 						<%--NOTE: Check if exporting first, as this should be outputted without extra HTML formatting --%>
 						<c:when	test="${param['d-16544-e'] != null}">
@@ -148,46 +190,50 @@
 									title="${column.columnTitle}" comparator="${column.comparator}"
 									maxLength="${column.maxLength}"><c:out value="${column.propertyValue}" escapeXml="false" default="" /></display:column>
 						</c:when>
-						<c:when	test="${!empty column.propertyURL}">
+						<c:when	test="${!empty column.columnAnchor.href || column.multipleAnchors}">
 							<display:column class="${colClass}" sortable="${column.sortable}"
 								title="${column.columnTitle}" comparator="${column.comparator}">
-								<a href="<c:out value="${column.propertyURL}"/>" target="blank" title="${column.propertyValue}"><c:out
-									value="${fn:substring(column.propertyValue, 0, column.maxLength)}"
-									/><c:if test="${column.maxLength gt 0 && fn:length(column.propertyValue) gt column.maxLength}">...</c:if></a> &nbsp;
-                            </display:column>
+								<c:choose>
+									<c:when	test="${column.multipleAnchors}">
+										<c:set var="numberOfColumnAnchors" value="${column.numberOfColumnAnchors}" />
+										<logic:iterate id="columnAnchor" name="column" property="columnAnchors" indexId="ctr">
+										<a href="<c:out value="${columnAnchor.href}"/>" target="blank" title="${columnAnchor.title}"><c:out
+											value="${fn:substring(columnAnchor.displayText, 0, column.maxLength)}" escapeXml="${column.escapeXMLValue}"
+											/><c:if test="${column.maxLength gt 0 && fn:length(columnAnchor.displayText) gt column.maxLength}">...</c:if></a>
+											<c:if test="${ctr lt numberOfColumnAnchors-1}">,</c:if>
+										</logic:iterate>
+									</c:when>
+									<c:otherwise>
+										<a href="<c:out value="${column.columnAnchor.href}"/>" target="blank" title="${column.columnAnchor.title}"><c:out
+											value="${fn:substring(column.propertyValue, 0, column.maxLength)}" escapeXml="${column.escapeXMLValue}"
+											/><c:if test="${column.maxLength gt 0 && fn:length(column.propertyValue) gt column.maxLength}">...</c:if></a>
+			                        </c:otherwise>
+			                     </c:choose>
+			                </display:column>
 						</c:when>
 <%--NOTE: DO NOT FORMAT THIS FILE, DISPLAY:COLUMN WILL NOT WORK CORRECTLY IF IT CONTAINS LINE BREAKS --%>
-						<c:when test="${column.columnTitle == 'Project Code'}">
-							<display:column class="${colClass}" sortable="${column.sortable}"
-								title="${column.columnTitle}" comparator="${column.comparator}"
-								maxLength="${column.maxLength}" decorator="org.kuali.core.web.ui.FormatAwareDecorator"><div style="white-space: nowrap"><c:out value="${column.propertyValue}" />&nbsp;</div></display:column>
-                        </c:when>
 						<c:otherwise>
+<%-- TODO : hack for 'copy' document - rice 1.1 upgrade --%>
+                                          <c:choose>
+                                             <c:when test="${column.propertyName == 'copyDocument'}">
+     <display:column class="${colClass}" sortable="${column.sortable}"
+			title="${column.columnTitle}" comparator="${column.comparator}">
+			<a href="<c:out value="${column.propertyValue}"/>" target="blank"  title="${column.columnTitle}"> 
+    <c:out value="${fn:substring(column.propertyValue, 0, column.maxLength)}" escapeXml="${column.escapeXMLValue}"/>                 			                    
+     </display:column>
+
+                                              </c:when>
+                                            <c:otherwise>
 							<display:column class="${colClass}" sortable="${column.sortable}"
 								title="${column.columnTitle}" comparator="${column.comparator}"
-								maxLength="${column.maxLength}" decorator="org.kuali.core.web.ui.FormatAwareDecorator"><c:out value="${column.propertyValue}"/>&nbsp;</display:column>
+								maxLength="${column.maxLength}" decorator="org.kuali.rice.kns.web.ui.FormatAwareDecorator"><c:out value="${column.propertyValue}"/>&nbsp;</display:column>
+                                              </c:otherwise>
+                                          </c:choose>
                         </c:otherwise>
 					</c:choose>
 				</c:forEach>
 
-				<%-- the param['d-16544-e'] parameter below is NOT null when we are in exporting mode, so this check disables rendering of return/action URLs when we are exporting to CSV, excel, xml, etc. --%>
-				<c:if test="${param['d-16544-e'] == null}">
-					<logic:present name="KualiForm" property="formKey">
-						<c:if
-							test="${KualiForm.formKey!='' && KualiForm.hideReturnLink!=true && !KualiForm.multipleValues}">
-							<display:column class="infocell" title="Return value">
-								<c:if test="${row.rowReturnable}">
-									<a href='<c:out value="${row.returnUrl}"/>&anchor=${KualiForm.lookupAnchor}' title="return value">return value</a>
-								</c:if>
-							</display:column>
-						</c:if>
-						<c:if test="${row.actionUrls!='' && KualiForm.suppressActions!=true && !KualiForm.multipleValues && KualiForm.showMaintenanceLinks}">
-							<display:column class="infocell" property="actionUrls"
-								title="Actions" media="html" />
-						</c:if>
-					</logic:present>
-				</c:if>
-			</display:table>
+												</display:table>
 			</c:if></td>
 			<td width="1%"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="20"
 				height="20"></td>

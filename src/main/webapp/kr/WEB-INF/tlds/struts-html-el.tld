@@ -37,7 +37,7 @@
 </tag>
 <tag>
 <name>button</name>
-<tagclass>org.apache.strutsel.taglib.html.ELButtonTag</tagclass>
+<tagclass>org.kuali.rice.kns.web.taglib.html.KNSELButtonTag</tagclass>
 <attribute>
 <name>accesskey</name>
 <required>false</required>
@@ -176,7 +176,7 @@
 </tag>
 <tag>
 <name>cancel</name>
-<tagclass>org.apache.strutsel.taglib.html.ELCancelTag</tagclass>
+<tagclass>org.kuali.rice.kns.web.taglib.html.KNSELCancelTag</tagclass>
 <attribute>
 <name>accesskey</name>
 <required>false</required>
@@ -310,7 +310,7 @@
 </tag>
 <tag>
 <name>checkbox</name>
-<tagclass>org.apache.strutsel.taglib.html.ELCheckboxTag</tagclass>
+<tagclass>org.kuali.rice.kns.web.taglib.html.KNSELCheckboxTag</tagclass>
 <attribute>
 <name>accesskey</name>
 <required>false</required>
@@ -519,7 +519,7 @@
 </tag>
 <tag>
 <name>file</name>
-<tagclass>org.apache.strutsel.taglib.html.ELFileTag</tagclass>
+<tagclass>org.kuali.rice.kns.web.taglib.html.KNSELFileTag</tagclass>
 <attribute>
 <name>accesskey</name>
 <required>false</required>
@@ -1082,7 +1082,7 @@
 </tag>
 <tag>
 <name>image</name>
-<tagclass>org.apache.strutsel.taglib.html.ELImageTag</tagclass>
+<tagclass>org.kuali.rice.kns.web.taglib.html.KNSELImageTag</tagclass>
 <attribute>
 <name>accesskey</name>
 <required>false</required>
@@ -1781,7 +1781,7 @@
 </tag>
 <tag>
 <name>multibox</name>
-<tagclass>org.apache.strutsel.taglib.html.ELMultiboxTag</tagclass>
+<tagclass>org.kuali.rice.kns.web.taglib.html.KNSELMultiboxTag</tagclass>
 <attribute>
 <name>accesskey</name>
 <required>false</required>
@@ -2069,7 +2069,7 @@
 </tag>
 <tag>
 <name>password</name>
-<tagclass>org.apache.strutsel.taglib.html.ELPasswordTag</tagclass>
+<tagclass>org.kuali.rice.kns.web.taglib.html.KNSELPasswordTag</tagclass>
 <attribute>
 <name>accesskey</name>
 <required>false</required>
@@ -2253,7 +2253,7 @@
 </tag>
 <tag>
 <name>radio</name>
-<tagclass>org.apache.strutsel.taglib.html.ELRadioTag</tagclass>
+<tagclass>org.kuali.rice.kns.web.taglib.html.KNSELRadioTag</tagclass>
 <attribute>
 <name>accesskey</name>
 <required>false</required>
@@ -2636,7 +2636,7 @@
 </tag>
 <tag>
 <name>select</name>
-<tagclass>org.apache.strutsel.taglib.html.ELSelectTag</tagclass>
+<tagclass>org.kuali.rice.kns.web.taglib.html.KNSELSelectTag</tagclass>
 <bodycontent>JSP</bodycontent>
 <attribute>
 <name>alt</name>
@@ -2806,7 +2806,7 @@
 </tag>
 <tag>
 <name>submit</name>
-<tagclass>org.apache.strutsel.taglib.html.ELSubmitTag</tagclass>
+<tagclass>org.kuali.rice.kns.web.taglib.html.KNSELSubmitTag</tagclass>
 <attribute>
 <name>accesskey</name>
 <required>false</required>
@@ -2945,7 +2945,7 @@
 </tag>
 <tag>
 <name>text</name>
-<tagclass>org.apache.strutsel.taglib.html.ELTextTag</tagclass>
+<tagclass>org.kuali.rice.kns.web.taglib.html.KNSELTextTag</tagclass>
 <attribute>
 <name>accesskey</name>
 <required>false</required>
@@ -3124,7 +3124,7 @@
 </tag>
 <tag>
 <name>textarea</name>
-<tagclass>org.apache.strutsel.taglib.html.ELTextareaTag</tagclass>
+<tagclass>org.kuali.rice.kns.web.taglib.html.KNSELTextareaTag</tagclass>
 <attribute>
 <name>accesskey</name>
 <required>false</required>

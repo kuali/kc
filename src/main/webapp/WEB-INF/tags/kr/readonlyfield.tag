@@ -15,12 +15,15 @@
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
-<%@ attribute name="field" required="true" type="org.kuali.core.web.ui.Field"%>
+<%@ attribute name="field" required="true" type="org.kuali.rice.kns.web.ui.Field"%>
 <%@ attribute name="addHighlighting" required="false"
               description="boolean indicating if this field should be highlighted (to indicate old/new change)" %>
 
 <c:set var="result">
     <c:choose>
+      <c:when test="${field.secure}">
+        <c:out value="${field.displayMaskValue}"/>
+      </c:when>
       <c:when test="${field.fieldType==field.DROPDOWN or field.fieldType==field.DROPDOWN_APC or field.fieldType==field.DROPDOWN_REFRESH or field.fieldType==field.DROPDOWN_SCRIPT or field.fieldType==field.RADIO}">
         <c:set var="value_found" value="false" />
         <c:forEach items="${field.fieldValidValues}" var="select">
@@ -30,8 +33,19 @@
           </c:if>
         </c:forEach>
         <c:if test="${!value_found}">
+			<c:forEach items="${field.fieldInactiveValidValues}" var="select">
+	          <c:if test="${field.propertyValue==select.key}">
+	            <c:out value="${select.label}" />
+	            <c:set var="value_found" value="true" />
+	          </c:if>
+	        </c:forEach>
+        </c:if>
+        <c:if test="${!value_found}">
           <c:out value="${KualiForm.unconvertedValues[field.propertyName]}" default="${field.propertyValue}" />
         </c:if>
+      </c:when>
+      <c:when test="${field.fieldType==field.TEXT_AREA}">
+      	<pre><c:out value="${KualiForm.unconvertedValues[field.propertyName]}" default="${field.propertyValue}" /></pre>
       </c:when>
       <c:otherwise>
         <c:out value="${KualiForm.unconvertedValues[field.propertyName]}" default="${field.propertyValue}" />

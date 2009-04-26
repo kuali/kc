@@ -62,7 +62,7 @@ showDocumentInfo="true"
 <kra-pd:adHocRecipients /> 
 <kul:panelFooter />
 <c:if test="${not KualiForm.suppressAllButtons}">
-          <c:if test="${KualiForm.documentActionFlags.canApprove and KualiForm.reject}">
+          <c:if test="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_APPROVE] and KualiForm.reject}">
               <c:set var="extraButtonSource" value="${ConfigProperties.externalizable.images.url}buttonsmall_reject.gif"/>
               <c:set var="extraButtonProperty" value="methodToCall.reject"/>
               <c:set var="extraButtonAlt" value="Reject the document"/>

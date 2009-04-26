@@ -18,6 +18,15 @@
 
 <%@ attribute name="attributeEntry" required="true" type="java.util.Map" %>
 <%@ attribute name="property" required="true" %>
+<%@ attribute name="accessibilityHint" required="false"
+        description="Use this to attach further information to the title attribute of a field
+        if present"%>
+
+<%-- Define variable that will hold the Title of the html control --%>
+<c:set var="accessibleTitle" value="${attributeEntry.label}"/>
+<c:if test="${!(empty accessibilityHint)}">
+<c:set var="accessibleTitle" value="${accessibleTitle} ${accessibilityHint}"/>
+</c:if>
 
 
 <kul:checkErrors keyMatch="${property}"/>
@@ -29,7 +38,7 @@
   <font color="red">The given attributeEntry does not specify a text control</font>
 </c:if>
 <c:if test="${attributeEntry.control.text == true}">
-    <html:text property="${property}" styleId="${property}" size="${attributeEntry.control.size}" maxlength="${attributeEntry.maxLength}" style="${textStyle}"/>
+    <html:text property="${property}" styleId="${property}" title="${accessibleTitle}" size="${attributeEntry.control.size}" maxlength="${attributeEntry.maxLength}" style="${textStyle}"/>
     <img src="${ConfigProperties.kr.externalizable.images.url}cal.gif" id="${property}_datepicker" style="cursor: pointer;" alt="Date selector" title="Date selector" onmouseover="this.style.background='red';" onmouseout="this.style.background='';" />    
     <script type="text/javascript">
       Calendar.setup(

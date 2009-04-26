@@ -16,7 +16,6 @@
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
 <%@ attribute name="resultsList" required="true" type="java.util.List" description="The rows of fields that we'll iterate to display." %>
-
 <c:if test="${empty resultsList && KualiForm.methodToCall != 'start' && KualiForm.methodToCall != 'refresh'}">
 	There were no results found.
 </c:if>
@@ -46,24 +45,24 @@
 			<table cellpadding="0" class="datatable-100" cellspacing="0" id="row">
 				<thead>
 					<tr>
+											<th>
+							Select?
+						</th>
 						<c:forEach items="${resultsList[0].columns}" var="column" varStatus="columnLoopStatus">
 							<th class="sortable">
 								${column.columnTitle}
 							</th>
 						</c:forEach>
-						<th>
-							Select?
-						</th>
 					</tr>
 					<tr>
+											<th>
+							&nbsp;
+						</th>
 						<c:forEach items="${resultsList[0].columns}" var="column" varStatus="columnLoopStatus">
 							<th class="sortable" align="center">
 								<input name="methodToCall.sort.<c:out value="${columnLoopStatus.index}"/>.${Constants.METHOD_TO_CALL_PARM12_LEFT_DEL}${KualiForm.searchUsingOnlyPrimaryKeyValues}${Constants.METHOD_TO_CALL_PARM12_RIGHT_DEL}.x" type="image" src="${ConfigProperties.kr.externalizable.images.url}sort.gif" alt="Sort column ${column.columnTitle}" valign="bottom" title="Sort column ${column.columnTitle}">
 							</th>
 						</c:forEach>
-						<th>
-							&nbsp;
-						</th>
 					</tr>
 				</thead>
 				<c:forEach items="${resultsList}" var="row" varStatus="rowLoopStatus" begin="${KualiForm.firstRowIndex}" end="${KualiForm.lastRowIndex}">
@@ -72,27 +71,24 @@
 						<c:set var="rowclass" value="even"/>
 					</c:if>
 					<tr class="${rowclass}">
-						<c:forEach items="${row.columns}" var="column">
-							<td class="infocell" title="${column.propertyValue}">
-								<c:if test="${!empty column.propertyURL}">
-									<a href="<c:out value="${column.propertyURL}"/>" target="blank">
-								</c:if>
-								<c:out value="${fn:substring(column.propertyValue, 0, column.maxLength)}"/><c:if test="${column.maxLength gt 0 && fn:length(column.propertyValue) gt column.maxLength}">...</c:if><c:if test="${!empty column.propertyURL}"></a></c:if>
-								&nbsp;
-							</td>
-						</c:forEach>
-						<td class="infocell">
+					<td class="infocell">
 							<c:if test="${ row.rowReturnable }" >
-								<c:if test="${empty KualiForm.compositeObjectIdMap[row.objectId]}">
-									<input type="checkbox" name="${Constants.MULTIPLE_VALUE_LOOKUP_SELECTED_OBJ_ID_PARAM_PREFIX}${row.objectId}" value="checked"/>
-								</c:if>
-								<c:if test="${!empty KualiForm.compositeObjectIdMap[row.objectId]}">
-									<input type="checkbox" name="${Constants.MULTIPLE_VALUE_LOOKUP_SELECTED_OBJ_ID_PARAM_PREFIX}${row.objectId}" value="checked" checked="checked"/>
-								</c:if>
+								<c:set var="returnValue" value="${row.rowId}" />
+								${row.returnUrl}
+								${kfunc:registerEditableProperty(KualiForm, returnValue)} 
 								<input type="hidden" name="${Constants.MULTIPLE_VALUE_LOOKUP_DISPLAYED_OBJ_ID_PARAM_PREFIX}${row.objectId}" value="onscreen"/>
 							</c:if>
 						</td>
-					</tr>
+												<c:forEach items="${row.columns}" var="column">
+							<td class="infocell" title="${column.propertyValue}">
+								<c:if test="${!empty column.columnAnchor.href}">
+									<a href="<c:out value="${column.columnAnchor.href}"/>" title="${column.columnAnchor.title}" target="blank">
+								</c:if>
+								<c:out value="${fn:substring(column.propertyValue, 0, column.maxLength)}"/><c:if test="${column.maxLength gt 0 && fn:length(column.propertyValue) gt column.maxLength}">...</c:if><c:if test="${!empty column.columnAnchor.href}"></a></c:if>
+								&nbsp;
+							</td>
+						</c:forEach>
+											</tr>
 				</c:forEach>
 			</table>
 			<c:if test="${ KualiForm.hasReturnableRow }" >

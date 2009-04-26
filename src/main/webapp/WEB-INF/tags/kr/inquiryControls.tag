@@ -15,15 +15,14 @@
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
-<table width="100%" border=0 cellpadding=0 cellspacing=0 class="bord-r-t">
-   <tr>
-      <th align="center">
+<div id="globalbuttons" class="globalbuttons">
+        <c:if test="${KualiForm.canExport}">
+		  <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_export.gif" styleClass="globalbuttons" property="methodToCall.export" title="Perform Export" alt="Perform Export" />
+	    </c:if>
 		<SCRIPT>
-	        document.write("<a href=\"#\" onclick=\"window.close()\"><img src=\"${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif\" align=\"absmiddle\" alt=\"close this window\" /></a>");
+	        document.write('<input type="image" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" class="globalbuttons" onclick=\"window.close()\" title="close this window" alt="close this window">');
         </SCRIPT>
         <NOSCRIPT>
             &nbsp;
         </NOSCRIPT>
-      </th>
-   </tr>
-</table>
+</div>
