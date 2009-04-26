@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+
+<struts-config>
+    <data-sources />
+
+    <form-beans>
+    	<!-- Begin required KNS forms -->
+        <form-bean name="KualiForm" type="org.kuali.rice.kns.web.struts.form.KualiForm" />
+    	<!-- End required KNS forms -->
+	    <form-bean name="RuleForm" type="org.kuali.rice.kew.rule.web.RuleForm" />
+	    <form-bean name="RuleQuickLinksForm" type="org.kuali.rice.kew.rule.web.RuleQuickLinksForm" />
+	    <form-bean name="RouteLogForm" type="org.kuali.rice.kew.routelog.web.RouteLogForm" />
+	    <form-bean name="RoutingReportForm" type="org.kuali.rice.kew.rule.web.RoutingReportForm" />
+	    <form-bean name="DelegateRuleForm" type="org.kuali.rice.kew.rule.web.DelegateRuleForm" />
+	    <form-bean name="ActionListFormNew" type="org.kuali.rice.kew.actionlist.web.ActionListForm" />
+	    <form-bean name="ActionListFilterFormNew" type="org.kuali.rice.kew.actionlist.web.ActionListFilterForm" />
+	    <form-bean name="DocumentOperationForm" type="org.kuali.rice.kew.documentoperation.web.DocumentOperationForm" />
+        <form-bean name="DocumentConfigurationViewForm" type="org.kuali.rice.kew.rule.web.DocumentConfigurationViewForm" />
+    </form-beans>
+
+	<global-exceptions>
+		<exception type="java.lang.Throwable"
+			handler="org.kuali.rice.kns.web.struts.pojo.StrutsExceptionIncidentHandler"
+			key="meaningless" />
+	</global-exceptions>
+
+    <global-forwards>
+       	<!-- Begin required KNS forwards -->
+        <forward name="save" path="/index.html" redirect="true" />
+        <forward name="cancel" path="/index.html" redirect="true" />
+        <forward name="close" path="/index.html" redirect="true" />
+        <forward name="portal" path="/index.html" redirect="true" />
+        <forward name="route_report" path="/WEB-INF/jsp/RoutingReportForward.jsp"/>
+        <forward name="updateTextArea" path="/../kr/WEB-INF/jsp/TextArea.jsp"/>
+        <forward name="exceptionIncidentHandler" path="/kr/kualiExceptionIncidentReport.do" contextRelative="true"/>
+       	<!-- End required KNS forwards -->
+    </global-forwards>
+
+
+    <action-mappings>
+       	<!-- Begin required KNS mappings -->
+        <action path="/portal" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiSimpleAction">
+            <forward name="basic" path="/portal.jsp" />
+        </action>
+        <action path="/index" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiSimpleAction">
+            <forward name="basic" path="/portal.jsp" />
+        </action>
+        <action path="/updateTextArea" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase">
+            <forward name="basic" path="/../kr/WEB-INF/jsp/TextArea.jsp"/>
+        </action>
+       	<!-- End required KNS mappings -->
+
+      <action path="/ActionList" scope="request" validate="false" parameter="methodToCall"
+        type="org.kuali.rice.kew.actionlist.web.ActionListAction" name="ActionListFormNew"
+        input="/WEB-INF/jsp/ActionList/ActionListNew.jsp" >
+        <forward name="basic" path="/WEB-INF/jsp/ActionList/ActionListNew.jsp"/>
+        <forward name="viewActionList" path="/WEB-INF/jsp/ActionList/ActionListNew.jsp"/>
+        <forward name="count" path="/WEB-INF/jsp/ActionList/ActionListCountNew.jsp"/>
+        <forward name="requiredStateError" path="/WEB-INF/jsp/ActionList/ActionListNew.jsp"/>
+        <forward name="finalStateError" path="/WEB-INF/jsp/ActionList/ActionListNew.jsp"/>
+      </action>
+
+      <action path="/ActionListFilter" scope="request" validate="false" name="ActionListFilterFormNew"
+        input="/WEB-INF/jsp/ActionList/ActionListFilter.jsp"
+        type="org.kuali.rice.kew.actionlist.web.ActionListFilterAction" parameter="methodToCall">
+        <forward name="basic" path="/WEB-INF/jsp/ActionList/ActionListFilter.jsp"/>
+        <forward name="viewFilter" path="/WEB-INF/jsp/ActionList/ActionListFilter.jsp" />
+        <forward name="viewActionList" path="/ActionList.do?methodToCall=start" redirect="true" />
+        <forward name="requiredStateError" path="/WEB-INF/jsp/ActionList/ActionListFilter.jsp"/>
+        <forward name="finalStateError" path="/WEB-INF/jsp/ActionList/ActionListFilter.jsp"/>
+      </action>
+
+      <action path="/DocumentOperation" name="DocumentOperationForm" scope="request" input="/WEB-INF/jsp/documentoperation/DocumentOperation.jsp"
+      			validate="false" type="org.kuali.rice.kew.documentoperation.web.DocumentOperationAction" parameter="methodToCall">
+	      <forward name="basic" path="/WEB-INF/jsp/documentoperation/DocumentOperation.jsp"/>
+	      <forward name="summary" path="/WEB-INF/jsp/documentoperation/DocumentOperationSummary.jsp"/>
+      	  <forward name="confirm" path="/WEB-INF/jsp/documentoperation/DocumentOperationConfirm.jsp"/>
+	      <forward name="requiredStateError" path="/WEB-INF/jsp/documentoperation/DocumentOperationSummary.jsp"/>
+          <forward name="finalStateError" path="/WEB-INF/jsp/documentoperation/DocumentOperationSummary.jsp"/>
+      </action>
+
+      <action path="/DelegateRule" name="DelegateRuleForm" input="/WEB-INF/jsp/rule/DelegateRuleInit.jsp" type="org.kuali.rice.kew.rule.web.DelegateRuleAction"
+			scope="session" parameter="methodToCall" validate="true" attribute="KualiForm">
+			<forward name="basic" path="/WEB-INF/jsp/rule/DelegateRuleInit.jsp" />
+			<forward name="init" path="/WEB-INF/jsp/rule/DelegateRuleInit.jsp" />
+	  </action>
+
+	  <action path="/Rule" name="RuleForm" input="/WEB-INF/jsp/rule/RuleInit.jsp" type="org.kuali.rice.kew.rule.web.RuleAction"
+			scope="session" parameter="methodToCall" validate="true" attribute="KualiForm">
+			<forward name="basic" path="/WEB-INF/jsp/rule/RuleInit.jsp" />
+			<forward name="init" path="/WEB-INF/jsp/rule/RuleInit.jsp" />
+	  </action>
+
+	  <action path="/RuleQuickLinks" name="RuleQuickLinksForm" input="/WEB-INF/jsp/rule/RuleQuickLinks.jsp" type="org.kuali.rice.kew.rule.web.RuleQuickLinksAction"
+	        scope="request" parameter="methodToCall" validate="false" attribute="KualiForm">
+      	<forward name="basic" path="/WEB-INF/jsp/rule/RuleQuickLinks.jsp" />
+	    <forward name="requiredStateError" path="/WEB-INF/jsp/rule/RuleQuickLinks.jsp"/>
+        <forward name="finalStateError" path="/WEB-INF/jsp/rule/RuleQuickLinks.jsp"/>
+      </action>
+
+      <action path="/RouteLog" name="RouteLogForm" input="/WEB-INF/jsp/routelog/RouteLog.jsp" type="org.kuali.rice.kew.routelog.web.RouteLogAction"
+      	  scope="request" parameter="methodToCall" validate="false" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/routelog/RouteLog.jsp" />
+        <!-- forward name="documentLocked" path="/WEB-INF/jsp/DocumentLocked.jsp" /-->
+        <forward name="requiredStateError" path="/WEB-INF/jsp/routelog/RouteLog.jsp"/>
+        <forward name="finalStateError" path="/WEB-INF/jsp/routelog/RouteLog.jsp"/>
+      </action>
+
+      <action path="/RoutingReport" name="RoutingReportForm" input="/WEB-INF/jsp/routetemplate/RoutingReportCriteria.jsp" type="org.kuali.rice.kew.rule.web.RoutingReportAction"
+          scope="request" parameter="methodToCall"  validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/routetemplate/RoutingReportCriteria.jsp" />
+          <forward name="routeLog" path="/WEB-INF/jsp/routelog/RouteLog.jsp" />
+          <forward name="requiredStateError" path="/WEB-INF/jsp/routetemplate/RoutingReportCriteria.jsp"/>
+          <forward name="finalStateError" path="/WEB-INF/jsp/routetemplate/RoutingReportCriteria.jsp"/>
+      </action>
+
+      <action path="/DocumentConfigurationView" name="DocumentConfigurationViewForm" input="/WEB-INF/jsp/rule/DocumentConfigurationView.jsp" type="org.kuali.rice.kew.rule.web.DocumentConfigurationViewAction"
+          scope="request" parameter="methodToCall" validate="false" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/rule/DocumentConfigurationView.jsp" />
+        <forward name="requiredStateError" path="/WEB-INF/jsp/rule/DocumentConfigurationView.jsp"/>
+        <forward name="finalStateError" path="/WEB-INF/jsp/rule/DocumentConfigurationView.jsp"/>
+      </action>
+
+      <!-- Mappings to handling forwarding over to the "en" module for the screens that haven't been moved over yet -->
+
+      <action path="/SuperUser" scope="request" validate="false"
+            type="org.kuali.rice.kns.web.struts.action.ForwardWithQueryParametersAction"
+     		parameter="/en/SuperUser.do"/>
+
+      <action path="/Preferences" scope="request" validate="false"
+            type="org.kuali.rice.kns.web.struts.action.ForwardWithQueryParametersAction"
+     		parameter="/en/Preferences.do"/>
+
+      <action path="/Backdoor" scope="request" validate="false"
+            type="org.kuali.rice.kns.web.struts.action.ForwardWithQueryParametersAction"
+     		parameter="/en/Backdoor.do"/>
+
+      <action path="/Portal" scope="request" validate="false"
+            type="org.kuali.rice.kns.web.struts.action.ForwardWithQueryParametersAction"
+     		parameter="/en/Portal.do"/>
+
+      <action path="/Administration" scope="request" validate="false"
+            type="org.kuali.rice.kns.web.struts.action.ForwardWithQueryParametersAction"
+     		parameter="/en/Administration.do"/>
+
+      <action path="/Stats" scope="request" validate="false"
+            type="org.kuali.rice.kns.web.struts.action.ForwardWithQueryParametersAction"
+     		parameter="/en/Stats.do"/>
+
+      <action path="/DocHandler" scope="request" validate="false"
+            type="org.kuali.rice.kns.web.struts.action.ForwardWithQueryParametersAction"
+     		parameter="/en/DocHandler.do"/>
+
+      <action path="/Feedback" scope="request" validate="false"
+            type="org.kuali.rice.kns.web.struts.action.ForwardWithQueryParametersAction"
+     		parameter="/en/Feedback.do"/>
+
+      <action path="/QuickLinks" scope="request" validate="false"
+            type="org.kuali.rice.kns.web.struts.action.ForwardWithQueryParametersAction"
+     		parameter="/en/QuickLinks.do"/>
+
+      <action path="/Note" scope="request" validate="false"
+            type="org.kuali.rice.kns.web.struts.action.ForwardWithQueryParametersAction"
+     		parameter="/en/Note.do"/>
+
+      <action path="/Help" scope="request" validate="false"
+            type="org.kuali.rice.kns.web.struts.action.ForwardWithQueryParametersAction"
+     		parameter="/en/Help.do"/>
+
+      <action path="/Ingester" scope="request" validate="false"
+            type="org.kuali.rice.kns.web.struts.action.ForwardWithQueryParametersAction"
+     		parameter="/en/Ingester.do"/>
+
+    </action-mappings>
+
+
+
+    <controller processorClass="org.kuali.rice.kns.web.struts.action.KualiRequestProcessor" />
+    <message-resources parameter="org.kuali.rice.kew.ApplicationResources" />
+    <!-- <message-resources factory="org.kuali.rice.kns.web.struts.action.KualiPropertyMessageResourcesFactory" parameter="SampleApplicationResources" /> -->
+</struts-config>
+
