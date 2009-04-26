@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.bo.ResearchArea;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.service.ResearchAreasService;
 
 public class MockResearchAreasService implements ResearchAreasService {

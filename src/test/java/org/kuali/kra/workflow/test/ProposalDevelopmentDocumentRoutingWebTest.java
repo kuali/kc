@@ -17,28 +17,32 @@ package org.kuali.kra.workflow.test;
 
 import java.io.File;
 import java.net.URL;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.time.DateUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.UserSession;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.KraKEWXmlDataLoaderLifecycle;
 import org.kuali.kra.infrastructure.TestUtilities;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentWebTestBase;
-import org.kuali.rice.KNSServiceLocator;
-import org.kuali.rice.lifecycle.Lifecycle;
+import org.kuali.rice.core.lifecycle.Lifecycle;
+import org.kuali.rice.kew.dto.ActionRequestDTO;
+import org.kuali.rice.kew.dto.DocumentDetailDTO;
+import org.kuali.rice.kew.dto.NetworkIdDTO;
+import org.kuali.rice.kew.dto.ReportCriteriaDTO;
+import org.kuali.rice.kew.engine.node.KeyValuePair;
+import org.kuali.rice.kew.service.WorkflowInfo;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.test.lifecycles.SQLDataLoaderLifecycle;
 import org.springframework.core.io.ClassPathResource;
 
@@ -52,15 +56,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlHiddenInput;
 import com.gargoylesoftware.htmlunit.html.HtmlImageInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
-
-import edu.iu.uis.eden.EdenConstants;
-import edu.iu.uis.eden.clientapp.WorkflowInfo;
-import edu.iu.uis.eden.clientapp.vo.ActionRequestVO;
-import edu.iu.uis.eden.clientapp.vo.DocumentDetailVO;
-import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
-import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
-import edu.iu.uis.eden.clientapp.vo.UserIdVO;
-import edu.iu.uis.eden.engine.node.KeyValuePair;
 
 /**
  * This class tests the KraServiceLocator
@@ -83,6 +78,8 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
     protected static final String KEY_PERSONNEL_LINK_NAME = "keyPersonnel.x";
     private static final String RADIO_FIELD_VALUE = "Y";
     private static final String CREDIT_SPLIT_VALUE = "100.00";
+    private static final String WORKFLOW_ADMIN_GROUP_ID = "1";
+    private static final String USER_PRINCIPLE_ID = "jtester";
     
     private Lifecycle customKEWLifecycle = null;
     private static final String CUSTOM_DATA_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.customData.x";
@@ -245,7 +242,7 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
         KualiWorkflowDocument workflowDoc = savedDocument.getDocumentHeader().getWorkflowDocument();
         assertNotNull(workflowDoc);
 
-        NetworkIdVO networkId = new NetworkIdVO("jtester");
+        NetworkIdDTO networkId = new NetworkIdDTO("jtester");
         boolean receiveFutureRequests = false;
         boolean doNotReceiveFutureRequests = false;
 
@@ -253,13 +250,13 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
         if (CollectionUtils.isNotEmpty(variables)) {
             for (Object variable : variables) {
                 KeyValuePair kvp = (KeyValuePair) variable;
-                if (kvp.getKey().startsWith(EdenConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_KEY)
-                        && kvp.getValue().toUpperCase().equals(EdenConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_VALUE)
+                if (kvp.getKey().startsWith(KEWConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_KEY)
+                        && kvp.getValue().toUpperCase().equals(KEWConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_VALUE)
                         && kvp.getKey().contains(networkId.getNetworkId())) {
                     receiveFutureRequests = true;
                 }
-                else if (kvp.getKey().startsWith(EdenConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_KEY)
-                        && kvp.getValue().toUpperCase().equals(EdenConstants.DONT_RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_VALUE)
+                else if (kvp.getKey().startsWith(KEWConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_KEY)
+                        && kvp.getValue().toUpperCase().equals(KEWConstants.DONT_RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_VALUE)
                         && kvp.getKey().contains(networkId.getNetworkId())) {
                     doNotReceiveFutureRequests = true;  
                 }
@@ -271,32 +268,32 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
         assertFalse(doNotReceiveFutureRequests);
 
         WorkflowInfo info = new WorkflowInfo();
-        ReportCriteriaVO reportCriteria = new ReportCriteriaVO(new Long(workflowDoc.getRouteHeaderId()));
-        reportCriteria.setTargetUsers(new UserIdVO[] { networkId });
+        ReportCriteriaDTO reportCriteria = new ReportCriteriaDTO(new Long(workflowDoc.getRouteHeaderId()));
+        reportCriteria.setTargetPrincipalIds(new String[] { USER_PRINCIPLE_ID });
 
-        DocumentDetailVO results1 = info.routingReport(reportCriteria);
+        DocumentDetailDTO results1 = info.routingReport(reportCriteria);
         assertNotNull(results1.getActionRequests());
         assertEquals(4, results1.getActionRequests().length);
         
-        for(ActionRequestVO actionRequest: results1.getActionRequests()) {
+        for(ActionRequestDTO actionRequest: results1.getActionRequests()) {
             if(actionRequest.getNodeName().equalsIgnoreCase("Initiated")) { 
                 assertEquals("U", actionRequest.getRecipientTypeCd());
-                assertNotNull(actionRequest.getUserVO().getNetworkId());
-                assertEquals("quickstart", actionRequest.getUserVO().getNetworkId());
+                assertNotNull(actionRequest.getPrincipalId());
+                assertEquals("quickstart", actionRequest.getPrincipalId());
             } else if(actionRequest.getNodeName().equalsIgnoreCase("FirstApproval")) {
                 assertEquals("U", actionRequest.getRecipientTypeCd());
-                assertNotNull(actionRequest.getUserVO().getNetworkId());
-                assertEquals("jtester", actionRequest.getUserVO().getNetworkId());
+                assertNotNull(actionRequest.getPrincipalId());
+                assertEquals("jtester", actionRequest.getPrincipalId());
                 assertFalse(actionRequest.isPending());  
                 assertTrue(actionRequest.isDone());
             } else if(actionRequest.getNodeName().equalsIgnoreCase("SecondApproval")) {
                 assertEquals("U", actionRequest.getRecipientTypeCd());
-                assertNotNull(actionRequest.getUserVO().getNetworkId());
-                assertEquals("quickstart", actionRequest.getUserVO().getNetworkId());
+                assertNotNull(actionRequest.getPrincipalId());
+                assertEquals("quickstart", actionRequest.getPrincipalId());
             } else if(actionRequest.getNodeName().equalsIgnoreCase("FinalApproval")) {
                 assertEquals("W", actionRequest.getRecipientTypeCd());
-                assertNotNull(actionRequest.getWorkgroupVO());
-                assertEquals("WorkflowAdmin", actionRequest.getWorkgroupVO().getWorkgroupName());
+                assertNotNull(actionRequest.getGroupId());
+                assertEquals(WORKFLOW_ADMIN_GROUP_ID, actionRequest.getGroupId());
             } else {
                 fail("Unexpected ActionRequest generated for ProposalDevelopmentDocument");
             }

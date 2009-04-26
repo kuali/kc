@@ -22,8 +22,8 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.bo.SponsorTerm;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * This class tests AwardSponsorTermService methods.

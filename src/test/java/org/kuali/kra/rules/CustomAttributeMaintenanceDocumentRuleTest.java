@@ -18,15 +18,15 @@ package org.kuali.kra.rules;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.RiceKeyConstants;
-import org.kuali.core.UserSession;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.util.ErrorMessage;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.util.ErrorMessage;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 public class CustomAttributeMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
     private CustomAttributeMaintenanceDocumentRule rule = null;

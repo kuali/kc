@@ -19,27 +19,25 @@ import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.RiceKeyConstants;
-import org.kuali.core.UserSession;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.AuditCluster;
-import org.kuali.core.util.AuditError;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.KNSServiceLocator;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.AuditCluster;
+import org.kuali.rice.kns.util.AuditError;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.RiceKeyConstants;
 
 /**
  * This class tests the ResearchDocumentBaseAuditRule class
