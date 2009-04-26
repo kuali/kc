@@ -21,11 +21,11 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetDocumentContainer;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
  * This class is parent for AddXxx Tests, where Xxx is a BudgetDistributionandIncomeComponent

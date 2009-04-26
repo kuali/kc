@@ -23,7 +23,6 @@ import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
@@ -37,7 +36,8 @@ import org.kuali.kra.budget.bo.ValidCeRateType;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.test.KraUnitTestClassRunner;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlHiddenInput;

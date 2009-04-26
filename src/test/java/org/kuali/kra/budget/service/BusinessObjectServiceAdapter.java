@@ -19,8 +19,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.service.BusinessObjectService;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class BusinessObjectServiceAdapter implements BusinessObjectService {
 
@@ -39,7 +40,7 @@ public class BusinessObjectServiceAdapter implements BusinessObjectService {
         
     }
 
-    public void delete(List<PersistableBusinessObject> boList) {
+    public void delete(List<? extends PersistableBusinessObject> boList) {
         // TODO Auto-generated method stub
         
     }
@@ -107,6 +108,10 @@ public class BusinessObjectServiceAdapter implements BusinessObjectService {
     public void save(List businessObjects) {
         // TODO Auto-generated method stub
         
+    }
+    
+    public BusinessObject getReferenceIfExists(BusinessObject bo, String referenceName) {
+        return null;
     }
     
 }

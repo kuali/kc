@@ -18,9 +18,6 @@ package org.kuali.kra.committee.web;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.rice.test.data.PerSuiteUnitTestData;
-import org.kuali.rice.test.data.UnitTestData;
-import org.kuali.rice.test.data.UnitTestFile;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;

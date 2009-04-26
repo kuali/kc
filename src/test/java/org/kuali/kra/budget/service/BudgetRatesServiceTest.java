@@ -29,7 +29,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.kuali.core.util.DateUtils;
 import org.kuali.kra.bo.AbstractInstituteRate;
 import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
@@ -49,6 +48,7 @@ import org.kuali.kra.budget.service.impl.BudgetRatesServiceImpl;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.rice.kns.util.DateUtils;
 
 public class BudgetRatesServiceTest {
     private static final String TRACK_AFFECTED_PERIOD_1 = "|1|";

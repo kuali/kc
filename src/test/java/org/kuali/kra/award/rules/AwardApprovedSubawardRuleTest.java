@@ -22,11 +22,11 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.award.bo.AwardApprovedSubaward;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class...

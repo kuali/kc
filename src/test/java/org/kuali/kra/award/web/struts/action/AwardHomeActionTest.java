@@ -15,15 +15,13 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
-import java.sql.Date;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardApprovedSubaward;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 
 public class AwardHomeActionTest {
