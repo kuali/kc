@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.scheduling.quartz;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.text.ParseException;
 
@@ -25,10 +25,9 @@ import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.scheduling.quartz.KcCronTriggerBean;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.quartz.JobDetail;
 
 /**

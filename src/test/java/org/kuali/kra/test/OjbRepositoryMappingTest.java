@@ -18,7 +18,8 @@ package org.kuali.kra.test;
 import static java.io.File.separator;
 import static org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptors;
 import static org.junit.Assert.fail;
-import static org.kuali.kra.logging.BufferedLogger.*;
+import static org.kuali.kra.logging.BufferedLogger.debug;
+import static org.kuali.kra.logging.BufferedLogger.info;
 
 import java.beans.PropertyDescriptor;
 import java.io.BufferedReader;

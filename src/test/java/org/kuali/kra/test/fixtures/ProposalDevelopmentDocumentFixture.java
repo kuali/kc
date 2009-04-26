@@ -21,8 +21,8 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import org.kuali.core.service.DocumentService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.rice.kns.service.DocumentService;
 
 /**
  * Fixture class for creating valid <code>{@link ProposalDevelopmentDocument}</code> instances.

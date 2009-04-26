@@ -19,10 +19,10 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.HashMap;
 
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 @SuppressWarnings("unchecked")
 public abstract class TemplateRuleTest<E extends KraDocumentEventBaseExtension, R extends BusinessRuleInterface> {

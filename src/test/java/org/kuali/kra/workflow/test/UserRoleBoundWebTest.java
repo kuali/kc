@@ -18,23 +18,20 @@ package org.kuali.kra.workflow.test;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.UserSession;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.kra.KraKEWXmlDataLoaderLifecycle;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentWebTestBase;
-import org.kuali.rice.KNSServiceLocator;
-import org.kuali.rice.test.lifecycles.SQLDataLoaderLifecycle;
+import org.kuali.rice.kew.engine.RouteContext;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
+import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlHiddenInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-
-import edu.iu.uis.eden.KEWServiceLocator;
-import edu.iu.uis.eden.engine.RouteContext;
-import edu.iu.uis.eden.routeheader.DocumentRouteHeaderValue;
 
 public class UserRoleBoundWebTest extends ProposalDevelopmentWebTestBase {
     

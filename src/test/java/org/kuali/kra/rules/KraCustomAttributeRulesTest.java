@@ -18,25 +18,21 @@ package org.kuali.kra.rules;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.RiceKeyConstants;
-import org.kuali.core.UserSession;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.authorization.PessimisticLock;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.ErrorMessage;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TestUtilities;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentRuleTestBase;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
-import org.kuali.rice.KNSServiceLocator;
-
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.document.authorization.PessimisticLock;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.ErrorMessage;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 
 // TODO : temporary extends ProposalDevelopmentRuleTestBase to test proposal document custom data 
@@ -92,13 +88,13 @@ public class KraCustomAttributeRulesTest extends ProposalDevelopmentRuleTestBase
         assertTrue(rule.processCustomAttributeRules(saveCustomAttributeEvent));
         
         UserSession currentSession = GlobalVariables.getUserSession();
-        PessimisticLock lock = KNSServiceLocator.getPessimisticLockService().generateNewLock(document.getDocumentNumber(), "PROPOSAL-"+document.getDocumentNumber(), currentSession.getUniversalUser());
+        PessimisticLock lock = KNSServiceLocator.getPessimisticLockService().generateNewLock(document.getDocumentNumber(), "PROPOSAL-"+document.getDocumentNumber(), currentSession.getPerson());
         document.addPessimisticLock(lock);
         
         try {
             KraServiceLocator.getService(DocumentService.class).routeDocument(document, "just testing", null);
         }
-        catch (org.kuali.core.exceptions.ValidationException ex) {
+        catch (org.kuali.rice.kns.exception.ValidationException ex) {
             assertEquals(ex.getMessage(), "business rule evaluation failed");
         }
 
