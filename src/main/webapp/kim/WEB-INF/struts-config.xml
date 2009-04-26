@@ -8,6 +8,8 @@
     	<!--
 	    <form-bean name="TravelDocumentForm2" type="edu.sampleu.travel.web.form.TravelDocumentForm2" />
 	    -->
+	    <form-bean name="IdentityManagementPersonDocumentForm" type="org.kuali.rice.kim.web.struts.form.IdentityManagementPersonDocumentForm" />
+	    	    <form-bean name="IdentityManagementRoleDocumentForm" type="org.kuali.rice.kim.web.struts.form.IdentityManagementRoleDocumentForm" />
     </form-beans>
 
     <global-exceptions />
@@ -28,8 +30,19 @@
 			<forward name="basic" path="/WEB-INF/jsp/travelDocument2.jsp" />
 		</action>
 		-->
+		<action path="/identityManagementPersonDocument" name="IdentityManagementPersonDocumentForm" input="/kim/WEB-INF/jsp/identityManagementPersonDocument.jsp" type="org.kuali.rice.kim.web.struts.action.IdentityManagementPersonDocumentAction"
+			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+			<forward name="basic" path="/WEB-INF/jsp/identityManagementPersonDocument.jsp" />
+			<forward name="inquiry" path="/WEB-INF/jsp/personInquiry.jsp" />
+		</action>
+		<action path="/identityManagementRoleDocument" name="IdentityManagementRoleDocumentForm" input="/kim/WEB-INF/jsp/identityManagementPersonDocument.jsp" type="org.kuali.rice.kim.web.struts.action.IdentityManagementRoleDocumentAction"
+			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+			<forward name="basic" path="/WEB-INF/jsp/identityManagementRoleDocument.jsp" />
+			<forward name="inquiry" path="/WEB-INF/jsp/roleInquiry.jsp" />
+		</action>
+
     </action-mappings>
 
-    <controller processorClass="org.kuali.core.web.struts.action.KualiRequestProcessor" />
+    <controller processorClass="org.kuali.rice.kns.web.struts.action.KualiRequestProcessor" />
     <message-resources parameter="KR-ApplicationResources" />
 </struts-config>
