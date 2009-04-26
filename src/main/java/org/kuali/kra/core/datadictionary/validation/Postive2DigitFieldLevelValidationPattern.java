@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.core.datadictionary.validation;
 
-import org.kuali.core.datadictionary.validation.FieldLevelValidationPattern;
+import org.kuali.rice.kns.datadictionary.validation.FieldLevelValidationPattern;
 
 public class Postive2DigitFieldLevelValidationPattern extends FieldLevelValidationPattern {
 

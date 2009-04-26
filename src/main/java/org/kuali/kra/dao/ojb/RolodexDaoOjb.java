@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.dao.ojb;
 
-import static org.kuali.core.lookup.LookupUtils.applySearchResultsLimit;
-import static org.kuali.core.lookup.LookupUtils.getSearchResultsLimit;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -25,14 +22,13 @@ import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.dao.LookupDao;
-import org.kuali.core.dao.ojb.LookupDaoOjb;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.dao.RolodexDao;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.dao.impl.LookupDaoOjb;
+import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.kns.lookup.LookupUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springmodules.orm.ojb.OjbOperationException;
 
@@ -52,10 +48,10 @@ public class RolodexDaoOjb extends LookupDaoOjb implements RolodexDao {
         Criteria criteria = getNonOrganizationalRolodexCriteria(Rolodex.class, fieldValues, usePrimaryKeys);
         
          try {
-            Integer searchResultsLimit = getSearchResultsLimit(Rolodex.class);
+            Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(Rolodex.class);
             if (searchResultsLimit != null) {
                 matchingResultsCount = new Long(getPersistenceBrokerTemplate().getCount(QueryFactory.newQuery(Rolodex.class, criteria)));
-                applySearchResultsLimit(Rolodex.class, criteria, getDbPlatform());
+                LookupUtils.applySearchResultsLimit(Rolodex.class, criteria, getDbPlatform());
             }
             if ((matchingResultsCount == null) || (matchingResultsCount.intValue() <= searchResultsLimit.intValue())) {
                 matchingResultsCount = new Long(0);

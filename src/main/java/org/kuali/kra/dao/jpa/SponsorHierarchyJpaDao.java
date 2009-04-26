@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.dao.jpa;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -27,21 +23,14 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
-import org.kuali.core.bo.Parameter;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.OjbCollectionAware;
-import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.dao.SponsorHierarchyDao;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.exceptions.RiceRuntimeException;
-import org.springmodules.orm.ojb.PersistenceBrokerCallback;
+import org.kuali.rice.kns.bo.Parameter;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.OjbCollectionAware;
 
 public class SponsorHierarchyJpaDao extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, SponsorHierarchyDao {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(SponsorHierarchyJpaDao.class);
