@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.service;
 
-import java.util.List;
 import java.util.Collection;
+import java.util.List;
 
 import org.kuali.kra.bo.Unit;
 

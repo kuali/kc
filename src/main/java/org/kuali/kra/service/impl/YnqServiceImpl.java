@@ -19,16 +19,12 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.bo.Ynq;
 import org.kuali.kra.bo.YnqExplanationType;
 import org.kuali.kra.infrastructure.Constants;
@@ -39,6 +35,9 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.bo.YnqGroupName;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.YnqService;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 public class YnqServiceImpl implements YnqService {
 
     private BusinessObjectService businessObjectService;

@@ -29,11 +29,6 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.SqlTimestampConverter;
 import org.apache.log4j.Logger;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.AuditCluster;
-import org.kuali.core.util.AuditError;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.bo.BudgetSubAwards;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -42,6 +37,12 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.service.S2SService;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.AuditCluster;
+import org.kuali.rice.kns.util.AuditError;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageList;
 import org.springframework.transaction.annotation.Transactional;
 import org.xml.sax.SAXException;
 
@@ -61,7 +62,6 @@ import edu.mit.coeus.s2s.bean.SubmissionDetailInfoBean;
 import edu.mit.coeus.s2s.validator.OpportunitySchemaParser;
 import edu.mit.coeus.s2s.validator.S2SValidationException;
 import edu.mit.coeus.s2s.validator.S2SValidationException.ErrorBean;
-//import edu.mit.coeus.user.bean.UserMaintDataTxnBean;
 import edu.mit.coeus.utils.CoeusFunctions;
 import edu.mit.coeus.utils.CoeusProperties;
 import edu.mit.coeus.utils.CoeusPropertyKeys;
@@ -88,7 +88,7 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
     public S2SServiceImpl() {
         s2sSubmissionTxnBean = new S2SSubmissionDataTxnBean();
         coeusMessageResourcesBean = new CoeusMessageResourcesBean();
-//        loggedinUser = GlobalVariables.getUserSession().getLoggedInUserNetworkId();
+//        loggedinUser = GlobalVariables.getUserSession().getLoggedInUserPrincipalName();
 //        userTxn = new UserMaintDataTxnBean();
         try {
             reportFolder = CoeusProperties.getProperty(CoeusPropertyKeys.REPORT_GENERATED_PATH, "Reports");
@@ -260,7 +260,7 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
           List<OpportunityInfoBean> oppInfList =  getOpportunity.getOpportunityList(header);
           if(oppInfList==null && header.getCfdaNumber()!=null){
               if(GlobalVariables.getMessageList()==null)
-                  GlobalVariables.setMessageList(new ArrayList());
+                  GlobalVariables.setMessageList(new MessageList());
               GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_IF_SEARCH_ON_ONLY_CFDA_NUMBER);
               header.setOpportunityId(null);
               oppInfList = getOpportunity.getOpportunityList(header);

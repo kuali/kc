@@ -15,13 +15,10 @@
  */
 package org.kuali.kra.web.listener;
 
-import java.io.IOException;
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+
 import org.apache.log4j.Logger;
 
 /**

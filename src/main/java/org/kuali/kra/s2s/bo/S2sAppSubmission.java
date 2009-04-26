@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.s2s.bo;
 
+import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.sql.Timestamp;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 

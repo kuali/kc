@@ -19,9 +19,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.service.OrganizationService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * This class provides the implementation of the OrganizationService.

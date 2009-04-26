@@ -21,7 +21,8 @@ import static org.apache.commons.beanutils.PropertyUtils.setProperty;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesFinder;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
 
 /**
  * Full of static methods for JSTL function access.

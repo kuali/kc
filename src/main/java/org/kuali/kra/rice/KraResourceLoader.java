@@ -20,7 +20,7 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
-import org.kuali.rice.resourceloader.SpringBeanFactoryResourceLoader;
+import org.kuali.rice.core.resourceloader.SpringBeanFactoryResourceLoader;
 
 /**
  * A custom {@link edu.iu.uis.eden.plugin.ResourceLoader} which wraps a Spring BeanFactory and delegates certain

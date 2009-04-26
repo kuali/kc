@@ -16,28 +16,17 @@
 package org.kuali.kra.rice;
 
 import java.io.InputStream;
-import java.util.Iterator;
-import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.impl.UniversalUserServiceImpl;
-
-import edu.iu.uis.eden.clientapp.vo.EmplIdVO;
-import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
-import edu.iu.uis.eden.clientapp.vo.UserIdVO;
-import edu.iu.uis.eden.clientapp.vo.UuIdVO;
-import edu.iu.uis.eden.clientapp.vo.WorkflowIdVO;
-import edu.iu.uis.eden.exception.EdenUserNotFoundException;
-import edu.iu.uis.eden.user.AuthenticationUserId;
-import edu.iu.uis.eden.user.BaseWorkflowUser;
-import edu.iu.uis.eden.user.EmplId;
-import edu.iu.uis.eden.user.UserId;
-import edu.iu.uis.eden.user.UuId;
-import edu.iu.uis.eden.user.WorkflowUser;
-import edu.iu.uis.eden.user.WorkflowUserId;
-import edu.iu.uis.eden.xml.UserXmlHandler;
+import org.kuali.kra.rice.shim.UniversalUser;
+import org.kuali.kra.rice.shim.UniversalUserDao;
+import org.kuali.kra.rice.shim.UniversalUserService;
+import org.kuali.kra.rice.shim.UserNotFoundException;
+import org.kuali.kra.rice.shim.UuId;
+import org.kuali.kra.rice.shim.WorkflowUser;
+import org.kuali.rice.kew.user.AuthenticationUserId;
+import org.kuali.rice.kew.user.UserId;
+import org.kuali.rice.kew.xml.UserXmlParser;
 
 /**
  * The KRA Universal User Service overrides the Rice Universal User Service
@@ -48,35 +37,26 @@ import edu.iu.uis.eden.xml.UserXmlHandler;
  * need this feature because we use it when loading workflow users for our
  * unit tests.
  */
-public class KraUniversalUserServiceImpl extends UniversalUserServiceImpl {
+public class KraUniversalUserServiceImpl implements UniversalUserService {
+    
+    private UniversalUserDao universalUserDao;
     
     private static final Logger LOG = Logger.getLogger(KraUniversalUserServiceImpl.class);
-
-    /**
-     * Must check to see if the user was placed into the workflow cache.  If
-     * so, we will build a user based upon that entry; otherwise we will get the
-     * user from the database.
-     * @see org.kuali.core.service.impl.UniversalUserServiceImpl#getUniversalUser(org.kuali.core.bo.user.UserId)
-     */
-    public UniversalUser getUniversalUser(org.kuali.core.bo.user.UserId userId) throws UserNotFoundException {
-        
-        UserId workflowUserId;
-        
-        if (userId instanceof org.kuali.core.bo.user.AuthenticationUserId) {
-            workflowUserId = new AuthenticationUserId(userId.toString());
-        } else if (userId instanceof org.kuali.core.bo.user.PersonPayrollId) {
-            workflowUserId = new EmplId(userId.toString());
-        } else if (userId instanceof org.kuali.core.bo.user.UuId) {
-            workflowUserId = new UuId(userId.toString());
-        } else {
-            throw new UnsupportedOperationException("Id type is not supported. " + userId.getClass());
-        } 
-        WorkflowUser user = getFromCache(workflowUserId); 
+    
+    public UniversalUser getUniversalUser(UserId userId) throws UserNotFoundException {
+        UniversalUser user = universalUserDao.getUser(userId);
         if (user == null) {
-            return super.getUniversalUser(userId);
-        } else {
-            return convertWorkflowUser(user);
+            throw new UserNotFoundException("unable to find universaluser for userId '" + userId + "'");
         }
+        return user;
+    }
+    
+    public UniversalUser getUniversalUser(String personUniversalIdentifier) throws UserNotFoundException {
+        return getUniversalUser(new UuId(personUniversalIdentifier));
+    }
+    
+    public UniversalUser getUniversalUserByAuthenticationUserId(String authenticationUserId ) throws UserNotFoundException {
+        return getUniversalUser(new AuthenticationUserId(authenticationUserId));
     }
 
     /**
@@ -99,38 +79,38 @@ public class KraUniversalUserServiceImpl extends UniversalUserServiceImpl {
      * We never use this service to write to the database.
      * @see org.kuali.core.service.impl.UniversalUserServiceImpl#save(edu.iu.uis.eden.user.WorkflowUser)
      */
-    public void save(WorkflowUser user) {
-        addToCache(user);
-    }
-    
-    /**
-     * Get a workflow user.
-     * @see org.kuali.core.service.impl.UniversalUserServiceImpl#getWorkflowUser(edu.iu.uis.eden.user.UserId)
-     */
-    public WorkflowUser getWorkflowUser(UserId userId) throws EdenUserNotFoundException {
-        WorkflowUser user = getFromCache(userId);
-        if (user == null) {
-            user = super.getWorkflowUser(userId);
-        }
-        return user;
-    }
-    
-    /**
-     * Get a workflow user.
-     * @see org.kuali.core.service.impl.UniversalUserServiceImpl#getWorkflowUser(edu.iu.uis.eden.clientapp.vo.UserIdVO)
-     */
-    public WorkflowUser getWorkflowUser(UserIdVO userId) throws EdenUserNotFoundException {
-        if (userId instanceof NetworkIdVO) {
-            return getWorkflowUser(new AuthenticationUserId(userId.toString()));
-        } else if (userId instanceof EmplIdVO) {
-            return getWorkflowUser(new EmplId(userId.toString()));
-        } else if (userId instanceof UuIdVO) {
-            return getWorkflowUser(new UuId(userId.toString()));
-        } else if (userId instanceof WorkflowIdVO) {
-            return getWorkflowUser(new WorkflowUserId(userId.toString()));
-        }
-        throw new UnsupportedOperationException("Id type given to dao that is not supported. " + userId);
-    }
+//    public void save(WorkflowUser user) {
+//        addToCache(user);
+//    }
+//    
+//    /**
+//     * Get a workflow user.
+//     * @see org.kuali.core.service.impl.UniversalUserServiceImpl#getWorkflowUser(edu.iu.uis.eden.user.UserId)
+//     */
+//    public WorkflowUser getWorkflowUser(UserId userId) throws EdenUserNotFoundException {
+//        WorkflowUser user = getFromCache(userId);
+//        if (user == null) {
+//            user = super.getWorkflowUser(userId);
+//        }
+//        return user;
+//    }
+//    
+//    /**
+//     * Get a workflow user.
+//     * @see org.kuali.core.service.impl.UniversalUserServiceImpl#getWorkflowUser(edu.iu.uis.eden.clientapp.vo.UserIdDTO)
+//     */
+//    public WorkflowUser getWorkflowUser(UserIdDTO userId) throws EdenUserNotFoundException {
+//        if (userId instanceof NetworkIdDTO) {
+//            return getWorkflowUser(new AuthenticationUserId(userId.toString()));
+//        } else if (userId instanceof EmplIdVO) {
+//            return getWorkflowUser(new EmplId(userId.toString()));
+//        } else if (userId instanceof UuIdVO) {
+//            return getWorkflowUser(new UuId(userId.toString()));
+//        } else if (userId instanceof WorkflowIdVO) {
+//            return getWorkflowUser(new WorkflowUserId(userId.toString()));
+//        }
+//        throw new UnsupportedOperationException("Id type given to dao that is not supported. " + userId);
+//    }
     
     /**
      * Load XML workflow users that are in the input stream.
@@ -138,10 +118,7 @@ public class KraUniversalUserServiceImpl extends UniversalUserServiceImpl {
      */
     public void loadXml(InputStream stream, WorkflowUser user) {
         try {
-            List parsedUsers = new UserXmlHandler().parseUserEntries(this, stream);
-            for(Iterator iter = parsedUsers.iterator(); iter.hasNext();) {
-                save((BaseWorkflowUser) iter.next());
-            }
+            new UserXmlParser().parseUsers(stream);
         } catch (Exception e) {
             if (e instanceof RuntimeException) {
                 throw (RuntimeException)e;
@@ -149,4 +126,13 @@ public class KraUniversalUserServiceImpl extends UniversalUserServiceImpl {
             throw new RuntimeException("Caught Exception parsing user xml.", e);
         }
     }
+
+    public UniversalUserDao getUniversalUserDao() {
+        return universalUserDao;
+    }
+
+    public void setUniversalUserDao(UniversalUserDao universalUserDao) {
+        this.universalUserDao = universalUserDao;
+    }
+    
 }

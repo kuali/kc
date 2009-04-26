@@ -15,33 +15,17 @@
  */
 package org.kuali.kra.web.struts.form;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.bo.Parameter;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.web.struts.form.KualiForm;
-import org.kuali.kra.bo.Unit;
-import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
-import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
-import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
-import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
-import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
-import org.kuali.kra.proposaldevelopment.bo.ProposalUser;
-import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.service.UnitService;
+import org.kuali.rice.kns.bo.Parameter;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public class UnitHierarchyForm  extends KualiForm {
 

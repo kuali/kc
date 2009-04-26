@@ -20,10 +20,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.dao.PersonDao;
 import org.kuali.kra.service.PersonService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
 public class PersonServiceImpl implements PersonService {
