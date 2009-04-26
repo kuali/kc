@@ -16,11 +16,11 @@
 package org.kuali.kra.award.detailsdates;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * This class represents the AddAwardTransferringSponsorEvent

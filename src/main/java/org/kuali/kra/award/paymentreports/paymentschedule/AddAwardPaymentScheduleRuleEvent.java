@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.award.paymentreports.paymentschedule;
 
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * This class is for rule validation when adding new item
