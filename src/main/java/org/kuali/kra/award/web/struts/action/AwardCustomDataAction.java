@@ -21,12 +21,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.common.customattributes.CustomDataAction;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
  * 

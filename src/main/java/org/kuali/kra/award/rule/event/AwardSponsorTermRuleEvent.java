@@ -16,11 +16,11 @@
 package org.kuali.kra.award.rule.event;
 
 import org.apache.log4j.Logger;
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.award.bo.AwardSponsorTerm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.rule.AwardSponsorTermRule;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * AwardSponsorTermRuleEvent class for rule processing.

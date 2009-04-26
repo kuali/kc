@@ -23,11 +23,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardApprovedSubaward;
 import org.kuali.kra.award.bo.AwardScienceKeyword;
-import org.kuali.kra.award.bo.AwardTransferringSponsor;
 import org.kuali.kra.award.detailsdates.AddAwardTransferringSponsorEvent;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.web.struts.form.AwardForm;
@@ -35,6 +33,7 @@ import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KeywordsService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 
 /**

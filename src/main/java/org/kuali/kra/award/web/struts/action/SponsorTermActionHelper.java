@@ -22,12 +22,12 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.award.bo.AwardSponsorTerm;
 import org.kuali.kra.award.rule.event.AwardSponsorTermRuleEvent;
 import org.kuali.kra.award.rules.AwardSponsorTermRuleImpl;
 import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**

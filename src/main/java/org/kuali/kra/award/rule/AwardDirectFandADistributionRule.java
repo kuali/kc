@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.award.rule;
 
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.award.rule.event.AwardDirectFandADistributionRuleEvent;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * Interface for Award Direct F and A Distribution business rules.

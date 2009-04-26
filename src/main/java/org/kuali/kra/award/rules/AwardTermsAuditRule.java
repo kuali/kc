@@ -18,18 +18,18 @@ package org.kuali.kra.award.rules;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder;
-import org.kuali.core.rule.DocumentAuditRule;
-import org.kuali.core.util.AuditCluster;
-import org.kuali.core.util.AuditError;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.award.bo.AwardSponsorTerm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.bo.SponsorTermType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder;
+import org.kuali.rice.kns.rule.DocumentAuditRule;
+import org.kuali.rice.kns.util.AuditCluster;
+import org.kuali.rice.kns.util.AuditError;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * This class processes audit rules (warnings) for the Terms Information related

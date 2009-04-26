@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
-import org.kuali.core.document.Document;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.common.permissions.web.struts.action.PermissionsActionHelperBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.rice.kns.document.Document;
 
 /**
  * The Award Permissions Action Helper performs all of the presentation logic

@@ -16,7 +16,6 @@
 package org.kuali.kra.award.web.struts.action;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,14 +25,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.PersistenceService;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardReportTerm;
 import org.kuali.kra.award.bo.AwardReportTermRecipient;
 import org.kuali.kra.award.bo.AwardSponsorTerm;
-import org.kuali.kra.award.bo.ReportClass;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.rule.event.AddAwardReportTermEvent;
 import org.kuali.kra.award.rule.event.AddAwardReportTermRecipientEvent;
@@ -42,8 +37,8 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardPaymentScheduleGenerationService;
-import org.kuali.kra.service.AwardReportsService;
-import org.kuali.kra.service.AwardSponsorTermService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**

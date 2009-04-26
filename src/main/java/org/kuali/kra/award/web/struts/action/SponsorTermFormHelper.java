@@ -18,10 +18,10 @@ package org.kuali.kra.award.web.struts.action;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.bo.SponsorTerm;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * This is a helper class for sponsor term form helper
