@@ -17,16 +17,16 @@ package org.kuali.kra.proposaldevelopment.web;
 
 import java.util.List;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.util.GlobalVariables;
+
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlTable;
 import com.gargoylesoftware.htmlunit.html.HtmlTableCell;
 import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.kuali.core.UserSession;
-import org.kuali.core.util.GlobalVariables;
 
 /**
  * Tests the Abstracts Panel in the Abstracts & Attachments Proposal Development Document.

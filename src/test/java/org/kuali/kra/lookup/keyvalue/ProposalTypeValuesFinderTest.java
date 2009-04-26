@@ -18,9 +18,8 @@ package org.kuali.kra.lookup.keyvalue;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.keyvalue.PersistableBusinessObjectValuesFinderTestBase;
-import org.kuali.kra.keyvalue.ValuesFinderTestBase;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * This class tests ProposalTypeValuesFinder.

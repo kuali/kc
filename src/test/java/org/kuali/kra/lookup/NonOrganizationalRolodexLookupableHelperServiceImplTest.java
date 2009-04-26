@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.lookup;
 
+import static org.kuali.kra.infrastructure.KraServiceLocator.getTypedService;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,12 +24,9 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.lookup.KualiLookupableImpl;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
-import org.kuali.kra.bo.Rolodex;
-
-import static org.kuali.kra.infrastructure.KraServiceLocator.getTypedService;
+import org.kuali.rice.kns.lookup.KualiLookupableImpl;
 
 /**
  * Class for testing units of functionality for the <code>{@link NonOrganizationalLookupableHelperServiceImpl}

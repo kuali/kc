@@ -19,11 +19,11 @@ import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.proposaldevelopment.bo.ProposalState;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.impl.ProposalStateServiceImpl;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Unit Tests for the Proposal State Service Implementation.

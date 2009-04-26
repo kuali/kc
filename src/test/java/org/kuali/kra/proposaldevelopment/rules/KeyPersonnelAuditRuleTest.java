@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import static org.kuali.core.util.GlobalVariables.getAuditErrorMap;
-import static org.kuali.core.util.GlobalVariables.setAuditErrorMap;
-import static org.kuali.core.util.GlobalVariables.setUserSession;
 import static org.kuali.kra.logging.FormattedLogger.info;
 import static org.kuali.kra.test.fixtures.ProposalDevelopmentDocumentFixture.NORMAL_DOCUMENT;
 import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INCOMPLETE_CERTIFICATIONS;
@@ -30,14 +27,15 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.UserSession;
-import org.kuali.core.bo.Parameter;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.ChangeKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.bo.Parameter;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Class to test Key Personnel Audit Mode Rules. These rules are executed when audit mode becomes activated.
@@ -57,8 +55,8 @@ public class KeyPersonnelAuditRuleTest extends KraTestBase {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        setUserSession(new UserSession("quickstart"));
-        setAuditErrorMap(new HashMap());
+        GlobalVariables.setUserSession(new UserSession("quickstart"));
+        GlobalVariables.setAuditErrorMap(new HashMap());
         auditRule = new KeyPersonnelAuditRule();
         document = NORMAL_DOCUMENT.getDocument();
     }
@@ -68,8 +66,8 @@ public class KeyPersonnelAuditRuleTest extends KraTestBase {
      */
     @After
     public void tearDown() throws Exception {
-        setUserSession(null);
-        setAuditErrorMap(null);
+        GlobalVariables.setUserSession(null);
+        GlobalVariables.setAuditErrorMap(null);
         auditRule = null;
         super.tearDown();
     }
@@ -117,7 +115,7 @@ public class KeyPersonnelAuditRuleTest extends KraTestBase {
         document.addProposalPerson(person);
         INVESTIGATOR_UNIT_NOT_TO_ONE_HUNDRED.populatePerson(document, person);
         assertTrue("Audit Rule shouldn't produce audit errors", auditRule.processRunAuditBusinessRules(document));
-        assertTrue(getAuditErrorMap().size() < 1);
+        assertTrue(GlobalVariables.getAuditErrorMap().size() < 1);
     }
     
     /**
@@ -149,7 +147,7 @@ public class KeyPersonnelAuditRuleTest extends KraTestBase {
         document.addProposalPerson(person1);
         
         assertFalse("Audit Rule should produce audit errors", auditRule.processRunAuditBusinessRules(document));
-        assertEquals(1, getAuditErrorMap().size());
+        assertEquals(1,GlobalVariables.getAuditErrorMap().size());
 
     }
  
@@ -165,7 +163,7 @@ public class KeyPersonnelAuditRuleTest extends KraTestBase {
         document.addProposalPerson(person1);
         
         assertTrue("Audit Rule shouldn't produce audit errors", auditRule.processRunAuditBusinessRules(document));
-        assertEquals(0, getAuditErrorMap().size());
+        assertEquals(0,GlobalVariables.getAuditErrorMap().size());
 
     }
     
@@ -180,7 +178,7 @@ public class KeyPersonnelAuditRuleTest extends KraTestBase {
     @Test
     public void validProposalInvestigatorCount() throws Exception {
         assertFalse("Audit Rule should produce audit errors", auditRule.processRunAuditBusinessRules(document));
-        assertEquals(1, getAuditErrorMap().size());
+        assertEquals(1,GlobalVariables.getAuditErrorMap().size());
     }
 
     /**
@@ -200,7 +198,7 @@ public class KeyPersonnelAuditRuleTest extends KraTestBase {
         document.addProposalPerson(person2);
         
         assertFalse("Audit Rule should produce audit errors", auditRule.processRunAuditBusinessRules(document));
-        assertEquals(1, getAuditErrorMap().size());
+        assertEquals(1,GlobalVariables.getAuditErrorMap().size());
     }
     
     @Test
@@ -210,7 +208,7 @@ public class KeyPersonnelAuditRuleTest extends KraTestBase {
         document.addProposalPerson(person);
         INVESTIGATOR_UNIT_NOT_TO_ONE_HUNDRED.populatePerson(document, person);
         assertFalse("Audit Rule should produce audit errors", auditRule.processRunAuditBusinessRules(document));
-        assertFalse(getAuditErrorMap().size() < 1);
+        assertFalse(GlobalVariables.getAuditErrorMap().size() < 1);
     }
 }
 

@@ -15,19 +15,17 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
 import java.util.Collection;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.dao.BusinessObjectDao;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
+import org.kuali.rice.kns.dao.BusinessObjectDao;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * This class tests NsfCodeValuesFinder.
