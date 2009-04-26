@@ -15,21 +15,10 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
-import static org.hamcrest.core.Is.is;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
-import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
-import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.kuali.core.lookup.keyvalues.KeyValuesFinder;
-import org.kuali.core.web.ui.KeyLabelPair;
 
 
 /**

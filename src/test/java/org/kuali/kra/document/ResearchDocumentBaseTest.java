@@ -21,10 +21,10 @@ import java.util.Date;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.UserSession;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class tests ResearchDocumentBase.

@@ -16,15 +16,12 @@
 package org.kuali.kra.document;
 
 import org.junit.Test;
-import org.kuali.core.document.MaintenanceDocumentBase;
-import org.kuali.core.service.DocumentService;
 import org.kuali.kra.budget.bo.BudgetCategoryMapping;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.MaintenanceDocumentTestBase;
+import org.kuali.rice.kns.document.MaintenanceDocumentBase;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.test.SQLDataLoader;
-import org.kuali.rice.test.data.PerTestUnitTestData;
-import org.kuali.rice.test.data.UnitTestData;
-import org.kuali.rice.test.data.UnitTestSql;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;

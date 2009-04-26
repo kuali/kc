@@ -27,7 +27,6 @@ import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.rice.test.data.PerTestUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestFile;
-import org.kuali.rice.test.data.UnitTestSql;
 
 @PerTestUnitTestData(
     @UnitTestData(

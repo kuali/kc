@@ -16,44 +16,32 @@
 package org.kuali.kra.irb.service;
 
 import java.util.HashMap;
-import java.util.Map;
 
-import org.junit.Assert;
 import junit.framework.TestCase;
 
 import org.apache.commons.lang.StringUtils;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.matchers.JUnitMatchers;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.ErrorMessage;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.service.AwardService;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.Sponsor;
-import org.kuali.kra.bo.Unit;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.bo.LookupableDevelopmentProposal;
-import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolFundingSource;
 import org.kuali.kra.irb.service.impl.ProtocolFundingSourceServiceImpl;
 import org.kuali.kra.irb.service.impl.ProtocolFundingSourceServiceImpl.FundingSourceLookup;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.FundingSourceTypeService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.UnitService;
-import org.kuali.kra.service.impl.mocks.MockUnitService;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.ErrorMessage;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
-
-import static org.hamcrest.CoreMatchers.*;
 
 /**
 * The JUnit test class for <code>{@link ProtocolFundingSourceServiceImpl}</code>
