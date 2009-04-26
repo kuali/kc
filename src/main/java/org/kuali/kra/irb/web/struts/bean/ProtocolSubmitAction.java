@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.web.struts.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +35,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * in the Submit for Review Action.
  */
 @SuppressWarnings("unchecked")
-public class ProtocolSubmitAction {
+public class ProtocolSubmitAction implements Serializable{
     
     private ActionHelper actionHelper;
     private String submissionTypeCode = "";
