@@ -15,11 +15,19 @@
  */
 package edu.yale.its.tp.cas.servlet;
 
-import java.io.*;
-import java.util.*;
-import javax.servlet.*;
-import javax.servlet.http.*;
-import edu.yale.its.tp.cas.ticket.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Iterator;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import edu.yale.its.tp.cas.ticket.ProxyTicket;
+import edu.yale.its.tp.cas.ticket.ServiceTicket;
+import edu.yale.its.tp.cas.ticket.ServiceTicketCache;
 
 /**
  * Handles PT validations and sub-PGT acquisitions for the Central
