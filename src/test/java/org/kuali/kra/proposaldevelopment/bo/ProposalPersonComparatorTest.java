@@ -17,11 +17,10 @@ package org.kuali.kra.proposaldevelopment.bo;
 
 
 import static java.util.Collections.sort;
-import static org.junit.Assert.*;
-import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INVESTIGATOR_SPLIT_ADDS_TO_ONE_HUNDRED;
-import static org.kuali.kra.test.fixtures.ProposalPersonFixture.BRYAN_CO_INVESTIGATOR;
-import static org.kuali.kra.test.fixtures.ProposalPersonFixture.PHILIP_CO_INVESTIGATOR;
 import static org.kuali.kra.test.fixtures.ProposalPersonFixture.ANDY_KEY_PERSON;
+import static org.kuali.kra.test.fixtures.ProposalPersonFixture.BRYAN_CO_INVESTIGATOR;
+import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INVESTIGATOR_SPLIT_ADDS_TO_ONE_HUNDRED;
+import static org.kuali.kra.test.fixtures.ProposalPersonFixture.PHILIP_CO_INVESTIGATOR;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -30,14 +29,11 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import org.kuali.core.UserSession;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.KraTestBase;
-
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonComparator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 
 /**

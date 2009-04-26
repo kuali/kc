@@ -22,12 +22,6 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.UserSession;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.authorization.PessimisticLock;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.HtmlUnitUtil;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.KraWebTestUtil;
@@ -35,8 +29,14 @@ import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.document.authorization.PessimisticLock;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import com.gargoylesoftware.htmlunit.WebClient;
@@ -112,7 +112,7 @@ public class SimplePessimisticLockTest extends KraTestBase {
 
                 //Assert on the Pessimistic Locking Messages
                 //This user owns the Lock. Hence there should be  no lock message displayed
-                assertFalse(proposalDocumentPage.asXml().contains("This Proposal is locked for editing by " + proposalLock.getOwnedByPersonUniversalIdentifier()));
+                assertFalse(proposalDocumentPage.asXml().contains("This Proposal is locked for editing by " + proposalLock.getOwnedByPrincipalIdentifier()));
                 HtmlPage savedProposalPage = (HtmlPage) saveButton.click();
                 assertTrue(savedProposalPage.asXml().contains("Document was successfully saved."));
             }
@@ -133,7 +133,7 @@ public class SimplePessimisticLockTest extends KraTestBase {
             if(secondDocSearchResultsPage != null) { 
                 secondProposalDocumentPage = KraWebTestUtil.loadProposalFromSearchResults(secondDocSearchResultsPage, getDocument().getDocumentNumber());
                 //This user does NOT own the Lock. Hence there should be a Proposal lock message displayed
-                assertTrue(secondProposalDocumentPage.asXml().contains("This Proposal is locked for editing by " + proposalLock.getOwnedByPersonUniversalIdentifier()));
+                assertTrue(secondProposalDocumentPage.asXml().contains("This Proposal is locked for editing by " + proposalLock.getOwnedByPrincipalIdentifier()));
                 
                 //Save button should NOT be displayed for this user
                 HtmlImageInput saveButton = null;
@@ -156,7 +156,7 @@ public class SimplePessimisticLockTest extends KraTestBase {
                     if(lock.getLockDescriptor().contains(KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET)) {
                         budgetLock = lock;
                         //This user should own the Budget Lock
-                        assertEquals(lock.getOwnedByPersonUniversalIdentifier(), jtesterUser);
+                        assertEquals(lock.getOwnedByPrincipalIdentifier(), jtesterUser);
                         break;
                     }
                 }
@@ -182,7 +182,7 @@ public class SimplePessimisticLockTest extends KraTestBase {
             
             //quickstart user reloads Proposal Page to see the Budget Lock message
             proposalDocumentPage = KraWebTestUtil.reloadPage(proposalDocumentPage);
-            assertTrue(proposalDocumentPage.asXml().contains("This Budget is locked for editing by " + budgetLock.getOwnedByPersonUniversalIdentifier()));
+            assertTrue(proposalDocumentPage.asXml().contains("This Budget is locked for editing by " + budgetLock.getOwnedByPrincipalIdentifier()));
             proposalDocumentPage = KraWebTestUtil.savePage(proposalDocumentPage);
             assertTrue(proposalDocumentPage.asXml().contains("Document was successfully saved."));
             
@@ -274,7 +274,7 @@ public class SimplePessimisticLockTest extends KraTestBase {
     }
 
     private void initializeAuthorization(ProposalDevelopmentDocument doc) {
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser user = (UniversalUser) GlobalVariables.getUserSession().getPerson();
         String username = user.getPersonUserIdentifier();
         KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
         kraAuthorizationService.addRole(username, RoleConstants.AGGREGATOR, doc);

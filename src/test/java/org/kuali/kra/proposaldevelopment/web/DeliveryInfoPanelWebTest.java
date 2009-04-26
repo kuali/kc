@@ -16,6 +16,7 @@
 package org.kuali.kra.proposaldevelopment.web;
 
 import org.junit.Test;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;

@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import static org.kuali.core.util.GlobalVariables.getAuditErrorMap;
-import static org.kuali.core.util.GlobalVariables.setAuditErrorMap;
-import static org.kuali.core.util.GlobalVariables.setUserSession;
 import static org.kuali.kra.test.fixtures.ProposalDevelopmentDocumentFixture.NORMAL_DOCUMENT;
 import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INVESTIGATOR_OVER_ONE_HUNDRED;
 import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INVESTIGATOR_SPLIT_ADDS_TO_ONE_HUNDRED;
@@ -25,23 +22,17 @@ import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INVESTIGATOR_UND
 import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INVESTIGATOR_UNIT_NOT_TO_ONE_HUNDRED;
 import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INVESTIGATOR_UNIT_OVER_ONE_HUNDRED;
 import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INVESTIGATOR_UNIT_UNDER_ZERO;
-import static org.kuali.kra.logging.FormattedLogger.*;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.UserSession;
-import org.kuali.core.bo.Parameter;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.KraTestBase;
-
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.rules.CreditSplitValidator;
-import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Class to test use cases of <code>{@link CreditSplitValidator}</code>
@@ -57,8 +48,8 @@ public class CreditSplitValidatorTest extends KraTestBase {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        setUserSession(new UserSession("quickstart"));
-        setAuditErrorMap(new HashMap());
+        GlobalVariables.setUserSession(new UserSession("quickstart"));
+        GlobalVariables.setAuditErrorMap(new HashMap());
         validator = new CreditSplitValidator();
         validator = validator.getProxy(validator);
         document = NORMAL_DOCUMENT.getDocument();
@@ -84,7 +75,7 @@ public class CreditSplitValidatorTest extends KraTestBase {
         INVESTIGATOR_SPLIT_ADDS_TO_ONE_HUNDRED.populatePerson(document, person1);
         document.addProposalPerson(person1);
         assertTrue("Audit Rule shouldn't produce audit errors", validator.validate(document));
-        assertEquals(0, getAuditErrorMap().size());
+        assertEquals(0, GlobalVariables.getAuditErrorMap().size());
         LOG.info("Ending validProposalInvetigatorNormal");
     }
 
@@ -95,7 +86,7 @@ public class CreditSplitValidatorTest extends KraTestBase {
         document.addProposalPerson(person);
         INVESTIGATOR_UNIT_NOT_TO_ONE_HUNDRED.populatePerson(document, person);
         assertFalse("Audit Rule should produce audit errors", validator.validate(document));
-        assertFalse(getAuditErrorMap().size() < 1);
+        assertFalse(GlobalVariables.getAuditErrorMap().size() < 1);
     }
     
     @Test
@@ -105,7 +96,7 @@ public class CreditSplitValidatorTest extends KraTestBase {
         document.addProposalPerson(person);
         INVESTIGATOR_OVER_ONE_HUNDRED.populatePerson(document, person);
         assertFalse("Audit Rule should produce audit errors", validator.validate(document));
-        assertFalse(getAuditErrorMap().size() < 1);
+        assertFalse(GlobalVariables.getAuditErrorMap().size() < 1);
     }
 
     @Test
@@ -115,7 +106,7 @@ public class CreditSplitValidatorTest extends KraTestBase {
         document.addProposalPerson(person);
         INVESTIGATOR_UNDER_ZERO.populatePerson(document, person);
         assertFalse("Audit Rule should produce audit errors", validator.validate(document));
-        assertFalse(getAuditErrorMap().size() < 1);
+        assertFalse(GlobalVariables.getAuditErrorMap().size() < 1);
     }
 
     @Test
@@ -125,7 +116,7 @@ public class CreditSplitValidatorTest extends KraTestBase {
         document.addProposalPerson(person);
         INVESTIGATOR_UNIT_UNDER_ZERO.populatePerson(document, person);
         assertFalse("Audit Rule should produce audit errors", validator.validate(document));
-        assertFalse(getAuditErrorMap().size() < 1);
+        assertFalse(GlobalVariables.getAuditErrorMap().size() < 1);
     }
 
     @Test
@@ -135,6 +126,6 @@ public class CreditSplitValidatorTest extends KraTestBase {
         document.addProposalPerson(person);
         INVESTIGATOR_UNIT_OVER_ONE_HUNDRED.populatePerson(document, person);
         assertFalse("Audit Rule should produce audit errors", validator.validate(document));
-        assertFalse(getAuditErrorMap().size() < 1);
+        assertFalse(GlobalVariables.getAuditErrorMap().size() < 1);
     }
 }

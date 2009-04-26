@@ -20,11 +20,11 @@ import static org.kuali.kra.logging.FormattedLogger.info;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.UserSession;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.PersonEditableField;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Contains tests for <code>{@link PersonEditableFieldRule}</code>

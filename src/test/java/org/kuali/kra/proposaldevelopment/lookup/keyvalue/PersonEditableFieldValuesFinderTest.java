@@ -18,7 +18,6 @@ package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.keyvalue.ValuesFinderTestBase;
 
 /**

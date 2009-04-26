@@ -20,12 +20,11 @@ import java.util.Date;
 
 import org.junit.After;
 import org.junit.Test;
-import org.kuali.core.UserSession;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-//import org.kuali.kra.proposaldevelopment.bo.CarrierType;
 import org.kuali.kra.proposaldevelopment.bo.MailType;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class tests KraMaintainableImpl.
