@@ -1,0 +1,2436 @@
+SQL> @kc-rice-093-to-094-ddl.sql;
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+Index created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table created.
+
+
+Table altered.
+
+
+View created.
+
+
+View created.
+
+
+View created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+
+PL/SQL procedure successfully completed.
+
+
+Sequence created.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> spool off;
