@@ -15,27 +15,17 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import java.sql.Date;
-import java.text.DateFormat;
 import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.ErrorMessage;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.bo.SpecialReview;
-import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.Ynq;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.rule.event.AddProposalSpecialReviewEvent;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class ProposalDevelopmentYNQRuleTest extends ProposalDevelopmentRuleTestBase{
 

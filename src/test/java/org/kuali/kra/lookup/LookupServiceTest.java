@@ -20,18 +20,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
-import org.kuali.rice.KNSServiceLocator;
-import org.kuali.core.service.LookupService;
 import org.kuali.kra.KraTestBase;
-import org.kuali.rice.test.data.PerTestUnitTestData;
-import org.kuali.rice.test.data.UnitTestData;
-import org.kuali.rice.test.data.UnitTestFile;
-import org.kuali.rice.test.data.UnitTestSql;
-
-import org.kuali.kra.bo.Person;
-import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
-//import edu.sampleu.travel.bo.TravelAccount;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.LookupService;
 
 /*@PerTestUnitTestData(
         @UnitTestData(

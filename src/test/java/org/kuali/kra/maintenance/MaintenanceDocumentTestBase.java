@@ -19,12 +19,12 @@ import java.io.IOException;
 
 import org.junit.After;
 import org.junit.Before;
-import org.kuali.core.UserSession;
-import org.kuali.core.document.MaintenanceDocumentBase;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.KraWebTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.document.MaintenanceDocumentBase;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;

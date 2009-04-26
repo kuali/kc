@@ -19,24 +19,19 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.bo.user.AuthenticationUserId;
-import org.kuali.core.bo.user.UserId;
 import org.kuali.kra.KraTestBase;
-
-import edu.iu.uis.eden.KEWServiceLocator;
-import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
-import edu.iu.uis.eden.exception.EdenUserNotFoundException;
-import edu.iu.uis.eden.user.WorkflowUser;
+import org.kuali.rice.core.exception.RiceRuntimeException;
+import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.kim.bo.Person;
 
 public class QuickStartUserLookupTest extends KraTestBase {
 
     /*
      * re: JIRA KRACOEUS-635
      */
-    @Test(expected=EdenUserNotFoundException.class)
+    @Test(expected=RiceRuntimeException.class)
     public void testFindingQuickstartUser_TruncatedUserId() throws Exception {
-        UserId userId = new AuthenticationUserId("quicksta");
-        KEWServiceLocator.getUserService().getWorkflowUser(new NetworkIdVO(userId.toString()));
+        Person user = KEWServiceLocator.getIdentityHelperService().getPersonByPrincipalName("quicksta");
         fail("We should get an exception");
     }
     
@@ -45,8 +40,7 @@ public class QuickStartUserLookupTest extends KraTestBase {
      */
     @Test
     public void testFindingQuickstartUser_CompleteUserId() throws Exception {
-        UserId userId = new AuthenticationUserId("quickstart");
-        WorkflowUser user = KEWServiceLocator.getUserService().getWorkflowUser(new NetworkIdVO(userId.toString()));
+        Person user = KEWServiceLocator.getIdentityHelperService().getPersonByPrincipalName("quickstart");
         Assert.assertNotNull(user);
     }
     

@@ -18,11 +18,10 @@ package org.kuali.kra.proposaldevelopment.web;
 import java.io.IOException;
 
 import org.junit.Test;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 public class UserRoleBoundDocSearchWebTest extends ProposalDevelopmentWebTestBase {
 

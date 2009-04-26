@@ -18,11 +18,8 @@ package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.keyvalue.ValuesFinderTestBase;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * Tests the Non-Nih Roles Finder

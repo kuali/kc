@@ -25,8 +25,8 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.UserSession;
-import org.kuali.core.util.GlobalVariables;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
