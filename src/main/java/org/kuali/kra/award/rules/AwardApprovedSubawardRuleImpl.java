@@ -17,12 +17,12 @@ package org.kuali.kra.award.rules;
 
 import java.util.List;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.award.bo.AwardApprovedSubaward;
 import org.kuali.kra.award.rule.AwardApprovedSubawardRule;
 import org.kuali.kra.award.rule.event.AwardApprovedSubawardRuleEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * the AwardApprovedSubawardRuleImpl 

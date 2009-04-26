@@ -19,11 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Document;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardApprovedSubaward;
 import org.kuali.kra.award.bo.AwardCostShare;
@@ -77,6 +72,11 @@ import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.kra.rules.KraCustomAttributeRule;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.rules.SpecialReviewRulesImpl;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * Main Business Rule class for <code>{@link AwardDocument}</code>. 
@@ -164,7 +164,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     /**
      * 
      * @see org.kuali.core.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(
-     * org.kuali.core.document.Document)
+     * org.kuali.rice.kns.document.Document)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -202,7 +202,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     /**
      * 
      * @see org.kuali.core.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(
-     * org.kuali.core.document.Document)
+     * org.kuali.rice.kns.document.Document)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
@@ -388,7 +388,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
 
     /**
      * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(
-     * org.kuali.core.document.Document)
+     * org.kuali.rice.kns.document.Document)
      */
     public boolean processRunAuditBusinessRules(Document document){
         boolean retval = true;

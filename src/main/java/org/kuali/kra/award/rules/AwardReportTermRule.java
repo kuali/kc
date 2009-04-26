@@ -16,7 +16,6 @@
 package org.kuali.kra.award.rules;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.award.bo.AwardReportTerm;
 import org.kuali.kra.award.rule.AddAwardReportTermRule;
 import org.kuali.kra.award.rule.event.AddAwardReportTermEvent;
@@ -24,6 +23,7 @@ import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * 

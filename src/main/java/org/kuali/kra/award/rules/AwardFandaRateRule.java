@@ -16,12 +16,12 @@
 package org.kuali.kra.award.rules;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.award.bo.AwardFandaRate;
 import org.kuali.kra.award.rule.AddFandaRateRule;
 import org.kuali.kra.award.rule.event.AddAwardFandaRateEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * 
