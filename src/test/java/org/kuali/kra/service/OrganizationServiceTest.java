@@ -26,9 +26,9 @@ import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.service.impl.OrganizationServiceImpl;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * Test the methods in OrganizationServiceImpl.

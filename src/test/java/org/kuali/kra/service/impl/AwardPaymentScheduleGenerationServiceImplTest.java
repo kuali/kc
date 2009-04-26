@@ -30,8 +30,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.core.bo.Parameter;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardReportTerm;
 import org.kuali.kra.award.bo.Frequency;
@@ -40,6 +38,8 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.scheduling.sequence.XMonthlyScheduleSequence;
 import org.kuali.kra.scheduling.service.ScheduleService;
 import org.kuali.kra.scheduling.util.Time24HrFmt;
+import org.kuali.rice.kns.bo.Parameter;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * 

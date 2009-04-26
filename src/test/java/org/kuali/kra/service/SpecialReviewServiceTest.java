@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,16 +29,15 @@ import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.KualiRuleService;
 import org.kuali.kra.bo.AbstractSpecialReview;
 import org.kuali.kra.bo.AbstractSpecialReviewExemption;
 import org.kuali.kra.document.SpecialReviewHandler;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.service.impl.SpecialReviewServiceImpl;
 import org.kuali.kra.web.struts.form.SpecialReviewFormBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KualiRuleService;
 
 /**
  * JUnit test class to test the SpecialReviewService methods

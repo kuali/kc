@@ -16,7 +16,6 @@
 package org.kuali.kra.s2s.service;
 
 
-import java.sql.Connection;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -26,12 +25,9 @@ import org.junit.Test;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
-import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.s2s.service.impl.S2SServiceImpl;
 
 import edu.mit.coeus.utils.S2SConstants;
-import edu.mit.coeus.utils.dbengine.DBEngineImpl;
-import edu.mit.coeus.utils.dbengine.DBException;
 
 public class FindOpportunityTest extends KraTestBase implements S2SConstants{
     private static final Logger LOG = Logger.getLogger(S2SServiceImpl.class);
