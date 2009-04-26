@@ -28,13 +28,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.ContactType;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitContactType;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * This class tests the AwardUnitContactsBean 

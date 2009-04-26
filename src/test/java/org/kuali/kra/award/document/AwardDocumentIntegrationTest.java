@@ -18,9 +18,9 @@ package org.kuali.kra.award.document;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.UserSession;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.KraTestBase;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class AwardDocumentIntegrationTest extends KraTestBase {
     

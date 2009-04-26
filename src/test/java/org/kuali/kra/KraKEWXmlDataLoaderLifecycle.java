@@ -23,19 +23,17 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.rice.config.ConfigurationException;
-import org.kuali.rice.core.Core;
-import org.kuali.rice.lifecycle.Lifecycle;
-import org.kuali.rice.test.SQLDataLoader;
-import org.kuali.rice.util.ClassLoaderUtils;
+import org.kuali.rice.core.config.ConfigContext;
+import org.kuali.rice.core.config.ConfigurationException;
+import org.kuali.rice.core.lifecycle.Lifecycle;
+import org.kuali.rice.core.util.ClassLoaderUtils;
+import org.kuali.rice.kew.batch.FileXmlDocCollection;
+import org.kuali.rice.kew.batch.XmlDoc;
+import org.kuali.rice.kew.batch.XmlDocCollection;
+import org.kuali.rice.kew.batch.XmlIngesterService;
+import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
-
-import edu.iu.uis.eden.KEWServiceLocator;
-import edu.iu.uis.eden.batch.FileXmlDocCollection;
-import edu.iu.uis.eden.batch.XmlDoc;
-import edu.iu.uis.eden.batch.XmlDocCollection;
-import edu.iu.uis.eden.batch.XmlIngesterService;
 
 public class KraKEWXmlDataLoaderLifecycle implements Lifecycle {
 
@@ -56,7 +54,7 @@ public class KraKEWXmlDataLoaderLifecycle implements Lifecycle {
     }
 
     public void start() throws Exception {
-        if (new Boolean(Core.getCurrentContextConfig().getProperty("use.kraKewXmlDataLoaderLifecycle"))) {
+        if (new Boolean(ConfigContext.getCurrentContextConfig().getProperty("use.kraKewXmlDataLoaderLifecycle"))) {
             loadKraKewXml();
             started = true;
         }
