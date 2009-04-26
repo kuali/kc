@@ -22,10 +22,6 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.UserSession;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.OrganizationYnq;
 import org.kuali.kra.bo.Ynq;
@@ -33,6 +29,10 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
 import org.kuali.kra.rules.OrganizationMaintenanceDocumentRule;
 import org.kuali.kra.service.YnqService;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class OrganizationMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
     private OrganizationMaintenanceDocumentRule rule = null;

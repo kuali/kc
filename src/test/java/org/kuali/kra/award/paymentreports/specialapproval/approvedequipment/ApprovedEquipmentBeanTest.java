@@ -17,12 +17,10 @@ package org.kuali.kra.award.paymentreports.specialapproval.approvedequipment;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.service.KualiRuleService;
 import org.kuali.kra.award.bo.Award;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.service.KualiRuleService;
 
 /**
  * This test class will not be executable until we fix the Rice code where 

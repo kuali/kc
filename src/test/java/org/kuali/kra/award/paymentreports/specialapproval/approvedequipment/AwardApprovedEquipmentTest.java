@@ -20,8 +20,8 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.award.bo.Award;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class tests the AwardApprovedEquipment BO

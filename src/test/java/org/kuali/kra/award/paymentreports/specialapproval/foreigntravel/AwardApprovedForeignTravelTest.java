@@ -17,14 +17,11 @@ package org.kuali.kra.award.paymentreports.specialapproval.foreigntravel;
 
 import java.sql.Date;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.util.DateUtils;
 import org.kuali.kra.bo.Person;
+import org.kuali.rice.kns.util.DateUtils;
 
 /**
  * This class tests the AwardApprovedEquipment BO
