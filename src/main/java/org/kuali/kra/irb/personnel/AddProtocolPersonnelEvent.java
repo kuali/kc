@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.irb.personnel;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * This class represents the AddProtocolPersonnelEvent

@@ -24,14 +24,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.lookup.LookupResultsService;
-import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kra.common.customattributes.CustomDataAction;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -43,12 +35,19 @@ import org.kuali.kra.irb.personnel.ProtocolPersonTrainingService;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelService;
 import org.kuali.kra.irb.service.ProtocolAuthorizationService;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.lookup.LookupResultsService;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
-
-import edu.iu.uis.eden.clientapp.IDocHandler;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
  * The ProtocolAction is the base class for all Protocol actions.  Each derived
@@ -159,7 +158,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolDocument doc = protocolForm.getDocument();
         
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
         String username = user.getPersonUserIdentifier();
         ProtocolAuthorizationService protocolAuthService = KraServiceLocator.getService(ProtocolAuthorizationService.class);
         protocolAuthService.addRole(username, RoleConstants.PROTOCOL_AGGREGATOR, doc.getProtocol());
@@ -183,7 +182,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
             if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
                 
                 Class<?> lookupResultsBOClass = Class.forName(protocolForm.getLookupResultsBOClassName());
-                String userName = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
+                String userName = (new UniversalUser (GlobalVariables.getUserSession().getPerson())).getPrincipalName();
                 LookupResultsService service = KraServiceLocator.getService(LookupResultsService.class);
                 Collection<PersistableBusinessObject> selectedBOs
                     = service.retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, userName);
@@ -192,6 +191,11 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
             }
         }
         
+        // TODO : hack for rice 11 upgrade
+        // when return from lookup
+        if (StringUtils.isNotBlank(protocolForm.getFormKey())) {
+            protocolForm.setFormKey("");
+        }
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
     
@@ -221,7 +225,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         ProtocolForm protocolForm = (ProtocolForm) form;
         String command = protocolForm.getCommand();
         
-        if (IDocHandler.ACTIONLIST_INLINE_COMMAND.equals(command)) {
+        if (KEWConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
              String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
              Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
              protocolForm.setDocument(retrievedDocument);
@@ -232,7 +236,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
              forward = super.docHandler(mapping, form, request, response);
         }
 
-        if (IDocHandler.INITIATE_COMMAND.equals(protocolForm.getCommand())) {
+        if (KEWConstants.INITIATE_COMMAND.equals(protocolForm.getCommand())) {
             protocolForm.getDocument().initialize();
         }else{
             protocolForm.initialize();
@@ -245,7 +249,8 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
      * Get the Kuali Rule Service.
      * @return the Kuali Rule Service
      */
-    private KualiRuleService getKualiRuleService() {
+    @Override
+    protected KualiRuleService getKualiRuleService() {
         return KraServiceLocator.getService(KualiRuleService.class);
     }
     

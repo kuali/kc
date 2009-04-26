@@ -19,11 +19,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.service.ProtocolProtocolService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class ProtocolProtocolServiceImpl implements ProtocolProtocolService{
 

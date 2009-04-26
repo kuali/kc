@@ -16,9 +16,9 @@
 package org.kuali.kra.irb.personnel;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public abstract class ProtocolPersonnelEventBase extends KraDocumentEventBase implements ProtocolPersonnelEvent {
 

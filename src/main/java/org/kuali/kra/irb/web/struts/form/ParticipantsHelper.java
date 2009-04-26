@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.irb.web.struts.form;
 
-import org.kuali.kra.irb.bo.Protocol;
+import java.io.Serializable;
+
 import org.kuali.kra.irb.bo.ProtocolParticipant;
-import org.kuali.kra.irb.document.ProtocolDocument;
 
 /**
  * This class...
  */
-public class ParticipantsHelper {
+public class ParticipantsHelper implements Serializable {
     
     private ProtocolParticipant newProtocolParticipant;
     

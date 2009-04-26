@@ -19,19 +19,18 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.Person;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.service.ProtocolAuthorizationService;
 import org.kuali.kra.irb.service.ProtocolCopyService;
 import org.kuali.kra.kim.bo.KimRole;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.SystemAuthorizationService;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * The Protocol Copy Service creates a new Protocol Document
@@ -184,7 +183,7 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
      * @param doc the protocol document
      */
     private void initializeAuthorization(ProtocolDocument srcDoc, ProtocolDocument destDoc) {
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser user = new UniversalUser (GlobalVariables.getUserSession().getPerson());
         String userName = user.getPersonUserIdentifier();
         protocolAuthorizationService.addRole(userName, RoleConstants.PROTOCOL_AGGREGATOR, destDoc.getProtocol());
    

@@ -28,8 +28,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.document.Document;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -51,7 +49,9 @@ import org.kuali.kra.irb.service.ProtocolProtocolService;
 import org.kuali.kra.irb.service.ProtocolReferenceService;
 import org.kuali.kra.irb.service.ProtocolResearchAreaService;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**

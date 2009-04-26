@@ -17,10 +17,9 @@ package org.kuali.kra.irb.web.struts.form;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
+import java.io.Serializable;
+
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
@@ -33,10 +32,13 @@ import org.kuali.kra.irb.document.authorization.ProtocolTask;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelService;
 import org.kuali.kra.irb.service.ProtocolFundingSourceService;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.service.UnitService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
-public class ProtocolHelper {
+public class ProtocolHelper implements Serializable {
     
     /**
      * Each Helper must contain a reference to its document form
@@ -161,7 +163,7 @@ public class ProtocolHelper {
     }
 
     private String getUsername() {
-         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+         UniversalUser user = new UniversalUser (GlobalVariables.getUserSession().getPerson());
          return user.getPersonUserIdentifier();
     }
 

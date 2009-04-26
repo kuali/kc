@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.irb.rule.event;
 
-import org.kuali.core.document.Document;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.rules.LookupProtocolFundingSourceRule;
+import org.kuali.rice.kns.document.Document;
 
 /**
  * 

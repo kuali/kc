@@ -21,9 +21,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kra.common.permissions.web.struts.action.PermissionsAction;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
  * The ProtocolPermissionsAction responds to user events from the

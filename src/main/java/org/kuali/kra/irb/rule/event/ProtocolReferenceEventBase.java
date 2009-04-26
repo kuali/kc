@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.irb.rule.event;
 
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.irb.bo.ProtocolReference;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class is abstract base class for Event Notification

@@ -20,9 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -34,6 +31,9 @@ import org.kuali.kra.irb.rule.ExecuteProtocolActionRule;
 import org.kuali.kra.irb.web.struts.bean.ProtocolReviewerBean;
 import org.kuali.kra.irb.web.struts.bean.ProtocolSubmitAction;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class ProtocolActionRule extends ResearchDocumentRuleBase implements ExecuteProtocolActionRule {
 

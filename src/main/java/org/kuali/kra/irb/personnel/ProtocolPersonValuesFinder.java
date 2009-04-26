@@ -18,12 +18,12 @@ package org.kuali.kra.irb.personnel;
 import java.util.Collections;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.lookup.keyvalues.KeyValuesFinder;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.lookup.keyvalue.ConditionValuesFinder;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.kra.lookup.keyvalue.SortedValuesFinder;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * See {@link #getKeyValues()}.
