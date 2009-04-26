@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.award.contacts;
 
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.bo.UnitContactType;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class implements the specified rule

@@ -19,12 +19,12 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.award.bo.ContactRole;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class implements an Award Person 

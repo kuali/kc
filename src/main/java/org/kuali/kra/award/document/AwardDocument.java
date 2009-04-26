@@ -18,8 +18,6 @@ package org.kuali.kra.award.document;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.document.Copyable;
-import org.kuali.core.document.SessionDocument;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
@@ -27,6 +25,8 @@ import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.rice.kns.document.Copyable;
+import org.kuali.rice.kns.document.SessionDocument;
 
 /**
  * 
@@ -43,6 +43,8 @@ public class AwardDocument extends ResearchDocumentBase implements  Copyable, Se
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 1668673531338660064L;
+    
+    private static final String DOCUMENT_TYPE_CODE = "AWRD";
     
     private List<Award> awardList;
     
@@ -88,6 +90,10 @@ public class AwardDocument extends ResearchDocumentBase implements  Copyable, Se
      */
     public void setAwardList(List<Award> awardList) {
         this.awardList = awardList;
+    }
+    
+    public String getDocumentTypeCode() {
+        return DOCUMENT_TYPE_CODE;
     }
     
     /**

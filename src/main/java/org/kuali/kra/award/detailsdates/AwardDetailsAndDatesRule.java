@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award.detailsdates;
 
-import org.kuali.core.rule.BusinessRule;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * This interface declares the rule methods associated with <code>AwardDetailsAndDates</code> functionality.

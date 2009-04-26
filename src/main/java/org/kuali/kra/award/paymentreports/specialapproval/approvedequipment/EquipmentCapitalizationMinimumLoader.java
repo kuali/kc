@@ -17,10 +17,10 @@ package org.kuali.kra.award.paymentreports.specialapproval.approvedequipment;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.config.ConfigurationException;
+import org.kuali.rice.core.config.ConfigurationException;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * This class provides support to the AwardApprovedEquipmentRule 
