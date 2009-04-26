@@ -1,76 +1,48 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="UnitAclEntryMaintenanceDocument" parent="UnitAclEntryMaintenanceDocument-parentBean" />
+  <bean id="UnitAclEntryMaintenanceDocument" parent="UnitAclEntryMaintenanceDocument-parentBean"/>
 
   <bean id="UnitAclEntryMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.UnitAclEntry" />
-    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kra.bo.UnitAclEntry"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="UnitAclEntryMaintenanceDocument-EditPerson-Role" />
+        <ref bean="UnitAclEntryMaintenanceDocument-EditPerson-Role"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>id</value>
       </list>
     </property>
-    <property name="label" value="Person-Role Maintenance Document" />
-    <property name="shortLabel" value="personRoleMaintDoc" />
-    <property name="summary" value="Person-Role Maintenance Document" />
-    <property name="description" value="Document used to create or update Person-Role Reference objects" />
-    <property name="documentTypeName" value="UnitAclEntryMaintenanceDocument" />
-    <property name="businessRulesClass" value="org.kuali.kra.kim.rules.KimRolePersonRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="UAED" />
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>WorkflowAdmin</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
+    
+    
+    
+    
+    <property name="documentTypeName" value="UnitAclEntryMaintenanceDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kra.kim.rules.KimRolePersonRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    
+    
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="UnitAclEntryMaintenanceDocument-EditPerson-Role" parent="UnitAclEntryMaintenanceDocument-EditPerson-Role-parentBean" />
+  <bean id="UnitAclEntryMaintenanceDocument-EditPerson-Role" parent="UnitAclEntryMaintenanceDocument-EditPerson-Role-parentBean"/>
 
   <bean id="UnitAclEntryMaintenanceDocument-EditPerson-Role-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Person-Role" />
-    <property name="title" value="Edit Person-Role" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Person-Role"/>
+    <property name="title" value="Edit Person-Role"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="id" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="personId"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="roleId"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="unitNumber"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="subunits"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active"
-              p:defaultValue="true"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
+        <bean parent="MaintainableFieldDefinition" p:name="id"/>
+        <bean parent="MaintainableFieldDefinition" p:name="personId" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="roleId" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="unitNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="subunits" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
     </property>
   </bean>

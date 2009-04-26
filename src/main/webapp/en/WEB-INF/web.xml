@@ -26,7 +26,7 @@
   <filter>
     <filter-name>BootstrapFilter</filter-name>
 
-    <filter-class>edu.iu.uis.eden.core.BootstrapFilter</filter-class>
+    <filter-class>org.kuali.rice.kew.web.BootstrapFilter</filter-class>
   </filter>
 
 
@@ -40,12 +40,12 @@
  -->
   <filter>
     <filter-name>UserLoginFilter</filter-name>
-    <filter-class>edu.iu.uis.eden.web.UserLoginFilter</filter-class>
+    <filter-class>org.kuali.rice.kew.web.UserLoginFilter</filter-class>
   </filter>
 
   <filter>
     <filter-name>UserAccessFilter</filter-name>
-    <filter-class>edu.iu.uis.eden.web.UserAccessFilter</filter-class>
+    <filter-class>org.kuali.rice.kew.web.UserAccessFilter</filter-class>
   </filter>
 
   <filter-mapping>

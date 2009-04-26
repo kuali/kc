@@ -1,122 +1,79 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="YnqMaintenanceDocument" parent="YnqMaintenanceDocument-parentBean" />
+  <bean id="YnqMaintenanceDocument" parent="YnqMaintenanceDocument-parentBean"/>
 
   <bean id="YnqMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.Ynq" />
-    <property name="maintainableClass" value="org.kuali.kra.maintenance.YnqMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kra.bo.Ynq"/>
+    <property name="maintainableClass" value="org.kuali.kra.maintenance.YnqMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="YnqMaintenanceDocument-EditYnq" />
-        <ref bean="YnqMaintenanceDocument-YnqExplanation" />
+        <ref bean="YnqMaintenanceDocument-EditYnq"/>
+        <ref bean="YnqMaintenanceDocument-YnqExplanation"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>questionId</value>
       </list>
     </property>
-    <property name="label" value="Ynq Maintenance Document" />
-    <property name="shortLabel" value="ynqMaintDoc" />
-    <property name="summary" value="Ynq Maintenance Document" />
-    <property name="description" value="Document used to create or update Ynq Reference objects" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KRA-M"
-            p:parameterName="ynqMaintenanceHelp"
-            p:parameterDetailType="D" />
-    </property>
-    <property name="documentTypeName" value="YnqMaintenanceDocument" />
-    <property name="businessRulesClass" value="org.kuali.kra.rules.YnqMaintenanceDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="YNQD" />
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>WorkflowAdmin</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
+    
+    
+    
+    
+    
+    <property name="documentTypeName" value="YnqMaintenanceDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kra.rules.YnqMaintenanceDocumentRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    
+    
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="YnqMaintenanceDocument-EditYnq" parent="YnqMaintenanceDocument-EditYnq-parentBean" />
+  <bean id="YnqMaintenanceDocument-EditYnq" parent="YnqMaintenanceDocument-EditYnq-parentBean"/>
 
   <bean id="YnqMaintenanceDocument-EditYnq-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Ynq" />
-    <property name="title" value="Edit Ynq" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Ynq"/>
+    <property name="title" value="Edit Ynq"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="questionId"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="questionType"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="status"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="effectiveDate"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="description"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="noOfAnswers"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="explanationRequiredFor" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="dateRequiredFor" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="groupName" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
+        <bean parent="MaintainableFieldDefinition" p:name="questionId" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="questionType" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="status" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="noOfAnswers" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="explanationRequiredFor"/>
+        <bean parent="MaintainableFieldDefinition" p:name="dateRequiredFor"/>
+        <bean parent="MaintainableFieldDefinition" p:name="groupName"/>
+        <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
     </property>
   </bean>
-  <bean id="YnqMaintenanceDocument-YnqExplanation" parent="YnqMaintenanceDocument-YnqExplanation-parentBean" />
+  <bean id="YnqMaintenanceDocument-YnqExplanation" parent="YnqMaintenanceDocument-YnqExplanation-parentBean"/>
 
   <bean id="YnqMaintenanceDocument-YnqExplanation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Ynq Explanation" />
-    <property name="title" value="Ynq Explanation" />
-    <property name="maintainableItems" >
+    <property name="id" value="Ynq Explanation"/>
+    <property name="title" value="Ynq Explanation"/>
+    <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">
-          <property name="name" value="ynqExplanations" />
-          <property name="businessObjectClass" value="org.kuali.kra.bo.YnqExplanation" />
-          <property name="includeAddLine" value="false" />
-          <property name="summaryFields" >
+          <property name="name" value="ynqExplanations"/>
+          <property name="businessObjectClass" value="org.kuali.kra.bo.YnqExplanation"/>
+          <property name="includeAddLine" value="false"/>
+          <property name="summaryFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="ynqExplanationType.description" />
+              <bean parent="MaintainableFieldDefinition" p:name="ynqExplanationType.description"/>
             </list>
           </property>
-          <property name="maintainableFields" >
+          <property name="maintainableFields">
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="ynqExplanationType.description"
-                    p:readOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="questionId" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="explanation" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="explanationType" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="versionNumber" />
+              <bean parent="MaintainableFieldDefinition" p:name="ynqExplanationType.description" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="questionId"/>
+              <bean parent="MaintainableFieldDefinition" p:name="explanation"/>
+              <bean parent="MaintainableFieldDefinition" p:name="explanationType"/>
+              <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
             </list>
           </property>
         </bean>

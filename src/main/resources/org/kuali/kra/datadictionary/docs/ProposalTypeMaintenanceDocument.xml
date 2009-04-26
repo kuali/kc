@@ -1,69 +1,44 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="ProposalTypeMaintenanceDocument" parent="ProposalTypeMaintenanceDocument-parentBean" />
+  <bean id="ProposalTypeMaintenanceDocument" parent="ProposalTypeMaintenanceDocument-parentBean"/>
 
   <bean id="ProposalTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalType" />
-    <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalType"/>
+    <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="ProposalTypeMaintenanceDocument-EditProposalTypeCodes" />
+        <ref bean="ProposalTypeMaintenanceDocument-EditProposalTypeCodes"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>proposalTypeCode</value>
       </list>
     </property>
-    <property name="label" value="Proposal Type Maintenance Document" />
-    <property name="shortLabel" value="proposalTypeMaintDoc" />
-    <property name="summary" value="Proposal Type Maintenance Document" />
-    <property name="description" value="Document used to create or update Proposal Type Reference objects" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KRA-M"
-            p:parameterName="proposalTypeMaintenanceHelp"
-            p:parameterDetailType="D" />
-    </property>
-    <property name="documentTypeName" value="ProposalTypeMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PRPT" />
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>WorkflowAdmin</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
+    
+    
+    
+    
+    
+    <property name="documentTypeName" value="ProposalTypeMaintenanceDocument"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    
+    
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="ProposalTypeMaintenanceDocument-EditProposalTypeCodes" parent="ProposalTypeMaintenanceDocument-EditProposalTypeCodes-parentBean" />
+  <bean id="ProposalTypeMaintenanceDocument-EditProposalTypeCodes" parent="ProposalTypeMaintenanceDocument-EditProposalTypeCodes-parentBean"/>
 
   <bean id="ProposalTypeMaintenanceDocument-EditProposalTypeCodes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Proposal Type Codes" />
-    <property name="title" value="Edit Proposal Type Codes" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Proposal Type Codes"/>
+    <property name="title" value="Edit Proposal Type Codes"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="proposalTypeCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="description"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
+        <bean parent="MaintainableFieldDefinition" p:name="proposalTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
     </property>
   </bean>

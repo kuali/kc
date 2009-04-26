@@ -1,81 +1,51 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="ValidCalcTypeMaintenanceDocument" parent="ValidCalcTypeMaintenanceDocument-parentBean" />
+  <bean id="ValidCalcTypeMaintenanceDocument" parent="ValidCalcTypeMaintenanceDocument-parentBean"/>
 
   <bean id="ValidCalcTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.budget.bo.ValidCalcType" />
-    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kra.budget.bo.ValidCalcType"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="ValidCalcTypeMaintenanceDocument-EditValidCalcTypes" />
+        <ref bean="ValidCalcTypeMaintenanceDocument-EditValidCalcTypes"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>calcTypeId</value>
         <value>dependentSeqNumber</value>
         <value>rateClassType</value>
       </list>
     </property>
-    <property name="label" value="Valid Calc Types Maintenance Document" />
-    <property name="shortLabel" value="validCalcTypesMaintDoc" />
-    <property name="summary" value="ValidCalcTypes Maintenance Document" />
-    <property name="description" value="Document used to create or update ValidCalcTypes Reference objects" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KRA-M"
-            p:parameterName="validCalcTypeMaintenanceHelp"
-            p:parameterDetailType="D" />
-    </property>
-    <property name="documentTypeName" value="ValidCalcTypeMaintenanceDocument" />
-    <property name="businessRulesClass" value="org.kuali.kra.budget.rules.ValidCalcTypeMaintenanceDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="VACA" />
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>WorkflowAdmin</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
+    
+    
+    
+    
+    
+    <property name="documentTypeName" value="ValidCalcTypeMaintenanceDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kra.budget.rules.ValidCalcTypeMaintenanceDocumentRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    
+    
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="ValidCalcTypeMaintenanceDocument-EditValidCalcTypes" parent="ValidCalcTypeMaintenanceDocument-EditValidCalcTypes-parentBean" />
+  <bean id="ValidCalcTypeMaintenanceDocument-EditValidCalcTypes" parent="ValidCalcTypeMaintenanceDocument-EditValidCalcTypes-parentBean"/>
 
   <bean id="ValidCalcTypeMaintenanceDocument-EditValidCalcTypes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Valid Calc Types" />
-    <property name="title" value="Edit Valid Calc Types" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Valid Calc Types"/>
+    <property name="title" value="Edit Valid Calc Types"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="calcTypeId"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="dependentSeqNumber"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="rateClassType"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="dependentRateClassType" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="rateClassCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="rateTypeCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
+        <bean parent="MaintainableFieldDefinition" p:name="calcTypeId" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="dependentSeqNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="rateClassType" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="dependentRateClassType"/>
+        <bean parent="MaintainableFieldDefinition" p:name="rateClassCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="rateTypeCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
     </property>
   </bean>

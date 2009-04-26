@@ -30,11 +30,11 @@
 	  <priority value="INFO" />
 	</category>
 
-	<category name="org.kuali.core.util">
+	<category name="org.kuali.rice.kns.util">
 	  <priority value="INFO" />
 	</category>
 
-	<category name="org.kuali.core.lookup">
+	<category name="org.kuali.rice.kns.lookup">
 	  <priority value="INFO" />
 	</category>
         

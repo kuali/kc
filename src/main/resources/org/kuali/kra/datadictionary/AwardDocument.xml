@@ -1,157 +1,111 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="AwardDocument" parent="AwardDocument-parentBean" />
+  <bean id="AwardDocument" parent="AwardDocument-parentBean"/>
 
   <bean id="AwardDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    <property name="label" value="Award Document" />
-    <property name="shortLabel" value="Award Doc" />
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="Award Document" />
-    <property name="usePessimisticLocking" value="true" />
-    <property name="useWorkflowPessimisticLocking" value="false" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KRA-A"
-            p:parameterName="awardDocumentHelp"
-            p:parameterDetailType="D" />
-    </property>
-    <property name="documentTypeName" value="AwardDocument" />
-    <property name="documentClass" value="org.kuali.kra.award.document.AwardDocument" />
-    <property name="businessRulesClass" value="org.kuali.kra.award.rules.AwardDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kra.award.document.authorization.AwardDocumentAuthorizer" />
-    <property name="documentTypeCode" value="AWRD" />
-    <property name="allowsCopy" value="true" />
-    <property name="headerNavigationList" >
+    
+    
+    
+    
+    <property name="usePessimisticLocking" value="true"/>
+    <property name="useWorkflowPessimisticLocking" value="false"/>
+    
+    <property name="documentTypeName" value="AwardDocument"/>
+    <property name="documentClass" value="org.kuali.kra.award.document.AwardDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kra.award.rules.AwardDocumentRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kra.award.document.authorization.AwardDocumentAuthorizer"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.kra.authorizer.ResearchDocumentPresentationController"/>
+    
+    <property name="allowsCopy" value="true"/>
+    <property name="headerNavigationList">
       <list>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition" >
-            <bean parent="HelpDefinition"
-                  p:parameterNamespace="KRA-A"
-                  p:parameterName="awardHomeHelp"
-                  p:parameterDetailType="D" />
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KRA-A" p:parameterName="awardHomeHelp" p:parameterDetailType="D"/>
           </property>
-          <property name="headerTabDisplayName" value="Award" />
-          <property name="headerTabNavigateTo" value="home" />
+          <property name="headerTabDisplayName" value="Award"/>
+          <property name="headerTabNavigateTo" value="home"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition" >
-            <bean parent="HelpDefinition"
-                  p:parameterNamespace="KRA-A"
-                  p:parameterName="awardContactsHelp"
-                  p:parameterDetailType="D" />
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KRA-A" p:parameterName="awardContactsHelp" p:parameterDetailType="D"/>
           </property>
-          <property name="headerTabDisplayName" value="Contacts" />
-          <property name="headerTabNavigateTo" value="contacts" />
+          <property name="headerTabDisplayName" value="Contacts"/>
+          <property name="headerTabNavigateTo" value="contacts"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition" >
-            <bean parent="HelpDefinition"
-                  p:parameterNamespace="KRA-A"
-                  p:parameterName="awardTimeAndMoneyHelp"
-                  p:parameterDetailType="D" />
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KRA-A" p:parameterName="awardTimeAndMoneyHelp" p:parameterDetailType="D"/>
           </property>
-          <property name="headerTabDisplayName" value="Time &amp; Money" />
-          <property name="headerTabNavigateTo" value="timeAndMoney" />
+          <property name="headerTabDisplayName" value="Time &amp; Money"/>
+          <property name="headerTabNavigateTo" value="timeAndMoney"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition" >
-            <bean parent="HelpDefinition"
-                  p:parameterNamespace="KRA-A"
-                  p:parameterName="awardPaymentsReportsAndTermsHelp"
-                  p:parameterDetailType="D" />
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KRA-A" p:parameterName="awardPaymentsReportsAndTermsHelp" p:parameterDetailType="D"/>
           </property>
-          <property name="headerTabDisplayName" value="Payment, Reports &amp; Terms" />
-          <property name="headerTabNavigateTo" value="paymentReportsAndTerms" />
+          <property name="headerTabDisplayName" value="Payment, Reports &amp; Terms"/>
+          <property name="headerTabNavigateTo" value="paymentReportsAndTerms"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition" >
-            <bean parent="HelpDefinition"
-                  p:parameterNamespace="KRA-A"
-                  p:parameterName="awardSpecialReviewHelp"
-                  p:parameterDetailType="D" />
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KRA-A" p:parameterName="awardSpecialReviewHelp" p:parameterDetailType="D"/>
           </property>
-          <property name="headerTabDisplayName" value="Special Review" />
-          <property name="headerTabNavigateTo" value="specialReview" />
+          <property name="headerTabDisplayName" value="Special Review"/>
+          <property name="headerTabNavigateTo" value="specialReview"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition" >
-            <bean parent="HelpDefinition"
-                  p:parameterNamespace="KRA-A"
-                  p:parameterName="awardCustomDataHelp"
-                  p:parameterDetailType="D" />
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KRA-A" p:parameterName="awardCustomDataHelp" p:parameterDetailType="D"/>
           </property>
-          <property name="headerTabDisplayName" value="Custom Data" />
-          <property name="headerTabNavigateTo" value="customData" />
+          <property name="headerTabDisplayName" value="Custom Data"/>
+          <property name="headerTabNavigateTo" value="customData"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition" >
-            <bean parent="HelpDefinition"
-                  p:parameterNamespace="KRA-A"
-                  p:parameterName="awardQuestionsHelp"
-                  p:parameterDetailType="D" />
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KRA-A" p:parameterName="awardQuestionsHelp" p:parameterDetailType="D"/>
           </property>
-          <property name="headerTabDisplayName" value="Questions" />
-          <property name="headerTabNavigateTo" value="questions" />
+          <property name="headerTabDisplayName" value="Questions"/>
+          <property name="headerTabNavigateTo" value="questions"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition" >
-            <bean parent="HelpDefinition"
-                  p:parameterNamespace="KRA-A"
-                  p:parameterName="awardPermissionsHelp"
-                  p:parameterDetailType="D" />
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KRA-A" p:parameterName="awardPermissionsHelp" p:parameterDetailType="D"/>
           </property>
-          <property name="headerTabDisplayName" value="Permissions" />
-          <property name="headerTabNavigateTo" value="permissions" />
+          <property name="headerTabDisplayName" value="Permissions"/>
+          <property name="headerTabNavigateTo" value="permissions"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition" >
-            <bean parent="HelpDefinition"
-                  p:parameterNamespace="KRA-A"
-                  p:parameterName="awardNoteAndAttachmentsHelp"
-                  p:parameterDetailType="D" />
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KRA-A" p:parameterName="awardNoteAndAttachmentsHelp" p:parameterDetailType="D"/>
           </property>
-          <property name="headerTabDisplayName" value="Notes &amp; Attachments" />
-          <property name="headerTabNavigateTo" value="notesAndAttachments" />
+          <property name="headerTabDisplayName" value="Notes &amp; Attachments"/>
+          <property name="headerTabNavigateTo" value="notesAndAttachments"/>
         </bean>
         <bean parent="HeaderNavigation">
-          <property name="helpDefinition" >
-            <bean parent="HelpDefinition"
-                  p:parameterNamespace="KRA-A"
-                  p:parameterName="awardActionsHelp"
-                  p:parameterDetailType="D" />
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KRA-A" p:parameterName="awardActionsHelp" p:parameterDetailType="D"/>
           </property>
-          <property name="headerTabDisplayName" value="Award Actions" />
-          <property name="headerTabNavigateTo" value="awardActions" />
+          <property name="headerTabDisplayName" value="Award Actions"/>
+          <property name="headerTabNavigateTo" value="awardActions"/>
         </bean>
       </list>
     </property>
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>KualiUniversalGroup</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
-    <property name="attributes" >
+    
+    <property name="attributes">
       <list>      	
-        <ref bean="AwardDocument-versionNumber" />        
+        <ref bean="AwardDocument-versionNumber"/>        
       </list>
     </property>
   </bean>
 
 <!-- Attribute Definitions -->	
   
-  <bean id="AwardDocument-versionNumber" parent="AwardDocument-versionNumber-parentBean" />
+  <bean id="AwardDocument-versionNumber" parent="AwardDocument-versionNumber-parentBean"/>
 
   <bean id="AwardDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+  
+  <bean id="BudgetDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
   </bean>
 </beans>

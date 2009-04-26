@@ -20,7 +20,7 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="headercell1">
   <tr>
     <td>
-        <img src="images/wf-logo.gif" alt="OneStart Workflow" width=150 height=21 hspace=5 vspace=5>&nbsp;
+        <img src="images/wf-logo.gif" alt="Workflow" width=150 height=21 hspace=5 vspace=5>&nbsp;
     </td>
     <td width="90%">
         <a href="DocumentSearch.do?methodToCall=superUserSearch"><span class="maintext">Superuser Document Search</span></a>
@@ -66,7 +66,7 @@
       <html-el:form method="post" action="/SuperUser.do">
       <html-el:hidden property="methodToCall" />
       <html-el:hidden property="routeHeaderId" value="${SuperUserForm.routeHeader.routeHeaderId}" />
-	  <html-el:hidden property="docId" value="${SuperUserForm.flexDoc.routeHeaderId}" />
+	  <html-el:hidden property="docId" value="${SuperUserForm.workflowDocument.routeHeaderId}" />
 	  <html-el:hidden property="lookupableImplServiceName" />
   	  <html-el:hidden property="lookupType" />
 

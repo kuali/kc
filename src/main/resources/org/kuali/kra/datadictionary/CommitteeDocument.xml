@@ -1,86 +1,57 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans      http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-		<bean id="CommitteeDocument" parent="CommitteeDocument-parentBean" />
+		<bean id="CommitteeDocument" parent="CommitteeDocument-parentBean"/>
 		<bean id="CommitteeDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    	<property name="label" value="Committee Document" />
-    	<property name="shortLabel" value="Committee Doc" />
-    	<property name="summary" value="&amp;nbsp;" />
-    	<property name="description" value="Doing it right" />
-    	<property name="usePessimisticLocking" value="true" />
-    	<property name="useWorkflowPessimisticLocking" value="false" />
-    	<property name="helpDefinition" >
-      	<bean parent="HelpDefinition"
-            p:parameterNamespace="KC-CMT"
-            p:parameterName="CommitteeDocumentHelp"
-            p:parameterDetailType="D" />
-    	</property>
-    	<property name="documentTypeName" value="CommitteeDocument" />
-    	<property name="documentClass" value="org.kuali.kra.committee.document.CommitteeDocument" />
-    	<property name="businessRulesClass" value="org.kuali.kra.committee.rules.CommitteeDocumentRule" />
-    	<property name="documentAuthorizerClass" value="org.kuali.kra.committee.document.authorization.CommitteeDocumentAuthorizer" />
-    	<property name="documentTypeCode" value="COMT" />
-    	<property name="allowsCopy" value="true" />
-    	<property name="headerNavigationList" >
+    	
+    	
+    	
+    	
+    	<property name="usePessimisticLocking" value="true"/>
+    	<property name="useWorkflowPessimisticLocking" value="false"/>
+    	
+    	<property name="documentTypeName" value="CommitteeDocument"/>
+    	<property name="documentClass" value="org.kuali.kra.committee.document.CommitteeDocument"/>
+    	<property name="businessRulesClass" value="org.kuali.kra.committee.rules.CommitteeDocumentRule"/>
+    	<property name="documentAuthorizerClass" value="org.kuali.kra.committee.document.authorization.CommitteeDocumentAuthorizer"/>
+    	
+    	<property name="allowsCopy" value="true"/>
+    	<property name="headerNavigationList">
       	<list>
         	<bean parent="HeaderNavigation">
-          	<property name="helpDefinition" >
-            	<bean parent="HelpDefinition"
-                  p:parameterNamespace="KC-CMT"
-                  p:parameterName="CommitteeHelp"
-                  p:parameterDetailType="D" />
+          	<property name="helpDefinition">
+            	<bean parent="HelpDefinition" p:parameterNamespace="KC-CMT" p:parameterName="CommitteeHelp" p:parameterDetailType="D"/>
           	</property>
-          	<property name="headerTabDisplayName" value="Committee" />
-          	<property name="headerTabNavigateTo" value="committee" />
+          	<property name="headerTabDisplayName" value="Committee"/>
+          	<property name="headerTabNavigateTo" value="committee"/>
         	</bean>
         	<bean parent="HeaderNavigation">
-	          	<property name="helpDefinition" >
-	            	<bean parent="HelpDefinition"
-	                  p:parameterNamespace="KC-CMT"
-	                  p:parameterName="CommitteeHelp"
-	                  p:parameterDetailType="D" />
+	          	<property name="helpDefinition">
+	            	<bean parent="HelpDefinition" p:parameterNamespace="KC-CMT" p:parameterName="CommitteeHelp" p:parameterDetailType="D"/>
 	          	</property>
-	          	<property name="headerTabDisplayName" value="Members" />
-                <property name="headerTabNavigateTo" value="committeeMembership" />
+	          	<property name="headerTabDisplayName" value="Members"/>
+                <property name="headerTabNavigateTo" value="committeeMembership"/>
         	</bean>         	
             <bean parent="HeaderNavigation">
-                <property name="helpDefinition" >
-                    <bean parent="HelpDefinition"
-                      p:parameterNamespace="KC-CMT"
-                      p:parameterName="CommitteeHelp"
-                      p:parameterDetailType="D" />
+                <property name="helpDefinition">
+                    <bean parent="HelpDefinition" p:parameterNamespace="KC-CMT" p:parameterName="CommitteeHelp" p:parameterDetailType="D"/>
                 </property>
-                <property name="headerTabDisplayName" value="Schedule" />
-                <property name="headerTabNavigateTo" value="committeeSchedule" />
+                <property name="headerTabDisplayName" value="Schedule"/>
+                <property name="headerTabNavigateTo" value="committeeSchedule"/>
             </bean>             
       	</list>
     	</property>
-    	<property name="authorizations" >
-      	<list>
-        	<bean parent="AuthorizationDefinition">
-          	<property name="action" value="initiate" />
-          	<property name="authorizedGroups" >
-            	<set>
-              		<value>KualiUniversalGroup</value>
-            	</set>
-          	</property>
-        	</bean>
-      	</list>
-    	</property>
+    	
 
-		<property name="attributes" >
+		<property name="attributes">
 			<list>
-				<ref bean="CommitteeDocument-versionNumber" />
+				<ref bean="CommitteeDocument-versionNumber"/>
 			</list>
 		</property>
 	</bean>
 
 	<!-- Attribute Definitions -->
 	
-	<bean id="CommitteeDocument-versionNumber" parent="CommitteeDocument-versionNumber-parentBean" />
+	<bean id="CommitteeDocument-versionNumber" parent="CommitteeDocument-versionNumber-parentBean"/>
 	<bean id="CommitteeDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
 	</bean>
 </beans>

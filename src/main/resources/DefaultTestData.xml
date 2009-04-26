@@ -1,750 +1,550 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Default test data for KEW unit tests -->
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
-	<ApplicationConstants xmlns="ns:workflow/ApplicationConstants"
-		xsi:schemaLocation="ns:workflow/ApplicationConstants resource:ApplicationConstants">
+	
+	<!-- Unit test ApplicationConstants: reset the admin user list to include some test users -->
 
-		<ApplicationConstant>
-			<ConstantName>Config.Application.MinutesToCacheUsers</ConstantName>
-			<ConstantValue>2620</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>RuleChange.IsGenerateActionRequests</ConstantName>
-			<ConstantValue>true</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>RuleService.IsCaching</ConstantName>
-			<ConstantValue>true</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>Config.Application.AdminUserList</ConstantName>
-			<ConstantValue>rkirkend jhopf temay ewestfal natjohns xqi bmcgough bghutchi quickstart</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>DocumentSearch.IsRouteLogPopup</ConstantName>
-			<ConstantValue>true</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>DocumentSearch.IsDocumentPopup</ConstantName>
-			<ConstantValue>false</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>ActionList.IsRouteLogPopup</ConstantName>
-			<ConstantValue>true</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>ActionList.IsDocumentPopup</ConstantName>
-			<ConstantValue>false</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>RouteTypeSearch.Instructions</ConstantName>
-			<ConstantValue>Enter search criteria and click the search button to view the results.</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>RouteQueue.isRoutingByIPNumber</ConstantName>
-			<ConstantValue>true</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>RouteQueue.maxRetryAttempts</ConstantName>
-			<ConstantValue>3</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>RouteQueue.timeIncrement</ConstantName>
-			<ConstantValue>1000</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>RouteManagerQueue.initialDelay</ConstantName>
-			<ConstantValue>1000</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>RouteManagerQueue.waitTime</ConstantName>
-			<ConstantValue>1000</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>RouteManagerPool.numWorkers</ConstantName>
-			<ConstantValue>10</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>RouteManagerDriver.isRunning</ConstantName>
-			<ConstantValue>true</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>ActionList.sendEmailNotification</ConstantName>
-			<ConstantValue>false</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>RuleTemplate.CreateNew.Instruction</ConstantName>
-			<ConstantValue>Enter a rule template name and description. Please select all necessary rule attributes for this template.</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>Rule.CreateNew.Instruction</ConstantName>
-			<ConstantValue>Please select a rule template and document type.</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>Workgroup.Search.Instruction</ConstantName>
-			<ConstantValue>Enter criteria to search for a workgroup.</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>RuleAttribute.CreateNew.Instruction</ConstantName>
-			<ConstantValue>Enter the rule attributes name and full class name.</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>RuleTemplate.Search.Instruction</ConstantName>
-			<ConstantValue>Use fields below to search for rule templates.</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>Rule.Search.Instruction</ConstantName>
-			<ConstantValue>Use fields below to search for rules.</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>GlobalReviewer.Replace.Instruction</ConstantName>
-			<ConstantValue>Enter the reviewer to replace.</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>DocumentType.Search.Instruction</ConstantName>
-			<ConstantValue>Enter document type information below and click search.</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>Config.Backdoor.TargetFrameName</ConstantName>
-			<ConstantValue>iframe_51148</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>ApplicationContext</ConstantName>
-			<ConstantValue>en-dev</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>RuleAttribute.Search.Instruction</ConstantName>
-			<ConstantValue>Enter rule attribute criteria and click the search button.</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>User.Search.Instruction</ConstantName>
-			<ConstantValue>Enter search criteria and click the search button to view the results.</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>Workgroup.CreateNew.Instruction</ConstantName>
-			<ConstantValue>Enter/edit the workgroup data and click the route button to route the document.</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>Workflow.AdminWorkgroup</ConstantName>
-			<ConstantValue>WorkflowAdmin</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>Workgroup.IsRouteLogPopup</ConstantName>
-			<ConstantValue>false</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>DocumentType.IsRouteLogPopup</ConstantName>
-			<ConstantValue>false</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>Rule.IsRouteLogPopup</ConstantName>
-			<ConstantValue>false</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>Config.Application.RuleLockingOn</ConstantName>
-			<ConstantValue>true</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>Config.Application.DelegateLimit</ConstantName>
-			<ConstantValue>20</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>Config.Mailer.IPAddress</ConstantName>
-			<ConstantValue>127.0.0.1</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>Config.Mailer.FromAddress</ConstantName>
-			<ConstantValue>quickstart@localhost</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>Backdoor.ShowbackDoorLogin</ConstantName>
-			<ConstantValue>true</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>HelpDeskActionList.helpDeskActionListName</ConstantName>
-			<ConstantValue>WorkflowAdmin</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>User.CreateNew.Instruction</ConstantName>
-			<ConstantValue>Create or modify user information.</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>Workflow.AdminUrls</ConstantName>
-			<ConstantValue>
-				/RouteType.do /RouteManagerDriver.do /ApplicationConstants.do /RuleAttribute.do /RuleTemplate.do /WorkflowUser.do
-				/DocumentOperation.do /RouteQueue.do /Ingester.do /Plugin.do
-			</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>Feature.CheckRouteLogAuthentication.CheckFuture</ConstantName>
-			<ConstantValue>true</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>Note.CreateNew.Instruction</ConstantName>
-			<ConstantValue>Create or modify note information.</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>RouteQueue.requeueWaitTime</ConstantName>
-			<ConstantValue>5000</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>showAttachments</ConstantName>
-			<ConstantValue>true</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>EDL.UseXSLTC</ConstantName>
-			<ConstantValue>true</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>EDL.DebugTransform</ConstantName>
-			<ConstantValue>false</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>ChartOrg.Search.Instruction</ConstantName>
-			<ConstantValue>Enter ChartOrg criteria and click the search button</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>Config.Application.RunDeactivationDate</ConstantName>
-			<ConstantValue>false</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>DocumentType.CreateNew.Instruction</ConstantName>
-			<ConstantValue>Create or modify a document type</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>Rule.IsRouteLogPopup</ConstantName>
-			<ConstantValue>true</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>SubAccount.Search.Instruction</ConstantName>
-			<ConstantValue>Enter SubAccount criteria and click the search button</ConstantValue>
-		</ApplicationConstant>
-		
-	</ApplicationConstants>
-	<users xmlns="ns:workflow/User" xsi:schemaLocation="ns:workflow/User resource:User">
-		<user>
-			<workflowId>quickstart</workflowId>
-			<emplId>quickstart</emplId>
-			<authenticationId>quickstart</authenticationId>
-			<uuId>quickstart</uuId>
-			<emailAddress>quickstart@indiana.edu</emailAddress>
-			<displayName>quickstart quickstart</displayName>
-			<givenName>quickstart</givenName>
-			<lastName>quickstart</lastName>
+    <users xmlns="ns:workflow/User" xsi:schemaLocation="ns:workflow/User resource:User">
+    	<user>
+			<principalId>p1</principalId>
+			<emplId>p1emplId</emplId>
+			<principalName>principal1</principalName>
+			<givenName>Principal</givenName>
+			<lastName>One</lastName>
 		</user>
 		<user>
-			<workflowId>jtester</workflowId>
-			<emplId>jtester</emplId>
-			<authenticationId>jtester</authenticationId>
-			<uuId>jtester</uuId>
-			<emailAddress>jtester@indiana.edu</emailAddress>
-			<displayName>Joe Tester</displayName>
-			<givenName>Joe</givenName>
-			<lastName>Tester</lastName>
+			<principalId>p2</principalId>
+			<emplId>p2emplId</emplId>
+			<principalName>principal2</principalName>
+			<givenName>Principal</givenName>
+			<lastName>Two</lastName>
 		</user>
 		<user>
-			<workflowId>user4</workflowId>
-			<emplId>user4</emplId>
-			<authenticationId>user4</authenticationId>
-			<uuId>user4</uuId>
-			<emailAddress>user4@indiana.edu</emailAddress>
-			<displayName>User 4</displayName>
-			<givenName>user4</givenName>
-			<lastName>user4</lastName>
-		</user>
+			<principalId>p3</principalId>
+			<emplId>p3emplId</emplId>
+			<principalName>principal3</principalName>
+			<givenName>Principal</givenName>
+			<lastName>Three</lastName>
+		</user>		
 		<user>
-			<workflowId>newAccountUser</workflowId>
-			<emplId>newAcctUsr</emplId>
-			<authenticationId>newAcctUsr</authenticationId>
-			<uuId>newAcctUsr</uuId>
-			<emailAddress>newAccountUser@indiana.edu</emailAddress>
-			<displayName>New Account User</displayName>
-			<givenName>newAccountUser</givenName>
-			<lastName>newAccountUser</lastName>
+			<principalId>kr</principalId>
+			<principalName>kr</principalName>
+			<type>SYSTEM</type>
 		</user>
-		<user>
-			<workflowId>supervisor</workflowId>
-			<emplId>supervisr</emplId>
-			<authenticationId>supervisr</authenticationId>
-			<uuId>supervisr</uuId>
-			<emailAddress>supervisor@indiana.edu</emailAddress>
-			<displayName>Supervisor User</displayName>
-			<givenName>supervisor</givenName>
-			<lastName>supervisor</lastName>
+	    <!-- real users -->
+		<!--<user>
+			<workflowId>000000000000</workflowId>
+			<emplId>0000000000</emplId>
+			<authenticationId>rkirkend</authenticationId>
+			<uuId>0000000000</uuId>
+			<emailAddress>someone@indiana.edu</emailAddress>
+			<displayName>Someone Anyone</displayName>
+			<givenName>Someone</givenName>
+			<lastName>Anyone</lastName>
 			<createDate>01/01/2000</createDate>
 			<lastUpdateDate>12/31/2005</lastUpdateDate>
 			<identificationMissingIndicator>false(true)</identificationMissingIndicator>
-		</user>
+		</user>-->
 		<user>
-			<workflowId>director</workflowId>
-			<emplId>director</emplId>
-			<authenticationId>director</authenticationId>
+			<workflowId>1</workflowId>
+			<emplId>1</emplId>
+			<authenticationId>ewestfal</authenticationId>
 			<uuId>1</uuId>
-			<emailAddress>director@indiana.edu</emailAddress>
-			<displayName>Director User</displayName>
-			<givenName>director</givenName>
-			<lastName>director</lastName>
+			<emailAddress>ewestfal@indiana.edu</emailAddress>
+			<displayName>Eric Westfall</displayName>
+			<givenName>Eric</givenName>
+			<lastName>Westfall</lastName>
 		</user>
 		<user>
-			<workflowId>KULUSER</workflowId>
-			<emplId>KULUSER</emplId>
-			<authenticationId>KULUSER</authenticationId>
-			<uuId>KULUSER</uuId>
-			<emailAddress>KULUSER@indiana.edu</emailAddress>
-			<displayName>KULUSER 4</displayName>
-			<givenName>KULUSER</givenName>
-			<lastName>KULUSER</lastName>
-		</user>
-		<user> 
-			<workflowId>fred</workflowId>
-			<emplId>fred</emplId>
-			<authenticationId>fred</authenticationId>
-			<uuId>fred</uuId>
-			<emailAddress>fred@indiana.edu</emailAddress>
-			<displayName>fred</displayName>
-			<givenName>fred</givenName>
-			<lastName>fred</lastName>
+			<workflowId>2</workflowId>
+			<emplId>2</emplId>
+			<authenticationId>rkirkend</authenticationId>
+			<uuId>2</uuId>
+			<emailAddress>rkirkend@indiana.edu</emailAddress>
+			<displayName>Ryan Kirkendall</displayName>
+			<givenName>Ryan</givenName>
+			<lastName>Kirkendall</lastName>
+      		</user>
+		<user>
+			<workflowId>3</workflowId>
+			<emplId>3</emplId>
+			<authenticationId>jhopf</authenticationId>
+			<uuId>3</uuId>
+			<emailAddress>jhopf@indiana.edu</emailAddress>
+			<displayName>Jeremy Hopf</displayName>
+			<givenName>Jeremy</givenName>
+			<lastName>Hopf</lastName>
+
 		</user>
 		<user>
-			<workflowId>fran</workflowId>
-			<emplId>fran</emplId>
-			<authenticationId>fran</authenticationId>
-			<uuId>fran</uuId>
-			<emailAddress>fran@indiana.edu</emailAddress>
-			<displayName>fran</displayName>
-			<givenName>fran</givenName>
-			<lastName>fran</lastName>
+			<workflowId>4</workflowId>
+			<emplId>4</emplId>
+			<authenticationId>bmcgough</authenticationId>
+			<uuId>4</uuId>
+			<emailAddress>bmcgough@indiana.edu</emailAddress>
+			<displayName>Brian McGough</displayName>
+			<givenName>Brian</givenName>
+			<lastName>McGough</lastName>
+
 		</user>
 		<user>
-			<workflowId>frank</workflowId>
-			<emplId>frank</emplId>
-			<authenticationId>frank</authenticationId>
-			<uuId>frank</uuId>
-			<emailAddress>frank@indiana.edu</emailAddress>
-			<displayName>frank</displayName>
-			<givenName>frank</givenName>
-			<lastName>frank</lastName>
+			<workflowId>5</workflowId>
+			<emplId>5</emplId>
+			<authenticationId>temay</authenticationId>
+			<uuId>5</uuId>
+			<emailAddress>temay@indiana.edu</emailAddress>
+			<displayName>Teresa May</displayName>
+			<givenName>Teresa</givenName>
+			<lastName>May</lastName>
+
 		</user>
 		<user>
-			<workflowId>employee</workflowId>
-			<emplId>employee</emplId>
-			<authenticationId>employee</authenticationId>
-			<uuId>employee</uuId>
-			<emailAddress>employee@indiana.edu</emailAddress>
-			<displayName>employee</displayName>
-			<givenName>employee</givenName>
-			<lastName>employee</lastName>
+			<workflowId>6</workflowId>
+			<emplId>6</emplId>
+			<authenticationId>xqi</authenticationId>
+			<uuId>6</uuId>
+			<emailAddress>xqi@indiana.edu</emailAddress>
+			<displayName>Xiaofeng Qi</displayName>
+			<givenName>Xiaofeng</givenName>
+			<lastName>Qi</lastName>
+
+		</user>
+		<user>
+			<workflowId>7</workflowId>
+			<emplId>7</emplId>
+			<authenticationId>natjohns</authenticationId>
+			<uuId>7</uuId>
+			<emailAddress>natjohns@indiana.edu</emailAddress>
+			<displayName>Nate Johnson</displayName>
+			<givenName>Nate</givenName>
+			<lastName>Johnson</lastName>
+
+		</user>
+		<user>
+			<workflowId>8</workflowId>
+			<emplId>8</emplId>
+			<authenticationId>pmckown</authenticationId>
+			<uuId>8</uuId>
+			<emailAddress>pmckown@indiana.edu</emailAddress>
+			<displayName>Phil McKown</displayName>
+			<givenName>Phil</givenName>
+			<lastName>McKown</lastName>
+
+		</user>
+		<user>
+			<workflowId>9</workflowId>
+			<emplId>9</emplId>
+			<authenticationId>jthomas</authenticationId>
+			<uuId>9</uuId>
+			<emailAddress>jthomas@indiana.edu</emailAddress>
+			<displayName>Jim Thomas</displayName>
+			<givenName>Jim</givenName>
+			<lastName>Thomas</lastName>
+
+		</user>
+		<user>
+			<workflowId>10</workflowId>
+			<emplId>10</emplId>
+			<authenticationId>tbazler</authenticationId>
+			<uuId>10</uuId>
+			<emailAddress>tbazler@indiana.edu</emailAddress>
+			<displayName>Tara Bazler</displayName>
+			<givenName>Tara</givenName>
+			<lastName>Bazler</lastName>
+
+		</user>
+		<user>
+			<workflowId>11</workflowId>
+			<emplId>11</emplId>
+			<authenticationId>jitrue</authenticationId>
+			<uuId>11</uuId>
+			<emailAddress>jitrue@indiana.edu</emailAddress>
+			<displayName>Jim True</displayName>
+			<givenName>Jim</givenName>
+			<lastName>True</lastName>
+
+		</user>
+		<user>
+			<workflowId>12</workflowId>
+			<emplId>12</emplId>
+			<authenticationId>shenl</authenticationId>
+			<uuId>12</uuId>
+			<emailAddress>shenl@indiana.edu</emailAddress>
+			<displayName>Li Shen</displayName>
+			<givenName>Li</givenName>
+			<lastName>Shen</lastName>
+
+		</user>
+		<user>
+			<workflowId>13</workflowId>
+			<emplId>13</emplId>
+			<authenticationId>arh14</authenticationId>
+			<uuId>13</uuId>
+			<emailAddress>arh14@cornell.edu</emailAddress>
+			<displayName>Aaron Hamid</displayName>
+			<givenName>Aaron</givenName>
+			<lastName>Hamid</lastName>
+
+		</user>
+		<user>
+			<workflowId>14</workflowId>
+			<emplId>14</emplId>
+			<authenticationId>pzhang</authenticationId>
+			<uuId>14</uuId>
+			<emailAddress>pzhang@indiana.edu</emailAddress>
+			<displayName>Pan Zhang</displayName>
+			<givenName>Pan</givenName>
+			<lastName>Zhang</lastName>
+
+		</user>
+		<user>
+			<workflowId>15</workflowId>
+			<emplId>3234598234</emplId>
+			<authenticationId>delyea</authenticationId>
+			<uuId>3234598234</uuId>
+			<emailAddress>delyea@indiana.edu</emailAddress>
+			<displayName>David Elyea</displayName>
+			<givenName>David</givenName>
+			<lastName>Elyea</lastName>
+
+		</user>
+
+        <!-- test users, range starting at id 1000 -->
+		<user>
+			<workflowId>1001</workflowId>
+			<emplId>1001</emplId>
+			<authenticationId>user1</authenticationId>
+			<uuId>1001</uuId>
+			<emailAddress>user1@indiana.edu</emailAddress>
+			<displayName>User One</displayName>
+			<givenName>User</givenName>
+			<lastName>One</lastName>
+
+		</user>
+		<user>
+			<workflowId>1002</workflowId>
+			<emplId>1002</emplId>
+			<authenticationId>user2</authenticationId>
+			<uuId>1002</uuId>
+			<emailAddress>user2@indiana.edu</emailAddress>
+			<displayName>User Two</displayName>
+			<givenName>User</givenName>
+			<lastName>Two</lastName>
+
+		</user>
+		<user>
+			<workflowId>1003</workflowId>
+			<emplId>1003</emplId>
+			<authenticationId>user3</authenticationId>
+			<uuId>1003</uuId>
+			<emailAddress>user3@indiana.edu</emailAddress>
+			<displayName>User Three</displayName>
+			<givenName>User</givenName>
+			<lastName>Three</lastName>
+
+		</user>
+		<user>
+			<workflowId>1004</workflowId>
+			<emplId>1004</emplId>
+			<authenticationId>dewey</authenticationId>
+			<uuId>1004</uuId>
+			<emailAddress>dewey@indiana.edu</emailAddress>
+			<displayName>Dewey Decimal</displayName>
+			<givenName>Dewey</givenName>
+			<lastName>Decimal</lastName>
+
+		</user>
+		<user>
+			<workflowId>1005</workflowId>
+			<emplId>1005</emplId>
+			<authenticationId>quickstart</authenticationId>
+			<uuId>1005</uuId>
+			<emailAddress>quickstart@cornell.edu</emailAddress>
+			<displayName>Quick Start</displayName>
+			<givenName>Quick</givenName>
+			<lastName>Start</lastName>
+
+		</user>
+        <user>
+            <workflowId>1006</workflowId>
+            <emplId>1006</emplId>
+            <authenticationId>administrator</authenticationId>
+            <uuId>1006</uuId>
+            <emailAddress>admin@localhost</emailAddress>
+            <displayName>Administrator</displayName>
+            <givenName>administrator</givenName>
+            <lastName>administrator</lastName>
+
+        </user>
+        <user>
+			<workflowId>admin</workflowId>
+			<emplId>admin</emplId>
+			<authenticationId>admin</authenticationId>
+			<uuId>admin</uuId>
+			<emailAddress>admin@indiana.edu</emailAddress>
+			<displayName>Admin</displayName>
+			<givenName>Ad</givenName>
+			<lastName>Min</lastName>
+
+		</user>
+
+		<user>
+			<workflowId>kr</workflowId>
+			<authenticationId>kr</authenticationId>
+			<type>SYSTEM</type>
 		</user>
 	</users>
-	<workgroups xmlns="ns:workflow/Workgroup" xsi:schemaLocation="ns:workflow/Workgroup resource:Workgroup">
-		<workgroup>
-			<id>1</id>
-			<workgroupName>WorkflowAdmin</workgroupName>
+	<groups xmlns="ns:workflow/Group" xsi:schemaLocation="ns:workflow/Group resource:Group">
+		<group>
+		    <id>g1</id>
+			<name>GroupOne</name>
+			<namespace>KUALI</namespace>
+			<description>Group One</description>
+			<members>
+				<principalName>principal2</principalName>
+				<principalName>kr</principalName>
+			</members>
+		</group>
+		<group>
+		    <id>1</id>
+			<name>TestWorkgroup</name>
+			<namespace>KR-WKFLW</namespace>
+			<description>TestWorkgroup</description>
+			<members>
+				<principalName>ewestfal</principalName>
+				<principalName>rkirkend</principalName>
+				<principalName>jhopf</principalName>
+				<principalName>bmcgough</principalName>
+				<principalName>temay</principalName>
+				<principalName>xqi</principalName>
+				<principalName>natjohns</principalName>
+				<principalName>pmckown</principalName>
+				<principalName>jthomas</principalName>
+				<principalName>jitrue</principalName>
+			</members>
+		</group>
+		<group>
+			<id>2</id>
+			<name>WorkflowAdmin</name>
+			<namespace>KR-WKFLW</namespace>
 			<description>WorkflowAdmin</description>
 			<members>
-				<authenticationId>quickstart</authenticationId>
-				<authenticationId>jtester</authenticationId>
+				<principalName>ewestfal</principalName>
+				<principalName>rkirkend</principalName>
+				<principalName>jhopf</principalName>
+				<principalName>bmcgough</principalName>
+				<principalName>shenl</principalName>
+				<principalName>quickstart</principalName>
 			</members>
-		</workgroup>
-		<workgroup>
-			<id>2</id>
-			<workgroupName>KUALI_PED</workgroupName>
-			<description>KUALI_PED</description>
-			<members>
-				<authenticationId>employee</authenticationId>
-			</members>
-		</workgroup>
-		<workgroup>
+		</group>
+		<group>
 			<id>3</id>
-			<workgroupName>KUALI_OPERATIONS</workgroupName>
-			<description>KUALI_OPERATIONS</description>
+			<name>NonSIT</name>
+			<namespace>KR-WKFLW</namespace>
+			<description>NonSIT</description>
 			<members>
-				<authenticationId>employee</authenticationId>
+				<principalName>user1</principalName>
+				<principalName>user2</principalName>
+				<principalName>user3</principalName>
+				<principalName>dewey</principalName>
 			</members>
-		</workgroup>
-		<workgroup>
+		</group>
+		<group>
 			<id>4</id>
-			<workgroupName>KUALI_ROLE_MAINTENANCE</workgroupName>
-			<description>KUALI_ROLE_MAINTENANCE</description>
+			<name>BlanketApproveWorkgroup</name>
+			<namespace>KR-WKFLW</namespace>
+			<description>BlanketApproveWorkgroup</description>
 			<members>
-				<authenticationId>employee</authenticationId>
+				<principalName>ewestfal</principalName>
+				<principalName>rkirkend</principalName>
+				<principalName>jhopf</principalName>
+				<principalName>bmcgough</principalName>
+				<principalName>temay</principalName>
+				<principalName>xqi</principalName>
+				<principalName>natjohns</principalName>
+				<principalName>pmckown</principalName>
+				<principalName>jthomas</principalName>
+				<principalName>jitrue</principalName>
 			</members>
-		</workgroup>
-	</workgroups>
-	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
-		<ruleTemplate allowOverwrite="true">
-			<name>WorkflowDocumentTemplate</name>
-			<description>Workflow Document Template</description>
-		</ruleTemplate>
-	</ruleTemplates>
-	
-	<!-- Travel stuff
+		</group>
+		<group>
+			<id>5</id>
+			<name>NestedWorgroup</name>
+			<namespace>KR-WKFLW</namespace>
+			<description>NestedWorkgroup</description>
+			<members>
+				<principalName>ewestfal</principalName>
+				<principalName>rkirkend</principalName>
+				<groupName>
+					<name>NonSIT</name>
+					<namespace>KR-WKFLW</namespace>
+				</groupName>
+			</members>
+		</group>
+	</groups>
 	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
 		<ruleAttribute>
-			<name>DestinationAttribute</name>
-			<className>edu.sampleu.travel.workflow.DestinationRuleAttribute</className>
-			<label>Department of Prudence Routing</label>
-			<description>Department of Prudence Routing</description>
-			<messageEntity>TRAVEL</messageEntity>
+			<name>TestRuleAttribute</name>
+			<className>org.kuali.rice.kew.rule.TestRuleAttribute</className>
+			<label>Test Rule Attribute</label>
+			<description>Test Rule Attribute</description>
+			<type>RuleAttribute</type>
+		</ruleAttribute>
+				<ruleAttribute>
+			<name>TestRuleAttribute2</name>
+			<className>org.kuali.rice.kew.rule.TestRuleAttribute</className>
+			<label>Test Rule Attribute 2</label>
+			<description>Test Rule Attribute 2</description>
 			<type>RuleAttribute</type>
 		</ruleAttribute>
 		<ruleAttribute>
-			<name>EmployeeAttribute</name>
-			<className>edu.sampleu.travel.workflow.EmployeeAttribute</className>
-			<label>Employee Routing</label>
-			<description>Employee Routing</description>
-			<messageEntity>TRAVEL</messageEntity>
+			<name>TestRuleAttribute3</name>
+			<className>org.kuali.rice.kew.rule.TestRuleAttribute</className>
+			<label>Test Rule Attribute 3</label>
+			<description>Test Rule Attribute 3</description>
 			<type>RuleAttribute</type>
 		</ruleAttribute>
-		<ruleAttribute>
-			<name>AccountAttribute</name>
-			<className>edu.sampleu.travel.workflow.AccountAttribute</className>
-			<label>Account Routing</label>
-			<description>Account Routing</description>
-			<messageEntity>TRAVEL</messageEntity>
-			<type>RuleAttribute</type>
-		</ruleAttribute>
+
 	</ruleAttributes>
 	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
-		<ruleTemplate allowOverwrite="true">
-			<name>WorkflowDocumentTemplate</name>
-			<description>Workflow Document Template</description>
-		</ruleTemplate>
-		<ruleTemplate allowOverwrite="true">
-			<name>TravelRequest-DestinationRouting</name>
-			<description>Destination Routing</description>
+		<ruleTemplate>
+			<name>TestRuleTemplate</name>
+			<description>TestRuleTemplate</description>
 			<attributes>
 				<attribute>
-					<name>DestinationAttribute</name>
-				</attribute>
-			</attributes>
-		</ruleTemplate>
-		<ruleTemplate allowOverwrite="true">
-			<name>TravelRequest-TravelerRouting</name>
-			<description>Traveler Routing</description>
-			<attributes>
-				<attribute>
-					<name>EmployeeAttribute</name>
-				</attribute>
-			</attributes>
-		</ruleTemplate>
-		<ruleTemplate allowOverwrite="true">
-			<name>TravelRequest-SupervisorRouting</name>
-			<description>Supervisor Routing</description>
-			<attributes>
-				<attribute>
-					<name>EmployeeAttribute</name>
-				</attribute>
-			</attributes>
-		</ruleTemplate>
-		<ruleTemplate allowOverwrite="true">
-			<name>TravelRequest-AccountRouting</name>
-			<description>Travel Account Routing</description>
-			<attributes>
-				<attribute>
-					<name>AccountAttribute</name>
+					<name>TestRuleAttribute</name>
+					<required>true</required>
 				</attribute>
 			</attributes>
 		</ruleTemplate>
 	</ruleTemplates>
-	 -->
-
 	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
-			<name>EDENSERVICE-DOCS</name>
-			<description>Workflow Maintenance Document</description>
-			<label>Workflow Maintenance Document</label>
-			<postProcessorName>none</postProcessorName>
-			<docHandler>docHandler is now mandatory...</docHandler>
-			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
-			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
-			<active>true</active>
+	      <name>KualiDocument</name>
+	      <description>KualiDocument</description>
+	      <label>KualiDocument</label>
+	      <postProcessorName>none</postProcessorName>
+	      <policies>
+	        <policy>
+	          <name>DEFAULT_APPROVE</name>
+	          <value>true</value>
+	        </policy>
+	        <policy>
+	          <name>LOOK_FUTURE</name>
+	          <value>true</value>
+	        </policy>
+	  </policies>
+	      <routePaths>
+	        <routePath>
+	          <start name="PreRoute" />
+	        </routePath>
+	      </routePaths>
+	      <routeNodes>
+	        <start name="PreRoute">
+	          <activationType>S</activationType>
+	          <mandatoryRoute>false</mandatoryRoute>
+	          <finalApproval>false</finalApproval>
+	        </start>
+	      </routeNodes>
+	    </documentType>
+	    <documentType>
+	      <name>RiceDocument</name>
+	      <parent>KualiDocument</parent>
+	      <description>Parent Document Type for all Rice Documents</description>
+	      <label>Rice Document</label>
+	    </documentType>
+        <documentType>
+            <name>DocumentTypeDocument</name>
+            <parent>RiceDocument</parent>
+            <description>Workflow Maintenance Document Type Document</description>
+            <label>Workflow Maintenance Document Type Document</label>
+            <postProcessorName>org.kuali.rice.kew.doctype.DocumentTypePostProcessor</postProcessorName>
+            <docHandler>${workflow.url}/DocumentType.do?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <policies />
+            <routePaths>
+                <routePath>
+                    <start name="placeholder" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="placeholder">
+                    <activationType>S</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+		<documentType>
+			<name>TestDocumentType</name>
+			<!-- <description>TestDocumentType</description> -->
+			<label>TestDocumentType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserWorkgroupName>KR-WKFLW:TestWorkgroup</superUserWorkgroupName>
+			<docHandler>_blank</docHandler>
+			<blanketApproveWorkgroupName>KR-WKFLW:TestWorkgroup</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>KR-WKFLW:TestWorkgroup</defaultExceptionWorkgroupName>
+			<serviceNamespace>KEW</serviceNamespace>
 			<policies>
 				<policy>
-					<name>PRE_APPROVE</name>
-					<value>false</value>
-				</policy>
-				<policy>
 					<name>DEFAULT_APPROVE</name>
-					<value>true</value>
+					<value>false</value>
 				</policy>
 			</policies>
 			<routePaths>
 				<routePath>
-					<start name="adhoc" nextNode="exception" />
-					<requests name="exception" nextNode="Workflow Document Routing" />
-					<requests name="Workflow Document Routing" />
+					<start name="AdHoc" nextNode="RouteLevel1" />
+					<requests name="RouteLevel1" nextNode="RouteLevel2" />
+					<requests name="RouteLevel2" />
 				</routePath>
 			</routePaths>
 			<routeNodes>
-				<start name="adhoc">
-					<exceptionWorkgroup>WorkflowAdmin</exceptionWorkgroup>
+				<start name="AdHoc">
 					<activationType>S</activationType>
 				</start>
-				<requests name="exception">
-					<exceptionWorkgroup>WorkflowAdmin</exceptionWorkgroup>
+				<requests name="RouteLevel1">
 					<activationType>S</activationType>
-					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+					<routeModule>org.kuali.rice.kew.routemodule.TestRouteModule</routeModule>
 				</requests>
-				<requests name="Workflow Document Routing">
-					<exceptionWorkgroup>WorkflowAdmin</exceptionWorkgroup>
-					<activationType>S</activationType>
-					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
-					<mandatoryRoute>true</mandatoryRoute>
-				</requests>
-			</routeNodes>
-		</documentType>
-		<documentType>
-			<name>EDENSERVICE-DOCS.DocumentType</name>
-			<parent>EDENSERVICE-DOCS</parent>
-			<description>Workflow Maintenance Document Type Document</description>
-			<label>Workflow Maintenance Document Type Document</label>
-			<postProcessorName>edu.iu.uis.eden.doctype.DocumentTypePostProcessor</postProcessorName>
-			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
-			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
-			<docHandler>${kuali.docHandler.url.prefix}/en/DocumentType.do?methodToCall=docHandler</docHandler>
-			<active>true</active>
-			<policies />
-			<routePaths>
-				<routePath>
-					<start name="placeholder" />
-				</routePath>
-			</routePaths>
-			<routeNodes>
-				<start name="placeholder">
-					<exceptionWorkgroup>WorkflowAdmin</exceptionWorkgroup>
-					<activationType>S</activationType>
-				</start>
-			</routeNodes>
-		</documentType>
-		<documentType>
-			<name>EDENSERVICE-DOCS.RuleDocument</name>
-			<parent>EDENSERVICE-DOCS</parent>
-			<description>Rule Maintenance Document Type Document</description>
-			<label>Rule Maintenance Document Type Document</label>
-			<postProcessorName>edu.iu.uis.eden.routetemplate.RulePostProcessor</postProcessorName>
-			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
-			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
-			<docHandler>${kuali.docHandler.url.prefix}/en/Rule.do?methodToCall=docHandler</docHandler>
-			<active>true</active>
-			<policies />
-			<routePaths>
-				<routePath>
-					<start name="placeholder" />
-				</routePath>
-			</routePaths>
-			<routeNodes>
-				<start name="placeholder">
-					<exceptionWorkgroup>WorkflowAdmin</exceptionWorkgroup>
-					<activationType>S</activationType>
-				</start>
-			</routeNodes>
-		</documentType>
-		<documentType>
-			<name>EDENSERVICE-DOCS.WKGRPREQ</name>
-			<parent>EDENSERVICE-DOCS</parent>
-			<description>Document to generate a new workgroup</description>
-			<label>Add/modify EDEN workgroup</label>
-			<postProcessorName>edu.iu.uis.eden.workgroup.WorkgroupPostProcessor</postProcessorName>
-			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
-			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
-			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
-			<docHandler>${kuali.docHandler.url.prefix}/en/Workgroup.do?methodToCall=docHandler</docHandler>
-			<active>true</active>
-			<routingVersion>1</routingVersion>
-			<routePaths>
-				<routePath>
-					<start name="Adhoc Routing" nextNode="Workgroup Approvers" />
-					<requests name="Workgroup Approvers" />
-				</routePath>
-			</routePaths>
-			<routeNodes>
-				<start name="Adhoc Routing">
+				<requests name="RouteLevel2">
 					<activationType>P</activationType>
-					<mandatoryRoute>false</mandatoryRoute>
-					<finalApproval>false</finalApproval>
-				</start>
-				<requests name="Workgroup Approvers">
-					<activationType>P</activationType>
-					<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
-					<mandatoryRoute>true</mandatoryRoute>
-					<finalApproval>false</finalApproval>
-				</requests>
-			</routeNodes>
-		</documentType>
-		<!-- 
-		<documentType>
-			<name>TravelRequest</name>
-			<description>Create a New Travel Request</description>
-			<label>Travel Request</label>
-			<postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
-			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
-			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
-			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
-			<docHandler>${kuali.docHandler.url.prefix}/travelDocument2.do?methodToCall=docHandler</docHandler>
-			<routePaths>
-				<routePath>
-					<start name="Initiated" nextNode="DestinationApproval" />
-					<requests name="DestinationApproval" nextNode="TravelerApproval" />
-					<requests name="TravelerApproval" nextNode="SupervisorApproval" />
-					<requests name="SupervisorApproval" nextNode="AccountApproval" />
-					<requests name="AccountApproval" />
-				</routePath>
-			</routePaths>
-			<routeNodes>
-				<start name="Initiated">
-					<activationType>P</activationType>
-				</start>
-				<requests name="DestinationApproval">
-					<ruleTemplate>TravelRequest-DestinationRouting</ruleTemplate>
-				</requests>
-				<requests name="TravelerApproval">
-					<ruleTemplate>TravelRequest-TravelerRouting</ruleTemplate>
-				</requests>
-				<requests name="SupervisorApproval">
-					<ruleTemplate>TravelRequest-SupervisorRouting</ruleTemplate>
-				</requests>
-				<requests name="AccountApproval">
-					<ruleTemplate>TravelRequest-AccountRouting</ruleTemplate>
+					<ruleTemplate>TestRuleTemplate</ruleTemplate>
+					<finalApproval>true</finalApproval>
 				</requests>
 			</routeNodes>
 		</documentType>
 		<documentType>
-			<name>TravelAccountMaintenanceDocument</name>
-			<description>Create a New Travel Request</description>
-			<label>Travel Request</label>
-			<postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
-			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
-			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
-			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
-			<docHandler>${kuali.docHandler.url.prefix}/docHandler.do</docHandler>
-			<routePaths>
-				<routePath>
-					<start name="Initiated" />
-				</routePath>
-			</routePaths>
-			<routeNodes>
-				<start name="Initiated">
-					<activationType>P</activationType>
-				</start>
-			</routeNodes>
+			<name>TestDocumentType2</name>
+			<parent>TestDocumentType</parent>
+			<!-- <description>TestDocumentType</description> -->
+			<label>TestDocumentType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserWorkgroupName>KR-WKFLW:TestWorkgroup</superUserWorkgroupName>
+			<docHandler>_blank</docHandler>
+			<blanketApproveWorkgroupName>KR-WKFLW:TestWorkgroup</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>KR-WKFLW:TestWorkgroup</defaultExceptionWorkgroupName>
+			<!-- This is set to KEWNEW for the RouteQueueTest.testGetNextDocumentsWithserviceNamespace() -->
+			<serviceNamespace>KEWNEW</serviceNamespace>
 		</documentType>
-		
 		<documentType>
-			<name>FiscalOfficerMaintenanceDocument</name>
-			<description>Create a New Travel Fiscal Officer</description>
-			<label>Travel Fiscal Officer</label>
-			<postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
-			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
-			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
-			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
-			<docHandler>${kuali.docHandler.url.prefix}/docHandler.do</docHandler>
-			<routePaths>
-				<routePath>
-					<start name="Initiated" />
-				</routePath>
-			</routePaths>
-			<routeNodes>
-				<start name="Initiated">
-					<activationType>P</activationType>
-				</start>
-			</routeNodes>
+			<name>TestDocumentType3</name>
+			<parent>TestDocumentType</parent>
+			<!-- <description>TestDocumentType</description> -->
+			<label>TestDocumentType</label>
+			<docHandler>_blank</docHandler>
 		</documentType>
-		-->
 	</documentTypes>
 	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
 		<rule>
-			<documentType>EDENSERVICE-DOCS</documentType>
-			<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
-			<description>workflowdocumenttemplate description</description>
+			<documentType>TestDocumentType</documentType>
+            <ruleTemplate>TestRuleTemplate</ruleTemplate>
+			<description>TestRule1</description>
 			<ignorePrevious>false</ignorePrevious>
 			<responsibilities>
 				<responsibility>
-					<user>quickstart</user>
+					<role>org.kuali.rice.kew.rule.TestRuleAttribute!TestRole</role>
 					<actionRequested>A</actionRequested>
 					<priority>1</priority>
 				</responsibility>
 			</responsibilities>
 		</rule>
-		<rule>
-			<documentType>EDENSERVICE-DOCS.WKGRPREQ</documentType>
-			<ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
-			<description>Workgroup Approval Rule</description>
-			<ignorePrevious>false</ignorePrevious>
-			<responsibilities>
-				<responsibility>
-					<workgroup>WorkflowAdmin</workgroup>
-					<actionRequested>A</actionRequested>
-					<priority>1</priority>
-				</responsibility>
-			</responsibilities>
-		</rule>
-		<!-- 
-		<rule>
-			<documentType>TravelRequest</documentType>
-			<ruleTemplate>TravelRequest-DestinationRouting</ruleTemplate>
-			<description>Destination Rule</description>
-			<ruleExtensions>
-				<ruleExtension>
-					<attribute>DestinationAttribute</attribute>
-					<ruleTemplate>TravelRequest-DestinationRouting</ruleTemplate>
-					<ruleExtensionValues>
-						<ruleExtensionValue>
-							<key>destination</key>
-							<value>las vegas</value>
-						</ruleExtensionValue>
-					</ruleExtensionValues>
-				</ruleExtension>
-			</ruleExtensions>
-			<responsibilities>
-				<responsibility>
-					<user>user4</user>
-					<actionRequested>A</actionRequested>
-				</responsibility>
-			</responsibilities>
-		</rule>
-		<rule>
-			<documentType>TravelRequest</documentType>
-			<ruleTemplate>TravelRequest-TravelerRouting</ruleTemplate>
-			<description>Traveler Routing</description>
-			<responsibilities>
-				<responsibility>
-					<role>edu.sampleu.travel.workflow.EmployeeAttribute!employee</role>
-					<actionRequested>A</actionRequested>
-				</responsibility>
-			</responsibilities>
-		</rule>
-		<rule>
-			<documentType>TravelRequest</documentType>
-			<ruleTemplate>TravelRequest-SupervisorRouting</ruleTemplate>
-			<description>Supervisor Routing</description>
-			<responsibilities>
-				<responsibility>
-					<role>edu.sampleu.travel.workflow.EmployeeAttribute!supervisr</role>
-					<actionRequested>A</actionRequested>
-				</responsibility>
-			</responsibilities>
-		</rule>
-		<rule>
-			<documentType>TravelRequest</documentType>
-			<ruleTemplate>TravelRequest-SupervisorRouting</ruleTemplate>
-			<description>Dean/Director Routing</description>
-			<responsibilities>
-				<responsibility>
-					<role>edu.sampleu.travel.workflow.EmployeeAttribute!director</role>
-					<actionRequested>K</actionRequested>
-				</responsibility>
-			</responsibilities>
-		</rule>
-		<rule>
-			<documentType>TravelRequest</documentType>
-			<ruleTemplate>TravelRequest-AccountRouting</ruleTemplate>
-			<description>Fiscal Officer Routing</description>
-			<responsibilities>
-				<responsibility>
-					<role>edu.sampleu.travel.workflow.AccountAttribute!FO</role>
-				</responsibility>
-			</responsibilities>
-		</rule>
-		-->
 	</rules>
 </data>

@@ -1,104 +1,64 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="SponsorHierarchyMaintenanceDocument" parent="SponsorHierarchyMaintenanceDocument-parentBean" />
+  <bean id="SponsorHierarchyMaintenanceDocument" parent="SponsorHierarchyMaintenanceDocument-parentBean"/>
 
   <bean id="SponsorHierarchyMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.SponsorHierarchy" />
-    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kra.bo.SponsorHierarchy"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="SponsorHierarchyMaintenanceDocument-EditSponsorHierarchy" />
+        <ref bean="SponsorHierarchyMaintenanceDocument-EditSponsorHierarchy"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>hierarchyName</value>
         <value>sponsorCode</value>
       </list>
     </property>
-    <property name="label" value="SponsorHierarchy Maintenance Document" />
-    <property name="shortLabel" value="sponsorHierarchyMaintDoc" />
-    <property name="summary" value="SponsorHierarchy Maintenance Document" />
-    <property name="description" value="Document used to create or update SponsorHierarchy Reference objects" />
-    <property name="documentTypeName" value="SponsorHierarchyMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="SPHI" />
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>WorkflowAdmin</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
+    
+    
+    
+    
+    <property name="documentTypeName" value="SponsorHierarchyMaintenanceDocument"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    
+    
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="SponsorHierarchyMaintenanceDocument-EditSponsorHierarchy" parent="SponsorHierarchyMaintenanceDocument-EditSponsorHierarchy-parentBean" />
+  <bean id="SponsorHierarchyMaintenanceDocument-EditSponsorHierarchy" parent="SponsorHierarchyMaintenanceDocument-EditSponsorHierarchy-parentBean"/>
 
   <bean id="SponsorHierarchyMaintenanceDocument-EditSponsorHierarchy-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit SponsorHierarchy" />
-    <property name="title" value="Edit SponsorHierarchy" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit SponsorHierarchy"/>
+    <property name="title" value="Edit SponsorHierarchy"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="hierarchyName"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="sponsorCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="level1" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="level10" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="level10Sortid" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="level1Sortid" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="level2" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="level2Sortid" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="level3" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="level3Sortid" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="level4" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="level4Sortid" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="level5" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="level5Sortid" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="level6" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="level6Sortid" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="level7" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="level7Sortid" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="level8" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="level8Sortid" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="level9" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="level9Sortid" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
+        <bean parent="MaintainableFieldDefinition" p:name="hierarchyName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="sponsorCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="level1"/>
+        <bean parent="MaintainableFieldDefinition" p:name="level10"/>
+        <bean parent="MaintainableFieldDefinition" p:name="level10Sortid"/>
+        <bean parent="MaintainableFieldDefinition" p:name="level1Sortid"/>
+        <bean parent="MaintainableFieldDefinition" p:name="level2"/>
+        <bean parent="MaintainableFieldDefinition" p:name="level2Sortid"/>
+        <bean parent="MaintainableFieldDefinition" p:name="level3"/>
+        <bean parent="MaintainableFieldDefinition" p:name="level3Sortid"/>
+        <bean parent="MaintainableFieldDefinition" p:name="level4"/>
+        <bean parent="MaintainableFieldDefinition" p:name="level4Sortid"/>
+        <bean parent="MaintainableFieldDefinition" p:name="level5"/>
+        <bean parent="MaintainableFieldDefinition" p:name="level5Sortid"/>
+        <bean parent="MaintainableFieldDefinition" p:name="level6"/>
+        <bean parent="MaintainableFieldDefinition" p:name="level6Sortid"/>
+        <bean parent="MaintainableFieldDefinition" p:name="level7"/>
+        <bean parent="MaintainableFieldDefinition" p:name="level7Sortid"/>
+        <bean parent="MaintainableFieldDefinition" p:name="level8"/>
+        <bean parent="MaintainableFieldDefinition" p:name="level8Sortid"/>
+        <bean parent="MaintainableFieldDefinition" p:name="level9"/>
+        <bean parent="MaintainableFieldDefinition" p:name="level9Sortid"/>
+        <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
     </property>
   </bean>

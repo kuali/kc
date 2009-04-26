@@ -67,16 +67,16 @@
             </div>
             <br>
   <display-el:table class="result-table" cellspacing="0" cellpadding="0" name="${RemoveReplaceForm.rules}" defaultsort="1" id="rule" requestURI="RemoveReplace.do"
-       decorator="edu.iu.uis.eden.lookupable.LookupDecorator" >
-       <display-el:column sortable="true" title="Id"decorator="edu.iu.uis.eden.lookupable.LookupColumnDecorator">
+       decorator="org.kuali.rice.kew.lookupable.LookupDecorator" >
+       <display-el:column sortable="true" title="Id"decorator="org.kuali.rice.kew.lookupable.LookupColumnDecorator">
          <a target="_blank" href="Rule.do?methodToCall=report&currentRuleId=<c:out value="${rule.rule.ruleBaseValuesId}"/>"><c:out value="${rule.rule.ruleBaseValuesId}"/></a>
        </display-el:column>
-       <display-el:column sortable="true" title="Document Type" property="rule.docTypeName" decorator="edu.iu.uis.eden.lookupable.LookupColumnDecorator"/>
-       <display-el:column sortable="true" title="Rule Template" property="ruleTemplateName" decorator="edu.iu.uis.eden.lookupable.LookupColumnDecorator"/>
-       <display-el:column sortable="true" title="Description" property="rule.description" decorator="edu.iu.uis.eden.lookupable.LookupColumnDecorator"/>
-       <display-el:column sortable="true" title="Active" property="rule.activeInd" decorator="edu.iu.uis.eden.lookupable.LookupColumnDecorator"/>
-       <display-el:column sortable="true" title="Delegate Rule" property="rule.delegateRule" decorator="edu.iu.uis.eden.lookupable.LookupColumnDecorator"/>
-	   <display-el:column sortable="true" title="Warnings" property="warning" decorator="edu.iu.uis.eden.lookupable.LookupColumnDecorator">
+       <display-el:column sortable="true" title="Document Type" property="rule.docTypeName" decorator="org.kuali.rice.kew.lookupable.LookupColumnDecorator"/>
+       <display-el:column sortable="true" title="Rule Template" property="ruleTemplateName" decorator="org.kuali.rice.kew.lookupable.LookupColumnDecorator"/>
+       <display-el:column sortable="true" title="Description" property="rule.description" decorator="org.kuali.rice.kew.lookupable.LookupColumnDecorator"/>
+       <display-el:column sortable="true" title="Active" property="rule.activeInd" decorator="org.kuali.rice.kew.lookupable.LookupColumnDecorator"/>
+       <display-el:column sortable="true" title="Delegate Rule" property="rule.delegateRule" decorator="org.kuali.rice.kew.lookupable.LookupColumnDecorator"/>
+	   <display-el:column sortable="true" title="Warnings" property="warning" decorator="org.kuali.rice.kew.lookupable.LookupColumnDecorator">
 	     <c:if test="${!empty rule.warning}"><img src="images/errormark.gif" alt="warning" width="10" height="10"> <c:out value="${rule.warning}"/></c:if>
 	   </display-el:column>
   </display-el:table>
@@ -110,13 +110,13 @@
 
   <c:set var="workgroupIndex" value="0"/>
   <display-el:table class="result-table" cellspacing="0" cellpadding="0" name="${RemoveReplaceForm.workgroups}" defaultsort="1" id="workgroup" requestURI="RemoveReplace.do"
-       decorator="edu.iu.uis.eden.lookupable.LookupDecorator" >
-       <display-el:column sortable="true" title="Id"decorator="edu.iu.uis.eden.lookupable.LookupColumnDecorator">
+       decorator="org.kuali.rice.kew.lookupable.LookupDecorator" >
+       <display-el:column sortable="true" title="Id"decorator="org.kuali.rice.kew.lookupable.LookupColumnDecorator">
          <a target="_blank" href="Workgroup.do?methodToCall=report&workgroupId=<c:out value="${workgroup.id}"/>"><c:out value="${workgroup.id}"/></a>
        </display-el:column>
-       <display-el:column sortable="true" title="Name" property="name" decorator="edu.iu.uis.eden.lookupable.LookupColumnDecorator"/>
-       <display-el:column sortable="true" title="Type" property="type" decorator="edu.iu.uis.eden.lookupable.LookupColumnDecorator"/>
-	   <display-el:column sortable="true" title="Warnings" decorator="edu.iu.uis.eden.lookupable.LookupColumnDecorator">
+       <display-el:column sortable="true" title="Name" property="name" decorator="org.kuali.rice.kew.lookupable.LookupColumnDecorator"/>
+       <display-el:column sortable="true" title="Type" property="type" decorator="org.kuali.rice.kew.lookupable.LookupColumnDecorator"/>
+	   <display-el:column sortable="true" title="Warnings" decorator="org.kuali.rice.kew.lookupable.LookupColumnDecorator">
 	     <c:if test="${!empty workgroup.warning}"><img src="images/errormark.gif" alt="warning" width="10" height="10"> <c:out value="${workgroup.warning}"/></c:if>
 	   </display-el:column>
   </display-el:table>

@@ -1,5 +1,5 @@
 <%@ page import="org.apache.commons.beanutils.BeanUtils" %>
-<%@ page import="edu.iu.uis.eden.lookupable.Column" %>
+
 <%@ taglib uri="../../tld/struts-html-el.tld" prefix="html-el" %>
 <%@ taglib uri="../../tld/struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="../../tld/struts-bean-el.tld" prefix="bean-el" %>
@@ -47,7 +47,7 @@
 <table id="headerTable" width="100%" border="0" cellpadding="0" cellspacing="0" class="headercell1">
   <tr>
     <td>
-        <img src="<bean-el:message key="wflogo"/>" alt="OneStart Workflow" width=150 height=21 hspace=5 vspace=5>&nbsp;&nbsp;&nbsp;&nbsp;
+        <img src="<bean-el:message key="wflogo"/>" alt="Workflow" width=150 height=21 hspace=5 vspace=5>&nbsp;&nbsp;&nbsp;&nbsp;
     </td>
     <td width="90%">
       <a id="searchType" href="javascript:setMethod('<c:if test="${DocumentSearchForm.isAdvancedSearch == 'YES'}">basic</c:if><c:if test="${DocumentSearchForm.isAdvancedSearch != 'YES'}">advanced</c:if>');document.forms[0].submit();">
@@ -126,21 +126,21 @@
 
   <%--
   <display-el:table class="bord-r-t" style="width:100%" cellspacing="0" cellpadding="0" name="${reqSearchResults}" pagesize="100" defaultsort="1" sort="external" id="result" requestURI="Lookup.do?methodToCall=viewResults&listKey=${listKey}"
-       decorator="edu.iu.uis.eden.lookupable.LookupDecorator" > --%>
+       decorator="org.kuali.rice.kew.lookupable.LookupDecorator" > --%>
   <%-- TODO delyea - add external sorting 'sort="external"' --%>
   <%-- TODO delyea - add in pagesize? --%>
   <%-- Table layout of the search results --%>
   <display-el:table excludedParams="*" class="bord-r-t" style="width:100%" cellspacing="0" cellpadding="0" name="${reqSearchResults}" export="true" sort="external" id="result" requestURI="DocumentSearch.do?methodToCall=viewResults&searchStateKey=${searchStateKey}&superUserSearch=${DocumentSearchForm.superUserSearch}&isAdvancedSearch=${DocumentSearchForm.isAdvancedSearch}" pagesize="${preferences.pageSize}" defaultsort="1" defaultorder="descending"
-		decorator="edu.iu.uis.eden.docsearch.web.DocumentSearchDecorator">
+		decorator="org.kuali.rice.kew.docsearch.web.DocumentSearchDecorator">
     <display-el:setProperty name="paging.banner.placement" value="both" />
     <display-el:setProperty name="export.banner" value="" />
 		<c:forEach items="${reqSearchResultColumns}" var="column">
-			<display-el:column class="datacell" 
+			<display-el:column class="datacell"
 				sortable="${column.sortable}"
 				sortName="${column.sortName}"
 				title="${column.columnTitle}"
 				property="${column.propertyName}"
-				decorator="edu.iu.uis.eden.docsearch.web.DocumentSearchColumnDecorator">
+				decorator="org.kuali.rice.kew.docsearch.web.DocumentSearchColumnDecorator">
 			<%--<display-el:column class="datacell" sortable="${column.sortable}" sortName="${column.propertyName}" title="${column.columnTitle}" >
 			    <%
 			     Object objectName =  (Object)pageContext.getAttribute("result");

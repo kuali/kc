@@ -1,4 +1,4 @@
-<!--
+<?xml version="1.0" encoding="UTF-8"?><!--
  Copyright 2006-2008 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
@@ -12,70 +12,44 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
--->
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+--><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="MembershipRoleMaintenanceDocument" parent="MembershipRoleMaintenanceDocument-parentBean" />
+	<bean id="MembershipRoleMaintenanceDocument" parent="MembershipRoleMaintenanceDocument-parentBean"/>
 	<bean id="MembershipRoleMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.committee.bo.MembershipRole" />
-		<property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
-		<property name="maintainableSections" >
+		<property name="businessObjectClass" value="org.kuali.kra.committee.bo.MembershipRole"/>
+		<property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
+		<property name="maintainableSections">
 			<list>
-				<ref bean="MembershipRoleMaintenanceDocument-EditMembershipRole" />
+				<ref bean="MembershipRoleMaintenanceDocument-EditMembershipRole"/>
 			</list>
 		</property>
-		<property name="lockingKeys" >
+		<property name="lockingKeys">
 			<list>
 				<value>membershipRoleCode</value>
 			</list>
 		</property>
-		<property name="label" value="Membership Role Maintenance Document" />
-		<property name="shortLabel" value="membershipRoleMaintDoc" />
-		<property name="summary" value="Membership Role Maintenance Document" />
-		<property name="description" value="Document used to create or update Membership Role Reference objects" />
-		<property name="helpDefinition" >
-			<bean parent="HelpDefinition"
-				p:parameterNamespace="KRA-M"
-				p:parameterName="membershipRoleMaintenanceHelp"
-				p:parameterDetailType="D" />
-			</property>
-		<property name="documentTypeName" value="MembershipRoleMaintenanceDocument" />
-		<property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
-		<property name="documentTypeCode" value="COMM" />
-		<property name="authorizations" >
-			<list>
-				<bean parent="AuthorizationDefinition" >
-					<property name="action" value="initiate" />
-					<property name="authorizedGroups">
-						<set>
-							<value>WorkflowAdmin</value>
-						</set>
-					</property>
-				</bean>
-			</list>
-		</property>
+		
+		
+		
+		
+		
+		<property name="documentTypeName" value="MembershipRoleMaintenanceDocument"/>
+		<property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+		
+		
 	</bean>
 
 	<!-- Maintenance Section Definitions -->
 	
-	<bean id="MembershipRoleMaintenanceDocument-EditMembershipRole" parent="MembershipRoleMaintenanceDocument-EditMembershipRole-parentBean" />
+	<bean id="MembershipRoleMaintenanceDocument-EditMembershipRole" parent="MembershipRoleMaintenanceDocument-EditMembershipRole-parentBean"/>
 	<bean id="MembershipRoleMaintenanceDocument-EditMembershipRole-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="Edit Membership Role" />
-		<property name="title" value="Edit Membership Role" />
-		<property name="maintainableItems" >
+		<property name="id" value="Edit Membership Role"/>
+		<property name="title" value="Edit Membership Role"/>
+		<property name="maintainableItems">
 			<list>
-				<bean parent="MaintainableFieldDefinition"
-					p:name="membershipRoleCode"
-					p:required="true" />
-				<bean parent="MaintainableFieldDefinition"
-					p:name="description"
-					p:required="true" />
-				<bean parent="MaintainableFieldDefinition"
-					p:name="versionNumber" />
+				<bean parent="MaintainableFieldDefinition" p:name="membershipRoleCode" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
 			</list>
 		</property>
 	</bean>

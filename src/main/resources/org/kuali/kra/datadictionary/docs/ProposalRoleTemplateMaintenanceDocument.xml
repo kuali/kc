@@ -1,73 +1,46 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="ProposalRoleTemplateMaintenanceDocument" parent="ProposalRoleTemplateMaintenanceDocument-parentBean" />
+  <bean id="ProposalRoleTemplateMaintenanceDocument" parent="ProposalRoleTemplateMaintenanceDocument-parentBean"/>
 
   <bean id="ProposalRoleTemplateMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalRoleTemplate" />
-    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalRoleTemplate"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="ProposalRoleTemplateMaintenanceDocument-EditProposalRoleTemplate" />
+        <ref bean="ProposalRoleTemplateMaintenanceDocument-EditProposalRoleTemplate"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>id</value>
       </list>
     </property>
-    <property name="label" value="Proposal Role Template Maintenance Document" />
-    <property name="shortLabel" value="proposalRoleTemplateMaintDoc" />
-    <property name="summary" value="ProposalRoleTemplate Maintenance Document" />
-    <property name="description" value="Document used to create or update Proposal Role Template Reference objects" />
-    <property name="documentTypeName" value="ProposalRoleTemplateMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PRTD" />
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>WorkflowAdmin</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
+    
+    
+    
+    
+    <property name="documentTypeName" value="ProposalRoleTemplateMaintenanceDocument"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    
+    
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="ProposalRoleTemplateMaintenanceDocument-EditProposalRoleTemplate" parent="ProposalRoleTemplateMaintenanceDocument-EditProposalRoleTemplate-parentBean" />
+  <bean id="ProposalRoleTemplateMaintenanceDocument-EditProposalRoleTemplate" parent="ProposalRoleTemplateMaintenanceDocument-EditProposalRoleTemplate-parentBean"/>
 
   <bean id="ProposalRoleTemplateMaintenanceDocument-EditProposalRoleTemplate-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Proposal Role Template" />
-    <property name="title" value="Edit Proposal Role Template" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Proposal Role Template"/>
+    <property name="title" value="Edit Proposal Role Template"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="id" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="personId"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="roleName"
-              p:defaultValue="unassigned"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="unitNumber"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active"
-              p:defaultValue="true"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
+        <bean parent="MaintainableFieldDefinition" p:name="id"/>
+        <bean parent="MaintainableFieldDefinition" p:name="personId" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="roleName" p:defaultValue="unassigned" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="unitNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
     </property>
   </bean>

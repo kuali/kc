@@ -51,9 +51,9 @@
 
   <c:set var="workgroupIndex" value="0"/>
   <display-el:table class="result-table" cellspacing="0" cellpadding="0" name="${RemoveReplaceForm.workgroups}" defaultsort="2" id="workgroup" requestURI="RemoveReplace.do"
-       decorator="edu.iu.uis.eden.lookupable.LookupDecorator" >
+       decorator="org.kuali.rice.kew.lookupable.LookupDecorator" >
        <c:set var="wgProp" value="workgroups[${workgroupIndex}]"/>
-	   <display-el:column sortable="false" title="<div align=&quot;center&quot;><input type=&quot;checkbox&quot; id=&quot;masterWorkgroupCheckbox&quot; onclick=&quot;javascript:selectAllWorkgroupCheckboxes(${fn:length(RemoveReplaceForm.workgroups)})&quot;></div>" decorator="edu.iu.uis.eden.lookupable.LookupColumnDecorator">
+	   <display-el:column sortable="false" title="<div align=&quot;center&quot;><input type=&quot;checkbox&quot; id=&quot;masterWorkgroupCheckbox&quot; onclick=&quot;javascript:selectAllWorkgroupCheckboxes(${fn:length(RemoveReplaceForm.workgroups)})&quot;></div>" decorator="org.kuali.rice.kew.lookupable.LookupColumnDecorator">
 	     <div align="center">
 	        <c:if test="${workgroup.disabled}">
 	          <img src="images/errormark.gif" alt="warning" width="10" height="10">
@@ -63,12 +63,12 @@
 	     	</c:if>
 	     </div>
 	   </display-el:column>
-       <display-el:column sortable="true" title="Id"decorator="edu.iu.uis.eden.lookupable.LookupColumnDecorator">
+       <display-el:column sortable="true" title="Id"decorator="org.kuali.rice.kew.lookupable.LookupColumnDecorator">
          <a target="_blank" href="Workgroup.do?methodToCall=report&workgroupId=<c:out value="${workgroup.id}"/>"><c:out value="${workgroup.id}"/></a>
        </display-el:column>
-       <display-el:column sortable="true" title="Name" property="name" decorator="edu.iu.uis.eden.lookupable.LookupColumnDecorator"/>
-       <display-el:column sortable="true" title="Type" property="type" decorator="edu.iu.uis.eden.lookupable.LookupColumnDecorator"/>
-	   <display-el:column sortable="true" title="Warnings" decorator="edu.iu.uis.eden.lookupable.LookupColumnDecorator">
+       <display-el:column sortable="true" title="Name" property="name" decorator="org.kuali.rice.kew.lookupable.LookupColumnDecorator"/>
+       <display-el:column sortable="true" title="Type" property="type" decorator="org.kuali.rice.kew.lookupable.LookupColumnDecorator"/>
+	   <display-el:column sortable="true" title="Warnings" decorator="org.kuali.rice.kew.lookupable.LookupColumnDecorator">
 	     <c:if test="${!empty workgroup.warning}"><img src="images/errormark.gif" alt="warning" width="10" height="10"> <c:out value="${workgroup.warning}"/></c:if>
 	   </display-el:column>
 

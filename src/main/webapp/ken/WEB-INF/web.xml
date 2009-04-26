@@ -61,7 +61,7 @@
     <!-- Embedded KEW user login filter -->
     <filter>
         <filter-name>UserLoginFilter</filter-name>
-        <filter-class>edu.iu.uis.eden.web.UserLoginFilter</filter-class>
+        <filter-class>org.kuali.rice.kew.web.UserLoginFilter</filter-class>
     </filter>
 
 
@@ -151,23 +151,23 @@
     <!-- Embedded KEW remoting servlet -->
     <servlet>
         <servlet-name>remoting</servlet-name>
-        <servlet-class>edu.iu.uis.eden.messaging.servlet.KSBDispatcherServlet</servlet-class>
+        <servlet-class>org.kuali.rice.ksb.messaging.servlet.KSBDispatcherServlet</servlet-class>
         <load-on-startup>3</load-on-startup>
     </servlet>
     <!-- Embedded KEW export servlet -->
     <servlet>
         <servlet-name>export</servlet-name>
-        <servlet-class>edu.iu.uis.eden.export.web.ExportServlet</servlet-class>
+        <servlet-class>org.kuali.rice.kew.export.web.ExportServlet</servlet-class>
     </servlet>
     <!-- Embedded KEW attachment servlet -->
     <servlet>
         <servlet-name>attachment</servlet-name>
-        <servlet-class>edu.iu.uis.eden.notes.AttachmentServlet</servlet-class>
+        <servlet-class>org.kuali.rice.kew.notes.web.AttachmentServlet</servlet-class>
     </servlet>
     <!-- Embedded KEW EDocLite servlet -->
     <servlet>
         <servlet-name>edoclite</servlet-name>
-        <servlet-class>edu.iu.uis.eden.edl.EDLServlet</servlet-class>
+        <servlet-class>org.kuali.rice.kew.edl.EDLServlet</servlet-class>
     </servlet>
 
     <!-- Notification system servlets -->

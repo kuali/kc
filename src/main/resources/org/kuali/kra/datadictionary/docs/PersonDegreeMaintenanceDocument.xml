@@ -1,80 +1,52 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="PersonDegreeMaintenanceDocument" parent="PersonDegreeMaintenanceDocument-parentBean" />
+  <bean id="PersonDegreeMaintenanceDocument" parent="PersonDegreeMaintenanceDocument-parentBean"/>
 
   <bean id="PersonDegreeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.PersonDegree" />
-    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kra.bo.PersonDegree"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="PersonDegreeMaintenanceDocument-EditPersonDegree" />
+        <ref bean="PersonDegreeMaintenanceDocument-EditPersonDegree"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>personId</value>
         <value>degree</value>
         <value>degreeCode</value>
       </list>
     </property>
-    <property name="label" value="Person Degree Maintenance Document" />
-    <property name="shortLabel" value="personDegreeMaintDoc" />
-    <property name="summary" value="Person Degree Maintenance Document" />
-    <property name="description" value="Document used to create or update Person Degree Reference objects" />
-    <property name="documentTypeName" value="PersonDegreeMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PDEG" />
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>WorkflowAdmin</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
+    
+    
+    
+    
+    <property name="documentTypeName" value="PersonDegreeMaintenanceDocument"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    
+    
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="PersonDegreeMaintenanceDocument-EditPersonDegree" parent="PersonDegreeMaintenanceDocument-EditPersonDegree-parentBean" />
+  <bean id="PersonDegreeMaintenanceDocument-EditPersonDegree" parent="PersonDegreeMaintenanceDocument-EditPersonDegree-parentBean"/>
 
   <bean id="PersonDegreeMaintenanceDocument-EditPersonDegree-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Person Degree" />
-    <property name="title" value="Edit Person Degree" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Person Degree"/>
+    <property name="title" value="Edit Person Degree"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="personId"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="degree"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="degreeCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="graduationYear" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="fieldOfStudy" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="specialization" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="school" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="schoolId" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="schoolIdCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
+        <bean parent="MaintainableFieldDefinition" p:name="personId" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="degree" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="degreeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="graduationYear"/>
+        <bean parent="MaintainableFieldDefinition" p:name="fieldOfStudy"/>
+        <bean parent="MaintainableFieldDefinition" p:name="specialization"/>
+        <bean parent="MaintainableFieldDefinition" p:name="school"/>
+        <bean parent="MaintainableFieldDefinition" p:name="schoolId"/>
+        <bean parent="MaintainableFieldDefinition" p:name="schoolIdCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
     </property>
   </bean>

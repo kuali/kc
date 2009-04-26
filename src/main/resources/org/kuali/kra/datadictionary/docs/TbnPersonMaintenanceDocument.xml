@@ -1,65 +1,44 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="TbnPersonMaintenanceDocument" parent="TbnPersonMaintenanceDocument-parentBean" />
+  <bean id="TbnPersonMaintenanceDocument" parent="TbnPersonMaintenanceDocument-parentBean"/>
 
   <bean id="TbnPersonMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.budget.bo.TbnPerson" />
-    <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kra.budget.bo.TbnPerson"/>
+    <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="TbnPersonMaintenanceDocument-EditTBNPersons" />
+        <ref bean="TbnPersonMaintenanceDocument-EditTBNPersons"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>tbnId</value>
       </list>
     </property>
-    <property name="label" value="To Be Named Person Maintenance Document" />
-    <property name="shortLabel" value="tbnMaintDoc" />
-    <property name="summary" value="To Be Named Person Maintenance Document" />
-    <property name="description" value="Document used to create or update To Be Named Reference objects" />
-    <property name="documentTypeName" value="TbnPersonMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="TBNP" />
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>WorkflowAdmin</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
+    
+    
+    
+    
+    <property name="documentTypeName" value="TbnPersonMaintenanceDocument"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    
+    
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="TbnPersonMaintenanceDocument-EditTBNPersons" parent="TbnPersonMaintenanceDocument-EditTBNPersons-parentBean" />
+  <bean id="TbnPersonMaintenanceDocument-EditTBNPersons" parent="TbnPersonMaintenanceDocument-EditTBNPersons-parentBean"/>
 
   <bean id="TbnPersonMaintenanceDocument-EditTBNPersons-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit TBN Persons" />
-    <property name="title" value="Edit TBN Persons" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit TBN Persons"/>
+    <property name="title" value="Edit TBN Persons"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="tbnId"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="personName" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="jobCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
+        <bean parent="MaintainableFieldDefinition" p:name="tbnId" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="personName"/>
+        <bean parent="MaintainableFieldDefinition" p:name="jobCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
     </property>
   </bean>
