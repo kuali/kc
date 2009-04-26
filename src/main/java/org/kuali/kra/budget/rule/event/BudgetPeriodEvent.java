@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.budget.rule.event;
 
-import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 
 /**
  * Event triggered when a budget Period is modified on a 

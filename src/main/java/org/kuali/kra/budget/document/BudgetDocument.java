@@ -34,14 +34,6 @@ import java.util.TreeMap;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.document.Copyable;
-import org.kuali.core.document.SessionDocument;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.format.Formatter;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
@@ -79,14 +71,22 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RateDecimalFormatter;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.document.Copyable;
+import org.kuali.rice.kns.document.SessionDocument;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.format.Formatter;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 public class BudgetDocument extends ResearchDocumentBase implements Copyable, SessionDocument {
     private static final String DETAIL_TYPE_CODE = "D";
     private static final String BUDGET_NAMESPACE_CODE = "KRA-B";
     private static final String FALSE_FLAG = "N";
     private static final String TRUE_FLAG = "Y";
+    private static final String DOCUMENT_TYPE_CODE = "BUDG";
 
     private static final String DEFAULT_FISCAL_YEAR_START = "01/01/2000";
 
@@ -1469,6 +1469,10 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
 
     public void setRateSynced(boolean rateSynced) {
         this.rateSynced = rateSynced;
+    }
+    
+    public String getDocumentTypeCode() {
+        return DOCUMENT_TYPE_CODE;
     }
 }
 

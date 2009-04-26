@@ -18,7 +18,6 @@ package org.kuali.kra.budget.document.authorization;
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.TaskGroupName;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 /**
  * A Budget Task is a task that performs an action against a

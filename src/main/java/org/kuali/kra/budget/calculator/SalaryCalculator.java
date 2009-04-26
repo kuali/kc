@@ -18,7 +18,6 @@ package org.kuali.kra.budget.calculator;
 import static java.util.Calendar.DAY_OF_MONTH;
 import static java.util.Calendar.MONTH;
 import static org.kuali.kra.budget.BudgetDecimal.ZERO;
-import static org.kuali.rice.KNSServiceLocator.getDateTimeService;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,8 +26,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DateTimeService;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.AppointmentType;
 import org.kuali.kra.budget.bo.BudgetPeriod;
@@ -44,6 +41,8 @@ import org.kuali.kra.budget.calculator.query.LesserThan;
 import org.kuali.kra.budget.calculator.query.Or;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 
 /**
  * This class...
@@ -71,9 +70,12 @@ public class SalaryCalculator {
         this.personnelLineItem = personnelLineItem;
         this.startDate = personnelLineItem.getStartDate();
         this.endDate = personnelLineItem.getEndDate();
-        this.dateTimeService = getDateTimeService();
         errorList = new ArrayList<String>();
         warningList = new ArrayList<String>();
+    }
+    
+    protected void init() {
+        this.dateTimeService = KraServiceLocator.getService(DateTimeService.class);
     }
 
 

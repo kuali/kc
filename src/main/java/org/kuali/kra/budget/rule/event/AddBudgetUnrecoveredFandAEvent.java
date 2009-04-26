@@ -17,11 +17,11 @@ package org.kuali.kra.budget.rule.event;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.budget.bo.BudgetUnrecoveredFandA;
 import org.kuali.kra.budget.rule.AddBudgetUnrecoveredFandARule;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 public class AddBudgetUnrecoveredFandAEvent extends KraDocumentEventBase {
     private static final Log LOG = LogFactory.getLog(AddBudgetUnrecoveredFandAEvent.class);
