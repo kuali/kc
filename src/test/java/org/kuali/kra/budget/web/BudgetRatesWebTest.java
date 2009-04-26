@@ -16,9 +16,7 @@
 package org.kuali.kra.budget.web;
 
 import org.junit.Test;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentWebTestBase;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;

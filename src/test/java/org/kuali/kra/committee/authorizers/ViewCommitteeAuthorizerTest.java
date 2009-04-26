@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.committee.authorizers;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;

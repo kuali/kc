@@ -21,9 +21,9 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.util.DateUtils;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.rice.kns.util.DateUtils;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class BudgetProjectIncomeTest {
 

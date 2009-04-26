@@ -21,13 +21,13 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.RateDecimal;
 import org.kuali.kra.budget.bo.BudgetUnrecoveredFandA;
 import org.kuali.kra.budget.rule.BudgetValidationUnrecoveredFandARule;
 import org.kuali.kra.budget.rule.event.BudgetValidationUnrecoveredFandAEvent;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class BudgetValidationUnrecoveredFandARuleTest extends TestCase {
     private static final BudgetDecimal AMOUNT = new BudgetDecimal(100.00);

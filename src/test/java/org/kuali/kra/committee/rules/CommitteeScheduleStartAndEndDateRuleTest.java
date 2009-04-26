@@ -24,8 +24,6 @@ import java.util.HashMap;
 import org.apache.commons.lang.time.DateUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleStartAndEndDateEvent;
 import org.kuali.kra.committee.web.struts.form.schedule.DailyScheduleDetails;
@@ -34,6 +32,8 @@ import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.committee.web.struts.form.schedule.StyleKey;
 import org.kuali.kra.committee.web.struts.form.schedule.WeeklyScheduleDetails;
 import org.kuali.kra.committee.web.struts.form.schedule.YearlyScheduleDetails;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class CommitteeScheduleStartAndEndDateRuleTest  {
     
