@@ -187,7 +187,7 @@
 		<property name="control" >
             <bean parent="SelectControlDefinition"
                 p:businessObjectClass="org.kuali.kra.committee.bo.ScheduleStatus"
-                p:valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder" 
+                p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder" 
                 p:includeKeyInLabel="false"
                 p:keyAttribute="scheduleStatusCode"
                 p:labelAttribute="description" />

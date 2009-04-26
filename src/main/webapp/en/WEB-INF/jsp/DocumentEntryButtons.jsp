@@ -26,7 +26,7 @@
   
   <tr>
 	<td class="thnormal" align="center">
-	  <c:if test="${ActionForm.flexDoc.blanketApproveCapable}">
+	  <c:if test="${ActionForm.workflowDocument.blanketApproveCapable}">
 	    <html-el:image src="${resourcePath}images/buttonsmall_blanketapp.gif" align="absmiddle" property="methodToCall.blanketApprove" />
  	  </c:if>
 	  <html-el:image src="${resourcePath}images/buttonsmall_route.gif" align="absmiddle" property="methodToCall.route" />
@@ -41,7 +41,7 @@
         <tr><td>&nbsp;</td></tr>
         <tr> 
           <td>
-            <iframe src='<c:out value="${resourcePath}" />Note.do?docId=<c:out value="${ActionForm.flexDoc.routeHeaderId}" />' name="iframeNOTE" scrolling="yes" width="100%" height="300" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+            <iframe src='<c:out value="${resourcePath}" />Note.do?docId=<c:out value="${ActionForm.workflowDocument.routeHeaderId}" />' name="iframeNOTE" scrolling="yes" width="100%" height="300" marginwidth="0" marginheight="0" frameborder="0"></iframe>
           </td>
         </tr>
       </table>

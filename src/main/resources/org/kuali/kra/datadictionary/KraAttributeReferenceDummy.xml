@@ -125,6 +125,7 @@
             p:businessObjectClass="org.kuali.kra.bo.State"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
             p:keyAttribute="stateCode"
             p:labelAttribute="description" />
     </property>
@@ -148,6 +149,7 @@
             p:businessObjectClass="org.kuali.kra.bo.Country"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
             p:keyAttribute="countryCode"
             p:labelAttribute="countryName" />
     </property>

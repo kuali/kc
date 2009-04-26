@@ -1,4 +1,4 @@
-<!--
+<?xml version="1.0" encoding="UTF-8"?><!--
 /*
  * Copyright 2006-2008 The Kuali Foundation
  * 
@@ -14,87 +14,51 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
--->
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+--><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="FrequencyMaintenanceDocument" parent="FrequencyMaintenanceDocument-parentBean" />
+	<bean id="FrequencyMaintenanceDocument" parent="FrequencyMaintenanceDocument-parentBean"/>
 	<bean id="FrequencyMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.award.bo.Frequency" />
-		<property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
-		<property name="maintainableSections" >
+		<property name="businessObjectClass" value="org.kuali.kra.award.bo.Frequency"/>
+		<property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
+		<property name="maintainableSections">
 			<list>
-				<ref bean="FrequencyMaintenanceDocument-EditFrequency" />
+				<ref bean="FrequencyMaintenanceDocument-EditFrequency"/>
 			</list>
 		</property>
-		<property name="lockingKeys" >
+		<property name="lockingKeys">
 			<list>
 				<value>frequencyCode</value>
 			</list>
 		</property>
-		<property name="label" value="Frequency Maintenance Document" />
-		<property name="shortLabel" value="frequencyMaintDoc" />
-		<property name="summary" value="Frequency Maintenance Document" />
-		<property name="description" value="Document used to create or update Frequency Reference objects" />
-		<property name="helpDefinition" >
-			<bean parent="HelpDefinition"
-				p:parameterNamespace="KRA-M"
-				p:parameterName="frequencyMaintenanceHelp"
-				p:parameterDetailType="D" />
-			</property>
-		<property name="documentTypeName" value="FrequencyMaintenanceDocument" />
-		<property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
-		<property name="documentTypeCode" value="FREQ" />
-		<property name="authorizations" >
-			<list>
-				<bean parent="AuthorizationDefinition" >
-					<property name="action" value="initiate" />
-					<property name="authorizedGroups">
-						<set>
-							<value>WorkflowAdmin</value>
-						</set>
-					</property>
-				</bean>
-			</list>
-		</property>
+		
+		
+		
+		
+		
+		<property name="documentTypeName" value="FrequencyMaintenanceDocument"/>
+		<property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+		
+		
 	</bean>
 
 	<!-- Maintenance Section Definitions -->
 	
-	<bean id="FrequencyMaintenanceDocument-EditFrequency" parent="FrequencyMaintenanceDocument-EditFrequency-parentBean" />
+	<bean id="FrequencyMaintenanceDocument-EditFrequency" parent="FrequencyMaintenanceDocument-EditFrequency-parentBean"/>
 	<bean id="FrequencyMaintenanceDocument-EditFrequency-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="Edit Frequency" />
-		<property name="title" value="Edit Frequency" />
-		<property name="maintainableItems" >
+		<property name="id" value="Edit Frequency"/>
+		<property name="title" value="Edit Frequency"/>
+		<property name="maintainableItems">
 			<list>
-				<bean parent="MaintainableFieldDefinition"
-					p:name="frequencyCode"
-					p:required="true" />
-				<bean parent="MaintainableFieldDefinition"
-					p:name="description"
-					p:required="true" />
-				<bean parent="MaintainableFieldDefinition"
-					p:name="numberOfDays" />
-				<bean parent="MaintainableFieldDefinition"
-					p:name="numberOfMonths" />
-				<bean parent="MaintainableFieldDefinition"
-					p:name="repeatFlag"
-					p:required="true" />
-				<bean parent="MaintainableFieldDefinition"
-					p:name="proposalDueFlag"
-					p:required="true" />
-				<bean parent="MaintainableFieldDefinition"
-					p:name="invoiceFlag"
-					p:required="true" />
-				<bean parent="MaintainableFieldDefinition"
-					p:name="advanceNumberOfDays" />
-				<bean parent="MaintainableFieldDefinition"
-					p:name="advanceNumberOfMonths" />
-				<bean parent="MaintainableFieldDefinition"
-					p:name="versionNumber" />
+				<bean parent="MaintainableFieldDefinition" p:name="frequencyCode" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="numberOfDays"/>
+				<bean parent="MaintainableFieldDefinition" p:name="numberOfMonths"/>
+				<bean parent="MaintainableFieldDefinition" p:name="repeatFlag" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="proposalDueFlag" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="invoiceFlag" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="advanceNumberOfDays"/>
+				<bean parent="MaintainableFieldDefinition" p:name="advanceNumberOfMonths"/>
+				<bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
 			</list>
 		</property>
 	</bean>

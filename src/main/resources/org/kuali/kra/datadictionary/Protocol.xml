@@ -166,7 +166,8 @@
       		<bean parent="SelectControlDefinition"
             	p:businessObjectClass="org.kuali.kra.irb.bo.ProtocolType"
             	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-            	p:includeKeyInLabel="false"
+            	p:includeKeyInLabel="false" 
+            	p:includeBlankRow="false"
             	p:keyAttribute="protocolTypeCode"
             	p:labelAttribute="description" />
     	</property>
@@ -189,6 +190,7 @@
             	p:businessObjectClass="org.kuali.kra.irb.bo.ProtocolStatus"
             	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             	p:includeKeyInLabel="false"
+            	p:includeBlankRow="false"
             	p:keyAttribute="protocolStatusCode"
             	p:labelAttribute="description" />
     	</property>

@@ -8,6 +8,7 @@
 
   <bean id="State-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.State" />
+    <property name="objectLabel" value="Country" />
     <property name="inquiryDefinition" >
       <ref bean="State-inquiryDefinition" />
     </property>

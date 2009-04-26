@@ -1,2 +1,2 @@
-<%@page import="edu.iu.uis.eden.actionlist.web.ActionListForm"%>
+<%@page import="org.kuali.rice.kew.actionlist.web.ActionListForm"%>
 <%= ((ActionListForm)request.getAttribute("ActionListForm")).getCount() %>

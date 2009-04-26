@@ -1,14 +1,5 @@
-<%@ taglib uri="../../tld/struts-html-el.tld" prefix="html-el" %>
-<%@ taglib uri="../../tld/struts-bean-el.tld" prefix="bean-el" %>
-<%@ taglib uri="../../tld/struts-logic-el.tld" prefix="logic-el"%>
-<%@ taglib uri="../../tld/c.tld" prefix="c" %>
-<%@ taglib uri="../../tld/fmt.tld" prefix="fmt" %>
-<%@ taglib uri="../../tld/displaytag.tld" prefix="display-el" %>
-
-<c:set var="displayName" value="${actionRequest.workflowUser.displayName}"/>
-<c:if test="${kewUserSession.workflowUser.workflowId != actionRequest.workflowUser.workflowId}">
-  <c:set var="displayName" value="${actionRequest.workflowUser.displayNameSafe}"/>
-</c:if>
+<%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp" %>
+<c:set var="displayName" value="${actionRequest.displayName}"/>
 
 <c:choose>
   <c:when test="${actionRequest.approvePolicy == \"A\"}">
@@ -34,11 +25,19 @@
 
 <c:choose>
   <c:when test="${level == 0}">
+  	<c:set var="fontStyle" value="color:black"/>
     <c:set var="headerClass" value="headercell4"/>
+    <c:set var="datacell" value="headercell4"/>
+  </c:when>
+  <c:when test="${level == 1}">
+    <c:set var="fontStyle" value="color:white"/>
+    <c:set var="headerClass" value="headercell3-b-l"/>
+    <c:set var="datacell" value="headercell4"/>
   </c:when>
   <c:otherwise>
-
-    <c:set var="headerClass" value="headercell3-b-l"/>
+	<c:set var="fontStyle" value=""/>
+    <c:set var="headerClass" value="thnormal"/>
+    <c:set var="datacell" value="datacell"/>
   </c:otherwise>
 </c:choose>
  		                                 <tr>
@@ -58,24 +57,17 @@
 			                           <td align="left" class="<c:out value="${headerClass}"/>">
 		                              	<c:choose>
 		                              		<c:when test="${actionRequest.userRequest}">
-	                          					<a style="color:white" href="
-													<c:url value="${UrlResolver.userReportUrl}">
-														<c:param name="workflowId" value="${actionRequest.workflowId}" />
-														<c:param name="methodToCall" value="report" />
-														<c:param name="showEdit" value="no" />
-													</c:url>"><c:out value="${displayName}" />
-												</a>
+                                                <kul:inquiry boClassName="org.kuali.rice.kim.bo.impl.PersonImpl"
+                                                    keyValues="principalId=${actionRequest.principalId}"
+                                                    render="true">
+                                                      <c:out value="${displayName}" />
+                                                </kul:inquiry>
 												<c:if test="${delegation != null}">
 													&nbsp;<c:out value="${delegation}" />
 												</c:if>
 		                              		</c:when>
-			                              	<c:when test="${actionRequest.workgroupRequest}">
-			                              		<a style="color:white" href="
-													<c:url value="${UrlResolver.workgroupReportUrl}">
-														<c:param name="workgroupId" value="${actionRequest.workgroupId}" />
-														<c:param name="methodToCall" value="report" />
-													</c:url>"><c:out value="${actionRequest.workgroup.groupNameId.nameId}" />
-												</a>
+			                              	<c:when test="${actionRequest.groupRequest}">
+                                                <kul:inquiry boClassName="org.kuali.rice.kim.bo.group.impl.KimGroupImpl" keyValues="groupId=${actionRequest.groupId}" render="true"><c:out value="${actionRequest.groupName}" /></kul:inquiry>
 												<c:if test="${delegation != null}">
 													&nbsp;<c:out value="${delegation}" />
 												</c:if>
@@ -85,28 +77,16 @@
 										              <c:choose>
 										              	 <c:when test="${roleRequest.primaryDelegator}">
 										              	 	<c:forEach var="primDelegateRequest" items="${roleRequest.primaryDelegateRequests}" varStatus="pDelegateArStatus">
-										              	 	<c:set var="primDelegateDisplayName" value="${primDelegateRequest.workflowUser.displayName}"/>
-															<c:if test="${kewUserSession.workflowUser.workflowId != primDelegateRequest.workflowUser.workflowId}">
-  																<c:set var="primDelegateDisplayName" value="${primDelegateRequest.workflowUser.displayNameSafe}"/>
-															</c:if>
+										              	 	<c:set var="primDelegateDisplayName" value="${primDelegateRequest.displayName}"/>
 										              	 	<c:if test="${primDelegateRequest.userRequest}">
-												              	 <a style="color:white" href="
-																		<c:url value="${UrlResolver.userReportUrl}">
-																			<c:param name="workflowId" value="${primDelegateRequest.workflowId}" />
-																			<c:param name="methodToCall" value="report" />
-																			<c:param name="showEdit" value="no" />
-																		</c:url>">
-																		<c:out value="${primDelegateDisplayName}" />
-																	</a>
+                                                                 <kul:inquiry boClassName="org.kuali.rice.kim.bo.impl.PersonImpl"
+                                                                     keyValues="principalId=${primDelegateRequest.principalId}"
+                                                                     render="true">
+                                                                       <c:out value="${primDelegateDisplayName}" />
+                                                                 </kul:inquiry>
 															</c:if>
-							                              	<c:if test="${primDelegateRequest.workgroupRequest}">
-							                              		<a style="color:white" href="
-																	<c:url value="${UrlResolver.workgroupReportUrl}">
-																		<c:param name="workgroupId" value="${primDelegateRequest.workgroupId}" />
-																		<c:param name="methodToCall" value="report" />
-																	</c:url>">
-																	<c:out value="${primDelegateRequest.workgroup.groupNameId.nameId}" />
-																</a>
+							                              	<c:if test="${primDelegateRequest.groupRequest}">
+                                                                <kul:inquiry boClassName="org.kuali.rice.kim.bo.group.impl.KimGroupImpl" keyValues="groupId=${primDelegateRequest.groupId}" render="true"><c:out value="${primDelegateRequest.groupName}" /></kul:inquiry>
    						                              		</c:if>
 																	  <c:if test="${!empty primDelegateRequest.qualifiedRoleNameLabel}">
 																	  	&nbsp;(<c:out value="${primDelegateRequest.qualifiedRoleNameLabel}" />)
@@ -114,31 +94,20 @@
 										                      	 <c:if test="${!pDelegateArStatus.last}"><br></c:if>
 									                      	</c:forEach>
 										              	 </c:when>
-										              	 <c:when test="${roleRequest.workgroupRequest}">
-										              	   <a style="color:white" href="
-															 <c:url value="${UrlResolver.workgroupReportUrl}">
-																<c:param name="workgroupId" value="${roleRequest.workgroupId}" />
-																		<c:param name="methodToCall" value="report" />
-																	</c:url>">
-																	<c:out value="${roleRequest.workgroup.groupNameId.nameId}" />
-																</a>
-																<c:if test="${!empty actionRequest.qualifiedRoleNameLabel}">
-																  &nbsp;(<c:out value="${actionRequest.qualifiedRoleNameLabel}" />)
-																</c:if>
-																<c:if test="${!arStatus.last}"><br></c:if>
+										              	 <c:when test="${roleRequest.groupRequest}">
+                                                             <kul:inquiry boClassName="org.kuali.rice.kim.bo.group.impl.KimGroupImpl" keyValues="groupId=${roleRequest.groupId}" render="true"><c:out value="${roleRequest.groupName}" /></kul:inquiry>
+														     <c:if test="${!empty actionRequest.qualifiedRoleNameLabel}">
+															     &nbsp;(<c:out value="${actionRequest.qualifiedRoleNameLabel}" />)
+															 </c:if>
+															<c:if test="${!arStatus.last}"><br></c:if>
 										              	 </c:when>
     										             <c:otherwise>
-    										                <c:set var="roleDisplayName" value="${roleRequest.workflowUser.displayName}"/>
-															<c:if test="${kewUserSession.workflowUser.workflowId != roleRequest.workflowUser.workflowId}">
-  																<c:set var="roleDisplayName" value="${roleRequest.workflowUser.displayNameSafe}"/>
-															</c:if>
-											              	 <a style="color:white" href="
-																	<c:url value="${UrlResolver.userReportUrl}">
-																		<c:param name="workflowId" value="${roleRequest.workflowId}" />
-																		<c:param name="methodToCall" value="report" />
-																		<c:param name="showEdit" value="no" />
-																	</c:url>"><c:out value="${roleDisplayName}" />
-																</a>
+    										                <c:set var="roleDisplayName" value="${roleRequest.displayName}"/>
+                                                              <kul:inquiry boClassName="org.kuali.rice.kim.bo.impl.PersonImpl"
+                                                                  keyValues="principalId=${roleRequest.principalId}"
+                                                                  render="true">
+                                                                    <c:out value="${roleDisplayName}" />
+                                                              </kul:inquiry>
 																<c:if test="${!empty actionRequest.qualifiedRoleNameLabel}">
 																  &nbsp;(<c:out value="${actionRequest.qualifiedRoleNameLabel}" />)
 																</c:if>
@@ -170,8 +139,9 @@
 		                              	</c:if>
 									  </td>
 
-		                            </tr>
+		                            </td>
 		                            <tr id="G<c:out value="${index}" />" style="display: none;">
+
     		                          <td  align=right class="thnormal">
 										<img src="images/pixel_clear.gif" width="<c:out value="60"/>" height="20">
                                       </td>

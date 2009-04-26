@@ -1,4 +1,4 @@
-<!--
+<?xml version="1.0" encoding="UTF-8"?><!--
 /*
  * Copyright 2006-2008 The Kuali Foundation
  * 
@@ -14,130 +14,87 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
--->
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+--><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-		<bean id="ProtocolDocument" parent="ProtocolDocument-parentBean" />
+		<bean id="ProtocolDocument" parent="ProtocolDocument-parentBean"/>
 		<bean id="ProtocolDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    	<property name="label" value="Protocol Document" />
-    	<property name="shortLabel" value="Protocol Doc" />
-    	<property name="summary" value="&amp;nbsp;" />
-    	<property name="description" value="Doing it right" />
-    	<property name="usePessimisticLocking" value="true" />
-    	<property name="useWorkflowPessimisticLocking" value="false" />
-    	<property name="helpDefinition" >
-      	<bean parent="HelpDefinition"
-            p:parameterNamespace="KRA-B"
-            p:parameterName="protocolDocumentHelp"
-            p:parameterDetailType="D" />
-    	</property>
-    	<property name="documentTypeName" value="ProtocolDocument" />
-    	<property name="documentClass" value="org.kuali.kra.irb.document.ProtocolDocument" />
-    	<property name="businessRulesClass" value="org.kuali.kra.irb.rules.ProtocolDocumentRule" />
-    	<property name="documentAuthorizerClass" value="org.kuali.kra.irb.document.authorization.ProtocolDocumentAuthorizer" />
-    	<property name="documentTypeCode" value="PROT" />
-    	<property name="allowsCopy" value="true" />
-    	<property name="headerNavigationList" >
+    	
+    	
+    	
+    	
+    	<property name="usePessimisticLocking" value="true"/>
+    	<property name="useWorkflowPessimisticLocking" value="false"/>
+    	
+    	<property name="documentTypeName" value="ProtocolDocument"/>
+    	<property name="documentClass" value="org.kuali.kra.irb.document.ProtocolDocument"/>
+    	<property name="businessRulesClass" value="org.kuali.kra.irb.rules.ProtocolDocumentRule"/>
+    	<property name="documentAuthorizerClass" value="org.kuali.kra.irb.document.authorization.ProtocolDocumentAuthorizer"/>
+    	
+    	<property name="allowsCopy" value="true"/>
+    	<property name="headerNavigationList">
       	<list>
         	<bean parent="HeaderNavigation">
-	          	<property name="helpDefinition" >
-	            	<bean parent="HelpDefinition"
-	                  p:parameterNamespace="KC-IRB"
-	                  p:parameterName="protocolHelp"
-	                  p:parameterDetailType="D" />
+	          	<property name="helpDefinition">
+	            	<bean parent="HelpDefinition" p:parameterNamespace="KC-IRB" p:parameterName="protocolHelp" p:parameterDetailType="D"/>
 	          	</property>
-	          	<property name="headerTabDisplayName" value="Protocol" />
-	          	<property name="headerTabNavigateTo" value="protocol" />
+	          	<property name="headerTabDisplayName" value="Protocol"/>
+	          	<property name="headerTabNavigateTo" value="protocol"/>
 	        </bean>
 	        <bean parent="HeaderNavigation">
-	          	<property name="helpDefinition" >
-	            	<bean parent="HelpDefinition"
-	                  p:parameterNamespace="KC-IRB"
-	                  p:parameterName="personnelHelp"
-	                  p:parameterDetailType="D" />
+	          	<property name="helpDefinition">
+	            	<bean parent="HelpDefinition" p:parameterNamespace="KC-IRB" p:parameterName="personnelHelp" p:parameterDetailType="D"/>
 	          	</property>
-	          	<property name="headerTabDisplayName" value="Personnel" />
-	          	<property name="headerTabNavigateTo" value="personnel" />
+	          	<property name="headerTabDisplayName" value="Personnel"/>
+	          	<property name="headerTabNavigateTo" value="personnel"/>
         	</bean>
         	<bean parent="HeaderNavigation">
-	          	<property name="helpDefinition" >
-	            	<bean parent="HelpDefinition"
-	                  p:parameterNamespace="KC-IRB"
-	                  p:parameterName="customDataHelp"
-	                  p:parameterDetailType="D" />
+	          	<property name="helpDefinition">
+	            	<bean parent="HelpDefinition" p:parameterNamespace="KC-IRB" p:parameterName="customDataHelp" p:parameterDetailType="D"/>
 	          	</property>
-	          	<property name="headerTabDisplayName" value="Custom Data" />
-	          	<property name="headerTabNavigateTo" value="customData" />
+	          	<property name="headerTabDisplayName" value="Custom Data"/>
+	          	<property name="headerTabNavigateTo" value="customData"/>
         	</bean>
         	<bean parent="HeaderNavigation">
-	          	<property name="helpDefinition" >
-	            	<bean parent="HelpDefinition"
-	                  p:parameterNamespace="KC-IRB"
-	                  p:parameterName="specialReviewHelp"
-	                  p:parameterDetailType="D" />
+	          	<property name="helpDefinition">
+	            	<bean parent="HelpDefinition" p:parameterNamespace="KC-IRB" p:parameterName="specialReviewHelp" p:parameterDetailType="D"/>
 	          	</property>
-	          	<property name="headerTabDisplayName" value="Special Review" />
-	          	<property name="headerTabNavigateTo" value="specialReview" />
+	          	<property name="headerTabDisplayName" value="Special Review"/>
+	          	<property name="headerTabNavigateTo" value="specialReview"/>
         	</bean>
         	<bean parent="HeaderNavigation">
-	          	<property name="helpDefinition" >
-	            	<bean parent="HelpDefinition"
-	                  p:parameterNamespace="KC-IRB"
-	                  p:parameterName="permissionsHelp"
-	                  p:parameterDetailType="D" />
+	          	<property name="helpDefinition">
+	            	<bean parent="HelpDefinition" p:parameterNamespace="KC-IRB" p:parameterName="permissionsHelp" p:parameterDetailType="D"/>
 	          	</property>
-	          	<property name="headerTabDisplayName" value="Permissions" />
-	          	<property name="headerTabNavigateTo" value="permissions" />
+	          	<property name="headerTabDisplayName" value="Permissions"/>
+	          	<property name="headerTabNavigateTo" value="permissions"/>
         	</bean>
         	<bean parent="HeaderNavigation">
-          		<property name="helpDefinition" >
-            		<bean parent="HelpDefinition"
-                  		p:parameterNamespace="KC-IRB"
-                  		p:parameterName="protocolNoteAndAttachmentsHelp"
-                  		p:parameterDetailType="D" />
+          		<property name="helpDefinition">
+            		<bean parent="HelpDefinition" p:parameterNamespace="KC-IRB" p:parameterName="protocolNoteAndAttachmentsHelp" p:parameterDetailType="D"/>
           		</property>
-          		<property name="headerTabDisplayName" value="Notes &amp; Attachments" />
-          		<property name="headerTabNavigateTo" value="noteAndAttachment" />
+          		<property name="headerTabDisplayName" value="Notes &amp; Attachments"/>
+          		<property name="headerTabNavigateTo" value="noteAndAttachment"/>
         	</bean>
         	<bean parent="HeaderNavigation">
-	          	<property name="helpDefinition" >
-	            	<bean parent="HelpDefinition"
-	                  p:parameterNamespace="KC-IRB"
-	                  p:parameterName="protocolActionsHelp"
-	                  p:parameterDetailType="D" />
+	          	<property name="helpDefinition">
+	            	<bean parent="HelpDefinition" p:parameterNamespace="KC-IRB" p:parameterName="protocolActionsHelp" p:parameterDetailType="D"/>
 	          	</property>
-	          	<property name="headerTabDisplayName" value="Protocol Actions" />
-	          	<property name="headerTabNavigateTo" value="protocolActions" />
+	          	<property name="headerTabDisplayName" value="Protocol Actions"/>
+	          	<property name="headerTabNavigateTo" value="protocolActions"/>
         	</bean>
       	</list>
     	</property>
-    	<property name="authorizations" >
-      	<list>
-        	<bean parent="AuthorizationDefinition">
-          	<property name="action" value="initiate" />
-          	<property name="authorizedGroups" >
-            	<set>
-              		<value>KualiUniversalGroup</value>
-            	</set>
-          	</property>
-        	</bean>
-      	</list>
-    	</property>
-
-		<property name="attributes" >
+    	
+		<property name="attributes">
 			<list>
-				<ref bean="ProtocolDocument-versionNumber" />
+				<ref bean="ProtocolDocument-versionNumber"/>
 			</list>
 		</property>
 	</bean>
 
 	<!-- Attribute Definitions -->
 	
-	<bean id="ProtocolDocument-versionNumber" parent="ProtocolDocument-versionNumber-parentBean" />
+	<bean id="ProtocolDocument-versionNumber" parent="ProtocolDocument-versionNumber-parentBean"/>
 	<bean id="ProtocolDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
 	</bean>
 </beans>

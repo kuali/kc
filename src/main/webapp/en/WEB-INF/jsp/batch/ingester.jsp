@@ -11,15 +11,20 @@
 <html>
 <head>
   <title>Ingester</title>
-  <link href="css/edoclite.css" rel="stylesheet" type="text/css"/>
-  <link href="css/screen.css" rel="stylesheet" type="text/css"/>
+  <link href="../kr/css/kuali.css" rel="stylesheet" type="text/css">  
+  <style type="text/css">
+@import url(scripts/jscalendar-1.0/calendar-win2k-1.css);
+. {font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10px; }
+</style>
 </head>
 
 <body>
-
+<div class="headerarea-small" id="headerarea-small">
 <h1>Ingester</h1>
-<div class="maindiv">
-<h2>Select files to upload</h2>
+</div>
+<div class="error">
+ 
+<input class="tinybutton" name="methodToCall.search" src="images/pixel_clear.gif" type="image" border="0" height="0" width="0">
 <%
     List list = (List) request.getAttribute("messages");
     if (list != null) {
@@ -29,7 +34,7 @@
         Iterator it = list.iterator();
         while (it.hasNext()) {
 %>
-  <li class="info-message"><%= it.next().toString() %></li>
+  <li><%= it.next().toString() %></li>
 <%
         }
 %>
@@ -37,24 +42,31 @@
 <%
     }
 %>
+
+</div>
 <html-el:form method="post" action="/Ingester" enctype="multipart/form-data">
-<table>
-  <tr><td>
-    <html-el:file styleClass="dataCell" name="IngesterForm" property="file[0]"/>
-  </td></tr>
-  <tr><td>
-    <html-el:file styleClass="dataCell" name="IngesterForm" property="file[1]"/>
-  </td></tr>
-  <tr><td>
-    <html-el:file styleClass="dataCell" name="IngesterForm" property="file[2]"/>
-  </td></tr>
-  <tr><td>
-    <html-el:file styleClass="dataCell" name="IngesterForm" property="file[3]"/>
-  </td></tr>
-  <tr><td align="center">
-    <html-el:submit value="Upload XML data"></html-el:submit>
-  </td></tr>
-</table>
+ <table width="80%" cellpadding="0" cellspacing="0">
+    <tr>
+      <td class="column-left"><img src="images/pixel_clear.gif" alt="" width="20" height="20"></td>
+      <td><div align="center"><br>
+          <br>
+          <br>
+          <br>
+  		    <html-el:file styleClass="dataCell" name="IngesterForm" property="file[0]"/>
+  		  <br>
+  		  	<html-el:file styleClass="dataCell" name="IngesterForm" property="file[1]"/>
+  		  <br>
+  			<html-el:file styleClass="dataCell" name="IngesterForm" property="file[2]"/>
+  		  </div></td>
+       </tr>
+       <tr>            
+          <td class="column-left"><img src="images/transparent.gif" alt="" width="20" height="20"></td>
+           <td><div align="center"><br>
+           	<html-el:image src="images/buttonsmall_uploadxml.gif" value="Upload XML data"  border="0" styleClass="nobord" styleId="imageField"></html-el:image>
+          </div></td>
+      <td class="column-right"><img src="images/transparent.gif" alt="" width="20" height="20"></td>
+    </tr>
+  </table>
 </html-el:form>
 
 </div>

@@ -16,7 +16,7 @@
 			class="headercell1">
 			<tr>
 				<td>
-					<img src="images/wf-logo.gif" alt="OneStart Workflow" width=150
+					<img src="images/wf-logo.gif" alt="Workflow" width=150
 						height=21 hspace=5 vspace=5>
 				</td>
 			</tr>

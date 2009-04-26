@@ -14,7 +14,7 @@
 <c:if test="${BackdoorForm.backdoorLinksBackdoorLogin}">
 <table width="100%" border=0 cellpadding=0 cellspacing=0 class="headercell1">
   <tr>
-    <td><img src="images/wf-logo.gif" alt="OneStart Workflow" width=150 height=21 hspace=5 vspace=5></td>
+    <td><img src="images/wf-logo.gif" alt="Workflow" width=150 height=21 hspace=5 vspace=5></td>
   </tr>
 </table>
 </c:if>
@@ -42,49 +42,26 @@
 </c:if>
 <table>
 	<tr>
-		<td><a href="ActionList.do" target="<c:out value="${BackdoorForm.targetName}" />">Action List</a></td>
+		<td><a href="../kew/ActionList.do" target="<c:out value="${BackdoorForm.targetName}" />">Action List</a></td>
 	</tr>
 	<tr>
-		<td><a href="DocumentSearch.do" target="<c:out value="${BackdoorForm.targetName}" />">Document Search</a></td>
+		<td><a href="../kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&isAdvancedSearch=true" target="<c:out value="${BackdoorForm.targetName}" />">Document Search</a></td>
 	</tr>
 	<tr>
-		<td><a href="Lookup.do?lookupableImplServiceName=WorkGroupLookupableImplService" target="<c:out value="${BackdoorForm.targetName}" />">Workgroup</a></td>
+		<td><a href="../kr/lookup.do?businessObjectClassName=org.kuali.rice.kew.rule.RuleBaseValues&docFormKey=88888888&returnLocation=http://localhost:8080/kr-dev/portal.do&hideReturnLink=true" target="<c:out value="${BackdoorForm.targetName}" />">Routing Rules</a></td>
 	</tr>
-	<tr>
-		<td><a href="Lookup.do?lookupableImplServiceName=RuleBaseValuesLookupableImplService" target="<c:out value="${BackdoorForm.targetName}" />">Rules</a></td>
-	</tr>
-	<tr>
-		<td><a href="Lookup.do?lookupableImplServiceName=UserLookupableImplService" target="<c:out value="${BackdoorForm.targetName}" />">User Lookup</a></td>
-	</tr>
-	<tr>
-	    <td><a href="RemoveReplace.do" target="<c:out value="${BackdoorForm.targetName}" />">Remove/Replace User</a></td>
-	</tr>
-
 	<tr>
 		<td><a href="RoutingReport.do" target="<c:out value="${BackdoorForm.targetName}" />">Routing Report</a></td>
 	</tr>
 	<tr>
-		<td><a href="QuickLinks.do" target="<c:out value="${BackdoorForm.targetName}" />">Workflow QuickLinks</a></td>
-	</tr>
-	<tr>
 		<td><a href="RuleQuickLinks.do" target="<c:out value="${BackdoorForm.targetName}" />">Rule QuickLinks</a></td>
 	</tr>
-
 	<tr>
-		<td><a href="Lookup.do?lookupableImplServiceName=EDocLiteLookupableService" target="<c:out value="${BackdoorForm.targetName}" />">EDocLites</a></td>
+		<td><a href="../kr/lookup.do?businessObjectClassName=org.kuali.rice.kew.edl.bo.EDocLiteAssociation&docFormKey=88888888&returnLocation=../en/Portal.do&hideReturnLink=true" target="<c:out value="${BackdoorForm.targetName}" />">eDoc Lites</a></td>	
 	</tr>
-<%--
-	<c:if test="${BackdoorForm.isWorkflowAdmin}">
-		<tr>
-			<td><a href="Administration.do?methodToCall=administration" target="<c:out value="${BackdoorForm.targetName}" />">Administration</a></td>
-		</tr>
-	</c:if>
-	--%>
-	<%--
 	<tr>
-		<td><br><a href="RuleQuickLinks.do?rootDocTypeName=EPICParentDoc" target="<c:out value="${BackdoorForm.targetName}" />">EPIC Rules</a></td>
+	  <td><a href="../kew/Rule.do" target="<c:out value="${BackdoorForm.targetName}"/>">Create Rule <b>NEW</b></a></td>
 	</tr>
-	--%>
 </table>
 
 <c:if test="${BackdoorForm.backdoorLinksBackdoorLogin}">

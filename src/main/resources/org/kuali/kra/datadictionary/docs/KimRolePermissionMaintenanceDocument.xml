@@ -1,68 +1,45 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="KimRolePermissionMaintenanceDocument" parent="KimRolePermissionMaintenanceDocument-parentBean" />
+  <bean id="KimRolePermissionMaintenanceDocument" parent="KimRolePermissionMaintenanceDocument-parentBean"/>
 
   <bean id="KimRolePermissionMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.kim.bo.KimRolePermission" />
-    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kra.kim.bo.KimRolePermission"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="KimRolePermissionMaintenanceDocument-EditRole-Permission" />
+        <ref bean="KimRolePermissionMaintenanceDocument-EditRole-Permission"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>roleId</value>
         <value>permissionId</value>
       </list>
     </property>
-    <property name="label" value="Role-Permission Maintenance Document" />
-    <property name="shortLabel" value="rolePermissionMaintDoc" />
-    <property name="summary" value="Role-Permission Maintenance Document" />
-    <property name="description" value="Document used to create or update Role-Permission Reference objects" />
-    <property name="documentTypeName" value="KimRolePermissionMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="KIRP" />
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>WorkflowAdmin</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
+    
+    
+    
+    
+    <property name="documentTypeName" value="KimRolePermissionMaintenanceDocument"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    
+    
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="KimRolePermissionMaintenanceDocument-EditRole-Permission" parent="KimRolePermissionMaintenanceDocument-EditRole-Permission-parentBean" />
+  <bean id="KimRolePermissionMaintenanceDocument-EditRole-Permission" parent="KimRolePermissionMaintenanceDocument-EditRole-Permission-parentBean"/>
 
   <bean id="KimRolePermissionMaintenanceDocument-EditRole-Permission-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Role-Permission" />
-    <property name="title" value="Edit Role-Permission" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Role-Permission"/>
+    <property name="title" value="Edit Role-Permission"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="roleId"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="permissionId"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active"
-              p:defaultValue="true"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
+        <bean parent="MaintainableFieldDefinition" p:name="roleId" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="permissionId" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
     </property>
   </bean>

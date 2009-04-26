@@ -21,7 +21,7 @@
 		<table width="100%" border=0 cellpadding=0 cellspacing=0 class="headercell1">
 			<tr>
 				<td>
-					<img src="images/wf-logo.gif" alt="OneStart Workflow" width=150 height=21 hspace=5 vspace=5>
+					<img src="images/wf-logo.gif" alt="Workflow" width=150 height=21 hspace=5 vspace=5>
 				</td>
 			</tr>
 		</table>
@@ -127,7 +127,7 @@
   <tr>
     <td align="right" valign="top" nowrap class="thnormal">Category:</td>
     <td nowrap class="datacell">
-          <html-el:select name="FeedbackForm" property="edenCategory">
+          <html-el:select name="FeedbackForm" property="category">
               <html-el:option value="suggestion">Suggestion</html-el:option>
               <html-el:option value="problem">Problem or Technical Question</html-el:option>
           </html-el:select>

@@ -1,5 +1,4 @@
-
-	<!--
+<?xml version="1.0" encoding="UTF-8"?><!--
 		Copyright 2006-2008 The Kuali Foundation Licensed under the
 		Educational Community License, Version 2.0 (the "License"); you may
 		not use this file except in compliance with the License. You may
@@ -9,23 +8,15 @@
 		WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
 		implied. See the License for the specific language governing
 		permissions and limitations under the License.
-	-->
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	--><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="AwardTemplateReportTermMaintenanceDocument" parent="AwardTemplateReportTermMaintenanceDocument-parentBean" />
-	<bean id="AwardTemplateReportTermMaintenanceDocument-parentBean"
-		abstract="true" parent="MaintenanceDocumentEntry">
-		<property name="businessObjectClass"
-			value="org.kuali.kra.award.bo.AwardTemplateReportTerm" />
-		<property name="maintainableClass"
-			value="org.kuali.kra.maintenance.KraMaintainableImpl" />
+	<bean id="AwardTemplateReportTermMaintenanceDocument" parent="AwardTemplateReportTermMaintenanceDocument-parentBean"/>
+	<bean id="AwardTemplateReportTermMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.award.bo.AwardTemplateReportTerm"/>
+		<property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
 		<property name="maintainableSections">
 			<list>
-				<ref
-					bean="AwardTemplateReportTermMaintenanceDocument-EditAwardTemplateReportTerm" />
+				<ref bean="AwardTemplateReportTermMaintenanceDocument-EditAwardTemplateReportTerm"/>
 			</list>
 		</property>
 		<property name="lockingKeys">
@@ -33,137 +24,83 @@
 				<value>templateReportTermId</value>
 			</list>
 		</property>
-		<property name="label"
-			value="Award Template Report Terms Maintenance Document" />
-		<property name="shortLabel" value="awardTemplateReportTermsMaintDoc" />
-		<property name="summary"
-			value="Award Template Report Terms Maintenance Document" />
-		<property name="description"
-			value="Document used to create or update Award Template Report Terms Reference objects" />
-		<property name="helpDefinition">
-			<bean parent="HelpDefinition" p:parameterNamespace="KRA-M"
-				p:parameterName="awardTemplateReportTermsMaintenanceHelp"
-				p:parameterDetailType="D" />
-		</property>
-		<property name="documentTypeName" value="AwardTemplateReportTermMaintenanceDocument" />
-		<property name="documentAuthorizerClass"
-			value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
-		<property name="documentTypeCode" value="ATRT" />
-		<property name="authorizations">
-			<list>
-				<bean parent="AuthorizationDefinition">
-					<property name="action" value="initiate" />
-					<property name="authorizedGroups">
-						<set>
-							<value>WorkflowAdmin</value>
-						</set>
-					</property>
-				</bean>
-			</list>
-		</property>
+		
+		
+		
+		
+		
+		<property name="documentTypeName" value="AwardTemplateReportTermMaintenanceDocument"/>
+		<property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+		
+		
 	</bean>
 
 	<!-- Maintenance Section Definitions -->
 
-	<bean
-		id="AwardTemplateReportTermMaintenanceDocument-EditAwardTemplateReportTerm"
-		parent="AwardTemplateReportTermMaintenanceDocument-EditAwardTemplateReportTerm-parentBean" />
-	<bean
-		id="AwardTemplateReportTermMaintenanceDocument-EditAwardTemplateReportTerm-parentBean"
-		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="Edit Award Template Report Terms" />
-		<property name="title" value="Edit Award Template Report Terms" />
+	<bean id="AwardTemplateReportTermMaintenanceDocument-EditAwardTemplateReportTerm" parent="AwardTemplateReportTermMaintenanceDocument-EditAwardTemplateReportTerm-parentBean"/>
+	<bean id="AwardTemplateReportTermMaintenanceDocument-EditAwardTemplateReportTerm-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="Edit Award Template Report Terms"/>
+		<property name="title" value="Edit Award Template Report Terms"/>
 		<property name="maintainableItems">
 			<list>
-				<bean parent="MaintainableFieldDefinition" p:name="templateReportTermId"
-					p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="templateCode"
-					p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="reportClassCode"
-					p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="reportCode"
-					p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="frequencyCode"
-					p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="frequencyBaseCode"
-					p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="ospDistributionCode"
-					p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="dueDate"
-					p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="versionNumber" />
+				<bean parent="MaintainableFieldDefinition" p:name="templateReportTermId" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="templateCode" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="reportClassCode" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="reportCode" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="frequencyCode" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="frequencyBaseCode" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="ospDistributionCode" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="dueDate" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
 			</list>
 		</property>
 	</bean>
-	<bean
-		id="AwardTemplateReportTermMaintenanceDocument-EditListAwardTemplateReportTerm"
-		parent="AwardTemplateReportTermMaintenanceDocument-EditListAwardTemplateReportTerm-parentBean" />
-	<bean
-		id="AwardTemplateReportTermMaintenanceDocument-EditListAwardTemplateReportTerm-parentBean"
-		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="Edit Award Template Report Terms" />
-		<property name="title" value="Edit Award Template Report Terms" />
+	<bean id="AwardTemplateReportTermMaintenanceDocument-EditListAwardTemplateReportTerm" parent="AwardTemplateReportTermMaintenanceDocument-EditListAwardTemplateReportTerm-parentBean"/>
+	<bean id="AwardTemplateReportTermMaintenanceDocument-EditListAwardTemplateReportTerm-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="Edit Award Template Report Terms"/>
+		<property name="title" value="Edit Award Template Report Terms"/>
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableCollectionDefinition">
-					<property name="businessObjectClass"
-						value="org.kuali.kra.award.bo.AwardTemplateReportTerm" />
-					<property name="name" value="templateReportTerms" />
-					<property name="sourceClassName"
-						value="org.kuali.kra.award.bo.AwardTemplateReportTerm" />
-					<property name="includeAddLine" value="true" />
-					<property name="includeMultipleLookupLine" value="false" />
-					<property name="summaryTitle" value="Award Report Terms" />
+					<property name="businessObjectClass" value="org.kuali.kra.award.bo.AwardTemplateReportTerm"/>
+					<property name="name" value="templateReportTerms"/>
+					<property name="sourceClassName" value="org.kuali.kra.award.bo.AwardTemplateReportTerm"/>
+					<property name="includeAddLine" value="true"/>
+					<property name="includeMultipleLookupLine" value="false"/>
+					<property name="summaryTitle" value="Award Report Terms"/>
 					<property name="summaryFields">
 						<list>
-							<bean parent="MaintainableFieldDefinition" p:name="reportClassCode"
-								p:required="true" />
-							<bean parent="MaintainableFieldDefinition" p:name="reportCode"
-								p:required="true" />
-							<bean parent="MaintainableFieldDefinition" p:name="frequencyCode"
-								p:required="true" />
-							<bean parent="MaintainableFieldDefinition" p:name="frequencyBaseCode"
-								p:required="true" />
-							<bean parent="MaintainableFieldDefinition" p:name="ospDistributionCode"
-								p:required="true" />
+							<bean parent="MaintainableFieldDefinition" p:name="reportClassCode" p:required="true"/>
+							<bean parent="MaintainableFieldDefinition" p:name="reportCode" p:required="true"/>
+							<bean parent="MaintainableFieldDefinition" p:name="frequencyCode" p:required="true"/>
+							<bean parent="MaintainableFieldDefinition" p:name="frequencyBaseCode" p:required="true"/>
+							<bean parent="MaintainableFieldDefinition" p:name="ospDistributionCode" p:required="true"/>
 						</list>
 					</property>
-					<property name="attributeToHighlightOnDuplicateKey" value="reportClassCode" />
+					<property name="attributeToHighlightOnDuplicateKey" value="reportClassCode"/>
 					<property name="duplicateIdentificationFields">
 						<list>
-							<bean parent="MaintainableFieldDefinition" p:name="reportClassCode"
-								p:required="true" />
-							<bean parent="MaintainableFieldDefinition" p:name="reportCode"
-								p:required="true" />
-							<bean parent="MaintainableFieldDefinition" p:name="frequencyCode"
-								p:required="true" />
-							<bean parent="MaintainableFieldDefinition" p:name="frequencyBaseCode"
-								p:required="true" />
-							<bean parent="MaintainableFieldDefinition" p:name="ospDistributionCode"
-								p:required="true" />
+							<bean parent="MaintainableFieldDefinition" p:name="reportClassCode" p:required="true"/>
+							<bean parent="MaintainableFieldDefinition" p:name="reportCode" p:required="true"/>
+							<bean parent="MaintainableFieldDefinition" p:name="frequencyCode" p:required="true"/>
+							<bean parent="MaintainableFieldDefinition" p:name="frequencyBaseCode" p:required="true"/>
+							<bean parent="MaintainableFieldDefinition" p:name="ospDistributionCode" p:required="true"/>
 						</list>
 					</property>
 					<property name="maintainableFields">
 						<list>
-							<bean parent="MaintainableFieldDefinition" p:name="reportClassCode"
-								p:required="true" />
-							<bean parent="MaintainableFieldDefinition" p:name="reportCode"
-								p:required="true" />
-							<bean parent="MaintainableFieldDefinition" p:name="frequencyCode"
-								p:required="true" />
-							<bean parent="MaintainableFieldDefinition" p:name="frequencyBaseCode"
-								p:required="true" />
-							<bean parent="MaintainableFieldDefinition" p:name="ospDistributionCode"
-								p:required="true" />
-							<bean parent="MaintainableFieldDefinition" p:name="dueDate"
-								p:required="true" />
-							<bean parent="MaintainableFieldDefinition" p:name="versionNumber" />
+							<bean parent="MaintainableFieldDefinition" p:name="reportClassCode" p:required="true"/>
+							<bean parent="MaintainableFieldDefinition" p:name="reportCode" p:required="true"/>
+							<bean parent="MaintainableFieldDefinition" p:name="frequencyCode" p:required="true"/>
+							<bean parent="MaintainableFieldDefinition" p:name="frequencyBaseCode" p:required="true"/>
+							<bean parent="MaintainableFieldDefinition" p:name="ospDistributionCode" p:required="true"/>
+							<bean parent="MaintainableFieldDefinition" p:name="dueDate" p:required="true"/>
+							<bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
 						</list>
 					</property>
 					<property name="maintainableCollections">
 						<list>
-							<ref
-								bean="AwardTemplateReportTermRecipientMaintenanceDocument-EditListAwardTemplateReportTermRecipient" />
+							<ref bean="AwardTemplateReportTermRecipientMaintenanceDocument-EditListAwardTemplateReportTermRecipient"/>
 						</list>
 					</property>
 				</bean>

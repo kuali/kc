@@ -21,8 +21,8 @@
 
 <table width="100%" border=0 cellpadding=0 cellspacing=0 class="headercell1">
   <tr>
-    <td><img src="images/wf-logo.gif" alt="OneStart Workflow" width=150 height=21 hspace=5 vspace=5></td>
-    <td width="90%"><html-el:link action="ActionList">Return to Action List</html-el:link></td>
+    <td><img src="images/wf-logo.gif" alt="Workflow" width=150 height=21 hspace=5 vspace=5></td>
+    <td width="90%"><html-el:link action="ActionListOld.do">Return to Action List</html-el:link></td>
   </tr>
 </table>
 
@@ -48,7 +48,7 @@
   <tr>
   	<td></td>
   	<td>
-<html-el:form action="ActionListFilter">
+<html-el:form action="ActionListFilterOld">
 <html-el:hidden property="lookupableImplServiceName" />
 <html-el:hidden property="lookupType" />
 <html-el:hidden property="docTypeFullName" />
@@ -64,6 +64,20 @@
 			   <html-el:option value="${Constants.ALL_CODE}"><c:out value="${Constants.ALL_CODE}" /></html-el:option>
 			   <c:forEach var="delegator" items="${delegators}">
 				 <html-el:option value="${delegator.recipientId}"><c:out value="${delegator.displayName}" /></html-el:option>
+			   </c:forEach>
+		     </html-el:select>
+        </td>
+      </tr>
+    </c:if>
+    <c:if test="${! empty primaryDelegates}">
+      <tr>
+	    <td class="thnormal"><bean-el:message key="actionList.ActionListFilter.filter.label.primaryDelegateId"/> <bean-el:message key="general.help.primaryDelegateId"/></td>
+	    <td class="datacell">
+		     <html-el:select property="filter.primaryDelegateId">
+			   <html-el:option value="${Constants.PRIMARY_DELEGATION_DEFAULT}"><c:out value="${Constants.PRIMARY_DELEGATION_DEFAULT}" /></html-el:option>
+			   <html-el:option value="${Constants.ALL_CODE}"><c:out value="${Constants.ALL_CODE}" /></html-el:option>
+			   <c:forEach var="delegatee" items="${primaryDelegates}">
+				 <html-el:option value="${delegatee.recipientId}"><c:out value="${delegatee.displayName}" /></html-el:option>
 			   </c:forEach>
 		     </html-el:select>
         </td>
@@ -100,9 +114,9 @@
 	<tr>
 		<td class="thnormal"><bean-el:message key="actionList.ActionListFilter.filter.label.actionRequestWorkgroup"/> <bean-el:message key="general.help.actionRequestWorkgroup"/></td>
 		<td class="datacell">
-		    <html-el:select name="ActionListFilterForm" property="filter.workgroupIdString">
+		    <html-el:select name="ActionListFilterForm" property="filter.groupId">
               <html-el:optionsCollection property="userWorkgroups" label="value" value="key" filter="false"/>
-            </html-el:select>&nbsp;<bean-el:message key="actionList.ActionListFilter.filter.label.exclude"/><html-el:checkbox property="filter.excludeWorkgroupId"/></td>
+            </html-el:select>&nbsp;<bean-el:message key="actionList.ActionListFilter.filter.label.exclude"/><html-el:checkbox property="filter.excludeGroupId"/></td>
 	</tr>
 	<tr>
 		<td class="thnormal"><bean-el:message key="actionList.ActionListFilter.filter.label.documentType"/> <bean-el:message key="general.help.documentType"/></td>

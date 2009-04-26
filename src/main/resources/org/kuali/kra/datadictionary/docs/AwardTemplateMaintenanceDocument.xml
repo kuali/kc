@@ -1,4 +1,4 @@
-<!--
+<?xml version="1.0" encoding="UTF-8"?><!--
  Copyright 2006-2008 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
@@ -12,100 +12,64 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
--->
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+--><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="AwardTemplateMaintenanceDocument" parent="AwardTemplateMaintenanceDocument-parentBean" />
+	<bean id="AwardTemplateMaintenanceDocument" parent="AwardTemplateMaintenanceDocument-parentBean"/>
 	<bean id="AwardTemplateMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.award.bo.AwardTemplate" />
-		<property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
-		<property name="maintainableSections" >
+		<property name="businessObjectClass" value="org.kuali.kra.award.bo.AwardTemplate"/>
+		<property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
+		<property name="maintainableSections">
 			<list>
-				<ref bean="AwardTemplateMaintenanceDocument-EditAwardTemplate" />
-				<ref bean="AwardTemplateContactMaintenanceDocument-EditListAwardTemplateContact" />
-				<ref bean="AwardTemplateCommentMaintenanceDocument-EditListAwardTemplateComment" />
-				<ref bean="AwardTemplateTermMaintenanceDocument-EditListAwardTemplateTerm" />
-				<ref bean="AwardTemplateReportTermMaintenanceDocument-EditListAwardTemplateReportTerm" />
+				<ref bean="AwardTemplateMaintenanceDocument-EditAwardTemplate"/>
+				<ref bean="AwardTemplateContactMaintenanceDocument-EditListAwardTemplateContact"/>
+				<ref bean="AwardTemplateCommentMaintenanceDocument-EditListAwardTemplateComment"/>
+				<ref bean="AwardTemplateTermMaintenanceDocument-EditListAwardTemplateTerm"/>
+				<ref bean="AwardTemplateReportTermMaintenanceDocument-EditListAwardTemplateReportTerm"/>
 			</list>
 		</property>
-		<property name="lockingKeys" >
+		<property name="lockingKeys">
 			<list>
 				<value>templateCode</value>
 			</list>
 		</property>
-		<property name="label" value="Award Template Maintenance Document" />
-		<property name="shortLabel" value="templateMaintDoc" />
-		<property name="summary" value="Award Template Maintenance Document" />
-		<property name="description" value="Document used to create or update AwardTemplate Reference objects" />
-		<property name="helpDefinition" >
-			<bean parent="HelpDefinition"
-				p:parameterNamespace="KRA-M"
-				p:parameterName="templateMaintenanceHelp" 
-				p:parameterDetailType="D" />
-			</property>
-		<property name="documentTypeName" value="AwardTemplateMaintenanceDocument" />
-		<property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
-		<property name="documentTypeCode" value="ADTM" />
-		<property name="authorizations" >
-			<list>
-				<bean parent="AuthorizationDefinition" >
-					<property name="action" value="initiate" />
-					<property name="authorizedGroups">
-						<set>
-							<value>WorkflowAdmin</value>
-						</set>
-					</property>
-				</bean>
-			</list>
-		</property>
+		
+		
+		
+		
+		
+		<property name="documentTypeName" value="AwardTemplateMaintenanceDocument"/>
+		<property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+		
+		
 	</bean>
 
 	<!-- Maintenance Section Definitions -->
 	
-	<bean id="AwardTemplateMaintenanceDocument-EditAwardTemplate" parent="AwardTemplateMaintenanceDocument-EditAwardTemplate-parentBean" />
+	<bean id="AwardTemplateMaintenanceDocument-EditAwardTemplate" parent="AwardTemplateMaintenanceDocument-EditAwardTemplate-parentBean"/>
 	<bean id="AwardTemplateMaintenanceDocument-EditAwardTemplate-parentBean" abstract="true" parent="MaintainableSectionDefinition">
 		<!--<property name="webScriptFile" value="../dwr/interface/AwardFrequencyFilter.js" />-->
 		<!--<property name="webScriptFile" value="../scripts/kualiApplicationTest.js" />-->
-		<property name="id" value="Edit Award Template" />
-		<property name="title" value="Edit Award Template" />
-		<property name="maintainableItems" >
+		<property name="id" value="Edit Award Template"/>
+		<property name="title" value="Edit Award Template"/>
+		<property name="maintainableItems">
 			<list>
 				<!--<bean parent="MaintainableFieldDefinition"
 					p:name="templateCode"
 					p:required="true" />-->
-				<bean parent="MaintainableFieldDefinition"
-					p:name="description"
-					p:required="true" />
-				<bean parent="MaintainableFieldDefinition"
-					p:name="statusCode"
-					p:required="true" />
-				<bean parent="MaintainableFieldDefinition"
-					p:name="primeSponsorCode" />
-				<bean parent="MaintainableFieldDefinition"
-					p:name="nonCompetingContPrpslDueCode" />
+				<bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="statusCode" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="primeSponsorCode"/>
+				<bean parent="MaintainableFieldDefinition" p:name="nonCompetingContPrpslDueCode"/>
 				<!--<bean parent="MaintainableFieldDefinition"
 					p:name="nonCompetingContPrpslDueCode" 
 					p:webUILeaveFieldFunction="filterNonCompetingContPrpslDueCode()"/>-->
-				<bean parent="MaintainableFieldDefinition"
-					p:name="competingRenewalPrpslDueCode" />
-				<bean parent="MaintainableFieldDefinition"
-					p:name="basisOfPaymentCode"
-					p:required="true" />
-				<bean parent="MaintainableFieldDefinition"
-					p:name="methodOfPaymentCode"
-					p:required="true" />
-				<bean parent="MaintainableFieldDefinition"
-					p:name="paymentInvoiceFreqCode" />
-				<bean parent="MaintainableFieldDefinition"
-					p:name="invoiceNumberOfCopies" />
-				<bean parent="MaintainableFieldDefinition"
-					p:name="finalInvoiceDue" />
-				<bean parent="MaintainableFieldDefinition"
-					p:name="versionNumber" />
+				<bean parent="MaintainableFieldDefinition" p:name="competingRenewalPrpslDueCode"/>
+				<bean parent="MaintainableFieldDefinition" p:name="basisOfPaymentCode" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="methodOfPaymentCode" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="paymentInvoiceFreqCode"/>
+				<bean parent="MaintainableFieldDefinition" p:name="invoiceNumberOfCopies"/>
+				<bean parent="MaintainableFieldDefinition" p:name="finalInvoiceDue"/>
+				<bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
 			</list>
 		</property>
 	</bean>

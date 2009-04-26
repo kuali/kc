@@ -21,7 +21,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
+    	<reference-descriptor name="documentHeader" class-ref="org.kuali.rice.kns.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<foreignkey field-ref="documentNumber" />
     	</reference-descriptor>
     	<collection-descriptor name="awardList" proxy="true" element-class-ref="org.kuali.kra.award.bo.Award" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -67,14 +67,14 @@
 		<field-descriptor name="methodOfPaymentCode" column="METHOD_OF_PAYMENT_CODE" jdbc-type="INTEGER"/>
 		<field-descriptor name="nonCompetingContProposalDue" column="NON_COMPETING_CONT_PRPSL_DUE" jdbc-type="INTEGER"/>
 		<field-descriptor name="paymentInvoiceFrequencyCode" column="PAYMENT_INVOICE_FREQ_CODE" jdbc-type="INTEGER"/>
-		<field-descriptor name="preAwardAuthorizedAmount" column="PRE_AWARD_AUTHORIZED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="preAwardAuthorizedAmount" column="PRE_AWARD_AUTHORIZED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 		<field-descriptor name="preAwardEffectiveDate" column="PRE_AWARD_EFFECTIVE_DATE" jdbc-type="DATE"/>
-		<field-descriptor name="preAwardInstitutionalAuthorizedAmount" column="PRE_AWARD_IN_AUTHORIZED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="preAwardInstitutionalAuthorizedAmount" column="PRE_AWARD_IN_AUTHORIZED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 		<field-descriptor name="preAwardInstitutionalEffectiveDate" column="PRE_AWARD_INST_EFFECTIVE_DATE" jdbc-type="DATE"/>
 		<field-descriptor name="procurementPriorityCode" column="PROCUREMENT_PRIORITY_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR"/>
-		<field-descriptor name="specialEbRateOffCampus" column="SPECIAL_EB_RATE_OFF_CAMPUS" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-		<field-descriptor name="specialEbRateOnCampus" column="SPECIAL_EB_RATE_ON_CAMPUS" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="specialEbRateOffCampus" column="SPECIAL_EB_RATE_OFF_CAMPUS" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="specialEbRateOnCampus" column="SPECIAL_EB_RATE_ON_CAMPUS" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 		<field-descriptor name="subPlanFlag" column="SUB_PLAN_FLAG" jdbc-type="VARCHAR"/>
 		<field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>		
@@ -160,11 +160,11 @@
 		<field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER" nullable="true" />
 		<field-descriptor name="fullName" column="FULL_NAME" jdbc-type="VARCHAR" nullable="false"  />
 		
-		<field-descriptor name="academicYearEffort" column="ACADEMIC_YEAR_EFFORT" jdbc-type="DECIMAL" nullable="true" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
-		<field-descriptor name="calendarYearEffort" column="CALENDAR_YEAR_EFFORT" jdbc-type="DECIMAL" nullable="true" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
-		<field-descriptor name="summerEffort" column="SUMMER_EFFORT" jdbc-type="DECIMAL" nullable="true" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
-		<field-descriptor name="totalEffort" column="TOTAL_EFFORT" jdbc-type="DECIMAL" nullable="true" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
-		<field-descriptor name="faculty" column="FACULTY_FLAG"  jdbc-type="CHAR" nullable="false" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+		<field-descriptor name="academicYearEffort" column="ACADEMIC_YEAR_EFFORT" jdbc-type="DECIMAL" nullable="true" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="calendarYearEffort" column="CALENDAR_YEAR_EFFORT" jdbc-type="DECIMAL" nullable="true" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="summerEffort" column="SUMMER_EFFORT" jdbc-type="DECIMAL" nullable="true" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="totalEffort" column="TOTAL_EFFORT" jdbc-type="DECIMAL" nullable="true" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="faculty" column="FACULTY_FLAG"  jdbc-type="CHAR" nullable="false" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		
 		<field-descriptor name="roleCode" column="CONTACT_ROLE_CODE" jdbc-type="VARCHAR" nullable="false" />
 		
@@ -190,7 +190,7 @@
 		
 		<field-descriptor name="awardContactId" column="AWARD_PERSON_ID" jdbc-type="BIGINT" nullable="false" />
 		<field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" nullable="false" />
-		<field-descriptor name="leadUnit" column="LEAD_UNIT_FLAG"  jdbc-type="CHAR" nullable="false" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+		<field-descriptor name="leadUnit" column="LEAD_UNIT_FLAG"  jdbc-type="CHAR" nullable="false" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
@@ -211,7 +211,7 @@
 		<field-descriptor name="item" column="ITEM" jdbc-type="VARCHAR" nullable="false" />
 		<field-descriptor name="model" column="MODEL" jdbc-type="VARCHAR" nullable="true" />
 		<field-descriptor name="vendor" column="VENDOR" jdbc-type="VARCHAR" nullable="true" />
-		<field-descriptor name="amount" column="AMOUNT" jdbc-type="DECIMAL" nullable="false" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="amount" column="AMOUNT" jdbc-type="DECIMAL" nullable="false" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" nullable="false" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" nullable="false" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -228,7 +228,7 @@
 		<field-descriptor name="destination" column="DESTINATION" jdbc-type="VARCHAR" nullable="false" />
 		<field-descriptor name="startDate" column="START_DATE" jdbc-type="DATE" nullable="false" />
 		<field-descriptor name="endDate" column="END_DATE" jdbc-type="DATE" nullable="true" />
-		<field-descriptor name="amount" column="AMOUNT" jdbc-type="DECIMAL" nullable="false" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="amount" column="AMOUNT" jdbc-type="DECIMAL" nullable="false" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" nullable="false" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" nullable="false" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -243,12 +243,12 @@
 		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
 		<field-descriptor name="fiscalYear" column="FISCAL_YEAR" jdbc-type="VARCHAR"/>
-		<field-descriptor name="costSharePercentage" column="COST_SHARE_PERCENTAGE" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="costSharePercentage" column="COST_SHARE_PERCENTAGE" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 		<field-descriptor name="costShareTypeCode" column="COST_SHARE_TYPE_CODE" jdbc-type="INTEGER"/><!-- could potentially be anonymous access -->
 		<field-descriptor name="source" column="SOURCE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="destination" column="DESTINATION" jdbc-type="VARCHAR"/>
-		<field-descriptor name="commitmentAmount" column="COMMITMENT_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-		<field-descriptor name="costShareMet" column="COST_SHARE_MET" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="commitmentAmount" column="COMMITMENT_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="costShareMet" column="COST_SHARE_MET" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 		<field-descriptor name="verificationDate" column="VERIFICATION_DATE" jdbc-type="DATE"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
@@ -276,7 +276,7 @@
 		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
 		<field-descriptor name="commentTypeCode" column="COMMENT_TYPE_CODE" jdbc-type="VARCHAR"/>
-		<field-descriptor name="checklistPrintFlag" column="CHECKLIST_PRINT_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="checklistPrintFlag" column="CHECKLIST_PRINT_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="comments" column="COMMENTS" jdbc-type="CLOB"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
@@ -291,9 +291,9 @@
 	<class-descriptor class="org.kuali.kra.bo.CommentType" table="COMMENT_TYPE">
 		<field-descriptor name="commentTypeCode" column="COMMENT_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
-		<field-descriptor name="templateFlag" column="TEMPLATE_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-		<field-descriptor name="checklistFlag" column="CHECKLIST_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-		<field-descriptor name="awardCommentScreenFlag" column="AWARD_COMMENT_SCREEN_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="templateFlag" column="TEMPLATE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="checklistFlag" column="CHECKLIST_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="awardCommentScreenFlag" column="AWARD_COMMENT_SCREEN_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
@@ -306,7 +306,7 @@
 		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
 		<field-descriptor name="organizationName" column="ORGANIZATION_NAME" jdbc-type="VARCHAR"/>
-		<field-descriptor name="amount" column="AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="amount" column="AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
@@ -318,11 +318,11 @@
 		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" access="anonymous" />
 		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
-		<field-descriptor name="applicableFandaRate" column="APPLICABLE_IDC_RATE" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="applicableFandaRate" column="APPLICABLE_IDC_RATE" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="fandaRateTypeCode" column="IDC_RATE_TYPE_CODE" jdbc-type="INTEGER" />
 		<field-descriptor name="fiscalYear" column="FISCAL_YEAR" jdbc-type="VARCHAR" />
 		<field-descriptor name="onCampusFlag" column="ON_CAMPUS_FLAG" jdbc-type="VARCHAR" />
-		<field-descriptor name="underrecoveryOfIndirectCost" column="UNDERRECOVERY_OF_IDC" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="underrecoveryOfIndirectCost" column="UNDERRECOVERY_OF_IDC" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="sourceAccount" column="SOURCE_ACCOUNT" jdbc-type="VARCHAR" />
 		<field-descriptor name="destinationAccount" column="DESTINATION_ACCOUNT" jdbc-type="VARCHAR" />
 		<field-descriptor name="startDate" column="START_DATE" jdbc-type="DATE" />
@@ -344,9 +344,9 @@
 	
 	<class-descriptor class="org.kuali.kra.award.bo.ValidRates" table="VALID_RATES">
 		<field-descriptor name="validRatesId" column="VALID_RATES_ID" jdbc-type="INTEGER" primarykey="true" />		
-		<field-descriptor name="onCampusRate" column="ON_CAMPUS_RATE" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
-		<field-descriptor name="offCampusRate" column="OFF_CAMPUS_RATE" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
-		<field-descriptor name="rateClassType" column="RATE_CLASS_TYPE" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="onCampusRate" column="ON_CAMPUS_RATE" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="offCampusRate" column="OFF_CAMPUS_RATE" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="rateClassType" column="RATE_CLASS_TYPE" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="adjustmentKey" column="ADJUSTMENT_KEY" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
@@ -525,7 +525,7 @@
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<field-descriptor name="generateReportRequirements" column="GENERATE_REPORT_REQUIREMENTS" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="generateReportRequirements" column="GENERATE_REPORT_REQUIREMENTS" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<!--<collection-descriptor name="templateReportTerms" proxy="true" element-class-ref="org.kuali.kra.bo.TemplateReportTerms" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="reportClassCode"/>
 		</collection-descriptor>
@@ -569,7 +569,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="reportCode" column="REPORT_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
-		<field-descriptor name="finalReportFlag" column="FINAL_REPORT_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="finalReportFlag" column="FINAL_REPORT_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<!--  <collection-descriptor name="templateReportTerms" proxy="true" element-class-ref="org.kuali.kra.bo.TemplateReportTerms" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
@@ -592,9 +592,9 @@
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="numberOfDays" column="NUMBER_OF_DAYS" jdbc-type="INTEGER" />
 		<field-descriptor name="numberOfMonths" column="NUMBER_OF_MONTHS" jdbc-type="INTEGER" />
-		<field-descriptor name="repeatFlag" column="REPEAT_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-		<field-descriptor name="proposalDueFlag" column="PROPOSAL_DUE_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-		<field-descriptor name="invoiceFlag" column="INVOICE_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="repeatFlag" column="REPEAT_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="proposalDueFlag" column="PROPOSAL_DUE_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="invoiceFlag" column="INVOICE_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -807,7 +807,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="templateCode" column="AWARD_TEMPLATE_CODE" jdbc-type="INTEGER" access="anonymous" />
 		<field-descriptor name="commentTypeCode" column="COMMENT_TYPE_CODE" jdbc-type="VARCHAR" />
-		<field-descriptor name="checklistPrintFlag" column="CHECKLIST_PRINT_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="checklistPrintFlag" column="CHECKLIST_PRINT_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
@@ -933,7 +933,7 @@
 		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="dueDate" column="DUE_DATE" jdbc-type="DATE" />
-		<field-descriptor name="amount" column="AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="amount" column="AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="submitDate" column="SUBMIT_DATE" jdbc-type="DATE" />
@@ -979,8 +979,8 @@
 		<field-descriptor name="budgetPeriod" column="BUDGET_PERIOD" jdbc-type="INTEGER"/>
 		<field-descriptor name="startDate" column="START_DATE" jdbc-type="DATE"/>
 		<field-descriptor name="endDate" column="END_DATE" jdbc-type="DATE"/>
-		<field-descriptor name="directCost" column="DIRECT_COST" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-		<field-descriptor name="indirectCost" column="INDIRECT_COST" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="directCost" column="DIRECT_COST" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="indirectCost" column="INDIRECT_COST" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
@@ -1005,8 +1005,8 @@
 		<field-descriptor name="obliDistributableAmount" column="OBLI_DISTRIBUTABLE_AMOUNT" jdbc-type="DECIMAL" />
 		<field-descriptor name="obligationExpirationDate" column="OBLIGATION_EXPIRATION_DATE" jdbc-type="DATE" />
 		<field-descriptor name="transactionId" column="TRANSACTION_ID" jdbc-type="VARCHAR" />
-		<field-descriptor name="entryType" column="ENTRY_TYPE" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-		<field-descriptor name="eomProcessFlag" column="EOM_PROCESS_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="entryType" column="ENTRY_TYPE" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="eomProcessFlag" column="EOM_PROCESS_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="anticipatedChange" column="ANTICIPATED_CHANGE" jdbc-type="DECIMAL" />
@@ -1015,10 +1015,10 @@
 		<field-descriptor name="obligatedChangeIndirect" column="OBLIGATED_CHANGE_INDIRECT" jdbc-type="DECIMAL" />
 		<field-descriptor name="anticipatedChangeDirect" column="ANTICIPATED_CHANGE_DIRECT" jdbc-type="DECIMAL" />
 		<field-descriptor name="anticipatedChangeIndirect" column="ANTICIPATED_CHANGE_INDIRECT" jdbc-type="DECIMAL" />
-		<field-descriptor name="anticipatedTotalDirect" column="ANTICIPATED_TOTAL_DIRECT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-		<field-descriptor name="anticipatedTotalIndirect" column="ANTICIPATED_TOTAL_INDIRECT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-		<field-descriptor name="obligatedTotalDirect" column="OBLIGATED_TOTAL_DIRECT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-		<field-descriptor name="obligatedTotalIndirect" column="OBLIGATED_TOTAL_INDIRECT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="anticipatedTotalDirect" column="ANTICIPATED_TOTAL_DIRECT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="anticipatedTotalIndirect" column="ANTICIPATED_TOTAL_INDIRECT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="obligatedTotalDirect" column="OBLIGATED_TOTAL_DIRECT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="obligatedTotalIndirect" column="OBLIGATED_TOTAL_INDIRECT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<!-- 
