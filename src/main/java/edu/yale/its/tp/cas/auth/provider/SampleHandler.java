@@ -15,7 +15,6 @@
  */
 package edu.yale.its.tp.cas.auth.provider;
 
-import edu.yale.its.tp.cas.auth.*;
 
 /** A simple, dummy authenticator. */
 public class SampleHandler extends WatchfulPasswordHandler {

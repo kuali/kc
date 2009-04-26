@@ -27,9 +27,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.WebAuthenticationService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kim.service.AuthenticationService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 import edu.yale.its.tp.cas.auth.AuthHandler;
 import edu.yale.its.tp.cas.auth.PasswordHandler;
@@ -220,7 +220,7 @@ public class Login extends HttpServlet {
             throw new ServletException(ex);
         }
         // check if the password field should be shown and set a flag to be used by the JSP
-        request.setAttribute( "showPasswordField", ((KualiConfigurationService) KraServiceLocator.getService("kualiConfigurationService")).isProductionEnvironment() || ((WebAuthenticationService) KraServiceLocator.getService("webAuthenticationService")).isValidatePassword());
+        request.setAttribute( "showPasswordField", ((KualiConfigurationService) KraServiceLocator.getService("kualiConfigurationService")).isProductionEnvironment() || KraServiceLocator.getService(AuthenticationService.class).validatePassword());
         app.getRequestDispatcher(loginForm).forward(request, response);
     }
 

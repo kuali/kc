@@ -508,7 +508,7 @@
 			<name>TravelRequest</name>
 			<description>Create a New Travel Request</description>
 			<label>Travel Request</label>
-			<postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+			<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
@@ -544,7 +544,7 @@
 			<name>TravelAccountMaintenanceDocument</name>
 			<description>Create a New Travel Request</description>
 			<label>Travel Request</label>
-			<postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+			<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
@@ -564,7 +564,7 @@
 			<name>FiscalOfficerMaintenanceDocument</name>
 			<description>Create a New Travel Fiscal Officer</description>
 			<label>Travel Fiscal Officer</label>
-			<postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+			<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
@@ -587,7 +587,7 @@
       <name>ParameterNamespaceMaintenanceDocument</name>
       <description>Create/edit parameter namespaces</description>
       <label>Parameter Namespace Maintenance Document</label>
-			<postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+			<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
@@ -614,7 +614,7 @@
       <name>ParameterTypeMaintenanceDocument</name>
       <description>Create/edit a parameter type</description>
       <label>Parameter Type Maintenance Document</label>
-			<postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+			<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
@@ -641,7 +641,7 @@
       <name>ParameterDetailTypeMaintenanceDocument</name>
       <description>Create/edit a parameter detail type</description>
       <label>Parameter Detail Type Maintenance Document</label>
-      <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+      <postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
       <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
       <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
       <defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
@@ -668,7 +668,7 @@
       <name>ParameterMaintenanceDocument</name>
       <description>Create/edit a parameter</description>
       <label>Parameter Maintenance Document</label>
-      <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+      <postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
       <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
       <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
       <defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
@@ -694,7 +694,7 @@
 			<name>RiceUserMaintenanceDocument</name>
 			<description>Create a Rice User</description>
 			<label>Create a Rice User</label>
-			<postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+			<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
