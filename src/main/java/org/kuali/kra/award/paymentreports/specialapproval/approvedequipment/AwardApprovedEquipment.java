@@ -17,9 +17,9 @@ package org.kuali.kra.award.paymentreports.specialapproval.approvedequipment;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.bo.ValuableItem;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class handles the Award Special Approval for Approved Equipment

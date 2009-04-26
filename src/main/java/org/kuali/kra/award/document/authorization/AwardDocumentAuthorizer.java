@@ -17,19 +17,21 @@ package org.kuali.kra.award.document.authorization;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
-import org.kuali.core.authorization.AuthorizationConstants;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.authorization.DocumentActionFlags;
-import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
-import org.kuali.core.exceptions.DocumentInitiationAuthorizationException;
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.rice.shim.DocumentInitiationAuthorizationException;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * 
@@ -75,23 +77,14 @@ public class AwardDocumentAuthorizer extends TransactionalDocumentAuthorizerBase
         return editModeMap;
     }
     
-    /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String,
-     *      org.kuali.core.bo.user.UniversalUser)
-     */
-    @Override
     public void canInitiate(String documentTypeName, UniversalUser user) {
-        super.canInitiate(documentTypeName, user);
+        //super.canInitiate(documentTypeName, user);
         if (!canCreateAward(user)) {
             throw new DocumentInitiationAuthorizationException(KeyConstants.ERROR_AUTHORIZATION_DOCUMENT_INITIATION, 
                                                                new String[] { user.getPersonUserIdentifier(), documentTypeName });
         }
     }
-    
-    /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
-     */
-    @Override
+
     public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
    
         AwardDocument awardDocument = (AwardDocument) document;
@@ -107,31 +100,23 @@ public class AwardDocumentAuthorizer extends TransactionalDocumentAuthorizerBase
         return permission;
     }
    
-    /**
-     * @see org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
-     */
     @Override
-    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
-       
-        // no copy button
-        DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-        flags.setCanCopy(false);
-       
-        // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
-        this.setAnnotateFlag(flags);
-       
-        // Any user who has the Initiate Authorization can save and cancel.
-       
-        if (this.hasInitiateAuthorization(document, user)) {
-            flags.setCanSave(true);
-            flags.setCanCancel(true);
-        }
-        else {
-            flags.setCanSave(false);
-            flags.setCanCancel(false);
+    public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActions) {
+        super.getDocumentActions(document, user, documentActions);
+        documentActions.remove(KNSConstants.KUALI_ACTION_CAN_COPY);
+        
+//      Any user who has the Initiate Authorization can save and cancel.
+        if (this.hasInitiateAuthorization(document, new UniversalUser(user))) {
+            documentActions.add(KNSConstants.KUALI_ACTION_CAN_SAVE);
+            documentActions.add(KNSConstants.KUALI_ACTION_CAN_CANCEL);
+            documentActions.add(KNSConstants.KUALI_ACTION_CAN_RELOAD);
+        } else {
+            documentActions.remove(KNSConstants.KUALI_ACTION_CAN_SAVE);
+            documentActions.remove(KNSConstants.KUALI_ACTION_CAN_CANCEL);
+            documentActions.remove(KNSConstants.KUALI_ACTION_CAN_RELOAD);
         }
         
-        return flags;
+        return documentActions;
     }
     
     /**

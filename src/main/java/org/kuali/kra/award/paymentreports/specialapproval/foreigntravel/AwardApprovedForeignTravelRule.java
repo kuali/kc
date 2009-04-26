@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award.paymentreports.specialapproval.foreigntravel;
 
-import org.kuali.core.rule.BusinessRule;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * This interface defines the rule processing method
