@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.budget.service.impl;
 
+import static org.kuali.kra.logging.BufferedLogger.debug;
+
 import java.sql.Date;
 import java.util.Iterator;
 
@@ -22,8 +24,6 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.SqlDateConverter;
 import org.apache.commons.beanutils.converters.SqlTimestampConverter;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetLineItemBase;
@@ -36,10 +36,9 @@ import org.kuali.kra.budget.service.BudgetPersonService;
 import org.kuali.kra.budget.service.BudgetPersonnelBudgetService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-
-import static org.kuali.core.util.ObjectUtils.equalByKeys;
-import static org.kuali.kra.logging.BufferedLogger.*;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class...
@@ -166,7 +165,7 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
                         personnelDetails.refreshReferenceObject("budgetPerson");
                     }
 
-                    if (equalByKeys(personnelDetails.getBudgetPerson(), person)) {
+                    if (ObjectUtils.equalByKeys(personnelDetails.getBudgetPerson(), person)) {
                         debug("Comparing ", personnelDetails.getBudgetPerson().getPersonId(),  " and ",  person.getPersonId());
 
                         lineItem.setBudgetPersonnelLineItemDeleted(true);

@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.budget.rules;
 
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.springframework.util.StringUtils;
 
 /**

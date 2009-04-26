@@ -33,8 +33,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.WebUtils;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPeriod;
@@ -46,6 +44,8 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetPrintService;
 import org.kuali.kra.budget.service.CoeusBean2KraBoConverterService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.WebUtils;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.PageSize;
@@ -587,7 +587,7 @@ public class BudgetPrintServiceImpl implements BudgetPrintService {
             for(BudgetPeriod budgetPeriod : budgetPeriods) {
                 cvBudgetPeriods.add(coeusBean2KraBoConverterService.convert(budgetPeriod));
             }
-            repParams.put("USER_ID", GlobalVariables.getUserSession().getLoggedInUserNetworkId());
+            repParams.put("USER_ID", GlobalVariables.getUserSession().getLoggedInUserPrincipalName());
             repParams.put("REPORT_ID", selectedBudgetPrintFormId);
             repParams.put("BUDGET_PERIODS", cvBudgetPeriods);
             repParams.put("BUDGET_INFO", coeusBean2KraBoConverterService.convert(budgetDocument));

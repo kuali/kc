@@ -21,8 +21,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.BudgetException;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetPeriod;
@@ -31,6 +29,8 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetJustificationService;
 import org.kuali.kra.budget.web.struts.form.BudgetJustificationWrapper;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class BudgetJustificationServiceImpl implements BudgetJustificationService {
 
@@ -60,7 +60,7 @@ public class BudgetJustificationServiceImpl implements BudgetJustificationServic
      * @return
      */
     protected String getLoggedInUserNetworkId() {
-        return GlobalVariables.getUserSession().getLoggedInUserNetworkId();
+        return GlobalVariables.getUserSession().getLoggedInUserPrincipalName();
     }
     
     /**

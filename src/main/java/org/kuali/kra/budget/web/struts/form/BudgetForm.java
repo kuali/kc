@@ -23,17 +23,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
-import org.kuali.core.datadictionary.DocumentEntry;
-import org.kuali.core.datadictionary.HeaderNavigation;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.authorization.DocumentActionFlags;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.ActionFormUtilMap;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.ui.ExtraButton;
-import org.kuali.core.web.ui.HeaderField;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetCostShare;
@@ -51,9 +40,19 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.web.struts.form.ProposalFormBase;
-import org.kuali.rice.KNSServiceLocator;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.datadictionary.DocumentEntry;
+import org.kuali.rice.kns.datadictionary.HeaderNavigation;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.ActionFormUtilMap;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.web.ui.ExtraButton;
+import org.kuali.rice.kns.web.ui.HeaderField;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class BudgetForm extends ProposalFormBase {
     private static final String RETURN_TO_PROPOSAL_ALT_TEXT = "return to proposal";
@@ -168,6 +167,17 @@ public class BudgetForm extends ProposalFormBase {
         setDocumentNextValueRefresh(true);
         budgetJustificationWrapper = new BudgetJustificationWrapper(getBudgetDocument().getBudgetJustification());
         newSubAward = new BudgetSubAwards();
+    }
+    
+//  TODO Overriding for 1.1 upgrade 'till we figure out how to actually use this
+    public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
+        
+        return true;
+    }
+    
+    @Override
+    public boolean shouldPropertyBePopulatedInForm(String requestParameterName, HttpServletRequest request) {
+        return true;
     }
     
     public BudgetDocument getBudgetDocument() {
@@ -343,8 +353,12 @@ public class BudgetForm extends ProposalFormBase {
      * This method to suppress copy/reload buttons for 'Totals' page
      */
     public void suppressButtonsForTotalPage() {
-        this.getDocumentActionFlags().setCanCopy(false);
-        this.getDocumentActionFlags().setCanReload(false);
+        if (getDocumentActions().containsKey((KNSConstants.KUALI_ACTION_CAN_COPY))) {
+            documentActions.remove(KNSConstants.KUALI_ACTION_CAN_COPY);
+        }
+        if (getDocumentActions().containsKey((KNSConstants.KUALI_ACTION_CAN_RELOAD))) {
+            documentActions.remove(KNSConstants.KUALI_ACTION_CAN_RELOAD);
+        }
     }
 
     /**
@@ -363,17 +377,6 @@ public class BudgetForm extends ProposalFormBase {
         this.newBudgetCostShare = newBudgetCostShare;
     }
     
-    /**
-     * Get the Header Dispatch.  This determines the action that will occur
-     * when the user switches tabs for a budget.  If the user can modify
-     * the budget, the budget is automatically saved.  If not (view-only),
-     * then a reload will be executed instead.
-     * @return the Header Dispatch action
-     */
-    public String getHeaderDispatch() {
-        return this.getDocumentActionFlags().getCanSave() ? "save" : "reload";
-    }
-
     /**
      * Get the new BudgetUnrecoveredFandA
      * @return
@@ -573,7 +576,7 @@ public class BudgetForm extends ProposalFormBase {
     }    
     
     @Override
-    protected void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+    public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
         BudgetDocument budgetDocument = (BudgetDocument) getDocument();
         ProposalDevelopmentDocument proposalDocument = budgetDocument.getProposal();
         KualiWorkflowDocument parentWorkflowDocument = null;
@@ -593,12 +596,12 @@ public class BudgetForm extends ProposalFormBase {
         } catch (WorkflowException e) {
         } 
         
-        //Document Number
+        //Document Number TODO replace universal user inquiry
         HeaderField docNumber = new HeaderField("DataDictionary.DocumentHeader.attributes.documentNumber", proposalDocument != null? proposalDocument.getDocumentNumber() : null); 
         HeaderField docStatus = new HeaderField("DataDictionary.DocumentHeader.attributes.financialDocumentStatusCode", parentWorkflowDocument != null? parentWorkflowDocument.getStatusDisplayValue() : null);
         HeaderField docInitiator = new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.initiatorNetworkId", 
                 parentWorkflowDocument != null? parentWorkflowDocument.getInitiatorNetworkId() : null, 
-                        parentWorkflowDocument != null? "<kul:inquiry boClassName='org.kuali.core.bo.user.UniversalUser' keyValues='${PropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER}=" + parentWorkflowDocument.getRouteHeader().getInitiator().getUuId() + "' render='true'>" + parentWorkflowDocument.getInitiatorNetworkId() + "</kul:inquiry>" : null);
+                        parentWorkflowDocument != null? "<kul:inquiry boClassName='org.kuali.core.bo.user.UniversalUser' keyValues='${PropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER}=" + parentWorkflowDocument.getRouteHeader().getInitiatorPrincipalId() + "' render='true'>" + parentWorkflowDocument.getInitiatorNetworkId() + "</kul:inquiry>" : null);
         
         String createDateStr = null;
         if(parentWorkflowDocument != null && parentWorkflowDocument.getCreateDate() != null) {
@@ -693,11 +696,15 @@ public class BudgetForm extends ProposalFormBase {
         this.subAwardFile = subAwardFile;
     }
     
-    protected void setSaveDocumentControl(DocumentActionFlags tempDocumentActionFlags, Map editMode) {
-        tempDocumentActionFlags.setCanSave(false);
-
-        if (hasModifyBudgetPermission(editMode)) {
-            tempDocumentActionFlags.setCanSave(true);
+    protected void setSaveDocumentControl(Map editMode) {
+        
+        if (hasModifyBudgetPermission(editMode) && !getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_SAVE)) {
+            getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_SAVE, KNSConstants.KUALI_DEFAULT_TRUE_VALUE);
+            return;
+        }
+        
+        if (!hasModifyBudgetPermission(editMode) && getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_SAVE)) {
+            getDocumentActions().remove(KNSConstants.KUALI_ACTION_CAN_SAVE);
         }
     }
     
