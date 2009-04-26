@@ -15,8 +15,14 @@
  */
 package edu.yale.its.tp.cas.auth.provider;
 
-import java.util.*;
-import edu.yale.its.tp.cas.auth.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import edu.yale.its.tp.cas.auth.PasswordHandler;
 
 /**
  * A PasswordHandler base class that implements logic to block IP addresses

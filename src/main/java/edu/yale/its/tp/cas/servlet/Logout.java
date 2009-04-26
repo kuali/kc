@@ -15,10 +15,18 @@
  */
 package edu.yale.its.tp.cas.servlet;
 
-import java.io.*;
-import javax.servlet.*;
-import javax.servlet.http.*;
-import edu.yale.its.tp.cas.ticket.*;
+import java.io.IOException;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import edu.yale.its.tp.cas.ticket.GrantorCache;
+import edu.yale.its.tp.cas.ticket.TicketGrantingTicket;
 
 /**
  * Lets users explicitly log out from the Central Authentication Servlet.

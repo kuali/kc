@@ -15,10 +15,17 @@
  */
 package edu.yale.its.tp.cas.servlet;
 
-import java.io.*;
-import javax.servlet.*;
-import javax.servlet.http.*;
-import edu.yale.its.tp.cas.ticket.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import edu.yale.its.tp.cas.ticket.ServiceTicket;
+import edu.yale.its.tp.cas.ticket.ServiceTicketCache;
 
 /**
  * Handles simple ST validations for the Central Authentication Service.
