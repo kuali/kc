@@ -17,11 +17,11 @@ package org.kuali.kra.common.permissions.rule;
 
 import java.util.List;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.common.permissions.bo.PermissionsUser;
 import org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles;
 import org.kuali.kra.common.permissions.web.bean.User;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * Defines the Business Rule for processing Permissions.

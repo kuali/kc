@@ -30,15 +30,15 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.CustomAttributeService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
  * Contains a set of methods that are invoked from Struts Action methods
