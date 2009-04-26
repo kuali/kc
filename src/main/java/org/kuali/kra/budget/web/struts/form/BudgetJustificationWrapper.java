@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.budget.web.struts.form;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -26,7 +27,7 @@ import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Node;
 
-public class BudgetJustificationWrapper {
+public class BudgetJustificationWrapper implements Serializable {
     private String justificationText;        
     private String lastUpdateTime;
     private String lastUpdateUser;        

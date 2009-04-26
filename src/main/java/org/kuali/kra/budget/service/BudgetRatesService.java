@@ -19,11 +19,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.RateClass;
 import org.kuali.kra.budget.bo.RateClassType;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 public interface BudgetRatesService {
     public void getBudgetRates(List<RateClassType> rateClassTypes, BudgetDocument budgetDocument);

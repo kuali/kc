@@ -29,19 +29,12 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.rule.event.DocumentAuditEvent;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.WebUtils;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
-import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.document.authorization.BudgetDocumentAuthorizer;
 import org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryTypeValuesFinder;
 import org.kuali.kra.budget.service.BudgetDistributionAndIncomeService;
 import org.kuali.kra.budget.service.BudgetModularService;
@@ -55,10 +48,16 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.ProposalActionBase;
-
-import edu.iu.uis.eden.clientapp.IDocHandler;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.WebUtils;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 public class BudgetAction extends ProposalActionBase {
     private static final Log LOG = LogFactory.getLog(BudgetAction.class);
@@ -72,7 +71,7 @@ public class BudgetAction extends ProposalActionBase {
         ActionForward forward = super.docHandler(mapping, form, request, response);
         BudgetForm budgetForm = (BudgetForm) form;
 
-        if (IDocHandler.INITIATE_COMMAND.equals(budgetForm.getCommand())) {
+        if (KEWConstants.INITIATE_COMMAND.equals(budgetForm.getCommand())) {
             budgetForm.getBudgetDocument().initialize();
         }else{
             budgetForm.initialize();
@@ -315,5 +314,12 @@ public class BudgetAction extends ProposalActionBase {
         }
     }
 
+    @Override
+    protected void populateAuthorizationFields(KualiDocumentFormBase formBase){
+        super.populateAuthorizationFields(formBase);
+        BudgetDocumentAuthorizer documentAuthorizer = new BudgetDocumentAuthorizer();
+        formBase.setEditingMode(documentAuthorizer.getEditMode(formBase.getDocument(), 
+                new UniversalUser(GlobalVariables.getUserSession().getPerson())));
+    }
 
 }
