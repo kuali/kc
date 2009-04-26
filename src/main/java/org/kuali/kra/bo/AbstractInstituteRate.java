@@ -20,16 +20,11 @@ import java.util.LinkedHashMap;
 
 import javax.naming.OperationNotSupportedException;
 
-import org.kuali.core.web.format.Formatter;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.RateDecimal;
 import org.kuali.kra.budget.bo.AbstractBudgetRate;
 import org.kuali.kra.budget.bo.RateClass;
 import org.kuali.kra.budget.bo.RateType;
-import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.infrastructure.BudgetDecimalFormatter;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.RateDecimalFormatter;
 
 public abstract class AbstractInstituteRate extends KraPersistableBusinessObjectBase implements Comparable<AbstractInstituteRate>, AbstractInstituteRateKey {
 	private String fiscalYear;

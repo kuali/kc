@@ -2,7 +2,7 @@ package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.DocumentType;
+import org.kuali.rice.kew.doctype.bo.DocumentType;
 
 /**
  * 
@@ -88,22 +88,6 @@ public class CustomAttributeDocument extends KraPersistableBusinessObjectBase {
      */
     public CustomAttribute getCustomAttribute() {
         return customAttribute;
-    }
-
-    /**
-     * Sets the documentType attribute value.
-     * @param documentType The documentType to set.
-     */
-    public void setDocumentType(DocumentType documentType) {
-        this.documentType = documentType;
-    }
-
-    /**
-     * Gets the documentType attribute.
-     * @return Returns the documentType.
-     */
-    public DocumentType getDocumentType() {
-        return documentType;
     }
 
     public boolean isActive() {

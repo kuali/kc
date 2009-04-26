@@ -18,11 +18,11 @@ package org.kuali.kra.bo;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.Guid;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.Guid;
 
 public class SponsorHierarchyMt extends SponsorHierarchy {
 
@@ -51,7 +51,7 @@ public class SponsorHierarchyMt extends SponsorHierarchy {
             if (GlobalVariables.getUserSession() == null) {
                 updateUser="quickstart";
             } else {
-                updateUser = GlobalVariables.getUserSession().getLoggedInUserNetworkId();
+                updateUser = GlobalVariables.getUserSession().getLoggedInUserPrincipalName();
             }
 
             // Since the UPDATE_USER column is only VACHAR(60), we need to truncate this string if it's longer than 60 characters
