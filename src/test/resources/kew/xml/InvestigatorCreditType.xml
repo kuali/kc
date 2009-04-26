@@ -5,7 +5,7 @@
 <name>InvestigatorCreditTypeMaintenanceDocument</name>
 <description>Create a new Investigator Credit Type</description>
 <label>Investigator Credit Type</label>
-<postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 <defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>

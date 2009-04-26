@@ -134,7 +134,7 @@
 		<!-- custom attribute -->
 		<ruleAttribute>
             <name>CustomDataAttribute</name>
-            <className>edu.iu.uis.eden.routetemplate.xmlrouting.StandardGenericXMLRuleAttribute</className>
+            <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
             <label>CustomDataAttribute</label>
             <description>CustomDataAttribute</description>
             <type>RuleXmlAttribute</type>
@@ -230,7 +230,7 @@
 			<name>ProposalDevelopmentDocument</name>
 			<description>Create an Awesome Development Proposal</description>
 			<label>KRA Proposal Development</label>
-			<postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+			<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>

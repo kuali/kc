@@ -1,233 +1,233 @@
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('000001', '000000', 'Y', 'All Research Areas', sysdate, user);
+VALUES ('000001', '000000', 'Y', 'All Research Areas', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.', '000001', 'Y', 'AGRICULTURE', sysdate, user);
+VALUES ('01.', '000001', 'Y', 'AGRICULTURE', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0000', '01.', 'Y', 'Agriculture', sysdate, user);
+VALUES ('01.0000', '01.', 'Y', 'Agriculture', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.01', '01.', 'Y', 'Agricultural Business and Management', sysdate, user);
+VALUES ('01.01', '01.', 'Y', 'Agricultural Business and Management', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0101', '01.01', 'N', 'Agricultural Business and Management', sysdate, user);
+VALUES ('01.0101', '01.01', 'N', 'Agricultural Business and Management', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0102', '01.01', 'N', 'AgribusinessAgricultural Business Operations', sysdate, user);
+VALUES ('01.0102', '01.01', 'N', 'AgribusinessAgricultural Business Operations', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0103', '01.01', 'N', 'Agricultural Economics', sysdate, user);
+VALUES ('01.0103', '01.01', 'N', 'Agricultural Economics', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0104', '01.01', 'N', 'FarmFarm and Ranch Management', sysdate, user);
+VALUES ('01.0104', '01.01', 'N', 'FarmFarm and Ranch Management', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0105', '01.01', 'N', 'AgriculturalFarm Supplies Retailing and Wholesaling', sysdate, user);
+VALUES ('01.0105', '01.01', 'N', 'AgriculturalFarm Supplies Retailing and Wholesaling', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0106', '01.01', 'N', 'Agricultural Business Technology', sysdate, user);
+VALUES ('01.0106', '01.01', 'N', 'Agricultural Business Technology', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0199', '01.01', 'N', 'Agricultural Business and Management', sysdate, user);
+VALUES ('01.0199', '01.01', 'N', 'Agricultural Business and Management', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.02', '01.', 'Y', 'Agricultural Mechanization', sysdate, user);
+VALUES ('01.02', '01.', 'Y', 'Agricultural Mechanization', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0201', '01.02', 'N', 'Agricultural Mechanization', sysdate, user);
+VALUES ('01.0201', '01.02', 'N', 'Agricultural Mechanization', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0204', '01.02', 'N', 'Agricultural Power Machinery Operation', sysdate, user);
+VALUES ('01.0204', '01.02', 'N', 'Agricultural Power Machinery Operation', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0205', '01.02', 'N', 'Agricultural Mechanics and EquipmentMachine Technology', sysdate, user);
+VALUES ('01.0205', '01.02', 'N', 'Agricultural Mechanics and EquipmentMachine Technology', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0299', '01.02', 'N', 'Agricultural Mechanization', sysdate, user);
+VALUES ('01.0299', '01.02', 'N', 'Agricultural Mechanization', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.03', '01.', 'Y', 'Agricultural Production Operations', sysdate, user);
+VALUES ('01.03', '01.', 'Y', 'Agricultural Production Operations', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0301', '01.03', 'N', 'Agricultural Production Operations', sysdate, user);
+VALUES ('01.0301', '01.03', 'N', 'Agricultural Production Operations', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0302', '01.03', 'N', 'AnimalLivestock Husbandry and Production', sysdate, user);
+VALUES ('01.0302', '01.03', 'N', 'AnimalLivestock Husbandry and Production', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0303', '01.03', 'N', 'Aquaculture', sysdate, user);
+VALUES ('01.0303', '01.03', 'N', 'Aquaculture', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0304', '01.03', 'N', 'Crop Production', sysdate, user);
+VALUES ('01.0304', '01.03', 'N', 'Crop Production', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0306', '01.03', 'N', 'Dairy Husbandry and Production', sysdate, user);
+VALUES ('01.0306', '01.03', 'N', 'Dairy Husbandry and Production', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0307', '01.03', 'N', 'Horse HusbandryEquine Science and Management', sysdate, user);
+VALUES ('01.0307', '01.03', 'N', 'Horse HusbandryEquine Science and Management', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0399', '01.03', 'N', 'Agricultural Production Operations', sysdate, user);
+VALUES ('01.0399', '01.03', 'N', 'Agricultural Production Operations', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.04', '01.', 'Y', 'Agricultural and Food Products Processing Management', sysdate, user);
+VALUES ('01.04', '01.', 'Y', 'Agricultural and Food Products Processing Management', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0401', '01.04', 'N', 'Agricultural and Food Products Processing', sysdate, user);
+VALUES ('01.0401', '01.04', 'N', 'Agricultural and Food Products Processing', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.05', '01.', 'Y', 'Agricultural and Domestic Animal Services', sysdate, user);
+VALUES ('01.05', '01.', 'Y', 'Agricultural and Domestic Animal Services', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0504', '01.05', 'N', 'DogPetAnimal Grooming', sysdate, user);
+VALUES ('01.0504', '01.05', 'N', 'DogPetAnimal Grooming', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0505', '01.05', 'N', 'Animal Training', sysdate, user);
+VALUES ('01.0505', '01.05', 'N', 'Animal Training', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0507', '01.05', 'N', 'EquestrianEquine Studies', sysdate, user);
+VALUES ('01.0507', '01.05', 'N', 'EquestrianEquine Studies', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0508', '01.05', 'N', 'TaxidermyTaxidermist', sysdate, user);
+VALUES ('01.0508', '01.05', 'N', 'TaxidermyTaxidermist', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0599', '01.05', 'N', 'Agricultural and Domestic Animals Services', sysdate, user);
+VALUES ('01.0599', '01.05', 'N', 'Agricultural and Domestic Animals Services', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.06', '01.', 'Y', 'Applied HorticultureHorticultural Business Services', sysdate, user);
+VALUES ('01.06', '01.', 'Y', 'Applied HorticultureHorticultural Business Services', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0601', '01.06', 'N', 'Applied HorticultureHorticultural Operations', sysdate, user);
+VALUES ('01.0601', '01.06', 'N', 'Applied HorticultureHorticultural Operations', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0603', '01.06', 'N', 'Ornamental Horticulture', sysdate, user);
+VALUES ('01.0603', '01.06', 'N', 'Ornamental Horticulture', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0604', '01.06', 'N', 'Greenhouse Operations and Management', sysdate, user);
+VALUES ('01.0604', '01.06', 'N', 'Greenhouse Operations and Management', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0605', '01.06', 'N', 'Landscaping and Groundskeeping', sysdate, user);
+VALUES ('01.0605', '01.06', 'N', 'Landscaping and Groundskeeping', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0606', '01.06', 'N', 'Plant Nursery Operations and Management', sysdate, user);
+VALUES ('01.0606', '01.06', 'N', 'Plant Nursery Operations and Management', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0607', '01.06', 'N', 'Turf and Turfgrass Management', sysdate, user);
+VALUES ('01.0607', '01.06', 'N', 'Turf and Turfgrass Management', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0608', '01.06', 'N', 'FloricultureFloristry Operations and Management', sysdate, user);
+VALUES ('01.0608', '01.06', 'N', 'FloricultureFloristry Operations and Management', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0699', '01.06', 'N', 'Applied HorticultureHorticultural Business Services', sysdate, user);
+VALUES ('01.0699', '01.06', 'N', 'Applied HorticultureHorticultural Business Services', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.07', '01.', 'Y', 'International Agriculture', sysdate, user);
+VALUES ('01.07', '01.', 'Y', 'International Agriculture', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0701', '01.07', 'N', 'International Agriculture', sysdate, user);
+VALUES ('01.0701', '01.07', 'N', 'International Agriculture', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.08', '01.', 'Y', 'Agricultural Public Services', sysdate, user);
+VALUES ('01.08', '01.', 'Y', 'Agricultural Public Services', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0801', '01.08', 'N', 'Agricultural and Extension Education Services', sysdate, user);
+VALUES ('01.0801', '01.08', 'N', 'Agricultural and Extension Education Services', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0802', '01.08', 'N', 'Agricultural CommunicationJournalism', sysdate, user);
+VALUES ('01.0802', '01.08', 'N', 'Agricultural CommunicationJournalism', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0899', '01.08', 'N', 'Agricultural Public Services', sysdate, user);
+VALUES ('01.0899', '01.08', 'N', 'Agricultural Public Services', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.09', '01.', 'Y', 'Animal Sciences', sysdate, user);
+VALUES ('01.09', '01.', 'Y', 'Animal Sciences', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0901', '01.09', 'N', 'Animal Sciences', sysdate, user);
+VALUES ('01.0901', '01.09', 'N', 'Animal Sciences', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0902', '01.09', 'N', 'Agricultural Animal Breeding', sysdate, user);
+VALUES ('01.0902', '01.09', 'N', 'Agricultural Animal Breeding', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0903', '01.09', 'N', 'Animal Health', sysdate, user);
+VALUES ('01.0903', '01.09', 'N', 'Animal Health', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0904', '01.09', 'N', 'Animal Nutrition', sysdate, user);
+VALUES ('01.0904', '01.09', 'N', 'Animal Nutrition', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0905', '01.09', 'N', 'Dairy Science', sysdate, user);
+VALUES ('01.0905', '01.09', 'N', 'Dairy Science', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0906', '01.09', 'N', 'Livestock Management', sysdate, user);
+VALUES ('01.0906', '01.09', 'N', 'Livestock Management', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0907', '01.09', 'N', 'Poultry Science', sysdate, user);
+VALUES ('01.0907', '01.09', 'N', 'Poultry Science', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.0999', '01.09', 'N', 'Animal Sciences', sysdate, user);
+VALUES ('01.0999', '01.09', 'N', 'Animal Sciences', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.10', '01.', 'Y', 'Food Science and Technology', sysdate, user);
+VALUES ('01.10', '01.', 'Y', 'Food Science and Technology', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.1001', '01.10', 'N', 'Food Science', sysdate, user);
+VALUES ('01.1001', '01.10', 'N', 'Food Science', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.1002', '01.10', 'N', 'Food Technology and Processing', sysdate, user);
+VALUES ('01.1002', '01.10', 'N', 'Food Technology and Processing', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.1099', '01.10', 'N', 'Food Science and Technology', sysdate, user);
+VALUES ('01.1099', '01.10', 'N', 'Food Science and Technology', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.1101', '01.10', 'Y', 'Plant Sciences', sysdate, user);
+VALUES ('01.1101', '01.10', 'Y', 'Plant Sciences', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.1102', '01.10', 'N', 'Agronomy and Crop Science', sysdate, user);
+VALUES ('01.1102', '01.10', 'N', 'Agronomy and Crop Science', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.1103', '01.10', 'N', 'Horticultural Science', sysdate, user);
+VALUES ('01.1103', '01.10', 'N', 'Horticultural Science', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.1104', '01.10', 'N', 'Agricultural and Horticultural Plant Breeding', sysdate, user);
+VALUES ('01.1104', '01.10', 'N', 'Agricultural and Horticultural Plant Breeding', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.1105', '01.10', 'N', 'Plant Protection  Integrated Pest Management', sysdate, user);
+VALUES ('01.1105', '01.10', 'N', 'Plant Protection  Integrated Pest Management', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.1106', '01.10', 'N', 'Range Science and Management', sysdate, user);
+VALUES ('01.1106', '01.10', 'N', 'Range Science and Management', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.1199', '01.10', 'N', 'Plant Sciences', sysdate, user);
+VALUES ('01.1199', '01.10', 'N', 'Plant Sciences', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.12', '01.', 'Y', 'Soil Sciences', sysdate, user);
+VALUES ('01.12', '01.', 'Y', 'Soil Sciences', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.1201', '01.12', 'N', 'Soil Science and Agronomy', sysdate, user);
+VALUES ('01.1201', '01.12', 'N', 'Soil Science and Agronomy', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.99', '01.10', 'Y', 'Agriculture', sysdate, user);
+VALUES ('01.99', '01.10', 'Y', 'Agriculture', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('01.9999', '01.99', 'N', 'Agriculture', sysdate, user);
+VALUES ('01.9999', '01.99', 'N', 'Agriculture', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('03.', '000001', 'Y', 'NATURAL RESOURCES AND CONSERVATION', sysdate, user);
+VALUES ('03.', '000001', 'Y', 'NATURAL RESOURCES AND CONSERVATION', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('03.01', '03.', 'Y', 'Natural Resources Conservation and Research', sysdate, user);
+VALUES ('03.01', '03.', 'Y', 'Natural Resources Conservation and Research', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('03.0101', '03.01', 'N', 'Natural ResourcesConservation', sysdate, user);
+VALUES ('03.0101', '03.01', 'N', 'Natural ResourcesConservation', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('03.0103', '03.01', 'N', 'Environmental Studies', sysdate, user);
+VALUES ('03.0103', '03.01', 'N', 'Environmental Studies', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('03.0104', '03.01', 'N', 'Environmental Science', sysdate, user);
+VALUES ('03.0104', '03.01', 'N', 'Environmental Science', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('03.02', '03.', 'Y', 'Natural Resources Management and Policy', sysdate, user);
+VALUES ('03.02', '03.', 'Y', 'Natural Resources Management and Policy', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('03.0201', '03.02', 'N', 'Natural Resources Management and Policy', sysdate, user);
+VALUES ('03.0201', '03.02', 'N', 'Natural Resources Management and Policy', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('03.0204', '03.02', 'N', 'Natural Resource Economics', sysdate, user);
+VALUES ('03.0204', '03.02', 'N', 'Natural Resource Economics', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('03.0205', '03.02', 'N', 'Water', sysdate, user);
+VALUES ('03.0205', '03.02', 'N', 'Water', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('03.0206', '03.02', 'N', 'Land Use Planning and ManagementDevelopment', sysdate, user);
+VALUES ('03.0206', '03.02', 'N', 'Land Use Planning and ManagementDevelopment', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('03.0299', '03.02', 'N', 'Natural Resources Management and Policy', sysdate, user);
+VALUES ('03.0299', '03.02', 'N', 'Natural Resources Management and Policy', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('03.03', '03.', 'Y', 'Fishing and Fisheries Sciences and Management', sysdate, user);
+VALUES ('03.03', '03.', 'Y', 'Fishing and Fisheries Sciences and Management', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('03.0301', '03.03', 'N', 'Fishing and Fisheries Sciences and Management', sysdate, user);
+VALUES ('03.0301', '03.03', 'N', 'Fishing and Fisheries Sciences and Management', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('03.05', '03.', 'Y', 'Forestry', sysdate, user);
+VALUES ('03.05', '03.', 'Y', 'Forestry', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('03.0501', '03.05', 'N', 'Forestry', sysdate, user);
+VALUES ('03.0501', '03.05', 'N', 'Forestry', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('03.0502', '03.05', 'N', 'Forest Sciences and Biology', sysdate, user);
+VALUES ('03.0502', '03.05', 'N', 'Forest Sciences and Biology', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('03.0506', '03.05', 'N', 'Forest Management Forest Resources Management', sysdate, user);
+VALUES ('03.0506', '03.05', 'N', 'Forest Management Forest Resources Management', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('03.0508', '03.05', 'N', 'Urban Forestry', sysdate, user);
+VALUES ('03.0508', '03.05', 'N', 'Urban Forestry', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('03.0509', '03.05', 'N', 'Wood Science and Wood ProductsPulp and Paper Technology', sysdate, user);
+VALUES ('03.0509', '03.05', 'N', 'Wood Science and Wood ProductsPulp and Paper Technology', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('03.0511', '03.05', 'Y', 'Forestry TechnologyTechnician', sysdate, user);
+VALUES ('03.0511', '03.05', 'Y', 'Forestry TechnologyTechnician', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('03.0599', '03.05', 'N', 'Forestry', sysdate, user);
+VALUES ('03.0599', '03.05', 'N', 'Forestry', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('03.06', '03.', 'Y', 'Wildlife and Wildlands Science and Management', sysdate, user);
+VALUES ('03.06', '03.', 'Y', 'Wildlife and Wildlands Science and Management', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('03.0601', '03.06', 'N', 'Wildlife and Wildlands Science and Management', sysdate, user);
+VALUES ('03.0601', '03.06', 'N', 'Wildlife and Wildlands Science and Management', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('03.99', '03.', 'Y', 'Natural Resources and Conservation', sysdate, user);
+VALUES ('03.99', '03.', 'Y', 'Natural Resources and Conservation', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('03.9999', '03.99', 'N', 'Natural Resources and Conservation', sysdate, user);
+VALUES ('03.9999', '03.99', 'N', 'Natural Resources and Conservation', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('04.', '000001', 'Y', 'ARCHITECTURE AND RELATED SERVICES', sysdate, user);
+VALUES ('04.', '000001', 'Y', 'ARCHITECTURE AND RELATED SERVICES', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('04.02', '04.', 'Y', 'Architecture', sysdate, user);
+VALUES ('04.02', '04.', 'Y', 'Architecture', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('04.0201', '04.02', 'N', 'Architecture (BArch', sysdate, user);
+VALUES ('04.0201', '04.02', 'N', 'Architecture (BArch', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('04.03', '04.', 'Y', 'CityUrban', sysdate, user);
+VALUES ('04.03', '04.', 'Y', 'CityUrban', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('04.0301', '04.03', 'N', 'CityUrban', sysdate, user);
+VALUES ('04.0301', '04.03', 'N', 'CityUrban', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('04.04', '04.', 'Y', 'Environmental Design', sysdate, user);
+VALUES ('04.04', '04.', 'Y', 'Environmental Design', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('04.0401', '04.04', 'N', 'Environmental DesignArchitecture', sysdate, user);
+VALUES ('04.0401', '04.04', 'N', 'Environmental DesignArchitecture', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('04.05', '04.', 'Y', 'Interior Architecture', sysdate, user);
+VALUES ('04.05', '04.', 'Y', 'Interior Architecture', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('04.0501', '04.05', 'N', 'Interior Architecture', sysdate, user);
+VALUES ('04.0501', '04.05', 'N', 'Interior Architecture', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('04.06', '04.', 'Y', 'Landscape Architecture', sysdate, user);
+VALUES ('04.06', '04.', 'Y', 'Landscape Architecture', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('04.0601', '04.06', 'N', 'Landscape Architecture (BS', sysdate, user);
+VALUES ('04.0601', '04.06', 'N', 'Landscape Architecture (BS', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('04.08', '04.', 'Y', 'Architectural History and Criticism', sysdate, user);
+VALUES ('04.08', '04.', 'Y', 'Architectural History and Criticism', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('04.0801', '04.08', 'N', 'Architectural History and Criticism', sysdate, user);
+VALUES ('04.0801', '04.08', 'N', 'Architectural History and Criticism', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('04.09', '04.', 'Y', 'Architectural TechnologyTechnician', sysdate, user);
+VALUES ('04.09', '04.', 'Y', 'Architectural TechnologyTechnician', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('04.0901', '04.09', 'N', 'Architectural TechnologyTechnician', sysdate, user);
+VALUES ('04.0901', '04.09', 'N', 'Architectural TechnologyTechnician', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('04.99', '04.', 'Y', 'Architecture and Related Services', sysdate, user);
+VALUES ('04.99', '04.', 'Y', 'Architecture and Related Services', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('04.9999', '04.99', 'N', 'Architecture and Related Services', sysdate, user);
+VALUES ('04.9999', '04.99', 'N', 'Architecture and Related Services', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('05.', '000001', 'Y', 'AREA', sysdate, user);
+VALUES ('05.', '000001', 'Y', 'AREA', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('05.01', '05.', 'Y', 'Area Studies', sysdate, user);
+VALUES ('05.01', '05.', 'Y', 'Area Studies', sysdate, 'kradev');
 INSERT INTO RESEARCH_AREAS(RESEARCH_AREA_CODE, PARENT_RESEARCH_AREA_CODE, HAS_CHILDREN_FLAG, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-VALUES ('05.0101', '05.01', 'N', 'African Studies', sysdate, user);
+VALUES ('05.0101', '05.01', 'N', 'African Studies', sysdate, 'kradev');
 commit;
