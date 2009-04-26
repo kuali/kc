@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.rice.kns.bo.BusinessObjectBase;
 
 /**
  * A <b>PermissionsUserEditRoles</b> is used as a form used by the Edit Roles

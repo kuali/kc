@@ -17,8 +17,8 @@ package org.kuali.kra.common.permissions.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.kra.common.permissions.web.bean.Role;
+import org.kuali.rice.kns.bo.BusinessObjectBase;
 
 /**
  * The PermissionsRoleState is used by the Permissions Edit Role 

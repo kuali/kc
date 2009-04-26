@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.common.permissions.web.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.kuali.kra.kim.bo.KimPermission;
@@ -25,7 +26,7 @@ import org.kuali.kra.kim.bo.KimPermission;
  * from the role's name.  For example, the "Protocol Aggregator" role
  * name is displayed as "Aggregator".
  */
-public class Role {
+public class Role implements Serializable {
 
     private String name;
     private String displayName;
