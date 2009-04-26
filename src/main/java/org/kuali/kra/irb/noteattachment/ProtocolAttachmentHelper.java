@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -25,9 +26,9 @@ import org.kuali.kra.irb.web.struts.form.ProtocolForm;
 /**
  * This is the "Helper" class for ProtocolNoteAndAttachment.
  */
-public class ProtocolAttachmentHelper {
+public class ProtocolAttachmentHelper implements Serializable {
     
-    private final ProtocolAttachmentService notesService;
+    private transient final ProtocolAttachmentService notesService;
     
     /**
      * Each Helper must contain a reference to its document form

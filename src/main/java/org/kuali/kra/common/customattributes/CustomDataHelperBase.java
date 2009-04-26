@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.common.customattributes;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +30,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 /**
  * The CustomDataHelperBase is the base class for all Custom Data Helper classes.
  */
-public abstract class CustomDataHelperBase {
+public abstract class CustomDataHelperBase implements Serializable {
     
     private SortedMap<String, List> customAttributeGroups = new TreeMap<String, List>();
     private Map<String, String[]> customAttributeValues = new HashMap<String, String[]>();

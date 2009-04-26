@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.common.permissions.web.struts.form;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -44,7 +45,7 @@ import org.kuali.rice.kns.web.ui.KeyLabelPair;
  * Every document that requires a Permissions tab web page must have a form that
  * has a PermissionsHelper derived from PermissionsHelperBase.
  */
-public abstract class PermissionsHelperBase {
+public abstract class PermissionsHelperBase implements Serializable {
     
     /*
      * The form data for a new user.  See the Users panel
