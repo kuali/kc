@@ -15,15 +15,16 @@
  */
 package org.kuali.kra.proposaldevelopment.rule.event;
 
-import static org.kuali.kra.logging.BufferedLogger.*;
+import static org.kuali.kra.logging.BufferedLogger.debug;
+import static org.kuali.kra.logging.BufferedLogger.info;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.SaveKeyPersonRule;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * Event triggered when a Key Person is added to a

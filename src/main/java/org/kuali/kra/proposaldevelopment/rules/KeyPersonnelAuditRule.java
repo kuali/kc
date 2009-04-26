@@ -17,24 +17,18 @@ package org.kuali.kra.proposaldevelopment.rules;
 
 import static org.apache.commons.lang.StringUtils.isBlank;
 import static org.apache.commons.lang.StringUtils.isNotBlank;
-import static org.kuali.core.util.GlobalVariables.getAuditErrorMap;
 import static org.kuali.kra.infrastructure.Constants.AUDIT_ERRORS;
-import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
+import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PAGE;
 import static org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PANEL_ANCHOR;
 import static org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PANEL_NAME;
-import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
-import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
+import static org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE;
+import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_KEY;
+import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.PROPOSAL_PERSON_KEY;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_LOWBOUND;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_UNITS_UPBOUND;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_YNQ_INCOMPLETE;
-import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_KEY;
-
-import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
-import static org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE;
-import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
-
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.ArrayList;
@@ -42,12 +36,6 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.commons.collections.keyvalue.DefaultMapEntry;
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.DocumentAuditRule;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.AuditCluster;
-import org.kuali.core.util.AuditError;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
@@ -56,6 +44,12 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rules.CreditSplitValidator.CreditSplitAuditError;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.DocumentAuditRule;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.AuditCluster;
+import org.kuali.rice.kns.util.AuditError;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 import edu.emory.mathcs.backport.java.util.AbstractMap.SimpleEntry;
 
@@ -68,7 +62,7 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
     
     /**
      * 
-     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.core.document.Document)
+     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.kns.document.Document)
      */
     public boolean processRunAuditBusinessRules(Document document) {
         ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument) document;
@@ -187,7 +181,7 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
        }
        
        if (auditErrors.size() > 0) {
-           getAuditErrorMap().put("keyPersonnelAuditErrors", new AuditCluster(KEY_PERSONNEL_PANEL_NAME, auditErrors, AUDIT_ERRORS));
+          GlobalVariables.getAuditErrorMap().put("keyPersonnelAuditErrors", new AuditCluster(KEY_PERSONNEL_PANEL_NAME, auditErrors, AUDIT_ERRORS));
        }
        
        return retval;
@@ -273,11 +267,11 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
     private List<AuditError> getAuditErrors() {
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         
-        if (!getAuditErrorMap().containsKey("keyPersonnelAuditErrors")) {
-            getAuditErrorMap().put("keyPersonnelAuditErrors", new AuditCluster(KEY_PERSONNEL_PANEL_NAME, auditErrors, AUDIT_ERRORS));
+        if (!GlobalVariables.getAuditErrorMap().containsKey("keyPersonnelAuditErrors")) {
+           GlobalVariables.getAuditErrorMap().put("keyPersonnelAuditErrors", new AuditCluster(KEY_PERSONNEL_PANEL_NAME, auditErrors, AUDIT_ERRORS));
         }
         else {
-            auditErrors = ((AuditCluster) getAuditErrorMap().get("keyPersonnelAuditErrors")).getAuditErrorList();
+            auditErrors = ((AuditCluster)GlobalVariables.getAuditErrorMap().get("keyPersonnelAuditErrors")).getAuditErrorList();
         }
         
         return auditErrors;

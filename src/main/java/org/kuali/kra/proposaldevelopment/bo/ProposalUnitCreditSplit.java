@@ -19,11 +19,10 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
-
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
- * Class representation of the Proposal Person <code>{@link org.kuali.core.bo.BusinessObject}</code>
+ * Class representation of the Proposal Person <code>{@link org.kuali.rice.kns.bo.BusinessObject}</code>
  *
  * @author $Id: ProposalUnitCreditSplit.java,v 1.8 2008-07-28 14:48:12 vsoni Exp $
  * @version $Revision: 1.8 $

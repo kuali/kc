@@ -17,7 +17,6 @@ package org.kuali.kra.proposaldevelopment.bo;
 
 import java.util.LinkedHashMap;
 
-import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public abstract class AttachmentDataSource extends KraPersistableBusinessObjectBase {

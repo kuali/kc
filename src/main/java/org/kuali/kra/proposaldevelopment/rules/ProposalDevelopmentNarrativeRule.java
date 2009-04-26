@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ATTACHMENT_NOT_AUTHORIZED;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ATTACHMENT_STATUS_NOT_SELECTED;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ATTACHMENT_TYPE_NOT_SELECTED;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_NARRATIVE_STATUS_INVALID;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_NARRATIVE_TYPE_DESCRITPION_REQUIRED;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_NARRATIVE_TYPE_DUPLICATE;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_NARRATIVE_STATUS_INVALID;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ATTACHMENT_NOT_AUTHORIZED;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.HashMap;
@@ -28,11 +28,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DictionaryValidationService;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -48,8 +43,13 @@ import org.kuali.kra.proposaldevelopment.rule.NewNarrativeUserRightsRule;
 import org.kuali.kra.proposaldevelopment.rule.SaveNarrativesRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddNarrativeEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.PersonService;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 
 /**
@@ -146,7 +146,7 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
      */
     private boolean checkUserRights(SaveNarrativesEvent saveNarrativesEvent) {
         boolean isValid = true;
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser user = new UniversalUser (GlobalVariables.getUserSession().getPerson());
         String username = user.getPersonUserIdentifier();
         
         List<Narrative> narratives = saveNarrativesEvent.getNarratives();

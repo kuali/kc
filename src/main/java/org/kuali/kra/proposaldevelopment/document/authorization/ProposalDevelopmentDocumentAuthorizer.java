@@ -19,18 +19,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.authorization.AuthorizationConstants;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.authorization.DocumentActionFlags;
-import org.kuali.core.document.authorization.PessimisticLock;
-import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
-import org.kuali.core.exceptions.DocumentInitiationAuthorizationException;
-import org.kuali.core.exceptions.PessimisticLockingException;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
@@ -39,8 +30,19 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.rice.shim.DocumentInitiationAuthorizationException;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.authorization.PessimisticLock;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase;
+import org.kuali.rice.kns.exception.PessimisticLockingException;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * The Proposal Development Document Authorizer.  Primarily responsible for determining if
@@ -67,7 +69,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
      *            user the lock will be 'owned' by
      * @return true if the given edit mode map has at least one 'entry type' edit mode... false otherwise
      */
-    @Override
+    //@Override
     protected boolean isLockRequiredByUser(Document document, Map editMode, UniversalUser user) {
         String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
         
@@ -89,7 +91,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
      * @return false if the document will not be using lock descriptors or true if the document will use lock descriptors.
      *         The default return value is false
      */
-    @Override
+    //@Override
     protected boolean useCustomLockDescriptors() {
         return true;
     }
@@ -104,7 +106,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
      * @param user - user attempting to establish locks
      * @return a {@link PessimisticLockingException} will be thrown as the default implementation
      */
-    @Override
+    //@Override
     protected String getCustomLockDescriptor(Document document, Map editMode, UniversalUser user) {
         String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
         if(StringUtils.isNotEmpty(activeLockRegion))
@@ -115,7 +117,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
 
 
     /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.rice.kns.document.Document, org.kuali.core.bo.user.UniversalUser)
      */
     public Map getEditMode(Document doc, UniversalUser user) {
         
@@ -250,9 +252,9 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
      * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String,
      *      org.kuali.core.bo.user.UniversalUser)
      */
-    @Override
+    //@Override
     public void canInitiate(String documentTypeName, UniversalUser user) {
-        super.canInitiate(documentTypeName, user);
+        //super.canInitiate(documentTypeName, user);
         if (!canCreateProposal(user)) {
             throw new DocumentInitiationAuthorizationException(KeyConstants.ERROR_AUTHORIZATION_DOCUMENT_INITIATION, 
                                                                new String[] { user.getPersonUserIdentifier(), documentTypeName });
@@ -260,9 +262,9 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
     }
     
     /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.rice.kns.document.Document, org.kuali.core.bo.user.UniversalUser)
      */
-    @Override
+    //@Override
     public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
     
         ProposalDevelopmentDocument proposalDoc = (ProposalDevelopmentDocument) document;
@@ -293,27 +295,28 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
     }
     
     /**
-     * @see org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document, org.kuali.core.bo.user.UniversalUser)
      */
     @Override
-    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+    public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActions) {
         // no copy button
-        DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-        flags.setCanCopy(false);
-        // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
-        this.setAnnotateFlag(flags);
+        super.getDocumentActions(document, user, documentActions);
+        documentActions.remove(KNSConstants.KUALI_ACTION_CAN_COPY);
         
         // Any user who has the Initiate Authorization can save and cancel.
-        
-        if (this.hasInitiateAuthorization(document, user)) {
-            flags.setCanSave(true);
-            flags.setCanCancel(true);
-            flags.setCanReload(true);
+        if (this.hasInitiateAuthorization(document, (new UniversalUser(user)))) {
+            documentActions.add(KNSConstants.KUALI_ACTION_CAN_SAVE);
+            documentActions.add(KNSConstants.KUALI_ACTION_CAN_CANCEL);
+            documentActions.add(KNSConstants.KUALI_ACTION_CAN_RELOAD);
         }
         
-        flags.setCanRoute(canExecuteProposalTask(user.getPersonUserIdentifier(), (ProposalDevelopmentDocument) document, TaskName.SUBMIT_TO_WORKFLOW));
+        if (canExecuteProposalTask((new UniversalUser(user)).getPersonUserIdentifier(), (ProposalDevelopmentDocument) document, TaskName.SUBMIT_TO_WORKFLOW)) {
+            documentActions.add(KNSConstants.KUALI_ACTION_CAN_ROUTE);
+//          NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
+            documentActions.add(KNSConstants.KUALI_ACTION_CAN_ANNOTATE);
+        }
 
-        return flags;
+        return documentActions;
     }
     
     /**
@@ -326,7 +329,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
      * @return true if the given entry has a key signifying an 'entry type' edit mode and the value is equal to
      *         {@link #EDIT_MODE_DEFAULT_TRUE_VALUE}... false if not
      */
-    @Override
+    //@Override
     protected boolean isEntryEditMode(Map.Entry entry) {
         if (AuthorizationConstants.EditMode.FULL_ENTRY.equals(entry.getKey())
                 || KraAuthorizationConstants.ProposalEditMode.ADD_NARRATIVES.equals(entry.getKey())
@@ -347,16 +350,17 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
      * @param entry - the current 'entry type' edit mode to replace 
      * @return a Map of edit modes that will be used to replace this edit mode (represented by the given entry parameter)
      */
-    @Override
+    //@Override
     protected Map getEntryEditModeReplacementMode(Map.Entry entry) {
         Map editMode = new HashMap(); 
         editMode.put(entryEditModeReplacementMap.get(entry.getKey()), EDIT_MODE_DEFAULT_TRUE_VALUE); 
         return editMode;
     }
     
-    @Override
+    //@Override
     protected Map getEditModeWithEditableModesRemoved(Map currentEditMode) {
-        Map editModeMap = super.getEditModeWithEditableModesRemoved(currentEditMode);
+        Map editModeMap = new HashMap();
+        //Map editModeMap = super.getEditModeWithEditableModesRemoved(currentEditMode);
         for (Iterator iterator = editModeMap.entrySet().iterator(); iterator.hasNext();) {
             Map.Entry<String, String> entry = (Map.Entry<String, String>) iterator.next();
             if (StringUtils.equals(entry.getKey(), "addBudget")) {
@@ -366,7 +370,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
         return editModeMap;
     }
     
-    @Override
+    //@Override
     protected PessimisticLock createNewPessimisticLock(Document document, Map editMode, UniversalUser user) {
         if (useCustomLockDescriptors()) {
             String lockDescriptor = getCustomLockDescriptor(document, editMode, user);
@@ -393,5 +397,5 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
         }
         return false;
     }
-
+    
 }

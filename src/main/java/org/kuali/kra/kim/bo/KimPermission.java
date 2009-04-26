@@ -17,7 +17,7 @@ package org.kuali.kra.kim.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * A KIM Permission determines access to an object/operation.  Permissions are
@@ -106,7 +106,7 @@ public class KimPermission extends PersistableBusinessObjectBase {
 	}
 
 	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
         LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
@@ -118,7 +118,7 @@ public class KimPermission extends PersistableBusinessObjectBase {
 	}
 
 	/**
-	 * @see org.kuali.core.bo.BusinessObject#refresh()
+	 * @see org.kuali.rice.kns.bo.BusinessObject#refresh()
 	 */
 	public void refresh() {
 		// not implementing unless necessary

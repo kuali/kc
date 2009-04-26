@@ -17,8 +17,8 @@ package org.kuali.kra.proposaldevelopment.service.impl;
 
 import static org.apache.commons.lang.StringUtils.isNotBlank;
 import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
-import static org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE;
 import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
+import static org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE;
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
@@ -38,9 +38,6 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.SponsorHierarchy;
@@ -60,6 +57,9 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.YnqService;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * A Service implementation for persisted modifications of Key Personnel related business objects
@@ -656,7 +656,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
 
     /**
      * 
-     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#setConfigurationService(org.kuali.core.service.KualiConfigurationService)
+     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#setConfigurationService(org.kuali.rice.kns.service.KualiConfigurationService)
      */
     public void setConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.configurationService = kualiConfigurationService;        

@@ -17,7 +17,7 @@ package org.kuali.kra.kim.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * Class representation of a Country Code Business Object
@@ -44,7 +44,7 @@ public class KimRoleType extends PersistableBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObject#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObject#toStringMapper()
      */
 	@Override
 	protected LinkedHashMap toStringMapper() {

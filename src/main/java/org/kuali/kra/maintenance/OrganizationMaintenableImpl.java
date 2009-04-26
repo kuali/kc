@@ -16,13 +16,8 @@
 package org.kuali.kra.maintenance;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.maintenance.Maintainable;
-import org.kuali.core.util.AssertionUtils;
-import org.kuali.core.web.format.Formatter;
-import org.kuali.core.web.ui.Section;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.OrganizationYnq;
 import org.kuali.kra.bo.Ynq;
@@ -30,6 +25,11 @@ import org.kuali.kra.budget.RateDecimal;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RateDecimalFormatter;
 import org.kuali.kra.service.YnqService;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.util.AssertionUtils;
+import org.kuali.rice.kns.web.format.Formatter;
+import org.kuali.rice.kns.web.ui.Section;
 
 public class OrganizationMaintenableImpl extends KraMaintainableImpl {
 
@@ -46,11 +46,9 @@ public class OrganizationMaintenableImpl extends KraMaintainableImpl {
      * @param generateDefaultValues true for initialization
      */
     @Override
-    public void setGenerateDefaultValues(boolean generateDefaultValues) {
-        if (generateDefaultValues) {
-            initOrganizationYnq();
-        }
-        super.setGenerateDefaultValues(generateDefaultValues);
+    public void setGenerateDefaultValues(String docTypeName) {
+        initOrganizationYnq();
+        super.setGenerateDefaultValues(docTypeName);
     }
 
     
@@ -59,12 +57,12 @@ public class OrganizationMaintenableImpl extends KraMaintainableImpl {
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#getCoreSections(org.kuali.core.maintenance.Maintainable)
      */
     @Override
-    public List<Section> getCoreSections(Maintainable oldMaintainable) {
+    public List<Section> getCoreSections(MaintenanceDocument document, Maintainable oldMaintainable) {
         Organization organization = ((Organization)getBusinessObject());
         if (organization.getOrganizationYnqs() == null || organization.getOrganizationYnqs().isEmpty()) {
             initOrganizationYnq();
         }
-        return super.getCoreSections(oldMaintainable);
+        return super.getCoreSections(document, oldMaintainable);
     }
 
 

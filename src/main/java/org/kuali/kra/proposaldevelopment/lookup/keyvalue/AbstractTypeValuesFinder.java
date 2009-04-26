@@ -17,18 +17,17 @@ package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.service.KeyValuesService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.AbstractType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * Finds the available set of supported Abstract Types.  See

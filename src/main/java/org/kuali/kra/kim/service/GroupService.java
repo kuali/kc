@@ -50,6 +50,15 @@ public interface GroupService {
      */
     public List<String> getPersonUsernames(String groupName);
     /**
+     * KIM Group service API method that returns all Person user names within either a given Group, 
+     * or within any nested groups within that Group.
+     * 
+     * @param   groupId            id unique identifier of Group
+     * @return                       unique (i.e. not replicated) List of Person user names
+     * 
+     */
+    public List<String> getPersonUsernames(Long groupId);
+    /**
      * KIM Group service API method that returns all Group objects that are considered members 
      * of a given group.
      * 

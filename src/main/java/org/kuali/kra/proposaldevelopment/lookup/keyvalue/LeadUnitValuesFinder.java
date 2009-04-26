@@ -20,14 +20,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.UnitAuthorizationService;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * Find the Lead Units for a Proposal Development Document.  When a user
@@ -46,7 +46,7 @@ public class LeadUnitValuesFinder extends KeyValuesBase {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", "select"));
         
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
         String username = user.getPersonUserIdentifier();
         UnitAuthorizationService authService = KraServiceLocator.getService(UnitAuthorizationService.class);      
         List<Unit> userUnits = authService.getUnits(username, PermissionConstants.CREATE_PROPOSAL);

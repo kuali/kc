@@ -18,7 +18,6 @@ package org.kuali.kra.proposaldevelopment.bo;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class YnqGroupName extends KraPersistableBusinessObjectBase implements Comparator<YnqGroupName>{

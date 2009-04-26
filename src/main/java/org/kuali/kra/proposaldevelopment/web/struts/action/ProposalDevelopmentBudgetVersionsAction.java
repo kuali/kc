@@ -16,10 +16,10 @@
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
 import static org.apache.commons.lang.StringUtils.isNotBlank;
-import static org.kuali.rice.kns.util.KNSConstants.QUESTION_CLICKED_BUTTON;
-import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import static org.kuali.rice.kns.util.KNSConstants.QUESTION_CLICKED_BUTTON;
+import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,15 +31,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.authorization.AuthorizationConstants;
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.document.authorization.PessimisticLock;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.bo.RateClass;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -49,16 +40,17 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.rule.event.AddBudgetVersionEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.question.CopyPeriodsQuestion;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
-import org.kuali.rice.KNSServiceLocator;
-
-import edu.iu.uis.eden.exception.WorkflowException;
-
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Struts Action class for the Propsoal Development Budget Versions page

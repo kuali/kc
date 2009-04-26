@@ -17,7 +17,7 @@ package org.kuali.kra.kim.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * A KIM Role-Permission is the assignment of a Permission to Role.
@@ -104,7 +104,7 @@ public class KimRolePermission extends PersistableBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
     protected LinkedHashMap toStringMapper() {

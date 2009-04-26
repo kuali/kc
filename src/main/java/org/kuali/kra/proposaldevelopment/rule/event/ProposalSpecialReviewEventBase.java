@@ -16,11 +16,11 @@
 package org.kuali.kra.proposaldevelopment.rule.event;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Document;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public abstract class ProposalSpecialReviewEventBase  extends KraDocumentEventBase implements ProposalSpecialReviewEvent {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory

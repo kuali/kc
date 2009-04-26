@@ -15,10 +15,11 @@
  */
 package org.kuali.kra.logging;
 
-import org.apache.log4j.Logger;
-import static org.apache.log4j.Level.WARN;
 import static org.apache.log4j.Level.ERROR;
 import static org.apache.log4j.Level.FATAL;
+import static org.apache.log4j.Level.WARN;
+
+import org.apache.log4j.Logger;
 
 
 /**

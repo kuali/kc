@@ -19,14 +19,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.core.service.LookupService;
-import org.kuali.core.util.BeanPropertyComparator;
+import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.dao.RolodexDao;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.util.BeanPropertyComparator;
 import org.kuali.rice.kns.util.KNSConstants;
-
 import org.springframework.transaction.annotation.Transactional;
 
 /**

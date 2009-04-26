@@ -20,8 +20,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesFinder;
-import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * A {@link KeyValuesFinder KeyValuesFinder} that sort the {@link KeyLabelPair KeyLabelPair} returned from
@@ -116,5 +116,10 @@ public final class SortedValuesFinder implements KeyValuesFinder {
      */
     public static Comparator<KeyLabelPair> getDefaultComparator() {
         return DEFAULT_COMPARATOR;
+    }
+    
+    public List getKeyValues(boolean includeActiveOnly) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }
