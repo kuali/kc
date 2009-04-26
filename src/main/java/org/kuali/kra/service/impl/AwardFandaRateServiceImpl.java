@@ -24,9 +24,9 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.service.AwardFandaRateService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * 

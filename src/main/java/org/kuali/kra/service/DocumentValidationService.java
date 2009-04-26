@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.service;
 
-import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
 public interface DocumentValidationService {
     

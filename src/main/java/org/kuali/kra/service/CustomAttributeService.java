@@ -18,10 +18,10 @@ package org.kuali.kra.service;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.bo.CustomAttributeDataType;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 public interface CustomAttributeService {
 

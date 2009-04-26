@@ -17,15 +17,16 @@ package org.kuali.kra.web.struts.action;
 
 import static org.apache.commons.lang.StringUtils.isNotBlank;
 import static org.apache.commons.lang.StringUtils.replace;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.rice.kns.util.KNSConstants.CONFIRMATION_QUESTION;
 import static org.kuali.rice.kns.util.KNSConstants.EMPTY_STRING;
 import static org.kuali.rice.kns.util.KNSConstants.QUESTION_CLICKED_BUTTON;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,38 +37,38 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.RiceKeyConstants;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.authorization.PessimisticLock;
-import org.kuali.core.exceptions.AuthorizationException;
-import org.kuali.core.question.ConfirmationQuestion;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.PessimisticLockService;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.irb.document.ProtocolDocument;
-import org.kuali.kra.irb.document.authorization.ProtocolTask;
-import org.kuali.kra.irb.web.struts.form.ProtocolForm;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.ResearchDocumentService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.authorization.WebAuthorizationService;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
-import org.kuali.notification.util.NotificationConstants;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.ken.util.NotificationConstants;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.SessionDocument;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.kns.document.authorization.DocumentPresentationController;
+import org.kuali.rice.kns.document.authorization.PessimisticLock;
+import org.kuali.rice.kns.exception.AuthorizationException;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.PessimisticLockService;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
-
-import edu.iu.uis.eden.clientapp.IDocHandler;
+import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 // TODO : should move this class to org.kuali.kra.web.struts.action
 public class KraTransactionalDocumentActionBase extends KualiTransactionalDocumentActionBase {
@@ -79,8 +80,27 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
+        if (((KualiDocumentFormBase) form).getErrorMapFromPreviousRequest() == null) {
+            ((KualiDocumentFormBase) form).setErrorMapFromPreviousRequest(new ErrorMap());
+        }
         ActionForward returnForward = mapping.findForward(Constants.MAPPING_BASIC);
         returnForward = super.execute(mapping, form, request, response);
+        
+        // TODO This section was added to make Rice 1.1 work.  It should happen in KualiRequestProcessor.process but that code doesn't work.
+        KualiDocumentFormBase formBase = (KualiDocumentFormBase) form;
+        Document document = formBase.getDocument();
+        UserSession userSession = (UserSession) request.getSession().getAttribute(KNSConstants.USER_SESSION_KEY);
+        if (document instanceof SessionDocument) {
+            String formKey = formBase.getFormKey();
+            if (StringUtils.isBlank(formBase.getFormKey()) || userSession.retrieveObject(formBase.getFormKey()) == null) {
+        // generate doc form key here if it does not exist
+                formKey = GlobalVariables.getUserSession().addObject(form);
+                formBase.setFormKey(formKey);
+        //}  else {
+           // GlobalVariables.getUserSession().addObject(formBase.getFormKey(),form);                    
+            }
+        }
+        // End Rice 1.1 hack
         
         return returnForward;
     }
@@ -133,12 +153,12 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         }
         String[] keyValue = null;
         if (StringUtils.isNotBlank(parameterFields)) {
-            String[] textAreaParams = parameterFields.split(KNSConstants.FIELD_CONVERSIONS_SEPERATOR);
+            String[] textAreaParams = parameterFields.split(KNSConstants.FIELD_CONVERSIONS_SEPARATOR);
             if (LOG.isDebugEnabled()) {
                 LOG.debug("lookupParams: " + textAreaParams);
             }
             for (int i = 0; i < textAreaParams.length; i++) {
-                keyValue = textAreaParams[i].split(KNSConstants.FIELD_CONVERSION_PAIR_SEPERATOR);
+                keyValue = textAreaParams[i].split(KNSConstants.FIELD_CONVERSION_PAIR_SEPARATOR);
 
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("keyValue[0]: " + keyValue[0]);
@@ -270,10 +290,10 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         else {
             forward += "&";
         }
-        forward += IDocHandler.ROUTEHEADER_ID_PARAMETER + "=" + routeHeaderId;
-        forward += "&" + IDocHandler.COMMAND_PARAMETER + "=" + NotificationConstants.NOTIFICATION_DETAIL_VIEWS.DOC_SEARCH_VIEW;
+        forward += KEWConstants.ROUTEHEADER_ID_PARAMETER + "=" + routeHeaderId;
+        forward += "&" + KEWConstants.COMMAND_PARAMETER + "=" + NotificationConstants.NOTIFICATION_DETAIL_VIEWS.DOC_SEARCH_VIEW;
         if (GlobalVariables.getUserSession().isBackdoorInUse()) {
-            forward += "&" + IDocHandler.BACKDOOR_ID_PARAMETER + "=" + GlobalVariables.getUserSession().getNetworkId();
+            forward += "&" + KEWConstants.BACKDOOR_ID_PARAMETER + "=" + GlobalVariables.getUserSession().getLoggedInUserPrincipalName();
         }
         return forward;
     }
@@ -288,7 +308,8 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
      */
     private boolean isTaskAuthorized(String methodName, ActionForm form, HttpServletRequest request) {
         WebAuthorizationService webAuthorizationService = KraServiceLocator.getService(WebAuthorizationService.class);
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        Person person = GlobalVariables.getUserSession().getPerson();
+        UniversalUser user = new UniversalUser(person);
         String username = user.getPersonUserIdentifier();
         ((KraTransactionalDocumentFormBase) form).setActionName(getClass().getSimpleName());
         boolean isAuthorized = webAuthorizationService.isAuthorized(username, this.getClass(), methodName, form, request);
@@ -305,7 +326,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
      * @return true if authorized; otherwise false
      */
     protected boolean isAuthorized(Task task) {
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
         String username = user.getPersonUserIdentifier();
         
         TaskAuthorizationService authorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
@@ -342,9 +363,9 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         if (StringUtils.isNotEmpty(descriptor)) {
             descriptor = StringUtils.capitalize(descriptor.substring(descriptor.indexOf("-") + 1).toLowerCase());
         }
-        return "This " + descriptor + " is locked for editing by " + lock.getOwnedByPersonUniversalIdentifier() + " as of "
-                + org.kuali.rice.util.RiceConstants.getDefaultTimeFormat().format(lock.getGeneratedTimestamp()) + " on "
-                + org.kuali.rice.util.RiceConstants.getDefaultDateFormat().format(lock.getGeneratedTimestamp());
+        return "This " + descriptor + " is locked for editing by " + lock.getOwnedByPrincipalIdentifier() + " as of "
+                + org.kuali.rice.core.util.RiceConstants.getDefaultTimeFormat().format(lock.getGeneratedTimestamp()) + " on "
+                + org.kuali.rice.core.util.RiceConstants.getDefaultDateFormat().format(lock.getGeneratedTimestamp());
     }
 
     @Override
@@ -371,7 +392,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
                 KraAuthorizationConstants.ACTIVE_LOCK_REGION);
         GlobalVariables.getUserSession().removeObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
         PessimisticLockService lockService = KNSServiceLocator.getPessimisticLockService();
-        UniversalUser loggedInUser = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser loggedInUser = (UniversalUser) GlobalVariables.getUserSession().getPerson();
         BusinessObjectService boService = KNSServiceLocator.getBusinessObjectService();
 
         String budgetLockDescriptor = null;
@@ -401,6 +422,29 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
                 lockService.releaseAllLocksForUser(otherLocks, loggedInUser, lock.getLockDescriptor());
             }
         }  
+    }
+    
+    // TODO Temporary hack to overcome pessimistic lock bug
+    @Override
+    protected void populateAuthorizationFields(KualiDocumentFormBase formBase){
+        if (formBase.isFormDocumentInitialized()) {
+            Document document = formBase.getDocument();
+            Person user = GlobalVariables.getUserSession().getPerson();
+            DocumentPresentationController documentPresentationController = KNSServiceLocator.getDocumentHelperService().getDocumentPresentationController(document);
+            DocumentAuthorizer documentAuthorizer = getDocumentHelperService().getDocumentAuthorizer(document);
+            Set<String> documentActions =  documentPresentationController.getDocumentActions(document);
+            documentActions = documentAuthorizer.getDocumentActions(document, user, documentActions);
+
+//            if (getDataDictionaryService().getDataDictionary().getDocumentEntry(document.getClass().getName()).getUsePessimisticLocking()) {
+//                documentActions = getPessimisticLockService().getDocumentActions(document, user, documentActions);
+//            }
+
+            //DocumentActionFlags flags = new DocumentActionFlags();
+            KraTransactionalDocumentFormBase kraFormBase = (KraTransactionalDocumentFormBase) formBase;
+            kraFormBase.setupLockRegions();
+            formBase.setDocumentActions(convertSetToMap(documentActions));
+
+        }
     }
     
     /**
@@ -497,7 +541,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         KualiDocumentFormBase docForm = (KualiDocumentFormBase) form;
 
         // only want to prompt them to save if they already can save
-        if (docForm.getDocumentActionFlags().getCanSave()) {
+        if (docForm.getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_SAVE)) {
             Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
             KualiConfigurationService kualiConfiguration = KNSServiceLocator.getKualiConfigurationService();
 

@@ -19,13 +19,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.dao.PersonDao;
 import org.kuali.kra.dao.RolodexDao;
 import org.kuali.kra.service.RolodexService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class RolodexServiceImpl implements RolodexService {
 

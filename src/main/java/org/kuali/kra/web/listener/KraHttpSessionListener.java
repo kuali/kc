@@ -22,20 +22,19 @@ import java.util.Map;
 import javax.servlet.http.HttpSessionEvent;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.UserSession;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.authorization.PessimisticLock;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.PessimisticLockService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.listener.KualiHttpSessionListener;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.kra.rice.shim.UniversalUser;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.authorization.PessimisticLock;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.PessimisticLockService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.listener.KualiHttpSessionListener;
 
 /**
  * This class is used to handle session timeouts where {@link PessimisticLock} objects should
@@ -67,7 +66,7 @@ public class KraHttpSessionListener extends KualiHttpSessionListener {
                 GlobalVariables.setUserSession((UserSession)se.getSession().getAttribute(KNSConstants.USER_SESSION_KEY));
                 Document document = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(documentNumber);
                 
-                UniversalUser loggedInUser = GlobalVariables.getUserSession().getUniversalUser();
+                UniversalUser loggedInUser = new UniversalUser(GlobalVariables.getUserSession().getPerson());
                 PessimisticLockService lockService = KNSServiceLocator.getPessimisticLockService();
                 
                 if (ObjectUtils.isNotNull(document)) {

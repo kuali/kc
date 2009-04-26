@@ -15,22 +15,21 @@
  */
 package org.kuali.kra.web.filter;
 
+import java.io.IOException;
 import java.util.Enumeration;
 
-import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.MDC;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.filter.KualiCasFilter;
 import org.kuali.kra.util.SensitiveFieldFilterUtil;
 
 /**

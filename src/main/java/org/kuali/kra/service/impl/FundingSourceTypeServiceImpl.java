@@ -19,9 +19,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.service.FundingSourceTypeService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * 

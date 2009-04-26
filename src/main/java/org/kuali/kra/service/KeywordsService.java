@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.service;
 
-import org.kuali.kra.bo.AbstractScienceKeyword;
 import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.web.struts.form.MultiLookupFormBase;

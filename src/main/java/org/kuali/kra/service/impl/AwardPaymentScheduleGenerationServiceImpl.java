@@ -24,8 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.PersistenceService;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardReportTerm;
 import org.kuali.kra.award.bo.Frequency;
@@ -36,6 +34,8 @@ import org.kuali.kra.scheduling.sequence.XMonthlyScheduleSequence;
 import org.kuali.kra.scheduling.service.ScheduleService;
 import org.kuali.kra.scheduling.util.Time24HrFmt;
 import org.kuali.kra.service.AwardPaymentScheduleGenerationService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.PersistenceService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

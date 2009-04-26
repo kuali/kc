@@ -30,12 +30,12 @@ import java.util.Set;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.SeparatelySequenceableAssociate;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.Sequenceable;
 import org.kuali.kra.service.VersionException;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 import edu.emory.mathcs.backport.java.util.Collections;
 

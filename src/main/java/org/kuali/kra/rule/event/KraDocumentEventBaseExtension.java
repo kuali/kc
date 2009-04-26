@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.rule.event;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.rule.BusinessRuleInterface;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 public abstract class KraDocumentEventBaseExtension extends KraDocumentEventBase{
 

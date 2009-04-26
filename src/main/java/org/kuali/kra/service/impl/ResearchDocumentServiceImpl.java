@@ -16,9 +16,8 @@
 package org.kuali.kra.service.impl;
 
 import org.kuali.kra.service.ResearchDocumentService;
-
-import edu.iu.uis.eden.routeheader.DocumentRouteHeaderValue;
-import edu.iu.uis.eden.routeheader.RouteHeaderService;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
+import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
 
 public class ResearchDocumentServiceImpl implements ResearchDocumentService {
     

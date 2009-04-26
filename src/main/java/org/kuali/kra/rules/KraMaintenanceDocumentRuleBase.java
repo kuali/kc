@@ -17,10 +17,10 @@ package org.kuali.kra.rules;
 
 import java.util.Map;
 
-import org.kuali.RiceKeyConstants;
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.util.GlobalVariables;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.RiceKeyConstants;
 
 public class KraMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
     /**

@@ -20,16 +20,17 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.AbstractScienceKeyword;
 import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.KeywordsService;
 import org.kuali.kra.web.struts.form.MultiLookupFormBase;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class is the implementation of KeywordsService to handle the requests from keywords panel in general
@@ -100,7 +101,7 @@ public class KeywordsServiceImpl implements KeywordsService {
                     Class lookupResultsBOClass = Class.forName(multiLookUpForm.getLookupResultsBOClassName());
                     Collection<PersistableBusinessObject> rawValues = KNSServiceLocator.getLookupResultsService()
                             .retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass,
-                                    GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+                                    ((UniversalUser) GlobalVariables.getUserSession().getPerson()).getPersonUniversalIdentifier());
                     if (lookupResultsBOClass.isAssignableFrom(ScienceKeyword.class)) {
                         KeywordsService keywordsService = KraServiceLocator.getService(KeywordsService.class);//move this to separate method and give protected access
                         for (Iterator iter = rawValues.iterator(); iter.hasNext();) {

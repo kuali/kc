@@ -17,9 +17,9 @@ package org.kuali.kra.scheduling.quartz;
 
 import java.text.ParseException;
 
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.springframework.scheduling.quartz.CronTriggerBean;
 
 /**

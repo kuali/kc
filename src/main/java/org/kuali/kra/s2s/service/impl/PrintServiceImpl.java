@@ -29,11 +29,11 @@ import java.util.Set;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.kuali.kra.bo.Parameter;
-import org.kuali.kra.bo.SponsorFormTemplateList;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.bo.SponsorFormTemplate;
+import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.s2s.service.PrintService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 import edu.mit.coeus.exception.CoeusException;
 import edu.mit.coeus.propdev.ProposalPrintReader;

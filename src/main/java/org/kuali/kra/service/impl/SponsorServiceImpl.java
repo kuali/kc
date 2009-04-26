@@ -24,14 +24,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.dao.SponsorHierarchyDao;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.web.struts.form.SponsorHierarchyForm;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class SponsorServiceImpl implements SponsorService {
 
