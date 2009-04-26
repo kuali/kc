@@ -17,9 +17,9 @@ package org.kuali.kra.proposaldevelopment.rule;
 
 import java.util.List;
 
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * Defines the Business Rule for processing modifications to the narrative user rights.

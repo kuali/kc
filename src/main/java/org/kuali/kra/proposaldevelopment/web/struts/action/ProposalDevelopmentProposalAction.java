@@ -32,25 +32,28 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.document.Document;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonComparator;
-import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.AddProposalLocationEvent;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.SponsorService;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 
 public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentProposalAction.class);
@@ -72,6 +75,13 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        String command = request.getParameter("command");
+        if (KEWConstants.DOCSEARCH_COMMAND.equals(command)) {
+            String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
+            Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
+            proposalDevelopmentForm.setDocument(retrievedDocument);
+        }
         ActionForward actionForward = super.execute(mapping, form, request, response);
         KeyPersonnelService kpservice=KraServiceLocator.getService(KeyPersonnelService.class);
         setKeywordsPanelFlag(request);
@@ -118,6 +128,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         return actionForward;
     }
 
+    
     /**
      * 
      * This method sets the flag for keyword display panel - display keyword panel if parameter is set to true
@@ -272,7 +283,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
                 Class lookupResultsBOClass = Class.forName(proposalDevelopmentForm.getLookupResultsBOClassName());
                 Collection<PersistableBusinessObject> rawValues = KNSServiceLocator.getLookupResultsService()
                         .retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass,
-                                GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+                                ((UniversalUser) GlobalVariables.getUserSession().getPerson()).getPersonUniversalIdentifier());
                 if (lookupResultsBOClass.isAssignableFrom(ScienceKeyword.class)) {
                     for (Iterator iter = rawValues.iterator(); iter.hasNext();) {
                         ScienceKeyword scienceKeyword = (ScienceKeyword) iter.next();
@@ -290,7 +301,8 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         return mapping.findForward("basic");
     }
 
-    private KualiRuleService getKualiRuleService() {
+    @Override
+    protected KualiRuleService getKualiRuleService() {
         return getService(KualiRuleService.class);
     }
 
@@ -336,6 +348,5 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         }
       return mapping.findForward("basic");
     }
-
 
 }

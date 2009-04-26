@@ -15,15 +15,20 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import org.kuali.kra.budget.bo.BudgetVersionOverview;
-import org.kuali.kra.budget.document.BudgetVersionCollection;
-import org.kuali.kra.proposaldevelopment.rule.AddBudgetVersionRule;
-import org.kuali.kra.proposaldevelopment.rule.event.AddBudgetVersionEvent;
-
-import static org.springframework.util.StringUtils.hasText;
-import static org.kuali.core.util.GlobalVariables.getErrorMap;
 import static org.kuali.kra.infrastructure.KeyConstants.BUDGET_VERSION_EXISTS;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_BUDGET_NAME_MISSING;
+import static org.springframework.util.StringUtils.hasText;
+
+import java.util.List;
+
+import org.kuali.kra.budget.bo.BudgetVersionOverview;
+import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.document.BudgetVersionCollection;
+import org.kuali.kra.budget.rules.BudgetDocumentRule;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.rule.AddBudgetVersionRule;
+import org.kuali.kra.proposaldevelopment.rule.event.AddBudgetVersionEvent;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * A composited rule of the {@link BudgetDocumentRule}. It is expected that the {@link BudgetDocumentRule} will call this rule directly on save,
@@ -44,13 +49,13 @@ public class BudgetVersionRule  implements AddBudgetVersionRule {
 
         if (!isNameValid(event.getVersionName())) {
             retval = false;
-            getErrorMap().putError("document.proposal.budgetVersionOverview.newBudgetVersionName", 
+            GlobalVariables.getErrorMap().putError("document.proposal.budgetVersionOverview.newBudgetVersionName", 
                     ERROR_BUDGET_NAME_MISSING, "Name");
         }
         
         if (containsVersionOverview(document, event.getVersionName())) {
             retval = false;
-            getErrorMap().putError("document.proposal.budgetVersionOverview", BUDGET_VERSION_EXISTS);
+            GlobalVariables.getErrorMap().putError("document.proposal.budgetVersionOverview", BUDGET_VERSION_EXISTS);
         }            
         return retval;
     }

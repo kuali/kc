@@ -18,15 +18,16 @@ package org.kuali.kra.maintenance;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.MaintenanceDocumentBase;
-import org.kuali.core.maintenance.KualiMaintainableImpl;
-import org.kuali.core.maintenance.Maintainable;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.struts.form.KualiMaintenanceForm;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.document.MaintenanceDocumentBase;
+import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
+import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 
 /**
  * This class...
@@ -42,7 +43,7 @@ public class KraMaintainableImpl extends KualiMaintainableImpl {
         super.prepareForSave();
         if ((businessObject != null) && (businessObject instanceof KraPersistableBusinessObjectBase)) {
 
-            String updateUser = GlobalVariables.getUserSession().getLoggedInUserNetworkId();
+            String updateUser = GlobalVariables.getUserSession().getLoggedInUserPrincipalName();
 
             // Since the UPDATE_USER column is only VACHAR(60), we need to truncate this string if it's longer than 60 characters
             if (updateUser.length() > 60) {
@@ -65,7 +66,7 @@ public class KraMaintainableImpl extends KualiMaintainableImpl {
 
     }
 
-    public List getSections(Maintainable oldMaintainable) {
+    public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
 
         // businessObject is empty, so we have to dig into global variables
         // this is used when retrieving doc from doc search
@@ -92,6 +93,6 @@ public class KraMaintainableImpl extends KualiMaintainableImpl {
             }
         }
         
-        return super.getSections(oldMaintainable);
+        return super.getSections(document, oldMaintainable);
     }
 }

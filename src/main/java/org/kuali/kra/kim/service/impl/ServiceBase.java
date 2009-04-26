@@ -24,8 +24,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.kim.bo.KimGroup;
 import org.kuali.kra.kim.bo.KimGroupAttribute;
@@ -35,13 +33,13 @@ import org.kuali.kra.kim.bo.KimNamespace;
 import org.kuali.kra.kim.bo.KimPermission;
 import org.kuali.kra.kim.bo.KimPerson;
 import org.kuali.kra.kim.bo.KimPersonAttribute;
+import org.kuali.kra.kim.bo.KimQualifiedRoleGroup;
+import org.kuali.kra.kim.bo.KimQualifiedRolePerson;
 import org.kuali.kra.kim.bo.KimRole;
 import org.kuali.kra.kim.bo.KimRoleAttribute;
 import org.kuali.kra.kim.bo.KimRoleGroup;
-import org.kuali.kra.kim.bo.KimQualifiedRoleGroup;
 import org.kuali.kra.kim.bo.KimRolePermission;
 import org.kuali.kra.kim.bo.KimRolePerson;
-import org.kuali.kra.kim.bo.KimQualifiedRolePerson;
 import org.kuali.kra.kim.exception.UnknownGroupNameException;
 import org.kuali.kra.kim.exception.UnknownNamespaceNameException;
 import org.kuali.kra.kim.exception.UnknownPermissionNameException;
@@ -54,6 +52,8 @@ import org.kuali.kra.kim.pojo.Permission;
 import org.kuali.kra.kim.pojo.Person;
 import org.kuali.kra.kim.pojo.PersonAttribute;
 import org.kuali.kra.kim.pojo.Role;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * General Service class for all of the KIM Service Implementations.

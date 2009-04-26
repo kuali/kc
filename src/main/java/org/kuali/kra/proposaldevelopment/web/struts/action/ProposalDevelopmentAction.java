@@ -40,14 +40,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
@@ -57,24 +49,32 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.document.authorization.ProposalDevelopmentDocumentAuthorizer;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalRoleTemplateService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.service.PrintService;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.ProposalActionBase;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
-
-import edu.iu.uis.eden.clientapp.IDocHandler;
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public class ProposalDevelopmentAction extends ProposalActionBase {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentAction.class);
@@ -90,7 +90,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         String command = proposalDevelopmentForm.getCommand();
         
-        if (IDocHandler.ACTIONLIST_INLINE_COMMAND.equals(command)) {
+        if (KEWConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
              String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
              Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
              proposalDevelopmentForm.setDocument(retrievedDocument);
@@ -101,7 +101,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
              forward = super.docHandler(mapping, form, request, response);
         }
 
-        if (IDocHandler.INITIATE_COMMAND.equals(proposalDevelopmentForm.getCommand())) {
+        if (KEWConstants.INITIATE_COMMAND.equals(proposalDevelopmentForm.getCommand())) {
             proposalDevelopmentForm.getProposalDevelopmentDocument().initialize();
         }else{
             proposalDevelopmentForm.initialize();
@@ -399,7 +399,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         
         // Assign the creator of the proposal to the AGGREGATOR role.
         
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
         String username = user.getPersonUserIdentifier();
         KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
         kraAuthService.addRole(username, RoleConstants.AGGREGATOR, doc);
@@ -436,7 +436,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposaldevelopmentdocument=pdform.getProposalDevelopmentDocument();
 
-        UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser currentUser =  new UniversalUser(GlobalVariables.getUserSession().getPerson());
         for (Iterator<ProposalPerson> person_it = proposaldevelopmentdocument.getProposalPersons().iterator(); person_it.hasNext();) {
             ProposalPerson person = person_it.next();
             if((person!= null) && (person.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE))){
@@ -457,7 +457,14 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         }
         return super.headerTab(mapping, form, request, response);
     }
-
+    
+    @Override
+    protected void populateAuthorizationFields(KualiDocumentFormBase formBase){
+        super.populateAuthorizationFields(formBase);
+        ProposalDevelopmentDocumentAuthorizer documentAuthorizer = new ProposalDevelopmentDocumentAuthorizer();
+        formBase.setEditingMode(documentAuthorizer.getEditMode(formBase.getDocument(), 
+                new UniversalUser(GlobalVariables.getUserSession().getPerson())));
+    }
 
 }
 

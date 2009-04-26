@@ -18,14 +18,15 @@ package org.kuali.kra.maintenance;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.core.maintenance.Maintainable;
-import org.kuali.core.util.AssertionUtils;
-import org.kuali.core.web.ui.Section;
 import org.kuali.kra.bo.Ynq;
 import org.kuali.kra.bo.YnqExplanation;
 import org.kuali.kra.bo.YnqExplanationType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.YnqService;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.util.AssertionUtils;
+import org.kuali.rice.kns.web.ui.Section;
 public class YnqMaintainableImpl extends KraMaintainableImpl {
 
     /**
@@ -35,11 +36,9 @@ public class YnqMaintainableImpl extends KraMaintainableImpl {
      * @param generateDefaultValues true for initialization
      */
     @Override
-    public void setGenerateDefaultValues(boolean generateDefaultValues) {
-        if (generateDefaultValues) {
-            initExplanation();
-        }
-        super.setGenerateDefaultValues(generateDefaultValues);
+    public void setGenerateDefaultValues(String docTypeName) {
+        initExplanation();
+        super.setGenerateDefaultValues(docTypeName);
     }
 
     /**
@@ -47,12 +46,12 @@ public class YnqMaintainableImpl extends KraMaintainableImpl {
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#getCoreSections(org.kuali.core.maintenance.Maintainable)
      */
     @Override
-    public List<Section> getCoreSections(Maintainable oldMaintainable) {
+    public List<Section> getCoreSections(MaintenanceDocument document, Maintainable oldMaintainable) {
         Ynq ynq = ((Ynq)getBusinessObject());
         if (CollectionUtils.isEmpty(ynq.getYnqExplanations())) {
             initExplanation();
         }
-        return super.getCoreSections(oldMaintainable);
+        return super.getCoreSections(document, oldMaintainable);
     }
 
     /**

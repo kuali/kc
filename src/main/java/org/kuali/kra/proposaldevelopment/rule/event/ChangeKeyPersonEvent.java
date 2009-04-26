@@ -15,15 +15,14 @@
  */
 package org.kuali.kra.proposaldevelopment.rule.event;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.rule.BusinessRule;
-import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.kra.logging.Traceable;
 import org.kuali.kra.logging.TraceLogProxyFactory;
+import org.kuali.kra.logging.Traceable;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 
 
 /**

@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.proposaldevelopment.rule.event;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.SaveInstituteAttachmentsRule;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 public class SaveInstituteAttachmentsEvent extends NarrativeEventBase{
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(SaveInstituteAttachmentsEvent.class);

@@ -32,10 +32,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -53,6 +49,10 @@ import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
+import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
  * The ProposalDevelopmentPermissionsAction responds to user events from the
@@ -453,7 +453,8 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
      * Get the Kuali Rule Service.
      * @return the Kuali Rule Service
      */
-    private KualiRuleService getKualiRuleService() {
+    @Override
+    protected KualiRuleService getKualiRuleService() {
         return getService(KualiRuleService.class);
     }
 }

@@ -18,32 +18,28 @@ package org.kuali.kra.proposaldevelopment.rules;
 import static java.util.Collections.sort;
 import static org.apache.commons.lang.StringUtils.isBlank;
 import static org.apache.commons.lang.StringUtils.isNotBlank;
-import static org.kuali.core.util.GlobalVariables.getErrorMap;
+import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
+import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ADD_EXISTING_UNIT;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_DELETE_LEAD_UNIT;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVALID_UNIT;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVALID_YEAR;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_UPBOUND;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_MISSING_PERSON_ROLE;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PROPOSAL_PERSON_EXISTS;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVALID_YEAR;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVALID_UNIT;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_SELECT_UNIT;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ONE_UNIT;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PERCENTAGE;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PROPOSAL_PERSON_EXISTS;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_SELECT_UNIT;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.kra.logging.FormattedLogger.debug;
 import static org.kuali.kra.logging.FormattedLogger.info;
-import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
-import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
-import org.kuali.RiceKeyConstants;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.document.Document;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.DegreeType;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
@@ -61,6 +57,10 @@ import org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.RiceKeyConstants;
 
 /**
  * Implementation of business rules required for the Key Persons Page of the 
@@ -291,9 +291,9 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
      * @see org.kuali.kra.rules.ResearchDocumentRuleBase#reportError(String, String, String...)
      */
     protected void reportErrorWithPrefix(String errorPathPrefix, String propertyName, String errorKey, String... errorParams) {
-        getErrorMap().addToErrorPath(errorPathPrefix);
+        GlobalVariables.getErrorMap().addToErrorPath(errorPathPrefix);
         super.reportError(propertyName, errorKey, errorParams);
-        getErrorMap().removeFromErrorPath(errorPathPrefix);        
+        GlobalVariables.getErrorMap().removeFromErrorPath(errorPathPrefix);        
     }
 
     /**
@@ -335,7 +335,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
     /**
      * Either adding a degree or unit can trigger this rule to be validated
      * 
-     * @see org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule#processChangeKeyPersonBusinessRules(org.kuali.kra.proposaldevelopment.bo.ProposalPerson, org.kuali.core.bo.BusinessObject)
+     * @see org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule#processChangeKeyPersonBusinessRules(org.kuali.kra.proposaldevelopment.bo.ProposalPerson, org.kuali.rice.kns.bo.BusinessObject)
      * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction#insertDegree(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction#insertUnit(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */

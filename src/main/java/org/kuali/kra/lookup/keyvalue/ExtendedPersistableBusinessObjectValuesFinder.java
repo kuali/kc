@@ -17,8 +17,8 @@ package org.kuali.kra.lookup.keyvalue;
 
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder;
-import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * This class extends the PersistableBusinessObjectValuesFinder - the Generic ValuesFinder - 

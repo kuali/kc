@@ -17,11 +17,11 @@ package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 /**
  * Finds the available set of supported Narrative Types.  See
  * the method <code>getKeyValues()</code> for a full description.

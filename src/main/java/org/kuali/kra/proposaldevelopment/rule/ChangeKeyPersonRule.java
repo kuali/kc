@@ -15,10 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.rule;
 
-import org.kuali.core.bo.BusinessObject;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.rice.kns.bo.BusinessObject;
 
 /**
  * Interface for rule implementations to go from where an action changes a <code>{@link ProposalPerson}</code>

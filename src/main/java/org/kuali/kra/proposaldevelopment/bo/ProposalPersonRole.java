@@ -21,9 +21,9 @@ import org.kuali.kra.award.bo.ContactRole;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
- * Represents the Proposal Person Role <code>{@link org.kuali.core.bo.BusinessObject}</code>
+ * Represents the Proposal Person Role <code>{@link org.kuali.rice.kns.bo.BusinessObject}</code>
  *
- * @see org.kuali.core.bo.BusinessObject
+ * @see org.kuali.rice.kns.bo.BusinessObject
  * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
  * @author $Author: gmcgrego $
  * @version $Revision: 1.8 $

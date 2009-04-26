@@ -46,7 +46,7 @@ public class KimGroupAttribute extends KimAttribute {
     }
 
 	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
         LinkedHashMap<String, Object> map = super.toStringMapper();

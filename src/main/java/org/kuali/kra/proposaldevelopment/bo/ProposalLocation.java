@@ -1,6 +1,5 @@
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;

@@ -5,7 +5,6 @@ import java.util.LinkedHashMap;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.kim.bo.KimRole;
 
 public class ProposalRoleTemplate extends KraPersistableBusinessObjectBase {
     

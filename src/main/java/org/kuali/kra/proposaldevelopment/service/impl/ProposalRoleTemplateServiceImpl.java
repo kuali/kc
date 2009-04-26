@@ -21,14 +21,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.UnitAclEntry;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalRoleTemplateService;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.PersonService;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * The Proposal Role Template Service Implementation.
@@ -89,7 +89,7 @@ public class ProposalRoleTemplateServiceImpl implements ProposalRoleTemplateServ
      * @return the creator's username
      */
     public String getCreator(ProposalDevelopmentDocument doc) {
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
         return user.getPersonUserIdentifier();
     }
     

@@ -19,11 +19,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.kim.bo.KimRole;
 import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class KimRoleRule extends KraMaintenanceDocumentRuleBase {
     

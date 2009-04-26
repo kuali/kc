@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
-import static org.kuali.kra.logging.BufferedLogger.*;
-
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -27,17 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
+import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.bo.BudgetModular;
@@ -63,11 +51,23 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
-import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
+import org.kuali.kra.rice.shim.UniversalUser;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.PersonService;
 import org.kuali.kra.service.UnitService;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * The Proposal Copy Service creates a new Proposal Development Document
@@ -738,7 +738,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param doc the proposal development document
      */
     private void initializeAuthorization(ProposalDevelopmentDocument doc) {
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser user = new UniversalUser (GlobalVariables.getUserSession().getPerson());
         String username = user.getPersonUserIdentifier();
         KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
         kraAuthService.addRole(username, RoleConstants.AGGREGATOR, doc);
@@ -785,7 +785,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @return the copied narratives
      */
     private List<Narrative> copyNarratives(List<Narrative> narratives, int moduleNumber) {
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser user = new UniversalUser (GlobalVariables.getUserSession().getPerson());
         String username = user.getPersonUserIdentifier();
         Person person = personService.getPersonByName(username);
         

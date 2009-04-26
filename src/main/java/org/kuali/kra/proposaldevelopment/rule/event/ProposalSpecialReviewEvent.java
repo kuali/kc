@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.rule.event;
 
-import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 
 public interface ProposalSpecialReviewEvent extends KualiDocumentEvent {
     

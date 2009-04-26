@@ -19,13 +19,13 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.lookup.KualiLookupableImpl;
-import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.ui.Field;
-import org.kuali.core.web.ui.Row;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.lookup.keyvalue.LookupReturnValuesFinder;
+import org.kuali.rice.kns.lookup.KualiLookupableImpl;
+import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Row;
 
 public class CustomLookupableImpl extends KualiLookupableImpl {
 

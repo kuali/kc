@@ -22,16 +22,14 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-
-import org.kuali.core.datadictionary.AttributeDefinition;
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.web.ui.KeyLabelPair;
 
 import org.kuali.kra.bo.PersonEditableField;
 import org.kuali.kra.lookup.keyvalue.KeyLabelPairComparator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.rice.kns.datadictionary.AttributeDefinition;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * Lookup acceptable values for <code>{@link PersonEditableField}</code> business object

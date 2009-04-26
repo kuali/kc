@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
-import static org.kuali.core.util.GlobalVariables.getKualiForm;
 import static org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE;
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
@@ -27,14 +26,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.service.KeyValuesService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * Temporary class until this can be gotten working via table.
@@ -46,11 +46,11 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
     private String forAddedPerson;
     
     /**
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesBase#getKeyValues()
+     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase#getKeyValues()
      */
     public List getKeyValues() {
         final Collection<ProposalPersonRole> roles = getKeyValuesService().findAll(ProposalPersonRole.class);
-        final ProposalDevelopmentDocument document = ((ProposalDevelopmentForm) getKualiForm()).getProposalDevelopmentDocument();
+        final ProposalDevelopmentDocument document = ((ProposalDevelopmentForm) GlobalVariables.getKualiForm()).getProposalDevelopmentDocument();
         final boolean hasPrincipalInvestigator = getKeyPersonnelService().hasPrincipalInvestigator(document);
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", "select"));
@@ -112,7 +112,7 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
      * @return true if the role has been rendered already, false otherwise
      */
     private boolean isNewProposalPersonRoleRendered() {
-        return ((ProposalDevelopmentForm) getKualiForm()).isNewProposalPersonRoleRendered();
+        return ((ProposalDevelopmentForm) GlobalVariables.getKualiForm()).isNewProposalPersonRoleRendered();
     }
 
     /**

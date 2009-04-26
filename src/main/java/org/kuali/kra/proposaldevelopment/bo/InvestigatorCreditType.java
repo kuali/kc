@@ -16,12 +16,13 @@
 package org.kuali.kra.proposaldevelopment.bo;
 
 import java.util.LinkedHashMap;
+
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
- * Class representation of the Person <code>{@link org.kuali.core.bo.BusinessObject}</code>
+ * Class representation of the Person <code>{@link org.kuali.rice.kns.bo.BusinessObject}</code>
  *
- * @see org.kuali.core.bo.BusinessObject
+ * @see org.kuali.rice.kns.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
  * $Id: InvestigatorCreditType.java,v 1.6 2008-07-23 19:16:37 gmcgrego Exp $
  */
@@ -96,7 +97,7 @@ public class InvestigatorCreditType extends KraPersistableBusinessObjectBase {
 
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
 	@Override 
 	protected LinkedHashMap toStringMapper() {

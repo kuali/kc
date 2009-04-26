@@ -20,16 +20,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.DocumentAuditRule;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.AuditCluster;
-import org.kuali.core.util.AuditError;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.DocumentAuditRule;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.AuditCluster;
+import org.kuali.rice.kns.util.AuditError;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class processes audit rules (warnings) for the Sponsor & Program Information related
@@ -37,7 +37,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
  */
 public class ProposalDevelopmentSponsorProgramInformationAuditRule implements DocumentAuditRule {    
     /**
-     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.core.document.Document)
+     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.kns.document.Document)
      */
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;

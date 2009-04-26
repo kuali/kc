@@ -20,11 +20,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.datadictionary.BusinessObjectEntry;
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 public class LookupableBoValuesFinder extends KeyValuesBase {
 

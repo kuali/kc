@@ -21,6 +21,7 @@ import org.kuali.kra.kim.pojo.Group;
 import org.kuali.kra.kim.pojo.Namespace;
 import org.kuali.kra.kim.pojo.Person;
 import org.kuali.kra.kim.pojo.Role;
+import org.kuali.rice.kim.service.IdentityManagementService;
 
 /**
  * Service API for accessing KIM services.  This contract should be used by all Kuali software that 
@@ -28,7 +29,7 @@ import org.kuali.kra.kim.pojo.Role;
  * 
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
-public interface KIMService {
+public interface KIMService extends IdentityManagementService {
     /**
      * KIM service API method that returns a complete collection of Person objects for the application.
      * 
@@ -88,4 +89,5 @@ public interface KIMService {
      * 
      */
     public List<String> getNamespaceNames();
+    
 }

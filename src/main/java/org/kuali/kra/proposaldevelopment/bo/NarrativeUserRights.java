@@ -18,7 +18,6 @@ package org.kuali.kra.proposaldevelopment.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.Person;
 
 public class NarrativeUserRights extends KraPersistableBusinessObjectBase {
 	private Integer moduleNumber;

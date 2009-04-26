@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.TypeUtils;
+import org.kuali.rice.kns.util.TypeUtils;
 
 /**
  * Base class for all KIM Pojo classes.  The KIM Pojo classes are the objects

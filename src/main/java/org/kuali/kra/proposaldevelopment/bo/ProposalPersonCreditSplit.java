@@ -18,11 +18,10 @@ package org.kuali.kra.proposaldevelopment.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
- * Class representation of the Proposal Person <code>{@link org.kuali.core.bo.BusinessObject}</code>
+ * Class representation of the Proposal Person <code>{@link org.kuali.rice.kns.bo.BusinessObject}</code>
  *
  * @author $Author: vsoni $
  * @version $Revision: 1.9 $

@@ -41,21 +41,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
-import org.kuali.core.bo.Parameter;
-import org.kuali.core.bo.user.KualiGroup;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.datadictionary.DocumentEntry;
-import org.kuali.core.datadictionary.HeaderNavigation;
-import org.kuali.core.document.authorization.DocumentActionFlags;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.ActionFormUtilMap;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.ui.ExtraButton;
-import org.kuali.core.web.ui.HeaderField;
-import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.PersonEditableField;
@@ -66,6 +51,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.bo.KimRole;
+import org.kuali.kra.kim.service.KIMService;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
@@ -91,8 +77,21 @@ import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.PersonService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.kra.web.struts.form.ProposalFormBase;
-
-import edu.iu.uis.eden.EdenConstants;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kim.bo.group.KimGroup;
+import org.kuali.rice.kns.bo.Parameter;
+import org.kuali.rice.kns.datadictionary.DocumentEntry;
+import org.kuali.rice.kns.datadictionary.HeaderNavigation;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.ActionFormUtilMap;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.web.ui.ExtraButton;
+import org.kuali.rice.kns.web.ui.HeaderField;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * This class...
@@ -182,6 +181,12 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         setNewProposalChangedData(new ProposalChangedData());
         versionNumberForS2sOpportunity = null;        
     }
+    
+//  TODO Overriding for 1.1 upgrade 'till we figure out how to actually use this
+    public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
+        
+        return true;
+    }
 
     /**
      * This creates a new Narrative. Protected to allow mocks and stubs to provide their own Narrative that doesn't do a user id lookup
@@ -228,7 +233,8 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         }
     }
     
-    protected void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+    @Override
+    public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
         
         ProposalDevelopmentDocument pd = getProposalDevelopmentDocument();
@@ -986,17 +992,6 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     }
     
     /**
-     * Get the Header Dispatch.  This determines the action that will occur
-     * when the user switches tabs for a proposal.  If the user can modify
-     * the proposal, the proposal is automatically saved.  If not (view-only),
-     * then a reload will be executed instead.
-     * @return the Header Dispatch action
-     */
-    public String getHeaderDispatch() {
-        return this.getDocumentActionFlags().getCanSave() ? "save" : "reload";
-    }
-
-    /**
      * Set the New Narrative User Rights.  This is displayed on the View/Edit Rights
      * web page for attachments.
      * @param newNarrativeUserRights the new narrativer user rights
@@ -1225,16 +1220,17 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     public boolean isSubmissionStatusVisible() {
         String routeStatus = this.getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument().getRouteHeader()
         .getDocRouteStatus();
-        return EdenConstants.ROUTE_HEADER_PROCESSED_CD.equals(routeStatus) || EdenConstants.ROUTE_HEADER_FINAL_CD.equals(routeStatus);
+        return KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(routeStatus) || KEWConstants.ROUTE_HEADER_FINAL_CD.equals(routeStatus);
     }
     
     public boolean isSubmissionStatusReadOnly() {
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        String principalId = GlobalVariables.getUserSession().getPrincipalId();
         KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
-        boolean canModify = kraAuthorizationService.hasPermission(user.getPersonUserIdentifier(), this.getProposalDevelopmentDocument(), PermissionConstants.MODIFY_PROPOSAL);
+        boolean canModify = kraAuthorizationService.hasPermission(principalId, this.getProposalDevelopmentDocument(), PermissionConstants.MODIFY_PROPOSAL);
+        KIMService kimService = KraServiceLocator.getService(KIMService.class);
         if (canModify) { return false; }
-        List<KualiGroup> groups = user.getGroups();
-        for (KualiGroup group: groups) {
+        List<? extends KimGroup> groups = kimService.getGroupsForPrincipal(principalId);
+        for (KimGroup group: groups) {
             if (group.getGroupName().equals("OSP")) {
                 return false;
             }
@@ -1276,17 +1272,17 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     }
     
 //  Set the document controls that should be available on the page
-    protected void setSaveDocumentControl(DocumentActionFlags tempDocumentActionFlags, Map editMode) {
-        tempDocumentActionFlags.setCanSave(false);
+    protected void setSaveDocumentControl(Map editMode) {
+        getDocumentActions().remove(KNSConstants.KUALI_ACTION_CAN_SAVE);
 
         if (isProposalAction() && hasModifyProposalPermission(editMode)) {
-            tempDocumentActionFlags.setCanSave(true);
+            getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_SAVE, KNSConstants.KUALI_DEFAULT_TRUE_VALUE);
         }
         else if (isNarrativeAction() && hasModifyNarrativesPermission(editMode)) {
-            tempDocumentActionFlags.setCanSave(true);
+            getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_SAVE, KNSConstants.KUALI_DEFAULT_TRUE_VALUE);
         }
         else if (isBudgetVersionsAction() && (hasModifyCompletedBudgetPermission(editMode) || hasModifyBudgetPermission(editMode))) {
-            tempDocumentActionFlags.setCanSave(true);
+            getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_SAVE, KNSConstants.KUALI_DEFAULT_TRUE_VALUE);
         }
     }
     
@@ -1300,7 +1296,9 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         } else if (isBudgetVersionsAction()) {
             lockRegion = KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET;
         }
-        return lockRegion;
+       // return lockRegion;
+        // TODO : a hack to return true for now because 'navigateto is null
+        return KraAuthorizationConstants.LOCK_DESCRIPTOR_PROPOSAL;
     }
     
     // Checks whether the action associated with this form instance maps to a ProposalDevelopment page
@@ -1356,6 +1354,16 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         }
 
         return isBudgetVersionsAction;
+    }
+
+    @Override
+    public boolean shouldPropertyBePopulatedInForm(String requestParameterName, HttpServletRequest request) {
+        // TODO rice upgrade temp hack - to populate customdata
+        if (requestParameterName.startsWith("customAttributeValue")) {
+            return true;
+        } else {
+            return super.shouldPropertyBePopulatedInForm(requestParameterName, request);
+        }
     }
 
 }
