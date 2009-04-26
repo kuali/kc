@@ -1,15 +1,8 @@
 <?xml version="1.0"?>
-<project name="kra-rice-upgrade" default="upgrade-to-0-9" basedir=".">
+<project name="kra-rice-upgrade" default="import-rice-web-resources" basedir=".">
 
 	<target name="init">
-		<property name="rice.project.loc" value="/Users/bh79/dev/kra_workspace/rice-release-0-9-br" />
-		<!--
-		<property name=""></property>
-		<property name=""></property>
-		<property name=""></property>
-		<property name=""></property>
-				<property name=""></property>
-				-->
+		<property name="rice.project.loc" value="C:\java\projects\rice-094-sample" />
 	</target>
 
 
@@ -36,6 +29,33 @@
 			<zip destfile="${deploy.working.directory}/security.zip" basedir="${basedir}" includes="${security.file}" />
 			<zip destfile="${deploy.working.directory}/skel.zip" basedir="${build.work.directory}" />
 			-->
+	</target>
+	
+	<target name="import-rice-web-resources" depends="init">
+		<copy todir="${basedir}/src/main/webapp/en">
+			<fileset dir="${rice.project.loc}/src/main/webapp/en" excludes="**/.svn" />
+		</copy>
+		<copy todir="${basedir}/src/main/webapp/kcb">
+			<fileset dir="${rice.project.loc}/src/main/webapp/kcb" excludes="**/.svn" />
+		</copy>
+		<copy todir="${basedir}/src/main/webapp/ken">
+			<fileset dir="${rice.project.loc}/src/main/webapp/ken" excludes="**/.svn" />
+		</copy>
+		<copy todir="${basedir}/src/main/webapp/kew">
+			<fileset dir="${rice.project.loc}/src/main/webapp/kew" excludes="**/.svn" />
+		</copy>
+		<copy todir="${basedir}/src/main/webapp/kim">
+			<fileset dir="${rice.project.loc}/src/main/webapp/kim" excludes="**/.svn" />
+		</copy>
+		<copy todir="${basedir}/src/main/webapp/kr">
+			<fileset dir="${rice.project.loc}/src/main/webapp/kr" excludes="**/.svn" />
+		</copy>
+		<copy todir="${basedir}/src/main/webapp/ksb">
+			<fileset dir="${rice.project.loc}/src/main/webapp/ksb" excludes="**/.svn" />
+		</copy>
+		<copy todir="${basedir}/src/main/webapp/WEB-INF/tags/kr">
+			<fileset dir="${rice.project.loc}/src/main/webapp/WEB-INF/tags/kr" excludes="**/.svn" />
+		</copy>
 	</target>
 
 </project>
