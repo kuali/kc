@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.committee.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.ResearchArea;
-
 import java.util.LinkedHashMap;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
+
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.ResearchArea;
 
 public class CommitteeMembershipExpertise extends KraPersistableBusinessObjectBase { 
     

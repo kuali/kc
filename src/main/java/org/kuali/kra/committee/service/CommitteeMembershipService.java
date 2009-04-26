@@ -20,10 +20,7 @@ import java.util.Collection;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
-import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
-import org.kuali.kra.irb.bo.Protocol;
-import org.kuali.kra.irb.personnel.ProtocolPerson;
 
 public interface CommitteeMembershipService {
     /**

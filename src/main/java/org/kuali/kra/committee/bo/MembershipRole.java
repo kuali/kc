@@ -15,13 +15,14 @@
  */
 package org.kuali.kra.committee.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import java.util.LinkedHashMap;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * 

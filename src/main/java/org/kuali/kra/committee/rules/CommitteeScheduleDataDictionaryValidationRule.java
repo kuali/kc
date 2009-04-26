@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.committee.rules;
 
-import org.kuali.core.service.DictionaryValidationService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.committee.bo.CommitteeScheduleAttributeReferenceDummy;
 import org.kuali.kra.committee.web.struts.form.schedule.DailyScheduleDetails;
 import org.kuali.kra.committee.web.struts.form.schedule.MonthlyScheduleDetails;
@@ -24,6 +22,8 @@ import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.committee.web.struts.form.schedule.StyleKey;
 import org.kuali.kra.committee.web.struts.form.schedule.YearlyScheduleDetails;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class CommitteeScheduleDataDictionaryValidationRule {
         

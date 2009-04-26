@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.time.DateUtils;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.bo.ScheduleStatus;
@@ -45,6 +44,7 @@ import org.kuali.kra.scheduling.sequence.TrimDatesScheduleSequenceDecorator;
 import org.kuali.kra.scheduling.sequence.WeekScheduleSequenceDecorator;
 import org.kuali.kra.scheduling.service.ScheduleService;
 import org.kuali.kra.scheduling.util.Time24HrFmt;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
 
