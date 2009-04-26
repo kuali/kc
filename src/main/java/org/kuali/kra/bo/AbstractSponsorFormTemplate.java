@@ -17,11 +17,6 @@ package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
-import org.apache.struts.upload.FormFile;
-import org.kuali.core.bo.PersistableAttachment;
-
 public abstract class AbstractSponsorFormTemplate extends KraPersistableBusinessObjectBase implements Comparable<AbstractSponsorFormTemplate>{
 	private Integer packageNumber;
 	private Integer pageNumber;

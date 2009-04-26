@@ -17,10 +17,7 @@ package org.kuali.kra.budget.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.bo.AbstractInstituteRate;
 import org.kuali.kra.bo.InstituteLaRate;
-import org.kuali.kra.bo.InstituteRate;
-import org.kuali.kra.budget.BudgetDecimal;
 
 public class BudgetProposalLaRate extends AbstractBudgetRate {
 

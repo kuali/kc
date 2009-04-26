@@ -33,7 +33,7 @@ public class State extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObject#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObject#toStringMapper()
      */
     @Override
     protected LinkedHashMap toStringMapper() {

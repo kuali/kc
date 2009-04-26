@@ -16,9 +16,7 @@
 package org.kuali.kra.budget.bo;
 
 import java.util.LinkedHashMap;
-import java.sql.Date;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 
 public class BudgetPersonnelRateAndBase extends AbstractBudgetRateAndBase {

@@ -17,8 +17,6 @@ package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-
 public class FundingSourceType extends KraPersistableBusinessObjectBase {
 
     /**

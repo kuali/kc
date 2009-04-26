@@ -17,7 +17,7 @@ package org.kuali.kra.budget.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * 

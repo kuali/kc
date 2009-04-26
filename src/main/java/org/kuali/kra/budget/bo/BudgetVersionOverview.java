@@ -22,11 +22,11 @@ import java.util.Map;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * Class representation of a Budget Overview Business Object.  This BO maps to
@@ -224,7 +224,7 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     }
     
     /**
-     * @see org.kuali.core.bo.BusinessObject#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObject#toStringMapper()
      */
     @Override
     protected LinkedHashMap toStringMapper() {

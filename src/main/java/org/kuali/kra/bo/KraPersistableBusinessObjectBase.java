@@ -4,16 +4,16 @@ import java.sql.Timestamp;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.bo.user.AuthenticationUserId;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.rice.shim.UniversalUser;
+import org.kuali.kra.rice.shim.UniversalUserService;
+import org.kuali.kra.rice.shim.UserNotFoundException;
+import org.kuali.rice.kew.user.AuthenticationUserId;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public abstract class KraPersistableBusinessObjectBase extends PersistableBusinessObjectBase {
 
@@ -44,7 +44,7 @@ public abstract class KraPersistableBusinessObjectBase extends PersistableBusine
      */
     private void setUpdateFields() {
         if (!isUpdateUserSet()) {
-            String updateUser = GlobalVariables.getUserSession().getLoggedInUserNetworkId();
+            String updateUser = GlobalVariables.getUserSession().getLoggedInUserPrincipalName();
 
             // Since the UPDATE_USER column is only VACHAR(60), we need to truncate this string if it's longer than 60 characters
             if (updateUser.length() > 60) {

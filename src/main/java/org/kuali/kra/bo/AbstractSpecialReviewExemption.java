@@ -17,9 +17,6 @@ package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.bo.ExemptionType;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-
 @SuppressWarnings("serial")
 public abstract class AbstractSpecialReviewExemption extends KraPersistableBusinessObjectBase {
     private String exemptionTypeCode;
