@@ -1,0 +1,12425 @@
+SQL> @kc-rice-093-to-094-dml.sql;
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+1 row created.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+1 row created.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+PL/SQL procedure successfully completed.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+INSERT INTO KRNS_MAINT_DOC_T (DOC_CNTNT,DOC_HDR_ID,OBJ_ID,VER_NBR)
+                                                                 *
+ERROR at line 1:
+ORA-00926: missing VALUES keyword 
+
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+INSERT INTO KRSB_MSG_PYLD_T (MSG_PYLD,MSG_QUE_ID)
+                                                *
+ERROR at line 1:
+ORA-00926: missing VALUES keyword 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+INSERT INTO KRSB_MSG_PYLD_T (MSG_PYLD,MSG_QUE_ID)
+                                                *
+ERROR at line 1:
+ORA-00926: missing VALUES keyword 
+
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+INSERT INTO KRSB_MSG_PYLD_T (MSG_PYLD,MSG_QUE_ID)
+                                                *
+ERROR at line 1:
+ORA-00926: missing VALUES keyword 
+
+
+
+1 row created.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error 
+ORA-06512: at "SYS.DBMS_LOB", line 833 
+ORA-06512: at line 6 
+
+
+
+PL/SQL procedure successfully completed.
+
+SP2-0027: Input is too long (> 2499 characters) - line ignored
+INSERT INTO KRSB_MSG_PYLD_T (MSG_PYLD,MSG_QUE_ID)
+                                                *
+ERROR at line 1:
+ORA-00926: missing VALUES keyword 
+
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+Table truncated.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> spool off;
