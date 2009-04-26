@@ -9,7 +9,7 @@
 			<description>Create a New Deadline Type</description>
 			<label>Deadline Type</label>
 			<postProcessorName>
-				org.kuali.workflow.postprocessor.KualiPostProcessor
+				org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor
 			</postProcessorName>
 			<superUserWorkgroupName>
 				WorkflowAdmin
