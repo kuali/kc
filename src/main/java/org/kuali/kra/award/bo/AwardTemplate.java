@@ -15,13 +15,12 @@
  */
 package org.kuali.kra.award.bo;
 
-import org.kuali.core.util.TypedArrayList;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.Sponsor;
-
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.Sponsor;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 public class AwardTemplate extends KraPersistableBusinessObjectBase { 
 	

@@ -83,10 +83,10 @@ public class ContactType extends KraPersistableBusinessObjectBase implements Con
     public void setDescription(String description) {
         this.description = description;
     }    
-
+    
     /**
      * 
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
@@ -94,6 +94,13 @@ public class ContactType extends KraPersistableBusinessObjectBase implements Con
         hashMap.put("contactTypeCode", getContactTypeCode());
         hashMap.put("description", getDescription());
         return hashMap;
+    }
+
+    /**
+     * @see org.kuali.kra.award.bo.ContactRole#getRoleDescription()
+     */
+    public String getRoleDescription() {
+        return description;
     }
 
     @Override
@@ -131,13 +138,6 @@ public class ContactType extends KraPersistableBusinessObjectBase implements Con
      */
     public String getRoleCode() {
         return getContactTypeCode();
-    }
-
-    /**
-     * @see org.kuali.kra.award.bo.ContactRole#getRoleDescription()
-     */
-    public String getRoleDescription() {
-        return description;
     }
     
 }

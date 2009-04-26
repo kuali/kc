@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award.bo;
 
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This interface defines a simple behavior for valuable items

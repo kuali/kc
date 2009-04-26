@@ -16,9 +16,9 @@
 
 package org.kuali.kra.award.bo;
 
-import org.kuali.kra.bo.AbstractSpecialReview;
-
 import java.util.LinkedHashMap;
+
+import org.kuali.kra.bo.AbstractSpecialReview;
 /**
  * 
  * This class represents AwardSpecialReview BO

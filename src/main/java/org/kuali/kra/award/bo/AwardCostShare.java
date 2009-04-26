@@ -19,11 +19,11 @@ import java.sql.Date;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.bo.CostShareType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class is business object representation of an Award Cost Share
@@ -248,7 +248,7 @@ public class AwardCostShare extends KraPersistableBusinessObjectBase implements 
     
     
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
     protected LinkedHashMap<String,Object> toStringMapper() {        
