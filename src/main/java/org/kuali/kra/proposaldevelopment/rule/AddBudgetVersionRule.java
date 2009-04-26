@@ -15,8 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.rule;
 
-import org.kuali.core.rule.BusinessRule;
+import org.kuali.kra.budget.rules.BudgetDocumentRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddBudgetVersionEvent;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * A composited rule of the {@link BudgetDocumentRule}. It is expected that the {@link BudgetDocumentRule} will call this rule directly on save,

@@ -15,11 +15,12 @@
  */
 package org.kuali.kra.kim.maintenance;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
-import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.kra.kim.bo.KimRole;
+import org.kuali.kra.rice.shim.UniversalUser;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
+import org.kuali.rice.kns.document.authorization.MaintenanceDocumentRestrictions;
+import org.kuali.rice.kns.document.authorization.MaintenanceDocumentRestrictionsBase;
 
 /**
  * When a role is initially created, its name, role type, and descend flag can be
@@ -30,19 +31,19 @@ public class KimRoleMaintenanceDocumentAuthorizer extends MaintenanceDocumentAut
     /**
      * @see org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase#getFieldAuthorizations(org.kuali.core.document.MaintenanceDocument, org.kuali.core.bo.user.UniversalUser)
      */
-    @Override
-    public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
+    //@Override
+    public MaintenanceDocumentRestrictions getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
 
-        MaintenanceDocumentAuthorizations auths = new MaintenanceDocumentAuthorizations();
+        MaintenanceDocumentRestrictions auths = new MaintenanceDocumentRestrictionsBase(); // TODO Hook up in Spring
         KimRole role = (KimRole) document.getNewMaintainableObject().getBusinessObject();
 
         // The ID of a role is null only for creation.  Therefore, if it isn't null,
         // then it is a modification and we must set some properties to be read-only.
         
         if (role.getId() != null) {
-            auths.addReadonlyAuthField("name");
-            auths.addReadonlyAuthField("roleTypeCode");
-            auths.addReadonlyAuthField("descend");
+            auths.addReadOnlyField("name");
+            auths.addReadOnlyField("roleTypeCode");
+            auths.addReadOnlyField("descend");
         }
 
         return auths;

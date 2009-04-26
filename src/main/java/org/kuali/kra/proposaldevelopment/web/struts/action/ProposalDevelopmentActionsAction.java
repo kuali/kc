@@ -36,22 +36,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.question.ConfirmationQuestion;
-import org.kuali.core.rule.event.DocumentAuditEvent;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.service.PersistenceStructureService;
-import org.kuali.core.service.PessimisticLockService;
-import org.kuali.core.util.AuditCluster;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.WebUtils;
-import org.kuali.core.web.struts.action.AuditModeAction;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.core.web.struts.form.KualiForm;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.bo.SponsorFormTemplate;
 import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
@@ -59,6 +43,7 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.kim.service.KIMService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
@@ -69,6 +54,7 @@ import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStateService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sSubmissionHistory;
 import org.kuali.kra.s2s.service.PrintService;
@@ -76,21 +62,32 @@ import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.service.KraPersistenceStructureService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kew.dto.ActionRequestDTO;
+import org.kuali.rice.kew.dto.DocumentDetailDTO;
+import org.kuali.rice.kew.dto.NetworkIdDTO;
+import org.kuali.rice.kew.dto.ReportCriteriaDTO;
+import org.kuali.rice.kew.engine.node.KeyValuePair;
+import org.kuali.rice.kew.engine.node.RouteNodeInstance;
+import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.kew.service.WorkflowInfo;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.service.PersistenceStructureService;
+import org.kuali.rice.kns.service.PessimisticLockService;
+import org.kuali.rice.kns.util.AuditCluster;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
-
-import edu.iu.uis.eden.EdenConstants;
-import edu.iu.uis.eden.KEWServiceLocator;
-import edu.iu.uis.eden.clientapp.WorkflowInfo;
-import edu.iu.uis.eden.clientapp.vo.ActionRequestVO;
-import edu.iu.uis.eden.clientapp.vo.DocumentDetailVO;
-import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
-import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
-import edu.iu.uis.eden.clientapp.vo.UserIdVO;
-import edu.iu.uis.eden.clientapp.vo.UserVO;
-import edu.iu.uis.eden.clientapp.vo.WorkgroupVO;
-import edu.iu.uis.eden.engine.node.KeyValuePair;
-import edu.iu.uis.eden.engine.node.RouteNodeInstance;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.WebUtils;
+import org.kuali.rice.kns.web.struts.action.AuditModeAction;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Handles all of the actions from the Proposal Development Actions web page.
@@ -109,6 +106,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     private static final int OK = 0;
     private static final int WARNING = 1;
     private static final int ERROR = 2;
+    
+    private KIMService kimService;
     
     /**
      * Struts mapping for the Proposal web page.  
@@ -167,10 +166,11 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     }   
 
     private boolean canGenerateRequestsInFuture(KualiWorkflowDocument workflowDoc) throws Exception {
-        String loggedInUserID = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
-        NetworkIdVO networkId = new NetworkIdVO(loggedInUserID);
-        ReportCriteriaVO reportCriteria = new ReportCriteriaVO(new Long(workflowDoc.getRouteHeaderId()));
-        reportCriteria.setTargetUsers(new UserIdVO[] { networkId });
+        String loggedInUserID = (new UniversalUser (GlobalVariables.getUserSession().getPerson())).getPersonUniversalIdentifier();
+        String loggedInPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
+        NetworkIdDTO networkId = new NetworkIdDTO(loggedInUserID);
+        ReportCriteriaDTO reportCriteria = new ReportCriteriaDTO(new Long(workflowDoc.getRouteHeaderId()));
+        reportCriteria.setTargetPrincipalIds(new String[] { loggedInPrincipalId });
 
         boolean receiveFutureRequests = false;
         boolean doNotReceiveFutureRequests = false;    
@@ -179,14 +179,14 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         if (CollectionUtils.isNotEmpty(variables)) {
             for (Object variable : variables) {
                 KeyValuePair kvp = (KeyValuePair) variable;
-                if (kvp.getKey().startsWith(EdenConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_KEY)
-                        && kvp.getValue().toUpperCase().equals(EdenConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_VALUE)
+                if (kvp.getKey().startsWith(KEWConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_KEY)
+                        && kvp.getValue().toUpperCase().equals(KEWConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_VALUE)
                         && kvp.getKey().contains(networkId.getNetworkId())) {
                     receiveFutureRequests = true; 
                     break;
                 }
-                else if (kvp.getKey().startsWith(EdenConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_KEY)
-                      && kvp.getValue().toUpperCase().equals(EdenConstants.DONT_RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_VALUE)
+                else if (kvp.getKey().startsWith(KEWConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_KEY)
+                      && kvp.getValue().toUpperCase().equals(KEWConstants.DONT_RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_VALUE)
                       && kvp.getKey().contains(networkId.getNetworkId())) {
                     doNotReceiveFutureRequests = true; 
                     break;
@@ -197,13 +197,13 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return ((receiveFutureRequests == false && doNotReceiveFutureRequests == false) && canGenerateMultipleApprovalRequests(reportCriteria, networkId));
     }
     
-    private boolean canGenerateMultipleApprovalRequests(ReportCriteriaVO reportCriteria, NetworkIdVO networkId) throws Exception {
+    private boolean canGenerateMultipleApprovalRequests(ReportCriteriaDTO reportCriteria, NetworkIdDTO networkId) throws Exception {
         int approvalRequestsCount = 0;
         WorkflowInfo info = new WorkflowInfo();
         
-        DocumentDetailVO results1 = info.routingReport(reportCriteria);
-        for(ActionRequestVO actionRequest : results1.getActionRequests() ){
-            if(!actionRequest.isRoleRequest() && actionRequest.isPending() && actionRequest.getActionRequested().equalsIgnoreCase(EdenConstants.ACTION_REQUEST_APPROVE_REQ) && 
+        DocumentDetailDTO results1 = info.routingReport(reportCriteria);
+        for(ActionRequestDTO actionRequest : results1.getActionRequests() ){
+            if(!actionRequest.isRoleRequest() && actionRequest.isPending() && actionRequest.getActionRequested().equalsIgnoreCase(KEWConstants.ACTION_REQUEST_APPROVE_REQ) && 
                     recipientMatchesUser(actionRequest, networkId)) {
                 approvalRequestsCount+=1; 
             }
@@ -212,16 +212,20 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return (approvalRequestsCount > 1);
     }
     
-    private boolean recipientMatchesUser(ActionRequestVO actionRequest, NetworkIdVO networkId) {
+    private boolean recipientMatchesUser(ActionRequestDTO actionRequest, NetworkIdDTO networkId) {
         if(actionRequest != null && networkId != null) {
-            UserVO recipientUser = actionRequest.getUserVO();
-            if(recipientUser != null && recipientUser.getNetworkId().equals(networkId.getNetworkId())) {
+            //UserVO recipientUser = actionRequest.get getUserVO();
+            String recipientUser = actionRequest.getPrincipalId();
+            if(recipientUser != null && recipientUser.equals(networkId.getNetworkId())) {
                 return true;
             } else {
-                WorkgroupVO recipientGroup = actionRequest.getWorkgroupVO();
-                if(recipientGroup != null && recipientGroup.getMembers().length > 0) {
-                    for(UserVO member: recipientGroup.getMembers()) {
-                        if(member != null && member.getNetworkId().equals(networkId.getNetworkId())) {
+                String recipientGroupId = actionRequest.getGroupId();
+                //WorkgroupVO recipientGroup = actionRequest.getWorkgroupVO();
+                KIMService kimService = getKimService();
+                List<String> groupMembers = kimService.getGroupMemberPrincipalIds(recipientGroupId);
+                if(groupMembers != null && groupMembers.size() > 0) {
+                    for(String member: groupMembers) {
+                        if(member != null && member.equals(networkId.getNetworkId())) {
                             return true;
                         } 
                     }
@@ -230,6 +234,14 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         }
         
         return false;  
+    }
+    
+    private KIMService getKimService() {
+        if (kimService != null) {
+            return kimService;
+        }
+        kimService = KraServiceLocator.getService(KIMService.class);
+        return kimService;
     }
     
     /**
@@ -363,7 +375,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             }
             else {
                 String newDocId = proposalCopyService.copyProposal(doc, criteria);
-                KraServiceLocator.getService(PessimisticLockService.class).releaseAllLocksForUser(doc.getPessimisticLocks(), GlobalVariables.getUserSession().getUniversalUser());
+                KraServiceLocator.getService(PessimisticLockService.class).releaseAllLocksForUser(doc.getPessimisticLocks(), new UniversalUser (GlobalVariables.getUserSession().getPerson()));
                 
                 // Switch over to the new proposal development document and
                 // go to the Proposal web page.
@@ -701,7 +713,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             s2sSubmissionHistory.setS2sRevisionTypeCode(proposalDevelopmentDocument.getS2sOpportunity().getRevisionCode());
             s2sSubmissionHistory.setS2sSubmissionTypeCode(proposalDevelopmentDocument.getS2sOpportunity().getS2sSubmissionTypeCode());
         }            
-        s2sSubmissionHistory.setSubmittedBy(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+        s2sSubmissionHistory.setSubmittedBy(((UniversalUser) GlobalVariables.getUserSession().getPerson()).getPersonUniversalIdentifier());
         s2sSubmissionHistory.setSubmissionTime(submissions.get(submissions.size()-1).getReceivedDate());
         return s2sSubmissionHistory;
     }
@@ -848,7 +860,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return null;
     }
     
-    private KualiRuleService getKualiRuleService() {
+    @Override
+    protected KualiRuleService getKualiRuleService() {
         return getService(KualiRuleService.class);
     }
     

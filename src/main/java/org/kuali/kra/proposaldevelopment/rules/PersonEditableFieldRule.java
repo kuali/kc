@@ -15,18 +15,18 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import java.util.Collection;
-
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kra.bo.PersonEditableField;
-
-import static org.kuali.core.util.GlobalVariables.getErrorMap;
-import static org.kuali.core.util.ObjectUtils.equalByKeys;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.kra.infrastructure.Constants.PERSON_EDITABLE_FIELD_NAME_PROPERTY_KEY;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PERSON_EDITABLE_FIELD_EXISTS;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+
+import java.util.Collection;
+
+import org.kuali.kra.bo.PersonEditableField;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Business rules class for the <code>{@link PersonEditableFieldMaintenanceDocument}</code>. When a <code>{@link PersonEditableField}</code> BO is created,
@@ -53,8 +53,8 @@ public class PersonEditableFieldRule extends MaintenanceDocumentRuleBase {
                 PersonEditableField newField = (PersonEditableField) getNewBo();
                 
                 for (PersonEditableField existingField : (Collection<PersonEditableField>) getBusinessObjectService().findAll(PersonEditableField.class)) {
-                    retval &= !equalByKeys(existingField, newField);
-                    getErrorMap().putError(PERSON_EDITABLE_FIELD_NAME_PROPERTY_KEY, ERROR_PERSON_EDITABLE_FIELD_EXISTS, existingField.getFieldName()); 
+                    retval &= !ObjectUtils.equalByKeys(existingField, newField);
+                    GlobalVariables.getErrorMap().putError(PERSON_EDITABLE_FIELD_NAME_PROPERTY_KEY, ERROR_PERSON_EDITABLE_FIELD_EXISTS, existingField.getFieldName()); 
                 }
             }
             

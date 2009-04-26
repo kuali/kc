@@ -28,6 +28,7 @@ import org.kuali.kra.kim.pojo.Namespace;
 import org.kuali.kra.kim.pojo.Person;
 import org.kuali.kra.kim.pojo.Role;
 import org.kuali.kra.kim.service.KIMService;
+import org.kuali.rice.kim.service.impl.IdentityManagementServiceImpl;
 
 /**
  * The KIM Service allows a user to query KIM regarding
@@ -35,7 +36,7 @@ import org.kuali.kra.kim.service.KIMService;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class KIMServiceImpl implements KIMService {
+public class KIMServiceImpl extends IdentityManagementServiceImpl implements KIMService {
 
     private ServiceBase helper;
     

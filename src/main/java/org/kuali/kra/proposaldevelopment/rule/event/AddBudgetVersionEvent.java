@@ -15,16 +15,16 @@
  */
 package org.kuali.kra.proposaldevelopment.rule.event;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.BusinessRule;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.rule.AddBudgetVersionRule;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
-
 import static org.apache.commons.lang.StringUtils.substringAfterLast;
 import static org.kuali.kra.infrastructure.Constants.EMPTY_STRING;
 import static org.kuali.kra.logging.BufferedLogger.debug;
 import static org.kuali.kra.logging.BufferedLogger.logger;
+
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.rule.AddBudgetVersionRule;
+import org.kuali.kra.rule.event.KraDocumentEventBase;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 public class AddBudgetVersionEvent extends KraDocumentEventBase {
     

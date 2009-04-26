@@ -1,6 +1,7 @@
 package org.kuali.kra.proposaldevelopment.bo;
 
 import java.util.LinkedHashMap;
+
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.ScienceKeyword;
 public class PropScienceKeyword extends KraPersistableBusinessObjectBase {

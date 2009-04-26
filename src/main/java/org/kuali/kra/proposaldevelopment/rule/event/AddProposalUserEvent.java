@@ -18,13 +18,13 @@ package org.kuali.kra.proposaldevelopment.rule.event;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.rule.BusinessRule;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUser;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.PermissionsRule;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
+import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * The AddProposalUserEvent is generated when a Proposal User is to be added to

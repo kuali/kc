@@ -17,8 +17,6 @@ package org.kuali.kra.proposaldevelopment.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.bo.ExemptionType;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.AbstractSpecialReviewExemption;
 
 public class ProposalExemptNumber extends AbstractSpecialReviewExemption {

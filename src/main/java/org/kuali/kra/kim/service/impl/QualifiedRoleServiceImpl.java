@@ -25,9 +25,7 @@ import org.kuali.kra.kim.bo.KimPerson;
 import org.kuali.kra.kim.bo.KimQualifiedRoleGroup;
 import org.kuali.kra.kim.bo.KimQualifiedRolePerson;
 import org.kuali.kra.kim.pojo.Group;
-import org.kuali.kra.kim.pojo.GroupQualifiedRole;
 import org.kuali.kra.kim.pojo.Person;
-import org.kuali.kra.kim.pojo.PersonQualifiedRole;
 import org.kuali.kra.kim.pojo.Role;
 import org.kuali.kra.kim.service.QualifiedRoleService;
 

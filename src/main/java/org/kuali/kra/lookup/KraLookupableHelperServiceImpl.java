@@ -20,16 +20,16 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.struts.form.LookupForm;
-import org.kuali.core.web.ui.Field;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.kns.web.ui.Field;
 
 public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
-    @Override
+    //@Override
     public String getActionUrls(BusinessObject businessObject) {
         return "<a href=\"../"+getHtmlAction()+"?methodToCall=docHandler&command=initiate&docTypeName="+getDocumentTypeName()
             +"&"+getKeyFieldName()+"="+ObjectUtils.getPropertyValue(businessObject, getKeyFieldName()).toString()+"\">edit</a>";

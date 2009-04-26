@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.proposaldevelopment.bo.ProposalState;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalStateService;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Proposal State Service Implementation.

@@ -20,7 +20,6 @@ import static java.util.Collections.sort;
 import static org.apache.commons.lang.StringUtils.isBlank;
 import static org.apache.commons.lang.StringUtils.isNotBlank;
 import static org.apache.commons.lang.StringUtils.substringBetween;
-import static org.kuali.rice.kns.util.KNSConstants.METHOD_TO_CALL_ATTRIBUTE;
 import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_FLAG;
 import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
@@ -30,8 +29,10 @@ import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMEN
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-import static org.kuali.kra.logging.FormattedLogger.*;
 import static org.kuali.kra.logging.BufferedLogger.info;
+import static org.kuali.kra.logging.FormattedLogger.debug;
+import static org.kuali.kra.logging.FormattedLogger.warn;
+import static org.kuali.rice.kns.util.KNSConstants.METHOD_TO_CALL_ATTRIBUTE;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -46,9 +47,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -62,6 +60,9 @@ import org.kuali.kra.proposaldevelopment.rule.event.CalculateCreditSplitEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ChangeKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Handles actions from the Key Persons page of the 
@@ -209,7 +210,8 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
      * 
      * @return KualiRuleService
      */
-    private KualiRuleService getKualiRuleService() {
+    @Override
+    protected KualiRuleService getKualiRuleService() {
         return getService(KualiRuleService.class);
     }
    
@@ -578,8 +580,8 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         return CollectionUtils.isNotEmpty(units);
     }
        
-
-    private BusinessObjectService getBusinessObjectService() {
+    @Override
+    protected BusinessObjectService getBusinessObjectService() {
         return getService(BusinessObjectService.class);
     }
     

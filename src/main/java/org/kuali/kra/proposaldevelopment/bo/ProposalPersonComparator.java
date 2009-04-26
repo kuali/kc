@@ -15,11 +15,10 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.util.Comparator;
-
 import static org.apache.commons.lang.StringUtils.isNotBlank;
-
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+
+import java.util.Comparator;
 
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 

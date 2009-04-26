@@ -17,7 +17,6 @@ package org.kuali.kra.proposaldevelopment.web.struts.action;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
-import java.util.Enumeration;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,12 +27,12 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.service.KualiRuleService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.kra.service.CustomAttributeService;
+import org.kuali.rice.kns.service.KualiRuleService;
 
 public class ProposalDevelopmentCustomDataAction extends ProposalDevelopmentAction {
 
@@ -113,7 +112,8 @@ public class ProposalDevelopmentCustomDataAction extends ProposalDevelopmentActi
         return forward;
     }
 
-    private KualiRuleService getKualiRuleService() {
+    @Override
+    protected KualiRuleService getKualiRuleService() {
         return getService(KualiRuleService.class);
     }
 

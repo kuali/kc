@@ -18,8 +18,8 @@ package org.kuali.kra.proposaldevelopment.bo;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.rice.kns.bo.BusinessObjectBase;
 
 /**
  * A <b>ProposalUser</b> represents a user who has a role in a Proposal's ACL.
@@ -148,7 +148,7 @@ public class ProposalUser extends BusinessObjectBase {
     }
     
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
     protected LinkedHashMap toStringMapper() {
@@ -163,7 +163,7 @@ public class ProposalUser extends BusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObject#refresh()
+     * @see org.kuali.rice.kns.bo.BusinessObject#refresh()
      */
     public void refresh() {
         // do nothing

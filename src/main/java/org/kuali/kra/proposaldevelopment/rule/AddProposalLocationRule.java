@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.rule;
 
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddProposalLocationEvent;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 public interface AddProposalLocationRule  extends BusinessRule {
     

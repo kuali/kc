@@ -17,18 +17,16 @@ package org.kuali.kra.kim.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.kim.bo.KimGroup;
-import org.kuali.kra.kim.bo.KimNamespace;
 import org.kuali.kra.kim.bo.KimPermission;
 import org.kuali.kra.kim.bo.KimPerson;
 import org.kuali.kra.kim.bo.KimQualifiedRoleGroup;
+import org.kuali.kra.kim.bo.KimQualifiedRolePerson;
 import org.kuali.kra.kim.bo.KimRole;
 import org.kuali.kra.kim.bo.KimRolePermission;
-import org.kuali.kra.kim.bo.KimQualifiedRolePerson;
 import org.kuali.kra.kim.pojo.Group;
 import org.kuali.kra.kim.pojo.GroupQualifiedRole;
 import org.kuali.kra.kim.pojo.Permission;

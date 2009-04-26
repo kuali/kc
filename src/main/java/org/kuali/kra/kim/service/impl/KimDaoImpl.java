@@ -23,10 +23,10 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kra.kim.bo.KimPersonQualifiedRoleAttribute;
 import org.kuali.kra.kim.bo.KimQualifiedRolePerson;
 import org.kuali.kra.kim.bo.KimRolePermission;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 /**
  * The KIM DAO implementation.  Uses OJB.

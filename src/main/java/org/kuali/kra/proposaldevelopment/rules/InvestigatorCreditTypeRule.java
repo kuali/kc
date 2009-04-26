@@ -15,18 +15,18 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import static org.kuali.core.util.GlobalVariables.getErrorMap;
-import static org.kuali.core.util.ObjectUtils.equalByKeys;
 import static org.kuali.kra.infrastructure.Constants.INVESTIGATOR_CREDIT_TYPE_CODE_PROPERTY_KEY;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_CREDIT_TYPE_EXISTS;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.Collection;
 
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Business Rules implementation for modifying <code>{@link InvestigatorCreditType}</code> Business Object instances.
@@ -51,7 +51,7 @@ public class InvestigatorCreditTypeRule extends MaintenanceDocumentRuleBase {
      *   <li>Check for existing business objects with the same primary key values.</li>
      * </ol>
      * 
-     * @see org.kuali.core.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
+     * @see org.kuali.core.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
     public boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document)   {
         boolean retval = true;
@@ -59,10 +59,10 @@ public class InvestigatorCreditTypeRule extends MaintenanceDocumentRuleBase {
             InvestigatorCreditType newField = (InvestigatorCreditType) getNewBo();
             
             for (InvestigatorCreditType existingField : (Collection<InvestigatorCreditType>) getBusinessObjectService().findAll(InvestigatorCreditType.class)) {
-                retval &= !equalByKeys(existingField, newField);
+                retval &= !ObjectUtils.equalByKeys(existingField, newField);
                 
                 if(!retval) {
-                    getErrorMap().putError(INVESTIGATOR_CREDIT_TYPE_CODE_PROPERTY_KEY, ERROR_INVESTIGATOR_CREDIT_TYPE_EXISTS, existingField.getInvCreditTypeCode());
+                    GlobalVariables.getErrorMap().putError(INVESTIGATOR_CREDIT_TYPE_CODE_PROPERTY_KEY, ERROR_INVESTIGATOR_CREDIT_TYPE_EXISTS, existingField.getInvCreditTypeCode());
                 } 
             }
         }

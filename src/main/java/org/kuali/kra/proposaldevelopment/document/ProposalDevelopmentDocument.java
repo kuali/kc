@@ -27,15 +27,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.datadictionary.DataDictionary;
-import org.kuali.core.datadictionary.DocumentEntry;
-import org.kuali.core.document.Copyable;
-import org.kuali.core.document.SessionDocument;
-import org.kuali.core.document.authorization.PessimisticLock;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.RolePersons;
@@ -70,16 +61,27 @@ import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStateService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.bo.S2sSubmissionHistory;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.YnqService;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.datadictionary.DataDictionary;
+import org.kuali.rice.kns.datadictionary.DocumentEntry;
+import org.kuali.rice.kns.document.Copyable;
+import org.kuali.rice.kns.document.SessionDocument;
+import org.kuali.rice.kns.document.authorization.PessimisticLock;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 public class ProposalDevelopmentDocument extends ResearchDocumentBase implements BudgetVersionCollection, Copyable, SessionDocument, Permissionable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalDevelopmentDocument.class);
+    
+    private static final String DOCUMENT_TYPE_CODE = "PRDV";
     
     private String proposalNumber;
     private String proposalTypeCode;
@@ -189,7 +191,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         super.initialize();
         ProposalDevelopmentService proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
         List<Unit> userUnits = proposalDevelopmentService.getDefaultModifyProposalUnitsForUser(GlobalVariables.getUserSession()
-                .getLoggedInUserNetworkId());
+                .getLoggedInUserPrincipalName());
         if (userUnits.size() == 1) {
             this.setOwnedByUnitNumber(userUnits.get(0).getUnitNumber());
             proposalDevelopmentService.initializeUnitOrganzationLocation(this);
@@ -715,7 +717,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
-        UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser currentUser = new UniversalUser(GlobalVariables.getUserSession().getPerson());
         
         //Pessimistic Lock Impl - building DeletionAwareLists based on the Active Locks held by the current user for this document
         List<PessimisticLock> locksOwnedByCurrentUser = new ArrayList<PessimisticLock>();
@@ -1525,6 +1527,10 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     public void setPostSubmissionStatusCode(Integer postSubmissionStatusCode) {
         this.postSubmissionStatusCode = postSubmissionStatusCode;
+    }
+    
+    public String getDocumentTypeCode() {
+        return DOCUMENT_TYPE_CODE;
     }
     
     public String getDocumentNumberForPermission(){

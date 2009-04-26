@@ -17,9 +17,8 @@ package org.kuali.kra.proposaldevelopment.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.rice.kns.bo.BusinessObjectBase;
 
 /**
  * The <b>ProposalCopyCriteria</b> is user-specified criteria used
@@ -173,7 +172,7 @@ public class ProposalCopyCriteria extends BusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObject#refresh()
+     * @see org.kuali.rice.kns.bo.BusinessObject#refresh()
      */
     public void refresh() {
         // do nothing

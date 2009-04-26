@@ -15,10 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.web.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.kuali.kra.infrastructure.RoleConstants;
 
 /**
  * A ProposalUserRoles corresponds to one user with access to a
@@ -28,7 +27,7 @@ import org.kuali.kra.infrastructure.RoleConstants;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class ProposalUserRoles {
+public class ProposalUserRoles implements Serializable {
 
     private String username = "";
     private String fullname = "";

@@ -17,11 +17,11 @@ package org.kuali.kra.proposaldevelopment.rule;
 
 import java.util.List;
 
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUser;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * Defines the Business Rule for processing Proposal Permissions.

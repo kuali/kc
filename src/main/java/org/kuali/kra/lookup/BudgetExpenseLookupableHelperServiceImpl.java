@@ -16,25 +16,18 @@
 package org.kuali.kra.lookup;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.dao.LookupDao;
-import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.struts.form.LookupForm;
-import org.kuali.core.web.ui.ResultRow;
 import org.kuali.kra.budget.bo.CostElement;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.springframework.transaction.annotation.Transactional;
-
-import edu.iu.uis.eden.lookupable.Column;
 /**
  * 
  * This class implements a custom lookup for S2S Grants.gov Opportunity Lookup
