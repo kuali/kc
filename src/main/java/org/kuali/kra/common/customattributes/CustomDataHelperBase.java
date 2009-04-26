@@ -21,10 +21,10 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * The CustomDataHelperBase is the base class for all Custom Data Helper classes.
@@ -109,7 +109,7 @@ public abstract class CustomDataHelperBase {
      * @return the current session's userName
      */
     protected String getUserName() {
-         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+         UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
          return user.getPersonUserIdentifier();
     }
 }

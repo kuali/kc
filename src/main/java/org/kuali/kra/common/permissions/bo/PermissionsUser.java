@@ -18,7 +18,7 @@ package org.kuali.kra.common.permissions.bo;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.rice.kns.bo.BusinessObjectBase;
 
 /**
  * A <b>PermissionsUser</b> is used for the form on the Permissions tab

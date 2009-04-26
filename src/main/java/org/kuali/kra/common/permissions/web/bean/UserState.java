@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.common.permissions.web.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +41,7 @@ import org.kuali.kra.bo.Person;
  * user must be assigned to that role.  Likewise, if the reverse is true, we know 
  * that the the user must be removed from that role.
  */
-public class UserState {
+public class UserState implements Serializable {
 
     private Person person;
     private List<RoleState> roleStates = new ArrayList<RoleState>();
