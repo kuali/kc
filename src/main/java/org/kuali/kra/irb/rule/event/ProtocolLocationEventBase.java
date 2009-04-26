@@ -16,10 +16,10 @@
 package org.kuali.kra.irb.rule.event;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.irb.bo.ProtocolLocation;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public abstract class ProtocolLocationEventBase extends KraDocumentEventBase implements ProtocolLocationEvent {
 

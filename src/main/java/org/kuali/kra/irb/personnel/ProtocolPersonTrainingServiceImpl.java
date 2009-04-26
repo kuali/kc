@@ -21,8 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.bo.PersonTraining;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 
 public class ProtocolPersonTrainingServiceImpl implements ProtocolPersonTrainingService {

@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
-import org.kuali.core.util.AuditError;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.rules.ErrorReporter;
+import org.kuali.rice.kns.util.AuditError;
 
 
 /**

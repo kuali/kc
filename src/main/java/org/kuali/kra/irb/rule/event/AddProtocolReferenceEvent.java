@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.irb.rule.event;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.irb.bo.ProtocolReference;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.rule.AddProtocolReferenceRule;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * This class hooks Rule to Event in KNS

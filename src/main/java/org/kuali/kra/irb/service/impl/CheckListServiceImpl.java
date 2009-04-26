@@ -19,10 +19,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.irb.bo.ExemptStudiesCheckListItem;
 import org.kuali.kra.irb.bo.ExpeditedReviewCheckListItem;
 import org.kuali.kra.irb.service.CheckListService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * The implementation of the Check List Service.

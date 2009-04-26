@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
-import org.kuali.core.rule.BusinessRule;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * Contains rules for adding {@link ProtocolAttachmentPersonnel ProtocolAttachmentPersonnel}.

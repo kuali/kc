@@ -15,10 +15,9 @@
  */
 package org.kuali.kra.irb.web.struts.form;
 
+import java.io.Serializable;
 import java.util.List;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.bo.Protocol;
@@ -26,9 +25,11 @@ import org.kuali.kra.irb.bo.ProtocolSpecialReview;
 import org.kuali.kra.irb.bo.ProtocolSpecialReviewExemption;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.document.authorization.ProtocolTask;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
-public class SpecialReviewHelper {
+public class SpecialReviewHelper implements Serializable {
     
     /**
      * Each Helper must contain a reference to its document form
@@ -103,7 +104,7 @@ public class SpecialReviewHelper {
     }
     
     private String getUsername() {
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
         return user.getPersonUserIdentifier();
    }
 }

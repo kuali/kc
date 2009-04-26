@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.personnel;
 
-import org.kuali.core.rule.BusinessRule;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 
 /**

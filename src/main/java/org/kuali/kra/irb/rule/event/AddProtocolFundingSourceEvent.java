@@ -20,11 +20,11 @@ import static org.kuali.kra.logging.BufferedLogger.info;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.irb.bo.ProtocolFundingSource;
 import org.kuali.kra.irb.rule.AddProtocolFundingSourceRule;
 import org.kuali.kra.irb.rules.ProtocolFundingSourceRule;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 public class AddProtocolFundingSourceEvent extends ProtocolEventBase<ProtocolFundingSourceRule> {
     

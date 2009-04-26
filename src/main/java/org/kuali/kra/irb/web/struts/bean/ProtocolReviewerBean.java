@@ -17,7 +17,7 @@ package org.kuali.kra.irb.web.struts.bean;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.rice.kns.bo.BusinessObjectBase;
 
 /**
  * This class is really just a "form" for the reviewers that

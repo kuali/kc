@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.irb.rules;
 
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.rule.event.LookupProtocolFundingSourceEvent;
 import org.kuali.kra.irb.service.impl.ProtocolFundingSourceServiceImpl.FundingSourceLookup;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.springframework.util.StringUtils;
 
 public class LookupProtocolFundingSourceRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<LookupProtocolFundingSourceEvent> {

@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.irb.rule.event;
 
-import org.kuali.core.document.Document;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+import org.kuali.rice.kns.document.Document;
 
 /**
  * 

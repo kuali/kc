@@ -20,9 +20,6 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
@@ -31,7 +28,10 @@ import org.kuali.kra.irb.bo.ProtocolUnit;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.document.authorization.ProtocolTask;
 import org.kuali.kra.irb.web.struts.form.ProtocolForm;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class PersonnelHelper {
     
@@ -79,7 +79,7 @@ public class PersonnelHelper {
     }
     
     private String getUsername() {
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
         return user.getPersonUserIdentifier();
     }
     

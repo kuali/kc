@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.irb.rule;
 
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.irb.rule.event.AddProtocolUnitEvent;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * This class adds rule for adding new <code>ProtocolPerson</code> object

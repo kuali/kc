@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.irb.rule;
 
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.web.struts.bean.ProtocolSubmitAction;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 public interface ExecuteProtocolActionRule extends BusinessRule {
 

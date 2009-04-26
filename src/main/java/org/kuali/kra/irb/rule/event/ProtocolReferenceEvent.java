@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.irb.rule.event;
 
-import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.kra.irb.bo.ProtocolReference;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 
 /**
  * This interface is hook to Kuali Event Notification

@@ -17,12 +17,10 @@ package org.kuali.kra.irb.bo;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.committee.bo.Committee;
@@ -40,6 +38,7 @@ import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelService;
 import org.kuali.kra.irb.service.ProtocolLocationService;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * 
@@ -543,6 +542,14 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
                 if (StringUtils.isNotBlank(principalInvestigator.getPersonId())) {
                     setPrincipalInvestigatorId(principalInvestigator.getPersonId());
                 } else {
+                    //ProtocolUnit leadUnit = new ProtocolUnit();
+                    //leadUnit.setUnitNumber(leadUnitNumber);
+                    //leadUnit.setPersonId(getPrincipalInvestigator().getPersonId());  
+                    //leadUnit.setLeadUnitFlag(true); 
+                    // TODO : rice upgrade temp fix
+                    //leadUnit.setProtocolNumber("0");
+                    //leadUnit.setSequenceNumber(0);
+                    //getPrincipalInvestigator().getProtocolUnits().add(leadUnit);
                     if (principalInvestigator.getRolodexId() != null) {
                         setPrincipalInvestigatorId(principalInvestigator.getRolodexId().toString());
                     }

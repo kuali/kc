@@ -23,13 +23,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.datadictionary.DocumentEntry;
-import org.kuali.core.datadictionary.HeaderNavigation;
-import org.kuali.core.document.authorization.DocumentActionFlags;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.ActionFormUtilMap;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.AbstractSpecialReview;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
@@ -44,6 +38,12 @@ import org.kuali.kra.irb.personnel.PersonnelHelper;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.kra.web.struts.form.SpecialReviewFormBase;
+import org.kuali.rice.kns.datadictionary.DocumentEntry;
+import org.kuali.rice.kns.datadictionary.HeaderNavigation;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.ActionFormUtilMap;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * This class...
@@ -75,6 +75,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         super();
         this.setDocument(new ProtocolDocument());
         initialize();
+        this.registerEditableProperty("methodToCall");
     }
 
     /**
@@ -136,7 +137,8 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         }       
     }
     
-    protected void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+    @Override
+    public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
     }
 
@@ -149,18 +151,6 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         this.setLookupResultsSequenceNumber(null);
         this.setLookupResultsBOClassName(null);
         getSpecialReviewHelper().reset();
-    }
-
-
-    /**
-     * Get the Header Dispatch.  This determines the action that will occur
-     * when the user switches tabs for a protocol.  If the user can modify
-     * the protocol, the protocol is automatically saved.  If not (view-only),
-     * then a reload will be executed instead.
-     * @return the Header Dispatch action
-     */
-    public String getHeaderDispatch() {
-        return this.getDocumentActionFlags().getCanSave() ? "save" : "reload";
     }
 
     public KualiConfigurationService getConfigurationService() {
@@ -223,12 +213,12 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         return newProtocolReference;
     }
     
-    protected void setSaveDocumentControl(DocumentActionFlags tempDocumentActionFlags, Map editMode) {
+    protected void setSaveDocumentControl(Map editMode) {
       
     }
     
     protected String getLockRegion() {
-        return "";
+        return KraAuthorizationConstants.LOCK_DESCRIPTOR_PROTOCOL;
     }
     
     public String getActionName() {
@@ -283,6 +273,12 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     public String[] getNewExemptionTypeCodes() {
         return specialReviewHelper.getNewExemptionTypeCodes();
     }
+    
+    // TODO Overriding for 1.1 upgrade 'till we figure out how to actually use this
+    public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
+        
+        return true;
+    }
 
     /**
      * @see org.kuali.kra.web.struts.form.SpecialReviewFormBase#getNewSpecialReview()
@@ -323,5 +319,23 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
 
     public ProtocolDocument getProtocolDocument() {
         return (ProtocolDocument) getDocument();
+    }
+    
+    /** TODO : rice upgrade hack.  multiple lookup has problem because lookupsequencenumber will not be populated
+     * 
+     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#shouldPropertyBePopulatedInForm(java.lang.String, javax.servlet.http.HttpServletRequest)
+     */
+    public boolean shouldPropertyBePopulatedInForm(String requestParameterName, HttpServletRequest request) {
+        return true;
+    }
+
+    /**
+     * TODO : rice upgrade hack : this is to get fundingsource lookup work.
+     * @see org.kuali.rice.kns.web.struts.pojo.PojoFormBase#isPropertyEditable(java.lang.String)
+     */
+    @Override
+    public boolean isPropertyEditable(String propertyName) {
+        // TODO Auto-generated method stub
+        return true;
     }
 }
