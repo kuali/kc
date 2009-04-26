@@ -15,8 +15,10 @@
  */
 package edu.yale.its.tp.cas.ticket;
 
-import java.util.*;
-import java.security.*;
+import java.security.SecureRandom;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents a generic cache of service tickets.  Can be used as a

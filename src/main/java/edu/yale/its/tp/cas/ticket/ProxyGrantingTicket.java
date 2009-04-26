@@ -15,7 +15,8 @@
  */
 package edu.yale.its.tp.cas.ticket;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents a CAS proxy-granting ticket (PGT), used to retrieve proxy

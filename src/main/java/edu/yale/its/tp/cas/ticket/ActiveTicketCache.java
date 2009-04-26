@@ -15,7 +15,11 @@
  */
 package edu.yale.its.tp.cas.ticket;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 /**
  * Represents a cache of tickets that each expire after a configurable
