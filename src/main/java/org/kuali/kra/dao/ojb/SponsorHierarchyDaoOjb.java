@@ -26,15 +26,15 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.core.bo.Parameter;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.OjbCollectionAware;
 import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.dao.SponsorHierarchyDao;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.exceptions.RiceRuntimeException;
+import org.kuali.rice.core.exception.RiceRuntimeException;
+import org.kuali.rice.kns.bo.Parameter;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.OjbCollectionAware;
 import org.springmodules.orm.ojb.PersistenceBrokerCallback;
 
 public class SponsorHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, SponsorHierarchyDao {

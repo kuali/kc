@@ -18,15 +18,15 @@ package org.kuali.kra.infrastructure;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.KNSServiceLocator;
-import org.kuali.core.service.PersistenceService;
+import org.kuali.rice.kns.bo.ModuleConfiguration;
+import org.kuali.rice.kns.service.PersistenceService;
 import org.springframework.beans.factory.InitializingBean;
 
 /**
  * This class is a shim until KC gets to Rice 0.9.4 when we can override ModuleConfiguration.
  * In the meantime we can use this class to break up our ojb repository files.
  */
-public class KraModuleConfiguration implements InitializingBean {
+public class KraModuleConfiguration extends ModuleConfiguration implements InitializingBean {
     
     protected List<String> databaseRepositoryFilePaths;
     
@@ -44,17 +44,17 @@ public class KraModuleConfiguration implements InitializingBean {
         this.databaseRepositoryFilePaths = databaseRepositoryFilePaths;
     }
     
-    public void afterPropertiesSet() throws Exception {
-        if (getDatabaseRepositoryFilePaths() != null) {
-            for (String repositoryLocation : getDatabaseRepositoryFilePaths()) {
-                // Need the OJB persistence service because it is the only one ever using the database repository files
-                if (persistenceService != null)
-                    persistenceService.loadRepositoryDescriptor(repositoryLocation);
-                else
-                    KNSServiceLocator.getPersistenceServiceOjb().loadRepositoryDescriptor(repositoryLocation);
-            }
-        }
-    }
+//    public void afterPropertiesSet() throws Exception {
+//        if (getDatabaseRepositoryFilePaths() != null) {
+//            for (String repositoryLocation : getDatabaseRepositoryFilePaths()) {
+//                // Need the OJB persistence service because it is the only one ever using the database repository files
+//                if (persistenceService != null)
+//                    persistenceService.loadRepositoryDescriptor(repositoryLocation);
+//                else
+//                    KNSServiceLocator.getPersistenceServiceOjb().loadRepositoryDescriptor(repositoryLocation);
+//            }
+//        }
+ //   }
     
     /**
      * @return the databaseRepositoryFilePaths

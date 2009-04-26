@@ -23,16 +23,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.AuthenticationUserId;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.TransactionalDocumentBase;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.DocumentTypeService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.workflow.DocumentInitiator;
-import org.kuali.core.workflow.KualiDocumentXmlMaterializer;
-import org.kuali.core.workflow.KualiTransactionalDocumentInformation;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.bo.RolePersons;
@@ -40,11 +30,20 @@ import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.service.BudgetService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.rice.shim.UniversalUser;
+import org.kuali.kra.rice.shim.UniversalUserService;
+import org.kuali.kra.rice.shim.UserNotFoundException;
 import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.kra.workflow.KraDocumentXMLMaterializer;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kew.user.AuthenticationUserId;
+import org.kuali.rice.kns.document.TransactionalDocumentBase;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.workflow.DocumentInitiator;
+import org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer;
+import org.kuali.rice.kns.workflow.KualiTransactionalDocumentInformation;
 
-public class ResearchDocumentBase extends TransactionalDocumentBase {
+public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
 
     private String updateUser;
     private Timestamp updateTimestamp;
@@ -64,7 +63,7 @@ public class ResearchDocumentBase extends TransactionalDocumentBase {
     @Override
     public void prepareForSave() {
         super.prepareForSave();
-        String updateUser = GlobalVariables.getUserSession().getLoggedInUserNetworkId();
+        String updateUser = GlobalVariables.getUserSession().getLoggedInUserPrincipalName();
 
         // Since the UPDATE_USER column is only VACHAR(60), we need to truncate this string if it's longer than 60 characters
         if (updateUser.length() > 60) {
@@ -100,8 +99,7 @@ public class ResearchDocumentBase extends TransactionalDocumentBase {
      */
     private void populateCustomAttributes() {
         CustomAttributeService customAttributeService = KraServiceLocator.getService(CustomAttributeService.class);
-        String documentTypeCode = ((DocumentTypeService)KraServiceLocator.getService(DocumentTypeService.class)).getDocumentTypeCodeByClass(this.getClass());
-        Map<String, CustomAttributeDocument> customAttributeDocuments = customAttributeService.getDefaultCustomAttributesForDocumentType(documentTypeCode, documentNumber);
+        Map<String, CustomAttributeDocument> customAttributeDocuments = customAttributeService.getDefaultCustomAttributesForDocumentType(getDocumentTypeCode(), documentNumber);
         setCustomAttributeDocuments(customAttributeDocuments);
     }
 
@@ -199,7 +197,7 @@ public class ResearchDocumentBase extends TransactionalDocumentBase {
     /**
      * Wraps a document in an instance of KualiDocumentXmlMaterializer, that provides additional metadata for serialization
      * 
-     * @see org.kuali.core.document.Document#wrapDocumentWithMetadataForXmlSerialization()
+     * @see org.kuali.rice.kns.document.Document#wrapDocumentWithMetadataForXmlSerialization()
      */
     @Override
     public KualiDocumentXmlMaterializer wrapDocumentWithMetadataForXmlSerialization() {
@@ -208,9 +206,8 @@ public class ResearchDocumentBase extends TransactionalDocumentBase {
         String initiatorNetworkId = getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
         try {
             UniversalUser initiatorUser = 
-                KNSServiceLocator.getUniversalUserService().getUniversalUser(new AuthenticationUserId(initiatorNetworkId));
-            initiatorUser.getModuleUsers(); // init the module users map for serialization
-            initiatior.setUniversalUser(initiatorUser);
+                KraServiceLocator.getService(UniversalUserService.class).getUniversalUser(new AuthenticationUserId(initiatorNetworkId));
+            initiatior.setPerson(initiatorUser);
         }
         catch (UserNotFoundException e) {
             throw new RuntimeException(e);
@@ -234,4 +231,6 @@ public class ResearchDocumentBase extends TransactionalDocumentBase {
     protected List<RolePersons> getAllRolePersons() {
         return new ArrayList<RolePersons>();
     } 
+    
+    public abstract String getDocumentTypeCode();
 }

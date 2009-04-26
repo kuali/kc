@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.infrastructure;
 
-import org.kuali.core.web.ui.KeyLabelPair;
 
 public enum YnqConstants {
     YES ("Y", "Yes"),

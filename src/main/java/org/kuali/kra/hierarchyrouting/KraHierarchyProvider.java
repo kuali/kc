@@ -31,17 +31,16 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.service.UnitService;
-
-import edu.iu.uis.eden.engine.RouteContext;
-import edu.iu.uis.eden.engine.node.NodeState;
-import edu.iu.uis.eden.engine.node.RouteNode;
-import edu.iu.uis.eden.engine.node.RouteNodeConfigParam;
-import edu.iu.uis.eden.engine.node.RouteNodeInstance;
-import edu.iu.uis.eden.engine.node.hierarchyrouting.HierarchyProvider;
-import edu.iu.uis.eden.exception.InvalidXmlException;
-import edu.iu.uis.eden.routetemplate.NamedRuleSelector;
-import edu.iu.uis.eden.util.Utilities;
-import edu.iu.uis.eden.util.XmlHelper;
+import org.kuali.rice.kew.engine.RouteContext;
+import org.kuali.rice.kew.engine.node.NodeState;
+import org.kuali.rice.kew.engine.node.RouteNode;
+import org.kuali.rice.kew.engine.node.RouteNodeConfigParam;
+import org.kuali.rice.kew.engine.node.RouteNodeInstance;
+import org.kuali.rice.kew.engine.node.hierarchyrouting.HierarchyProvider;
+import org.kuali.rice.kew.exception.InvalidXmlException;
+import org.kuali.rice.kew.rule.NamedRuleSelector;
+import org.kuali.rice.kew.util.Utilities;
+import org.kuali.rice.kew.util.XmlHelper;
 
 /**
  * 
@@ -192,8 +191,8 @@ public class KraHierarchyProvider implements HierarchyProvider {
         // TODO : not sure about this one yet ?
         // SimpleStop ss = (SimpleStop) stop;
         requestNodeInstance.addNodeState(new NodeState("id", getStopIdentifier(stop)));
-        // requestNodeInstance.addNodeState(new NodeState(EdenConstants.RULE_SELECTOR_NODE_STATE_KEY, "named"));
-        // requestNodeInstance.addNodeState(new NodeState(EdenConstants.RULE_NAME_NODE_STATE_KEY, "NodeInstanceRecipientRule"));
+        // requestNodeInstance.addNodeState(new NodeState(KEWConstants.RULE_SELECTOR_NODE_STATE_KEY, "named"));
+        // requestNodeInstance.addNodeState(new NodeState(KEWConstants.RULE_NAME_NODE_STATE_KEY, "NodeInstanceRecipientRule"));
     }
 
 
