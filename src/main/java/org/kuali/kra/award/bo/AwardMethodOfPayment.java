@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.award.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import java.util.LinkedHashMap;
-import java.sql.Date;
+
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class AwardMethodOfPayment extends KraPersistableBusinessObjectBase { 
 	

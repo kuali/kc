@@ -18,7 +18,7 @@ package org.kuali.kra.award.bo;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.util.TypedArrayList;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 public class AwardTemplateReportTerm extends AwardReportTermBase { 
 	

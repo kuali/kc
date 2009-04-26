@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.award.bo;
 
-import org.kuali.kra.bo.SponsorTermType;
-
 import java.util.LinkedHashMap;
+
+import org.kuali.kra.bo.SponsorTermType;
 
 public class AwardTemplateTerm extends AwardTermBase { 
 	
