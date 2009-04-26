@@ -28,7 +28,7 @@ import org.apache.ojb.broker.metadata.CollectionDescriptor;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
-import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 /**
  * 
  * This class used for supplying customized query to OJB repository <code>collection-descriptor</code> tag.

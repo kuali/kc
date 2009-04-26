@@ -23,8 +23,7 @@ import org.apache.commons.collections.Transformer;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
-
-import edu.iu.uis.eden.engine.node.hierarchyrouting.HierarchyProvider.Stop;
+import org.kuali.rice.kew.engine.node.hierarchyrouting.HierarchyProvider.Stop;
 
 public class UnitStop implements Stop {
     // maybe, rice should implement this as a base type, so the other app can extend it ?

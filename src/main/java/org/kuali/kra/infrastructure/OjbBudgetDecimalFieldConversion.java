@@ -19,7 +19,6 @@ import java.math.BigDecimal;
 
 import org.apache.ojb.broker.accesslayer.conversions.ConversionException;
 import org.apache.ojb.broker.accesslayer.conversions.FieldConversion;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.budget.BudgetDecimal;
 
 /**

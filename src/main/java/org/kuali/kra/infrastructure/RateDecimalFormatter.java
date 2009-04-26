@@ -17,8 +17,8 @@ package org.kuali.kra.infrastructure;
 
 import java.math.BigDecimal;
 
-import org.kuali.core.web.format.BigDecimalFormatter;
 import org.kuali.kra.budget.RateDecimal;
+import org.kuali.rice.kns.web.format.BigDecimalFormatter;
 
 public class RateDecimalFormatter extends BigDecimalFormatter {
     private static final long serialVersionUID = 4658319828434873892L;

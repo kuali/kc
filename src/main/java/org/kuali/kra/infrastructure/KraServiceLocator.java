@@ -15,9 +15,8 @@
  */
 package org.kuali.kra.infrastructure;
 
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

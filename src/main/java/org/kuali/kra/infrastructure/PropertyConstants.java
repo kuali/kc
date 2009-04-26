@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.infrastructure;
 
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A constants class containing constants relating to class properties.

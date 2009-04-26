@@ -20,7 +20,6 @@ import java.math.BigDecimal;
 import org.apache.ojb.broker.accesslayer.conversions.ConversionException;
 import org.apache.ojb.broker.accesslayer.conversions.FieldConversion;
 import org.kuali.kra.budget.RateDecimal;
-import org.kuali.kra.budget.RateDecimal;
 
 /**
  * This class...
