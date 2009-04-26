@@ -22,11 +22,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.web.ui.Field;
-import org.kuali.core.web.ui.Row;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Row;
 
 public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
 

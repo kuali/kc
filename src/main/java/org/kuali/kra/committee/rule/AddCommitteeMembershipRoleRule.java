@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.committee.rule;
 
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.committee.rule.event.AddCommitteeMembershipRoleEvent;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * 

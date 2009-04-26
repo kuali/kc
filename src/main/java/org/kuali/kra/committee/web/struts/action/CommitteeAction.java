@@ -26,23 +26,23 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.document.Document;
-import org.kuali.core.lookup.LookupResultsService;
-import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.lookup.LookupResultsService;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
-
-import edu.iu.uis.eden.clientapp.IDocHandler;
 
 /**
  * The CommitteeAction is the base class for all Committee actions.  Each derived
@@ -116,7 +116,7 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
             if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
 
                 Class lookupResultsBOClass = Class.forName(committeeForm.getLookupResultsBOClassName());
-                String userName = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
+                String userName = ((UniversalUser) GlobalVariables.getUserSession().getPerson()).getPersonUniversalIdentifier();
                 LookupResultsService service = KraServiceLocator.getService(LookupResultsService.class);
                 Collection<PersistableBusinessObject> selectedBOs = service.retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, userName);
 
@@ -152,7 +152,7 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
         CommitteeForm committeeForm = (CommitteeForm) form;
         String command = committeeForm.getCommand();
         
-        if (IDocHandler.ACTIONLIST_INLINE_COMMAND.equals(command)) {
+        if (KEWConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
              String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
              Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
              committeeForm.setDocument(retrievedDocument);
@@ -164,7 +164,7 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
              forward = super.docHandler(mapping, form, request, response);
         }
 
-        if (IDocHandler.INITIATE_COMMAND.equals(committeeForm.getCommand())) {
+        if (KEWConstants.INITIATE_COMMAND.equals(committeeForm.getCommand())) {
             committeeForm.getCommitteeDocument().initialize();
         } 
         else {
@@ -217,7 +217,8 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
      * Get the Kuali Rule Service.
      * @return the Kuali Rule Service
      */
-    private KualiRuleService getKualiRuleService() {
+    @Override
+    protected KualiRuleService getKualiRuleService() {
         return getService(KualiRuleService.class);
     }
     

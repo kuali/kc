@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.committee.rule.event;
 
-import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 
 public interface CommitteeMembershipRoleEvent extends KualiDocumentEvent {
 

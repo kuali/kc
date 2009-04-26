@@ -20,11 +20,11 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * Finds the available set of supported Abstract Types.  See
