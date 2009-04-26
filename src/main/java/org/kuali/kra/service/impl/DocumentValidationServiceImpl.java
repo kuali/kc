@@ -27,12 +27,12 @@ import org.apache.ojb.broker.metadata.ClassDescriptor;
 import org.apache.ojb.broker.metadata.CollectionDescriptor;
 import org.apache.ojb.broker.metadata.ObjectReferenceDescriptor;
 import org.apache.ojb.broker.metadata.fieldaccess.PersistentField;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.service.impl.PersistenceServiceStructureImplBase;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.service.DocumentValidationService;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.impl.PersistenceServiceStructureImplBase;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class DocumentValidationServiceImpl extends PersistenceServiceStructureImplBase implements DocumentValidationService {
     // TODO : hack to validate only updatable reference

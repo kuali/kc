@@ -20,9 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.BusinessObjectDictionaryService;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DataDictionaryService;
 import org.kuali.kra.bo.CustomAttributeDataType;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
@@ -30,11 +27,13 @@ import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.CustomAttributeService;
+import org.kuali.rice.kew.dto.NetworkIdDTO;
+import org.kuali.rice.kew.dto.WorkflowAttributeDefinitionDTO;
+import org.kuali.rice.kew.service.WorkflowDocument;
+import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
-
-import edu.iu.uis.eden.clientapp.WorkflowDocument;
-import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
-import edu.iu.uis.eden.clientapp.vo.WorkflowAttributeDefinitionVO;
 
 /**
  * This class provides the implementation of the Custom Attribute Service.
@@ -114,13 +113,12 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
      * @see org.kuali.kra.service.CustomAttributeService#setCustomAttributeKeyValue(org.kuali.kra.document.ResearchDocumentBase, java.lang.String, java.lang.String)
      */
     public void setCustomAttributeKeyValue(ResearchDocumentBase document, String attributeName, String networkId) throws Exception {
-        WorkflowDocument workflowDocument = new WorkflowDocument(new NetworkIdVO(networkId),new Long (Long.parseLong(document.getDocumentHeader().getDocumentNumber()))); 
+        WorkflowDocument workflowDocument = new WorkflowDocument(new NetworkIdDTO(networkId),new Long (Long.parseLong(document.getDocumentHeader().getDocumentNumber()))); 
         //WorkflowDocument document = proposalDevelopmentForm.getWorkflowDocument().getInitiatorNetworkId();
         
         // Not sure to delete all the content, but there is no other options
         workflowDocument.clearAttributeContent();  
-        WorkflowAttributeDefinitionVO customDataDef = new WorkflowAttributeDefinitionVO(attributeName);
-        
+        WorkflowAttributeDefinitionDTO customDataDef = new WorkflowAttributeDefinitionDTO(attributeName);
         Map<String, CustomAttributeDocument>customAttributeDocuments = document.getCustomAttributeDocuments();
         if (customAttributeDocuments != null) {
             for (Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:customAttributeDocuments.entrySet()) {

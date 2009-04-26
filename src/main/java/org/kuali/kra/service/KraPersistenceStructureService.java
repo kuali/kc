@@ -17,8 +17,8 @@ package org.kuali.kra.service;
 
 import java.util.Map;
 
-import org.kuali.core.exceptions.ClassNotPersistableException;
-import org.kuali.core.service.PersistenceStructureService;
+import org.kuali.rice.kns.exception.ClassNotPersistableException;
+import org.kuali.rice.kns.service.PersistenceStructureService;
 
 public interface KraPersistenceStructureService extends PersistenceStructureService {
 

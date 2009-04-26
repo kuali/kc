@@ -17,7 +17,6 @@ package org.kuali.kra.rules;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -25,23 +24,21 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.collections.keyvalue.DefaultMapEntry;
-import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.DocumentAuditRule;
-import org.kuali.core.rules.DocumentRuleBase;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DictionaryValidationService;
-import org.kuali.core.util.AuditCluster;
-import org.kuali.core.util.AuditError;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.DocumentAuditRule;
+import org.kuali.rice.kns.rules.DocumentRuleBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.util.AuditError;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 import edu.emory.mathcs.backport.java.util.AbstractMap.SimpleEntry;
 import edu.emory.mathcs.backport.java.util.AbstractMap.SimpleImmutableEntry;
@@ -151,7 +148,7 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
      * @return true if user has permission; otherwise false
      */
     protected boolean hasPermission(ProposalDevelopmentDocument doc, String permissionName) {
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser user = (UniversalUser) GlobalVariables.getUserSession().getPerson();
         String username = user.getPersonUserIdentifier();
         KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
         return kraAuthorizationService.hasPermission(username, doc, permissionName);
@@ -164,7 +161,7 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
      * @return true if user has role; otherwise false
      */
     protected boolean hasRole(ProposalDevelopmentDocument doc, String roleName) {
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser user = (UniversalUser) GlobalVariables.getUserSession().getPerson();
         String username = user.getPersonUserIdentifier();
         KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
         return kraAuthorizationService.hasRole(username, doc, roleName);

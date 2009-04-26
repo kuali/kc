@@ -18,9 +18,9 @@ package org.kuali.kra.rules;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.kra.budget.bo.BudgetCategory;
 import org.kuali.kra.budget.bo.BudgetCategoryType;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 
 public class BudgetCategoryTypeExistenceRule extends KraMaintenanceDocumentRuleBase {
     

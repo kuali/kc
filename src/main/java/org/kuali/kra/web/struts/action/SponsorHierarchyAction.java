@@ -27,19 +27,19 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.lookup.LookupResultsService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.rules.SponsorHierarchyRule;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.web.struts.form.SponsorHierarchyForm;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.lookup.LookupResultsService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 public class SponsorHierarchyAction extends KualiAction {
 
@@ -188,7 +188,7 @@ public class SponsorHierarchyAction extends KualiAction {
             
             Collection<PersistableBusinessObject> rawValues = KraServiceLocator.getService(LookupResultsService.class)
                 .retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass,
-                        GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+                        ((UniversalUser) GlobalVariables.getUserSession().getPerson()).getPersonUniversalIdentifier());
             int idx = 0;
             String idxString = StringUtils.substringBetween(sponsorHierarchyForm.getLookedUpCollectionName(),"[","]");
             if (StringUtils.isNotBlank(idxString)) {

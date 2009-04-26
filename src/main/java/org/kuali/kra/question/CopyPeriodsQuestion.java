@@ -17,7 +17,7 @@ package org.kuali.kra.question;
 
 import java.util.ArrayList;
 
-import org.kuali.core.question.QuestionBase;
+import org.kuali.rice.kns.question.QuestionBase;
 
 public class CopyPeriodsQuestion extends QuestionBase {
     

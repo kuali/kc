@@ -15,29 +15,26 @@
  */
 package org.kuali.kra.workflow;
 
+import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE;
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
-import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-
-
+import org.kuali.rice.kew.engine.RouteContext;
+import org.kuali.rice.kew.identity.Id;
+import org.kuali.rice.kew.routeheader.DocumentContent;
+import org.kuali.rice.kew.rule.AbstractRoleAttribute;
+import org.kuali.rice.kew.rule.ResolvedQualifiedRole;
+import org.kuali.rice.kew.rule.Role;
+import org.kuali.rice.kew.user.AuthenticationUserId;
+import org.kuali.rice.kew.user.UserId;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import edu.iu.uis.eden.Id;
-import edu.iu.uis.eden.engine.RouteContext;
-import edu.iu.uis.eden.exception.EdenUserNotFoundException;
-
-import edu.iu.uis.eden.routeheader.DocumentContent;
-import edu.iu.uis.eden.routetemplate.AbstractRoleAttribute;
-import edu.iu.uis.eden.routetemplate.ResolvedQualifiedRole;
-import edu.iu.uis.eden.routetemplate.Role;
-import edu.iu.uis.eden.user.AuthenticationUserId;
-import edu.iu.uis.eden.user.UserId;
 
 public class ProposalPersonRoleAttribute extends AbstractRoleAttribute 
 {
@@ -62,8 +59,7 @@ public class ProposalPersonRoleAttribute extends AbstractRoleAttribute
     }
 
 
-    public ResolvedQualifiedRole resolveQualifiedRole(RouteContext routeContext, String roleName, String qualifiedRole)
-    throws EdenUserNotFoundException {
+    public ResolvedQualifiedRole resolveQualifiedRole(RouteContext routeContext, String roleName, String qualifiedRole) {
 
 
         ResolvedQualifiedRole qualRole = new ResolvedQualifiedRole();
@@ -102,7 +98,7 @@ public class ProposalPersonRoleAttribute extends AbstractRoleAttribute
         }
         return qualRole;
     }
-    public List<String> getQualifiedRoleNames(String roleName, DocumentContent docContent) throws EdenUserNotFoundException {
+    public List<String> getQualifiedRoleNames(String roleName, DocumentContent docContent) {
         List<String> qualifiedRoleNames = new ArrayList<String>();
 
         if ( PRINCIPAL_INVESTIGATOR_ROLE_KEY.equals(roleName)) {

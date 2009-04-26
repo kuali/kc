@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.rule;
 
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 public interface CustomAttributeRule extends BusinessRule {
     

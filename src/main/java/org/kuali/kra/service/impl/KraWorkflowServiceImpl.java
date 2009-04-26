@@ -15,14 +15,12 @@
  */
 package org.kuali.kra.service.impl;
 
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.document.Document;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.service.KraWorkflowService;
-
-import edu.iu.uis.eden.clientapp.WorkflowInfo;
-import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.service.WorkflowInfo;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * KRA Workflow Service Implementation.
@@ -30,17 +28,16 @@ import edu.iu.uis.eden.exception.WorkflowException;
 public class KraWorkflowServiceImpl implements KraWorkflowService {
 
     /**
-     * @see org.kuali.kra.service.KraWorkflowService#hasWorkflowPermission(java.lang.String, org.kuali.core.document.Document)
+     * @see org.kuali.kra.service.KraWorkflowService#hasWorkflowPermission(java.lang.String, org.kuali.rice.kns.document.Document)
      */
     public boolean hasWorkflowPermission(String username, Document doc) {
         boolean hasPermission = false;
         KualiWorkflowDocument workflowDoc = getWorkflowDocument(doc);
         if (workflowDoc != null && isInWorkflow(doc)) {
             Long routeHeaderId = workflowDoc.getRouteHeader().getRouteHeaderId();
-            NetworkIdVO userId = new NetworkIdVO(username);
             WorkflowInfo info = new WorkflowInfo();
             try {
-                hasPermission = info.isUserAuthenticatedByRouteLog(routeHeaderId, userId, true);
+                hasPermission = info.isUserAuthenticatedByRouteLog(routeHeaderId, username, true);
             }
             catch (WorkflowException e) {
             }
@@ -49,7 +46,7 @@ public class KraWorkflowServiceImpl implements KraWorkflowService {
     }
 
     /**
-     * @see org.kuali.kra.service.KraWorkflowService#isClosed(org.kuali.core.document.Document)
+     * @see org.kuali.kra.service.KraWorkflowService#isClosed(org.kuali.rice.kns.document.Document)
      */
     public boolean isClosed(Document doc) {
         boolean isClosed = false;
@@ -64,7 +61,7 @@ public class KraWorkflowServiceImpl implements KraWorkflowService {
     }
 
     /**
-     * @see org.kuali.kra.service.KraWorkflowService#isEnRoute(org.kuali.core.document.Document)
+     * @see org.kuali.kra.service.KraWorkflowService#isEnRoute(org.kuali.rice.kns.document.Document)
      */
     public boolean isEnRoute(Document doc) {
         boolean isEnRoute = false;
@@ -76,7 +73,7 @@ public class KraWorkflowServiceImpl implements KraWorkflowService {
     }
    
     /**
-     * @see org.kuali.kra.service.KraWorkflowService#isInWorkflow(org.kuali.core.document.Document)
+     * @see org.kuali.kra.service.KraWorkflowService#isInWorkflow(org.kuali.rice.kns.document.Document)
      */
     public boolean isInWorkflow(Document doc) {
         boolean isInWorkflow = false;

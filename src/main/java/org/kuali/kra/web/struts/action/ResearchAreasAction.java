@@ -15,22 +15,14 @@
  */
 package org.kuali.kra.web.struts.action;
 
-import java.util.Collection;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.lookup.LookupResultsService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.struts.action.KualiAction;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.web.struts.form.ResearchAreasForm;
+import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 public class ResearchAreasAction extends KualiAction {
     

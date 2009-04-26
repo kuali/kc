@@ -25,12 +25,12 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.UserSession;
-import org.kuali.core.util.AuditCluster;
-import org.kuali.core.util.AuditError;
-import org.kuali.core.util.ExceptionUtils;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.util.AuditCluster;
+import org.kuali.rice.kns.util.AuditError;
+import org.kuali.rice.kns.util.ExceptionUtils;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class provides error reporting capabilities.

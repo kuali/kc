@@ -18,9 +18,9 @@ package org.kuali.kra.rules;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.kra.budget.bo.RateClass;
 import org.kuali.kra.budget.bo.RateType;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 
 public class RateClassExistenceRule extends KraMaintenanceDocumentRuleBase {
     

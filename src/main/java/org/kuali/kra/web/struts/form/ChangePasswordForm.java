@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.web.struts.form;
 
-import org.kuali.core.web.struts.form.KualiForm;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
  * The Change Password Form.  

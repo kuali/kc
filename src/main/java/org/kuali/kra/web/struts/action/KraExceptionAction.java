@@ -31,18 +31,18 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.authorization.PessimisticLock;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.PessimisticLockService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.kra.rice.shim.UniversalUser;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.authorization.PessimisticLock;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.PessimisticLockService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 
 /**
@@ -60,7 +60,7 @@ public class KraExceptionAction extends Action {
         
         saveErrors(request, errors);
         
-        UniversalUser loggedInUser = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser loggedInUser = (UniversalUser) GlobalVariables.getUserSession().getPerson();
         String documentNumber = (String) request.getSession().getAttribute(KNSConstants.DOCUMENT_HTTP_SESSION_KEY);
         PessimisticLockService lockService = KNSServiceLocator.getPessimisticLockService();
         

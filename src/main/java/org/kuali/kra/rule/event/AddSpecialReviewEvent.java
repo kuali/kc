@@ -16,11 +16,11 @@
 package org.kuali.kra.rule.event;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.BusinessRule;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.bo.AbstractSpecialReview;
 import org.kuali.kra.rule.SpecialReviewRule;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class represents the event for adding special review.
