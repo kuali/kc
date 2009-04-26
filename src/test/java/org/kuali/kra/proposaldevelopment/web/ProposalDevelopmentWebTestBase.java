@@ -19,17 +19,14 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.kuali.kra.KraWebTestBase;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlImageInput;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-
-import edu.iu.uis.eden.exception.WorkflowException;
-
 import org.junit.After;
 import org.junit.Before;
+import org.kuali.kra.KraWebTestBase;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.rice.kew.exception.WorkflowException;
+
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 /**
  * Base class for all htmlunit tests involving the Proposal Development Page.

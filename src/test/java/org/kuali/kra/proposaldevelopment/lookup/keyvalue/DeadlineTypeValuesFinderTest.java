@@ -15,16 +15,12 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.keyvalue.PersistableBusinessObjectValuesFinderTestBase;
 import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * This class tests DeadlineTypeValuesFinder.

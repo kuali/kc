@@ -15,6 +15,11 @@
  */
 package org.kuali.kra.proposaldevelopment.web;
 
+import static org.kuali.kra.logging.BufferedLogger.debug;
+import static org.kuali.kra.logging.BufferedLogger.error;
+import static org.kuali.kra.logging.BufferedLogger.fatal;
+import static org.kuali.kra.logging.BufferedLogger.warn;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,8 +27,6 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-
-import static org.kuali.kra.logging.BufferedLogger.*;
 
 /**
  *  Web Test class for testing the Key Personnel Tab of the <code>{@link ProposalDevelopmentDocument}</code>

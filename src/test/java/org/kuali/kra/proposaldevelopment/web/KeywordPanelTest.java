@@ -16,13 +16,10 @@
 package org.kuali.kra.proposaldevelopment.web;
 
 import java.io.IOException;
-import java.net.URL;
 
 import org.junit.Test;
 
 import com.gargoylesoftware.htmlunit.ScriptResult;
-import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlTable;
 
