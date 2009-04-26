@@ -9,7 +9,7 @@ resource:WorkflowData">
       <ignorePrevious>true</ignorePrevious>
       <responsibilities>
         <responsibility>
-          <workgroup>OSP</workgroup>
+          <workgroup>KC:OSP</workgroup>
           <actionRequested>A</actionRequested>
           <priority>1</priority>
         </responsibility>
@@ -22,7 +22,7 @@ resource:WorkflowData">
       <ignorePrevious>false</ignorePrevious>
       <responsibilities>
         <responsibility>
-          <workgroup>OSP</workgroup>
+          <workgroup>KC:OSP</workgroup>
           <actionRequested>A</actionRequested>
           <priority>1</priority>
         </responsibility>
@@ -119,6 +119,7 @@ resource:WorkflowData">
           <user>schulte</user>
           <actionRequested>A</actionRequested>
           <priority>1</priority>
+          <!-- 
           <delegations>
             <rule>
               <documentType>ProposalDevelopmentDocument</documentType>
@@ -145,6 +146,7 @@ resource:WorkflowData">
               <delegationType>S</delegationType>
             </rule>
           </delegations>
+           -->
         </responsibility>
       </responsibilities>
     </rule>

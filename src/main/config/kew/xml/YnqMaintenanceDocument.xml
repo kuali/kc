@@ -9,7 +9,7 @@
 			<description>Create a New YNQ Document Type</description>
 			<label>YnqMaintenanceDocument</label>
 			<postProcessorName>
-				org.kuali.workflow.postprocessor.KualiPostProcessor
+				org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor
 			</postProcessorName>
 			<superUserWorkgroupName>
 				WorkflowAdmin

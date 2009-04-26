@@ -5,7 +5,7 @@
 <name>AwardTemplateReportTermRecipientMaintenanceDocument</name>
 <description>Create a New Award Template Report Term Recipient</description>
 <label>Award Template Report Term Recipient</label>
-<postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 <defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
