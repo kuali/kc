@@ -15,19 +15,17 @@
  */
 package org.kuali.kra.budget.rules;
 
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kra.budget.bo.BudgetCostShare;
 import org.kuali.kra.budget.bo.BudgetDistributionAndIncomeComponent;
 import org.kuali.kra.budget.document.BudgetDocumentContainer;
 import org.kuali.kra.budget.rule.AddBudgetCostShareRule;
-import org.kuali.kra.budget.rule.BudgetUnrecoveredFandAAllocationRule;
-import org.kuali.kra.budget.rule.BudgetValidationCostShareRule;
 import org.kuali.kra.budget.rule.BudgetCostShareAllocationRule;
+import org.kuali.kra.budget.rule.BudgetValidationCostShareRule;
 import org.kuali.kra.budget.rule.event.AddBudgetCostShareEvent;
 import org.kuali.kra.budget.rule.event.BudgetCostShareAllocationEvent;
-import org.kuali.kra.budget.rule.event.BudgetUnrecoveredFandAAllocationEvent;
 import org.kuali.kra.budget.rule.event.BudgetValidationCostShareEvent;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
  * Processes Budget Project Income rules

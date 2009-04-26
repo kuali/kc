@@ -18,12 +18,10 @@ package org.kuali.kra.budget.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kra.budget.bo.BudgetPerson;
-import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.bo.JobCode;
 import org.kuali.kra.budget.service.JobCodeService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class JobCodeServiceImpl implements JobCodeService {
     
