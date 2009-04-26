@@ -18,13 +18,13 @@ package org.kuali.kra.award.web.struts.action;
 import java.sql.Date;
 import java.util.List;
 
-import org.kuali.core.service.KualiRuleService;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.bo.AwardDirectFandADistribution;
 import org.kuali.kra.award.rule.event.AwardDirectFandADistributionRuleEvent;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.award.web.struts.form.DirectFandADistributionFormHelper;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.service.KualiRuleService;
 
 /**
  * This class contains logic for action methods specific to Award Direct F and A Distribution.
