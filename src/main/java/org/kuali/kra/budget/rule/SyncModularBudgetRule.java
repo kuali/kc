@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.budget.rule;
 
-import org.kuali.core.document.Document;
+import org.kuali.rice.kns.document.Document;
 
 public interface SyncModularBudgetRule {
     

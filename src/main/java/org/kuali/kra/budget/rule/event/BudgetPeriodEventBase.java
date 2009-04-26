@@ -16,10 +16,10 @@
 package org.kuali.kra.budget.rule.event;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Document;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
+import org.kuali.rice.kns.document.Document;
 
 public abstract class BudgetPeriodEventBase extends KraDocumentEventBase implements BudgetPeriodEvent {
 
