@@ -27,8 +27,8 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * Tests for {@link ProtocolAttachmentServiceImpl ProtocolAttachmentServiceImpl}.

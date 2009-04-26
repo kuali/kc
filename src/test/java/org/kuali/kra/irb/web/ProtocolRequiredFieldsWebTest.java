@@ -16,7 +16,6 @@
 package org.kuali.kra.irb.web;
 
 import org.junit.Test;
-import org.kuali.kra.infrastructure.KeyConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 

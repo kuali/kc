@@ -24,9 +24,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
-
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-import static org.kuali.kra.logging.FormattedLogger.info;
+import org.kuali.kra.bo.Rolodex;
 
 /**
  * Test the Data Access Object implementation for <code>{@link Rolodex}</code> business objects

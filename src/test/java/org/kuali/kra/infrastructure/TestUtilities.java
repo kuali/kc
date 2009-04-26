@@ -47,6 +47,16 @@ import org.apache.commons.lang.SystemUtils;
 import org.apache.ojb.broker.PBKey;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.kim.service.KIMService;
+import org.kuali.rice.core.resourceloader.SpringLoader;
+import org.kuali.rice.kew.actionitem.ActionItem;
+import org.kuali.rice.kew.actionrequest.ActionRequestValue;
+import org.kuali.rice.kew.dto.NetworkIdDTO;
+import org.kuali.rice.kew.engine.node.RouteNodeInstance;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.kew.service.WorkflowDocument;
+import org.kuali.rice.kew.util.Utilities;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -56,19 +66,6 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springmodules.orm.ojb.PersistenceBrokerTemplate;
-
-import edu.iu.uis.eden.KEWServiceLocator;
-import edu.iu.uis.eden.SpringLoader;
-import edu.iu.uis.eden.actionitem.ActionItem;
-import edu.iu.uis.eden.actionrequests.ActionRequestValue;
-import edu.iu.uis.eden.clientapp.WorkflowDocument;
-import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
-import edu.iu.uis.eden.engine.node.RouteNodeInstance;
-import edu.iu.uis.eden.exception.EdenUserNotFoundException;
-import edu.iu.uis.eden.exception.WorkflowException;
-import edu.iu.uis.eden.user.AuthenticationUserId;
-import edu.iu.uis.eden.user.WorkflowUser;
-import edu.iu.uis.eden.util.Utilities;
 
 /**
  * Defines utilities for unit testing
@@ -255,10 +252,10 @@ public class TestUtilities {
     /**
      * Asserts that the given document id is in the given user's action list.
      */
-    public static void assertInActionList(NetworkIdVO networkId, Long documentId) throws EdenUserNotFoundException {
-    	WorkflowUser user = KEWServiceLocator.getUserService().getWorkflowUser(networkId);
+    public static void assertInActionList(NetworkIdDTO networkId, Long documentId) {
+    	org.kuali.rice.kim.bo.Person user = KEWServiceLocator.getIdentityHelperService().getPersonByPrincipalName(networkId.getNetworkId());
     	Assert.assertNotNull("Given network id was invalid: " + networkId, user);
-    	Collection actionList = KEWServiceLocator.getActionListService().findByWorkflowUser(user);
+    	Collection actionList = KEWServiceLocator.getActionListService().findByPrincipalId(user.getPrincipalId());
     	for (Iterator iterator = actionList.iterator(); iterator.hasNext();) {
 			ActionItem actionItem = (ActionItem) iterator.next();
 			if (actionItem.getRouteHeaderId().equals(documentId)) {
@@ -271,10 +268,10 @@ public class TestUtilities {
     /**
      * Asserts that the given document id is NOT in the given user's action list.
      */
-    public static void assertNotInActionList(NetworkIdVO networkId, Long documentId) throws EdenUserNotFoundException {
-    	WorkflowUser user = KEWServiceLocator.getUserService().getWorkflowUser(networkId);
+    public static void assertNotInActionList(NetworkIdDTO networkId, Long documentId) {
+        org.kuali.rice.kim.bo.Person user = KEWServiceLocator.getIdentityHelperService().getPersonByPrincipalName(networkId.getNetworkId());
     	Assert.assertNotNull("Given network id was invalid: " + networkId, user);
-    	Collection actionList = KEWServiceLocator.getActionListService().findByWorkflowUser(user);
+    	Collection actionList = KEWServiceLocator.getActionListService().findByPrincipalId(user.getPrincipalId());
     	for (Iterator iterator = actionList.iterator(); iterator.hasNext();) {
 			ActionItem actionItem = (ActionItem) iterator.next();
 			if (actionItem.getRouteHeaderId().equals(documentId)) {
@@ -292,15 +289,15 @@ public class TestUtilities {
      * Asserts that the user with the given network id has a pending request on the given document
      */
     public static void assertUserHasPendingRequest(Long documentId, String networkId) throws WorkflowException {
-    	WorkflowUser user = KEWServiceLocator.getUserService().getWorkflowUser(new AuthenticationUserId(networkId));
     	List actionRequests = KEWServiceLocator.getActionRequestService().findPendingByDoc(documentId);
+        KIMService kimService = getKimService();
     	boolean foundRequest = false;
     	for (Iterator iterator = actionRequests.iterator(); iterator.hasNext();) {
 			ActionRequestValue actionRequest = (ActionRequestValue) iterator.next();
-			if (actionRequest.isUserRequest() && actionRequest.getWorkflowUser().getAuthenticationUserId().getAuthenticationId().equals(networkId)) {
+			if (actionRequest.isUserRequest() && actionRequest.getPrincipalId().equals(networkId)) {
 				foundRequest = true;
 				break;
-			} else if (actionRequest.isWorkgroupRequest() && actionRequest.getWorkgroup().hasMember(user)) {
+			} else if (actionRequest.isGroupRequest() && kimService.isMemberOfGroup(networkId, actionRequest.getGroupId())) {
 				foundRequest = true;
 				break;
 			}
@@ -318,7 +315,7 @@ public class TestUtilities {
     public static void assertApprovals(Long docId, String[] users, boolean shouldHaveApproval) throws WorkflowException {
         List<String> failedUsers = new ArrayList<String>();
         for (String user: users) {
-            WorkflowDocument doc = new WorkflowDocument(new NetworkIdVO(user), docId);
+            WorkflowDocument doc = new WorkflowDocument(new NetworkIdDTO(user), docId);
             boolean appRqsted = doc.isApprovalRequested();
             if (shouldHaveApproval != appRqsted) {
                 failedUsers.add(user);
@@ -584,6 +581,10 @@ public class TestUtilities {
 
         }
         return data;
+    }
+    
+    public static KIMService getKimService() {
+        return KraServiceLocator.getService(KIMService.class);
     }
 
 }

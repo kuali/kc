@@ -18,8 +18,8 @@ package org.kuali.kra.irb.web;
 
 
 import org.junit.Test;
-import org.kuali.core.UserSession;
-import org.kuali.core.util.GlobalVariables;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestFile;
