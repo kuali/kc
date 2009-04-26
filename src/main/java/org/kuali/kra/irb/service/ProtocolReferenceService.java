@@ -15,10 +15,8 @@
  */
 package org.kuali.kra.irb.service;
 
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolReference;
-import org.kuali.kra.irb.document.ProtocolDocument;
 
 
 public interface ProtocolReferenceService {

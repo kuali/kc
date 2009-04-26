@@ -15,12 +15,14 @@
  */
 package org.kuali.kra.irb.web.struts.form;
 
+import java.io.Serializable;
+
 import org.kuali.kra.irb.web.struts.bean.ProtocolSubmitAction;
 
 /**
  * The form helper class for the Protocol Actions tab.
  */
-public class ActionHelper {
+public class ActionHelper implements Serializable {
 
     /**
      * Each Helper must contain a reference to its document form

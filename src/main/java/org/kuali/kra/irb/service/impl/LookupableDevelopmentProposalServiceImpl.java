@@ -19,10 +19,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.irb.bo.LookupableDevelopmentProposal;
 import org.kuali.kra.irb.service.LookupableDevelopmentProposalService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class LookupableDevelopmentProposalServiceImpl implements LookupableDevelopmentProposalService {
 

@@ -16,23 +16,16 @@
 
 package org.kuali.kra.irb.document;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.document.Copyable;
-import org.kuali.core.document.SessionDocument;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.document.ResearchDocumentBase;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.service.ProtocolAuthorizationService;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kns.document.Copyable;
+import org.kuali.rice.kns.document.SessionDocument;
 
 /**
  * 
@@ -45,6 +38,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  */
 public class ProtocolDocument extends ResearchDocumentBase implements Copyable, SessionDocument { 
 	
+    private static final String DOCUMENT_TYPE_CODE = "PROT";
     
     /**
      * Comment for <code>serialVersionUID</code>
@@ -127,5 +121,9 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         ProtocolAuthorizationService protocolAuthService = 
                (ProtocolAuthorizationService) KraServiceLocator.getService(ProtocolAuthorizationService.class); 
         return protocolAuthService.getAllRolePersons(getProtocol());
+    }
+    
+    public String getDocumentTypeCode() {
+        return DOCUMENT_TYPE_CODE;
     }
 }

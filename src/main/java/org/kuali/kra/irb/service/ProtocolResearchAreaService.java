@@ -17,8 +17,8 @@ package org.kuali.kra.irb.service;
 
 import java.util.Collection;
 
-import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.kra.irb.bo.Protocol;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
 
 public interface ProtocolResearchAreaService {

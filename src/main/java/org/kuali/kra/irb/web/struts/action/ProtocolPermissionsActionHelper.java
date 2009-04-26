@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.irb.web.struts.action;
 
-import org.kuali.core.document.Document;
 import org.kuali.kra.common.permissions.web.struts.action.PermissionsActionHelperBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.service.ProtocolAuthorizationService;
+import org.kuali.rice.kns.document.Document;
 
 /**
  * The Protocol Permissions Action Helper performs all of the presentation logic
