@@ -11,7 +11,7 @@
 			</description>
 			<label>Proposal Column To Alter</label>
 			<postProcessorName>
-				org.kuali.workflow.postprocessor.KualiPostProcessor
+				org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor
 			</postProcessorName>
 			<superUserWorkgroupName>
 				WorkflowAdmin
