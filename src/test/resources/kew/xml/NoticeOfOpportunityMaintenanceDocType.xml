@@ -9,7 +9,7 @@
 			<description>Create a New Notice of Opportunity</description>
 			<label>Notice of Opportunity</label>
 			<postProcessorName>
-				org.kuali.workflow.postprocessor.KualiPostProcessor
+				org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor
 			</postProcessorName>
 			<superUserWorkgroupName>
 				WorkflowAdmin

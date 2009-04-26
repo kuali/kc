@@ -1,4 +1,4 @@
-<org.kuali.core.workflow.KualiDocumentXmlMaterializer>
+<org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer>
   <kualiTransactionalDocumentInformation>
     <documentInitiator>
       <universalUser>
@@ -14,11 +14,11 @@
         <moduleUsers>
           <entry>
             <string>KRA</string>
-            <org.kuali.core.bo.user.KualiModuleUserBase>
+            <org.kuali.rice.kns.bo.user.KualiModuleUserBase>
               <personUniversalIdentifier>quickstart</personUniversalIdentifier>
               <universalUser reference="../../../.."/>
               <moduleId>KRA</moduleId>
-            </org.kuali.core.bo.user.KualiModuleUserBase>
+            </org.kuali.rice.kns.bo.user.KualiModuleUserBase>
           </entry>
         </moduleUsers>
         <activeForAnyModule>false</activeForAnyModule>
@@ -973,7 +973,7 @@
       <boNotes/>
     </documentHeader>
     <pessimisticLocks>
-      <org.kuali.core.document.authorization.PessimisticLock>
+      <org.kuali.rice.kns.document.authorization.PessimisticLock>
         <id>2182</id>
         <ownedByPersonUniversalIdentifier>quickstart</ownedByPersonUniversalIdentifier>
         <lockDescriptor>2271-PROPOSAL</lockDescriptor>
@@ -983,7 +983,7 @@
         <objectId>95E6F4CA-C30D-78DD-8D7E-BC0E0F19BCAD</objectId>
         <newCollectionRecord>false</newCollectionRecord>
         <boNotes/>
-      </org.kuali.core.document.authorization.PessimisticLock>
+      </org.kuali.rice.kns.document.authorization.PessimisticLock>
     </pessimisticLocks>
     <adHocRoutePersons class="org.apache.ojb.broker.util.collections.RemovalAwareCollection" serialization="custom">
       <unserializable-parents/>
@@ -1042,4 +1042,4 @@
     <newCollectionRecord>false</newCollectionRecord>
     <boNotes/>
   </document>
-</org.kuali.core.workflow.KualiDocumentXmlMaterializer>
+</org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer>
