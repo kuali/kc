@@ -21,7 +21,11 @@ body
 
 form { margin: 0; }
 
-li,td,div,th,table,span,body
+pre {
+	margin: 0;
+}
+
+li,td,div,th,table,span,body,pre
 {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	list-style-type: square;
@@ -564,6 +568,8 @@ img.helpicon
 	border-left:1px solid #666666;
 	margin:0px -1px 0px 0px;
 	padding:10px;
+	_width: 100%;
+	max_width: 100%;
 }
 
 #workarea div.tab-container-error

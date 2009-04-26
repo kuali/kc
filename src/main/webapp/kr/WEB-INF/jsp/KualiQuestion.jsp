@@ -27,6 +27,7 @@
 	<html:hidden property="context" write="false" />
 	<html:hidden property="questionAnchor" write="false" />
 	<html:hidden property="methodToCallPath" write="false" />
+	<html:hidden property="docNum" write="false" />
 	<br>
 	  <div align="center">
 	    ${QuestionPromptForm.questionText}

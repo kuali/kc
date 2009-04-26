@@ -17,7 +17,7 @@
 
 <%@ attribute name="isReadOnly" required="true"
               description="Is the view for this field readOnly?" %>
-<%@ attribute name="field" required="true" type="org.kuali.core.web.ui.Field"
+<%@ attribute name="field" required="true" type="org.kuali.rice.kns.web.ui.Field"
               description="The field for which to show the lookup icon." %>
 <%@ attribute name="anchor" required="false"
               description="The anchor (i.e. tab index) of the tab in which these icons will be displayed (primarily for lookups to return to the original section)" %>

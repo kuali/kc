@@ -51,7 +51,8 @@
 	<html-el:hidden name="KualiForm" property="resultsActualSize" />
 	<html-el:hidden name="KualiForm" property="resultsLimitedSize" />
 	<html-el:hidden name="KualiForm" property="hasReturnableRow" />
-	
+	<html-el:hidden name="KualiForm" property="docNum" />
+
 	<kul:errors errorTitle="Errors found in Search Criteria:" />
 	<kul:messages/>
 
@@ -81,13 +82,13 @@
 						src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_clear.gif" styleClass="tinybutton"
 						alt="clear" title="clear" border="0" /> <c:if test="${KualiForm.formKey!=''}">
 						<a
-							href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&docFormKey=${KualiForm.formKey}&anchor=${KualiForm.lookupAnchor}" />'  title="cancel"><img
+							href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&docFormKey=${KualiForm.formKey}&anchor=${KualiForm.lookupAnchor}&docNum=${KualiForm.docNum}" />'  title="cancel"><img
 							src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" class="tinybutton" alt="cancel" title="cancel" 
 							border="0" /></a>
 					</c:if> <!-- Optional extra button --> <c:if
 						test="${! empty KualiForm.extraButtonSource && extraButtonSource != ''}">
 						<a
-							href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&refreshCaller=kualiLookupable&docFormKey=${KualiForm.formKey}&anchor=${KualiForm.lookupAnchor}" /><c:out value="${KualiForm.extraButtonParams}" />'><img
+							href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&refreshCaller=kualiLookupable&docFormKey=${KualiForm.formKey}&anchor=${KualiForm.lookupAnchor}&docNum=${KualiForm.docNum}" /><c:out value="${KualiForm.extraButtonParams}" />'><img
 							src='<c:out value="${KualiForm.extraButtonSource}" />'
 							class="tinybutton" border="0" /></a>
 					</c:if>
@@ -106,7 +107,7 @@
 				<c:if
 					test="${KualiForm.formKey!='' && KualiForm.hideReturnLink != true && !KualiForm.multipleValues}">
 					<a
-						href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&docFormKey=${KualiForm.formKey}" />' title="return with no value">
+						href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&docFormKey=${KualiForm.formKey}&docNum=${KualiForm.docNum}" />' title="return with no value">
 					return with no value </a>
 				</c:if>
 			</logic-el:present></div>

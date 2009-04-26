@@ -15,20 +15,20 @@
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
-<%@ attribute name="field" required="true" type="org.kuali.core.web.ui.Field" description="The field." %>
+<%@ attribute name="field" required="true" type="org.kuali.rice.kns.web.ui.Field" description="The field." %>
 <%@ attribute name="addHighlighting" required="false"
               description="boolean indicating if this field should be highlighted (to indicate old/new change)" %>    
 
 <%-- Put the .div span around the link instead of vice versa,
     so that if JavaScript changes the .div contents there is no misleading link. --%>
 <span id="${field.propertyName}.div">
-<c:if test="${not (empty field.inquiryURL || empty field.propertyValue)}">
-	<a href="<c:out value="${field.inquiryURL}"/>" target="blank">
+<c:if test="${not (empty field.inquiryURL.href || empty field.propertyValue)}">
+	<a title="<c:out value="${field.inquiryURL.title}"/>" href="<c:out value="${field.inquiryURL.href}"/>" target="blank">
 </c:if>
 
 <kul:readonlyfield addHighlighting="${addHighlighting}" field="${field}"/>
 
-<c:if test="${not (empty field.inquiryURL || empty field.propertyValue)}">
+<c:if test="${not (empty field.inquiryURL.href || empty field.propertyValue)}">
   </a>
 </c:if>
 &nbsp;

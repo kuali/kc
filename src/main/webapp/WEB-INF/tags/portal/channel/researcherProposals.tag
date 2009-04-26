@@ -19,7 +19,7 @@
   <ul class="chan">
     <li><portal:portalLink displayTitle="false" title="Create Proposal" url="proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument">Create Proposal</portal:portalLink></li>
     <li><portal:portalLink displayTitle="false" title="Proposals in Progress" url="${ConfigProperties.workflow.url}/DocumentSearch.do?methodToCall=doDocSearch&docTypeFullName=ProposalDevelopmentDocument&criteria.docRouteStatus=R">Proposals in Progress</portal:portalLink></li>
-    <li><portal:portalLink displayTitle="false" title='All My Proposals' url='${ConfigProperties.workflow.url}/DocumentSearch.do?methodToCall=doDocSearch&docTypeFullName=ProposalDevelopmentDocument&initiator=${UserSession.loggedInUserNetworkId}&searchCriteriaEnabled=false'>All My Proposals</portal:portalLink></li>
+    <li><portal:portalLink displayTitle="false" title='All My Proposals' url='${ConfigProperties.workflow.url}/DocumentSearch.do?methodToCall=doDocSearch&docTypeFullName=ProposalDevelopmentDocument&initiator=${UserSession.principalName}&searchCriteriaEnabled=false'>All My Proposals</portal:portalLink></li>
 </ul>
 </div>
 <channel:portalChannelBottom />

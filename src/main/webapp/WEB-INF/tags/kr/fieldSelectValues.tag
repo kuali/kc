@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
-<%@ attribute name="field" required="true" type="org.kuali.core.web.ui.Field"%>
+<%@ attribute name="field" required="true" type="org.kuali.rice.kns.web.ui.Field"%>
 
 <c:forEach items="${field.fieldValidValues}" var="select">
     <option ${field.propertyValue eq select.key ? 'selected="selected"' : ''}

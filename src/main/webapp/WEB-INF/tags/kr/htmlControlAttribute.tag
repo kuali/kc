@@ -35,26 +35,48 @@
 <%@ attribute name="encryptValue" required="false"
 			  description="when readOnly or hidden field, boolean to indicate whether the value should
 			  be encrypted and display masked. Defaults to false." %>
-<%@ attribute name="displayMask" required="false"
+<%@ attribute name="displayMaskValue" required="false"
 			  description="when a field is not to be displayed in clear text and encrypted as hidden, the
 			  string to display." %>
 <%@ attribute name="styleClass" required="false"
 			  description="When a field has a css class applied to it, make sure that
 			  we carry it through."%>
+<%@ attribute name="accessibilityHint" required="false"
+        description="Use this to attach further information to the title attribute of a field
+        if present"%>
+<%@ attribute name="forceRequired" required="false" %>
+<%@ attribute name="kimTypeName" required="false" %>
+<!-- Do not remove session check in this tag file since it is used by other type of files (not MD or TD) -->
+<c:set var="sessionDocument" value="${requestScope['sessionDoc']}" />
+<c:if test="${!empty attributeEntry.attributeSecurityMask && attributeEntry.attributeSecurityMask == true  }">
+	<c:set var="className" value ="${attributeEntry.fullClassName}" /> 
+	<c:set var="fieldName" value ="${attributeEntry.name}" />
+	<c:set var="readOnly" value="${kfunc:canFullyUnmaskField(className, fieldName)? 'false' : 'true'}" />
+	<c:set var="displayMask" value="${kfunc:canFullyUnmaskField(className, fieldName)? 'false' : 'true'}" />
+	<c:set var="displayMaskValue" value="${kfunc:getDisplayMaskValue(className, fieldName, KualiForm, property)}" />
+</c:if>
+
+ 
+<c:if test="${!empty attributeEntry.attributeSecurityPartialMask && attributeEntry.attributeSecurityPartialMask == true  }">
+	<c:set var="className" value ="${attributeEntry.fullClassName}" /> 
+	<c:set var="fieldName" value ="${attributeEntry.name}" />
+	<c:set var="readOnly" value="${kfunc:canPartiallyUnmaskField(attributeEntry.fullClassName, attributeEntry.name) ? 'false' : 'true'}"/>
+    <c:set var="displayMask" value="${kfunc:canFullyUnmaskField(className, fieldName)? 'false' : 'true'}" />
+	<c:set var="displayMaskValue" value="${kfunc:getDisplayMaskValue(className, fieldName, KualiForm, property)}" />
+</c:if>
+
+
+<%-- Define variable that will hold the Title of the html control --%>
+<c:set var="accessibleTitle" value="${attributeEntry.label}"/>
+<c:if test="${(attributeEntry.required == true || forceRequired) && readOnly != true}">
+<c:set var="accessibleTitle" value="${Constants.REQUIRED_FIELD_SYMBOL} ${accessibleTitle}"/>
+  </c:if>
+  <c:if test="${!(empty accessibilityHint)}">
+<c:set var="accessibleTitle" value="${accessibleTitle} ${accessibilityHint}"/>
+</c:if>
 
 <kul:checkErrors keyMatch="${property}" auditMatch="${property}"/>
-<c:choose>
-  <%-- border color not supported for select controls, so make background highlighted instead --%>
-  <c:when test="${hasErrors==true && !attributeEntry.control.select}">
-    <c:set var="textStyle" value="border-color: red"/>
-  </c:when>
-  <c:when test="${hasErrors==true && attributeEntry.control.select}">
-    <c:set var="textStyle" value="background-color:#FFD5D5"/>
-  </c:when>
-  <c:when test="${readOnly && !hasErrors}">
-    <c:set var="textStyle" value="border-color: black"/>
-  </c:when>
-</c:choose>
+
 
 <c:set var="disableField" value="false" />
 <c:if test="${disabled}">
@@ -89,23 +111,43 @@
          <c:when test="${encryptValue}">
             <%-- mask and encrypt --%>
             <%
-              ((org.kuali.core.web.struts.form.KualiForm) request.getAttribute("KualiForm")).setFormatterType((String) property, org.kuali.core.web.format.EncryptionFormatter.class);
+              ((org.kuali.rice.kns.web.struts.form.KualiForm) request.getAttribute("KualiForm")).setFormatterType((String) property, org.kuali.rice.kns.web.format.EncryptionFormatter.class);
             %>
             <html:hidden property="encryptedProperties('${fn:replace(property,'.','_')}')" value="true"/>
             <html:hidden write="false" property="${property}" style="${textStyle}"/>
-            ${displayMask}
+            ${displayMaskValue}
          </c:when>
+		<c:when test="${displayMask}" >
+			${displayMaskValue}
+		</c:when>
          <c:otherwise>
          <logic:empty name="KualiForm" property="${property}">
          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
          </logic:empty>
          <c:if test="${!empty extraReadOnlyProperty}">
-           <html:hidden write="false" property="${property}" style="${textStyle}" />
-           <html:hidden write="true" property="${extraReadOnlyProperty}" style="${textStyle}" />
+			<c:choose>
+			<c:when test="${sessionDocument}">
+				<bean:write name="KualiForm" property="${extraReadOnlyProperty}"/>
+			</c:when>
+			<c:otherwise>
+				<html:hidden write="false" property="${property}" style="${textStyle}" />
+           		<html:hidden write="true" property="${extraReadOnlyProperty}" style="${textStyle}" />
+			</c:otherwise>
+		  </c:choose>
          </c:if>
          <c:if test="${empty extraReadOnlyProperty}">
-           <html:hidden write="${empty readOnlyAlternateDisplay ? 'true' : 'false'}" property="${property}" style="${textStyle}" />
-           ${readOnlyAlternateDisplay}
+         <c:choose>
+			<c:when test="${sessionDocument}">
+			   <c:if test="${empty readOnlyAlternateDisplay}">
+		           <bean:write name="KualiForm" property="${property}"/>
+               </c:if>
+              ${readOnlyAlternateDisplay}
+			</c:when>
+			<c:otherwise>
+              <html:hidden write="${empty readOnlyAlternateDisplay ? 'true' : 'false'}" property="${property}" style="${textStyle}" />
+              ${readOnlyAlternateDisplay}
+            </c:otherwise>
+		  </c:choose>
          </c:if>
      </c:otherwise>
    </c:choose>
@@ -116,30 +158,15 @@
   <c:choose>
     <%-- text --%>
     <c:when test="${attributeEntry.control.text == true}">
-           <html:text property="${property}" style="${textStyle}" tabindex="${tabindex}"
+           <html:text property="${property}" style="${textStyle}" title="${accessibleTitle}" tabindex="${tabindex}"
                            size="${attributeEntry.control.size}" maxlength="${attributeEntry.maxLength}"
                            onblur="${onblur}" onchange="${onchange}" styleId="${property}" disabled="${disableField}"
                            styleClass="${styleClass}"/>
-
-            <c:if test="${datePicker==true}">
-                <img src="${ConfigProperties.kr.externalizable.images.url}cal.gif" id="${property}_datepicker" style="cursor: pointer;"
-                     title="Date selector" alt="Date selector"
-                     onmouseover="this.style.backgroundColor='red';" onmouseout="this.style.backgroundColor='transparent';" />
-                <script type="text/javascript">
-                  Calendar.setup(
-                          {
-                            inputField : "${property}", // ID of the input field
-                            ifFormat : "%m/%d/%Y", // the date format
-                            button : "${property}_datepicker" // ID of the button
-                          }
-                  );
-               </script>
-            </c:if>
     </c:when>
 
     <%-- textarea --%>
     <c:when test="${attributeEntry.control.textarea == true}"> 
-            <html:textarea property="${property}" style="${textStyle}" tabindex="${tabindex}" 
+            <html:textarea property="${property}" style="${textStyle}" title="${accessibleTitle}" tabindex="${tabindex}" 
                            rows="${attributeEntry.control.rows}" cols="${attributeEntry.control.cols}" 
                            styleId="${property}" disabled="${disableField}" styleClass="${styleClass}" 
                            onkeyup="textLimit(${attributeEntry.maxLength});" /> 
@@ -150,7 +177,7 @@
                   field.value = field.value.substr(0, maxlen); 
                 } 
               }; 
-            </script> 
+            </script>
     </c:when> 
 
     <%-- select --%>
@@ -158,10 +185,13 @@
             <c:set var="finderClass" value="${fn:replace(attributeEntry.control.valuesFinder,'.','|')}"/>
             <c:set var="businessObjectClass" value="${fn:replace(attributeEntry.control.businessObject,'.','|')}"/>
 
-            <html:select property="${property}" tabindex="${tabindex}" style="${textStyle}" disabled="${disableField}" onblur="${onblur}" onchange="${onchange}" styleClass="${styleClass}">
+            <html:select styleId="${property}" property="${property}" title="${accessibleTitle}" tabindex="${tabindex}" style="${textStyle}" disabled="${disableField}" onblur="${onblur}" onchange="${onchange}" styleClass="${styleClass}">
               <c:choose>
-              	<c:when test="${not empty businessObjectClass}">
-                  <c:set var="methodAndParms" value="actionFormUtilMap.getOptionsMap${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${finderClass}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${businessObjectClass}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.keyAttribute}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.labelAttribute}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.includeKeyInLabel}"/>
+              	<c:when test="${not empty businessObjectClass and empty kimTypeName}">
+                  <c:set var="methodAndParms" value="actionFormUtilMap.getOptionsMap${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${finderClass}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${businessObjectClass}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.keyAttribute}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.labelAttribute}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.includeBlankRow}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.includeKeyInLabel}"/>
+              	</c:when>
+              	<c:when test="${not empty businessObjectClass and not empty kimTypeName}">
+                  <c:set var="methodAndParms" value="actionFormUtilMap.getOptionsMap${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${finderClass}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${businessObjectClass}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.keyAttribute}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.labelAttribute}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.includeBlankRow}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.includeKeyInLabel}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${kimTypeName}"/>
               	</c:when>
               	<c:otherwise>
                   <c:set var="methodAndParms" value="actionFormUtilMap.getOptionsMap${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${finderClass}"/>
@@ -177,8 +207,11 @@
         <c:set var="businessObjectClass" value="${fn:replace(attributeEntry.control.businessObject,'.','|')}"/>
 
 		<c:choose>
-      		<c:when test="${not empty businessObjectClass}">
-            	<c:set var="methodAndParms" value="actionFormUtilMap.getOptionsMap${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${finderClass}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${businessObjectClass}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.keyAttribute}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.labelAttribute}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.includeKeyInLabel}"/>
+      		<c:when test="${not empty businessObjectClass and empty kimTypeName}">
+            	<c:set var="methodAndParms" value="actionFormUtilMap.getOptionsMap${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${finderClass}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${businessObjectClass}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.keyAttribute}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.labelAttribute}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.includeBlankRow}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.includeKeyInLabel}"/>
+      	  	</c:when>
+      		<c:when test="${not empty businessObjectClass and not empty kimTypeName}">
+            	<c:set var="methodAndParms" value="actionFormUtilMap.getOptionsMap${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${finderClass}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${businessObjectClass}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.keyAttribute}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.labelAttribute}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.includeBlankRow}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${attributeEntry.control.includeKeyInLabel}${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${kimTypeName}"/>
       	  	</c:when>
       	  	<c:otherwise>
             	<c:set var="methodAndParms" value="actionFormUtilMap.getOptionsMap${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${finderClass}"/>
@@ -186,7 +219,8 @@
    	    </c:choose>
 
        	<logic:iterate name="KualiForm" property="${methodAndParms}" id="KeyValue">
-            <html:radio property="${property}" style="${textStyle}" tabindex="${tabindex}"
+       		<c:set var="accessibleRadioTitle" value="${accessibleTitle} - ${KeyValue.label}"/>
+            <html:radio property="${property}" style="${textStyle}" title="${accessibleRadioTitle}" tabindex="${tabindex}"
             	value="key" idName="KeyValue" disabled="${disableField}" onchange="${onchange}"
             	styleClass="${styleClass}"/>${KeyValue.label}
         </logic:iterate>
@@ -194,24 +228,45 @@
 
     <%-- checkbox --%>
     <c:when test="${attributeEntry.control.checkbox == true}">
-            <html:checkbox property="${property}" style="${textStyle}" tabindex="${tabindex}" disabled="${disableField}" onblur="${onblur}"
+            <html:checkbox property="${property}" style="${textStyle}" title="${accessibleTitle}" tabindex="${tabindex}" disabled="${disableField}" onblur="${onblur}"
             	onchange="${onchange}" onclick="${onclick}" styleId="${property}"
             	styleClass="${styleClass}"/>
-            	<c:if test="${disableField == false}">
+            <c:if test="${disableField == false}">
             	<input type="hidden" name="checkboxToReset" value="${property}"/> </c:if>
     </c:when>
 
     <%-- hidden --%>
     <c:when test="${attributeEntry.control.hidden == true}">
+		<c:if test="${!sessionDocument}">
             <html:hidden property="${property}" />
+        </c:if>
     </c:when>
 
     <%-- currency --%>
     <c:when test="${attributeEntry.control.currency == true}">
-          <html:text property="${property}" style="${textStyle}" tabindex="${tabindex}"
+          <html:text property="${property}" style="${textStyle}" title="${accessibleTitle}" tabindex="${tabindex}"
                            size="${attributeEntry.control.size}" maxlength="${attributeEntry.control.formattedMaxLength}"
                            onblur="${onblur}" onchange="${onchange}" styleId="${property}" disabled="${disableField}"
                            styleClass="${styleClass}" />
     </c:when>
   </c:choose>
+  <!-- error icon -->
+  <c:if test="${hasErrors}">
+	 		<kul:fieldShowErrorIcon />
+  </c:if>
+  <!-- datePicker icon -->			
+  	<c:if test="${attributeEntry.control.text == true && datePicker==true}">
+        <img src="${ConfigProperties.kr.externalizable.images.url}cal.gif" id="${property}_datepicker" style="cursor: pointer;"
+             title="Date selector" alt="Date selector"
+             onmouseover="this.style.backgroundColor='red';" onmouseout="this.style.backgroundColor='transparent';" />
+             <script type="text/javascript">
+             	Calendar.setup(
+                          {
+                            inputField : "${property}", // ID of the input field
+                            ifFormat : "%m/%d/%Y", // the date format
+                            button : "${property}_datepicker" // ID of the button
+                          }
+                  );
+              </script>
+    </c:if>
 </c:if>

@@ -19,12 +19,22 @@
 <%@ attribute name="size" required="true" %>
 <%@ attribute name="maxLength" required="true" %>
 
+<%@ attribute name="accessibilityHint" required="false"
+        description="Use this to attach further information to the title attribute of a field
+        if present"%>
 
 <kul:checkErrors keyMatch="${property}"/>
 <c:if test="${hasErrors==true}">
   <c:set var="textStyle" value="border-color: #F00;"/>
 </c:if>
-<html:text property="${property}" styleId="${property}" size="${size}" maxlength="${maxLength}" style="${textStyle}"/>
+<c:choose>
+	<c:when test="${!empty accessibilityHint}">
+		<html:text property="${property}" styleId="${property}" size="${size}" maxlength="${maxLength}" style="${textStyle}" alt="${accessibilityHint}" title="${accessibilityHint}" />
+	</c:when>
+	<c:otherwise>
+		<html:text property="${property}" styleId="${property}" size="${size}" maxlength="${maxLength}" style="${textStyle}"/>
+	</c:otherwise>
+</c:choose>
 <img src="${ConfigProperties.kr.externalizable.images.url}cal.gif" id="${property}_datepicker" style="cursor: pointer;" alt="Date selector" title="Date selector" onmouseover="this.style.background='#F00';" onmouseout="this.style.background='#FFF';" />    
 <script type="text/javascript">
 	Calendar.setup(

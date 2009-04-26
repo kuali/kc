@@ -917,7 +917,7 @@ function loadPersonName(usernameFieldName, fullnameElementId) {
 					fullNameElement.innerHTML = wrapError( "not found" );
 				}
 			};
-			PersonService.getPersonFullname(username, dwrReply);
+			KraPersonService.getPersonFullname(username, dwrReply);
 		}
 	}
 }

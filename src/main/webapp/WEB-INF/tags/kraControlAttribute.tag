@@ -70,7 +70,7 @@
   		java.util.List collection = (java.util.List) TagUtils.lookup(pageCtx, "org.apache.struts.taglib.html.BEAN", methodAndParms, null);
   		if(collection != null && collection.size() > 0) {
   			for(Object obj : collection) {
-  				org.kuali.core.web.ui.KeyLabelPair pair = (org.kuali.core.web.ui.KeyLabelPair) obj;
+  				org.kuali.rice.kns.web.ui.KeyLabelPair pair = (org.kuali.rice.kns.web.ui.KeyLabelPair) obj;
   				if(pair.getKey().equals(propertyValue)) {
   					selectedOptionDescription = pair.getLabel(); 
   					pageCtx.setAttribute("readOnlyAlternateDisplay", selectedOptionDescription);

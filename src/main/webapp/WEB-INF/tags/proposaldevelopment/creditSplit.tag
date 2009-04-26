@@ -59,7 +59,7 @@
              
   <c:forEach items="${investigator.units}" var="personUnit" varStatus="unitStatus">
              <tr>
-    <c:set var="unitProperty" value="${investigatorProperty}.unit[${unitStatus.index}]" />
+    <c:set var="unitProperty" value="${investigatorProperty}.units[${unitStatus.index}]" />
                 <td nowrap>${personUnit.unitNumber} - ${personUnit.unit.unitName}</td>
 
      <c:forEach items="${KualiForm.document.investigatorCreditTypes}" var="invType">
