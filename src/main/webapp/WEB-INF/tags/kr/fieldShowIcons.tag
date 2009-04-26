@@ -17,7 +17,7 @@
 
 <%@ attribute name="isReadOnly" required="true"
               description="Is the view for this field readOnly?" %>
-<%@ attribute name="field" required="true" type="org.kuali.core.web.ui.Field"
+<%@ attribute name="field" required="true" type="org.kuali.rice.kns.web.ui.Field"
               description="The field for which to show the lookup icon." %>
 <%@ attribute name="addHighlighting" required="false"
               description="boolean indicating if this field should be highlighted (to indicate old/new change)" %>            

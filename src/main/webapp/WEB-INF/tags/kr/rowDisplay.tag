@@ -25,6 +25,10 @@
               description="the recursion depth number" %>
 <%@ attribute name="rowsHidden" required="false"
               description="boolean that indicates whether the rows should be hidden or all fields are hidden" %>
+<%@ attribute name="rowsReadOnly" required="false"
+              description="boolean that indicates whether the rows should be rendered as read-only (note that rows will automatically be rendered as readonly if it is an inquiry or if it is a maintenance document in readOnly mode" %>
+<%@ attribute name="sessionDocument" required="false"
+              description="boolean that indicates whether the sessionDocument declared in DD" %>
 
 <c:if test="${empty depth}">
 	<c:set var="depth" value="0" />
@@ -37,13 +41,13 @@
 <c:set var="isInquiry" value="${maintenanceViewMode eq Constants.PARAM_MAINTENANCE_VIEW_MODE_INQUIRY}" />
 
 <%-- Is the screen a view of a mantenance document? --%>
-<c:set var="isMaintenance" value="${KualiForm.class.name eq 'org.kuali.core.web.struts.form.KualiMaintenanceForm' || maintenanceViewMode eq Constants.PARAM_MAINTENANCE_VIEW_MODE_MAINTENANCE}" />
+<c:set var="isMaintenance" value="${KualiForm.class.name eq 'org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm' || maintenanceViewMode eq Constants.PARAM_MAINTENANCE_VIEW_MODE_MAINTENANCE}" />
 
 <%-- Is the screen a lookup? --%>
 <c:set var="isLookup" value="${maintenanceViewMode eq Constants.PARAM_MAINTENANCE_VIEW_MODE_LOOKUP}" />
 
 <%-- Is the form read-only? --%>
-<c:set var="isFormReadOnly" value="${isInquiry || (isMaintenance && KualiForm.readOnly)}" />
+<c:set var="isFormReadOnly" value="${rowsReadOnly || isInquiry || (isMaintenance && KualiForm.readOnly)}" />
 
 <%-- What's the user trying to do? --%>
 <c:set var="requestedAction" value="${isMaintenance ? KualiForm.maintenanceAction : KualiForm.methodToCall}" />
@@ -89,14 +93,14 @@
 				###################################################################
 				# GATHER SOME INFORMATION ABOUT THE FIELD AND STORE IT IN VARIABLES
 				################################################################### --%>
+			<%-- isFieldSecure determines whether or not the encrypted value should be shown for 
+			non-collections and a similar function for collections --%>
+			<c:set var="isFieldSecure" value="${field.secure}" />
+			
 			<%-- isFieldReadOnly determines whether or not a field is readOnly --%>
 			<%-- NOTE: The part about "fieldVarStatus.count mod 2" will work for any even number 
 			of columns assuming that all columns alternate between read-only and not-read-only. --%>
-			<c:set var="isFieldReadOnly" value="${field.readOnly || isFormReadOnly || (isMaintenance && not isActionNew && fieldVarStatus.count le numberOfColumns)}" />
-                
-			<%-- isFieldSecure determines whether or not the encrypted value should be shown for 
-			non-collections and a similar function for collections --%>
-			<c:set var="isFieldSecure" value="${field.secure && empty KualiForm.editingMode[field.displayEditMode]}" />
+			<c:set var="isFieldReadOnly" value="${isFieldSecure || field.readOnly || isFormReadOnly || (isMaintenance && not isActionNew && fieldVarStatus.count le numberOfColumns)}" />
 				
 			<%-- textStyle is used to store the style of the field value. i.e. whether or not it 
 			should display as red text. --%>
@@ -166,17 +170,23 @@
 			<c:choose>
 
 				<c:when test="${isFieldSecure and field.fieldType ne field.FILE}">
-
 					<input type="hidden" name="${field.propertyName}" 
 						value='<c:out value="${field.encryptedValue}"/>' />
 
 				</c:when>
 
 				<c:when test="${isFieldReadOnly && not isFieldAContainer and field.fieldType ne field.FILE}">
-
-					<input type="hidden" name="${field.propertyName}" 
-						value='<c:out value="${fieldValue}"/>' />
-
+					<c:choose>
+						<c:when test= "${isInquiry || isLookup}">
+					  		<input type="hidden" name="${field.propertyName}" value='<c:out value="${fieldValue}"/>' />
+				  		</c:when>
+				  		<c:otherwise>
+							<c:if test="${not fn:contains(field.propertyName, Constants.MAINTENANCE_OLD_MAINTAINABLE)}">
+								<input type="hidden" name="${field.propertyName}"  
+									   value='<c:out value="${fieldValue}"/>' />
+							</c:if>
+						</c:otherwise>
+				  	 </c:choose>
 				</c:when>
 
 			</c:choose>
@@ -206,9 +216,9 @@
 						fieldLabel="${field.fieldLabel}" />
 						
 					<td class="grid" width="${dataCellWidth}%">
-						
-						<c:out value="${field.displayMaskValue}"/>
-			
+						<c:if test="${not isActionNew }" >
+							<c:out value="${field.displayMaskValue}"/>
+						</c:if>
 						<kul:fieldShowIcons isReadOnly="${isFieldReadOnly}" field="${field}" addHighlighting="${addHighlighting}" />
 			
 					</td>
@@ -251,26 +261,6 @@
 				  </c:if>
 				</c:when>
 				
-				<c:when test="${(field.fieldType eq field.HIDDEN) || rowHidden}">
-					<c:if test="${isInquiry && field.fieldType eq field.HIDDEN}">
-						<%-- display inquiry data even though the field has been specified as hidden --%>
-						<kul:fieldDefaultLabel isLookup="${isLookup}" isRequired="${field.fieldRequired}" 
-							isReadOnly="${isFieldReadOnly}" cellWidth="${cellWidth}" fieldName="${field.propertyName}" fieldType="${field.fieldType}" 
-							fieldLabel="${field.fieldLabel}" />
-									
-						<td class="grid" width="${cellWidth}">
-							<kul:fieldShowReadOnly field="${field}" addHighlighting="${addHighlighting}" />
-						</td>
-					</c:if>
-			    	<c:if test="${!isFieldReadOnly || (isInquiry && field.fieldType ne field.HIDDEN)}">
-			    		<%-- if it's an inquiry and the field type is not hidden (but the row is hidden), then that means that we really want to hide it,
-			    		     so we'll just render the input parameter, but not display anything.  Of course, inquiries are read only, so there's really no reason
-			    		     to have the input tag for inquiries, but it doesn't cause any harm. --%>
-			    		<%-- prevent the field from being written a 2nd time --%>
-						<input type="hidden" name='${field.propertyName}'
-							value='<c:out value="${isFieldSecure ? field.encryptedValue : fieldValue}"/>' />
-					</c:if>
-				</c:when>
 					
 				<c:when test="${field.fieldType eq field.SUB_SECTION_SEPARATOR}">
 					
@@ -312,7 +302,7 @@
 							</c:when>
 
 							<c:otherwise>
-
+                                ${kfunc:registerEditableProperty(KualiForm, field.propertyName)}
 								<input type="text" id='${field.propertyName}' name='${field.propertyName}'
 									value='<c:out value="${fieldValue}"/>'
 									size='${field.size}'
@@ -345,7 +335,7 @@
 							</c:when>
 									
 							<c:otherwise>
-									
+								${kfunc:registerEditableProperty(KualiForm, field.propertyName)}									
 								<input type="text" name='${field.propertyName}'
 									id='${field.propertyName}'
 									value='<c:out value="${fieldValue}"/>'
@@ -403,7 +393,7 @@
 							</c:when>
 
 							<c:otherwise>
-
+								${kfunc:registerEditableProperty(KualiForm, field.propertyName)}
 								<textarea id='${field.propertyName}' name='${field.propertyName}'
 									rows='${field.rows}'
 									cols='${field.cols}'
@@ -438,11 +428,13 @@
 							</c:when>
 									
 							<c:otherwise>
-									
+								${kfunc:registerEditableProperty(KualiForm, field.propertyName)}																		
+								<c:set var="checkboxPresentOnFormAnnotationFieldName" value="${field.propertyName}${Constants.CHECKBOX_PRESENT_ON_FORM_ANNOTATION}" />
+								${kfunc:registerEditableProperty(KualiForm, checkboxPresentOnFormAnnotationFieldName)}																
 								<input type="checkbox" id='${field.propertyName}' name="${field.propertyName}" 
 									${field.propertyValue eq 'Yes' || field.propertyValue eq 'YES' ? 'checked="checked"' : ''}
 									${onblurcall} />
-								<input type="hidden" name="${field.propertyName}${Constants.CHECKBOX_PRESENT_ON_FORM_ANNOTATION}" value="present"/>
+								<input type="hidden" name="${checkboxPresentOnFormAnnotationFieldName}" value="present"/>
 									
 							</c:otherwise>
 					
@@ -469,6 +461,7 @@
 							</c:when>
 										
 							<c:otherwise>
+								${kfunc:registerEditableProperty(KualiForm, field.propertyName)}
 								<select id='${field.propertyName}' name='${field.propertyName}' style="${textStyle}" ${onblurcall}>
 									<c:if test="${!field.hasBlankValidValue}">
 										<option value=""></option>
@@ -492,7 +485,7 @@
 						fieldLabel="${field.fieldLabel}" />
 				
 					<td class="grid" width="${dataCellWidth}%">
-
+						${kfunc:registerEditableProperty(KualiForm, field.propertyName)}
 						<select id='${field.propertyName}' name='${field.propertyName}'
 							onchange="document.forms[0].submit();" style="${textStyle}">
 
@@ -519,6 +512,7 @@
                                 <kul:fieldShowReadOnly field="${field}" addHighlighting="${addHighlighting}" />
                             </c:when>
                             <c:otherwise>
+                            	${kfunc:registerEditableProperty(KualiForm, field.propertyName)}
                                 <select id='${field.propertyName}' name='${field.propertyName}'
                                         onchange="${field.script}" style="${textStyle}">
                                     <kul:fieldSelectValues field="${field}"/>
@@ -628,6 +622,7 @@
 							</c:when>
 									
 							<c:otherwise>
+								${kfunc:registerEditableProperty(KualiForm, field.propertyName)}
 								<input type="text" name='${field.propertyName}'
 									id='${field.propertyName}'
 									value='<c:out value="${fieldValue}"/>'
@@ -665,6 +660,7 @@
 									<c:choose>
 										<c:when test="${empty fieldValue}" >
 											<c:if test="${isMaintenance}" >
+											${kfunc:registerEditableProperty(KualiForm, field.propertyName)}
 											<input type="file" name='${field.propertyName}'
 												id='${field.propertyName}' 
 												size='${field.size}'
@@ -688,6 +684,7 @@
 	                                    	<html:link linkName="replaceAttachment" onclick="javascript: replaceAttachment();" href="" anchor="" property="methodToCall.replaceAttachment">replace</html:link>
 	                                    </div>
                                     	<div id="replaceFileDiv" valign="middle" style="display:none;">
+                                    		${kfunc:registerEditableProperty(KualiForm, field.propertyName)}
 				                			<input type="file" name='${field.propertyName}'
 												id='${field.propertyName}' 
 												size='${field.size}'
@@ -749,12 +746,69 @@
                     	<c:set var="anchorTabIndex" value="${topLevelTabIndex}"/>
                     </c:if>
 					<th class="grid" colspan="4" align="${cellAlign}" >
+					    <c:set var="imageButtonName" value="${field.propertyName}.${Constants.METHOD_TO_CALL_PARM13_LEFT_DEL}${currentTabIndex}${Constants.METHOD_TO_CALL_PARM13_RIGHT_DEL}.anchor${anchorTabIndex}" />
+						${kfunc:registerEditableProperty(KualiForm, imageButtonName)}
 						<input type="image" 
-							id='${field.propertyName}' name='${field.propertyName}.${Constants.METHOD_TO_CALL_PARM13_LEFT_DEL}${currentTabIndex}${Constants.METHOD_TO_CALL_PARM13_RIGHT_DEL}.anchor${anchorTabIndex}'
+							id='${field.propertyName}' name='${imageButtonName}'
 							src='<c:out value="${fieldValue}"/>'/>
 						<kul:fieldShowIcons isReadOnly="${isFieldReadOnly}" field="${field}" addHighlighting="false"/>
 					</th>
 				</c:when>
+			<c:when
+				test="${field.fieldType eq field.BUTTON && isMaintenance && not isFormReadOnly}">
+				<c:choose>
+					<c:when
+						test="${not fn:contains(field.propertyName, Constants.MAINTENANCE_OLD_MAINTAINABLE)}">
+						<kul:fieldDefaultLabel isLookup="false"
+							isRequired="false"
+							isReadOnly="true" cellWidth="${dataCellWidth}%"
+							fieldName="${field.propertyName}" fieldType="${field.fieldType}"
+							fieldLabel="${field.fieldLabel}" />
+						<td class="grid" width="${dataCellWidth}%">
+						<html:image
+							src="${ConfigProperties.externalizable.images.url}${field.imageSrc}"
+							styleClass="${field.styleClass}"
+							property="${Constants.DISPATCH_REQUEST_PARAMETER}.${Constants.RETURN_METHOD_TO_CALL}.${Constants.METHOD_TO_CALL_PARM1_LEFT_DEL}${Constants.CUSTOM_ACTION}.${fn:substringAfter(field.propertyName, Constants.MAINTENANCE_NEW_MAINTAINABLE)}${Constants.METHOD_TO_CALL_PARM1_RIGHT_DEL}"
+							title="${field.fieldLabel}" alt="${field.fieldLabel}" />
+						</td>
+					</c:when>
+					<c:otherwise>
+						<kul:fieldDefaultLabel isLookup="false"
+							isRequired="false"
+							isReadOnly="true" cellWidth="${dataCellWidth}%"
+							fieldName="${field.propertyName}" fieldType="${field.fieldType}"
+							fieldLabel="" />
+						<td class="grid" width="${dataCellWidth}%">&nbsp;</td>
+					</c:otherwise>
+				</c:choose>
+			</c:when>
+
+			<c:when test="${field.fieldType eq field.LINK}">
+
+				<c:choose>
+					<c:when
+						test="${not fn:contains(field.propertyName, Constants.MAINTENANCE_OLD_MAINTAINABLE)}">
+						<kul:fieldDefaultLabel isLookup="false"
+							isRequired="false"
+							isReadOnly="true" cellWidth="${dataCellWidth}%"
+							fieldName="${field.propertyName}" fieldType="${field.fieldType}"
+							fieldLabel="${field.fieldLabel}" />
+						<td class="grid" width="${dataCellWidth}%">
+						<html:link href="${field.propertyValue}" target="${field.target}" styleClass="${field.styleClass}">${field.hrefText}
+
+								</html:link>
+						</td>
+					</c:when>
+					<c:otherwise>
+						<kul:fieldDefaultLabel isLookup="false"
+							isRequired="false"
+							isReadOnly="true" cellWidth="${dataCellWidth}%"
+							fieldName="${field.propertyName}" fieldType="${field.fieldType}"
+							fieldLabel="" />
+						<td class="grid" width="${dataCellWidth}%">&nbsp;</td>
+					</c:otherwise>
+				</c:choose>
+			</c:when>
 	                
 			</c:choose>
 				

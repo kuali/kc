@@ -6,12 +6,12 @@
 
     <form-beans >
         <!--  Rice Bean Definitions : This is a bean declared in Rice, but is needed throughout this config -->
-        <form-bean name="KualiForm" type="org.kuali.core.web.struts.form.KualiForm" />
-		<form-bean name="KualiExceptionIncidentForm" type="org.kuali.core.web.struts.form.KualiExceptionIncidentForm" />
+        <form-bean name="KualiForm" type="org.kuali.rice.kns.web.struts.form.KualiForm" />
+		<form-bean name="KualiExceptionIncidentForm" type="org.kuali.rice.kns.web.struts.form.KualiExceptionIncidentForm" />
 		<form-bean name="ProposalDevelopmentForm" type="org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm" />
 		<form-bean name="BudgetForm" type="org.kuali.kra.budget.web.struts.form.BudgetForm" />
 		<form-bean name="AwardForm" type="org.kuali.kra.award.web.struts.form.AwardForm" />
-		<form-bean name="DocHandlerForm" type="edu.iu.uis.eden.routing.web.DocHandlerForm" />
+		<form-bean name="DocHandlerForm" type="org.kuali.rice.kew.routing.web.DocHandlerForm" />
 		<form-bean name="ChangePasswordForm" type="org.kuali.kra.web.struts.form.ChangePasswordForm" />
 		<form-bean name="UnitHierarchyForm" type="org.kuali.kra.web.struts.form.UnitHierarchyForm" />
 		<form-bean name="SponsorHierarchyForm" type="org.kuali.kra.web.struts.form.SponsorHierarchyForm" />
@@ -24,12 +24,12 @@
         <!-- Begin required KNS exceptions -->
         <!-- Moved to /kualiExceptionIncidentReport.do -->
         <!--
-        <exception type="org.kuali.core.exceptions.AuthorizationException" key="meaningless" path="/authorizationException.do" />
-        <exception type="org.kuali.core.exceptions.DocumentInitiationAuthorizationException" key="meaningless" path="/initiationAuthorizationException.do" />
+        <exception type="org.kuali.rice.kns.exceptions.AuthorizationException" key="meaningless" path="/authorizationException.do" />
+        <exception type="org.kuali.rice.kns.exceptions.DocumentInitiationAuthorizationException" key="meaningless" path="/initiationAuthorizationException.do" />
         -->
-        <exception type="org.kuali.core.exceptions.UnknownDocumentIdException" key="error.document.noLongerExistsInKuali" path="/kr/WEB-INF/jsp/Exception.jsp" />
-        <exception type="org.kuali.core.exceptions.FileUploadLimitExceededException" key="error.document.attachmentMaximumFileSizeExceeded" path="/kr/WEB-INF/jsp/Exception.jsp" />
-       	<exception type="java.lang.Throwable" handler="org.kuali.core.web.struts.pojo.StrutsExceptionIncidentHandler" key="na"/>
+        <exception type="org.kuali.rice.kns.exceptions.UnknownDocumentIdException" key="error.document.noLongerExistsInKuali" path="/kr/WEB-INF/jsp/Exception.jsp" />
+        <exception type="org.kuali.rice.kns.exceptions.FileUploadLimitExceededException" key="error.document.attachmentMaximumFileSizeExceeded" path="/kr/WEB-INF/jsp/Exception.jsp" />
+       	<exception type="java.lang.Throwable" handler="org.kuali.rice.kns.web.struts.pojo.StrutsExceptionIncidentHandler" key="na"/>
        	<!-- End required KNS exceptions -->
     </global-exceptions>
 
@@ -51,31 +51,31 @@
 
     <action-mappings>
        	<!-- Begin required KNS mappings -->
-        <action path="/authorizationException" name="KualiForm" type="org.kuali.core.web.struts.action.KualiAuthorizationExceptionAction">
+        <action path="/authorizationException" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiAuthorizationExceptionAction">
             <forward name="basic" path="/kr/WEB-INF/jsp/authorizationException.jsp" />
         </action>
-        <action path="/initiationAuthorizationException" name="KualiForm" type="org.kuali.core.web.struts.action.KualiDocumentInitiationAuthorizationExceptionAction">
+        <action path="/initiationAuthorizationException" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiDocumentInitiationAuthorizationExceptionAction">
             <forward name="basic" path="/kr/WEB-INF/jsp/authorizationException.jsp" />
         </action>
         <action path="/kualiExceptionIncidentReport"
                 name="KualiExceptionIncidentForm"
                 attribute="KualiForm"
-                type="org.kuali.core.web.struts.action.KualiExceptionHandlerAction">
+                type="org.kuali.rice.kns.web.struts.action.KualiExceptionHandlerAction">
             <forward name="basic" path="/kr/WEB-INF/jsp/KualiExceptionIncident.jsp" />
             <forward name="AuthorizationException" path="/authorizationException.do" />
             <forward name="DocumentInitiationAuthorizationException" path="/initiationAuthorizationException.do" />
         </action>        
-        <action path="/updateTextArea" name="KualiForm" type="org.kuali.core.web.struts.action.KualiDocumentActionBase">
+        <action path="/updateTextArea" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase">
             <forward name="basic" path="/kr/WEB-INF/jsp/TextArea.jsp" />
         </action>
        	<!-- End required KNS mappings -->
 
         <!--  Core Action Mappings -->
-        <action path="/portal" name="KualiForm" type="org.kuali.core.web.struts.action.KualiSimpleAction">
+        <action path="/portal" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiSimpleAction">
             <forward name="basic" path="/portal.jsp" />
         </action>
 
-        <action path="/index" name="KualiForm" type="org.kuali.core.web.struts.action.KualiSimpleAction">
+        <action path="/index" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiSimpleAction">
             <forward name="basic" path="/portal.jsp" />
         </action>
 
@@ -237,5 +237,5 @@
     <controller processorClass="org.kuali.kra.web.struts.action.KraRequestProcessor" />
     <message-resources parameter="ApplicationResources" />
 
-    <plug-in className="org.kuali.core.web.struts.pojo.PojoPlugin" />
+    <plug-in className="org.kuali.rice.kns.web.struts.pojo.PojoPlugin" />
 </struts-config>

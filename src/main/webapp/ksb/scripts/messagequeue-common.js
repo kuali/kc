@@ -9,7 +9,7 @@ function submitQueueId(methodToCall, queueId)
 
 function executeMessageFetcher()
 {
-	if (confirm('This will execute the Message Fetcher which will grab all messages in the queue with this machine\'s message entity and ip address and queue them up to be processed again.  Are you sure you want to do this?')) {
+	if (confirm('This will execute the Message Fetcher which will grab all messages in the queue with this machine\'s service namespace and ip address and queue them up to be processed again.  Are you sure you want to do this?')) {
 	    document.forms[0].elements['methodToCall'].value = 'executeMessageFetcher';
    		document.forms[0].submit();
    	}

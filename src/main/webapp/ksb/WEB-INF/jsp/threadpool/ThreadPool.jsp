@@ -21,7 +21,7 @@
 
 <table width="100%" border=0 cellpadding=0 cellspacing=0 class="headercell1">
   <tr>
-    <td width="15%"><img src="images/wf-logo.gif" alt="OneStart Workflow" width=150 height=21 hspace=5 vspace=5></td>
+    <td width="15%"><img src="images/wf-logo.gif" alt="Workflow" width=150 height=21 hspace=5 vspace=5></td>
     <td width="85%"><a href="ThreadPool.do?methodToCall=start" />Refresh Page</a></td>
     <td>&nbsp;&nbsp;</td>
   </tr>
@@ -50,7 +50,7 @@ Completed Task Count: <c:out value="${ThreadPoolForm.threadPool.completedTaskCou
 RouteQueue.TimeIncrement: <html-el:text property="timeIncrement"/><br>
 RouteQueue.maxRetryAttempts: <html-el:text property="maxRetryAttempts"/><br>
 <br>
-<html-el:checkbox property="allServers"/> Execute Across All Servers with Message Entity <c:out value="${ThreadPoolForm.messageEntity}"/><br/>
+<html-el:checkbox property="allServers"/> Execute Across All Servers with Service Namespace <c:out value="${ThreadPoolForm.serviceNamespace}"/><br/>
 <input type="button" value="Update" onclick="setMethodToCallAndSubmit('update')"/>
 </td>
 </tr>

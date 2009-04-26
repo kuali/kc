@@ -19,7 +19,7 @@
 <c:if test="${!empty UserSession}">
     <c:if test="${UserSession.backdoorInUse == 'true'}">
         <div class="backdoor">
-            Backdoor Id <b>${UserSession.networkId}</b> is in use
+            Backdoor Id <b>${UserSession.principalName}</b> is in use
         </div>
     </c:if>
 </c:if>

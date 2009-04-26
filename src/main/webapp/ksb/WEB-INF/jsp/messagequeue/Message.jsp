@@ -19,7 +19,7 @@
 
     <table width="100%" border=0 cellpadding=0 cellspacing=0 class="headercell1">
       <tr>
-        <td><img src="images/wf-logo.gif" alt="OneStart Workflow" width=150 height=21 hspace=5 vspace=5></td>
+        <td><img src="images/wf-logo.gif" alt="Workflow" width=150 height=21 hspace=5 vspace=5></td>
         <td width="90%">
           <a href="MessageQueue.do?methodToCall=start">Message Queue</a>
         </td>
@@ -99,8 +99,8 @@
 						  		  <td class="datacell"><c:out value="${MessageQueueForm.messageQueueFromForm.serviceName}" />&nbsp;</td>
 					  		  </tr>
 					  		  <tr>
-								<td class="thnormal" align="right" width="20%">Message Entity:</td>
-						  		  <td class="datacell"><c:out value="${MessageQueueForm.messageQueueFromForm.messageEntity}" />&nbsp;</td>
+								<td class="thnormal" align="right" width="20%">Service Namespace:</td>
+						  		  <td class="datacell"><c:out value="${MessageQueueForm.messageQueueFromForm.serviceNamespace}" />&nbsp;</td>
 					  		  </tr>
 					  		  <tr>
 								<td class="thnormal" align="right" width="20%">Method Name:</td>
@@ -143,13 +143,13 @@
 										</c:choose>
 					  		  </tr>
 					  		  <tr>
-										<td class="thnormal" align="right" width="20%">ServiceInfo.messageEntity:</td>
+										<td class="thnormal" align="right" width="20%">ServiceInfo.serviceNamespace:</td>
 										<c:choose>
 											<c:when test="${methodCall.serviceInfo == null}">
 								  		  <td class="datacell">ServiceInfo is null&nbsp;</td>
 											</c:when>
 											<c:otherwise>
-								  		  <td class="datacell"><c:out value="${methodCall.serviceInfo.messageEntity}" />&nbsp;</td>
+								  		  <td class="datacell"><c:out value="${methodCall.serviceInfo.serviceNamespace}" />&nbsp;</td>
 											</c:otherwise>
 										</c:choose>
 					  		  </tr>

@@ -3,8 +3,8 @@
 <c:set var="committeeAttributes" value="${DataDictionary.Committee.attributes}" />
 <c:set var="action" value="committeeCommittee" />
 <c:set var="className" value="org.kuali.kra.committee.document.CommitteeDocument" />
-<c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" scope="request" />
-
+<c:set var="readOnly" value="${!KualiForm.committeeHelper.modifyCommittee}" scope="request" />
+readonly - ${readOnly}
 <kul:tab tabTitle="Committee" defaultOpen="true" tabErrorKey="document.committee*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.title" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>

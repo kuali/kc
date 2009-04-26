@@ -15,7 +15,6 @@
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
-
-<c:forEach items="${GlobalMessages}" var="message">
-<bean:message key="${message}"/><br>
-</c:forEach>	
+<%-- the value of the name attribute comes from org.kuali.rice.kns.util.KNSConstants.GLOBAL_MESSAGES
+the value of the property attribute comes from org.apache.struts.action.ActionMessages.GLOBAL_MESSAGE --%>
+<html:errors name="GlobalMessages" property="org.apache.struts.action.GLOBAL_MESSAGE"/>

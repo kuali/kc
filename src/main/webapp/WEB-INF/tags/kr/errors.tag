@@ -22,15 +22,23 @@
               This is a failsafe for incorrect error paths, and helps with maintenance.
               It can only be used with a KualiForm." %>
 <%@ attribute name="errorTitle" required="false"%>
+<%@ attribute name="warningTitle" required="false"%>
+<%@ attribute name="infoTitle" required="false"%>
 
 <%-- set generic error title if one was not given --%>
 <c:if test="${empty errorTitle}">
   <c:set var="errorTitle" value="Errors found in this Section:"/>
 </c:if>
+<c:if test="${empty warningTitle}">
+  <c:set var="warningTitle" value="Warnings for this Section:"/>
+</c:if>
+<c:if test="${empty infoTitle}">
+  <c:set var="infoTitle" value="Informational messages in this Section:"/>
+</c:if>
 
 <c:if test="${!empty ErrorPropertyList}">
     <div class="error">
-      <c:set var="titleRendered" value="false"/>  
+      <c:set var="errorTitleRendered" value="false"/>  
       
         <c:choose>
           <%-- if match string given displayed only matched keys --%>
@@ -45,9 +53,9 @@
                 <c:if test="${(fn:endsWith(prefix,'*') && fn:startsWith(key,fn:replace(prefix,'*',''))) || (key == prefix)}">
                  
                   <%-- render title if this is the first error --%>
-                  <c:if test="${!titleRendered}">
+                  <c:if test="${!errorTitleRendered}">
                     <strong>${errorTitle}</strong>
-                    <c:set var="titleRendered" value="true"/>
+                    <c:set var="errorTitleRendered" value="true"/>
                   </c:if>
                   
                   <%-- check so same message is not displayed again --%>
@@ -71,9 +79,9 @@
                 <c:forEach items="${ErrorPropertyList}" var="key">
                     <c:if test="${not KualiForm.displayedErrors[key]}">
                         <%-- render title if this is the first error --%>
-                        <c:if test="${!titleRendered}">
+                        <c:if test="${!errorTitleRendered}">
                             <strong>${errorTitle}</strong>
-                            <c:set var="titleRendered" value="true"/>
+                            <c:set var="errorTitleRendered" value="true"/>
                         </c:if>
                         <%-- include error path in a comment so a developer can fix it --%>
                         <!-- remaining error path = "${key}" -->
@@ -92,6 +100,139 @@
             <html:errors/>
           </c:otherwise>
       </c:choose>
+    </div>
+</c:if>
+
+<c:if test="${!empty WarningPropertyList}">
+    <div>
+      <c:set var="warningTitleRendered" value="false"/>  
       
+        <c:choose>
+          <%-- if match string given displayed only matched keys --%>
+          <c:when test="${keyMatch!=null}">
+            <%-- iterate through all keys in the error map --%>
+            <c:forEach items="${WarningPropertyList}" var="key">
+              <c:set var="warningDisplayed" value="false"/>
+              
+              <%-- for each warning, try to match with one of the match strings given, either by exact 
+                   match or like match if wildcard is given --%>
+              <c:forEach items="${fn:split(keyMatch,',')}" var="prefix">
+                <c:if test="${(fn:endsWith(prefix,'*') && fn:startsWith(key,fn:replace(prefix,'*',''))) || (key == prefix)}">
+                 
+                  <%-- render title if this is the first warning --%>
+                  <c:if test="${!warningTitleRendered}">
+                    <strong>${warningTitle}</strong>
+                    <c:set var="warningTitleRendered" value="true"/>
+                  </c:if>
+                  
+                  <%-- check so same message is not displayed again --%>
+                  <c:if test="${warningDisplayed==false}">
+                    <!-- warning key = '${key}' -->
+                    <html:errors property="${key}" name="WarningActionMessages"/>
+                    <%-- This is in case a single warning matches more than one pattern in the given keyMatch. --%>
+                    <c:set var="warningDisplayed" value="true"/>
+                    <%-- If in a KualiForm, globally remember which warnings have already been displayed. --%>
+                    <c:if test="${KualiForm != null}">
+                      <c:set target="${KualiForm.displayedWarnings}" property="${key}" value="true"/>
+                    </c:if>
+                  </c:if>
+                </c:if>
+              </c:forEach>
+            </c:forEach>  
+          </c:when>
+
+            <%-- else, if displayRemaining attribute is true, display any warnings that have not already been displayed --%>
+            <c:when test="${displayRemaining}">
+                <c:forEach items="${WarningPropertyList}" var="key">
+                    <c:if test="${not KualiForm.displayedWarnings[key]}">
+                        <%-- render title if this is the first warning --%>
+                        <c:if test="${!warningTitleRendered}">
+                            <strong>${warningTitle}</strong>
+                            <c:set var="warningTitleRendered" value="true"/>
+                        </c:if>
+                        <%-- include error path in a comment so a developer can fix it --%>
+                        <!-- remaining error path = "${key}" -->
+                        <html:errors property="${key}" name="WarningActionMessages"/>
+                        <c:set target="${KualiForm.displayedWarnings}" property="${key}" value="true"/>
+                    </c:if>
+                </c:forEach>
+            </c:when>
+
+          <%-- no key to match on given, display all warnings --%>
+          <c:otherwise>
+            <logic:messagesPresent name="WarningActionMessages">
+              <strong>${warningTitle}</strong>
+            </logic:messagesPresent>
+            
+            <html:errors name="WarningActionMessages"/>
+          </c:otherwise>
+      </c:choose>
+    </div>
+</c:if>
+
+<c:if test="${!empty InfoPropertyList}">
+    <div>
+      <c:set var="infoTitleRendered" value="false"/>  
+      
+        <c:choose>
+          <%-- if match string given displayed only matched keys --%>
+          <c:when test="${keyMatch!=null}">
+            <%-- iterate through all keys in the error map --%>
+            <c:forEach items="${InfoPropertyList}" var="key">
+              <c:set var="infoDisplayed" value="false"/>
+              
+              <%-- for each info message, try to match with one of the match strings given, either by exact 
+                   match or like match if wildcard is given --%>
+              <c:forEach items="${fn:split(keyMatch,',')}" var="prefix">
+                <c:if test="${(fn:endsWith(prefix,'*') && fn:startsWith(key,fn:replace(prefix,'*',''))) || (key == prefix)}">
+                 
+                  <%-- render title if this is the first info --%>
+                  <c:if test="${!infoTitleRendered}">
+                    <strong>${infoTitle}</strong>
+                    <c:set var="infoTitleRendered" value="true"/>
+                  </c:if>
+                  
+                  <%-- check so same message is not displayed again --%>
+                  <c:if test="${infoDisplayed==false}">
+                    <!-- info key = '${key}' -->
+                    <html:errors property="${key}" name="InfoActionMessages"/>
+                    <%-- This is in case a single info matches more than one pattern in the given keyMatch. --%>
+                    <c:set var="infoDisplayed" value="true"/>
+                    <%-- If in a KualiForm, globally remember which infos have already been displayed. --%>
+                    <c:if test="${KualiForm != null}">
+                      <c:set target="${KualiForm.displayedInfo}" property="${key}" value="true"/>
+                    </c:if>
+                  </c:if>
+                </c:if>
+              </c:forEach>
+            </c:forEach>  
+          </c:when>
+
+            <%-- else, if displayRemaining attribute is true, display any infos that have not already been displayed --%>
+            <c:when test="${displayRemaining}">
+                <c:forEach items="${InfoPropertyList}" var="key">
+                    <c:if test="${not KualiForm.displayedInfo[key]}">
+                        <%-- render title if this is the first info --%>
+                        <c:if test="${!infoTitleRendered}">
+                            <strong>${infoTitle}</strong>
+                            <c:set var="infoTitleRendered" value="true"/>
+                        </c:if>
+                        <%-- include error path in a comment so a developer can fix it --%>
+                        <!-- remaining error path = "${key}" -->
+                        <html:errors property="${key}" name="InfoActionMessages"/>
+                        <c:set target="${KualiForm.displayedInfo}" property="${key}" value="true"/>
+                    </c:if>
+                </c:forEach>
+            </c:when>
+
+          <%-- no key to match on given, display all info --%>
+          <c:otherwise>
+            <logic:messagesPresent name="InfoActionMessages">
+              <strong>${infoTitle}</strong>
+            </logic:messagesPresent>
+            
+            <html:errors name="InfoActionMessages"/>
+          </c:otherwise>
+      </c:choose>
     </div>
 </c:if>

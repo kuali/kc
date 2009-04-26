@@ -21,7 +21,7 @@
 
 <table width="100%" border=0 cellpadding=0 cellspacing=0 class="headercell1">
   <tr>
-    <td width="15%"><img src="images/wf-logo.gif" alt="OneStart Workflow" width=150 height=21 hspace=5 vspace=5></td>
+    <td width="15%"><img src="images/wf-logo.gif" alt="Workflow" width=150 height=21 hspace=5 vspace=5></td>
     <td width="85%"><a href="ServiceRegistry.do?methodToCall=start" />Refresh Page</a></td>
     <td>&nbsp;&nbsp;</td>
   </tr>
@@ -47,7 +47,7 @@
    			</tr>
 		  <tr>
         <td class="datacell">IP Address: <c:out value="${ServiceRegistryForm.myIpAddress}"/><br>
-        	Message Entity: <c:out value="${ServiceRegistryForm.myMessageEntity}"/>
+        	Service Namespace: <c:out value="${ServiceRegistryForm.myServiceNamespace}"/>
         </td>
         </tr>
         <tr>
@@ -77,7 +77,7 @@
 		  <b>Published Services:</b>
 		  <%-- Table layout of the search results --%>
 		  <display-el:table excludedParams="*" class="bord-r-t" style="width:100%" cellspacing="0" cellpadding="0" name="${ServiceRegistryForm.publishedServices}" id="result" requestURI="ServiceRegistry.do?methodToCall=start" defaultsort="1" defaultorder="ascending"
-				decorator="edu.iu.uis.eden.messaging.web.KSBTableDecorator">
+				decorator="org.kuali.rice.ksb.messaging.web.KSBTableDecorator">
 		    <display-el:setProperty name="paging.banner.placement" value="both" />
 		    <display-el:setProperty name="paging.banner.all_items_found" value=""/>
 		    <display-el:setProperty name="export.banner" value="" />
@@ -86,10 +86,17 @@
 		    	<c:out value="${result.serviceName}"/>&nbsp;
 		    </display-el:column>
 		    <display-el:column class="datacell" sortable="true" title="<div>Endpoint URL</div>" >
+				<c:choose>
+				<c:when test='${result.serviceDefinition.class.name == "org.kuali.rice.ksb.messaging.SOAPServiceDefinition"}'>
+		    	<a href="${result.endpointUrl}?wsdl"><c:out value="${result.endpointUrl}"/></a>&nbsp;
+				</c:when>
+				<c:otherwise>
 		    	<c:out value="${result.endpointUrl}"/>&nbsp;
+				</c:otherwise>
+				</c:choose>
 		    </display-el:column>
-		    <display-el:column style="text-align:center;vertical-align:middle;"  class="datacell" sortable="true" title="<div style='text-align:center;vertical-align:top;'>Message Entity</div>" >
-		    	<c:out value="${result.messageEntity}"/>&nbsp;
+		    <display-el:column style="text-align:center;vertical-align:middle;"  class="datacell" sortable="true" title="<div style='text-align:center;vertical-align:top;'>Service Namespace</div>" >
+		    	<c:out value="${result.serviceNamespace}"/>&nbsp;
 		    </display-el:column>
 		    <display-el:column style="text-align:center;vertical-align:middle;" class="datacell" sortable="true" title="<div style='text-align:center;vertical-align:top;'>IP Number</div>" >
 		    	<c:out value="${result.serverIp}"/>&nbsp;
@@ -111,7 +118,7 @@
 		  <b>Published Temp Services:</b>
 		  <%-- Table layout of the search results --%>
 		  <display-el:table excludedParams="*" class="bord-r-t" style="width:100%" cellspacing="0" cellpadding="0" name="${ServiceRegistryForm.publishedTempServices}" id="result" requestURI="ServiceRegistry.do?methodToCall=start" defaultsort="1" defaultorder="ascending"
-				decorator="edu.iu.uis.eden.messaging.web.KSBTableDecorator">
+				decorator="org.kuali.rice.ksb.messaging.web.KSBTableDecorator">
 		    <display-el:setProperty name="paging.banner.placement" value="both" />
 		    <display-el:setProperty name="paging.banner.all_items_found" value=""/>
 		    <display-el:setProperty name="export.banner" value="" />
@@ -122,8 +129,8 @@
 		    <display-el:column class="datacell" sortable="true" title="<div>Endpoint URL</div>" >
 		    	<c:out value="${result.endpointUrl}"/>&nbsp;
 		    </display-el:column>
-		    <display-el:column style="text-align:center;vertical-align:middle;"  class="datacell" sortable="true" title="<div style='text-align:center;vertical-align:top;'>Message Entity</div>" >
-		    	<c:out value="${result.messageEntity}"/>&nbsp;
+		    <display-el:column style="text-align:center;vertical-align:middle;"  class="datacell" sortable="true" title="<div style='text-align:center;vertical-align:top;'>Service Namespace</div>" >
+		    	<c:out value="${result.serviceNamespace}"/>&nbsp;
 		    </display-el:column>
 		    <display-el:column style="text-align:center;vertical-align:middle;" class="datacell" sortable="true" title="<div style='text-align:center;vertical-align:top;'>IP Number</div>" >
 		    	<c:out value="${result.serverIp}"/>&nbsp;
@@ -146,7 +153,7 @@
 		  <b>All Registry Services:</b>
 		  <%-- Table layout of the search results --%>
 		  <display-el:table excludedParams="*" class="bord-r-t" style="width:100%" cellspacing="0" cellpadding="0" name="${ServiceRegistryForm.globalRegistryServices}" id="result" requestURI="ServiceRegistry.do?methodToCall=start" defaultsort="1" defaultorder="ascending"
-				decorator="edu.iu.uis.eden.messaging.web.KSBTableDecorator">
+				decorator="org.kuali.rice.ksb.messaging.web.KSBTableDecorator">
 		    <display-el:setProperty name="paging.banner.placement" value="both" />
 		    <display-el:setProperty name="paging.banner.all_items_found" value=""/>
 		    <display-el:setProperty name="export.banner" value="" />
@@ -157,8 +164,8 @@
 		    <display-el:column class="datacell" sortable="true" title="<div>Endpoint URL</div>" >
 		    	<c:out value="${result.endpointUrl}"/>&nbsp;
 		    </display-el:column>
-		    <display-el:column style="text-align:center;vertical-align:middle;"  class="datacell" sortable="true" title="<div style='text-align:center;vertical-align:top;'>Message Entity</div>" >
-		    	<c:out value="${result.messageEntity}"/>&nbsp;
+		    <display-el:column style="text-align:center;vertical-align:middle;"  class="datacell" sortable="true" title="<div style='text-align:center;vertical-align:top;'>Service Namespace</div>" >
+		    	<c:out value="${result.serviceNamespace}"/>&nbsp;
 		    </display-el:column>
 		    <display-el:column style="text-align:center;vertical-align:middle;" class="datacell" sortable="true" title="<div style='text-align:center;vertical-align:top;'>IP Number</div>" >
 		    	<c:out value="${result.serverIp}"/>&nbsp;

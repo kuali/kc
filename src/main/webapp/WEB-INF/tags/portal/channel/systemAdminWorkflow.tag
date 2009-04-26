@@ -18,13 +18,15 @@
 <channel:portalChannelTop channelTitle="Workflow" />
 <div class="body">
   <ul class="chan">
-    <li><portal:portalLink displayTitle="false" title='Workflow Services' url='${ConfigProperties.workflow.url}/ApplicationConstants.do'>Application Constants</portal:portalLink></li>
-    <li><portal:portalLink displayTitle="false" title='Workflow Services' url='${ConfigProperties.workflow.url}/DocumentOperation.do'>Document Operation</portal:portalLink></li>
-    <li><portal:portalLink displayTitle="false" title='Workflow Services' url='${ConfigProperties.workflow.url}/Lookup.do?lookupableImplServiceName=DocumentTypeLookupableImplService'>Document Type</portal:portalLink></li>
-    <li><portal:portalLink displayTitle="false" title='Workflow Services' url='${ConfigProperties.workflow.url}/Lookup.do?lookupableImplServiceName=RuleAttributeLookupableImplService'>Rule Attribute</portal:portalLink></li>
-    <li><portal:portalLink displayTitle="false" title='Workflow Services' url='${ConfigProperties.workflow.url}/Lookup.do?lookupableImplServiceName=RuleTemplateLookupableImplService'>Rule Template</portal:portalLink></li>
+  <!--  TODO : not sure what it is in rice 1.1 
+    <li><portal:portalLink displayTitle="false" title='Workflow Services' url='${ConfigProperties.workflow.url}/ApplicationConstants.do'>Application Constants</portal:portalLink></li> -->
+    <li><portal:portalLink displayTitle="false" title='Workflow Services' url='kew/DocumentOperation.do'>Document Operation</portal:portalLink></li>
+    <li><portal:portalLink displayTitle="false" title='Workflow Services' url='kr/lookup.do?start&businessObjectClassName=org.kuali.rice.kew.doctype.bo.DocumentType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true'>Document Type</portal:portalLink></li>
+    <li><portal:portalLink displayTitle="false" title='Workflow Services' url='kr/lookup.do?businessObjectClassName=org.kuali.rice.kew.rule.bo.RuleAttribute&docFormKey=88888888&returnLocation=Administration.do&hideReturnLink=true'>Rule Attribute</portal:portalLink></li>
+    <li><portal:portalLink displayTitle="false" title='Workflow Services' url='kr/lookup.do?businessObjectClassName=org.kuali.rice.kew.rule.bo.RuleTemplate&docFormKey=88888888&returnLocation=Administration.do&hideReturnLink=true'>Rule Template</portal:portalLink></li>
     <li><portal:portalLink displayTitle="false" title='Workflow Services' url='${ConfigProperties.workflow.url}/Stats.do'>Statistics Report</portal:portalLink></li>
-    <li><portal:portalLink displayTitle="false" title='Workflow Services' url='${ConfigProperties.workflow.url}/Lookup.do?lookupableImplServiceName=WorkgroupTypeLookup'>Workgroup Type</portal:portalLink></li>
+  <!--  TODO : not sure what it is in rice 1.1 
+    <li><portal:portalLink displayTitle="false" title='Workflow Services' url='kr/lookup.do?businessObjectClassName=org.kuali.rice.kim.bo.group.impl.KimGroupImpl&docFormKey=88888888&returnLocation=Administration.do&hideReturnLink=true'>Workgroup Type</portal:portalLink></li> -->
     <li><portal:portalLink displayTitle="false" title='Workflow Services' url='${ConfigProperties.workflow.url}/Ingester.do'>XML Ingester</portal:portalLink></li>
   </ul>
 </div>

@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 <%@ page
-	import="org.kuali.core.web.struts.action.KualiAction,org.kuali.rice.util.RiceConstants,org.kuali.rice.kns.util.KNSConstants,java.util.Map"%>
+	import="org.kuali.rice.kns.web.struts.action.KualiAction,org.kuali.rice.core.util.RiceConstants,org.kuali.rice.kns.util.KNSConstants,java.util.Map"%>
 <%@ include file="tldHeader.jsp"%>
 <html>
 
