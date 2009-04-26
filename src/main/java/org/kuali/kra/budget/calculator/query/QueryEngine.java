@@ -18,10 +18,12 @@ package org.kuali.kra.budget.calculator.query;
 
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.kuali.core.document.Document;
 import org.kuali.kra.budget.calculator.QueryList;
 
 /**

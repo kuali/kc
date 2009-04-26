@@ -18,17 +18,9 @@ package org.kuali.kra.budget.document.authorization;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.authorization.AuthorizationConstants;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.authorization.DocumentActionFlags;
-import org.kuali.core.document.authorization.PessimisticLock;
-import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -36,8 +28,18 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.authorization.PessimisticLock;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
     
@@ -50,10 +52,9 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
     }
     
     /**
-     * @see org.kuali.core.authorization.DocumentAuthorizer#getEditMode(org.kuali.core.document.Document,
+     * @see org.kuali.core.authorization.DocumentAuthorizer#getEditMode(org.kuali.rice.kns.document.Document,
      *      org.kuali.core.bo.user.KualiUser)
      */
-    @Override
     public Map getEditMode(Document d, UniversalUser u) {
         Map editModeMap = new HashMap();
           
@@ -159,9 +160,9 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
     }
     
     /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.rice.kns.document.Document, org.kuali.core.bo.user.UniversalUser)
      */
-    @Override
+    // TODO Take Person instead of UniversalUser
     public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
 
         BudgetDocument budgetDoc = (BudgetDocument) document;
@@ -176,23 +177,26 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
      * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(Document, UniversalUser)
      */
     @Override
-    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
-        DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
+    public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActions) {
+        super.getDocumentActions(document, user, documentActions);
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        boolean hasInitiateAuthorization = hasInitiateAuthorization(document, user);
-        flags.setCanRoute(hasInitiateAuthorization);
+        boolean hasInitiateAuthorization = hasInitiateAuthorization(document, new UniversalUser(user));
+        documentActions.add(KNSConstants.KUALI_ACTION_CAN_ROUTE);
         
         // Allow finalized budgets to be edited
         if (workflowDocument.stateIsFinal()) {
-            flags.setCanSave(hasInitiateAuthorization);
-            flags.setCanCancel(hasInitiateAuthorization);
-            flags.setCanCopy(false);
+            if (hasInitiateAuthorization) {
+                documentActions.add(KNSConstants.KUALI_ACTION_CAN_SAVE);
+                documentActions.add(KNSConstants.KUALI_ACTION_CAN_CANCEL);
+                documentActions.add(KNSConstants.KUALI_ACTION_CAN_RELOAD);
+            }
+            documentActions.remove(KNSConstants.KUALI_ACTION_CAN_COPY);
         }
         
-        return flags;
+        return documentActions;
     }
 
-    @Override
+//  @Override
     protected boolean isLockRequiredByUser(Document document, Map editMode, UniversalUser user) {
         String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
         
@@ -206,12 +210,12 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
         return false;
     }
 
-    @Override
+//  @Override
     protected boolean useCustomLockDescriptors() {
         return true;
     }
 
-    @Override
+    //@Override
     protected String getCustomLockDescriptor(Document document, Map editMode, UniversalUser user) {
         String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
         if(StringUtils.isNotEmpty(activeLockRegion)) {
@@ -225,7 +229,7 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
         return null;
     }
 
-    @Override
+    //@Override
     protected boolean isEntryEditMode(Map.Entry entry) {
         if (AuthorizationConstants.EditMode.FULL_ENTRY.equals(entry.getKey())
                 || KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET.equals(entry.getKey())
@@ -237,9 +241,10 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
         return false;
     }
     
-    @Override
+    //@Override
     protected Map getEditModeWithEditableModesRemoved(Map currentEditMode) {
-        Map editModeMap = super.getEditModeWithEditableModesRemoved(currentEditMode);
+        //Map editModeMap = super.getEditModeWithEditableModesRemoved(currentEditMode);
+        Map editModeMap = new HashMap();
         for (Iterator iterator = editModeMap.entrySet().iterator(); iterator.hasNext();) {
             Map.Entry<String, String> entry = (Map.Entry<String, String>) iterator.next();
             if (StringUtils.equals(entry.getKey(), "addBudget")) {
@@ -250,27 +255,27 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
     }
         
     
-    @Override
+    //@Override
     protected Map getEntryEditModeReplacementMode(Map.Entry entry) {
         Map editMode = new HashMap(); 
         editMode.put(entryEditModeReplacementMap.get(entry.getKey()), EDIT_MODE_DEFAULT_TRUE_VALUE); 
         return editMode;
     }
 
-    @Override
+    //@Override
     public boolean hasPreRouteEditAuthorization(Document document, UniversalUser user) {
         BudgetDocument budgetDocument = (BudgetDocument) document;
         
-        if(super.hasPreRouteEditAuthorization(document, user)) {
-            return true;
-        } else {
+//        if(super.hasPreRouteEditAuthorization(document, user)) {
+//            return true;
+//        } else {
             for (Iterator iterator = budgetDocument.getProposal().getPessimisticLocks().iterator(); iterator.hasNext();) {
                 PessimisticLock lock = (PessimisticLock) iterator.next();
                 if (lock.getLockDescriptor().endsWith(KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET) && lock.isOwnedByUser(user)) {
                     return true;
                 }
             }
-        } 
+       // } 
         
         return false;
     }

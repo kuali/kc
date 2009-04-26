@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 package org.kuali.kra.budget.rule.event;
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.rule.AddBudgetPeriodRule;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 public class AddBudgetPeriodEvent extends BudgetPeriodEventBase{
     /**

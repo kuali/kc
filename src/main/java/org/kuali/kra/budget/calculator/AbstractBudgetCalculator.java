@@ -25,8 +25,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DateTimeService;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.AbstractBudgetCalculatedAmount;
 import org.kuali.kra.budget.bo.AbstractBudgetRate;
@@ -49,7 +47,9 @@ import org.kuali.kra.budget.calculator.query.Or;
 import org.kuali.kra.budget.calculator.query.QueryEngine;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 /**
  * 
  * Base class for <code>LineItemCalculator<code> and <code>PersonnelLineItemCalculator</code>.

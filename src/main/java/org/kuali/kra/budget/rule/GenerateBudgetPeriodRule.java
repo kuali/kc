@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.budget.rule;
 
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.budget.rule.event.GenerateBudgetPeriodEvent;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 public interface GenerateBudgetPeriodRule  extends BusinessRule {
     

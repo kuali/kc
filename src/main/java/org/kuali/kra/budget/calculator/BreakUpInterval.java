@@ -18,7 +18,6 @@ package org.kuali.kra.budget.calculator;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.AbstractBudgetRate;
 import org.kuali.kra.budget.bo.BudgetPeriod;
@@ -31,6 +30,7 @@ import org.kuali.kra.budget.calculator.query.Equals;
 import org.kuali.kra.budget.calculator.query.NotEquals;
 import org.kuali.kra.budget.calculator.query.Or;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * Holds all the info required for the breakup interval for which calculation 

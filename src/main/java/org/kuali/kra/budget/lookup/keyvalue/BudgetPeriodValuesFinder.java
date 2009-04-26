@@ -18,16 +18,16 @@ package org.kuali.kra.budget.lookup.keyvalue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.core.web.struts.form.KualiForm;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * Finds the available set of supported Narrative Statuses.  See

@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.budget.calculator;
 
-import static org.kuali.rice.KNSServiceLocator.getDateTimeService;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Map;
 
-import java.util.*;
-
-import org.kuali.core.service.DateTimeService;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.service.DateTimeService;
 
 /**
  * This class holds the date boundaries ie, Start Date & End Date. Also
@@ -42,7 +42,11 @@ public class Boundary {
  * Default Constructor...
  */
     public  Boundary() {
-        dateTimeService = getDateTimeService();
+        init();
+    }
+    
+    protected void init() {
+        dateTimeService = KraServiceLocator.getService(DateTimeService.class);
     }
 
 /**

@@ -22,8 +22,6 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
@@ -33,8 +31,8 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetCalculationService;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-
-import static org.kuali.kra.logging.BufferedLogger.*;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * 

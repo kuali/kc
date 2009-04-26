@@ -15,21 +15,20 @@
  */
 package org.kuali.kra.budget.calculator;
 
+import static org.kuali.kra.logging.BufferedLogger.debug;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetLineItemBase;
 import org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.bo.BudgetPersonnelRateAndBase;
-import org.kuali.kra.budget.bo.BudgetRateAndBase;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
-
-import static org.kuali.kra.logging.BufferedLogger.*;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class is for calculating personnel line items.
