@@ -18,8 +18,6 @@ package org.kuali.kra.budget.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetModular;
@@ -31,6 +29,8 @@ import org.kuali.kra.budget.calculator.LineItemCalculator;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetModularService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class BudgetModularServiceImpl implements BudgetModularService {
     

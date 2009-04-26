@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.budget.web.struts.action;
 
-import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
+import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -29,9 +29,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.lookup.LookupResultsService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
@@ -46,6 +43,9 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.lookup.LookupResultsService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Action class for Budget Personnel page
@@ -74,7 +74,7 @@ public class BudgetPersonnelAction extends BudgetAction {
             
             Collection<PersistableBusinessObject> rawValues = KraServiceLocator.getService(LookupResultsService.class)
                 .retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass,
-                        GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+                        GlobalVariables.getUserSession().getPerson().getPrincipalName());
             
             BudgetPersonService budgetPersonService = KraServiceLocator.getService(BudgetPersonService.class);
             if (lookupResultsBOClass.isAssignableFrom(Person.class)) {

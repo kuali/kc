@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.budget.rules;
 
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kra.budget.bo.BudgetUnrecoveredFandA;
 import org.kuali.kra.budget.document.BudgetDocumentContainer;
 import org.kuali.kra.budget.rule.AddBudgetUnrecoveredFandARule;
@@ -25,6 +23,8 @@ import org.kuali.kra.budget.rule.BudgetValidationUnrecoveredFandARule;
 import org.kuali.kra.budget.rule.event.AddBudgetUnrecoveredFandAEvent;
 import org.kuali.kra.budget.rule.event.BudgetUnrecoveredFandAAllocationEvent;
 import org.kuali.kra.budget.rule.event.BudgetValidationUnrecoveredFandAEvent;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
  * Processes Budget Project Income rules
