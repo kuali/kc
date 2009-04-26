@@ -22,9 +22,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.common.permissions.bo.PermissionsUser;
 import org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles;
@@ -35,9 +32,12 @@ import org.kuali.kra.common.permissions.web.bean.User;
 import org.kuali.kra.common.permissions.web.bean.UserState;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.kim.bo.KimRole;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.PersonService;
 import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * The PermissionsHelperBase is the base class of all PermissionsHelper classes.
@@ -492,7 +492,7 @@ public abstract class PermissionsHelperBase {
      * @return the current session's userName
      */
     protected String getUserName() {
-         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+         UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
          return user.getPersonUserIdentifier();
     }
 }

@@ -17,12 +17,12 @@ package org.kuali.kra.common.permissions.lookup.keyvalue;
 
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.struts.form.KualiForm;
-import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
+import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * The RolesValueFinder is responsible for building the list of
