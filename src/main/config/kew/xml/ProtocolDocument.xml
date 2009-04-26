@@ -6,7 +6,7 @@
          <name>ProtocolDocument</name>
          <description>Create a Protocol</description>
          <label>KC Protocol</label>
-         <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+         <postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
          <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
          <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
          <defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
@@ -31,7 +31,7 @@
    <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
        <ruleAttribute>
             <name>IRBCustomDataAttribute</name>
-            <className>edu.iu.uis.eden.routetemplate.xmlrouting.StandardGenericXMLRuleAttribute</className>
+            <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
             <label>IRBCustomDataAttribute</label>
             <description>IRBCustomDataAttribute</description>
             <type>RuleXmlAttribute</type>

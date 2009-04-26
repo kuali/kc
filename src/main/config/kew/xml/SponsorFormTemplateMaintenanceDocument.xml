@@ -9,7 +9,7 @@
 			<description>Create a New Sponsor Form Template</description>
 			<label>Sponsor Form Template</label>
 			<postProcessorName>
-				org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+				org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 			<superUserWorkgroupName>
 				WorkflowAdmin
 			</superUserWorkgroupName>

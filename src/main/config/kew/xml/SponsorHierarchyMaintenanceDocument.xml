@@ -9,7 +9,7 @@
 			<description>Create a New Sponsor Hierarchy</description>
 			<label>Sponsor Hierarchy</label>
 			<postProcessorName>
-				org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+				org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 			<superUserWorkgroupName>
 				WorkflowAdmin
 			</superUserWorkgroupName>

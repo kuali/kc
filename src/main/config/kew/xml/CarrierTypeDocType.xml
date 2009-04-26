@@ -9,7 +9,7 @@
 			<description>Create a New Carrier Type</description>
 			<label>Carrier Type</label>
 			<postProcessorName>
-				org.kuali.workflow.postprocessor.KualiPostProcessor
+				org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor
 			</postProcessorName>
 			<superUserWorkgroupName>
 				WorkflowAdmin

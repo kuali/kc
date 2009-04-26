@@ -5,7 +5,7 @@
 <name>ReportClassMaintenanceDocument</name>
 <description>Create a New Report Class</description>
 <label>Report Class</label>
-<postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 <defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
