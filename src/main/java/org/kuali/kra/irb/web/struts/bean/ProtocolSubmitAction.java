@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -28,6 +27,7 @@ import org.kuali.kra.irb.bo.ExpeditedReviewCheckListItem;
 import org.kuali.kra.irb.bo.ProtocolReviewType;
 import org.kuali.kra.irb.service.CheckListService;
 import org.kuali.kra.irb.web.struts.form.ActionHelper;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * This class is really just a "form" for submitting a protocol for review

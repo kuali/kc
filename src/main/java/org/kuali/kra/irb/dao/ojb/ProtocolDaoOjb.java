@@ -28,11 +28,6 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.dao.LookupDao;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.util.OjbCollectionAware;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolFundingSource;
@@ -41,7 +36,12 @@ import org.kuali.kra.irb.bo.ProtocolResearchArea;
 import org.kuali.kra.irb.dao.ProtocolDao;
 import org.kuali.kra.irb.lookup.ProtocolLookupConstants;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.dao.LookupDao;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.OjbCollectionAware;
 
 public class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, ProtocolDao {
 

@@ -23,7 +23,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.bo.ProtocolFundingSource;
-import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.rule.event.AddProtocolFundingSourceEvent;
 import org.kuali.kra.irb.service.ProtocolFundingSourceService;
 import org.kuali.kra.rule.BusinessRuleInterface;

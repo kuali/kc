@@ -18,11 +18,11 @@ package org.kuali.kra.irb.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.irb.bo.ParticipantType;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolParticipant;
 import org.kuali.kra.irb.service.ProtocolParticipantService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * 

@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.irb.rule.event;
 
-import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.kra.irb.bo.ProtocolLocation;
 import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 
 /**
  * Event triggered when a protocol location state is modified on a 

@@ -17,8 +17,6 @@ package org.kuali.kra.irb.service.impl;
 
 import java.util.HashMap;
 
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DocumentService;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.service.AwardService;
@@ -36,11 +34,12 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.FundingSourceTypeService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.UnitService;
+import org.kuali.rice.kew.util.Utilities;
+import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.springframework.util.StringUtils;
-
-import edu.iu.uis.eden.exception.WorkflowException;
-import edu.iu.uis.eden.util.Utilities;
 
 /**
  * This Service implementation provides the required logic for performing a multi-type lookup for funding sources. 
@@ -322,13 +321,13 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
         } else if (fundingCode.equals(FundingSourceLookup.SPONSOR.getFundingTypeCode())) {
             Sponsor sponsor = new Sponsor();
             sponsor.setSponsorCode(protocolFundingSource.getFundingSource());
-            String forward = 
+            HtmlData forward = 
                 getProtocolLookupableHelperService().getInquiryUrl(sponsor, FundingSourceLookup.SPONSOR.getkeyCode());
             retUrl = Utilities.substituteConfigParameters("${kuali.docHandler.url.prefix}/kr/"+forward);
         } else  if (fundingCode.equals(FundingSourceLookup.UNIT.getFundingTypeCode())) {
             Unit unit = new Unit();
             unit.setUnitNumber(protocolFundingSource.getFundingSource());
-            String forward = 
+            HtmlData forward = 
                 getProtocolLookupableHelperService().getInquiryUrl(unit, FundingSourceLookup.UNIT.getkeyCode());
             retUrl = Utilities.substituteConfigParameters("${kuali.docHandler.url.prefix}/kr/"+forward);
         }

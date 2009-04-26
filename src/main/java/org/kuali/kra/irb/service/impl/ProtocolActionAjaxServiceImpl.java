@@ -18,12 +18,12 @@ package org.kuali.kra.irb.service.impl;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.irb.bo.ProtocolReviewerType;
 import org.kuali.kra.irb.service.ProtocolActionAjaxService;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 public class ProtocolActionAjaxServiceImpl implements ProtocolActionAjaxService {
 

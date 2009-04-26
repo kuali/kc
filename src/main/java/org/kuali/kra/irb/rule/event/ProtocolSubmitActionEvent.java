@@ -16,11 +16,11 @@
 package org.kuali.kra.irb.rule.event;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.rule.ExecuteProtocolActionRule;
 import org.kuali.kra.irb.web.struts.bean.ProtocolSubmitAction;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 public class ProtocolSubmitActionEvent  extends KraDocumentEventBase {
     

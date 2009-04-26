@@ -19,7 +19,6 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.ProtocolAssociate;
 
 /**
@@ -95,7 +94,7 @@ public class ProtocolLocation extends ProtocolAssociate {
 	}
 
 	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
 	 */
 	@Override 
 	protected LinkedHashMap<String,Object> toStringMapper() {

@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.irb.rule.event;
 
-import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.kra.irb.bo.ProtocolParticipant;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 
 /**
  *

@@ -17,10 +17,8 @@ package org.kuali.kra.irb.lookup;
 
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.web.ui.Field;
-import org.kuali.core.web.ui.Row;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
@@ -29,6 +27,10 @@ import org.kuali.kra.irb.dao.ProtocolDao;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Row;
 
 public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {    
 
@@ -83,7 +85,7 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
      * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
      */
     @Override
-    public String getInquiryUrl(BusinessObject bo, String propertyName) {
+    public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
 
         BusinessObject inqBo = bo;
         String inqPropertyName = propertyName;

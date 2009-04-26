@@ -23,11 +23,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolUnit;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 
 public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {

@@ -17,19 +17,21 @@ package org.kuali.kra.irb.document.authorization;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
-import org.kuali.core.authorization.AuthorizationConstants;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.authorization.DocumentActionFlags;
-import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
-import org.kuali.core.exceptions.DocumentInitiationAuthorizationException;
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.kra.rice.shim.DocumentInitiationAuthorizationException;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * The Protocol Document Authorizer controls creation and access to protocol documents.
@@ -41,7 +43,7 @@ public class ProtocolDocumentAuthorizer extends TransactionalDocumentAuthorizerB
     
     /**
      * Used for permissions
-     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.rice.kns.document.Document, org.kuali.core.bo.user.UniversalUser)
      */
     @SuppressWarnings("unchecked")
     public Map getEditMode(Document doc, UniversalUser user) {
@@ -78,7 +80,7 @@ public class ProtocolDocumentAuthorizer extends TransactionalDocumentAuthorizerB
      * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String,
      *      org.kuali.core.bo.user.UniversalUser)
      */
-    @Override
+    //@Override
     public void canInitiate(String documentTypeName, UniversalUser user) {
         super.canInitiate(documentTypeName, user);
         if (!canCreateProtocol(user)) {
@@ -88,9 +90,9 @@ public class ProtocolDocumentAuthorizer extends TransactionalDocumentAuthorizerB
     }
     
     /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.rice.kns.document.Document, org.kuali.core.bo.user.UniversalUser)
      */
-    @Override
+    //@Override
     public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
    
         ProtocolDocument protocolDocument = (ProtocolDocument) document;
@@ -107,30 +109,31 @@ public class ProtocolDocumentAuthorizer extends TransactionalDocumentAuthorizerB
     }
    
     /**
-     * @see org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document, org.kuali.core.bo.user.UniversalUser)
      */
     @Override
-    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+    public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActions) {
        
         // no copy button
-        DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-        flags.setCanCopy(false);
+        super.getDocumentActions(document, user, documentActions);
+        documentActions.remove(KNSConstants.KUALI_ACTION_CAN_COPY);
        
         // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
-        this.setAnnotateFlag(flags);
+        if (documentActions.contains(KNSConstants.KUALI_ACTION_CAN_ROUTE)) {
+            documentActions.add(KNSConstants.KUALI_ACTION_CAN_ANNOTATE);
+        }
        
         // Any user who has the Initiate Authorization can save and cancel.
-       
-        if (this.hasInitiateAuthorization(document, user)) {
-            flags.setCanSave(true);
-            flags.setCanCancel(true);
+        if (this.hasInitiateAuthorization(document, new UniversalUser(user))) {
+            documentActions.add(KNSConstants.KUALI_ACTION_CAN_SAVE);
+            documentActions.add(KNSConstants.KUALI_ACTION_CAN_CANCEL);
         }
         else {
-            flags.setCanSave(false);
-            flags.setCanCancel(false);
+            documentActions.remove(KNSConstants.KUALI_ACTION_CAN_SAVE);
+            documentActions.remove(KNSConstants.KUALI_ACTION_CAN_CANCEL);
         }
         
-        return flags;
+        return documentActions;
     }
     
     /**
