@@ -19,13 +19,13 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.bo.ContactRole;
 import org.kuali.kra.bo.Contactable;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * This class defines an AwardContact

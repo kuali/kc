@@ -20,10 +20,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.bo.Unit;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class implements the specified rule

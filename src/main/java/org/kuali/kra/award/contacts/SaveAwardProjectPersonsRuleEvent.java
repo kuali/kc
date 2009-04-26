@@ -18,10 +18,10 @@ package org.kuali.kra.award.contacts;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * This class is the event passed when a new projectPerson is being added
