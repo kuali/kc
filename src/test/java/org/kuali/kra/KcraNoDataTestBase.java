@@ -20,18 +20,19 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
-import org.kuali.core.document.Document;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.KNSServiceLocator;
-import org.kuali.rice.config.spring.ConfigFactoryBean;
-import org.kuali.rice.lifecycle.Lifecycle;
+import org.kuali.kra.rice.shim.KNSTestCase;
+import org.kuali.rice.core.config.spring.ConfigFactoryBean;
+import org.kuali.rice.core.lifecycle.Lifecycle;
+import org.kuali.rice.core.util.OrmUtils;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.test.lifecycles.TransactionalLifecycle;
-import org.kuali.rice.testharness.KNSTestCase;
-import org.kuali.rice.util.OrmUtils;
+import org.kuali.rice.test.web.HtmlUnitUtil;
 
 /**
  * This class is the base class for all KCRA Tests requiring a Spring context with persistence, but no preloaded test data
@@ -41,6 +42,13 @@ public abstract class KcraNoDataTestBase extends KNSTestCase {
     protected TransactionalLifecycle transactionalLifecycle;
     private DocumentService documentService;
     private BusinessObjectService businessObjectService;
+    
+    // TODO Old KNSTestCase props; fix these.
+    private String contextName = "/knstest";
+    private String relativeWebappRoot = "/../kns/src/test/webapp";
+    private String sqlFilename = "classpath:KNSDefaultTestData.sql";
+    private String sqlDelimiter = ";";
+    private String xmlFilename = "classpath:KNSDefaultTestData.xml";
 
     @Before
     public void setUp() throws Exception {
@@ -64,6 +72,10 @@ public abstract class KcraNoDataTestBase extends KNSTestCase {
         GlobalVariables.setErrorMap(new ErrorMap());
         super.tearDown();
         documentService = null;
+    }
+    
+    protected int getPort() {
+        return HtmlUnitUtil.getPort();
     }
 
     @Override
@@ -137,6 +149,24 @@ public abstract class KcraNoDataTestBase extends KNSTestCase {
     }
     
     /**
+     * Returns the location of the test harness spring beans context file.
+     * Subclasses may override to specify a different location.
+     * @return the location of the test harness spring beans context file.
+     */
+//    protected String[] getTestHarnessSpringBeansLocation() {
+//        String[] locations;
+//        String moduleTestHarnessSpringBeansPath = getModuleName().toUpperCase() + "TestHarnessSpringBeans.xml";
+//        String kcSpringBeans = "classpath:SpringBeans.xml";
+//        String awardSpringBeans = "classpath:org/kuali/kra/award/AwardSpringBeans.xml";
+//        String irbSpringBeans = "classpath:org/kuali/kra/irb/IrbSpringBeans.xml";
+//        String committeeSpringBeans = "classpath:org/kuali/kra/committee/CommitteeSpringBeans.xml";
+//        String kewSpringBeansPath = "org/kuali/rice/kew/config/KEWSpringBeans.xml";
+//            locations = new String[] { DEFAULT_TEST_HARNESS_SPRING_BEANS, "classpath:" + moduleTestHarnessSpringBeansPath
+//                    , "classpath:" + kewSpringBeansPath};
+//        return locations;
+//    }
+    
+    /**
      *  Delegate to <code>{@link KraServiceLocator#getService(Class)}</code>
      * @param <T>
      * @param serviceClass class of service to get instance for
@@ -145,4 +175,43 @@ public abstract class KcraNoDataTestBase extends KNSTestCase {
     protected final <T> T getService(Class<T> serviceClass) {
         return KraServiceLocator.getService(serviceClass);
     }
+    
+    protected String getContextName() {
+        return contextName;
+    }
+
+    protected void setContextName(String contextName) {
+        this.contextName = contextName;
+    }
+
+    protected String getRelativeWebappRoot() {
+        return relativeWebappRoot;
+    }
+    
+    protected String getXmlFilename() {
+        return xmlFilename;
+    }
+
+    protected void setXmlFilename(String xmlFilename) {
+        this.xmlFilename = xmlFilename;
+    }
+    
+    protected String getSqlFilename() {
+        return sqlFilename;
+    }
+
+    protected void setSqlFilename(String sqlFilename) {
+        this.sqlFilename = sqlFilename;
+    }
+    
+    protected void setRelativeWebappRoot(String relativeWebappRoot) {
+        this.relativeWebappRoot = relativeWebappRoot;
+    }
+    
+//    protected List<String> getConfigLocations() {
+//        List<String> configLocations = super.getConfigLocations();
+//        configLocations.add("classpath:META-INF/kew-config-defaults.xml");
+//        configLocations.add("classpath:META-INF/kew-test-config.xml");
+//        return configLocations;
+//    }
 }

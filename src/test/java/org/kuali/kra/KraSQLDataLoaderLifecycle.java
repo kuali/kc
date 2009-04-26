@@ -17,10 +17,10 @@ package org.kuali.kra;
 
 import java.io.File;
 
-import org.kuali.rice.core.Core;
-import org.kuali.rice.lifecycle.Lifecycle;
+import org.kuali.rice.core.config.ConfigContext;
+import org.kuali.rice.core.lifecycle.Lifecycle;
+import org.kuali.rice.core.util.ClassLoaderUtils;
 import org.kuali.rice.test.SQLDataLoader;
-import org.kuali.rice.util.ClassLoaderUtils;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 
@@ -41,7 +41,7 @@ public class KraSQLDataLoaderLifecycle implements Lifecycle {
     }
 
     public void start() throws Exception {
-        if (new Boolean(Core.getCurrentContextConfig().getProperty("use.kraSqlDataLoaderLifecycle"))) {
+        if (new Boolean(ConfigContext.getCurrentContextConfig().getProperty("use.kraSqlDataLoaderLifecycle"))) {
             loadData();
             started = true;
         }
