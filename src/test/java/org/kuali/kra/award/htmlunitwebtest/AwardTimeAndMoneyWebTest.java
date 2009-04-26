@@ -18,11 +18,7 @@ package org.kuali.kra.award.htmlunitwebtest;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
 
-
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlImageInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 

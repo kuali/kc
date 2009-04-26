@@ -36,6 +36,7 @@ import org.kuali.rice.test.data.UnitTestFile;
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_BUDGET_CATEGORY_MAPS.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_COST_ELEMENT.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_EPS_PROP_PER_DOC_TYPE.sql", delimiter = ";")
+                ,@UnitTestFile(filename = "classpath:sql/dml/LOAD_RATE_CLASS_TYPE.SQL", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_RATE_CLASS.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_RATE_TYPE.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_VALID_CALC_TYPES.sql", delimiter = ";")
@@ -90,7 +91,6 @@ import org.kuali.rice.test.data.UnitTestFile;
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_appointment_type.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_ynq_explanation_type.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_ynq.sql", delimiter = ";")
-                ,@UnitTestFile(filename = "classpath:sql/dml/LOAD_RATE_CLASS_TYPE.SQL", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_s2s_submission_type.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_s2s_revision_type.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_exemption_type.sql", delimiter = ";")
@@ -127,7 +127,7 @@ public abstract class KraTestBase extends KcraNoDataTestBase {
     public void setUp() throws Exception {
         setContextName("/kra-dev");
         setRelativeWebappRoot("/src/main/webapp");
-        setXmlFilename("classpath:DefaultTestData.xml");
+        //setXmlFilename("classpath:DefaultTestData.xml");
         setSqlFilename("classpath:DefaultTestData.sql");
         super.setUp();
     }
