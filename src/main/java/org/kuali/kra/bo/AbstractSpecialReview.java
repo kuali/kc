@@ -22,13 +22,8 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.service.KeyValuesService;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.SpecialReview;
-import org.kuali.kra.bo.SpecialReviewApprovalType;
-import org.kuali.kra.bo.ValidSpecialReviewApproval;
-import org.kuali.kra.bo.AbstractSpecialReviewExemption;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KeyValuesService;
 
 import edu.emory.mathcs.backport.java.util.Collections;
 

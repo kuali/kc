@@ -19,9 +19,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.util.TypedArrayList;
-import static org.kuali.kra.infrastructure.Constants.ANSWER_YES_NO;
-import static org.kuali.kra.infrastructure.Constants.ANSWER_YES_NO_NA;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 public class Ynq extends KraPersistableBusinessObjectBase {
 

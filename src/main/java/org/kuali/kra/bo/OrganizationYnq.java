@@ -1,7 +1,7 @@
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
 import java.sql.Date;
+import java.util.LinkedHashMap;
 
 public class OrganizationYnq extends KraPersistableBusinessObjectBase {
 

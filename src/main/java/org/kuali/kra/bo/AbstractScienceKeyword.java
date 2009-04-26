@@ -16,8 +16,6 @@
 package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
-
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 /**
  * 
  * This is an abstract class for holding common properties of ScienceKeyword

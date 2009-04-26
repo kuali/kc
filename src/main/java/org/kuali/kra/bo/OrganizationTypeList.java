@@ -1,8 +1,6 @@
 package org.kuali.kra.bo;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 
 public class OrganizationTypeList extends KraPersistableBusinessObjectBase {
 

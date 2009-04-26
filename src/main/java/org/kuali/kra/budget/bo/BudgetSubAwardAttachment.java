@@ -19,8 +19,6 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-import edu.mit.coeus.budget.bean.BudgetSubAwardAttachmentBean;
-
 public class BudgetSubAwardAttachment extends KraPersistableBusinessObjectBase {
     private byte[] attachment;
     private Integer budgetVersionNumber;

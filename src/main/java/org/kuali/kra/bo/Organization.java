@@ -1,11 +1,10 @@
 package org.kuali.kra.bo;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.util.TypedArrayList;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 public class Organization extends KraPersistableBusinessObjectBase {
 	private String organizationId;

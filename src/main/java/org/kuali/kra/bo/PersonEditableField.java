@@ -18,9 +18,9 @@ package org.kuali.kra.bo;
 import java.util.LinkedHashMap;
 
 /**
- * Class representation of the Person <code>{@link org.kuali.core.bo.BusinessObject}</code>
+ * Class representation of the Person <code>{@link org.kuali.rice.kns.bo.BusinessObject}</code>
  *
- * @see org.kuali.core.bo.BusinessObject
+ * @see org.kuali.rice.kns.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
  * @author $Author: gmcgrego $
  * @version $Revision: 1.3 $

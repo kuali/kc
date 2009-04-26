@@ -18,7 +18,7 @@ package org.kuali.kra.bo;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.rice.kns.bo.BusinessObjectBase;
 
 /**
  * The RolePersons BO is simply a role name with a list of the

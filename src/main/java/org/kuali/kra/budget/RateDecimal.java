@@ -17,7 +17,7 @@ package org.kuali.kra.budget;
 
 import java.math.BigDecimal;
 
-import org.kuali.core.util.AbstractKualiDecimal;
+import org.kuali.rice.kns.util.AbstractKualiDecimal;
 
 /**
  * This class works like BudgetDecimal, but has a preset SCALE of 3

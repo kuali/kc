@@ -18,15 +18,14 @@ package org.kuali.kra.bo;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 
-import org.apache.batik.util.UnitProcessor.UnitResolver;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kra.kim.bo.KimPerson;
 
 /**
- * Class representation of the Person <code>{@link org.kuali.core.bo.BusinessObject}</code>
+ * Class representation of the Person <code>{@link org.kuali.rice.kns.bo.BusinessObject}</code>
  *
- * @see org.kuali.core.bo.BusinessObject
+ * @see org.kuali.rice.kns.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
  * $Id: Person.java,v 1.15 2008-07-23 19:16:44 gmcgrego Exp $
  */

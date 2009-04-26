@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import java.util.LinkedHashMap;
 
 public class Training extends KraPersistableBusinessObjectBase { 

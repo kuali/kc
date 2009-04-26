@@ -16,6 +16,7 @@
 package org.kuali.kra.budget.bo;
 
 import java.util.LinkedHashMap;
+
 import org.kuali.kra.budget.BudgetDecimal;
 
 public class BudgetRateAndBase extends AbstractBudgetRateAndBase {
