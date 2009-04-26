@@ -18,10 +18,10 @@ package org.kuali.kra.committee.service;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * The Committee Service provides a set of methods for

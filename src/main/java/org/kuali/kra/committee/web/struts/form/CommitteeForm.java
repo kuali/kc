@@ -22,15 +22,16 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.datadictionary.DocumentEntry;
-import org.kuali.core.datadictionary.HeaderNavigation;
-import org.kuali.core.document.authorization.DocumentActionFlags;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
+import org.kuali.rice.kns.datadictionary.DocumentEntry;
+import org.kuali.rice.kns.datadictionary.HeaderNavigation;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * The Committee Form contains the fields necessary for all POST
@@ -128,7 +129,7 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
     /**
      * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#populateHeaderFields(org.kuali.core.workflow.service.KualiWorkflowDocument)
      */
-    protected void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+    public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
     }
 
@@ -139,17 +140,6 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
         super.reset(mapping, request);
         this.setLookupResultsSequenceNumber(null);
         this.setLookupResultsBOClassName(null);
-    }
-
-    /**
-     * Get the Header Dispatch.  This determines the action that will occur
-     * when the user switches tabs for a committee.  If the user can modify
-     * the committee, the committee is automatically saved.  If not (view-only),
-     * then a reload will be executed instead.
-     * @return the Header Dispatch action
-     */
-    public String getHeaderDispatch() {
-        return this.getDocumentActionFlags().getCanSave() ? "save" : "reload";
     }
 
     /**
@@ -188,15 +178,15 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
      * @see org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase#setSaveDocumentControl(org.kuali.core.document.authorization.DocumentActionFlags, java.util.Map)
      */
     @SuppressWarnings("unchecked")
-    protected void setSaveDocumentControl(DocumentActionFlags tempDocumentActionFlags, Map editMode) {
-       
+    protected void setSaveDocumentControl(Map editMode) {
+        getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_SAVE, KNSConstants.KUALI_DEFAULT_TRUE_VALUE);
     }
     
     /**
      * @see org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase#getLockRegion()
      */
     protected String getLockRegion() {
-        return "";
+        return KraAuthorizationConstants.LOCK_DESCRIPTOR_COMMITTEE;
     }
 
     public MembershipHelper getMembershipHelper() {
@@ -239,5 +229,19 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
     public void setCommitteeHelper(CommitteeHelper committeeHelper) {
         this.committeeHelper = committeeHelper;
     }  
+    
+    // TODO Overriding for 1.1 upgrade 'till we figure out how to actually use this
+    public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
+        
+        return true;
+    }
+    
+    /** TODO : rice upgrade hack.  multiple lookup has problem because lookupsequencenumber will not be populated
+     * 
+     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#shouldPropertyBePopulatedInForm(java.lang.String, javax.servlet.http.HttpServletRequest)
+     */
+    public boolean shouldPropertyBePopulatedInForm(String requestParameterName, HttpServletRequest request) {
+        return true;
+    }
 }
 

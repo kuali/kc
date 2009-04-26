@@ -17,12 +17,12 @@ package org.kuali.kra.committee.rule.event;
 
 import java.util.List;
 
-import org.kuali.core.document.Document;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.rules.CommitteeScheduleDayRule;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.rule.BusinessRuleInterface;
+import org.kuali.rice.kns.document.Document;
 
 public class CommitteeScheduleDayEvent extends CommitteeScheduleEventBase<CommitteeScheduleDayRule> {
     

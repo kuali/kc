@@ -15,20 +15,20 @@
  */
 package org.kuali.kra.committee.web.struts.form;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.kra.bo.ResearchArea;
+import java.io.Serializable;
+
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.irb.document.authorization.ProtocolTask;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * The CommitteeHelper corresponds to the Committee tab web page.
  */
-public class CommitteeHelper {
+public class CommitteeHelper implements Serializable {
     
     @SuppressWarnings("unused")
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeHelper.class);
@@ -65,7 +65,7 @@ public class CommitteeHelper {
      * @return the current session's userName
      */
     protected String getUserName() {
-         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
          return user.getPersonUserIdentifier();
     }
 

@@ -25,8 +25,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
@@ -34,6 +32,8 @@ import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * The Committee Service implementation.
