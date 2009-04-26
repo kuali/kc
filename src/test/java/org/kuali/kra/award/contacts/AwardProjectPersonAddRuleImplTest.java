@@ -19,11 +19,11 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.award.bo.Award;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Person;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class tests AddAwardProjectPersonRuleImpl
