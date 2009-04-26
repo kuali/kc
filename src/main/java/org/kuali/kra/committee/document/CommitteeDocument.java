@@ -19,14 +19,14 @@ package org.kuali.kra.committee.document;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.document.Copyable;
-import org.kuali.core.document.SessionDocument;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.rice.kns.document.Copyable;
+import org.kuali.rice.kns.document.SessionDocument;
 
 /**
  * The Committee Document wraps a single Committee BO.  
@@ -34,6 +34,8 @@ import org.kuali.kra.document.ResearchDocumentBase;
  */
 @SuppressWarnings("serial")
 public class CommitteeDocument extends ResearchDocumentBase implements Copyable, SessionDocument { 
+
+	private static final String DOCUMENT_TYPE_CODE = "COMT";
 
     /*
      * It may be seem strange, but we use a list in order to store a
@@ -121,5 +123,9 @@ public class CommitteeDocument extends ResearchDocumentBase implements Copyable,
      */
     protected List<RolePersons> getAllRolePersons() {
         return new ArrayList<RolePersons>();
+    }
+    
+    public String getDocumentTypeCode() {
+        return DOCUMENT_TYPE_CODE;
     }
 }

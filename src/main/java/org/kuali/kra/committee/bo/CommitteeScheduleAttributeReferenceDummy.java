@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.committee.bo;
 
-import org.kuali.core.bo.AttributeReferenceDummy;
+import org.kuali.rice.kns.bo.AttributeReferenceDummy;
 
 public class CommitteeScheduleAttributeReferenceDummy extends AttributeReferenceDummy {
 

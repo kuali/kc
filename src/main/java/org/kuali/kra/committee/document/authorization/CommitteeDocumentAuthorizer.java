@@ -17,19 +17,21 @@ package org.kuali.kra.committee.document.authorization;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
-import org.kuali.core.authorization.AuthorizationConstants;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.authorization.DocumentActionFlags;
-import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
-import org.kuali.core.exceptions.DocumentInitiationAuthorizationException;
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.rice.shim.DocumentInitiationAuthorizationException;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * The document authorizer controls access to the Committee as well as
@@ -41,7 +43,7 @@ public class CommitteeDocumentAuthorizer extends TransactionalDocumentAuthorizer
     private static final String FALSE = "FALSE";
     
     /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.rice.kns.document.Document, org.kuali.core.bo.user.UniversalUser)
      */
     @SuppressWarnings("unchecked")
     public Map getEditMode(Document doc, UniversalUser user) {
@@ -78,7 +80,7 @@ public class CommitteeDocumentAuthorizer extends TransactionalDocumentAuthorizer
      * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String,
      *      org.kuali.core.bo.user.UniversalUser)
      */
-    @Override
+    //@Override
     public void canInitiate(String documentTypeName, UniversalUser user) {
         super.canInitiate(documentTypeName, user);
         if (!canCreateCommittee(user)) {
@@ -90,7 +92,7 @@ public class CommitteeDocumentAuthorizer extends TransactionalDocumentAuthorizer
     /**
      * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
      */
-    @Override
+    //@Override
     public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
    
         CommitteeDocument committeeDocument = (CommitteeDocument) document;
@@ -107,31 +109,57 @@ public class CommitteeDocumentAuthorizer extends TransactionalDocumentAuthorizer
     }
    
     /**
-     * @see org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document, org.kuali.core.bo.user.UniversalUser)
      */
     @Override
-    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
-       
+    public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActions) {
         // no copy button
-        DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-        flags.setCanCopy(false);
-       
-        // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
-        this.setAnnotateFlag(flags);
-       
+        super.getDocumentActions(document, user, documentActions);
+        documentActions.remove(KNSConstants.KUALI_ACTION_CAN_COPY);
+        
         // Any user who has the Initiate Authorization can save and cancel.
-       
-        if (this.hasInitiateAuthorization(document, user)) {
-            flags.setCanSave(true);
-            flags.setCanCancel(true);
-        }
-        else {
-            flags.setCanSave(false);
-            flags.setCanCancel(false);
+        if (this.hasInitiateAuthorization(document, (new UniversalUser(user)))) {
+            documentActions.add(KNSConstants.KUALI_ACTION_CAN_SAVE);
+            documentActions.add(KNSConstants.KUALI_ACTION_CAN_CANCEL);
+            documentActions.add(KNSConstants.KUALI_ACTION_CAN_RELOAD);
         }
         
-        return flags;
+        if (canExecuteCommitteeTask((new UniversalUser(user)).getPersonUserIdentifier(), (CommitteeDocument) document, TaskName.SUBMIT_TO_WORKFLOW)) {
+            documentActions.add(KNSConstants.KUALI_ACTION_CAN_ROUTE);
+//          NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
+            documentActions.add(KNSConstants.KUALI_ACTION_CAN_ANNOTATE);
+        }
+
+        return documentActions;
     }
+
+    
+//    /**
+//     * @see org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+//     */
+//    @Override
+//    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+//       
+//        // no copy button
+//        DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
+//        flags.setCanCopy(false);
+//       
+//        // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
+//        this.setAnnotateFlag(flags);
+//       
+//        // Any user who has the Initiate Authorization can save and cancel.
+//       
+//        if (this.hasInitiateAuthorization(document, user)) {
+//            flags.setCanSave(true);
+//            flags.setCanCancel(true);
+//        }
+//        else {
+//            flags.setCanSave(false);
+//            flags.setCanCancel(false);
+//        }
+//        
+//        return flags;
+//    }
     
     /**
      * Does the user have permission to create a committee?

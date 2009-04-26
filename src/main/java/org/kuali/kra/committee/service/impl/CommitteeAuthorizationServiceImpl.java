@@ -21,9 +21,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.bo.Person;
+import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.service.CommitteeAuthorizationService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.kim.pojo.QualifiedRole;
 import org.kuali.kra.kim.service.PersonService;
 import org.kuali.kra.kim.service.QualifiedRoleService;

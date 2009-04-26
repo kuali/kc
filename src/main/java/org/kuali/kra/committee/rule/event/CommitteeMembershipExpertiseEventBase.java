@@ -18,10 +18,10 @@ package org.kuali.kra.committee.rule.event;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.document.Document;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public abstract class CommitteeMembershipExpertiseEventBase extends KraDocumentEventBase 
                                                             implements CommitteeMembershipExpertiseEvent {
