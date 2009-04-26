@@ -27,15 +27,14 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
-
-import edu.iu.uis.eden.KEWServiceLocator;
-import edu.iu.uis.eden.batch.FileXmlDocCollection;
-import edu.iu.uis.eden.batch.XmlDoc;
-import edu.iu.uis.eden.batch.XmlDocCollection;
-import edu.iu.uis.eden.clientapp.WorkflowDocument;
-import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
-import edu.iu.uis.eden.exception.WorkflowException;
-import edu.iu.uis.eden.exception.WorkflowRuntimeException;
+import org.kuali.rice.kew.batch.FileXmlDocCollection;
+import org.kuali.rice.kew.batch.XmlDoc;
+import org.kuali.rice.kew.batch.XmlDocCollection;
+import org.kuali.rice.kew.dto.NetworkIdDTO;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowRuntimeException;
+import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.kew.service.WorkflowDocument;
 
 public class KraHierarchyProviderWithMetaRuleTest extends KraTestBase  {
     // this matches the hierarchy of meta-rules defined
@@ -77,7 +76,7 @@ public class KraHierarchyProviderWithMetaRuleTest extends KraTestBase  {
 
     protected void approve(String user, Long docId) throws WorkflowException {
         log.info("Approving as " + user);
-        WorkflowDocument doc = new WorkflowDocument(new NetworkIdVO(user), docId);
+        WorkflowDocument doc = new WorkflowDocument(new NetworkIdDTO(user), docId);
         doc.approve("approving as " + user);
     }
 
@@ -85,7 +84,7 @@ public class KraHierarchyProviderWithMetaRuleTest extends KraTestBase  {
     public void test() throws WorkflowException {
         loadXmlFile("KRAMetaRuleHierarchy.xml");
         
-        WorkflowDocument doc = new WorkflowDocument(new NetworkIdVO("quickstart"), "KRAMetaRuleHierarchyTest");
+        WorkflowDocument doc = new WorkflowDocument(new NetworkIdDTO("quickstart"), "KRAMetaRuleHierarchyTest");
         
         String documentContent = null;
         try {
@@ -208,7 +207,7 @@ public class KraHierarchyProviderWithMetaRuleTest extends KraTestBase  {
         TestUtilities.assertApprovals(doc.getRouteHeaderId(), new String[] { "user1", "arh14", "user3", "rkirkend", "ewestfal", "shenl", "user2" , "natjohns", "pmckown", "temay", "dewey", "bmcgough", "jthomas"}, false);
 
         TestUtilities.logActionRequests(doc.getRouteHeaderId());
-        doc = new WorkflowDocument(new NetworkIdVO("quickstart"), doc.getRouteHeaderId());
+        doc = new WorkflowDocument(new NetworkIdDTO("quickstart"), doc.getRouteHeaderId());
         assertTrue(doc.stateIsFinal());
     }
     

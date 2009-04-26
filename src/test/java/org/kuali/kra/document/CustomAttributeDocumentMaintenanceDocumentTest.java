@@ -15,15 +15,12 @@
  */
 package org.kuali.kra.document;
 
-import java.io.IOException;
-
 import org.junit.Test;
-import org.kuali.core.document.MaintenanceDocumentBase;
-import org.kuali.core.service.DocumentService;
-import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.MaintenanceDocumentTestBase;
+import org.kuali.rice.kns.document.MaintenanceDocumentBase;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.test.data.PerTestUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestSql;

@@ -23,13 +23,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.kuali.kra.KraWebTestBase;
 import org.kuali.kra.irb.document.ProtocolDocument;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlImageInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * Base class for all htmlunit tests involving the Protocol Document Pages.

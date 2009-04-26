@@ -22,12 +22,13 @@ import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
-import org.kuali.core.service.DocumentService;
 import org.kuali.kra.KraWebTestBase;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestFile;
@@ -35,8 +36,6 @@ import org.kuali.rice.test.data.UnitTestFile;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlHiddenInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * Abstract Protocol Web Test base class provides common functionalities required by extended class.
