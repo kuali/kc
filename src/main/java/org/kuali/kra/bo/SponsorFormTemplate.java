@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.apache.struts.upload.FormFile;
-import org.kuali.core.bo.PersistableAttachment;
+import org.kuali.rice.kns.bo.PersistableAttachment;
 
 public class SponsorFormTemplate extends AbstractSponsorFormTemplate implements PersistableAttachment{
     private String fileName;

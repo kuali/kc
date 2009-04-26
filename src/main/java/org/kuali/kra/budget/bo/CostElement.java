@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.util.AbstractKualiDecimal;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class CostElement extends KraPersistableBusinessObjectBase implements Comparable {

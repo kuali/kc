@@ -17,8 +17,9 @@ package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-
+/**
+ * This class...
+ */
 /**
  * This class...
  */
@@ -75,7 +76,7 @@ public class CostShareType extends KraPersistableBusinessObjectBase {
     }
     
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
     protected LinkedHashMap<String,Object> toStringMapper() {        

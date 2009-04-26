@@ -17,9 +17,6 @@ package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.budget.bo.AbstractBudgetRate;
-import org.kuali.kra.budget.bo.BudgetProposalRate;
-import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 /**
  * 
