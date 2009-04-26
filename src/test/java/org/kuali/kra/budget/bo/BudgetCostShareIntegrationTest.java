@@ -20,9 +20,9 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class BudgetCostShareIntegrationTest extends BudgetDistributionAndIncomeIntegrationTest {
 

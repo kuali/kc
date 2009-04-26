@@ -22,10 +22,10 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.award.bo.AwardSponsorTerm;
 import org.kuali.kra.bo.SponsorTerm;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class tests the rule class of Award Sponsor Term.

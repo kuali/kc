@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.junit.After;
+import org.junit.Before;
 import org.kuali.kra.KraWebTestBase;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
@@ -26,9 +28,6 @@ import org.kuali.rice.test.data.UnitTestFile;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-
-import org.junit.After;
-import org.junit.Before;
 
 /**
  * Base class for all htmlunit tests involving the Committee Page.

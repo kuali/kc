@@ -20,13 +20,13 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.web.ui.Field;
-import org.kuali.core.web.ui.Row;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.lookup.CommitteeLookupableHelperServiceImpl;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Row;
 
 public class CommitteeLookupHelperServiceTest extends KraTestBase {
     private static final int NUMBER_LOOKUP_CRITERIA_FIELDS = 9;

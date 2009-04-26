@@ -21,12 +21,12 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetCostShare;
 import org.kuali.kra.budget.rule.BudgetValidationCostShareRule;
 import org.kuali.kra.budget.rule.event.BudgetValidationCostShareEvent;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class BudgetValidationCostShareRuleTest extends TestCase {
     private static final int BUDGET_FISCAL_YEAR = 2008;

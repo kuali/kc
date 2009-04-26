@@ -15,29 +15,20 @@
  */
 package org.kuali.kra.budget.web;
 
-import java.io.IOException;
-import java.util.List;
+import static org.kuali.kra.logging.BufferedLogger.info;
 
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlImageInput;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.html.HtmlSelect;
+import java.io.IOException;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.rice.test.data.PerTestUnitTestData;
-import org.kuali.rice.test.data.UnitTestData;
-import org.kuali.rice.test.data.UnitTestFile;
+import org.kuali.kra.budget.bo.BudgetPerson;
+import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.test.lifecycles.TransactionalLifecycle;
 
-import org.w3c.dom.NodeList;
-
-import static org.kuali.kra.logging.BufferedLogger.*;
+import com.gargoylesoftware.htmlunit.html.HtmlImageInput;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 /**
  * Test class containing tests that deal with the "Project Personnel" tab of a {@link BudgetDocument}. The "Project Personnel" contains

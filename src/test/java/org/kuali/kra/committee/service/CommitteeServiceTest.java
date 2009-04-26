@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.committee.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,11 +29,11 @@ import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.committee.service.impl.CommitteeServiceImpl;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * Test the methods in CommitteeServiceImpl.

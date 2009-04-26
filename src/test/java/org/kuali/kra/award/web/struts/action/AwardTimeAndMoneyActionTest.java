@@ -21,11 +21,11 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.award.bo.Award;
-import org.kuali.kra.award.bo.AwardFandaRate;
 import org.kuali.kra.award.bo.AwardCostShare;
+import org.kuali.kra.award.bo.AwardFandaRate;
 import org.kuali.kra.bo.CostShareType;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * 

@@ -20,10 +20,10 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class BudgetProjectIncomeIntegrationTest extends BudgetDistributionAndIncomeIntegrationTest {
 
