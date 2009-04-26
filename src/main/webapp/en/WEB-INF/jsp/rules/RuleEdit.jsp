@@ -1,9 +1,5 @@
-<%@ taglib uri="../../tld/struts-html-el.tld" prefix="html-el" %>
-<%@ taglib uri="../../tld/struts-bean-el.tld" prefix="bean-el" %>
-<%@ taglib uri="../../tld/struts-logic-el.tld" prefix="logic-el"%>
-<%@ taglib uri="../../tld/c.tld" prefix="c" %>
-<%@ taglib uri="../../tld/fmt.tld" prefix="fmt" %>
-<%@ taglib uri="../../tld/displaytag.tld" prefix="display-el" %>
+<%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
+
 
 <html>
 <head>
@@ -24,7 +20,7 @@
   <c:set var="ActionForm" value="${Rule2Form}" scope="request"/>
 <table width="100%" border=0 cellpadding=0 cellspacing=0 class="headercell1">
 	<tr>
-    	<td><img src="images/wf-logo.gif" alt="OneStart Workflow" width=150 height=21 hspace=5 vspace=5>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    	<td><img src="images/wf-logo.gif" alt="Workflow" width=150 height=21 hspace=5 vspace=5>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 	    <td width="90%"><a href="Lookup.do?lookupableImplServiceName=RuleBaseValuesLookupableImplService" >Rule search</a> | <a href="Rule.do" >Create new Rule</a> | <a href="DelegateRule.do" >Create new Delegation Rule</a></td>
   </tr>
 </table>

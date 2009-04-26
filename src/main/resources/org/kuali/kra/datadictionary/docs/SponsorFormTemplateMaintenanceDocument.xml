@@ -1,71 +1,46 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="SponsorFormTemplateMaintenanceDocument" parent="SponsorFormTemplateMaintenanceDocument-parentBean" />
+  <bean id="SponsorFormTemplateMaintenanceDocument" parent="SponsorFormTemplateMaintenanceDocument-parentBean"/>
 
   <bean id="SponsorFormTemplateMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.SponsorFormTemplate" />
-    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kra.bo.SponsorFormTemplate"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="SponsorFormTemplateMaintenanceDocument-EditSponsorFormTemplates" />
+        <ref bean="SponsorFormTemplateMaintenanceDocument-EditSponsorFormTemplates"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>packageNumber</value>
       </list>
     </property>
-    <property name="label" value="SponsorFormTemplates Maintenance Document" />
-    <property name="shortLabel" value="sponsorFormTemplatesMaintDoc" />
-    <property name="summary" value="SponsorFormTemplates Maintenance Document" />
-    <property name="description" value="Document used to create or update SponsorFormTemplates Reference objects" />
-    <property name="documentTypeName" value="SponsorFormTemplateMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="SFTM" />
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>WorkflowAdmin</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
+    
+    
+    
+    
+    <property name="documentTypeName" value="SponsorFormTemplateMaintenanceDocument"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    
+    
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="SponsorFormTemplateMaintenanceDocument-EditSponsorFormTemplates" parent="SponsorFormTemplateMaintenanceDocument-EditSponsorFormTemplates-parentBean" />
+  <bean id="SponsorFormTemplateMaintenanceDocument-EditSponsorFormTemplates" parent="SponsorFormTemplateMaintenanceDocument-EditSponsorFormTemplates-parentBean"/>
 
   <bean id="SponsorFormTemplateMaintenanceDocument-EditSponsorFormTemplates-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit SponsorFormTemplates" />
-    <property name="title" value="Edit SponsorFormTemplates" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit SponsorFormTemplates"/>
+    <property name="title" value="Edit SponsorFormTemplates"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="packageNumber"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="pageDescription"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="pageNumber"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="sponsorCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="templateFile" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
+        <bean parent="MaintainableFieldDefinition" p:name="packageNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="pageDescription" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="pageNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="sponsorCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="templateFile"/>
+        <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
     </property>
   </bean>

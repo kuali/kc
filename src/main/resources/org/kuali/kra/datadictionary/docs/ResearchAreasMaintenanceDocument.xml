@@ -1,71 +1,45 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="ResearchAreasMaintenanceDocument" parent="ResearchAreasMaintenanceDocument-parentBean" />
+  <bean id="ResearchAreasMaintenanceDocument" parent="ResearchAreasMaintenanceDocument-parentBean"/>
 
   <bean id="ResearchAreasMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.ResearchArea" />
-    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kra.bo.ResearchArea"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="ResearchAreasMaintenanceDocument-EditResearchAreas" />
+        <ref bean="ResearchAreasMaintenanceDocument-EditResearchAreas"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>researchAreaCode</value>
       </list>
     </property>
-    <property name="label" value="Research Areas Maintenance Document" />
-    <property name="shortLabel" value="researchAreasMaintDoc" />
-    <property name="summary" value="ResearchAreasMaintenance Document" />
-    <property name="description" value="Document used to create or update Research Areas Reference objects" />
-    <property name="documentTypeName" value="ResearchAreasMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="REAR" />
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>WorkflowAdmin</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
+    
+    
+    
+    
+    <property name="documentTypeName" value="ResearchAreasMaintenanceDocument"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    
+    
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="ResearchAreasMaintenanceDocument-EditResearchAreas" parent="ResearchAreasMaintenanceDocument-EditResearchAreas-parentBean" />
+  <bean id="ResearchAreasMaintenanceDocument-EditResearchAreas" parent="ResearchAreasMaintenanceDocument-EditResearchAreas-parentBean"/>
 
   <bean id="ResearchAreasMaintenanceDocument-EditResearchAreas-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Research Areas" />
-    <property name="title" value="Edit Research Areas" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Research Areas"/>
+    <property name="title" value="Edit Research Areas"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="researchAreaCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="description"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="hasChildrenFlag"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="parentResearchAreaCode"
-              p:required="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="researchAreaCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="hasChildrenFlag" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="parentResearchAreaCode" p:required="true"/>
       </list>
     </property>
   </bean>
 </beans>
-
-
-

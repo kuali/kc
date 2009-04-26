@@ -1,69 +1,44 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="MailByMaintenanceDocument" parent="MailByMaintenanceDocument-parentBean" />
+  <bean id="MailByMaintenanceDocument" parent="MailByMaintenanceDocument-parentBean"/>
 
   <bean id="MailByMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.MailBy" />
-    <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.MailBy"/>
+    <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="MailByMaintenanceDocument-EditMailBys" />
+        <ref bean="MailByMaintenanceDocument-EditMailBys"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>mailByCode</value>
       </list>
     </property>
-    <property name="label" value="Mail By Maintenance Document" />
-    <property name="shortLabel" value="proposalResponseMaintDoc" />
-    <property name="summary" value="Mail By Maintenance Document" />
-    <property name="description" value="Document used to create or update Mail By Reference objects" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KRA-M"
-            p:parameterName="mailByMaintenanceHelp"
-            p:parameterDetailType="D" />
-    </property>
-    <property name="documentTypeName" value="MailByMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="MLBY" />
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>WorkflowAdmin</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
+    
+    
+    
+    
+    
+    <property name="documentTypeName" value="MailByMaintenanceDocument"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    
+    
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="MailByMaintenanceDocument-EditMailBys" parent="MailByMaintenanceDocument-EditMailBys-parentBean" />
+  <bean id="MailByMaintenanceDocument-EditMailBys" parent="MailByMaintenanceDocument-EditMailBys-parentBean"/>
 
   <bean id="MailByMaintenanceDocument-EditMailBys-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Mail Bys" />
-    <property name="title" value="Edit Mail Bys" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Mail Bys"/>
+    <property name="title" value="Edit Mail Bys"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="mailByCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="description"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
+        <bean parent="MaintainableFieldDefinition" p:name="mailByCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
     </property>
   </bean>

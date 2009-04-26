@@ -1,20 +1,16 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="InstituteLaRateMaintenanceDocument" parent="InstituteLaRateMaintenanceDocument-parentBean" />
+  <bean id="InstituteLaRateMaintenanceDocument" parent="InstituteLaRateMaintenanceDocument-parentBean"/>
 
   <bean id="InstituteLaRateMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.InstituteLaRate" />
-    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kra.bo.InstituteLaRate"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="InstituteLaRateMaintenanceDocument-EditInstituteLaRates" />
+        <ref bean="InstituteLaRateMaintenanceDocument-EditInstituteLaRates"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>fiscalYear</value>
         <value>onOffCampusFlag</value>
@@ -24,70 +20,37 @@
         <value>unitNumber</value>
       </list>
     </property>
-    <property name="label" value="Institute La Rates Maintenance Document" />
-    <property name="shortLabel" value="instituteLaRatesMaintDoc" />
-    <property name="summary" value="InstituteLaRates Maintenance Document" />
-    <property name="description" value="Document used to create or update InstituteLaRates Reference objects" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KRA-M"
-            p:parameterName="instituteLaRateMaintenanceHelp"
-            p:parameterDetailType="D" />
-    </property>
-    <property name="documentTypeName" value="InstituteLaRateMaintenanceDocument" />
-    <property name="businessRulesClass" value="org.kuali.kra.budget.rules.InstituteRateMaintenanceDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="INLA" />
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>WorkflowAdmin</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
+    
+    
+    
+    
+    
+    <property name="documentTypeName" value="InstituteLaRateMaintenanceDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kra.budget.rules.InstituteRateMaintenanceDocumentRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    
+    
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="InstituteLaRateMaintenanceDocument-EditInstituteLaRates" parent="InstituteLaRateMaintenanceDocument-EditInstituteLaRates-parentBean" />
+  <bean id="InstituteLaRateMaintenanceDocument-EditInstituteLaRates" parent="InstituteLaRateMaintenanceDocument-EditInstituteLaRates-parentBean"/>
 
   <bean id="InstituteLaRateMaintenanceDocument-EditInstituteLaRates-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Institute La Rates" />
-    <property name="title" value="Edit Institute La Rates" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Institute La Rates"/>
+    <property name="title" value="Edit Institute La Rates"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="fiscalYear"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="onOffCampusFlag"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="rateClassCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="rateTypeCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="startDate"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="unitNumber"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="instituteRate"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="active"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
+        <bean parent="MaintainableFieldDefinition" p:name="fiscalYear" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="onOffCampusFlag" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="rateClassCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="rateTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="startDate" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="unitNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="instituteRate" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
     </property>
   </bean>

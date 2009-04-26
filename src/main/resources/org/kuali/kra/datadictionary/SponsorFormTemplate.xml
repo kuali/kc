@@ -33,7 +33,7 @@
         In other words, the Rice Team forgot to add the FileControlDefinition to
         their XML configuration. -->
    <bean id="FileControlDefinition"
-        class="org.kuali.core.datadictionary.control.FileControlDefinition"
+        class="org.kuali.rice.kns.datadictionary.control.FileControlDefinition"
         abstract="true"
     />
 

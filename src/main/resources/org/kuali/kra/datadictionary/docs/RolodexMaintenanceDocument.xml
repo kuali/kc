@@ -1,109 +1,65 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="RolodexMaintenanceDocument" parent="RolodexMaintenanceDocument-parentBean" />
+  <bean id="RolodexMaintenanceDocument" parent="RolodexMaintenanceDocument-parentBean"/>
 
   <bean id="RolodexMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.Rolodex" />
-    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kra.bo.Rolodex"/>
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="RolodexMaintenanceDocument-EditRolodex" />
+        <ref bean="RolodexMaintenanceDocument-EditRolodex"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>rolodexId</value>
       </list>
     </property>
-    <property name="label" value="Rolodex Maintenance Document" />
-    <property name="shortLabel" value="rolodexMaintDoc" />
-    <property name="summary" value="Rolodex Maintenance Document" />
-    <property name="description" value="Document used to create or update Rolodex Reference objects" />
-    <property name="documentTypeName" value="RolodexMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="ROLO" />
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>WorkflowAdmin</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
+    
+    
+    
+    
+    <property name="documentTypeName" value="RolodexMaintenanceDocument"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    
+    
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="RolodexMaintenanceDocument-EditRolodex" parent="RolodexMaintenanceDocument-EditRolodex-parentBean" />
+  <bean id="RolodexMaintenanceDocument-EditRolodex" parent="RolodexMaintenanceDocument-EditRolodex-parentBean"/>
 
   <bean id="RolodexMaintenanceDocument-EditRolodex-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Rolodex" />
-    <property name="title" value="Edit Rolodex" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Rolodex"/>
+    <property name="title" value="Edit Rolodex"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="rolodexId"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="addressLine1" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="addressLine2" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="addressLine3" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="city" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="comments" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="countryCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="county" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="deleteFlag" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="emailAddress" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="faxNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="firstName" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="lastName" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="middleName" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="organization"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="ownedByUnit"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="phoneNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="postalCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="prefix" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="sponsorAddressFlag"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="sponsorCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="state" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="suffix" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="title" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
+        <bean parent="MaintainableFieldDefinition" p:name="rolodexId" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="addressLine1"/>
+        <bean parent="MaintainableFieldDefinition" p:name="addressLine2"/>
+        <bean parent="MaintainableFieldDefinition" p:name="addressLine3"/>
+        <bean parent="MaintainableFieldDefinition" p:name="city"/>
+        <bean parent="MaintainableFieldDefinition" p:name="comments"/>
+        <bean parent="MaintainableFieldDefinition" p:name="countryCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="county"/>
+        <bean parent="MaintainableFieldDefinition" p:name="deleteFlag"/>
+        <bean parent="MaintainableFieldDefinition" p:name="emailAddress"/>
+        <bean parent="MaintainableFieldDefinition" p:name="faxNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="firstName"/>
+        <bean parent="MaintainableFieldDefinition" p:name="lastName"/>
+        <bean parent="MaintainableFieldDefinition" p:name="middleName"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organization" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="ownedByUnit" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="phoneNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="postalCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="prefix"/>
+        <bean parent="MaintainableFieldDefinition" p:name="sponsorAddressFlag" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="sponsorCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="state"/>
+        <bean parent="MaintainableFieldDefinition" p:name="suffix"/>
+        <bean parent="MaintainableFieldDefinition" p:name="title"/>
+        <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
     </property>
   </bean>

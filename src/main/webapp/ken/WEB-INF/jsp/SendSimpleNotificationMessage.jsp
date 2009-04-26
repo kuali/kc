@@ -146,23 +146,17 @@
 				<tr>
 					<td class="thnormal"><strong>User Recipients:</strong></td>
 					<td class="thnormal">
-						<select name="userRecipients" multiple="true" size="10">
-							<c:forEach var="user" items="${allUsers}">
-                                <c:set var="tmpuser"><c:out value="${user.authenticationUserId.authenticationId}" /></c:set>
-                                <option value="${user.authenticationUserId.authenticationId}" <c:if test="${not empty userRecipientsSelected[tmpuser]}" > selected="true" </c:if> >${user.displayName}</option>
-							</c:forEach>
-						</select>
+						<input type="text" name="userRecipients" value="${userRecipients}" />
+                        <img src="images/transparent_002.gif" height="1" width="5">
+                        <i>(separate names using a comma - i.e. John Doe, Joe Schmoe, ...)</i>
 					</td>
 				</tr>
 				<tr>
 					<td class="thnormal"><strong>Workgroup Recipients:</strong></td>
 					<td class="thnormal">
-						<select name="workgroupRecipients" multiple="true" size="10">
-							<c:forEach var="group" items="${allGroups}">
-                                <c:set var="tmpgroup"><c:out value="${group.groupNameId.nameId}" /></c:set> 
-								<option value="${group.groupNameId.nameId}" <c:if test="${not empty workgroupRecipientsSelected[tmpgroup]}" > selected="true" </c:if>  >${group.displayName}</option>
-							</c:forEach>
-						</select>
+						<input type="text" name="workgroupRecipients" value="${workgroupRecipients}"/>
+                        <img src="images/transparent_002.gif" height="1" width="5">
+                        <i>(separate names using a comma - i.e. GroupA, GroupB, ...)</i>
 					</td>
 				</tr>
                 <tr>

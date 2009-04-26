@@ -1,4 +1,4 @@
-<%@ page import="edu.iu.uis.eden.docsearch.*" %>
+<%@ page import="org.kuali.rice.kew.docsearch.*" %>
 <%@ page import="java.util.*" %>
 <%@ taglib uri="../../tld/struts-html-el.tld" prefix="html-el" %>
 <%@ taglib uri="../../tld/struts-bean-el.tld" prefix="bean-el" %>

@@ -28,10 +28,6 @@ function quick_finder(searchTarget, formname, action) {
   return post_to_action(formname, action);
 }
 
-function helpPop(helpId){
-  window.open("https://onestart.iu.edu/my/HelpEntry.do?helpId=" + helpId, "_blank", "width=640, height=365");
-}
-
 function workflowHelpPop(helpKey){
   window.open("Help.do?methodToCall=getHelpEntry&helpKey=" + helpKey, "_blank", "width=640, height=365, scrollbars=yes");
 }

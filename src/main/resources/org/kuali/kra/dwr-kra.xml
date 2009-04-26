@@ -18,7 +18,7 @@
 <dwr>
 
 	<init>
-		<creator id="spring" class="org.kuali.core.web.servlet.dwr.GlobalResourceDelegatingSpringCreator"/>
+		<creator id="spring" class="org.kuali.rice.kns.web.servlet.dwr.GlobalResourceDelegatingSpringCreator"/>
 	</init>
 	<allow>
 		<convert converter="bean" match="org.kuali.kra.bo.Sponsor">
@@ -50,7 +50,7 @@
 			<include method="getUnitName" />
 			<include method="getSubUnitsForTreeView" />
 		</create>
-		<create creator="spring" javascript="PersonService">
+		<create creator="spring" javascript="KraPersonService">
 			<param name="beanName" value="personService" />
 			<include method="getPersonFullname" />
 			<include method="getPerson" />

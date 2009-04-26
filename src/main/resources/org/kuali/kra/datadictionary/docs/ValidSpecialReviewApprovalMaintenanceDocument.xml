@@ -1,78 +1,49 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="ValidSpecialReviewApprovalMaintenanceDocument" parent="ValidSpecialReviewApprovalMaintenanceDocument-parentBean" />
+  <bean id="ValidSpecialReviewApprovalMaintenanceDocument" parent="ValidSpecialReviewApprovalMaintenanceDocument-parentBean"/>
 
   <bean id="ValidSpecialReviewApprovalMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.ValidSpecialReviewApproval" />
-    <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kra.bo.ValidSpecialReviewApproval"/>
+    <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="ValidSpecialReviewApprovalMaintenanceDocument-EditValidSpecialReviewApproval" />
+        <ref bean="ValidSpecialReviewApprovalMaintenanceDocument-EditValidSpecialReviewApproval"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>approvalTypeCode</value>
         <value>specialReviewCode</value>
       </list>
     </property>
-    <property name="label" value="Valid Special Review Approval Maintenance Document" />
-    <property name="shortLabel" value="validSpecialReviewApprovalMaintDoc" />
-    <property name="summary" value="Valid Special Review Approval Maintenance Document" />
-    <property name="description" value="Document used to create or update Special Review Reference objects" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KRA-M"
-            p:parameterName="validSpecialReviewApprovalMaintenanceHelp"
-            p:parameterDetailType="D" />
-    </property>
-    <property name="documentTypeName" value="ValidSpecialReviewApprovalMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="VSRA" />
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>WorkflowAdmin</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
+    
+    
+    
+    
+    
+    <property name="documentTypeName" value="ValidSpecialReviewApprovalMaintenanceDocument"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    
+    
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="ValidSpecialReviewApprovalMaintenanceDocument-EditValidSpecialReviewApproval" parent="ValidSpecialReviewApprovalMaintenanceDocument-EditValidSpecialReviewApproval-parentBean" />
+  <bean id="ValidSpecialReviewApprovalMaintenanceDocument-EditValidSpecialReviewApproval" parent="ValidSpecialReviewApprovalMaintenanceDocument-EditValidSpecialReviewApproval-parentBean"/>
 
   <bean id="ValidSpecialReviewApprovalMaintenanceDocument-EditValidSpecialReviewApproval-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Valid Special Review Approval" />
-    <property name="title" value="Edit Valid Special Review Approval" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Valid Special Review Approval"/>
+    <property name="title" value="Edit Valid Special Review Approval"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="approvalTypeCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="specialReviewCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="applicationDateFlag" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="approvalDateFlag" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="protocolNumberFlag" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="exemptNumberFlag" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
+        <bean parent="MaintainableFieldDefinition" p:name="approvalTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="specialReviewCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="applicationDateFlag"/>
+        <bean parent="MaintainableFieldDefinition" p:name="approvalDateFlag"/>
+        <bean parent="MaintainableFieldDefinition" p:name="protocolNumberFlag"/>
+        <bean parent="MaintainableFieldDefinition" p:name="exemptNumberFlag"/>
+        <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
     </property>
   </bean>

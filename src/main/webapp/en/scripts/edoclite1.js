@@ -151,8 +151,8 @@ function registerHandlers() {
     for (var i in field_names) {
         var fieldName = field_names[i];
         if (typeof fieldName == 'function') {
- 	 		continue;
- 	 	} 
+            continue;
+        }    
         //alert("registering handler for: " + fieldName);
         var element = document.getElementById('edoclite')[fieldName];
         if (element.length > 1) {
@@ -197,7 +197,7 @@ function register(name, title, regex, message, validationRequired) {
     // set the error message for this field
     field_errorMessages[name] = message;
 
-    // set the error message for this field
+    // set the validation required flag for this field
     field_validationRequired[name] = validationRequired == "true";
 
 	// set the custom validator to be false
@@ -248,6 +248,10 @@ function trim(string) {
 
 function isValid(fieldInputs, regex, required, validator) {
 	var fieldValue = getFieldValue(fieldInputs);
+    // bypass validation if field has no data and Action is 'Save'.
+    if (buttonTitle == 'Save' && (fieldValue == null || trim(fieldValue).length == 0)) {
+        return true;
+    }    
     if (validator) {
         return validator(fieldValue);
     }
@@ -267,7 +271,7 @@ function isValid(fieldInputs, regex, required, validator) {
     	//regular expression associated with field
         if (required) {
             //field is require - validate
-        return fieldValue.match(regex);
+            return fieldValue.match(regex);
         } else {
 			//field is NOT required
 			if (trim(fieldValue).length > 0) {
@@ -444,6 +448,12 @@ function getFieldInputs(fieldName) {
 }
 
 function validateOnSubmit(form) {
+	// If there is an unsaved note or an unsaved attachment, inform User so it is not lost.
+	if ( buttonTitle != 'Cancel' && buttonTitle != 'Disapprove') {
+		if (!savenote() || !saveAttachment()) {
+		  return false; // submit will not take place.
+		}  
+    }
 	// do form validation.
     var  errs = validateForm();
 	if (errs > 1) {
@@ -454,8 +464,6 @@ function validateOnSubmit(form) {
 	if (errs > 0){
 	  return false; // submit will not take place.
 	}
-	// is there an unsaved note? - TODO (not coded yet).
-
 	// Ok no validation errors exist. Next check to see if a custom function should be called.
 	// check global var. if exists, call the function. This value can be populated from an onClick function associated with a custom defined button. This allows a submit type button to execute a specific function setting the value of errs which controls whether form is submitted or not.
 	if (buttonOnClickFunction) {
@@ -466,6 +474,44 @@ function validateOnSubmit(form) {
 	} else {
 	  return true;
 	}  
+}
+
+function savenote(){
+	if (document.forms[0].elements['addText'] == undefined) {
+	  return true;
+	}
+	if(!isEmpty(document.forms[0].elements['addText'])){
+	  alert("In the Create Note box, there is an unsaved note. Save the note by clicking the red Save button to the right of the note, or clear the contents of the note.");
+	  return false;
+	}else {
+	  return true;
+	}
+}
+
+function isEmpty(aTextField) {
+	if (aTextField == undefined) {
+	  return true;
+	}
+	// consider only whitespace characters as empty
+	var re = new RegExp(empty_regex);
+	if ((aTextField.value.length==0) || (aTextField.value==null) || (aTextField.value.match(re))) {
+	  return true;
+	}
+	else {
+	  return false;
+	}
+}
+
+function saveAttachment(){
+	if (document.forms[0].elements['file'] == undefined) {
+	  return true;
+	}
+	if(!isEmpty(document.forms[0].elements['file'])){
+	  alert("In the Create Note box, there is an unsaved attachment. Save the file by clicking the red Save button to the right of the file, or clear the contents of the attachment.");
+	  return false;
+	}else {
+	  return true;
+	}
 }
 
 function buttonClickFunctionName(incomingButtonFunctionName) {

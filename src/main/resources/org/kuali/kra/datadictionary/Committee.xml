@@ -144,6 +144,7 @@
 	            p:businessObjectClass="org.kuali.kra.committee.bo.CommitteeType"
 	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 	            p:includeKeyInLabel="false"
+            	p:includeBlankRow="false"
 	            p:keyAttribute="committeeTypeCode"
 	            p:labelAttribute="description" />
 	    </property>
@@ -200,6 +201,7 @@
 	            p:businessObjectClass="org.kuali.kra.irb.bo.ProtocolReviewType"
 	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 	            p:includeKeyInLabel="false"
+            	p:includeBlankRow="false"
 	            p:keyAttribute="reviewTypeCode"
 	            p:labelAttribute="description" />
 	    </property>
