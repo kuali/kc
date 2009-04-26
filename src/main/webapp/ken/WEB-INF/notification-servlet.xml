@@ -16,20 +16,20 @@
     </bean>
 
    <!-- import beans from GlobalResourceLoader -->
-   <bean id="notificationAuthorizationService" class="org.kuali.rice.resourceloader.support.ResourceLoaderServiceFactoryBean"/>
-   <bean id="notificationService" class="org.kuali.rice.resourceloader.support.ResourceLoaderServiceFactoryBean"/>
-   <bean id="notificationWorkflowDocumentService" class="org.kuali.rice.resourceloader.support.ResourceLoaderServiceFactoryBean"/>
-   <bean id="notificationChannelService" class="org.kuali.rice.resourceloader.support.ResourceLoaderServiceFactoryBean"/>
-   <bean id="notificationRecipientService" class="org.kuali.rice.resourceloader.support.ResourceLoaderServiceFactoryBean"/>
-   <bean id="messageContentService" class="org.kuali.rice.resourceloader.support.ResourceLoaderServiceFactoryBean"/>
-   <bean id="genericDao" class="org.kuali.rice.resourceloader.support.ResourceLoaderServiceFactoryBean"/>
-   <bean id="notificationMessageDeliveryService" class="org.kuali.rice.resourceloader.support.ResourceLoaderServiceFactoryBean"/>
-   <bean id="userPreferenceService" class="org.kuali.rice.resourceloader.support.ResourceLoaderServiceFactoryBean"/>
-   <bean id="notificationContentTypeService" class="org.kuali.rice.resourceloader.support.ResourceLoaderServiceFactoryBean"/>
+   <bean id="notificationAuthorizationService" class="org.kuali.rice.core.resourceloader.ResourceLoaderServiceFactoryBean"/>
+   <bean id="notificationService" class="org.kuali.rice.core.resourceloader.ResourceLoaderServiceFactoryBean"/>
+   <bean id="notificationWorkflowDocumentService" class="org.kuali.rice.core.resourceloader.ResourceLoaderServiceFactoryBean"/>
+   <bean id="notificationChannelService" class="org.kuali.rice.core.resourceloader.ResourceLoaderServiceFactoryBean"/>
+   <bean id="notificationRecipientService" class="org.kuali.rice.core.resourceloader.ResourceLoaderServiceFactoryBean"/>
+   <bean id="messageContentService" class="org.kuali.rice.core.resourceloader.ResourceLoaderServiceFactoryBean"/>
+   <bean id="genericDao" class="org.kuali.rice.core.resourceloader.ResourceLoaderServiceFactoryBean"/>
+   <bean id="notificationMessageDeliveryService" class="org.kuali.rice.core.resourceloader.ResourceLoaderServiceFactoryBean"/>
+   <bean id="userPreferenceService" class="org.kuali.rice.core.resourceloader.ResourceLoaderServiceFactoryBean"/>
+   <bean id="notificationContentTypeService" class="org.kuali.rice.core.resourceloader.ResourceLoaderServiceFactoryBean"/>
    
    <!-- Implement better strategy later -->
    <!-- 
-   <bean class="org.kuali.notification.web.spring.ServletConfigPropertyPlaceholderConfigurer"/>
+   <bean class="org.kuali.rice.ken.web.spring.ServletConfigPropertyPlaceholderConfigurer"/>
    -->
    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
      <property name="properties">
@@ -70,7 +70,7 @@
    <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
       <property name="interceptors">
             <list>
-                <bean class="org.kuali.notification.web.spring.SecurityInterceptor">
+                <bean class="org.kuali.rice.ken.web.spring.SecurityInterceptor">
                     <property name="notificationAuthorizationService"><ref bean="notificationAuthorizationService"/></property>
                 </bean>
             </list>
@@ -119,7 +119,7 @@
 
    <!-- Multiaction Controllers  -->
     
-   <bean name="notificationController" class="org.kuali.notification.web.spring.NotificationController">     
+   <bean name="notificationController" class="org.kuali.rice.ken.web.spring.NotificationController">     
       <property name="methodNameResolver">
          <bean class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
             <property name="mappings">
@@ -142,7 +142,7 @@
       <property name="notificationWorkflowDocumentService"><ref bean="notificationWorkflowDocumentService"/></property>      
    </bean> 
    
-   <bean name="contentTypeController" class="org.kuali.notification.web.spring.ContentTypeController">     
+   <bean name="contentTypeController" class="org.kuali.rice.ken.web.spring.ContentTypeController">     
       <property name="methodNameResolver">
          <bean class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
             <property name="mappings">
@@ -160,7 +160,7 @@
       <property name="notificationAuthorizationService"> <ref bean="notificationAuthorizationService"/> </property>            
    </bean>
    
-   <bean name="userPreferencesController" class="org.kuali.notification.web.spring.UserPreferencesController">     
+   <bean name="userPreferencesController" class="org.kuali.rice.ken.web.spring.UserPreferencesController">     
       <property name="methodNameResolver">
          <bean class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
             <property name="mappings">
@@ -180,7 +180,7 @@
            
    </bean>
    
-   <bean name="sendSimpleNotificationMessageController" class="org.kuali.notification.web.spring.SendNotificationMessageController">     
+   <bean name="sendSimpleNotificationMessageController" class="org.kuali.rice.ken.web.spring.SendNotificationMessageController">     
       <property name="methodNameResolver">
          <bean class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
             <property name="mappings">
@@ -199,7 +199,7 @@
       <property name="businessObjectDao"> <ref bean="genericDao"/> </property>
    </bean>
    
-   <bean name="sendEventNotificationMessageController" class="org.kuali.notification.web.spring.SendEventNotificationMessageController">     
+   <bean name="sendEventNotificationMessageController" class="org.kuali.rice.ken.web.spring.SendEventNotificationMessageController">     
       <property name="methodNameResolver">
          <bean class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
             <property name="mappings">
@@ -218,7 +218,7 @@
       <property name="businessObjectDao"> <ref bean="genericDao"/> </property>
    </bean>
    
-    <bean name="administerNotificationRequestController" class="org.kuali.notification.web.spring.AdministerNotificationRequestController">
+    <bean name="administerNotificationRequestController" class="org.kuali.rice.ken.web.spring.AdministerNotificationRequestController">
         <property name="messageContentService"><ref bean="messageContentService"/></property>
         <property name="workflowDocumentService"><ref bean="notificationWorkflowDocumentService"/></property>
         <property name="recipientService"><ref bean="notificationRecipientService"/></property>

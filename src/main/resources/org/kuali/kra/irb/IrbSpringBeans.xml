@@ -27,7 +27,7 @@
                            
     <bean id="irbModuleConfiguration" parent="irbModuleConfiguration-parentBean" />
 	
-    <bean id="irbModuleConfiguration-parentBean" class="org.kuali.kra.infrastructure.KraModuleConfiguration" abstract="true">
+    <bean id="irbModuleConfiguration-parentBean" class="org.kuali.rice.kns.bo.ModuleConfiguration" abstract="true">
 		<property name="databaseRepositoryFilePaths">
 			<list>
 				<value>org/kuali/kra/irb/repository-irb.xml</value>
@@ -142,7 +142,7 @@
         <property name="protocolAuthorizationService" ref="protocolAuthorizationService" />
     </bean>
 
-	<bean id="protocolLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" scope="prototype">
+	<bean id="protocolLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
   		<property name="lookupableHelperService">
     		<ref bean="protocolLookupableHelperService" />
   		</property>  		

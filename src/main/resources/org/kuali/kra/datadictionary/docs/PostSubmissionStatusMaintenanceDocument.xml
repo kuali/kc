@@ -1,69 +1,44 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="PostSubmissionStatusMaintenanceDocument" parent="PostSubmissionStatusMaintenanceDocument-parentBean" />
+  <bean id="PostSubmissionStatusMaintenanceDocument" parent="PostSubmissionStatusMaintenanceDocument-parentBean"/>
 
   <bean id="PostSubmissionStatusMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.PostSubmissionStatus" />
-    <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
-    <property name="maintainableSections" >
+    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.PostSubmissionStatus"/>
+    <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
+    <property name="maintainableSections">
       <list>
-        <ref bean="PostSubmissionStatusMaintenanceDocument-EditPostSubmissionStatusTypes" />
+        <ref bean="PostSubmissionStatusMaintenanceDocument-EditPostSubmissionStatusTypes"/>
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>postSubmissionStatusCode</value>
       </list>
     </property>
-    <property name="label" value="Post Submission Status Maintenance Document" />
-    <property name="shortLabel" value="abstractTypeMaintDoc" />
-    <property name="summary" value="Abstract Type Maintenance Document" />
-    <property name="description" value="Document used to create or update Post Submission Status Reference objects" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KRA-M"
-            p:parameterName="postSubmissionStatusTypeMaintenanceHelp"
-            p:parameterDetailType="D" />
-    </property>
-    <property name="documentTypeName" value="PostSubmissionStatusMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="POSS" />
-    <property name="authorizations" >
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate" />
-          <property name="authorizedGroups" >
-            <set>
-              <value>WorkflowAdmin</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
+    
+    
+    
+    
+    
+    <property name="documentTypeName" value="PostSubmissionStatusMaintenanceDocument"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    
+    
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="PostSubmissionStatusMaintenanceDocument-EditPostSubmissionStatusTypes" parent="PostSubmissionStatusMaintenanceDocument-EditPostSubmissionStatusTypes-parentBean" />
+  <bean id="PostSubmissionStatusMaintenanceDocument-EditPostSubmissionStatusTypes" parent="PostSubmissionStatusMaintenanceDocument-EditPostSubmissionStatusTypes-parentBean"/>
 
   <bean id="PostSubmissionStatusMaintenanceDocument-EditPostSubmissionStatusTypes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Post Submission Status Types" />
-    <property name="title" value="Edit Post Submission Status Types" />
-    <property name="maintainableItems" >
+    <property name="id" value="Edit Post Submission Status Types"/>
+    <property name="title" value="Edit Post Submission Status Types"/>
+    <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="postSubmissionStatusCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="description"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
+        <bean parent="MaintainableFieldDefinition" p:name="postSubmissionStatusCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
     </property>
   </bean>

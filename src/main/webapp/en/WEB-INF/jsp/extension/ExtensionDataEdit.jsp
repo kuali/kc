@@ -6,7 +6,7 @@
 <%@ taglib uri="../../tld/displaytag.tld" prefix="display-el" %>
 
 <%-- Parameters:
-  extensions - should be an object of type org.kuali.workflow.attribute.web.WebExtensions
+  extensions - should be an object of type org.kuali.rice.kew.attribute.web.WebExtensions
   extensionsProperty - the property name of extensions object
   actionName - the name of the struts action to execute for lookups
 --%>

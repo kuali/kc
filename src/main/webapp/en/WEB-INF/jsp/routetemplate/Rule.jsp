@@ -24,7 +24,7 @@
 
 <table width="100%" border=0 cellpadding=0 cellspacing=0 class="headercell1">
 	<tr>
-    	<td><img src="images/wf-logo.gif" alt="OneStart Workflow" width=150 height=21 hspace=5 vspace=5>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    	<td><img src="images/wf-logo.gif" alt="Workflow" width=150 height=21 hspace=5 vspace=5>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 	    <td width="90%"><a href="Lookup.do?lookupableImplServiceName=RuleBaseValuesLookupableImplService" >Rule search</a> | <a href="Rule.do" >Create new Rule</a></td>
   	</tr>
 </table>
@@ -163,7 +163,7 @@
 			</tr>
 			<c:set var="FieldRows" value="${RuleForm.ruleTemplateAttributes}" scope="request" />
 			<c:set var="ActionName" value="Rule.do" scope="request" />
-			<jsp:include page="../RowDisplay.jsp" />
+			<jsp:include page="../RowDisplayNew.jsp" />
 		</table>&nbsp;
 </td>
 <td valign="top" class="datacell">
@@ -182,7 +182,7 @@
 			<tr>
 				<td class="thnormal" align="right">*Rule Reviewer:</td>
 				<td class="datacell">
-				
+
 					<c:if test="${RuleForm.personWorkGroup == 'person'}">
 						<c:set var="reviewdisplay" value="display:inline;" />
 						<c:set var="persondisplay" value="display:inline;"/>
@@ -201,7 +201,7 @@
 						<c:set var="workgroupdisplay" value="display:none;"/>
 						<c:set var="roledisplay" value="display:block;"/>
 					</c:if>
-					
+
 					<span id="reviewer" style='<c:out value="${reviewdisplay}" />'>
 						<html-el:text property="reviewer" />
 					</span>
@@ -224,7 +224,7 @@
 				</td>
 			</tr>
 			<c:if test="${!RuleForm.ruleBaseValues.delegateRule}">
-			
+
 				<tr>
 					<td class="thnormal" align="right">*Action Request Code:</td>
 					<td class="datacell"><html-el:select property="ruleResponsibility.actionRequestedCd">
@@ -232,7 +232,7 @@
 							<html-el:options collection="actionRequestCodes" property="key" labelProperty="value" />
 						</html-el:select>
 					</td>
-				</tr>	
+				</tr>
 				<tr>
 					<td class="thnormal" align="right">*Rule Priority:</td>
 					<td class="datacell"><html-el:select property="ruleResponsibility.priority">
@@ -246,7 +246,7 @@
 							<html-el:option value="8">8</html-el:option>
 							<html-el:option value="9">9</html-el:option>
 							<html-el:option value="10">10</html-el:option>
-							<html-el:option value="11">11</html-el:option>									
+							<html-el:option value="11">11</html-el:option>
 						</html-el:select>
 					</td>
 				</tr>
@@ -257,7 +257,7 @@
 						<html-el:hidden property="delegationRuleName" />
 						<html-el:hidden property="delegationRuleId" />
 						<c:out value="${RuleForm.delegationRuleName}" />
-						
+
 						<c:if test="${RuleForm.delegationRuleName != null && RuleForm.delegationRuleName != ''}">
 							<div>
 							Primary Delegation: <html-el:radio property="delegationType" value="${Constants.DELEGATION_PRIMARY}" /><br>
@@ -279,13 +279,13 @@
 							<logic-el:iterate id="delegationRule" name="RuleForm" property="ruleResponsibility.delegationRules" indexId="ctr1">
 							<tr>
 				 				<html-el:hidden property="ruleResponsibility.delegationRule[${ctr1}].delegateRuleId" />
-								<html-el:hidden property="ruleResponsibility.delegationRule[${ctr1}].delegationRuleBaseValues.description" />						 	
+								<html-el:hidden property="ruleResponsibility.delegationRule[${ctr1}].delegationRuleBaseValues.description" />
 							 	<html-el:hidden property="ruleResponsibility.delegationRule[${ctr1}].delegationType" />
 								<%--<html-el:hidden property="ruleResponsibility.delegationRule[${ctr1}].delegateRuleId" />--%>
 								<%--<html-el:hidden property="ruleResponsibility.delegationRule[${ctr1}].ruleDelegationId" />--%>
 								<%--<html-el:hidden property="ruleResponsibility.delegationRule[${ctr1}].lockVerNbr" />--%>
 								<td class="datacell" align="center">
-								  <c:out value="${delegationRule.delegationRuleBaseValues.description}" />		
+								  <c:out value="${delegationRule.delegationRuleBaseValues.description}" />
 								</td>
 								<td class="datacell" align="center">
 									<c:if test="${delegationRule.delegationType == Constants.DELEGATION_PRIMARY}">
@@ -307,7 +307,7 @@
 				</c:if>
 
 			</c:if>
-			
+
 			<tr>
 				<td colspan="2" class="thnormal" height="30" align="center"><a href="javascript:post_to_action('Rule.do', 'addResponsibility')"><img src="images/tinybutton-addtolist.gif" alt="clear" align=absmiddle></a>
 				<c:if test="${RuleForm.editResponsibility != null}">
@@ -342,24 +342,16 @@
 					  	<td class="datacell">
 					  		<c:if test="${ruleResponsibility != null && ruleResponsibility.role != null}">
 					  			<c:out value="${ruleResponsibility.role}"/>
-					  		</c:if> 
+					  		</c:if>
 							<c:if test="${ruleResponsibility != null && ruleResponsibility.workflowUser != null && ruleResponsibility.workflowUser.authenticationUserId.authenticationId != null}">
-								<a href="
-               						<c:url value="${UrlResolver.userReportUrl}">
-										<c:param name="workflowId" value="${ruleResponsibility.workflowUser.workflowUserId.workflowId}" />
-										<c:param name="methodToCall" value="report" />
-										<c:param name="showEdit" value="no" />
-									</c:url>"><c:out value="${ruleResponsibility.workflowUser.authenticationUserId.authenticationId}" />
-								</a>&nbsp;
+								<kul:inquiry boClassName="org.kuali.rice.kim.bo.impl.PersonImpl" keyValues="principalId=${ruleResponsibility.workflowUser.workflowUserId.workflowId}" render="true">
+                                  <c:out value="${ruleResponsibility.workflowUser.authenticationUserId.authenticationId}" />
+                                </kul:inquiry>&nbsp;
 							</c:if>
 							<c:if test="${ruleResponsibility != null && ruleResponsibility.workgroup != null && ruleResponsibility.workgroup.workgroupName != null}">
-                          		<a href="
-									<c:url value="${UrlResolver.workgroupReportUrl}">
-										<c:param name="workgroupId" value="${ruleResponsibility.workgroup.workgroupId}" />
-										<c:param name="methodToCall" value="report" />
-									</c:url>"><c:out value="${ruleResponsibility.workgroup.workgroupName}" />
-								</a>
-						  		&nbsp;  
+                          		<kul:inquiry boClassName="org.kuali.rice.kim.bo.group.impl.KimGroupImpl" keyValues="groupId=${ruleResponsibility.workgroup.workgroupId}" render="true">
+                                  <c:out value="${ruleResponsibility.workgroup.workgroupName}" />
+                                </kul:inquiry>&nbsp;
 							</c:if>
 						</td>
 						<td class="datacell" align="center">
@@ -372,7 +364,7 @@
 						</td>
 						<td class="datacell" align="center">
 						  <html-el:hidden property="ruleBaseValues.responsibility[${ctr}].priority" />
-						  <html-el:hidden property="ruleBaseValues.responsibility[${ctr}].responsibilityId" />			  
+						  <html-el:hidden property="ruleBaseValues.responsibility[${ctr}].responsibilityId" />
 						  <%--<html-el:hidden property="ruleBaseValues.responsibility[${ctr}].ruleResponsibilityId" />--%>
 						  <%--<html-el:hidden property="ruleBaseValues.responsibility[${ctr}].ruleBaseValuesId" />--%>
 						  <html-el:hidden property="ruleBaseValues.responsibility[${ctr}].actionRequestedCd" />
@@ -405,8 +397,8 @@
 						<html-el:hidden property="ruleBaseValues.responsibility[${ctr}].delegationRule[${ctr2}].delegationRuleBaseValues.ruleBaseValuesId" />
 						<html-el:hidden property="ruleBaseValues.responsibility[${ctr}].delegationRule[${ctr2}].delegationRuleBaseValues.lockVerNbr" />
 						--%>
-						
-						<html-el:hidden property="ruleBaseValues.responsibility[${ctr}].delegationRule[${ctr2}].delegationRuleBaseValues.description" />							 	
+
+						<html-el:hidden property="ruleBaseValues.responsibility[${ctr}].delegationRule[${ctr2}].delegationRuleBaseValues.description" />
 
 						<html-el:hidden property="ruleBaseValues.responsibility[${ctr}].delegationRule[${ctr2}].delegationType" />
 						<%--<html-el:hidden property="ruleBaseValues.responsibility[${ctr}].delegationRule[${ctr2}].lockVerNbr" />--%>
@@ -426,7 +418,7 @@
 					</tr>
 					</logic-el:iterate>
 					</c:if>
-				</logic-el:iterate>	
+				</logic-el:iterate>
 		</table>
 		<html-el:hidden property="removeResponsibility" />
 		<html-el:hidden property="editResponsibility" />
@@ -488,7 +480,7 @@
 				  <html-el:hidden property="myRules.rule[${ctr}].ignorePrevious" />
 				  <%--<html-el:hidden property="myRules.rule[${ctr}].lockVerNbr" />--%>
 				  <html-el:hidden property="myRules.rule[${ctr}].delegateRule" />
-				  
+
 					<logic-el:iterate id="ruleResponsibility" name="RuleForm" property="myRules.rule[${ctr}].responsibilities" indexId="ctr2">
 						  <html-el:hidden property="myRules.rule[${ctr}].responsibility[${ctr2}].priority" />
 						  <%--<html-el:hidden property="myRules.rule[${ctr}].responsibility[${ctr2}].ruleResponsibilityId" />--%>
@@ -500,7 +492,7 @@
  						  <html-el:hidden property="myRules.rule[${ctr}].responsibility[${ctr2}].approvePolicy" />
 
 						  <%--<html-el:hidden property="myRules.rule[${ctr}].responsibility[${ctr2}].lockVerNbr" />--%>
-						  
+
 						  <logic-el:iterate id="ruleDelegation" name="RuleForm" property="myRules.rule[${ctr}].responsibility[${ctr2}].delegationRules" indexId="ctr3">
   							 	<%--<html-el:hidden property="myRules.rule[${ctr}].responsibility[${ctr2}].delegationRule[${ctr3}].ruleDelegationId" />--%>
 							 	<html-el:hidden property="myRules.rule[${ctr}].responsibility[${ctr2}].delegationRule[${ctr3}].delegateRuleId" />
@@ -514,28 +506,28 @@
      					  <html-el:hidden property="myRules.rule[${ctr}].responsibility[${ctr2}].delegationRuleBaseValues.description" />
 						  <html-el:hidden property="myRules.rule[${ctr}].responsibility[${ctr2}].delegationType" />
 						  --%>
-					</logic-el:iterate>					  
-					
+					</logic-el:iterate>
+
 					<logic-el:iterate id="ruleExtension" name="RuleForm" property="myRules.rule[${ctr}].ruleExtensions" indexId="ctr3">
 							<%--<html-el:hidden property="myRules.rule[${ctr}].ruleExtension[${ctr3}].ruleExtensionId" />--%>
 						  <html-el:hidden property="myRules.rule[${ctr}].ruleExtension[${ctr3}].ruleTemplateAttributeId" />
 						  <%--<html-el:hidden property="myRules.rule[${ctr}].ruleExtension[${ctr3}].ruleBaseValuesId" />--%>
 						  <%--<html-el:hidden property="myRules.rule[${ctr}].ruleExtension[${ctr3}].lockVerNbr" />--%>
-						  
+
 							<logic-el:iterate id="ruleExtensionValue" name="RuleForm" property="myRules.rule[${ctr}].ruleExtension[${ctr3}].extensionValues" indexId="ctr4">
 									<%--<html-el:hidden property="myRules.rule[${ctr}].ruleExtension[${ctr3}].ruleExtensionValue[${ctr4}].ruleExtensionValueId" />--%>
 								  <%--<html-el:hidden property="myRules.rule[${ctr}].ruleExtension[${ctr3}].ruleExtensionValue[${ctr4}].ruleExtensionId" />--%>
 								  <html-el:hidden property="myRules.rule[${ctr}].ruleExtension[${ctr3}].ruleExtensionValue[${ctr4}].value" />
 								  <html-el:hidden property="myRules.rule[${ctr}].ruleExtension[${ctr3}].ruleExtensionValue[${ctr4}].key" />
  								  <%--<html-el:hidden property="myRules.rule[${ctr}].ruleExtension[${ctr3}].ruleExtensionValue[${ctr4}].lockVerNbr" />--%>
-							</logic-el:iterate>					  
-					</logic-el:iterate>					  
+							</logic-el:iterate>
+					</logic-el:iterate>
 
 				  <a href='javascript:setEditRule("Rule.do", "editRule", <c:out value="${ctr}"/>)'>edit</a> |
 				  <a href='javascript:setRemoveRule("Rule.do", "removeRule", <c:out value="${ctr}"/>)'>remove</a>
 				</td>
-			</tr>					
-		</logic-el:iterate>	
+			</tr>
+		</logic-el:iterate>
 	    <tr>
           <td class="thnormal" align="center" colspan="6">
             <a href="javascript:post_to_action('Rule.do', 'save')"><img src="images/buttonsmall_route.gif" alt="route" align=absmiddle></a>

@@ -1,3 +1,5 @@
+INSERT INTO KRIM_TYP_T (ACTV_IND,KIM_TYP_ID,NM,NMSPC_CD,OBJ_ID,VER_NBR)
+  VALUES ('Y','1','Default','KUALI','5ADF18B6D4827954E0404F8189D85002',1);
 
 -- insert into en_wrkgrp_t values (1,1,'WorkflowAdmin',1,'W','Workflow Administrator Workgroup',1,-1,0);
 

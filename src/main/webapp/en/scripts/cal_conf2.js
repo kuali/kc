@@ -15,10 +15,10 @@ addCalendar("advancedToDateApproved", "Select Date", "toDateApproved", "Document
 addCalendar("advancedToDateFinalized", "Select Date", "toDateFinalized", "DocumentSearchForm");
 
 // calendars for ActionList Criteria.jsp
-addCalendar("lastAssignedDateFrom", "Select Date", "lastAssignedDateFrom", "ActionListFilterForm");
-addCalendar("lastAssignedDateTo", "Select Date", "lastAssignedDateTo", "ActionListFilterForm");
-addCalendar("createDateFrom", "Select Date", "createDateFrom", "ActionListFilterForm");
-addCalendar("createDateTo", "Select Date", "createDateTo", "ActionListFilterForm");
+addCalendar("lastAssignedDateFrom", "Select Date", "lastAssignedDateFrom", "ActionListFilterFormNew");
+addCalendar("lastAssignedDateTo", "Select Date", "lastAssignedDateTo", "ActionListFilterFormNew");
+addCalendar("createDateFrom", "Select Date", "createDateFrom", "ActionListFilterFormNew");
+addCalendar("createDateTo", "Select Date", "createDateTo", "ActionListFilterFormNew");
 //addCalendar("Calendar2", "Select Date", "chnl_end_ts_txt", "ActionListFilterForm");
 
 // calendars for Rule Rule.jsp
@@ -26,12 +26,12 @@ addCalendar("fromDate", "Select Date", "fromDate", "RuleForm");
 addCalendar("toDate", "Select Date", "toDate", "RuleForm");
 
 //calendars for DocumentOperation DocumentOperation.jsp
-addCalendar("createDate", "Select Date", "createDate", "DocumentOperationForm"); 
-addCalendar("approvedDate", "Select Date", "approvedDate", "DocumentOperationForm"); 
-addCalendar("finalizedDate", "Select Date", "finalizedDate", "DocumentOperationForm"); 
-addCalendar("statusModDate", "Select Date", "statusModDate", "DocumentOperationForm"); 
-addCalendar("routeStatusDate", "Select Date", "routeStatusDate", "DocumentOperationForm"); 
-addCalendar("routeLevelDate", "Select Date", "routeLevelDate", "DocumentOperationForm"); 
+addCalendar("createDate", "Select Date", "createDate", "DocumentOperationForm");
+addCalendar("approvedDate", "Select Date", "approvedDate", "DocumentOperationForm");
+addCalendar("finalizedDate", "Select Date", "finalizedDate", "DocumentOperationForm");
+addCalendar("statusModDate", "Select Date", "statusModDate", "DocumentOperationForm");
+addCalendar("routeStatusDate", "Select Date", "routeStatusDate", "DocumentOperationForm");
+addCalendar("routeLevelDate", "Select Date", "routeLevelDate", "DocumentOperationForm");
 
 /*
 hook for page to use calendar

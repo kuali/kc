@@ -334,8 +334,9 @@
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:businessObjectClass="org.kuali.kra.bo.SponsorType"
-            p:valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
+            p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
             p:keyAttribute="sponsorTypeCode"
             p:labelAttribute="description" />
     </property>

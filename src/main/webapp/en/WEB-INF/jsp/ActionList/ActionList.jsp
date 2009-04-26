@@ -21,7 +21,7 @@
 
 </head>
 <body>
-<html-el:form action="ActionList">
+<html-el:form action="ActionListOld">
 <html-el:hidden property="methodToCall" value="" />
 <html-el:hidden property="cssFile"/>
 <html-el:hidden property="logoAlign"/>
@@ -30,19 +30,19 @@
   <tr>
     <c:if test="${ActionListForm.logoAlign != 'right'}">
     <td width="10%">
-        <img src="images/wf-logo.gif" alt="OneStart Workflow" width=150 height=21 hspace=5 vspace=5>&nbsp;&nbsp;&nbsp;&nbsp;
+        <img src="images/wf-logo.gif" alt="Workflow" width=150 height=21 hspace=5 vspace=5>&nbsp;&nbsp;&nbsp;&nbsp;
     </td>
     </c:if>
     <td align="left">
 		&nbsp;<html-el:link page="/Preferences.do?returnMapping=viewActionList">Preferences</html-el:link>&nbsp;&nbsp;
 		<a href="
-			<c:url value="ActionList.do">
+			<c:url value="ActionListOld.do">
 				<c:param name="methodToCall" value="start" />
 			</c:url>">Refresh <bean-el:message key="actionList.ActionList.title"/></a>&nbsp;&nbsp;
-		<html-el:link action="ActionListFilter">Filter</html-el:link>&nbsp;&nbsp;
+		<html-el:link action="ActionListFilterOld">Filter</html-el:link>&nbsp;&nbsp;
 		<c:if test="${kewUserSession.actionListFilter != null && kewUserSession.actionListFilter.filterOn}">
 			<a href="
-			<c:url value="ActionList.do">
+			<c:url value="ActionListOld.do">
 				<c:param name="methodToCall" value="clearFilter" />
 				<c:param name="key" value="${key}"/>
 			</c:url>">Clear Filter</a>&nbsp;&nbsp;
@@ -50,11 +50,11 @@
 		<c:if test="${helpDeskActionList != null}">
 			<html-el:text property="helpDeskActionListUserName" size="12"/>&nbsp;
             <html-el:image src="images/tinybutton-hlpdesk.gif" align="absmiddle" property="methodToCall.helpDeskActionListLogin" />
-			<c:if test="${kewUserSession.helpDeskActionListUser != null}">
+			<c:if test="${kewUserSession.helpDeskActionListPerson != null}">
 				<a href="
-					<c:url value="ActionList.do">
+					<c:url value="ActionListOld.do">
 						<c:param name="methodToCall" value="clearHelpDeskActionListUser" />
-					</c:url>">Clear <c:out value="${kewUserSession.helpDeskActionListUser.displayName}"/>'s List</a>
+					</c:url>">Clear <c:out value="${kewUserSession.helpDeskActionListPerson.name}"/>'s List</a>
 			</c:if>&nbsp;&nbsp;
 		</c:if>
 		<c:if test="${! empty ActionListForm.delegators}">
@@ -66,10 +66,19 @@
 			  </c:forEach>
             </html-el:select>
 		</c:if>
+		<c:if test="${! empty ActionListForm.primaryDelegates}">
+            <html-el:select property="primaryDelegateId" onchange="document.forms[0].methodToCall.value='start';document.forms[0].submit();">
+              <html-el:option value="${Constants.PRIMARY_DELEGATION_DEFAULT}"><c:out value="${Constants.PRIMARY_DELEGATION_DEFAULT}" /></html-el:option>
+              <html-el:option value="${Constants.ALL_CODE}"><c:out value="${Constants.ALL_CODE}" /></html-el:option>
+			  <c:forEach var="delegatee" items="${ActionListForm.primaryDelegates}">
+				<html-el:option value="${delegatee.recipientId}"><c:out value="${delegatee.displayName}" /></html-el:option>
+			  </c:forEach>
+            </html-el:select>
+		</c:if>
     </td>
     <c:if test="${ActionListForm.logoAlign == 'right'}">
     <td align="right">
-        <img src="images/wf-logo.gif" alt="OneStart Workflow" width=150 height=21 vspace=2>
+        <img src="images/wf-logo.gif" alt="Workflow" width=150 height=21 vspace=2>
     </td>
     </c:if>
   </tr>
@@ -88,7 +97,7 @@
           <td>
             <c:choose>
 	            <c:when test="${ActionListForm.viewOutbox && ActionListForm.showOutbox}">
-		            <a href="<c:url value="ActionList.do?viewOutbox=false" />"><bean-el:message key="actionList.ActionList.title"/></a>
+		            <a href="<c:url value="ActionListOld.do?viewOutbox=false" />"><bean-el:message key="actionList.ActionList.title"/></a>
 		            | <strong><bean-el:message key="actionList.Outbox.title"/></strong>
 		             <c:if test="${! ActionListForm.outBoxEmpty }">
 			            <td align="right">
@@ -99,9 +108,9 @@
 	            <c:otherwise>
 	                <strong><bean-el:message key="actionList.ActionList.title"/></strong>
 	                <c:if test="${ActionListForm.showOutbox }">
-		            	| <a href="<c:url value="ActionList.do?viewOutbox=true" />"><bean-el:message key="actionList.Outbox.title"/></a>
+		            	| <a href="<c:url value="ActionListOld.do?viewOutbox=true" />"><bean-el:message key="actionList.Outbox.title"/></a>
 	            	</c:if>
-	            	<c:if test="${kewUserSession.helpDeskActionListUser == null && ! empty actionList && ! empty ActionListForm.defaultActions}">
+	            	<c:if test="${kewUserSession.helpDeskActionListPerson == null && ! empty actionList && ! empty ActionListForm.defaultActions}">
 			            <td align="right">
 			               <c:set var="defaultActions" value="${ActionListForm.defaultActions}" scope="request" />
 			               <html-el:select styleId='defaultAction' property="defaultActionToTake">
@@ -112,10 +121,10 @@
 	            </c:otherwise>
             </c:choose>
           </td>
-          
 
-          
-          
+
+
+
         </tr>
       </table>
     </td>
@@ -142,7 +151,7 @@
 	<td></td>
   	<td>
 
-  <c:url var="actionListURI" value="ActionList.do">
+  <c:url var="actionListURI" value="ActionListOld.do">
     <c:param name="methodToCall" value="start"/>
     <c:param name="currentPage" value="${ActionListForm.currentPage}"/>
     <c:param name="currentSort" value="${ActionListForm.currentSort}"/>
@@ -174,6 +183,12 @@
   <bean:define id="dateCreatedLabel">
  	<bean-el:message key="actionList.ActionList.results.label.dateCreated"/>
   </bean:define>
+ <bean:define id="dateApprovedLabel">
+ 	<bean-el:message key="actionList.ActionList.results.label.dateApproved"/>
+  </bean:define>
+  <bean:define id="currentRouteNodesLabel">
+ 	<bean-el:message key="actionList.ActionList.results.label.currentRouteNodes"/>
+  </bean:define>
   <bean:define id="workgroupRequestLabel">
  	<bean-el:message key="actionList.ActionList.results.label.workgroupRequest"/>
   </bean:define>
@@ -188,7 +203,7 @@
   </bean:define>
 
   <display-el:table class="bord-r-t" style="width:100%" cellspacing="0" cellpadding="0" name="actionListPage" pagesize="${preferences.pageSize}" export="true" id="result"
-          decorator="edu.iu.uis.eden.actionlist.web.ActionListDecorator" excludedParams="*"
+          decorator="org.kuali.rice.kew.actionlist.web.ActionListDecorator" excludedParams="*"
           requestURI="${actionListURI}">
   <display-el:setProperty name="paging.banner.placement" value="both" />
   <display-el:setProperty name="export.banner" value="" />
@@ -198,7 +213,7 @@
 
   <display-el:column sortable="true" title="${documentIdLabel}" sortProperty="routeHeaderId" class="display-column">
   	<c:choose>
-      <c:when test="${kewUserSession.helpDeskActionListUser == null}">
+      <c:when test="${kewUserSession.helpDeskActionListPerson == null}">
 		  	  <a href="<c:url value="${Constants.DOC_HANDLER_REDIRECT_PAGE}" >
 		  				<c:param name="docId" value="${result.routeHeaderId}"/>
 		  				<c:param name="command" value="displayActionListView" />
@@ -236,30 +251,28 @@
   </c:if>
   <c:if test="${preferences.showInitiator == Constants.PREFERENCES_YES_VAL}">
 	  <display-el:column sortable="true" title="${initiatorLabel}" sortProperty="routeHeader.initiatorName" class="display-column" >
-          <a href="<c:url value="${UrlResolver.userReportUrl}">
-                     <c:param name="workflowId" value="${result.routeHeader.actionListInitiatorUser.workflowUserId.workflowId}"/>
-                     <c:param name="showEdit" value="no"/>
-                     <c:param name="methodToCall" value="report"/></c:url>" target="_blank">
-            <c:out value="${result.routeHeader.actionListInitiatorUser.transposedName}"/></a>
+          <kul:inquiry boClassName="org.kuali.rice.kim.bo.impl.PersonImpl"
+            keyValues="principalId=${result.routeHeader.actionListInitiatorPrincipal.principalId}"
+            render="true">
+              <c:out value="${result.routeHeader.initiatorName}" />
+          </kul:inquiry>
  	  </display-el:column>
   </c:if>
 
   <c:if test="${preferences.showDelegator == Constants.PREFERENCES_YES_VAL}">
     <display-el:column sortable="true" title="${delegatorLabel}" sortProperty="delegatorName" class="display-column">
     	<c:choose>
-        <c:when test="${result.delegatorUser != null}">
-          <a href="<c:url value="${UrlResolver.userReportUrl}">
-                     <c:param name="workflowId" value="${result.delegatorUser.workflowUserId.workflowId}"/>
-                     <c:param name="showEdit" value="no"/>
-                     <c:param name="methodToCall" value="report"/></c:url>" target="_blank">
-            <c:out value="${result.delegatorUser.transposedName}"/></a>
+        <c:when test="${result.delegatorPerson != null}">
+          <kul:inquiry boClassName="org.kuali.rice.kim.bo.impl.PersonImpl"
+            keyValues="principalId=${result.delegatorPerson.principalId}"
+            render="true">
+              <c:out value="${result.delegatorPerson.name}" />
+          </kul:inquiry>
         </c:when>
-        <c:when test="${result.delegatorWorkgroup != null}">
-           <a href="<c:url value="${UrlResolver.workgroupReportUrl}">
-                      <c:param name="workgroupId" value="${result.delegatorWorkgroup.workflowGroupId.groupId}"/>
-                      <c:param name="methodToCall" value="report"/>
-                      <c:param name="showEdit" value="no"/>
-                    </c:url>" target="_blank"><c:out value="${result.delegatorWorkgroup.groupNameId.nameId}"/></a>
+        <c:when test="${result.delegatorGroup != null}">
+           <kul:inquiry boClassName="org.kuali.rice.kim.bo.group.impl.KimGroupImpl" keyValues="groupId=${result.delegatorGroup.groupId}" render="true">
+               <c:out value="${result.delegatorGroup.groupName}" />
+           </kul:inquiry>
        </c:when>
         <c:otherwise>
         	&nbsp;
@@ -272,17 +285,19 @@
   		<fmt:formatDate value="${result.routeHeader.createDate}" pattern="${Constants.DEFAULT_DATE_FORMAT_PATTERN}" />&nbsp;
   	</display-el:column>
   </c:if>
+  <c:if test="${preferences.showDateApproved == Constants.PREFERENCES_YES_VAL}">
+  	<display-el:column sortable="true" title="${dateApprovedLabel}" sortProperty="lastApprovedDate" class="display-column">
+  		<fmt:formatDate value="${result.lastApprovedDate}" pattern="${Constants.DEFAULT_DATE_FORMAT_PATTERN}" />&nbsp;
+  	</display-el:column>
+  </c:if>
 
   <c:if test="${preferences.showWorkgroupRequest == Constants.PREFERENCES_YES_VAL}">
-  	<display-el:column sortable="true" title="${workgroupRequestLabel}" sortProperty="workgroup.groupNameId.nameId" class="display-column">
+  	<display-el:column sortable="true" title="${workgroupRequestLabel}" sortProperty="group.groupName" class="display-column">
   		<c:choose>
-  			<c:when test="${result.workgroupId != null && result.workgroupId != 0}">
-  			  <a href="<c:url value="${UrlResolver.workgroupReportUrl}">
-                      <c:param name="workgroupId" value="${result.workgroup.workflowGroupId.groupId}"/>
-                      <c:param name="methodToCall" value="report"/>
-                      <c:param name="showEdit" value="no"/>
-                    </c:url>" target="_blank"><c:out value="${result.workgroup.groupNameId.nameId}"/>
-              </a>
+  			<c:when test="${result.groupId != null && result.groupId != 0}">
+              <kul:inquiry boClassName="org.kuali.rice.kim.bo.group.impl.KimGroupImpl" keyValues="groupId=${result.group.groupId}" render="true">
+                  <c:out value="${result.group.groupName}" />
+              </kul:inquiry>
   			</c:when>
   			<c:otherwise>
   				&nbsp;
@@ -291,7 +306,13 @@
 	</display-el:column>
   </c:if>
 
-  <c:if test="${! ActionListForm.viewOutbox && kewUserSession.helpDeskActionListUser == null && ActionListForm.hasCustomActions && (ActionListForm.customActionList || (preferences.showClearFyi == Constants.PREFERENCES_YES_VAL))}">
+  <c:if test="${preferences.showCurrentNode == Constants.PREFERENCES_YES_VAL}">
+    <display-el:column sortable="true" title="${currentRouteNodesLabel}" sortProperty="routeHeader.currentRouteLevelName" class="display-column">
+    	<c:out value="${result.routeHeader.currentRouteLevelName}"/>&nbsp;
+    </display-el:column>
+  </c:if>
+
+  <c:if test="${! ActionListForm.viewOutbox && kewUserSession.helpDeskActionListPerson == null && ActionListForm.hasCustomActions && (ActionListForm.customActionList || (preferences.showClearFyi == Constants.PREFERENCES_YES_VAL))}">
     <display-el:column title="${actionsLabel}" class="display-column">
         <c:if test="${! empty result.customActions}">
           <c:set var="customActions" value="${result.customActions}" scope="request" />
@@ -303,7 +324,7 @@
         </c:if>&nbsp;
     </display-el:column>
   </c:if>
-  
+
   <c:if test="${ActionListForm.viewOutbox }">
       <display-el:column title="${outboxActionItemDelete}" class="display-column">
           <html-el:checkbox property="outboxItems" value="${result.actionItemId}"/>
@@ -321,7 +342,7 @@
 <td></td>
 </tr>
 
-  <c:if test="${kewUserSession.helpDeskActionListUser == null && (! empty customActionsPresent) && (preferences.showClearFyi == Constants.PREFERENCES_YES_VAL || ActionListForm.customActionList)}">
+  <c:if test="${kewUserSession.helpDeskActionListPerson == null && (! empty customActionsPresent) && (preferences.showClearFyi == Constants.PREFERENCES_YES_VAL || ActionListForm.customActionList)}">
     <tr><td colspan=3>&nbsp;</td></tr>
   	<tr>
   		<td></td>
@@ -341,8 +362,8 @@
 </html-el:form>
 
 <center>
-<c:if test="${kewUserSession.helpDeskActionListUser != null}">
-	<c:out value="${kewUserSession.workflowUser.displayName}"/> Viewing <c:out value="${kewUserSession.helpDeskActionListUser.displayName}"/>'s Action List
+<c:if test="${kewUserSession.helpDeskActionListPerson != null}">
+	<c:out value="${kewUserSession.person.name}"/> Viewing <c:out value="${kewUserSession.helpDeskActionListPerson.name}"/>'s Action List
 </c:if>
 </center>
 <jsp:include page="../BackdoorMessage.jsp" flush="true"/>

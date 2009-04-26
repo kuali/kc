@@ -24,7 +24,7 @@
 
 <table width="100%" border=0 cellpadding=0 cellspacing=0 class="headercell1">
 	<tr>
-    	<td><img src="images/wf-logo.gif" alt="OneStart Workflow" width=150 height=21 hspace=5 vspace=5>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    	<td><img src="images/wf-logo.gif" alt="Workflow" width=150 height=21 hspace=5 vspace=5>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 	    <td width="90%"><a href="Lookup.do?lookupableImplServiceName=RuleBaseValuesLookupableImplService" >Rule search</a> | <a href="Rule2.do" >Create new Rule</a> | <a href="DelegateRule2.do" >Create new Delegation Rule</a></td>
   	</tr>
 </table>

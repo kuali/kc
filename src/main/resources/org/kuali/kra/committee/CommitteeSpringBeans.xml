@@ -27,7 +27,7 @@
                            
     <bean id="committeeModuleConfiguration" parent="committeeModuleConfiguration-parentBean" />
 	
-    <bean id="committeeModuleConfiguration-parentBean" class="org.kuali.kra.infrastructure.KraModuleConfiguration" abstract="true">
+    <bean id="committeeModuleConfiguration-parentBean" class="org.kuali.rice.kns.bo.ModuleConfiguration" abstract="true">
 		<property name="databaseRepositoryFilePaths">
 			<list>
 				<value>org/kuali/kra/committee/repository-committee.xml</value>
@@ -87,7 +87,7 @@
 		<property name="scheduleService" ref="scheduleService" />
 	</bean>
 	
-	<bean id="committeeLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" scope="prototype">
+	<bean id="committeeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
   		<property name="lookupableHelperService">
     		<ref bean="committeeLookupableHelperService" />
   		</property>  		

@@ -27,7 +27,7 @@
                            
     <bean id="awardModuleConfiguration" parent="awardModuleConfiguration-parentBean" />
 	
-    <bean id="awardModuleConfiguration-parentBean" class="org.kuali.kra.infrastructure.KraModuleConfiguration" abstract="true">
+    <bean id="awardModuleConfiguration-parentBean" class="org.kuali.rice.kns.bo.ModuleConfiguration" abstract="true">
 		<property name="databaseRepositoryFilePaths">
 			<list>
 				<value>org/kuali/kra/award/repository-award.xml</value>

@@ -19,7 +19,7 @@
 </head>
 <body>
 
-<html-el:form method="get" action="/RouteManagerDriver.do" name="RouteManagerDriverForm" type="edu.iu.uis.eden.routemanager.web.RouteManagerDriverForm">
+<html-el:form method="get" action="/RouteManagerDriver.do" name="RouteManagerDriverForm" type="org.kuali.rice.kew.routemanager.web.RouteManagerDriverForm">
   <html-el:hidden name="RouteManagerDriverForm" property="methodToCall" />  
 <table width="100%" border=0 cellpadding=0 cellspacing=0 class="headercell1">
   <tr>

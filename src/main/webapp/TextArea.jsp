@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 <%@ page
-	import="org.kuali.kra.infrastructure.Constants,org.kuali.core.service.DataDictionaryService,org.kuali.kra.infrastructure.KraServiceLocator"%>
+	import="org.kuali.kra.infrastructure.Constants,org.kuali.rice.kns.service.DataDictionaryService,org.kuali.kra.infrastructure.KraServiceLocator"%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <html>
 

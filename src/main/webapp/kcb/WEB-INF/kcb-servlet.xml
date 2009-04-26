@@ -18,13 +18,13 @@
     </bean>
 
     <!-- import beans from GlobalResourceLoader -->
-    <bean id="recipientPreferenceService" class="org.kuali.rice.resourceloader.support.ResourceLoaderServiceFactoryBean" />
-    <bean id="messageDelivererRegistryService" class="org.kuali.rice.resourceloader.support.ResourceLoaderServiceFactoryBean" />
-    <bean id="kenIntegrationService" class="org.kuali.rice.resourceloader.support.ResourceLoaderServiceFactoryBean" />
+    <bean id="recipientPreferenceService" class="org.kuali.rice.core.resourceloader.ResourceLoaderServiceFactoryBean" />
+    <bean id="messageDelivererRegistryService" class="org.kuali.rice.core.resourceloader.ResourceLoaderServiceFactoryBean" />
+    <bean id="kenIntegrationService" class="org.kuali.rice.core.resourceloader.ResourceLoaderServiceFactoryBean" />
 
     <!-- Implement better strategy later -->
     <!-- 
-        <bean class="org.kuali.notification.web.spring.ServletConfigPropertyPlaceholderConfigurer"/>
+        <bean class="org.kuali.rice.ken.web.spring.ServletConfigPropertyPlaceholderConfigurer"/>
     -->
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="properties">
