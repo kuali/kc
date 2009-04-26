@@ -21,10 +21,10 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.web.ProtocolWebTestBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 

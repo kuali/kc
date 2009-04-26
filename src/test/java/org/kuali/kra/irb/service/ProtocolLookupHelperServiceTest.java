@@ -26,8 +26,6 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.web.ui.Field;
-import org.kuali.core.web.ui.Row;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.bo.Protocol;
@@ -35,6 +33,9 @@ import org.kuali.kra.irb.dao.ProtocolDao;
 import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.lookup.ProtocolLookupableHelperServiceImpl;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
+import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Row;
 
 public class ProtocolLookupHelperServiceTest extends KraTestBase {
 
@@ -100,7 +101,7 @@ public class ProtocolLookupHelperServiceTest extends KraTestBase {
     @Test
     public void testGetInquiryUrl() {
         Protocol protocol = initProtocol();
-        String inquiryUrl = protocolLookupableHelperServiceImpl.getInquiryUrl(protocol, "leadUnitNumber");
+        HtmlData inquiryUrl = protocolLookupableHelperServiceImpl.getInquiryUrl(protocol, "leadUnitNumber");
         assertEquals(inquiryUrl, UNIT_INQ_URL);
         inquiryUrl = protocolLookupableHelperServiceImpl.getInquiryUrl(protocol, "investigator");
         assertEquals(inquiryUrl, PERSON_INQ_URL);

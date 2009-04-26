@@ -26,11 +26,11 @@ import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.irb.bo.ParticipantType;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.bo.ProtocolParticipant;
 import org.kuali.kra.irb.service.impl.ProtocolParticipantServiceImpl;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * 

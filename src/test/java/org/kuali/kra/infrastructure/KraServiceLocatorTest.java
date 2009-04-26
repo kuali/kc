@@ -25,13 +25,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
-import org.kuali.core.bo.Parameter;
-import org.kuali.core.dao.BusinessObjectDao;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.proposaldevelopment.bo.MailType;
+import org.kuali.rice.kns.dao.BusinessObjectDao;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * This class tests the KraServiceLocator
@@ -43,9 +42,6 @@ public class KraServiceLocatorTest extends KraTestBase {
         assertNotNull(dataDictionaryService);
 
         assertEquals("ProposalDevelopmentDocument", dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName()).getDocumentTypeName());
-        assertEquals("PRDV", dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName()).getDocumentTypeCode());
-        assertEquals("Proposal Development Document", dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName()).getLabel());
-        assertEquals("Prop Dev Doc", dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName()).getShortLabel());
     }
 
     @Test public void testGetDateTimeService() throws Exception {

@@ -15,17 +15,17 @@
  */
 package org.kuali.kra.irb.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.irb.bo.Protocol;
 import org.kuali.kra.irb.service.impl.ProtocolResearchAreaServiceImpl;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
 
 public class ProtocolResearchAreaServiceTest {

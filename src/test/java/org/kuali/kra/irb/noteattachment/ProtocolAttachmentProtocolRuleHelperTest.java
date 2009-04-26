@@ -15,23 +15,15 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
-import static org.hamcrest.core.Is.is;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.kra.irb.bo.Protocol;
-import org.kuali.kra.irb.test.ProtocolTestUtil;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Tests for {@link ProtocolAttachmentProtocolRuleHelper ProtocolAttachmentProtocolRuleHelper}.
