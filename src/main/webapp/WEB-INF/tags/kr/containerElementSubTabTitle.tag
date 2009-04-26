@@ -16,7 +16,7 @@
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
 
-<%@ attribute name="containerField" required="true" type="org.kuali.core.web.ui.Field"
+<%@ attribute name="containerField" required="true" type="org.kuali.rice.kns.web.ui.Field"
               description="A Field.CONTAINER (element) type field." %>
 <%@ attribute name="isFieldAddingToACollection" required="true"
               description="Whether this is an add element (versus an existing element)." %>

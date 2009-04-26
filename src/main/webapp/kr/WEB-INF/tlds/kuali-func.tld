@@ -25,7 +25,7 @@
     <function>
         <description>Removes any duplicating spacing (internal or on the ends) from a String, meant to be exposed as a tag library function.</description>
         <name>scrubWhitespace</name>
-        <function-class>org.kuali.core.util.FieldUtils</function-class>
+        <function-class>org.kuali.rice.kns.util.FieldUtils</function-class>
         <function-signature>java.lang.String scrubWhitespace(java.lang.String)</function-signature>
         <example>&lt;c:out value="${kfunc:scrubWhitespace(stringWithTonsAndTonsOfWhitespaceInItLikeAllTheStringsBuiltInJSP)}"></example>
     </function>
@@ -33,23 +33,73 @@
     <function>
         <description>Returns the TabState for the given tab key in the action form.</description>
         <name>getTabState</name>
-        <function-class>org.kuali.core.util.WebUtils</function-class>
-        <function-signature>org.kuali.core.util.TabState getTabState(org.kuali.core.web.struts.form.KualiForm, java.lang.String)</function-signature>
+        <function-class>org.kuali.rice.kns.util.WebUtils</function-class>
+        <function-signature>org.kuali.rice.kns.util.TabState getTabState(org.kuali.rice.kns.web.struts.form.KualiForm, java.lang.String)</function-signature>
         <example>&lt;c:set var="tabState" value="${kfunc:getTabState(KualiForm, tabTitle)}"></example>
     </function>
     
     <function>
         <description>Generates a key from a string that can be used for the tab state key.</description>
         <name>generateTabKey</name>
-        <function-class>org.kuali.core.util.WebUtils</function-class>
+        <function-class>org.kuali.rice.kns.util.WebUtils</function-class>
         <function-signature>java.lang.String generateTabKey(java.lang.String)</function-signature>
         <example>&lt;c:set var="tabKey" value="${kfunc:generateTabKey(tabTitle)}"></example>
     </function>
     <function>
         <description>Increment tabindex and add a new TabState to the HashMap.</description>
         <name>incrementTabIndex</name>
-        <function-class>org.kuali.core.util.WebUtils</function-class>
-        <function-signature>void incrementTabIndex(org.kuali.core.web.struts.form.KualiForm, java.lang.String)</function-signature>
+        <function-class>org.kuali.rice.kns.util.WebUtils</function-class>
+        <function-signature>void incrementTabIndex(org.kuali.rice.kns.web.struts.form.KualiForm, java.lang.String)</function-signature>
         <example>${kfunc:incrementTabIndex(kualiForm)}</example>
     </function>
+    <function>
+    	<description>Registers that a property was editable on the page.</description>
+    	<name>registerEditableProperty</name>
+	    <function-class>org.kuali.rice.kns.util.WebUtils</function-class>
+	    <function-signature>void registerEditableProperty(org.kuali.rice.kns.web.struts.pojo.PojoFormBase, java.lang.String)</function-signature>
+	    <example>${kfunc:registerEditableProperty(KualiForm, editablePropertyName)}</example>
+	</function>
+	
+	<function>
+    	<description>Check Fully Unmask Permission.</description>
+    	<name>canFullyUnmaskField</name>
+	    <function-class>org.kuali.rice.kns.util.WebUtils</function-class>
+	    <function-signature>boolean canFullyUnmaskField(java.lang.String, java.lang.String)</function-signature>
+	    <example>${kfunc:canFullyUnmaskField(businessObjectClassName, fieldName)}</example>
+	</function>
+	<function>
+    	<description>Check Partially Unmask Permission.</description>
+    	<name>canPartiallyUnmaskField</name>
+	    <function-class>org.kuali.rice.kns.util.WebUtils</function-class>
+	    <function-signature>boolean canPartiallyUnmaskField(java.lang.String, java.lang.String)</function-signature>
+	    <example>${kfunc:canPartiallyUnmaskField(businessObjectClassName, fieldName)}</example>
+	</function>
+	<function>
+    	<description>Get Display Mask Value</description>
+    	<name>getDisplayMaskValue</name>
+	    <function-class>org.kuali.rice.kns.util.WebUtils</function-class>
+	    <function-signature>java.lang.String getDisplayMaskValue(java.lang.String, java.lang.String,, java.lang.Object, java.lang.String)</function-signature>
+	    <example>${kfunc:getDisplayMaskValue(className, fieldName, kualiForm, propertyName)}</example>
+	</function>
+	<function>
+    	<description>Check Add Note Permission</description>
+    	<name>canAddNoteAttachment</name>
+	    <function-class>org.kuali.rice.kns.util.WebUtils</function-class>
+	    <function-signature>boolean canAddNoteAttachment(org.kuali.rice.kns.document.Document)</function-signature>
+	    <example>${kfunc:canAddNoteAttachement(document)}</example>
+	</function>
+	<function>
+    	<description>Check View Note Permission</description>
+    	<name>canViewNoteAttachment</name>
+	    <function-class>org.kuali.rice.kns.util.WebUtils</function-class>
+	    <function-signature>boolean canViewNoteAttachment(org.kuali.rice.kns.document.Document, java.lang.String)</function-signature>
+	    <example>${kfunc:canAddNoteAttachement(document, attachmentTypeCode)}</example>
+	</function>
+	<function>
+    	<description>Check Delete Note Permission</description>
+    	<name>canDeleteNoteAttachment</name>
+	    <function-class>org.kuali.rice.kns.util.WebUtils</function-class>
+	    <function-signature>boolean canDeleteNoteAttachment(org.kuali.rice.kns.document.Document, java.lang.String, java.lang.String)</function-signature>
+	    <example>${kfunc:canDeleteNoteAttachement(document, attachmentTypeCode, authorUniversalIdentifier)}</example>
+	</function>
 </taglib>

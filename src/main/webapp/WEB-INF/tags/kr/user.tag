@@ -40,56 +40,48 @@
 
 <%-- set the border color when has errors --%>
 <c:if test="${hasErrors}">
-	<c:set var="textStyle" value="border-color: red" />
+  <c:set var="textStyle" value="border-color: red" />
 </c:if>
 <%-- if the universal user ID field is a key field on this document, lock-down the user ID field --%>
 <c:choose>
-	<c:when test="${readOnly}">
-		<input type="hidden" id='<c:out value="${userIdFieldName}"/>' name='<c:out value="${userIdFieldName}"/>' value='<c:out value="${userId}"/>' />
-		<c:out value="${userId}" />&nbsp;
-	</c:when>
-	<c:when test="${ConfigProperties.rice.user == 'true'}">
-		<input type="text" id='<c:out value="${userIdFieldName}"/>' name='<c:out value="${userIdFieldName}"/>' value='<c:out value="${userId}"/>'
-			size='${DataDictionary.RiceUser.attributes.personUserIdentifier.control.size}' 
-			maxlength='${DataDictionary.RiceUser.attributes.personUserIdentifier.maxLength}' style="${textStyle}"
-			onBlur="loadUserInfo( '${userIdFieldName}', '${universalIdFieldName}', '${userNameFieldName}' );${onblur}" />
-			<kul:lookup boClassName="org.kuali.core.bo.user.RiceUser" 
-						fieldConversions="${fieldConversions}" 
-						lookupParameters="${lookupParameters}" 
-						fieldLabel="${label}" 
-						referencesToRefresh="${referencesToRefresh}"
-						anchor="${currentTabIndex}" />
-	</c:when>
-	<c:otherwise>
-		<input type="text" id='<c:out value="${userIdFieldName}"/>' name='<c:out value="${userIdFieldName}"/>' value='<c:out value="${userId}"/>'
-		size='${DataDictionary.UniversalUser.attributes.personUserIdentifier.control.size}' 
-		maxlength='${DataDictionary.UniversalUser.attributes.personUserIdentifier.maxLength}' style="${textStyle}"
-		onBlur="loadUserInfo( '${userIdFieldName}', '${universalIdFieldName}', '${userNameFieldName}' );${onblur}" />
-		<kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" 
-					fieldConversions="${fieldConversions}" 
-					lookupParameters="${lookupParameters}" 
-					fieldLabel="${label}" 
-					referencesToRefresh="${referencesToRefresh}"
-					anchor="${currentTabIndex}" />
-	</c:otherwise>
+  <c:when test="${readOnly}">
+    <input type="hidden" id='<c:out value="${userIdFieldName}"/>' name='<c:out value="${userIdFieldName}"/>' value='<c:out value="${userId}"/>' />
+	<kul:inquiry boClassName="org.kuali.rice.kim.bo.Person" keyValues="principalId=${universalId}" render="true"><c:out value="${userId}" /></kul:inquiry>&nbsp;
+  </c:when>
+  <c:otherwise>
+    ${kfunc:registerEditableProperty(KualiForm, userIdFieldName)}
+    ${kfunc:registerEditableProperty(KualiForm, universalIdFieldName)}
+    ${kfunc:registerEditableProperty(KualiForm, userNameFieldName)}
+    <input type="text" id='<c:out value="${userIdFieldName}"/>' name='<c:out value="${userIdFieldName}"/>' value='<c:out value="${userId}"/>'
+    title='${DataDictionary.PersonImpl.attributes.principalName.label}'
+    size='${DataDictionary.PersonImpl.attributes.principalName.control.size}' 
+    maxlength='${DataDictionary.PersonImpl.attributes.principalName.maxLength}' style="${textStyle}"
+    onBlur="loadUserInfo( '${userIdFieldName}', '${universalIdFieldName}', '${userNameFieldName}' );${onblur}" />
+    <kul:lookup boClassName="org.kuali.rice.kim.bo.Person" 
+          fieldConversions="${fieldConversions}" 
+          lookupParameters="${lookupParameters}" 
+          fieldLabel="${label}" 
+          referencesToRefresh="${referencesToRefresh}"
+          anchor="${currentTabIndex}" />
+  </c:otherwise>
 </c:choose>
 <c:choose>
-	<c:when test="${readOnly}">
-		<div>${userName}</div>
-	</c:when>
-	<c:otherwise>
-		${helpLink}
-		<div id="${userNameFieldName}.div">${userName}&nbsp;</div>
-	</c:otherwise>
+  <c:when test="${readOnly}">
+    <div>${userName}</div>
+  </c:when>
+  <c:otherwise>
+    ${helpLink}
+    <div id="${userNameFieldName}.div">${userName}&nbsp;</div>
+  </c:otherwise>
 </c:choose>
-	
+  
 <c:if test="${renderOtherFields}">
-	<c:if test="${!empty universalIdFieldName}">
-		<input type="hidden" name="${universalIdFieldName}" id="${universalIdFieldName}" value="${universalId}" />
-	</c:if>
-	<c:if test="${!empty userNameFieldName}">
-		<input type="hidden" name="${userNameFieldName}" id="${userNameFieldName}" value="${userName}" />
-	</c:if>
+  <c:if test="${!empty universalIdFieldName}">
+    <input type="hidden" name="${universalIdFieldName}" id="${universalIdFieldName}" value="${universalId}" />
+  </c:if>
+  <c:if test="${!empty userNameFieldName}">
+    <input type="hidden" name="${userNameFieldName}" id="${userNameFieldName}" value="${userName}" />
+  </c:if>
 </c:if>
 
 <c:if test="${highlight}">

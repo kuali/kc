@@ -17,7 +17,7 @@
 
 <%@ attribute name="isReadOnly" required="true"
               description="Is the view for this field readOnly?" %>
-<%@ attribute name="field" required="true" type="org.kuali.core.web.ui.Field"
+<%@ attribute name="field" required="true" type="org.kuali.rice.kns.web.ui.Field"
               description="The field for which to show the lookup icon." %>
 
 <c:if test="${isReadOnly ne true && field.fieldType ne field.KUALIUSER && field.fieldType ne field.HIDDEN}">

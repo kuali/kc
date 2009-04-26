@@ -76,7 +76,7 @@
 
 	<filter>
         <filter-name>HideWebInfFilter</filter-name>
-        <filter-class>org.kuali.core.web.filter.HideWebInfFilter</filter-class>
+        <filter-class>org.kuali.rice.kns.web.filter.HideWebInfFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>HideWebInfFilter</filter-name>
@@ -89,7 +89,7 @@
   <filter>
     <filter-name>BootstrapFilter</filter-name>
 
-    <filter-class>edu.iu.uis.eden.core.BootstrapFilter</filter-class>
+    <filter-class>org.kuali.rice.kew.web.BootstrapFilter</filter-class>
   </filter>
 
   <filter-mapping>
@@ -108,7 +108,7 @@
 
   <filter>
     <filter-name>SessionFilter</filter-name>
-    <filter-class>org.kuali.core.web.filter.SessionFilter</filter-class>
+    <filter-class>org.kuali.rice.kns.web.filter.SessionFilter</filter-class>
   </filter>
 
   <filter-mapping>
@@ -118,7 +118,7 @@
 
   <filter>
     <filter-name>UserLoginFilter</filter-name>
-    <filter-class>edu.iu.uis.eden.web.UserLoginFilter</filter-class>
+    <filter-class>org.kuali.rice.kew.web.UserLoginFilter</filter-class>
   </filter>
 
   <filter-mapping>
@@ -194,7 +194,7 @@
   </listener>
 
   <listener>
-    <listener-class>org.kuali.core.web.listener.JstlConstantsInitListener</listener-class>
+    <listener-class>org.kuali.rice.kns.web.listener.JstlConstantsInitListener</listener-class>
   </listener>
 
   <listener>
@@ -270,6 +270,14 @@
           <param-value>/ksb/WEB-INF/struts-config.xml</param-value>
         </init-param>
 		<init-param>
+          <param-name>config/kew</param-name>
+          <param-value>/kew/WEB-INF/struts-config.xml</param-value>
+        </init-param>
+		<init-param>
+          <param-name>config/kim</param-name>
+          <param-value>/kim/WEB-INF/struts-config.xml</param-value>
+        </init-param>
+		<init-param>
 			<param-name>debug</param-name>
 			<param-value>3</param-value>
 		</init-param>
@@ -281,7 +289,7 @@
 	</servlet>
 	
 	<!-- Notification system servlets -->
-    <!-- Notification System Spring MVC UI -->
+    <!-- Notification System Spring MVC UI 
     <servlet>
         <servlet-name>notification</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -298,6 +306,7 @@
         </init-param>
         <load-on-startup>2</load-on-startup>
     </servlet>
+    -->
 
 	<servlet>
   		<servlet-name>dwr-invoker</servlet-name>
@@ -312,7 +321,7 @@
   		</init-param>
 	</servlet>
 	
-	<!-- KCB servlets -->
+	<!-- KCB servlets 
     <servlet>
         <servlet-name>kcb</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -329,31 +338,32 @@
         </init-param>
         <load-on-startup>2</load-on-startup>
 	</servlet>
+	-->
 
 	<servlet>
 		<servlet-name>remoting</servlet-name>
-		<servlet-class>edu.iu.uis.eden.messaging.servlet.KSBDispatcherServlet</servlet-class>
+		<servlet-class>org.kuali.rice.ksb.messaging.servlet.KSBDispatcherServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
 	<servlet>
 		<servlet-name>export</servlet-name>
-		<servlet-class>edu.iu.uis.eden.export.web.ExportServlet</servlet-class>
+		<servlet-class>org.kuali.rice.kew.export.web.ExportServlet</servlet-class>
 	</servlet>
 	
 	<servlet>
 		<servlet-name>exportsecurity</servlet-name>
-		<servlet-class>edu.iu.uis.eden.security.admin.ExportServlet</servlet-class>
+		<servlet-class>org.kuali.rice.ksb.security.admin.ExportServlet</servlet-class>
 	</servlet>
 
 	<servlet>
 		<servlet-name>attachment</servlet-name>
-		<servlet-class>edu.iu.uis.eden.notes.AttachmentServlet</servlet-class>
+		<servlet-class>org.kuali.rice.kew.notes.web.AttachmentServlet</servlet-class>
 	</servlet>
 
 	<servlet>
 		<servlet-name>edoclite</servlet-name>
-		<servlet-class>edu.iu.uis.eden.edl.EDLServlet</servlet-class>
+		<servlet-class>org.kuali.rice.kew.edl.EDLServlet</servlet-class>
 	</servlet>
 
 <!-- Servlet entry for coeus s2s engine scheduler to start -->
@@ -374,15 +384,19 @@
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
 	
+	<!-- 
 	<servlet-mapping>
         <servlet-name>notification</servlet-name>
         <url-pattern>*.form</url-pattern>
     </servlet-mapping>
+    -->
 
+	<!-- 
 	<servlet-mapping>
         <servlet-name>kcb</servlet-name>
         <url-pattern>*.kcb</url-pattern>
     </servlet-mapping>
+     -->
 
 	<servlet-mapping>
   		<servlet-name>dwr-invoker</servlet-name>
@@ -437,7 +451,7 @@
     </session-config>
 
 	<listener>
-		<listener-class>org.kuali.core.web.listener.KualiHttpSessionListener</listener-class>
+		<listener-class>org.kuali.rice.kns.web.listener.KualiHttpSessionListener</listener-class>
 	</listener>
 	
 	<!-- ******************* END CAS Servlet Mappings ********************* -->

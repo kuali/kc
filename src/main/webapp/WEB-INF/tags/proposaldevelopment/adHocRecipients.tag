@@ -17,7 +17,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 
-    <c:if test="${KualiForm.documentActionFlags.canAdHocRoute and not KualiForm.suppressAllButtons}">
+    <c:if test="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_AD_HOC_ROUTE] and not KualiForm.suppressAllButtons}">
         <kul:tab tabTitle="Ad Hoc Recipients" defaultOpen="false" tabErrorKey="${Constants.AD_HOC_ROUTE_ERRORS}">
         
         <div class="tab-container" align=center>     
@@ -135,7 +135,7 @@
                     </td>
                     <td class="infoline" ><div align=center>
                         <kul:htmlControlAttribute property="newAdHocRouteWorkgroup.id" attributeEntry="${DataDictionary.AdHocRouteWorkgroup.attributes.id}" readOnly="${displayReadOnly}" />
-                        <kul:workflowWorkgroupLookup fieldConversions="workgroupId:newAdHocRouteWorkgroup.id" /></div>
+                        <kul:workflowWorkgroupLookup fieldConversions="groupId:newAdHocRouteWorkgroup.id" /></div>
                     </td>
                     <td class="infoline" ><div align=center>
                         <html:image property="methodToCall.insertAdHocRouteWorkgroup" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Insert Additional Ad Hoc Workgroup" alt="Insert Additional Ad Hoc Workgroup" styleClass="tinybutton"/></div>
@@ -153,7 +153,7 @@
                         </td>
                         <td class="datacell center" ><div align=center>
                             <kul:htmlControlAttribute property="adHocRouteWorkgroup[${ctr}].id" attributeEntry="${DataDictionary.AdHocRouteWorkgroup.attributes.id}" readOnly="${displayReadOnly}" />
-                            <kul:workflowWorkgroupLookup fieldConversions="workgroupId:adHocRouteWorkgroup[${ctr}].id" /></div>
+                            <kul:workflowWorkgroupLookup fieldConversions="groupId:adHocRouteWorkgroup[${ctr}].id" /></div>
                         </td>
                         <td class="datacell center" ><div align=center>
                             <html:image property="methodToCall.deleteAdHocRouteWorkgroup.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Delete Additional Ad Hoc Workgroup" alt="Delete Additional Ad Hoc Workgroup" styleClass="tinybutton"/></div>

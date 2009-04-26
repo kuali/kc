@@ -21,7 +21,7 @@
 
 <table width="100%" border=0 cellpadding=0 cellspacing=0 class="headercell1">
   <tr>
-    <td width="15%"><img src="images/wf-logo.gif" alt="OneStart Workflow" width=150 height=21 hspace=5 vspace=5></td>
+    <td width="15%"><img src="images/wf-logo.gif" alt="Workflow" width=150 height=21 hspace=5 vspace=5></td>
     <td width="85%"><a href="JavaSecurityManagement.do?methodToCall=start" />Refresh Page</a></td>
     <td>&nbsp;&nbsp;</td>
   </tr>
@@ -99,7 +99,7 @@
     <td width="20" height="20">&nbsp;</td>
     <td>
 		  <display-el:table excludedParams="*" pagesize="20" class="bord-r-t" style="width:100%" cellspacing="0" cellpadding="0" name="${keyStoreEntryList}" export="true" id="result" requestURI="JavaSecurityManagement.do?methodToCall=sort" defaultsort="1" defaultorder="ascending"
-				decorator="edu.iu.uis.eden.messaging.web.KSBTableDecorator">
+				decorator="org.kuali.rice.ksb.messaging.web.KSBTableDecorator">
 		    <display-el:setProperty name="paging.banner.placement" value="both" />
 		    <display-el:setProperty name="export.banner" value="" />
 		    <display-el:column style="text-align:center;vertical-align:middle;" class="datacell" sortable="true" title="<div style='text-align:center;vertical-align:top;'>Alias</div>">

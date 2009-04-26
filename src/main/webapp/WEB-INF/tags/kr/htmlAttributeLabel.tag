@@ -37,9 +37,9 @@
 <%-- There are no spaces between the tags in the middle of this file,
     to make effective the non-breaking space after the REQUIRED_FIELD_SYMBOL,
     and to eliminate any space before the colon. --%>
-<c:if test="${(attributeEntry.required == true || forceRequired) && readOnly != true}">
+<c:if test="${not empty labelFor}"><label for="${labelFor}"></c:if
+><c:if test="${(attributeEntry.required == true || forceRequired) && readOnly != true}">
   <font color="">${Constants.REQUIRED_FIELD_SYMBOL}&nbsp;</font></c:if
-><c:if test="${not empty labelFor}"><label for="${labelFor}"></c:if
 ><c:if test="${includeHelpUrl || (!skipHelpUrl && KualiForm.fieldLevelHelpEnabled)}"><a
         href="${ConfigProperties.kr.url}/help.do?methodToCall=getAttributeHelpText&amp;businessObjectClassName=${attributeEntry.fullClassName}&amp;attributeName=${attributeEntry.name}"
         tabindex="${KualiForm.nextArbitrarilyHighIndex}" target="helpWindow" title="[Help] ${attributeEntry.label}"></c:if

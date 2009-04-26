@@ -16,18 +16,28 @@
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
 <%@ attribute name="editingMode" required="true" description="used to decide editability of overview fields" type="java.util.Map"%>
+<c:set var="isMaintenance" value="${KualiForm.class.name eq 'org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm' || maintenanceViewMode eq Constants.PARAM_MAINTENANCE_VIEW_MODE_MAINTENANCE}" />
+<c:set var="readOnly" value="${ ! KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
-<c:set var="readOnly" value="${empty editingMode['fullEntry']}" />
 <c:set var="docHeaderAttributes" value="${DataDictionary.DocumentHeader.attributes}" />
+<c:set var="documentTypeName" value="${KualiForm.docTypeName}" />
+<c:set var="documentEntry" value="${DataDictionary[documentTypeName]}" />
+<c:set var="sessionDocument" value="${documentEntry.sessionDocument}" />
 
 <dd:evalNameToMap mapName="DataDictionary.${KualiForm.docTypeName}.attributes" returnVar="documentAttributes"/>
-<kul:tabTop tabTitle="Document Overview" defaultOpen="false" tabErrorKey="${Constants.DOCUMENT_ERRORS}" >
+<kul:tabTop tabTitle="Document Overview" defaultOpen="true" tabErrorKey="${Constants.DOCUMENT_ERRORS}" >
 	<div class="tab-container" align=center>
 		  <!-- DOC OVERVIEW TABLE -->
-		  <html:hidden property="document.documentHeader.versionNumber" />
-		  <html:hidden property="document.documentHeader.objectId" />
 		  <html:hidden property="document.documentHeader.documentNumber" />
-		    <h3>Document Overview</h3>
+		  <c:choose>
+		  	<c:when test="${KualiForm.document.sessionDocument || sessionDocument}">
+		  	</c:when>
+		  	<c:otherwise>
+		  		<html:hidden property="document.documentHeader.versionNumber" />
+		  		<html:hidden property="document.documentHeader.objectId" />
+		  	</c:otherwise>
+		 </c:choose>
+		  <h3>Document Overview</h3>
 		  <table cellpadding="0" cellspacing="0" class="datatable" title="view/edit document overview information" summary="view/edit document overview information">
 		    <tr>
 		      <kul:htmlAttributeHeaderCell
