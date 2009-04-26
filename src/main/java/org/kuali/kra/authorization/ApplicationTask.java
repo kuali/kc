@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.authorization;
 
-import org.kuali.kra.authorization.Task;
 import org.kuali.kra.infrastructure.TaskGroupName;
 
 /**

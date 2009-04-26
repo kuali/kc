@@ -15,7 +15,7 @@
  */
 package edu.yale.its.tp.cas.ticket;
 
-import java.util.*;
+import java.util.List;
 
 /**
  * Represents a CAS proxy ticket (PT).
