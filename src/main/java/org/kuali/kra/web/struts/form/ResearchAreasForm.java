@@ -21,9 +21,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.ResearchAreasService;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public class ResearchAreasForm   extends KualiForm {
 

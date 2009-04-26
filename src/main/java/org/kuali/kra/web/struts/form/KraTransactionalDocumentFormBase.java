@@ -16,7 +16,6 @@
 package org.kuali.kra.web.struts.form;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,20 +25,16 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.authorization.AuthorizationConstants;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.authorization.DocumentActionFlags;
-import org.kuali.core.document.authorization.DocumentAuthorizer;
-import org.kuali.core.document.authorization.DocumentAuthorizerBase;
-import org.kuali.core.document.authorization.PessimisticLock;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.SoftError;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase;
+import org.kuali.rice.kns.document.authorization.PessimisticLock;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
   
 /**
  * This class isbase class for KC Transactional Documents ...
@@ -107,26 +102,33 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
      * 
      * @param documentAuthorizer
      */
-    @Override
-    protected void useDocumentAuthorizer(DocumentAuthorizer documentAuthorizer) {
-        UniversalUser kualiUser = GlobalVariables.getUserSession().getUniversalUser();
-        setNavigateTo(getNavigateToPage());
-        
-        Map editMode = documentAuthorizer.getEditMode(getDocument(), kualiUser);
+    //@Override
+//    protected void useDocumentAuthorizer(DocumentAuthorizer documentAuthorizer) {
+//        UniversalUser kualiUser = (UniversalUser) GlobalVariables.getUserSession().getPerson();
+//        setNavigateTo(getNavigateToPage());
+//        
+//        Map editMode = documentAuthorizer.getEditMode(getDocument(), kualiUser);
+//        String lockRegion = getLockRegion();
+//        GlobalVariables.getUserSession().addObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION, (Object)lockRegion);  
+//        
+//        if (KNSServiceLocator.getDataDictionaryService().getDataDictionary().getDocumentEntry(getDocument().getClass().getName())
+//                .getUsePessimisticLocking()) {
+//            editMode = documentAuthorizer.establishLocks(getDocument(), editMode, kualiUser);
+//        } 
+//
+//        setEditingMode(editMode);
+//        DocumentActionFlags temp = documentAuthorizer.getDocumentActionFlags(getDocument(), kualiUser);
+//        
+//        setSaveDocumentControl(temp, editMode);
+//        setDocumentActionFlags(temp);
+//        
+//        boolean activeLockRegionChangedInd = hasActiveLockRegionChanged(getDocument(), lockRegion);
+//        GlobalVariables.getUserSession().addObject(KraAuthorizationConstants.LOCK_REGION_CHANGE_IND, activeLockRegionChangedInd);
+//    }
+    
+    public void setupLockRegions() {
         String lockRegion = getLockRegion();
         GlobalVariables.getUserSession().addObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION, (Object)lockRegion);  
-        
-        if (KNSServiceLocator.getDataDictionaryService().getDataDictionary().getDocumentEntry(getDocument().getClass().getName())
-                .getUsePessimisticLocking()) {
-            editMode = documentAuthorizer.establishLocks(getDocument(), editMode, kualiUser);
-        } 
-
-        setEditingMode(editMode);
-        DocumentActionFlags temp = documentAuthorizer.getDocumentActionFlags(getDocument(), kualiUser);
-        
-        setSaveDocumentControl(temp, editMode);
-        setDocumentActionFlags(temp);
-        
         boolean activeLockRegionChangedInd = hasActiveLockRegionChanged(getDocument(), lockRegion);
         GlobalVariables.getUserSession().addObject(KraAuthorizationConstants.LOCK_REGION_CHANGE_IND, activeLockRegionChangedInd);
     }
@@ -219,8 +221,19 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
         return null;
     }
     
+    /**
+     * Get the Header Dispatch.  This determines the action that will occur
+     * when the user switches tabs for a document.  If the user can modify
+     * the document, the document is automatically saved.  If not (view-only),
+     * then a reload will be executed instead.
+     * @return the Header Dispatch action
+     */
+    public String getHeaderDispatch() {
+        return this.getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_SAVE) ? "save" : "reload";
+    }
+    
     protected abstract String getLockRegion();
     
-    protected abstract void setSaveDocumentControl(DocumentActionFlags tempDocumentActionFlags, Map editMode);
+    protected abstract void setSaveDocumentControl(Map editMode);
     
 }

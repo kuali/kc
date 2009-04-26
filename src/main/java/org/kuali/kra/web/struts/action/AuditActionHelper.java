@@ -17,13 +17,13 @@ package org.kuali.kra.web.struts.action;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.event.DocumentAuditEvent;
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.web.struts.form.Auditable;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.event.DocumentAuditEvent;
+import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
  * Helper class for Audit Actions.

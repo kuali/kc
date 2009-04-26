@@ -20,9 +20,6 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RiceKeyConstants;
-import org.kuali.core.datadictionary.validation.ValidationPattern;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDataType;
 import org.kuali.kra.bo.CustomAttributeDocument;
@@ -32,15 +29,18 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rule.CustomAttributeRule;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.kra.service.CustomAttributeService;
+import org.kuali.rice.kns.datadictionary.validation.ValidationPattern;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.RiceKeyConstants;
 
 public class KraCustomAttributeRule extends ResearchDocumentRuleBase implements CustomAttributeRule {
 
 
     private static Map<String, String> validationClasses = new HashMap<String, String>();
     static {
-        validationClasses.put("String", "org.kuali.core.datadictionary.validation.charlevel.AnyCharacterValidationPattern");
-        validationClasses.put("Date", "org.kuali.core.datadictionary.validation.fieldlevel.DateValidationPattern");
-        validationClasses.put("Number", "org.kuali.core.datadictionary.validation.charlevel.NumericValidationPattern");
+        validationClasses.put("String", "org.kuali.rice.kns.datadictionary.validation.charlevel.AnyCharacterValidationPattern");
+        validationClasses.put("Date", "org.kuali.rice.kns.datadictionary.validation.fieldlevel.DateValidationPattern");
+        validationClasses.put("Number", "org.kuali.rice.kns.datadictionary.validation.charlevel.NumericValidationPattern");
     }
 
     /**
@@ -94,7 +94,7 @@ public class KraCustomAttributeRule extends ResearchDocumentRuleBase implements 
                 validationPattern = (ValidationPattern) Class.forName(
                         validationClasses.get(customAttributeDataType.getDescription())).newInstance();
                 if (customAttributeDataType.getDescription().equalsIgnoreCase("String")) {
-                    ((org.kuali.core.datadictionary.validation.charlevel.AnyCharacterValidationPattern) validationPattern)
+                    ((org.kuali.rice.kns.datadictionary.validation.charlevel.AnyCharacterValidationPattern) validationPattern)
                             .setAllowWhitespace(true);
                 }
             }

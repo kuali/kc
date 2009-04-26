@@ -15,32 +15,14 @@
  */
 package org.kuali.kra.rice;
 
-import static org.kuali.core.lookup.LookupUtils.applySearchResultsLimit;
-import static org.kuali.core.lookup.LookupUtils.getSearchResultsLimit;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.bo.user.UserId;
-import org.kuali.core.dao.UniversalUserDao;
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.kra.bo.Person;
+import org.kuali.kra.rice.shim.UniversalUser;
+import org.kuali.kra.rice.shim.UniversalUserDao;
+import org.kuali.kra.rice.shim.UserNotFoundException;
 import org.kuali.kra.service.PersonService;
-
-import edu.iu.uis.eden.exception.EdenUserNotFoundException;
-import edu.iu.uis.eden.user.AuthenticationUserId;
-import edu.iu.uis.eden.user.BaseWorkflowUser;
-import edu.iu.uis.eden.user.EmplId;
-import edu.iu.uis.eden.user.UuId;
-import edu.iu.uis.eden.user.WorkflowUser;
-import edu.iu.uis.eden.user.WorkflowUserId;
+import org.kuali.rice.kew.user.UserId;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 /**
  * The Universal User DAO is used by the Universal User Service to obtain the users
@@ -85,7 +67,7 @@ public class KraUniversalUserDaoImpl extends PlatformAwareDaoBaseOjb implements 
     public UniversalUser getUser(UserId userId) throws UserNotFoundException {
         
         UniversalUser user = null;
-        String username = userId.toString();
+        String username = userId.getId();
         
         Person person = personService.getPersonByName(username);
         if (person == null) {
@@ -107,87 +89,87 @@ public class KraUniversalUserDaoImpl extends PlatformAwareDaoBaseOjb implements 
      * Get a Workflow User.
      * @see org.kuali.core.dao.UniversalUserDao#getWorkflowUser(edu.iu.uis.eden.user.UserId)
      */
-    public WorkflowUser getWorkflowUser(edu.iu.uis.eden.user.UserId userId) throws EdenUserNotFoundException {
-        
-        WorkflowUser workflowUser = null;
-        String username = userId.getId();
-       
-        Person person = personService.getPersonByName(username);
-        if (person == null) {
-            throw new EdenUserNotFoundException();
-        }
-        workflowUser = createWorkflowUser(person);
-        return workflowUser;
-    }
+//    public WorkflowUser getWorkflowUser(edu.iu.uis.eden.user.UserId userId) throws EdenUserNotFoundException {
+//        
+//        WorkflowUser workflowUser = null;
+//        String username = userId.getId();
+//       
+//        Person person = personService.getPersonByName(username);
+//        if (person == null) {
+//            throw new EdenUserNotFoundException();
+//        }
+//        workflowUser = createWorkflowUser(person);
+//        return workflowUser;
+//    }
 
     /**
      * @see org.kuali.core.dao.UniversalUserDao#save(edu.iu.uis.eden.user.WorkflowUser)
      */
-    public void save(WorkflowUser workflowUser) {
-        throw new UnsupportedOperationException("KraUniversalUserDaoImpl doesn't support saving users");
-    }
+//    public void save(WorkflowUser workflowUser) {
+//        throw new UnsupportedOperationException("KraUniversalUserDaoImpl doesn't support saving users");
+//    }
 
     /**
      * @see org.kuali.core.dao.UniversalUserDao#search(edu.iu.uis.eden.user.WorkflowUser, boolean)
      */
-    public List search(WorkflowUser user, boolean useWildCards) {
-        Criteria criteria = new Criteria();
-        if (user != null) {
-            if ((user.getAuthenticationUserId() != null) && StringUtils.isNotBlank(user.getAuthenticationUserId().getAuthenticationId())) {
-                criteria.addLike("userName", user.getAuthenticationUserId().getAuthenticationId().trim() + "%");
-            }
-            if ((user.getEmplId() != null) && StringUtils.isNotBlank(user.getEmplId().getEmplId())) {
-                criteria.addLike("userName", user.getEmplId().getEmplId().trim() + "%");
-            }
-            if ((user.getUuId() != null) && StringUtils.isNotBlank(user.getUuId().getUuId())) {
-                criteria.addLike("userName", user.getUuId().getUuId().trim() + "%");
-            }
-            if ((user.getWorkflowUserId() != null) && StringUtils.isNotBlank(user.getWorkflowUserId().getWorkflowId())) {
-                criteria.addLike("userName", user.getWorkflowUserId().getWorkflowId().trim() + "%");
-            }
-            if (StringUtils.isNotBlank(user.getGivenName())) {
-                criteria.addLike("firstName", user.getGivenName().trim() + "%");
-            }
-            if (StringUtils.isNotBlank(user.getLastName())) {
-                criteria.addLike("lastName", user.getLastName().trim() + "%");
-            }
-            if (StringUtils.isNotBlank(user.getDisplayName())) {
-                criteria.addLike("fullName", user.getDisplayName().trim().toUpperCase().trim() + "%");
-            }
-            if (StringUtils.isNotBlank(user.getEmailAddress())) {
-                criteria.addLike("emailAddress", user.getEmailAddress().trim() + "%");
-            }
-        }
-        
-        Integer searchResultsLimit = getSearchResultsLimit(Person.class);
-        if (searchResultsLimit != null) {
-            applySearchResultsLimit(Person.class, criteria, getDbPlatform());
-        }
-        
-        List<WorkflowUser> workflowUsers = new ArrayList<WorkflowUser>();
-        Collection<Person> persons = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Person.class, criteria));
-        for (Person person : persons) {
-            workflowUsers.add(createWorkflowUser(person));
-        }
-        return workflowUsers;
-    }
+//    public List search(WorkflowUser user, boolean useWildCards) {
+//        Criteria criteria = new Criteria();
+//        if (user != null) {
+//            if ((user.getAuthenticationUserId() != null) && StringUtils.isNotBlank(user.getAuthenticationUserId().getAuthenticationId())) {
+//                criteria.addLike("userName", user.getAuthenticationUserId().getAuthenticationId().trim() + "%");
+//            }
+//            if ((user.getEmplId() != null) && StringUtils.isNotBlank(user.getEmplId().getEmplId())) {
+//                criteria.addLike("userName", user.getEmplId().getEmplId().trim() + "%");
+//            }
+//            if ((user.getUuId() != null) && StringUtils.isNotBlank(user.getUuId().getUuId())) {
+//                criteria.addLike("userName", user.getUuId().getUuId().trim() + "%");
+//            }
+//            if ((user.getWorkflowUserId() != null) && StringUtils.isNotBlank(user.getWorkflowUserId().getWorkflowId())) {
+//                criteria.addLike("userName", user.getWorkflowUserId().getWorkflowId().trim() + "%");
+//            }
+//            if (StringUtils.isNotBlank(user.getGivenName())) {
+//                criteria.addLike("firstName", user.getGivenName().trim() + "%");
+//            }
+//            if (StringUtils.isNotBlank(user.getLastName())) {
+//                criteria.addLike("lastName", user.getLastName().trim() + "%");
+//            }
+//            if (StringUtils.isNotBlank(user.getDisplayName())) {
+//                criteria.addLike("fullName", user.getDisplayName().trim().toUpperCase().trim() + "%");
+//            }
+//            if (StringUtils.isNotBlank(user.getEmailAddress())) {
+//                criteria.addLike("emailAddress", user.getEmailAddress().trim() + "%");
+//            }
+//        }
+//        
+//        Integer searchResultsLimit = getSearchResultsLimit(Person.class);
+//        if (searchResultsLimit != null) {
+//            applySearchResultsLimit(Person.class, criteria, getDbPlatform());
+//        }
+//        
+//        List<WorkflowUser> workflowUsers = new ArrayList<WorkflowUser>();
+//        Collection<Person> persons = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Person.class, criteria));
+//        for (Person person : persons) {
+//            workflowUsers.add(createWorkflowUser(person));
+//        }
+//        return workflowUsers;
+//    }
     
     /**
      * Convert a person into a workflow user.
      * @param person [in] the person
      * @return the workflow user
      */
-    private WorkflowUser createWorkflowUser(Person person) {
-        WorkflowUser workflowUser = new BaseWorkflowUser();
-        workflowUser.setAuthenticationUserId(new AuthenticationUserId(person.getUserName()));
-        workflowUser.setWorkflowUserId(new WorkflowUserId(person.getUserName()));
-        workflowUser.setEmplId(new EmplId(person.getUserName()));
-        workflowUser.setUuId(new UuId(person.getUserName()));
-        workflowUser.setDisplayName(person.getFullName());
-        workflowUser.setGivenName(person.getFirstName());
-        workflowUser.setLastName(person.getLastName());
-        workflowUser.setEmailAddress(person.getEmailAddress());
-        return workflowUser;
-    }
+//    private WorkflowUser createWorkflowUser(Person person) {
+//        WorkflowUser workflowUser = new BaseWorkflowUser();
+//        workflowUser.setAuthenticationUserId(new AuthenticationUserId(person.getUserName()));
+//        workflowUser.setWorkflowUserId(new WorkflowUserId(person.getUserName()));
+//        workflowUser.setEmplId(new EmplId(person.getUserName()));
+//        workflowUser.setUuId(new UuId(person.getUserName()));
+//        workflowUser.setDisplayName(person.getFullName());
+//        workflowUser.setGivenName(person.getFirstName());
+//        workflowUser.setLastName(person.getLastName());
+//        workflowUser.setEmailAddress(person.getEmailAddress());
+//        return workflowUser;
+//    }
 }
 

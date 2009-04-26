@@ -17,8 +17,8 @@ package org.kuali.kra.workflow;
 
 import java.util.List;
 
-import org.kuali.core.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.kra.bo.RolePersons;
+import org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer;
 
 public class KraDocumentXMLMaterializer extends KualiDocumentXmlMaterializer{
     

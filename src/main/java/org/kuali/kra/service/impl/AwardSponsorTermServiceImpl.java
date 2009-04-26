@@ -18,11 +18,11 @@ package org.kuali.kra.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.kra.bo.SponsorTermType;
 import org.kuali.kra.service.AwardSponsorTermService;
+import org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 import org.springframework.transaction.annotation.Transactional;
 /**
  * This is the service class for Term tab in Award Payments Reports and Terms page.

@@ -24,17 +24,17 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.PersonService;
 import org.kuali.kra.web.struts.form.ChangePasswordForm;
 import org.kuali.rice.core.service.EncryptionService;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 /**
  * The Change Password Action handles the changing of a user's password.  As is standard
@@ -110,7 +110,7 @@ public class ChangePasswordAction extends KualiAction {
      * @return the person
      */
     private Person getPerson() {
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser user = (UniversalUser) GlobalVariables.getUserSession().getPerson();
         String username = user.getPersonUserIdentifier();
         PersonService personService = KraServiceLocator.getService(PersonService.class);
         return personService.getPersonByName(username);

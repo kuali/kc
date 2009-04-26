@@ -22,9 +22,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.kew.routing.web.ClientAppDocHandlerRedirectAction;
 import org.kuali.rice.kns.util.KNSConstants;
-
-import edu.iu.uis.eden.routing.web.ClientAppDocHandlerRedirectAction;
 
 /**
  * 
@@ -39,10 +38,12 @@ public class CustomDocHandlerRedirectAction extends ClientAppDocHandlerRedirectA
         ActionForward returnForward = super.start(mapping, form, request, response);
         
         String docHandler = returnForward.getPath();
-        docHandler = docHandler.replace(KNSConstants.DOC_HANDLER_METHOD, Constants.HEADER_TAB);
         if (("ProposalDevelopmentDocument").equals(request.getParameter("documentTypeName"))) {
-            docHandler += "&" + KNSConstants.METHOD_TO_CALL_PATH + "=methodToCall.headerTab.headerDispatch.reload.navigateTo.actions.x=Proposal Actions";
+            //docHandler = docHandler.replace(KNSConstants.DOC_HANDLER_METHOD, Constants.HEADER_TAB);
+            docHandler = docHandler.replace(KNSConstants.DOC_HANDLER_METHOD, "actions");
+            //docHandler += "&" + KNSConstants.METHOD_TO_CALL_PATH + "=methodToCall.headerTab.headerDispatch.reload.navigateTo.actions.x=Proposal Actions";
         } else if (("ProtocolDocument").equals(request.getParameter("documentTypeName"))) {
+            docHandler = docHandler.replace(KNSConstants.DOC_HANDLER_METHOD, Constants.HEADER_TAB);
             docHandler += "&" + KNSConstants.METHOD_TO_CALL_PATH + "=methodToCall.headerTab.headerDispatch.reload.navigateTo.protocolActions.x=Protocol Actions";
         }
           

@@ -18,8 +18,6 @@ package org.kuali.kra.web.struts.action;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -27,8 +25,9 @@ import org.kuali.kra.budget.service.BudgetService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * This class contains methods common to ProposalDevelopment and Budget actions.

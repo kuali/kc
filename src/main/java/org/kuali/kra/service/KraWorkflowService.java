@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.service;
 
-import org.kuali.core.document.Document;
+import org.kuali.rice.kns.document.Document;
 
 /**
  * The KRA Workflow Service is simply a set or re-usable functionality

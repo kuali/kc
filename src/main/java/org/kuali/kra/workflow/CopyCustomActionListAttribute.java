@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.workflow;
 
-import edu.iu.uis.eden.actionitem.ActionItem;
-import edu.iu.uis.eden.actionlist.DisplayParameters;
-import edu.iu.uis.eden.actions.ActionSet;
-import edu.iu.uis.eden.plugin.attributes.CustomActionListAttribute;
-import edu.iu.uis.eden.web.session.UserSession;
+import org.kuali.rice.kew.actionitem.ActionItem;
+import org.kuali.rice.kew.actionlist.CustomActionListAttribute;
+import org.kuali.rice.kew.actionlist.DisplayParameters;
+import org.kuali.rice.kew.actions.ActionSet;
+import org.kuali.rice.kew.web.session.UserSession;
 
 /**
  * This class is our custom action list for Notifications in KEW.  It's wired in as the implementation to use as part of the NotificationData.xml 

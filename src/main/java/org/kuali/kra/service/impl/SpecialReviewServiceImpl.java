@@ -21,9 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.KualiRuleService;
 import org.kuali.kra.bo.AbstractSpecialReview;
 import org.kuali.kra.bo.AbstractSpecialReviewExemption;
 import org.kuali.kra.document.ResearchDocumentBase;
@@ -32,6 +29,8 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.service.SpecialReviewService;
 import org.kuali.kra.web.struts.form.SpecialReviewFormBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KualiRuleService;
 
 /**
  * This class for handling special review actions.

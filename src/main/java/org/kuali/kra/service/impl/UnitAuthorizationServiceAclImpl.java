@@ -22,18 +22,17 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAclEntry;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.kim.bo.KimRole;
-import org.kuali.kra.kim.pojo.QualifiedRole;
 import org.kuali.kra.kim.service.PersonService;
 import org.kuali.kra.kim.service.RoleService;
 import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.kra.service.UnitService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * The Unit Authorization Service Implementation.

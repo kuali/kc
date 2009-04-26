@@ -24,13 +24,13 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.bo.Parameter;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.TypedArrayList;
-import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.bo.Parameter;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public class SponsorHierarchyForm extends KualiForm {
 

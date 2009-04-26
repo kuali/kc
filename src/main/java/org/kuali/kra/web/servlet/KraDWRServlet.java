@@ -20,11 +20,10 @@ import java.io.InputStream;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 
-import org.kuali.core.util.spring.NamedOrderedListBean;
-import org.kuali.core.web.servlet.KualiDWRServlet;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.util.ClassLoaderUtils;
+import org.kuali.rice.core.util.ClassLoaderUtils;
+import org.kuali.rice.kns.util.spring.NamedOrderedListBean;
+import org.kuali.rice.kns.web.servlet.KualiDWRServlet;
 import org.springframework.core.io.DefaultResourceLoader;
 
 import uk.ltd.getahead.dwr.Configuration;

@@ -22,9 +22,9 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.web.struts.action.KualiRequestProcessor;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.web.struts.action.KualiRequestProcessor;
 
 /**
  * This class handles setup of user session and restoring of action form.

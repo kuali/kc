@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.kim.bo.KimRole;
 import org.kuali.kra.kim.pojo.Permission;
@@ -28,6 +27,7 @@ import org.kuali.kra.kim.pojo.Role;
 import org.kuali.kra.kim.service.PersonService;
 import org.kuali.kra.kim.service.RoleService;
 import org.kuali.kra.service.SystemAuthorizationService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * The System Authorization Service Implementation.
