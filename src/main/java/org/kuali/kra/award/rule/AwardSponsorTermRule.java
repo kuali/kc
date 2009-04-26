@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.award.rule;
 
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.award.rule.event.AwardSponsorTermRuleEvent;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * This interface declares the rule method associated with <code>AwardSponsorTerm</code> 

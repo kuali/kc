@@ -24,14 +24,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.award.bo.AwardReportTerm;
 import org.kuali.kra.award.bo.AwardReportTermRecipient;
 import org.kuali.kra.award.bo.ReportClass;
@@ -41,16 +33,23 @@ import org.kuali.kra.common.customattributes.CustomDataAction;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.AwardDirectFandADistributionService;
 import org.kuali.kra.service.AwardReportsService;
 import org.kuali.kra.service.AwardSponsorTermService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
-
-import edu.iu.uis.eden.clientapp.IDocHandler;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * 
@@ -114,7 +113,7 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument doc = awardForm.getAwardDocument();
         
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser user = new UniversalUser(GlobalVariables.getUserSession().getPerson());
         String username = user.getPersonUserIdentifier();
         KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
         kraAuthService.addRole(username, RoleConstants.AWARD_AGGREGATOR, doc.getAward());
@@ -372,7 +371,7 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
                                   HttpServletResponse response, AwardForm awardForm) throws Exception {
         String command = awardForm.getCommand();
         ActionForward forward;        
-        if (IDocHandler.ACTIONLIST_INLINE_COMMAND.equals(command)) {
+        if (KEWConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
             String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
             Document retrievedDocument = getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
             awardForm.setDocument(retrievedDocument);
@@ -390,7 +389,8 @@ public class AwardAction extends KraTransactionalDocumentActionBase {
      * 
      * @return
      */
-    DocumentService getDocumentService() {
+    @Override
+    protected DocumentService getDocumentService() {
         return KNSServiceLocator.getDocumentService();
     }
     

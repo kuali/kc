@@ -18,11 +18,11 @@ package org.kuali.kra.award.rule.event;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.award.bo.AwardDirectFandADistribution;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.rule.AwardDirectFandADistributionRule;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * This class represents the rule event for Award Direct F and A Distribution tab.

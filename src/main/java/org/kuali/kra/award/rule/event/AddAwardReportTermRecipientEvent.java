@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.award.rule.event;
 
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.award.bo.AwardReportTermRecipient;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.rule.AddAwardReportTermRecipientRule;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * 

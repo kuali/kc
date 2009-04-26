@@ -19,11 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.datadictionary.DocumentEntry;
-import org.kuali.core.datadictionary.HeaderNavigation;
-import org.kuali.core.document.authorization.DocumentActionFlags;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.web.ui.KeyLabelPair;
+import javax.servlet.http.HttpServletRequest;
+
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.award.bo.AwardComment;
 import org.kuali.kra.award.bo.AwardFandaRate;
@@ -51,8 +48,12 @@ import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.kra.web.struts.form.MultiLookupFormBase;
 import org.kuali.kra.web.struts.form.SpecialReviewFormBase;
-
-import edu.iu.uis.eden.clientapp.IDocHandler;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.datadictionary.DocumentEntry;
+import org.kuali.rice.kns.datadictionary.HeaderNavigation;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * 
@@ -113,6 +114,12 @@ public class AwardForm extends KraTransactionalDocumentFormBase
         initialize();
     }
     
+    // TODO Overriding for 1.1 upgrade 'till we figure out how to actually use this
+    public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
+        
+        return true;
+    }
+    
     /**
      * 
      * This method initialize all form variables
@@ -142,17 +149,6 @@ public class AwardForm extends KraTransactionalDocumentFormBase
         setPermissionsHelper(new PermissionsHelper(this));
         //sponsorTermTypes = new ArrayList<KeyLabelPair>();
     }    
-    
-    /**
-     * Get the Header Dispatch.  This determines the action that will occur
-     * when the user switches tabs for a budget.  If the user can modify
-     * the budget, the budget is automatically saved.  If not (view-only),
-     * then a reload will be executed instead.
-     * @return the Header Dispatch action
-     */
-    public String getHeaderDispatch() {
-        return this.getDocumentActionFlags().getCanSave() ? SAVE : RELOAD;        
-    }
     
     /**
      * 
@@ -219,7 +215,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase
      * This method initializes either the document or the form based on the command value.
      */
     public void initializeFormOrDocumentBasedOnCommand(){
-        if (IDocHandler.INITIATE_COMMAND.equals(getCommand())) {
+        if (KEWConstants.INITIATE_COMMAND.equals(getCommand())) {
             getAwardDocument().initialize();
         }else{
             initialize();
@@ -250,8 +246,8 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     }
     
     @Override
-    protected void setSaveDocumentControl(DocumentActionFlags tempDocumentActionFlags, @SuppressWarnings("unchecked") Map editMode) {
-        
+    protected void setSaveDocumentControl(Map editMode) {
+        getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_SAVE, KNSConstants.KUALI_DEFAULT_TRUE_VALUE);
     }
     
     @Override

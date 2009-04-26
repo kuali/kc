@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.award.rule;
 
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.award.rule.event.AwardBenefitsRatesRuleEvent;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * This interface defines methods that must be supplied in AwardBenefitsRatesRuleImpl
