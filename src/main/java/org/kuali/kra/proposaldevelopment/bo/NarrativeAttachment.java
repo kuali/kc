@@ -17,8 +17,6 @@ package org.kuali.kra.proposaldevelopment.bo;
 
 import java.util.LinkedHashMap;
 
-import org.apache.struts.upload.FormFile;
-
 public class NarrativeAttachment extends AttachmentDataSource{
 	private Integer moduleNumber;
 	private String proposalNumber;

@@ -17,19 +17,10 @@ package org.kuali.kra.proposaldevelopment.rules;
 
 import static org.kuali.kra.logging.BufferedLogger.info;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RiceKeyConstants;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.document.Document;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.ValidSpecialReviewApproval;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -76,6 +67,12 @@ import org.kuali.kra.rule.CustomAttributeRule;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.kra.rules.KraCustomAttributeRule;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Main Business Rule class for <code>{@link ProposalDevelopmentDocument}</code>. Responsible for delegating rules to independent rule classes.
@@ -453,7 +450,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         return new ProposalDevelopmentNarrativeRule().processAddNarrativeBusinessRules(addNarrativeEvent);    }
 
     /**
-     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.core.document.Document)
+     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.kns.document.Document)
      */
     public boolean processRunAuditBusinessRules(Document document){
         boolean retval = true;
@@ -534,7 +531,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     /**
      * Delegating method for the <code>{@link ChangeKeyPersonRule}</code> which is triggered by the <code>{@link ChangeKeyPersonEvent}</code>
      * 
-     * @see org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule#processChangeKeyPersonBusinessRules(org.kuali.kra.proposaldevelopment.bo.ProposalPerson, org.kuali.core.bo.BusinessObject)
+     * @see org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule#processChangeKeyPersonBusinessRules(org.kuali.kra.proposaldevelopment.bo.ProposalPerson, org.kuali.rice.kns.bo.BusinessObject)
      */
     public boolean processChangeKeyPersonBusinessRules(ProposalPerson proposalPerson, BusinessObject source,int index) {
         return new ProposalDevelopmentKeyPersonsRule().processChangeKeyPersonBusinessRules(proposalPerson, source,index);

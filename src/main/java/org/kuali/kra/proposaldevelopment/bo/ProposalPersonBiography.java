@@ -1,6 +1,5 @@
 package org.kuali.kra.proposaldevelopment.bo;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

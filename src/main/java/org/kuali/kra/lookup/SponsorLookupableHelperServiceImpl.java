@@ -21,17 +21,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.CollectionIncomplete;
-import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.struts.form.KualiForm;
-import org.kuali.core.web.struts.form.MultipleValueLookupForm;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.SponsorService;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.kns.web.struts.form.MultipleValueLookupForm;
 
 public class SponsorLookupableHelperServiceImpl  extends KualiLookupableHelperServiceImpl {
     private static final String HIERARCHY_NAME = "hierarchyName";

@@ -22,18 +22,18 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.struts.form.LookupForm;
-import org.kuali.core.web.ui.Column;
-import org.kuali.core.web.ui.ResultRow;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.service.S2SService;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.kns.web.ui.Column;
+import org.kuali.rice.kns.web.ui.ResultRow;
 import org.springframework.transaction.annotation.Transactional;
 /**
  * 

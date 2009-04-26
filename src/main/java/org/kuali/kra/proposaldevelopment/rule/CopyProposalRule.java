@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.rule;
 
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * The Copy Proposal Rule validates copying of a proposal.

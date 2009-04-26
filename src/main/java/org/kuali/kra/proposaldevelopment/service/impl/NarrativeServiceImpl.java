@@ -23,9 +23,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.infrastructure.Constants;
@@ -42,6 +39,9 @@ import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.PersonService;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class is primarily to add/delete proposal/institute attachments. 
@@ -267,7 +267,7 @@ public class NarrativeServiceImpl implements NarrativeService {
      * @param doc the business object
      */
     private void updateUserTimestamp(KraPersistableBusinessObjectBase bo) {
-        String updateUser = GlobalVariables.getUserSession().getLoggedInUserNetworkId();
+        String updateUser = GlobalVariables.getUserSession().getLoggedInUserPrincipalName();
     
         // Since the UPDATE_USER column is only VACHAR(60), we need to truncate this string if it's longer than 60 characters
         if (updateUser.length() > 60) {

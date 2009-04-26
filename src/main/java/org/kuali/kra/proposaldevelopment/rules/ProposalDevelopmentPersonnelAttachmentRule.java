@@ -24,7 +24,6 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.bo.PropPerDocType;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
@@ -34,6 +33,7 @@ import org.kuali.kra.proposaldevelopment.rule.SavePersonnelAttachmentRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddPersonnelAttachmentEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SavePersonnelAttachmentEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class ProposalDevelopmentPersonnelAttachmentRule extends ResearchDocumentRuleBase implements AddPersonnelAttachmentRule, SavePersonnelAttachmentRule {
     public static final String OTHER_DOCUMENT_TYPE_DESCRIPTION = "Other";

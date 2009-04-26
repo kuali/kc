@@ -15,9 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.rule;
 
-import org.kuali.core.rule.BusinessRule;
-
 import org.kuali.kra.proposaldevelopment.rule.event.AddNarrativeEvent;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 
 /**

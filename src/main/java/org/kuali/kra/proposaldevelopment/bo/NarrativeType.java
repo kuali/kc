@@ -17,7 +17,6 @@ package org.kuali.kra.proposaldevelopment.bo;
 
 import java.util.LinkedHashMap;
 
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
@@ -67,7 +66,7 @@ public class NarrativeType extends KraPersistableBusinessObjectBase {
     }
     
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
     protected LinkedHashMap toStringMapper() {

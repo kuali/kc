@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.rule.event;
 
-import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 
 /**
  * Event triggered when a proposal location state is modified on a 

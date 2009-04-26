@@ -15,19 +15,19 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import static org.apache.commons.lang.StringUtils.isBlank;
+
 import java.util.ArrayList;
-import java.util.List;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
 
-import static org.apache.commons.lang.StringUtils.isBlank;
-
 /**
- * Represents the Proposal Person Unit <code>{@link org.kuali.core.bo.BusinessObject}</code>
+ * Represents the Proposal Person Unit <code>{@link org.kuali.rice.kns.bo.BusinessObject}</code>
  *
- * @see org.kuali.core.bo.BusinessObject
+ * @see org.kuali.rice.kns.bo.BusinessObject
  * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
  * @author $Author: gmcgrego $
  * @version $Revision: 1.14 $

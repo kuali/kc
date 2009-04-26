@@ -15,18 +15,17 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import static org.apache.commons.lang.StringUtils.isBlank;
+
 import java.util.LinkedHashMap;
-import java.sql.Date;
 
 import org.kuali.kra.bo.DegreeType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-import static org.apache.commons.lang.StringUtils.isBlank;
-
 /**
- * Represents the Proposal Degree <code>{@link org.kuali.core.bo.BusinessObject}</code>
+ * Represents the Proposal Degree <code>{@link org.kuali.rice.kns.bo.BusinessObject}</code>
  *
- * @see org.kuali.core.bo.BusinessObject
+ * @see org.kuali.rice.kns.bo.BusinessObject
  * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
  * @author $Author: gmcgrego $
  * @version $Revision: 1.9 $

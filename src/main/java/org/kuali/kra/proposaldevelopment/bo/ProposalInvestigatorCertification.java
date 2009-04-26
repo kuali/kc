@@ -21,9 +21,9 @@ import java.util.LinkedHashMap;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
- * Represents the Proposal Investigator Certification <code>{@link org.kuali.core.bo.BusinessObject}</code>
+ * Represents the Proposal Investigator Certification <code>{@link org.kuali.rice.kns.bo.BusinessObject}</code>
  *
- * @see org.kuali.core.bo.BusinessObject
+ * @see org.kuali.rice.kns.bo.BusinessObject
  * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
  * @author $Author: gmcgrego $
  * @version $Revision: 1.4 $

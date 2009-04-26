@@ -140,8 +140,15 @@ public class GroupServiceImpl implements GroupService {
      * @see org.kuali.kra.kim.service.GroupService#getPersonUsernames(java.lang.String)
      */
     public List<String> getPersonUsernames(String groupName) {
-        List<String> personNames = new ArrayList<String>();
         Long groupId = helper.getGroupId(groupName);
+        return getPersonUsernames(groupId);
+    }
+    
+    /**
+     * @see org.kuali.kra.kim.service.GroupService#getPersonUsernames(java.lang.String)
+     */
+    public List<String> getPersonUsernames(Long groupId) {
+        List<String> personNames = new ArrayList<String>();
         List<KimPerson> kimPersons = helper.getGroupMemberPersons(groupId);
         for (KimPerson kimPerson : kimPersons) {
             personNames.add(kimPerson.getUsername());

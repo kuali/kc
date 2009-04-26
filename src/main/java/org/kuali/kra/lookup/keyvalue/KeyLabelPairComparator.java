@@ -18,7 +18,7 @@ package org.kuali.kra.lookup.keyvalue;
 import java.io.Serializable;
 import java.util.Comparator;
 
-import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * Compares two {@link KeyLabelPair KeyLabelPair} instances. Useful when sorting a list of for 

@@ -4,15 +4,11 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.SpecialReview;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.ValidSpecialReviewApproval;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 public class ProposalSpecialReview extends KraPersistableBusinessObjectBase {
     // TODO : temporarily change proposalnumber from string to integer to see if ojb willwork

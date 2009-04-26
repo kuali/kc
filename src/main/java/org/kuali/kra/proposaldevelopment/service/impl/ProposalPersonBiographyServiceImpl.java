@@ -21,13 +21,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.struts.upload.FormFile;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.bo.user.AuthenticationUserId;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.bo.PropPerDocType;
 import org.kuali.kra.infrastructure.Constants;
@@ -38,6 +31,11 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
 import org.kuali.kra.proposaldevelopment.dao.AttachmentDao;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
+import org.kuali.kra.rice.shim.UniversalUserService;
+import org.kuali.kra.rice.shim.UserNotFoundException;
+import org.kuali.rice.kew.user.AuthenticationUserId;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiographyService {
     private BusinessObjectService businessObjectService;

@@ -15,27 +15,26 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import static org.kuali.core.util.GlobalVariables.getAuditErrorMap;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.DocumentAuditRule;
-import org.kuali.core.util.AuditCluster;
-import org.kuali.core.util.AuditError;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.DocumentAuditRule;
+import org.kuali.rice.kns.util.AuditCluster;
+import org.kuali.rice.kns.util.AuditError;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class ProposalSpecialReviewAuditRule extends ResearchDocumentRuleBase implements DocumentAuditRule {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeyPersonnelAuditRule.class);
     
     /**
      * 
-     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.core.document.Document)
+     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.kns.document.Document)
      */
     public boolean processRunAuditBusinessRules(Document document) {
         ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument) document;
@@ -64,11 +63,11 @@ public class ProposalSpecialReviewAuditRule extends ResearchDocumentRuleBase imp
     private List<AuditError> getAuditErrors() {
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         
-        if (!getAuditErrorMap().containsKey("specialReviewAuditWarnings")) {
-            getAuditErrorMap().put("specialReviewAuditWarnings", new AuditCluster(Constants.SPECIAL_REVIEW_PANEL_NAME, auditErrors, Constants.AUDIT_WARNINGS));
+        if (!GlobalVariables.getAuditErrorMap().containsKey("specialReviewAuditWarnings")) {
+           GlobalVariables.getAuditErrorMap().put("specialReviewAuditWarnings", new AuditCluster(Constants.SPECIAL_REVIEW_PANEL_NAME, auditErrors, Constants.AUDIT_WARNINGS));
         }
         else {
-            auditErrors = ((AuditCluster) getAuditErrorMap().get("specialReviewAuditWarnings")).getAuditErrorList();
+            auditErrors = ((AuditCluster)GlobalVariables.getAuditErrorMap().get("specialReviewAuditWarnings")).getAuditErrorList();
         }
         
         return auditErrors;

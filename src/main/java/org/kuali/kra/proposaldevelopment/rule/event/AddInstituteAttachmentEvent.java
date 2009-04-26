@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.proposaldevelopment.rule.event;
 
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AddInstituteAttachmentRule;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.rule.BusinessRule;
 
 public class AddInstituteAttachmentEvent extends NarrativeEventBase{
     /**

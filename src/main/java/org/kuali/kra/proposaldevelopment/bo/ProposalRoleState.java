@@ -17,7 +17,7 @@ package org.kuali.kra.proposaldevelopment.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.rice.kns.bo.BusinessObjectBase;
 
 public class ProposalRoleState extends BusinessObjectBase {
 

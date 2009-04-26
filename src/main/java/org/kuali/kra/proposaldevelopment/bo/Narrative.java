@@ -28,19 +28,16 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.NarrativeTask;
-import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.kra.rice.shim.UniversalUser;
 import org.kuali.kra.service.PersonService;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * 
@@ -77,7 +74,7 @@ public class Narrative extends KraPersistableBusinessObjectBase {
     }
     
     protected String findLoggedInUserPersonId() {
-        String loggedInUser = GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier();
+        String loggedInUser = ((UniversalUser) GlobalVariables.getUserSession().getPerson()).getPersonUniversalIdentifier();
         return getService(PersonService.class).getPersonByName(loggedInUser).getPersonId();//get person id for looged in user
     }
 

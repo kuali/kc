@@ -16,7 +16,7 @@
 package org.kuali.kra.proposaldevelopment.service.impl;
 
 import static java.util.Collections.sort;
-import static org.kuali.kra.logging.BufferedLogger.*;
+import static org.kuali.kra.logging.BufferedLogger.debug;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,23 +27,6 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.document.authorization.PessimisticLock;
-import org.kuali.core.rule.event.DocumentAuditEvent;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.service.PessimisticLockService;
-import org.kuali.core.util.AuditCluster;
-import org.kuali.core.util.AuditError;
-import org.kuali.core.util.GlobalVariables;
-
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.TypedArrayList;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.ExemptionType;
 import org.kuali.kra.bo.Organization;
@@ -71,10 +54,22 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
 import org.kuali.kra.service.KraPersistenceStructureService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
-import org.kuali.rice.KNSServiceLocator;
-
-import edu.iu.uis.eden.exception.WorkflowException;
-
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.document.authorization.PessimisticLock;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.service.PessimisticLockService;
+import org.kuali.rice.kns.util.AuditCluster;
+import org.kuali.rice.kns.util.AuditError;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 // TODO : extends PersistenceServiceStructureImplBase is a hack to temporarily resolve get class descriptor.
 public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentService {

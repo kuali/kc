@@ -18,12 +18,8 @@ package org.kuali.kra.lookup.keyvalue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
-import org.kuali.kra.service.YnqService;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 public class YnqDummyAnswersValuesFinder extends KeyValuesBase{
 

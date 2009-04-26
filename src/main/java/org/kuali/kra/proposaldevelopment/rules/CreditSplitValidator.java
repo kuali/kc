@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import static org.kuali.core.util.GlobalVariables.getAuditErrorMap;
 import static org.kuali.kra.infrastructure.Constants.AUDIT_ERRORS;
 import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_KEY;
 import static org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PAGE;
@@ -24,6 +23,7 @@ import static org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PANEL_NAME;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_CREDIT_SPLIT_UPBOUND;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_TOTAL_CREDIT_SPLIT_UPBOUND;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import static org.kuali.kra.logging.BufferedLogger.info;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -32,9 +32,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.util.AuditCluster;
-import org.kuali.core.util.AuditError;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.logging.TraceLogProxyFactory;
 import org.kuali.kra.logging.Traceable;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
@@ -45,8 +42,10 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
-
-import static org.kuali.kra.logging.BufferedLogger.*;
+import org.kuali.rice.kns.util.AuditCluster;
+import org.kuali.rice.kns.util.AuditError;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Validates Credit Splits on a <code>{@link ProposalPerson}</code> and/or <code>{@link ProposalPersonUnit}</code> by
@@ -218,11 +217,11 @@ public class CreditSplitValidator implements Traceable<CreditSplitValidator> {
     private List<AuditError> getAuditErrors() {
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         
-        if (!getAuditErrorMap().containsKey("keyPersonnelAuditErrors")) {
-            getAuditErrorMap().put("keyPersonnelAuditErrors", new AuditCluster(KEY_PERSONNEL_PANEL_NAME, auditErrors, AUDIT_ERRORS));
+        if (!GlobalVariables.getAuditErrorMap().containsKey("keyPersonnelAuditErrors")) {
+           GlobalVariables.getAuditErrorMap().put("keyPersonnelAuditErrors", new AuditCluster(KEY_PERSONNEL_PANEL_NAME, auditErrors, AUDIT_ERRORS));
         }
         else {
-            auditErrors = ((AuditCluster) getAuditErrorMap().get("keyPersonnelAuditErrors")).getAuditErrorList();
+            auditErrors = ((AuditCluster)GlobalVariables.getAuditErrorMap().get("keyPersonnelAuditErrors")).getAuditErrorList();
         }
         
         return auditErrors;

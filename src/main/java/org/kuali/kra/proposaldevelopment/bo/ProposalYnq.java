@@ -20,8 +20,6 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Ynq;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.YnqConstants;
 
 public class ProposalYnq extends KraPersistableBusinessObjectBase {
 

@@ -21,13 +21,6 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RiceKeyConstants;
-import org.kuali.core.datadictionary.validation.ValidationPattern;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.kra.bo.CustomAttribute;
-import org.kuali.kra.bo.CustomAttributeDataType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -37,8 +30,12 @@ import org.kuali.kra.proposaldevelopment.rule.ProposalDataOverrideRule;
 import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.kra.service.CustomAttributeService;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.datadictionary.validation.ValidationPattern;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.RiceKeyConstants;
 
 /**
  * Business Rule to determine if it valid for the user to oevrride the
@@ -113,7 +110,7 @@ public class ProposalDevelopmentDataOverrideRule extends ResearchDocumentRuleBas
             try {
                 validationPattern = (ValidationPattern) Class.forName(validationClasses.get(dataType)).newInstance();
                 if (dataType.equalsIgnoreCase("STRING")) {
-                    ((org.kuali.core.datadictionary.validation.charlevel.AnyCharacterValidationPattern) validationPattern)
+                    ((org.kuali.rice.kns.datadictionary.validation.charlevel.AnyCharacterValidationPattern) validationPattern)
                             .setAllowWhitespace(true);
                 }
             }

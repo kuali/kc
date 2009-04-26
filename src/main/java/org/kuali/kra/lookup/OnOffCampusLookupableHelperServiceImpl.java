@@ -18,9 +18,9 @@ package org.kuali.kra.lookup;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 
 public class OnOffCampusLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     

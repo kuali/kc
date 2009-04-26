@@ -15,7 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Used to describe a <code>{@link BusinessObject}</code> that represents a credit split. 

@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.rice.kns.bo.BusinessObjectBase;
 
 /**
  * A <b>ProposalUserEditRoles</b> is used as a form used by the Edit Roles
@@ -112,7 +112,7 @@ public class ProposalUserEditRoles extends BusinessObjectBase {
     }
    
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
     protected LinkedHashMap toStringMapper() {
@@ -122,7 +122,7 @@ public class ProposalUserEditRoles extends BusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObject#refresh()
+     * @see org.kuali.rice.kns.bo.BusinessObject#refresh()
      */
     public void refresh() {
         // do nothing

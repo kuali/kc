@@ -19,7 +19,6 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Ynq;
-import org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder;
 
 public class ProposalPersonYnq extends KraPersistableBusinessObjectBase {
 

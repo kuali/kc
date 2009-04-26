@@ -21,17 +21,16 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.core.Core;
+import org.kuali.rice.core.config.ConfigContext;
+import org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO;
+import org.kuali.rice.kew.docsearch.DocSearchDTO;
+import org.kuali.rice.kew.docsearch.SearchableAttributeValue;
+import org.kuali.rice.kew.docsearch.StandardDocumentSearchResultProcessor;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kew.util.Utilities;
+import org.kuali.rice.kew.web.KeyValueSort;
 import org.kuali.rice.kns.util.KNSConstants;
-
-import edu.iu.uis.eden.EdenConstants;
-import edu.iu.uis.eden.docsearch.DocSearchCriteriaVO;
-import edu.iu.uis.eden.docsearch.DocSearchVO;
-import edu.iu.uis.eden.docsearch.SearchableAttributeValue;
-import edu.iu.uis.eden.docsearch.StandardDocumentSearchResultProcessor;
-import edu.iu.uis.eden.lookupable.Column;
-import edu.iu.uis.eden.util.Utilities;
-import edu.iu.uis.eden.web.KeyValueSort;
+import org.kuali.rice.kns.web.ui.Column;
 
 public class ProposalDocumentSearchResultProcessor extends StandardDocumentSearchResultProcessor {
     private static final String PROPERTY_NAME_COPY_DOCUMENT = "copyDocument";
@@ -39,15 +38,15 @@ public class ProposalDocumentSearchResultProcessor extends StandardDocumentSearc
     private static final String DOC_COPY_HANDLER_ACTION = "DocCopyHandler.do";
     
     @Override
-    public List<Column> constructColumnList(DocSearchCriteriaVO criteria) {
+    public List<Column> constructColumnList(DocSearchCriteriaDTO criteria) {
         List<Column> proposalSearchResultColumns = super.constructColumnList(criteria);
-        this.addColumnUsingKey(proposalSearchResultColumns, new HashMap<String,String>(), PROPERTY_NAME_COPY_DOCUMENT, "Copy Document", null);
+        this.addColumnUsingKey(proposalSearchResultColumns, new HashMap<String,String>(), PROPERTY_NAME_COPY_DOCUMENT, "Copy Document");
         
         return proposalSearchResultColumns;
     }  
     
     private String buildDocCopyHandlerUrl(String documentNumber) {
-        String appContext = Core.getCurrentContextConfig().getProperty(Constants.APP_CONTEXT_KEY);
+        String appContext = ConfigContext.getCurrentContextConfig().getProperty(Constants.APP_CONTEXT_KEY);
         StringBuffer urlBuffer = new StringBuffer();
         urlBuffer.append("/");
         urlBuffer.append(appContext);
@@ -63,44 +62,59 @@ public class ProposalDocumentSearchResultProcessor extends StandardDocumentSearc
         return urlBuffer.toString();
     }
     
-    private boolean isDocumentHandlerPopup() {
-        String applicationConstant = Utilities.getApplicationConstant(EdenConstants.DOCUMENT_SEARCH_DOCUMENT_POPUP_KEY).trim();
-        return (EdenConstants.DOCUMENT_SEARCH_DOCUMENT_POPUP_VALUE.equals(applicationConstant));
+    @Override
+    public boolean isDocumentHandlerPopup() {
+        String applicationConstant =  Utilities.getKNSParameterValue(
+                KEWConstants.KEW_NAMESPACE, "DocumentSearch", KEWConstants.DOCUMENT_SEARCH_DOCUMENT_POPUP_IND);
+        return (KEWConstants.DOCUMENT_SEARCH_DOCUMENT_POPUP_VALUE.equals(applicationConstant));
     }
 
-    private String getCustomFieldValue(DocSearchVO docSearchVO) {
-        String fieldValue = null;
-        String copyDocumentUrl = buildDocCopyHandlerUrl(docSearchVO.getRouteHeaderId().toString());
+    private DisplayValues getCustomFieldValue(DocSearchDTO docSearchDTO) {
+        String copyDocumentUrl = buildDocCopyHandlerUrl(docSearchDTO.getRouteHeaderId().toString());
         String linkPopup = "";
         
-        if(StringUtils.isNotEmpty(docSearchVO.getDocTypeName()) && docSearchVO.getDocTypeName().equalsIgnoreCase(DOC_TYPE_PROPOSAL_DEVELOPMENT)) {
+        
+        DisplayValues dv = null;
+
+        if(StringUtils.isNotEmpty(docSearchDTO.getDocTypeName()) && docSearchDTO.getDocTypeName().equalsIgnoreCase(DOC_TYPE_PROPOSAL_DEVELOPMENT)) {
             if (this.isDocumentHandlerPopup()) {
                 linkPopup = " target=\"_blank\"";
             }
-            //fieldValue = "<a href='" + copyDocumentUrl + "' target='_blank'>Copy</a>" ;
-            fieldValue = "<a href='" + copyDocumentUrl + "' " + linkPopup + ">Copy</a>" ;
-        } else {
-            fieldValue = "";
-        }
-        
-        return fieldValue;
+            dv = new DisplayValues();
+            dv.htmlValue = "<a href=\"" + copyDocumentUrl
+                    + "\"" + linkPopup + "> copy</a>";
+            dv.userDisplayValue = "<a href=\"" + copyDocumentUrl
+            + "\"" + linkPopup + "> copy</a>";
+        } 
+        return dv;
     }
     
     @Override
-    public KeyValueSort generateSearchResult(DocSearchVO docSearchVO, Column column, Map<String,Object> sortValuesByColumnKey) {
+    public KeyValueSort generateSearchResult(DocSearchDTO docSearchDTO, Column column, Map<String,Object> sortValuesByColumnKey) {
         KeyValueSort returnValue = null;
-        String fieldValue = null;
+        DisplayValues fieldValue = null;
         Object sortFieldValue = null;
-        String columnKeyName = column.getKey();
+        String columnKeyName = column.getPropertyName();
         SearchableAttributeValue attributeValue = null;
         
         if (PROPERTY_NAME_COPY_DOCUMENT.equals(columnKeyName)) {
-            fieldValue = getCustomFieldValue(docSearchVO);
+            fieldValue = this.getCustomFieldValue(docSearchDTO);
             sortFieldValue = sortValuesByColumnKey.get(columnKeyName);
-            returnValue = new KeyValueSort(columnKeyName, fieldValue, (sortFieldValue != null) ? sortFieldValue : fieldValue, attributeValue);
+            column.setMaxLength(150); // for now force this.  100 is not enough in some cases
+            column.setEscapeXMLValue(false);            
             
         } else { 
-            returnValue = super.generateSearchResult(docSearchVO, column, sortValuesByColumnKey);
+            returnValue = super.generateSearchResult(docSearchDTO, column, sortValuesByColumnKey);
+        }
+        if (fieldValue != null) {
+            String userDisplaySortValue = fieldValue.userDisplayValue;
+            if (StringUtils.isBlank(userDisplaySortValue)) {
+                userDisplaySortValue = fieldValue.htmlValue;
+            }
+            returnValue = new KeyValueSort(columnKeyName, fieldValue.htmlValue,
+                    fieldValue.userDisplayValue,
+                    (sortFieldValue != null) ? sortFieldValue
+                            : userDisplaySortValue, attributeValue);
         }
         
         return returnValue;
