@@ -78,7 +78,8 @@ public class ProtocolProtocolServiceTest extends ProtocolWebTestBase{
         assertEquals(protocolNumber, protocolDoc.getProtocol().getProtocolNumber());
         Map<String, String> qMap = new HashMap<String, String>();
         qMap.put("documentNumber", getDocNbr(protocolPage));
-        ProtocolDocument protocolDoc1 = (ProtocolDocument)KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(ProtocolDocument.class, qMap);
+        ProtocolDocument protocolDoc1 = (ProtocolDocument) KraServiceLocator.getService(BusinessObjectService.class)
+                .findByPrimaryKey(ProtocolDocument.class, qMap);
 
         assertEquals(protocolDoc.getProtocol().getProtocolNumber(), protocolDoc1.getProtocol().getProtocolNumber());
         assertEquals(protocolDoc.getProtocol().getProtocolId(), protocolDoc1.getProtocol().getProtocolId());

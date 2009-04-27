@@ -25,6 +25,10 @@ import org.kuali.kra.irb.document.ProtocolDocument;
 import org.kuali.kra.irb.service.ProtocolProtocolService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
+/**
+ * 
+ * This class implements protocol service details.
+ */
 public class ProtocolProtocolServiceImpl implements ProtocolProtocolService{
 
     BusinessObjectService businessObjectService;
@@ -33,11 +37,12 @@ public class ProtocolProtocolServiceImpl implements ProtocolProtocolService{
      * 
      * @see org.kuali.kra.irb.service.ProtocolProtocolService#loadProtocolForEdit(org.kuali.kra.irb.document.ProtocolDocument, java.lang.String)
      */
+    @SuppressWarnings("unchecked") 
     public void loadProtocolForEdit(ProtocolDocument document, String protocolNumber) {
-        Map FieldMap = new HashMap();
-        FieldMap.put(Constants.PROPERTY_PROTOCOL_NUMBER,protocolNumber );
-        List protocols = (List)businessObjectService.findMatching(Protocol.class, FieldMap);
-        document.setProtocol((Protocol)protocols.get(0));
+        Map fieldMap = new HashMap();
+        fieldMap.put(Constants.PROPERTY_PROTOCOL_NUMBER,protocolNumber);
+        List<Protocol> protocols = (List<Protocol>) businessObjectService.findMatching(Protocol.class, fieldMap);
+        document.setProtocol((Protocol) protocols.get(0));
         
     }
 
