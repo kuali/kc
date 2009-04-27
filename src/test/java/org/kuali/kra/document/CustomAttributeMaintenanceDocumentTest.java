@@ -33,7 +33,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
             sqlStatements = {
                     @UnitTestSql("delete from CUSTOM_ATTRIBUTE where id = 999")
                     ,@UnitTestSql("update  CUSTOM_ATTRIBUTE set data_length=30 where id = 7")
-
+                    ,@UnitTestSql("commit")
             }
     )
 )
