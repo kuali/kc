@@ -20,7 +20,10 @@ import java.util.Map;
 
 import org.kuali.kra.irb.bo.Protocol;
 
-
+/**
+ * 
+ * This class is used to run ojb query directly.
+ */
 public interface ProtocolDao {
     
     /**

@@ -150,9 +150,9 @@
 
 	<bean id="protocolLookupableHelperService" class="org.kuali.kra.irb.lookup.ProtocolLookupableHelperServiceImpl" 
  		scope="prototype" parent="lookupableHelperService">
-      <property name="protocolDao">
-        <ref bean="protocolDao" />
-      </property>
+        <property name="protocolDao">
+            <ref bean="protocolDao" />
+        </property>
   	</bean>
 
     <bean id="protocolDao" parent="platformAwareDao" class="org.kuali.kra.irb.dao.ojb.ProtocolDaoOjb">

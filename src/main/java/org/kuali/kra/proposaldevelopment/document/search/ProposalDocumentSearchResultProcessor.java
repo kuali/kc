@@ -57,7 +57,7 @@ public class ProposalDocumentSearchResultProcessor extends StandardDocumentSearc
         urlBuffer.append("=");
         urlBuffer.append(documentNumber);
         urlBuffer.append(KNSConstants.DOCHANDLER_URL_CHUNK);
-        urlBuffer.append("&documentTypeName="+DOC_TYPE_PROPOSAL_DEVELOPMENT);
+        urlBuffer.append("&documentTypeName=" + DOC_TYPE_PROPOSAL_DEVELOPMENT);
         
         return urlBuffer.toString();
     }

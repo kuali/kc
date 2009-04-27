@@ -102,16 +102,16 @@ public class ProtocolLookupHelperServiceTest extends KraTestBase {
     public void testGetInquiryUrl() {
         Protocol protocol = initProtocol();
         HtmlData inquiryUrl = protocolLookupableHelperServiceImpl.getInquiryUrl(protocol, "leadUnitNumber");
-        assertEquals(inquiryUrl, UNIT_INQ_URL);
+        assertEquals(((HtmlData.AnchorHtmlData)inquiryUrl).getHref(), UNIT_INQ_URL);
         inquiryUrl = protocolLookupableHelperServiceImpl.getInquiryUrl(protocol, "investigator");
-        assertEquals(inquiryUrl, PERSON_INQ_URL);
+        assertEquals(((HtmlData.AnchorHtmlData)inquiryUrl).getHref(), PERSON_INQ_URL);
         ProtocolPerson protocolPerson = protocol.getProtocolPersons().get(0);
         protocolPerson.setPersonId("");
         protocolPerson.setRolodexId(new Integer(1727));
         protocol.getProtocolPersons().clear();
         protocol.getProtocolPersons().add(protocolPerson);
         inquiryUrl = protocolLookupableHelperServiceImpl.getInquiryUrl(protocol, "investigator");
-        assertEquals(inquiryUrl, ROLODEX_INQ_URL);
+        assertEquals(((HtmlData.AnchorHtmlData)inquiryUrl).getHref(), ROLODEX_INQ_URL);
     }
     
     /**
