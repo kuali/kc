@@ -106,7 +106,7 @@ public class AwardDirectFandADistributionRuleEvent extends KraDocumentEventBase 
      * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((AwardDirectFandADistributionRule)rule).processAddAwardDirectFandADistributionBusinessRules(this);
+        return ((AwardDirectFandADistributionRule) rule).processAddAwardDirectFandADistributionBusinessRules(this);
     }
 
     /**

@@ -26,6 +26,7 @@ import org.kuali.kra.award.bo.AwardCostShare;
 import org.kuali.kra.award.bo.AwardFandaRate;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.rule.event.AddAwardFandaRateEvent;
+import org.kuali.kra.award.web.struts.form.AwardDirectFandADistributionBean;
 import org.kuali.kra.award.web.struts.form.AwardForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -41,11 +42,11 @@ public class AwardTimeAndMoneyAction extends AwardAction {
     private static final String CONFIRM_DELETE_COST_SHARE_KEY = "confirmDeleteCostShareKey";
     
     private CostShareActionHelper costShareActionHelper;
-    private AwardDirectFandADistributionActionHelper awardDirectFandADistributionActionHelper;
+    private AwardDirectFandADistributionBean awardDirectFandADistributionBean;
     
     public AwardTimeAndMoneyAction(){
         costShareActionHelper = new CostShareActionHelper();
-        awardDirectFandADistributionActionHelper = new AwardDirectFandADistributionActionHelper();
+        awardDirectFandADistributionBean = new AwardDirectFandADistributionBean();
     }
     
     /**
@@ -264,7 +265,7 @@ public class AwardTimeAndMoneyAction extends AwardAction {
      */
     public ActionForward addAwardDirectFandADistribution(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        awardDirectFandADistributionActionHelper.addAwardDirectFandADistribution(((AwardForm) form).getDirectFandADistributionFormHelper());    
+        awardDirectFandADistributionBean.addAwardDirectFandADistribution(((AwardForm) form).getAwardDirectFandADistributionBean());    
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -282,7 +283,7 @@ public class AwardTimeAndMoneyAction extends AwardAction {
             HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         awardForm.getAwardDocument().getAward().getAwardDirectFandADistributions().remove(getLineToDelete(request));
-        awardDirectFandADistributionActionHelper.updateBudgetPeriodsAfterDelete(awardForm.getAwardDocument().getAward().getAwardDirectFandADistributions());
+        awardDirectFandADistributionBean.updateBudgetPeriodsAfterDelete(awardForm.getAwardDocument().getAward().getAwardDirectFandADistributions());
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     

@@ -40,11 +40,11 @@
 			<tr>
 				<th width="30%" align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.obligatedTotal}" useShortLabel="true" noColon="false" /></th>
 				<td width="20%">            	  	
-            	  	 $${KualiForm.document.awardList[0].obligatedTotal}           	 
+            	  	 $<fmt:formatNumber value="${KualiForm.document.awardList[0].obligatedTotal}" type="currency" currencySymbol="" maxFractionDigits="2" />           	 
             	</td>
 				<th width="30%" align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.anticipatedTotal}" useShortLabel="true" noColon="false" /></th>
 				<td width="20%">
-            	  	 $${KualiForm.document.awardList[0].anticipatedTotal}
+            	  	 $<fmt:formatNumber value="${KualiForm.document.awardList[0].anticipatedTotal}" type="currency" currencySymbol="" maxFractionDigits="2" />
             	</td>
 			</tr>
 			</table>
@@ -61,22 +61,22 @@
             	<th align="center" scope="row"><div align="center">Add:</div></th>
             	<td class="infoline">
             	  	<div align="center">
-            	  	 	<kul:htmlControlAttribute property="directFandADistributionFormHelper.newAwardDirectFandADistribution.startDate" attributeEntry="${awardDirectFandADistributionAttributes.startDate}" datePicker="true"/>
+            	  	 	<kul:htmlControlAttribute property="awardDirectFandADistributionBean.newAwardDirectFandADistribution.startDate" attributeEntry="${awardDirectFandADistributionAttributes.startDate}" datePicker="true"/>
             	 	</div>
             	</td>
 	            <td class="infoline">
 	              	<div align="center">
-	            		<kul:htmlControlAttribute property="directFandADistributionFormHelper.newAwardDirectFandADistribution.endDate" attributeEntry="${awardDirectFandADistributionAttributes.endDate}" datePicker="true"/>
+	            		<kul:htmlControlAttribute property="awardDirectFandADistributionBean.newAwardDirectFandADistribution.endDate" attributeEntry="${awardDirectFandADistributionAttributes.endDate}" datePicker="true"/>
 	              	</div>
 	            </td>
 	            <td class="infoline">
 	            	<div align="right">
-            	    	<kul:htmlControlAttribute property="directFandADistributionFormHelper.newAwardDirectFandADistribution.directCost" attributeEntry="${awardDirectFandADistributionAttributes.directCost}"/>
+            	    	<kul:htmlControlAttribute property="awardDirectFandADistributionBean.newAwardDirectFandADistribution.directCost" attributeEntry="${awardDirectFandADistributionAttributes.directCost}"/>
             	  	</div>
 	            </td>
 	            <td class="infoline">
 	            	<div align="right">
-            	    	<kul:htmlControlAttribute property="directFandADistributionFormHelper.newAwardDirectFandADistribution.indirectCost" attributeEntry="${awardDirectFandADistributionAttributes.indirectCost}"/>
+            	    	<kul:htmlControlAttribute property="awardDirectFandADistributionBean.newAwardDirectFandADistribution.indirectCost" attributeEntry="${awardDirectFandADistributionAttributes.indirectCost}"/>
             	  	</div>
 	            </td>
 	           <td class="infoline">

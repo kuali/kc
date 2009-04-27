@@ -45,6 +45,14 @@ public class AwardDirectFandADistribution extends AwardAssociate {
         setIndirectCost(new KualiDecimal(0.00));
     }
     
+    public AwardDirectFandADistribution(int budgetPeriodNum, Date periodStartDate, Date periodEndDate) {
+        setDirectCost(new KualiDecimal(0.00));
+        setIndirectCost(new KualiDecimal(0.00));
+        setBudgetPeriod(budgetPeriodNum);
+        setStartDate(periodStartDate);
+        setEndDate(periodEndDate);
+    }
+    
     /**
      * Gets the awardDirectFandADistributionId attribute. 
      * @return Returns the awardDirectFandADistributionId.
