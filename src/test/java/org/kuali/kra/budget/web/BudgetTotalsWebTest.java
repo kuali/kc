@@ -44,6 +44,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTable;
 sqlStatements = {
       @UnitTestSql("delete from BUDGET_DETAILS where proposal_number = 999999"),
       @UnitTestSql("delete from BUDGET_DETAILS_CAL_AMTS where proposal_number = 999999")
+      ,@UnitTestSql("commit")
       }, 
 sqlFiles = {
         @UnitTestFile(filename = "classpath:sql/dml/load_budget_line_item_for_total.sql", delimiter = ";"),

@@ -56,6 +56,7 @@ import org.kuali.rice.test.data.UnitTestSql;
         sqlStatements = {
                       @UnitTestSql("delete from VALID_CE_RATE_TYPES where cost_element like '900%'"),
                       @UnitTestSql("delete from cost_element where cost_element like '900%'")
+                      ,@UnitTestSql("commit")
                       }, 
         sqlFiles = {
                 @UnitTestFile(filename = "classpath:sql/dml/load_calc_service_test_cost_element.sql", delimiter = ";")
