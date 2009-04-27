@@ -43,6 +43,10 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.OjbCollectionAware;
 
+/**
+ * 
+ * This class is the implementation for ProtocolDao interface.
+ */
 public class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, ProtocolDao {
 
     private LookupDao lookupDao;
@@ -149,7 +153,6 @@ public class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollec
         String propertyName = getDbPlatform().getUpperCaseFunction() + "("+critField.getCritFieldName()+")";
         crit.addLike(propertyName, nameValue.toUpperCase());
 
-        ReportQueryByCriteria reportQueryByCriteria = null;
         if (isProtocolPersonField (key)) {
             addPersonRoleId(key, crit);
         } else if (key.equals(ProtocolLookupConstants.Property.PERFORMING_ORGANIZATION_ID)){
@@ -256,6 +259,7 @@ public class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollec
      * @param formProps
      * @return
      */
+    @SuppressWarnings("unchecked") 
     private Criteria getCollectionCriteriaFromMap(PersistableBusinessObject businessObject, Map formProps) {
         Criteria criteria = new Criteria();
         Iterator propsIter = formProps.keySet().iterator();

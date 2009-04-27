@@ -17,6 +17,10 @@ package org.kuali.kra.irb.service;
 
 import org.kuali.kra.irb.document.ProtocolDocument;
 
+/**
+ * 
+ * This class is the API for protocol service. 
+ */
 public interface ProtocolProtocolService {
 
     /**
