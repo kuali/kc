@@ -15,13 +15,15 @@
  */
 package org.kuali.kra.award.web.struts.form;
 
+import java.io.Serializable;
+
 import org.kuali.kra.award.bo.AwardCostShare;
 import org.kuali.kra.award.document.AwardDocument;
 
 /**
  * This class supports the AwardForm class
  */
-public class CostShareFormHelper { 
+public class CostShareFormHelper implements Serializable { 
     private AwardForm parent;
     
     private AwardCostShare newAwardCostShare;

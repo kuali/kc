@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.paymentreports.specialapproval.approvedequipment;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.kuali.kra.award.bo.Award;
@@ -28,7 +29,7 @@ import org.kuali.rice.kns.service.KualiRuleService;
 /**
  * This class supports the Award Form / AwardPaymentReportsAndTermsAction classes for SpecialApproval
  */
-public class SpecialApprovalBean {
+public class SpecialApprovalBean implements Serializable {
     protected AwardForm form;
     protected KualiRuleService ruleService;
     private BusinessObjectService businessObjectService;

@@ -15,13 +15,15 @@
  */
 package org.kuali.kra.award.web.struts.form;
 
+import java.io.Serializable;
+
 import org.kuali.kra.award.bo.AwardApprovedSubaward;
 import org.kuali.kra.award.document.AwardDocument;
 
 /**
  * This class...
  */
-public class ApprovedSubawardFormHelper {
+public class ApprovedSubawardFormHelper implements Serializable {
     
     private AwardForm parent;
     

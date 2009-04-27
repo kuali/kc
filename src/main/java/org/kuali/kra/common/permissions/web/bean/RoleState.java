@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.common.permissions.web.bean;
 
+import java.io.Serializable;
+
 /**
  * Each RoleState corresponds to one specific user and one specific role.  
  * It stores the current state of the database, i.e. if "saved" is true, then
@@ -31,7 +33,7 @@ package org.kuali.kra.common.permissions.web.bean;
  * When the document is saved, the "saved" and "assigned" flags are checked
  * to see what roles need to be added and/or removed.
  */
-public class RoleState {
+public class RoleState implements Serializable {
 
     private Role role;
     private boolean saved = false;

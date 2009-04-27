@@ -16,12 +16,14 @@
 package org.kuali.kra.award.paymentreports.specialapproval.approvedequipment;
 
 
+import java.io.Serializable;
+
 import org.kuali.kra.award.web.struts.form.AwardForm;
 
 /**
  * This class supports the AwardForm class
  */
-public class ApprovedEquipmentBean extends SpecialApprovalBean {
+public class ApprovedEquipmentBean extends SpecialApprovalBean implements Serializable {
     private EquipmentCapitalizationMinimumLoader capitalizationMinimumLoader;
     private AwardApprovedEquipment newAwardApprovedEquipment;
     /**

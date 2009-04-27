@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,7 @@ import org.kuali.rice.kns.web.ui.KeyLabelPair;
 /**
  * This is a helper class for sponsor term form helper
  */
-public class SponsorTermFormHelper {
+public class SponsorTermFormHelper implements Serializable {
 
     private AwardForm parent;
     
