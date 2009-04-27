@@ -15,12 +15,13 @@
  */
 package org.kuali.kra.budget.bo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.budget.BudgetDecimal;
 
-public class BudgetModularSummary {
+public class BudgetModularSummary implements Serializable {
     
     private BudgetDecimal directCostLessConsortiumFna;
     private BudgetDecimal consortiumFna;

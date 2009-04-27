@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
+import java.io.Serializable;
+
 import org.kuali.kra.award.rule.event.AwardCostShareRuleEvent;
 import org.kuali.kra.award.rules.AwardCostShareRuleImpl;
 import org.kuali.kra.award.web.struts.form.CostShareFormHelper;
@@ -22,7 +24,7 @@ import org.kuali.kra.award.web.struts.form.CostShareFormHelper;
 /**
  * This class...
  */
-public class CostShareActionHelper {
+public class CostShareActionHelper implements Serializable {
     
     /**
      * This method is called when adding a new AwardCostShare

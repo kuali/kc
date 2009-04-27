@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.committee.web.struts.form.schedule;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -28,7 +29,7 @@ import org.kuali.kra.scheduling.expr.util.CronSpecialChars;
 /**
  * This class is form data helper class used to store UI based date for recurrence.
  */
-public class ScheduleData {
+public class ScheduleData implements Serializable {
     
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScheduleData.class);
     
