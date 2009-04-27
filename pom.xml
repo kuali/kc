@@ -273,11 +273,13 @@
 					<artifactId>hyperjaxb</artifactId>
 					<version>1.0</version>
 				</dependency>
+				<!-- 
 				<dependency>
 					<groupId>jaxb</groupId>
 					<artifactId>jaxb-impl</artifactId>
 					<version>1.0.4</version>
 				</dependency>
+				-->
 				<dependency>
 					<groupId>jaxb</groupId>
 					<artifactId>jaxb-libs</artifactId>
@@ -288,11 +290,13 @@
 					<artifactId>jaxb-verification</artifactId>
 					<version>1.0.4</version>
 				</dependency>
+				<!--
 				<dependency>
 					<groupId>jaxb</groupId>
 					<artifactId>jaxb-xjc</artifactId>
 					<version>1.0.4</version>
 				</dependency>
+				-->
 				<dependency>
 					<groupId>jaxrpc</groupId>
 					<artifactId>jaxrpc</artifactId>
