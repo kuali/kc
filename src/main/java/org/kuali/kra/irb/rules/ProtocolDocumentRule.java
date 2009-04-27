@@ -75,6 +75,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
     private static final String PROTOCOL_LUN_FORM_ELEMENT="protocolHelper.leadUnitNumber";
     private static final String ERROR_PROPERTY_ORGANIZATION_ID = "protocolHelper.newProtocolLocation.organizationId";
     private static final String SPECIAL_REVIEW_ERROR_PATH = "specialReviewHelper.newSpecialReview";
+    private static final String SPECIAL_REVIEW_ERROR_PATH2 = "document.protocolList[0].specialReview";
 
 // TODO : move these static constant up to parent 
     @Override
@@ -103,10 +104,16 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         valid &= processProtocolLocationBusinessRules((ProtocolDocument) document);
         valid &= processProtocolParticipantBusinessRules((ProtocolDocument) document);
         valid &= processNoteAndAttachmentSaveRules((ProtocolDocument) document);
+        valid &= processSpecialReviewSaveRules((ProtocolDocument) document);
         
         return valid;
     }
 
+
+    private boolean processSpecialReviewSaveRules(ProtocolDocument document) {
+        SpecialReviewRulesImpl specialReviewRules = new SpecialReviewRulesImpl(SPECIAL_REVIEW_ERROR_PATH2);
+        return specialReviewRules.processSpecialReviewSaveRules(document.getProtocol().getSpecialReviews());
+    }
 
     /**
      * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.kns.document.Document)
