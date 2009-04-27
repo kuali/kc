@@ -18,6 +18,8 @@ package org.kuali.kra.award.rule;
 import org.kuali.kra.award.rule.event.AwardDirectFandADistributionRuleEvent;
 import org.kuali.rice.kns.rule.BusinessRule;
 
+
+
 /**
  * Interface for Award Direct F and A Distribution business rules.
  */
@@ -28,5 +30,13 @@ public interface AwardDirectFandADistributionRule extends BusinessRule {
      * @return
      */
     boolean processAddAwardDirectFandADistributionBusinessRules(AwardDirectFandADistributionRuleEvent 
+            awardDirectFandADistributionRuleEvent);
+    
+    /**
+     * This method processes must be implemented and enforces all add method business rules.
+     * @param awardDirectFandADistributionRuleEvent
+     * @return
+     */
+    boolean processAwardDirectFandADistributionBusinessRules(AwardDirectFandADistributionRuleEvent 
             awardDirectFandADistributionRuleEvent);
 }

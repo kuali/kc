@@ -93,7 +93,7 @@ public class AwardForm extends KraTransactionalDocumentFormBase
     private SponsorTermFormHelper sponsorTermFormHelper;
     private ApprovedSubawardFormHelper approvedSubawardFormHelper;
     private DetailsAndDatesFormHelper detailsAndDatesFormHelper;
-    private DirectFandADistributionFormHelper directFandADistributionFormHelper;
+    private AwardDirectFandADistributionBean awardDirectFandADistributionBean;
     
     private ReportClass reportClassForPaymentsAndInvoices;
     private PaymentScheduleBean paymentScheduleBean;
@@ -145,7 +145,8 @@ public class AwardForm extends KraTransactionalDocumentFormBase
         unitContactsBean = new AwardUnitContactsBean(this);
         sponsorContactsBean = new AwardSponsorContactsBean(this);
         detailsAndDatesFormHelper = new DetailsAndDatesFormHelper(this);
-        directFandADistributionFormHelper = new DirectFandADistributionFormHelper(this);
+        //directFandADistributionFormHelper = new DirectFandADistributionFormHelper(this);
+        awardDirectFandADistributionBean = new AwardDirectFandADistributionBean(this);
         setPermissionsHelper(new PermissionsHelper(this));
         //sponsorTermTypes = new ArrayList<KeyLabelPair>();
     }    
@@ -522,31 +523,27 @@ public class AwardForm extends KraTransactionalDocumentFormBase
         this.customDataHelper = customDataHelper;
     }
 
-
-
-    /**
-     * Gets the directFandADistributionFormHelper attribute. 
-     * @return Returns the directFandADistributionFormHelper.
-     */
-    public DirectFandADistributionFormHelper getDirectFandADistributionFormHelper() {
-        return directFandADistributionFormHelper;
-    }
-
-
-
-    /**
-     * Sets the directFandADistributionFormHelper attribute value.
-     * @param directFandADistributionFormHelper The directFandADistributionFormHelper to set.
-     */
-    public void setDirectFandADistributionFormHelper(DirectFandADistributionFormHelper directFandADistributionFormHelper) {
-        this.directFandADistributionFormHelper = directFandADistributionFormHelper;
-    }
-    
     /**
      * Sets the awardAuditActivated attribute value.
      * @param awardAuditActivated The awardAuditActivated to set.
      */
     public void setAwardAuditActivated(boolean awardAuditActivated) {
         this.auditActivated = awardAuditActivated;
+    }
+
+    /**
+     * Gets the awardDirectFandADistributionBean attribute. 
+     * @return Returns the awardDirectFandADistributionBean.
+     */
+    public AwardDirectFandADistributionBean getAwardDirectFandADistributionBean() {
+        return awardDirectFandADistributionBean;
+    }
+
+    /**
+     * Sets the awardDirectFandADistributionBean attribute value.
+     * @param awardDirectFandADistributionBean The awardDirectFandADistributionBean to set.
+     */
+    public void setAwardDirectFandADistributionBean(AwardDirectFandADistributionBean awardDirectFandADistributionBean) {
+        this.awardDirectFandADistributionBean = awardDirectFandADistributionBean;
     }
 }
