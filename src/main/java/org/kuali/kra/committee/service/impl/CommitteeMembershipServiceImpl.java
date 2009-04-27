@@ -55,6 +55,7 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
      */
     public void addCommitteeMembership(Committee committee, CommitteeMembership committeeMembership) {
         
+        committeeMembership.setCommitteeIdFk(committee.getId());
         committeeMembership.setCommitteeId(committee.getCommitteeId());
         committeeMembership.setMembershipId("0");
         committeeMembership.setSequenceNumber(0);
@@ -90,8 +91,8 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
     public void addCommitteeMembershipRole(Committee committee, int selectedMembershipIndex, CommitteeMembershipRole committeeMembershipRole) {
         CommitteeMembership committeeMembership = committee.getCommitteeMemberships().get(selectedMembershipIndex);
         
-        committeeMembershipRole.setCommitteeMembershipId(committeeMembership.getCommitteeMembershipId());
-        committeeMembershipRole.setMembershipId("0");
+        committeeMembershipRole.setCommitteeMembershipIdFk(committeeMembership.getCommitteeMembershipIdFk());
+        committeeMembershipRole.setMembershipId(committeeMembership.getMembershipId());
         committeeMembershipRole.setSequenceNumber(0);
 
         committeeMembershipRole.refreshReferenceObject(REFERENCE_MEMBERSHIP_ROLE);
@@ -115,8 +116,8 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
         for (ResearchArea researchArea: researchAreas) {
             CommitteeMembershipExpertise membershipExpertise = new CommitteeMembershipExpertise();
             membershipExpertise.setResearchAreaCode(researchArea.getResearchAreaCode());
-            membershipExpertise.setCommitteeMembershipId(committeeMembership.getCommitteeMembershipId());
-            membershipExpertise.setMembershipId("0");
+            membershipExpertise.setCommitteeMembershipIdFk(committeeMembership.getCommitteeMembershipIdFk());
+            membershipExpertise.setMembershipId(committeeMembership.getMembershipId());
             membershipExpertise.setSequenceNumber(0);
 
             membershipExpertise.refreshReferenceObject(REFERENCE_RESEARCH_AREA);

@@ -37,11 +37,11 @@ import org.kuali.kra.irb.personnel.ProtocolPersonRolodex;
 public class CommitteeMembership extends KraPersistableBusinessObjectBase {
 
     @Id
-    @Column(name = "COMM_MEMBERSHIPS_ID")
-    private Long committeeMembershipId;
+    @Column(name = "COMM_MEMBERSHIP_ID_FK")
+    private Long committeeMembershipIdFk;
 
-    @Column(name = "ID")
-    private Long id;
+    @Column(name = "COMMITTEE_ID_FK")
+    private Long committeeIdFk;
 
     @Column(name = "COMMITTEE_ID")
     private String committeeId;
@@ -97,20 +97,20 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase {
         setMembershipExpertise(new ArrayList<CommitteeMembershipExpertise>());
     }
 
-    public Long getCommitteeMembershipId() {
-        return committeeMembershipId;
+    public Long getCommitteeMembershipIdFk() {
+        return committeeMembershipIdFk;
     }
 
-    public void setCommitteeMembershipId(Long committeeMembershipId) {
-        this.committeeMembershipId = committeeMembershipId;
+    public void setCommitteeMembershipIdFk(Long committeeMembershipIdFk) {
+        this.committeeMembershipIdFk = committeeMembershipIdFk;
     }
 
-    public Long getId() {
-        return id;
+    public Long getCommitteeIdFk() {
+        return committeeIdFk;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setCommitteeIdFk(Long committeeIdFk) {
+        this.committeeIdFk = committeeIdFk;
     }
 
     public String getCommitteeId() {
@@ -284,7 +284,8 @@ public class CommitteeMembership extends KraPersistableBusinessObjectBase {
     @Override
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("committeeMembershipId", getCommitteeMembershipId());
+        hashMap.put("committeeMembershipIdFk", getCommitteeMembershipIdFk());
+        hashMap.put("committeeIdFk", getCommitteeIdFk());
         hashMap.put("committeeId", getCommitteeId());
         hashMap.put("personId", getPersonId());
         hashMap.put("rolodexId", getRolodexId());

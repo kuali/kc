@@ -28,38 +28,38 @@
 		<property name="lookupDefinition" >
 			<ref bean="CommitteeMembership-lookupDefinition" />
 		</property>
-		<property name="titleAttribute" value="committeeMembershipId" />
+		<property name="titleAttribute" value="committeeMembershipIdFk" />
 		<property name="attributes" >
 			<list>
-				<ref bean="CommitteeMembership-committeeMembershipId" />
-				<ref bean="CommitteeMembership-id" />
-				<ref bean="CommitteeMembership-committeeId" />
-				<ref bean="CommitteeMembership-personId" />
+                <ref bean="CommitteeMembership-committeeMembershipIdFk" />
+                <ref bean="CommitteeMembership-committeeIdFk" />
+                <ref bean="CommitteeMembership-committeeId" />
+                <ref bean="CommitteeMembership-personId" />
                 <ref bean="CommitteeMembership-rolodexId" />
                 <ref bean="CommitteeMembership-personName" />
-				<ref bean="CommitteeMembership-membershipId" />
-				<ref bean="CommitteeMembership-sequenceNumber" />
-				<ref bean="CommitteeMembership-paidMember" />
-				<ref bean="CommitteeMembership-termStartDate" />
-				<ref bean="CommitteeMembership-termEndDate" />
-				<ref bean="CommitteeMembership-membershipTypeCode" />
-				<ref bean="CommitteeMembership-comments" />
-				<ref bean="CommitteeMembership-contactNotes" />
-				<ref bean="CommitteeMembership-trainingNotes" />
-				<ref bean="CommitteeMembership-versionNumber" />
-				<ref bean="CommitteeMembership-delete" />
+                <ref bean="CommitteeMembership-membershipId" />
+                <ref bean="CommitteeMembership-sequenceNumber" />
+                <ref bean="CommitteeMembership-paidMember" />
+                <ref bean="CommitteeMembership-termStartDate" />
+                <ref bean="CommitteeMembership-termEndDate" />
+                <ref bean="CommitteeMembership-membershipTypeCode" />
+                <ref bean="CommitteeMembership-comments" />
+                <ref bean="CommitteeMembership-contactNotes" />
+                <ref bean="CommitteeMembership-trainingNotes" />
+                <ref bean="CommitteeMembership-versionNumber" />
+                <ref bean="CommitteeMembership-delete" />
 			</list>
 		</property>
 	</bean>
 
 	<!-- Attribute Definitions -->
 	
-	<bean id="CommitteeMembership-committeeMembershipId" parent="CommitteeMembership-committeeMembershipId-parentBean" />
-	<bean id="CommitteeMembership-committeeMembershipId-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="committeeMembershipId" />
+	<bean id="CommitteeMembership-committeeMembershipIdFk" parent="CommitteeMembership-committeeMembershipIdFk-parentBean" />
+	<bean id="CommitteeMembership-committeeMembershipIdFk-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="committeeMembershipIdFk" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Committee Membership Id" />
-		<property name="shortLabel" value="Committee Membership Id" />
+		<property name="label" value="Committee Membership Id Fk" />
+		<property name="shortLabel" value="Committee Membership Id Fk" />
 		<property name="maxLength" value="22" />
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
@@ -68,16 +68,16 @@
 			<bean parent="TextControlDefinition"
 				p:size="10" />
 		</property>
-		<property name="summary" value="Committee Membership Id" />
-		<property name="description" value="Committee Membership Id" />
+		<property name="summary" value="Committee Membership Id Fk" />
+		<property name="description" value="Committee Membership Id Fk" />
 	</bean>
 
-    <bean id="CommitteeMembership-id" parent="CommitteeMembership-id-parentBean" />
-    <bean id="CommitteeMembership-id-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="id" />
+    <bean id="CommitteeMembership-committeeIdFk" parent="CommitteeMembership-committeeIdFk-parentBean" />
+    <bean id="CommitteeMembership-committeeIdFk-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="committeeIdFk" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Id" />
-        <property name="shortLabel" value="Id" />
+        <property name="label" value="Committee Id Fk" />
+        <property name="shortLabel" value="Committee Id Fk" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
@@ -86,8 +86,8 @@
             <bean parent="TextControlDefinition"
                 p:size="10" />
         </property>
-        <property name="summary" value="Id" />
-        <property name="description" value="Id" />
+        <property name="summary" value="Committee Id Fk" />
+        <property name="description" value="Committee Id Fk" />
     </bean>
     
 	<bean id="CommitteeMembership-committeeId" parent="CommitteeMembership-committeeId-parentBean" />
@@ -279,19 +279,21 @@
 	<!-- Business Object Inquiry Definition -->
 	<bean id="CommitteeMembership-inquiryDefinition" parent="CommitteeMembership-inquiryDefinition-parentBean" />
 	<bean id="CommitteeMembership-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-		<property name="title" value="Committee Memberships Id" />
+		<property name="title" value="Committee Memberships Id Fk" />
 		<property name="inquirySections" >
 			<list>
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Committee Membership Id" />
+					<property name="title" value="Committee Membership Id Fk" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list>
 							<bean parent="FieldDefinition"
-								p:attributeName="committeeMembershipId" 
+								p:attributeName="committeeMembershipIdFk" 
 								p:forceInquiry="true" />
 							<bean parent="FieldDefinition"
-								p:attributeName="committeeId" />
+								p:attributeName="committeeIdFk" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="committeeId" />
 							<bean parent="FieldDefinition"
 								p:attributeName="personId" />
                             <bean parent="FieldDefinition"
@@ -336,10 +338,12 @@
 		<property name="lookupFields" >
 			<list>
 				<bean parent="FieldDefinition"
-					p:attributeName="committeeMembershipId" 
+					p:attributeName="committeeMembershipIdFk" 
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
-					p:attributeName="committeeId" />
+					p:attributeName="committeeIdFk" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="committeeId" />
 				<bean parent="FieldDefinition"
 					p:attributeName="personId" />
                 <bean parent="FieldDefinition"
@@ -369,10 +373,12 @@
 		<property name="resultFields" >
 			<list>
 				<bean parent="FieldDefinition"
-					p:attributeName="committeeMembershipId" 
+					p:attributeName="committeeMembershipIdFk" 
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
-					p:attributeName="committeeId" />
+					p:attributeName="committeeIdFk" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="committeeId" />
 				<bean parent="FieldDefinition"
 					p:attributeName="personId" />
                 <bean parent="FieldDefinition"
