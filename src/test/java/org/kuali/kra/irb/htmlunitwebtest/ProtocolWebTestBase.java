@@ -45,8 +45,16 @@ public abstract class ProtocolWebTestBase extends KraWebTestBase {
     protected static final String CUSTOM_DATA_LINK_NAME = "customData.x";
     protected static final String PERMISSIONS_LINK_NAME = "permissions.x";
     protected static final String PROTOCOL_ACTIONS_LINK_NAME = "protocolActions.x";
+    
     protected static final String DOCUMENT_DESCRIPTION_ID = "document.documentHeader.documentDescription";
-    protected static final String DEFAULT_DOCUMENT_DESCRIPTION = "Protocol Development Web Test";    
+    protected static final String DEFAULT_DOCUMENT_DESCRIPTION = "Protocol Development Web Test";
+    
+    protected static final String PROTOCOL_TYPE_ID = "document.protocolList[0].protocolTypeCode";
+    protected static final int DEFAULT_PROTOCOL_TYPE = 2;
+    
+    protected static final String PROTOCOL_TITLE = "document.protocolList[0].title";
+    protected static final String DEFAULT_PROTOCOL_TITLE = "Protocol Development Web Test Title";
+    
     protected static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
     protected static final String SOFT_ERRORS_FOUND_ON_PAGE = "Warnings found in this Section";
     protected static final String SAVE_SUCCESS_MESSAGE = "Document was successfully saved";
@@ -132,18 +140,15 @@ public abstract class ProtocolWebTestBase extends KraWebTestBase {
      * Sets the Protocol Document's required fields to legal default values.
      * @param page the Protocol web page.
      */
-    protected void setDefaultRequiredFields(HtmlPage page) {
-        setRequiredFields(page, DEFAULT_DOCUMENT_DESCRIPTION);
+    protected void setDefaultRequiredFields(HtmlPage page) {       
+        System.err.println(page.asXml());
+        setFieldValue(page, DOCUMENT_DESCRIPTION_ID, DEFAULT_DOCUMENT_DESCRIPTION);
+        setFieldValue(page, PROTOCOL_TYPE_ID, "1");
+        setFieldValue(page, PROTOCOL_TITLE, DEFAULT_PROTOCOL_TITLE);
+        setFieldValue(page, "document.protocolList[0].principalInvestigatorId", "000000010");
+        setFieldValue(page, "protocolHelper.leadUnitNumber", "000001");
     }
     
-    /**
-     * see {@link #setDefaultRequiredFields(HtmlPage) setDefaultRequiredFields}.
-     * @param page the Proposal Development web page.
-     * @param description the value for the description field.
-     */
-    protected void setRequiredFields(HtmlPage page, String description){
-        setFieldValue(page, DOCUMENT_DESCRIPTION_ID, description);        
-    }
     /**
      * 
      * This method is to test the <code>ExtendedTextArea</code> tag
@@ -193,7 +198,9 @@ public abstract class ProtocolWebTestBase extends KraWebTestBase {
      */
     protected HtmlPage getProtocolActionsPage() throws Exception {
         HtmlPage ProtocolHomePage = this.getProtocolHomePage();
+        System.err.println("home page: " + ProtocolHomePage.asText());
         HtmlPage ProtocolActionsPage = clickOnTab(ProtocolHomePage, PROTOCOL_ACTIONS_LINK_NAME);
+        System.err.println("actions page: " + ProtocolActionsPage.asText());
         return ProtocolActionsPage;
     }
     

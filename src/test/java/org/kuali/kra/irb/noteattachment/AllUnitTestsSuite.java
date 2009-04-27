@@ -26,6 +26,6 @@ import org.junit.runners.Suite.SuiteClasses;
     ProtocolAttachmentServiceImplTest.class,
     ProtocolAttachmentTypeByGroupValuesFinderTest.class})
 @RunWith(Suite.class)
-public class AllTestsSuite {
+public class AllUnitTestsSuite {
 //suite for all note attachment tests
 }
