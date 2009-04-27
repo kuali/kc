@@ -39,7 +39,7 @@
 	<param name="datasource.url">jdbc:oracle:thin:@esdbk02.uits.indiana.edu:1521:KUALI</param>
 	<param name="datasource.username">KRADEV</param>
 	<param name="datasource.ojb.platform">Oracle9i</param>
-	<param name="datasource.platform">org.kuali.rice.database.platform.OraclePlatform</param>
+	<param name="datasource.platform">org.kuali.rice.core.database.platform.OraclePlatform</param>
 	<param name="datasource.driver.name">oracle.jdbc.driver.OracleDriver</param>
 	<param name="datasource.pool.validationQuery">select 1 from dual</param>
 	<param name="datasource.pool.maxWait">30000</param>
@@ -118,9 +118,29 @@
     <param name="useQuartzDatabase">false</param>
 
     <!-- Register the CAS Web Authentication Filter -->
-    <param name="filter.cas.class">org.kuali.core.web.filter.KualiCasFilter</param>
+    <param name="filter.cas.class">org.kuali.rice.kns.web.filter.KualiCasFilter</param>
     <param name="filter.cas.edu.yale.its.tp.cas.client.filter.loginUrl">${app.host}/${app.context.name}/cas/login</param>
     <param name="filter.cas.edu.yale.its.tp.cas.client.filter.validateUrl">${app.host}/${app.context.name}/cas/serviceValidate</param>
 	<param name="filtermapping.cas.0">/*</param>
 	<param name="documentSearch.resultProcessor.class.name">org.kuali.kra.proposaldevelopment.document.search.ProposalDocumentSearchResultProcessor</param>
+
+	<!-- Configuration for Session Document Cache Size -->
+	<param name="session.document.cache.size">100</param>
+
+	<param name="kr.incident.mailing.list"></param>
+
+	<!-- new KIM parameters -->
+	<param name="kim.cache.entity.max.size" override="false">3000</param>
+	<param name="kim.cache.entity.max.age.seconds" override="false">3600</param>
+	<param name="kim.cache.group.max.size" override="false">3000</param>
+	<param name="kim.cache.group.max.age.seconds" override="false">3600</param>
+	<param name="kim.cache.role.max.size" override="false">3000</param>
+	<param name="kim.cache.role.max.age.seconds" override="false">300</param>
+	<param name="kim.cache.permission.max.size" override="false">3000</param>
+	<param name="kim.cache.permission.max.age.seconds" override="false">30</param>
+	<param name="kim.cache.responsibility.max.size" override="false">3000</param>
+	<param name="kim.cache.responsibility.max.age.seconds" override="false">30</param>
+	<param name="kim.cache.person.max.size" override="false">3000</param>
+	<param name="kim.cache.person.max.age.seconds" override="false">3600</param>
+
 </config>
