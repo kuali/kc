@@ -48,42 +48,25 @@ public class AwardDirectFandADistributionServiceImpl implements AwardDirectFandA
        List<AwardDirectFandADistribution> awardDirectFandADistributions = new ArrayList<AwardDirectFandADistribution>();
        Date projectStartDate = award.getBeginDate();
        Date projectEndDate = award.getProjectEndDate();
-       boolean budgetPeriodExists = true;
        Calendar cl = Calendar.getInstance();
        Date periodStartDate = projectStartDate;
        int budgetPeriodNum = 1;
-       while(budgetPeriodExists) {
+       while(true) {
            cl.setTime(periodStartDate);
            cl.add(Calendar.YEAR, 1);
            Date nextPeriodStartDate = new Date(cl.getTime().getTime());
            cl.add(Calendar.DATE, -1);
            Date periodEndDate = new Date(cl.getTime().getTime());
-           switch(periodEndDate.compareTo(projectEndDate)) {
-               case 1:
-                   periodEndDate = projectEndDate;
-               case 0:
-                   budgetPeriodExists = false;
-                   break;}
-           awardDirectFandADistributions.add(buildNewAwardDirectFandADistribution(budgetPeriodNum, periodStartDate, periodEndDate));
+           if (periodEndDate.after(projectEndDate)) {
+               periodEndDate = projectEndDate;
+               awardDirectFandADistributions.add(new AwardDirectFandADistribution(budgetPeriodNum, periodStartDate, periodEndDate));
+               break;
+           }
+           awardDirectFandADistributions.add(new AwardDirectFandADistribution(budgetPeriodNum, periodStartDate, periodEndDate));
            periodStartDate = nextPeriodStartDate;
            budgetPeriodNum++;
        }
            return awardDirectFandADistributions;
-   }
-
-   /**
- * This method is helper method to build the AwardDirectFandADistribution to be added to the list.
- * @param budgetPeriodNum
- * @param periodStartDate
- * @param periodEndDate
- * @return
- */
-private AwardDirectFandADistribution buildNewAwardDirectFandADistribution(int budgetPeriodNum, Date periodStartDate, Date periodEndDate) {
-       AwardDirectFandADistribution awardDirectFandADistribution = new AwardDirectFandADistribution();
-       awardDirectFandADistribution.setBudgetPeriod(budgetPeriodNum);
-       awardDirectFandADistribution.setStartDate(periodStartDate);
-       awardDirectFandADistribution.setEndDate(periodEndDate);
-       return awardDirectFandADistribution;
    }
 }
 

@@ -50,7 +50,6 @@ import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApp
 import org.kuali.kra.award.rule.AddAwardReportTermRecipientRule;
 import org.kuali.kra.award.rule.AddAwardReportTermRule;
 import org.kuali.kra.award.rule.AddFandaRateRule;
-import org.kuali.kra.award.rule.AwardDirectFandADistributionRule;
 import org.kuali.kra.award.rule.event.AddAwardFandaRateEvent;
 import org.kuali.kra.award.rule.event.AddAwardReportTermEvent;
 import org.kuali.kra.award.rule.event.AddAwardReportTermRecipientEvent;
@@ -91,7 +90,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
                                                                             AddAwardReportTermRecipientRule,
                                                                             AwardDetailsAndDatesRule,
                                                                             CustomAttributeRule,
-                                                                            AwardDirectFandADistributionRule, 
                                                                             AwardProjectPersonsSaveRule,
                                                                             PermissionsRule {
     
@@ -111,6 +109,22 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     }
     
     /**
+     * @see org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentRule#processAwardApprovedEquipmentBusinessRules(org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentRuleEvent)
+     */
+    //public boolean processAddAwardApprovedEquipmentBusinessRules(AddAwardApprovedEquipmentRuleEvent event) {
+     //   return processAddApprovedEquipmentBusinessRules(GlobalVariables.getErrorMap(), event);
+   // }
+    
+    /**
+     * @see org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRule#processAddAwardApprovedForeignTravelBusinessRules(org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AddAwardApprovedForeignTravelRuleEvent)
+     */
+   // public boolean processAddAwardApprovedForeignTravelBusinessRules(AddAwardApprovedForeignTravelRuleEvent event) {
+       // return processAddApprovedForeignTravelBusinessRules(GlobalVariables.getErrorMap(), event);
+    //}
+    
+    /**
+     * @see org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRule#processAwardApprovedForeignTravelBusinessRules
+     * (org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRuleEvent)
      * @see org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRule
      *  #processAwardApprovedForeignTravelBusinessRules(org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRuleEvent)
      */
