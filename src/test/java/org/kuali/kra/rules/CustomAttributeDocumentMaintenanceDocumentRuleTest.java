@@ -35,7 +35,7 @@ import org.kuali.rice.test.data.UnitTestSql;
                 sqlStatements = {
                         @UnitTestSql("delete from CUSTOM_ATTRIBUTE_doc_value where document_number=9999"),
                         @UnitTestSql("INSERT INTO CUSTOM_ATTRIBUTE_doc_value (DOCUMENT_NUMBER,custom_attribute_id,VALUE,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR) VALUES (9999,8,'test',sysdate,'quicksta',1)")
-
+                        ,@UnitTestSql("commit")
                 }
         )
     )

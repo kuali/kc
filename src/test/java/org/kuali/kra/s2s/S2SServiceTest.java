@@ -44,6 +44,7 @@ import edu.mit.coeus.utils.S2SConstants;
                 sqlStatements = {
                               @UnitTestSql("delete from OSP$SPONSOR_HIERARCHY"),
                               @UnitTestSql("delete from OSP$PARAMETER")
+                              ,@UnitTestSql("commit")
                               }, 
                 sqlFiles = {
                              @UnitTestFile(filename = "classpath:sql/s2s/data/load_SPONSOR_HIERARCHY.sql", delimiter = ";")

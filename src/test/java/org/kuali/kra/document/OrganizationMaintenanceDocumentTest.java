@@ -46,7 +46,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
                         ,@UnitTestSql("delete from ORGANIZATION_AUDIT where ORGANIZATION_ID = 000425")
                         ,@UnitTestSql("delete from ORGANIZATION_TYPE where ORGANIZATION_ID = 000425")
                         ,@UnitTestSql("delete from ORGANIZATION_IDC where ORGANIZATION_ID = 000425")
-
+                        ,@UnitTestSql("commit")
 
                 }
         )
